@@ -96,6 +96,11 @@
     <servlet-class>com.enonic.cms.server.service.webdav.SimpleDavServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>admin</servlet-name>
+    <servlet-class>com.enonic.cms.admin.AdminServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>main</servlet-name>
     <url-pattern>/*</url-pattern>
@@ -109,6 +114,12 @@
   <servlet-mapping>
     <servlet-name>dav</servlet-name>
     <url-pattern>/dav/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>admin</servlet-name>
+    <url-pattern>/admin/*</url-pattern>
+    <url-pattern>/VAADIN/*</url-pattern>
   </servlet-mapping>
 
   <session-config>

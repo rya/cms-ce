@@ -45,7 +45,7 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="cms-core" exported="" />
+    <orderEntry type="module" module-name="cms-admin" exported="" />
     <orderEntry type="module-library" scope="TEST">
       <library>
         <CLASSES>

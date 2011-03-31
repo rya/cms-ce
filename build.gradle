@@ -23,7 +23,7 @@ versions = [
 ]
 
 def javaProjects() {
-    [project(':cms-api'), project(':cms-core'), project(':cms-webapp')]
+    [project(':cms-api'), project(':cms-core'), project(':cms-webapp'), project(':cms-admin')]
 }
 
 def publishedProjects() {

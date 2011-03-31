@@ -13,6 +13,7 @@
             <element id="module-output" name="cms-webapp" />
             <element id="module-output" name="cms-api" />
             <element id="module-output" name="cms-core" />
+            <element id="module-output" name="cms-admin" />
           </element>
           <element id="directory" name="lib">
             <element id="file-copy" path="$USER_HOME$/.gradle/cache/org.jdom/jdom/jars/jdom-1.1.1.jar" />
@@ -64,6 +65,7 @@
             <element id="file-copy" path="$USER_HOME$/.gradle/cache/org.springframework/spring-tx/jars/spring-tx-3.0.5.RELEASE.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/cache/javassist/javassist/jars/javassist-3.4.GA.jar" />
             <element id="file-copy" path="$USER_HOME$/.gradle/cache/cglib/cglib-nodep/jars/cglib-nodep-2.2.jar" />
+            <element id="file-copy" path="$USER_HOME$/.gradle/cache/com.vaadin/vaadin/jars/vaadin-6.5.4.jar" />
           </element>
         </element>
       </root>
@@ -282,6 +284,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cms.iml" filepath="$PROJECT_DIR$/cms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/cms-admin/cms-admin.iml" filepath="$PROJECT_DIR$/modules/cms-admin/cms-admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/cms-api/cms-api.iml" filepath="$PROJECT_DIR$/modules/cms-api/cms-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/cms-core/cms-core.iml" filepath="$PROJECT_DIR$/modules/cms-core/cms-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/modules/cms-distro/cms-distro.iml" filepath="$PROJECT_DIR$/modules/cms-distro/cms-distro.iml" />

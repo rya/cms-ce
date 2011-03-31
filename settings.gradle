@@ -1,6 +1,7 @@
 
 include ':cms-api'
 include ':cms-core'
+include ':cms-admin'
 include ':cms-webapp'
 include ':cms-distro'
 

@@ -2,7 +2,7 @@
 apply plugin: 'war'
 
 dependencies {
-    compile(project(':cms-core'))
+    compile(project(':cms-admin'))
     providedCompile("javax.servlet:servlet-api:${versions.servlet}")
     testCompile("junit:junit:${versions.junit}")
 }
