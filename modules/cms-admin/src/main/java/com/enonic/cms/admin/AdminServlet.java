@@ -17,13 +17,13 @@ public final class AdminServlet
     protected Application getNewApplication( final HttpServletRequest req )
         throws ServletException
     {
-        return null;
+        return new AdminApplication();
     }
 
     @Override
     protected Class<? extends Application> getApplicationClass()
         throws ClassNotFoundException
     {
-        return null;  
+        return AdminApplication.class;
     }
 }

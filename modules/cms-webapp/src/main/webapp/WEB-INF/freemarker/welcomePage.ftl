@@ -71,7 +71,7 @@ ${message.value}
 <div class="infoBox">
     <b>Management components</b>
     <ul>
-        <li><a href="${baseUrl}/admin">Admin Console</a></li>
+        <li><a href="${baseUrl}/admin/">Admin Console</a></li>
         <li><a href="${baseUrl}/dav">WebDav Location</a></li>
     </ul>
 </div>
