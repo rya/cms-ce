@@ -1,0 +1,128 @@
+.code-area-container
+{
+    width: 100%;
+    border-top:1px solid #f9f8f9;
+    border-right:1px solid #a8a8a8;
+    border-bottom:1px solid #a8a8a8;
+    border-left:1px solid #f9f8f9;
+}
+
+.code-area-buttons-container
+{
+    display: none;
+    clear: both;
+    padding: 2px;
+}
+
+.code-area-statsubar-container
+{
+    display: none;
+    clear: both;
+}
+
+.ca-caret-info
+{
+    float: right;
+    margin: 6px;  
+    font: 12px monospace;
+}
+
+.code-area-document-container
+{
+    clear: both;
+    position: relative;
+    background-color: #fff;
+    border-top:1px solid #a8a8a8;
+    border-right:1px solid #f9f8f9;
+    border-bottom:1px solid #f9f8f9;
+    border-left:1px solid #a8a8a8;
+}
+
+.code-area-document-container-focused
+{
+    border-top:1px solid #a8a8a8;
+    border-right:1px solid #f9f8f9;
+    border-bottom:1px solid #f9f8f9;
+    border-left:1px solid #a8a8a8;
+}
+
+.ca-button
+{
+    display: block;
+    float: left;
+    margin: 1px;
+    border: 1px solid #eee;
+    width: 20px;
+    height: 20px;
+    background-color: Transparent;
+    cursor: pointer;
+    background: Transparent url(../images/codearea-icons.gif) no-repeat;
+
+}
+
+.ca-button:hover, .ca-button-active
+{
+    border: 1px solid #1C70B1;
+    background-color: #AFC8DC !important;
+}
+
+.ca-button-disabled
+{
+    filter: alpha( opacity = 40 ); /* IE */
+    opacity: 0.4; /* Other browsers */
+    cursor: default !important;
+}
+
+.ca-button-find
+{
+    background-position: 0 0;
+}
+
+.ca-button-replace
+{
+    background-position: -20px 0;
+}
+
+.ca-button-indentall
+{
+    background-position: -40px 0;
+}
+
+.ca-button-indentselection
+{
+    background-position: -60px 0;
+}
+
+.ca-button-gotoline
+{
+    background-position: -80px 0;
+}
+
+.ca-button-toggleeditor
+{
+    /* background: Transparent url(../images/_goto_line.png) no-repeat 2px 2px;*/
+}
+
+.code-area-readonly-shim
+{
+    position: absolute;
+    z-index: 1400100;
+    background-color: #fff;
+    filter: alpha( opacity = 50 ); /* IE */
+    opacity: .5; /* Other browsers */
+}
+
+
+.CodeMirror-line-numbers
+{
+    width: 2.4em;
+    color: #000;
+    background-color: #eee;
+    border-right: 1px solid #aeaeae;
+    text-align: right;
+    padding-right: 1em;
+    font-size: 9.5pt;
+    font-family: monospace;
+    padding-top: .4em;
+    cursor: default;
+}

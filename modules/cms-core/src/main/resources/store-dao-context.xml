@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+  <bean id="binaryDataDao" class="com.enonic.cms.store.dao.BinaryDataEntityDao"/>
+
+  <bean id="categoryAccessDao" class="com.enonic.cms.store.dao.CategoryAccessEntityDao"/>
+
+  <bean id="categoryDao" class="com.enonic.cms.store.dao.CategoryEntityDao"/>
+
+  <bean id="contentAccessDao" class="com.enonic.cms.store.dao.ContentAccessEntityDao"/>
+
+  <bean id="contentBinaryDataDao" class="com.enonic.cms.store.dao.ContentBinaryDataEntityDao"/>
+
+  <bean id="contentDao" class="com.enonic.cms.store.dao.ContentEntityDao"/>
+
+  <bean id="contentHandlerDao" class="com.enonic.cms.store.dao.ContentHandlerEntityDao"/>
+
+  <bean id="contentHomeDao" class="com.enonic.cms.store.dao.ContentHomeEntityDao"/>
+
+  <bean id="contentIndexDao" class="com.enonic.cms.store.dao.ContentIndexEntityDao"/>
+
+  <bean id="contentTypeDao" class="com.enonic.cms.store.dao.ContentTypeEntityDao"/>
+
+  <bean id="contentVersionDao" class="com.enonic.cms.store.dao.ContentVersionEntityDao"/>
+
+  <bean id="defaultSiteAccessDao" class="com.enonic.cms.store.dao.DefaultSiteAccessEntityDao"/>
+
+  <bean id="groupDao" class="com.enonic.cms.store.dao.GroupEntityDao"/>
+
+  <bean id="languageDao" class="com.enonic.cms.store.dao.LanguageEntityDao"/>
+
+  <bean id="logEntryDao" class="com.enonic.cms.store.dao.LogEntryEntityDao"/>
+
+  <bean id="menuItemAccessDao" class="com.enonic.cms.store.dao.MenuItemAccessEntityDao"/>
+
+  <bean id="menuItemContentDao" class="com.enonic.cms.store.dao.MenuItemContentEntityDao"/>
+
+  <bean id="menuItemDao" class="com.enonic.cms.store.dao.MenuItemEntityDao"/>
+
+  <bean id="pageDao" class="com.enonic.cms.store.dao.PageEntityDao"/>
+
+  <bean id="pageTemplateDao" class="com.enonic.cms.store.dao.PageTemplateEntityDao"/>
+
+  <bean id="portletDao" class="com.enonic.cms.store.dao.PortletEntityDao"/>
+
+  <bean id="preferenceDao" class="com.enonic.cms.store.dao.PreferenceEntityDao"/>
+
+  <bean id="relatedContentDao" class="com.enonic.cms.store.dao.RelatedContentEntityDao"/>
+
+  <bean id="rememberedLoginDao" class="com.enonic.cms.store.dao.RememberedLoginEntityDao"/>
+
+  <bean id="resourceDao" class="com.enonic.cms.store.dao.ResourceDaoImpl"/>
+
+  <bean id="resourceUsageDao" class="com.enonic.cms.store.dao.ResourceUsageDao"/>
+
+  <bean id="sectionContentDao" class="com.enonic.cms.store.dao.SectionContentEntityDao"/>
+
+  <bean id="siteDao" class="com.enonic.cms.store.dao.SiteEntityDao"/>
+
+  <bean id="unitDao" class="com.enonic.cms.store.dao.UnitEntityDao"/>
+
+  <bean id="userDao" class="com.enonic.cms.store.dao.UserEntityDao"/>
+
+  <bean id="userStoreDao" class="com.enonic.cms.store.dao.UserStoreEntityDao"/>
+
+  <bean id="virtualFileDao" class="com.enonic.cms.store.dao.VirtualFileDaoImpl">
+    <property name="excludePattern" value="${cms.admin.resources.excludePattern}"/>
+    <property name="defaultFolderList" value="/_public"/>
+  </bean>
+
+
+</beans>

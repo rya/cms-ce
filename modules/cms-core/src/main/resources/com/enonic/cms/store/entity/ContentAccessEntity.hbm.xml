@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.content.ContentAccessEntity" table="TCONACCESSRIGHT2" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" column="COA_SKEY" length="32">
+      <generator class="uuid"/>
+    </id>
+    <property name="deleteAccess" type="int">
+      <column name="COA_BDELETE" not-null="true"/>
+    </property>
+    <property name="readAccess" type="int">
+      <column name="COA_BREAD" not-null="true"/>
+    </property>
+    <property name="updateAccess" type="int">
+      <column name="COA_BUPDATE" not-null="true"/>
+    </property>
+    <many-to-one name="group" class="com.enonic.cms.domain.security.group.GroupEntity" insert="true" update="false" fetch="select">
+      <column name="COA_GRP_HKEY" not-null="true"/>
+    </many-to-one>
+    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" insert="true" update="false" fetch="select">
+      <column name="COA_CON_LKEY" not-null="true"/>
+    </many-to-one>
+  </class>
+  <query name="ContentAccessEntity.deleteByGroupKey" cacheable="false">
+    delete from ContentAccessEntity where group.key = :groupKey
+  </query>
+</hibernate-mapping>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<indexes>
+  <index xpath="person/firstName"/>
+  <index name="colorCount" xpath="count(//favouriteColor)"/>
+  <index name="colorList" xpath="string-join(saxon:sort(//favouriteColor), ',')"/>
+  <index name="a" xpath="contentdata/a"/>
+  <index name="b" xpath="data/b"/>
+  <index name="c" xpath="c"/>
+  <index xpath="contentdata/d"/>
+  <index xpath="data/e"/>
+  <index xpath="f"/>
+</indexes>

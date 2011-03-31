@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<menuitems istop="no">
+  <menuitem active="true" key="1528" menukey="0" order="0" path="true" timestamp="2007-03-02 09:59"
+            type="page">
+    <name>sub 1.1</name>
+    <menuitems istop="no">
+      <menuitem key="1529" menukey="0" order="0" timestamp="2007-03-02 10:01" type="page">
+        <name>sub 1.1.1</name>
+        <menuitems istop="no"/>
+      </menuitem>
+    </menuitems>
+  </menuitem>
+  <menuitem key="1535" menukey="0" order="1"
+            timestamp="2007-03-02 10:08" type="page">
+    <name>sub 1.2</name>
+    <menuitems istop="no">
+      <menuitem key="1536" menukey="0" order="0"
+                timestamp="2007-03-02 10:08" type="page">
+        <name>sub 1.2.1</name>
+        <menuitems istop="no"/>
+      </menuitem>
+    </menuitems>
+  </menuitem>
+</menuitems>

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.portlet.PortletEntity" table="TCONTENTOBJECT" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="int">
+      <column name="COB_LKEY"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="created" type="timestamp">
+      <column name="COB_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="name" type="string">
+      <column name="COB_SNAME" length="256" not-null="true"/>
+    </property>
+    <property name="xmlData" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
+      <column name="COB_XMLDATA"/>
+    </property>
+    <property name="borderKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
+      <column name="COB_SBORDER" length="1024"/>
+    </property>
+    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+      <column name="COB_MEN_LKEY"/>
+    </many-to-one>
+    <property name="styleKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
+      <column name="COB_SSTYLE" length="1024" not-null="true"/>
+    </property>
+    <property name="runAs" type="com.enonic.cms.store.hibernate.type.RunAsUserType">
+      <column name="COB_LRUNAS" not-null="true"/>
+    </property>
+  </class>
+  <query name="PortletEntity.getResourceUsageCountStyle" cacheable="true" read-only="true">
+    select styleKey as resourceKey, count(*) as usageCount
+    from PortletEntity
+    where cob_sstyle is not null
+    group by cob_sstyle
+  </query>
+  <query name="PortletEntity.getResourceUsageCountBorder" cacheable="true" read-only="true">
+    select borderKey as resourceKey, count(*) as usageCount
+    from PortletEntity
+    where cob_sborder is not null
+    group by cob_sborder
+  </query>
+  <query name="PortletEntity.findByStyle" cacheable="true" read-only="false">
+    from PortletEntity x
+    where x.styleKey = :styleKey
+  </query>
+  <query name="PortletEntity.findByBorder" cacheable="true" read-only="false">
+    from PortletEntity x
+    where x.borderKey = :borderKey
+  </query>
+  <query name="PortletEntity.findByStylePrefix" cacheable="true" read-only="false">
+    from PortletEntity x
+    where x.styleKey like :styleKeyPrefix
+  </query>
+  <query name="PortletEntity.findByBorderPrefix" cacheable="true" read-only="false">
+    from PortletEntity x
+    where x.borderKey like :borderKeyPrefix
+  </query>
+  <query name="PortletEntity.findBySiteKeyAndNameIgnoreCase" cacheable="true" read-only="false">
+    from PortletEntity x
+    where x.site.key = :siteKey
+    and lower(x.name) = :name
+  </query>
+  <query name="PortletEntity.findAll" cacheable="true" read-only="false">
+    from PortletEntity
+  </query>
+</hibernate-mapping>

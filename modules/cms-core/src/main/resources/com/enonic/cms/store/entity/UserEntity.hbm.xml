@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.security.user.UserEntity" table="TUSER" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" column="USR_HKEY" type="com.enonic.cms.store.hibernate.type.UserKeyUserType">
+      <generator class="com.enonic.cms.store.hibernate.id.UserIdentifierGenerator"/>
+    </id>
+    <property name="deleted" type="int">
+      <column name="USR_BISDELETED" not-null="true"/>
+    </property>
+    <property name="displayName" type="string">
+      <column name="USR_SFULLNAME" length="256" not-null="true"/>
+    </property>
+    <property name="email" type="string">
+      <column name="USR_SEMAIL" length="256" not-null="false"/>
+    </property>
+    <property name="syncValue" type="string">
+      <column name="USR_SSYNCVALUE" length="2048" not-null="true"/>
+    </property>
+    <property name="timestamp" type="com.enonic.cms.store.hibernate.type.DateTimeUserType">
+      <column name="USR_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="name" type="string">
+      <column name="USR_SUID" length="256" not-null="true"/>
+    </property>
+    <property name="type" type="com.enonic.cms.store.hibernate.type.UserTypeUserType">
+      <column name="USR_UT_LKEY" not-null="true"/>
+    </property>
+    <property name="password" type="string">
+      <column name="USR_SPASSWORD" length="64" not-null="false"/>
+    </property>
+    <property name="photo" type="binary">
+      <column name="USR_PHOTO" not-null="false"/>
+    </property>
+    <many-to-one name="userStore" class="com.enonic.cms.domain.security.userstore.UserStoreEntity" fetch="select">
+      <column name="USR_DOM_LKEY" not-null="false"/>
+    </many-to-one>
+    <many-to-one name="userGroup" column="usr_grp_hkey" not-null="false" fetch="select"
+                 class="com.enonic.cms.domain.security.group.GroupEntity"/>
+    <map name="fieldMap" cascade="all-delete-orphan" table="tUserField">
+      <cache usage="nonstrict-read-write"/>
+      <key column="USF_USR_HKEY" not-null="true"/>
+      <index column="USF_NAME" type="string" length="100"/>
+      <element column="USF_VALUE" type="string" length="512"/>
+    </map>
+  </class>
+
+  <query name="UserEntity.findAll" cacheable="true">
+    from UserEntity x
+    where x.deleted &lt;= :deleted
+  </query>
+  <query name="UserEntity.findByUserStoreKey" cacheable="true">
+    from UserEntity x
+    where x.userStore.key = :userStoreKey
+    and x.deleted &lt;= :deleted
+  </query>
+  <query name="UserEntity.findBySyncValueAndUserStoreKey" cacheable="true">
+    from UserEntity x
+    where x.userStore.key = :userStoreKey
+    and x.deleted &lt;= :deleted
+    and x.syncValue = :syncValue
+  </query>
+  <query name="UserEntity.findBuiltInGlobalByName" cacheable="true">
+    from UserEntity x
+    where x.userStore is null
+    and lower(x.name) = :name
+    and x.deleted &lt;= :deleted
+  </query>
+  <query name="UserEntity.findByQualifiedUsername" cacheable="true">
+    from UserEntity x
+    where x.userStore.key = :userStoreKey
+    and lower(x.name) = :name
+    and x.deleted = 0
+  </query>
+  <query name="UserEntity.findByUserstoreNameAndUsername" cacheable="true">
+    from UserEntity x
+    where x.userStore.name = :userstoreName
+    and lower(x.name) = :name
+    and x.deleted = 0
+  </query>
+  <query name="UserEntity.findByQualifiedUsernameNoUserStore" cacheable="true">
+    from UserEntity x
+    where x.userStore.key is null
+    and lower(x.name) = :name
+    and x.deleted = 0
+  </query>
+  <query name="UserEntity.findByQuery" cacheable="true">
+    from UserEntity x
+    where x.deleted = 0
+    and (lower(x.name) like :query or lower(x.displayName) like :query)
+  </query>
+  <query name="UserEntity.findByQueryAndUserStoreKey" cacheable="true">
+    from UserEntity x
+    where x.deleted = 0
+    and x.userStore.key = :userStoreKey
+    and (lower(x.name) like :query or lower(x.displayName) like :query)
+  </query>
+
+</hibernate-mapping>

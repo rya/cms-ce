@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field" package="com.enonic.cms.store.vfs.db">
+  <class name="VirtualFileEntity" table="tVirtualFile" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="string">
+      <column name="vf_sKey" length="40"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="parentKey" type="string">
+      <column name="vf_sParentKey" length="40" not-null="false"/>
+    </property>
+    <property name="name" type="string">
+      <column name="vf_sName" length="255" not-null="true"/>
+    </property>
+    <property name="lastModified" type="long">
+      <column name="vf_lLastModified" not-null="true"/>
+    </property>
+    <property name="length" type="long">
+      <column name="vf_lLength" not-null="true"/>
+    </property>
+    <property name="blobKey" type="string">
+      <column name="vf_sBlobKey" not-null="false" length="40"/>
+    </property>
+  </class>
+  <query name="VirtualFileEntity.findChildren" cacheable="true">
+    from VirtualFileEntity x
+    where x.parentKey = :parentKey
+    order by x.name
+  </query>
+  <query name="VirtualFileEntity.getAll" cacheable="true" read-only="true">
+    from VirtualFileEntity
+  </query>
+</hibernate-mapping>

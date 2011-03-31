@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+  <class name="com.enonic.cms.domain.content.category.CategoryAccessEntity" table="TCATACCESSRIGHT" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <composite-id name="key" class="com.enonic.cms.domain.content.category.CategoryAccessKey">
+      <key-property name="categoryKey" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
+        <column name="CAR_CAT_LKEY"/>
+      </key-property>
+      <key-property name="groupKey" type="com.enonic.cms.store.hibernate.type.GroupKeyUserType">
+        <column name="CAR_GRP_HKEY" length="40"/>
+      </key-property>
+    </composite-id>
+    <property name="readAccess" type="int">
+      <column name="CAR_BREAD" not-null="true"/>
+    </property>
+    <property name="adminBrowseAccess" type="int">
+      <column name="CAR_BADMINREAD" not-null="true"/>
+    </property>
+    <property name="publishAccess" type="int">
+      <column name="CAR_BPUBLISH" not-null="true"/>
+    </property>
+    <property name="createAccess" type="int">
+      <column name="CAR_BCREATE" not-null="true"/>
+    </property>
+    <property name="adminAccess" type="int">
+      <column name="CAR_BADMINISTRATE" not-null="true"/>
+    </property>
+
+    <many-to-one name="group" class="com.enonic.cms.domain.security.group.GroupEntity" insert="false" update="false"
+                 fetch="select">
+      <column name="CAR_GRP_HKEY" not-null="true"/>
+    </many-to-one>
+  </class>
+  <query name="CategoryAccessEntity.deleteByGroupKey" cacheable="false">
+    delete from CategoryAccessEntity where key.groupKey = :groupKey
+  </query>
+</hibernate-mapping>

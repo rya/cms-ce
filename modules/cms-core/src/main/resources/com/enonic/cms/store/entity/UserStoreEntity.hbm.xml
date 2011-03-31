@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.security.userstore.UserStoreEntity" table="TDOMAIN" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="com.enonic.cms.store.hibernate.type.UserStoreKeyUserType" column="DOM_LKEY">
+      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+        <param name="table">TDOMAIN</param>
+        <param name="idClassName">com.enonic.cms.domain.security.userstore.UserStoreKey</param>
+      </generator>
+    </id>
+    <property name="deleted" type="int">
+      <column name="DOM_BISDELETED" not-null="true"/>
+    </property>
+    <property name="name" type="string">
+      <column name="DOM_SNAME" length="256" not-null="true"/>
+    </property>
+    <property name="defaultStore" type="int">
+      <column name="DOM_BDEFAULTSTORE"/>
+    </property>
+    <property name="connectorName" type="string">
+      <column name="DOM_SCONFIGNAME" length="64" not-null="false"/>
+    </property>
+    <property name="config" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
+      <column name="DOM_XMLDATA"/>
+    </property>
+  </class>
+  <query name="UserStoreEntity.findByName" cacheable="true">
+    from UserStoreEntity x
+    where lower(x.name) = :name
+    and x.deleted = 0
+  </query>
+  <query name="UserStoreEntity.findDefaultUserStore" cacheable="true">
+    from UserStoreEntity x
+    where x.deleted = 0
+    and defaultStore = 1
+  </query>
+  <query name="UserStoreEntity.findAll" cacheable="true">
+    from UserStoreEntity x
+    where x.deleted = 0
+  </query>
+</hibernate-mapping>

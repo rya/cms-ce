@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<person>
+  <firstName>Ola</firstName>
+  <lastName>Normann</lastName>
+  <birthDay>1956-04-17</birthDay>
+  <favouriteColors>
+    <favouriteColor>red</favouriteColor>
+    <favouriteColor>green</favouriteColor>
+    <favouriteColor>blue</favouriteColor>
+  </favouriteColors>
+</person>
+    

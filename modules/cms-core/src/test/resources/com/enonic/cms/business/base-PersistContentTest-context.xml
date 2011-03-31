@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <import resource="base-PersistTest-context.xml"/>
+
+  <import resource="classpath:store-dao-context.xml"/>
+
+  <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
+
+  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
+
+  <bean id="contentStorer" class="com.enonic.cms.business.core.content.ContentStorer"/>
+
+  <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">
+    <property name="contentStorer" ref="contentStorer"/>
+  </bean>
+
+  <bean id="importService" class="com.enonic.cms.business.core.content.imports.ImportServiceImpl"/>
+
+  <bean id="importJobFactory" class="com.enonic.cms.business.core.content.imports.ImportJobFactory"/>
+
+  <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl"/>
+
+  <bean id="binaryAccessResolver" class="com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver"/>
+
+  <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+
+  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.business.core.content.ContentSecurityFilterResolver"/>
+
+  <bean id="contentValidator" class="com.enonic.cms.business.core.content.ContentValidator"/>
+
+  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
+
+  <bean id="synchronizeUserStoreJobFactory"
+        class="com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
+
+  <bean id="userStoreService" class="com.enonic.cms.business.core.security.userstore.UserStoreServiceImpl"/>
+
+  <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
+
+  <bean id="memberOfResolver" class="com.enonic.cms.business.core.security.userstore.MemberOfResolver"/>
+
+  <bean id="userStoreAccessResolver" class="com.enonic.cms.business.core.security.userstore.UserStoreAccessResolver"/>
+
+  <bean id="groupStorageService" class="com.enonic.cms.business.core.security.group.GroupStorageService"/>
+
+  <bean id="userStorageService" class="com.enonic.cms.business.core.security.userstore.UserStorageService"/>
+
+  <bean id="userStoreConnectorConfigLoader"
+        class="com.enonic.cms.business.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
+
+  <bean id="remoteUserStoreFactory" class="com.enonic.cms.business.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
+
+  <bean id="userStoreConnectorManager" class="com.enonic.cms.business.core.security.userstore.UserStoreConnectorManagerImpl"/>
+
+  <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
+
+  <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
+
+  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+
+  <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
+
+  <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
+    <property name="blobStore" ref="blobStore"/>
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+
+  <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
+
+  <bean id="livePortalTraceService" class="com.enonic.cms.business.portal.livetrace.LivePortalTraceServiceImpl">
+    <property name="enabled" value="false"/>
+    <property name="longestSize" value="1"/>
+    <property name="historySize" value="1"/>
+  </bean>
+
+</beans>

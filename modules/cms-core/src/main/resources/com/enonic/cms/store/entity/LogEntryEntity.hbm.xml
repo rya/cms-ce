@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.log.LogEntryEntity" table="TLOGENTRY" mutable="false">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="com.enonic.cms.store.hibernate.type.LogEntryKeyUserType" access="property" column="LEN_SKEY">
+      <generator class="com.enonic.cms.store.hibernate.id.StringBasedCustomIdentifierGenerator">
+        <param name="table">TLOGENTRY</param>
+        <param name="idClassName">com.enonic.cms.domain.log.LogEntryKey</param>
+        <param name="length">28</param>
+      </generator>
+
+    </id>
+    <property name="count" type="int">
+      <column name="LEN_LCOUNT"/>
+    </property>
+    <property name="inetAddress" type="string">
+      <column name="LEN_SINETADDRESS" length="256"/>
+    </property>
+    <property name="keyValue" type="int">
+      <column name="LEN_LKEYVALUE"/>
+    </property>
+    <property name="path" type="string">
+      <column name="LEN_SPATH" length="256"/>
+    </property>
+    <property name="tableKey" type="int">
+      <column name="LEN_LTABLEKEY"/>
+    </property>
+    <property name="timestamp" type="timestamp">
+      <column name="LEN_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="title" type="string">
+      <column name="LEN_STITLE" length="256" not-null="true"/>
+    </property>
+    <property name="type" type="int">
+      <column name="LEN_LTYPEKEY" not-null="true"/>
+    </property>
+    <property name="xmlData" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
+      <column name="LEN_XMLDATA" not-null="true" length="1000000"/>
+    </property>
+    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+      <column name="LEN_MEN_LKEY"/>
+    </many-to-one>
+    <many-to-one name="user" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+      <column name="LEN_USR_HKEY" length="40" not-null="true"/>
+    </many-to-one>
+  </class>
+</hibernate-mapping>

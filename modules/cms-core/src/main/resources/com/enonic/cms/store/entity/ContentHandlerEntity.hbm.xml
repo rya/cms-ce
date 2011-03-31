@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.content.ContentHandlerEntity" table="TCONTENTHANDLER" mutable="false">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="com.enonic.cms.store.hibernate.type.ContentHandlerKeyUserType">
+      <column name="HAN_LKEY"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="className" type="string">
+      <column name="HAN_SCLASS" length="256" not-null="true"/>
+    </property>
+    <property name="description" type="string">
+      <column name="HAN_SDESCRIPTION" length="256"/>
+    </property>
+    <property name="name" type="string">
+      <column name="HAN_SNAME" length="32" not-null="true"/>
+    </property>
+    <property name="timestamp" type="timestamp">
+      <column name="HAN_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="xmlConfig" type="com.enonic.cms.store.hibernate.type.XMLBytesUserType">
+      <column name="HAN_XMLCONFIG"/>
+    </property>
+  </class>
+  <query name="ContentHandlerEntity.findAll" cacheable="true" read-only="true">
+    from ContentHandlerEntity
+  </query>
+</hibernate-mapping>

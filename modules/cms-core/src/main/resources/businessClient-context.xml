@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <!-- Local client is the client implementation local for this vm. -->
+  <bean id="localClient" class="com.enonic.cms.business.client.InternalClientImpl">
+    <property name="adminService" ref="adminService"/>
+    <property name="presentationService" ref="presentationService"/>
+    <property name="dataSourceService" ref="dataSourceService"/>
+    <property name="internalClientRenderService" ref="internalClientRenderService"/>
+    <property name="internalClientContentService" ref="internalClientContentService"/>
+    <property name="userDao" ref="userDao"/>
+    <property name="userParser" ref="userParser"/>
+    <property name="userStoreParser" ref="userStoreParser"/>
+    <property name="keyService" ref="keyService"/>
+    <property name="userServicesService" ref="userServicesService"/>
+    <property name="resourceService" ref="resourceService"/>
+    <property name="preferenceService" ref="preferenceService"/>
+    <property name="cmsProperties" ref="loadedVerticalProperties"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="contentService" ref="contentService"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="previewService" ref="previewService"/>
+    <property name="timeService" ref="timeService"/>
+  </bean>
+
+  <bean id="internalClientRenderService"
+        class="com.enonic.cms.business.client.InternalClientRenderService"/>
+
+  <bean id="internalClientContentService"
+        class="com.enonic.cms.business.client.InternalClientContentService">
+    <property name="siteCachesService" ref="siteCachesService"/>
+    <property name="userParser" ref="userParser"/>
+  </bean>
+
+  <bean class="com.enonic.cms.business.client.LocalClientSetter">
+    <property name="localClient" ref="localClient"/>
+  </bean>
+
+</beans>
+

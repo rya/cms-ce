@@ -1,0 +1,151 @@
+/*html, body  { height: 100%; margin: 0; padding: 0; text-align: center; }*/
+
+html, body, #wrapper {
+    height:98%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-align: center;
+}
+
+body
+{
+    background-color: #fcfcfc;
+}
+
+#wrapper {
+    margin: 0 auto;
+    text-align: left;
+    vertical-align: middle;
+    width: 100%;
+}
+
+#wrapper td {
+    text-align: center;
+}
+
+form {margin: 0; padding: 0}
+
+#container
+{
+    position: absolute;
+    left: 32.5%;
+    top: 21%;
+    width: 500px;
+    height: 300px;
+}
+
+#inner
+{
+    background-image: url(../images/vertical-login.jpg);
+    background-repeat: no-repeat;
+    width: 370px;
+    height: 260px;
+    text-align: left;
+    margin: auto;
+}
+
+#inner, #inner td
+{
+    font-size: 10px;
+    color: #fff;
+}
+
+#inner h1
+{
+    width: 147px;
+    color: #fff;
+    margin: 0 0 10px 221px;
+    padding: 65px 0 0 0;;
+    height: 16px;
+}
+
+#inner #form-container
+{
+    float: right;
+    padding: 0 34px 0 0;
+    height: 144px;
+}
+
+#inner #form-container .label-container
+{
+    padding: 0 0 9px 9px;
+    text-align: right;
+    font-weight: bold;
+}
+
+#inner #form-container .input-container
+{
+    padding: 0 0 9px 9px;
+    text-align: left;
+}
+
+#inner #form-container select#userstore
+{
+    width: 113px;
+}
+
+#inner #form-container input#uname,
+#inner #form-container input#upasswd
+{
+    width: 110px;
+}
+
+#inner .bottom-container
+{
+    clear: both;
+    padding-right: 7px;
+    padding-left: 7px;
+    overflow: hidden;
+    height:20px;
+}
+
+#inner select#lang,
+#inner .bottom-container #fgpwd-container,
+#inner .bottom-container #back-container
+{
+    font-size: 9px;
+}
+
+#inner .bottom-container #lang-container {
+    float: left;
+}
+
+#inner .bottom-container #fgpwd-container,
+#inner .bottom-container #back-container
+{
+    float: right;
+    font-weight: bold;
+}
+
+#inner .bottom-container #fgpwd-container,
+#inner .bottom-container #back-container
+{
+    padding-top: 3px;
+}
+
+#inner .bottom-container #fgpwd-container a,
+#inner .bottom-container #back-container a
+{
+    color: #fff;
+}
+
+.version
+{
+    color: #848484;
+    margin-top: 10px;
+}
+
+.license-warning
+{
+    color: #848400;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.license-error
+{
+    color: #840000;
+    margin-top: 10px;
+    font-weight: bold;
+}

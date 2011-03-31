@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="keyService" class="com.enonic.cms.core.internal.service.KeyServiceImpl">
+    <property name="keyEngine" ref="keyEngine"/>
+  </bean>
+
+  <bean id="upgradePropertyResolver"
+        class="com.enonic.cms.upgrade.service.StandardPropertyResolver">
+    <property name="homeDir" value="${cms.home}"/>
+    <property name="properties" ref="loadedVerticalProperties"/>
+  </bean>
+
+  <!-- Transaction based upgrade service. -->
+  <bean id="upgradeService" class="com.enonic.cms.upgrade.service.UpgradeServiceImpl">
+    <property name="connectionFactory" ref="connectionFactory"/>
+    <property name="dialect" ref="dialectFactory"/>
+    <property name="transactionTemplate" ref="transcationTemplate"/>
+    <property name="propertyResolver" ref="upgradePropertyResolver"/>
+  </bean>
+
+  <bean id="dataSourceService" class="com.enonic.cms.core.internal.service.DataSourceServiceImpl">
+    <property name="calendarService" ref="calendarService"/>
+    <property name="contentService" ref="contentService"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="userDao" ref="userDao"/>
+    <property name="presentationEngine" ref="presentationEngine"/>
+    <property name="preferenceService" ref="preferenceService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="countryService" ref="countryService"/>
+    <property name="localeService" ref="localeService"/>
+    <property name="timeZoneService" ref="timeZoneService"/>
+    <property name="timeService" ref="timeService"/>
+    <property name="userStoreParser" ref="userStoreParser"/>
+    <property name="userStoreService" ref="userStoreService"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+  </bean>
+
+  <bean id="cmsCoreServicesSpringManagedBeansBridge" class="com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge">
+    <property name="adminService" ref="adminService"/>
+    <property name="contentService" ref="contentService"/>
+    <property name="dataSourceService" ref="dataSourceService"/>
+    <property name="pageRendererFactory" ref="pageRendererFactory"/>
+    <property name="preferenceService" ref="preferenceService"/>
+    <property name="presentationService" ref="presentationService"/>
+    <property name="resourceService" ref="resourceService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="siteCachesService" ref="siteCachesService"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="siteService" ref="siteService"/>
+    <property name="siteURLResolver" ref="siteURLResolver"/>
+    <property name="userServicesService" ref="userServicesService"/>
+  </bean>
+
+  <bean id="userServicesService"
+        class="com.enonic.cms.core.internal.service.UserServicesServiceImpl">
+    <property name="userServicesEngine">
+      <bean id="userServicesEngine" class="com.enonic.vertical.engine.UserServicesEngine"
+            parent="abstractBaseEngine">
+        <property name="commonHandler" ref="commonHandler"/>
+        <property name="contentHandler" ref="contentHandler"/>
+        <property name="categoryHandler" ref="categoryHandler"/>
+        <property name="contentObjectHandler" ref="contentObjectHandler"/>
+        <property name="groupHandler" ref="groupHandler"/>
+        <property name="languageHandler" ref="languageHandler"/>
+        <property name="logHandler" ref="logHandler"/>
+        <property name="menuHandler" ref="menuHandler"/>
+        <property name="pageHandler" ref="pageHandler"/>
+        <property name="pageTemplateHandler" ref="pageTemplateHandler"/>
+        <property name="sectionHandler" ref="sectionHandler"/>
+        <property name="securityHandler" ref="securityHandler"/>
+        <property name="userHandler" ref="userHandler"/>
+      </bean>
+    </property>
+  </bean>
+
+
+  <bean id="tightestCacheSettingsResolver"
+        class="com.enonic.cms.business.TightestCacheSettingsResolver"/>
+
+  <!--
+      Engines
+  -->
+
+  <bean id="keyEngine" class="com.enonic.vertical.engine.KeyEngine" parent="abstractBaseEngine">
+    <property name="keyHandler" ref="key-keyHandler"/>
+    <property name="commonHandler" ref="key-commonHandler"/>
+  </bean>
+
+
+  <!--
+    Resolvers
+  -->
+  <bean id="resolverInputXMLCreator"
+        class="com.enonic.cms.business.resolver.ResolverInputXMLCreator"/>
+
+  <bean id="resolverXMLCreator"
+        class="com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator"/>
+  <bean id="resolverInputCreator"
+        class="com.enonic.cms.business.resolver.ResolverHttpRequestInputCreator"/>
+
+
+  <bean id="cookieOrSessionForcedResolverValueService"
+        class="com.enonic.cms.business.resolver.ForceResolverValueServiceImpl"/>
+  <bean id="sessionCachedResolverValueService"
+        class="com.enonic.cms.business.resolver.CacheResolverValueServiceImpl"/>
+
+  <!-- Device Class -->
+  <bean id="deviceClassificationService"
+        class="com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverServiceImpl">
+    <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
+    <property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>
+    <property name="cacheResolverValueService" ref="sessionCachedResolverValueService"/>
+  </bean>
+
+  <bean id="deviceClassXsltScriptResolver"
+        class="com.enonic.cms.business.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
+
+  <!-- Localization -->
+  <bean id="localizeService" class="com.enonic.cms.business.localization.LocalizationServiceImpl"/>
+  <bean id="localizationResourceBundleService"
+        class="com.enonic.cms.business.localization.resource.LocalizationResourceBundleServiceImpl">
+    <property name="propertiesCache">
+      <bean class="com.enonic.cms.framework.cache.CacheFacadeFactory">
+        <property name="cacheManager" ref="cacheFacadeManager"/>
+        <property name="cacheName" value="localization"/>
+      </bean>
+    </property>
+  </bean>
+
+  <bean id="localeResolverService"
+        class="com.enonic.cms.business.resolver.locale.LocaleResolverServiceImpl">
+    <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
+    <property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>
+  </bean>
+
+  <bean id="localeXsltScriptResolver"
+        class="com.enonic.cms.business.resolver.locale.LocaleXsltScriptResolver"/>
+
+  <!--
+      Misc.
+  -->
+
+  <bean id="adminConsoleTranslationService"
+        class="com.enonic.cms.business.AdminConsoleTranslationService" init-method="init">
+    <property name="defaultLanguageCode" value="${cms.admin.defaultLanguage}"/>
+  </bean>
+
+  <bean id="adminConsoleLoginAccessResolver"
+        class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
+
+  <bean id="sitePropertiesService" class="com.enonic.cms.business.SitePropertiesServiceImpl">
+    <property name="homeService" ref="homeService"/>
+  </bean>
+
+
+  <bean id="urlPathHelperManager" class="com.enonic.cms.business.UrlPathHelperManager">
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+  </bean>
+
+  <bean id="userServicesRedirectHelper"
+        class="com.enonic.vertical.userservices.UserServicesRedirectUrlResolver"></bean>
+
+  <bean id="reindexContentToolService"
+        class="com.enonic.cms.business.tools.ReindexContentToolServiceImpl"/>
+
+  <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
+
+  <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
+    <property name="host" value="${cms.mail.smtpHost}"/>
+  </bean>
+
+  <bean id="sendMailService" class="com.enonic.cms.business.mail.SendMailServiceImpl">
+    <property name="fromMail" value="${cms.admin.email}"/>
+  </bean>
+
+  <bean id="loginService" class="com.enonic.cms.business.login.LoginServiceImpl">
+    <property name="autologinTimeoutInDays"
+              value="${com.enonic.vertical.presentation.autologinTimeout}"/>
+  </bean>
+
+  <bean id="countryService" class="com.enonic.cms.business.country.CountryServiceImpl">
+    <property name="resource">
+      <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
+        <property name="requireResource" value="true"/>
+        <property name="resources">
+          <list>
+            <value>${cms.home}/config/countries.xml</value>
+            <value>classpath:com/enonic/cms/business/country/countries.xml</value>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+
+  <bean id="localeService" class="com.enonic.cms.business.locale.LocaleServiceImpl"/>
+
+  <bean id="timeZoneService" class="com.enonic.cms.business.timezone.TimeZoneServiceImpl"/>
+
+  <bean id="captchaService" class="com.enonic.cms.business.captcha.CaptchaServiceImpl"/>
+
+  <bean id="captchaRepository" class="com.enonic.cms.business.captcha.CaptchaRepositoryImpl"/>
+
+  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+
+  <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
+
+</beans>
+

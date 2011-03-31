@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.content.ContentVersionEntity" table="TCONTENTVERSION" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" column="COV_LKEY" type="com.enonic.cms.store.hibernate.type.ContentVersionKeyUserType">
+      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+        <param name="table">TCONTENTVERSION</param>
+        <param name="idClassName">com.enonic.cms.domain.content.ContentVersionKey</param>
+      </generator>
+    </id>
+    <property name="status" type="int">
+      <column name="COV_LSTATUS" not-null="true"/>
+    </property>
+    <property name="modifiedAt" type="timestamp">
+      <column name="COV_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="title" type="string">
+      <column name="COV_STITLE" length="256" not-null="true"/>
+    </property>
+    <property name="contentDataXml" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
+      <column name="COV_XMLCONTENTDATA" not-null="true" length="1000000"/>
+    </property>
+    <property name="createdAt" type="timestamp">
+      <column name="COV_DTECREATED" not-null="true"/>
+    </property>
+    <property name="changeComment" type="string">
+      <column name="COV_SDESCRIPTION" length="1024"/>
+    </property>
+    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" fetch="select">
+      <column name="COV_CON_LKEY" not-null="true"/>
+    </many-to-one>
+    <many-to-one name="snapshotSource" class="com.enonic.cms.domain.content.ContentVersionEntity" fetch="select">
+      <column name="COV_COV_LSNAPSHOTSOURCE"/>
+    </many-to-one>
+    <set name="snapshots" inverse="true" cascade="all-delete-orphan">
+      <cache usage="nonstrict-read-write"/>
+      <key column="COV_COV_LSNAPSHOTSOURCE"/>
+      <one-to-many class="com.enonic.cms.domain.content.ContentVersionEntity"/>
+    </set>
+    <many-to-one name="modifiedBy" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+      <column name="COV_USR_HMODIFIER" length="40" not-null="true"/>
+    </many-to-one>
+    <set name="contentBinaryData" inverse="true" cascade="all-delete-orphan" order-by="CBD_LKEY">
+      <cache usage="nonstrict-read-write"/>
+      <key column="CBD_COV_LKEY"/>
+      <one-to-many class="com.enonic.cms.domain.content.binary.ContentBinaryDataEntity"/>
+    </set>
+    <set name="relatedChildren" inverse="true" table="TRELATEDCONTENT" cascade="none" order-by="RCO_CON_LCHILD">
+      <cache usage="nonstrict-read-write"/>
+      <key column="RCO_CON_LPARENT" not-null="true"/>
+      <many-to-many class="com.enonic.cms.domain.content.ContentEntity" column="RCO_CON_LCHILD"/>
+    </set>
+  </class>
+</hibernate-mapping>

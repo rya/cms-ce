@@ -1,0 +1,1066 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="Vertical" version="201">
+  <table name="tModelVersion">
+    <column name="mve_sKey" primaryKey="true" required="true" type="VARCHAR" size="32"/>
+    <column name="mve_lVersion" required="true" type="INTEGER"/>
+  </table>
+  <table name="tBinaryData" parentname="binarydatas" elementname="binarydata">
+    <column name="bda_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="bda_sFileName" type="VARCHAR" xpath="@filename" size="256"/>
+    <column name="bda_lFileSize" required="true" type="INTEGER" xpath="@filesize"/>
+    <column name="bda_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="@timestamp"/>
+    <column name="bda_sBlobKey" required="false" type="VARCHAR" size="40"/>
+    <index name="idx_bda_1">
+      <column name="bda_sFileName"/>
+    </index>
+    <index name="idx_bda_2">
+      <column name="bda_lFileSize"/>
+    </index>
+    <index name="idx_bda_3">
+      <column name="bda_dteTimestamp"/>
+    </index>
+    <index name="idx_bda_4">
+      <column name="bda_sBlobKey"/>
+    </index>
+  </table>
+  <table name="tCatAccessRight">
+    <foreign-key foreignTable="tCategory" name="car_cat_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="cat_lKey" local="car_cat_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tGroup" name="car_grp_hKey" primaryKey="true" required="true" type="CHAR">
+      <reference foreign="grp_hKey" local="car_grp_hKey"/>
+    </foreign-key>
+    <column name="car_bRead" required="true" type="BOOLEAN"/>
+    <column name="car_bCreate" required="true" type="BOOLEAN"/>
+    <column name="car_bPublish" required="true" type="BOOLEAN"/>
+    <column name="car_bAdministrate" required="true" type="BOOLEAN"/>
+    <column name="car_bAdminRead" required="true" type="BOOLEAN"/>
+    <foreignkey name="car_cat_FK1" foreignTable="tCategory">
+      <column name="car_cat_lKey" foreignColumn="cat_lKey"/>
+    </foreignkey>
+    <foreignkey name="car_grp_FK1" foreignTable="tGroup">
+      <column name="car_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+    <index name="idx_car_1">
+      <column name="car_bRead"/>
+      <column name="car_bCreate"/>
+      <column name="car_bPublish"/>
+    </index>
+    <index name="idx_car_2">
+      <column name="car_bAdministrate"/>
+      <column name="car_bAdminRead"/>
+    </index>
+    <index name="idx_car_3">
+      <column name="car_cat_lKey"/>
+      <column name="car_grp_hKey"/>
+      <column name="car_bPublish"/>
+    </index>
+  </table>
+  <table name="tCategory" elementname="category" parentname="categories">
+    <column name="cat_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <foreign-key foreignTable="tUnit" name="cat_uni_lKey" type="INTEGER" xpath="@unitkey">
+      <reference foreign="uni_lKey" local="cat_uni_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContentType" name="cat_cty_lKey" type="INTEGER" xpath="@contenttypekey">
+      <reference foreign="cty_lKey" local="cat_cty_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tCategory" name="cat_cat_lSuper" type="INTEGER" xpath="@supercategorykey">
+      <reference foreign="cat_lKey" local="cat_cat_lSuper"/>
+    </foreign-key>
+    <foreign-key foreignTable="tUser" name="cat_usr_hOwner" required="true" type="CHAR" xpath="owner/@key">
+      <reference foreign="usr_hKey" local="cat_usr_hOwner"/>
+    </foreign-key>
+    <column name="cat_dteCreated" required="true" type="CREATED_TIMESTAMP" xpath="@created"/>
+    <column name="cat_bDeleted" required="true" type="BOOLEAN" xpath="@deleted"/>
+    <column name="cat_sName" required="true" type="VARCHAR" xpath="@name" size="256"/>
+    <column name="cat_sDescription" type="VARCHAR" xpath="description" size="1024"/>
+    <foreign-key foreignTable="tUser" name="cat_usr_hModifier" required="true" type="CHAR" xpath="modifier/@key">
+      <reference foreign="usr_hKey" local="cat_usr_hModifier"/>
+    </foreign-key>
+    <column name="cat_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="@timestamp"/>
+    <column name="cat_bAutoApprove" required="true" type="BOOLEAN" xpath="@autoApprove"/>
+    <!--
+    <column name="cat_bInheritRights" required="true" type="BOOLEAN" xpath="@inheritRights"/>
+    -->
+    <foreignkey name="cat_uni_FK1" foreignTable="tUnit">
+      <column name="cat_uni_lKey" foreignColumn="uni_lKey"/>
+    </foreignkey>
+    <foreignkey name="cat_cty_FK1" foreignTable="tContentType">
+      <column name="cat_cty_lKey" foreignColumn="cty_lKey"/>
+    </foreignkey>
+    <foreignkey name="cat_cat_FK1" foreignTable="tCategory">
+      <column name="cat_cat_lSuper" foreignColumn="cat_lKey"/>
+    </foreignkey>
+    <foreignkey name="cat_usr_FK1" foreignTable="tUser">
+      <column name="cat_usr_hOwner" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="cat_usr_FK2" foreignTable="tUser">
+      <column name="cat_usr_hModifier" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <index name="idx_cat_2">
+      <column name="cat_uni_lKey"/>
+    </index>
+    <index name="idx_cat_3">
+      <column name="cat_cty_lKey"/>
+    </index>
+    <index name="idx_cat_4">
+      <column name="cat_cat_lSuper"/>
+    </index>
+    <index name="idx_cat_5">
+      <column name="cat_usr_hOwner"/>
+      <column name="cat_usr_hModifier"/>
+    </index>
+    <index name="idx_cat_6">
+      <column name="cat_dteCreated"/>
+    </index>
+    <index name="idx_cat_7">
+      <column name="cat_dteTimestamp"/>
+    </index>
+    <index name="idx_cat_8">
+      <column name="cat_sName"/>
+    </index>
+    <index name="idx_cat_9">
+      <column name="cat_bDeleted"/>
+    </index>
+  </table>
+  <table name="tConAccessRight2">
+    <column name="coa_sKey" primaryKey="true" required="true" type="CHAR" size="32"/>
+    <foreign-key foreignTable="tContent" name="coa_con_lKey" required="true" type="INTEGER">
+      <reference foreign="con_lKey" local="coa_con_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tGroup" name="coa_grp_hKey" required="true" type="CHAR">
+      <reference foreign="grp_hKey" local="coa_grp_hKey"/>
+    </foreign-key>
+    <column name="coa_bRead" required="true" type="BOOLEAN"/>
+    <column name="coa_bUpdate" required="true" type="BOOLEAN"/>
+    <column name="coa_bDelete" required="true" type="BOOLEAN"/>
+    <foreignkey name="coa_con_FK1" foreignTable="tContent">
+      <column name="coa_con_lKey" foreignColumn="con_lKey"/>
+    </foreignkey>
+    <foreignkey name="coa_grp_FK1" foreignTable="tGroup">
+      <column name="coa_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+    <index name="idx_coa_1">
+      <column name="coa_con_lKey"/>
+    </index>
+    <index name="idx_coa_2">
+      <column name="coa_grp_hKey"/>
+    </index>
+    <index name="idx_coa_3">
+      <column name="coa_bRead"/>
+      <column name="coa_bUpdate"/>
+      <column name="coa_bDelete"/>
+    </index>
+  </table>
+  <table name="tContent" elementname="content" parentname="contents">
+    <column name="con_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="con_lSourceKey" type="INTEGER" xpath="@sourcekey"/>
+    <foreign-key foreignTable="tCategory" name="con_cat_lKey" required="true" type="INTEGER" xpath="categoryname/@key">
+      <reference foreign="cat_lKey" local="con_cat_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tLanguage" name="con_lan_lKey" required="true" type="INTEGER" xpath="@languagekey">
+      <reference foreign="lan_lKey" local="con_lan_lKey"/>
+    </foreign-key>
+    <column name="con_dteCreated" required="true" type="CREATED_TIMESTAMP" xpath="@created"/>
+    <column name="con_bDeleted" required="true" type="BOOLEAN" xpath="@deleted"/>
+    <column name="con_dtePublishFrom" type="TIMESTAMP" xpath="@publishfrom"/>
+    <column name="con_dtePublishTo" type="TIMESTAMP" xpath="@publishto"/>
+    <column name="con_lPriority" required="true" type="INTEGER" xpath="@priority"/>
+    <column name="con_cov_lKey" type="INTEGER" xpath="@versionkey"/>
+    <foreign-key foreignTable="tUser" name="con_usr_hOwner" required="true" type="CHAR" xpath="owner/@key">
+      <reference foreign="usr_hKey" local="con_usr_hOwner"/>
+    </foreign-key>
+    <foreign-key foreignTable="tUser" name="con_usr_hAssignee" type="CHAR" xpath="assignee/@key">
+      <reference foreign="usr_hKey" local="con_usr_hAssignee"/>
+    </foreign-key>
+    <foreign-key foreignTable="tUser" name="con_usr_hAssigner" type="CHAR" xpath="assigner/@key">
+      <reference foreign="usr_hKey" local="con_usr_hAssigner"/>
+    </foreign-key>
+    <column name="con_dteDueDate" type="TIMESTAMP" xpath="@duedate"/>
+    <column name="con_sAssignmentDescription" type="VARCHAR" xpath="@assignmentdescription" size="2048"/>
+    <column name="con_dteTimestamp" type="TIMESTAMP" xpath="@duedate"/>
+    <foreignkey name="con_cat_FK1" foreignTable="tCategory">
+      <column name="con_cat_lKey" foreignColumn="cat_lKey"/>
+    </foreignkey>
+    <column name="con_cov_lDraft" type="INTEGER" xpath="@draft"/>
+    <foreignkey name="con_lan_FK1" foreignTable="tLanguage">
+      <column name="con_lan_lKey" foreignColumn="lan_lKey"/>
+    </foreignkey>
+    <foreignkey name="con_usr_FK1" foreignTable="tUser">
+      <column name="con_usr_hOwner" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="con_usr_FK2" foreignTable="tUser">
+      <column name="con_usr_hAssignee" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="con_usr_FK3" foreignTable="tUser">
+      <column name="con_usr_hAssigner" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <column name="con_sName" type="VARCHAR" size="256"/>
+    <index name="idx_con_1">
+      <column name="con_cat_lKey"/>
+    </index>
+    <index name="idx_con_2">
+      <column name="con_lan_lKey"/>
+    </index>
+    <index name="idx_con_3">
+      <column name="con_cov_lKey"/>
+    </index>
+    <index name="idx_con_4">
+      <column name="con_dteCreated"/>
+    </index>
+    <index name="idx_con_5">
+      <column name="con_bDeleted"/>
+    </index>
+    <index name="idx_con_6">
+      <column name="con_lPriority"/>
+    </index>
+    <index name="idx_con_7">
+      <column name="con_dtePublishFrom"/>
+      <column name="con_dtePublishTo"/>
+    </index>
+    <index name="idx_con_8">
+      <column name="con_usr_hOwner"/>
+    </index>
+    <index name="idx_con_9">
+      <column name="con_usr_hAssignee"/>
+    </index>
+    <index name="idx_con_10">
+      <column name="con_dteDueDate"/>
+    </index>
+    <index name="idx_con_11">
+      <column name="con_usr_hAssigner"/>
+    </index>
+    <index name="idx_con_12">
+      <column name="con_dteTimestamp"/>
+    </index>
+  </table>
+  <table name="tContentBinaryData">
+    <column name="cbd_lKey" primaryKey="true" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tContentVersion" name="cbd_cov_lKey" required="true" type="INTEGER">
+      <reference foreign="cov_lKey" local="cbd_cov_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tBinaryData" delete="true" name="cbd_bda_lKey" required="true" type="INTEGER">
+      <reference foreign="bda_lKey" local="cbd_bda_lKey"/>
+    </foreign-key>
+    <column name="cbd_sLabel" type="VARCHAR" size="32"/>
+    <foreignkey name="cbd_cov_FK1" foreignTable="tContentVersion">
+      <column name="cbd_cov_lKey" foreignColumn="cov_lKey"/>
+    </foreignkey>
+    <foreignkey name="cbd_bda_FK1" foreignTable="tBinaryData">
+      <column name="cbd_bda_lKey" foreignColumn="bda_lKey"/>
+    </foreignkey>
+    <index name="idx_cbd_1">
+      <column name="cbd_cov_lKey"/>
+    </index>
+    <index name="idx_cbd_2">
+      <column name="cbd_bda_lKey"/>
+    </index>
+  </table>
+  <table name="tContentHandler" elementname="contenthandler" parentname="contenthandlers">
+    <column name="han_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="han_sName" required="true" type="VARCHAR" xpath="name" size="32"/>
+    <column name="han_sClass" required="true" type="VARCHAR" xpath="class" size="256"/>
+    <column name="han_sDescription" type="VARCHAR" xpath="description" size="256"/>
+    <column name="han_XMLConfig" type="XML" xpath="xmlconfig" size="1"/>
+    <column name="han_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+    <index name="idx_han_1">
+      <column name="han_sName"/>
+    </index>
+    <index name="idx_han_2">
+      <column name="han_sClass"/>
+    </index>
+    <index name="idx_han_3">
+      <column name="han_dteTimestamp"/>
+    </index>
+  </table>
+  <table name="tContentHome" elementname="contenthome" parentname="contenthomes">
+    <foreign-key foreignTable="tContent" delete="true" name="cho_con_lKey" primaryKey="true" required="true" type="INTEGER"
+                 xpath="@contentkey">
+      <reference foreign="con_lKey" local="cho_con_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tMenu" delete="true" name="cho_men_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@menukey">
+      <reference foreign="men_lKey" local="cho_men_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tMenuItem" delete="true" name="cho_mei_lKey" required="false" type="INTEGER" xpath="@menuitemkey">
+      <reference foreign="mei_lKey" local="cho_mei_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tPageTemplate" delete="true" name="cho_pat_lKey" required="false" type="INTEGER" xpath="@pagetemplatekey">
+      <reference foreign="pat_lKey" local="cho_pat_lKey"/>
+    </foreign-key>
+    <foreignkey name="cho_con_FK1" foreignTable="tContent">
+      <column name="cho_con_lKey" foreignColumn="con_lKey"/>
+    </foreignkey>
+    <foreignkey name="cho_men_FK1" foreignTable="tMenu">
+      <column name="cho_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+    <foreignkey name="cho_mei_FK1" foreignTable="tMenuItem">
+      <column name="cho_mei_lKey" foreignColumn="mei_lKey"/>
+    </foreignkey>
+    <foreignkey name="cho_pat_FK1" foreignTable="tPageTemplate">
+      <column name="cho_pat_lKey" foreignColumn="pat_lKey"/>
+    </foreignkey>
+    <index name="idx_cho_1">
+      <column name="cho_con_lKey"/>
+    </index>
+    <index name="idx_cho_2">
+      <column name="cho_men_lKey"/>
+    </index>
+    <index name="idx_cho_3">
+      <column name="cho_mei_lKey"/>
+    </index>
+  </table>
+  <table name="tContentIndex">
+    <column name="cix_sKey" primaryKey="true" required="true" type="VARCHAR" size="36"/>
+    <column name="cix_lContentKey" required="true" type="INTEGER"/>
+    <column name="cix_lContentStatus" required="true" type="INTEGER"/>
+    <column name="cix_dtePublishFrom" type="TIMESTAMP"/>
+    <column name="cix_dtePublishTo" type="TIMESTAMP"/>
+    <column name="cix_lContentTypeKey" required="true" type="INTEGER"/>
+    <column name="cix_lCategoryKey" required="true" type="INTEGER"/>
+    <column name="cix_sPath" required="true" type="VARCHAR" size="256"/>
+    <column name="cix_sValue" required="true" type="VARCHAR" size="2048"/>
+    <column name="cix_sOrderValue" required="true" type="VARCHAR" size="64"/>
+    <column name="cix_fNumValue" required="false" type="FLOAT"/>
+    <index name="idx_cix_1">
+      <column name="cix_lContentTypeKey"/>
+    </index>
+    <index name="idx_cix_2">
+      <column name="cix_lContentKey"/>
+    </index>
+    <index name="idx_cix_3">
+      <column name="cix_sPath"/>
+    </index>
+    <index name="idx_cix_4">
+      <column name="cix_sOrderValue"/>
+    </index>
+    <index name="idx_cix_5">
+      <column name="cix_lContentKey"/>
+      <column name="cix_lContentTypeKey"/>
+    </index>
+    <index name="idx_cix_6">
+      <column name="cix_lCategoryKey"/>
+    </index>
+    <index name="idx_cix_7">
+      <column name="cix_fNumValue"/>
+    </index>
+    <index name="idx_cix_8">
+      <column name="cix_dtePublishFrom"/>
+    </index>
+    <index name="idx_cix_9">
+      <column name="cix_dtePublishTo"/>
+    </index>
+    <index name="idx_cix_10">
+      <column name="cix_lCategoryKey"/>
+      <column name="cix_sPath"/>
+      <column name="cix_lContentTypeKey"/>
+    </index>
+  </table>
+  <table name="tContentObject">
+    <column name="cob_lKey" primaryKey="true" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tMenu" name="cob_men_lKey" type="INTEGER">
+      <reference foreign="men_lKey" local="cob_men_lKey"/>
+    </foreign-key>
+    <column name="cob_sName" required="true" type="VARCHAR" size="256"/>
+    <column name="cob_xmlData" type="XML" size="10"/>
+    <column name="cob_dteTimestamp" required="true" type="CURRENT_TIMESTAMP"/>
+    <column name="cob_sStyle" required="true" type="VARCHAR" size="1024"/>
+    <column name="cob_sBorder" type="VARCHAR" size="1024"/>
+    <column name="cob_lRunAs" type="INTEGER"/>
+    <foreignkey name="cob_men_FK1" foreignTable="tMenu">
+      <column name="cob_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+    <index name="idx_cob_3">
+      <column name="cob_men_lKey"/>
+    </index>
+    <index name="idx_cob_6">
+      <column name="cob_sName"/>
+    </index>
+    <index name="idx_cob_7">
+      <column name="cob_dteTimestamp"/>
+    </index>
+  </table>
+  <table name="tContentType" elementname="contenttype" parentname="contenttypes">
+    <column name="cty_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="cty_sName" required="true" type="VARCHAR" xpath="name" size="32"/>
+    <column name="cty_sDescription" type="VARCHAR" xpath="description" size="256"/>
+    <column name="cty_mbData" required="true" type="XML" xpath="moduledata" size="1"/>
+    <column name="cty_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+    <foreign-key foreignTable="tContentHandler" name="cty_han_lKey" required="true" type="INTEGER"
+                 xpath="@contenthandlerkey">
+      <reference foreign="han_lKey" local="cty_han_lKey"/>
+    </foreign-key>
+    <column name="cty_bLocal" required="true" type="BOOLEAN" defaultValue="false" xpath="@local"/>
+    <foreignkey name="cty_han_FK1" foreignTable="tContentHandler">
+      <column name="cty_han_lKey" foreignColumn="han_lKey"/>
+    </foreignkey>
+    <column name="cty_sCSS" type="VARCHAR" xpath="@csskey" size="1024"/>
+    <index name="idx_cty_1">
+      <column name="cty_sName"/>
+    </index>
+    <index name="idx_cty_2">
+      <column name="cty_han_lKey"/>
+    </index>
+    <index name="idx_cty_4">
+      <column name="cty_dteTimestamp"/>
+    </index>
+  </table>
+  <table name="tContentVersion" elementname="content" parentname="contents">
+    <column name="cov_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@versionkey"/>
+    <foreign-key foreignTable="tContent" name="cov_con_lKey" required="true" type="INTEGER" xpath="@key">
+      <reference foreign="con_lKey" local="cov_con_lKey"/>
+    </foreign-key>
+    <column name="cov_lStatus" required="true" type="INTEGER" xpath="@status"/>
+    <column name="cov_sTitle" required="true" type="VARCHAR" xpath="title" size="256"/>
+    <column name="cov_sDescription" type="VARCHAR" xpath="description" size="1024"/>
+    <column name="cov_xmlContentData" required="true" type="XML" xpath="contentdata" size="10"/>
+    <foreign-key foreignTable="tUser" name="cov_usr_hModifier" required="true" type="CHAR" xpath="modifier/@key">
+      <reference foreign="usr_hKey" local="cov_usr_hModifier"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContentVersion" name="cov_cov_lSnapshotSource" type="INTEGER" xpath="@snapshotsource">
+      <reference foreign="cov_lKey" local="cov_cov_lSnapshotSource"/>
+    </foreign-key>
+    <column name="cov_dteCreated" required="true" type="CREATED_TIMESTAMP" xpath="@versioncreated"/>
+    <column name="cov_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="@timestamp"/>
+    <foreignkey name="cov_con_FK1" foreignTable="tContent">
+      <column name="cov_con_lKey" foreignColumn="con_lKey"/>
+    </foreignkey>
+    <foreignkey name="cov_usr_FK2" foreignTable="tUser">
+      <column name="cov_usr_hModifier" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <index name="idx_cov_1">
+      <column name="cov_sTitle"/>
+    </index>
+    <index name="idx_cov_2">
+      <column name="cov_con_lKey"/>
+    </index>
+    <index name="idx_cov_3">
+      <column name="cov_usr_hModifier"/>
+    </index>
+    <index name="idx_cov_4">
+      <column name="cov_dteCreated"/>
+    </index>
+    <index name="idx_cov_5">
+      <column name="cov_dteTimestamp"/>
+    </index>
+    <index name="idx_cov_6">
+      <column name="cov_lStatus"/>
+    </index>
+    <index name="idx_cov_7">
+      <column name="cov_lStatus"/>
+      <column name="cov_con_lKey"/>
+    </index>
+  </table>
+  <table name="tDefaultMenuAR">
+    <foreign-key foreignTable="tMenu" name="dma_men_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="men_lKey" local="dma_men_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tGroup" name="dma_grp_hKey" primaryKey="true" required="true" type="CHAR">
+      <reference foreign="grp_hKey" local="dma_grp_hKey"/>
+    </foreign-key>
+    <column name="dma_bRead" required="true" type="BOOLEAN"/>
+    <column name="dma_bCreate" required="true" type="BOOLEAN"/>
+    <column name="dma_bDelete" required="true" type="BOOLEAN"/>
+    <column name="dma_bPublish" required="true" type="BOOLEAN"/>
+    <column name="dma_bAdministrate" required="true" type="BOOLEAN"/>
+    <column name="dma_bUpdate" required="true" type="BOOLEAN"/>
+    <column name="dma_bAdd" required="true" type="BOOLEAN"/>
+    <foreignkey name="dma_men_FK1" foreignTable="tMenu">
+      <column name="dma_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+    <foreignkey name="dma_grp_FK1" foreignTable="tGroup">
+      <column name="dma_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+  </table>
+  <table name="tDomain" elementname="domain" parentname="domains">
+    <column name="dom_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="dom_sName" required="true" type="VARCHAR" xpath="name" size="256"/>
+    <column name="dom_bIsDeleted" required="true" type="BOOLEAN" xpath="@deleted"/>
+    <column name="dom_bDefaultStore" type="BOOLEAN" xpath="@defaultstore"/>
+    <column name="dom_sConfigName" type="VARCHAR" xpath="config" size="64"/>
+    <column name="dom_xmlData" type="XML" size="1"/>
+  </table>
+  <table name="tGroup" elementname="group" parentname="groups">
+    <column name="grp_hKey" primaryKey="true" required="true" type="CHAR" xpath="@key" size="40"/>
+    <column name="grp_sName" required="true" type="VARCHAR" xpath="name" size="256"/>
+    <foreign-key foreignTable="tUser" name="grp_usr_hKey" type="CHAR" xpath="@userkey">
+      <reference foreign="usr_hKey" local="grp_usr_hKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tDomain" name="grp_dom_lKey" type="INTEGER" xpath="@domainkey">
+      <reference foreign="dom_lKey" local="grp_dom_lKey"/>
+    </foreign-key>
+    <column name="grp_sDescription" type="VARCHAR" xpath="description" size="1024"/>
+    <column name="grp_bIsDeleted" required="true" type="BOOLEAN" defaultValue="false" xpath="@deleted"/>
+    <column name="grp_bRestricted" required="true" type="BOOLEAN" defaultValue="true" xpath="@restricted"/>
+    <column name="grp_sSyncValue" required="true" type="VARCHAR" xpath="@syncvalue" size="2048"/>
+    <column name="grp_lType" required="true" type="INTEGER" xpath="@type"/>
+    <foreignkey name="grp_usr_FK1" foreignTable="tUser">
+      <column name="grp_usr_hKey" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="grp_dom_FK1" foreignTable="tDomain">
+      <column name="grp_dom_lKey" foreignColumn="dom_lKey"/>
+    </foreignkey>
+    <index name="idx_grp_1">
+      <column name="grp_sName"/>
+    </index>
+    <index name="idx_grp_3">
+      <column name="grp_usr_hKey"/>
+    </index>
+    <index name="idx_grp_4">
+      <column name="grp_dom_lKey"/>
+    </index>
+    <index name="idx_grp_5">
+      <column name="grp_lType"/>
+    </index>
+    <index name="idx_grp_6">
+      <column name="grp_bIsDeleted"/>
+      <column name="grp_bRestricted"/>
+    </index>
+  </table>
+  <table name="tGrpGrpMembership">
+    <foreign-key foreignTable="tGroup" name="ggm_grp_hKey" primaryKey="true" required="true" type="CHAR">
+      <reference foreign="grp_hKey" local="ggm_grp_hKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tGroup" name="ggm_mbr_grp_hKey" primaryKey="true" required="true" type="CHAR">
+      <reference foreign="grp_hKey" local="ggm_mbr_grp_hKey"/>
+    </foreign-key>
+    <foreignkey name="ggm_grp_FK1" foreignTable="tGroup">
+      <column name="ggm_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+    <foreignkey name="ggm_mbr_grp_FK1" foreignTable="tGroup">
+      <column name="ggm_mbr_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+  </table>
+  <table name="tKey">
+    <column name="key_sTableName" primaryKey="true" required="true" type="VARCHAR" size="18"/>
+    <column name="key_lLastKey" required="true" type="INTEGER"/>
+  </table>
+  <table name="tLanguage" elementname="language" parentname="languages">
+    <column name="lan_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="lan_sCode" required="true" type="VARCHAR" xpath="@languagecode" size="32"/>
+    <column name="lan_sDescription" type="VARCHAR" xpath="." size="256"/>
+    <column name="lan_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+  </table>
+  <table name="tLogEntry" elementname="logentry" parentname="logentries">
+    <column name="len_sKey" primaryKey="true" required="true" type="CHAR" xpath="@key" size="28"/>
+    <column name="len_lTypeKey" required="true" type="INTEGER" xpath="@typekey"/>
+    <foreign-key foreignTable="tUser" name="len_usr_hKey" required="true" type="CHAR" xpath="@userkey">
+      <reference foreign="usr_hKey" local="len_usr_hKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tMenu" delete="true" name="len_men_lKey" required="false" type="INTEGER" xpath="@menukey">
+      <reference foreign="men_lKey" local="len_men_lKey"/>
+    </foreign-key>
+    <column name="len_lTableKey" required="false" type="INTEGER" xpath="@tablekey"/>
+    <column name="len_lKeyValue" required="false" type="INTEGER" xpath="@tablekeyvalue"/>
+    <column name="len_lCount" required="false" type="INTEGER" xpath="@count"/>
+    <column name="len_sInetAddress" required="false" type="VARCHAR" xpath="@inetaddress" size="256"/>
+    <column name="len_sPath" required="false" type="VARCHAR" xpath="@path" size="256"/>
+    <column name="len_sTitle" required="true" type="VARCHAR" xpath="title" size="256"/>
+    <column name="len_xmlData" required="true" type="XML" xpath="data" size="1"/>
+    <column name="len_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="@timestamp"/>
+    <foreignkey name="len_usr_FK1" foreignTable="tUser">
+      <column name="len_usr_hKey" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="len_men_FK1" foreignTable="tMenu">
+      <column name="len_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+    <index name="idx_len_1">
+      <column name="len_lTypeKey"/>
+    </index>
+    <index name="idx_len_3">
+      <column name="len_men_lKey"/>
+    </index>
+    <index name="idx_len_4">
+      <column name="len_lTableKey"/>
+    </index>
+    <index name="idx_len_5">
+      <column name="len_dteTimestamp"/>
+    </index>
+    <index name="idx_len_6">
+      <column name="len_lKeyValue"/>
+      <column name="len_lTypeKey"/>
+      <column name="len_lTableKey"/>
+    </index>
+  </table>
+  <table name="tMenu" elementname="menu" parentname="menus">
+    <column name="men_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <column name="men_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+    <column name="men_mei_firstPage" type="INTEGER" xpath="firstpage"/>
+    <column name="men_mei_loginPage" type="INTEGER" xpath="loginpage"/>
+    <column name="men_mei_errorPage" type="INTEGER" xpath="errorpage"/>
+    <foreign-key foreignTable="tPageTemplate" name="men_pat_lKey" required="false" type="INTEGER" xpath="pagetemplate">
+      <reference foreign="pat_lKey" local="men_pat_lKey"/>
+    </foreign-key>
+    <column name="men_sName" type="VARCHAR" xpath="name" size="64"/>
+    <column name="men_xmlData" type="XML" xpath="xmldata" size="1"/>
+    <foreign-key foreignTable="tLanguage" name="men_lan_lKey" required="true" type="INTEGER" xpath="@language">
+      <reference foreign="lan_lKey" local="men_lan_lKey"/>
+    </foreign-key>
+    <column name="men_sStatisticsURL" type="VARCHAR" xpath="statistics" size="256"/>
+    <foreign-key foreignTable="tUser" name="men_usr_hRunAs" type="CHAR">
+      <reference foreign="usr_hKey" local="men_usr_hRunAs"/>
+    </foreign-key>
+    <foreignkey name="men_lan_FK1" foreignTable="tLanguage">
+      <column name="men_lan_lKey" foreignColumn="lan_lKey"/>
+    </foreignkey>
+    <foreignkey name="men_pat_FK1" foreignTable="tPageTemplate">
+      <column name="men_pat_lKey" foreignColumn="pat_lKey"/>
+    </foreignkey>
+    <foreignkey name="men_usr_FK1" foreignTable="tUser">
+      <column name="men_usr_hRunAs" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <index name="idx_men_2">
+      <column name="men_mei_firstPage"/>
+      <column name="men_mei_loginPage"/>
+      <column name="men_mei_errorPage"/>
+    </index>
+    <index name="idx_men_3">
+      <column name="men_pat_lKey"/>
+    </index>
+    <index name="idx_men_5">
+      <column name="men_lan_lKey"/>
+    </index>
+    <index name="idx_men_6">
+      <column name="men_dteTimestamp"/>
+    </index>
+    <index name="idx_men_7">
+      <column name="men_sName"/>
+    </index>
+    <index name="idx_men_8">
+      <column name="men_usr_hRunAs"/>
+    </index>
+  </table>
+  <table name="tMenuItem">
+    <column name="mei_lKey" primaryKey="true" required="true" type="INTEGER"/>
+    <column name="mei_sName" required="true" type="VARCHAR" size="256"/>
+    <foreign-key foreignTable="tMenu" name="mei_men_lKey" required="true" type="INTEGER">
+      <reference foreign="men_lKey" local="mei_men_lKey"/>
+    </foreign-key>
+    <column name="mei_mid_lkey" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tMenuItem" name="mei_lParent" type="INTEGER">
+      <reference foreign="mei_lKey" local="mei_lParent"/>
+    </foreign-key>
+    <column name="mei_lOrder" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tPage" name="mei_pag_lKey" type="INTEGER">
+      <reference foreign="pag_lKey" local="mei_pag_lKey"/>
+    </foreign-key>
+    <column name="mei_dteTimestamp" required="true" type="CURRENT_TIMESTAMP"/>
+    <column name="mei_sSubTitle" type="VARCHAR" size="256"/>
+    <column name="mei_bHidden" type="BOOLEAN"/>
+    <column name="mei_sDescription" type="VARCHAR" size="1024"/>
+    <column name="mei_bNoAuth" type="BOOLEAN"/>
+    <foreign-key foreignTable="tUser" name="mei_usr_hOwner" type="CHAR">
+      <reference foreign="usr_hKey" local="mei_usr_hOwner"/>
+    </foreign-key>
+    <foreign-key foreignTable="tUser" name="mei_usr_hModifier" type="CHAR">
+      <reference foreign="usr_hKey" local="mei_usr_hModifier"/>
+    </foreign-key>
+    <column name="mei_xmlData" type="XML" size="1"/>
+    <column name="mei_sKeywords" type="VARCHAR" size="1024"/>
+    <foreign-key foreignTable="tLanguage" name="mei_lan_lKey" type="INTEGER">
+      <reference foreign="lan_lKey" local="mei_lan_lKey"/>
+    </foreign-key>
+    <column name="mei_sURL" required="false" type="VARCHAR" size="256"/>
+    <column name="mei_bURLOpenNewWin" required="false" type="BOOLEAN"/>
+    <foreign-key delete="true" foreignTable="tMenuItem" name="mei_mei_lShortcut" type="INTEGER">
+      <reference foreign="mei_lKey" local="mei_mei_lShortcut"/>
+    </foreign-key>
+    <column name="mei_bShortcutForward" required="false" type="BOOLEAN"/>
+    <column name="mei_bSection" required="false" type="BOOLEAN"/>
+    <column name="mei_bOrderedSection" required="false" type="BOOLEAN"/>
+    <column name="mei_lRunAs" type="INTEGER"/>
+    <column name="mei_sDisplayName" type="VARCHAR" size="256"/>
+    <foreignkey name="mei_men_FK1" foreignTable="tMenu">
+      <column name="mei_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+    <foreignkey name="mei_lPa_FK1" foreignTable="tMenuItem">
+      <column name="mei_lParent" foreignColumn="mei_lKey"/>
+    </foreignkey>
+    <foreignkey name="mei_pag_FK1" foreignTable="tPage">
+      <column name="mei_pag_lKey" foreignColumn="pag_lKey"/>
+    </foreignkey>
+    <foreignkey name="mei_usr_FK1" foreignTable="tUser">
+      <column name="mei_usr_hOwner" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="mei_usr_FK2" foreignTable="tUser">
+      <column name="mei_usr_hModifier" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="mei_lan_FK1" foreignTable="tLanguage">
+      <column name="mei_lan_lKey" foreignColumn="lan_lKey"/>
+    </foreignkey>
+    <foreignkey name="mei_mei_FK1" foreignTable="tMenuItem">
+      <column name="mei_mei_lShortcut" foreignColumn="mei_lKey"/>
+    </foreignkey>
+    <index name="idx_mei_1">
+      <column name="mei_sName"/>
+    </index>
+    <index name="idx_mei_2">
+      <column name="mei_men_lKey"/>
+    </index>
+    <index name="idx_mei_3">
+      <column name="mei_mid_lKey"/>
+    </index>
+    <index name="idx_mei_5">
+      <column name="mei_pag_lKey"/>
+    </index>
+    <index name="idx_mei_6">
+      <column name="mei_usr_hOwner"/>
+      <column name="mei_usr_hModifier"/>
+    </index>
+    <index name="idx_mei_7">
+      <column name="mei_lan_lKey"/>
+    </index>
+    <index name="idx_mei_8">
+      <column name="mei_lParent"/>
+      <column name="mei_lOrder"/>
+    </index>
+    <index name="idx_mei_9">
+      <column name="mei_dteTimestamp"/>
+    </index>
+    <index name="idx_mei_10">
+      <column name="mei_bHidden"/>
+    </index>
+    <index name="idx_mei_11">
+      <column name="mei_sURL"/>
+    </index>
+    <index name="idx_mei_12">
+      <column name="mei_mei_lShortcut"/>
+    </index>
+  </table>
+  <table name="tMenuItemAR">
+    <foreign-key foreignTable="tMenuItem" name="mia_mei_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="mei_lKey" local="mia_mei_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tGroup" name="mia_grp_hKey" primaryKey="true" required="true" type="CHAR">
+      <reference foreign="grp_hKey" local="mia_grp_hKey"/>
+    </foreign-key>
+    <column name="mia_bRead" required="true" type="BOOLEAN"/>
+    <column name="mia_bCreate" required="true" type="BOOLEAN"/>
+    <column name="mia_bPublish" required="true" type="BOOLEAN"/>
+    <column name="mia_bAdministrate" required="true" type="BOOLEAN"/>
+    <column name="mia_bUpdate" required="true" type="BOOLEAN"/>
+    <column name="mia_bDelete" required="true" type="BOOLEAN"/>
+    <column name="mia_bAdd" type="BOOLEAN"/>
+    <foreignkey name="mia_mei_FK1" foreignTable="tMenuItem">
+      <column name="mia_mei_lKey" foreignColumn="mei_lKey"/>
+    </foreignkey>
+    <foreignkey name="mia_grp_FK1" foreignTable="tGroup">
+      <column name="mia_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+    <index name="idx_mia_1">
+      <column name="mia_bRead"/>
+      <column name="mia_bCreate"/>
+      <column name="mia_bPublish"/>
+    </index>
+    <index name="idx_mia_2">
+      <column name="mia_bAdministrate"/>
+      <column name="mia_bUpdate"/>
+      <column name="mia_bDelete"/>
+    </index>
+  </table>
+  <table name="tMenuItemContent">
+    <foreign-key delete="true" foreignTable="tMenuItem" name="mic_mei_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="mei_lKey" local="mic_mei_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContent" name="mic_con_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="con_lKey" local="mic_con_lKey"/>
+    </foreign-key>
+    <foreignkey name="mic_mei_FK1" foreignTable="tMenuItem">
+      <column name="mic_mei_lKey" foreignColumn="mei_lKey"/>
+    </foreignkey>
+    <foreignkey name="mic_con_FK1" foreignTable="tContent">
+      <column name="mic_con_lKey" foreignColumn="con_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPage">
+    <column name="pag_lKey" primaryKey="true" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tPageTemplate" name="pag_pat_lKey" required="true" type="INTEGER">
+      <reference foreign="pat_lKey" local="pag_pat_lKey"/>
+    </foreign-key>
+    <column name="pag_sXML" type="XML" size="1"/>
+    <foreignkey name="pag_pat_FK1" foreignTable="tPageTemplate">
+      <column name="pag_pat_lKey" foreignColumn="pat_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPageConObj">
+    <foreign-key foreignTable="tPage" name="pco_pag_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="pag_lKey" local="pco_pag_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContentObject" name="pco_cob_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="cob_lKey" local="pco_cob_lKey"/>
+    </foreign-key>
+    <column name="pco_lOrder" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tPageTemplParam" name="pco_ptp_lKey" required="true" type="INTEGER">
+      <reference foreign="ptp_lKey" local="pco_ptp_lKey"/>
+    </foreign-key>
+    <column name="pco_dteTimestamp" required="true" type="CURRENT_TIMESTAMP"/>
+    <foreignkey name="pco_pag_FK1" foreignTable="tPage">
+      <column name="pco_pag_lKey" foreignColumn="pag_lKey"/>
+    </foreignkey>
+    <foreignkey name="pco_cob_FK1" foreignTable="tContentObject">
+      <column name="pco_cob_lKey" foreignColumn="cob_lKey"/>
+    </foreignkey>
+    <foreignkey name="pco_ptp_FK1" foreignTable="tPageTemplParam">
+      <column name="pco_ptp_lKey" foreignColumn="ptp_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPageTemplate" elementname="pagetemplate" parentname="pagetemplates">
+    <column name="pat_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <foreign-key foreignTable="tMenu" name="pat_men_lKey" type="INTEGER" xpath="@menukey">
+      <reference foreign="men_lKey" local="pat_men_lKey"/>
+    </foreign-key>
+    <column name="pat_sName" required="true" type="VARCHAR" xpath="name" size="256"/>
+    <column name="pat_sDescription" type="VARCHAR" xpath="description" size="1024"/>
+    <column name="pat_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+    <column name="pat_xmlData" type="XML" xpath="data" size="1"/>
+    <column name="pat_sStyle" required="true" type="VARCHAR" xpath="@stylesheetkey" size="1024"/>
+    <column name="pat_sCSS" type="VARCHAR" xpath="@csskey" size="1024"/>
+    <column name="pat_lType" required="true" type="INTEGER" xpath="@type"/>
+    <column name="pat_lRunAs" type="INTEGER"/>
+    <foreignkey name="pat_men_FK1" foreignTable="tMenu">
+      <column name="pat_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPageTemplateCty">
+    <foreign-key foreignTable="tPageTemplate" delete="true" name="ptt_pat_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="pat_lKey" local="ptt_pat_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContentType" delete="true" name="ptt_cty_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="cty_lKey" local="ptt_cty_lKey"/>
+    </foreign-key>
+    <foreignkey name="ptt_pat_FK1" foreignTable="tPageTemplate">
+      <column name="ptt_pat_lKey" foreignColumn="pat_lKey"/>
+    </foreignkey>
+    <foreignkey name="ptt_cty_FK1" foreignTable="tContentType">
+      <column name="ptt_cty_lKey" foreignColumn="cty_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPageTemplConObj">
+    <foreign-key foreignTable="tPageTemplate" name="ptc_pat_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="pat_lKey" local="ptc_pat_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContentObject" name="ptc_cob_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="cob_lKey" local="ptc_cob_lKey"/>
+    </foreign-key>
+    <column name="ptc_lOrder" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tPageTemplParam" name="ptc_ptp_lKey" required="true" type="INTEGER">
+      <reference foreign="ptp_lKey" local="ptc_ptp_lKey"/>
+    </foreign-key>
+    <column name="ptc_dteTimestamp" required="true" type="CURRENT_TIMESTAMP"/>
+    <foreignkey name="ptc_pat_FK1" foreignTable="tPageTemplate">
+      <column name="ptc_pat_lKey" foreignColumn="pat_lKey"/>
+    </foreignkey>
+    <foreignkey name="ptc_cob_FK1" foreignTable="tContentObject">
+      <column name="ptc_cob_lKey" foreignColumn="cob_lKey"/>
+    </foreignkey>
+    <foreignkey name="ptc_ptp_FK1" foreignTable="tPageTemplParam">
+      <column name="ptc_ptp_lKey" foreignColumn="ptp_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPageTemplParam">
+    <column name="ptp_lKey" primaryKey="true" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tPageTemplate" name="ptp_pat_lKey" required="true" type="INTEGER">
+      <reference foreign="pat_lKey" local="ptp_pat_lKey"/>
+    </foreign-key>
+    <column name="ptp_sParamName" required="true" type="VARCHAR" size="64"/>
+    <column name="ptp_bMultiple" required="true" type="BOOLEAN"/>
+    <column name="ptp_sSeparator" type="VARCHAR" size="1024"/>
+    <column name="ptp_bOverride" required="true" type="BOOLEAN"/>
+    <foreignkey name="ptp_pat_FK1" foreignTable="tPageTemplate">
+      <column name="ptp_pat_lKey" foreignColumn="pat_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tRelatedContent">
+    <foreign-key foreignTable="tContentVersion" name="rco_con_lParent" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="cov_lKey" local="rco_con_lParent"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContent" name="rco_con_lChild" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="con_lKey" local="rco_con_lChild"/>
+    </foreign-key>
+    <foreignkey name="rco_con_lParent" foreignTable="tContentVersion">
+      <column name="rco_con_lParent" foreignColumn="cov_lKey"/>
+    </foreignkey>
+    <foreignkey name="rco_con_lChild" foreignTable="tContent">
+      <column name="rco_con_lChild" foreignColumn="con_lKey"/>
+    </foreignkey>
+    <index name="idx_rco_1">
+      <column name="rco_con_lChild"/>
+    </index>
+    <index name="idx_rco_2">
+      <column name="rco_con_lParent"/>
+    </index>
+  </table>
+  <table name="tSecConTypeFilter2">
+    <column name="sctf_lkey" primaryKey="true" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tContentType" delete="true" name="sctf_cty_lKey" required="true" type="INTEGER">
+      <reference foreign="cty_lKey" local="sctf_cty_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tMenuItem" delete="true" name="sctf_mei_lKey" required="true" type="INTEGER">
+      <reference foreign="mei_lKey" local="sctf_mei_lKey"/>
+    </foreign-key>
+    <foreignkey name="sctf_cty_FK1" foreignTable="tContentType">
+      <column name="sctf_cty_lKey" foreignColumn="cty_lKey"/>
+    </foreignkey>
+    <foreignkey name="sctf_mei_FK2" foreignTable="tMenuItem">
+      <column name="sctf_mei_lKey" foreignColumn="mei_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tSectionContent2">
+    <column name="sco_lkey" primaryKey="true" required="true" type="INTEGER"/>
+    <foreign-key foreignTable="tContent" delete="true" name="sco_con_lKey" required="true" type="INTEGER" xpath="@contentkey">
+      <reference foreign="con_lKey" local="sco_con_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tMenuItem" delete="true" name="sco_mei_lKey" required="true" type="INTEGER" xpath="@sectionkey">
+      <reference foreign="mei_lKey" local="sco_mei_lKey"/>
+    </foreign-key>
+    <column name="sco_lOrder" required="true" type="INTEGER" xpath="@order"/>
+    <column name="sco_bApproved" required="true" type="BOOLEAN" xpath="@approved"/>
+    <column name="sco_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="@timestamp"/>
+    <foreignkey name="sco_con_FK1" foreignTable="tContent">
+      <column name="sco_con_lKey" foreignColumn="con_lKey"/>
+    </foreignkey>
+    <foreignkey name="sco_mei_FK1" foreignTable="tMenuItem">
+      <column name="sco_mei_lKey" foreignColumn="mei_lKey"/>
+    </foreignkey>
+    <index name="idx_sco2_1">
+      <column name="sco_con_lKey"/>
+      <column name="sco_mei_lKey"/>
+    </index>
+    <index name="idx_sco2_2">
+      <column name="sco_lOrder"/>
+    </index>
+    <index name="idx_sco2_3">
+      <column name="sco_bApproved"/>
+    </index>
+    <index name="idx_sco2_4">
+      <column name="sco_dteTimestamp"/>
+    </index>
+    <index name="idx_sco2_5">
+      <column name="sco_con_lkey"/>
+    </index>
+    <index name="idx_sco2_6">
+      <column name="sco_mei_lkey"/>
+    </index>
+  </table>
+  <table name="tUnit" elementname="unit" parentname="units">
+    <column name="uni_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
+    <foreign-key foreignTable="tLanguage" name="uni_lan_lKey" type="INTEGER" xpath="@languagekey">
+      <reference foreign="lan_lKey" local="uni_lan_lKey"/>
+    </foreign-key>
+    <column name="uni_sName" required="true" type="VARCHAR" xpath="name" size="32"/>
+    <column name="uni_sDescription" type="VARCHAR" xpath="description" size="256"/>
+    <foreign-key foreignTable="tUnit" name="uni_lSuperKey" type="INTEGER" xpath="@superkey">
+      <reference foreign="uni_lKey" local="uni_lSuperKey"/>
+    </foreign-key>
+    <column name="uni_bDeleted" required="true" type="BOOLEAN" xpath="@deleted"/>
+    <column name="uni_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+    <foreignkey name="uni_lan_FK1" foreignTable="tLanguage">
+      <column name="uni_lan_lKey" foreignColumn="lan_lKey"/>
+    </foreignkey>
+    <foreignkey name="uni_lSuperKey" foreignTable="tUnit">
+      <column name="uni_lSuperKey" foreignColumn="uni_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tUnitContentType">
+    <foreign-key foreignTable="tUnit" delete="true" name="uct_uni_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="uni_lKey" local="uct_uni_lKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tContentType" delete="true" name="uct_cty_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="cty_lKey" local="uct_cty_lKey"/>
+    </foreign-key>
+    <foreignkey name="uct_uni_FK1" foreignTable="tUnit">
+      <column name="uct_uni_lKey" foreignColumn="uni_lKey"/>
+    </foreignkey>
+    <foreignkey name="uct_cty_FK1" foreignTable="tContentType">
+      <column name="uct_cty_lKey" foreignColumn="cty_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tUser" elementname="user" parentname="users">
+    <column name="usr_hKey" primaryKey="true" required="true" type="CHAR" xpath="@key" size="40"/>
+    <column name="usr_sUID" required="true" type="VARCHAR" xpath="@uid" size="256"/>
+    <column name="usr_sFullName" required="true" type="VARCHAR" xpath="@fullname" size="256"/>
+    <column name="usr_dteTimestamp" required="true" type="CURRENT_TIMESTAMP" xpath="timestamp"/>
+    <column name="usr_bIsDeleted" required="true" type="BOOLEAN" defaultValue="false" xpath="@deleted"/>
+    <column name="usr_ut_lKey" required="true" type="INTEGER" xpath="@usertype"/>
+    <foreign-key foreignTable="tDomain" name="usr_dom_lKey" type="INTEGER" xpath="@domainkey">
+      <reference foreign="dom_lKey" local="usr_dom_lKey"/>
+    </foreign-key>
+    <column name="usr_sSyncValue" required="true" type="VARCHAR" xpath="@syncvalue" size="2048"/>
+    <column name="usr_sEmail" type="VARCHAR" size="256"/>
+    <column name="usr_sPassword" type="VARCHAR" size="64"/>
+    <column name="usr_grp_hKey" required="false" type="CHAR" size="40"/>
+    <column name="usr_photo" required="false" type="BINARY" size="1"/>
+    <foreignkey name="usr_dom_FK1" foreignTable="tDomain">
+      <column name="usr_dom_lKey" foreignColumn="dom_lKey"/>
+    </foreignkey>
+    <foreignkey name="usr_grp_FK1" foreignTable="tGroup">
+      <column name="usr_grp_hKey" foreignColumn="grp_hKey"/>
+    </foreignkey>
+    <index name="idx_usr_1">
+      <column name="usr_sUID"/>
+    </index>
+    <index name="idx_usr_2">
+      <column name="usr_ut_lKey"/>
+    </index>
+    <index name="idx_usr_3">
+      <column name="usr_dom_lKey"/>
+    </index>
+    <index name="idx_usr_4">
+      <column name="usr_bIsDeleted"/>
+    </index>
+    <index name="idx_usr_5">
+      <column name="usr_dteTimestamp"/>
+    </index>
+    <index name="idx_usr_6">
+      <column name="usr_sEmail"/>
+    </index>
+    <index name="idx_usr_7">
+      <column name="usr_grp_hKey"/>
+    </index>
+  </table>
+  <table name="tUserField">
+    <column name="usf_usr_hKey" primaryKey="true" required="true" type="CHAR" size="40"/>
+    <column name="usf_name" primaryKey="true" required="true" type="VARCHAR" size="100"/>
+    <column name="usf_value" required="false" type="VARCHAR" size="512"/>
+    <foreignkey name="usf_usr_FK1" foreignTable="tUser">
+      <column name="usf_usr_hKey" foreignColumn="usr_hKey"/>
+    </foreignkey>
+  </table>
+  <table name="tUserMenuGUID">
+    <foreign-key foreignTable="tUser" delete="true" name="umg_usr_hKey" primaryKey="true" required="true" type="CHAR">
+      <reference foreign="usr_hKey" local="umg_usr_hKey"/>
+    </foreign-key>
+    <foreign-key foreignTable="tMenu" delete="true" name="umg_men_lKey" primaryKey="true" required="true" type="INTEGER">
+      <reference foreign="men_lKey" local="umg_men_lKey"/>
+    </foreign-key>
+    <column name="umg_sGUID" required="true" type="VARCHAR" size="256"/>
+    <column name="umg_dteCreated" required="true" type="CREATED_TIMESTAMP" xpath="timestamp"/>
+    <foreignkey name="umg_usr_FK1" foreignTable="tUser">
+      <column name="umg_usr_hKey" foreignColumn="usr_hKey"/>
+    </foreignkey>
+    <foreignkey name="umg_men_FK1" foreignTable="tMenu">
+      <column name="umg_men_lKey" foreignColumn="men_lKey"/>
+    </foreignkey>
+  </table>
+  <table name="tPreferences">
+    <column name="prf_sKey" primaryKey="true" required="true" type="VARCHAR" size="255"/>
+    <column name="prf_sValue" required="true" type="VARCHAR" size="1024"/>
+  </table>
+  <table name="tVirtualFile">
+    <column name="vf_sKey" primaryKey="true" required="true" type="VARCHAR" size="40"/>
+    <column name="vf_sParentKey" required="false" type="VARCHAR" size="40"/>
+    <column name="vf_sName" required="true" type="VARCHAR" size="255"/>
+    <column name="vf_lLastModified" required="true" type="BIGINT"/>
+    <column name="vf_lLength" required="true" type="BIGINT"/>
+    <column name="vf_sBlobKey" required="false" type="VARCHAR" size="40"/>
+    <index name="idx_vf_1">
+      <column name="vf_sParentKey"/>
+    </index>
+    <index name="idx_vf_2">
+      <column name="vf_sParentKey"/>
+      <column name="vf_sName"/>
+    </index>
+    <index name="idx_vf_3">
+      <column name="vf_sBlobKey"/>
+    </index>
+  </table>
+</database>

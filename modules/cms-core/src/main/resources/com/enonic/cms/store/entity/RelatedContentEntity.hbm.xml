@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.content.RelatedContentEntity" table="TRELATEDCONTENT" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+
+    <composite-id name="key" class="com.enonic.cms.domain.content.RelatedContentKey">
+      <key-property name="parentContentVersionKey" type="com.enonic.cms.store.hibernate.type.ContentVersionKeyUserType">
+        <column name="rco_con_lparent"/>
+      </key-property>
+      <key-property name="childContentKey" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
+        <column name="rco_con_lchild"/>
+      </key-property>
+    </composite-id>
+
+  </class>
+
+
+</hibernate-mapping>

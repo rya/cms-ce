@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<menuitems istop="yes">
+  <menuitem active="true" key="2" menukey="0" order="2" path="true" timestamp="2007-02-14 10:53" type="content">
+    <name>menypunkt.3</name>
+    <description></description>
+    <keywords></keywords>
+    <parameters>
+      <parameter name="newsCategories" override="false">16</parameter>
+    </parameters>
+    <menuitems istop="no"/>
+  </menuitem>
+</menuitems>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+  <class name="com.enonic.cms.domain.LanguageEntity" table="TLANGUAGE" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" column="LAN_LKEY" type="com.enonic.cms.store.hibernate.type.LanguageKeyUserType">
+      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+        <param name="table">TLANGUAGE</param>
+        <param name="idClassName">com.enonic.cms.domain.LanguageKey</param>
+      </generator>
+    </id>
+    <property name="code" type="string">
+      <column name="LAN_SCODE" length="32" not-null="true"/>
+    </property>
+    <property name="description" type="string">
+      <column name="LAN_SDESCRIPTION" length="256"/>
+    </property>
+    <property name="timestamp" type="timestamp">
+      <column name="LAN_DTETIMESTAMP" not-null="true"/>
+    </property>
+  </class>
+  <query name="LanguageEntity.findAll" cacheable="true">
+    from LanguageEntity
+  </query>
+  <query name="LanguageEntity.findByCode" cacheable="true">
+    from LanguageEntity x where x.code = :code
+  </query>
+</hibernate-mapping>

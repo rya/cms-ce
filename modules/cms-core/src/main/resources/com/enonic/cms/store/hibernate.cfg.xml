@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory name="main">
+    <property name="hibernate.cache.provider_class">com.enonic.cms.store.hibernate.cache.HibernateCacheProvider</property>
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <property name="hibernate.cache.use_query_cache">true</property>
+    <property name="hibernate.connection.isolation">1</property>
+    <property name="hibernate.bytecode.use_reflection_optimizer">true</property>
+    <property name="hibernate.jdbc.batch_size">0</property>
+    <property name="hibernate.cache.use_structured_entries">false</property>
+    <property name="hibernate.generate_statistics">false</property>
+    <mapping resource="com/enonic/cms/store/entity/BinaryDataEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/CategoryAccessEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/CategoryEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentAccessEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentBinaryDataEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentHandlerEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentHomeEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentIndexEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PortletEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentTypeEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/ContentVersionEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/DefaultSiteAccessEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/GroupEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/LanguageEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/LogEntryEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/MenuItemAccessEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/MenuItemContentEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/MenuItemEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PageEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PageWindowEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PageTemplateEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PageTemplatePortletEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PageTemplateRegionEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/PreferencesEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/RelatedContentEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/RememberedLoginEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/SectionContentEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/SectionContentTypeFilterEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/SiteEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/UnitEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/UserEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/UserStoreEntity.hbm.xml"/>
+    <mapping resource="com/enonic/cms/store/entity/VirtualFileEntity.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

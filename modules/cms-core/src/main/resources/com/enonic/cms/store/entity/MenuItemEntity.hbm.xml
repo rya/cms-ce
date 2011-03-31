@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.menuitem.MenuItemEntity" table="TMENUITEM" mutable="false">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="int">
+      <column name="MEI_LKEY"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="description" type="string">
+      <column name="MEI_SDESCRIPTION" length="1024"/>
+    </property>
+    <property name="hidden" type="boolean">
+      <column name="MEI_BHIDDEN"/>
+    </property>
+    <property name="keywords" type="string">
+      <column name="MEI_SKEYWORDS" length="1024"/>
+    </property>
+    <property name="name" type="string">
+      <column name="MEI_SNAME" length="256" not-null="true"/>
+    </property>
+    <property name="noAuth" type="boolean">
+      <column name="MEI_BNOAUTH"/>
+    </property>
+    <property name="order" type="int">
+      <column name="MEI_LORDER" not-null="true"/>
+    </property>
+    <property name="menuName" type="string">
+      <column name="MEI_SSUBTITLE" length="256"/>
+    </property>
+    <property name="timestamp" type="timestamp">
+      <column name="MEI_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="xmlData" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
+      <column name="MEI_XMLDATA"/>
+    </property>
+    <property name="menuItemType" type="com.enonic.cms.store.hibernate.type.MenuItemTypeUserType">
+      <column name="MEI_MID_LKEY" not-null="true"/>
+    </property>
+    <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
+      <column name="MEI_LAN_LKEY"/>
+    </many-to-one>
+    <many-to-one name="modifier" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+      <column name="MEI_USR_HMODIFIER" length="40"/>
+    </many-to-one>
+    <many-to-one name="owner" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+      <column name="MEI_USR_HOWNER" length="40"/>
+    </many-to-one>
+    <many-to-one name="page" class="com.enonic.cms.domain.structure.page.PageEntity" fetch="select">
+      <column name="MEI_PAG_LKEY"/>
+    </many-to-one>
+    <many-to-one name="parent" class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity" fetch="select">
+      <column name="MEI_LPARENT"/>
+    </many-to-one>
+    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+      <column name="MEI_MEN_LKEY" not-null="true"/>
+    </many-to-one>
+    <property name="url" type="string">
+      <column name="MEI_SURL" length="256"/>
+    </property>
+    <property name="openNewWindowForURL" type="boolean">
+      <column name="MEI_BURLOPENNEWWIN"/>
+    </property>
+    <many-to-one name="menuItemShortcut" class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity" fetch="select">
+      <column name="MEI_MEI_LSHORTCUT"/>
+    </many-to-one>
+    <property name="shortcutForward" type="boolean">
+      <column name="MEI_BSHORTCUTFORWARD"/>
+    </property>
+    <property name="section" type="boolean">
+      <column name="mei_bsection"/>
+    </property>
+    <property name="orderedSection" type="boolean">
+      <column name="MEI_BORDEREDSECTION"/>
+    </property>
+    <property name="runAs" type="com.enonic.cms.store.hibernate.type.RunAsUserType">
+      <column name="MEI_LRUNAS" not-null="false"/>
+    </property>
+    <property name="displayName" type="string">
+      <column name="MEI_SDISPLAYNAME" length="256" not-null="true"/>
+    </property>
+    <map name="childrenMapByName" lazy="true" fetch="select" order-by="MEI_LORDER asc" inverse="true">
+      <cache usage="nonstrict-read-write"/>
+      <key column="MEI_LPARENT"/>
+      <map-key type="com.enonic.cms.store.hibernate.type.CaseInsensitiveStringUserType" column="MEI_SNAME"/>
+      <one-to-many class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity"/>
+    </map>
+    <set name="contents" inverse="false" table="TMENUITEMCONTENT">
+      <cache usage="nonstrict-read-write"/>
+      <key>
+        <column name="MIC_MEI_LKEY" not-null="true"/>
+      </key>
+      <many-to-many class="com.enonic.cms.domain.content.ContentEntity">
+        <column name="MIC_CON_LKEY" not-null="true"/>
+      </many-to-many>
+    </set>
+    <set name="sectionContents" inverse="true">
+      <cache usage="nonstrict-read-write"/>
+      <key column="SCO_MEI_LKEY"/>
+      <one-to-many class="com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity"/>
+    </set>
+    <set name="contentTypeFilter" inverse="false" table="TSECCONTYPEFILTER2">
+      <cache usage="nonstrict-read-write"/>
+      <key>
+        <column name="SCTF_MEI_LKEY" not-null="true"/>
+      </key>
+      <many-to-many class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity">
+        <column name="SCTF_CTY_LKEY" not-null="true"/>
+      </many-to-many>
+    </set>
+    <map name="accesses" fetch="select" lazy="true" inverse="true">
+      <cache usage="nonstrict-read-write"/>
+      <key column="MIA_MEI_LKEY"/>
+      <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="MIA_GRP_HKEY"/>
+      <one-to-many class="com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity"/>
+    </map>
+  </class>
+
+  <query name="MenuItemEntity.findAll" cacheable="true">
+    from MenuItemEntity
+  </query>
+  <query name="MenuItemEntity.findBySiteKey" cacheable="true">
+    from MenuItemEntity x where x.site.key = :siteKey order by x.parent.key asc, x.order asc
+  </query>
+  <query name="MenuItemEntity.findTopMenuItems" cacheable="true">
+    from MenuItemEntity x where x.site.key = :siteKey and x.parent is null order by x.order asc
+  </query>
+  <query name="MenuItemEntity.findContentPage" cacheable="true">
+    select x from MenuItemEntity x left join x.contents as y where x.site.key = :siteKey and y.key = :contentKey
+  </query>
+</hibernate-mapping>

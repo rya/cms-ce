@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" table="TPAGETEMPLATE" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="int">
+      <column name="PAT_LKEY"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="description" type="string">
+      <column name="PAT_SDESCRIPTION" length="1024"/>
+    </property>
+    <property name="name" type="string">
+      <column name="PAT_SNAME" length="256" not-null="true"/>
+    </property>
+    <property name="timestamp" type="timestamp">
+      <column name="PAT_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="xmlData" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
+      <column name="PAT_XMLDATA"/>
+    </property>
+    <property name="cssKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
+      <column name="PAT_SCSS" length="1024"/>
+    </property>
+    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+      <column name="PAT_MEN_LKEY"/>
+    </many-to-one>
+    <property name="styleKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
+      <column name="PAT_SSTYLE" not-null="true" length="1024"/>
+    </property>
+    <property name="type" type="com.enonic.cms.store.hibernate.type.PageTemplateTypeUserType">
+      <column name="PAT_LTYPE" not-null="true"/>
+    </property>
+    <property name="runAs" type="com.enonic.cms.store.hibernate.type.RunAsUserType">
+      <column name="PAT_LRUNAS" not-null="true"/>
+    </property>
+    <set name="contentTypes" inverse="false" table="TPAGETEMPLATECTY">
+      <cache usage="nonstrict-read-write"/>
+      <key>
+        <column name="PTT_PAT_LKEY" not-null="true"/>
+      </key>
+      <many-to-many class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity">
+        <column name="PTT_CTY_LKEY" not-null="true"/>
+      </many-to-many>
+    </set>
+    <bag name="pagetTemplatePortlets" inverse="true" order-by="PTC_LORDER">
+      <cache usage="nonstrict-read-write"/>
+      <key column="PTC_PAT_LKEY"/>
+      <one-to-many class="com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity"/>
+    </bag>
+    <set name="pageTemplateRegions" inverse="true">
+      <cache usage="nonstrict-read-write"/>
+      <key>
+        <column name="PTP_PAT_LKEY"/>
+      </key>
+      <one-to-many class="com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity"/>
+    </set>
+  </class>
+  <query name="PageTemplateEntity.findByContentType" cacheable="true">
+    select x from PageTemplateEntity x
+    left join x.contentTypes as y
+    where x.site.key = :siteKey
+    and y.key = :contentTypeKey
+    order by x.name asc
+  </query>
+  <query name="PageTemplateEntity.getResourceUsageCountStyle" cacheable="true" read-only="true">
+    select styleKey as resourceKey, count(*) as count
+    from PageTemplateEntity
+    where pat_sstyle is not null
+    group by pat_sstyle
+  </query>
+  <query name="PageTemplateEntity.getResourceUsageCountCSS" cacheable="true" read-only="true">
+    select cssKey as resourceKey, count(*) as count
+    from PageTemplateEntity
+    where pat_scss is not null
+    group by pat_scss
+  </query>
+  <query name="PageTemplateEntity.findByStyle" cacheable="true" read-only="false">
+    from PageTemplateEntity x
+    where x.styleKey = :styleKey
+  </query>
+  <query name="PageTemplateEntity.findByCSS" cacheable="true" read-only="false">
+    from PageTemplateEntity x
+    where x.cssKey = :cssKey
+  </query>
+  <query name="PageTemplateEntity.findByStylePrefix" cacheable="true" read-only="false">
+    from PageTemplateEntity x
+    where x.styleKey like :styleKeyPrefix
+  </query>
+  <query name="PageTemplateEntity.findByCSSPrefix" cacheable="true" read-only="false">
+    from PageTemplateEntity x
+    where x.cssKey like :cssKeyPrefix
+  </query>
+  <query name="PageTemplateEntity.findByTypes" cacheable="true" read-only="true">
+    from PageTemplateEntity x
+    where x.type in (:types)
+  </query>
+  <query name="PageTemplateEntity.findBySiteKey" cacheable="true" read-only="true">
+    from PageTemplateEntity x
+    where x.site.key = :key
+  </query>
+  <query name="PageTemplateEntity.findAll" cacheable="true" read-only="true">
+    from PageTemplateEntity
+  </query>
+</hibernate-mapping>

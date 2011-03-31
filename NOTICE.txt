@@ -1,0 +1,126 @@
+
+This software includes the following third party software:
+
+JDom
+  Apache-style open source license
+  http://www.jdom.org/docs/faq.html#a0030
+
+Jaxen
+  Werken open source license
+  http://jaxen.codehaus.org/license.html
+
+Google Guava Libraries
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Apache Commons Libraries
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Sun FastInfoSet
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Joda Time
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+JCaptcha
+  LGPL, Version 2.1
+  http://www.gnu.org/licenses/lgpl-2.1.html
+
+Saxon B
+  MPL, Version 1.0
+  http://www.mozilla.org/MPL/MPL-1.0.html
+
+JParsec
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Javax Mail
+  CDDL Version 1.0 1
+  https://glassfish.dev.java.net/public/CDDLv1.0.html
+
+Hibernate
+  LGPL, Version 2.1
+  http://www.gnu.org/licenses/lgpl-2.1.html
+
+Javassist
+  LGPL, Version 2.1
+  http://www.gnu.org/licenses/lgpl-2.1.html
+
+Freemarker
+  BSD style license
+  http://freemarker.sourceforge.net/docs/app_license.html
+
+Dwr
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+JTidy
+  JTidy Open Source License
+  http://jtidy.sourceforge.net/license.html
+
+Juel
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Concurrent Linked HashMap
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Slf4j
+  MIT style license
+  http://www.slf4j.org/license.html
+
+Apache Jackrabbit
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Spring
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+CGLib
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+JQuery
+  MIT License
+  http://jquery.org/license
+
+JQuery UI
+  MIT License
+  http://jquery.org/license
+
+JQuery AutoComplete Plug-in
+  MIT License
+  http://www.opensource.org/licenses/mit-license.php
+
+jQuery Cryptography Plug-in
+  MIT License
+  http://www.opensource.org/licenses/mit-license.php
+
+Mootools
+  MIT License
+  http://www.opensource.org/licenses/mit-license.php
+
+WebFX - Cross Browser Tree Widget
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+WebFX - Tab Pane
+  Apache License, Version 2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+
+TinyMCE
+  GNU Lesser General Public License, Version 2.1
+  http://tinymce.moxiecode.com/js/tinymce/jscripts/tiny_mce/license.txt
+
+Code Mirror
+  MIT-style license
+  http://codemirror.net/LICENSE
+
+QUnit
+  MIT License
+  http://jquery.org/license

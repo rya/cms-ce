@@ -1,0 +1,55 @@
+<moduledata>
+  <config name="MyContentType" version="1.0">
+    <form>
+      <title name="name"/>
+      <block name="Person">
+        <input name="person-no" required="true" type="text">
+          <display>Person number</display>
+          <xpath>contentdata/person-no</xpath>
+        </input>
+        <input name="name" required="true" type="text">
+          <display>Name</display>
+          <xpath>contentdata/name</xpath>
+        </input>
+        <input name="sex" required="false" type="dropdown">
+          <display>Sex</display>
+          <xpath>contentdata/sex</xpath>
+          <options>
+            <option value='M'>Male</option>
+            <option value='F'>Female</option>
+          </options>
+        </input>
+        <input name="htmlarea" required="false" type="htmlarea">
+          <display>HTML area</display>
+          <xpath>contentdata/htmlarea</xpath>
+        </input>
+        <input name="xml" required="false" type="xml">
+          <display>XML</display>
+          <xpath>contentdata/xml</xpath>
+        </input>
+      </block>
+      <block name="Events" group="contentdata/events/event">
+        <input name="event-name" required="true" type="text">
+          <display>Name</display>
+          <xpath>name</xpath>
+        </input>
+        <input name="event-date" required="true" type="date">
+          <display>Date</display>
+          <xpath>date</xpath>
+        </input>
+      </block>
+      <block name="NonGroupBlock">
+        <input name="non-group-block-test-input" required="false" type="text">
+          <display>Non group block test input</display>
+          <xpath>contentdata/non-group-block-test-input</xpath>
+        </input>
+      </block>
+    </form>
+    <imports/>
+  </config>
+  <indexparameters>
+    <index xpath='contentdata/person-no'/>
+    <index xpath='contentdata/name'/>
+    <index xpath='contentdata/events/event/name'/>
+  </indexparameters>
+</moduledata>

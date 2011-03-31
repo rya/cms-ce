@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+  <context-root>/</context-root>
+  <resource-ref>
+    <res-ref-name>jdbc/cms</res-ref-name>
+    <jndi-name>java:jdbc/cms</jndi-name>
+  </resource-ref>
+</jboss-web>
+        

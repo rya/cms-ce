@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity" table="TPAGETEMPLPARAM" mutable="false">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="int">
+      <column name="PTP_LKEY"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="multiple" type="boolean">
+      <column name="PTP_BMULTIPLE" not-null="true"/>
+    </property>
+    <property name="name" type="string">
+      <column name="PTP_SPARAMNAME" length="64" not-null="true"/>
+    </property>
+    <property name="override" type="boolean">
+      <column name="PTP_BOVERRIDE" not-null="true"/>
+    </property>
+    <property name="separator" type="string">
+      <column name="PTP_SSEPARATOR" length="1024"/>
+    </property>
+    <many-to-one name="pageTemplate" class="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" fetch="select">
+      <column name="PTP_PAT_LKEY" not-null="true"/>
+    </many-to-one>
+    <set name="portlets" inverse="true" order-by="PTC_LORDER">
+      <cache usage="nonstrict-read-write"/>
+      <key column="PTC_PTP_LKEY"/>
+      <one-to-many class="com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity"/>
+      <!--<filter name="pageTemplateKeyMatch" condition="PTC_PAT_LKEY = PTP_PAT_LKEY"></filter>-->
+    </set>
+  </class>
+  <!--
+  <filter-def name="pageTemplateKeyMatch">
+  </filter-def>
+  -->
+</hibernate-mapping>

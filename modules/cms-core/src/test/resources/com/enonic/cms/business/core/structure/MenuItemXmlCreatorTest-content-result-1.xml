@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menuitems istop="yes">
+  <menuitem key="1" menukey="1" modifier="KEY" order="0" owner="KEY" timestamp="2007-07-25 09:00" type="content" visible="yes">
+    <name>one</name>
+    <menu-name>one</menu-name>
+    <display-name>one</display-name>
+    <show-in-menu>true</show-in-menu>
+    <description/>
+    <keywords/>
+    <parameters>
+      <parameter name="key" override="false">1366</parameter>
+    </parameters>
+    <document mode="xhtml">built in content</document>
+    <data cachedisabled="false" cachetype="default"/>
+    <section key="1" menuitemkey="1" menukey="1" ordered="false">
+      <contenttypes>
+        <contenttype key="201">
+          <name>type1</name>
+        </contenttype>
+        <contenttype key="202">
+          <name>type2</name>
+        </contenttype>
+      </contenttypes>
+    </section>
+    <page key="201" pagetemplate="name-301" pagetemplatekey="301" pagetemplatetype="5"/>
+  </menuitem>
+</menuitems>
+

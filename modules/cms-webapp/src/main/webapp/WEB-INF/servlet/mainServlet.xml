@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <!-- Placeholder configurer. -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="properties" ref="loadedVerticalProperties"/>
+    </bean>
+
+    <!-- Create the view resolver. -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="number_format">0.######</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- Create the view resolver. -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+        <property name="exposeSpringMacroHelpers" value="true"/>
+    </bean>
+
+    <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+    <bean class="com.enonic.cms.server.service.tools.StandardToolsAccessResolver"/>
+    <bean class="com.enonic.cms.server.service.tools.WelcomeController"/>
+
+    <!-- Properties info controller. -->
+    <bean class="com.enonic.cms.server.service.tools.PropertiesInfoController">
+        <property name="properties" ref="loadedVerticalProperties"/>
+    </bean>
+
+    <bean class="com.enonic.cms.server.service.tools.UpgradeController"/>
+    <bean class="com.enonic.cms.server.service.tools.ReindexContentToolController"/>
+    <bean class="com.enonic.cms.server.service.tools.ConnectionInfoController"/>
+    <bean class="com.enonic.cms.server.service.tools.LivePortalTraceController"/>
+    <bean class="com.enonic.cms.server.service.tools.StaticFileController"/>
+
+    <bean class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
+
+</beans>

@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.content.ContentIndexEntity" table="TCONTENTINDEX" mutable="true">
+    <id name="key" type="string">
+      <column name="cix_sKey" length="36"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="contentKey" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
+      <column name="cix_lContentKey" not-null="true"/>
+    </property>
+    <property name="contentStatus" type="int">
+      <column name="cix_lContentStatus" not-null="true"/>
+    </property>
+    <property name="contentPublishFrom" type="timestamp">
+      <column name="cix_dtePublishFrom" not-null="false"/>
+    </property>
+    <property name="contentPublishTo" type="timestamp">
+      <column name="cix_dtePublishTo" not-null="false"/>
+    </property>
+    <property name="categoryKey" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
+      <column name="cix_lCategoryKey" not-null="true"/>
+    </property>
+    <property name="contentTypeKey" type="int">
+      <column name="cix_lContentTypeKey" not-null="true"/>
+    </property>
+    <property name="path" type="string">
+      <column name="cix_sPath" not-null="true"/>
+    </property>
+    <property name="value" type="string" length="512">
+      <column name="cix_sValue" not-null="true" length="512"/>
+    </property>
+    <property name="orderValue" type="string" length="64">
+      <column name="cix_sOrderValue" not-null="true"/>
+    </property>
+    <property name="numValue" type="float">
+      <column name="cix_fNumValue" not-null="false"/>
+    </property>
+  </class>
+  <query name="ContentIndexEntity.deleteAll" cacheable="false">
+    delete from ContentIndexEntity x
+  </query>
+  <query name="ContentIndexEntity.deleteByContentKey" cacheable="false">
+    delete from ContentIndexEntity x
+    where x.contentKey = :contentKey
+  </query>
+  <query name="ContentIndexEntity.deleteByCategoryKey" cacheable="false">
+    delete from ContentIndexEntity x
+    where x.categoryKey = :categoryKey
+  </query>
+  <query name="ContentIndexEntity.deleteByContentTypeKey" cacheable="false">
+    delete from ContentIndexEntity x
+    where x.contentTypeKey = :contentTypeKey
+  </query>
+  <query name="ContentIndexEntity.findCountByContentKey" cacheable="false">
+    select count(x) from ContentIndexEntity x where x.contentKey = :contentKey
+  </query>
+  <query name="ContentIndexEntity.findByContentKey" cacheable="false">
+    from ContentIndexEntity x where x.contentKey = :contentKey
+  </query>
+</hibernate-mapping>

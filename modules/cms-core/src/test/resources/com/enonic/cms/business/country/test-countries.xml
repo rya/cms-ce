@@ -1,0 +1,15 @@
+<countries country-code-type="ISO 3166-1 alpha-2">
+  <country code="BB">
+    <english-name>BARBADOS</english-name>
+    <local-name>BARBADOS</local-name>
+  </country>
+  <country code="GY">
+    <english-name>GUYANA</english-name>
+    <local-name>GUYANA</local-name>
+  </country>
+  <country code="UG">
+    <english-name>UGANDA</english-name>
+    <local-name>UGANDA</local-name>
+  </country>
+</countries>
+    

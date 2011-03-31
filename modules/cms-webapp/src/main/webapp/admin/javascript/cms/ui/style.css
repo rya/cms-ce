@@ -1,0 +1,245 @@
+/*
+    NOTE!
+    Default icon size: 16px 16px 
+*/
+
+/*******************************************************************************************************************************************
+*** Common
+*******************************************************************************************************************************************/
+ul.cms-split-button,
+ul.cms-menu-button
+{
+    display: none 
+}
+
+/*******************************************************************************************************************************************
+*** Menu Button
+*******************************************************************************************************************************************/
+.cms-menu-button
+{
+	background-color: #ebebeb;
+	cursor: pointer;
+	border-top: 2px solid #eee;
+	border-right: 2px solid #b1b1b1;
+	border-bottom: 2px solid #b1b1b1;
+	border-left: 2px solid #eee;
+    background-image: url(arrow_down.gif);
+    *padding-top: 1px; /* IE */
+
+}
+
+.cms-menu-button-disabled
+{
+    background-color: #ebebeb;
+    color: #7f7f88;
+    cursor: default;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    background-image: url(arrow_down_shaded.gif);
+}
+
+.cms-menu-button-pressed
+{
+	background-color: #ebebeb;
+	cursor: pointer;
+    border: 2px solid;
+    border-color: #b1b1b1 #eee #eee #b1b1b1;
+    background-image: url(arrow_down.gif);
+    background-position: 85% 8px;
+}
+
+.cms-menu-button,
+.cms-menu-button-pressed,
+.cms-menu-button-disabled
+{
+    background-repeat: no-repeat;
+    background-position: 88% 6px;
+    *background-position: 88% 6px; /* IE */
+    padding-right: 20px;
+    *padding-right: 15px; /* IE */
+}
+
+/*******************************************************************************************************************************************
+*** Split Button
+*******************************************************************************************************************************************/
+.cms-split-button-left
+{
+	background-color: #ebebeb;
+	cursor: pointer;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+}
+
+.cms-split-button-left-disabled
+{
+    background-color: #ebebeb;
+    color: #7f7f88;
+    cursor: default;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+}
+
+
+.cms-split-button-left-pressed
+{
+	background-color: #ebebeb;
+	cursor: pointer;
+    border: 2px solid;
+    border-color: #b1b1b1 #eee #eee #b1b1b1;
+}
+
+.cms-split-button-right,
+.cms-split-button-right-disabled,
+.cms-split-button-right-pressed,
+.cms-split-button-right-hover
+{
+    background-position: 5px 6px;
+    *background-position: 5px 5px;
+    background-repeat: no-repeat;
+    width: 20px;
+}
+
+.cms-split-button-right
+{
+	background-color: #ebebeb;
+	cursor: pointer;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+	background-image: url(arrow_down.gif);
+}
+
+.cms-split-button-right-disabled
+{
+	background-color: #ebebeb;
+    color: #7f7f88;
+	cursor: default;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+	background-image: url(arrow_down_shaded.gif);
+}
+
+.cms-split-button-right-pressed
+{
+	cursor: pointer;
+    border: 2px solid;
+    border-color: #b1b1b1 #eee #eee #b1b1b1;
+	background-image:url(arrow_down.gif);
+    background-position: 6px 7px;
+}
+
+.cms-split-button-right-hover
+{
+    background-color: #fafafa;
+    cursor: pointer;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    background-image: url(arrow_down.gif);
+}
+
+/*******************************************************************************************************************************************
+*** Menu
+*******************************************************************************************************************************************/
+.cms-menu
+{
+	position: absolute;
+	z-index: 100000000;
+	background-color: #ebebeb;
+    border: 2px solid;
+    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    font-family: Arial, Verdana, Tahoma, sans-serif;
+	font-size: 11px;
+    white-space: nowrap;
+}
+
+/* Menu item */
+.cms-menu a
+{
+	display: block;
+	padding: 4px 15px 4px 30px;
+	color: #000;
+	text-decoration: none;
+	background-position: 7px 3px;
+    text-decoration: none;
+}
+
+/*
+a.cms-sp-mi-disabled
+{
+	color: #666;
+	cursor: default;
+}
+*/
+
+.cms-menu a:hover
+{
+	background-color: #fff;
+    text-decoration:none;
+}
+
+/*******************************************************************************************************************************************
+*** Image Editor
+*******************************************************************************************************************************************/
+
+#imgorgimage
+{
+    width: auto;
+    height: auto;
+}
+
+#image-editor-toolbar
+{
+    text-align: left;
+    margin: 0 0;
+    padding: 2px;
+}
+
+.image-editor-button
+{
+    display: inline;
+    border: 1px solid Transparent;
+    padding: 2px 2px 2px 20px;
+    background-color: Transparent;
+    text-align: left;
+    background-repeat: no-repeat;
+    background-position: 2px 2px;
+}
+
+.image-editor-button.rotate-left
+{
+    background-image: url(../../../images/_arrow-rotate-left.png);
+}
+.image-editor-button.rotate-right
+{
+    background-image: url(../../../images/_arrow-rotate-right.png);
+}
+.image-editor-button.flip-v
+{
+    background-image: url(../../../images/_layer-flip-vertical.png);
+}
+.image-editor-button.flip-h
+{
+    background-image: url(../../../images/_layer-flip.png);
+}
+.image-editor-button.crop
+{
+    background-image: url(../../../images/_ruler-crop.png);
+}
+
+.image-editor-button:hover,
+.image-editor-button.active
+{
+    border: 1px solid #1C70B1;
+    background-color: #AFC8DC;
+}
+
+#image-editor-crop-toolbar
+{
+    padding: 2px;
+    display: none;
+}
+
+#image-editor-crop-shim
+{
+    position: absolute;
+    background-color: Transparent;
+}

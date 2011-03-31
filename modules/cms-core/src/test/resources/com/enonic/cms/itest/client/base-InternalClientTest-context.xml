@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <import resource="classpath:com/enonic/cms/itest/content/base-PersistContentTest-context.xml"/>
+
+  <bean id="siteCachesService" class="com.enonic.cms.itest.portal.cache.MockSiteCachesService"/>
+
+  <bean id="localClient" class="com.enonic.cms.business.client.InternalClientImpl">
+    <property name="internalClientContentService" ref="internalClientContentService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="userParser" ref="userParser"/>
+  </bean>
+
+  <bean id="internalClientContentService"
+        class="com.enonic.cms.business.client.InternalClientContentService">
+    <property name="siteCachesService" ref="siteCachesService"/>
+    <property name="userParser" ref="userParser"/>
+  </bean>
+
+  <bean class="com.enonic.cms.business.client.LocalClientSetter">
+    <property name="localClient" ref="localClient"/>
+  </bean>
+
+  <bean id="userParser" class="com.enonic.cms.business.core.security.UserParser"/>
+
+  <bean id="userStoreParser" class="com.enonic.cms.business.core.security.UserStoreParser"/>
+  
+</beans>

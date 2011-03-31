@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
+  </bean>
+
+  <import resource="../base-PersistTest-context.xml"/>
+
+  <import resource="classpath:store-dao-context.xml"/>
+
+  <!-- Services -->
+  <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
+    <property name="blobStore" ref="blobStore"/>
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+
+  <bean id="groupStorageService" class="com.enonic.cms.business.core.security.group.GroupStorageService"/>
+
+  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+
+  <bean id="menuItemService" class="com.enonic.cms.business.core.structure.menuitem.MenuItemServiceImpl"/>
+
+  <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+
+  <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
+
+  <bean id="userStorageService" class="com.enonic.cms.business.core.security.userstore.UserStorageService"/>
+
+  <bean id="userStoreService" class="com.enonic.cms.business.core.security.userstore.UserStoreServiceImpl"/>
+
+
+  <!-- Resolvers -->
+  <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
+
+  <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
+
+  <bean id="memberOfResolver" class="com.enonic.cms.business.core.security.userstore.MemberOfResolver"/>
+
+  <bean id="userStoreAccessResolver" class="com.enonic.cms.business.core.security.userstore.UserStoreAccessResolver"/>
+
+  <!-- Other beans -->
+  <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
+
+  <bean id="remoteUserStoreFactory" class="com.enonic.cms.business.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
+
+  <bean id="userStoreConnectorConfigLoader"
+        class="com.enonic.cms.business.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
+
+  <bean id="userStoreConnectorManager" class="com.enonic.cms.business.core.security.userstore.UserStoreConnectorManagerImpl"/>
+
+  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
+
+</beans>
+

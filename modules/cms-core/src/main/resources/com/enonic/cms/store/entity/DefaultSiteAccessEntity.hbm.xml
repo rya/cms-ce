@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.DefaultSiteAccessEntity" table="TDEFAULTMENUAR" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <composite-id name="key" class="com.enonic.cms.domain.structure.DefaultSiteAccessKey">
+      <key-property name="groupKey" type="com.enonic.cms.store.hibernate.type.GroupKeyUserType">
+        <column name="DMA_GRP_HKEY"/>
+      </key-property>
+      <key-property name="siteKey" type="com.enonic.cms.store.hibernate.type.SiteKeyUserType">
+        <column name="DMA_MEN_LKEY"/>
+      </key-property>
+    </composite-id>
+    <property name="addAccess" type="boolean">
+      <column name="DMA_BADD" not-null="true"/>
+    </property>
+    <property name="adminAccess" type="boolean">
+      <column name="DMA_BADMINISTRATE" not-null="true"/>
+    </property>
+    <property name="createAccess" type="boolean">
+      <column name="DMA_BCREATE" not-null="true"/>
+    </property>
+    <property name="deleteAccess" type="boolean">
+      <column name="DMA_BDELETE" not-null="true"/>
+    </property>
+    <property name="publishAccess" type="boolean">
+      <column name="DMA_BPUBLISH" not-null="true"/>
+    </property>
+    <property name="readAccess" type="boolean">
+      <column name="DMA_BREAD" not-null="true"/>
+    </property>
+    <property name="updateAccess" type="boolean">
+      <column name="DMA_BUPDATE" not-null="true"/>
+    </property>
+  </class>
+  <query name="DefaultSiteAccessEntity.deleteByGroupKey" cacheable="false">
+    delete from DefaultSiteAccessEntity where key.groupKey = :groupKey
+  </query>
+</hibernate-mapping>

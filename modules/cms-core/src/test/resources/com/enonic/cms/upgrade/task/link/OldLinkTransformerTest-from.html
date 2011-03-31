@@ -1,0 +1,29 @@
+A list of links that will not be replaced:
+
+<li><a title="Some Link" href="http://www.enonic.com">Some Link</a></li>
+<li><img src="/images/image.gif" width="100"></li>
+<table background="../images/binary?id=55">
+<li><a title="Some Link" href="http://www.enonic.com/binary?id=55&download=true">Some Link</a></li>
+</table>
+
+Some links that will be replaced:
+
+<li><a title="Some Link" href="binary?id=55&download=true">Some Link</a></li>
+<li><a title="Some Link" href="_binary?id=55&download=true">Some Link</a></li>
+<li><a title="Some Link" href="./../binary?id=55&download=true">Some Link</a></li>
+<li><a title="Some Link" href="../binary?id=55&download=true">Some Link</a></li>
+<li><a title="Some Link" href="../../../binary?id=55&download=true">Some Link</a></li>
+<li><a title="Some Link" href="/binary?id=55&download=true">Some Link</a></li>
+<li><a title="Some Link" href="/binary?id=55&download=true&fisk=ost">Some Link</a></li>
+<li><a title="Some Link" href="/binary?id=55">Some Link</a></li>
+<li><img src="binary/66/file" width="100"></li>
+<li><img src="_binary/66/file" width="100"></li>
+<li><img src="./../binary/66/file" width="100"></li>
+<table background="binary/77/file?download=true">
+<table background="_binary/77/file?download=true">
+<table background="./../binary/77/file?download=true">
+<a href="page?id=12345" target="_self">Some text</a>
+<a href="page?id=12345&fisk=ost" target="_self">Some other text</a>
+<a href="page?id=12345&fisk=ost&torsk=sei" target="_self">Some other text</a>
+</table>
+

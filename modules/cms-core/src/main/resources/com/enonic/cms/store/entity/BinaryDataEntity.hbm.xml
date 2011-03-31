@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping default-access="field">
+  <class name="com.enonic.cms.domain.content.binary.BinaryDataEntity" table="TBINARYDATA" mutable="false">
+    <cache usage="nonstrict-read-write"/>
+    <id name="key" type="com.enonic.cms.store.hibernate.type.BinaryDataKeyUserType" column="BDA_LKEY">
+      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+        <param name="table">TBINARYDATA</param>
+        <param name="idClassName">com.enonic.cms.domain.content.binary.BinaryDataKey</param>
+      </generator>
+    </id>
+    <property name="name" type="string">
+      <column name="BDA_SFILENAME" length="256" not-null="true"/>
+    </property>
+    <property name="size" type="int">
+      <column name="BDA_LFILESIZE" not-null="true"/>
+    </property>
+    <property name="createdAt" type="timestamp">
+      <column name="BDA_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <property name="blobKey" type="string">
+      <column name="BDA_SBLOBKEY" not-null="false" length="40"/>
+    </property>
+  </class>
+  <query name="BinaryDataEntity.countReferences" cacheable="true" read-only="true">
+    select count(*)
+    from ContentBinaryDataEntity cb
+    where cb.binaryData.key = :binaryDataKey
+  </query>
+  <query name="BinaryDataEntity.getAll" cacheable="true" read-only="true">
+    from BinaryDataEntity
+  </query>
+</hibernate-mapping>

@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.security.RememberedLoginEntity" table="tUserMenuGUID" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <composite-id name="key" class="com.enonic.cms.domain.security.RememberedLoginKey">
+      <key-property name="siteKey" type="com.enonic.cms.store.hibernate.type.SiteKeyUserType">
+        <column name="umg_men_lKey"/>
+      </key-property>
+      <key-property name="userKey" type="com.enonic.cms.store.hibernate.type.UserKeyUserType">
+        <column name="umg_usr_hKey"/>
+      </key-property>
+    </composite-id>
+    <property name="guid" type="string">
+      <column name="umg_sGUID" length="256" not-null="true"/>
+    </property>
+    <property name="createdAt" type="timestamp">
+      <column name="umg_dteCreated" not-null="true"/>
+    </property>
+  </class>
+  <query name="RememberedLoginEntity.findByGuidAndSite" cacheable="true">
+    from RememberedLoginEntity x
+    where x.key.siteKey = :siteKey
+    and x.guid = :guid
+  </query>
+  <query name="RememberedLoginEntity.findByUserKeyAndSiteKey" cacheable="true">
+    from RememberedLoginEntity x
+    where x.key.siteKey = :siteKey
+    and x.key.userKey = :userKey
+  </query>
+</hibernate-mapping>

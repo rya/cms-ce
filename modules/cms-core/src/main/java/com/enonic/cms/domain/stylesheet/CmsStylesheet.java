@@ -1,0 +1,22 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
+package com.enonic.cms.domain.stylesheet;
+
+import java.util.Collection;
+import java.util.Map;
+
+public interface CmsStylesheet
+{
+
+    public Collection<CmsStylesheetParameter> getParameters();
+
+    public CmsStylesheetParameter getParameter( String name );
+
+    public String getName();
+
+    public void setParameterValues( Map<String, Object> values );
+
+    public boolean containsParameter( String name );
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <context:annotation-config/>
+
+  <import resource="bootstrapContext.xml"/>
+  <import resource="dataSourceContext.xml"/>
+
+  <import resource="classpath:businessDeprecatedHandlers-context.xml"/>
+  <import resource="classpath:store-context.xml"/>
+
+  <import resource="classpath:business-context.xml"/>
+  <import resource="classpath:businessCore-context.xml"/>
+  <import resource="classpath:businessClient-context.xml"/>
+  <import resource="classpath:businessUserstore-context.xml"/>
+  <import resource="classpath:businessPortal-context.xml"/>
+  <import resource="classpath:businessImage-context.xml"/>
+  <import resource="classpath:businessDeprecatedServices-context.xml"/>
+  <import resource="classpath:businessDeprecatedContentXmlBuilder-context.xml"/>
+
+  <import resource="classpath:server-context.xml"/>
+
+  <import resource="initializationContext.xml"/>
+
+</beans>

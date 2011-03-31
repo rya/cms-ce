@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity" table="TMENUITEMAR" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <composite-id name="key" class="com.enonic.cms.domain.structure.menuitem.MenuItemAccessKey">
+      <key-property name="groupKey" type="com.enonic.cms.store.hibernate.type.GroupKeyUserType">
+        <column name="MIA_GRP_HKEY" length="40"/>
+      </key-property>
+      <key-property name="menuItemKey" type="int">
+        <column name="MIA_MEI_LKEY"/>
+      </key-property>
+    </composite-id>
+    <property name="addAccess" type="boolean">
+      <column name="MIA_BADD" not-null="true"/>
+    </property>
+    <property name="adminAccess" type="boolean">
+      <column name="MIA_BADMINISTRATE" not-null="true"/>
+    </property>
+    <property name="createAccess" type="boolean">
+      <column name="MIA_BCREATE" not-null="true"/>
+    </property>
+    <property name="deleteAccess" type="boolean">
+      <column name="MIA_BDELETE" not-null="true"/>
+    </property>
+    <property name="publishAccess" type="boolean">
+      <column name="MIA_BPUBLISH" not-null="true"/>
+    </property>
+    <property name="readAccess" type="boolean">
+      <column name="MIA_BREAD" not-null="true"/>
+    </property>
+    <property name="updateAccess" type="boolean">
+      <column name="MIA_BUPDATE" not-null="true"/>
+    </property>
+  </class>
+  <query name="MenuItemAccessEntity.findAll" cacheable="true">
+    from MenuItemAccessEntity
+  </query>
+  <query name="MenuItemAccessEntity.deleteByGroupKey" cacheable="false">
+    delete from MenuItemAccessEntity where key.groupKey = :groupKey
+  </query>
+  <query name="MenuItemAccessEntity.findByMenuItemKey" cacheable="false">
+    from MenuItemAccessEntity where key.menuItemKey = :menuItemKey
+  </query>
+</hibernate-mapping>

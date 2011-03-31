@@ -1,0 +1,53 @@
+
+dn: dc=com
+objectClass: dcObject
+dc: com
+
+dn: dc=bogus,dc=com
+objectClass: dcObject
+dc: bogus
+
+dn: ou=users,dc=bogus,dc=com
+objectClass: organizationalUnit
+ou: users
+
+dn: ou=groups,dc=bogus,dc=com
+objectClass: organizationalUnit
+ou: groups
+
+dn: uid=arn,ou=users,dc=bogus,dc=com
+objectClass: inetOrgPerson
+cn: Arn Wyatt-Skriubakken
+givenName: Arn
+mail: arn@test.com
+sn: Wyatt-Skriubakken
+uid: arn
+telephoneNumber: 12345678
+userPassword: mypassword
+
+dn: uid=laverne,ou=users,dc=bogus,dc=com
+objectClass: inetOrgPerson
+cn: Laverne Wyatt-Skriubakken
+givenName: Laverne
+mail: laverne@test.com
+sn: Wyatt-Skriubakken
+uid: laverne
+telephoneNumber: 12345678
+userPassword: mypassword
+
+dn: cn=group1,ou=groups,dc=bogus,dc=com
+objectClass: groupOfNames
+cn: group1
+member: uid=arn,ou=users,dc=bogus,dc=com
+member: uid=laverne,ou=users,dc=bogus,dc=com
+
+dn: cn=group2,ou=groups,dc=bogus,dc=com
+objectClass: groupOfNames
+cn: group2
+member: uid=laverne,ou=users,dc=bogus,dc=com
+
+dn: cn=group3,ou=groups,dc=bogus,dc=com
+objectClass: groupOfNames
+cn: group3
+member: uid=arn,ou=users,dc=bogus,dc=com
+member: cn=group2,ou=groups,dc=bogus,dc=com

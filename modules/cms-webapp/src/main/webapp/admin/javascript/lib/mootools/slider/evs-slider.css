@@ -1,0 +1,26 @@
+div.slider {
+    border: 1px solid;
+    border-color: #fafafa #848484 #848484 #fafafa;
+    cursor: default;
+    padding: 4px 0;
+    position: relative;
+	width: 234px;
+}
+
+div.slider div.knob {
+	background: #eee;
+    border: 2px solid;
+    border-color: #fafafa #848484 #848484 #fafafa;
+    cursor: move;
+    height: 8px;
+	width: 18px;
+}
+
+div.slider div.slit {
+    background: #eee url(slit.gif) repeat-x 2px;
+    height: 2px;
+    line-height: 0;
+    margin: 5px 9px 0 9px;
+    position: absolute;
+    width: 216px; /* .slider->width - this->margin */
+}

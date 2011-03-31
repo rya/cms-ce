@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app>
+  <container-descriptor>
+    <prefer-web-inf-classes>true</prefer-web-inf-classes>
+  </container-descriptor>
+  <resource-description>
+    <res-ref-name>jdbc/cms</res-ref-name>
+    <jndi-name>jdbc/cms</jndi-name>
+  </resource-description>
+</weblogic-web-app>

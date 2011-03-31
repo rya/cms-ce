@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+  <class name="com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity" table="TPAGETEMPLCONOBJ" mutable="true">
+    <cache usage="nonstrict-read-write"/>
+    <composite-id name="key" class="com.enonic.cms.domain.structure.page.template.PageTemplatePortletKey">
+      <key-property name="portletKey" type="int">
+        <column name="PTC_COB_LKEY"/>
+      </key-property>
+      <key-property name="pageTemplateKey" type="int">
+        <column name="PTC_PAT_LKEY"/>
+      </key-property>
+    </composite-id>
+    <property name="order" type="int">
+      <column name="PTC_LORDER" not-null="true"/>
+    </property>
+    <property name="timestamp" type="timestamp">
+      <column name="PTC_DTETIMESTAMP" not-null="true"/>
+    </property>
+    <many-to-one name="portlet" class="com.enonic.cms.domain.structure.portlet.PortletEntity" insert="false" update="false"
+                 fetch="select">
+      <column name="PTC_COB_LKEY" not-null="true"/>
+    </many-to-one>
+    <many-to-one name="pageTemplate" class="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" insert="false" update="false"
+                 fetch="select">
+      <column name="PTC_PAT_LKEY" not-null="true"/>
+    </many-to-one>
+    <many-to-one name="pageTemplateRegion" class="com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity" fetch="select">
+      <column name="PTC_PTP_LKEY" not-null="true"/>
+    </many-to-one>
+  </class>
+  <query name="PageTemplatePortletEntity.findByContentObjectKeys" cacheable="true" read-only="true">
+    from PageTemplatePortletEntity x
+    where x.key.portletKey in (:contentObjectKeys)
+  </query>
+</hibernate-mapping>

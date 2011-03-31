@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <import resource="classpath:store-dao-context.xml"/>
+
+  <!--bean id="hibernateBlobStore" class="com.enonic.cms.store.hibernate.blob.HibernateBlobStore"/>
+
+  <bean id="blobStore" class="com.enonic.cms.framework.blob.cache.CacheBlobStoreFactory">
+    <property name="cacheName" value="blob"/>
+    <property name="cacheManager" ref="cacheFacadeManager"/>
+    <property name="realBlobStore" ref="hibernateBlobStore"/>
+  </bean>
+
+  <bean id="garbageCollectRunner" class="com.enonic.cms.framework.blob.gc.GarbageCollectRunner">
+    <property name="delayHours" value="12"/>
+    <property name="periodHours" value="12"/>
+    <property name="blobStore" ref="hibernateBlobStore"/>
+  </bean-->
+
+  <bean id="blobStore" class="com.enonic.cms.framework.blob.file.FileBlobStore">
+    <property name="directory" value="${cms.blobstore.dir}"/>
+  </bean>
+
+  <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
+    <property name="blobStore" ref="blobStore"/>
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+
+  <bean id="blobStoreGarbageCollector" class="com.enonic.cms.framework.blob.gc.GarbageCollector">
+    <property name="finder" ref="usedBlobStoreFinder"/>
+    <property name="store" ref="blobStore"/>
+  </bean>
+
+  <bean id="usedBlobStoreFinder" class="com.enonic.cms.store.blob.DbUsedBlobKeyFinder">
+    <property name="binaryDataDao" ref="binaryDataDao"/>
+    <property name="virtualFileDao" ref="virtualFileDao"/>
+  </bean>
+
+</beans>
