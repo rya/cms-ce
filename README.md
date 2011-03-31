@@ -19,7 +19,8 @@ Build all code including integration tests:
 ## License
 
 This software is licensed under AGPL 3.0 license. See full license terms [here](http://www.enonic.com/license). Also the distribution includes
-3rd party software components. The vast majority of these libraries are licensed under Apache 2.0. For a complete list please read [NOTICE.txt](NOTICE.txt).
+3rd party software components. The vast majority of these libraries are licensed under Apache 2.0. For a complete list please 
+read [NOTICE.txt](https://github.com/enonic/cms-ce/raw/master/NOTICE.txt).
 
 	Enonic CMS
 	Copyright (C) 2000-2011 Enonic AS.
