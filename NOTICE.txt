@@ -89,38 +89,7 @@ JQuery
   MIT License
   http://jquery.org/license
 
-JQuery UI
-  MIT License
-  http://jquery.org/license
-
-JQuery AutoComplete Plug-in
-  MIT License
-  http://www.opensource.org/licenses/mit-license.php
-
 jQuery Cryptography Plug-in
   MIT License
   http://www.opensource.org/licenses/mit-license.php
 
-Mootools
-  MIT License
-  http://www.opensource.org/licenses/mit-license.php
-
-WebFX - Cross Browser Tree Widget
-  Apache License, Version 2.0
-  http://www.apache.org/licenses/LICENSE-2.0
-
-WebFX - Tab Pane
-  Apache License, Version 2.0
-  http://www.apache.org/licenses/LICENSE-2.0
-
-TinyMCE
-  GNU Lesser General Public License, Version 2.1
-  http://tinymce.moxiecode.com/js/tinymce/jscripts/tiny_mce/license.txt
-
-Code Mirror
-  MIT-style license
-  http://codemirror.net/LICENSE
-
-QUnit
-  MIT License
-  http://jquery.org/license
