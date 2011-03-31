@@ -12,8 +12,8 @@
     <html>
     <head>
     <title>Live Portal Trace</title>
-    <script type="text/javascript" src="javascript/jquery-1.4.2.min.js"></script>
-    <script type="text/javascript" src="javascript/jquery.crypt.js"></script>
+    <script type="text/javascript" src="javascript/jquery-1.4.2.min.js">//</script>
+    <script type="text/javascript" src="javascript/jquery.crypt.js">//</script>
     <script type="text/javascript">
 
         var reloadCurrentRequestsIntervalId = 0;
@@ -126,7 +126,7 @@
                     var portalRequestTrace = pastPortalRequestTrace.portalRequestTrace;
 
                     var tr = document.createElement( "tr" );
-                    tr.mydata = $.base64.decode( portalRequestTrace.detailHtml );
+                    tr.mydata = $().crypt( { method:"b64dec", source: portalRequestTrace.detailHtml } );
                     tr.onclick = function()
                     {
                         showPortalRequestTraceDetail( this.mydata );
@@ -150,8 +150,8 @@
                     tr.appendChild( td2 );
 
                     var td3 = document.createElement( "td" );
-                    var siteNameDecoded = $.base64.decode( portalRequestTrace.siteName );
-                    var siteLocalUrlDecoded = $.base64.decode( portalRequestTrace.siteLocalUrl );
+                    var siteNameDecoded = $().crypt( { method:"b64dec", source: portalRequestTrace.siteName } );
+                    var siteLocalUrlDecoded = $().crypt( { method:"b64dec", source: portalRequestTrace.siteLocalUrl } );
                     td3.innerHTML = siteNameDecoded + " : " + siteLocalUrlDecoded;
                     tr.appendChild( td3 );
 
