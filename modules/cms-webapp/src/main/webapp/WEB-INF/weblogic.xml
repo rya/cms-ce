@@ -7,4 +7,7 @@
     <res-ref-name>jdbc/cms</res-ref-name>
     <jndi-name>jdbc/cms</jndi-name>
   </resource-description>
+  <session-descriptor>
+    <cookie-http-only>false</cookie-http-only>
+  </session-descriptor>
 </weblogic-web-app>
