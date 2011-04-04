@@ -5,7 +5,7 @@
   </component>
   <component name="ArtifactManager">
     <artifact type="exploded-war" name="WebApp Exploded">
-      <output-path>$PROJECT_DIR$/cms-webapp/target/artifacts/WebApp_Exploded</output-path>
+      <output-path>$PROJECT_DIR$/modules/cms-webapp/build/artifacts/WebApp_Exploded</output-path>
       <root id="root">
         <element id="javaee-facet-resources" facet="cms-webapp/web/Web" />
         <element id="directory" name="WEB-INF">
