@@ -284,8 +284,15 @@ public class UserHandlerServlet
         }
 
         final boolean isEnterpriseAdmin = admin.isEnterpriseAdmin( oldUser );
+
+        boolean isUserStoreAdmin = false;
+        if ( userStoreInContext != null )
+        {
+            isUserStoreAdmin = admin.isUserStoreAdmin( user, userStoreInContext.getKey() );
+        }
+
         String userstoreSelector = "false";
-        if ( isEnterpriseAdmin && formItems.containsKey( "userstoreselector" ) )
+        if ( ( isUserStoreAdmin || isEnterpriseAdmin ) && formItems.containsKey( "userstoreselector" ) )
         {
             userstoreSelector = formItems.getString( "userstoreselector" );
         }
