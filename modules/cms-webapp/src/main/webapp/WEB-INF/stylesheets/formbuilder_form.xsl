@@ -18,11 +18,9 @@
   <xsl:include href="common/textfield.xsl"/>
   <xsl:include href="common/labelcolumn.xsl"/>
   <xsl:include href="common/displayhelp.xsl"/>
-  <xsl:include href="common/serialize.xsl"/>
 
   <xsl:param name="create"/>
   <xsl:param name="contenttypekey"/>
-  <xsl:param name="modulename"/>
 
   <xsl:template match="/">
 
