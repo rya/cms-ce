@@ -4,19 +4,22 @@
  */
 package com.enonic.cms.server.service.portal.mvc.controller;
 
-import com.enonic.cms.business.captcha.CaptchaRepository;
-import com.octo.captcha.service.CaptchaServiceException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
+
+import com.octo.captcha.service.CaptchaServiceException;
+
+import com.enonic.cms.business.captcha.CaptchaRepository;
 
 /**
  * The captcha image generator.
