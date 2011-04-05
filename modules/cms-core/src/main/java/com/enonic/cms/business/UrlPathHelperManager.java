@@ -38,9 +38,10 @@ public class UrlPathHelperManager
     private UrlPathHelper createUrlPathHelper( SiteKey siteKey )
     {
 
-        String defaultEncoding = sitePropertiesService.getProperty( SitePropertyNames.URL_DEFAULT_CHARACTER_ENCODING, siteKey );
+        String defaultEncoding =
+                sitePropertiesService.getProperty( SitePropertyNames.URL_DEFAULT_CHARACTER_ENCODING, siteKey );
 
-        UrlPathHelper urlPathHelper = new UrlPathHelper();
+        SiteUrlPathHelper urlPathHelper = new SiteUrlPathHelper();
         urlPathHelper.setUrlDecode( true );
         urlPathHelper.setDefaultEncoding( defaultEncoding );
         return urlPathHelper;
