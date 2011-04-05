@@ -4,40 +4,37 @@
  */
 package com.enonic.cms.server.service.portal.mvc.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import com.enonic.cms.business.captcha.CaptchaRepository;
+import com.octo.captcha.service.CaptchaServiceException;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.AbstractController;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
-
-import com.octo.captcha.service.CaptchaServiceException;
-import com.sun.image.codec.jpeg.ImageFormatException;
-
-import com.enonic.cms.business.captcha.CaptchaRepository;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * The captcha image generator.
  */
 public class CaptchaController
-    extends AbstractController
+        extends AbstractController
 {
     CaptchaRepository captchaRepository;
 
     protected ModelAndView handleRequestInternal( HttpServletRequest req, HttpServletResponse resp )
-        throws Exception
+            throws Exception
     {
         generateImageOnResponse( req, resp );
         return null;
     }
 
     public void generateImageOnResponse( HttpServletRequest request, HttpServletResponse response )
-        throws IOException
+            throws IOException
     {
 
         try
@@ -64,7 +61,7 @@ public class CaptchaController
 //            ( "CaptchaController: Image returned." );
 
         }
-        catch ( ImageFormatException e )
+        catch ( IIOException e )
         {
             response.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
             return;
