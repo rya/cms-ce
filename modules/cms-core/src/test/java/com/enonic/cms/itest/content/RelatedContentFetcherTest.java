@@ -5,6 +5,7 @@
 package com.enonic.cms.itest.content;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentEntityDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
@@ -36,7 +36,6 @@ import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 import com.enonic.cms.business.core.content.command.CreateContentCommand;
 import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;
@@ -69,12 +68,6 @@ public class RelatedContentFetcherTest
 
     @Autowired
     private GroupEntityDao groupEntityDao;
-
-    @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private CategoryDao categoryDao;
 
     private OverridingContentEntityDao contentDao;
 
@@ -147,13 +140,13 @@ public class RelatedContentFetcherTest
 
         CreateContentCommand createCommand;
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Odin", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Odin" );
         ContentKey odinContentKey = contentService.createContent( createCommand );
 
         createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Ola", odinContentKey );
         ContentKey olaContentKey = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Brita", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Brita" );
         ContentKey britaContentKey = contentService.createContent( createCommand );
 
         createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Kjell", olaContentKey, britaContentKey );
@@ -190,7 +183,7 @@ public class RelatedContentFetcherTest
         // setup
         CreateContentCommand createCommand;
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Son", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Son" );
         ContentKey sonContentKey = contentService.createContent( createCommand );
 
         createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Father", sonContentKey );
@@ -220,7 +213,7 @@ public class RelatedContentFetcherTest
         // setup
         CreateContentCommand createCommand;
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Son", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Son" );
         ContentKey sonContentKey = contentService.createContent( createCommand );
 
         createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Father", sonContentKey );
@@ -250,7 +243,7 @@ public class RelatedContentFetcherTest
         // setup
         CreateContentCommand createCommand;
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content C", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content C" );
         ContentKey contentKeyC = contentService.createContent( createCommand );
 
         createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content A", contentKeyC );
@@ -320,7 +313,7 @@ public class RelatedContentFetcherTest
         // setup
         CreateContentCommand createCommand;
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Common child 1", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Common child 1" );
         ContentKey commonChild = contentService.createContent( createCommand );
 
         createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content A", commonChild );
@@ -365,22 +358,22 @@ public class RelatedContentFetcherTest
     public void eternal_loop_is_prevented_for_related_children_with_circular_reference_and_all_other_are_included()
     {
         // setup content to update
-        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1", null );
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1" );
         ContentKey content_1 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2" );
         ContentKey content_2 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3" );
         ContentKey content_3 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4" );
         ContentKey content_4 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 5", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 5" );
         ContentKey content_5 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 6", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 6" );
         ContentKey content_6 = contentService.createContent( createCommand );
 
         assertEquals( 6, fixture.countAllContent() );
@@ -426,16 +419,16 @@ public class RelatedContentFetcherTest
     public void eternal_loop_is_prevented_for_related_children_with_multiple_circular_references()
     {
         // setup content to update
-        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1", null );
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1" );
         ContentKey content_1 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2" );
         ContentKey content_2 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3" );
         ContentKey content_3 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4" );
         ContentKey content_4 = contentService.createContent( createCommand );
 
         UpdateContentCommand updateCommand =
@@ -479,16 +472,16 @@ public class RelatedContentFetcherTest
     public void eternal_loop_is_prevented_for_related_children_of_children()
     {
         // setup content to update
-        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1", null );
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1" );
         ContentKey content_1 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2" );
         ContentKey content_2 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3" );
         ContentKey content_3 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4" );
         ContentKey content_4 = contentService.createContent( createCommand );
 
         UpdateContentCommand updateCommand =
@@ -530,22 +523,22 @@ public class RelatedContentFetcherTest
     public void eternal_loop_is_prevented_for_related_parents_with_circular_reference()
     {
         // setup content to update
-        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1", null );
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1" );
         ContentKey content_1 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2" );
         ContentKey content_2 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3" );
         ContentKey content_3 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4" );
         ContentKey content_4 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 5", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 5" );
         ContentKey content_5 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 6", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 6" );
         ContentKey content_6 = contentService.createContent( createCommand );
 
         assertEquals( 6, fixture.countAllContent() );
@@ -597,22 +590,22 @@ public class RelatedContentFetcherTest
     public void eternal_loop_is_prevented_for_related_parent_children_with_circular_reference()
     {
         // setup content to update
-        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1", null );
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 1" );
         ContentKey content_1 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 2" );
         ContentKey content_2 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 3" );
         ContentKey content_3 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 4" );
         ContentKey content_4 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 5", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 5" );
         ContentKey content_5 = contentService.createContent( createCommand );
 
-        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 6", null );
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Content not relating yet 6" );
         ContentKey content_6 = contentService.createContent( createCommand );
 
         assertEquals( 6, fixture.countAllContent() );
@@ -747,12 +740,7 @@ public class RelatedContentFetcherTest
 
     private Set<ContentEntity> convertToSet( ContentEntity... contents )
     {
-        Set<ContentEntity> set = new HashSet<ContentEntity>();
-        for ( ContentEntity c : contents )
-        {
-            set.add( c );
-        }
-        return set;
+        return new HashSet<ContentEntity>(Arrays.asList(contents));
     }
 
     private List<RelatedChildContent> convertRelatedChildContentToList( Iterable<RelatedChildContent> iterable )
