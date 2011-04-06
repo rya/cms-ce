@@ -26,7 +26,6 @@ dependencies {
     }
     runtime('javassist:javassist:3.4.GA')
     compile('org.freemarker:freemarker:2.3.16')
-    compile('org.directwebremoting:dwr:2.0.1')
     compile('tidy:tidy:1.0')
     compile('de.odysseus.juel:juel:2.1.0')
     compile('com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.0')
