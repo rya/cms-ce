@@ -1,6 +1,0 @@
-
-dependencies {
-    compile project(':cms-core')
-    compile 'com.vaadin:vaadin:6.5.4'
-    compile "javax.servlet:servlet-api:${versions.servlet}"
-}

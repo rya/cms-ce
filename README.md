@@ -5,16 +5,13 @@ Welcome to the home of Enonic CMS Community Edition. Here you will find all sour
 
 ## Building
 
-To build the project we are now using [Gradle](http://www.gradle.org). You can either install Gradle yourself
-or use the included Gradle wrapper. To use the wrapper, call gradle with `./gradlew` (`./gradlew.bat` on Windows).
-
 Build all code and run all tests (except integration tests):
 
-    gradle clean build
+    mvn clean install
 
 Build all code including integration tests:
 
-    gradle clean build integrationTest
+    gradle clean integration-test install
 
 ## License
 
