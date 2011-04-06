@@ -1,7 +1,6 @@
 .DS_Store
 */target/
 target/
-*/build/
-build/
-.gradle/
 *.iws
+*.ipr
+**.iml
