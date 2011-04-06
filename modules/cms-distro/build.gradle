@@ -1,7 +1,7 @@
 
 task distroZip(type: Zip) {
 	into ("enonic-cms-$version") {
-		from "$projectDir/src"
+		from "$projectDir/src/resources"
 		into('webapp') {
         	from(project(':cms-webapp').configurations.default.allArtifactFiles) {
 	          	rename('.+', 'cms.war')
