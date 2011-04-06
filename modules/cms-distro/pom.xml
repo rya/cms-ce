@@ -13,7 +13,7 @@
 
     <artifactId>cms-distro</artifactId>
     <packaging>pom</packaging>
-    <name>Enonic CMS :: Distro</name>
+    <name>Enonic CMS Distro</name>
 
     <dependencies>
         <dependency>
