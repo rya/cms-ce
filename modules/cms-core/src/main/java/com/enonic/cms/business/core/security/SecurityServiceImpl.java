@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.GroupDao;
@@ -53,9 +52,10 @@ public class SecurityServiceImpl
     @Autowired
     private UserStoreService userStoreService;
 
+/* commented due to B-1788 - B-1793 tickets
     @Autowired
     protected AdminConsoleLoginAccessResolver adminConsoleLoginAccessResolver;
-
+*/
     @Autowired
     private VerticalProperties verticalProperties;
 
@@ -342,10 +342,12 @@ public class SecurityServiceImpl
             user = userDao.findSingleBySpecification( userSpec );
         }
 
+        /* commented due to B-1788 - B-1793 tickets
         if ( !adminConsoleLoginAccessResolver.hasAccess( user ) )
         {
             throw new AdminConsoleAccessDeniedException( qualifiedUsername );
         }
+        */
 
         SecurityHolderAdmin.setUser( user.getKey() );
 

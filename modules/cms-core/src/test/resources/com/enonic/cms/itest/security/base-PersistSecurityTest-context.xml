@@ -33,9 +33,9 @@
   <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
 
   <bean id="memberOfResolver" class="com.enonic.cms.business.core.security.userstore.MemberOfResolver"/>
-
+            <!--  commented due to B-1788 - B-1793 tickets
   <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
-
+                -->
   <bean id="userStoreAccessResolver" class="com.enonic.cms.business.core.security.userstore.UserStoreAccessResolver">
     <property name="memberOfResolver" ref="memberOfResolver"/>
   </bean>

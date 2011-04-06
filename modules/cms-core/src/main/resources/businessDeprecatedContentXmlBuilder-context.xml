@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+<!-- commented due to B-1788 - B-1793 tickets
   <bean id="abstractBaseXMLBuilder" abstract="true" class="com.enonic.vertical.adminweb.handlers.xmlbuilders.AbstractBaseXMLBuilder">
     <property name="adminService" ref="adminService"/>
     <property name="verticalProperties" ref="verticalProperties"/>
@@ -81,4 +82,7 @@
     <property name="contentProductXMLBuilder" ref="contentProductXMLBuilder"/>
     <property name="simpleContentXMLBuilder" ref="simpleContentXMLBuilder"/>
   </bean>
+-->
+
+
 </beans>

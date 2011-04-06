@@ -16,8 +16,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentBaseXMLBuilder;
-
 import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.store.dao.CategoryDao;
@@ -171,6 +169,7 @@ public class ContentParser
 
     private String parseAssignmentComment()
     {
+        /* commented due to B-1788 - B-1793 tickets
         Element assignmentCommentElement = contentEl.getChild( ContentBaseXMLBuilder.ASSIGNMENT_DESCRIPTION_XML_KEY );
         if ( assignmentCommentElement == null )
         {
@@ -183,6 +182,9 @@ public class ContentParser
         }
 
         return assignmentComment;
+        */
+
+        return null;
     }
 
     private String parseContentName()
@@ -203,6 +205,7 @@ public class ContentParser
 
     private String parseComment()
     {
+        /*
         Element contentNameElement = contentEl.getChild( ContentBaseXMLBuilder.COMMENT_XML_KEY );
         if ( contentNameElement == null )
         {
@@ -216,6 +219,9 @@ public class ContentParser
         }
 
         return description;
+        */
+
+        return null;
     }
 
 
@@ -355,6 +361,7 @@ public class ContentParser
 
     private UserEntity parseAssigner()
     {
+        /* commented due to B-1788 - B-1793 tickets
         Element assignerEl = contentEl.getChild( ContentBaseXMLBuilder.ASSIGNER_XML_KEY );
         if ( assignerEl == null )
         {
@@ -367,10 +374,14 @@ public class ContentParser
         }
         UserKey userKey = new UserKey( assignerKeyString );
         return userDao.findByKey( userKey );
+        */
+
+        return null;
     }
 
     private UserEntity parseAssignee()
     {
+        /*  commented due to B-1788 - B-1793 tickets
         Element assigneeEl = contentEl.getChild( ContentBaseXMLBuilder.ASSIGNEE_XML_KEY );
         if ( assigneeEl == null )
         {
@@ -383,6 +394,9 @@ public class ContentParser
         }
         UserKey userKey = new UserKey( assigneeKeyString );
         return userDao.findByKey( userKey );
+        */
+
+        return null;
     }
 
     private UserEntity parseModifier()
@@ -455,6 +469,7 @@ public class ContentParser
 
     private Date parseDueDate()
     {
+        /* commented due to B-1788 - B-1793 tickets
         Element dueDate = contentEl.getChild( ContentBaseXMLBuilder.ASSIGNMENT_DUEDATE_XML_KEY );
 
         if ( dueDate != null )
@@ -462,7 +477,7 @@ public class ContentParser
             String dateString = dueDate.getValue();
             return parseDate( dateString );
         }
-
+         */
         return null;
     }
 

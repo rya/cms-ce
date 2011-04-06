@@ -148,8 +148,11 @@
     <property name="defaultLanguageCode" value="${cms.admin.defaultLanguage}"/>
   </bean>
 
+
+    <!-- commented due to B-1788 - B-1793 tickets
   <bean id="adminConsoleLoginAccessResolver"
         class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
+        -->
 
   <bean id="sitePropertiesService" class="com.enonic.cms.business.SitePropertiesServiceImpl">
     <property name="homeService" ref="homeService"/>
