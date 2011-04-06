@@ -4,6 +4,28 @@
  */
 package com.enonic.cms.itest.datasources;
 
+import com.enonic.cms.business.core.content.ContentService;
+import com.enonic.cms.business.core.content.command.CreateContentCommand;
+import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.domain.content.ContentHandlerName;
+import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.domain.content.ContentStatus;
+import com.enonic.cms.domain.content.contentdata.ContentData;
+import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.framework.time.MockTimeService;
+import com.enonic.cms.framework.xml.XMLBytes;
+import com.enonic.cms.framework.xml.XMLDocument;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.test.AssertTool;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.testtools.DomainFactory;
+import com.enonic.cms.testtools.DomainFixture;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -17,33 +39,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.test.AssertTool;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.security.SecurityService;
-
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -53,8 +49,6 @@ public class DataSourceServiceImpl_getContentByQueryTest
 {
     @Autowired
     private HibernateTemplate hibernateTemplate;
-
-    private DomainFactory factory;
 
     private DomainFixture fixture;
 
@@ -76,12 +70,13 @@ public class DataSourceServiceImpl_getContentByQueryTest
     public void setUp()
     {
         fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        DomainFactory factory = new DomainFactory( fixture );
 
         // setup needed common data for each test
         fixture.initSystemData();
 
-        fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
+        fixture.save( factory.createContentHandler( "Custom content",
+                                                    ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         MockHttpServletRequest httpRequest = new MockHttpServletRequest( "GET", "/" );
         ServletRequestAccessor.setRequest( httpRequest );
@@ -103,15 +98,20 @@ public class DataSourceServiceImpl_getContentByQueryTest
         XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
 
         fixture.save(
-            factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
+            factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
+                                       configAsXmlBytes ) );
         fixture.save( factory.createUnit( "MyUnit", "en" ) );
-        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID, User.ANONYMOUS_UID, false ) );
+        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID,
+                                              User.ANONYMOUS_UID, false ) );
         fixture.save(
-            factory.createCategory( "MyOtherCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID, User.ANONYMOUS_UID, false ) );
+            factory.createCategory( "MyOtherCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID,
+                                    User.ANONYMOUS_UID, false ) );
 
-        fixture.save( factory.createCategoryAccessForUser( "MyCategory", "content-creator", "read, create, approve, admin_browse" ) );
+        fixture.save( factory.createCategoryAccessForUser( "MyCategory", "content-creator",
+                                                           "read, create, approve, admin_browse" ) );
         fixture.save( factory.createCategoryAccessForUser( "MyCategory", "content-querier", "read, admin_browse" ) );
-        fixture.save( factory.createCategoryAccessForUser( "MyOtherCategory", "content-creator", "read, create, approve, admin_browse" ) );
+        fixture.save( factory.createCategoryAccessForUser( "MyOtherCategory", "content-creator",
+                                                           "read, create, approve, admin_browse" ) );
         fixture.save( factory.createCategoryAccessForUser( "MyOtherCategory", "content-querier", "read, admin_browse" ) );
 
         fixture.flushAndClearHibernateSesssion();
@@ -149,7 +149,7 @@ public class DataSourceServiceImpl_getContentByQueryTest
         // verify
         Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "2" );
-        AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, new String[]{content_1.toString(), content_2.toString()} );
+        AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, content_1, content_2 );
     }
 
     private CreateContentCommand createCreateContentCommand( String categoryName, ContentData contentData, String creatorUid )
