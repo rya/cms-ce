@@ -62,7 +62,7 @@
     <property name="loginService" ref="loginService"/>
   </bean>
 
-  <bean id="adminAjaxService" class="com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl"/>
+  <!--<bean id="adminAjaxService" class="com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl"/>-->
 
   <!-- This configuration is used by the dav servlet. -->
   <bean id="davConfiguration" class="com.enonic.cms.server.service.webdav.DavConfiguration">

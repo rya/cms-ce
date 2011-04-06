@@ -1626,6 +1626,8 @@ public class ImportServiceImplTest
         {
             assertTrue( "Expected ImportException", e instanceof ImportException );
             ImportException importException = (ImportException) e;
+
+            // TODO fix hardcoded timezone. failed in other than +2:00
             assertEquals(
                 "Given publishFrom (2012-08-01T00:00:00.000+02:00) bust be before given publishTo (2010-08-01T00:00:00.000+02:00)",
                 importException.getMessage() );
