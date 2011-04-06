@@ -373,9 +373,6 @@
           <script type="text/javascript" src="javascript/cms/element/Dimensions.js">//</script>
           <script type="text/javascript" src="javascript/cms/ui/MenuButton.js">//</script>
 
-          <script type="text/javascript" src="dwr/interface/AjaxService.js"/>
-				  <script type="text/javascript" src="dwr/engine.js"/>
-
           <xsl:if test="$searchtype = 'advanced'">
             <script type="text/javascript" src="javascript/calendar_picker.js">//</script>
             <script type="text/javascript" src="javascript/validate.js">//</script>

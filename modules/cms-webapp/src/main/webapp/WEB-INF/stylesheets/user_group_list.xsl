@@ -82,8 +82,6 @@
 				<script type="text/javascript" src="javascript/batchAdd.js">//</script>
 				<script type="text/javascript" src="javascript/accessrights.js">//</script>
         <script type="text/javascript" src="javascript/userstore.js">//</script>
-        <script type="text/javascript" src="dwr/interface/AjaxService.js"/>
-        <script type="text/javascript" src="dwr/engine.js"/>
 
         <xsl:if test="$callback">
           <script type="text/javascript" src="javascript/window.js"/>

@@ -52,8 +52,6 @@
       <head>
         <link rel="stylesheet" type="text/css" href="css/admin.css"/>
         <script type="text/javascript" src="javascript/admin.js">//</script>
-        <script type="text/javascript" language="JavaScript" src="dwr/interface/AjaxService.js"/>
-        <script type="text/javascript" language="JavaScript" src="dwr/engine.js"/>
         <script type="text/javascript" language="JavaScript">
 
           // ---------------------------------------------------------------------------------------------------

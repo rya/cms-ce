@@ -88,8 +88,6 @@
                 <script type="text/javascript" src="javascript/validate.js">//</script>
                 <script type="text/javascript" src="javascript/tabpane.js">//</script>
 
-                <script type="text/javascript" src="dwr/engine.js">//</script>
-                <script type="text/javascript" src="dwr/interface/AjaxService.js">//</script>
                 <script type="text/javascript" src="javascript/lib/jquery/jquery-1.4.2.min.js">//</script>
                 <script type="text/javascript" src="javascript/lib/jquery/ui/autocomplete/js/jquery-ui-1.8.1.custom.min.js">//</script>
                 <script type="text/javascript" src="javascript/user-picker-with-autocomplete.js">//</script>

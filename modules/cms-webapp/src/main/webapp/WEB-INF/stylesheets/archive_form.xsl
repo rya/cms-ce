@@ -48,8 +48,6 @@
             <script type="text/javascript" language="JavaScript" src="javascript/validate.js"/>
             <script type="text/javascript" language="JavaScript" src="javascript/accessrights.js"/>
             <script type="text/javascript" language="JavaScript" src="javascript/tabpane.js"/>
-            <script type="text/javascript" language="JavaScript" src="dwr/interface/AjaxService.js"/>
-            <script type="text/javascript" language="JavaScript" src="dwr/engine.js"/>
             <script type="text/javascript" language="JavaScript">
 
                 function calculateArchiveSizeByUnit(unitKey)

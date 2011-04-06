@@ -96,8 +96,6 @@
 	  <include src="menu.js"/>
 	  <include src="import.js"/>
 
-	  <include src="../dwr/engine.js"/>
-	  <include src="../dwr/interface/AjaxService.js"/>
 	  <include src="../javascript/lib/jquery/jquery-1.4.2.min.js"/>
 	  <include src="../javascript/lib/jquery/ui/autocomplete/js/jquery-ui-1.8.1.custom.min.js"/>
 	  <include src="../javascript/user-picker-with-autocomplete.js"/>

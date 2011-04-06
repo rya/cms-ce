@@ -48,9 +48,6 @@
         <link type="text/css" rel="stylesheet" href="css/user-picker-with-autocomplete.css"/>
         <link type="text/css" rel="stylesheet" href="javascript/tab.webfx.css"/>
 
-        <script type="text/javascript" src="dwr/interface/AjaxService.js"/>
-        <script type="text/javascript" src="dwr/engine.js"/>
-
         <script type="text/javascript" src="javascript/admin.js">//</script>
         <script type="text/javascript" src="javascript/accessrights.js">//</script>
         <script type="text/javascript" src="javascript/calendar_picker.js">//</script>

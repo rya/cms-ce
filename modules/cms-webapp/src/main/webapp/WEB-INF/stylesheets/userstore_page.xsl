@@ -46,8 +46,6 @@
 
         <script type="text/javascript" src="javascript/lib/jquery/jquery-1.3.2.min.js">//</script>
         <script type="text/javascript" src="javascript/userstore.js">//</script>
-        <script type="text/javascript" src="dwr/interface/AjaxService.js"/>
-        <script type="text/javascript" src="dwr/engine.js"/>
 
         <script type="text/javascript" src="javascript/tabpane.js">//</script>
 

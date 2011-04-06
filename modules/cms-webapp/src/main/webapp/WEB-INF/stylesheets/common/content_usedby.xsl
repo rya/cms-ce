@@ -15,8 +15,6 @@
     <xsl:if test="$create = 0">
       <div class="tab-page" id="tab-page-usedby">
         <span class="tab">%blockUsedBy%</span>
-        <script type="text/javascript" language="JavaScript" src="dwr/interface/AjaxService.js"/>
-        <script type="text/javascript" language="JavaScript" src="dwr/engine.js"/>
         <script type="text/javascript" language="JavaScript">
 
           tabPane1.addTabPage( document.getElementById( "tab-page-usedby" ) );
