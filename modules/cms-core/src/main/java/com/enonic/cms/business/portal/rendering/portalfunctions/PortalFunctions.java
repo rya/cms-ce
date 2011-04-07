@@ -20,6 +20,7 @@ import com.enonic.cms.framework.util.UrlPathEncoder;
 
 import com.enonic.cms.core.captcha.CaptchaService;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -36,7 +37,6 @@ import com.enonic.cms.core.localization.LocalizationService;
 
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
-import com.enonic.cms.business.resolver.locale.LocaleResolverService;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;

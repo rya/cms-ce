@@ -6,13 +6,13 @@ package com.enonic.cms.business.portal.processor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
+import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.PageTemplateDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 
 import com.enonic.cms.business.portal.PortalAccessService;
-import com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverService;
-import com.enonic.cms.business.resolver.locale.LocaleResolverService;
 
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;

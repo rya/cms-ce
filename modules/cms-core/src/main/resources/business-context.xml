@@ -94,29 +94,29 @@
     Resolvers
   -->
   <bean id="resolverInputXMLCreator"
-        class="com.enonic.cms.business.resolver.ResolverInputXMLCreator"/>
+        class="com.enonic.cms.core.resolver.ResolverInputXMLCreator"/>
 
   <bean id="resolverXMLCreator"
         class="com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator"/>
   <bean id="resolverInputCreator"
-        class="com.enonic.cms.business.resolver.ResolverHttpRequestInputCreator"/>
+        class="com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator"/>
 
 
   <bean id="cookieOrSessionForcedResolverValueService"
-        class="com.enonic.cms.business.resolver.ForceResolverValueServiceImpl"/>
+        class="com.enonic.cms.core.resolver.ForceResolverValueServiceImpl"/>
   <bean id="sessionCachedResolverValueService"
-        class="com.enonic.cms.business.resolver.CacheResolverValueServiceImpl"/>
+        class="com.enonic.cms.core.resolver.CacheResolverValueServiceImpl"/>
 
   <!-- Device Class -->
   <bean id="deviceClassificationService"
-        class="com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverServiceImpl">
+        class="com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl">
     <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
     <property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>
     <property name="cacheResolverValueService" ref="sessionCachedResolverValueService"/>
   </bean>
 
   <bean id="deviceClassXsltScriptResolver"
-        class="com.enonic.cms.business.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
+        class="com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
 
   <!-- Localization -->
   <bean id="localizeService" class="com.enonic.cms.core.localization.LocalizationServiceImpl"/>
@@ -131,13 +131,13 @@
   </bean>
 
   <bean id="localeResolverService"
-        class="com.enonic.cms.business.resolver.locale.LocaleResolverServiceImpl">
+        class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
     <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
     <property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>
   </bean>
 
   <bean id="localeXsltScriptResolver"
-        class="com.enonic.cms.business.resolver.locale.LocaleXsltScriptResolver"/>
+        class="com.enonic.cms.core.resolver.locale.LocaleXsltScriptResolver"/>
 
   <!--
       Misc.
@@ -191,7 +191,7 @@
         <property name="resources">
           <list>
             <value>${cms.home}/config/countries.xml</value>
-            <value>classpath:com/enonic/cms/business/country/countries.xml</value>
+            <value>classpath:com/enonic/cms/core/country/countries.xml</value>
           </list>
         </property>
       </bean>
