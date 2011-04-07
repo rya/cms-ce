@@ -103,17 +103,13 @@
     <property name="alwaysUseFullPath" value="true"/>
     <property name="mappings">
       <props>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.CatalogHandlerServlet">catalogHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentHandlerBaseServlet">contentHandlerBaseController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentSendMailServlet">contentSendMailController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.DiscussionHandlerServlet">discussionHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.FormHandlerServlet">formHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.LeadsHandlerServlet">leadsHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.OrderHandlerServlet">orderHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.PollHandlerServlet">pollHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.SendMailServlet">sendMailController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.UserHandlerServlet">userHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.VerticalSessionHandlerServlet">verticalSessionHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.PortalHandlerServlet">portalHandlerController</prop>
         <prop key="/site/**/servlet/com.enonic.vertical.userservices.CustomContentHandlerServlet">customContentHandlerController</prop>
       </props>
@@ -260,8 +256,6 @@
   </bean>
 
   <!-- UserServices servlets -->
-  <bean id="catalogHandlerController" class="com.enonic.vertical.userservices.CatalogHandlerController"
-        parent="abstractUserServicesHandlerController"/>
 
   <bean id="contentHandlerBaseController" class="com.enonic.vertical.userservices.ContentHandlerBaseController"
         parent="abstractUserServicesHandlerController"/>
@@ -269,13 +263,7 @@
   <bean id="contentSendMailController" class="com.enonic.vertical.userservices.ContentSendMailController"
         parent="abstractUserServicesHandlerController"/>
 
-  <bean id="discussionHandlerController" class="com.enonic.vertical.userservices.DiscussionHandlerController"
-        parent="abstractUserServicesHandlerController"/>
-
   <bean id="formHandlerController" class="com.enonic.vertical.userservices.FormHandlerController"
-        parent="abstractUserServicesHandlerController"/>
-
-  <bean id="leadsHandlerController" class="com.enonic.vertical.userservices.LeadsHandlerController"
         parent="abstractUserServicesHandlerController"/>
 
   <bean id="orderHandlerController" class="com.enonic.vertical.userservices.OrderHandlerController"
@@ -294,9 +282,6 @@
   </bean>
 
   <bean id="customContentHandlerController" class="com.enonic.vertical.userservices.CustomContentHandlerController"
-        parent="abstractUserServicesHandlerController"/>
-
-  <bean id="verticalSessionHandlerController" class="com.enonic.vertical.userservices.VerticalSessionHandlerController"
         parent="abstractUserServicesHandlerController"/>
 
   <bean id="portalHandlerController" class="com.enonic.vertical.userservices.PortalHandlerController"

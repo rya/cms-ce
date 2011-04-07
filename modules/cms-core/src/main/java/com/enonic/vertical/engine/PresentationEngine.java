@@ -91,13 +91,7 @@ public class PresentationEngine
     private UserHandler userHandler;
 
     @Autowired
-    private ContentDao contentDao;
-
-    @Autowired
     private SiteDao siteDao;
-
-    @Autowired
-    private MenuItemDao menuItemDao;
 
     public void afterPropertiesSet()
         throws Exception

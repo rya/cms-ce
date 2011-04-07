@@ -67,29 +67,13 @@ public class UserServicesController
         {
             servletURL.append( "com.enonic.vertical.userservices.CustomContentHandlerServlet" );
         }
-        else if ( handler.equals( "discussion" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.DiscussionHandlerServlet" );
-        }
-        else if ( handler.equals( "catalog" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.CatalogHandlerServlet" );
-        }
         else if ( handler.equals( "user" ) )
         {
             servletURL.append( "com.enonic.vertical.userservices.UserHandlerServlet" );
         }
-        else if ( handler.equals( "calendar" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.CalendarHandlerServlet" );
-        }
         else if ( handler.equals( "poll" ) )
         {
             servletURL.append( "com.enonic.vertical.userservices.PollHandlerServlet" );
-        }
-        else if ( handler.equals( "leads" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.LeadsHandlerServlet" );
         }
         else if ( handler.equals( "order" ) )
         {
@@ -102,10 +86,6 @@ public class UserServicesController
         else if ( handler.equals( "content_sendmail" ) )
         {
             servletURL.append( "com.enonic.vertical.userservices.ContentSendMailServlet" );
-        }
-        else if ( handler.equals( "session" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.VerticalSessionHandlerServlet" );
         }
         else if ( handler.equals( "form" ) )
         {

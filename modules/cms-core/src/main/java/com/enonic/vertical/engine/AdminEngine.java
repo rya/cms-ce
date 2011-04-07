@@ -13,7 +13,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.handlers.BinaryDataHandler;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
@@ -27,16 +26,8 @@ import com.enonic.vertical.engine.handlers.PageTemplateHandler;
 import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.SystemHandler;
-import com.enonic.vertical.engine.handlers.UnitHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.core.content.IndexService;
-import com.enonic.cms.store.dao.SiteDao;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.ContentService;
-
-import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 
 import com.enonic.cms.domain.content.category.CategoryKey;
@@ -46,18 +37,11 @@ public final class AdminEngine
     extends BaseEngine
     implements InitializingBean
 {
-
-    private SiteDao siteDao;
-
-    private BinaryDataHandler binaryDataHandler;
-
     private CategoryHandler categoryHandler;
 
     private CommonHandler commonHandler;
 
     private ContentHandler contentHandler;
-
-    private ContentService contentService;
 
     private ContentObjectHandler contentObjectHandler;
 
@@ -65,8 +49,6 @@ public final class AdminEngine
 
     @Autowired
     private MemberOfResolver memberOfResolver;
-
-    private IndexService indexService;
 
     private LanguageHandler languageHandler;
 
@@ -83,11 +65,7 @@ public final class AdminEngine
 
     private SecurityHandler securityHandler;
 
-    private SecurityService securityService;
-
     private SystemHandler systemHandler;
-
-    private UnitHandler unitHandler;
 
     private UserHandler userHandler;
 
@@ -238,11 +216,6 @@ public final class AdminEngine
         return this.categoryHandler.getArchiveSizeByUnit( unitKey );
     }
 
-    public void setBinaryDataHandler( BinaryDataHandler binaryDataHandler )
-    {
-        this.binaryDataHandler = binaryDataHandler;
-    }
-
     public void setCategoryHandler( CategoryHandler categoryHandler )
     {
         this.categoryHandler = categoryHandler;
@@ -256,11 +229,6 @@ public final class AdminEngine
     public void setContentHandler( ContentHandler contentHandler )
     {
         this.contentHandler = contentHandler;
-    }
-
-    public void setContentService( ContentService service )
-    {
-        contentService = service;
     }
 
     public void setContentObjectHandler( ContentObjectHandler contentObjectHandler )
@@ -308,11 +276,6 @@ public final class AdminEngine
         this.userHandler = userHandler;
     }
 
-    public void setUnitHandler( UnitHandler unitHandler )
-    {
-        this.unitHandler = unitHandler;
-    }
-
     public void setSystemHandler( SystemHandler systemHandler )
     {
         this.systemHandler = systemHandler;
@@ -321,20 +284,5 @@ public final class AdminEngine
     public void setSecurityHandler( SecurityHandler securityHandler )
     {
         this.securityHandler = securityHandler;
-    }
-
-    public void setSecurityService( SecurityService service )
-    {
-        securityService = service;
-    }
-
-    public void setSiteDao( SiteDao value )
-    {
-        this.siteDao = value;
-    }
-
-    public void setIndexService( IndexService service )
-    {
-        indexService = service;
     }
 }

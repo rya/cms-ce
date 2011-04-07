@@ -37,25 +37,19 @@
   </bean>
 
   <bean id="adminEngine" class="com.enonic.vertical.engine.AdminEngine" parent="abstractBaseEngine">
-    <property name="binaryDataHandler" ref="binaryDataHandler"/>
     <property name="commonHandler" ref="commonHandler"/>
     <property name="contentHandler" ref="contentHandler"/>
-    <property name="contentService" ref="contentService"/>
     <property name="categoryHandler" ref="categoryHandler"/>
     <property name="contentObjectHandler" ref="contentObjectHandler"/>
     <property name="groupHandler" ref="groupHandler"/>
-    <property name="indexService" ref="indexService"/>
     <property name="languageHandler" ref="languageHandler"/>
-    <property name="siteDao" ref="siteDao"/>
     <property name="logHandler" ref="logHandler"/>
     <property name="menuHandler" ref="menuHandler"/>
     <property name="pageHandler" ref="pageHandler"/>
     <property name="pageTemplateHandler" ref="pageTemplateHandler"/>
     <property name="sectionHandler" ref="sectionHandler"/>
     <property name="securityHandler" ref="securityHandler"/>
-    <property name="securityService" ref="securityService"/>
     <property name="systemHandler" ref="systemHandler"/>
-    <property name="unitHandler" ref="unitHandler"/>
     <property name="userHandler" ref="userHandler"/>
   </bean>
 
