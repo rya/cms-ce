@@ -71,7 +71,7 @@
     <property name="resourceAccessResolver" ref="resourceAccessResolver"/>
   </bean>
 
-  <bean id="originalUrlResolver" class="com.enonic.cms.server.service.servlet.OriginalUrlResolver"/>
+  <bean id="originalUrlResolver" class="com.enonic.cms.core.servlet.OriginalUrlResolver"/>
 
   <!-- mbeans -->
   <bean id="mbeanExporter" class="org.springframework.jmx.export.MBeanExporter">

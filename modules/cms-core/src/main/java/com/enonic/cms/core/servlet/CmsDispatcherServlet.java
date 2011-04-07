@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.servlet;
+package com.enonic.cms.core.servlet;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -17,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
 
 import com.enonic.cms.domain.Attribute;

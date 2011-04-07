@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.servlet;
+package com.enonic.cms.core.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 

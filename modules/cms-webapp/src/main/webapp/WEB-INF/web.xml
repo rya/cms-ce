@@ -19,7 +19,7 @@
 
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
-    <filter-class>com.enonic.cms.server.service.servlet.CharacterEncodingFilter</filter-class>
+    <filter-class>com.enonic.cms.core.servlet.CharacterEncodingFilter</filter-class>
   </filter>
 
   <filter>
@@ -71,7 +71,7 @@
 
   <servlet>
     <servlet-name>main</servlet-name>
-    <servlet-class>com.enonic.cms.server.service.servlet.CmsDispatcherServlet</servlet-class>
+    <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>/WEB-INF/servlet/mainServlet.xml</param-value>
@@ -80,7 +80,7 @@
 
   <servlet>
     <servlet-name>site</servlet-name>
-    <servlet-class>com.enonic.cms.server.service.servlet.CmsDispatcherServlet</servlet-class>
+    <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>/WEB-INF/servlet/siteServlet.xml</param-value>
