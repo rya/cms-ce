@@ -1,5 +1,7 @@
 package com.enonic.cms.business.core.content.mail;
 
+import com.enonic.cms.core.content.mail.AbstractAssignmentMailTemplate;
+import com.enonic.cms.core.content.mail.AssignedContentMailTemplate;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentVersionEntity;
 

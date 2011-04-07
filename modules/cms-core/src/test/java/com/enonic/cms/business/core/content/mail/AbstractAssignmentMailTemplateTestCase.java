@@ -1,5 +1,6 @@
 package com.enonic.cms.business.core.content.mail;
 
+import com.enonic.cms.core.content.mail.AbstractAssignmentMailTemplate;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
