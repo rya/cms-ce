@@ -9,7 +9,7 @@
 
   <context:annotation-config/>
 
-  <bean id="localeService" class="com.enonic.cms.business.timezone.TimeZoneServiceImpl"/>
+  <bean id="localeService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
 
 
 </beans>

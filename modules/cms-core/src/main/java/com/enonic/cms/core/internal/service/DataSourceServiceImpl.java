@@ -67,8 +67,8 @@ import com.enonic.cms.business.locale.LocaleService;
 import com.enonic.cms.business.locale.LocaleXmlCreator;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewContext;
-import com.enonic.cms.business.timezone.TimeZoneService;
-import com.enonic.cms.business.timezone.TimeZoneXmlCreator;
+import com.enonic.cms.core.timezone.TimeZoneService;
+import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.InvalidKeyException;
