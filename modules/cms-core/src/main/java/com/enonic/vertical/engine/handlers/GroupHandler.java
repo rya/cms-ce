@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,11 +24,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.event.VerticalEventListener;
-
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.security.UserNameXmlCreator;
-import com.enonic.cms.core.security.userstore.UserStoreService;
 
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
@@ -74,11 +68,6 @@ public final class GroupHandler
 
     static private Map<UserStoreKey, String> authenticatedUsersGroupKeys = new HashMap<UserStoreKey, String>();
 
-
-    @Autowired
-    private UserStoreService userStoreService;
-
-
     synchronized public String getAuthenticatedUsersGroupKey( UserStoreKey userStoreKey )
     {
         if ( userStoreKey == null )
@@ -102,22 +91,6 @@ public final class GroupHandler
 
         return groupKey;
     }
-
-    /* Appears not to be in use:
-    synchronized public String getUserStoreAdminGroupKey( UserStoreKey userStoreKey )
-    {
-        GroupSpecification spec = new GroupSpecification();
-        spec.setUserStoreKey( userStoreKey );
-        spec.setType( GroupType.USERSTORE_ADMINS );
-
-        GroupEntity group = groupDao.findSingleBySpecification( spec );
-        if ( group == null )
-        {
-            return null;
-        }
-        return group.getGroupKey().toString();
-    }
-    */
 
     private String getGroupKeyByGroupType( GroupType groupType )
     {
@@ -517,42 +490,5 @@ public final class GroupHandler
         GroupEntity group = groupDao.findSingleByGroupType( type );
         return group.getGroupKey().toString();
     }
-
-    /**
-     * Fetches all users in the given groups and subgroups, and returns them in an XML document where the root node is &lt;usernames&gt;
-     * and each user is listed in nodes called &lt;username&gt; within that.
-     *
-     * @param groupKeys The groups to look for users in.
-     * @return An XML document listing all the users in the groups.
-     */
-    public Document getUserNames( String[] groupKeys )
-    {
-        HashSet<User> foundUsers = new HashSet<User>();
-        HashSet<GroupEntity> groupsToCheck = new HashSet<GroupEntity>();
-        for ( String gKey : groupKeys )
-        {
-            GroupEntity group = groupDao.find( gKey );
-            if ( group.isOfType( GroupType.USER, false ) )
-            {
-                foundUsers.add( group.getUser() );
-            }
-            else
-            {
-                groupsToCheck.addAll( group.getAllMembersRecursively() );
-            }
-        }
-
-        for ( GroupEntity group : groupsToCheck )
-        {
-            if ( group.isOfType( GroupType.USER, false ) )
-            {
-                foundUsers.add( group.getUser() );
-            }
-        }
-
-        UserNameXmlCreator userNameXmlCreator = new UserNameXmlCreator();
-        return XMLDocumentFactory.create( userNameXmlCreator.createUserNamesDocument( foundUsers ) ).getAsDOMDocument();
-    }
-
 }
 

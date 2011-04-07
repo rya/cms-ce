@@ -43,12 +43,6 @@ public class UserServicesServiceImpl
         return userServicesEngine.getContent( user, key, publishOnly, parenLevel, childrenLevel, parenChildrenLevel );
     }
 
-
-    public String getCategoryName( int categoryKey )
-    {
-        return userServicesEngine.getCategoryName( categoryKey );
-    }
-
     public String getContentTypeByCategory( int cKey )
     {
         return userServicesEngine.getContentTypeByCategory( cKey );

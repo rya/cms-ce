@@ -246,10 +246,4 @@ public abstract class BaseHandler
     {
         return keyService.generateNextKeySafe( table.getName() );
     }
-
-    public final void updateKey( String tableName, String updateKey, int key )
-        throws VerticalKeyException
-    {
-        keyService.updateKey( tableName, updateKey, key );
-    }
 }

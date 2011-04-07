@@ -8,15 +8,11 @@ import java.util.Map;
 
 public interface AdminService
 {
-
-    //public String getMenuData(User user);
-
     public boolean initializeDatabaseSchema()
         throws Exception;
 
     public boolean initializeDatabaseValues()
         throws Exception;
-
 
     public Map getMenuMap()
         throws Exception;

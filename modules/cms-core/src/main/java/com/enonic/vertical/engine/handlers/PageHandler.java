@@ -22,7 +22,6 @@ import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -38,14 +37,7 @@ public final class PageHandler
 {
     private static final String PAG_SELECT_KEY = "SELECT pag_lKey FROM tPage ";
 
-    private static final String PAG_SELECT_KEYS_BY_MENU =
-        "SELECT pag_lKey FROM tPage WHERE pag_lKey IN" + " (SELECT mei_pag_lKey FROM tMenuItem WHERE mei_men_lKey = ?)";
-
     private static final String PAG_WHERE_PAT = "WHERE PAG_PAT_LKEY = ?";
-
-    private static final String PAG_REMOVE = "DELETE FROM tPage WHERE pag_lKey IN (";
-
-    private static final String PCO_REMOVE = "DELETE FROM tPageConObj WHERE pco_pag_lKey IN ( ";
 
     private static final String PCO_REMOVE_WHERE_PAG = "DELETE FROM tPageConObj WHERE pco_pag_lKey = ?";
 
@@ -58,8 +50,6 @@ public final class PageHandler
     private static final String PCO_CREATE =
         "INSERT INTO tPageConObj (pco_pag_lKey, pco_cob_lKey, " + "pco_lOrder, pco_ptp_lKey, pco_dteTimestamp) VALUES " + "(?, ?, ?, ?, " +
             "@currentTimestamp@" + ")";
-
-    private static final String PAG_UPDATE = "UPDATE tPage SET " + "pag_pat_lKey = ?, pag_sXML = " + "?" + " WHERE pag_lKey = ?";
 
     private static final String PCO_SELECT_COB = "SELECT pco_cob_lKey FROM tPageConObj";
 
@@ -312,50 +302,6 @@ public final class PageHandler
         return doc;
     }
 
-    public int[] getPageKeysByMenu( Connection _con, int menuKey )
-    {
-
-        Connection con = null;
-        PreparedStatement prepStmt = null;
-        ResultSet resultSet = null;
-        TIntArrayList pageKeys = new TIntArrayList();
-
-        try
-        {
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
-            prepStmt = con.prepareStatement( PAG_SELECT_KEYS_BY_MENU );
-            prepStmt.setInt( 1, menuKey );
-            resultSet = prepStmt.executeQuery();
-            while ( resultSet.next() )
-            {
-                pageKeys.add( resultSet.getInt( "pag_lKey" ) );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get page keys by menu: %";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( prepStmt );
-            if ( _con == null )
-            {
-                close( con );
-            }
-        }
-
-        return pageKeys.toArray();
-    }
-
     public int[] getPageKeysByPageTemplateKey( int pageTemplateKey )
     {
         Connection con = null;
@@ -442,12 +388,6 @@ public final class PageHandler
         return contentObjectKeys.toArray();
     }
 
-    public void removePage( int pageKey )
-        throws VerticalRemoveException
-    {
-        removePages( null, new int[]{pageKey} );
-    }
-
     public void removePageContentObjects( int pageKey, int[] contentObjectKeys )
         throws VerticalRemoveException
     {
@@ -482,202 +422,6 @@ public final class PageHandler
         {
             String message = "Failed to remove page content objects because of database error: %t";
             VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
-    private void removePageContentObjects( Connection _con, int[] pageKeys )
-        throws VerticalRemoveException
-    {
-
-        if ( pageKeys != null && pageKeys.length > 0 )
-        {
-            Connection con = null;
-            PreparedStatement preparedStmt = null;
-            String sql = PCO_REMOVE;
-
-            try
-            {
-                if ( _con == null )
-                {
-                    con = getConnection();
-                }
-                else
-                {
-                    con = _con;
-                }
-                for ( int pageKey : pageKeys )
-                {
-                    sql = sql + "?, ";
-                }
-                sql = sql.substring( 0, sql.length() - 2 ) + ")";
-
-                preparedStmt = con.prepareStatement( sql );
-                for ( int i = 0; i < pageKeys.length; i++ )
-                {
-                    preparedStmt.setInt( i + 1, pageKeys[i] );
-                }
-                preparedStmt.executeUpdate();
-            }
-            catch ( SQLException sqle )
-            {
-                String message = "Failed to remove content objects from pages: %t";
-                VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
-            }
-            finally
-            {
-                close( preparedStmt );
-                if ( _con == null )
-                {
-                    close( con );
-                }
-            }
-        }
-    }
-
-    public void removePages( Connection _con, int[] pageKeys )
-        throws VerticalRemoveException
-    {
-
-        if ( pageKeys != null && pageKeys.length > 0 )
-        {
-            removePageContentObjects( _con, pageKeys );
-
-            Connection con = null;
-            PreparedStatement preparedStmt = null;
-            String sql = PAG_REMOVE;
-
-            try
-            {
-                if ( _con == null )
-                {
-                    con = getConnection();
-                }
-                else
-                {
-                    con = _con;
-                }
-                for ( int pageKey : pageKeys )
-                {
-                    sql = sql + "?, ";
-                }
-                sql = sql.substring( 0, sql.length() - 2 ) + ")";
-
-                preparedStmt = con.prepareStatement( sql );
-                for ( int i = 0; i < pageKeys.length; i++ )
-                {
-                    preparedStmt.setInt( i + 1, pageKeys[i] );
-                }
-                preparedStmt.executeUpdate();
-            }
-            catch ( SQLException sqle )
-            {
-                String message = "Failed to remove pages: %t";
-                VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
-            }
-            finally
-            {
-                close( preparedStmt );
-                if ( _con == null )
-                {
-                    close( con );
-                }
-            }
-        }
-    }
-
-    public void updatePage( String xmlData )
-        throws VerticalUpdateException
-    {
-
-        Document doc = XMLTool.domparse( xmlData, "page" );
-        updatePage( doc );
-    }
-
-    public void updatePage( Document doc )
-        throws VerticalUpdateException
-    {
-
-        Element docElem = doc.getDocumentElement();
-        Element[] pageElems;
-        if ( "page".equals( docElem.getTagName() ) )
-        {
-            pageElems = new Element[]{docElem};
-        }
-        else
-        {
-            pageElems = XMLTool.getElements( doc.getDocumentElement() );
-        }
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( PAG_UPDATE );
-
-            for ( Element root : pageElems )
-            {
-                Map<String, Element> subelems = XMLTool.filterElements( root.getChildNodes() );
-
-                // attribute: key
-                String tmp = root.getAttribute( "key" );
-                int pageKey = Integer.parseInt( tmp );
-                preparedStmt.setInt( 3, pageKey );
-
-                // get the pagedata element and serialize it
-                Element pageDataElement = XMLTool.getElement( root, "pagedata" );
-                Document pageDataDoc = XMLTool.createDocument();
-                pageDataDoc.appendChild( pageDataDoc.importNode( pageDataElement, true ) );
-                byte[] pageDataBytes = XMLTool.documentToBytes( pageDataDoc, "UTF-8" );
-                preparedStmt.setBinaryStream( 2, new ByteArrayInputStream( pageDataBytes ), pageDataBytes.length );
-
-                // attribute: pagetemplatekey key
-                tmp = root.getAttribute( "pagetemplatekey" );
-                preparedStmt.setInt( 1, Integer.parseInt( tmp ) );
-
-                // add the stylesheet
-                int result = preparedStmt.executeUpdate();
-                if ( result == 0 )
-                {
-                    String message = "Unable to update page: %t";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
-                }
-
-                // update all pageconobj entries for page
-                try
-                {
-                    // delete old contentobjects
-                    removePageContentObjects( con, new int[]{pageKey} );
-                    Element contentojects = subelems.get( "contentobjects" );
-                    createPageContentObjects( contentojects );
-                }
-                catch ( VerticalRemoveException vre )
-                {
-                    String message = "Could not remove content objects: %t";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, vre );
-                }
-                catch ( VerticalCreateException vce )
-                {
-                    String message = "Could not create content objects.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, vce );
-                }
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to update page: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
-        }
-        catch ( NumberFormatException nfe )
-        {
-            String message = "Unable to parse page key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
         }
         finally
         {

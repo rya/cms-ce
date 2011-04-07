@@ -4,14 +4,12 @@
  */
 package com.enonic.cms.core.internal.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.vertical.engine.PresentationEngine;
 
 import com.enonic.cms.core.service.PresentationService;
-import com.enonic.cms.store.dao.BinaryDataDao;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.binary.BinaryData;
@@ -22,9 +20,6 @@ public class PresentationServiceImpl
 {
 
     private PresentationEngine presentationEngine;
-
-    @Autowired
-    private BinaryDataDao binaryDataDao;
 
     public void setPresentationEngine( PresentationEngine value )
     {

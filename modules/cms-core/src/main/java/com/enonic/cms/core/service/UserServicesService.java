@@ -17,8 +17,6 @@ public interface UserServicesService
 
     public String getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel );
 
-    public String getCategoryName( int categoryKey );
-
     public String getContentTypeByCategory( int cKey );
 
     /**

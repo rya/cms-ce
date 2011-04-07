@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
@@ -33,11 +32,8 @@ import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeyView;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeysView;
@@ -45,7 +41,6 @@ import com.enonic.vertical.engine.dbmodel.ContentPublishedView;
 import com.enonic.vertical.engine.dbmodel.ContentVersionView;
 import com.enonic.vertical.engine.dbmodel.ContentView;
 import com.enonic.vertical.engine.filters.ContentFilter;
-import com.enonic.vertical.engine.processors.ContentTypeProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 import com.enonic.vertical.engine.processors.VersionKeyContentMapProcessor;
@@ -57,20 +52,15 @@ import com.enonic.cms.framework.util.TIntObjectHashMap;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.security.UserNameXmlCreator;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
 import com.enonic.cms.domain.content.ContentTitleXmlCreator;
-import com.enonic.cms.domain.content.ContentVersionKey;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
@@ -111,36 +101,8 @@ public final class ContentHandler
     // tContentType
     private final static String CTY_INSERT = "INSERT INTO  " + CTY_TABLE + " VALUES (?,?,?,?,@currentTimestamp@" + ",?,?,?)";
 
-    private final static String CTY_DELETE = "DELETE FROM " + CTY_TABLE + " WHERE cty_lKey=?";
-
-    private final static String CTY_UPDATE = "UPDATE tContentType " + "SET cty_sName = ?" + ",cty_sDescription = ?" + ",cty_mbData = ?" +
-        ",cty_dteTimestamp = @currentTimestamp@" + ",cty_han_lKey = ?" + ",cty_sCSS = ?" + " WHERE cty_lKey = ?";
-
-    private final static String CTY_SELECT_KEY = "SELECT cty_lKey FROM " + CTY_TABLE;
-
-    private final static String CTY_WHERE_CLAUSE_HAN = " cty_han_lKey = ?";
-
     // tContentHandler
     private final static String HAN_INSERT = "INSERT INTO  " + HAN_TABLE + " VALUES (?,?,?,?,?,@currentTimestamp@)";
-
-    private final static String HAN_SELECT_ALL =
-        "SELECT han_lKey, han_sName, han_sDescription, han_sClass, han_xmlConfig, han_dteTimestamp" + " FROM " + HAN_TABLE;
-
-    private final static String HAN_SELECT_KEY = "SELECT han_lKey FROM " + HAN_TABLE;
-
-    private final static String CTY_JOIN_HAN = " LEFT JOIN " + CTY_TABLE + " ON cty_han_lKey = han_lKey";
-
-    private final static String HAN_WHERE_CLAUSE_CTY = " cty_lKey = ?";
-
-    private final static String HAN_WHERE_CLAUSE_CLASS = " han_sClass = ?";
-
-    private final static String HAN_UPDATE =
-        "UPDATE " + HAN_TABLE + " SET han_sName = ?" + ",han_sDescription = ?" + ",han_sClass = ?" + ",han_xmlConfig = ?" +
-            ",han_dteTimestamp = @currentTimestamp@" + " WHERE han_lKey = ?";
-
-    private final static String HAN_DELETE = "DELETE FROM " + HAN_TABLE + " WHERE han_lKey = ?";
-
-    private final static String HAN_ORDER_BY_NAME = " ORDER BY han_sName";
 
     private VerticalEventMulticaster multicaster = new VerticalEventMulticaster();
 
@@ -193,17 +155,6 @@ public final class ContentHandler
         multicaster.add( chl );
     }
 
-
-    public boolean contentExists( CategoryKey categoryKey, String contentTitle )
-    {
-        ContentView contentView = ContentView.getInstance();
-        StringBuffer sql = XDG.generateSelectSQL( contentView, contentView.con_lKey.getCountColumn(), false, (Column[]) null );
-        XDG.appendWhereSQL( sql, contentView.cat_lKey, XDG.OPERATOR_EQUAL, categoryKey.toInt() );
-        XDG.appendWhereSQL( sql, contentView.cov_sTitle, XDG.OPERATOR_EQUAL, contentTitle );
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getBoolean( sql.toString(), null );
-    }
-
     public int getContentKey( CategoryKey categoryKey, String contentTitle )
     {
         ContentView contentView = ContentView.getInstance();
@@ -214,29 +165,6 @@ public final class ContentHandler
         CommonHandler commonHandler = getCommonHandler();
         return commonHandler.getInt( sql.toString(), contentTitle );
     }
-
-    public String getCreatedTimestamp( int contentKey )
-    {
-        ContentView contentView = ContentView.getInstance();
-        StringBuffer sql = XDG.generateSelectSQL( contentView, contentView.con_dteCreated, false, contentView.con_lKey );
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getString( sql.toString(), contentKey );
-    }
-
-    public Date getPublishFromTimestamp( int contentKey )
-    {
-        ContentView contentView = ContentView.getInstance();
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getTimestamp( contentView, contentView.con_dtePublishFrom, false, contentView.con_lKey, contentKey );
-    }
-
-    public Date getPublishToTimestamp( int contentKey )
-    {
-        ContentView contentView = ContentView.getInstance();
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getTimestamp( contentView, contentView.con_dtePublishTo, false, contentView.con_lKey, contentKey );
-    }
-
 
     public int createContentType( User user, Document doc )
     {
@@ -404,44 +332,16 @@ public final class ContentHandler
         return getContentTypes( new int[]{contentTypeKey}, includeContentCount );
     }
 
-    public ResourceKey getContentTypeCSSKey( int contentTypeKey )
-    {
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentType, db.tContentType.cty_sCSS, false, db.tContentType.cty_lKey );
-        String resourceKey = getCommonHandler().getString( sql.toString(), contentTypeKey );
-        return ResourceKey.parse( resourceKey );
-    }
-
     public int getContentTypeKey( int contentKey )
     {
         ContentEntity entity = contentDao.findByKey( new ContentKey( contentKey ) );
         return entity != null ? entity.getCategory().getContentType().getKey() : -1;
     }
 
-    public int[] getContentTypeKeysByHandler( String handlerClass )
-    {
-        int contentHandlerKey = getContentHandlerKeyByHandlerClass( handlerClass );
-        return getContentTypeKeysByHandler( contentHandlerKey );
-    }
-
-    public int[] getContentTypeKeysByHandler( int contentHandlerKey )
-    {
-
-        StringBuffer sql = new StringBuffer( CTY_SELECT_KEY );
-        sql.append( " WHERE" );
-        sql.append( CTY_WHERE_CLAUSE_HAN );
-
-        return getContentTypeKeys( sql.toString(), contentHandlerKey );
-    }
-
     public String getContentTypeName( int contentTypeKey )
     {
         ContentTypeEntity entity = contentTypeDao.findByKey( contentTypeKey );
         return entity != null ? entity.getName() : null;
-    }
-
-    public Document getContentTypes( boolean includeContentCount )
-    {
-        return getContentTypes( null, includeContentCount );
     }
 
     public Document getContentTypes( int[] contentTypeKeys, boolean includeContentCount )
@@ -469,139 +369,11 @@ public final class ContentHandler
         return createContentTypesDoc( list, includeContentCount );
     }
 
-    public Document getContentOwner( int contentKey )
-    {
-        UserKey ownerKey = getOwnerKey( contentKey );
-        User owner = userDao.findByKey( ownerKey );
-        UserNameXmlCreator userNameXmlCreator = new UserNameXmlCreator();
-        return XMLDocumentFactory.create( userNameXmlCreator.createUserNamesDocument( owner ) ).getAsDOMDocument();
-    }
-
     public UserKey getOwnerKey( int contentKey )
     {
         ContentEntity content = contentDao.findByKey( new ContentKey( contentKey ) );
         return content.getOwner().getKey();
     }
-
-    public int getState( int versionKey )
-    {
-        ContentVersionView versionView = ContentVersionView.getInstance();
-        StringBuffer sql = XDG.generateSelectSQL( versionView, versionView.cov_lState, false, versionView.cov_lKey );
-        return getCommonHandler().getInt( sql.toString(), versionKey );
-    }
-
-
-    public void removeContentType( int contentTypeKey )
-        throws VerticalRemoveException
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        getCommonHandler().cascadeDelete( db.tContentType, contentTypeKey );
-        //getSiteHandler().removeContentTypeFromSites(contentTypeKey);
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( CTY_DELETE );
-            preparedStmt.setInt( 1, contentTypeKey );
-            preparedStmt.executeUpdate();
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to remove content type: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
-
-    public void updateContentType( User user, Document doc )
-        throws VerticalUpdateException
-    {
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        try
-        {
-            Element root = doc.getDocumentElement();
-            // Hva skjer her?:
-            Map<String, Element> subelems = XMLTool.filterElements( root.getChildNodes() );
-
-            int key = Integer.parseInt( root.getAttribute( "key" ) );
-
-            Element subelem = subelems.get( "name" );
-            String name = XMLTool.getElementText( subelem );
-            subelem = subelems.get( "description" );
-            String description;
-            if ( subelem != null )
-            {
-                description = XMLTool.getElementText( subelem );
-            }
-            else
-            {
-                description = null;
-            }
-            Element moduleElem = subelems.get( "moduledata" );
-            Document moduleDoc = XMLTool.createDocument();
-            moduleDoc.appendChild( moduleDoc.importNode( moduleElem, true ) );
-            byte[] mdocBytes = XMLTool.documentToBytes( moduleDoc, "UTF-8" );
-
-            con = getConnection();
-            preparedStmt = con.prepareStatement( CTY_UPDATE );
-            preparedStmt.setInt( 6, key );
-            preparedStmt.setCharacterStream( 1, new StringReader( name ), name.length() );
-            if ( description != null )
-            {
-                preparedStmt.setCharacterStream( 2, new StringReader( description ), description.length() );
-            }
-            else
-            {
-                preparedStmt.setNull( 2, Types.VARCHAR );
-            }
-            preparedStmt.setBinaryStream( 3, new ByteArrayInputStream( mdocBytes ), mdocBytes.length );
-
-            String contentHandlerKeyString = root.getAttribute( "contenthandlerkey" );
-            int contentHandlerKey = Integer.parseInt( contentHandlerKeyString );
-            preparedStmt.setInt( 4, contentHandlerKey );
-
-            // CSS key
-            String cssKeyStr = root.getAttribute( "csskey" );
-            if ( cssKeyStr.length() > 0 )
-            {
-                preparedStmt.setString( 5, cssKeyStr );
-            }
-            else
-            {
-                preparedStmt.setNull( 5, Types.VARCHAR );
-            }
-
-            preparedStmt.executeUpdate();
-            preparedStmt.close();
-            preparedStmt = null;
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to update content type: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
-        }
-        catch ( NumberFormatException nfe )
-        {
-            String message = "Failed to parse content type key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
 
     public Document getContents( User user, Set<Integer> referencedKeys, Element contentsElem, int fromIdx, int count, String sql,
                                  List<Integer> paramValues, boolean useOneParamValueEachQuery, boolean publishedOnly, boolean titlesOnly,
@@ -1226,42 +998,6 @@ public final class ContentHandler
         return getCommonHandler().getInt( countSQL.toString(), contentTypeKey );
     }
 
-    private int[] getContentTypeKeys( String sql, int paramValue )
-    {
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-        TIntArrayList contentTypeKeys = new TIntArrayList();
-
-        try
-        {
-            con = getConnection();
-
-            preparedStmt = con.prepareStatement( sql );
-            preparedStmt.setInt( 1, paramValue );
-            resultSet = preparedStmt.executeQuery();
-
-            while ( resultSet.next() )
-            {
-                contentTypeKeys.add( resultSet.getInt( 1 ) );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get content type keys: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-
-        return contentTypeKeys.toArray();
-    }
-
     private void getLogEntries( Element contentElem, int contentKey )
     {
 
@@ -1276,11 +1012,6 @@ public final class ContentHandler
         {
             elem.setAttribute( "totalread", "0" );
         }
-    }
-
-    public int[] getContentKeysByCategory( User user, CategoryKey categoryKey )
-    {
-        return getContentKeysByCategory( user, categoryKey, false, false );
     }
 
     public int[] getContentKeysByCategory( User user, CategoryKey categoryKey, boolean recursive, boolean excludeArchived )
@@ -1325,28 +1056,6 @@ public final class ContentHandler
             return null;
         }
         return entity.getHandler().getClassName();
-    }
-
-    public Document getContentHandler( int contentHandlerKey )
-    {
-        String sql = HAN_SELECT_ALL + " WHERE han_lKey = " + contentHandlerKey;
-        return getContentHandlers( sql, null );
-    }
-
-    public int getContentHandlerKeyByHandlerClass( String handlerClass )
-    {
-        StringBuffer sql = new StringBuffer( HAN_SELECT_KEY );
-        sql.append( " WHERE" );
-        sql.append( HAN_WHERE_CLAUSE_CLASS );
-
-        return getCommonHandler().getInt( sql.toString(), new Object[]{handlerClass} );
-    }
-
-    public Document getContentHandlers()
-    {
-        StringBuffer sql = new StringBuffer( HAN_SELECT_ALL );
-        sql.append( HAN_ORDER_BY_NAME );
-        return getContentHandlers( sql.toString(), null );
     }
 
     private Document getContentHandlers( String sql, List<Integer> paramValues )
@@ -1510,135 +1219,6 @@ public final class ContentHandler
         return key;
     }
 
-    public void updateContentHandler( User user, Document doc )
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        try
-        {
-            Element root = doc.getDocumentElement();
-            Map<String, Element> subelems = XMLTool.filterElements( root.getChildNodes() );
-
-            int key = Integer.parseInt( root.getAttribute( "key" ) );
-            Element subelem = subelems.get( "name" );
-            String name = XMLTool.getElementText( subelem );
-            subelem = subelems.get( "class" );
-            String className = XMLTool.getElementText( subelem );
-            subelem = subelems.get( "description" );
-            String description;
-            if ( subelem != null )
-            {
-                description = XMLTool.getElementText( subelem );
-            }
-            else
-            {
-                description = null;
-            }
-            Element configElem = subelems.get( "xmlconfig" );
-            Document configDoc = XMLTool.createDocument();
-            configDoc.appendChild( configDoc.importNode( configElem, true ) );
-            byte[] cdocBytes = XMLTool.documentToBytes( configDoc, "UTF-8" );
-
-            con = getConnection();
-            preparedStmt = con.prepareStatement( HAN_UPDATE );
-            preparedStmt.setInt( 5, key );
-            preparedStmt.setCharacterStream( 1, new StringReader( name ), name.length() );
-            if ( description != null )
-            {
-                preparedStmt.setCharacterStream( 2, new StringReader( description ), description.length() );
-            }
-            else
-            {
-                preparedStmt.setNull( 2, Types.VARCHAR );
-            }
-            preparedStmt.setCharacterStream( 3, new StringReader( className ), className.length() );
-            preparedStmt.setBinaryStream( 4, new ByteArrayInputStream( cdocBytes ), cdocBytes.length );
-            preparedStmt.executeUpdate();
-            preparedStmt.close();
-            preparedStmt = null;
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to update content type: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
-        }
-        catch ( NumberFormatException nfe )
-        {
-            String message = "Failed to parse content type key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
-    public void removeContentHandler( int contentHandlerKey )
-        throws VerticalRemoveException
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        getCommonHandler().cascadeDelete( db.tContentHandler, contentHandlerKey );
-
-        try
-        {
-            con = getConnection();
-
-            preparedStmt = con.prepareStatement( HAN_DELETE );
-            preparedStmt.setInt( 1, contentHandlerKey );
-            preparedStmt.executeUpdate();
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to remove content handler: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
-    /* (non-Javadoc)
-      * @see com.enonic.vertical.engine.ContentHandler#getContentHandlerByContentType(int)
-      */
-    public Document getContentHandlerByContentType( int contentTypeKey )
-    {
-        StringBuffer sql = new StringBuffer( HAN_SELECT_ALL );
-        sql.append( CTY_JOIN_HAN );
-        sql.append( " WHERE" );
-        sql.append( HAN_WHERE_CLAUSE_CTY );
-
-        Vector<Integer> paramValues = new Vector<Integer>();
-        paramValues.add( contentTypeKey );
-
-        return getContentHandlers( sql.toString(), paramValues );
-    }
-
-    public Document getContentTypeModuleData( int contentTypeKey )
-    {
-        Document doc;
-        Document modDoc = getCommonHandler().getDocument( db.tContentType, contentTypeKey );
-        Element mdElem = modDoc.getDocumentElement();
-
-        // workaround for old contenttypes
-        if ( mdElem.getTagName().equals( "module" ) )
-        {
-            doc = XMLTool.createDocument( "moduledata" );
-            doc.getDocumentElement().appendChild( doc.importNode( mdElem, true ) );
-        }
-        else
-        {
-            doc = XMLTool.createDocument();
-            doc.appendChild( doc.importNode( mdElem, true ) );
-        }
-        return doc;
-    }
-
     public XMLDocument getContentTitles( int[] contentKeys, boolean includeSectionInfo, MenuItemEntity section )
     {
         org.jdom.Element contentsEl = new org.jdom.Element( "contenttitles" );
@@ -1663,77 +1243,6 @@ public final class ContentHandler
         return XMLDocumentFactory.create( new org.jdom.Document( contentsEl ) );
     }
 
-    public Document getContentTitleDoc( int versionKey )
-    {
-        Document doc = XMLTool.createDocument( "contenttitles" );
-
-        ContentVersionView versionView = ContentVersionView.getInstance();
-        StringBuffer sql = XDG.generateSelectSQL( versionView, versionView.cov_lKey );
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-        Element root = doc.getDocumentElement();
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setInt( 1, versionKey );
-            resultSet = preparedStmt.executeQuery();
-
-            for ( int paramIndex = 1; resultSet.next(); paramIndex++ )
-            {
-                Element elem = XMLTool.createElement( doc, root, "contenttitle" );
-                int contentKey = resultSet.getInt( "con_lKey" );
-                elem.setAttribute( "key", String.valueOf( contentKey ) );
-                int categoryKey = resultSet.getInt( "cat_lKey" );
-                elem.setAttribute( "categorykey", String.valueOf( categoryKey ) );
-                Timestamp timestamp = resultSet.getTimestamp( "cov_dteTimestamp" );
-                elem.setAttribute( "timestamp", CalendarUtil.formatTimestamp( timestamp ) );
-
-                //elem.setAttribute("unitkey", String.valueOf(resultSet.getInt("cat_uni_lKey")));
-                elem.setAttribute( "contenttypekey", String.valueOf( resultSet.getInt( "cat_cty_lKey" ) ) );
-
-                Timestamp publishfrom = resultSet.getTimestamp( "con_dtePublishFrom" );
-                if ( !resultSet.wasNull() )
-                {
-                    elem.setAttribute( "publishfrom", CalendarUtil.formatTimestamp( publishfrom ) );
-                }
-                Timestamp publishto = resultSet.getTimestamp( "con_dtePublishTo" );
-                if ( !resultSet.wasNull() )
-                {
-                    elem.setAttribute( "publishto", CalendarUtil.formatTimestamp( publishto ) );
-                }
-
-                // content status
-                //  0: draft
-                //  1: not published
-                //  2: publish waiting
-                //  3: published
-                //  4: archived
-                elem.setAttribute( "status", resultSet.getString( "cov_lStatus" ) );
-                elem.setAttribute( "state", resultSet.getString( "cov_lState" ) );
-
-                XMLTool.createTextNode( doc, elem, resultSet.getString( "cov_sTitle" ) );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get content titles; %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
-            doc = XMLTool.createDocument( "contenttitles" );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-
-        return doc;
-    }
-
     public StringBuffer getCategoryPathString( int contentKey )
     {
 
@@ -1756,12 +1265,6 @@ public final class ContentHandler
     {
         StringBuffer sql = XDG.generateSelectSQL( db.tContent, db.tContent.con_cov_lKey, false, db.tContent.con_lKey );
         return getCommonHandler().getInt( sql.toString(), contentKey );
-    }
-
-    public int getContentKeyByVersionKey( int versionKey )
-    {
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentVersion, db.tContentVersion.cov_con_lKey, false, db.tContentVersion.cov_lKey );
-        return getCommonHandler().getInt( sql.toString(), versionKey );
     }
 
     public Document getContentVersions( int contentKey )
@@ -1840,99 +1343,6 @@ public final class ContentHandler
         }
     }
 
-    public Document getContentVersion( final User user, int versionKey )
-    {
-        ContentVersionView versionView = ContentVersionView.getInstance();
-        StringBuffer sql = XDG.generateSelectSQL( versionView, null, false, versionView.cov_lKey );
-        int contentKey = getContentKeyByVersionKey( versionKey );
-        getSecurityHandler().appendContentSQL( user, sql, false );
-
-        ElementProcessor sectionNamesProcessor = new ElementProcessor()
-        {
-            private SectionHandler sectionHandler = getSectionHandler();
-
-            public void process( Element elem )
-                throws ProcessElementException
-            {
-                int contentKey = Integer.parseInt( elem.getAttribute( "key" ) );
-                sectionHandler.appendSectionNames( contentKey, elem );
-            }
-        };
-        VersionKeyContentMapProcessor versionKeyContentMapProcessor = new VersionKeyContentMapProcessor( this );
-        Document doc = getCommonHandler().getData( versionView, sql.toString(), new int[]{versionKey},
-                                                   new ElementProcessor[]{versionKeyContentMapProcessor, sectionNamesProcessor} );
-
-        // add binaries elements
-        getContentBinaries( versionKeyContentMapProcessor.getVersionKeyContentMap() );
-
-        Element contentsElem = doc.getDocumentElement();
-        Element contentElem = XMLTool.getElement( contentsElem, "content" );
-
-        if ( contentElem == null )
-        {
-            return doc;
-        }
-
-        // accessrights
-        Document accessRightsDoc = getSecurityHandler().getAccessRights( user, AccessRight.CONTENT, contentKey, true );
-        XMLTool.mergeDocuments( contentElem, accessRightsDoc, true );
-
-        // versions
-        Document versionsDoc = getContentVersions( contentKey );
-        XMLTool.mergeDocuments( contentElem, versionsDoc, true );
-
-        Element relatedContentKeysElem = XMLTool.createElement( doc, contentElem, "relatedcontentkeys" );
-        Element relatedContentsElem = XMLTool.createElement( doc, contentsElem, "relatedcontents" );
-
-        // children
-        TIntArrayList childrenKeys = new TIntArrayList();
-        TIntObjectHashMap versionKeyRCKElemMap = new TIntObjectHashMap();
-        versionKeyRCKElemMap.put( versionKey, relatedContentKeysElem );
-        getChildrenContentKeys( childrenKeys, versionKeyRCKElemMap, false );
-        ContentView contentView = ContentView.getInstance();
-        if ( childrenKeys.size() > 0 )
-        {
-            int[] children = childrenKeys.toArray();
-            sql = XDG.generateSelectWhereInSQL( contentView, (Column[]) null, false, contentView.con_lKey, children.length );
-            Document childrenDoc = getCommonHandler().getData( contentView, sql.toString(), children, null );
-            XMLTool.mergeDocuments( relatedContentsElem, childrenDoc, false );
-        }
-
-        ElementProcessor[] elementProcessors = {new ContentTypeProcessor( this )};
-
-        // parents
-        TIntArrayList parentKeys = new TIntArrayList();
-        TIntObjectHashMap contentKeyRCKElemMap = new TIntObjectHashMap();
-        contentKeyRCKElemMap.put( contentKey, relatedContentKeysElem );
-        getParentContentKeys( parentKeys, contentKeyRCKElemMap, false, false );
-        if ( parentKeys.size() > 0 )
-        {
-            int[] parents = parentKeys.toArray();
-            sql = XDG.generateSelectWhereInSQL( versionView, (Column[]) null, false, versionView.cov_lKey, parents.length );
-            Document childrenDoc = getCommonHandler().getData( versionView, sql.toString(), parents, elementProcessors );
-            if ( childrenDoc != null )
-            { // NSSR somehow got a nullpointerexception on the next line, when undeleting a content (manually in the db)
-                XMLTool.mergeDocuments( relatedContentsElem, childrenDoc, false );
-            }
-        }
-
-        return doc;
-    }
-
-    public Document getContentXMLField( int versionKey )
-    {
-        return getCommonHandler().getDocument( db.tContentVersion, versionKey );
-    }
-
-    public int[] getContentTypesByHandlerClass( String className )
-    {
-        // Funker denne?
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentType, db.tContentType.cty_lKey, true, (Column) null );
-        XDG.appendJoinSQL( sql, db.tContentType.cty_han_lKey );
-        XDG.appendWhereSQL( sql, db.tContentHandler.han_sClass, XDG.OPERATOR_EQUAL, className );
-        return getCommonHandler().getIntArray( sql.toString(), (int[]) null );
-    }
-
     public Column[] getTitlesOnlyColumns()
     {
         ContentView contentView = ContentView.getInstance();
@@ -1941,123 +1351,4 @@ public final class ContentHandler
             contentView.con_dtePublishFrom, contentView.con_dtePublishTo, contentView.cov_sTitle, contentView.con_lPriority,
             contentView.cov_dteTimestamp,};
     }
-
-    public boolean isContentVersionApproved( int versionKey )
-    {
-        ContentVersionView versionView = ContentVersionView.getInstance();
-        Column[] whereColumns = {versionView.cov_lKey, versionView.cov_lStatus};
-        StringBuffer sql = XDG.generateSelectSQL( versionView, versionView.cov_lKey, false, whereColumns );
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getInt( sql.toString(), new int[]{versionKey, 2} ) >= 0;
-    }
-
-    public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
-        throws VerticalUpdateException
-    {
-        UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2(
-                new ContentVersionKey( versionKey ) );
-        command.setContentKey( new ContentKey( contentKey ) );
-        command.setStatus( ContentStatus.get( status ) );
-        command.setModifier( securityService.getUser( user ) );
-        command.setSyncAccessRights( false );
-        command.setSyncRelatedContent( false );
-
-        ContentEntity persistedContent = contentDao.findByKey( new ContentKey( contentKey ) );
-
-        if ( status == ContentStatus.APPROVED.getKey() )
-        {
-            command.setUpdateAsMainVersion( true );
-            command.setAvailableFrom( publishFrom );
-            command.setAvailableTo( publishTo );
-        }
-        else
-        {
-            command.setUpdateAsMainVersion( false );
-            command.setAvailableFrom( persistedContent.getAvailableFrom() );
-            command.setAvailableTo( persistedContent.getAvailableTo() );
-        }
-
-        // Keep comment since this is an update of existing content
-        command.setChangeComment( persistedContent.getMainVersion().getChangeComment() );
-
-        contentService.updateContent( command );
-    }
-
-    public void setContentHome( User user, int contentKey, int menuKey, int menuItemKey, int pageTemplateKey )
-        throws VerticalUpdateException
-    {
-        CommonHandler commonHandler = getCommonHandler();
-        StringBuffer sql = XDG.generateCountSQL( db.tContentHome );
-        Column[] whereColumns = {db.tContentHome.cho_con_lKey, db.tContentHome.cho_men_lKey};
-        XDG.generateWhereSQL( sql, whereColumns );
-        int count = commonHandler.getInt( sql.toString(), new int[]{contentKey, menuKey} );
-        if ( count == 0 )
-        {
-            sql = XDG.generateInsertSQL( db.tContentHome );
-            Integer[] paramValues = {contentKey, menuKey, null, null};
-            if ( menuItemKey >= 0 )
-            {
-                paramValues[2] = menuItemKey;
-            }
-            if ( pageTemplateKey >= 0 )
-            {
-                paramValues[3] = pageTemplateKey;
-            }
-            commonHandler.executeSQL( sql.toString(), paramValues );
-        }
-        else
-        {
-            sql = XDG.generateUpdateSQL( db.tContentHome );
-            Integer[] paramValues = {null, null, contentKey, menuKey};
-            if ( menuItemKey >= 0 )
-            {
-                paramValues[0] = menuItemKey;
-            }
-            if ( pageTemplateKey >= 0 )
-            {
-                paramValues[1] = pageTemplateKey;
-            }
-            commonHandler.executeSQL( sql.toString(), paramValues );
-        }
-    }
-
-    public Document getContentHomes( int contentKey )
-    {
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentHome );
-        XDG.generateWhereSQL( sql, db.tContentHome.cho_con_lKey );
-        ElementProcessor pageTemplateProcessor = new ElementProcessor()
-        {
-            private CommonHandler commonHandler = getCommonHandler();
-
-            private String sql =
-                XDG.generateSelectSQL( db.tPageTemplate, db.tPageTemplate.pat_sName, false, db.tPageTemplate.pat_lKey ).toString();
-
-            public void process( Element elem )
-                throws ProcessElementException
-            {
-                if ( elem.hasAttribute( "pagetemplatekey" ) )
-                {
-                    int pageTemplateKey = Integer.valueOf( elem.getAttribute( "pagetemplatekey" ) );
-                    String pageTemplateName = commonHandler.getString( sql, pageTemplateKey );
-                    elem.setAttribute( "pagetemplatename", pageTemplateName );
-                }
-            }
-        };
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getData( db.tContentHome, sql.toString(), contentKey, new ElementProcessor[]{pageTemplateProcessor} );
-    }
-
-    public int getContentStatus( int versionKey )
-    {
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentVersion, db.tContentVersion.cov_lStatus, false, db.tContentVersion.cov_lKey );
-        return getCommonHandler().getInt( sql.toString(), versionKey );
-    }
-
-    public int getContentTypeKeyByName( String name )
-    {
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentType, db.tContentType.cty_lKey, false, (Column) null );
-        XDG.appendWhereSQL( sql, db.tContentType.cty_sName, XDG.OPERATOR_EQUAL, name );
-        return getCommonHandler().getInt( sql.toString(), (Object[]) null );
-    }
-
 }

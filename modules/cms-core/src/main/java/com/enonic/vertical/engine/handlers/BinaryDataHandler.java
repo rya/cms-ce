@@ -96,12 +96,4 @@ public class BinaryDataHandler
         boolean anonAccess = content.hasAccessRightSet( anonymousUser.getUserGroup(), ContentAccessType.READ );
         return getBinaryData( contentBinaryData, anonAccess, timestamp );
     }
-
-    public int[] getBinaryDataKeysByVersion( int versionKey )
-    {
-        StringBuffer sql =
-            XDG.generateSelectSQL( db.tContentBinaryData, db.tContentBinaryData.cbd_bda_lKey, false, db.tContentBinaryData.cbd_cov_lKey );
-        return getCommonHandler().getIntArray( sql.toString(), versionKey );
-    }
-
 }

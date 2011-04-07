@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -68,39 +67,5 @@ public final class LanguageHandler
         }
 
         return XMLDocumentFactory.create( new Document( root ) );
-    }
-
-    public XMLDocument getLanguages()
-    {
-        return createLanguagesDoc( languageDao.findAll() );
-    }
-
-    public void removeLanguage( LanguageKey languageKey )
-    {
-        LanguageEntity entity = languageDao.findByKey( languageKey );
-        if ( entity == null )
-        {
-            return;
-        }
-
-        this.languageDao.delete( entity );
-    }
-
-    public void updateLanguage( LanguageKey languageKey, String languageCode, String description )
-    {
-        if ( StringUtils.isBlank( languageCode ) )
-        {
-            return;
-        }
-
-        LanguageEntity entity = languageDao.findByKey( languageKey );
-        if ( entity == null )
-        {
-            return;
-        }
-
-        entity.setCode( languageCode );
-        entity.setDescription( description );
-        entity.setTimestamp( new Date() );
     }
 }
