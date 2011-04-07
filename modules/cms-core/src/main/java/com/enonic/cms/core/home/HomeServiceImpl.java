@@ -2,11 +2,11 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.home;
+package com.enonic.cms.core.home;
 
 import org.springframework.core.io.Resource;
 
-import com.enonic.cms.business.home.HomeService;
+import com.enonic.cms.core.home.HomeService;
 
 public class HomeServiceImpl
     implements HomeService

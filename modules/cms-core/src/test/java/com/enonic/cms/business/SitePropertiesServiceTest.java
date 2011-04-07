@@ -16,7 +16,7 @@ import org.springframework.core.io.UrlResource;
 
 import com.enonic.vertical.VerticalProperties;
 
-import com.enonic.cms.business.home.HomeService;
+import com.enonic.cms.core.home.HomeService;
 
 import com.enonic.cms.domain.SiteKey;
 
