@@ -87,11 +87,7 @@ public class ApproveAndRejectMailTemplate
 
         if ( contentPath != null )
         {
-            String infoText = getTranslation( "%approveRejectContentMailText%", getLanguageCode() );
-            if ( infoText != null )
-            {
-                body = body + "\n\n" + infoText + ":\n" + contentPath;
-            }
+            body = body + "\n\nYou will find the content at the following path in the content archive:\n" + contentPath;
         }
 
         String adminUrl = getAdminUrl( contentKey );
@@ -106,22 +102,17 @@ public class ApproveAndRejectMailTemplate
     @Override
     public String getSubject()
     {
-        return reject ? createRejectSubject() : createApprovalSubject();
+        return isReject() ? createRejectSubject() : createApprovalSubject();
     }
 
     private String createRejectSubject()
     {
-        return getTranslation( "%contentRejectedSubject%", getLanguageCode() ) + ": " + content.getMainVersion().getTitle();
+        return "Content was rejected: " + content.getMainVersion().getTitle();
     }
 
     private String createApprovalSubject()
     {
-        return getTranslation( "%contentWaitingForApprovalSubject%", getLanguageCode() ) + ": " + content.getMainVersion().getTitle();
-    }
-
-    private String getLanguageCode()
-    {
-        return content.getLanguage().getCode();
+        return "Content waiting for approval: " + content.getMainVersion().getTitle();
     }
 
     public boolean isReject()

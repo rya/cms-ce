@@ -60,7 +60,7 @@ public class AssignedContentMailTemplate
     @Override
     public String getSubject()
     {
-        return getTranslation( "%contentAssignedSubject%", getLanguageCode() ) + ": " + contentVersion.getTitle();
+        return "Enonic CMS - Draft assigned to you: " + contentVersion.getTitle();
     }
 
 }

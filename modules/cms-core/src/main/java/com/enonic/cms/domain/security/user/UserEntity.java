@@ -403,16 +403,6 @@ public class UserEntity
         return DigestUtils.shaHex( password ).equals( this.password );
     }
 
-    public String getSelectedLanguageCode()
-    {
-        return null;
-    }
-
-    public void setSelectedLanguageCode( String languageCode )
-    {
-
-    }
-
     public boolean hasUserGroup()
     {
         return getUserGroup() != null;

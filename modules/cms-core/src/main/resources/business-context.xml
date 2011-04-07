@@ -143,12 +143,6 @@
       Misc.
   -->
 
-  <bean id="adminConsoleTranslationService"
-        class="com.enonic.cms.business.AdminConsoleTranslationService" init-method="init">
-    <property name="defaultLanguageCode" value="${cms.admin.defaultLanguage}"/>
-  </bean>
-
-
     <!-- commented due to B-1788 - B-1793 tickets
   <bean id="adminConsoleLoginAccessResolver"
         class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>

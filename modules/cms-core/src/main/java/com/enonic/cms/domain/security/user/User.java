@@ -47,10 +47,6 @@ public interface User
 
     boolean isDeleted();
 
-    void setSelectedLanguageCode( String languageCode );
-
-    String getSelectedLanguageCode();
-
     boolean hasUserGroup();
 
     UserInfo getUserInfo();

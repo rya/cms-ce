@@ -11,7 +11,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.mail.AbstractMailTemplate;
 
 import com.enonic.cms.domain.content.ContentEntity;
@@ -46,16 +45,14 @@ public class ImportedContentAssignmentMailTemplate
     @Override
     public String getBody()
     {
-        final String languageCode = AdminConsoleTranslationService.getInstance().getDefaultLanguageCode();
-
         StringBuffer body = new StringBuffer();
 
-        applyAssignmentInfo( languageCode, body );
+        applyAssignmentInfo( body );
 
         addNewLine( body );
         addNewLine( body );
 
-        appendContentListHeading( languageCode, body );
+        appendContentListHeading( body );
 
         addNewLine( body );
 
@@ -77,7 +74,7 @@ public class ImportedContentAssignmentMailTemplate
         }
     }
 
-    private void applyAssignmentInfo( String languageCode, StringBuffer body )
+    private void applyAssignmentInfo( StringBuffer body )
     {
         if ( StringUtils.isNotBlank( assignmentDescription ) )
         {
@@ -94,13 +91,13 @@ public class ImportedContentAssignmentMailTemplate
         if ( assignmentDueDate != null )
         {
             addNewLine( body );
-            body.append( getTranslation( "%contentAssignmentDuedate%", languageCode ) + ": " + dateFormat.format( assignmentDueDate ) );
+            body.append( "Due date: " + dateFormat.format( assignmentDueDate ) );
         }
     }
 
-    private void appendContentListHeading( String languageCode, StringBuffer body )
+    private void appendContentListHeading( StringBuffer body )
     {
-        String contentListHeading = getTranslation( "%contentAssignmentImportedContentHeading%", languageCode );
+        String contentListHeading = "The following content was assigned to you during import";
         int contentListMsgLength = contentListHeading.length();
 
         body.append( contentListHeading );
@@ -111,8 +108,7 @@ public class ImportedContentAssignmentMailTemplate
     @Override
     public String getSubject()
     {
-        return getTranslation( "%contentAssignmentImportedContentSubject%",
-                               AdminConsoleTranslationService.getInstance().getDefaultLanguageCode() );
+        return "Enonic CMS - Drafts assigned to you";
     }
 
     public void setAssignmentDescription( String assignmentDescription )

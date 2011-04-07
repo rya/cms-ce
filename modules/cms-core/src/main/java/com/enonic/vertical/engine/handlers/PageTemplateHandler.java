@@ -1571,10 +1571,9 @@ public final class PageTemplateHandler
         if ( pagetemplateElem != null )
         {
             // rename copy
-            Map translationMap = languageMap.getTranslationMap( user.getSelectedLanguageCode() );
             Element nameElem = XMLTool.getElement( pagetemplateElem, "name" );
             Text nameNode = (Text) nameElem.getFirstChild();
-            nameNode.setData( nameNode.getData() + " (" + translationMap.get( "%txtCopy%" ) + ")" );
+            nameNode.setData( nameNode.getData() + " (copy)" );
 
             // remove old parameter keys and save position
             Map<String, String> paramKeyMap = new HashMap<String, String>();

@@ -14,7 +14,6 @@ import com.google.common.collect.Maps;
 import com.enonic.cms.business.mail.AbstractMailTemplate;
 
 import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentStatus;
 import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.security.user.UserEntity;
 
@@ -57,24 +56,24 @@ public abstract class AbstractAssignmentMailTemplate
 
         if ( StringUtils.isNotBlank( contentPath ) )
         {
-            addKeyValue( keyValues, "%fldStatus%", getTranslatedStatus( contentVersion.getStatus() ) );
+            addKeyValue( keyValues, "Status", contentVersion.getStatus().getLabel() );
 
             if ( assignmentDueDate != null )
             {
-                addKeyValue( keyValues, "%contentAssignmentDuedate%", dateFormat.format( assignmentDueDate ) );
+                addKeyValue( keyValues, "Due date", dateFormat.format( assignmentDueDate ) );
             }
 
-            addKeyValue( keyValues, "%fldDisplayName%", contentVersion.getTitle() );
-            addKeyValue( keyValues, "%fldContentType%", content.getContentType().getName() );
-            addKeyValue( keyValues, "%contentAssignedBy%", createUserName( assigner ) );
-            addKeyValue( keyValues, "%contentAssignmentPath%", contentPath );
+            addKeyValue( keyValues, "Display name", contentVersion.getTitle() );
+            addKeyValue( keyValues, "Content type", content.getContentType().getName() );
+            addKeyValue( keyValues, "Modifier", createUserName( assigner ) );
+            addKeyValue( keyValues, "Content path", contentPath );
         }
 
         String adminUrl = getAdminUrl( content.getKey() );
 
         if ( StringUtils.isNotBlank( adminUrl ) )
         {
-            addKeyValue( keyValues, "%blockURL%", adminUrl );
+            addKeyValue( keyValues, "Link", adminUrl );
         }
 
         appendKeyValuesWithPadding( body, keyValues );
@@ -112,21 +111,9 @@ public abstract class AbstractAssignmentMailTemplate
         return maxLength;
     }
 
-    private String getTranslatedStatus( ContentStatus status )
+    protected void addKeyValue( Map<String, String> keyValueMap, String key, String value )
     {
-        return getTranslation( "%txtContentState" + status.getKey() + "%", getLanguageCode() );
-    }
-
-    protected void addKeyValue( Map<String, String> keyValueMap, String translatableKey, String value )
-    {
-        String translatedKey = getTranslation( translatableKey, getLanguageCode() ) + ":";
-
-        keyValueMap.put( translatedKey, value );
-    }
-
-    protected String getLanguageCode()
-    {
-        return content.getLanguage() == null ? null : content.getLanguage().getCode();
+        keyValueMap.put( key + ":", value );
     }
 
     public void setAssignmentDescription( String assignmentDescription )

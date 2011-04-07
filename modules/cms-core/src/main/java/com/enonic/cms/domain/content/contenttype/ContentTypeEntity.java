@@ -45,6 +45,16 @@ public class ContentTypeEntity
 
     private Set<CategoryEntity> categories;
 
+    public ContentTypeEntity()
+    {
+    }
+
+    public ContentTypeEntity( int key, String name )
+    {
+        this.key = key;
+        this.name = name;
+    }
+
     public int getKey()
     {
         return key;

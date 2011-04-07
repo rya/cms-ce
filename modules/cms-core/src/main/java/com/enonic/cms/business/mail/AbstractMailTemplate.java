@@ -7,7 +7,6 @@ package com.enonic.cms.business.mail;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.business.AdminConsoleTranslationService;
 
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.security.user.UserEntity;
@@ -31,6 +28,8 @@ import com.enonic.cms.domain.security.user.UserEntity;
  */
 public abstract class AbstractMailTemplate
 {
+    public static final String ADMIN_URL = "/adminpage?page=0&editContent=";
+
     protected final static Logger LOG = LoggerFactory.getLogger( AbstractMailTemplate.class );
 
     private List<MailRecipient> mailRecipients = new ArrayList<MailRecipient>();
@@ -39,49 +38,13 @@ public abstract class AbstractMailTemplate
 
     protected static final SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy HH:mm" );
 
-    protected String getTranslation( String key, String languageCode )
-    {
-        if ( !isLanguageCodeAvailable( languageCode ) )
-        {
-            languageCode = AdminConsoleTranslationService.getInstance().getDefaultLanguageCode();
-        }
-
-        AdminConsoleTranslationService languageMap = AdminConsoleTranslationService.getInstance();
-        Map<String, String> translationMap = languageMap.getTranslationMap( languageCode );
-
-        String phrase = translationMap.get( key );
-        if ( phrase != null && !phrase.equalsIgnoreCase( "missing" ) )
-        {
-            return phrase;
-        }
-        else
-        {
-            translationMap = languageMap.getTranslationMap( AdminConsoleTranslationService.getInstance().getDefaultLanguageCode() );
-            return translationMap.get( key );
-        }
-    }
-
-    private boolean isLanguageCodeAvailable( String languageCode )
-    {
-        try
-        {
-            AdminConsoleTranslationService.getInstance().getTranslationMap( languageCode );
-            return true;
-        }
-        catch ( IllegalArgumentException e )
-        {
-            LOG.warn( "Languagecode " + languageCode + " is not available, reverting to default language" );
-            return false;
-        }
-    }
-
     protected String getAdminUrl( final ContentKey contentKey )
     {
         HttpServletRequest request = ServletRequestAccessor.getRequest();
         String adminUrl = AdminHelper.getAdminPath( request, false );
         if ( adminUrl != null )
         {
-            adminUrl += "/adminpage?page=0&editContent=" + contentKey.toString();
+            adminUrl += ADMIN_URL + contentKey.toString();
         }
         return adminUrl;
     }

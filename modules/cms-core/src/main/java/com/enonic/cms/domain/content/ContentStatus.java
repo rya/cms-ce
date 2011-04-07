@@ -9,10 +9,10 @@ package com.enonic.cms.domain.content;
  */
 public enum ContentStatus
 {
-    DRAFT( 0, "draft" ),
-    SNAPSHOT( 1, "snapshot" ),
-    APPROVED( 2, "approved" ),
-    ARCHIVED( 3, "archived" );
+    DRAFT( 0, "draft", "Draft" ),
+    SNAPSHOT( 1, "snapshot", "Snapshot" ),
+    APPROVED( 2, "approved", "Approved" ),
+    ARCHIVED( 3, "archived", "Archived" );
 
     // These are calculated
     //PUBLISH_WAITING( 4, "waiting" ),
@@ -23,11 +23,13 @@ public enum ContentStatus
     private int key;
 
     private String name;
+    private final String label;
 
-    ContentStatus( int key, String name )
+    ContentStatus( int key, String name, String label )
     {
         this.key = key;
         this.name = name;
+        this.label = label;
     }
 
     public int getKey()
@@ -38,6 +40,11 @@ public enum ContentStatus
     public String getName()
     {
         return name;
+    }
+
+    public String getLabel()
+    {
+        return label;
     }
 
     public static ContentStatus get( Integer value )

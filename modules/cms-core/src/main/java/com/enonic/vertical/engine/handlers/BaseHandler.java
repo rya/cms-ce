@@ -36,7 +36,6 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.core.content.ContentService;
 
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
@@ -49,8 +48,6 @@ public abstract class BaseHandler
     protected final VerticalDatabase db = VerticalDatabase.getInstance();
 
     protected BaseEngine baseEngine;
-
-    protected AdminConsoleTranslationService languageMap;
 
     protected VerticalProperties verticalProperties;
 
@@ -132,11 +129,6 @@ public abstract class BaseHandler
         this.baseEngine = value;
     }
 
-
-    public void setAdminConsoleTranslationService( AdminConsoleTranslationService languageMap )
-    {
-        this.languageMap = languageMap;
-    }
 
     public void setKeyService( KeyService value )
     {

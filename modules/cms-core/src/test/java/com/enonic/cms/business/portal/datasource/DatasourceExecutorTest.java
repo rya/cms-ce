@@ -19,9 +19,7 @@ import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.datasource.Datasource;
-import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserImpl;
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 
@@ -58,9 +56,6 @@ public class DatasourceExecutorTest
         userEntity.setDisplayName( "Elvis Presley" );
         userEntity.setEmail( "elvis@graceland.com" );
         userEntity.setUserStore( userStoreEntity );
-
-        User oldUser = new UserImpl();
-        oldUser.setSelectedLanguageCode( "no" );
 
         context.setDeviceClass( "default" );
         context.setHttpRequest( request );

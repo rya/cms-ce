@@ -11,7 +11,6 @@
     <property name="keyService" ref="keyService"/>
     <property name="verticalProperties" ref="verticalProperties"/>
     <property name="baseEngine" ref="presentationEngine"/>
-    <property name="adminConsoleTranslationService" ref="adminConsoleTranslationService"/>
     <property name="securityService" ref="securityService"/>
   </bean>
 

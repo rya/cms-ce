@@ -31,7 +31,7 @@ public class AssignmentTakenOverMailTemplate
     {
         StringBuffer body = new StringBuffer();
 
-        body.append( getTranslation( "%contentAssignmentTakenOverBody%", getLanguageCode() ) + " " + createUserName( assigner ) );
+        body.append( "A draft previously assigned to you has been modified by " + createUserName( assigner ) );
 
         /* if ( StringUtils.isNotBlank( assignmentDescription ) )
         {
@@ -57,7 +57,7 @@ public class AssignmentTakenOverMailTemplate
     @Override
     public String getSubject()
     {
-        return getTranslation( "%contentAssignmentTakenOverSubject%", getLanguageCode() ) + ": " + contentVersion.getTitle();
+        return "Enonic CMS - Draft unassigned: " + contentVersion.getTitle();
     }
 
 }

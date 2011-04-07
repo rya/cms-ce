@@ -45,8 +45,6 @@ public class UserImpl
 
     private Boolean deleted;
 
-    private String selectedLanguageCode;
-
     private UserInfo userInfo;
 
     public String getPassword()
@@ -201,16 +199,6 @@ public class UserImpl
     public void setDeleted( Boolean deleted )
     {
         this.deleted = deleted;
-    }
-
-    public String getSelectedLanguageCode()
-    {
-        return selectedLanguageCode;
-    }
-
-    public void setSelectedLanguageCode( String value )
-    {
-        this.selectedLanguageCode = value;
     }
 
     public UserInfo getUserInfo()
