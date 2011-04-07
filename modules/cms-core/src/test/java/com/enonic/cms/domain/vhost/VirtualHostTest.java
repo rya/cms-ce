@@ -8,6 +8,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.vhost.VirtualHost;
+
 public class VirtualHostTest
     extends TestCase
 {

@@ -9,8 +9,7 @@ import org.apache.jackrabbit.webdav.DavLocatorFactory;
 import org.apache.jackrabbit.webdav.DavResourceLocator;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.business.vhost.VirtualHostHelper;
+import com.enonic.cms.core.vhost.VirtualHostHelper;
 
 /**
  * This class implements the locator factory.

@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.vhost;
+package com.enonic.cms.core.vhost;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-
-import com.enonic.cms.domain.vhost.InvalidVirtualHostPatternException;
-import com.enonic.cms.domain.vhost.VirtualHost;
 
 /**
  * This class implements the virtual host resolver. This should be an interface if

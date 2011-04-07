@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
-import com.enonic.cms.business.vhost.VirtualHostHelper;
+import com.enonic.cms.core.vhost.VirtualHostHelper;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;

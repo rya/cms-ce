@@ -38,7 +38,7 @@
 
   <filter>
     <filter-name>virtualHostFilter</filter-name>
-    <filter-class>com.enonic.cms.server.service.vhost.VirtualHostFilter</filter-class>
+    <filter-class>com.enonic.cms.core.vhost.VirtualHostFilter</filter-class>
   </filter>
 
   <filter-mapping>

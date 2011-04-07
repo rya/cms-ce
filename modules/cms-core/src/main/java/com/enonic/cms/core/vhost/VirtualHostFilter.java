@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.vhost;
+package com.enonic.cms.core.vhost;
 
 import java.io.IOException;
 
@@ -20,10 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.GenericFilterBean;
-
-import com.enonic.cms.business.vhost.VirtualHostHelper;
-
-import com.enonic.cms.domain.vhost.VirtualHost;
 
 public final class VirtualHostFilter
         extends GenericFilterBean
