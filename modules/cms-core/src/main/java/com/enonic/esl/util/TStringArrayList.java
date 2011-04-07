@@ -16,19 +16,9 @@ public class TStringArrayList
 
     }
 
-    public TStringArrayList( String[] stringArray )
-    {
-        strings.addAll( Arrays.asList( stringArray ) );
-    }
-
     public void add( String string )
     {
         strings.add( string );
-    }
-
-    public void clear()
-    {
-        strings.clear();
     }
 
     public void add( String[] stringArray )
@@ -44,26 +34,6 @@ public class TStringArrayList
     public boolean contains( String string )
     {
         return strings.contains( string );
-    }
-
-    public int size()
-    {
-        return strings.size();
-    }
-
-    public int indexOf( String string )
-    {
-        return strings.indexOf( string );
-    }
-
-    public void remove( String string )
-    {
-        strings.remove( string );
-    }
-
-    public String get( int index )
-    {
-        return (String) strings.get( index );
     }
 
 }

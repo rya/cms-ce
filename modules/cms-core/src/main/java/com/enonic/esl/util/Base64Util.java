@@ -19,10 +19,6 @@ import java.io.Writer;
  */
 public final class Base64Util
 {
-    /**
-     * Charset used for base64 encoded data (7-bit ASCII).
-     */
-    private final static String CHARSET = "US-ASCII";
 
     /**
      * Encoding table (the 64 valid base64 characters).
@@ -63,40 +59,6 @@ public final class Base64Util
     }
 
     /**
-     * Calculates the size.
-     */
-    public static long calcEncodedLength( long dataLength )
-    {
-        long encLen = dataLength * 4 / 3;
-        encLen += ( encLen + 4 ) % 4;
-        return encLen;
-    }
-
-    /**
-     * Pessimistically guesses the size.
-     */
-    public static long guessDecodedLength( long encLength )
-    {
-        long decLen = encLength * 3 / 4;
-        return decLen + 3;
-    }
-
-    /**
-     * Outputs base64 representation of the specified stream data to a <code>Writer</code>.
-     */
-    public static void encode( InputStream in, Writer writer )
-        throws IOException
-    {
-        byte[] buffer = new byte[9 * 1024];
-        int read;
-
-        while ( ( read = in.read( buffer ) ) > 0 )
-        {
-            encode( buffer, 0, read, writer );
-        }
-    }
-
-    /**
      * Outputs base64 representation of the specified stream data to a <code>String</code>.
      */
     public static String encode( byte[] data )
@@ -111,16 +73,6 @@ public final class Base64Util
             throw new IllegalStateException( ioe );
         }
         return writer.toString();
-    }
-
-    /**
-     * Outputs base64 representation of the specified stream data to an <code>OutputStream</code>.
-     */
-    public static void encode( InputStream in, OutputStream out )
-        throws IOException
-    {
-        Writer writer = new OutputStreamWriter( out, CHARSET );
-        encode( in, writer );
     }
 
     /**
@@ -170,117 +122,4 @@ public final class Base64Util
         }
     }
 
-    /**
-     * Decode base64 encoded data.
-     */
-    public static void decode( Reader reader, OutputStream out )
-        throws IOException
-    {
-        char[] chunk = new char[8192];
-        int read;
-        while ( ( read = reader.read( chunk ) ) > -1 )
-        {
-            decode( chunk, 0, read, out );
-        }
-    }
-
-    /**
-     * Decode base64 encoded data. The data read from the inputstream is assumed to be of charset "US-ASCII".
-     */
-    public static void decode( InputStream in, OutputStream out )
-        throws IOException
-    {
-        decode( new InputStreamReader( in, CHARSET ), out );
-    }
-
-    /**
-     * Decode base64 encoded data.
-     */
-    public static void decode( String data, OutputStream out )
-        throws IOException
-    {
-        char[] chars = data.toCharArray();
-        decode( chars, 0, chars.length, out );
-    }
-
-    public static byte[] decode( String data )
-    {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream( data.length() );
-        try
-        {
-            decode( data, baos );
-        }
-        catch ( IOException ioe )
-        {
-            throw new IllegalStateException( ioe );
-        }
-        return baos.toByteArray();
-    }
-
-    /**
-     * Decode base64 encoded data.
-     */
-    public static void decode( char[] chars, OutputStream out )
-        throws IOException
-    {
-        decode( chars, 0, chars.length, out );
-    }
-
-    /**
-     * Decode base64 encoded data.
-     */
-    public static void decode( char[] chars, int off, int len, OutputStream out )
-        throws IOException
-    {
-        if ( len == 0 )
-        {
-            return;
-        }
-        if ( len < 0 || off >= chars.length || len + off > chars.length )
-        {
-            throw new IllegalArgumentException();
-        }
-        char[] chunk = new char[4];
-        byte[] dec = new byte[3];
-        int posChunk = 0;
-        // decode in chunks of 4 characters
-        for ( int i = off; i < ( off + len ); i++ )
-        {
-            char c = chars[i];
-            if ( c < DECODETABLE.length && DECODETABLE[c] != 0x7f || c == BASE64PAD )
-            {
-                chunk[posChunk++] = c;
-                if ( posChunk == chunk.length )
-                {
-                    int b0 = DECODETABLE[chunk[0]];
-                    int b1 = DECODETABLE[chunk[1]];
-                    int b2 = DECODETABLE[chunk[2]];
-                    int b3 = DECODETABLE[chunk[3]];
-                    if ( chunk[3] == BASE64PAD && chunk[2] == BASE64PAD )
-                    {
-                        dec[0] = (byte) ( b0 << 2 & 0xfc | b1 >> 4 & 0x3 );
-                        out.write( dec, 0, 1 );
-                    }
-                    else if ( chunk[3] == BASE64PAD )
-                    {
-                        dec[0] = (byte) ( b0 << 2 & 0xfc | b1 >> 4 & 0x3 );
-                        dec[1] = (byte) ( b1 << 4 & 0xf0 | b2 >> 2 & 0xf );
-                        out.write( dec, 0, 2 );
-                    }
-                    else
-                    {
-                        dec[0] = (byte) ( b0 << 2 & 0xfc | b1 >> 4 & 0x3 );
-                        dec[1] = (byte) ( b1 << 4 & 0xf0 | b2 >> 2 & 0xf );
-                        dec[2] = (byte) ( b2 << 6 & 0xc0 | b3 & 0x3f );
-                        out.write( dec, 0, 3 );
-                    }
-                    posChunk = 0;
-                }
-            }
-            else
-            {
-                throw new IllegalArgumentException( "specified data is not base64 encoded" );
-            }
-        }
-    }
 }

@@ -14,9 +14,6 @@ public abstract class RegexpUtil
 {
     // Use as case-insensitive
 
-    public final static String REG_EXP_VALID_EMAIL =
-        "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
-
     public static Matcher match( String inputString, String regexp )
     {
         return match( inputString, regexp, 0 );
@@ -38,17 +35,4 @@ public abstract class RegexpUtil
         return target.replaceAll( regexp, subst );
     }
 
-    static public String matchAndReturnGroup( final String pattern, final String path, final int index )
-    {
-        Pattern regExp = Pattern.compile( pattern );
-        Matcher matcher = regExp.matcher( path );
-        if ( matcher.matches() )
-        {
-            if ( matcher.groupCount() >= index )
-            {
-                return matcher.group( index );
-            }
-        }
-        return null;
-    }
 }

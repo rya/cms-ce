@@ -54,26 +54,6 @@ public final class RelationTree
             return this.key;
         }
 
-        public RelationNode getParent()
-        {
-            return this.parent;
-        }
-
-        public boolean isRoot()
-        {
-            return this.parent == null;
-        }
-
-        public boolean hasParent()
-        {
-            return this.parent != null;
-        }
-
-        public boolean hasChildren()
-        {
-            return !this.children.isEmpty();
-        }
-
         public int getChildCount()
         {
             return this.children.size();
@@ -96,31 +76,14 @@ public final class RelationTree
             return Collections.unmodifiableList( this.children );
         }
 
-        public boolean isAncestor( RelationNode node )
+        private boolean isAncestor( RelationNode node )
         {
             return this.parent != null && ( this.parent == node || this.parent.isAncestor( node ) );
         }
 
-        public boolean isAncestorOrSelf( RelationNode node )
+        private boolean isAncestorOrSelf( RelationNode node )
         {
             return isAncestor( node ) || ( node == this );
-        }
-
-        public int getLevel()
-        {
-            int level = 0;
-
-            if ( this.parent != null )
-            {
-                level = this.parent.getLevel() + 1;
-            }
-
-            return level;
-        }
-
-        public boolean isChild( RelationNode node )
-        {
-            return this.children.contains( node );
         }
 
         public Object accept( RelationVisitor visitor )
@@ -153,11 +116,6 @@ public final class RelationTree
                 this.children.add( entry );
                 clearEntrySet();
             }
-        }
-
-        public RelationNode getRoot()
-        {
-            return getRootEntry();
         }
 
         private Entry getRootEntry()
@@ -212,7 +170,7 @@ public final class RelationTree
             return this.selected;
         }
 
-        public void setSelected( boolean selected )
+        private void setSelected( boolean selected )
         {
             this.selected = selected;
         }
@@ -229,31 +187,10 @@ public final class RelationTree
             }
         }
 
-        public void selectAll()
-        {
-            selectLevels( Integer.MAX_VALUE );
-        }
-
-        public void clearSelected()
-        {
-            setSelected( false );
-            for ( Object aChildren : this.children )
-            {
-                ( (Entry) aChildren ).clearSelected();
-            }
-        }
-
         public Set findSelectedKeys()
         {
             HashSet set = new HashSet();
             findSelected( set, true );
-            return set;
-        }
-
-        public Set findSelectedNodes()
-        {
-            HashSet set = new HashSet();
-            findSelected( set, false );
             return set;
         }
 

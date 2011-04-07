@@ -88,52 +88,6 @@ public final class ArrayUtil
     }
 
     /**
-     * <p>Differentiate two string sequences. Will return a 2-dimensional array containing the values to be removed (index=0) into and
-     * inserted (index=1) from the first sequence (a[]).</p>
-     *
-     * @param array1 String[] first sequence
-     * @param array2 String[] second sequence
-     * @return String[][] the 2-dimensional array containing the diff
-     */
-    public static String[][] diff( String[] array1, String[] array2 )
-    {
-
-        if ( array1 == null || array2 == null )
-        {
-            return new String[2][0];
-        }
-        else if ( array1.length == 0 || array2.length == 0 )
-        {
-            return new String[][]{array2, array1};
-        }
-
-        TStringArrayList a1 = new TStringArrayList( array1 );
-        TStringArrayList a2 = new TStringArrayList( array2 );
-        TStringArrayList removed = new TStringArrayList();
-        TStringArrayList inserted = new TStringArrayList();
-
-        for ( int i = 0; i < a1.size(); i++ )
-        {
-            String string = a1.get( i );
-            if ( !a2.contains( string ) )
-            {
-                inserted.add( string );
-            }
-        }
-
-        for ( int i = 0; i < a2.size(); i++ )
-        {
-            String string = a2.get( i );
-            if ( !a1.contains( string ) )
-            {
-                removed.add( string );
-            }
-        }
-
-        return new String[][]{removed.toNativeArray(), inserted.toNativeArray()};
-    }
-
-    /**
      * <p>Remove duplicates from an integer sequence.</p>
      *
      * @param a int[] the sequence
@@ -187,16 +141,6 @@ public final class ArrayUtil
         return false;
     }
 
-    public static int[] toIntArray( String[] strValues )
-    {
-        int[] intValues = new int[strValues.length];
-        for ( int i = 0; i < strValues.length; i++ )
-        {
-            intValues[i] = Integer.parseInt( strValues[i].trim() );
-        }
-        return intValues;
-    }
-
     public static ArrayList<Integer> toArrayList( int[] intValues )
     {
         if ( intValues == null )
@@ -240,27 +184,6 @@ public final class ArrayUtil
         for ( int i = 0; i < array.length; i++ )
         {
             if ( array[i].equals( value ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean contains( String csv, int value )
-    {
-        String[] strValues = StringUtil.splitString( csv, "," );
-        int[] intValues = ArrayUtil.toIntArray( strValues );
-
-        if ( intValues == null )
-        {
-            return false;
-        }
-
-        for ( int i = 0; i < intValues.length; i++ )
-        {
-            if ( intValues[i] == value )
             {
                 return true;
             }

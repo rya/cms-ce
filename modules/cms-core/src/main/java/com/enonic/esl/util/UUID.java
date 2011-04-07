@@ -61,30 +61,6 @@ public final class UUID
     }
 
     /**
-     * Return host unique value.
-     */
-    public int getHost()
-    {
-        return this.host;
-    }
-
-    /**
-     * Return time value.
-     */
-    public long getTime()
-    {
-        return this.time;
-    }
-
-    /**
-     * Return sequence.
-     */
-    public short getSequence()
-    {
-        return this.seq;
-    }
-
-    /**
      * Return as string.
      */
     public String getValue()
