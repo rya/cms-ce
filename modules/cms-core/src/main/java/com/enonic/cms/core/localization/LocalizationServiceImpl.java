@@ -2,14 +2,14 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.localization;
+package com.enonic.cms.core.localization;
 
 import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.business.localization.resource.LocalizationResourceBundleService;
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleService;
 
 import com.enonic.cms.domain.localization.LocalizationResourceBundle;
 import com.enonic.cms.domain.structure.SiteEntity;

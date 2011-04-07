@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.resource.ResourceService;
 
-import com.enonic.cms.business.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 import com.enonic.cms.business.resolver.ForceResolverValueService;
 import com.enonic.cms.business.resolver.ScriptResolverService;
 

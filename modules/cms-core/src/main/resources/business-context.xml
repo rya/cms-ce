@@ -119,9 +119,9 @@
         class="com.enonic.cms.business.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
 
   <!-- Localization -->
-  <bean id="localizeService" class="com.enonic.cms.business.localization.LocalizationServiceImpl"/>
+  <bean id="localizeService" class="com.enonic.cms.core.localization.LocalizationServiceImpl"/>
   <bean id="localizationResourceBundleService"
-        class="com.enonic.cms.business.localization.resource.LocalizationResourceBundleServiceImpl">
+        class="com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl">
     <property name="propertiesCache">
       <bean class="com.enonic.cms.framework.cache.CacheFacadeFactory">
         <property name="cacheManager" ref="cacheFacadeManager"/>

@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.localization;
+package com.enonic.cms.core.localization;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.business.localization.resource.LocalizationResourceBundleService;
+import com.enonic.cms.core.localization.LocalizationServiceImpl;
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleService;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.localization.LocalizationResourceBundle;

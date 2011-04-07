@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.localization;
+package com.enonic.cms.core.localization;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -13,9 +13,8 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl;
 import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.business.localization.resource.LocalizationResourceBundleServiceImpl;
 
 import com.enonic.cms.domain.localization.LocalizationResourceBundle;
 import com.enonic.cms.domain.resource.ResourceKey;

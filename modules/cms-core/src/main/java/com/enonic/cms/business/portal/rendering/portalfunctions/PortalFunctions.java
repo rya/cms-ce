@@ -19,6 +19,7 @@ import com.enonic.cms.framework.util.URLUtils;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
 import com.enonic.cms.core.captcha.CaptchaService;
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -31,8 +32,8 @@ import com.enonic.cms.business.SiteURLResolver;
 
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.core.image.ImageRequestParser;
-import com.enonic.cms.business.localization.LocalizationService;
-import com.enonic.cms.business.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.core.localization.LocalizationService;
+
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.resolver.locale.LocaleResolverService;

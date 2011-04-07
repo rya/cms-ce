@@ -2,13 +2,13 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.localization;
+package com.enonic.cms.core.localization;
 
 import java.util.Locale;
 
 import org.junit.Test;
 
-import com.enonic.cms.business.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 
 import com.enonic.cms.domain.localization.LocaleParsingException;
 
