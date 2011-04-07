@@ -184,7 +184,7 @@
               value="${com.enonic.vertical.presentation.autologinTimeout}"/>
   </bean>
 
-  <bean id="countryService" class="com.enonic.cms.business.country.CountryServiceImpl">
+  <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl">
     <property name="resource">
       <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
         <property name="requireResource" value="true"/>

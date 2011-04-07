@@ -2,12 +2,9 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.country;
+package com.enonic.cms.core.country;
 
 import java.util.Collection;
-
-import com.enonic.cms.domain.country.Country;
-import com.enonic.cms.domain.country.CountryCode;
 
 /**
  * Aug 4, 2009

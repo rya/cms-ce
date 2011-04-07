@@ -12,8 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
-import com.enonic.cms.domain.country.Country;
-import com.enonic.cms.domain.country.CountryCode;
+import com.enonic.cms.core.country.CountryCode;
+import com.enonic.cms.core.country.CountryServiceImpl;
+
+import com.enonic.cms.core.country.Country;
 
 public class CountryServiceImplTest
 {

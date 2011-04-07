@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.country;
+package com.enonic.cms.core.country;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -15,10 +15,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-
-import com.enonic.cms.domain.country.Country;
-import com.enonic.cms.domain.country.CountryCode;
-import com.enonic.cms.domain.country.CountryXmlParser;
 
 /**
  * This implements the country service. It load country codes from an xml file. It tries to find the first resource that exists and load
