@@ -5,7 +5,6 @@
 
   <bean id="adminService" class="com.enonic.cms.core.internal.service.AdminServiceImpl">
     <property name="adminEngine" ref="adminEngine"/>
-    <property name="resourceService" ref="resourceService"/>
   </bean>
 
   <bean id="presentationService" class="com.enonic.cms.core.internal.service.PresentationServiceImpl">

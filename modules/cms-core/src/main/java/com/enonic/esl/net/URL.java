@@ -153,27 +153,6 @@ public class URL
         return true;
     }
 
-    public void addParameters( Map valueMap )
-    {
-        for ( Object key : valueMap.keySet() )
-        {
-            Object value = valueMap.get( key );
-            if ( value instanceof String[] )
-            {
-                String[] values = (String[]) value;
-                for ( String v : values )
-                {
-                    queryParams.put( URLUtil.encode( key.toString() ), URLUtil.encode( v ) );
-                }
-            }
-            else
-            {
-                queryParams.put( URLUtil.encode( key.toString() ), URLUtil.encode( value.toString() ) );
-            }
-        }
-    }
-
-
     /**
      * Add parameters from av multi-value map. Iterates over the map's values and append them to the URL string as "name=value" pairs.
      * Previously added parameters with the same names as those added are preserved, as multiple values pr. name is allowed.
@@ -245,15 +224,6 @@ public class URL
         }
     }
 
-    public void removeParameter( String name )
-    {
-        if ( name == null || name.length() == 0 )
-        {
-            return;
-        }
-        queryParams.remove( name );
-    }
-
     public Iterator parameterIterator()
     {
         return new ParameterIterator( queryParams );
@@ -306,10 +276,5 @@ public class URL
     public void setLabel( String string )
     {
         label = string;
-    }
-
-    public boolean hasParameter( String name )
-    {
-        return queryParams.containsKey( name );
     }
 }

@@ -21,7 +21,6 @@ import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.core.security.userstore.UserStoreService;
 
-import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
 import com.enonic.cms.domain.security.InvalidCredentialsException;
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
@@ -52,10 +51,6 @@ public class SecurityServiceImpl
     @Autowired
     private UserStoreService userStoreService;
 
-/* commented due to B-1788 - B-1793 tickets
-    @Autowired
-    protected AdminConsoleLoginAccessResolver adminConsoleLoginAccessResolver;
-*/
     @Autowired
     private VerticalProperties verticalProperties;
 
@@ -185,49 +180,6 @@ public class SecurityServiceImpl
         return groupDao.findByQuery( spec );
     }
 
-    public List<UserEntity> findUsersByQuery( UserStoreKey userStoreKey, String queryStr, String orderBy, boolean orderAscending )
-    {
-        return userDao.findByQuery( userStoreKey, queryStr, orderBy, orderAscending );
-    }
-
-    public List<UserStoreEntity> getUserStores()
-    {
-        return userStoreDao.findAll();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public User getLoggedInAdminConsoleUser()
-    {
-        final UserKey userKey = doGetUserKeyForLoggedInAdminConsoleUser();
-        if ( userKey == null )
-        {
-            return null;
-        }
-        return userStoreService.getUserByKey( userKey );
-    }
-
-    public User getLoggedInClientApiUser()
-    {
-        return userStoreService.getUserByKey( doGetUserKeyForLoggedInPortalUser() );
-    }
-
-    public UserEntity getLoggedInClientApiUserAsEntity()
-    {
-        return userDao.findByKey( doGetUserKeyForLoggedInPortalUser() );
-    }
-
-    public UserEntity getLoggedInAdminConsoleUserAsEntity()
-    {
-        final UserKey userKey = doGetUserKeyForLoggedInAdminConsoleUser();
-        if ( userKey == null )
-        {
-            return null;
-        }
-        return userDao.findByKey( userKey );
-    }
-
     public User getLoggedInPortalUser()
     {
         return userStoreService.getUserByKey( doGetUserKeyForLoggedInPortalUser() );
@@ -260,98 +212,6 @@ public class SecurityServiceImpl
     public User getRunAsOldUser()
     {
         return doGetOldUserObject( doGetUserKeyForPortalExecutor() );
-    }
-
-    public boolean autoLoginPortalUser( QualifiedUsername qualifiedUsername )
-    {
-        try
-        {
-            doLoginPortalUser( qualifiedUsername, null, false );
-            return true;
-        }
-        catch ( InvalidCredentialsException e )
-        {
-            return false;
-        }
-    }
-
-    public User loginAdminUser( final QualifiedUsername qualifiedUsername, final String password )
-    {
-        return doLoginAdminUser( qualifiedUsername, password, true );
-    }
-
-    public boolean autoLoginAdminUser( final QualifiedUsername qualifiedUsername )
-    {
-        try
-        {
-            doLoginAdminUser( qualifiedUsername, null, false );
-            return true;
-        }
-        catch ( InvalidCredentialsException e )
-        {
-            return false;
-        }
-        catch ( AdminConsoleAccessDeniedException e )
-        {
-            return false;
-        }
-    }
-
-    public User doLoginAdminUser( final QualifiedUsername qualifiedUsername, final String password, final boolean verifyPassword )
-    {
-        final String uid = qualifiedUsername.getUsername();
-
-        UserEntity user;
-
-        if ( UserEntity.isBuiltInUser( uid ) )
-        {
-            UserSpecification userSpec = new UserSpecification();
-            userSpec.setDeletedStateNotDeleted();
-            UserKey userKey = authenticateBuiltInUser( uid, password, verifyPassword );
-            userSpec.setKey( userKey );
-            user = userDao.findSingleBySpecification( userSpec );
-        }
-        else
-        {
-            UserStoreEntity userStore;
-            if ( qualifiedUsername.hasUserStoreSet() )
-            {
-                userStore = doResolveUserStore( qualifiedUsername );
-            }
-            else
-            {
-                userStore = doGetDefaultUserStore();
-            }
-
-            if ( userStore == null )
-            {
-                throw new InvalidCredentialsException( qualifiedUsername );
-            }
-
-            if ( verifyPassword )
-            {
-                userStoreService.authenticateUser( userStore.getKey(), uid, password );
-            }
-
-            userStoreService.synchronizeUser( userStore.getKey(), uid );
-
-            UserSpecification userSpec = new UserSpecification();
-            userSpec.setDeletedStateNotDeleted();
-            userSpec.setUserStoreKey( userStore.getKey() );
-            userSpec.setName( uid );
-            user = userDao.findSingleBySpecification( userSpec );
-        }
-
-        /* commented due to B-1788 - B-1793 tickets
-        if ( !adminConsoleLoginAccessResolver.hasAccess( user ) )
-        {
-            throw new AdminConsoleAccessDeniedException( qualifiedUsername );
-        }
-        */
-
-        SecurityHolderAdmin.setUser( user.getKey() );
-
-        return userStoreService.getUserByKey( user.getKey() );
     }
 
     public void loginPortalUser( final QualifiedUsername qualifiedUsername, final String password )
@@ -423,11 +283,6 @@ public class SecurityServiceImpl
         return doImpersonate( qualifiedUsername.getUsername(), userStoreKey );
     }
 
-    public UserEntity impersonate( String uid, UserStoreKey userStoreKey )
-    {
-        return doImpersonate( uid, userStoreKey );
-    }
-
     private UserEntity doImpersonate( String uid, UserStoreKey userStoreKey )
     {
         User current = getLoggedInPortalUser();
@@ -453,12 +308,6 @@ public class SecurityServiceImpl
         return user;
     }
 
-
-    public void logoutAdminUser()
-    {
-        doLogoutAdminUser();
-    }
-
     public void logoutPortalUser()
     {
         doLogoutPortalUser( true );
@@ -479,17 +328,6 @@ public class SecurityServiceImpl
         }
         final UserStoreKey userStoreKey = user.getUserStore() == null ? null : user.getUserStore().getKey();
         userStoreService.changePassword( userStoreKey, uid, newPassword );
-    }
-
-    private void doLogoutAdminUser()
-    {
-        SecurityHolderAdmin.setUser( null );
-
-        // Only invalidate session if logged out of both "portal" and "admin". Check portal user!
-        if ( SecurityHolder.getUser() == null )
-        {
-            invalidateSession();
-        }
     }
 
     private void doLogoutPortalUser( boolean invalidateSession )
@@ -585,11 +423,4 @@ public class SecurityServiceImpl
         initializeSecurityHolder();
         return SecurityHolder.getRunAsUser();
     }
-
-    private UserKey doGetUserKeyForLoggedInAdminConsoleUser()
-    {
-        return SecurityHolderAdmin.getUser();
-    }
-
-
 }

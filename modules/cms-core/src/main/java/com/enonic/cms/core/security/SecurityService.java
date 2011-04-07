@@ -59,8 +59,6 @@ public interface SecurityService
 
     List<UserEntity> getUsers( UserStoreKey userStoreKey, Integer index, Integer count, boolean includeDeleted );
 
-    List<UserEntity> findUsersByQuery( UserStoreKey userStoreKey, String queryStr, String orderBy, boolean orderAscending );
-
     /**
      * Finds group specified by qname. Does not find deleted groups.
      *
@@ -72,10 +70,6 @@ public interface SecurityService
     GroupEntity getGroup( GroupKey key );
 
     List<GroupEntity> getGroups( GroupQuery spec );
-
-    List<UserStoreEntity> getUserStores();
-
-    User loginAdminUser( final QualifiedUsername qualifiedUsername, final String password );
 
     void loginPortalUser( final QualifiedUsername qualifiedUsername, final String password );
 
@@ -90,26 +84,10 @@ public interface SecurityService
      */
     UserEntity impersonate( QualifiedUsername qualifiedUsername );
 
-    /**
-     * Impersonate given user. This user then becomes then currently run-as user.
-     *
-     * @param uid          The id of the user in the given user store.
-     * @param userStoreKey The user store where the uid is registered.
-     */
-    UserEntity impersonate( String uid, UserStoreKey userStoreKey );
-
     @Transactional(propagation = Propagation.REQUIRED)
     User getLoggedInPortalUser();
 
     UserEntity getLoggedInPortalUserAsEntity();
-
-    User getLoggedInAdminConsoleUser();
-
-    UserEntity getLoggedInAdminConsoleUserAsEntity();
-
-    User getLoggedInClientApiUser();
-
-    UserEntity getLoggedInClientApiUserAsEntity();
 
     User getOldUserObject();
 
@@ -126,21 +104,9 @@ public interface SecurityService
 
     User getRunAsOldUser();
 
-    void logoutAdminUser();
-
     void logoutPortalUser();
 
     void logoutClientApiUser( boolean invalidateSession );
-
-    /**
-     * Auto login user. Used by plugins.
-     *
-     * @param qualifiedUsername The fully qualified userName, which includes user store and uid.
-     * @return <code>true</code> if successful.
-     */
-    boolean autoLoginPortalUser( QualifiedUsername qualifiedUsername );
-
-    boolean autoLoginAdminUser( QualifiedUsername qualifiedUsername );
 
     void changePassword( final QualifiedUsername qualifiedUsername, final String newPassword );
 }

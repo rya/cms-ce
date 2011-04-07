@@ -8,16 +8,9 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Document;
-
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AdminEngine;
 
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.domain.security.user.User;
 
 public class AdminServiceImpl
     implements AdminService
@@ -29,14 +22,6 @@ public class AdminServiceImpl
     }
 
     protected AdminEngine adminEngine;
-
-    private ResourceService resourceService;
-
-    public void setResourceService( ResourceService value )
-    {
-        this.resourceService = value;
-    }
-
 
     /**
      *
@@ -58,12 +43,6 @@ public class AdminServiceImpl
         return adminEngine.initializeDatabaseValues();
     }
 
-    private String doGetAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
-    {
-        Document doc = this.adminEngine.getAdminMenu( user, menuKeys, menuItemTypes, includeReadOnlyAccessRight );
-        return XMLTool.documentToString( doc );
-    }
-
     /**
      * Return a map of top level menus with name.
      */
@@ -72,15 +51,4 @@ public class AdminServiceImpl
     {
         return this.adminEngine.getMenuMap();
     }
-
-    public long getArchiveSizeByCategory( int categoryKey )
-    {
-        return adminEngine.getArchiveSizeByCategory( categoryKey );
-    }
-
-    public long getArchiveSizeByUnit( int unitKey )
-    {
-        return adminEngine.getArchiveSizeByUnit( unitKey );
-    }
-
 }

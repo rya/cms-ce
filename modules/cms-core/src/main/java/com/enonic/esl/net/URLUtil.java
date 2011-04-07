@@ -13,8 +13,6 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLConnection;
 import java.util.BitSet;
-import java.util.HashMap;
-import java.util.Map;
 
 public class URLUtil
 {
@@ -260,39 +258,5 @@ public class URLUtil
         }
 
         return ( needToChange ? sb.toString() : s );
-    }
-
-    public static Map<String, String[]> decodeParameterMap( Map<String, String[]> parameterMap )
-    {
-        return decodeParameterMap( parameterMap, "ISO-8859-1" );
-    }
-
-    public static Map<String, String[]> decodeParameterMap( Map<String, String[]> parameterMap, String inputEncoding )
-    {
-        Map<String, String[]> decodedParameterMap = new HashMap<String, String[]>( parameterMap.size() );
-        try
-        {
-            for ( Map.Entry<String, String[]> entry : parameterMap.entrySet() )
-            {
-                // decode key
-                String key = entry.getKey();
-                key = new String( key.getBytes( inputEncoding ), "UTF-8" );
-
-                // decode value(s)
-                String[] values = entry.getValue();
-                for ( int i = 0; i < values.length; i++ )
-                {
-                    values[i] = new String( values[i].getBytes( inputEncoding ), "UTF-8" );
-                }
-
-                decodedParameterMap.put( key, values );
-            }
-        }
-        catch ( UnsupportedEncodingException uee )
-        {
-            throw new IllegalStateException( uee.getMessage() );
-        }
-
-        return decodedParameterMap;
     }
 }

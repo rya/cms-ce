@@ -165,35 +165,6 @@ public final class AdminEngine
         return this.systemHandler.initializeDatabaseValues();
     }
 
-    public Document getAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
-    {
-
-        try
-        {
-            openSharedConnection();
-            return doGetAdminMenu( user, menuKeys, menuItemTypes, includeReadOnlyAccessRight );
-        }
-        finally
-        {
-            closeSharedConnection();
-        }
-    }
-
-    private Document doGetAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
-    {
-
-        Document menuDoc = menuHandler.getAdminMenu( user, menuKeys, menuItemTypes, includeReadOnlyAccessRight );
-
-        // Sort menuitems based on order
-        Element[] siteElems = XMLTool.getElements( menuDoc.getDocumentElement() );
-        for ( Element siteElem : siteElems )
-        {
-            XMLTool.sortChildElements( siteElem, "order", false, true );
-        }
-
-        return menuDoc;
-    }
-
     /**
      * Return a map of top level menus with name.
      *
@@ -204,16 +175,6 @@ public final class AdminEngine
         throws SQLException
     {
         return this.menuHandler.getMenuMap();
-    }
-
-    public long getArchiveSizeByCategory( int categoryKey )
-    {
-        return this.categoryHandler.getArchiveSizeByCategory( CategoryKey.parse( categoryKey ) );
-    }
-
-    public long getArchiveSizeByUnit( int unitKey )
-    {
-        return this.categoryHandler.getArchiveSizeByUnit( unitKey );
     }
 
     public void setCategoryHandler( CategoryHandler categoryHandler )

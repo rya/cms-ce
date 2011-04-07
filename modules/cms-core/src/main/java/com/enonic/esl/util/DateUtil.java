@@ -50,10 +50,4 @@ public class DateUtil
     {
         return isoDateFormatNoTime.format( date );
     }
-
-    public static String formatISODateTime( Date date )
-    {
-        return isoDateFormatWithTime.format( date );
-    }
-
 }
