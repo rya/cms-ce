@@ -17,7 +17,7 @@ import com.enonic.cms.domain.structure.SiteEntity;
 
 public class LocalizationTestUtils
 {
-    private static final String BASE_RESOURCE_CLASSPATH = "classpath:com/enonic/cms/business/localization/";
+    private static final String BASE_RESOURCE_CLASSPATH = "classpath:com/enonic/cms/core/localization/";
 
     private static final String[] RESOURCES = {"phrases", "phrases_en", "phrases_no", "phrases_en-us"};
 

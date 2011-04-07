@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.portal.image;
+package com.enonic.cms.core.image;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +10,8 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 import com.enonic.cms.core.image.ImageRequestParser;
+
+import com.enonic.cms.business.portal.image.ImageServiceImpl;
 
 /**
  * Created by IntelliJ IDEA.
