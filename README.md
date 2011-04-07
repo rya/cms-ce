@@ -11,7 +11,7 @@ Build all code and run all tests (except integration tests):
 
 Build all code including integration tests:
 
-    gradle clean integration-test install
+    mvn clean integration-test install
 
 ## License
 
