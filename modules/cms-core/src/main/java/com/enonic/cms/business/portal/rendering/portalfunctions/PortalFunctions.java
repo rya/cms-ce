@@ -18,6 +18,7 @@ import org.joda.time.DateTime;
 import com.enonic.cms.framework.util.URLUtils;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.captcha.CaptchaService;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -26,7 +27,6 @@ import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.captcha.CaptchaService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.core.image.ImageRequestParser;

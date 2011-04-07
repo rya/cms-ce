@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.octo.captcha.service.CaptchaServiceException;
 
-import com.enonic.cms.business.captcha.CaptchaRepository;
+import com.enonic.cms.core.captcha.CaptchaRepository;
 
 /**
  * The captcha image generator.
