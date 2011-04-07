@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.image;
+package com.enonic.cms.core.image;
 
 import org.junit.Assert;
 import org.junit.Test;
