@@ -163,7 +163,6 @@
             <xsl:value-of select="$callback"/>(key, type, name, userstorename, qualifiedName, photoExists);
 
           }
-
           // -------------------------------------------------------------------------------------------------------------------------------
 
           /**
@@ -171,27 +170,27 @@
            */
           function rowClick( key )
           {
-						<xsl:choose>
-							<xsl:when test="$callback">
-                cms.util.BatchAdd.toggleCheckBox(key);
-              </xsl:when>
-							<xsl:when test="$userstoreadmin = 'true' or $admin = 'true'">
-                var editButton = document.getElementById('operation_edit_'+key);
-                if ( !editButton) return;
+            <xsl:choose>
+                <xsl:when test="$callback">
+                    cms.util.BatchAdd.toggleCheckBox(key);
+                </xsl:when>
+			    <xsl:when test="$userstoreadmin = 'true' or $admin = 'true'">
+                    var editButton = document.getElementById('operation_edit_'+key);
+                    if ( !editButton) return;
 
-                if( document.all )
-                {
-									editButton.click();
-								}
-								else
-                {
-										document.location.href = editButton.href;
-								}
-							</xsl:when>
-							<xsl:otherwise>
-							</xsl:otherwise>
-						</xsl:choose>
-					}
+                    if( document.all )
+                    {
+                        editButton.click();
+                    }
+                    else
+                    {
+                        document.location.href = editButton.href;
+                    }
+				</xsl:when>
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+			}
 
 
           /*
@@ -575,9 +574,35 @@
                   </xsl:variable>
                   <input type="hidden" id="name_placeholder_{$key}" name="name_placeholder_{$key}" value="{$name}"/>
                   <xsl:value-of select="$name"/>&nbsp;
+                    <script type="text/javascript">
+                        <xsl:variable name="opener-is-cahce-form" select="$callback = 'opener.caching_callback_selectednew'"/>
+                        if (window.opener) {
+                        <xsl:choose>
+                            <xsl:when test="$opener = 'user-picker'">
+                                if ( window.opener.document.getElementById('<xsl:value-of select="$user-picker-key-field"/>').value === '<xsl:value-of select="$key"/>' )
+                                {
+                                    paintIsAdded( '<xsl:value-of select="$key"/>', false );
+                                }
+                            </xsl:when>
+                            <xsl:when test="$opener-is-cahce-form">
+                                if (window.opener.document.getElementById('runas').value === '<xsl:value-of select="$key"/>')
+                                {
+                                    paintIsAdded( '<xsl:value-of select="$key"/>', false );
+                                }
+                            </xsl:when>
+                            <xsl:otherwise>
+                                // Is allready added or current group is self.
+                                if (window.opener.isChoosen('<xsl:value-of select="$key"/>') || '<xsl:value-of select="$key"/>' == '<xsl:value-of select="$excludekey"/>')
+                                {
+                                    paintIsAdded( '<xsl:value-of select="$key"/>', <xsl:value-of select="$key = $excludekey"/> );
+                                }
+                            </xsl:otherwise>
+                        </xsl:choose>
+                        }
+                    </script>
                 </td>
 
-                <xsl:if test="$usersOnly">
+                  <xsl:if test="$usersOnly">
                   <td nowrap="nowrap" class="{$class}" title="{$title}">
                     <xsl:call-template name="addJsClickEvent">
                       <xsl:with-param name="key" select="$key"/>
@@ -793,37 +818,6 @@
                       </xsl:call-template>
                     </xsl:if>
                     <!--/xsl:if-->
-                    <script type="text/javascript">
-                      <xsl:variable name="opener-is-cahce-form" select="$callback = 'opener.caching_callback_selectednew'"/>
-
-                      if (window.opener) {
-                        <xsl:choose>
-                          <xsl:when test="$opener = 'user-picker'">
-                            if ( window.opener.document.getElementById('<xsl:value-of select="$user-picker-key-field"/>').value === '<xsl:value-of select="$key"/>' )
-                            {
-                              paintIsAdded( '<xsl:value-of select="$key"/>', false );
-                            }
-                          </xsl:when>
-                          <xsl:when test="$opener-is-cahce-form">
-                            if (window.opener.document.getElementById('runas').value === '<xsl:value-of select="$key"/>')
-                            {
-                              paintIsAdded( '<xsl:value-of select="$key"/>', false );
-                            }
-                          </xsl:when>
-                          <xsl:otherwise>
-                            // Is allready added or current group is self.
-                            if (window.opener.isChoosen('<xsl:value-of select="$key"/>') || '<xsl:value-of select="$key"/>' == '<xsl:value-of select="$excludekey"/>')
-                            {
-                              paintIsAdded( '<xsl:value-of select="$key"/>', <xsl:value-of select="$key = $excludekey"/> );
-                            }
-                          </xsl:otherwise>
-                        </xsl:choose>
-                      }
-                      <!-- Authenticated users -->
-                      <!--xsl:if test="name() = 'group' and @type = 3">
-                      paintIsAdded('<xsl:value-of select="$key"/>');
-                    </xsl:if-->
-                    </script>
                     &nbsp;
                   </td>
 

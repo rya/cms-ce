@@ -1,9 +1,0 @@
-
-allprojects {
-    repositories {
-        mavenCentral()
-        mavenRepo urls: 'http://repo.enonic.com/maven'
-        mavenRepo urls: 'http://repository.jboss.org/nexus/content/groups/public'
-    }
-}
-
