@@ -13,53 +13,53 @@
 
   <import resource="classpath:store-dao-context.xml"/>
 
-  <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
+  <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
-  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
+  <bean id="binaryService" class="com.enonic.cms.core.content.binary.BinaryServiceImpl"/>
 
-  <bean id="contentStorer" class="com.enonic.cms.business.core.content.ContentStorer"/>
+  <bean id="contentStorer" class="com.enonic.cms.core.content.ContentStorer"/>
 
-  <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">
+  <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
     <property name="contentStorer" ref="contentStorer"/>
   </bean>
 
-  <bean id="importService" class="com.enonic.cms.business.core.content.imports.ImportServiceImpl"/>
+  <bean id="importService" class="com.enonic.cms.core.content.imports.ImportServiceImpl"/>
 
-  <bean id="importJobFactory" class="com.enonic.cms.business.core.content.imports.ImportJobFactory"/>
+  <bean id="importJobFactory" class="com.enonic.cms.core.content.imports.ImportJobFactory"/>
 
-  <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl"/>
+  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
-  <bean id="binaryAccessResolver" class="com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver"/>
+  <bean id="binaryAccessResolver" class="com.enonic.cms.core.content.binary.access.BinaryAccessResolver"/>
 
-  <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+  <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
-  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.business.core.content.ContentSecurityFilterResolver"/>
+  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
-  <bean id="contentValidator" class="com.enonic.cms.business.core.content.ContentValidator"/>
+  <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
 
   <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
 
   <bean id="synchronizeUserStoreJobFactory"
-        class="com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
+        class="com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
 
-  <bean id="userStoreService" class="com.enonic.cms.business.core.security.userstore.UserStoreServiceImpl"/>
+  <bean id="userStoreService" class="com.enonic.cms.core.security.userstore.UserStoreServiceImpl"/>
 
-  <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
+  <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
 
-  <bean id="memberOfResolver" class="com.enonic.cms.business.core.security.userstore.MemberOfResolver"/>
+  <bean id="memberOfResolver" class="com.enonic.cms.core.security.userstore.MemberOfResolver"/>
 
-  <bean id="userStoreAccessResolver" class="com.enonic.cms.business.core.security.userstore.UserStoreAccessResolver"/>
+  <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver"/>
 
-  <bean id="groupStorageService" class="com.enonic.cms.business.core.security.group.GroupStorageService"/>
+  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
 
-  <bean id="userStorageService" class="com.enonic.cms.business.core.security.userstore.UserStorageService"/>
+  <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
 
   <bean id="userStoreConnectorConfigLoader"
-        class="com.enonic.cms.business.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
+        class="com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
 
-  <bean id="remoteUserStoreFactory" class="com.enonic.cms.business.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
+  <bean id="remoteUserStoreFactory" class="com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
 
-  <bean id="userStoreConnectorManager" class="com.enonic.cms.business.core.security.userstore.UserStoreConnectorManagerImpl"/>
+  <bean id="userStoreConnectorManager" class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl"/>
 
   <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
             <!--  commented due to B-1788 - B-1793 tickets

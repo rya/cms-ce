@@ -14,8 +14,8 @@ import org.apache.jackrabbit.webdav.DavSession;
 import org.apache.jackrabbit.webdav.DavSessionProvider;
 import org.apache.jackrabbit.webdav.WebdavRequest;
 
-import com.enonic.cms.business.core.resource.access.ResourceAccessResolver;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.resource.access.ResourceAccessResolver;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.domain.security.user.QualifiedUsername;
 

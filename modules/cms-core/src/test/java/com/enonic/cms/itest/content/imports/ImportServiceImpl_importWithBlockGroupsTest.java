@@ -25,15 +25,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.imports.ImportJob;
+import com.enonic.cms.core.content.imports.ImportService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.command.ImportContentCommand;
-import com.enonic.cms.business.core.content.imports.ImportJob;
-import com.enonic.cms.business.core.content.imports.ImportJobFactory;
-import com.enonic.cms.business.core.content.imports.ImportService;
-import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.core.content.imports.ImportJobFactory;
+
+import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.content.ContentVersionEntity;

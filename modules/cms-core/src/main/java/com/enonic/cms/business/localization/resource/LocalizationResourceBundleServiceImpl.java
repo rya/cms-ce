@@ -13,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.store.resource.FileResourceEvent;
 import com.enonic.cms.store.resource.FileResourceListener;
-
-import com.enonic.cms.business.core.resource.ResourceService;
 
 import com.enonic.cms.domain.localization.LocalizationResourceBundle;
 import com.enonic.cms.domain.localization.LocalizationResourceException;

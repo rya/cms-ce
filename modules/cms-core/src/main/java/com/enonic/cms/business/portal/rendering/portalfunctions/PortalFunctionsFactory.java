@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -17,7 +18,7 @@ import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.core.captcha.CaptchaService;
-import com.enonic.cms.business.core.security.SecurityService;
+
 import com.enonic.cms.business.localization.LocalizationService;
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.resolver.locale.LocaleResolverService;

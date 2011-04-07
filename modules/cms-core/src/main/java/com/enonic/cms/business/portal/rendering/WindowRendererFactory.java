@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.resource.ResourceService;
+
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.core.resource.ResourceService;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory;

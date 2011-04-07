@@ -23,10 +23,10 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ImportContentsParams;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.itest.test.AssertTool;
 
 import com.enonic.cms.business.SpecialCharacterTestStrings;
-import com.enonic.cms.business.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

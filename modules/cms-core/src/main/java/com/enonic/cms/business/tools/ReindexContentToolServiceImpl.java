@@ -26,9 +26,9 @@ import com.enonic.cms.framework.jdbc.dialect.Dialect;
 import com.enonic.cms.store.DatabaseAccessor;
 import com.enonic.cms.store.support.ConnectionFactory;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.IndexService;
-import com.enonic.cms.business.core.content.RegenerateIndexBatcher;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.IndexService;
+import com.enonic.cms.core.content.RegenerateIndexBatcher;
 
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 

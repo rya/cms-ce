@@ -52,10 +52,9 @@ import com.enonic.vertical.engine.dbmodel.ContentPublishedView;
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.content.category.CategoryXmlCreator;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.store.dao.CategoryDao;
-
-import com.enonic.cms.business.core.content.category.CategoryXmlCreator;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.content.category.CategoryAccessRightsAccumulated;

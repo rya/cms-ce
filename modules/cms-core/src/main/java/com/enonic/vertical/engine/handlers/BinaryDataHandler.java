@@ -10,7 +10,7 @@ import com.enonic.vertical.engine.XDG;
 
 import com.enonic.cms.framework.blob.BlobStoreObject;
 
-import com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver;
+import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
 
 import com.enonic.cms.domain.content.ContentAccessType;
 import com.enonic.cms.domain.content.ContentEntity;

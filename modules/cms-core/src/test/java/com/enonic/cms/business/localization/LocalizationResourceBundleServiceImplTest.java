@@ -13,7 +13,8 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 
-import com.enonic.cms.business.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceService;
+
 import com.enonic.cms.business.localization.resource.LocalizationResourceBundleServiceImpl;
 
 import com.enonic.cms.domain.localization.LocalizationResourceBundle;

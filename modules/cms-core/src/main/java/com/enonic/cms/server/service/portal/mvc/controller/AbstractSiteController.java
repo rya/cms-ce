@@ -17,14 +17,14 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.SiteContext;
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.structure.SiteService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;

@@ -46,19 +46,20 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.IndexService;
+import com.enonic.cms.core.content.RegenerateIndexBatcher;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.IndexService;
-import com.enonic.cms.business.core.content.RegenerateIndexBatcher;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
+import com.enonic.cms.core.content.ContentService;
+
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
 
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.SiteKey;

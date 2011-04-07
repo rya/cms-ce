@@ -7,7 +7,7 @@ package com.enonic.cms.business.portal.datasource.context;
 import org.jdom.CDATA;
 import org.jdom.Element;
 
-import com.enonic.cms.business.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceService;
 
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;

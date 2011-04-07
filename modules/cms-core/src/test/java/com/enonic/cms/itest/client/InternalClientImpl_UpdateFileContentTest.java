@@ -38,7 +38,7 @@ import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.business.client.InternalClient;
-import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;

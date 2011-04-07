@@ -18,10 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
-
-import com.enonic.cms.business.core.resource.ResourceService;
 
 import com.enonic.cms.domain.portal.PortalRenderingException;
 import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParameter;

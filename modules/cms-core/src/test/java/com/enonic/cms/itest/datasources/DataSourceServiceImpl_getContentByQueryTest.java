@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.itest.datasources;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.security.SecurityService;
+
 import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.domain.content.ContentHandlerName;

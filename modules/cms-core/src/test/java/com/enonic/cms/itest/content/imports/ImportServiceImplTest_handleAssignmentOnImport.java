@@ -25,19 +25,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.command.AssignContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.imports.ImportJob;
+import com.enonic.cms.core.content.imports.ImportService;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.AssignContentCommand;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.ImportContentCommand;
-import com.enonic.cms.business.core.content.imports.ImportJob;
-import com.enonic.cms.business.core.content.imports.ImportJobFactory;
-import com.enonic.cms.business.core.content.imports.ImportService;
-import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.core.content.imports.ImportJobFactory;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;

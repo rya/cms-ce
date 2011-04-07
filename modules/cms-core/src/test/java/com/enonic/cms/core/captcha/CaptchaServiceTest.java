@@ -14,12 +14,8 @@ import org.springframework.mock.web.MockHttpSession;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.core.captcha.CaptchaRepository;
-import com.enonic.cms.core.captcha.CaptchaService;
-import com.enonic.cms.core.captcha.CaptchaServiceImpl;
-
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;

@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.security.userstore.UserStoreService;
 
 import com.enonic.cms.domain.security.user.StoreNewUserCommand;
 import com.enonic.cms.domain.security.user.UpdateUserCommand;

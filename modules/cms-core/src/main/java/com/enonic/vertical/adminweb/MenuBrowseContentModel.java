@@ -12,9 +12,9 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
-import com.enonic.cms.business.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteXmlCreator;
 
 import com.enonic.cms.domain.structure.DefaultSiteAccumulatedAccessRights;
 import com.enonic.cms.domain.structure.SiteEntity;

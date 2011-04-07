@@ -17,7 +17,7 @@ import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
 
-import com.enonic.cms.business.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.business.portal.rendering.StyleSheetURIResolver;
 
 import com.enonic.cms.domain.resource.ResourceKey;

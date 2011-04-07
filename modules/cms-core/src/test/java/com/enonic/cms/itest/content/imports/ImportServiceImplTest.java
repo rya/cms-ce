@@ -27,19 +27,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.imports.ImportJob;
+import com.enonic.cms.core.content.imports.ImportJobFactory;
+import com.enonic.cms.core.content.imports.ImportService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.ImportContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
-import com.enonic.cms.business.core.content.imports.ImportJob;
-import com.enonic.cms.business.core.content.imports.ImportJobFactory;
-import com.enonic.cms.business.core.content.imports.ImportService;
-import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.core.content.ContentService;
+
+import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;
@@ -1355,7 +1356,8 @@ public class ImportServiceImplTest
 
         // setup: create draft for approved content
         UpdateContentCommand updateCommand =
-            UpdateContentCommand.storeNewVersionIfChanged( fixture.findContentByKey( contentKey_approved ).getMainVersion().getKey() );
+            UpdateContentCommand.storeNewVersionIfChanged(
+                    fixture.findContentByKey( contentKey_approved ).getMainVersion().getKey() );
         updateCommand.setContentKey( contentKey_approved );
         updateCommand.setUpdateStrategy( UpdateContentCommand.UpdateStrategy.MODIFY );
         updateCommand.setModifier( fixture.findUserByName( "testuser" ).getKey() );

@@ -57,10 +57,9 @@ import com.enonic.cms.framework.util.TIntObjectHashMap;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.security.UserNameXmlCreator;
 import com.enonic.cms.store.dao.ContentTypeDao;
-
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
-import com.enonic.cms.business.core.security.UserNameXmlCreator;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.LanguageKey;
@@ -1955,7 +1954,8 @@ public final class ContentHandler
     public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
         throws VerticalUpdateException
     {
-        UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2( new ContentVersionKey( versionKey ) );
+        UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2(
+                new ContentVersionKey( versionKey ) );
         command.setContentKey( new ContentKey( contentKey ) );
         command.setStatus( ContentStatus.get( status ) );
         command.setModifier( securityService.getUser( user ) );

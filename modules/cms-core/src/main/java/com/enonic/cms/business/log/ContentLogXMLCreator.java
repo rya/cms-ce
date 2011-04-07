@@ -6,9 +6,8 @@ package com.enonic.cms.business.log;
 
 import org.jdom.Element;
 
+import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.business.core.content.ContentXMLCreator;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

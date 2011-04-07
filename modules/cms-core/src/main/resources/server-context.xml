@@ -38,7 +38,7 @@
     <property name="replaceSpacesWithPlus" value="true"/>
   </bean>
 
-  <bean id="siteService" class="com.enonic.cms.business.core.structure.SiteServiceImpl">
+  <bean id="siteService" class="com.enonic.cms.core.structure.SiteServiceImpl">
     <property name="presentationService" ref="presentationService"/>
     <property name="siteCachesService" ref="siteCachesService"/>
     <property name="siteContextManager">
@@ -57,7 +57,7 @@
     <property name="urlDecodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
   </bean>
 
-  <bean id="autoLoginService" class="com.enonic.cms.business.core.security.AutoLoginService">
+  <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
     <property name="securityService" ref="securityService"/>
     <property name="loginService" ref="loginService"/>
   </bean>

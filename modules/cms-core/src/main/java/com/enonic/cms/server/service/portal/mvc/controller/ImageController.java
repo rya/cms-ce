@@ -22,8 +22,8 @@ import com.enonic.cms.store.dao.MenuItemDao;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.security.AutoLoginService;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.AutoLoginService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.image.ImageRequest;
 
 import com.enonic.cms.business.portal.image.ImageProcessorException;

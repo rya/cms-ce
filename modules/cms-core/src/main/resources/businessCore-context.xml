@@ -4,56 +4,56 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <!-- services -->
-  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
+  <bean id="binaryService" class="com.enonic.cms.core.content.binary.BinaryServiceImpl"/>
 
-  <bean id="calendarService" class="com.enonic.cms.business.core.calendar.CalendarService"/>
+  <bean id="calendarService" class="com.enonic.cms.core.calendar.CalendarService"/>
 
-  <bean id="categoryService" class="com.enonic.cms.business.core.content.category.CategoryServiceImpl">
+  <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
     <property name="timeService" ref="timeService"/>
     <property name="keyService" ref="keyService"/>
   </bean>
 
-  <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">
+  <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
     <property name="contentStorer" ref="contentStorer"/>
   </bean>
 
-  <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl">
+  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl">
     <property name="dialect" ref="dialectFactory"/>
   </bean>
 
-  <bean id="contentParserService" class="com.enonic.cms.business.core.content.ContentParserService"/>
+  <bean id="contentParserService" class="com.enonic.cms.core.content.ContentParserService"/>
 
-  <bean id="importService" class="com.enonic.cms.business.core.content.imports.ImportServiceImpl"/>
+  <bean id="importService" class="com.enonic.cms.core.content.imports.ImportServiceImpl"/>
 
-  <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
+  <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
-  <bean id="preferenceService" class="com.enonic.cms.business.core.preferences.PreferenceServiceImpl"/>
+  <bean id="preferenceService" class="com.enonic.cms.core.preferences.PreferenceServiceImpl"/>
 
-  <bean id="menuItemService" class="com.enonic.cms.business.core.structure.menuitem.MenuItemServiceImpl"/>
+  <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
 
-  <bean id="resourceService" class="com.enonic.cms.business.core.resource.ResourceServiceImpl"/>
+  <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
 
-  <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+  <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
   <!-- resolvers -->
-  <bean id="binaryAccessResolver" class="com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver"/>
+  <bean id="binaryAccessResolver" class="com.enonic.cms.core.content.binary.access.BinaryAccessResolver"/>
 
-  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.business.core.content.ContentSecurityFilterResolver"/>
+  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
-  <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
+  <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
 
-  <bean id="resourceAccessResolver" class="com.enonic.cms.business.core.resource.access.ResourceAccessResolver"/>
+  <bean id="resourceAccessResolver" class="com.enonic.cms.core.resource.access.ResourceAccessResolver"/>
 
   <!-- content validators -->
-  <bean id="contentValidator" class="com.enonic.cms.business.core.content.ContentValidator"/>
+  <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
 
   <!-- other objects -->
-  <bean id="userParser" class="com.enonic.cms.business.core.security.UserParser"/>
+  <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
 
-  <bean id="userStoreParser" class="com.enonic.cms.business.core.security.UserStoreParser"/>
+  <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
 
-  <bean id="contentStorer" class="com.enonic.cms.business.core.content.ContentStorer"/>
+  <bean id="contentStorer" class="com.enonic.cms.core.content.ContentStorer"/>
 
-  <bean id="importJobFactory" class="com.enonic.cms.business.core.content.imports.ImportJobFactory"/>
+  <bean id="importJobFactory" class="com.enonic.cms.core.content.imports.ImportJobFactory"/>
 
 </beans>

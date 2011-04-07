@@ -6,10 +6,10 @@ package com.enonic.cms.business.portal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.content.ContentEntity;

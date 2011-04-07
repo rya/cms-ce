@@ -11,7 +11,7 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -20,7 +20,8 @@ import org.joda.time.format.PeriodFormatter;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.business.core.preferences.PreferenceService;
+import com.enonic.cms.core.preferences.PreferenceService;
+
 import com.enonic.cms.business.portal.page.PageRequestFactory;
 
 import com.enonic.cms.domain.portal.PortalInstanceKey;

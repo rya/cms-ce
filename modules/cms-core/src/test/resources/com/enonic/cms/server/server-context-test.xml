@@ -111,27 +111,27 @@
   <bean id="pluginManager" class="com.enonic.cms.business.plugin.ExtensionManagerImpl">
   </bean>
 
-  <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
+  <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
-  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
+  <bean id="binaryService" class="com.enonic.cms.core.content.binary.BinaryServiceImpl"/>
 
-  <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">
+  <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
     <property name="contentStorer">
-      <bean class="com.enonic.cms.business.core.content.ContentStorer"/>
+      <bean class="com.enonic.cms.core.content.ContentStorer"/>
     </property>
   </bean>
 
-  <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl"/>
+  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
-  <bean id="binaryAccessResolver" class="com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver"/>
+  <bean id="binaryAccessResolver" class="com.enonic.cms.core.content.binary.access.BinaryAccessResolver"/>
 
-  <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+  <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
-  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.business.core.content.ContentSecurityFilterResolver"/>
+  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
   <!-- content validators -->
   <bean id="contentValidator"
-        class="com.enonic.cms.business.core.content.ContentValidator"/>
+        class="com.enonic.cms.core.content.ContentValidator"/>
 
   <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
 

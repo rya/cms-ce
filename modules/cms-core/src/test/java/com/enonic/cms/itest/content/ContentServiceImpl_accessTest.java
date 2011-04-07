@@ -21,20 +21,21 @@ import com.enonic.vertical.userservices.UserServicesRedirectUrlResolver;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.UpdateContentException;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.CreateContentException;
-import com.enonic.cms.business.core.content.UpdateContentException;
-import com.enonic.cms.business.core.content.UpdateContentResult;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.content.CreateContentException;
+
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 
 import com.enonic.cms.domain.content.ContentEntity;

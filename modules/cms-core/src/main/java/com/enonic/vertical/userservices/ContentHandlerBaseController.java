@@ -33,12 +33,13 @@ import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.business.core.content.UpdateContentResult;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.UpdateContentResult;
+
 import com.enonic.cms.business.portal.cache.PageCacheService;
 
 import com.enonic.cms.domain.CalendarUtil;
@@ -349,7 +350,8 @@ public class ContentHandlerBaseController
         }
         else
         {
-            updateContentCommand = UpdateContentCommand.updateExistingVersion2( parsedContentAndVersion.getVersion().getKey() );
+            updateContentCommand = UpdateContentCommand.updateExistingVersion2(
+                    parsedContentAndVersion.getVersion().getKey() );
         }
 
         updateContentCommand.setModifier( runningUser );

@@ -27,10 +27,9 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
+import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.ContentAndVersion;

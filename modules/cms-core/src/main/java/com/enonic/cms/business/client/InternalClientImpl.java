@@ -70,6 +70,22 @@ import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
 import com.enonic.cms.api.client.model.preference.Preference;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.GetContentExecutor;
+import com.enonic.cms.core.content.GetContentResult;
+import com.enonic.cms.core.content.GetContentXmlCreator;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.imports.ImportJob;
+import com.enonic.cms.core.content.imports.ImportJobFactory;
+import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.UserParser;
+import com.enonic.cms.core.security.UserStoreParser;
+import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.KeyService;
@@ -86,23 +102,9 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.GetContentExecutor;
-import com.enonic.cms.business.core.content.GetContentResult;
-import com.enonic.cms.business.core.content.GetContentXmlCreator;
-import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
-import com.enonic.cms.business.core.content.command.ImportContentCommand;
-import com.enonic.cms.business.core.content.imports.ImportJob;
-import com.enonic.cms.business.core.content.imports.ImportJobFactory;
-import com.enonic.cms.business.core.preferences.PreferenceService;
-import com.enonic.cms.business.core.resource.ResourceService;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.UserParser;
-import com.enonic.cms.business.core.security.UserStoreParser;
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
+
+import com.enonic.cms.core.preferences.PreferenceService;
+
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.portal.datasource.context.UserContextXmlCreator;
@@ -156,7 +158,6 @@ import com.enonic.cms.domain.security.user.UserXmlCreator;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.api.util.*;
 
 /**
  * This class implements the local client.

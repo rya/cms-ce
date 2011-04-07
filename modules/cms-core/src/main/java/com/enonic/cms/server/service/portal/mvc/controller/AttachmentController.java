@@ -21,6 +21,9 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.content.binary.BinaryService;
+import com.enonic.cms.core.security.AutoLoginService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
@@ -29,11 +32,9 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.content.binary.BinaryService;
-import com.enonic.cms.business.core.resource.ResourceService;
-import com.enonic.cms.business.core.security.AutoLoginService;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.structure.SiteService;
+import com.enonic.cms.core.resource.ResourceService;
+
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.business.portal.livetrace.AttachmentRequestTrace;
 import com.enonic.cms.business.portal.livetrace.AttachmentRequestTracer;
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;

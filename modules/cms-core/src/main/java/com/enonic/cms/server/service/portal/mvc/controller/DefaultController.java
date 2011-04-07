@@ -16,12 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.server.service.servlet.OriginalUrlResolver;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.security.AutoLoginService;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.AutoLoginService;
+
 import com.enonic.cms.business.portal.PortalRequestService;
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;

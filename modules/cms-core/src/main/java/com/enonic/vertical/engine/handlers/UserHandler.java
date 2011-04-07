@@ -18,9 +18,8 @@ import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.security.UserNameXmlCreator;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.business.core.security.UserNameXmlCreator;
 
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.User;

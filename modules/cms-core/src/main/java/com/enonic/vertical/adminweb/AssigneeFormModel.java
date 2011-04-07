@@ -14,8 +14,8 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.category.CategoryXmlCreator;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.category.CategoryXmlCreator;
 
 import com.enonic.cms.domain.content.ContentAndVersion;
 import com.enonic.cms.domain.content.ContentEntity;

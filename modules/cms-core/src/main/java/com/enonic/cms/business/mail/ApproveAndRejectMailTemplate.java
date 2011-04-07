@@ -7,9 +7,8 @@ package com.enonic.cms.business.mail;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
-
-import com.enonic.cms.business.core.content.ContentService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

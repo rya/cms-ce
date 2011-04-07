@@ -29,8 +29,8 @@
     <property name="localClient" ref="localClient"/>
   </bean>
 
-  <bean id="userParser" class="com.enonic.cms.business.core.security.UserParser"/>
+  <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
 
-  <bean id="userStoreParser" class="com.enonic.cms.business.core.security.UserStoreParser"/>
+  <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
   
 </beans>

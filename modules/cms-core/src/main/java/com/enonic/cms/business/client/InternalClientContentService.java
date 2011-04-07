@@ -20,25 +20,27 @@ import com.enonic.cms.api.client.model.SnapshotContentParams;
 import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.command.AssignContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.SnapshotContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.security.UserParser;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.business.core.content.UpdateContentResult;
-import com.enonic.cms.business.core.content.category.CategoryService;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
-import com.enonic.cms.business.core.content.command.AssignContentCommand;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.SnapshotContentCommand;
-import com.enonic.cms.business.core.content.command.UnassignContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand.UpdateStrategy;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.UserParser;
+import com.enonic.cms.core.content.category.CategoryService;
+
+import com.enonic.cms.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
+import com.enonic.cms.core.security.SecurityService;
+
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 

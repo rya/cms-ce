@@ -12,9 +12,10 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.resource.ResourceService;
+
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutor;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;

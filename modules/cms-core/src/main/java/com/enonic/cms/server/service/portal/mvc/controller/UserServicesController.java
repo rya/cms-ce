@@ -11,11 +11,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.vertical.userservices.UserServicesParameterResolver;
 
+import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.server.service.portal.ticket.TicketValidator;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.security.AutoLoginService;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;

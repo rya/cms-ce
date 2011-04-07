@@ -51,7 +51,7 @@ import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBri
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.core.captcha.CaptchaService;
-import com.enonic.cms.business.core.security.UserStoreParser;
+import com.enonic.cms.core.security.UserStoreParser;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;

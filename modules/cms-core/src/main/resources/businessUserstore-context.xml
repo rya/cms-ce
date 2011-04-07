@@ -4,28 +4,28 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="synchronizeUserStoreJobFactory"
-        class="com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
+        class="com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
 
   <bean id="userStoreConnectorConfigLoader"
-        class="com.enonic.cms.business.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
+        class="com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
 
-  <bean id="remoteUserStoreFactory" class="com.enonic.cms.business.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
+  <bean id="remoteUserStoreFactory" class="com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
 
   <bean id="userStoreConnectorManager"
-        class="com.enonic.cms.business.core.security.userstore.UserStoreConnectorManagerImpl">
+        class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl">
     <property name="useInternalOnly" value="false"/>
   </bean>
 
-  <bean id="userStoreService" class="com.enonic.cms.business.core.security.userstore.UserStoreServiceImpl"/>
+  <bean id="userStoreService" class="com.enonic.cms.core.security.userstore.UserStoreServiceImpl"/>
 
-  <bean id="memberOfResolver" class="com.enonic.cms.business.core.security.userstore.MemberOfResolver"/>
+  <bean id="memberOfResolver" class="com.enonic.cms.core.security.userstore.MemberOfResolver"/>
 
-  <bean id="userStoreAccessResolver" class="com.enonic.cms.business.core.security.userstore.UserStoreAccessResolver">
+  <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver">
     <property name="memberOfResolver" ref="memberOfResolver"/>
   </bean>
 
-  <bean id="groupStorageService" class="com.enonic.cms.business.core.security.group.GroupStorageService"/>
+  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
 
-  <bean id="userStorageService" class="com.enonic.cms.business.core.security.userstore.UserStorageService"/>
+  <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
 
 </beans>

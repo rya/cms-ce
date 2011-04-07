@@ -12,7 +12,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
-import com.enonic.cms.business.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceService;
 
 import com.enonic.cms.domain.resolver.ResolverContext;
 

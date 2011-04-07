@@ -15,7 +15,7 @@ import com.enonic.vertical.engine.AdminEngine;
 
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceService;
 
 import com.enonic.cms.domain.security.user.User;
 

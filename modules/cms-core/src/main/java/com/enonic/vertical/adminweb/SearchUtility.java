@@ -16,14 +16,14 @@ import com.enonic.esl.xml.XMLTool;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.domain.content.ContentStatus;
 import com.enonic.cms.domain.content.category.CategoryKey;

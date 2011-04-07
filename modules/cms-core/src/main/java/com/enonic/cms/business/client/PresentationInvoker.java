@@ -23,7 +23,7 @@ import com.enonic.cms.api.client.model.GetSubMenuParams;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.PresentationService;
 
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.domain.content.binary.BinaryData;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;

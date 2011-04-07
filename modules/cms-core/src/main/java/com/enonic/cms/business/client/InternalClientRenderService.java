@@ -21,6 +21,7 @@ import com.enonic.cms.framework.client.ClientHttpServletRequest;
 import com.enonic.cms.api.client.model.RenderContentParams;
 import com.enonic.cms.api.client.model.RenderPageParams;
 import com.enonic.cms.api.client.model.RenderParams;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.LanguageDao;
@@ -28,7 +29,6 @@ import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.PortalRequestService;
 
 import com.enonic.cms.domain.Attribute;

@@ -45,7 +45,7 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.business.core.calendar.CalendarService;
+import com.enonic.cms.core.calendar.CalendarService;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.binary.BinaryData;

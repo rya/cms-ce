@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentMap;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.core.structure.SiteService;
+import com.enonic.cms.core.structure.SiteService;
 
 import com.enonic.cms.domain.SiteKey;
 
@@ -43,7 +43,6 @@ public class UserServicesAccessManagerImpl
         sitesAccessRules = new ConcurrentHashMap<SiteKey, ConcurrentMap<String, AccessPermission>>();
     }
 
-    @Override
     public boolean isOperationAllowed( SiteKey site, String service, String operation )
     {
         siteService.checkSiteExist( site );

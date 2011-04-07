@@ -12,12 +12,12 @@ import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.service.DataSourceService;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.business.TightestCacheSettingsResolver;
-import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutor;

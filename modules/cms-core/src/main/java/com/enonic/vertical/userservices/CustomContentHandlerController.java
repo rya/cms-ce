@@ -18,14 +18,14 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.UpdateContentException;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.core.content.CreateContentException;
-import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.business.core.content.UpdateContentException;
-import com.enonic.cms.business.core.content.UpdateContentResult;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.UpdateContentResult;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.ContentEntity;
