@@ -7,6 +7,8 @@ package com.enonic.cms.business.image;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.enonic.cms.core.image.ImageRequestParams;
+
 public class ImageRequestParamsTest
 {
     @Test

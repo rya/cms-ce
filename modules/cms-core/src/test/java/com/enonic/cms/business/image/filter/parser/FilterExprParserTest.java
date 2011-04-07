@@ -6,6 +6,8 @@ package com.enonic.cms.business.image.filter.parser;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.image.filter.parser.FilterExprParser;
+
 public class FilterExprParserTest
     extends TestCase
 {

@@ -16,15 +16,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.image.ImageRequestParser;
+import com.enonic.cms.core.image.ImageResponse;
 import com.enonic.cms.store.dao.MenuItemDao;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.core.security.AutoLoginService;
 import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.image.ImageRequest;
-import com.enonic.cms.business.image.ImageRequestParser;
-import com.enonic.cms.business.image.ImageResponse;
+import com.enonic.cms.core.image.ImageRequest;
+
 import com.enonic.cms.business.portal.image.ImageProcessorException;
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;

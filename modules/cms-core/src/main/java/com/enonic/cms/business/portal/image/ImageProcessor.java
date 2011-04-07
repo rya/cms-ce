@@ -8,11 +8,11 @@ import java.awt.image.BufferedImage;
 
 import com.enonic.cms.framework.util.ImageHelper;
 
-import com.enonic.cms.business.image.ImageRequest;
-import com.enonic.cms.business.image.ImageResponse;
-import com.enonic.cms.business.image.filter.BuilderContext;
-import com.enonic.cms.business.image.filter.ImageFilter;
-import com.enonic.cms.business.image.filter.ImageFilterBuilder;
+import com.enonic.cms.core.image.ImageRequest;
+import com.enonic.cms.core.image.ImageResponse;
+import com.enonic.cms.core.image.filter.BuilderContext;
+import com.enonic.cms.core.image.filter.ImageFilterBuilder;
+import com.enonic.cms.core.image.filter.ImageFilter;
 
 public final class ImageProcessor
 {

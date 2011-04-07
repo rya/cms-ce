@@ -9,6 +9,9 @@ import java.util.HashMap;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.enonic.cms.core.image.ImageRequest;
+import com.enonic.cms.core.image.ImageRequestParser;
+
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.security.user.UserKey;

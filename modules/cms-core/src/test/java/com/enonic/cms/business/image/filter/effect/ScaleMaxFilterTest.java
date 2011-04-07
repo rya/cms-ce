@@ -8,7 +8,8 @@ import java.awt.image.BufferedImage;
 
 import org.junit.Test;
 
-import com.enonic.cms.business.image.filter.ImageFilter;
+import com.enonic.cms.core.image.filter.ImageFilter;
+import com.enonic.cms.core.image.filter.effect.ScaleMaxFilter;
 
 import static org.junit.Assert.*;
 
