@@ -100,21 +100,6 @@ public class CategoryCriteria
         return categoryKey;
     }
 
-    public void addCategoryKeys( List<Integer> categoryKeys )
-    {
-        if ( this.categoryKeys == null )
-        {
-            this.categoryKeys = categoryKeys;
-        }
-        else
-        {
-            for ( Integer categoryKey : categoryKeys )
-            {
-                this.categoryKeys.add( categoryKey );
-            }
-        }
-    }
-
     public List<Integer> getCategoryKeys()
     {
         return categoryKeys;

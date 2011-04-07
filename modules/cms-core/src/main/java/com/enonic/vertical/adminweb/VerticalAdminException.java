@@ -9,21 +9,6 @@ import com.enonic.vertical.VerticalException;
 public class VerticalAdminException
     extends VerticalException
 {
-    /**
-     * Construct the exception.
-     */
-    public VerticalAdminException( String message )
-    {
-        super( message );
-    }
-
-    /**
-     * Construct the exception.
-     */
-    public VerticalAdminException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
 
     /**
      * Construct the exception.

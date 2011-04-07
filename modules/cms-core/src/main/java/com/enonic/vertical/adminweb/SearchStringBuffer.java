@@ -132,21 +132,10 @@ public final class SearchStringBuffer
         return doAppendRaw( Operator.AND, rawSearch );
     }
 
-    public SearchStringBuffer appendRaw( Operator operator, String rawSearch )
-    {
-        return doAppendRaw( operator, rawSearch );
-    }
-
     public SearchStringBuffer appendRaw( SearchStringBuffer search )
     {
         return doAppendRaw( Operator.AND, search.toString() );
     }
-
-    public SearchStringBuffer appendRaw( Operator operator, SearchStringBuffer search )
-    {
-        return doAppendRaw( operator, search.toString() );
-    }
-
 
     public String toString()
     {

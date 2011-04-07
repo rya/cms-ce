@@ -35,11 +35,6 @@ public class MenuItemCriteria
 
     private MenuItemCriteria parentCriteria = null;
 
-    public MenuItemCriteria()
-    {
-
-    }
-
     public MenuItemCriteria( int type )
     {
         setType( type );
@@ -145,11 +140,6 @@ public class MenuItemCriteria
         {
             return -1;
         }
-    }
-
-    public void setApplySecurity( boolean value )
-    {
-        applySecurity = value;
     }
 
     public boolean applySecurity()
