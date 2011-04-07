@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.business.log;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,14 +20,8 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.LogEntryDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.content.index.LogEntryEntityFetcherImpl;
-
 import com.enonic.cms.domain.log.LogEntryEntity;
 import com.enonic.cms.domain.log.LogEntryKey;
-import com.enonic.cms.domain.log.LogEntryResultSet;
-import com.enonic.cms.domain.log.LogEntryResultSetLazyFetcher;
-import com.enonic.cms.domain.log.LogEntryResultSetNonLazy;
-import com.enonic.cms.domain.log.LogEntrySpecification;
 import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
 import com.enonic.cms.domain.security.user.UserEntity;
 
@@ -46,33 +38,6 @@ public class LogServiceImpl
     private UserDao userDao;
 
     private static final int PATH_FIELD_MAX_LENGTH = 256;
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public LogEntryResultSet getLogEntries( LogEntrySpecification spec, String orderBy, final int count, final int index )
-    {
-        if ( spec == null )
-        {
-            throw new IllegalArgumentException( "Given LogEntrySpecification cannot be null" );
-        }
-
-        List<LogEntryKey> keys = logEntryDao.findBySpecification( spec, orderBy );
-
-        final int queryResultTotalSize = keys.size();
-
-        if ( index > queryResultTotalSize )
-        {
-            return (LogEntryResultSet) new LogEntryResultSetNonLazy( index ).addError(
-                "Index greater than result count: " + index + " greater than " + queryResultTotalSize );
-        }
-
-        int toIndex = Math.min( queryResultTotalSize, count + index );
-
-        LogEntryResultSet resultSet =
-            new LogEntryResultSetLazyFetcher( new LogEntryEntityFetcherImpl( logEntryDao ), keys.subList( index, toIndex ), index,
-                                              queryResultTotalSize );
-        return resultSet;
-
-    }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public LogEntryKey storeNew( LogEntryEntity logEntry )
