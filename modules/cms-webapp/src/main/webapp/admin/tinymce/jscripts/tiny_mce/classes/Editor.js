@@ -1,21 +1,25 @@
 /**
- * $Id: Editor.js 1228 2009-09-17 15:58:45Z spocke $
+ * Editor.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
-	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, Dispatcher = tinymce.util.Dispatcher;
-	var each = tinymce.each, isGecko = tinymce.isGecko, isIE = tinymce.isIE, isWebKit = tinymce.isWebKit;
-	var is = tinymce.is, ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager, EditorManager = tinymce.EditorManager;
-	var inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
+	// Shorten these names
+	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend,
+		Dispatcher = tinymce.util.Dispatcher, each = tinymce.each, isGecko = tinymce.isGecko,
+		isIE = tinymce.isIE, isWebKit = tinymce.isWebKit, is = tinymce.is,
+		ThemeManager = tinymce.ThemeManager, PluginManager = tinymce.PluginManager,
+		inArray = tinymce.inArray, grep = tinymce.grep, explode = tinymce.explode;
 
 	/**
 	 * This class contains the core logic for a TinyMCE editor.
 	 *
 	 * @class tinymce.Editor
-	 * @author Moxiecode
 	 * @example
 	 * // Add a class to all paragraphs in the editor.
 	 * tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');
@@ -65,6 +69,15 @@
 			 *
 			 * @property isNotDirty
 			 * @type Boolean
+			 * @example
+			 * function ajaxSave() {
+			 *     var ed = tinyMCE.get('elm1');
+			 *
+			 *     // Save contents using some XHR call
+			 *     alert(ed.getContent());
+			 *
+			 *     ed.isNotDirty = 1; // Force not dirty state
+			 * }
 			 */
 			t.isNotDirty = false;
 
@@ -73,6 +86,9 @@
 			 *
 			 * @property plugins
 			 * @type Object
+			 * @example
+			 * // Execute a method inside a plugin directly
+			 * tinyMCE.activeEditor.plugins.someplugin.someMethod();
 			 */
 			t.plugins = {};
 
@@ -84,6 +100,16 @@
 				 * @event onPreInit
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @see #onInit
+				 * @example
+				 * // Adds an observer to the onPreInit event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onPreInit.add(function(ed) {
+				 *           console.debug('PreInit: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onPreInit',
 
@@ -92,6 +118,16 @@
 				 *
 				 * @event onBeforeRenderUI
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onBeforeRenderUI event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+ 				 *      ed.onBeforeRenderUI.add(function(ed, cm) {
+ 				 *          console.debug('Before render: ' + ed.id);
+ 				 *      });
+				 *    }
+				 * });
 				 */
 				'onBeforeRenderUI',
 
@@ -100,6 +136,16 @@
 				 *
 				 * @event onPostRender
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onPostRender event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onPostRender.add(function(ed, cm) {
+				 *           console.debug('After render: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onPostRender',
 
@@ -109,6 +155,16 @@
 				 * @event onInit
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @see #onPreInit
+				 * @example
+				 * // Adds an observer to the onInit event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onInit.add(function(ed) {
+				 *           console.debug('Editor is done: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onInit',
 
@@ -117,6 +173,16 @@
 				 *
 				 * @event onRemove
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onRemove event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onRemove.add(function(ed) {
+				 *           console.debug('Editor was removed: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onRemove',
 
@@ -125,6 +191,16 @@
 				 *
 				 * @event onActivate
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onActivate event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onActivate.add(function(ed) {
+				 *           console.debug('Editor was activated: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onActivate',
 
@@ -133,6 +209,16 @@
 				 *
 				 * @event onDeactivate
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onDeactivate event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onDeactivate.add(function(ed) {
+				 *           console.debug('Editor was deactivated: ' + ed.id);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onDeactivate',
 
@@ -142,6 +228,16 @@
 				 * @event onClick
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onClick event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onClick.add(function(ed, e) {
+				 *           console.debug('Editor was clicked: ' + e.target.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onClick',
 
@@ -151,6 +247,16 @@
 				 * @event onEvent
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onEvent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onEvent.add(function(ed, e) {
+ 				 *          console.debug('Editor event occured: ' + e.target.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onEvent',
 
@@ -160,6 +266,16 @@
 				 * @event onMouseUp
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onMouseUp event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onMouseUp.add(function(ed, e) {
+				 *           console.debug('Mouse up event: ' + e.target.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onMouseUp',
 
@@ -169,6 +285,16 @@
 				 * @event onMouseDown
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onMouseDown event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onMouseDown.add(function(ed, e) {
+				 *           console.debug('Mouse down event: ' + e.target.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onMouseDown',
 
@@ -178,6 +304,16 @@
 				 * @event onDblClick
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onDblClick event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onDblClick.add(function(ed, e) {
+ 				 *          console.debug('Double click event: ' + e.target.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onDblClick',
 
@@ -187,6 +323,16 @@
 				 * @event onKeyDown
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onKeyDown event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onKeyDown.add(function(ed, e) {
+				 *           console.debug('Key down event: ' + e.keyCode);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onKeyDown',
 
@@ -196,6 +342,16 @@
 				 * @event onKeyUp
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onKeyUp event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onKeyUp.add(function(ed, e) {
+				 *           console.debug('Key up event: ' + e.keyCode);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onKeyUp',
 
@@ -205,6 +361,16 @@
 				 * @event onKeyPress
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onKeyPress event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onKeyPress.add(function(ed, e) {
+				 *           console.debug('Key press event: ' + e.keyCode);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onKeyPress',
 
@@ -214,6 +380,16 @@
 				 * @event onContextMenu
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onContextMenu event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onContextMenu.add(function(ed, e) {
+				 *            console.debug('Context menu event:' + e.target);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onContextMenu',
 
@@ -223,6 +399,16 @@
 				 * @event onSubmit
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onSubmit event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onSubmit.add(function(ed, e) {
+				 *            console.debug('Form submit:' + e.target);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onSubmit',
 
@@ -232,6 +418,16 @@
 				 * @event onReset
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onReset event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onReset.add(function(ed, e) {
+				 *            console.debug('Form reset:' + e.target);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onReset',
 
@@ -241,6 +437,16 @@
 				 * @event onPaste
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onPaste event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onPaste.add(function(ed, e) {
+				 *            console.debug('Pasted plain text');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onPaste',
 
@@ -250,6 +456,22 @@
 				 * @event onPreProcess
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Object} obj PreProcess object.
+				 * @option {Node} node DOM node for the item being serialized.
+				 * @option {String} format The specified output format normally "html".
+				 * @option {Boolean} get Is true if the process is on a getContent operation.
+				 * @option {Boolean} set Is true if the process is on a setContent operation.
+				 * @option {Boolean} cleanup Is true if the process is on a cleanup operation.
+				 * @example
+				 * // Adds an observer to the onPreProcess event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onPreProcess.add(function(ed, o) {
+				 *            // Add a class to each paragraph in the editor
+				 *            ed.dom.addClass(ed.dom.select('p', o.node), 'myclass');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onPreProcess',
 
@@ -259,6 +481,18 @@
 				 * @event onPostProcess
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Object} obj PreProcess object.
+				 * @example
+				 * // Adds an observer to the onPostProcess event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onPostProcess.add(function(ed, o) {
+				 *            // Remove all paragraphs and replace with BR
+				 *            o.content = o.content.replace(/<p[^>]+>|<p>/g, '');
+				 *            o.content = o.content.replace(/<\/p>/g, '<br />');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onPostProcess',
 
@@ -267,6 +501,17 @@
 				 *
 				 * @event onBeforeSetContent
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onBeforeSetContent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onBeforeSetContent.add(function(ed, o) {
+				 *            // Replaces all a characters with b characters
+				 *            o.content = o.content.replace(/a/g, 'b');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onBeforeSetContent',
 
@@ -276,6 +521,16 @@
 				 * @event onBeforeGetContent
 				 * @param {tinymce.Editor} sender Editor instance.
 				 * @param {Event} evt W3C DOM Event instance.
+				 * @example
+				 * // Adds an observer to the onBeforeGetContent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onBeforeGetContent.add(function(ed, o) {
+				 *            console.debug('Before get content.');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onBeforeGetContent',
 
@@ -284,6 +539,17 @@
 				 *
 				 * @event onSetContent
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onSetContent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onSetContent.add(function(ed, o) {
+				 *            // Replaces all a characters with b characters
+				 *            o.content = o.content.replace(/a/g, 'b');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onSetContent',
 
@@ -292,6 +558,17 @@
 				 *
 				 * @event onGetContent
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onGetContent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onGetContent.add(function(ed, o) {
+				 *           // Replace all a characters with b
+				 *           o.content = o.content.replace(/a/g, 'b');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onGetContent',
 
@@ -300,6 +577,17 @@
 				 *
 				 * @event onLoadContent
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onLoadContent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onLoadContent.add(function(ed, o) {
+				 *           // Output the element name
+				 *           console.debug(o.element.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onLoadContent',
 
@@ -308,6 +596,17 @@
 				 *
 				 * @event onSaveContent
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onSaveContent event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onSaveContent.add(function(ed, o) {
+				 *           // Output the element name
+				 *           console.debug(o.element.nodeName);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onSaveContent',
 
@@ -316,6 +615,18 @@
 				 *
 				 * @event onNodeChange
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onNodeChange event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onNodeChange.add(function(ed, cm, e) {
+				 *           // Activates the link button when the caret is placed in a anchor element
+				 *           if (e.nodeName == 'A')
+				 *              cm.setActive('link', true);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onNodeChange',
 
@@ -324,6 +635,16 @@
 				 *
 				 * @event onChange
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onChange event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 * 	  ed.onChange.add(function(ed, l) {
+				 * 		  console.debug('Editor contents was modified. Contents: ' + l.content);
+				 * 	  });
+				 *    }
+				 * });
 				 */
 				'onChange',
 
@@ -332,6 +653,16 @@
 				 *
 				 * @event onBeforeExecCommand
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onBeforeExecCommand event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onBeforeExecCommand.add(function(ed, cmd, ui, val) {
+				 *           console.debug('Command is to be executed: ' + cmd);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onBeforeExecCommand',
 
@@ -340,6 +671,16 @@
 				 *
 				 * @event onExecCommand
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onExecCommand event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onExecCommand.add(function(ed, cmd, ui, val) {
+				 *           console.debug('Command was executed: ' + cmd);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onExecCommand',
 
@@ -348,7 +689,17 @@
 				 *
 				 * @event onUndo
 				 * @param {tinymce.Editor} sender Editor instance.
-				 * @param {Event} evt W3C DOM Event instance.
+				 * @param {Object} level Undo level object.
+				 * @ example
+				 * // Adds an observer to the onUndo event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onUndo.add(function(ed, level) {
+				 *           console.debug('Undo was performed: ' + level.content);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onUndo',
 
@@ -357,7 +708,17 @@
 				 *
 				 * @event onRedo
 				 * @param {tinymce.Editor} sender Editor instance.
-				 * @param {Event} evt W3C DOM Event instance.
+				 * @param {Object} level Undo level object.
+				 * @example
+				 * // Adds an observer to the onRedo event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onRedo.add(function(ed, level) {
+				 *           console.debug('Redo was performed: ' +level.content);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onRedo',
 
@@ -366,6 +727,16 @@
 				 *
 				 * @event onVisualAid
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onVisualAid event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onVisualAid.add(function(ed, e, s) {
+				 *           console.debug('onVisualAid event: ' + ed.id + ", State: " + s);
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onVisualAid',
 
@@ -374,6 +745,19 @@
 				 *
 				 * @event onSetProgressState
 				 * @param {tinymce.Editor} sender Editor instance.
+				 * @example
+				 * // Adds an observer to the onSetProgressState event using tinyMCE.init
+				 * tinyMCE.init({
+				 *    ...
+				 *    setup : function(ed) {
+				 *       ed.onSetProgressState.add(function(ed, b) {
+				 *            if (b)
+				 *                 console.debug('SHOW!');
+				 *            else
+				 *                 console.debug('HIDE!');
+				 *       });
+				 *    }
+				 * });
 				 */
 				'onSetProgressState'
 			], function(e) {
@@ -385,6 +769,9 @@
 			 *
 			 * @property settings
 			 * @type Object
+			 * @example
+			 * // Get the value of the theme setting
+			 * tinyMCE.activeEditor.windowManager.alert("You are using the " + tinyMCE.activeEditor.settings.theme + " theme");
 			 */
 			t.settings = s = extend({
 				id : id,
@@ -411,16 +798,13 @@
 				custom_undo_redo_keyboard_shortcuts : 1,
 				custom_undo_redo_restore_selection : 1,
 				custom_undo_redo : 1,
-				doctype : '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">',
+				doctype : tinymce.isIE6 ? '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' : '<!DOCTYPE>', // Use old doctype on IE 6 to avoid horizontal scroll
 				visual_table_class : 'mceItemTable',
 				visual : 1,
-				inline_styles : true,
-				convert_fonts_to_spans : true,
 				font_size_style_values : 'xx-small,x-small,small,medium,large,x-large,xx-large',
 				apply_source_formatting : 1,
 				directionality : 'ltr',
 				forced_root_block : 'p',
-				valid_elements : '@[id|class|style|title|dir<ltr?rtl|lang|xml::lang|onclick|ondblclick|onmousedown|onmouseup|onmouseover|onmousemove|onmouseout|onkeypress|onkeydown|onkeyup],a[rel|rev|charset|hreflang|tabindex|accesskey|type|name|href|target|title|class|onfocus|onblur],strong/b,em/i,strike,u,#p,-ol[type|compact],-ul[type|compact],-li,br,img[longdesc|usemap|src|border|alt=|title|hspace|vspace|width|height|align],-sub,-sup,-blockquote[cite],-table[border|cellspacing|cellpadding|width|frame|rules|height|align|summary|bgcolor|background|bordercolor],-tr[rowspan|width|height|align|valign|bgcolor|background|bordercolor],tbody,thead,tfoot,#td[colspan|rowspan|width|height|align|valign|bgcolor|background|bordercolor|scope],#th[colspan|rowspan|width|height|align|valign|scope],caption,-div,-span,-code,-pre,address,-h1,-h2,-h3,-h4,-h5,-h6,hr[size|noshade],-font[face|size|color],dd,dl,dt,cite,abbr,acronym,del[datetime|cite],ins[datetime|cite],object[classid|width|height|codebase|*],param[name|value],embed[type|width|height|src|*],script[src|type],map[name],area[shape|coords|href|alt|target],bdo,button,col[align|char|charoff|span|valign|width],colgroup[align|char|charoff|span|valign|width],dfn,fieldset,form[action|accept|accept-charset|enctype|method],input[accept|alt|checked|disabled|maxlength|name|readonly|size|src|type|value|tabindex|accesskey],kbd,label[for],legend,noscript,optgroup[label|disabled],option[disabled|label|selected|value],q[cite],samp,select[disabled|multiple|name|size],small,textarea[cols|rows|disabled|name|readonly],tt,var,big',
 				hidden_input : 1,
 				padd_empty_editor : 1,
 				render_ui : 1,
@@ -429,7 +813,16 @@
 				indentation : '30px',
 				keep_styles : 1,
 				fix_table_elements : 1,
-				removeformat_selector : 'span,b,strong,em,i,font,u,strike'
+				inline_styles : 1,
+				convert_fonts_to_spans : true,
+				indent : 'simple',
+				indent_before : 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,ul,li,area,table,thead,tfoot,tbody,tr',
+				indent_after : 'p,h1,h2,h3,h4,h5,h6,blockquote,div,title,style,pre,script,td,ul,li,area,table,thead,tfoot,tbody,tr',
+				validate : true,
+				entity_encoding : 'named',
+				url_converter : t.convertURL,
+				url_converter_scope : t,
+				ie7_compat : true
 			}, s);
 
 			/**
@@ -437,6 +830,12 @@
 			 *
 			 * @property documentBaseURI
 			 * @type tinymce.util.URI
+			 * @example
+			 * // Get relative URL from the location of document_base_url
+			 * tinyMCE.activeEditor.documentBaseURI.toRelative('/somedir/somefile.htm');
+			 * 
+			 * // Get absolute URL from the location of document_base_url
+			 * tinyMCE.activeEditor.documentBaseURI.toAbsolute('somefile.htm');
 			 */
 			t.documentBaseURI = new tinymce.util.URI(s.document_base_url || tinymce.documentBaseURL, {
 				base_uri : tinyMCE.baseURI
@@ -447,8 +846,22 @@
 			 *
 			 * @property baseURI
 			 * @type tinymce.util.URI
+			 * @example
+			 * // Get relative URL from the location of the API
+			 * tinyMCE.activeEditor.baseURI.toRelative('/somedir/somefile.htm');
+			 * 
+			 * // Get absolute URL from the location of the API
+			 * tinyMCE.activeEditor.baseURI.toAbsolute('somefile.htm');
 			 */
-			t.baseURI = EditorManager.baseURI;
+			t.baseURI = tinymce.baseURI;
+
+			/**
+			 * Array with CSS files to load into the iframe.
+			 *
+			 * @property contentCSS
+			 * @type Array
+			 */			
+			t.contentCSS = [];
 
 			// Call setup
 			t.execCallback('setup', t);
@@ -470,20 +883,17 @@
 				return;
 			}
 
-			// Force strict loading mode if render us called by user and not internally
-			if (!nst) {
-				s.strict_loading_mode = 1;
-				tinyMCE.settings = s;
-			}
+			tinyMCE.settings = s;
 
 			// Element not found, then skip initialization
 			if (!t.getElement())
 				return;
 
-			if (s.strict_loading_mode) {
-				sl.settings.strict_mode = s.strict_loading_mode;
-				tinymce.DOM.settings.strict = 1;
-			}
+			// Is a iPad/iPhone, then skip initialization. We need to sniff here since the
+			// browser says it has contentEditable support but there is no visible caret
+			// We will remove this check ones Apple implements full contentEditable support
+			if (tinymce.isIDevice)
+				return;
 
 			// Add hidden input for non input elements inside form elements
 			if (!/TEXTAREA|INPUT/i.test(t.getElement().nodeName) && s.hidden_input && DOM.getParent(id, 'form'))
@@ -494,6 +904,19 @@
 			 *
 			 * @property windowManager
 			 * @type tinymce.WindowManager
+			 * @example
+			 * // Shows an alert message
+			 * tinyMCE.activeEditor.windowManager.alert('Hello world!');
+			 * 
+			 * // Opens a new dialog with the file.htm file and the size 320x240
+			 * // It also adds a custom parameter this can be retrieved by using tinyMCEPopup.getWindowArg inside the dialog.
+			 * tinyMCE.activeEditor.windowManager.open({
+			 *    url : 'file.htm',
+			 *    width : 320,
+			 *    height : 240
+			 * }, {
+			 *    custom_param : 1
+			 * });
 			 */
 			if (tinymce.WindowManager)
 				t.windowManager = new tinymce.WindowManager(t);
@@ -540,7 +963,7 @@
 						n._mceOldSubmit = n.submit;
 						n.submit = function() {
 							// Save all instances
-							EditorManager.triggerSave();
+							tinymce.triggerSave();
 							t.isNotDirty = 1;
 
 							return t.formElement._mceOldSubmit(t.formElement);
@@ -553,7 +976,7 @@
 
 			// Load scripts
 			function loadScripts() {
-				if (s.language)
+				if (s.language && s.language_load !== false)
 					sl.add(tinymce.baseURL + '/langs/' + s.language + '.js');
 
 				if (s.theme && s.theme.charAt(0) != '-' && !ThemeManager.urls[s.theme])
@@ -561,8 +984,8 @@
 
 				each(explode(s.plugins), function(p) {
 					if (p && p.charAt(0) != '-' && !PluginManager.urls[p]) {
-						// Skip safari plugin for other browsers
-						if (!isWebKit && p == 'safari')
+						// Skip safari plugin, since it is removed as of 3.3b1
+						if (p == 'safari')
 							return;
 
 						PluginManager.load(p, 'plugins/' + p + '/editor_plugin' + tinymce.suffix + '.js');
@@ -587,15 +1010,20 @@
 		 * @method init
 		 */
 		init : function() {
-			var n, t = this, s = t.settings, w, h, e = t.getElement(), o, ti, u, bi, bc, re;
+			var n, t = this, s = t.settings, w, h, e = t.getElement(), o, ti, u, bi, bc, re, i;
 
-			EditorManager.add(t);
+			tinymce.add(t);
+
+			s.aria_label = s.aria_label || DOM.getAttrib(e, 'aria-label', t.getLang('aria.rich_text_area'));
 
 			/**
 			 * Reference to the theme instance that was used to generate the UI. 
 			 *
 			 * @property theme
 			 * @type tinymce.Theme
+			 * @example
+			 * // Executes a method on the theme directly
+			 * tinyMCE.activeEditor.theme.someMethod();
 			 */
 			if (s.theme) {
 				s.theme = s.theme.replace(/-/, '');
@@ -636,32 +1064,18 @@
 			 *
 			 * @property controlManager
 			 * @type tinymce.ControlManager
+			 * @example
+			 * // Disables the bold button
+			 * tinyMCE.activeEditor.controlManager.setDisabled('bold', true);
 			 */
 			t.controlManager = new tinymce.ControlManager(t);
 
-			/**
-			 * Undo manager instance, responsible for handling undo levels. 
-			 *
-			 * @property undoManager
-			 * @type tinymce.UndoManager
-			 */
-			t.undoManager = new tinymce.UndoManager(t);
-
-			// Pass through
-			t.undoManager.onAdd.add(function(um, l) {
-				if (!l.initial)
-					return t.onChange.dispatch(t, l, um);
-			});
-
-			t.undoManager.onUndo.add(function(um, l) {
-				return t.onUndo.dispatch(t, l, um);
-			});
-
-			t.undoManager.onRedo.add(function(um, l) {
-				return t.onRedo.dispatch(t, l, um);
-			});
-
 			if (s.custom_undo_redo) {
+				t.onBeforeExecCommand.add(function(ed, cmd, ui, val, a) {
+					if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint' && (!a || !a.skip_undo))
+						t.undoManager.beforeChange();
+				});
+
 				t.onExecCommand.add(function(ed, cmd, ui, val, a) {
 					if (cmd != 'Undo' && cmd != 'Redo' && cmd != 'mceRepaint' && (!a || !a.skip_undo))
 						t.undoManager.add();
@@ -734,6 +1148,13 @@
 				height : h
 			});
 
+			// Load specified content CSS last
+			if (s.content_css) {
+				tinymce.each(explode(s.content_css), function(u) {
+					t.contentCSS.push(t.documentBaseURI.toAbsolute(u));
+				});
+			}
+
 			h = (o.iframeHeight || h) + (typeof(h) == 'number' ? (o.deltaHeight || 0) : '');
 			if (h < 100)
 				h = 100;
@@ -745,10 +1166,21 @@
 			if (s.document_base_url != tinymce.documentBaseURL)
 				t.iframeHTML += '<base href="' + t.documentBaseURI.getURI() + '" />';
 
+			// IE8 doesn't support carets behind images setting ie7_compat would force IE8+ to run in IE7 compat mode.
+			if (s.ie7_compat)
+				t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=7" />';
+			else
+				t.iframeHTML += '<meta http-equiv="X-UA-Compatible" content="IE=edge" />';
+
 			t.iframeHTML += '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />';
 
-			if (tinymce.relaxedDomain)
-				t.iframeHTML += '<script type="text/javascript">document.domain = "' + tinymce.relaxedDomain + '";</script>';
+			// Firefox 2 doesn't load stylesheets correctly this way
+			if (!isGecko || !/Firefox\/2/.test(navigator.userAgent)) {
+				for (i = 0; i < t.contentCSS.length; i++)
+					t.iframeHTML += '<link type="text/css" rel="stylesheet" href="' + t.contentCSS[i] + '" />';
+
+				t.contentCSS = [];
+			}
 
 			bi = s.body_id || 'tinymce';
 			if (bi.indexOf('=') != -1) {
@@ -765,19 +1197,18 @@
 			t.iframeHTML += '</head><body id="' + bi + '" class="mceContentBody ' + bc + '"></body></html>';
 
 			// Domain relaxing enabled, then set document domain
-			if (tinymce.relaxedDomain) {
+			if (tinymce.relaxedDomain && (isIE || (tinymce.isOpera && parseFloat(opera.version()) < 11))) {
 				// We need to write the contents here in IE since multiple writes messes up refresh button and back button
-				if (isIE || (tinymce.isOpera && parseFloat(opera.version()) >= 9.5))
-					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';
-				else if (tinymce.isOpera)
-					u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";document.close();ed.setupIframe();})()';					
+				u = 'javascript:(function(){document.open();document.domain="' + document.domain + '";var ed = window.parent.tinyMCE.get("' + t.id + '");document.write(ed.iframeHTML);document.close();ed.setupIframe();})()';				
 			}
 
 			// Create iframe
-			n = DOM.add(o.iframeContainer, 'iframe', {
+			// TODO: ACC add the appropriate description on this.
+			n = DOM.add(o.iframeContainer, 'iframe', { 
 				id : t.id + "_ifr",
 				src : u || 'javascript:""', // Workaround for HTTPS warning in IE6/7
-				frameBorder : '0',
+				frameBorder : '0', 
+				title : s.aria_label,
 				style : {
 					width : '100%',
 					height : h
@@ -787,8 +1218,9 @@
 			t.contentAreaContainer = o.iframeContainer;
 			DOM.get(o.editorContainer).style.display = t.orgDisplay;
 			DOM.get(t.id).style.display = 'none';
+			DOM.setAttrib(t.id, 'aria-hidden', true);
 
-			if (!isIE || !tinymce.relaxedDomain)
+			if (!tinymce.relaxedDomain || !u)
 				t.setupIframe();
 
 			e = n = o = null; // Cleanup
@@ -809,6 +1241,9 @@
 				d.open();
 				d.write(t.iframeHTML);
 				d.close();
+
+				if (tinymce.relaxedDomain)
+					d.domain = tinymce.relaxedDomain;
 			}
 
 			// Design mode needs to be added here Ctrl+A will fail otherwise
@@ -835,10 +1270,21 @@
 			}
 
 			/**
+			 * Schema instance, enables you to validate elements and it's children.
+			 *
+			 * @property schema
+			 * @type tinymce.html.Schema
+			 */
+			t.schema = new tinymce.html.Schema(s);
+
+			/**
 			 * DOM instance for the editor.
 			 *
 			 * @property dom
 			 * @type tinymce.dom.DOMUtils
+			 * @example
+			 * // Adds a class to all paragraphs within the editor
+			 * tinyMCE.activeEditor.dom.addClass(tinyMCE.activeEditor.dom.select('p'), 'someclass');
 			 */
 			t.dom = new tinymce.dom.DOMUtils(t.getDoc(), {
 				keep_values : true,
@@ -847,31 +1293,216 @@
 				hex_colors : s.force_hex_style_colors,
 				class_filter : s.class_filter,
 				update_styles : 1,
-				fix_ie_paragraphs : 1
+				fix_ie_paragraphs : 1,
+				schema : t.schema
 			});
 
 			/**
-			 * DOM serializer for the editor.
+			 * HTML parser will be used when contents is inserted into the editor.
+			 *
+			 * @property parser
+			 * @type tinymce.html.DomParser
+			 */
+			t.parser = new tinymce.html.DomParser(s, t.schema);
+
+			// Force anchor names closed
+			t.parser.addAttributeFilter('name', function(nodes, name) {
+				var i = nodes.length, sibling, prevSibling, parent, node;
+
+				while (i--) {
+					node = nodes[i];
+					if (node.name === 'a' && node.firstChild) {
+						parent = node.parent;
+
+						// Move children after current node
+						sibling = node.lastChild;
+						do {
+							prevSibling = sibling.prev;
+							parent.insert(sibling, node);
+							sibling = prevSibling;
+						} while (sibling);
+					}
+				}
+			});
+
+			// Convert src and href into data-mce-src, data-mce-href and data-mce-style
+			t.parser.addAttributeFilter('src,href,style', function(nodes, name) {
+				var i = nodes.length, node, dom = t.dom, value;
+
+				while (i--) {
+					node = nodes[i];
+					value = node.attr(name);
+
+					if (name === "style")
+						node.attr('data-mce-style', dom.serializeStyle(dom.parseStyle(value), node.name));
+					else
+						node.attr('data-mce-' + name, t.convertURL(value, name, node.name));
+				}
+			});
+
+			// Keep scripts from executing
+			t.parser.addNodeFilter('script', function(nodes, name) {
+				var i = nodes.length;
+
+				while (i--)
+					nodes[i].attr('type', 'mce-text/javascript');
+			});
+
+			t.parser.addNodeFilter('#cdata', function(nodes, name) {
+				var i = nodes.length, node;
+
+				while (i--) {
+					node = nodes[i];
+					node.type = 8;
+					node.name = '#comment';
+					node.value = '[CDATA[' + node.value + ']]';
+				}
+			});
+
+			t.parser.addNodeFilter('p,h1,h2,h3,h4,h5,h6,div', function(nodes, name) {
+				var i = nodes.length, node, nonEmptyElements = t.schema.getNonEmptyElements();
+
+				while (i--) {
+					node = nodes[i];
+
+					if (node.isEmpty(nonEmptyElements))
+						node.empty().append(new tinymce.html.Node('br', 1)).shortEnded = true;
+				}
+			});
+
+			/**
+			 * DOM serializer for the editor. Will be used when contents is extracted from the editor.
 			 *
 			 * @property serializer
 			 * @type tinymce.dom.Serializer
+			 * @example
+			 * // Serializes the first paragraph in the editor into a string
+			 * tinyMCE.activeEditor.serializer.serialize(tinyMCE.activeEditor.dom.select('p')[0]);
 			 */
-			t.serializer = new tinymce.dom.Serializer(extend(s, {
-				valid_elements : s.verify_html === false ? '*[*]' : s.valid_elements,
-				dom : t.dom
-			}));
+			t.serializer = new tinymce.dom.Serializer(s, t.dom, t.schema);
 
 			/**
 			 * Selection instance for the editor.
 			 *
 			 * @property selection
 			 * @type tinymce.dom.Selection
+			 * @example
+			 * // Sets some contents to the current selection in the editor
+			 * tinyMCE.activeEditor.selection.setContent('Some contents');
+			 *
+			 * // Gets the current selection
+			 * alert(tinyMCE.activeEditor.selection.getContent());
+			 *
+			 * // Selects the first paragraph found
+			 * tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('p')[0]);
 			 */
 			t.selection = new tinymce.dom.Selection(t.dom, t.getWin(), t.serializer);
+
+			/**
+			 * Formatter instance.
+			 *
+			 * @property formatter
+			 * @type tinymce.Formatter
+			 */
+			t.formatter = new tinymce.Formatter(this);
+
+			// Register default formats
+			t.formatter.register({
+				alignleft : [
+					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'left'}},
+					{selector : 'img,table', collapsed : false, styles : {'float' : 'left'}}
+				],
+
+				aligncenter : [
+					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'center'}},
+					{selector : 'img', collapsed : false, styles : {display : 'block', marginLeft : 'auto', marginRight : 'auto'}},
+					{selector : 'table', collapsed : false, styles : {marginLeft : 'auto', marginRight : 'auto'}}
+				],
+
+				alignright : [
+					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'right'}},
+					{selector : 'img,table', collapsed : false, styles : {'float' : 'right'}}
+				],
+
+				alignfull : [
+					{selector : 'p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li', styles : {textAlign : 'justify'}}
+				],
+
+				bold : [
+					{inline : 'strong', remove : 'all'},
+					{inline : 'span', styles : {fontWeight : 'bold'}},
+					{inline : 'b', remove : 'all'}
+				],
+
+				italic : [
+					{inline : 'em', remove : 'all'},
+					{inline : 'span', styles : {fontStyle : 'italic'}},
+					{inline : 'i', remove : 'all'}
+				],
+
+				underline : [
+					{inline : 'span', styles : {textDecoration : 'underline'}, exact : true},
+					{inline : 'u', remove : 'all'}
+				],
+
+				strikethrough : [
+					{inline : 'span', styles : {textDecoration : 'line-through'}, exact : true},
+					{inline : 'strike', remove : 'all'}
+				],
+
+				forecolor : {inline : 'span', styles : {color : '%value'}, wrap_links : false},
+				hilitecolor : {inline : 'span', styles : {backgroundColor : '%value'}, wrap_links : false},
+				fontname : {inline : 'span', styles : {fontFamily : '%value'}},
+				fontsize : {inline : 'span', styles : {fontSize : '%value'}},
+				fontsize_class : {inline : 'span', attributes : {'class' : '%value'}},
+				blockquote : {block : 'blockquote', wrapper : 1, remove : 'all'},
+				subscript : {inline : 'sub'},
+				superscript : {inline : 'sup'},
+
+				removeformat : [
+					{selector : 'b,strong,em,i,font,u,strike', remove : 'all', split : true, expand : false, block_expand : true, deep : true},
+					{selector : 'span', attributes : ['style', 'class'], remove : 'empty', split : true, expand : false, deep : true},
+					{selector : '*', attributes : ['style', 'class'], split : false, expand : false, deep : true}
+				]
+			});
+
+			// Register default block formats
+			each('p h1 h2 h3 h4 h5 h6 div address pre div code dt dd samp'.split(/\s/), function(name) {
+				t.formatter.register(name, {block : name, remove : 'all'});
+			});
+
+			// Register user defined formats
+			t.formatter.register(t.settings.formats);
+
+			/**
+			 * Undo manager instance, responsible for handling undo levels. 
+			 *
+			 * @property undoManager
+			 * @type tinymce.UndoManager
+			 * @example
+			 * // Undoes the last modification to the editor
+			 * tinyMCE.activeEditor.undoManager.undo();
+			 */
+			t.undoManager = new tinymce.UndoManager(t);
+
+			// Pass through
+			t.undoManager.onAdd.add(function(um, l) {
+				if (um.hasUndo())
+					return t.onChange.dispatch(t, l, um);
+			});
+
+			t.undoManager.onUndo.add(function(um, l) {
+				return t.onUndo.dispatch(t, l, um);
+			});
+
+			t.undoManager.onRedo.add(function(um, l) {
+				return t.onRedo.dispatch(t, l, um);
+			});
 
 			t.forceBlocks = new tinymce.ForceBlocks(t, {
 				forced_root_block : s.forced_root_block
 			});
+
 			t.editorCommands = new tinymce.EditorCommands(t);
 
 			// Pass through
@@ -900,29 +1531,6 @@
 			if (s.nowrap)
 				t.getBody().style.whiteSpace = "nowrap";
 
-			if (s.custom_elements) {
-				function handleCustom(ed, o) {
-					each(explode(s.custom_elements), function(v) {
-						var n;
-
-						if (v.indexOf('~') === 0) {
-							v = v.substring(1);
-							n = 'span';
-						} else
-							n = 'div';
-
-						o.content = o.content.replace(new RegExp('<(' + v + ')([^>]*)>', 'g'), '<' + n + ' mce_name="$1"$2>');
-						o.content = o.content.replace(new RegExp('</(' + v + ')>', 'g'), '</' + n + '>');
-					});
-				};
-
-				t.onBeforeSetContent.add(handleCustom);
-				t.onPostProcess.add(function(ed, o) {
-					if (o.set)
-						handleCustom(ed, o);
-				});
-			}
-
 			if (s.handle_node_change_callback) {
 				t.onNodeChange.add(function(ed, cm, n) {
 					t.execCallback('handle_node_change_callback', t.id, n, -1, -1, true, t.selection.isCollapsed());
@@ -944,16 +1552,22 @@
 				});
 			}
 
+			if (s.protect) {
+				t.onBeforeSetContent.add(function(ed, o) {
+					if (s.protect) {
+						each(s.protect, function(pattern) {
+							o.content = o.content.replace(pattern, function(str) {
+								return '<!--mce:protected ' + escape(str) + '-->';
+							});
+						});
+					}
+				});
+			}
+
 			if (s.convert_newlines_to_brs) {
 				t.onBeforeSetContent.add(function(ed, o) {
 					if (o.initial)
 						o.content = o.content.replace(/\r?\n/g, '<br />');
-				});
-			}
-
-			if (s.fix_nesting && isIE) {
-				t.onBeforeSetContent.add(function(ed, o) {
-					o.content = t._fixNesting(o.content);
 				});
 			}
 
@@ -993,12 +1607,6 @@
 					return v;
 				};
 			}
-
-			if (s.convert_fonts_to_spans)
-				t._convertFonts();
-
-			if (s.inline_styles)
-				t._convertInlineElements();
 
 			if (s.cleanup_callback) {
 				t.onBeforeSetContent.add(function(ed, o) {
@@ -1056,7 +1664,7 @@
 						var pn = n.parentNode;
 
 						if (ed.dom.isBlock(pn) && pn.lastChild === n)
-							ed.dom.add(pn, 'br', {'mce_bogus' : 1});
+							ed.dom.add(pn, 'br', {'data-mce-bogus' : 1});
 					});
 				};
 
@@ -1085,9 +1693,9 @@
 				if (t.removed)
 					return;
 
-				t.load({initial : true, format : (s.cleanup_on_startup ? 'html' : 'raw')});
+				t.load({initial : true, format : 'html'});
 				t.startContent = t.getContent({format : 'raw'});
-				t.undoManager.add({initial : true});
+				t.undoManager.add();
 				t.initialized = true;
 
 				t.onInit.dispatch(t);
@@ -1097,16 +1705,14 @@
 				t.nodeChanged({initial : 1});
 
 				// Load specified content CSS last
-				if (s.content_css) {
-					tinymce.each(explode(s.content_css), function(u) {
-						t.dom.loadCSS(t.documentBaseURI.toAbsolute(u));
-					});
-				}
+				each(t.contentCSS, function(u) {
+					t.dom.loadCSS(u);
+				});
 
 				// Handle auto focus
 				if (s.auto_focus) {
 					setTimeout(function () {
-						var ed = EditorManager.get(s.auto_focus);
+						var ed = tinymce.get(s.auto_focus);
 
 						ed.selection.select(ed.getBody(), 1);
 						ed.selection.collapse(1);
@@ -1150,32 +1756,17 @@
 				hex_colors : s.force_hex_style_colors,
 				class_filter : s.class_filter,
 				root_element : t.id,
-				strict_root : 1,
 				fix_ie_paragraphs : 1,
 				update_styles : 1
 			});
 
-			t.serializer = new tinymce.dom.Serializer({
-				entity_encoding : s.entity_encoding,
-				entities : s.entities,
-				valid_elements : s.verify_html === false ? '*[*]' : s.valid_elements,
-				extended_valid_elements : s.extended_valid_elements,
-				valid_child_elements : s.valid_child_elements,
-				invalid_elements : s.invalid_elements,
-				fix_table_elements : s.fix_table_elements,
-				fix_list_elements : s.fix_list_elements,
-				fix_content_duplication : s.fix_content_duplication,
-				convert_fonts_to_spans : s.convert_fonts_to_spans,
-				font_size_classes  : s.font_size_classes,
-				font_size_style_values : s.font_size_style_values,
-				apply_source_formatting : s.apply_source_formatting,
-				dom : t.dom
-			});
+			t.serializer = new tinymce.dom.Serializer(s, t.dom, schema);
 
 			t.selection = new tinymce.dom.Selection(t.dom, t.getWin(), t.serializer);
 			t.forceBlocks = new tinymce.ForceBlocks(t, {
 				forced_root_block : s.forced_root_block
 			});
+
 			t.editorCommands = new tinymce.EditorCommands(t);
 
 			// Pass through
@@ -1192,12 +1783,6 @@
 
 			t.controlManager.onPostRender.dispatch(t, t.controlManager);
 			t.onPostRender.dispatch(t);
-
-			if (s.convert_fonts_to_spans)
-				t._convertFonts();
-
-			if (s.inline_styles)
-				t._convertInlineElements();
 
 			t.onSetContent.add(function() {
 				t.addVisual(t.getBody());
@@ -1240,21 +1825,34 @@
 		// #endif
 
 		/**
-		 * Focuses/activates the editor. This will set this editor as the activeEditor in the EditorManager
+		 * Focuses/activates the editor. This will set this editor as the activeEditor in the tinymce collection
 		 * it will also place DOM focus inside the editor.
 		 *
 		 * @method focus
 		 * @param {Boolean} sf Skip DOM focus. Just set is as the active editor.
 		 */
 		focus : function(sf) {
-			var oed, t = this, ce = t.settings.content_editable;
+			var oed, t = this, ce = t.settings.content_editable, ieRng, controlElm, doc = t.getDoc();
 
 			if (!sf) {
-				// Is not content editable or the selection is outside the area in IE
-				// the IE statement is needed to avoid bluring if element selections inside layers since
-				// the layer is like it's own document in IE
-				if (!ce && (!isIE || t.selection.getNode().ownerDocument != t.getDoc()))
+				// Get selected control element
+				ieRng = t.selection.getRng();
+				if (ieRng.item) {
+					controlElm = ieRng.item(0);
+				}
+
+				// Is not content editable
+				if (!ce)
 					t.getWin().focus();
+
+				// Restore selected control element
+				// This is needed when for example an image is selected within a
+				// layer a call to focus will then remove the control selection
+				if (controlElm && controlElm.ownerDocument == doc) {
+					ieRng = doc.body.createControlRange();
+					ieRng.addElement(controlElm);
+					ieRng.select();
+				}
 
 				// #ifdef contentEditable
 
@@ -1273,14 +1871,14 @@
 				// #endif
 			}
 
-			if (EditorManager.activeEditor != t) {
-				if ((oed = EditorManager.activeEditor) != null)
+			if (tinymce.activeEditor != t) {
+				if ((oed = tinymce.activeEditor) != null)
 					oed.onDeactivate.dispatch(oed, t);
 
 				t.onActivate.dispatch(t, oed);
 			}
 
-			EditorManager._setActive(t);
+			tinymce._setActive(t);
 		},
 
 		/**
@@ -1323,7 +1921,7 @@
 		 * @return {String} Translated string.
 		 */
 		translate : function(s) {
-			var c = this.settings.language || 'en', i18n = EditorManager.i18n;
+			var c = this.settings.language || 'en', i18n = tinymce.i18n;
 
 			if (!s)
 				return '';
@@ -1341,7 +1939,7 @@
 		 * @param {String} dv Optional default value to retrive.
 		 */
 		getLang : function(n, dv) {
-			return EditorManager.i18n[(this.settings.language || 'en') + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
+			return tinymce.i18n[(this.settings.language || 'en') + '.' + n] || (is(dv) ? dv : '{#' + n + '}');
 		},
 
 		/**
@@ -1352,6 +1950,12 @@
 		 * @param {String} dv Optional default value to return.
 		 * @param {String} ty Optional type parameter.
 		 * @return {String} Configuration parameter value or default value.
+		 * @example
+		 * // Returns a specific config value from the currently active editor
+		 * var someval = tinyMCE.activeEditor.getParam('myvalue');
+		 * 
+		 * // Returns a specific config value from a specific editor instance by id
+		 * var someval2 = tinyMCE.get('my_editor').getParam('myvalue');
 		 */
 		getParam : function(n, dv, ty) {
 			var tr = tinymce.trim, v = is(this.settings[n]) ? this.settings[n] : dv, o;
@@ -1385,14 +1989,26 @@
 		 * @param {Object} o Optional object to pass along for the node changed event.
 		 */
 		nodeChanged : function(o) {
-			var t = this, s = t.selection, n = s.getNode() || t.getBody();
+			var t = this, s = t.selection, n = s.getStart() || t.getBody();
 
 			// Fix for bug #1896577 it seems that this can not be fired while the editor is loading
 			if (t.initialized) {
+				o = o || {};
+				n = isIE && n.ownerDocument != t.getDoc() ? t.getBody() : n; // Fix for IE initial state
+
+				// Get parents and add them to object
+				o.parents = [];
+				t.dom.getParent(n, function(node) {
+					if (node.nodeName == 'BODY')
+						return true;
+
+					o.parents.push(node);
+				});
+
 				t.onNodeChange.dispatch(
 					t,
 					o ? o.controlManager || t.controlManager : t.controlManager,
-					isIE && n.ownerDocument != t.getDoc() ? t.getBody() : n, // Fix for IE initial state
+					n,
 					s.isCollapsed(),
 					o
 				);
@@ -1407,6 +2023,25 @@
 		 * @method addButton
 		 * @param {String} n Button name to add.
 		 * @param {Object} s Settings object with title, cmd etc.
+		 * @example
+		 * // Adds a custom button to the editor and when a user clicks the button it will open
+		 * // an alert box with the selected contents as plain text.
+		 * tinyMCE.init({
+		 *    ...
+		 * 
+		 *    theme_advanced_buttons1 : 'example,..'
+		 * 
+		 *    setup : function(ed) {
+		 *       // Register example button
+		 *       ed.addButton('example', {
+		 *          title : 'example.desc',
+		 *          image : '../jscripts/tiny_mce/plugins/example/img/example.gif',
+		 *          onclick : function() {
+		 *             ed.windowManager.alert('Hello world!! Selection: ' + ed.selection.getContent({format : 'text'}));
+		 *          }
+		 *       });
+		 *    }
+		 * });
 		 */
 		addButton : function(n, s) {
 			var t = this;
@@ -1420,12 +2055,32 @@
 		 * The command that you add can be executed with execCommand.
 		 *
 		 * @method addCommand
-		 * @param {String} n Command name to add/override.
-		 * @param {function} f Function to execute when the command occurs.
-		 * @param {Object} s Optional scope to execute the function in.
+		 * @param {String} name Command name to add/override.
+		 * @param {addCommandCallback} callback Function to execute when the command occurs.
+		 * @param {Object} scope Optional scope to execute the function in.
+		 * @example
+		 * // Adds a custom command that later can be executed using execCommand
+		 * tinyMCE.init({
+		 *    ...
+		 * 
+		 *    setup : function(ed) {
+		 *       // Register example command
+		 *       ed.addCommand('mycommand', function(ui, v) {
+		 *          ed.windowManager.alert('Hello world!! Selection: ' + ed.selection.getContent({format : 'text'}));
+		 *       });
+		 *    }
+		 * });
 		 */
-		addCommand : function(n, f, s) {
-			this.execCommands[n] = {func : f, scope : s || this};
+		addCommand : function(name, callback, scope) {
+			/**
+			 * Callback function that gets called when a command is executed.
+			 *
+			 * @callback addCommandCallback
+			 * @param {Boolean} ui Display UI state true/false.
+			 * @param {Object} value Optional value for command.
+			 * @return {Boolean} True/false state if the command was handled or not.
+			 */
+			this.execCommands[name] = {func : callback, scope : scope || this};
 		},
 
 		/**
@@ -1433,12 +2088,18 @@
 		 * The command that you add can be executed with queryCommandState function.
 		 *
 		 * @method addQueryStateHandler
-		 * @param {String} n Command name to add/override.
-		 * @param {function} f Function to execute when the command state retrival occurs.
-		 * @param {Object} s Optional scope to execute the function in.
+		 * @param {String} name Command name to add/override.
+		 * @param {addQueryStateHandlerCallback} callback Function to execute when the command state retrival occurs.
+		 * @param {Object} scope Optional scope to execute the function in.
 		 */
-		addQueryStateHandler : function(n, f, s) {
-			this.queryStateCommands[n] = {func : f, scope : s || this};
+		addQueryStateHandler : function(name, callback, scope) {
+			/**
+			 * Callback function that gets called when a queryCommandState is executed.
+			 *
+			 * @callback addQueryStateHandlerCallback
+			 * @return {Boolean} True/false state if the command is enabled or not like is it bold.
+			 */
+			this.queryStateCommands[name] = {func : callback, scope : scope || this};
 		},
 
 		/**
@@ -1446,12 +2107,18 @@
 		 * The command that you add can be executed with queryCommandValue function.
 		 *
 		 * @method addQueryValueHandler
-		 * @param {String} n Command name to add/override.
-		 * @param {function} f Function to execute when the command value retrival occurs.
-		 * @param {Object} s Optional scope to execute the function in.
+		 * @param {String} name Command name to add/override.
+		 * @param {addQueryValueHandlerCallback} callback Function to execute when the command value retrival occurs.
+		 * @param {Object} scope Optional scope to execute the function in.
 		 */
-		addQueryValueHandler : function(n, f, s) {
-			this.queryValueCommands[n] = {func : f, scope : s || this};
+		addQueryValueHandler : function(name, callback, scope) {
+			/**
+			 * Callback function that gets called when a queryCommandValue is executed.
+			 *
+			 * @callback addQueryValueHandlerCallback
+			 * @return {Object} Value of the command or undefined.
+			 */
+			this.queryValueCommands[name] = {func : callback, scope : scope || this};
 		},
 
 		/**
@@ -1577,12 +2244,6 @@
 				return true;
 			}
 
-			// Execute global commands
-			if (tinymce.GlobalCommands.execCommand(t, cmd, ui, val)) {
-				t.onExecCommand.dispatch(t, cmd, ui, val, a);
-				return true;
-			}
-
 			// Editor commands
 			if (t.editorCommands.execCommand(cmd, ui, val)) {
 				t.onExecCommand.dispatch(t, cmd, ui, val, a);
@@ -1598,10 +2259,10 @@
 		 * Returns a command specific state, for example if bold is enabled or not.
 		 *
 		 * @method queryCommandState
-		 * @param {string} c Command to query state from.
+		 * @param {string} cmd Command to query state from.
 		 * @return {Boolean} Command specific state, for example if bold is enabled or not.
 		 */
-		queryCommandState : function(c) {
+		queryCommandState : function(cmd) {
 			var t = this, o, s;
 
 			// Is hidden then return undefined
@@ -1609,7 +2270,7 @@
 				return;
 
 			// Registred commands
-			if (o = t.queryStateCommands[c]) {
+			if (o = t.queryStateCommands[cmd]) {
 				s = o.func.call(o.scope);
 
 				// Fall though on true
@@ -1618,13 +2279,13 @@
 			}
 
 			// Registred commands
-			o = t.editorCommands.queryCommandState(c);
+			o = t.editorCommands.queryCommandState(cmd);
 			if (o !== -1)
 				return o;
 
 			// Browser commands
 			try {
-				return this.getDoc().queryCommandState(c);
+				return this.getDoc().queryCommandState(cmd);
 			} catch (ex) {
 				// Fails sometimes see bug: 1896577
 			}
@@ -1716,6 +2377,15 @@
 		 * @param {Number} ti Optional time to wait before the progress gets shown.
 		 * @param {Object} o Optional object to pass to the progress observers.
 		 * @return {Boolean} Same as the input state.
+		 * @example
+		 * // Show progress for the active editor
+		 * tinyMCE.activeEditor.setProgressState(true);
+		 * 
+		 * // Hide progress for the active editor
+		 * tinyMCE.activeEditor.setProgressState(false);
+		 * 
+		 * // Show progress after 3 seconds
+		 * tinyMCE.activeEditor.setProgressState(true, 3000);
 		 */
 		setProgressState : function(b, ti, o) {
 			this.onSetProgressState.dispatch(this, b, ti, o);
@@ -1772,7 +2442,7 @@
 
 			// Add undo level will trigger onchange event
 			if (!o.no_events) {
-				t.undoManager.typing = 0;
+				t.undoManager.typing = false;
 				t.undoManager.add();
 			}
 
@@ -1809,39 +2479,60 @@
 		 * the different cleanup rules options.
 		 *
 		 * @method setContent
-		 * @param {String} h Content to set to editor, normally HTML contents but can be other formats as well.
-		 * @param {Object} o Optional content object, this gets passed around through the whole set process.
+		 * @param {String} content Content to set to editor, normally HTML contents but can be other formats as well.
+		 * @param {Object} args Optional content object, this gets passed around through the whole set process.
 		 * @return {String} HTML string that got set into the editor.
+		 * @example
+		 * // Sets the HTML contents of the activeEditor editor
+		 * tinyMCE.activeEditor.setContent('<span>some</span> html');
+		 * 
+		 * // Sets the raw contents of the activeEditor editor
+		 * tinyMCE.activeEditor.setContent('<span>some</span> html', {format : 'raw'});
+		 * 
+		 * // Sets the content of a specific editor (my_editor in this example)
+		 * tinyMCE.get('my_editor').setContent(data);
+		 * 
+		 * // Sets the bbcode contents of the activeEditor editor if the bbcode plugin was added
+		 * tinyMCE.activeEditor.setContent('[b]some[/b] html', {format : 'bbcode'});
 		 */
-		setContent : function(h, o) {
-			var t = this;
+		setContent : function(content, args) {
+			var self = this, rootNode, body = self.getBody();
 
-			o = o || {};
-			o.format = o.format || 'html';
-			o.set = true;
-			o.content = h;
+			// Setup args object
+			args = args || {};
+			args.format = args.format || 'html';
+			args.set = true;
+			args.content = content;
 
-			if (!o.no_events)
-				t.onBeforeSetContent.dispatch(t, o);
+			// Do preprocessing
+			if (!args.no_events)
+				self.onBeforeSetContent.dispatch(self, args);
+
+			content = args.content;
 
 			// Padd empty content in Gecko and Safari. Commands will otherwise fail on the content
 			// It will also be impossible to place the caret in the editor unless there is a BR element present
-			if (!tinymce.isIE && (h.length === 0 || /^\s+$/.test(h))) {
-				o.content = t.dom.setHTML(t.getBody(), '<br mce_bogus="1" />');
-				o.format = 'raw';
+			if (!tinymce.isIE && (content.length === 0 || /^\s+$/.test(content))) {
+				body.innerHTML = '<br data-mce-bogus="1" />';
+				return;
 			}
 
-			o.content = t.dom.setHTML(t.getBody(), tinymce.trim(o.content));
-
-			if (o.format != 'raw' && t.settings.cleanup) {
-				o.getInner = true;
-				o.content = t.dom.setHTML(t.getBody(), t.serializer.serialize(t.getBody(), o));
+			// Parse and serialize the html
+			if (args.format !== 'raw') {
+				content = new tinymce.html.Serializer({}, self.schema).serialize(
+					self.parser.parse(content)
+				);
 			}
 
-			if (!o.no_events)
-				t.onSetContent.dispatch(t, o);
+			// Set the new cleaned contents to the editor
+			args.content = tinymce.trim(content);
+			self.dom.setHTML(body, args.content);
 
-			return o.content;
+			// Do post processing
+			if (!args.no_events)
+				self.onSetContent.dispatch(self, args);
+
+			return args.content;
 		},
 
 		/**
@@ -1849,32 +2540,43 @@
 		 * the different cleanup rules options.
 		 *
 		 * @method getContent
-		 * @param {Object} o Optional content object, this gets passed around through the whole get process.
+		 * @param {Object} args Optional content object, this gets passed around through the whole get process.
 		 * @return {String} Cleaned content string, normally HTML contents.
+		 * @example
+		 * // Get the HTML contents of the currently active editor
+		 * console.debug(tinyMCE.activeEditor.getContent());
+		 * 
+		 * // Get the raw contents of the currently active editor
+		 * tinyMCE.activeEditor.getContent({format : 'raw'});
+		 * 
+		 * // Get content of a specific editor:
+		 * tinyMCE.get('content id').getContent()
 		 */
-		getContent : function(o) {
-			var t = this, h;
+		getContent : function(args) {
+			var self = this, content;
 
-			o = o || {};
-			o.format = o.format || 'html';
-			o.get = true;
+			// Setup args object
+			args = args || {};
+			args.format = args.format || 'html';
+			args.get = true;
 
-			if (!o.no_events)
-				t.onBeforeGetContent.dispatch(t, o);
+			// Do preprocessing
+			if (!args.no_events)
+				self.onBeforeGetContent.dispatch(self, args);
 
-			if (o.format != 'raw' && t.settings.cleanup) {
-				o.getInner = true;
-				h = t.serializer.serialize(t.getBody(), o);
-			} else
-				h = t.getBody().innerHTML;
+			// Get raw contents or by default the cleaned contents
+			if (args.format == 'raw')
+				content = self.getBody().innerHTML;
+			else
+				content = self.serializer.serialize(self.getBody(), args);
 
-			h = h.replace(/^\s*|\s*$/g, '');
-			o.content = h;
+			args.content = tinymce.trim(content);
 
-			if (!o.no_events)
-				t.onGetContent.dispatch(t, o);
+			// Do post processing
+			if (!args.no_events)
+				self.onGetContent.dispatch(self, args);
 
-			return o.content;
+			return args.content;
 		},
 
 		/**
@@ -1882,11 +2584,14 @@
 		 *
 		 * @method isDirty
 		 * @return {Boolean} True/false if the editor is dirty or not. It will get dirty if the user has made modifications to the contents.
+		 * @example
+		 * if (tinyMCE.activeEditor.isDirty())
+		 *     alert("You must save your contents.");
 		 */
 		isDirty : function() {
-			var t = this;
+			var self = this;
 
-			return tinymce.trim(t.startContent) != tinymce.trim(t.getContent({format : 'raw', no_events : 1})) && !t.isNotDirty;
+			return tinymce.trim(self.startContent) != tinymce.trim(self.getContent({format : 'raw', no_events : 1})) && !self.isNotDirty;
 		},
 
 		/**
@@ -2054,7 +2759,7 @@
 		},
 
 		/**
-		 * Removes the editor from the dom and EditorManager collection.
+		 * Removes the editor from the dom and tinymce collection.
 		 *
 		 * @method remove
 		 */
@@ -2070,7 +2775,7 @@
 			// Clear all execCommand listeners this is required to avoid errors if the editor was removed inside another command
 			t.onExecCommand.listeners = [];
 
-			EditorManager.remove(t);
+			tinymce.remove(t);
 			DOM.remove(e);
 		},
 
@@ -2132,7 +2837,7 @@
 
 		_addEvents : function() {
 			// 'focus', 'blur', 'dblclick', 'beforedeactivate', submit, reset
-			var t = this, i, s = t.settings, lo = {
+			var t = this, i, s = t.settings, dom = t.dom, lo = {
 				mouseup : 'onMouseUp',
 				mousedown : 'onMouseDown',
 				click : 'onClick',
@@ -2164,35 +2869,26 @@
 			each(lo, function(v, k) {
 				switch (k) {
 					case 'contextmenu':
-						if (tinymce.isOpera) {
-							// Fake contextmenu on Opera
-							t.dom.bind(t.getBody(), 'mousedown', function(e) {
-								if (e.ctrlKey) {
-									e.fakeType = 'contextmenu';
-									eventHandler(e);
-								}
-							});
-						} else
-							t.dom.bind(t.getBody(), k, eventHandler);
+						dom.bind(t.getDoc(), k, eventHandler);
 						break;
 
 					case 'paste':
-						t.dom.bind(t.getBody(), k, function(e) {
+						dom.bind(t.getBody(), k, function(e) {
 							eventHandler(e);
 						});
 						break;
 
 					case 'submit':
 					case 'reset':
-						t.dom.bind(t.getElement().form || DOM.getParent(t.id, 'form'), k, eventHandler);
+						dom.bind(t.getElement().form || DOM.getParent(t.id, 'form'), k, eventHandler);
 						break;
 
 					default:
-						t.dom.bind(s.content_editable ? t.getBody() : t.getDoc(), k, eventHandler);
+						dom.bind(s.content_editable ? t.getBody() : t.getDoc(), k, eventHandler);
 				}
 			});
 
-			t.dom.bind(s.content_editable ? t.getBody() : (isGecko ? t.getDoc() : t.getWin()), 'focus', function(e) {
+			dom.bind(s.content_editable ? t.getBody() : (isGecko ? t.getDoc() : t.getWin()), 'focus', function(e) {
 				t.focus(true);
 			});
 
@@ -2204,8 +2900,8 @@
 					t.focus(true);
 				};
 
-				t.dom.bind(t.getBody(), 'click', doFocus);
-				t.dom.bind(t.getBody(), 'keydown', doFocus);
+				dom.bind(t.getBody(), 'click', doFocus);
+				dom.bind(t.getBody(), 'keydown', doFocus);
 			}
 
 			// #endif
@@ -2213,22 +2909,12 @@
 			// Fixes bug where a specified document_base_uri could result in broken images
 			// This will also fix drag drop of images in Gecko
 			if (tinymce.isGecko) {
-				// Convert all images to absolute URLs
-/*				t.onSetContent.add(function(ed, o) {
-					each(ed.dom.select('img'), function(e) {
-						var v;
-
-						if (v = e.getAttribute('mce_src'))
-							e.src = t.documentBaseURI.toAbsolute(v);
-					})
-				});*/
-
-				t.dom.bind(t.getDoc(), 'DOMNodeInserted', function(e) {
+				dom.bind(t.getDoc(), 'DOMNodeInserted', function(e) {
 					var v;
 
 					e = e.target;
 
-					if (e.nodeType === 1 && e.nodeName === 'IMG' && (v = e.getAttribute('mce_src')))
+					if (e.nodeType === 1 && e.nodeName === 'IMG' && (v = e.getAttribute('data-mce-src')))
 						e.src = t.documentBaseURI.toAbsolute(v);
 				});
 			}
@@ -2269,9 +2955,24 @@
 				t.onMouseDown.add(setOpts);
 			}
 
+			// Workaround for bug, http://bugs.webkit.org/show_bug.cgi?id=12250
+			// WebKit can't even do simple things like selecting an image
+			// This also fixes so it's possible to select mceItemAnchors
+			if (tinymce.isWebKit) {
+				t.onClick.add(function(ed, e) {
+					e = e.target;
+
+					// Needs tobe the setBaseAndExtend or it will fail to select floated images
+					if (e.nodeName == 'IMG' || (e.nodeName == 'A' && dom.hasClass(e, 'mceItemAnchor'))) {
+						t.selection.getSel().setBaseAndExtent(e, 0, e, 1);
+						t.nodeChanged();
+					}
+				});
+			}
+
 			// Add node change handlers
 			t.onMouseUp.add(t.nodeChanged);
-			t.onClick.add(t.nodeChanged);
+			//t.onClick.add(t.nodeChanged);
 			t.onKeyUp.add(function(ed, e) {
 				var c = e.keyCode;
 
@@ -2292,15 +2993,13 @@
 				}
 
 				// Add default shortcuts for gecko
-				if (isGecko) {
-					t.addShortcut('ctrl+b', t.getLang('bold_desc'), 'Bold');
-					t.addShortcut('ctrl+i', t.getLang('italic_desc'), 'Italic');
-					t.addShortcut('ctrl+u', t.getLang('underline_desc'), 'Underline');
-				}
+				t.addShortcut('ctrl+b', t.getLang('bold_desc'), 'Bold');
+				t.addShortcut('ctrl+i', t.getLang('italic_desc'), 'Italic');
+				t.addShortcut('ctrl+u', t.getLang('underline_desc'), 'Underline');
 
 				// BlockFormat shortcuts keys
 				for (i=1; i<=6; i++)
-					t.addShortcut('ctrl+' + i, '', ['FormatBlock', false, '<h' + i + '>']);
+					t.addShortcut('ctrl+' + i, '', ['FormatBlock', false, 'h' + i]);
 
 				t.addShortcut('ctrl+7', '', ['FormatBlock', false, '<p>']);
 				t.addShortcut('ctrl+8', '', ['FormatBlock', false, '<div>']);
@@ -2360,7 +3059,7 @@
 			if (tinymce.isIE) {
 				// Fix so resize will only update the width and height attributes not the styles of an image
 				// It will also block mceItemNoResize items
-				t.dom.bind(t.getDoc(), 'controlselect', function(e) {
+				dom.bind(t.getDoc(), 'controlselect', function(e) {
 					var re = t.resizeInfo, cb;
 
 					e = e.target;
@@ -2370,28 +3069,28 @@
 						return;
 
 					if (re)
-						t.dom.unbind(re.node, re.ev, re.cb);
+						dom.unbind(re.node, re.ev, re.cb);
 
-					if (!t.dom.hasClass(e, 'mceItemNoResize')) {
+					if (!dom.hasClass(e, 'mceItemNoResize')) {
 						ev = 'resizeend';
-						cb = t.dom.bind(e, ev, function(e) {
+						cb = dom.bind(e, ev, function(e) {
 							var v;
 
 							e = e.target;
 
-							if (v = t.dom.getStyle(e, 'width')) {
-								t.dom.setAttrib(e, 'width', v.replace(/[^0-9%]+/g, ''));
-								t.dom.setStyle(e, 'width', '');
+							if (v = dom.getStyle(e, 'width')) {
+								dom.setAttrib(e, 'width', v.replace(/[^0-9%]+/g, ''));
+								dom.setStyle(e, 'width', '');
 							}
 
-							if (v = t.dom.getStyle(e, 'height')) {
-								t.dom.setAttrib(e, 'height', v.replace(/[^0-9%]+/g, ''));
-								t.dom.setStyle(e, 'height', '');
+							if (v = dom.getStyle(e, 'height')) {
+								dom.setAttrib(e, 'height', v.replace(/[^0-9%]+/g, ''));
+								dom.setStyle(e, 'height', '');
 							}
 						});
 					} else {
 						ev = 'resizestart';
-						cb = t.dom.bind(e, 'resizestart', Event.cancel, Event);
+						cb = dom.bind(e, 'resizestart', Event.cancel, Event);
 					}
 
 					re = t.resizeInfo = {
@@ -2402,25 +3101,19 @@
 				});
 
 				t.onKeyDown.add(function(ed, e) {
+					var sel;
+
 					switch (e.keyCode) {
 						case 8:
+							sel = t.getDoc().selection;
+
 							// Fix IE control + backspace browser bug
-							if (t.selection.getRng().item) {
-								t.selection.getRng().item(0).removeNode();
+							if (sel.createRange && sel.createRange().item) {
+								ed.dom.remove(sel.createRange().item(0));
 								return Event.cancel(e);
 							}
 					}
 				});
-
-				/*if (t.dom.boxModel) {
-					t.getBody().style.height = '100%';
-
-					Event.add(t.getWin(), 'resize', function(e) {
-						var docElm = t.getDoc().documentElement;
-
-						docElm.style.height = (docElm.offsetHeight - 10) + 'px';
-					});
-				}*/
 			}
 
 			if (tinymce.isOpera) {
@@ -2432,185 +3125,160 @@
 			// Add custom undo/redo handlers
 			if (s.custom_undo_redo) {
 				function addUndo() {
-					t.undoManager.typing = 0;
+					t.undoManager.typing = false;
 					t.undoManager.add();
 				};
 
-				// Add undo level on editor blur
-				if (tinymce.isIE) {
-					t.dom.bind(t.getWin(), 'blur', function(e) {
-						var n;
+				dom.bind(t.getDoc(), 'focusout', function(e) {
+					if (!t.removed && t.undoManager.typing)
+						addUndo();
+				});
 
-						// Check added for fullscreen bug
-						if (t.selection) {
-							n = t.selection.getNode();
-
-							// Add undo level is selection was lost to another document
-							if (!t.removed && n.ownerDocument && n.ownerDocument != t.getDoc())
-								addUndo();
-						}
-					});
-				} else {
-					t.dom.bind(t.getDoc(), 'blur', function() {
-						if (t.selection && !t.removed)
-							addUndo();
-					});
-				}
-
-				t.onMouseDown.add(addUndo);
+				// Add undo level when contents is drag/dropped within the editor
+				t.dom.bind(t.dom.getRoot(), 'dragend', function(e) {
+					addUndo();
+				});
 
 				t.onKeyUp.add(function(ed, e) {
-					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.ctrlKey) {
-						t.undoManager.typing = 0;
-						t.undoManager.add();
+					var rng, parent, bookmark;
+
+					// Fix for bug #3168, to remove odd ".." nodes from the DOM we need to get/set the HTML of the parent node.
+					if (isIE && e.keyCode == 8) {
+						rng = t.selection.getRng();
+						if (rng.parentElement) {
+							parent = rng.parentElement();
+							bookmark = t.selection.getBookmark();
+							parent.innerHTML = parent.innerHTML;
+							t.selection.moveToBookmark(bookmark);
+						}
 					}
+
+					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45 || e.ctrlKey)
+						addUndo();
 				});
 
 				t.onKeyDown.add(function(ed, e) {
-					// Is caracter positon keys
-					if ((e.keyCode >= 33 && e.keyCode <= 36) || (e.keyCode >= 37 && e.keyCode <= 40) || e.keyCode == 13 || e.keyCode == 45) {
-						if (t.undoManager.typing) {
-							t.undoManager.add();
-							t.undoManager.typing = 0;
+					var rng, parent, bookmark, keyCode = e.keyCode;
+
+					// IE has a really odd bug where the DOM might include an node that doesn't have
+					// a proper structure. If you try to access nodeValue it would throw an illegal value exception.
+					// This seems to only happen when you delete contents and it seems to be avoidable if you refresh the element
+					// after you delete contents from it. See: #3008923
+					if (isIE && keyCode == 46) {
+						rng = t.selection.getRng();
+
+						if (rng.parentElement) {
+							parent = rng.parentElement();
+
+							if (!t.undoManager.typing) {
+								t.undoManager.beforeChange();
+								t.undoManager.typing = true;
+								t.undoManager.add();
+							}
+
+							// Select next word when ctrl key is used in combo with delete
+							if (e.ctrlKey) {
+								rng.moveEnd('word', 1);
+								rng.select();
+							}
+
+							// Delete contents
+							t.selection.getSel().clear();
+
+							// Check if we are within the same parent
+							if (rng.parentElement() == parent) {
+								bookmark = t.selection.getBookmark();
+
+								try {
+									// Update the HTML and hopefully it will remove the artifacts
+									parent.innerHTML = parent.innerHTML;
+								} catch (ex) {
+									// And since it's IE it can sometimes produce an unknown runtime error
+								}
+
+								// Restore the caret position
+								t.selection.moveToBookmark(bookmark);
+							}
+
+							// Block the default delete behavior since it might be broken
+							e.preventDefault();
+							return;
 						}
+					}
+
+					// Is caracter positon keys left,right,up,down,home,end,pgdown,pgup,enter
+					if ((keyCode >= 33 && keyCode <= 36) || (keyCode >= 37 && keyCode <= 40) || keyCode == 13 || keyCode == 45) {
+						// Add position before enter key is pressed, used by IE since it still uses the default browser behavior
+						// Todo: Remove this once we normalize enter behavior on IE
+						if (tinymce.isIE && keyCode == 13)
+							t.undoManager.beforeChange();
+
+						if (t.undoManager.typing)
+							addUndo();
 
 						return;
 					}
 
-					if (!t.undoManager.typing) {
+					// If key isn't shift,ctrl,alt,capslock,metakey
+					if ((keyCode < 16 || keyCode > 20) && keyCode != 224 && keyCode != 91 && !t.undoManager.typing) {
+						t.undoManager.beforeChange();
 						t.undoManager.add();
-						t.undoManager.typing = 1;
+						t.undoManager.typing = true;
+					}
+				});
+
+				t.onMouseDown.add(function() {
+					if (t.undoManager.typing)
+						addUndo();
+				});
+			}
+			
+			// Bug fix for FireFox keeping styles from end of selection instead of start.
+			if (tinymce.isGecko) {
+				function getAttributeApplyFunction() {
+					var template = t.dom.getAttribs(t.selection.getStart().cloneNode(false));
+
+					return function() {
+						var target = t.selection.getStart();
+						t.dom.removeAllAttribs(target);
+						each(template, function(attr) {
+							target.setAttributeNode(attr.cloneNode(true));
+						});
+					};
+				}
+
+				function isSelectionAcrossElements() {
+					var s = t.selection;
+
+					return !s.isCollapsed() && s.getStart() != s.getEnd();
+				}
+
+				t.onKeyPress.add(function(ed, e) {
+					var applyAttributes;
+
+					if ((e.keyCode == 8 || e.keyCode == 46) && isSelectionAcrossElements()) {
+						applyAttributes = getAttributeApplyFunction();
+						t.getDoc().execCommand('delete', false, null);
+						applyAttributes();
+
+						return Event.cancel(e);
+					}
+				});
+
+				t.dom.bind(t.getDoc(), 'cut', function(e) {
+					var applyAttributes;
+
+					if (isSelectionAcrossElements()) {
+						applyAttributes = getAttributeApplyFunction();
+						t.onKeyUp.addToTop(Event.cancel, Event);
+
+						setTimeout(function() {
+							applyAttributes();
+							t.onKeyUp.remove(Event.cancel, Event);
+						}, 0);
 					}
 				});
 			}
-		},
-
-		_convertInlineElements : function() {
-			var t = this, s = t.settings, dom = t.dom, v, e, na, st, sp;
-
-			function convert(ed, o) {
-				if (!s.inline_styles)
-					return;
-
-				if (o.get) {
-					each(t.dom.select('table,u,strike', o.node), function(n) {
-						switch (n.nodeName) {
-							case 'TABLE':
-								if (v = dom.getAttrib(n, 'height')) {
-									dom.setStyle(n, 'height', v);
-									dom.setAttrib(n, 'height', '');
-								}
-								break;
-
-							case 'U':
-							case 'STRIKE':
-								//sp = dom.create('span', {style : dom.getAttrib(n, 'style')});
-								n.style.textDecoration = n.nodeName == 'U' ? 'underline' : 'line-through';
-								dom.setAttrib(n, 'mce_style', '');
-								dom.setAttrib(n, 'mce_name', 'span');
-								break;
-						}
-					});
-				} else if (o.set) {
-					each(t.dom.select('table,span', o.node).reverse(), function(n) {
-						if (n.nodeName == 'TABLE') {
-							if (v = dom.getStyle(n, 'height'))
-								dom.setAttrib(n, 'height', v.replace(/[^0-9%]+/g, ''));
-						} else {
-							// Convert spans to elements
-							if (n.style.textDecoration == 'underline')
-								na = 'u';
-							else if (n.style.textDecoration == 'line-through')
-								na = 'strike';
-							else
-								na = '';
-
-							if (na) {
-								n.style.textDecoration = '';
-								dom.setAttrib(n, 'mce_style', '');
-
-								e = dom.create(na, {
-									style : dom.getAttrib(n, 'style')
-								});
-
-								dom.replace(e, n, 1);
-							}
-						}
-					});
-				}
-			};
-
-			t.onPreProcess.add(convert);
-
-			if (!s.cleanup_on_startup) {
-				t.onSetContent.add(function(ed, o) {
-					if (o.initial)
-						convert(t, {node : t.getBody(), set : 1});
-				});
-			}
-		},
-
-		_convertFonts : function() {
-			var t = this, s = t.settings, dom = t.dom, fz, fzn, sl, cl;
-
-			// No need
-			if (!s.inline_styles)
-				return;
-
-			// Font pt values and font size names
-			fz = [8, 10, 12, 14, 18, 24, 36];
-			fzn = ['xx-small', 'x-small','small','medium','large','x-large', 'xx-large'];
-
-			if (sl = s.font_size_style_values)
-				sl = explode(sl);
-
-			if (cl = s.font_size_classes)
-				cl = explode(cl);
-
-			function process(no) {
-				var n, sp, nl, x;
-
-				// Keep unit tests happy
-				if (!s.inline_styles)
-					return;
-
-				nl = t.dom.select('font', no);
-				for (x = nl.length - 1; x >= 0; x--) {
-					n = nl[x];
-
-					sp = dom.create('span', {
-						style : dom.getAttrib(n, 'style'),
-						'class' : dom.getAttrib(n, 'class')
-					});
-
-					dom.setStyles(sp, {
-						fontFamily : dom.getAttrib(n, 'face'),
-						color : dom.getAttrib(n, 'color'),
-						backgroundColor : n.style.backgroundColor
-					});
-
-					if (n.size) {
-						if (sl)
-							dom.setStyle(sp, 'fontSize', sl[parseInt(n.size) - 1]);
-						else
-							dom.setAttrib(sp, 'class', cl[parseInt(n.size) - 1]);
-					}
-
-					dom.setAttrib(sp, 'mce_style', '');
-					dom.replace(sp, n, 1);
-				}
-			};
-
-			// Run on cleanup
-			t.onPreProcess.add(function(ed, o) {
-				if (o.get)
-					process(o.node);
-			});
-
-			t.onSetContent.add(function(ed, o) {
-				if (o.initial)
-					process(o.node);
-			});
 		},
 
 		_isHidden : function() {
@@ -2622,57 +3290,6 @@
 			// Weird, wheres that cursor selection?
 			s = this.selection.getSel();
 			return (!s || !s.rangeCount || s.rangeCount == 0);
-		},
-
-		// Fix for bug #1867292
-		_fixNesting : function(s) {
-			var d = [], i;
-
-			s = s.replace(/<(\/)?([^\s>]+)[^>]*?>/g, function(a, b, c) {
-				var e;
-
-				// Handle end element
-				if (b === '/') {
-					if (!d.length)
-						return '';
-
-					if (c !== d[d.length - 1].tag) {
-						for (i=d.length - 1; i>=0; i--) {
-							if (d[i].tag === c) {
-								d[i].close = 1;
-								break;
-							}
-						}
-
-						return '';
-					} else {
-						d.pop();
-
-						if (d.length && d[d.length - 1].close) {
-							a = a + '</' + d[d.length - 1].tag + '>';
-							d.pop();
-						}
-					}
-				} else {
-					// Ignore these
-					if (/^(br|hr|input|meta|img|link|param)$/i.test(c))
-						return a;
-
-					// Ignore closed ones
-					if (/\/>$/.test(a))
-						return a;
-
-					d.push({tag : c}); // Push start element
-				}
-
-				return a;
-			});
-
-			// End all open tags
-			for (i=d.length - 1; i>=0; i--)
-				s += '</' + d[i].tag + '>';
-
-			return s;
 		}
 	});
 })(tinymce);

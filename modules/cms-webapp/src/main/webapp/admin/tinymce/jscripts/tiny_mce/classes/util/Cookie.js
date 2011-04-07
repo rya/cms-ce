@@ -1,8 +1,11 @@
 /**
- * $Id: Cookie.js 1183 2009-08-10 15:37:31Z spocke $
+ * Cookie.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -13,6 +16,15 @@
 	 *
 	 * @class tinymce.util.Cookie
 	 * @static
+	 * @example
+	 * // Gets a cookie from the browser
+	 * console.debug(tinymce.util.Cookie.get('mycookie'));
+	 * 
+	 * // Gets a hash table cookie from the browser and takes out the x parameter from it
+	 * console.debug(tinymce.util.Cookie.getHash('mycookie').x);
+	 * 
+	 * // Sets a hash table cookie to the browser
+	 * tinymce.util.Cookie.setHash({x : '1', y : '2'});
 	 */
 	tinymce.create('static tinymce.util.Cookie', {
 		/**

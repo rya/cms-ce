@@ -1,8 +1,11 @@
 /**
- * $Id: EventUtils.js 1190 2009-08-12 17:59:29Z spocke $
+ * EventUtils.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
@@ -36,6 +39,11 @@
 		 * @param {function} f Function to execute when the event occurs.
 		 * @param {Object} s Optional scope to execute the function in.
 		 * @return {function} Function callback handler the same as the one passed in.
+		 * @example
+		 * // Adds a click handler to the current document
+		 * tinymce.dom.Event.add(document, 'click', function(e) {
+		 *    console.debug(e.target);
+		 * });
 		 */
 		add : function(o, n, f, s) {
 			var cb, t = this, el = t.events, r;
@@ -126,6 +134,14 @@
 		 * @param {String} n Event handler name like for example: "click"
 		 * @param {function} f Function to remove.
 		 * @return {bool/Array} Bool state if true if the handler was removed or an array with states if multiple elements where passed in.
+		 * @example
+		 * // Adds a click handler to the current document
+		 * var func = tinymce.dom.Event.add(document, 'click', function(e) {
+		 *    console.debug(e.target);
+		 * });
+		 * 
+		 * // Removes the click handler from the document
+		 * tinymce.dom.Event.remove(document, 'click', func);
 		 */
 		remove : function(o, n, f) {
 			var t = this, a = t.events, s = false, r;
@@ -161,6 +177,11 @@
 		 *
 		 * @method clear
 		 * @param {Object} o DOM element or object to remove all events from.
+		 * @example
+		 * // Cancels all mousedown events in the active editor
+		 * tinyMCE.activeEditor.onMouseDown.add(function(ed, e) {
+		 *    return tinymce.dom.Event.cancel(e);
+		 * });
 		 */
 		clear : function(o) {
 			var t = this, a = t.events, i, e;
@@ -332,7 +353,7 @@
 		},
 
 		_stoppers : {
-			preventDefault :  function() {
+			preventDefault : function() {
 				this.returnValue = false;
 			},
 

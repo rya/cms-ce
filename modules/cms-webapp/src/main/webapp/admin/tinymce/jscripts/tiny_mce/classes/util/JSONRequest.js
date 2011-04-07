@@ -1,8 +1,11 @@
 /**
- * $Id: JSONRequest.js 1176 2009-08-04 09:42:14Z spocke $
+ * JSONRequest.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function() {
@@ -12,6 +15,28 @@
 	 * This class enables you to use JSON-RPC to call backend methods.
 	 *
 	 * @class tinymce.util.JSONRequest
+	 * @example
+	 * var json = new tinymce.util.JSONRequest({
+	 *     url : 'somebackend.php'
+	 * });
+	 * 
+	 * // Send RPC call 1
+	 * json.send({
+	 *     method : 'someMethod1',
+	 *     params : ['a', 'b'],
+	 *     success : function(result) {
+	 *         console.dir(result);
+	 *     }
+	 * });
+	 * 
+	 * // Send RPC call 2
+	 * json.send({
+	 *     method : 'someMethod2',
+	 *     params : ['a', 'b'],
+	 *     success : function(result) {
+	 *         console.dir(result);
+	 *     }
+	 * });
 	 */
 	tinymce.create('tinymce.util.JSONRequest', {
 		/**
@@ -54,7 +79,8 @@
 			};
 
 			o.error = function(ty, x) {
-				ecb.call(o.error_scope || o.scope, ty, x);
+				if (ecb)
+					ecb.call(o.error_scope || o.scope, ty, x);
 			};
 
 			o.data = JSON.serialize({

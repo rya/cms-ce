@@ -1,14 +1,25 @@
 /**
- * $Id: XHR.js 1194 2009-08-15 14:57:34Z spocke $
+ * XHR.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 /**
  * This class enables you to send XMLHTTPRequests cross browser.
  * @class tinymce.util.XHR
  * @static
+ * @example
+ * // Sends a low level Ajax request
+ * tinymce.util.XHR.send({
+ *    url : 'someurl',
+ *    success : function(text) {
+ *       console.debug(text);
+ *    }
+ * });
  */
 tinymce.create('static tinymce.util.XHR', {
 	/**

@@ -1,8 +1,11 @@
 /**
- * $Id: NativeListBox.js 1190 2009-08-12 17:59:29Z spocke $
+ * NativeListBox.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 (function(tinymce) {
@@ -38,6 +41,7 @@
 		 */
 		setDisabled : function(s) {
 			DOM.get(this.id).disabled = s;
+			this.setAriaProperty('disabled', s);
 		},
 
 		/**
@@ -134,7 +138,7 @@
 		 * @method getLength
 		 */
 		getLength : function() {
-			return DOM.get(this.id).options.length - 1;
+			return this.items.length;
 		},
 
 		/**
@@ -153,8 +157,8 @@
 				h += DOM.createHTML('option', {value : it.value}, it.title);
 			});
 
-			h = DOM.createHTML('select', {id : t.id, 'class' : 'mceNativeListBox'}, h);
-
+			h = DOM.createHTML('select', {id : t.id, 'class' : 'mceNativeListBox', 'aria-labelledby': t.id + '_aria'}, h);
+			h += DOM.createHTML('span', {id : t.id + '_aria', 'style': 'display: none'}, t.settings.title);
 			return h;
 		},
 
@@ -165,7 +169,7 @@
 		 * @method postRender
 		 */
 		postRender : function() {
-			var t = this, ch;
+			var t = this, ch, changeListenerAdded = true;
 
 			t.rendered = true;
 
@@ -187,8 +191,11 @@
 				var bf;
 
 				Event.remove(t.id, 'change', ch);
+				changeListenerAdded = false;
 
 				bf = Event.add(t.id, 'blur', function() {
+					if (changeListenerAdded) return;
+					changeListenerAdded = true;
 					Event.add(t.id, 'change', onChange);
 					Event.remove(t.id, 'blur', bf);
 				});

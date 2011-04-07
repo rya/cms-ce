@@ -1,8 +1,11 @@
 /**
- * $Id: Container.js 1176 2009-08-04 09:42:14Z spocke $
+ * Container.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 /**
@@ -21,8 +24,8 @@ tinymce.create('tinymce.ui.Container:tinymce.ui.Control', {
 	 * @param {String} id Control id to use for the container.
 	 * @param {Object} s Optional name/value settings object.
 	 */
-	Container : function(id, s) {
-		this.parent(id, s);
+	Container : function(id, s, editor) {
+		this.parent(id, s, editor);
 
 		/**
 		 * Array of controls added to the container.

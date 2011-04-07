@@ -1,8 +1,11 @@
 /**
- * $Id: Popup.js 1204 2009-08-19 12:12:07Z spocke $
+ * Popup.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2008, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 // Some global instances
@@ -42,6 +45,21 @@ tinyMCEPopup = {
 
 		// Setup on init listeners
 		t.listeners = [];
+
+		/**
+		 * Fires when the popup is initialized.
+		 *
+		 * @event onInit
+		 * @param {tinymce.Editor} editor Editor instance.
+		 * @example
+		 * // Alerts the selected contents when the dialog is loaded
+		 * tinyMCEPopup.onInit.add(function(ed) {
+		 *     alert(ed.selection.getContent());
+		 * });
+		 * 
+		 * // Executes the init method on page load in some object using the SomeObject scope
+		 * tinyMCEPopup.onInit.add(SomeObject.init, SomeObject);
+		 */
 		t.onInit = {
 			add : function(f, s) {
 				t.listeners.push({func : f, scope : s});
@@ -126,15 +144,19 @@ tinyMCEPopup = {
 	 * @method resizeToInnerSize
 	 */
 	resizeToInnerSize : function() {
-		var t = this, n, b = document.body, vp = t.dom.getViewPort(window), dw, dh;
+		var t = this;
 
-		dw = t.getWindowArg('mce_width') - vp.w;
-		dh = t.getWindowArg('mce_height') - vp.h;
+		// Detach it to workaround a Chrome specific bug
+		// https://sourceforge.net/tracker/?func=detail&atid=635682&aid=2926339&group_id=103281
+		setTimeout(function() {
+			var vp = t.dom.getViewPort(window);
 
-		if (t.isWindow)
-			window.resizeBy(dw, dh);
-		else
-			t.editor.windowManager.resizeBy(dw, dh, t.id);
+			t.editor.windowManager.resizeBy(
+				t.getWindowArg('mce_width') - vp.w,
+				t.getWindowArg('mce_height') - vp.h,
+				t.id || window
+			);
+		}, 10);
 	},
 
 	/**
@@ -182,7 +204,7 @@ tinyMCEPopup = {
 	requireLangPack : function() {
 		var t = this, u = t.getWindowArg('plugin_url') || t.getWindowArg('theme_url');
 
-		if (u && t.editor.settings.language && t.features.translate_i18n !== false) {
+		if (u && t.editor.settings.language && t.features.translate_i18n !== false && t.editor.settings.language_load !== false) {
 			u += '/langs/' + t.editor.settings.language + '_dlg.js';
 
 			if (!tinymce.ScriptLoader.isDone(u)) {
@@ -317,6 +339,9 @@ tinyMCEPopup = {
 				document.title = ti = nv;
 		}
 
+		if (!t.editor.getParam('browser_preferred_colors', false) || !t.isWindow)
+			t.dom.addClass(document.body, 'forceColors');
+
 		document.body.style.display = '';
 
 		// Restore selection in IE when focus is placed on a non textarea or input element of the type text
@@ -338,7 +363,7 @@ tinyMCEPopup = {
 
 		if (!tinymce.isIE && !t.isWindow) {
 			tinymce.dom.Event._add(document, 'focus', function() {
-				t.editor.windowManager.focus(t.id)
+				t.editor.windowManager.focus(t.id);
 			});
 		}
 

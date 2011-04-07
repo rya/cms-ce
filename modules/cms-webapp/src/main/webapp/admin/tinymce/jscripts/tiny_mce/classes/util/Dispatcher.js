@@ -1,8 +1,11 @@
 /**
- * $Id: Dispatcher.js 1176 2009-08-04 09:42:14Z spocke $
+ * Dispatcher.js
  *
- * @author Moxiecode
- * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
+ * Copyright 2009, Moxiecode Systems AB
+ * Released under LGPL License.
+ *
+ * License: http://tinymce.moxiecode.com/license
+ * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
 /**
@@ -10,6 +13,12 @@
  * All internal events inside TinyMCE uses this class.
  *
  * @class tinymce.util.Dispatcher
+ * @example
+ * // Creates a custom event
+ * this.onSomething = new tinymce.util.Dispatcher(this);
+ * 
+ * // Dispatch/fire the event
+ * this.onSomething.dispatch('some string');
  */
 tinymce.create('tinymce.util.Dispatcher', {
 	scope : null,
