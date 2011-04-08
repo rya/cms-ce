@@ -4,20 +4,11 @@
  */
 package com.enonic.cms.business.mail;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.enonic.vertical.adminweb.AdminHelper;
-
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.security.user.UserEntity;
 
 /**
@@ -28,36 +19,11 @@ import com.enonic.cms.domain.security.user.UserEntity;
  */
 public abstract class AbstractMailTemplate
 {
-    public static final String ADMIN_URL = "/adminpage?page=0&editContent=";
-
     protected final static Logger LOG = LoggerFactory.getLogger( AbstractMailTemplate.class );
 
     private List<MailRecipient> mailRecipients = new ArrayList<MailRecipient>();
 
     private MailRecipient from;
-
-    protected static final SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy HH:mm" );
-
-    protected String getAdminUrl( final ContentKey contentKey )
-    {
-        HttpServletRequest request = ServletRequestAccessor.getRequest();
-        String adminUrl = AdminHelper.getAdminPath( request, false );
-        if ( adminUrl != null )
-        {
-            adminUrl += ADMIN_URL + contentKey.toString();
-        }
-        return adminUrl;
-    }
-
-    public void addRecipient( MailRecipient recipient )
-    {
-        mailRecipients.add( recipient );
-    }
-
-    public void addRecipient( UserEntity recipient )
-    {
-        mailRecipients.add( new MailRecipient( recipient ) );
-    }
 
     public List<MailRecipient> getMailRecipients()
     {
