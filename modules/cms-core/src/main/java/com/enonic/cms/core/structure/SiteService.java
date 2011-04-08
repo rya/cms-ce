@@ -46,4 +46,5 @@ public interface SiteService
 
     List<SiteEntity> getSitesToPublishTo( int contentTypeKey, User user );
 
+    List<SiteEntity> findAll();
 }

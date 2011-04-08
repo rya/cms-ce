@@ -195,6 +195,11 @@ public class SiteServiceImpl
         return siteDao.findByPublishPossible( contentTypeKey, user );
     }
 
+    public List<SiteEntity> findAll()
+    {
+        return siteDao.findAll();
+    }
+
     public void setPresentationService( PresentationService value )
     {
         this.presentationService = value;

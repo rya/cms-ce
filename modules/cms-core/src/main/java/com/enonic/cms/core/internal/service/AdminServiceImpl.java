@@ -4,10 +4,9 @@
  */
 package com.enonic.cms.core.internal.service;
 
-import java.util.Map;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.enonic.vertical.engine.AdminEngine;
 
 import com.enonic.cms.core.service.AdminService;
@@ -41,14 +40,5 @@ public class AdminServiceImpl
         throws Exception
     {
         return adminEngine.initializeDatabaseValues();
-    }
-
-    /**
-     * Return a map of top level menus with name.
-     */
-    public Map<Integer, String> getMenuMap()
-        throws Exception
-    {
-        return this.adminEngine.getMenuMap();
     }
 }

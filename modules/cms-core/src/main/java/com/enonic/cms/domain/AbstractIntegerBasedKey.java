@@ -87,7 +87,7 @@ public abstract class AbstractIntegerBasedKey
         return intValue;
     }
 
-    protected Integer integerValue()
+    public Integer integerValue()
     {
         return integerValue;
     }

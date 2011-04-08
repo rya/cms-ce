@@ -10,6 +10,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,10 +27,11 @@ import com.enonic.cms.framework.jdbc.dialect.Dialect;
 import com.enonic.cms.framework.jdbc.dialect.SqlServerDialect;
 
 import com.enonic.cms.api.Version;
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
-import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.store.support.ConnectionFactory;
 import com.enonic.cms.upgrade.UpgradeService;
+
+import com.enonic.cms.domain.structure.SiteEntity;
 
 /**
  * Controller for displaying the welcome page, the root page for an installation, listing all sites, plugins, etcs, and linking to DAV,
@@ -46,6 +48,14 @@ public final class WelcomeController
     private Dialect dialect;
 
     private ConnectionFactory connectionFactory;
+
+    private SiteService siteService;
+
+    @Autowired
+    public void setSiteService( SiteService siteService )
+    {
+        this.siteService = siteService;
+    }
 
     @Autowired
     public void setUpgradeService( final UpgradeService upgradeService )
@@ -75,14 +85,11 @@ public final class WelcomeController
         throws Exception
     {
         HashMap<String, Integer> siteMap = new HashMap<String, Integer>();
-        AdminService adminService = CmsCoreServicesSpringManagedBeansBridge.getAdminService();
-        Map menuMap = adminService.getMenuMap();
+        List<SiteEntity> sites =  siteService.findAll();
 
-        for ( Object val : menuMap.keySet() )
+        for ( SiteEntity site : sites )
         {
-            Integer siteKey = (Integer) val;
-            String siteName = (String) menuMap.get( siteKey );
-            siteMap.put( siteName, siteKey );
+            siteMap.put( site.getName(), site.getKey().integerValue() );
         }
 
         return siteMap;
