@@ -93,7 +93,7 @@
 
   <servlet>
     <servlet-name>dav</servlet-name>
-    <servlet-class>com.enonic.cms.server.service.webdav.SimpleDavServlet</servlet-class>
+    <servlet-class>com.enonic.cms.core.webdav.SimpleDavServlet</servlet-class>
   </servlet>
 
   <servlet>
