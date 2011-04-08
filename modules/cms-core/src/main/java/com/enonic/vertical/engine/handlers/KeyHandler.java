@@ -7,15 +7,22 @@ package com.enonic.vertical.engine.handlers;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Table;
-import com.enonic.vertical.engine.VerticalEngineLogger;
+import com.enonic.esl.util.StringUtil;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.XDG;
 
 public class KeyHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( KeyHandler.class.getName() );
+
+
     private static String KEY_UPDATE = "UPDATE tKey SET key_lLastKey = key_lLastKey + ? WHERE key_sTableName = ?";
 
     public int generateNextKeyRange( String tableName, int count )
@@ -24,7 +31,9 @@ public class KeyHandler
         if ( count <= 0 )
         {
             String message = "Count must be at least 1.";
-            VerticalEngineLogger.errorKey( this.getClass(), 0, message, null, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalKeyException.class,
+                                            StringUtil.expandString( message, null, null ) );
         }
         CommonHandler commonHandler = getCommonHandler();
         Connection con = null;
@@ -43,13 +52,13 @@ public class KeyHandler
                 {
                     commonHandler.update( sql.toString(), values );
                     String message = "Inserted new key(s) for table \"%0\".";
-                    VerticalEngineLogger.info( this.getClass(), 1, message, tableName, null );
+                    LOG.info( StringUtil.expandString( message, tableName, null ) );
                     key = 0;
                 }
                 catch ( SQLException sqle )
                 {
                     String message = "Failed to insert new key(s) for table \"%0\": %t";
-                    VerticalEngineLogger.warn( this.getClass(), 1, message, tableName, sqle );
+                    LOG.warn( StringUtil.expandString( message, tableName, sqle ), sqle );
                     sql = XDG.generateSelectSQL( db.tKey, db.tKey.key_lLastKey, false, db.tKey.key_sTableName );
                     key = commonHandler.getInt( sql.toString(), tableName.toLowerCase() );
                 }
@@ -63,7 +72,9 @@ public class KeyHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to generate next key(s) for table \"%0\": %t";
-            VerticalEngineLogger.errorKey( this.getClass(), 1, message, tableName, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalKeyException.class,
+                                            StringUtil.expandString( message, tableName, sqle ), sqle );
             key = -1;
         }
         finally
@@ -95,7 +106,9 @@ public class KeyHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to generate next key for table \"%0\": %t";
-            VerticalEngineLogger.errorKey( this.getClass(), 1, message, tableName, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalKeyException.class,
+                                            StringUtil.expandString( message, tableName, sqle ), sqle );
             key = -1;
         }
         finally
@@ -129,13 +142,15 @@ public class KeyHandler
                 StringBuffer sql = XDG.generateInsertSQL( db.tKey );
                 commonHandler.update( sql.toString(), values );
                 String message = "Inserted new key for table: %0";
-                VerticalEngineLogger.info( this.getClass(), 1, message, tableName, null );
+                LOG.info( StringUtil.expandString( message, tableName, null ) );
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to update key for table \"%0\": %t";
-            VerticalEngineLogger.errorKey( this.getClass(), 1, message, tableName, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalKeyException.class,
+                                            StringUtil.expandString( message, tableName, sqle ), sqle );
         }
         finally
         {

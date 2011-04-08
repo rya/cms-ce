@@ -16,6 +16,8 @@ import java.util.Set;
 
 import javax.xml.transform.TransformerException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,6 +32,7 @@ import com.enonic.esl.sql.model.datatypes.DataType;
 import com.enonic.esl.sql.model.datatypes.XMLType;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 
@@ -37,6 +40,7 @@ import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 
 public class XDG
 {
+    private static final Logger LOG = LoggerFactory.getLogger( XDG.class.getName() );
 
     public static final String OPERATOR_EQUAL = " = ";
 
@@ -585,7 +589,9 @@ public class XDG
                 {
                     String message = "column not in xml: %0, tablename: %1";
                     Object[] msgData = {columnName, table};
-                    VerticalEngineLogger.fatalEngine( XDG.class, 0, message, msgData, null );
+
+                    VerticalRuntimeException.error( XDG.class, VerticalEngineRuntimeException.class,
+                                                    StringUtil.expandString( message, msgData, null ) );
                 }
                 String xpath = column.getXPath();
 
@@ -618,7 +624,7 @@ public class XDG
                 catch ( ProcessElementException pee )
                 {
                     String message = "Failed to run element processors: %t";
-                    VerticalEngineLogger.error( XDG.class, 0, message, pee );
+                    LOG.error( StringUtil.expandString( message, (Object) null, pee ), pee );
                 }
             }
         }
@@ -959,9 +965,9 @@ public class XDG
         int pkPosition = columns.length;
         int dataPosition = 0;
 
-        if ( VerticalEngineLogger.isDebugEnabled( XDG.class ) )
+        if ( LOG.isDebugEnabled() )
         {
-            VerticalEngineLogger.debug( XDG.class, 0, "dataElem = %0", XMLTool.elementToString( dataElem ), null );
+            LOG.debug( StringUtil.expandString( "dataElem = %0", XMLTool.elementToString( dataElem ), null ) );
         }
 
         int excludedCounter = 0;
@@ -998,13 +1004,13 @@ public class XDG
                 data = XMLTool.documentToBytes( tmpDoc, "UTF-8" );
             }
 
-            if ( VerticalEngineLogger.isDebugEnabled( XDG.class ) )
+            if ( LOG.isDebugEnabled() )
             {
-                VerticalEngineLogger.debug( XDG.class, 0, "i = %0", i, null );
-                VerticalEngineLogger.debug( XDG.class, 0, "columns[i] = %0", columns[i], null );
-                VerticalEngineLogger.debug( XDG.class, 0, "index = %0", index, null );
-                VerticalEngineLogger.debug( XDG.class, 0, "dataPosition = %0", dataPosition, null );
-                VerticalEngineLogger.debug( XDG.class, 0, "data = %0", data, null );
+                LOG.debug( StringUtil.expandString( "i = %0", i, null ) );
+                LOG.debug( StringUtil.expandString( "columns[i] = %0", columns[i], null ) );
+                LOG.debug( StringUtil.expandString( "index = %0", index, null ) );
+                LOG.debug( StringUtil.expandString( "dataPosition = %0", dataPosition, null ) );
+                LOG.debug( StringUtil.expandString( "data = %0", data, null ) );
             }
 
             if ( data == null )
@@ -1012,7 +1018,7 @@ public class XDG
 
                 if ( type == Constants.COLUMN_CURRENT_TIMESTAMP || type == Constants.COLUMN_CREATED_TIMESTAMP )
                 {
-                    VerticalEngineLogger.debug( XDG.class, 0, "Timestamp is not set.", null );
+                    LOG.debug( "Timestamp is not set." );
                     // The current timestamp is inserted directly in the query, which means that
                     // the primary key position is one less than if we inserted the timestamp as
                     // a regular parameter
@@ -1035,7 +1041,7 @@ public class XDG
                 if ( operation == Constants.OPERATION_UPDATE && type == Constants.COLUMN_CREATED_TIMESTAMP )
                 {
                     // Ignore created timestamp on update
-                    VerticalEngineLogger.debug( XDG.class, 0, "Timestamp is ignored.", null );
+                    LOG.debug( StringUtil.expandString( "Timestamp is ignored.", null, null ) );
                     pkPosition--;
                     dataPosition++;
                 }

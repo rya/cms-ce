@@ -13,7 +13,8 @@ import java.util.Locale;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.vertical.engine.VerticalEngineLogger;
+import com.enonic.esl.util.StringUtil;
+import com.enonic.vertical.VerticalRuntimeException;
 
 /**
  *
@@ -90,7 +91,9 @@ public class CalendarService
         // check for valid count value
         if ( count < 0 )
         {
-            VerticalEngineLogger.fatalEngine( this.getClass(), 10, "Parameter 'count' must be 0 or a positive integer.", null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalRuntimeException.class, StringUtil.expandString(
+                    "Parameter 'count' must be 0 or a positive integer.", (Object) null, null ) );
         }
 
         // set current date

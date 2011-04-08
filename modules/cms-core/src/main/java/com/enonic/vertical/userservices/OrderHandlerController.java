@@ -24,13 +24,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.util.RegexpUtil;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.UserServicesService;
@@ -44,6 +49,7 @@ import com.enonic.cms.domain.security.user.User;
 public class OrderHandlerController
     extends ContentHandlerBaseController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( OrderHandlerController.class.getName() );
 
     private static final int contentTypeKey = 45;
 
@@ -168,7 +174,7 @@ public class OrderHandlerController
                         if ( xml == null || xml.length() == 0 )
                         {
                             String message = "Failed to get product: %0";
-                            VerticalUserServicesLogger.warn( this.getClass(), 0, message, productId, null );
+                            LOG.warn( StringUtil.expandString( message, productId, null ) );
                             redirectToErrorPage( request, response, formItems, ERR_FAILED_TO_GET_PRODUCT, null );
                             return;
                         }
@@ -392,20 +398,21 @@ public class OrderHandlerController
             catch ( UnsupportedEncodingException uee )
             {
                 String message = "Un-supported encoding: %t";
-                VerticalUserServicesLogger.error( this.getClass(), 0, message, uee );
+                LOG.error( StringUtil.expandString( message, (Object) null, uee ), uee );
                 redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
             }
             catch ( MessagingException me )
             {
-                String message = "Failed to send order received mail: %t";
-                VerticalUserServicesLogger.error( this.getClass(), 0, message, operation, me );
+                String message = "Failed to send order received mail: " + operation;
+                LOG.error( StringUtil.expandString( message, (Object) null, me ), me );
                 redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
             }
         }
         else
         {
             String message = "Unknown operation: %0";
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 0, message, operation, null );
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, operation, null ) );
         }
     }
 

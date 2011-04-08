@@ -12,10 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
@@ -35,6 +38,7 @@ import com.enonic.cms.domain.security.user.User;
 public class ContentSendMailController
     extends SendMailController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ContentSendMailController.class.getName() );
 
     private final static int ERR_MISSING_CATEGORY_KEY = 150;
 
@@ -48,7 +52,7 @@ public class ContentSendMailController
             if ( !formItems.containsKey( "categorykey" ) )
             {
                 String message = "Category key not specified.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
                 return;
             }

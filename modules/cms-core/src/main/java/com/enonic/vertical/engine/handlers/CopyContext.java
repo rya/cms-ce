@@ -4,7 +4,8 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import com.enonic.vertical.engine.VerticalEngineLogger;
+import com.enonic.esl.util.StringUtil;
+import com.enonic.vertical.VerticalRuntimeException;
 
 import com.enonic.cms.framework.util.TIntIntHashMap;
 
@@ -95,7 +96,9 @@ public class CopyContext
         else
         {
             String msg = "Element not defined for copy context: %0";
-            VerticalEngineLogger.fatalEngine( this.getClass(), 0, msg, elementName, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalRuntimeException.class,
+                                            StringUtil.expandString( msg, elementName, null ) );
         }
     }
 
@@ -104,7 +107,9 @@ public class CopyContext
         // NOTE! At the moment, none of the tables using a string key is supported by the copy context
 
         String msg = "Element not defined for copy context: %0";
-        VerticalEngineLogger.fatalEngine( this.getClass(), 0, msg, elementName, null );
+
+        VerticalRuntimeException.error( this.getClass(), VerticalRuntimeException.class,
+                                        StringUtil.expandString( msg, elementName, null ) );
     }
 
 

@@ -13,13 +13,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 
@@ -35,6 +39,8 @@ import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
 public final class PageHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( PageHandler.class.getName() );
+
     private static final String PAG_SELECT_KEY = "SELECT pag_lKey FROM tPage ";
 
     private static final String PAG_WHERE_PAT = "WHERE PAG_PAT_LKEY = ?";
@@ -116,7 +122,9 @@ public final class PageHandler
                 if ( result <= 0 )
                 {
                     String message = "Failed to create page.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 // create all pageconobj entries for page
@@ -136,17 +144,23 @@ public final class PageHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create page(s) because of database error: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse a key field: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, nfe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, nfe ), nfe );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Error generating new key.";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, gke );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, gke ), gke );
         }
         finally
         {
@@ -167,7 +181,9 @@ public final class PageHandler
         if ( keys == null || keys.length == 0 )
         {
             String message = "Failed to create page , no key returned";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, null ) );
         }
 
         return ( keys != null && keys.length > 0 ) ? keys[0] : -1;
@@ -217,12 +233,16 @@ public final class PageHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, "A database error occured while creating the contentobject page: %t",
-                                              sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class, StringUtil.expandString(
+                    "A database error occured while creating the contentobject page: %t", (Object) null, sqle ), sqle );
         }
         catch ( NumberFormatException nfe )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Error parsing the key field: %t", nfe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "Error parsing the key field: %t", (Object) null,
+                                                                     nfe ), nfe );
         }
         finally
         {
@@ -327,7 +347,7 @@ public final class PageHandler
         catch ( SQLException se )
         {
             String message = "Failed to get page keys by page template key: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, se );
+            LOG.error( StringUtil.expandString( message, (Object) null, se ), se );
         }
         finally
         {
@@ -376,7 +396,7 @@ public final class PageHandler
         catch ( SQLException se )
         {
             String message = "Failed to get page keys by page template key: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, null );
+            LOG.error( StringUtil.expandString( message, (Object) null, null ) );
         }
         finally
         {
@@ -421,7 +441,9 @@ public final class PageHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove page content objects because of database error: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {

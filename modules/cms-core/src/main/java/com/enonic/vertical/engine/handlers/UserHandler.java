@@ -9,11 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -31,6 +33,7 @@ public final class UserHandler
     extends BaseHandler
     implements VerticalEventListener
 {
+    private static final Logger LOG = LoggerFactory.getLogger( UserHandler.class.getName() );
 
     @Autowired
     private UserDao userDao;
@@ -193,7 +196,8 @@ public final class UserHandler
 
         if ( newUID == null )
         {
-            VerticalEngineLogger.warn( this.getClass(), 10, "Unable to generate UID for user (%0, %1).", new Object[]{fName, sName}, null );
+            LOG.warn( StringUtil.expandString( "Unable to generate UID for user (%0, %1).", new Object[]{fName, sName},
+                                               null ) );
         }
 
         return newUID;
