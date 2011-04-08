@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.AdminSiteDebugBasePath;
 import com.enonic.cms.domain.AdminSitePreviewBasePath;

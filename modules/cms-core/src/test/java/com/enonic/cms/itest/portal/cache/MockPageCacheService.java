@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.itest.portal.cache;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
+import com.enonic.cms.portal.cache.PageCacheService;
 
 import com.enonic.cms.domain.CacheObjectSettings;
 import com.enonic.cms.domain.CachedObject;

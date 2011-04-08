@@ -22,6 +22,7 @@ import com.enonic.esl.util.DigestUtil;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
@@ -29,7 +30,6 @@ import com.enonic.cms.business.SiteBasePathResolver;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteBasePath;

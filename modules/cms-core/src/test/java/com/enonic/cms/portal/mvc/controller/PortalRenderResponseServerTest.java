@@ -16,12 +16,11 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.portal.mvc.controller.PortalRenderResponseServer;
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.server.DeploymentAndRequestSetup;
 
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;

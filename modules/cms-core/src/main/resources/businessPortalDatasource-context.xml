@@ -3,9 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="datasourceExecutorFactory" class="com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory"/>
+  <bean id="datasourceExecutorFactory" class="com.enonic.cms.portal.datasource.DatasourceExecutorFactory"/>
 
-  <bean id="expressionFunctionsFactory" class="com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsFactory"/>
+  <bean id="expressionFunctionsFactory" class="com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory"/>
 
 </beans>
 

@@ -15,6 +15,8 @@ import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.cache.SiteCachesService;
+import com.enonic.cms.portal.rendering.PageRendererFactory;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -26,8 +28,6 @@ import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.business.mail.SendMailService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
-import com.enonic.cms.business.portal.rendering.PageRendererFactory;
 
 
 public class CmsCoreServicesSpringManagedBeansBridge

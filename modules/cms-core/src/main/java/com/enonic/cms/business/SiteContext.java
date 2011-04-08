@@ -6,7 +6,7 @@ package com.enonic.cms.business;
 
 import org.springframework.core.style.ToStringCreator;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
+import com.enonic.cms.portal.cache.PageCacheService;
 
 import com.enonic.cms.domain.SiteKey;
 

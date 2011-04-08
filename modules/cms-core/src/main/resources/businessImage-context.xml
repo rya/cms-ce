@@ -8,7 +8,7 @@
     <property name="cacheManager" ref="cacheFacadeManager"/>
   </bean>
 
-  <bean id="imageService" class="com.enonic.cms.business.portal.image.ImageServiceImpl">
+  <bean id="imageService" class="com.enonic.cms.portal.image.ImageServiceImpl">
     <property name="imageCache" ref="imageCache"/>
     <property name="binaryService" ref="binaryService"/>
     <property name="binaryAccessResolver" ref="binaryAccessResolver"/>

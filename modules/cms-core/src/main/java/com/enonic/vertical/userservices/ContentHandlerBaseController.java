@@ -40,7 +40,7 @@ import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.core.content.UpdateContentResult;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
+import com.enonic.cms.portal.cache.PageCacheService;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.SiteKey;

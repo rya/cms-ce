@@ -26,9 +26,8 @@ import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
 import com.enonic.cms.core.service.DataSourceService;
+import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
 import com.enonic.cms.store.support.ConnectionFactory;
-
-import com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory;
 
 public abstract class BaseEngine
 {

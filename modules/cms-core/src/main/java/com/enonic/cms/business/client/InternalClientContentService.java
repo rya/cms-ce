@@ -29,6 +29,7 @@ import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.security.UserParser;
+import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
@@ -41,8 +42,7 @@ import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
 import com.enonic.cms.core.security.SecurityService;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.portal.cache.SiteCachesService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

@@ -91,6 +91,9 @@ import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.cache.PageCacheService;
+import com.enonic.cms.portal.cache.SiteCachesService;
+import com.enonic.cms.portal.datasource.context.UserContextXmlCreator;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
@@ -105,9 +108,6 @@ import com.enonic.cms.business.SitePropertiesService;
 
 import com.enonic.cms.core.preferences.PreferenceService;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
-import com.enonic.cms.business.portal.datasource.context.UserContextXmlCreator;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 

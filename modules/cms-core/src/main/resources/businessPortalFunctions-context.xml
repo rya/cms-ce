@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="createAttachmentUrclFunction" class="com.enonic.cms.business.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
+  <bean id="createAttachmentUrclFunction" class="com.enonic.cms.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
     <property name="contentDao" ref="contentDao"/>
   </bean>
 

@@ -82,7 +82,7 @@
 
   <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
 
-  <bean id="livePortalTraceService" class="com.enonic.cms.business.portal.livetrace.LivePortalTraceServiceImpl">
+  <bean id="livePortalTraceService" class="com.enonic.cms.portal.livetrace.LivePortalTraceServiceImpl">
     <property name="enabled" value="false"/>
     <property name="longestSize" value="1"/>
     <property name="historySize" value="1"/>

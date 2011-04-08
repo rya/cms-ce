@@ -35,7 +35,7 @@ import com.enonic.cms.core.content.DomainFactory;
 import com.enonic.cms.core.content.DomainFixture;
 
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.business.portal.SiteRedirectHelper;
+import com.enonic.cms.portal.SiteRedirectHelper;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.ContentEntity;

@@ -15,7 +15,7 @@ import org.jdom.output.XMLOutputter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;

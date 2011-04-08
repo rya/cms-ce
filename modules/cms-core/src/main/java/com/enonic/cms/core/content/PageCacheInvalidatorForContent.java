@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.portal.cache.PageCacheService;
+import com.enonic.cms.portal.cache.SiteCachesService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentLocation;

@@ -17,11 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.portal.datasource.ExpressionFunctionsExecutor;
-import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
+import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
 
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.domain.security.user.UserEntity;

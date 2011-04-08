@@ -22,11 +22,11 @@ import com.enonic.cms.core.servlet.OriginalUrlResolver;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.core.security.AutoLoginService;
+import com.enonic.cms.portal.PortalRequestService;
 
-import com.enonic.cms.business.portal.PortalRequestService;
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
-import com.enonic.cms.business.portal.livetrace.PortalRequestTracer;
+import com.enonic.cms.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.portal.livetrace.PortalRequestTrace;
+import com.enonic.cms.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.Attribute;

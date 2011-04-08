@@ -9,9 +9,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.core.image.ImageRequestParser;
-
-import com.enonic.cms.business.portal.image.ImageServiceImpl;
+import com.enonic.cms.portal.image.ImageServiceImpl;
 
 /**
  * Created by IntelliJ IDEA.

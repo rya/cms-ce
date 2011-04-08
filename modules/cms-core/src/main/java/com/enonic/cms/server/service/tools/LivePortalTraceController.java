@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.business.portal.livetrace.PastPortalRequestTrace;
-import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
+import com.enonic.cms.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.portal.livetrace.PastPortalRequestTrace;
+import com.enonic.cms.portal.livetrace.PortalRequestTrace;
 
 /**
  * This class implements the connection info controller.

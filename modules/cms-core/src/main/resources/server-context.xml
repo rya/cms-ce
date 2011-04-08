@@ -7,7 +7,7 @@
     <property name="homeDir" value="${cms.home.uri}"/>
   </bean>
 
-  <bean id="portalFunctionsFactory" class="com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsFactory">
+  <bean id="portalFunctionsFactory" class="com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory">
     <property name="siteURLResolver" ref="siteURLResolver"/>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>

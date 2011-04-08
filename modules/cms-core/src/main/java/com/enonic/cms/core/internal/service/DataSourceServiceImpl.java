@@ -52,6 +52,7 @@ import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
 import com.enonic.cms.core.structure.MenuItemXmlCreator;
 import com.enonic.cms.core.structure.SiteXmlCreator;
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
@@ -67,7 +68,6 @@ import com.enonic.cms.core.security.UserStoreParser;
 
 import com.enonic.cms.business.locale.LocaleService;
 import com.enonic.cms.business.locale.LocaleXmlCreator;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.core.timezone.TimeZoneService;
 import com.enonic.cms.core.timezone.TimeZoneXmlCreator;

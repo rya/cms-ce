@@ -29,7 +29,7 @@ import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.business.portal.PortalRequestService;
+import com.enonic.cms.portal.PortalRequestService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.LanguageEntity;
