@@ -40,7 +40,6 @@
     </bean>
 
     <bean class="com.enonic.cms.core.tools.UpgradeController"/>
-    <bean class="com.enonic.cms.core.tools.ReindexContentToolController"/>
     <bean class="com.enonic.cms.core.tools.ConnectionInfoController"/>
     <bean class="com.enonic.cms.core.tools.LivePortalTraceController"/>
     <bean class="com.enonic.cms.core.tools.StaticFileController"/>

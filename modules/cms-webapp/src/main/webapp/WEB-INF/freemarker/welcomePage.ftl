@@ -106,7 +106,6 @@ ${message.value}
     <ul>
         <li><a href="${baseUrl}/tools/properties">Configuration Properties</a></li>
         <li><a href="${baseUrl}/tools/upgrade">Upgrade Tool</a></li>
-        <li><a href="${baseUrl}/tools/reindexcontent">Reindex Content Tool</a></li>
         <li><a href="${baseUrl}/tools/connectioninfo">Connection Information</a></li>
         <li><a href="${baseUrl}/tools/liveportaltrace">Live Portal Trace</a></li>
     </ul>

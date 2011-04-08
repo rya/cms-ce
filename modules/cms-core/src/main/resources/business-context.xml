@@ -160,9 +160,6 @@
   <bean id="userServicesRedirectHelper"
         class="com.enonic.vertical.userservices.UserServicesRedirectUrlResolver"></bean>
 
-  <bean id="reindexContentToolService"
-        class="com.enonic.cms.core.tools.ReindexContentToolServiceImpl"/>
-
   <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 
   <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
