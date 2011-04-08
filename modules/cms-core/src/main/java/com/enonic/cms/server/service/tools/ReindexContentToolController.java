@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.business.tools.ReindexContentToolService;
+import com.enonic.cms.core.tools.ReindexContentToolService;
 
 @RequestMapping(value = "/tools/reindexcontent")
 public class ReindexContentToolController
