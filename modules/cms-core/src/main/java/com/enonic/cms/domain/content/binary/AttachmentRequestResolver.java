@@ -11,14 +11,6 @@ import com.enonic.cms.domain.PathAndParams;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyInPathParser;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithLabel;
-import com.enonic.cms.domain.content.binary.AttachmentNotFoundException;
-import com.enonic.cms.domain.content.binary.AttachmentRequest;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.binary.InvalidBinaryPathException;
 
 public abstract class AttachmentRequestResolver
 {

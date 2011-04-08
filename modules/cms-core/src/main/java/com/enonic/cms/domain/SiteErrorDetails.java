@@ -12,10 +12,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.framework.util.HtmlEncoder;
-import com.enonic.cms.core.xslt.XsltProcessorErrors;
-import com.enonic.cms.core.xslt.XsltProcessorException;
 
 import com.enonic.cms.api.Version;
+import com.enonic.cms.core.xslt.XsltProcessorErrors;
+import com.enonic.cms.core.xslt.XsltProcessorException;
 
 /**
  * This class implements site error details.

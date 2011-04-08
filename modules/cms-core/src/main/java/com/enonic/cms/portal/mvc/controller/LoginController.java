@@ -12,9 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.portal.support.LoginPagePathResolverService;
 
+import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.command.LoginCommand;
 
-import com.enonic.cms.domain.SitePath;
 
 public class LoginController
     extends AbstractSiteCommandController

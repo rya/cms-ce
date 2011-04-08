@@ -22,14 +22,15 @@ import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.content.binary.BinaryService;
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.domain.content.binary.AttachmentRequestResolver;
-
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.portal.livetrace.AttachmentRequestTrace;
 import com.enonic.cms.portal.livetrace.AttachmentRequestTracer;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.portal.livetrace.PortalRequestTrace;
+import com.enonic.cms.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
@@ -37,10 +38,6 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.core.structure.SiteService;
-import com.enonic.cms.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.Attribute;
@@ -50,6 +47,7 @@ import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.binary.AttachmentNotFoundException;
 import com.enonic.cms.domain.content.binary.AttachmentRequest;
+import com.enonic.cms.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.domain.content.binary.BinaryDataEntity;
 import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
@@ -57,6 +55,7 @@ import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+
 
 public class AttachmentController
     extends AbstractController

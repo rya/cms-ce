@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.tools;
+package com.enonic.cms.core.tools;
 
 import com.enonic.cms.upgrade.UpgradeException;
 import com.enonic.cms.upgrade.UpgradeService;
