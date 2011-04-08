@@ -18,11 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.service.PresentationService;
-import com.enonic.cms.server.domain.AbstractBaseError;
-import com.enonic.cms.server.domain.ClientError;
-import com.enonic.cms.server.domain.ContentNameMismatchClientError;
-import com.enonic.cms.server.domain.ServerError;
-import com.enonic.cms.server.domain.SiteErrorDetails;
+import com.enonic.cms.domain.AbstractBaseError;
+import com.enonic.cms.domain.ClientError;
+import com.enonic.cms.domain.ContentNameMismatchClientError;
+import com.enonic.cms.domain.ServerError;
+import com.enonic.cms.domain.SiteErrorDetails;
 import com.enonic.cms.server.service.portal.mvc.controller.AttachmentRequestException;
 import com.enonic.cms.server.service.portal.mvc.controller.DefaultRequestException;
 import com.enonic.cms.server.service.portal.mvc.controller.ImageRequestException;

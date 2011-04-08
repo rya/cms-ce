@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.server.domain.command.LoginCommand;
+import com.enonic.cms.domain.command.LoginCommand;
 
 import com.enonic.cms.business.portal.support.LoginPagePathResolverService;
 

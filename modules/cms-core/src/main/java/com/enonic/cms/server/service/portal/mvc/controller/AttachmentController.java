@@ -24,7 +24,7 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 import com.enonic.cms.core.content.binary.BinaryService;
 import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
+import com.enonic.cms.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;

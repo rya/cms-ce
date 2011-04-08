@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.domain.content.binary;
+package com.enonic.cms.domain.content.binary;
 
 import java.util.List;
 
