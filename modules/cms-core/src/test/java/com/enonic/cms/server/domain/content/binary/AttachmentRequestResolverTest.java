@@ -20,6 +20,7 @@ import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.content.ContentVersionKey;
+import com.enonic.cms.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
