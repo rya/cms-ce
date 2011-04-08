@@ -205,7 +205,7 @@
     <property name="standardModelFactory" ref="standardModelFactory"/>
   </bean>
 
-  <bean id="presentationController" class="com.enonic.vertical.presentation.AbstractPresentationController" abstract="true">
+  <bean id="presentationController" class="com.enonic.vertical.userservices.AbstractPresentationController" abstract="true">
     <property name="siteService" ref="siteService"/>
     <property name="sitePathResolver" ref="sitePathResolver"/>
     <property name="verticalProperties" ref="verticalProperties"/>

@@ -43,7 +43,6 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
-import com.enonic.vertical.presentation.AbstractPresentationController;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
