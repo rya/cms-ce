@@ -53,7 +53,7 @@
     <property name="urlDecode" value="true"/>
   </bean>
 
-  <bean id="standardModelFactory" class="com.enonic.cms.server.service.portal.mvc.model.StandardModelFactory">
+  <bean id="standardModelFactory" class="com.enonic.cms.portal.mvc.model.StandardModelFactory">
     <property name="urlDecodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
   </bean>
 
