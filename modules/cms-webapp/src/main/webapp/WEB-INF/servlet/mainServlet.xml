@@ -45,6 +45,6 @@
     <bean class="com.enonic.cms.server.service.tools.LivePortalTraceController"/>
     <bean class="com.enonic.cms.server.service.tools.StaticFileController"/>
 
-    <bean class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
+    <bean class="com.enonic.cms.core.rpc.BinRpcServiceExporter"/>
 
 </beans>
