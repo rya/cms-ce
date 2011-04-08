@@ -5,6 +5,8 @@
 package com.enonic.esl.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public final class ArrayUtil
 {
@@ -199,7 +201,7 @@ public final class ArrayUtil
             return sourceValues;
         }
 
-        TStringArrayList filtered = new TStringArrayList();
+        List<String> filtered = new ArrayList<String>();
 
         for ( int i = 0; i < sourceValues.length; i++ )
         {
@@ -208,7 +210,7 @@ public final class ArrayUtil
                 filtered.add( sourceValues[i] );
             }
         }
-        return filtered.toNativeArray();
+        return filtered.toArray( new String[filtered.size()] );
     }
 
 
@@ -224,8 +226,8 @@ public final class ArrayUtil
 
     public static String[] concat( String[] values1, String[] values2, boolean removeDuplicates )
     {
-        TStringArrayList result = new TStringArrayList();
-        result.add( values1 );
+        List<String> result = new ArrayList<String>();
+        result.addAll( Arrays.asList( values1 ) );
 
         if ( removeDuplicates )
         {
@@ -239,9 +241,9 @@ public final class ArrayUtil
         }
         else
         {
-            result.add( values2 );
+            result.addAll( Arrays.asList( values2 ) );
         }
 
-        return result.toNativeArray();
+        return result.toArray( new String[result.size()] );
     }
 }

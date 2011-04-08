@@ -5,19 +5,18 @@
 package com.enonic.cms.portal.datasource.methodcall;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.util.TStringArrayList;
-
-import com.enonic.cms.portal.datasource.DatasourceException;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.portal.InvocationCache;
+import com.enonic.cms.portal.datasource.DatasourceException;
 import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
 
@@ -208,7 +207,7 @@ public class MethodCallFactory
                 return null;
             }
 
-            TStringArrayList arrayList = new TStringArrayList();
+            List<String> arrayList = new ArrayList<String>();
             String[] stringArray = StringUtil.splitString( value, ',' );
             for ( String strValue : stringArray )
             {
@@ -219,7 +218,7 @@ public class MethodCallFactory
                 }
             }
 
-            return arrayList.toNativeArray();
+            return arrayList.toArray( new String[arrayList.size()] );
         }
         else if ( type == int[].class )
         {

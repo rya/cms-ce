@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,7 +21,6 @@ import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.util.TStringArrayList;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -2524,7 +2524,7 @@ final public class SecurityHandler
             return true;
         }
 
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        List<String> autoAllowGroups = new ArrayList<String>();
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
 
         autoAllowGroups.add( groupHandler.getAdminGroupKey() );
@@ -2822,7 +2822,7 @@ final public class SecurityHandler
             return true;
         }
 
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        List<String> autoAllowGroups = new ArrayList<String>();
 
         autoAllowGroups.add( groupHandler.getAdminGroupKey() );
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
@@ -2889,7 +2889,7 @@ final public class SecurityHandler
             return true;
         }
 
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        List<String> autoAllowGroups = new ArrayList<String>();
 
         autoAllowGroups.add( groupHandler.getAdminGroupKey() );
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
@@ -3199,7 +3199,7 @@ final public class SecurityHandler
 
         // array containing groups that should always
         // pass security check:
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        List<String> autoAllowGroups = new ArrayList<String>();
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
 
         String[] groups = getGroupHandler().getAllGroupMembershipsForUser( user );
