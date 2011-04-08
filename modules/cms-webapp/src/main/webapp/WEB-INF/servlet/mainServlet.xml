@@ -30,20 +30,20 @@
         <property name="exposeSpringMacroHelpers" value="true"/>
     </bean>
 
-    <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
-    <bean class="com.enonic.cms.server.service.tools.StandardToolsAccessResolver"/>
-    <bean class="com.enonic.cms.server.service.tools.WelcomeController"/>
+    <bean class="com.enonic.cms.core.tools.DataSourceInfoResolver"/>
+    <bean class="com.enonic.cms.core.tools.StandardToolsAccessResolver"/>
+    <bean class="com.enonic.cms.core.tools.WelcomeController"/>
 
     <!-- Properties info controller. -->
-    <bean class="com.enonic.cms.server.service.tools.PropertiesInfoController">
+    <bean class="com.enonic.cms.core.tools.PropertiesInfoController">
         <property name="properties" ref="loadedVerticalProperties"/>
     </bean>
 
-    <bean class="com.enonic.cms.server.service.tools.UpgradeController"/>
-    <bean class="com.enonic.cms.server.service.tools.ReindexContentToolController"/>
-    <bean class="com.enonic.cms.server.service.tools.ConnectionInfoController"/>
-    <bean class="com.enonic.cms.server.service.tools.LivePortalTraceController"/>
-    <bean class="com.enonic.cms.server.service.tools.StaticFileController"/>
+    <bean class="com.enonic.cms.core.tools.UpgradeController"/>
+    <bean class="com.enonic.cms.core.tools.ReindexContentToolController"/>
+    <bean class="com.enonic.cms.core.tools.ConnectionInfoController"/>
+    <bean class="com.enonic.cms.core.tools.LivePortalTraceController"/>
+    <bean class="com.enonic.cms.core.tools.StaticFileController"/>
 
     <bean class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
 
