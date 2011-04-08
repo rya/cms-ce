@@ -10,8 +10,6 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.annotation.ExpectedException;
 
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
-
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 
 import com.enonic.cms.domain.LanguageEntity;
@@ -86,7 +84,7 @@ public class DatasourceExecutorTest
     }
 
     @Test
-    @ExpectedException(VerticalRenderException.class)
+    @ExpectedException(DatasourceException.class)
     public void testIncorrectElCondition()
     {
         DatasourceExecutor executor = new DatasourceExecutor( context );

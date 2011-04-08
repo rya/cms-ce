@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
+import com.enonic.cms.portal.datasource.DatasourceException;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -50,7 +50,7 @@ public final class MethodCall
             {
                 numParams--;
             }
-            throw new VerticalRenderException( "Failed to execute method [" + method.getName() + "] with " + numParams + " parameters",
+            throw new DatasourceException( "Failed to execute method [" + method.getName() + "] with " + numParams + " parameters",
                                                iae );
         }
         finally

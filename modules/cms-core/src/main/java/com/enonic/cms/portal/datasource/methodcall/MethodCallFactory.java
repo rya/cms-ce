@@ -12,7 +12,8 @@ import org.jdom.Element;
 
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.util.TStringArrayList;
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
+
+import com.enonic.cms.portal.datasource.DatasourceException;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
@@ -174,7 +175,7 @@ public class MethodCallFactory
                 return method;
             }
         }
-        throw new VerticalRenderException(
+        throw new DatasourceException(
             "Method [" + localMethodName + "] with [" + ( useContext ? numParams - 1 : numParams ) + "] parameters does not exist" );
     }
 
@@ -267,7 +268,7 @@ public class MethodCallFactory
         }
         catch ( Exception e )
         {
-            throw new VerticalRenderException( "Failed to evaluate expression", e );
+            throw new DatasourceException( "Failed to evaluate expression", e );
         }
     }
 }
