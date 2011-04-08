@@ -17,7 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
+import com.enonic.cms.upgrade.UpgradeCheckerHelper;
 
 import com.enonic.cms.domain.Attribute;
 
