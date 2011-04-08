@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.boot.support;
+package com.enonic.cms.core.boot.support;
 
 import java.security.ProtectionDomain;
 

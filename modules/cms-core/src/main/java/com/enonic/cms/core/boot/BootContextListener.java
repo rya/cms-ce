@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.boot;
+package com.enonic.cms.core.boot;
 
 import javax.servlet.ServletContextEvent;
 
@@ -12,7 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoaderListener;
 
 import net.sf.saxon.Configuration;
-import com.enonic.cms.server.service.boot.support.ClassLoadedFromWebAppVerifier;
+
+import com.enonic.cms.core.boot.support.ClassLoadedFromWebAppVerifier;
 
 /**
  * This class implements the bootstrap context listener.
