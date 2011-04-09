@@ -31,18 +31,15 @@ test( 'internal links plug-in', function()
     equals(editor.getContent(), '<p><img src="attachment://64177" alt="Fjell - Salta" /></p>');
 });
 
-test( 'embed plug-in', function()
+test( 'test IFRAME element always has content', function()
 {
-    expect( 3 );
+    expect( 2 );
 
-    editor.setContent('<iframe src="http://www.enonic.com" width="100%" height="300">Your browser does not support iframes.</iframe>');
-    equals(editor.getContent(), '<p><iframe height="300" src="http://www.enonic.com" width="100%">Your browser does not support iframes.</iframe></p>');
+    editor.setContent( '<iframe title="YouTube video player" width="480" height="390" src="http://www.youtube.com/embed/L4_Ue2lrwTQ" frameborder="0" allowfullscreen></iframe>' );
+    equals(editor.getContent(), '<p><iframe frameborder="0" height="390" src="http://www.youtube.com/embed/L4_Ue2lrwTQ" title="YouTube video player" width="480">cms_content</iframe></p>');
 
-    editor.setContent('<iframe width="640" height="480" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/?ie=UTF8&amp;t=h&amp;ll=63.548552,27.685547&amp;spn=19.042129,56.25&amp;z=4&amp;output=embed"></iframe><br /><small><a href="http://maps.google.com/?ie=UTF8&amp;t=h&amp;ll=63.548552,27.685547&amp;spn=19.042129,56.25&amp;z=4&amp;source=embed" style="color:#0000FF;text-align:left">View Larger Map</a></small>');
-    equals(editor.getContent(), '<p><iframe frameborder="0" height="480" marginheight="0" marginwidth="0" scrolling="no" src="http://maps.google.com/?ie=UTF8&amp;t=h&amp;ll=63.548552,27.685547&amp;spn=19.042129,56.25&amp;z=4&amp;output=embed" width="640">This browser does not support the iframe element.</iframe><br /><small><a style="color: #0000ff; text-align: left;" href="http://maps.google.com/?ie=UTF8&amp;t=h&amp;ll=63.548552,27.685547&amp;spn=19.042129,56.25&amp;z=4&amp;source=embed">View Larger Map</a></small></p>');
-
-    editor.setContent('<iframe frameborder="0" height="350" marginheight="0" marginwidth="0" scrolling="no" src="http://maps.google.com/?ie=UTF8&amp;ll=25.085599,-95.712891&amp;spn=80.038802,191.513672&amp;t=h&amp;z=4&amp;output=embed" width="425"><p>Custom innerHTML</p></iframe>');
-    equals(editor.getContent(), '<p><iframe frameborder="0" height="350" marginheight="0" marginwidth="0" scrolling="no" src="http://maps.google.com/?ie=UTF8&amp;ll=25.085599,-95.712891&amp;spn=80.038802,191.513672&amp;t=h&amp;z=4&amp;output=embed" width="425">\n<p>Custom innerHTML</p>\n</iframe></p>');
+    editor.setContent( '<iframe title="YouTube video player" width="480" height="390" src="http://www.youtube.com/embed/L4_Ue2lrwTQ" frameborder="0" allowfullscreen>Some content</iframe>' );
+    equals(editor.getContent(), '<p><iframe frameborder="0" height="390" src="http://www.youtube.com/embed/L4_Ue2lrwTQ" title="YouTube video player" width="480">Some content</iframe></p>');
 });
 
 test( 'form elements', function()

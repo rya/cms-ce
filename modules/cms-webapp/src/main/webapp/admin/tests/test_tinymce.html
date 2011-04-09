@@ -44,7 +44,7 @@ var editor_settings_id_7536901397125503 = {
     },
 
     skin: 'cms',
-    plugins : "internallinkplugin,cmsstatusbar,cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari,embed,advlist,autolink",
+    plugins : "internallinkplugin,cmsstatusbar,cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari,advlist,autolink",
     mode : 'textareas',
     language : langCode,
     theme : 'advanced',
@@ -55,14 +55,14 @@ var editor_settings_id_7536901397125503 = {
     theme_advanced_containers : 'row1,row2,row3,editorcontainer,statusbarcontainer',
 
     theme_advanced_container_row1 : 'cut,copy,paste,pastetext,pasteword,|,search,replace,|,undo,redo,|,hr,charmap,|,blockquote,abbr,acronym,cite,ins,del,|,attribs',
-    theme_advanced_container_row2 : 'cmslink,unlink,anchor,|,cmsimage,|,embed,|,tablecontrols',
+    theme_advanced_container_row2 : 'cmslink,unlink,anchor,|,cmsimage,|,media,|,tablecontrols',
     theme_advanced_container_row3 : 'formatselect,bold,italic,strikethrough,|,removeformat,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,|,sup,sub,|,forecolor,backcolor',
     theme_advanced_container_editorcontainer : 'mceEditor',
     theme_advanced_container_statusbarcontainer : 'mceElementpath',
     theme_advanced_container_row1_align : 'left',
     theme_advanced_container_row2_align : 'left',
     theme_advanced_container_row3_align : 'left',
-    content_css : './tinymce/jscripts/tiny_mce/themes/advanced/skins/cms/content.css',
+    content_css : 'http://localhost:8080/admin/tinymce/jscripts/tiny_mce/themes/advanced/skins/cms/content.css',
     class_filter : function(cls) {
         if (/^editor-(p-center|p-block|image-left|image-right)$/.test(cls))
             return false;
@@ -99,6 +99,12 @@ var editor_settings_id_7536901397125503 = {
             // IE crashes the editor if the embed is a singleton tag. This inserts some bogus and closes the tag.
             o.content = o.content.replace(/<embed(.+\n).+\/>/g, '<embed$1>.</embed>');
         });
+
+        ed.onGetContent.add(function(ed, o) {
+            // Make sure the iframe element has content.
+            o.content = o.content.replace(/<iframe(.+?)>(|\s+)<\/iframe>/g, '<iframe$1>cms_content<\/iframe>');
+        });
+
         // *********************************************************************************************************************
         ed.onKeyDown.add(function( ed, e ) {
             // Workaround for Fx which adds empty p elements when the user removes an img element.
