@@ -10,13 +10,12 @@
 
     TODO:
 
-    Alignment task:
-
+    Alignment:
         - Handle Flash/media placeholders.
 
-    QUESTIONS:
+    DIV:
+    - Use the dom.getNext/prev API instead of our own.
 
-        - Should the alignment stuff only apply to CMS images?
 */
 
 (function() {

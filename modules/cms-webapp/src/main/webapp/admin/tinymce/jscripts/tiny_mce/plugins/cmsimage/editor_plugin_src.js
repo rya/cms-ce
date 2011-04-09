@@ -10,13 +10,12 @@
 
     TODO:
 
-    Alignment task:
-
+    Alignment:
         - Handle Flash/media placeholders.
 
-    QUESTIONS:
+    DIV:
+    - Use the dom.getNext/prev API instead of our own.
 
-        - Should the alignment stuff only apply to CMS images?
 */
 
 (function() {
@@ -175,7 +174,8 @@
                 {
                     var oDOM = ed.dom;
 
-                    // For IE the oSelectedImage is selected on the mouse events.
+                    // Get the image for Fx.
+                    // For IE the oSelectedImage is set during the mouse events (see mouseup/down events).
                     if ( tinymce.isGecko )
                         oSelectedImage = ed.selection.getNode();
 
