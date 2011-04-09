@@ -160,7 +160,7 @@
               <xsl:text>accessToHtmlSource : </xsl:text><xsl:value-of select="$accessToHtmlSource"/>,
             </xsl:if>
 
-            plugins : "internallinkplugin,<xsl:if test="not($disabledMode)">cmsstatusbar,</xsl:if>cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari<xsl:if test="$fullpage = true()">,fullpage</xsl:if><xsl:if test="$inlinePopups = true()">,inlinepopups</xsl:if>,embed,advlist,autolink",
+            plugins : "internallinkplugin,<xsl:if test="not($disabledMode)">cmsstatusbar,</xsl:if>cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari<xsl:if test="$fullpage = true()">,fullpage</xsl:if><xsl:if test="$inlinePopups = true()">,inlinepopups</xsl:if>,advlist,autolink",
             mode : 'textareas',
 
             <xsl:if test="$disabledMode">
@@ -256,7 +256,6 @@
             auto_reset_designmode : true,
             extended_valid_elements : 'style[type|media|title],script[type|src|charset]',
             theme_advanced_blockformats : '<xsl:value-of select="$block-format-elements-list"/>',
-            embed_iframe_innerhtml_fallback : '{cms-iframe-element-content}',
             paste_use_dialog : true,
             paste_auto_cleanup_on_paste : true,
             paste_convert_middot_lists : true,
@@ -282,6 +281,10 @@
                 o.content = o.content.replace(/&lt;embed(.+\n).+\/&gt;/g, '&lt;embed$1&gt;.&lt;/embed&gt;');
               });
               // *********************************************************************************************************************
+              ed.onGetContent.add(function(ed, o) {
+                  // Make sure the iframe element has content.
+                  o.content = o.content.replace(/&lt;iframe(.+?)&gt;(|\s+)&lt;\/iframe&gt;/g, '&lt;iframe$1&gt;cms_content&lt;\/iframe&gt;');
+              });
 
               ed.onKeyDown.add(function( ed, e ) {
                 // Workaround for Fx which adds empty p elements when the user removes an img element.
@@ -641,7 +644,7 @@
       <xsl:when test="$group = 'color'">
         <xsl:call-template name="getColorControls"/>
       </xsl:when>
-      <xsl:when test="$group = 'embed'">
+      <xsl:when test="$group = 'embed' or $group = 'media'">
         <xsl:call-template name="getEmbedControls"/>
       </xsl:when>
       <xsl:when test="$group = '|' or $group = 'separator'">
@@ -1044,7 +1047,7 @@
   </xsl:template>
 
   <xsl:template name="getEmbedControls">
-    <xsl:text>embed</xsl:text>
+    <xsl:text>media</xsl:text>
   </xsl:template>
 
   <xsl:template name="getSeparatorControls">
