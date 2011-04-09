@@ -396,6 +396,14 @@
 					src: data.params.src
 				});
 
+                // Insert raw HTML
+				if (data.object_html) {
+					value = new Node('#text', 3);
+					value.raw = true;
+					value.value = data.object_html;
+					replacement.append(value);
+				}
+
 				node.replace(replacement);
 
 				return;
@@ -752,6 +760,15 @@
 				if (html)
 					data.video_html = html;
 			}
+
+			// Serialize the inner HTML of the iframe element
+			if (iframe) {
+				html = getInnerHTML(iframe.remove());
+
+				if (html)
+					data.object_html = html;
+			}
+
 
 			// Set width/height of placeholder
 			img.attr({
