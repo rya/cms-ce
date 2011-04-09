@@ -160,7 +160,7 @@
               <xsl:text>accessToHtmlSource : </xsl:text><xsl:value-of select="$accessToHtmlSource"/>,
             </xsl:if>
 
-            plugins : "internallinkplugin,<xsl:if test="not($disabledMode)">cmsstatusbar,</xsl:if>cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari<xsl:if test="$fullpage = true()">,fullpage</xsl:if><xsl:if test="$inlinePopups = true()">,inlinepopups</xsl:if>,embed",
+            plugins : "internallinkplugin,<xsl:if test="not($disabledMode)">cmsstatusbar,</xsl:if>cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari<xsl:if test="$fullpage = true()">,fullpage</xsl:if><xsl:if test="$inlinePopups = true()">,inlinepopups</xsl:if>,embed,advlist,autolink",
             mode : 'textareas',
 
             <xsl:if test="$disabledMode">
