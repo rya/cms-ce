@@ -350,7 +350,7 @@
             else
             {
                 // Fallback
-                var serializer = new tinymce.dom.Serializer();
+                var serializer = new tinymce.dom.Serializer( ed.settings, ed.dom );
                 var elementAsString = ( imageHasLink ) ? serializer.serialize( imageElement.parentNode ) : serializer.serialize( imageElement );
                 var elementToRemove = ( imageHasLink ) ? imageElement.parentNode : imageElement;
 
@@ -371,6 +371,14 @@
 
             // Remove styles added by TinyMCE
             dom.setStyle( parentParagraphToImage, 'textAlign', '' );
+            dom.setStyle( imageElement, 'display', '' );
+            dom.setStyle( imageElement, 'marginLeft', '' );
+            dom.setStyle( imageElement, 'marginRight', '' );
+
+            // Remove CMS classes from image
+            dom.removeClass( imageElement, 'editor-img-left' );
+            dom.removeClass( imageElement, 'editor-img-right' );
+
 
             isImageBlockAligned = parentParagraphToImage && parentParagraphToImage.nodeName === 'P' && dom.hasClass(parentParagraphToImage, 'editor-p-block');
 
@@ -387,6 +395,9 @@
                 dom.addClass( parentParagraphToImage, 'editor-p-block' );
                 return;
             }
+
+            // Image is left or right aligned.
+
 
             var parentElementToImage = dom.getParent(imageElement, dom.isBlock);
 
@@ -422,47 +433,58 @@
         {
             // We know that TinyMCE wraps P element around the IMG when justify/align equals center.
             // Do not create it!
+            // TODO: Linked image
 
-            var t = this;
-            var dom = ed.dom;
-            var parentParagraphToImage = dom.getParent( imageElement, 'p' );
+            var t = this, dom = ed.dom;
+
+            // Assume image is always in a P element.
+            var initialParagraphForImage = dom.getParent( imageElement, 'p' );
+
             var imageHasLink = imageElement.parentNode.nodeName === 'A';
-            var isImageBlockAligned, isImageCenterAligned;
-            var elementToClone;
 
-            dom.setStyle( parentParagraphToImage, 'textAlign', '' );
+            // Remove styles added by TinyMCE
+            dom.setStyle( initialParagraphForImage, 'textAlign', '' );
+            dom.setStyle( imageElement, 'display', '' );
+            dom.setStyle( imageElement, 'marginLeft', '' );
+            dom.setStyle( imageElement, 'marginRight', '' );
 
-            isImageCenterAligned = parentParagraphToImage && dom.hasClass( parentParagraphToImage, 'editor-p-center' );
+            // Remove CMS classes from image
+            dom.removeClass( imageElement, 'editor-img-left' );
+            dom.removeClass( imageElement, 'editor-img-right' );
 
-            if ( isImageCenterAligned )
+            var isImageAlreadyCenterAligned = initialParagraphForImage && dom.hasClass( initialParagraphForImage, 'editor-p-center' )
+            if ( isImageAlreadyCenterAligned )
             {
                 return;
             }
 
-            isImageBlockAligned = parentParagraphToImage && dom.hasClass( parentParagraphToImage, 'editor-p-block' );
-
+            var isImageBlockAligned = initialParagraphForImage && dom.hasClass( initialParagraphForImage, 'editor-p-block' );
             if ( isImageBlockAligned )
             {
-                dom.removeClass( parentParagraphToImage, 'editor-p-block' );
-                dom.addClass( parentParagraphToImage, 'editor-p-center' );
-
+                dom.removeClass( initialParagraphForImage, 'editor-p-block' );
+                dom.addClass( initialParagraphForImage, 'editor-p-center' );
                 return;
             }
 
-            dom.removeClass( parentParagraphToImage, 'editor-p-block' );
-            dom.removeClass( parentParagraphToImage, 'editor-p-center' );
+            // Image is left or right aligned.
 
-            dom.addClass( parentParagraphToImage, 'editor-p-center' );
 
-            var previousElementToParagraph = t.getPrevSiblingElement( parentParagraphToImage );
+            var newPElement = dom.create( 'p', { 'class': 'editor-p-center' } );
+            var imageClone = imageElement.cloneNode( true );
+            dom.add( newPElement, imageClone );
 
+            var previousElementToParagraph = t.getPrevSiblingElement( initialParagraphForImage );
             if ( previousElementToParagraph && previousElementToParagraph.nodeName === 'P' )
             {
-                if ( previousElementToParagraph.parentNode )
-                {
-                    previousElementToParagraph.parentNode.insertBefore( parentParagraphToImage, previousElementToParagraph );
-                }
+                dom.insertAfter( newPElement, previousElementToParagraph );
             }
+            else
+            {
+                var nextSiblingElementToParagraph = t.getNextSiblingElement( initialParagraphForImage );
+                initialParagraphForImage.parentNode.insertBefore( newPElement, initialParagraphForImage );
+            }
+
+            dom.remove( imageElement );
 
         },
 
