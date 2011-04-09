@@ -24,12 +24,15 @@
 <script type="text/javascript" src="../tinymce/jscripts/tiny_mce/tiny_mce_src.js">//</script>
 <script type="text/javascript">
 
-// ***********************************************************************************************
-// *** Typical htmlarea/@type="document" setup
-// ***********************************************************************************************
+var editor;
 var editor_id_7536901397125503 = new Editor('id_7536901397125503');
 var cmsutil = new CMSUtil();
 var langCode = cmsutil.getLanguageCode();
+
+// ***********************************************************************************************
+// *** Typical htmlarea/@type="document" setup
+// ***********************************************************************************************
+
 var editor_settings_id_7536901397125503 = {
     document_base_url : getBaseUrl(),
 
@@ -41,7 +44,7 @@ var editor_settings_id_7536901397125503 = {
     },
 
     skin: 'cms',
-    plugins : "internallinkplugin,cmsstatusbar,cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari,embed",
+    plugins : "internallinkplugin,cmsstatusbar,cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari,embed,advlist,autolink",
     mode : 'textareas',
     language : langCode,
     theme : 'advanced',
