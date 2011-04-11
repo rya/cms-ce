@@ -160,7 +160,7 @@
               <xsl:text>accessToHtmlSource : </xsl:text><xsl:value-of select="$accessToHtmlSource"/>,
             </xsl:if>
 
-            plugins : "internallinkplugin,<xsl:if test="not($disabledMode)">cmsstatusbar,</xsl:if>cmscodeformater,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari<xsl:if test="$fullpage = true()">,fullpage</xsl:if><xsl:if test="$inlinePopups = true()">,inlinepopups</xsl:if>,advlist,autolink",
+            plugins : "internallinkplugin,cmsenhancements,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari<xsl:if test="$fullpage = true()">,fullpage</xsl:if><xsl:if test="$inlinePopups = true()">,inlinepopups</xsl:if>,advlist,autolink",
             mode : 'textareas',
 
             <xsl:if test="$disabledMode">
@@ -267,34 +267,6 @@
             theme_advanced_source_editor_width : 780,
             theme_advanced_source_editor_height : 520,
             setup : function(ed) {
-              ed.onBeforeSetContent.add(function(ed, o)
-              {
-                // Fx has problems with selecting singleton td tags. This inserts some bogus and closes the tag.
-                o.content = o.content.replace(/&lt;td\/&gt;/g, '&lt;td&gt;&nbsp;&lt;\/td&gt;');
-                // Fx and IE has problems when the textarea is loaded as an singleton tag.
-                o.content = o.content.replace(/&lt;textarea\s+(.+)\/&gt;/g, '&lt;textarea $1&gt;&lt;\/textarea&gt;');
-                // Fx and IE has problems when the label is loaded as an singleton tag.
-                o.content = o.content.replace(/&lt;label\s+(.+)\/&gt;/g, '&lt;label $1&gt;&lt;\/label&gt;');
-                // Fx needs @_moz_dirty on images so the ui works properly.
-                o.content = o.content.replace(/&lt;img\s+(.+)\/&gt;/g, '&lt;img $1 _moz_dirty="" \/&gt;');
-                // IE crashes the editor if the embed is a singleton tag. This inserts some bogus and closes the tag.
-                o.content = o.content.replace(/&lt;embed(.+\n).+\/&gt;/g, '&lt;embed$1&gt;.&lt;/embed&gt;');
-              });
-              // *********************************************************************************************************************
-              ed.onGetContent.add(function(ed, o) {
-                  // Make sure the iframe element has content.
-                  o.content = o.content.replace(/&lt;iframe(.+?)&gt;(|\s+)&lt;\/iframe&gt;/g, '&lt;iframe$1&gt;cms_content&lt;\/iframe&gt;');
-              });
-
-              ed.onKeyDown.add(function( ed, e ) {
-                // Workaround for Fx which adds empty p elements when the user removes an img element.
-                if ( tinymce.isGecko &amp;&amp; e.keyCode == 8 &amp;&amp; ed.selection.getNode().nodeName == 'IMG' )
-                {
-                  ed.execCommand( 'mceReplaceContent', false, ' ');
-                }
-              });
-              // *********************************************************************************************************************
-
               // g_htmlAreaTotalCount is used by the waitsplash.
               ed.onPreInit.add(function( ed ) {
                 if ( typeof window.g_htmlAreaTotalCount != 'undefined' )
@@ -334,60 +306,6 @@
                 {
                   window.g_htmlAreaCount = 1;
                   _checkIfAllHtmlAreasIsInitialized();
-                }
-
-                // *********************************************************************************************************************
-                // *** Table commands for context menu.
-                // *********************************************************************************************************************
-                if (ed &amp;&amp; ed.plugins.cmscontextmenu &amp;&amp; ( ed.controlManager.get('table') || ed.controlManager.get('tablecontrols') ) ) {
-                  ed.plugins.cmscontextmenu.onContextMenu.add(function(th, m, e) {
-                    var sm, se = ed.selection, el = se.getNode() || ed.getBody();
-
-                    if (ed.dom.getParent(e, 'td') || ed.dom.getParent(e, 'th')) {
-                      m.removeAll();
-
-                      if ( el.nodeName == 'A' &amp;&amp; !ed.dom.getAttrib(el, 'name') &amp;&amp; ed.controlManager.get('cmslink') ) {
-                        m.add({title : 'advanced.link_desc', icon : 'link', cmd : 'cmslink', ui : true});
-                        m.add({title : 'advanced.unlink_desc', icon : 'unlink', cmd : 'UnLink'});
-                        m.addSeparator();
-                      }
-
-                      if (el.nodeName == 'IMG' &amp;&amp; el.className.indexOf('mceItem') == -1) {
-                        m.add({title : 'advanced.image_desc', icon : 'image', cmd : ed.plugins.advimage ? 'mceAdvImage' : 'mceImage', ui : true});
-                        m.addSeparator();
-                      }
-
-                      m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', ui : true, value : {action : 'insert'}});
-                      m.add({title : 'table.props_desc', icon : 'table_props', cmd : 'mceInsertTable', ui : true});
-                      m.add({title : 'table.del', icon : 'delete_table', cmd : 'mceTableDelete', ui : true});
-                      m.addSeparator();
-
-                      // Cell menu
-                      sm = m.addMenu({title : 'table.cell'});
-                      sm.add({title : 'table.cell_desc', icon : 'cell_props', cmd : 'mceTableCellProps', ui : true});
-                      sm.add({title : 'table.split_cells_desc', icon : 'split_cells', cmd : 'mceTableSplitCells', ui : true});
-                      sm.add({title : 'table.merge_cells_desc', icon : 'merge_cells', cmd : 'mceTableMergeCells', ui : true});
-
-                      // Row menu
-                      sm = m.addMenu({title : 'table.row'});
-                      sm.add({title : 'table.row_desc', icon : 'row_props', cmd : 'mceTableRowProps', ui : true});
-                      sm.add({title : 'table.row_before_desc', icon : 'row_before', cmd : 'mceTableInsertRowBefore'});
-                      sm.add({title : 'table.row_after_desc', icon : 'row_after', cmd : 'mceTableInsertRowAfter'});
-                      sm.add({title : 'table.delete_row_desc', icon : 'delete_row', cmd : 'mceTableDeleteRow'});
-                      sm.addSeparator();
-                      sm.add({title : 'table.cut_row_desc', icon : 'cut', cmd : 'mceTableCutRow'});
-                      sm.add({title : 'table.copy_row_desc', icon : 'copy', cmd : 'mceTableCopyRow'});
-                      sm.add({title : 'table.paste_row_before_desc', icon : 'paste', cmd : 'mceTablePasteRowBefore'});
-                      sm.add({title : 'table.paste_row_after_desc', icon : 'paste', cmd : 'mceTablePasteRowAfter'});
-
-                      // Column menu
-                      sm = m.addMenu({title : 'table.col'});
-                      sm.add({title : 'table.col_before_desc', icon : 'col_before', cmd : 'mceTableInsertColBefore'});
-                      sm.add({title : 'table.col_after_desc', icon : 'col_after', cmd : 'mceTableInsertColAfter'});
-                      sm.add({title : 'table.delete_col_desc', icon : 'delete_col', cmd : 'mceTableDeleteCol'});
-                    } else
-                      m.add({title : 'table.desc', icon : 'table', cmd : 'mceInsertTable', ui : true});
-                  });
                 }
 
                 // *********************************************************************************************************************
