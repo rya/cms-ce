@@ -223,8 +223,8 @@
                 </xsl:choose>
               </xsl:when>
               <xsl:otherwise>
-                ﻿theme_advanced_containers : 'editorcontainer',
-                theme_advanced_container_editorcontainer : 'mceEditor',
+                ﻿theme_advanced_containers : 'mceEditor',
+                theme_advanced_container_mceEditor : 'mceEditor',
               </xsl:otherwise>
             </xsl:choose>
 
@@ -437,14 +437,14 @@
       </xsl:call-template>
     </xsl:variable>
 
-    <xsl:text>﻿theme_advanced_containers : '</xsl:text><xsl:value-of select="$customContainers"/>,editorcontainer,statusbarcontainer<xsl:text>',</xsl:text>
+    <xsl:text>﻿theme_advanced_containers : '</xsl:text><xsl:value-of select="$customContainers"/>,mceEditor,mceElementPath<xsl:text>',</xsl:text>
 
     <xsl:call-template name="getButtonRows">
       <xsl:with-param name="str" select="$buttonRows"/>
     </xsl:call-template>
 
-    <xsl:text>theme_advanced_container_editorcontainer : 'mceEditor',</xsl:text>
-    <xsl:text>theme_advanced_container_statusbarcontainer : 'mceElementpath',</xsl:text>
+    <xsl:text>theme_advanced_container_mceEditor : 'mceEditor',</xsl:text>
+    <xsl:text>theme_advanced_container_mceElementPath : 'mceElementPath',</xsl:text>
 
     <xsl:call-template name="getContainersAlign">
       <xsl:with-param name="noOfRows" select="$noOfRows"/>
@@ -676,7 +676,7 @@
     <!--
       Row setup.
     -->
-    ﻿theme_advanced_containers : 'row1,row2,row3,editorcontainer,statusbarcontainer',
+    ﻿theme_advanced_containers : 'row1,row2,row3,mceEditor,mceElementPath',
     <!--
       Row 1.
     -->
@@ -758,8 +758,8 @@
     <xsl:call-template name="getColorControls"/>
     <xsl:text>',</xsl:text>
 
-    <xsl:text>theme_advanced_container_editorcontainer : 'mceEditor',</xsl:text>
-    <xsl:text>theme_advanced_container_statusbarcontainer : 'mceElementpath',</xsl:text>
+    <xsl:text>theme_advanced_container_mceEditor : 'mceEditor',</xsl:text>
+    <xsl:text>theme_advanced_container_mceElementPath : 'mceElementPath',</xsl:text>
 
     <!--xsl:if test="$expertContributor">
       <xsl:call-template name="createBottomRow"/>
@@ -787,7 +787,7 @@
     <!--
       Row setup.
     -->
-    ﻿theme_advanced_containers : 'row1,row2,editorcontainer,statusbarcontainer',
+    ﻿theme_advanced_containers : 'row1,row2,mceEditor,mceElementPath',
     <!--
       Row 1.
     -->
@@ -841,8 +841,8 @@
     <xsl:call-template name="getSubSupControls"/>
     <xsl:text>',</xsl:text>
 
-    <xsl:text>theme_advanced_container_editorcontainer : 'mceEditor',</xsl:text>
-    <xsl:text>theme_advanced_container_statusbarcontainer : 'mceElementpath',</xsl:text>
+    <xsl:text>theme_advanced_container_mceEditor : 'mceEditor',</xsl:text>
+    <xsl:text>theme_advanced_container_mceElementPath : 'mceElementPath',</xsl:text>
 
     <xsl:text>﻿theme_advanced_container_row1_align : 'left',</xsl:text>
     <xsl:text>﻿theme_advanced_container_row2_align : 'left',</xsl:text>
@@ -865,7 +865,7 @@
     <!--
       Row setup.
     -->
-    ﻿theme_advanced_containers : 'row1,row2,row3,editorcontainer,statusbarcontainer',
+    ﻿theme_advanced_containers : 'row1,row2,row3,mceEditor,mceElementPath',
     <!--
       Row 1.
     -->
@@ -925,8 +925,8 @@
     <xsl:call-template name="getSubSupControls"/>
     <xsl:text>',</xsl:text>
 
-    <xsl:text>theme_advanced_container_editorcontainer : 'mceEditor',</xsl:text>
-    <xsl:text>theme_advanced_container_statusbarcontainer : 'mceElementpath',</xsl:text>
+    <xsl:text>theme_advanced_container_mceEditor : 'mceEditor',</xsl:text>
+    <xsl:text>theme_advanced_container_mceElementPath : 'mceElementPath',</xsl:text>
 
     <xsl:text>﻿theme_advanced_container_row1_align : 'left',</xsl:text>
     <xsl:text>﻿theme_advanced_container_row2_align : 'left',</xsl:text>
@@ -939,9 +939,9 @@
     ********************************************************************************************************************
   -->
   <xsl:template name="getEmptyConfig">
-    <xsl:text>﻿theme_advanced_containers : 'editorcontainer,statusbarcontainer',</xsl:text>
-    <xsl:text>theme_advanced_container_editorcontainer : 'mceEditor',</xsl:text>
-    <xsl:text>theme_advanced_container_statusbarcontainer : 'mceElementpath',</xsl:text>
+    <xsl:text>﻿theme_advanced_containers : 'mceEditor,mceElementPath',</xsl:text>
+    <xsl:text>theme_advanced_container_mceEditor : 'mceEditor',</xsl:text>
+    <xsl:text>theme_advanced_container_mceElementPath : 'mceElementPath',</xsl:text>
 
   </xsl:template>
 
