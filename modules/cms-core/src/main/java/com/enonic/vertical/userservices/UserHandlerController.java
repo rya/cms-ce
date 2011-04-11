@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,6 +34,7 @@ import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
@@ -90,6 +93,8 @@ import com.enonic.cms.domain.user.field.UserInfoTransformer;
 public class UserHandlerController
     extends AbstractUserServicesHandlerController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( UserHandlerController.class.getName() );
+
     public static final int ERR_EMAIL_ALREADY_EXISTS = 100;
 
     public static final int ERR_UID_ALREADY_EXISTS = 101;
@@ -258,7 +263,7 @@ public class UserHandlerController
         if ( loggedInUser == null || loggedInUser.isAnonymous() )
         {
             String message = "User must be logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -271,7 +276,7 @@ public class UserHandlerController
         {
             String message = createMissingParametersMessage( "Set groups", missingParameters );
 
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
             return;
         }
@@ -306,7 +311,7 @@ public class UserHandlerController
         if ( user == null )
         {
             String message = "User must be logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -319,7 +324,7 @@ public class UserHandlerController
         {
             String message = createMissingParametersMessage( "Join group", missingParameters );
 
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
             return;
         }
@@ -349,14 +354,14 @@ public class UserHandlerController
             catch ( UserStoreAccessException e )
             {
                 String message = "Not allowed to add user to group: %t";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, e );
+                LOG.warn( StringUtil.expandString( message, null, e ), e );
                 redirectToErrorPage( request, response, formItems, ERR_JOIN_GROUP_NOT_ALLOWED, null );
                 return;
             }
             catch ( RuntimeException e )
             {
                 String message = "Failed to add user to group: %t";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, e );
+                LOG.warn( StringUtil.expandString( message, null, e ), e );
                 redirectToErrorPage( request, response, formItems, ERR_JOIN_GROUP_FAILED, null );
                 return;
             }
@@ -454,7 +459,7 @@ public class UserHandlerController
         if ( user == null )
         {
             String message = "User must be logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -467,7 +472,7 @@ public class UserHandlerController
         {
             String message = createMissingParametersMessage( "Leave group", missingParameters );
 
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
             return;
         }
@@ -498,13 +503,13 @@ public class UserHandlerController
             catch ( UserStoreAccessException e )
             {
                 String message = "Not allowed to remove user from group: %t";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, e );
+                LOG.warn( StringUtil.expandString( message, null, e ), e );
                 redirectToErrorPage( request, response, formItems, ERR_JOIN_GROUP_NOT_ALLOWED, null );
                 return;
             }
             catch ( RuntimeException e )
             {
-                VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), e );
+                LOG.warn( StringUtil.expandString( e.getMessage(), null, e ), e );
                 redirectToErrorPage( request, response, formItems, ERR_JOIN_GROUP_FAILED, null );
                 return;
             }
@@ -534,7 +539,7 @@ public class UserHandlerController
         if ( uid != null && uid.contains( "@" ) )
         {
             String message = "username is in wrong format, email not supported: " + uid;
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_UID_WRONG_FORMAT, null );
             return;
         }
@@ -556,7 +561,7 @@ public class UserHandlerController
                 if ( StringUtils.isBlank( password ) )
                 {
                     String message = "Missing user name and/or password.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                    LOG.warn( StringUtil.expandString( message, null, null ) );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_UID_PASSWD, null );
                     return;
                 }
@@ -570,7 +575,7 @@ public class UserHandlerController
             if ( !newPassword1.equals( newPassword2 ) )
             {
                 String message = "Passwords don't match.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_PASSWORD_MISMATCH, null );
                 return;
             }
@@ -578,7 +583,7 @@ public class UserHandlerController
             if ( newPassword1.length() == 0 )
             {
                 String message = "New password is invalid.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_NEW_PASSWORD_INVALID, null );
                 return;
             }
@@ -590,7 +595,7 @@ public class UserHandlerController
             else
             {
                 String message = "Not allowed to update user password.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
                 return;
             }
@@ -598,7 +603,7 @@ public class UserHandlerController
         catch ( InvalidCredentialsException ice )
         {
             String message = "User name and/or password is wrong: %0";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, uid, null );
+            LOG.warn( StringUtil.expandString( message, uid, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
             return;
         }
@@ -607,7 +612,7 @@ public class UserHandlerController
             if ( vue.getCause() instanceof NameNotFoundException )
             {
                 String message = "User not found: %0.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, uid, null );
+                LOG.warn( StringUtil.expandString( message, uid, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_USER_NOT_FOUND, null );
                 return;
             }
@@ -619,7 +624,7 @@ public class UserHandlerController
         catch ( VerticalSecurityException vue )
         {
             String message = "User id and/or password incorrect: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vue );
+            LOG.warn( StringUtil.expandString( message, null, vue ), vue );
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
             return;
         }
@@ -665,7 +670,7 @@ public class UserHandlerController
         boolean missingMailBodyOrFromEmail = !( formItems.containsKey( "mail_body" ) && formItems.containsKey( "from_email" ) );
         if ( missingMailBodyOrFromEmail )
         {
-            VerticalUserServicesLogger.warn( this.getClass(), 0, "Missing either 'mail_body' or 'from_email' parameter.", null );
+            LOG.warn( StringUtil.expandString( "Missing either 'mail_body' or 'from_email' parameter.", null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
             return;
         }
@@ -703,14 +708,14 @@ public class UserHandlerController
             if ( e.getMessage() != null && e.getMessage().startsWith( "Could not find user" ) )
             {
                 String message = "User not found: " + uid;
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, uid, null );
+                LOG.warn( StringUtil.expandString( message, uid, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_USER_NOT_FOUND, null );
                 return;
             }
             else
             {
                 String message = "Not allowed to change password for user: " + uid;
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, uid, null );
+                LOG.warn( StringUtil.expandString( message, uid, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
                 return;
             }
@@ -762,7 +767,7 @@ public class UserHandlerController
         if ( loggedInUser == null || loggedInUser.isAnonymous() )
         {
             String msg = "User not logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, msg, null );
+            LOG.warn( StringUtil.expandString( msg, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -818,70 +823,70 @@ public class UserHandlerController
             String userId =
                 formItems.containsKey( FORMITEM_UID ) ? formItems.getString( FORMITEM_UID ) : formItems.getString( FORMITEM_USERNAME, "" );
 
-            VerticalUserServicesLogger.warn( this.getClass(), 0, msg, userId, null );
+            LOG.warn( StringUtil.expandString( msg, userId, null ) );
             redirectToErrorPage( request, response, formItems, ERR_UID_ALREADY_EXISTS, null );
         }
         else if ( e instanceof IllegalArgumentException )
         {
             String message = StringUtils.isNotBlank( e.getMessage() ) ? e.getMessage() : "Illegal arguments: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
         }
         else if ( e instanceof UserStorageExistingEmailException )
         {
-            VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
+            LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_EMAIL_ALREADY_EXISTS, null );
         }
         else if ( e instanceof UserNotFoundException )
         {
-            VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
+            LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_FOUND, null );
         }
         else if ( e instanceof UserStorageInvalidArgumentException )
         {
-            VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
+            LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
         }
         else if ( e instanceof UserStoreAccessException )
         {
-            VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
+            LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
         }
         else if ( e instanceof ESLException )
         {
             String message = "Not able to send mail: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
+            LOG.error( StringUtil.expandString( message, (Object) null, e ), e );
             redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
         }
         else if ( e instanceof UnsupportedEncodingException )
         {
             String message = "Un-supported encoding: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
+            LOG.error( StringUtil.expandString( message, (Object) null, e ), e );
             redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
         }
         else if ( e instanceof MessagingException )
         {
             String message = "Failed to send order received mail: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
+            LOG.error( StringUtil.expandString( message, (Object) null, e ), e );
             redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
         }
         else if ( e instanceof UserStoreNotFoundException )
         {
             String message = "Userstore not found";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, e );
+            LOG.warn( StringUtil.expandString( message, null, e ), e );
             redirectToErrorPage( request, response, formItems, ERR_USERSTORE_NOT_FOUND, null );
         }
         else if ( e instanceof UserStoreConnectorPolicyBrokenException )
         {
             String msg = e.getMessage();
-            VerticalUserServicesLogger.warn( this.getClass(), 0, msg, null );
+            LOG.warn( StringUtil.expandString( msg, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
         }
         else
         {
             String message = e.getMessage() == null ? "Error" : e.getMessage();
 
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
     }
@@ -909,7 +914,7 @@ public class UserHandlerController
         {
             String message = createMissingParametersMessage( "Create User", missingParameters );
 
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
             return;
         }
@@ -1087,7 +1092,7 @@ public class UserHandlerController
         if ( loggedInUser == null || loggedInUser.isAnonymous() )
         {
             String msg = "User not logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, msg, null );
+            LOG.warn( StringUtil.expandString( msg, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -1177,7 +1182,7 @@ public class UserHandlerController
             if ( StringUtils.isBlank( username ) || StringUtils.isBlank( password ) )
             {
                 String message = "Missing user name and/or password.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_MISSING_UID_PASSWD, null );
                 return;
             }
@@ -1198,7 +1203,9 @@ public class UserHandlerController
                 if ( !createdLogEntrySuccessfully )
                 {
                     String message = "Failed to create log entry. Aborted login.";
-                    VerticalUserServicesLogger.errorUserServices( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalUserServicesException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
             }
 
@@ -1225,14 +1232,14 @@ public class UserHandlerController
         {
             reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
             String message = "User name and/or password is wrong: %0";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, username, null );
+            LOG.warn( StringUtil.expandString( message, username, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
         }
         catch ( VerticalSecurityException vse )
         {
             reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
             String message = "No rights to handle request: " + vse.getMessage();
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
         }
         catch ( Exception e )
@@ -1376,13 +1383,13 @@ public class UserHandlerController
         catch ( VerticalCreateException vce )
         {
             String message = "Failed to create log entry: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vce );
+            LOG.error( StringUtil.expandString( message, (Object) null, vce ), vce );
             return false;
         }
         catch ( VerticalSecurityException vse )
         {
             String message = "Failed to create log entry: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vse );
+            LOG.error( StringUtil.expandString( message, (Object) null, vse ), vse );
             return false;
         }
 
@@ -1410,7 +1417,7 @@ public class UserHandlerController
             else
             {
                 String message = "User is not logged in.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
                 return;
             }
@@ -1459,12 +1466,12 @@ public class UserHandlerController
         catch ( VerticalCreateException vce )
         {
             String message = "Failed to create log entry for failed login: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vce );
+            LOG.error( StringUtil.expandString( message, (Object) null, vce ), vce );
         }
         catch ( VerticalSecurityException vse )
         {
             String message = "Failed to create log entry for failed login: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 1, message, vse );
+            LOG.error( StringUtil.expandString( message, (Object) null, vse ), vse );
         }
     }
 
@@ -1491,7 +1498,7 @@ public class UserHandlerController
         if ( olduser == null )
         {
             String message = "User is not logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -1527,14 +1534,14 @@ public class UserHandlerController
             catch ( IllegalArgumentException iae )
             {
                 String message = "Illegal arguments to setPreferences: " + iae.getMessage();
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_SET_PREFERENCES_INVALID_PARAMS, null );
                 return;
             }
             catch ( PreferenceAccessException e )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
                 return;
             }
@@ -1570,7 +1577,7 @@ public class UserHandlerController
         if ( olduser == null )
         {
             String message = "User is not logged in.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_NOT_LOGGED_IN, null );
             return;
         }
@@ -1598,14 +1605,14 @@ public class UserHandlerController
             catch ( IllegalArgumentException iae )
             {
                 String message = "Illegal arguments to removePreferences: " + iae.getMessage();
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_SET_PREFERENCES_INVALID_PARAMS, null );
                 return;
             }
             catch ( PreferenceAccessException e )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                LOG.warn( StringUtil.expandString( message, null, null ) );
                 redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
                 return;
             }

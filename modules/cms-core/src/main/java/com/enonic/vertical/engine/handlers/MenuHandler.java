@@ -19,15 +19,18 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import com.enonic.esl.sql.model.Column;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.adminweb.VerticalAdminLogger;
+import com.enonic.vertical.VerticalException;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.XDG;
@@ -55,6 +58,8 @@ import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 public final class MenuHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( MenuHandler.class.getName() );
+
     private VerticalEventMulticaster multicaster = new VerticalEventMulticaster();
 
     public static final String ELEMENT_NAME_MENU_NAME = "menu-name";
@@ -138,9 +143,9 @@ public final class MenuHandler
                     documentElem.removeChild( n );
                     XMLTool.createXHTMLNodes( doc, documentElem, docString, true );
                     String menuKey = menuitemElem.getAttribute( "menukey" );
-                    VerticalAdminLogger.error( this.getClass(), 0,
-                                               "Received invalid XML from database, menukey=" + menuKey + ", menuitem key=" + menuItemKey +
-                                                   ", name=" + menuItemName + ". Running Tidy..", null );
+                    LOG.error( StringUtil.expandString(
+                            "Received invalid XML from database, menukey=" + menuKey + ", menuitem key=" + menuItemKey +
+                                    ", name=" + menuItemName + ". Running Tidy..", (Object) null, null ) );
                 }
                 documentElem.setAttribute( "mode", "xhtml" );
             }
@@ -157,7 +162,7 @@ public final class MenuHandler
                     Document doc = menuitemElem.getOwnerDocument();
                     String docString = XMLTool.serialize( documentElem );
                     XMLTool.createCDATASection( doc, documentElem, docString );
-                    VerticalEngineLogger.debug( this.getClass(), 0, "Expected CDATA, found XML. Serialized it.", null );
+                    LOG.debug( StringUtil.expandString( "Expected CDATA, found XML. Serialized it.", null, null ) );
                 }
             }
         }
@@ -683,7 +688,8 @@ public final class MenuHandler
         // security check:
         if ( !getSecurityHandler().validateMenuItemCreate( user, siteKey.toInt(), parentKey == null ? -1 : parentKey.toInt() ) )
         {
-            VerticalEngineLogger.errorSecurity( this.getClass(), 10, "Not allowed to create menuitem in this position.", null );
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            "Not allowed to create menuitem in this position." );
         }
 
         String menuItemName = XMLTool.getElementText( XMLTool.getElement( menuItemElement, ELEMENT_NAME_MENUITEM_NAME ) );
@@ -698,8 +704,10 @@ public final class MenuHandler
         // check whether name is unique for this parent
         if ( menuItemNameExists( siteKey, parentKey, menuItemName, null ) )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Menu item name already exists on this level: %0",
-                                              new Object[]{menuItemName}, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "Menu item name already exists on this level: %0",
+                                                                     new Object[]{menuItemName}, null ) );
         }
 
         Element tmp_element;
@@ -710,7 +718,8 @@ public final class MenuHandler
         Integer type = menuItemTypes.get( miType );
         if ( type == null )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Invalid menu item type %0.", new Object[]{type}, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class, "Invalid menu item type " + type);
         }
 
         Connection con = null;
@@ -731,7 +740,10 @@ public final class MenuHandler
                 }
                 catch ( VerticalKeyException e )
                 {
-                    VerticalEngineLogger.errorCreate( this.getClass(), 30, "Error generating key for tMenuItem.", e );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( "Error generating key for tMenuItem.",
+                                                                             (Object) null, e ), e );
                 }
             }
             else
@@ -927,7 +939,10 @@ public final class MenuHandler
                     break;
 
                 default:
-                    VerticalEngineLogger.errorCreate( this.getClass(), 70, "Unknown menuitem type: %0", new Object[]{type}, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( "Unknown menuitem type: %0",
+                                                                             new Object[]{type}, null ) );
             }
 
             // set contentkey if present
@@ -971,7 +986,9 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 40, "A database error occurred: %t", e );
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "A database error occurred: %t", (Object) null,
+                                                                     e ), e );
         }
         finally
         {
@@ -1048,7 +1065,9 @@ public final class MenuHandler
         else
         {
             String msg = "Please specify 'yes' or 'no' in 'newwindow' attribute.";
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, msg, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( msg, (Object) null, null ) );
         }
 
         String url = XMLTool.getElementText( urlElement );
@@ -1066,11 +1085,16 @@ public final class MenuHandler
         }
         catch ( VerticalKeyException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 30, "Error generating key: %t", e );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "Error generating key: %t", (Object) null, e ), e );
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 40, "A database error occurred: %t", e );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "A database error occurred: %t", (Object) null,
+                                                                     e ), e );
         }
         finally
         {
@@ -1091,7 +1115,7 @@ public final class MenuHandler
         catch ( VerticalCreateException vce )
         {
             String message = "Failed to create section contenttype filter: %t";
-            VerticalEngineLogger.error( this.getClass(), 1, message, null );
+            LOG.error( StringUtil.expandString( message, (Object) null, null ) );
         }
     }
 
@@ -1134,7 +1158,9 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create menu item shortcut: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1165,7 +1191,10 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, "A database error occurred: %t", e );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "A database error occurred: %t", (Object) null,
+                                                                     e ), e );
         }
         finally
         {
@@ -1227,7 +1256,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get menu name: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             name = null;
         }
         finally
@@ -1350,7 +1379,7 @@ public final class MenuHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.error( this.getClass(), 30, "SQL error.", sqle );
+            LOG.error( StringUtil.expandString( "SQL error.", (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1423,7 +1452,7 @@ public final class MenuHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.error( this.getClass(), 30, "SQL error.", sqle );
+            LOG.error( StringUtil.expandString( "SQL error.", (Object) null, sqle ), sqle );
         }
         finally
         {

@@ -20,6 +20,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,6 +31,8 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
@@ -70,6 +74,8 @@ public class ContentHandlerBaseController
     extends AbstractUserServicesHandlerController
     implements InitializingBean
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ContentHandlerBaseController.class.getName() );
+
     protected final static int ERR_MISSING_CATEGORY_KEY = 100;
 
     protected final static int SECONDS_IN_WEEK = 60 * 60 * 24 * 7;
@@ -154,7 +160,7 @@ public class ContentHandlerBaseController
         catch ( ParseException pe )
         {
             String message = "Failed to parse a date: %t";
-            VerticalUserServicesLogger.warnUserServices( this.getClass(), 3, message, pe );
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class, message, pe );
         }
     }
 
@@ -309,7 +315,7 @@ public class ContentHandlerBaseController
         if ( contentKey == -1 )
         {
             String message = "Content key not specified.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
             return;
         }
@@ -412,7 +418,7 @@ public class ContentHandlerBaseController
         if ( categoryKey == -1 )
         {
             String message = "Category key not specified.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
             return;
         }
@@ -502,7 +508,10 @@ public class ContentHandlerBaseController
         }
         catch ( IOException ioe )
         {
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 20, "Failed to read binary data: %t", ioe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( "Failed to read binary data: %t", (Object) null,
+                                                                     ioe ), ioe );
         }
 
         return binaryData;
@@ -524,7 +533,9 @@ public class ContentHandlerBaseController
         catch ( IOException ioe )
         {
             String message = "Failed to read file item stream: %t";
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 0, message, ioe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, ioe ), ioe );
         }
         return null;
     }

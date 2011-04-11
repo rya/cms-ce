@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -32,7 +34,8 @@ import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalEngineLogger;
+import com.enonic.vertical.VerticalRuntimeException;
+import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeyView;
@@ -68,6 +71,7 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 public final class ContentHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ContentHandler.class.getName() );
 
     private final static String CTY_TABLE = "tContentType";
 
@@ -237,26 +241,32 @@ public final class ContentHandler
                 preparedStmt.setNull( 7, Types.VARCHAR );
             }
 
-            VerticalEngineLogger.debug( this.getClass(), 2, "Content type key: %0", String.valueOf( key ), null );
-            VerticalEngineLogger.debug( this.getClass(), 2, "Content type name: %0", name, null );
+            LOG.debug( StringUtil.expandString( "Content type key: %0", String.valueOf( key ), null ) );
+            LOG.debug( StringUtil.expandString( "Content type name: %0", name, null ) );
 
             // add the content type
             int result = preparedStmt.executeUpdate();
             if ( result == 0 )
             {
                 String message = "Failed to create content type. No content type created.";
-                VerticalEngineLogger.errorCreate( this.getClass(), 2, message, null );
+
+                VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
+                                                StringUtil.expandString( message, (Object) null, null ) );
             }
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to generate content handler key: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 6, message, gke );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
+                                            StringUtil.expandString( message, (Object) null, gke ), gke );
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create content type: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 3, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -613,7 +623,7 @@ public final class ContentHandler
                     catch ( ProcessElementException pee )
                     {
                         String message = "Failed to process element: %t";
-                        VerticalEngineLogger.warn( this.getClass(), 0, message, pee );
+                        LOG.warn( StringUtil.expandString( message, null, pee ), pee );
                     }
 
                     // increase index
@@ -809,7 +819,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get contents; %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             if ( contentsElem != null )
             {
                 XMLTool.removeChildNodes( contentsElem, false );
@@ -1119,7 +1129,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get content handlers: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1197,18 +1207,24 @@ public final class ContentHandler
             if ( result == 0 )
             {
                 String message = "Failed to create content handler. No content handler created.";
-                VerticalEngineLogger.errorCreate( this.getClass(), 2, message, null );
+
+                VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
+                                                StringUtil.expandString( message, (Object) null, null ) );
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create content handler: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 3, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to generate content handler key: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 6, message, gke );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
+                                            StringUtil.expandString( message, (Object) null, gke ), gke );
         }
         finally
         {

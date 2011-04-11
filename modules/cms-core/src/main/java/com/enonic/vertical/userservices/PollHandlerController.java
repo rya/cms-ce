@@ -12,12 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.servlet.http.CookieUtil;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
@@ -32,6 +35,7 @@ import com.enonic.cms.domain.security.user.User;
 public class PollHandlerController
     extends ContentHandlerBaseController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( PollHandlerController.class.getName() );
 
     // error codes
     public final static int ERR_UNKNOWN_POLL_SELECTION = 100;
@@ -81,7 +85,7 @@ public class PollHandlerController
         if ( !multipleChoice )
         {
             String selected = formItems.getString( "choice" );
-            VerticalUserServicesLogger.info( this.getClass(), 0, "the selection was: %0", selected, null );
+            LOG.info( StringUtil.expandString( "the selection was: %0", selected, null ) );
 
             Map alternativesMap = XMLTool.filterElementsWithAttributeAsKey( alternativesElement.getChildNodes(), "id" );
             Element alternativeElem = (Element) alternativesMap.get( selected );

@@ -5,6 +5,7 @@
 package com.enonic.vertical.userservices;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.util.HtmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,7 +26,9 @@ import com.octo.captcha.service.CaptchaServiceException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.net.Mail;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
@@ -47,6 +52,7 @@ import com.enonic.cms.domain.security.user.UserType;
 public class FormHandlerController
     extends ContentHandlerBaseController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( FormHandlerController.class.getName() );
 
     private static int ERR_MISSING_REQ = 1;
 
@@ -268,7 +274,7 @@ public class FormHandlerController
         catch ( CaptchaServiceException e )
         {
             String message = "Failed during captcha validation: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
+            LOG.error( StringUtil.expandString( message, (Object) null, e ), e );
             errorCodes.add( ERR_OPERATION_BACKEND );
         }
 
@@ -279,7 +285,12 @@ public class FormHandlerController
             throw new FormException( doc, errorCodes.toArray( new Integer[errorCodes.size()] ) );
         }
 
-        VerticalUserServicesLogger.debug( this.getClass(), 10, doc );
+        if ( LOG.isDebugEnabled() )
+        {
+            StringWriter writer = new StringWriter();
+            XMLTool.printDocument( writer, doc, 2 );
+            LOG.debug( writer.toString() );
+        }
     }
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -423,7 +434,10 @@ public class FormHandlerController
         }
         catch ( IOException ioe )
         {
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 20, "Failed to read multipart request: %t", ioe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalUserServicesException.class,
+                                            StringUtil.expandString( "Failed to read multipart request: %t", null,
+                                                                     ioe ), ioe );
         }
         catch ( FormException e )
         {

@@ -90,7 +90,7 @@ public final class StringUtil
         return true;
     }
 
-    public static String expandString( String baseString, Object[] objects, Throwable throwable )
+    private static String expandString( String baseString, Object[] objects, Throwable throwable )
     {
 
         StringBuffer string = new StringBuffer( baseString );
@@ -150,40 +150,14 @@ public final class StringUtil
 
     public static String expandString( String baseString, Object object, Throwable throwable )
     {
-
-        StringBuffer string = new StringBuffer( baseString );
-        int index = baseString.indexOf( "%0" );
-        if ( index >= 0 )
+        if ( object == null || !object.getClass().isArray() )
         {
-            if ( object != null )
-            {
-                string.replace( index, index + 2, object.toString() );
-            }
-            else
-            {
-                string.replace( index, index + 2, "null" );
-            }
+            return expandString( baseString, new Object[] { object }, throwable );
         }
-
-        // replace "%t" with the throwable's message
-        if ( throwable != null )
+        else
         {
-            index = string.toString().indexOf( "%t" );
-            if ( index >= 0 )
-            {
-                String msg = throwable.getMessage();
-                if ( msg != null )
-                {
-                    string.replace( index, index + 2, msg );
-                }
-                else
-                {
-                    string.replace( index, index + 2, "null" );
-                }
-            }
+            return expandString( baseString, Object[].class.cast(object), throwable );
         }
-
-        return string.toString();
     }
 
     static public String[] splitString( String str, char delim )

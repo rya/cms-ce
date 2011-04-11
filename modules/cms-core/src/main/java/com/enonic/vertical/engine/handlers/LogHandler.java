@@ -12,8 +12,8 @@ import org.w3c.dom.Element;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
@@ -183,7 +183,8 @@ public final class LogHandler
                 // NOTE! Either we will get read logs from the presentation layer or we would get
                 //       other log entries from the admin-console (like create,update,remove and login)
                 String msg = "Cannot create both read log entries and other log entries!";
-                VerticalEngineLogger.fatalEngine( this.getClass(), 0, msg, null );
+
+                VerticalRuntimeException.error( LogHandler.class, VerticalRuntimeException.class, msg );
             }
             else
             {
@@ -201,7 +202,9 @@ public final class LogHandler
 
         {
             // should not be thrown when no processors asigned
-            VerticalEngineLogger.fatalEngine( this.getClass(), 0, "Ignored exception!", pee );
+
+            VerticalRuntimeException.error( LogHandler.class, VerticalRuntimeException.class, "Ignored exception!",
+                                            pee );
         }
 
         return keys;

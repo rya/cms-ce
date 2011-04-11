@@ -15,11 +15,14 @@ import java.net.URLConnection;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.filters.ContentFilter;
@@ -41,8 +44,6 @@ import com.enonic.vertical.engine.handlers.UserHandler;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.core.calendar.CalendarService;
@@ -57,6 +58,7 @@ public class PresentationEngine
     extends BaseEngine
     implements InitializingBean
 {
+    private static final Logger LOG = LoggerFactory.getLogger( PresentationEngine.class.getName() );
 
     private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
 
@@ -221,7 +223,8 @@ public class PresentationEngine
         }
         catch ( Exception e )
         {
-            VerticalEngineLogger.error( getClass(), 0, MESSAGE_00, e );
+            LOG.error( StringUtil.expandString( MESSAGE_00, (Object) null,
+                                                                                            e ), e );
             doc = null;
         }
 
@@ -277,19 +280,19 @@ public class PresentationEngine
         catch ( SocketTimeoutException ste )
         {
             String message = "Socket timeout when trying to get url: " + address;
-            VerticalEngineLogger.warn( this.getClass(), 0, message, null );
+            LOG.warn( message);
             result = null;
         }
         catch ( IOException ioe )
         {
             String message = "Failed to get URL: %t";
-            VerticalEngineLogger.warn( this.getClass(), 0, message, ioe );
+            LOG.warn( StringUtil.expandString( message, null, ioe ), ioe );
             result = null;
         }
         catch ( RuntimeException re )
         {
             String message = "Failed to get URL: %t";
-            VerticalEngineLogger.warn( this.getClass(), 0, message, re );
+            LOG.warn( StringUtil.expandString( message, null, re ), re );
             result = null;
         }
         finally
@@ -308,7 +311,7 @@ public class PresentationEngine
             catch ( IOException ioe )
             {
                 String message = "Failed to close URL connection: %t";
-                VerticalEngineLogger.warn( this.getClass(), 0, message, ioe );
+                LOG.warn( StringUtil.expandString( message, null, ioe ), ioe );
             }
         }
 
@@ -490,19 +493,19 @@ public class PresentationEngine
         catch ( MalformedURLException mue )
         {
             String message = "Invalid url: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, mue );
+            LOG.error( StringUtil.expandString( message, (Object) null, mue ), mue );
             doc = null;
         }
         catch ( IOException ioe )
         {
             String message = "Failed to query SearchBlox search engine: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, ioe );
+            LOG.error( StringUtil.expandString( message, (Object) null, ioe ), ioe );
             doc = null;
         }
         catch ( RuntimeException re )
         {
             String message = "Failed to query SearchBlox search engine: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, re );
+            LOG.error( StringUtil.expandString( message, (Object) null, re ), re );
             doc = null;
         }
 

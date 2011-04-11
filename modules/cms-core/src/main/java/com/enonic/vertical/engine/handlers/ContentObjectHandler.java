@@ -18,16 +18,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
@@ -41,6 +45,7 @@ import com.enonic.cms.domain.structure.RunAsType;
 public final class ContentObjectHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ContentObjectHandler.class.getName() );
 
 
     /**
@@ -131,7 +136,9 @@ public final class ContentObjectHandler
                 else
                 {
                     String message = "No menu key specified.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 pos++;
@@ -146,13 +153,17 @@ public final class ContentObjectHandler
                     else
                     {
                         String message = "No object stylesheet key specified.";
-                        VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                        VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                        StringUtil.expandString( message, (Object) null, null ) );
                     }
                 }
                 else
                 {
                     String message = "No object stylesheet specified.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 pos++;
@@ -177,13 +188,17 @@ public final class ContentObjectHandler
                     if ( name == null || name.length() == 0 )
                     {
                         String message = "Empty stylesheet name.";
-                        VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                        VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                        StringUtil.expandString( message, (Object) null, null ) );
                     }
                 }
                 else
                 {
                     String message = "No stylesheet name specified.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 // element: contentobjectdata (optional)
@@ -233,7 +248,9 @@ public final class ContentObjectHandler
                 if ( result <= 0 )
                 {
                     String message = "Failed to create content object, no content object created.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
             }
 
@@ -243,7 +260,9 @@ public final class ContentObjectHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create content object(s): %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         catch ( NumberFormatException nfe )
         {
@@ -266,12 +285,16 @@ public final class ContentObjectHandler
                 default:
                     msgData = new Object[]{"content object key", tmpStr};
             }
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, msgData, nfe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, msgData, nfe ), nfe );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to generate content object key";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, gke );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, gke ), gke );
         }
         finally
         {
@@ -365,7 +388,7 @@ public final class ContentObjectHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get content object(s): %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -411,7 +434,9 @@ public final class ContentObjectHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove contents: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -463,7 +488,9 @@ public final class ContentObjectHandler
                 else
                 {
                     String message = "No content object key specified.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                    StringUtil.expandString( message, (Object) null, null )  );
                 }
 
                 pos++;
@@ -478,7 +505,9 @@ public final class ContentObjectHandler
                 else
                 {
                     String message = "No menu key specified.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 pos++;
@@ -493,13 +522,17 @@ public final class ContentObjectHandler
                     else
                     {
                         String message = "No object stylesheet key specified.";
-                        VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                        VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                        StringUtil.expandString( message, (Object) null, null ) );
                     }
                 }
                 else
                 {
                     String message = "No object stylesheet specified.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 pos++;
@@ -522,13 +555,17 @@ public final class ContentObjectHandler
                     if ( name == null || name.length() == 0 )
                     {
                         String message = "Empty stylesheet name.";
-                        VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                        VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                        StringUtil.expandString( message, (Object) null, null ) );
                     }
                 }
                 else
                 {
                     String message = "No stylesheet name specified.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
 
                 // element: contentobjectdata (optional)
@@ -586,7 +623,9 @@ public final class ContentObjectHandler
                 if ( result <= 0 )
                 {
                     String message = "Failed to update content object, no content object updated.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
             }
 
@@ -596,7 +635,9 @@ public final class ContentObjectHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to update content object(s): %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         catch ( NumberFormatException nfe )
         {
@@ -619,7 +660,8 @@ public final class ContentObjectHandler
                 default:
                     msgData = new Object[]{"content object key", tmpStr};
             }
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, msgData, nfe );
+            VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                            StringUtil.expandString( message, msgData, nfe ), nfe );
         }
         finally
         {
@@ -673,7 +715,9 @@ public final class ContentObjectHandler
         catch ( VerticalCreateException vce )
         {
             String message = "Failed to copy content objects: %t";
-            VerticalEngineLogger.errorCopy( this.getClass(), 0, message, vce );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalCopyException.class,
+                                            StringUtil.expandString( message, (Object) null, vce ), vce );
         }
     }
 
@@ -803,7 +847,9 @@ public final class ContentObjectHandler
         catch ( VerticalUpdateException vue )
         {
             String message = "Failed to copy content objects (post operation): %t";
-            VerticalEngineLogger.errorCopy( this.getClass(), 0, message, vue );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalCopyException.class,
+                                            StringUtil.expandString( message, (Object) null, vue ), vue );
         }
     }
 

@@ -15,13 +15,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.ArrayUtil;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.event.VerticalEventListener;
 
@@ -36,6 +38,8 @@ public final class GroupHandler
     extends BaseHandler
     implements VerticalEventListener
 {
+    private static final Logger LOG = LoggerFactory.getLogger( GroupHandler.class.getName() );
+
     final static private String USER_TABLE = "tUser";
 
     final static private String GROUP_TABLE = "tGroup";
@@ -114,7 +118,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            LOG.error( StringUtil.expandString( "A database error occurred: %t", (Object) null, e ), e );
         }
         finally
         {
@@ -161,7 +165,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            LOG.error( StringUtil.expandString( "A database error occurred: %t", (Object) null, e ), e );
         }
         finally
         {
@@ -364,7 +368,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            LOG.error( StringUtil.expandString( "A database error occurred: %t", (Object) null, e ), e );
         }
         finally
         {
@@ -455,7 +459,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            LOG.error( StringUtil.expandString( "A database error occurred: %t", (Object) null, e ), e );
         }
         finally
         {

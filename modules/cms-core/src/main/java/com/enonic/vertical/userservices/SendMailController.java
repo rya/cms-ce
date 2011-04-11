@@ -14,10 +14,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.Mail;
+import com.enonic.esl.util.StringUtil;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.UserServicesService;
@@ -27,6 +30,9 @@ import com.enonic.cms.domain.SiteKey;
 public class SendMailController
     extends ContentHandlerBaseController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( SendMailController.class.getName() );
+
+
     public final static int ERR_RECIPIENT_HAS_NO_EMAIL_ADDRESS = 100;
 
     public final static int ERR_RECIPIENT_HAS_WRONG_ADDRESS_NO_ALPHA = 101;
@@ -58,7 +64,7 @@ public class SendMailController
                 if ( StringUtils.isEmpty( fromName ) && StringUtils.isEmpty( fromEmail ) )
                 {
                     String message = "No \"from\" fields given. " + "At least one of \"from_name\" and \"from_email\" is required.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 2, message, null );
+                    LOG.warn( StringUtil.expandString( message, null, null ) );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_FROM_FIELDS, null );
                     return;
                 }
@@ -69,7 +75,7 @@ public class SendMailController
                 if ( recipients.length == 0 )
                 {
                     String message = "No \"to\" fields given. At least one is required.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 3, message, null );
+                    LOG.warn( StringUtil.expandString( message, null, null ) );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_TO_FIELD, null );
                     return;
                 }
@@ -112,7 +118,7 @@ public class SendMailController
                 if ( subject == null || subject.length() == 0 )
                 {
                     String message = "No \"subject\" field given. A subject field is required.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 4, message, null );
+                    LOG.warn( StringUtil.expandString( message, null, null ) );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_SUBJECT_FIELD, null );
                     return;
                 }
@@ -192,7 +198,7 @@ public class SendMailController
             catch ( ESLException esle )
             {
                 String message = "Failed to send email: %t";
-                VerticalUserServicesLogger.error( this.getClass(), 5, message, esle );
+                LOG.error( StringUtil.expandString( message, (Object) null, esle ), esle );
                 redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
             }
         }
@@ -247,7 +253,7 @@ public class SendMailController
                         addressType = "Cc";
                         break;
                 }
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, addressType, null );
+                LOG.warn( StringUtil.expandString( message, addressType, null ) );
                 return ERR_RECIPIENT_HAS_NO_EMAIL_ADDRESS;
             }
             else
@@ -269,7 +275,7 @@ public class SendMailController
                             ojbs[0] = "Cc";
                             break;
                     }
-                    VerticalUserServicesLogger.warn( this.getClass(), 1, message, ojbs, null );
+                    LOG.warn( StringUtil.expandString( message, ojbs, null ) );
                     return ERR_RECIPIENT_HAS_WRONG_ADDRESS_NO_ALPHA;
                 }
                 else if ( email.indexOf( '.', idx ) < 0 )
@@ -288,7 +294,7 @@ public class SendMailController
                             ojbs[0] = "Cc";
                             break;
                     }
-                    VerticalUserServicesLogger.warn( this.getClass(), 2, message, ojbs, null );
+                    LOG.warn( StringUtil.expandString( message, ojbs, null ) );
                     return ERR_RECIPIENT_HAS_WRONG_ADDRESS_MISSING_DOT;
                 }
 

@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,9 +36,10 @@ import com.enonic.esl.util.RelationNode;
 import com.enonic.esl.util.RelationTree;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
+import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.CategoryAccessRight;
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
@@ -68,6 +71,7 @@ import com.enonic.cms.domain.security.user.UserEntity;
 public class CategoryHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( CategoryHandler.class.getName() );
 
     private final static String CON_TABLE = "tContent";
 
@@ -291,12 +295,16 @@ public class CategoryHandler
                         msgData[0] = warning.getErrorCode();
                         msgData[1] = warning.getMessage();
                         msgData[2] = warning.getSQLState();
-                        VerticalEngineLogger.errorCreate( this.getClass(), 0, message, msgData, null );
+
+                        VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                        StringUtil.expandString( message, msgData, null ) );
                     }
                     else
                     {
                         message += " (No warning)";
-                        VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+
+                        VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                        StringUtil.expandString( message, (Object) null, null ) );
                     }
                 }
 
@@ -349,17 +357,23 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create category: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 1, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to create category: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 1, message, gke );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, gke ), gke );
         }
         catch ( VerticalUpdateException vue )
         {
             String message = "Failed to set default categories for top category: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 1, message, vue );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, vue ), vue );
         }
         finally
         {
@@ -378,7 +392,9 @@ public class CategoryHandler
         if ( key == null || key.length == 0 )
         {
             String message = "Failed to create content category. No category key returned.";
-            VerticalEngineLogger.errorCreate( this.getClass(), 1, message, null );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, null ) );
         }
 
         return key[0];
@@ -592,7 +608,7 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to calculate categories' content counts: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -728,10 +744,10 @@ public class CategoryHandler
                 getSecurityHandler().appendCategorySQL( olduser, sql, true, false );
             }
 
-            if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
+            if ( LOG.isDebugEnabled() )
             {
-                VerticalEngineLogger.debug( this.getClass(), 0, "SQL: %0", sql, null );
-                VerticalEngineLogger.debug( this.getClass(), 0, "categoryKey = %0", categoryKey, null );
+                LOG.debug( StringUtil.expandString( "SQL: %0", sql, null ) );
+                LOG.debug( StringUtil.expandString( "categoryKey = %0", categoryKey, null ) );
                 if ( contentTypeKeys != null )
                 {
                     StringBuffer sb = new StringBuffer( contentTypeKeys.length + 1 );
@@ -745,11 +761,11 @@ public class CategoryHandler
                         sb.append( contentTypeKeys[i] );
                     }
                     sb.append( ']' );
-                    VerticalEngineLogger.debug( this.getClass(), 0, "contentTypeKeys = %0", sb, null );
+                    LOG.debug( StringUtil.expandString( "contentTypeKeys = %0", sb, null ) );
                 }
                 else
                 {
-                    VerticalEngineLogger.debug( this.getClass(), 0, "contentTypeKeys = null", null );
+                    LOG.debug( StringUtil.expandString( "contentTypeKeys = null", null, null ) );
                 }
             }
 
@@ -767,7 +783,7 @@ public class CategoryHandler
             {
                 subCategories = false;
                 String message = "Failed to count sub-categories. No result given";
-                VerticalEngineLogger.error( this.getClass(), 0, message, null );
+                LOG.error( StringUtil.expandString( message, (Object) null, null ) );
             }
 
             if ( !subCategories )
@@ -782,7 +798,7 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to count sub-categories: %t";
-            VerticalEngineLogger.error( this.getClass(), 1, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             subCategories = false;
         }
         finally
@@ -830,7 +846,9 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove category: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 1, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -974,12 +992,15 @@ public class CategoryHandler
                     msgData[0] = new Integer( warning.getErrorCode() );
                     msgData[1] = warning.getMessage();
                     msgData[2] = warning.getSQLState();
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, msgData, null );
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                                    StringUtil.expandString( message, msgData, null ) );
                 }
                 else
                 {
                     message += " No warning.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+
+                    VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                                    StringUtil.expandString( message, (Object) null, null ) );
                 }
             }
 
@@ -996,17 +1017,23 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to update category: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 1, message, sqle );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse a key field: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 2, message, nfe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, nfe ), nfe );
         }
         catch ( ParseException pe )
         {
             String message = "Failed to parse the created date field: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 2, message, pe );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+                                            StringUtil.expandString( message, (Object) null, pe ), pe );
         }
         finally
         {
@@ -1058,12 +1085,17 @@ public class CategoryHandler
 
             if ( !getSecurityHandler().validateCategoryUpdate( olduser, categoryDao.findByKey( catKey ).getParent().getKey() ) )
             {
-                VerticalEngineLogger.errorSecurity( this.getClass(), 10, "User is not allowed to move the category.", null );
+                VerticalRuntimeException.error( this.getClass(), VerticalSecurityException.class,
+                                                StringUtil.expandString( "User is not allowed to move the category.",
+                                                                         (Object) null, null ) );
             }
 
             if ( !getSecurityHandler().validateCategoryUpdate( olduser, superCatKey ) )
             {
-                VerticalEngineLogger.errorSecurity( this.getClass(), 10, "User is not allowed to update the new parent category.", null );
+                VerticalRuntimeException.error( this.getClass(), VerticalSecurityException.class,
+                                                StringUtil.expandString(
+                                                        "User is not allowed to update the new parent category.",
+                                                        (Object) null, null ) );
             }
 
             int[] children = getCategoryKeysBySuperCategory( con, catKey, true );
@@ -1094,7 +1126,10 @@ public class CategoryHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 10, "A database error occurred: %t", e );
+
+            VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
+                                            StringUtil.expandString( "A database error occurred: %t", (Object) null,
+                                                                     e ), e );
         }
         finally
         {
@@ -1169,7 +1204,7 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to count categories: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1190,7 +1225,7 @@ public class CategoryHandler
         SecurityHandler securityHandler = getSecurityHandler();
         UserHandler userHandler = getUserHandler();
 
-        VerticalEngineLogger.debug( this.getClass(), 0, "Criteria: %0", categoryCriteria, null );
+        LOG.debug( StringUtil.expandString( "Criteria: %0", categoryCriteria, null ) );
 
         List<Integer> paramValues = new ArrayList<Integer>();
         StringBuffer sqlCategories = new StringBuffer( "SELECT cat_lKey, cat_uni_lKey, cat_cat_lSuper, cat_sName, cat_cty_lKey FROM " );
@@ -1283,7 +1318,7 @@ public class CategoryHandler
             /*if ((categoryCriteria.getCategoryKey() != -1)
                    || (categoryCriteria.getCategoryKeys() != null)) {*/
             String sql = sqlCategories.toString() + sqlCategoriesWHERE.toString();
-            VerticalEngineLogger.debug( this.getClass(), 0, "SQL (1): %0", sql, null );
+            LOG.debug( StringUtil.expandString( "SQL (1): %0", sql, null ) );
             preparedStmt = con.prepareStatement( sql );
 
             int i = 1;
@@ -1389,7 +1424,7 @@ public class CategoryHandler
                     iter = missingKeys.values().iterator();
                 }
                 sql = sqlCategories.toString() + sqlCategoriesWHEREPK.toString();
-                VerticalEngineLogger.debug( this.getClass(), 0, "SQL (2): %0", sql, null );
+                LOG.debug( StringUtil.expandString( "SQL (2): %0", sql, null ) );
                 preparedStmt = con.prepareStatement( sql );
 
                 resultSet = preparedStmt.executeQuery();
@@ -1507,7 +1542,7 @@ public class CategoryHandler
 
                 /*String*/
                 sql = sqlCategories.toString() + sqlCategoriesWHERE.toString();
-                VerticalEngineLogger.debug( this.getClass(), 0, "SQL (3): %0", sql, null );
+                LOG.debug( StringUtil.expandString( "SQL (3): %0", sql, null ) );
                 preparedStmt = con.prepareStatement( sql );
                 resultSet = preparedStmt.executeQuery();
 
@@ -1554,7 +1589,7 @@ public class CategoryHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get the categories: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1654,7 +1689,7 @@ public class CategoryHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 0, "Failed to fetch relation keys: %t", e );
+            LOG.error( StringUtil.expandString( "Failed to fetch relation keys: %t", (Object) null, e ), e );
         }
 
         return doc;
