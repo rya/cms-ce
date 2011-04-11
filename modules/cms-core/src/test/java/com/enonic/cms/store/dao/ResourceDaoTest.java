@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,6 +31,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class ResourceDaoTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ResourceDaoTest.class.getName() );
+
     @Autowired
     private ResourceDao resourceDao;
 
@@ -102,7 +106,7 @@ public class ResourceDaoTest
 
         f1.setData( "content" );
 
-        System.out.println( f1.getDataAsInputStream() );
+        LOG.info( f1.getDataAsString() );
         assertEquals( "content", f1.getDataAsString() );
         assertEquals( "content".length(), f1.getSize() );
         assertTrue( f1.getLastModified().getTimeInMillis() > t.getTimeInMillis() );
@@ -211,7 +215,7 @@ public class ResourceDaoTest
         Thread.sleep( 100 );
 
         ccFile.setData( "cc" );
-        System.out.println( ccFile.getDataAsInputStream() );
+        LOG.info( ccFile.getDataAsString() );
         assertEquals( "cc", ccFile.getDataAsString() );
         assertEquals( "cc".length(), ccFile.getSize() );
         long ccTime = ccFile.getLastModified().getTimeInMillis();
@@ -232,7 +236,9 @@ public class ResourceDaoTest
         Thread.sleep( 100 );
 
         eeFile.setData( "ee" );
-        System.out.println( eeFile.getDataAsInputStream() );
+
+        LOG.info( eeFile.getDataAsString() );
+
         assertEquals( "ee", eeFile.getDataAsString() );
         assertEquals( "ee".length(), eeFile.getSize() );
         long eeTime = eeFile.getLastModified().getTimeInMillis();

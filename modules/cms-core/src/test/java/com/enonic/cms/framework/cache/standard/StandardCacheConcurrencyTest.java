@@ -6,11 +6,16 @@ package com.enonic.cms.framework.cache.standard;
 
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import junit.framework.TestCase;
 
 public class StandardCacheConcurrencyTest
     extends TestCase
 {
+    private static final Logger LOG = LoggerFactory.getLogger( StandardCacheConcurrencyTest.class.getName() );
+
     private int keyCounter = 0;
 
     private StandardCache cache;
@@ -114,9 +119,7 @@ public class StandardCacheConcurrencyTest
         {
 
             // print exception
-            System.out.println( "Exception found:" );
-            e.printStackTrace();
-
+            LOG.info( "Exception found:" , e);
             fail( "Concurrency test failed. Expected no exception, got: " + e.getMessage() );
 
         }

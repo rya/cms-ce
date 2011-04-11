@@ -6,12 +6,16 @@ package com.enonic.esl.sql.model;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Database
 {
+    private static final Logger LOG = LoggerFactory.getLogger( Database.class.getName() );
+
     private final List<Table> tables = new LinkedList<Table>();
 
     private final List<View> views = new LinkedList<View>();
@@ -39,9 +43,9 @@ public class Database
     {
         tables.add( table );
         Column[] columns = table.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
+        for ( Column column : columns )
         {
-            columnTableMap.put( columns[i].getName().toLowerCase(), table );
+            columnTableMap.put( column.getName().toLowerCase(), table );
         }
     }
 
@@ -49,9 +53,9 @@ public class Database
     {
         views.add( view );
         Column[] columns = view.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
+        for ( Column column : columns )
         {
-            columnTableMap.put( columns[i].getName().toLowerCase(), view );
+            columnTableMap.put( column.getName().toLowerCase(), view );
         }
     }
 
@@ -70,16 +74,12 @@ public class Database
     public void setDatabaseMappings()
     {
         // Set all foreign key mappings
-        for ( int i = 0; i < tables.size(); i++ )
+        for ( Table table : tables )
         {
-            Table table = tables.get( i );
-
             // Traverse all foreign keys
             Column[] columns = table.getColumns();
-            for ( int j = 0; j < columns.length; j++ )
+            for ( Column column : columns )
             {
-                Column column = columns[j];
-
                 // set foreign key mappings
                 if ( column.isForeignKey() )
                 {
@@ -94,7 +94,8 @@ public class Database
                     }
                     else
                     {
-                        System.out.println( "skipping FK: " + table + "." + fk + ", couldn't find " + fk.getReferencedTableName() );
+                        LOG.info( "skipping FK: {}.{}, couldn't find referenced table {}",
+                                  new Object[]{table, fk, fk.getReferencedTableName()} );
                     }
                 }
             }
@@ -104,11 +105,11 @@ public class Database
     public Table getTableByParentName( String parentName )
     {
         Table table = null;
-        for ( int i = 0; i < tables.size(); i++ )
+        for ( Table table1 : tables )
         {
-            if ( parentName.equalsIgnoreCase( tables.get( i ).getParentName() ) )
+            if ( parentName.equalsIgnoreCase( table1.getParentName() ) )
             {
-                table = tables.get( i );
+                table = table1;
             }
         }
 
@@ -118,11 +119,11 @@ public class Database
     public Table getTableByElementName( String elementName )
     {
         Table table = null;
-        for ( int i = 0; i < tables.size(); i++ )
+        for ( Table table1 : tables )
         {
-            if ( elementName.equalsIgnoreCase( tables.get( i ).getElementName() ) )
+            if ( elementName.equalsIgnoreCase( table1.getElementName() ) )
             {
-                table = tables.get( i );
+                table = table1;
             }
         }
 
@@ -132,17 +133,17 @@ public class Database
     public Table getTable( String tableName )
     {
         Table table = null;
-        for ( int i = 0; i < tables.size(); i++ )
+        for ( Table table1 : tables )
         {
-            if ( tableName.equalsIgnoreCase( tables.get( i ).getName() ) )
+            if ( tableName.equalsIgnoreCase( table1.getName() ) )
             {
-                table = tables.get( i );
+                table = table1;
             }
         }
 
         if ( table == null )
         {
-            System.out.println( "Database.getTable(String): fant ikke " + tableName );
+            LOG.info( "Database.getTable(String): table {} does not exist", tableName );
         }
 
         return table;
@@ -151,17 +152,17 @@ public class Database
     public View getView( String viewName )
     {
         View view = null;
-        for ( int i = 0; i < views.size(); i++ )
+        for ( View view1 : views )
         {
-            if ( viewName.equalsIgnoreCase( views.get( i ).getName() ) )
+            if ( viewName.equalsIgnoreCase( view1.getName() ) )
             {
-                view = views.get( i );
+                view = view1;
             }
         }
 
         if ( view == null )
         {
-            System.out.println( "Database.getView(String): fant ikke " + viewName );
+            LOG.info( "Database.getView(String): view {} does not exist ", viewName );
         }
 
         return view;
@@ -181,10 +182,9 @@ public class Database
     {
         Table[] tableArray = new Table[tables.size()];
         int i = 0;
-        Iterator<Table> iter = tables.iterator();
-        while ( iter.hasNext() )
+        for ( Table table : tables )
         {
-            tableArray[i++] = iter.next();
+            tableArray[i++] = table;
         }
 
         return tableArray;

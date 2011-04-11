@@ -9,6 +9,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
@@ -56,6 +58,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class DataSourceServiceImpl_relatedContentTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( DataSourceServiceImpl_relatedContentTest.class.getName() );
+
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
@@ -382,7 +386,7 @@ public class DataSourceServiceImpl_relatedContentTest
 
         // verify
         Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-        System.out.println( JDOMUtil.prettyPrintDocument( jdomDocResult ) );
+        LOG.info( JDOMUtil.prettyPrintDocument( jdomDocResult ) );
 
         /*AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "4" );
         AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, content4.toString(), content3.toString(),

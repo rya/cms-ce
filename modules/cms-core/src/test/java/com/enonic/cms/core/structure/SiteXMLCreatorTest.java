@@ -9,6 +9,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.jdom.JDOMException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 
@@ -24,6 +26,7 @@ import static org.easymock.classextension.EasyMock.createNiceMock;
 public class SiteXMLCreatorTest
     extends AbstractSiteXmlCreatorTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( SiteXMLCreatorTest.class.getName() );
 
     private SiteXmlCreator siteXmlCreator;
 
@@ -487,13 +490,13 @@ public class SiteXMLCreatorTest
 
         siteXmlCreator = new SiteXmlCreator( menuItemAccessResolver );
         siteXmlCreator.setMenuItemInBranch( oneMenuItemDeepInTheHugeMenu );
-        System.out.println( "Created huge site with " + keyCounter + " menu items" );
+        LOG.info( "Created huge site with {} menu items", keyCounter);
 
         long start = System.currentTimeMillis();
         siteXmlCreator.createLegacyGetMenu( site, new SiteProperties( null ) );
         long end = System.currentTimeMillis();
-        System.out.println( "SiteXmlCreator.createLegacyGetMenu took " + ( end - start ) + " ms" );
 
+        LOG.info( "SiteXmlCreator.createLegacyGetMenu took {} ms", end - start );
     }
 
     public void xtestSpeedCreateLegacyGetMenu2()
@@ -503,12 +506,12 @@ public class SiteXMLCreatorTest
 
         siteXmlCreator = new SiteXmlCreator( menuItemAccessResolver );
         siteXmlCreator.setMenuItemInBranch( oneMenuItemDeepInTheHugeMenu );
-        System.out.println( "Created slightly huge site with " + keyCounter + " menu items" );
+        LOG.info( "Created slightly huge site with {} menu items", keyCounter );
 
         long start = System.currentTimeMillis();
         siteXmlCreator.createLegacyGetMenu( site, new SiteProperties( null ) );
         long end = System.currentTimeMillis();
-        System.out.println( "SiteXmlCreator.createLegacyGetMenu took " + ( end - start ) + " ms" );
+        LOG.info( "SiteXmlCreator.createLegacyGetMenu took {} ms", end - start );
 
     }
 
@@ -523,12 +526,12 @@ public class SiteXMLCreatorTest
 
         siteXmlCreator.setActiveMenuItem( oneMenuItemDeepInTheHugeMenu );
 
-        System.out.println( "Created huge site with " + keyCounter + " menu items" );
+        LOG.info( "Created huge site with " + keyCounter + " menu items" );
 
         long start = System.currentTimeMillis();
         siteXmlCreator.createLegacyGetSubMenu( site );
         long end = System.currentTimeMillis();
-        System.out.println( "SiteXmlCreator.createLegacyGetSubMenu took " + ( end - start ) + " ms" );
+        LOG.info( "SiteXmlCreator.createLegacyGetSubMenu took " + ( end - start ) + " ms" );
 
     }
 
@@ -540,12 +543,12 @@ public class SiteXMLCreatorTest
         siteXmlCreator = new SiteXmlCreator( menuItemAccessResolver );
         siteXmlCreator.setMenuItemInBranch( oneMenuItemDeepInTheHugeMenu );
         siteXmlCreator.setActiveMenuItem( oneMenuItemDeepInTheHugeMenu );
-        System.out.println( "Created huge site with " + keyCounter + " menu items" );
+        LOG.info( "Created huge site with " + keyCounter + " menu items" );
 
         long start = System.currentTimeMillis();
         siteXmlCreator.createLegacyGetMenuBranch( site );
         long end = System.currentTimeMillis();
-        System.out.println( "SiteXmlCreator.createLegacyGetMenuBranch took " + ( end - start ) + " ms" );
+        LOG.info( "SiteXmlCreator.createLegacyGetMenuBranch took " + ( end - start ) + " ms" );
 
     }
 

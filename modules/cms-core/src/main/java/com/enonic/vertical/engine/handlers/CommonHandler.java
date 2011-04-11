@@ -96,8 +96,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -131,8 +130,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             result = 0;
         }
         finally
@@ -173,8 +171,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -218,8 +215,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get date: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -293,8 +289,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get object[][]: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -356,8 +351,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get object[][]: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -414,8 +408,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get int: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             value = -1;
         }
         finally
@@ -463,8 +456,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get int: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             value = -1;
         }
         finally
@@ -512,8 +504,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get int: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             value = false;
         }
         finally
@@ -553,8 +544,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get byte array: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -601,8 +591,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get integer array: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -658,8 +647,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get (integer -> integer array) map: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -713,8 +701,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get integer array: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -775,8 +762,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             string = null;
         }
         finally
@@ -826,8 +812,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -897,8 +882,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             strings = new String[0];
         }
         finally
@@ -947,8 +931,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             objects = new Object[0];
         }
         finally
@@ -996,8 +979,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1050,7 +1032,7 @@ public class CommonHandler
 
                     if ( table == null )
                     {
-                        System.out.println( "Did not find table matching parent name " + parentName );
+                        LOG.info( "Did not find table matching parent name {}", parentName );
                         continue;
                     }
 
@@ -1064,7 +1046,7 @@ public class CommonHandler
                         // Check that this element has the correct name
                         if ( !aChildren.getTagName().equals( elementName ) )
                         {
-                            System.out.println( "elementname " + aChildren.getTagName() + " did not match expected " + elementName + "." );
+                            LOG.info( "elementname {} did not match expected {}.", aChildren.getTagName(), elementName );
                             continue;
                         }
                         dataElemsList.add( aChildren );
@@ -1153,18 +1135,15 @@ public class CommonHandler
 
                 if ( LOG.isDebugEnabled() )
                 {
-                    String message = "table=%0;key=%1";
-                    Object[] msgData = new Object[]{table.getName(), keys[i]};
-                    LOG.debug(StringUtil.expandString( message,
-                                                                                                        msgData ));
+                    LOG.debug("table={};key={}", table.getName(), keys[i]);
                 }
+
 
                 currentTable = table.toString();
                 currentElement = dataElems[i];
 
                 StringBuffer sql = XDG.generateInsertSQL( table, dataElems[i] );
-                LOG.debug(StringUtil.expandString( "SQL: %0", sql,
-                                                                                                    null ) );
+                LOG.debug( StringUtil.expandString( "SQL: %0", sql, null ) );
 
                 preparedStmt = con.prepareStatement( sql.toString() );
 
@@ -1173,10 +1152,7 @@ public class CommonHandler
                 int result = preparedStmt.executeUpdate();
                 if ( result == 0 )
                 {
-                    String message = "Failed to create entity.";
-
-                    VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class,
-                                                    StringUtil.expandString( message, (Object) null, null ) );
+                    VerticalRuntimeException.error( this.getClass(), VerticalCreateException.class, "Failed to create entity." );
                 }
                 close( preparedStmt );
                 preparedStmt = null;
@@ -1208,11 +1184,11 @@ public class CommonHandler
             keys = null;
             if ( currentTable != null )
             {
-                System.err.println( "Current table: " + currentTable );
+                LOG.error( "Current table: {}", currentTable );
             }
             if ( currentElement != null )
             {
-                System.err.println( "Current element: \n" + XMLTool.elementToString( currentElement ) );
+                LOG.error( "Current element: \n{}", XMLTool.elementToString( currentElement ) );
             }
         }
         catch ( VerticalKeyException gke )
@@ -1305,10 +1281,7 @@ public class CommonHandler
                 String keyStr = dataElem.getAttribute( "key" );
                 if ( keyStr == null || keyStr.length() == 0 )
                 {
-                    String message = "Update failed, missing key.";
-
-                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class,
-                                                    StringUtil.expandString( message, (Object) null, null ) );
+                    VerticalRuntimeException.error( this.getClass(), VerticalUpdateException.class, "Update failed, missing key." );
                 }
                 else
                 {
@@ -1390,8 +1363,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1425,8 +1397,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1484,8 +1455,7 @@ public class CommonHandler
                 msgData[0] = i;
                 msgData[1] = paramValues.get( i );
                 msgData[2] = paramValues.get( i ).getClass();
-                LOG.debug(StringUtil.expandString(
-                        "Parameter %0: %1 (%2)", msgData, null ) );
+                LOG.debug( StringUtil.expandString( "Parameter %0: %1 (%2)", msgData, null ) );
             }
             if ( dataTypes != null )
             {
@@ -1556,9 +1526,7 @@ public class CommonHandler
                     msgData[0] = column;
                     msgData[1] = values;
                     msgData[2] = values.getClass();
-                    LOG.debug(StringUtil.expandString( "%0: %1 (%2)",
-                                                                                                        msgData, null )
-                                                                                );
+                    LOG.debug( StringUtil.expandString( "%0: %1 (%2)", msgData, null ) );
                 }
 
                 if ( values.size() == 0 )
@@ -1640,8 +1608,7 @@ public class CommonHandler
             }
         }
 
-        LOG.debug(StringUtil.expandString( "SQL: %0", sql.toString(),
-                                                                                            null ) );
+        LOG.debug( StringUtil.expandString( "SQL: %0", sql.toString(), null ) );
         preparedStmt = con.prepareStatement( sql.toString() );
         preparedStmt.setFetchSize( FETCH_SIZE );
 
@@ -1653,8 +1620,7 @@ public class CommonHandler
                              boolean includeAccessRights, boolean includeCount, Element parentElem )
     {
 
-        LOG.debug(StringUtil.expandString( "Parameters: %0",
-                                                                                            parameters, null ) );
+        LOG.debug( StringUtil.expandString( "Parameters: %0", parameters, null ) );
 
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -1685,8 +1651,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
@@ -1823,16 +1788,14 @@ public class CommonHandler
             else
             {
                 String message = "Failed to count data.";
-                LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                     null ) );
+                LOG.error( StringUtil.expandString( message, (Object) null, null ) );
                 result = 0;
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to count data: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             result = 0;
         }
         finally
@@ -1916,8 +1879,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get path string: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
             result.setLength( 0 );
         }
         finally
@@ -1948,8 +1910,7 @@ public class CommonHandler
             if ( LOG.isDebugEnabled() )
             {
                 String message = "%0 rows updated.";
-                LOG.debug(StringUtil.expandString( message, rowCount,
-                                                                                                    null ) );
+                LOG.debug( StringUtil.expandString( message, rowCount, null ) );
             }
         }
         finally
@@ -1979,8 +1940,7 @@ public class CommonHandler
             if ( LOG.isDebugEnabled() )
             {
                 String message = "%0 row(s) updated.";
-                LOG.debug(
-                        StringUtil.expandString( message, rowCount, null ) );
+                LOG.debug( StringUtil.expandString( message, rowCount, null ) );
             }
         }
         finally
@@ -2041,8 +2001,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get data: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null,
-                                                                                                 sqle ), sqle );
+            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
         }
         finally
         {
