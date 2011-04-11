@@ -18,7 +18,7 @@ import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.localization.LocaleParsingException;
+import com.enonic.cms.core.localization.LocaleParsingException;
 import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.domain.resolver.ResolverContext;
 import com.enonic.cms.domain.resolver.ScriptResolverResult;

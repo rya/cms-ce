@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleService;
 
-import com.enonic.cms.domain.localization.LocalizationResourceBundle;
+import com.enonic.cms.core.localization.LocalizationResourceBundle;
 import com.enonic.cms.domain.structure.SiteEntity;
 
 /**

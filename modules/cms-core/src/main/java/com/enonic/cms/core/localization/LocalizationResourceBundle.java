@@ -2,17 +2,13 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.domain.localization;
+package com.enonic.cms.core.localization;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.ResourceBundle;
-
-import org.apache.commons.lang.StringUtils;
+import java.util.*;
 
 /**
  * Created by rmy - Date: Apr 23, 2009

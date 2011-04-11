@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 
-import com.enonic.cms.domain.localization.LocaleParsingException;
-
 import static org.junit.Assert.*;
 
 /**

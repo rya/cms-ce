@@ -17,8 +17,8 @@ import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.store.resource.FileResourceEvent;
 import com.enonic.cms.store.resource.FileResourceListener;
 
-import com.enonic.cms.domain.localization.LocalizationResourceBundle;
-import com.enonic.cms.domain.localization.LocalizationResourceException;
+import com.enonic.cms.core.localization.LocalizationResourceBundle;
+import com.enonic.cms.core.localization.LocalizationResourceException;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.structure.SiteEntity;

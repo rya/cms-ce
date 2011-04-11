@@ -16,7 +16,6 @@ import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl;
 import com.enonic.cms.core.resource.ResourceService;
 
-import com.enonic.cms.domain.localization.LocalizationResourceBundle;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.structure.SiteEntity;
 

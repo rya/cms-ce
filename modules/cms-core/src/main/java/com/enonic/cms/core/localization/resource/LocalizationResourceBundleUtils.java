@@ -12,7 +12,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.esl.util.RegexpUtil;
 
-import com.enonic.cms.domain.localization.LocaleParsingException;
+import com.enonic.cms.core.localization.LocaleParsingException;
 
 /**
  * Created by rmy - Date: Apr 24, 2009

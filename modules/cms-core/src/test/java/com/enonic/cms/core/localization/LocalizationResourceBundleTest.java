@@ -10,8 +10,6 @@ import org.junit.Test;
 
 import com.enonic.cms.business.SpecialCharacterTestStrings;
 
-import com.enonic.cms.domain.localization.LocalizationResourceBundle;
-
 import static org.junit.Assert.*;
 
 /**
