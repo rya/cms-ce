@@ -28,12 +28,12 @@ import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import com.enonic.cms.itest.DomainFactory;
 
 import com.enonic.cms.core.content.CreateContentException;
 

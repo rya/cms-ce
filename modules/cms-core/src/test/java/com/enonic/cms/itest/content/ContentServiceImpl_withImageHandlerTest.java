@@ -22,10 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;

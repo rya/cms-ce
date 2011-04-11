@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.testtools;
+package com.enonic.cms.itest;
 
 import java.util.Date;
 
@@ -56,7 +56,7 @@ import com.enonic.cms.domain.user.field.UserFieldType;
  */
 public class DomainFactory
 {
-    private TableKeyGeneratorFixture tableKeyGeneratorFixture = new TableKeyGeneratorFixture();
+    private int lastUsedId2 = -1;
 
     private DomainFixture fixture;
 
@@ -69,7 +69,7 @@ public class DomainFactory
     public LanguageEntity createLanguage( String code )
     {
         LanguageEntity language = new LanguageEntity();
-        language.setKey( new LanguageKey( tableKeyGeneratorFixture.nextKey2() ) );
+        language.setKey( new LanguageKey( nextKey2() ) );
         language.setCode( code );
         language.setTimestamp( new Date() );
         return language;
@@ -78,7 +78,7 @@ public class DomainFactory
     public UserStoreEntity createUserStore( String name )
     {
         UserStoreEntity userStore = new UserStoreEntity();
-        userStore.setKey( new UserStoreKey( tableKeyGeneratorFixture.nextKey2() ) );
+        userStore.setKey( new UserStoreKey( nextKey2() ) );
         userStore.setName( name );
         userStore.setDeleted( false );
         return userStore;
@@ -87,7 +87,7 @@ public class DomainFactory
     public UserStoreEntity createUserStore( String name, String connectorName, boolean isDefault )
     {
         UserStoreEntity userStore = new UserStoreEntity();
-        userStore.setKey( new UserStoreKey( tableKeyGeneratorFixture.nextKey2() ) );
+        userStore.setKey( new UserStoreKey( nextKey2() ) );
         userStore.setName( name );
         userStore.setDeleted( false );
         userStore.setConnectorName( connectorName );
@@ -155,7 +155,7 @@ public class DomainFactory
     public GroupEntity createGroupInUserstore( String name, GroupType groupType, String userstoreName )
     {
         GroupEntity group = new GroupEntity();
-        group.setKey( new GroupKey( Integer.toString( tableKeyGeneratorFixture.nextKey2() ) ) );
+        group.setKey( new GroupKey( Integer.toString( nextKey2() ) ) );
         group.setName( name );
         group.setSyncValue( "sync_" + name );
         group.setDeleted( 0 );
@@ -170,7 +170,7 @@ public class DomainFactory
     {
         ContentHandlerName contentHandlerName = ContentHandlerName.parse( handlerClassName );
         ContentHandlerEntity contentHandler = new ContentHandlerEntity();
-        contentHandler.setKey( new ContentHandlerKey( tableKeyGeneratorFixture.nextKey2() ) );
+        contentHandler.setKey( new ContentHandlerKey( nextKey2() ) );
         contentHandler.setName( name );
         contentHandler.setClassName( contentHandlerName.getHandlerClassShortName() );
         contentHandler.setTimestamp( new Date() );
@@ -185,7 +185,7 @@ public class DomainFactory
     public ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
-        contenType.setKey( tableKeyGeneratorFixture.nextKey2() );
+        contenType.setKey( nextKey2() );
         contenType.setName( name );
         contenType.setHandler( fixture.findContentHandlerByClassName( contentHandlerClassName ) );
         contenType.setTimestamp( new Date() );
@@ -201,7 +201,7 @@ public class DomainFactory
     public UnitEntity createUnit( String name, String languageCode )
     {
         UnitEntity unit = new UnitEntity();
-        unit.setKey( tableKeyGeneratorFixture.nextKey2() );
+        unit.setKey( nextKey2() );
         unit.setName( name );
         unit.setLanguage( fixture.findLanguageByCode( languageCode ) );
         return unit;
@@ -216,7 +216,7 @@ public class DomainFactory
                                           boolean autoApprove )
     {
         CategoryEntity category = new CategoryEntity();
-        category.setKey( new CategoryKey( tableKeyGeneratorFixture.nextKey2() ) );
+        category.setKey( new CategoryKey( nextKey2() ) );
         category.setName( name );
         if ( contentTypeName != null )
         {
@@ -346,7 +346,7 @@ public class DomainFactory
     public SiteEntity createSite( String name, Date timestamp, Document xmlData, String language )
     {
         SiteEntity site = new SiteEntity();
-        site.setKey( tableKeyGeneratorFixture.nextKey2() );
+        site.setKey( nextKey2() );
         site.setName( name );
         site.setTimestamp( timestamp );
         site.setXmlData( xmlData );
@@ -359,7 +359,7 @@ public class DomainFactory
                                                  boolean isOrderedSection, Date timestamp, boolean isHidden, Document xmlData )
     {
         MenuItemEntity menuItem = new MenuItemEntity();
-        menuItem.setKey( tableKeyGeneratorFixture.nextKey2() );
+        menuItem.setKey( nextKey2() );
         menuItem.setName( name );
         menuItem.setMenuName( menuName );
         menuItem.setDisplayName( displayName );
@@ -386,7 +386,7 @@ public class DomainFactory
                                               String parentName, Integer parentOrder, Date timestamp, boolean isHidden, Document xmlData )
     {
         MenuItemEntity menuItem = new MenuItemEntity();
-        menuItem.setKey( tableKeyGeneratorFixture.nextKey2() );
+        menuItem.setKey( nextKey2() );
         menuItem.setName( name );
         menuItem.setOrder( order );
         menuItem.setMenuName( menuName );
@@ -411,7 +411,7 @@ public class DomainFactory
     public PageTemplateEntity createSectionPagePageTemplate( String name, String site, Date timestamp )
     {
         PageTemplateEntity pageTemplate = new PageTemplateEntity();
-        pageTemplate.setKey( tableKeyGeneratorFixture.nextKey2() );
+        pageTemplate.setKey( nextKey2() );
         pageTemplate.setName( name );
         pageTemplate.setSite( fixture.findSiteByName( site ) );
         pageTemplate.setType( PageTemplateType.SECTIONPAGE );
@@ -426,7 +426,7 @@ public class DomainFactory
         MenuItemEntity menuItem = fixture.findMenuItemByName( menuItemName, menuItemOrder );
 
         SectionContentEntity sectionContent = new SectionContentEntity();
-        sectionContent.setKey( new SectionContentKey( tableKeyGeneratorFixture.nextKey2() ) );
+        sectionContent.setKey( new SectionContentKey( nextKey2() ) );
         sectionContent.setTimestamp( new Date() );
         sectionContent.setOrder( order );
         sectionContent.setApproved( approved );
@@ -434,5 +434,10 @@ public class DomainFactory
         sectionContent.setMenuItem( menuItem );
         return sectionContent;
 
+    }
+
+    private synchronized int nextKey2()
+    {
+        return ++lastUsedId2;
     }
 }

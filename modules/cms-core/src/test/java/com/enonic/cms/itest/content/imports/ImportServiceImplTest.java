@@ -35,8 +35,8 @@ import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 
 import com.enonic.cms.core.content.ContentService;
 

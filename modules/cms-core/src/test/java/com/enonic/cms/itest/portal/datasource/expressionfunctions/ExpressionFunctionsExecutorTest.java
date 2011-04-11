@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
 

@@ -20,8 +20,8 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 
 import com.enonic.cms.core.content.ContentService;
 

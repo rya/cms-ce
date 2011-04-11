@@ -22,8 +22,8 @@ import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 
 import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.content.category.CategoryEntity;

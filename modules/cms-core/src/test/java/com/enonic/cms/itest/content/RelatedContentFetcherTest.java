@@ -30,10 +30,10 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.content.RelatedContentFetcher;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.store.dao.ContentEntityDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import com.enonic.cms.itest.DomainFactory;
 
 import com.enonic.cms.core.content.ContentService;
 

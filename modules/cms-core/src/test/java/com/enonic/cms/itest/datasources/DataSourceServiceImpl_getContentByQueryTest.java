@@ -23,10 +23,12 @@ import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import com.enonic.cms.itest.DomainFactory;
+
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
