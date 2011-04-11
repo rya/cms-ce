@@ -1,3 +1,27 @@
+Version 3.4.2 (2011-04-07)
+	Added new 'paste_text_sticky_default' option to paste plugin, enables you to set the default state for paste as plain text.
+	Added new autoresize_bottom_margin option to autoresize plugin that enables you to add an extra margin at the bottom. Patch contributed by Andrew Ozz.
+	Rewritten the fullpage plugin to handle style contents better and have a more normalized behavior across browsers.
+	Fixed bug where contents inserted with mceInsertContent wasn't parsed using the default dom parser.
+	Fixed bug where blocks containing a single anchor element would be treated as empty.
+	Fixed bug where merging of table cells on IE 6, 7 wouldn't look correctly until the contents was refreshed.
+	Fixed bug where context menu wouldn't work properly on Safari since it was passing out the ctrl key as pressed.
+	Fixed bug where image border color/style values were overwritten by advimage plugin.
+	Fixed bug where setting border in advimage plugin would throw error in IE.
+	Fixed bug where empty anchors list in link settings wasn't hidden.
+	Fixed bug where xhtmlextras popups were missing localized popup-size parameters.
+	Fixed bug where the context menu wouldn't select images on WebKit browsers.
+	Fixed bug where paste plugin wouldn't properly extract the contents on WebKit due to recent changes in browser behavior.
+	Fixed bug where focus of the editor would get on control contents on IE lost due to a bug in the ColorSplitButton control.
+	Fixed bug where contextmenu wasn't disabled on noneditable elements.
+	Fixed bug where getStyle function would trigger error when called on element without style property.
+	Fixed bug where editor fail to load if Javascript Compressor was used.
+	Fixed bug where list-style-type=lower-greek would produce errors in IE<8.
+	Fixed bug where spellchecker plugin would produce errors on IE6-7.
+	Fixed bug where theme_advanced_containers configuration option causes error.
+	Fixed bug where the mceReplaceContent command would produce an error since it didn't correctly handle a return value.
+	Fixed bug where you couldn't enter float point values for em in dialog input fields since it wouldn't be considered a valid size.
+	Fixed bug in xhtmlxtras plugin where it wasn't possible to remove some attributes in the attributes dialog.
 Version 3.4.1 (2011-03-24)
 	Added significantly improved list handling via the new 'lists' plugin.
 	Added 'autolink' plugin to enable automatically linking URLs. Similar to the behavior IE has by default.

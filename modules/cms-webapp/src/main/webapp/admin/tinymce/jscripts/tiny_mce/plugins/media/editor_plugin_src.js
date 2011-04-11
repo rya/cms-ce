@@ -769,7 +769,6 @@
 					data.object_html = html;
 			}
 
-
 			// Set width/height of placeholder
 			img.attr({
 				id : id,
