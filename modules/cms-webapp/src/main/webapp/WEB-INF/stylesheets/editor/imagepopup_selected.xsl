@@ -57,7 +57,7 @@
         
         <script type="text/javascript" src="javascript/admin.js">//</script>
         <script type="text/javascript" src="javascript/tabpane.js">//</script>
-        <script type="text/javascript" src="tinymce/jscripts/cms/PluginEnhanchements.js">//</script>
+        <script type="text/javascript" src="tinymce/jscripts/cms/cmsWindowHelper.js">//</script>
         <script type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/cmsimage/js/cmsimage.js">//</script>
         <script type="text/javascript" src="javascript/lib/mootools/mootools.js">//</script>
         <script type="text/javascript" src="javascript/lib/mootools/slider/evs-slider.js">//</script>

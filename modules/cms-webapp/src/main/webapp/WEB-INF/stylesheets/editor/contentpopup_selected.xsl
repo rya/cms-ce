@@ -44,7 +44,7 @@
         <link rel="stylesheet" type="text/css" href="tinymce/jscripts/tiny_mce/themes/advanced/skins/cms/dialog.css"/>
         <script type="text/javascript" src="javascript/admin.js">//</script>
         <script type="text/javascript" src="javascript/tabpane.js">//</script>
-        <script type="text/javascript" src="tinymce/jscripts/cms/PluginEnhanchements.js">//</script>
+        <script type="text/javascript" src="tinymce/jscripts/cms/cmsWindowHelper.js">//</script>
         <script type="text/javascript" src="tinymce/jscripts/tiny_mce/plugins/cmsbinary/js/cmsbinary.js?v=0.3">//</script>
         <script type="text/javascript" src="tinymce/jscripts/tiny_mce/utils/form_utils.js">//</script>
         <script type="text/javascript">
