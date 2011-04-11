@@ -9,6 +9,8 @@ import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import junit.framework.TestCase;
 
@@ -21,6 +23,7 @@ import junit.framework.TestCase;
 public class CreateAttachmentUrlInstructionTest
     extends TestCase
 {
+    private static final Logger LOG = LoggerFactory.getLogger( CreateAttachmentUrlInstructionTest.class.getName() );
 
     @Before
     public void setUp()
@@ -82,7 +85,7 @@ public class CreateAttachmentUrlInstructionTest
         CreateAttachmentUrlInstruction instruction = new CreateAttachmentUrlInstruction();
         instruction.deserialize( "rO0ABXcdAAI5OQAAAAIACGRvd25sb2FkAAR0cnVlAAMzMjg=" );
 
-        System.out.println( instruction.getNativeLinkKey() );
+        LOG.info( instruction.getNativeLinkKey() );
 
     }
 

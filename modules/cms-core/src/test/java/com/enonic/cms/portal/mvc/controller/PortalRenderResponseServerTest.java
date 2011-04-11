@@ -12,6 +12,8 @@ import java.net.URLEncoder;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -35,6 +37,8 @@ import static org.junit.Assert.*;
  */
 public class PortalRenderResponseServerTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( PortalRenderResponseServerTest.class.getName() );
+
     private PortalRenderResponseServer portalRenderResponseServer = new PortalRenderResponseServer();
 
     private MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
@@ -349,7 +353,7 @@ public class PortalRenderResponseServerTest
             0, "political news shortcut" ).requestedPortalAt().siteSetupAtDefaultPath().back().setup( httpServletRequest );
 
         URLDecoder.decode( "/J%C3%B8rund", "UTF-8" );
-        System.out.println( URLEncoder.encode( "/Nyheter til påske", "UTF-8" ) );
+        LOG.info( URLEncoder.encode( "/Nyheter til påske", "UTF-8" ) );
         final SitePath sitePath = new SitePath( new SiteKey( 0 ), new Path( "/news/" + decode( "Nyheter+til+p%C3%A5ske" ) ) );
         PortalResponse portalResponse = PortalResponse.createRedirect( createRedirectInstruction( sitePath ) );
 

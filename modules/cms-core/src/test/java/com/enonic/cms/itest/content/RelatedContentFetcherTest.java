@@ -15,6 +15,8 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -64,6 +66,8 @@ import static org.junit.Assert.*;
 @Transactional
 public class RelatedContentFetcherTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( RelatedContentFetcherTest.class.getName() );
+
     @Autowired
     private HibernateTemplate hibernateTemplate;
 
@@ -175,7 +179,7 @@ public class RelatedContentFetcherTest
         // verify:
         //assertEquals( 3, resultSet.getDinstinctSetOfContent().size() );
         Collection relatedContent = resultSet.getDistinctCollectionOfRelatedContent();
-        System.out.println( "asdfasdf" );
+        LOG.info( "verification is to do" );
     }
 
     @Test

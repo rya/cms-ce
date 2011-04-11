@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.enonic.cms.framework.jdbc.delegate.DelegatingConnection;
 import com.enonic.cms.framework.jdbc.delegate.DelegatingPreparedStatement;
 import com.enonic.cms.framework.jdbc.delegate.DelegatingStatement;
@@ -20,6 +23,8 @@ import com.enonic.cms.framework.jdbc.delegate.DelegatingStatement;
 public final class LoggingConnectionDecorator
     implements ConnectionDecorator
 {
+    private static final Logger LOG = LoggerFactory.getLogger( LoggingConnectionDecorator.class.getName() );
+
     /**
      * Decorate the connection.
      */
@@ -35,11 +40,7 @@ public final class LoggingConnectionDecorator
     private void logSql( final Connection conn, final String sql )
         throws SQLException
     {
-
-        StringBuffer message = new StringBuffer( sql.length() + 50 );
-        message.append( "JdbcSql: " );
-        message.append( sql );
-        System.out.println( message.toString() );
+        LOG.info(  "JdbcSql: {}", sql );
     }
 
     /**

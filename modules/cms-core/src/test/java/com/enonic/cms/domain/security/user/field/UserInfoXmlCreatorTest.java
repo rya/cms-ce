@@ -14,6 +14,8 @@ import org.jdom.Element;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
@@ -27,6 +29,8 @@ import static org.junit.Assert.*;
 
 public class UserInfoXmlCreatorTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( UserInfoXmlCreatorTest.class.getName() );
+
     private UserInfoXmlCreator creator;
 
     private User userWithBasicFieldValue;
@@ -127,7 +131,7 @@ public class UserInfoXmlCreatorTest
 
         final Document doc = creator.createUserInfoDocument( user );
 
-        System.out.println( JDOMUtil.prettyPrintDocument( doc ) );
+        LOG.info( JDOMUtil.prettyPrintDocument( doc ) );
 
         assertEquals( "block", doc.getRootElement().getName() );
         assertSingleXPathValueEquals( "block/birthday", doc, new SimpleDateFormat( "yyyy-MM-dd" ).format( birthday ) );

@@ -63,11 +63,7 @@ public class VerticalRuntimeException
 
     public static void error( Class logger, Class exception, String message )
     {
-        error(logger, exception, message);
-    }
-
-    public static void error( Class logger, Class exception, String message, String xc ) {
-
+        error(logger, exception, message, null);
     }
 
     public static void error( Class logger, Class exception, String message, Throwable cause )
