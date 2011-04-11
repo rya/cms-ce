@@ -56,7 +56,7 @@ import com.enonic.cms.domain.user.field.UserFieldType;
  */
 public class DomainFactory
 {
-    private int lastUsedId2 = -1;
+    private static int lastUsedId2 = -1;
 
     private DomainFixture fixture;
 
