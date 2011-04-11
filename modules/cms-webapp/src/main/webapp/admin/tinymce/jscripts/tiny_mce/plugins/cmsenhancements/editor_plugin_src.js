@@ -153,7 +153,7 @@
         getInfo : function()
         {
             return {
-                longname : 'CMS Code Formater',
+                longname : 'CMS Code Enhancements',
                 author : 'tan@enonic.com',
                 authorurl : 'http://www.enonic.com',
                 infourl : 'http://www.enonic.com',
