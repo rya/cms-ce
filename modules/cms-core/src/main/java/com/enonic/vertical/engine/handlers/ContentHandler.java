@@ -4,17 +4,13 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,9 +30,6 @@ import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeyView;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeysView;
@@ -52,8 +45,6 @@ import com.enonic.vertical.event.VerticalEventMulticaster;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.util.TIntObjectHashMap;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.store.dao.ContentTypeDao;
 
@@ -61,12 +52,9 @@ import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentTitleXmlCreator;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 public final class ContentHandler
     extends BaseHandler
@@ -876,7 +864,7 @@ public final class ContentHandler
     {
 
         LogHandler logHandler = getLogHandler();
-        int readCount = logHandler.getReadCount( com.enonic.cms.domain.log.Table.CONTENT.asInteger(), contentKey );
+        int readCount = logHandler.getReadCount( com.enonic.cms.core.log.Table.CONTENT.asInteger(), contentKey );
         Element elem = XMLTool.createElement( contentElem.getOwnerDocument(), contentElem, "logentries" );
         if ( readCount > 0 )
         {

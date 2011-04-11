@@ -7,6 +7,9 @@ package com.enonic.vertical.engine.handlers;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.log.Table;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -22,9 +25,6 @@ import com.enonic.vertical.event.ContentHandlerListener;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 
-import com.enonic.cms.domain.log.LogType;
-import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
-import com.enonic.cms.domain.log.Table;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
@@ -61,7 +61,7 @@ public final class LogHandler
         for ( int i = 0; i < logentryElems.length; i++ )
         {
             int typeKey = Integer.parseInt( logentryElems[i].getAttribute( "typekey" ) );
-            final LogType logType = LogType.parse( typeKey );
+            final LogType logType = LogType.parse(typeKey);
             if ( logType == LogType.LOGIN || logType == LogType.LOGOUT )
             {
                 // set userkey

@@ -4,10 +4,6 @@
  */
 package com.enonic.cms.core.log;
 
-import com.enonic.cms.domain.log.LogEntryEntity;
-import com.enonic.cms.domain.log.LogEntryKey;
-import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
-
 public interface LogService
 {
     LogEntryKey storeNew( LogEntryEntity logEntry );

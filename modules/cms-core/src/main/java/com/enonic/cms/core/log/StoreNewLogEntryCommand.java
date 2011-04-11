@@ -2,12 +2,11 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.domain.log;
-
-import org.jdom.Document;
+package com.enonic.cms.core.log;
 
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.structure.SiteEntity;
+import org.jdom.Document;
 
 /**
  * Jul 9, 2009
@@ -77,11 +76,6 @@ public class StoreNewLogEntryCommand
     public String getInetAddress()
     {
         return inetAddress;
-    }
-
-    public void setInetAddress( String inetAddress )
-    {
-        this.inetAddress = inetAddress;
     }
 
     public String getPath()

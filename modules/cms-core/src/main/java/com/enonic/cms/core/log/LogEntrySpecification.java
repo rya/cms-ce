@@ -2,11 +2,11 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.domain.log;
-
-import java.util.Date;
+package com.enonic.cms.core.log;
 
 import com.enonic.cms.domain.security.user.UserEntity;
+
+import java.util.Date;
 
 /**
  * This class represents the specification of a getContentByCategory search.
@@ -39,19 +39,9 @@ public class LogEntrySpecification
         return types;
     }
 
-    public void setTypes( LogType[] types )
-    {
-        this.types = types;
-    }
-
     public boolean isAllowDuplicateEntries()
     {
         return allowDuplicateEntries;
-    }
-
-    public void setAllowDuplicateEntries( boolean allowDuplicateEntries )
-    {
-        this.allowDuplicateEntries = allowDuplicateEntries;
     }
 
     public Date getDateFilter()
@@ -59,19 +49,9 @@ public class LogEntrySpecification
         return dateFilter;
     }
 
-    public void setDateFilter( Date dateFilter )
-    {
-        this.dateFilter = dateFilter;
-    }
-
     public Table[] getTableTypes()
     {
         return tableTypes;
-    }
-
-    public void setTableTypes( Table[] tableTypes )
-    {
-        this.tableTypes = tableTypes;
     }
 
 

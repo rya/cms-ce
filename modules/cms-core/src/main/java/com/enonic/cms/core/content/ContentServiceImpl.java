@@ -11,6 +11,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.log.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,9 +68,6 @@ import com.enonic.cms.domain.content.resultset.ContentVersionResultSetLazyFetche
 import com.enonic.cms.domain.content.resultset.ContentVersionResultSetNonLazy;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
-import com.enonic.cms.domain.log.LogType;
-import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
-import com.enonic.cms.domain.log.Table;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserKey;

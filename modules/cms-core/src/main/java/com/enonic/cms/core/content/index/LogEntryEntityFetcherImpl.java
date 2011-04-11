@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.cms.core.log.LogEntryEntity;
+import com.enonic.cms.core.log.LogEntryKey;
 import com.enonic.cms.store.dao.LogEntryDao;
 
 import com.enonic.cms.domain.content.index.LogEntryEntityFetcher;
-import com.enonic.cms.domain.log.LogEntryEntity;
-import com.enonic.cms.domain.log.LogEntryKey;
 
 public final class LogEntryEntityFetcherImpl
     implements LogEntryEntityFetcher
