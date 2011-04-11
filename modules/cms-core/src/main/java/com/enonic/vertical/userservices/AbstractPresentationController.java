@@ -13,21 +13,19 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.SiteContext;
+import com.enonic.cms.core.SitePathResolver;
+import com.enonic.cms.core.content.ContentParserService;
 import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
-
-import com.enonic.cms.business.SiteContext;
-import com.enonic.cms.business.SitePathResolver;
-import com.enonic.cms.core.content.ContentParserService;
-
-import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.structure.SiteService;
-import com.enonic.cms.business.mail.SendMailService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;

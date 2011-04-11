@@ -23,21 +23,19 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.GetContentParams;
+import com.enonic.cms.core.client.InternalClientImpl;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.preview.ContentPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.client.InternalClientImpl;
-import com.enonic.cms.core.security.SecurityHolder;
-
-import com.enonic.cms.business.preview.ContentPreviewContext;
-import com.enonic.cms.business.preview.PreviewContext;
-import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.content.ContentAndVersion;

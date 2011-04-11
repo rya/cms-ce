@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <!-- Initialize database. -->
-  <bean id="databaseInitializer" class="com.enonic.cms.business.jdbc.DatabaseInitializer">
+  <bean id="databaseInitializer" class="com.enonic.cms.core.jdbc.DatabaseInitializer">
     <property name="adminService" ref="adminService"/>
     <property name="userStoreService" ref="userStoreService"/>
     <property name="upgradeService" ref="upgradeService"/>

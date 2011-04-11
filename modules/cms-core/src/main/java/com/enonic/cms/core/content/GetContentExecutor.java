@@ -9,10 +9,9 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

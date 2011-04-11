@@ -8,6 +8,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import com.enonic.cms.domain.Path;

@@ -6,7 +6,7 @@ package com.enonic.cms.domain.portal.datasource;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.business.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.portal.PortalInstanceKey;

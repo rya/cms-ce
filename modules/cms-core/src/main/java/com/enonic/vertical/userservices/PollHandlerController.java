@@ -25,9 +25,8 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.service.UserServicesService;
-
-import com.enonic.cms.business.DeploymentPathResolver;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.security.user.User;

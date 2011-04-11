@@ -6,15 +6,20 @@ package com.enonic.cms.core.internal.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.content.ContentParserService;
 import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.portal.rendering.PageRendererFactory;
 import com.enonic.cms.store.dao.ContentDao;
@@ -22,12 +27,6 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.structure.SiteService;
-import com.enonic.cms.business.mail.SendMailService;
 
 
 public class CmsCoreServicesSpringManagedBeansBridge

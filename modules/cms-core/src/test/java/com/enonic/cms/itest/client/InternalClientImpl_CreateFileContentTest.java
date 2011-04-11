@@ -31,13 +31,12 @@ import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
 import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
 import com.enonic.cms.api.client.model.content.file.FileKeywordsInput;
 import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.client.InternalClient;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;

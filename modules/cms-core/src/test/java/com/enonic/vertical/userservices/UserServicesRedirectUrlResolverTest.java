@@ -9,8 +9,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.UrlPathHelperManager;
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.UrlPathHelperManager;
 
 import com.enonic.cms.domain.portal.httpservices.IllegalRedirectException;
 

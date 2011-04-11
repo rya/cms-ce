@@ -15,7 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import com.enonic.esl.net.URLUtil;
 import com.enonic.esl.servlet.http.CookieUtil;
 
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.domain.resolver.ResolverContext;

@@ -6,11 +6,10 @@ package com.enonic.cms.core.structure;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.SiteContext;
+import com.enonic.cms.core.SiteContextManager;
 import com.enonic.cms.core.service.PresentationService;
-
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SiteContext;
-import com.enonic.cms.business.SiteContextManager;
 import com.enonic.cms.portal.cache.SiteCachesService;
 
 import com.enonic.cms.domain.SiteKey;

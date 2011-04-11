@@ -40,19 +40,18 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.DeploymentPathResolver;
+import com.enonic.cms.core.SiteContext;
+import com.enonic.cms.core.login.LoginService;
+import com.enonic.cms.core.mail.MessageSettings;
 import com.enonic.cms.core.preferences.PreferenceAccessException;
 import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.security.PasswordGenerator;
 import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.SiteContext;
 import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenException;
 import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
-import com.enonic.cms.business.login.LoginService;
-import com.enonic.cms.business.mail.MessageSettings;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;

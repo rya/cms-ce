@@ -12,28 +12,28 @@
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
 
-  <bean id="sitePathResolver" class="com.enonic.cms.business.SitePathResolver">
+  <bean id="sitePathResolver" class="com.enonic.cms.core.SitePathResolver">
     <property name="sitePathPrefix" value="/site"/>
     <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
   </bean>
 
-  <bean id="sitePathResolverForDebug" class="com.enonic.cms.business.SitePathResolver">
+  <bean id="sitePathResolverForDebug" class="com.enonic.cms.core.SitePathResolver">
     <property name="sitePathPrefix" value="/site"/>
     <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
   </bean>
 
-  <bean id="sitePathResolverForPreview" class="com.enonic.cms.business.SitePathResolver">
+  <bean id="sitePathResolverForPreview" class="com.enonic.cms.core.SitePathResolver">
     <property name="sitePathPrefix" value="/preview"/>
     <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
   </bean>
 
-  <bean id="siteURLResolver" class="com.enonic.cms.business.SiteURLResolver">
+  <bean id="siteURLResolver" class="com.enonic.cms.core.SiteURLResolver">
     <property name="sitePathPrefix" value="/site"/>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
 
   <bean id="siteRedirectAndForwardHelper"
-        class="com.enonic.cms.business.SiteRedirectAndForwardHelper">
+        class="com.enonic.cms.core.SiteRedirectAndForwardHelper">
     <property name="siteURLResolver" ref="siteURLResolver"/>
     <property name="replaceSpacesWithPlus" value="true"/>
   </bean>
@@ -42,7 +42,7 @@
     <property name="presentationService" ref="presentationService"/>
     <property name="siteCachesService" ref="siteCachesService"/>
     <property name="siteContextManager">
-      <bean class="com.enonic.cms.business.SiteContextManager"/>
+      <bean class="com.enonic.cms.core.SiteContextManager"/>
     </property>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
     <property name="siteDao" ref="siteDao"/>

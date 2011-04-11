@@ -78,7 +78,7 @@
 
 
   <bean id="tightestCacheSettingsResolver"
-        class="com.enonic.cms.business.TightestCacheSettingsResolver"/>
+        class="com.enonic.cms.core.TightestCacheSettingsResolver"/>
 
   <!--
       Engines
@@ -148,12 +148,12 @@
         class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
         -->
 
-  <bean id="sitePropertiesService" class="com.enonic.cms.business.SitePropertiesServiceImpl">
+  <bean id="sitePropertiesService" class="com.enonic.cms.core.SitePropertiesServiceImpl">
     <property name="homeService" ref="homeService"/>
   </bean>
 
 
-  <bean id="urlPathHelperManager" class="com.enonic.cms.business.UrlPathHelperManager">
+  <bean id="urlPathHelperManager" class="com.enonic.cms.core.UrlPathHelperManager">
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
 
@@ -166,11 +166,11 @@
     <property name="host" value="${cms.mail.smtpHost}"/>
   </bean>
 
-  <bean id="sendMailService" class="com.enonic.cms.business.mail.SendMailServiceImpl">
+  <bean id="sendMailService" class="com.enonic.cms.core.mail.SendMailServiceImpl">
     <property name="fromMail" value="${cms.admin.email}"/>
   </bean>
 
-  <bean id="loginService" class="com.enonic.cms.business.login.LoginServiceImpl">
+  <bean id="loginService" class="com.enonic.cms.core.login.LoginServiceImpl">
     <property name="autologinTimeoutInDays"
               value="${com.enonic.vertical.presentation.autologinTimeout}"/>
   </bean>
@@ -190,7 +190,7 @@
   </bean>
 
 
-  <bean id="localeService" class="com.enonic.cms.business.locale.LocaleServiceImpl"/>
+  <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
 
   <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
 
@@ -198,9 +198,9 @@
 
   <bean id="captchaRepository" class="com.enonic.cms.core.captcha.CaptchaRepositoryImpl"/>
 
-  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+  <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 
-  <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
+  <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
 </beans>
 

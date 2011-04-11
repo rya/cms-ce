@@ -12,9 +12,8 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.portal.rendering.PageTemplateResolver;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageResolver;

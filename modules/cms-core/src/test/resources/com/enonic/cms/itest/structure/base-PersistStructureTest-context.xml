@@ -24,7 +24,7 @@
 
   <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
 
-  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+  <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 
   <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
 

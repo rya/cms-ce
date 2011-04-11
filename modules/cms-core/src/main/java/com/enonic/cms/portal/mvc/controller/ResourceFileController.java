@@ -15,10 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
 import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;

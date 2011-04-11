@@ -6,7 +6,7 @@ package com.enonic.cms.domain.portal;
 
 import java.util.Map;
 
-import com.enonic.cms.business.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 
 import com.enonic.cms.domain.SitePath;
 

@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.enonic.cms.business.SitePropertiesService;
+import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.structure.SiteService;
 
 import com.enonic.cms.domain.SiteKey;

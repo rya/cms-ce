@@ -6,9 +6,8 @@ package com.enonic.vertical.userservices;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.MockSitePropertiesService;
 import com.enonic.cms.core.structure.SiteService;
-
-import com.enonic.cms.business.MockSitePropertiesService;
 
 import com.enonic.cms.domain.SiteKey;
 

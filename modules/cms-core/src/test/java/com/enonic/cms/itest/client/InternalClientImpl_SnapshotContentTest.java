@@ -24,17 +24,16 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.ClientException;
 import com.enonic.cms.api.client.model.SnapshotContentParams;
+import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand.AccessRightsStrategy;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.client.InternalClient;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.CreateContentCommand.AccessRightsStrategy;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerName;

@@ -9,10 +9,10 @@ import org.springframework.web.util.UrlPathHelper;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SitePathResolver;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.UrlPathHelperManager;
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.SitePathResolver;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.UrlPathHelperManager;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;

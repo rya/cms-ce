@@ -18,7 +18,7 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.SitePropertiesService;
+import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.domain.Attribute;

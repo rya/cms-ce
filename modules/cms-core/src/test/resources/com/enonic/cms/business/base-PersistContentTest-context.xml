@@ -65,7 +65,7 @@
             <!--  commented due to B-1788 - B-1793 tickets
   <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
                 -->
-  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+  <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 
   <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
 
@@ -74,7 +74,7 @@
     <property name="sessionFactory" ref="sessionFactory"/>
   </bean>
 
-  <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
+  <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
   <bean id="livePortalTraceService" class="com.enonic.cms.portal.livetrace.LivePortalTraceServiceImpl">
     <property name="enabled" value="false"/>

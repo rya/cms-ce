@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
-import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;

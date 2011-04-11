@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.enonic.cms.core.SiteBasePathResolver;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.AdminSiteDebugBasePath;

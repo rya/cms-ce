@@ -11,19 +11,17 @@ import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.core.service.DataSourceService;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.TightestCacheSettingsResolver;
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SiteURLResolver;
+import com.enonic.cms.core.TightestCacheSettingsResolver;
 import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
-
 import com.enonic.cms.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer;
 
 public class PageRendererFactory

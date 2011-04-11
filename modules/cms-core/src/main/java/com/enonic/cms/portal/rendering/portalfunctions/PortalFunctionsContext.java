@@ -6,7 +6,7 @@ package com.enonic.cms.portal.rendering.portalfunctions;
 
 import java.util.Locale;
 
-import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.core.SiteURLResolver;
 
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalInstanceKey;

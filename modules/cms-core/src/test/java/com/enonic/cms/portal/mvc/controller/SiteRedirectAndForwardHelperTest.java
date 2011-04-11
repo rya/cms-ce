@@ -11,10 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.SiteRedirectAndForwardHelper;
-import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteRedirectAndForwardHelper;
+import com.enonic.cms.core.SiteURLResolver;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;

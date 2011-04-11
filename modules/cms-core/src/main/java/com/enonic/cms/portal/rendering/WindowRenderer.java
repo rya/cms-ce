@@ -12,27 +12,24 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.portal.cache.PageCacheService;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.portal.datasource.DatasourceExecutor;
 import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
 import com.enonic.cms.portal.instruction.PostProcessInstructionContext;
-import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
+import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
-
-import com.enonic.cms.portal.livetrace.WindowRenderingTracer;
 import com.enonic.cms.portal.livetrace.WindowRenderingTrace;
+import com.enonic.cms.portal.livetrace.WindowRenderingTracer;
 import com.enonic.cms.portal.page.PageRequestFactory;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsContext;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.portal.rendering.tracing.TraceMarkerHelper;
-
 import com.enonic.cms.portal.rendering.viewtransformer.PortletXsltViewTransformer;
 
 import com.enonic.cms.domain.CacheObjectSettings;

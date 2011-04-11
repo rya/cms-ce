@@ -10,17 +10,16 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.xslt.lib.PortalFunctions;
+import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsContext;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.server.DeploymentAndRequestSetup;
 import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsContext;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.ContentEntity;

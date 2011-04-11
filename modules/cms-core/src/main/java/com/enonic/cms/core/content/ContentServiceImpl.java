@@ -17,15 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.core.content.index.ContentEntityFetcherImpl;
-import com.enonic.cms.core.content.index.ContentVersionEntityFetcherImpl;
-import com.enonic.cms.store.dao.CategoryDao;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentTypeDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.MenuItemDao;
-
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
@@ -33,9 +24,16 @@ import com.enonic.cms.core.content.command.SnapshotContentCommand;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.index.ContentEntityFetcherImpl;
 import com.enonic.cms.core.content.index.ContentIndexService;
-
-import com.enonic.cms.business.log.LogService;
+import com.enonic.cms.core.content.index.ContentVersionEntityFetcherImpl;
+import com.enonic.cms.core.log.LogService;
+import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentTypeDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.MenuItemDao;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

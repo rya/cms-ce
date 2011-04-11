@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.esl.servlet.http.CookieUtil;
 
-import com.enonic.cms.business.login.LoginService;
+import com.enonic.cms.core.login.LoginService;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.security.user.UserEntity;

@@ -13,19 +13,19 @@
 
   <bean id="siteCachesService" class="com.enonic.cms.itest.portal.cache.MockSiteCachesService"/>
 
-  <bean id="localClient" class="com.enonic.cms.business.client.InternalClientImpl">
+  <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
     <property name="internalClientContentService" ref="internalClientContentService"/>
     <property name="securityService" ref="securityService"/>
     <property name="userParser" ref="userParser"/>
   </bean>
 
   <bean id="internalClientContentService"
-        class="com.enonic.cms.business.client.InternalClientContentService">
+        class="com.enonic.cms.core.client.InternalClientContentService">
     <property name="siteCachesService" ref="siteCachesService"/>
     <property name="userParser" ref="userParser"/>
   </bean>
 
-  <bean class="com.enonic.cms.business.client.LocalClientSetter">
+  <bean class="com.enonic.cms.core.client.LocalClientSetter">
     <property name="localClient" ref="localClient"/>
   </bean>
 

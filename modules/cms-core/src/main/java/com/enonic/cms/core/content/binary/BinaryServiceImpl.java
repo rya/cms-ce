@@ -9,16 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.portal.livetrace.BlobFetchingTrace;
+import com.enonic.cms.portal.livetrace.BlobFetchingTracer;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
-import com.enonic.cms.portal.livetrace.BlobFetchingTrace;
-import com.enonic.cms.portal.livetrace.BlobFetchingTracer;
-
-import com.enonic.cms.business.preview.PreviewContext;
-import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.ContentVersionKey;

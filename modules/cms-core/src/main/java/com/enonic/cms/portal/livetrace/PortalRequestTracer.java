@@ -6,9 +6,8 @@ package com.enonic.cms.portal.livetrace;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
-
-import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalResponse;

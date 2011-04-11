@@ -15,7 +15,7 @@ import com.enonic.esl.util.StringUtil;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
 
-import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.core.SiteURLResolver;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;

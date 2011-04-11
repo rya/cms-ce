@@ -13,12 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.enonic.cms.core.SitePathResolver;
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.UrlPathHelperManager;
 import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.structure.SiteService;
-
-import com.enonic.cms.business.SitePathResolver;
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.UrlPathHelperManager;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.security.user.UserEntity;

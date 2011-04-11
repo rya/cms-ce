@@ -12,11 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.resource.ResourceService;
-import com.enonic.cms.store.dao.GroupDao;
-
-import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
+import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.portal.PageRequestType;

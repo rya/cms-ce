@@ -6,7 +6,7 @@ package com.enonic.cms.domain.structure;
 
 import java.util.Properties;
 
-import com.enonic.cms.business.SitePropertyNames;
+import com.enonic.cms.core.SitePropertyNames;
 
 /**
  * Created by IntelliJ IDEA.

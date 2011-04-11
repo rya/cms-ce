@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jdom.Document;
 
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;

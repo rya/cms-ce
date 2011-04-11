@@ -7,6 +7,7 @@ package com.enonic.cms.business;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
 
 import static org.junit.Assert.*;

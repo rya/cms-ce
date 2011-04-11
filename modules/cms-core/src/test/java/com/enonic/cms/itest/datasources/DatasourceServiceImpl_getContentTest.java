@@ -25,15 +25,14 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
+import com.enonic.cms.core.preview.ContentPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.preview.ContentPreviewContext;
-import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.content.ContentAndVersion;
 import com.enonic.cms.domain.content.ContentEntity;
