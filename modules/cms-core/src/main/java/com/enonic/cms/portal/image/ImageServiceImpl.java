@@ -8,11 +8,12 @@ import java.awt.image.BufferedImage;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
+import com.google.common.base.Preconditions;
+
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
 import com.enonic.cms.framework.util.ImageHelper;
-import com.enonic.cms.framework.util.ParameterCheck;
 
 import com.enonic.cms.core.content.binary.BinaryService;
 import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
@@ -56,7 +57,7 @@ public final class ImageServiceImpl
 
     public ImageResponse process( ImageRequest imageRequest )
     {
-        ParameterCheck.mandatory( "imageRequest", imageRequest );
+        Preconditions.checkNotNull( imageRequest );
         String blobKey = getBlobKey( imageRequest );
         if ( blobKey == null )
         {
