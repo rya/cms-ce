@@ -153,11 +153,6 @@ public abstract class BaseHandler
         return baseEngine.getCommonHandler();
     }
 
-    protected final ContentObjectHandler getContentObjectHandler()
-    {
-        return baseEngine.getContentObjectHandler();
-    }
-
     protected final GroupHandler getGroupHandler()
     {
         return baseEngine.getGroupHandler();
@@ -171,11 +166,6 @@ public abstract class BaseHandler
     protected final LogHandler getLogHandler()
     {
         return baseEngine.getLogHandler();
-    }
-
-    protected final MenuHandler getMenuHandler()
-    {
-        return baseEngine.getMenuHandler();
     }
 
     protected final PageHandler getPageHandler()
@@ -227,21 +217,10 @@ public abstract class BaseHandler
         return baseEngine.getConnection();
     }
 
-    protected final Date parseDate( String dateString )
-        throws ParseException
-    {
-        return CmsDateAndTimeFormats.parseFrom_STORE_DATE( dateString );
-    }
-
     public final int getNextKey( String tableName )
         throws VerticalKeyException
     {
         return keyService.generateNextKeySafe( tableName );
     }
 
-    public final int getNextKey( Table table )
-        throws VerticalKeyException
-    {
-        return keyService.generateNextKeySafe( table.getName() );
-    }
 }

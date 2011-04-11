@@ -15,18 +15,4 @@ public final class ContentAccessRight
         super( key, AccessRight.MENUITEM );
     }
 
-    public void setUpdate( boolean update )
-    {
-        this.update = update;
-    }
-
-    public void setDelete( boolean delete )
-    {
-    }
-
-    public boolean getUpdate()
-    {
-        return update;
-    }
-
 }

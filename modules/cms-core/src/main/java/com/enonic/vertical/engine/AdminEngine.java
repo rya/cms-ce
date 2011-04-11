@@ -4,15 +4,9 @@
  */
 package com.enonic.vertical.engine;
 
-import java.sql.SQLException;
-import java.util.Map;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
@@ -29,9 +23,6 @@ import com.enonic.vertical.engine.handlers.SystemHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
-
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.security.user.User;
 
 public final class AdminEngine
     extends BaseEngine
@@ -98,11 +89,6 @@ public final class AdminEngine
         return contentHandler;
     }
 
-    public ContentObjectHandler getContentObjectHandler()
-    {
-        return contentObjectHandler;
-    }
-
     public GroupHandler getGroupHandler()
     {
         return groupHandler;
@@ -116,11 +102,6 @@ public final class AdminEngine
     public LogHandler getLogHandler()
     {
         return logHandler;
-    }
-
-    public MenuHandler getMenuHandler()
-    {
-        return menuHandler;
     }
 
     public PageHandler getPageHandler()
@@ -148,11 +129,6 @@ public final class AdminEngine
         return userHandler;
     }
 
-    public boolean isEnterpriseAdmin( User user )
-    {
-        return memberOfResolver.hasEnterpriseAdminPowers( user.getKey() );
-    }
-
     public boolean initializeDatabaseSchema()
         throws Exception
     {
@@ -163,18 +139,6 @@ public final class AdminEngine
         throws Exception
     {
         return this.systemHandler.initializeDatabaseValues();
-    }
-
-    /**
-     * Return a map of top level menus with name.
-     *
-     * @return A map with the keys of the top level menus as keys, and their names as the corresponding value.
-     * @throws SQLException If a database error occurs.
-     */
-    public Map<Integer, String> getMenuMap()
-        throws SQLException
-    {
-        return this.menuHandler.getMenuMap();
     }
 
     public void setCategoryHandler( CategoryHandler categoryHandler )

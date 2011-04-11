@@ -32,12 +32,6 @@ public class KeyEngine
         return keyHandler.generateNextKeySafe( tableName );
     }
 
-    public int generateNextKeyRange( String tableName, int count )
-        throws VerticalKeyException
-    {
-        return keyHandler.generateNextKeyRange( tableName, count );
-    }
-
     public void updateKey( String tableName, String pkColumnName, int minumumValue )
         throws VerticalKeyException
     {

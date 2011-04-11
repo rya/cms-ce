@@ -24,39 +24,9 @@ public final class MenuAccessRight
         super( key, AccessRight.MENUITEM_DEFAULT );
     }
 
-    public void setCreate( boolean create )
-    {
-        this.create = create;
-    }
-
-    public void setUpdate( boolean update )
-    {
-        this.update = update;
-    }
-
-    public void setDelete( boolean delete )
-    {
-        this.delete = delete;
-    }
-
-    public void setPublish( boolean publish )
-    {
-        this.publish = publish;
-    }
-
-    public void setAdministrate( boolean administrate )
-    {
-        this.administrate = administrate;
-    }
-
     /*public void setAdminRead(boolean adminread) {
         this.adminread = adminread;
     }*/
-
-    public boolean getAdministrate()
-    {
-        return administrate;
-    }
 
     /*public boolean getAdminRead() {
         return adminread;

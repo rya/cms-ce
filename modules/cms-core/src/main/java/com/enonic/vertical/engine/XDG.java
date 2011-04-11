@@ -44,24 +44,6 @@ public class XDG
 
     public static final String OPERATOR_EQUAL = " = ";
 
-    public static final String OPERATOR_NOT_EQUAL = " <> ";
-
-    public static final String OPERATOR_GREATER = " > ";
-
-    public static final String OPERATOR_GREATER_OR_EQUAL = " >= ";
-
-    public static final String OPERATOR_LESS = " < ";
-
-    public static final String OPERATOR_LESS_OR_EQUAL = " <= ";
-
-    public static final String OPERATOR_ISNULL = " IS NULL";
-
-    public static final String OPERATOR_LIKE = " LIKE ";
-
-    public static final String OPERATOR_RANGE = " RANGE ";
-
-    public static final String JOINTYPE_LEFT_JOIN = " LEFT JOIN ";
-
     public static final String JOINTYPE_JOIN = " JOIN ";
 
     private final static int IN_VALUE_TRESHOLD = 500;
@@ -83,33 +65,6 @@ public class XDG
         sql.append( column );
         sql.append( " = " );
         sql.append( foreignColumn );
-        return sql;
-    }
-
-    public static StringBuffer appendJoinSQL( StringBuffer sql, Column[] columns, Table foreignTable, Column[] foreignColumns,
-                                              String joinType )
-    {
-        if ( sql == null )
-        {
-            sql = new StringBuffer( joinType );
-        }
-        else
-        {
-            sql.append( joinType );
-        }
-
-        appendTable( sql, foreignTable );
-        sql.append( " ON " );
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            if ( i > 0 )
-            {
-                sql.append( " AND " );
-            }
-            sql.append( columns[i] );
-            sql.append( " = " );
-            sql.append( foreignColumns[i] );
-        }
         return sql;
     }
 
@@ -159,20 +114,6 @@ public class XDG
         return sql;
     }
 
-    public static void appendOrderBySQL( StringBuffer sql, Column orderByColumn, boolean ascending )
-    {
-        sql.append( " ORDER BY " );
-        sql.append( orderByColumn );
-        if ( ascending )
-        {
-            sql.append( " ASC" );
-        }
-        else
-        {
-            sql.append( " DESC" );
-        }
-    }
-
     private static void appendAndSQL( StringBuffer sql )
     {
         String match = sql.toString().toUpperCase().trim();
@@ -214,32 +155,6 @@ public class XDG
         sql.append( operator );
     }
 
-    /**
-     * Adds a where clause to an existing SQL.  If the existing SQL already have a where clause, the new condition is ANDed at the end.
-     *
-     * @param sql         A StringBuffer containing the existing SQL, which is modified in the StringBuffer by this method.
-     * @param whereColumn The column to check the value against.
-     * @param operator    The operator for the check.
-     * @param value       The value to check against.
-     */
-    public static void appendWhereSQL( StringBuffer sql, Column whereColumn, String operator, String value )
-    {
-        appendAndSQL( sql );
-        sql.append( whereColumn );
-        sql.append( operator );
-        sql.append( "'" );
-        sql.append( value );
-        sql.append( "'" );
-    }
-
-
-    public static void appendWhereSQL( StringBuffer sql, Column whereColumn1, String operator, Column whereColumn2 )
-    {
-        appendAndSQL( sql );
-        sql.append( whereColumn1 );
-        sql.append( operator );
-        sql.append( whereColumn2 );
-    }
 
     public static void appendWhereInSQL( StringBuffer sql, Column whereInColumn, int count )
     {
@@ -324,40 +239,6 @@ public class XDG
         }
     }
 
-    public static void appendWhereInSQL( StringBuffer sql, Column whereInColumn, String[] values )
-    {
-        if ( values != null && values.length > 0 )
-        {
-            appendAndSQL( sql );
-
-            List<String> valuesList = new ArrayList<String>( values.length );
-            for ( String value : values )
-            {
-                valuesList.add( value );
-            }
-            InClauseBuilder inclause = new InClauseBuilder<String>( whereInColumn.getName(), valuesList )
-            {
-                public void appendValue( StringBuffer sql, String value )
-                {
-                    sql.append( "'" ).append( value ).append( "'" );
-                }
-            };
-            inclause.appendTo( sql );
-        }
-    }
-
-    public static StringBuffer generateWhereSQL( StringBuffer sql, Column whereColumn )
-    {
-        if ( whereColumn != null )
-        {
-            return generateWhereSQL( sql, new Column[]{whereColumn} );
-        }
-        else
-        {
-            return sql;
-        }
-    }
-
     public static StringBuffer generateWhereInSQL( StringBuffer sql, String sqlStart, Column whereInColumn, int count )
     {
         if ( sqlStart == null )
@@ -402,16 +283,6 @@ public class XDG
         return sql;
     }
 
-    public static StringBuffer generateFKJoinSQL( Table table, ForeignKeyColumn fkColumn, Column[] selectColumns, Column[] whereColumns )
-    {
-
-        StringBuffer sql = generateSelectSQL( table, selectColumns, false, null );
-        appendJoinSQL( sql, fkColumn );
-        generateWhereSQL( sql, whereColumns );
-
-        return sql;
-    }
-
     public static StringBuffer generateFKJoinSQL( Table table1, Table table2, Column[] selectColumns, Column[] whereColumns )
     {
 
@@ -425,13 +296,6 @@ public class XDG
     public static StringBuffer generateSelectSQL( Table table )
     {
         return generateSelectSQL( table, (Column[]) null, false, null );
-    }
-
-    public static StringBuffer generateSelectWherePrimaryKeySQL( Table table )
-    {
-        StringBuffer sql = generateSelectSQL( table, (Column[]) null, false, null );
-        generateWhereSQL( sql, table.getPrimaryKeys() );
-        return sql;
     }
 
     public static StringBuffer generateSelectSQL( Table table, Column whereColumn )
@@ -501,15 +365,6 @@ public class XDG
         {
             sql.append( table );
         }
-    }
-
-    public static StringBuffer generateCountSQL( Table table )
-    {
-        // Generate SQL
-        StringBuffer sql = new StringBuffer( "SELECT count(*) FROM " );
-        appendTable( sql, table );
-
-        return sql;
     }
 
     public static StringBuffer generateSelectWhereInSQL( Table table, Column[] selectColumns, boolean distinct, Column whereInColumn,
@@ -695,47 +550,6 @@ public class XDG
         return tmpElem;
     }
 
-    public static StringBuffer generateRemoveWherePrimaryKeysSQL( Table table )
-    {
-        return generateRemoveSQL( table, table.getPrimaryKeys() );
-    }
-
-    public static StringBuffer generateRemoveSQL( Table table, Column whereColumn )
-    {
-        return generateRemoveSQL( table, new Column[]{whereColumn} );
-    }
-
-    public static StringBuffer generateRemoveSQL( Table table, Column[] whereColumns )
-    {
-        // Generate SQL
-        StringBuffer sql = new StringBuffer( "DELETE FROM " );
-        sql.append( table );
-        generateWhereSQL( sql, whereColumns );
-        return sql;
-    }
-
-    public static StringBuffer generateRemoveSQL( Table table, Column whereInColumn, int count )
-    {
-        StringBuffer sql;
-
-        if ( table.getDeletedColumn() != null )
-        {
-            sql = new StringBuffer( "UPDATE " );
-            sql.append( table );
-            sql.append( " SET " );
-            sql.append( table.getDeletedColumn() );
-            sql.append( "= 1" );
-        }
-        else
-        {
-            sql = new StringBuffer( "DELETE FROM " );
-            sql.append( table );
-        }
-
-        generateWhereInSQL( sql, null, whereInColumn, count );
-        return sql;
-    }
-
     public static StringBuffer generateInsertSQL( Table table, Element elem )
     {
         // Generate SQL
@@ -777,58 +591,6 @@ public class XDG
         sql.append( ") VALUES (" );
         sql.append( params );
         sql.append( ")" );
-
-        return sql;
-    }
-
-    public static StringBuffer generateUpdateSQL( Table table )
-    {
-        return generateUpdateSQL( table, null, null, null );
-    }
-
-    public static StringBuffer generateUpdateSQL( Table table, Element elem )
-    {
-        // Generate SQL
-        StringBuffer sql = new StringBuffer( "UPDATE " );
-        sql.append( table );
-        sql.append( " SET " );
-
-        Column[] columns = table.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-
-            if ( columns[i].isPrimaryKey() || columns[i].getType() == Constants.COLUMN_CREATED_TIMESTAMP )
-            {
-                continue;
-            }
-            else if ( columns[i].getType() == Constants.COLUMN_CURRENT_TIMESTAMP )
-            {
-                sql.append( columns[i].getName() );
-                sql.append( " = " );
-                String text = XMLTool.getElementText( elem, columns[i].getXPath() );
-                if ( text == null || text.length() == 0 )
-                {
-                    sql.append( "@currentTimestamp@" );
-                }
-                else
-                {
-                    sql.append( "?" );
-                }
-            }
-            else
-            {
-                sql.append( columns[i].getName() );
-                sql.append( " = ?" );
-            }
-
-            // If there are more nodes
-            if ( i < columns.length - 1 )
-            {
-                sql.append( ", " );
-            }
-        }
-
-        generateWhereSQL( sql, table.getPrimaryKeys() );
 
         return sql;
     }

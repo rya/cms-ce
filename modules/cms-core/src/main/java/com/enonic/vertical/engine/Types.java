@@ -94,22 +94,6 @@ public class Types
         tables.put( CONTENTVERSIONVIEW, ContentVersionView.getInstance() );
     }
 
-    /**
-     * Looks up the tables by the number.
-     *
-     * @param type An integer that represents a table.
-     * @return The table represented by the given integer.
-     */
-    public static Table getTable( int type )
-    {
-        Table table = tables.get( type );
-        if ( table == null )
-        {
-            System.err.println( "Fant ikke kolonne for type " + type );
-        }
-        return table;
-    }
-
     // Prevent instantiation
 
     private Types()

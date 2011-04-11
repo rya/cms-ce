@@ -154,37 +154,14 @@ public class SectionCriteria
         return addAccessRights;
     }
 
-    public void setAppendAccessRights( boolean val )
-    {
-        addAccessRights = val;
-    }
-
     public void setSiteKey( SiteKey key )
     {
         siteKeys = new SiteKey[]{key};
     }
 
-    public void setSiteKeys( int[] keys )
-    {
-        siteKeys = new SiteKey[keys.length];
-        for ( int i = 0; i < keys.length; i++ )
-        {
-            siteKeys[i] = new SiteKey( keys[i] );
-        }
-    }
-
     public SiteKey[] getSiteKeys()
     {
         return siteKeys;
-    }
-
-    public void setMenuItemKeys( int[] keys )
-    {
-        menuItemKeys = new MenuItemKey[keys.length];
-        for ( int i = 0; i < keys.length; i++ )
-        {
-            menuItemKeys[i] = new MenuItemKey( keys[i] );
-        }
     }
 
     public MenuItemKey[] getMenuItemKeys()
@@ -224,16 +201,6 @@ public class SectionCriteria
     }
 
     /**
-     * Set to true if only sections with administration right should be retrieved.
-     *
-     * @param adminRight
-     */
-    public void setAdminRight( boolean adminRight )
-    {
-        this.adminRight = adminRight;
-    }
-
-    /**
      * Set to true if sections should be retrieved recursivly.
      *
      * @param recursivly
@@ -241,16 +208,6 @@ public class SectionCriteria
     public void setSectionRecursivly( boolean recursivly )
     {
         this.recursivly = recursivly;
-    }
-
-    public void setPublishRight( boolean publishRight )
-    {
-        this.publishRight = publishRight;
-    }
-
-    public void setIncludeChildCount( boolean includeChildCount )
-    {
-        this.includeChildCount = includeChildCount;
     }
 
     public boolean getIncludeChildCount()
@@ -311,34 +268,14 @@ public class SectionCriteria
         return contentKeyExcludeFilter;
     }
 
-    public void setContentKeyExcludeFilter( int i )
-    {
-        contentKeyExcludeFilter = i;
-    }
-
     public boolean isMarkContentFilteredSections()
     {
         return markContentFilteredSections;
     }
 
-    public void setMarkContentFilteredSections( boolean markContentFilteredSections )
-    {
-        this.markContentFilteredSections = markContentFilteredSections;
-    }
-
     public int getContentTypeKeyFilter()
     {
         return contentTypeKeyFilter;
-    }
-
-    public void setContentTypeKeyFilter( int i )
-    {
-        contentTypeKeyFilter = i;
-    }
-
-    public void setContentKey( final int value )
-    {
-        contentKey = value;
     }
 
     public int getContentKey()
@@ -349,11 +286,6 @@ public class SectionCriteria
     public boolean isIncludeAll()
     {
         return includeAll;
-    }
-
-    public void setIncludeAll( boolean b )
-    {
-        includeAll = b;
     }
 
     public boolean isIncludeSection()
@@ -381,18 +313,9 @@ public class SectionCriteria
         return includeSectionContentTypesInfo;
     }
 
-    public void setIncludeSectionContentTypesInfo( boolean value )
-    {
-        this.includeSectionContentTypesInfo = value;
-    }
-
     public boolean isIncludeSectionsWithoutContentTypeEvenWhenFilterIsSet()
     {
         return includeSectionsWithoutContentTypeEvenWhenFilterIsSet;
     }
 
-    public void setIncludeSectionsWithoutContentTypeEvenWhenFilterIsSet( boolean value )
-    {
-        this.includeSectionsWithoutContentTypeEvenWhenFilterIsSet = value;
-    }
 }

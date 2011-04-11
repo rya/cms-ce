@@ -151,11 +151,6 @@ public class UserServicesEngine
         return contentHandler;
     }
 
-    public ContentObjectHandler getContentObjectHandler()
-    {
-        return contentObjectHandler;
-    }
-
     public GroupHandler getGroupHandler()
     {
         return groupHandler;
@@ -169,11 +164,6 @@ public class UserServicesEngine
     public LogHandler getLogHandler()
     {
         return logHandler;
-    }
-
-    public MenuHandler getMenuHandler()
-    {
-        return menuHandler;
     }
 
     public PageHandler getPageHandler()
@@ -222,13 +212,6 @@ public class UserServicesEngine
 
         return XMLTool.documentToString( doc );
     }
-
-    public String getCategoryName( int key )
-    {
-        Document doc = categoryHandler.getCategoryNameDoc( CategoryKey.parse( key ) );
-        return XMLTool.documentToString( doc );
-    }
-
 
     public User getAnonymousUser()
     {

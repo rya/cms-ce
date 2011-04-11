@@ -157,23 +157,4 @@ public class MenuItemCriteria
         return parentCriteria;
     }
 
-    public boolean hasMenuKey()
-    {
-        return ( menuKey != -1 ) ? true : false;
-    }
-
-    public Integer getMenuKeyAsInteger()
-    {
-        return new Integer( menuKey );
-    }
-
-    public int getMenuKey()
-    {
-        return menuKey;
-    }
-
-    public boolean getDisableMenuItemLoadingForUnspecified()
-    {
-        return disableMenuItemLoadingForUnspecified;
-    }
 }

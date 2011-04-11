@@ -124,11 +124,6 @@ public class PresentationEngine
         return contentHandler;
     }
 
-    public ContentObjectHandler getContentObjectHandler()
-    {
-        return contentObjectHandler;
-    }
-
     public GroupHandler getGroupHandler()
     {
         return groupHandler;
@@ -142,11 +137,6 @@ public class PresentationEngine
     public LogHandler getLogHandler()
     {
         return logHandler;
-    }
-
-    public MenuHandler getMenuHandler()
-    {
-        return menuHandler;
     }
 
     public PageHandler getPageHandler()

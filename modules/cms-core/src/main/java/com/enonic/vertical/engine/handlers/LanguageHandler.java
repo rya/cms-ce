@@ -28,44 +28,4 @@ public final class LanguageHandler
         return entity != null ? entity.getCode() : null;
     }
 
-    public void createLanguage( String languageCode, String description )
-    {
-        LanguageEntity entity = new LanguageEntity();
-        entity.setCode( languageCode );
-        entity.setDescription( description );
-        entity.setTimestamp( new Date() );
-        this.languageDao.store( entity );
-    }
-
-    public XMLDocument getLanguage( LanguageKey languageKey )
-    {
-        ArrayList<LanguageEntity> list = new ArrayList<LanguageEntity>();
-        LanguageEntity entity = languageDao.findByKey( languageKey );
-        if ( entity != null )
-        {
-            list.add( entity );
-        }
-
-        return createLanguagesDoc( list );
-    }
-
-    /**
-     * Create language document.
-     */
-    private XMLDocument createLanguagesDoc( List<LanguageEntity> list )
-    {
-        Element root = new Element( "languages" );
-
-        for ( LanguageEntity value : list )
-        {
-            Element elem = new Element( "language" );
-            elem.setAttribute( "key", String.valueOf( value.getKey() ) );
-            elem.setAttribute( "languagecode", value.getCode() );
-            elem.setAttribute( "timestamp", CalendarUtil.formatTimestamp( value.getTimestamp() ) );
-            elem.addContent( value.getDescription() );
-            root.addContent( elem );
-        }
-
-        return XMLDocumentFactory.create( new Document( root ) );
-    }
 }

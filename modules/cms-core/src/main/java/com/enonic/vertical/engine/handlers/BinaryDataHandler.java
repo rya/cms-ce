@@ -34,17 +34,6 @@ public class BinaryDataHandler
         this.binaryAccessResolver = value;
     }
 
-    public BinaryData getBinaryData( int binaryKey )
-    {
-        ContentBinaryDataEntity entity = contentBinaryDataDao.findByBinaryKey( binaryKey );
-        if ( entity == null )
-        {
-            return null;
-        }
-
-        return getBinaryData( entity, false, -1 );
-    }
-
     private BinaryData getBinaryData( ContentBinaryDataEntity contentBinaryData, boolean anonAccess, long timestamp )
     {
         BinaryData binaryData = new BinaryData();

@@ -30,7 +30,7 @@ public class AttributeElementProcessor
     }
 
     /**
-     * @see com.enonic.vertical.engine.base.ElementProcessor#process(org.w3c.dom.Element)
+     * @see com.enonic.vertical.engine.processors.ElementProcessor#process(org.w3c.dom.Element)
      */
     public void process( Element elem )
     {

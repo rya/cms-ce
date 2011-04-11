@@ -33,69 +33,9 @@ public final class MenuItemAccessRight
         super( key.toInt(), AccessRight.MENUITEM );
     }
 
-    public void setCreate( boolean create )
-    {
-        this.create = create;
-    }
-
-    public void setUpdate( boolean update )
-    {
-        this.update = update;
-    }
-
-    public void setDelete( boolean delete )
-    {
-        this.delete = delete;
-    }
-
-    public void setPublish( boolean publish )
-    {
-        this.publish = publish;
-    }
-
-    public void setAdministrate( boolean administrate )
-    {
-        this.administrate = administrate;
-    }
-
-    public void setAdd( boolean add )
-    {
-        this.add = add;
-    }
-
     /*public void setAdminRead(boolean adminread) {
         this.adminread = adminread;
     }*/
-
-    public boolean getCreate()
-    {
-        return create;
-    }
-
-    public boolean getUpdate()
-    {
-        return update;
-    }
-
-    public boolean getDelete()
-    {
-        return delete;
-    }
-
-    public boolean getPublish()
-    {
-        return publish;
-    }
-
-    public boolean getAdministrate()
-    {
-        return administrate;
-    }
-
-    public boolean getAdd()
-    {
-        return add;
-    }
 
     /*public boolean getAdminRead() {
         return adminread;

@@ -51,8 +51,6 @@ public final class GroupHandler
 
     final static private String GROUP_GET = "SELECT " + GROUP_ALL_FIELDS + " FROM " + GROUP_TABLE;
 
-    final static private String GROUP_GET_BY_KEY = GROUP_GET + " WHERE grp_hKey = ? AND grp_bIsDeleted != 1 ";
-
     final static private String GROUP_GET_KEY_BY_GROUPTYPE = "SELECT grp_hKey FROM " + GROUP_TABLE + " WHERE grp_lType = ?";
 
 
@@ -131,11 +129,6 @@ public final class GroupHandler
     }
 
 
-    public Document getGroup( String groupKey )
-    {
-        return getGroups( GROUP_GET_BY_KEY, new String[]{groupKey}, true );
-    }
-
     /**
      * Generic method for retrieving groups.
      *
@@ -145,7 +138,7 @@ public final class GroupHandler
      */
     private Document getGroups( String sql, Object[] paramValues, boolean includeMembers )
     {
-        Document doc = XMLTool.createDocument( "groups" );
+        Document doc = XMLTool.createDocument("groups");
 
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -379,35 +372,6 @@ public final class GroupHandler
     }
 
 
-    public String[] getGroupMembers( String[] groups, String[] excludeGroups, boolean recursive )
-    {
-        if ( groups == null || groups.length == 0 )
-        {
-            return new String[0];
-        }
-
-        StringBuffer sql = XDG.generateSelectSQL( db.tGrpGrpMembership, db.tGroup.grp_hKey, true, (Column) null );
-        XDG.appendJoinSQL( sql, db.tGrpGrpMembership.ggm_mbr_grp_hKey );
-        XDG.appendWhereInSQL( sql, db.tGrpGrpMembership.ggm_grp_hKey, groups );
-        String[] groupMembers = getCommonHandler().getStringArray( sql.toString(), null );
-        String[] filteredGroups = ArrayUtil.filter( groupMembers, excludeGroups );
-
-        if ( excludeGroups == null )
-        {
-            excludeGroups = new String[0];
-        }
-
-        if ( !recursive )
-        {
-            return filteredGroups;
-        }
-        else
-        {
-            String[] recursiveGroups = getGroupMembers( filteredGroups, ArrayUtil.concat( filteredGroups, excludeGroups, false ), true );
-            return ArrayUtil.concat( filteredGroups, recursiveGroups, false );
-        }
-    }
-
     public String[] getGroupMemberships( Connection _con, String[] groups, Set<String> excludeGroups )
     {
 
@@ -476,7 +440,7 @@ public final class GroupHandler
 
     public String getAdminGroupKey()
     {
-        return getGroupKeyByGroupType( GroupType.ADMINS );
+        return getGroupKeyByGroupType(GroupType.ADMINS);
     }
 
     public String getAnonymousGroupKey()
