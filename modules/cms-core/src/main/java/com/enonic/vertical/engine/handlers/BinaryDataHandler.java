@@ -6,8 +6,6 @@ package com.enonic.vertical.engine.handlers;
 
 import org.joda.time.DateTime;
 
-import com.enonic.vertical.engine.XDG;
-
 import com.enonic.cms.framework.blob.BlobStoreObject;
 
 import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;

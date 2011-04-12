@@ -4,30 +4,13 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-
-import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 

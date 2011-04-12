@@ -8,12 +8,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.esl.sql.model.Table;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.BaseEngine;
 import com.enonic.vertical.engine.VerticalKeyException;
@@ -38,8 +35,6 @@ import com.enonic.cms.store.dao.ResourceDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
 
 public abstract class BaseHandler
 {

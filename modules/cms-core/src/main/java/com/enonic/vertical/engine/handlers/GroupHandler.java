@@ -20,11 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.sql.model.Column;
-import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.domain.security.group.GroupEntity;

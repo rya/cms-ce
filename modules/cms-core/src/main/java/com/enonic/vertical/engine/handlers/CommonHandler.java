@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,10 +12,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
@@ -25,29 +20,21 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Constants;
-import com.enonic.esl.sql.model.ForeignKeyColumn;
 import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.sql.model.datatypes.DataType;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.util.UUID;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
-import com.enonic.cms.framework.util.TIntObjectHashMap;
-
-import com.enonic.cms.domain.security.user.User;
 
 public class CommonHandler
     extends BaseHandler

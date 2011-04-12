@@ -4,52 +4,30 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 import com.enonic.vertical.event.VerticalEventMulticaster;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
 import com.enonic.cms.domain.structure.RunAsType;
 import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemType;
 import com.enonic.cms.domain.structure.page.template.PageTemplateKey;

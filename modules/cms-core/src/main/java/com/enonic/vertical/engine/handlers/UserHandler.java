@@ -5,29 +5,13 @@
 package com.enonic.vertical.engine.handlers;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-
-import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.event.VerticalEventListener;
 
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.security.UserNameXmlCreator;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
 public final class UserHandler
     extends BaseHandler

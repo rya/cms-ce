@@ -4,18 +4,13 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
 import java.sql.Timestamp;
-import java.sql.Types;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,23 +25,12 @@ import org.w3c.dom.Element;
 
 import com.enonic.esl.sql.SelectString;
 import com.enonic.esl.sql.model.Column;
-import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.RelationAggregator;
 import com.enonic.esl.util.RelationNode;
 import com.enonic.esl.util.RelationTree;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.AccessRight;
-import com.enonic.vertical.engine.CategoryAccessRight;
-import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.engine.criteria.CategoryCriteria;
-import com.enonic.vertical.engine.criteria.Criteria;
 import com.enonic.vertical.engine.dbmodel.CategoryTable;
 import com.enonic.vertical.engine.dbmodel.CategoryView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRight2Table;
@@ -56,17 +40,13 @@ import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.category.CategoryXmlCreator;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.store.dao.CategoryDao;
 
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.category.CategoryStatistics;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
 import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 public class CategoryHandler
     extends BaseHandler
