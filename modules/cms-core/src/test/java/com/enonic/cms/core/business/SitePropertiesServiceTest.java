@@ -117,7 +117,7 @@ public class SitePropertiesServiceTest
     private Resource getLocalTestSitePropertyResouce()
     {
         ResourceLoader testResourceLoader = new FileSystemResourceLoader();
-        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/business/test.site.properties" );
+        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/core/business/test.site.properties" );
 
         if ( !testResource.exists() )
         {
@@ -129,7 +129,7 @@ public class SitePropertiesServiceTest
     private Resource getLocalTestDefaultPropertyResouce()
     {
         ResourceLoader testResourceLoader = new FileSystemResourceLoader();
-        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/business/test.default.site.properties" );
+        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/core/business/test.default.site.properties" );
 
         if ( !testResource.exists() )
         {

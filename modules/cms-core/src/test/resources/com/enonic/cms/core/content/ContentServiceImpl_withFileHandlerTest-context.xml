@@ -9,6 +9,6 @@
 
   <context:annotation-config/>
 
-  <import resource="classpath:com/enonic/cms/business/base-PersistContentTest-context.xml"/>
+  <import resource="classpath:com/enonic/cms/core/business/base-PersistContentTest-context.xml"/>
 
 </beans>
