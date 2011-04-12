@@ -10,6 +10,8 @@ import org.jdom.CDATA;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import junitx.framework.Assert;
 
@@ -20,6 +22,7 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 public class JDOMUtilTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( JDOMUtilTest.class.getName() );
 
     @Test
     public void testToBytes()
@@ -38,6 +41,6 @@ public class JDOMUtilTest
         Assert.assertEquals( "<p>jalla</p>", cdata.getText() );
 
         XMLBytes xmlBytes = xmlDoc.getAsBytes();
-        System.out.println( new String( xmlBytes.getData(), "UTF-8" ) );
+        LOG.info( new String( xmlBytes.getData(), "UTF-8" ) );
     }
 }

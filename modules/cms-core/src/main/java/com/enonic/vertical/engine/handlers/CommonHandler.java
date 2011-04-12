@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -47,6 +49,7 @@ import com.enonic.cms.domain.security.user.User;
 public class CommonHandler
     extends BaseHandler
 {
+    private static final Logger LOG = LoggerFactory.getLogger( CommonHandler.class.getName() );
 
     public final static int MSG_GENERAL = 0;
 
@@ -1022,7 +1025,7 @@ public class CommonHandler
 
                     if ( table == null )
                     {
-                        System.out.println( "Did not find table matching parent name " + parentName );
+                        LOG.info( "Did not find table matching parent name {}", parentName );
                         continue;
                     }
 
@@ -1036,7 +1039,7 @@ public class CommonHandler
                         // Check that this element has the correct name
                         if ( !aChildren.getTagName().equals( elementName ) )
                         {
-                            System.out.println( "elementname " + aChildren.getTagName() + " did not match expected " + elementName + "." );
+                            LOG.info( "elementname {} did not match expected {}.", aChildren.getTagName(), elementName );
                             continue;
                         }
                         dataElemsList.add( aChildren );

@@ -13,6 +13,8 @@ import java.sql.Types;
 
 import org.hibernate.HibernateException;
 import org.hibernate.cfg.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentParser;
@@ -21,6 +23,8 @@ import com.enonic.cms.framework.xml.XMLDocumentParser;
 public class XMLBytesUserType
     extends AbstractBaseUserType
 {
+    private static final Logger LOG = LoggerFactory.getLogger( XMLBytesUserType.class.getName() );
+
     public XMLBytesUserType()
     {
         super( XMLBytes.class, Types.VARBINARY );
@@ -115,7 +119,7 @@ public class XMLBytesUserType
         try
         {
             XMLBytes otherXMLBytes = XMLDocumentParser.getInstance().parseDocument( new String( test.getBytes(), "UTF-8" ) );
-            System.out.println( "otherXMLBytes: " + otherXMLBytes.getAsString() );
+            LOG.info( "otherXMLBytes: " + otherXMLBytes.getAsString() );
         }
         catch ( UnsupportedEncodingException e )
         {

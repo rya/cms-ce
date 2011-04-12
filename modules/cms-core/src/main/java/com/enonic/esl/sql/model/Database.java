@@ -10,8 +10,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Database
 {
+    private static final Logger LOG = LoggerFactory.getLogger( Database.class.getName() );
+
     private final List<Table> tables = new LinkedList<Table>();
 
     private final List<View> views = new LinkedList<View>();
@@ -94,7 +99,8 @@ public class Database
                     }
                     else
                     {
-                        System.out.println( "skipping FK: " + table + "." + fk + ", couldn't find " + fk.getReferencedTableName() );
+                        LOG.info( "skipping FK: {}.{}, couldn't find referenced table {}",
+                                  new Object[]{table, fk, fk.getReferencedTableName()} );
                     }
                 }
             }
@@ -142,7 +148,7 @@ public class Database
 
         if ( table == null )
         {
-            System.out.println( "Database.getTable(String): fant ikke " + tableName );
+            LOG.info( "Database.getTable(String): table {} does not exist", tableName );
         }
 
         return table;
@@ -161,7 +167,7 @@ public class Database
 
         if ( view == null )
         {
-            System.out.println( "Database.getView(String): fant ikke " + viewName );
+            LOG.info( "Database.getView(String): view {} does not exist ", viewName );
         }
 
         return view;
