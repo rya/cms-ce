@@ -36,6 +36,10 @@
             */
             ed.onPostRender.add(function(ed, cm)
             {
+                if ( ed.settings.readonly )
+                {
+                    return;
+                }
                 var sId = ed.id;
                 var oPathRow = document.getElementById(sId + '_path_row');
                 var oStatusBar = oPathRow.parentNode;
@@ -180,6 +184,8 @@
         {
             // Pad IFRAME elements with "cms_content"
             o.content = o.content.replace( /<iframe(.+?)>(|\s+)<\/iframe>/g, '<iframe$1>cms_content<\/iframe>' );
+            // Pad VIDEO elements with "cms_content"
+            o.content = o.content.replace( /<video(.+?)>(|\s+)<\/video>/g, '<video$1>cms_content<\/video>' );
             // Pad empty TD and TH elements with "&nbsp;"
             o.content = o.content.replace( /<td><\/td>/g, '<td>&nbsp;</td>' );
             o.content = o.content.replace( /<th><\/th>/g, '<th>&nbsp;</th>' );
