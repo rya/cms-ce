@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.NestedServletException;
 
 import com.enonic.cms.api.client.LocalClient;
@@ -27,9 +27,9 @@ import com.enonic.cms.api.client.binrpc.BinRpcInvocationResult;
 /**
  * This class implements the service exporter.
  */
+@Controller
 @RequestMapping(value = "/rpc/bin")
 public final class BinRpcServiceExporter
-    implements Controller
 {
     /**
      * Content type.
@@ -53,28 +53,20 @@ public final class BinRpcServiceExporter
     /**
      * Handle the request.
      */
-    public ModelAndView handleRequest( HttpServletRequest req, HttpServletResponse res )
+    @RequestMapping(method = RequestMethod.POST)
+    public void handleRequest( HttpServletRequest req, HttpServletResponse res )
         throws ServletException, IOException
     {
-        if ( "POST".equalsIgnoreCase( req.getMethod() ) )
+        try
         {
-            try
-            {
-                BinRpcInvocation invocation = readInvocation( req );
-                BinRpcInvocationResult result = invokeAndCreateResult( invocation, this.client );
-                writeInvocationResult( res, result );
-            }
-            catch ( ClassNotFoundException ex )
-            {
-                throw new NestedServletException( "Class not found during deserialization", ex );
-            }
+            BinRpcInvocation invocation = readInvocation( req );
+            BinRpcInvocationResult result = invokeAndCreateResult( invocation, this.client );
+            writeInvocationResult( res, result );
         }
-        else
+        catch ( ClassNotFoundException ex )
         {
-            res.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED, "Only POST is allowed" );
+            throw new NestedServletException( "Class not found during deserialization", ex );
         }
-
-        return null;
     }
 
     /**

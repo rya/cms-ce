@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -37,6 +38,7 @@ import com.enonic.cms.core.structure.SiteEntity;
  * Controller for displaying the welcome page, the root page for an installation, listing all sites, plugins, etcs, and linking to DAV,
  * Admin pages, and other information pages.
  */
+@Controller
 @RequestMapping(value = "/")
 public final class WelcomeController
     extends AbstractController

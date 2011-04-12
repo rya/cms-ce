@@ -5,6 +5,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config/>
+    <context:component-scan base-package="com.enonic.cms.core.tools"/>
+    <context:component-scan base-package="com.enonic.cms.core.rpc"/>
+
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="order" value="4"/>
+    </bean>
 
     <!-- Placeholder configurer. -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -30,20 +39,9 @@
         <property name="exposeSpringMacroHelpers" value="true"/>
     </bean>
 
-    <bean class="com.enonic.cms.core.tools.DataSourceInfoResolver"/>
-    <bean class="com.enonic.cms.core.tools.StandardToolsAccessResolver"/>
-    <bean class="com.enonic.cms.core.tools.WelcomeController"/>
-
     <!-- Properties info controller. -->
     <bean class="com.enonic.cms.core.tools.PropertiesInfoController">
         <property name="properties" ref="loadedVerticalProperties"/>
     </bean>
-
-    <bean class="com.enonic.cms.core.tools.UpgradeController"/>
-    <bean class="com.enonic.cms.core.tools.ConnectionInfoController"/>
-    <bean class="com.enonic.cms.core.tools.LivePortalTraceController"/>
-    <bean class="com.enonic.cms.core.tools.StaticFileController"/>
-
-    <bean class="com.enonic.cms.core.rpc.BinRpcServiceExporter"/>
 
 </beans>

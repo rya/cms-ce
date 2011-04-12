@@ -5,260 +5,257 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:annotation-config />
+    <context:annotation-config/>
+    <context:component-scan base-package="com.enonic.vertical.userservices"/>
 
-    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter">
-    </bean>
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
         <property name="alwaysUseFullPath" value="true"/>
-        <property name="order" value="4"/>
     </bean>
 
-  <!-- Placeholder configurer. -->
-  <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="properties" ref="loadedVerticalProperties"/>
-  </bean>
+    <!-- Placeholder configurer. -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" ref="loadedVerticalProperties"/>
+    </bean>
 
-  <!-- Default view resolver. -->
-  <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
-    <property name="order" value="1"/>
-    <property name="location" value="/WEB-INF/servlet/siteServletViews.xml"/>
-  </bean>
+    <!-- Default view resolver. -->
+    <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="order" value="1"/>
+        <property name="location" value="/WEB-INF/servlet/siteServletViews.xml"/>
+    </bean>
 
-  <!-- freemarker config -->
-  <bean id="freemarkerConfigForSite" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-    <property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
-    <property name="freemarkerSettings">
-      <props>
-        <prop key="number_format">0.######</prop>
-      </props>
-    </property>
-  </bean>
+    <!-- freemarker config -->
+    <bean id="freemarkerConfigForSite" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="number_format">0.######</prop>
+            </props>
+        </property>
+    </bean>
 
-  <!--
-    View resolvers can also be configured with ResourceBundles or XML files. If you need
-    different view resolving based on Locale, you have to use the resource bundle resolver.
-  -->
-  <bean id="viewResolverForSite" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-    <property name="cache" value="true"/>
-    <property name="prefix" value=""/>
-    <property name="suffix" value=".ftl"/>
+    <!--
+      View resolvers can also be configured with ResourceBundles or XML files. If you need
+      different view resolving based on Locale, you have to use the resource bundle resolver.
+    -->
+    <bean id="viewResolverForSite" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
 
-    <!-- if you want to use the Spring FreeMarker macros, set this property to true -->
-    <property name="exposeSpringMacroHelpers" value="true"/>
-  </bean>
+        <!-- if you want to use the Spring FreeMarker macros, set this property to true -->
+        <property name="exposeSpringMacroHelpers" value="true"/>
+    </bean>
 
-  <bean id="siteExceptionResolver" class="com.enonic.cms.portal.PortalExceptionResolver">
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="presentationService" ref="presentationService"/>
-    <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-    <property name="siteURLResolver" ref="siteURLResolver"/>
-    <property name="menuItemDao" ref="menuItemDao"/>
-  </bean>
+    <bean id="siteExceptionResolver" class="com.enonic.cms.portal.PortalExceptionResolver">
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="presentationService" ref="presentationService"/>
+        <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
+        <property name="siteURLResolver" ref="siteURLResolver"/>
+        <property name="menuItemDao" ref="menuItemDao"/>
+    </bean>
 
-  <bean id="basicAuthInterceptor" class="com.enonic.cms.portal.security.BasicAuthInterceptor">
-    <property name="securityService" ref="securityService"/>
-  </bean>
+    <bean id="basicAuthInterceptor" class="com.enonic.cms.portal.security.BasicAuthInterceptor">
+        <property name="securityService" ref="securityService"/>
+    </bean>
 
-  <!-- default handler mapping -->
-  <bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="order" value="1"/>
-    <property name="alwaysUseFullPath" value="true"/>
-    <property name="mappings">
-      <props>
-        <prop key="/site/**/login.cms">loginController</prop>
-        <prop key="/site/**/logout.cms">logoutController</prop>
-        <prop key="/site/*/_captcha">captchaController</prop>
-        <prop key="/site/**/error.cms">errorPageController</prop>
-        <prop key="/site/**/fatal.cms">errorPageController</prop>
-      </props>
-    </property>
-  </bean>
+    <!-- default handler mapping -->
+    <bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="1"/>
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="mappings">
+            <props>
+                <prop key="/site/**/login.cms">loginController</prop>
+                <prop key="/site/**/logout.cms">logoutController</prop>
+                <prop key="/site/*/_captcha">captchaController</prop>
+                <prop key="/site/**/error.cms">errorPageController</prop>
+                <prop key="/site/**/fatal.cms">errorPageController</prop>
+            </props>
+        </property>
+    </bean>
 
-  <!-- legacy handler mapping without auto login plugin -->
-  <bean id="legacyHandlerMappingWithoutAutoLoginPlugin" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="order" value="2"/>
-    <property name="alwaysUseFullPath" value="true"/>
-    <property name="mappings">
-      <props>
-        <prop key="/site/*/_public/**">resourceFileController</prop>
-        <prop key="/site/*/~/**">resourceFileController</prop>
-      </props>
-    </property>
-  </bean>
+    <!-- legacy handler mapping without auto login plugin -->
+    <bean id="legacyHandlerMappingWithoutAutoLoginPlugin"
+          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="2"/>
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="mappings">
+            <props>
+                <prop key="/site/*/_public/**">resourceFileController</prop>
+                <prop key="/site/*/~/**">resourceFileController</prop>
+            </props>
+        </property>
+    </bean>
 
-  <!-- legacy handler mapping with auto login plugin-->
-  <bean id="legacyHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="order" value="3"/>
-    <property name="alwaysUseFullPath" value="true"/>
-    <property name="mappings">
-      <props>
-        <prop key="/site/**/page">pageRedirectController</prop>
-        <prop key="/site/**/errorpage">renderPageController</prop>
-        <prop key="/site/**/_attachment">attachmentController</prop>
-        <prop key="/site/**/_attachment/**">attachmentController</prop>
-        <prop key="/site/**/datasource">dataSourceController</prop>
-        <prop key="/site/**/_image/**">imageController</prop>
-      </props>
-    </property>
-    <property name="interceptors">
-      <list>
-        <ref bean="basicAuthInterceptor"/>
-      </list>
-    </property>
-  </bean>
+    <!-- legacy handler mapping with auto login plugin-->
+    <bean id="legacyHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="3"/>
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="mappings">
+            <props>
+                <prop key="/site/**/page">pageRedirectController</prop>
+                <prop key="/site/**/errorpage">renderPageController</prop>
+                <prop key="/site/**/_attachment">attachmentController</prop>
+                <prop key="/site/**/_attachment/**">attachmentController</prop>
+                <prop key="/site/**/datasource">dataSourceController</prop>
+                <prop key="/site/**/_image/**">imageController</prop>
+            </props>
+        </property>
+        <property name="interceptors">
+            <list>
+                <ref bean="basicAuthInterceptor"/>
+            </list>
+        </property>
+    </bean>
 
-  <bean id="userServicesMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-    <property name="order" value="4"/>
-    <property name="alwaysUseFullPath" value="true"/>
-  </bean>
+    <bean id="userServicesMapping"
+          class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="order" value="4"/>
+        <property name="alwaysUseFullPath" value="true"/>
+    </bean>
 
-  <!-- main handler mapping -->
-  <bean id="mainHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-    <property name="order" value="5"/>
-    <property name="alwaysUseFullPath" value="true"/>
-    <property name="mappings">
-      <props>
-        <prop key="/site/**">renderPageController</prop>
-      </props>
-    </property>
-    <property name="interceptors">
-      <list>
-        <ref bean="basicAuthInterceptor"/>
-      </list>
-    </property>
-  </bean>
-
-
-  <bean id="attachmentController" class="com.enonic.cms.portal.mvc.controller.AttachmentController">
-    <property name="binaryService" ref="binaryService"/>
-    <property name="contentDao" ref="contentDao"/>
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="siteService" ref="siteService"/>
-    <property name="autoLoginService" ref="autoLoginService"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="resourceService" ref="resourceService"/>
-    <property name="siteDao" ref="siteDao"/>
-    <property name="userDao" ref="userDao"/>
-    <property name="livePortalTraceService" ref="livePortalTraceService"/>
-    <property name="previewService" ref="previewService"/>
-  </bean>
-
-  <bean id="abstractSiteController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteController" abstract="true">
-    <property name="cacheSeconds" value="-1"/>
-    <property name="siteService" ref="siteService"/>
-    <property name="siteDao" ref="siteDao"/>
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-    <property name="presentationService" ref="presentationService"/>
-    <property name="securityService" ref="securityService"/>
-  </bean>
-
-  <bean id="resourceFileController" class="com.enonic.cms.portal.mvc.controller.ResourceFileController"
-        parent="abstractSiteController">
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="resourceService" ref="resourceService"/>
-  </bean>
+    <!-- main handler mapping -->
+    <bean id="mainHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="5"/>
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="mappings">
+            <props>
+                <prop key="/site/**">renderPageController</prop>
+            </props>
+        </property>
+        <property name="interceptors">
+            <list>
+                <ref bean="basicAuthInterceptor"/>
+            </list>
+        </property>
+    </bean>
 
 
-  <bean id="abstractSiteCommandController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteCommandController"
-        abstract="true">
-    <property name="cacheSeconds" value="-1"/>
-    <property name="siteService" ref="siteService"/>
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-  </bean>
+    <bean id="attachmentController" class="com.enonic.cms.portal.mvc.controller.AttachmentController">
+        <property name="binaryService" ref="binaryService"/>
+        <property name="contentDao" ref="contentDao"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="autoLoginService" ref="autoLoginService"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="resourceService" ref="resourceService"/>
+        <property name="siteDao" ref="siteDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="livePortalTraceService" ref="livePortalTraceService"/>
+        <property name="previewService" ref="previewService"/>
+    </bean>
 
-  <bean id="loginController" class="com.enonic.cms.portal.mvc.controller.LoginController"
-        parent="abstractSiteCommandController">
-    <property name="commandClass" value="com.enonic.cms.domain.command.LoginCommand"/>
-    <property name="useForward" value="true"/>
-    <property name="loginPagePathResolverService" ref="loginPagePathResolverService"/>
-  </bean>
+    <bean id="abstractSiteController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteController"
+          abstract="true">
+        <property name="cacheSeconds" value="-1"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="siteDao" ref="siteDao"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
+        <property name="presentationService" ref="presentationService"/>
+        <property name="securityService" ref="securityService"/>
+    </bean>
 
-  <bean id="logoutController" class="com.enonic.cms.portal.mvc.controller.LogoutController" parent="abstractSiteController"/>
-
-  <bean id="captchaController" class="com.enonic.cms.portal.mvc.controller.CaptchaController">
-    <property name="captchaRepository" ref="captchaRepository"/>
-  </bean>
-
-  <bean id="pageRedirectController" class="com.enonic.cms.portal.mvc.controller.PageRedirectController"
-        parent="abstractSiteController">
-    <property name="menuItemDao" ref="menuItemDao"/>
-    <property name="portalRenderResponseServer" ref="portalRenderResultServer"/>
-  </bean>
-
-  <bean id="dataSourceController" class="com.enonic.cms.portal.mvc.controller.DataSourceController"/>
-
-  <bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
-        parent="abstractSiteCommandController">
-    <property name="autoLoginService" ref="autoLoginService"/>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-  </bean>
-
-  <bean id="errorPageController" class="com.enonic.cms.portal.mvc.controller.ErrorPageController">
-    <property name="cacheSeconds" value="-1"/>
-    <property name="standardModelFactory" ref="standardModelFactory"/>
-  </bean>
-
-  <bean id="presentationController" class="com.enonic.vertical.userservices.AbstractPresentationController" abstract="true">
-    <property name="siteService" ref="siteService"/>
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="verticalProperties" ref="verticalProperties"/>
-    <property name="siteRedirectHelper" ref="siteRedirectHelper"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="categoryDao" ref="categoryDao"/>
-    <property name="siteDao" ref="siteDao"/>
-    <property name="contentParserService" ref="contentParserService"/>
-    <property name="contentService" ref="contentService"/>
-    <property name="contentDao" ref="contentDao"/>
-    <property name="siteCachesService" ref="siteCachesService"/>
-    <property name="userStoreService" ref="userStoreService"/>
-    <property name="sendMailService" ref="sendMailService"/>
-  </bean>
-
-  <bean id="renderPageController" class="com.enonic.cms.portal.mvc.controller.DefaultController">
-    <property name="portalRequestService" ref="portalRequestService"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="siteService" ref="siteService"/>
-    <property name="portalRenderResultServer" ref="portalRenderResultServer"/>
-    <property name="autoLoginService" ref="autoLoginService"/>
-    <property name="timeService" ref="timeService"/>
-    <property name="previewService" ref="previewService"/>
-    <property name="livePortalTraceService" ref="livePortalTraceService"/>
-  </bean>
-
-  <bean id="portalRenderResultServer" class="com.enonic.cms.portal.mvc.controller.PortalRenderResponseServer">
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-    <property name="userDao" ref="userDao"/>
-    <property name="siteDao" ref="siteDao"/>
-  </bean>
+    <bean id="resourceFileController" class="com.enonic.cms.portal.mvc.controller.ResourceFileController"
+          parent="abstractSiteController">
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="resourceService" ref="resourceService"/>
+    </bean>
 
 
-  <bean id="userServicesAccessManager" class="com.enonic.vertical.userservices.UserServicesAccessManagerImpl">
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="siteService" ref="siteService"/>
-  </bean>
+    <bean id="abstractSiteCommandController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteCommandController"
+          abstract="true">
+        <property name="cacheSeconds" value="-1"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
+    </bean>
 
-    <bean class="com.enonic.vertical.userservices.ContentSendMailController"/>
-    <bean class="com.enonic.vertical.userservices.FormHandlerController"/>
-    <bean class="com.enonic.vertical.userservices.PollHandlerController"/>
-    <bean class="com.enonic.vertical.userservices.SendMailController"/>
-    <bean class="com.enonic.vertical.userservices.UserHandlerController"/>
-    <bean class="com.enonic.vertical.userservices.CustomContentHandlerController"/>
-    <bean class="com.enonic.vertical.userservices.PortalHandlerController"/>
+    <bean id="loginController" class="com.enonic.cms.portal.mvc.controller.LoginController"
+          parent="abstractSiteCommandController">
+        <property name="commandClass" value="com.enonic.cms.domain.command.LoginCommand"/>
+        <property name="useForward" value="true"/>
+        <property name="loginPagePathResolverService" ref="loginPagePathResolverService"/>
+    </bean>
 
-  <bean id="imageController" class="com.enonic.cms.portal.mvc.controller.ImageController" parent="abstractSiteController">
-    <property name="imageService" ref="imageService"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="autoLoginService" ref="autoLoginService"/>
-    <property name="previewService" ref="previewService"/>
-  </bean>
+    <bean id="logoutController" class="com.enonic.cms.portal.mvc.controller.LogoutController"
+          parent="abstractSiteController"/>
+
+    <bean id="captchaController" class="com.enonic.cms.portal.mvc.controller.CaptchaController">
+        <property name="captchaRepository" ref="captchaRepository"/>
+    </bean>
+
+    <bean id="pageRedirectController" class="com.enonic.cms.portal.mvc.controller.PageRedirectController"
+          parent="abstractSiteController">
+        <property name="menuItemDao" ref="menuItemDao"/>
+        <property name="portalRenderResponseServer" ref="portalRenderResultServer"/>
+    </bean>
+
+    <bean id="dataSourceController" class="com.enonic.cms.portal.mvc.controller.DataSourceController"/>
+
+    <bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
+          parent="abstractSiteCommandController">
+        <property name="autoLoginService" ref="autoLoginService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    </bean>
+
+    <bean id="errorPageController" class="com.enonic.cms.portal.mvc.controller.ErrorPageController">
+        <property name="cacheSeconds" value="-1"/>
+        <property name="standardModelFactory" ref="standardModelFactory"/>
+    </bean>
+
+    <bean id="presentationController" class="com.enonic.vertical.userservices.AbstractPresentationController"
+          abstract="true">
+        <property name="siteService" ref="siteService"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="verticalProperties" ref="verticalProperties"/>
+        <property name="siteRedirectHelper" ref="siteRedirectHelper"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="siteDao" ref="siteDao"/>
+        <property name="contentParserService" ref="contentParserService"/>
+        <property name="contentService" ref="contentService"/>
+        <property name="contentDao" ref="contentDao"/>
+        <property name="siteCachesService" ref="siteCachesService"/>
+        <property name="userStoreService" ref="userStoreService"/>
+        <property name="sendMailService" ref="sendMailService"/>
+    </bean>
+
+    <bean id="renderPageController" class="com.enonic.cms.portal.mvc.controller.DefaultController">
+        <property name="portalRequestService" ref="portalRequestService"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="portalRenderResultServer" ref="portalRenderResultServer"/>
+        <property name="autoLoginService" ref="autoLoginService"/>
+        <property name="timeService" ref="timeService"/>
+        <property name="previewService" ref="previewService"/>
+        <property name="livePortalTraceService" ref="livePortalTraceService"/>
+    </bean>
+
+    <bean id="portalRenderResultServer" class="com.enonic.cms.portal.mvc.controller.PortalRenderResponseServer">
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="siteDao" ref="siteDao"/>
+    </bean>
+
+
+    <bean id="userServicesAccessManager" class="com.enonic.vertical.userservices.UserServicesAccessManagerImpl">
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="siteService" ref="siteService"/>
+    </bean>
+
+    <bean id="imageController" class="com.enonic.cms.portal.mvc.controller.ImageController"
+          parent="abstractSiteController">
+        <property name="imageService" ref="imageService"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="autoLoginService" ref="autoLoginService"/>
+        <property name="previewService" ref="previewService"/>
+    </bean>
 
 </beans>

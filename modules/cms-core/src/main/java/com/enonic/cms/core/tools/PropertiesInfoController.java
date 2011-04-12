@@ -29,7 +29,6 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 public final class PropertiesInfoController
     extends AbstractToolController
 {
-
     private Properties properties;
 
     private DataSourceInfoResolver infoResolver;
