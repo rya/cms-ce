@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,9 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.octo.captcha.service.CaptchaServiceException;
@@ -48,11 +52,10 @@ import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
-import com.enonic.cms.core.service.UserServicesService;
-
 import com.enonic.cms.core.captcha.CaptchaService;
+import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.security.UserStoreParser;
+import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
@@ -62,8 +65,9 @@ import com.enonic.cms.domain.content.category.CategoryAccessException;
 import com.enonic.cms.domain.portal.VerticalSession;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 
-public class AbstractUserServicesHandlerController
-    extends AbstractPresentationController
+@Controller
+public abstract class AbstractUserServicesHandlerController
+        extends AbstractPresentationController
 {
     private static final Logger LOG = LoggerFactory.getLogger( AbstractUserServicesHandlerController.class.getName() );
 
@@ -91,10 +95,13 @@ public class AbstractUserServicesHandlerController
 
     private static final FileUploadBase fileUpload;
 
+    @Resource
     protected CaptchaService captchaService;
 
+    @Resource
     private UserServicesRedirectUrlResolver userServicesRedirectUrlResolver;
 
+    @Resource
     private UserServicesAccessManager userServicesAccessManager;
 
     static
@@ -103,6 +110,7 @@ public class AbstractUserServicesHandlerController
         fileUpload.setHeaderEncoding( "UTF-8" );
     }
 
+    @Resource
     protected UserStoreParser userStoreParser;
 
     public void setUserStoreParser( UserStoreParser userStoreParser )
@@ -118,6 +126,27 @@ public class AbstractUserServicesHandlerController
     public void setCaptchaService( CaptchaService service )
     {
         captchaService = service;
+    }
+
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public void create( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.GET)
+    public void remove( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public void update( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
     }
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,

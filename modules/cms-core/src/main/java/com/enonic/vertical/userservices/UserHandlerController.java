@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.naming.NameNotFoundException;
 import javax.servlet.http.Cookie;
@@ -18,11 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.log.LogType;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -43,6 +46,7 @@ import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.SiteContext;
+import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.login.LoginService;
 import com.enonic.cms.core.mail.MessageSettings;
 import com.enonic.cms.core.preferences.PreferenceAccessException;
@@ -89,6 +93,8 @@ import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
 
+@Controller
+@RequestMapping(value = "/*/_services/user")
 public class UserHandlerController
     extends AbstractUserServicesHandlerController
 {
@@ -122,13 +128,15 @@ public class UserHandlerController
 
     public static final int ERR_USERSTORE_NOT_FOUND = 115;
 
-
+    @Resource
     private PreferenceService preferenceService;
 
     private final PortalInstanceKeyResolver portalInstanceKeyResolver = new PortalInstanceKeyResolver();
 
+    @Resource
     private LoginService loginService;
 
+    @Resource
     private UserDao userDao;
 
     protected static final String JOINGROUPKEY = "joingroupkey";
@@ -160,6 +168,83 @@ public class UserHandlerController
     public void setPreferenceService( PreferenceService value )
     {
         this.preferenceService = value;
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public void login( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public void logout( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/modify", method = RequestMethod.GET)
+    public void modify( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/resetpwd", method = RequestMethod.GET)
+    public void resetpwd( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/changepwd", method = RequestMethod.GET)
+    public void changepwd( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/emailexists", method = RequestMethod.GET)
+    public void emailexists( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/joingroup", method = RequestMethod.GET)
+    public void joingroup( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/leavegroup", method = RequestMethod.GET)
+    public void leavegroup( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/setgroups", method = RequestMethod.GET)
+    public void setgroups( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/setpreferences", method = RequestMethod.GET)
+    public void setpreferences( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/deletepreferences", method = RequestMethod.GET)
+    public void deletepreferences( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
     }
 
     @Override

@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.stereotype.Controller;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -38,12 +39,10 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
-
-import com.enonic.cms.core.content.UpdateContentResult;
-
 import com.enonic.cms.portal.cache.PageCacheService;
 
 import com.enonic.cms.domain.CalendarUtil;
@@ -70,7 +69,8 @@ import com.enonic.cms.domain.security.user.UserEntity;
  * Base class for userservices servlets related to modifying content from "public" sites.  This class will take care of custom content. All
  * the other content types should extend this class to implement special logic for generating XML and changing the database.
  */
-public class ContentHandlerBaseController
+@Controller
+public abstract class ContentHandlerBaseController
     extends AbstractUserServicesHandlerController
     implements InitializingBean
 {

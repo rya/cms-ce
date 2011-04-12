@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.util.StringUtil;
@@ -23,13 +26,12 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.UpdateContentException;
+import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
-
-import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.core.content.UpdateContentResult;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.content.ContentEntity;
@@ -54,6 +56,8 @@ import com.enonic.cms.domain.security.user.UserEntity;
 /**
  * Created by rmy - Date: Jun 24, 2009
  */
+@Controller
+@RequestMapping(value = "/*/_services/customcontent")
 public class CustomContentHandlerController
     extends ContentHandlerBaseController
 {
@@ -61,6 +65,13 @@ public class CustomContentHandlerController
 
     private final static int ERR_UNSUPPORTED_TYPE = 101;
 
+
+    @RequestMapping(value = "/modify", method = RequestMethod.GET)
+    public void modify( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
