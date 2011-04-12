@@ -7,7 +7,6 @@ package com.enonic.cms.portal.mvc.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.portal.ParameterMissingException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.mvc.AbstractController;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.SitePathResolver;
 import com.enonic.cms.core.SiteRedirectAndForwardHelper;
 import com.enonic.cms.core.security.SecurityService;
@@ -27,9 +25,7 @@ import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.security.user.User;
 
 public abstract class AbstractSiteController
         extends AbstractController
@@ -46,8 +42,6 @@ public abstract class AbstractSiteController
     protected SitePathResolver sitePathResolver;
 
     protected PresentationService presentationService;
-
-    protected User anonymousUser;
 
     protected SecurityService securityService;
 
@@ -118,30 +112,6 @@ public abstract class AbstractSiteController
     protected abstract ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response,
                                                            SitePath sitePath )
             throws Exception;
-
-    /**
-     * Check that the given parameters are found in the given request, if not throw a ParameterMissingException.
-     *
-     * @param names
-     * @param request
-     * @see com.enonic.cms.portal.ParameterMissingException
-     */
-    protected void expectedParameters( String[] names, HttpServletRequest request )
-    {
-        for ( String name : names )
-        {
-            String value = request.getParameter( name );
-            if ( value == null || value.trim().length() == 0 )
-            {
-                throw new ParameterMissingException( name );
-            }
-        }
-    }
-
-    protected SiteContext getSiteContext( SiteKey siteKey )
-    {
-        return siteService.getSiteContext( siteKey );
-    }
 
     protected void enableHttpCacheHeaders( HttpServletResponse response, SitePath sitePath, DateTime now, Integer siteCacheSettingsMaxAge,
                                            boolean anonymousAccess )

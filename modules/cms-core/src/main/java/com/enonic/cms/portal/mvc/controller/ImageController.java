@@ -30,9 +30,7 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.portal.image.ImageProcessorException;
 import com.enonic.cms.portal.image.ImageService;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
-import com.enonic.cms.store.dao.MenuItemDao;
 
-import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.portal.ResourceNotFoundException;
@@ -44,10 +42,6 @@ public final class ImageController
 {
     private ImageService imageService;
 
-    private MenuItemDao menuItemDao;
-
-    private boolean disableParamEncoding;
-
     private final ImageRequestParser requestParser = new ImageRequestParser();
 
     private SecurityService securityService;
@@ -57,11 +51,6 @@ public final class ImageController
     private SitePropertiesService sitePropertiesService;
 
     private PreviewService previewService;
-
-    public void setDisableParamEncoding( boolean disableParamEncoding )
-    {
-        this.disableParamEncoding = disableParamEncoding;
-    }
 
     protected ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
         throws Exception
@@ -93,7 +82,6 @@ public final class ImageController
         }
         catch ( Exception e )
         {
-            SitePath originalSitePath = (SitePath) request.getAttribute( Attribute.ORIGINAL_SITEPATH );
             throw new ImageRequestException( sitePath, request.getHeader( "referer" ), e );
         }
     }
@@ -109,7 +97,7 @@ public final class ImageController
             params.put( key, request.getParameter( key ) );
         }
 
-        final boolean encodeParams = !( disableParamEncoding || RenderTrace.isTraceOn() );
+        final boolean encodeParams = !RenderTrace.isTraceOn();
         final ImageRequest imageRequest = requestParser.parse( request.getPathInfo(), params, encodeParams );
 
         boolean serveOfflineContent = false;

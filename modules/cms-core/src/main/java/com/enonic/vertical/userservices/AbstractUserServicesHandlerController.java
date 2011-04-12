@@ -55,7 +55,6 @@ import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
 import com.enonic.cms.core.captcha.CaptchaService;
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.service.UserServicesService;
 
@@ -113,19 +112,12 @@ public abstract class AbstractUserServicesHandlerController
     @Resource
     protected UserStoreParser userStoreParser;
 
-    public void setUserStoreParser( UserStoreParser userStoreParser )
-    {
-        this.userStoreParser = userStoreParser;
-    }
+    @Resource
+    private UserServicesService userServicesService;
 
     public void setUserServicesRedirectHelper( UserServicesRedirectUrlResolver value )
     {
         this.userServicesRedirectUrlResolver = value;
-    }
-
-    public void setCaptchaService( CaptchaService service )
-    {
-        captchaService = service;
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
@@ -186,7 +178,7 @@ public abstract class AbstractUserServicesHandlerController
 
     protected UserServicesService lookupUserServices()
     {
-        return CmsCoreServicesSpringManagedBeansBridge.getUserServicesService();
+        return this.userServicesService;
     }
 
     public boolean isArrayFormItem( Map formItems, String string )

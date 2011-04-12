@@ -38,22 +38,6 @@
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
 
-  <bean id="cmsCoreServicesSpringManagedBeansBridge" class="com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge">
-    <property name="adminService" ref="adminService"/>
-    <property name="contentService" ref="contentService"/>
-    <property name="dataSourceService" ref="dataSourceService"/>
-    <property name="pageRendererFactory" ref="pageRendererFactory"/>
-    <property name="preferenceService" ref="preferenceService"/>
-    <property name="presentationService" ref="presentationService"/>
-    <property name="resourceService" ref="resourceService"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="siteCachesService" ref="siteCachesService"/>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="siteService" ref="siteService"/>
-    <property name="siteURLResolver" ref="siteURLResolver"/>
-    <property name="userServicesService" ref="userServicesService"/>
-  </bean>
-
   <bean id="userServicesService"
         class="com.enonic.cms.core.internal.service.UserServicesServiceImpl">
     <property name="userServicesEngine">
