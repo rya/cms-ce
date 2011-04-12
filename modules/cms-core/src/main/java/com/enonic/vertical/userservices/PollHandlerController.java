@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -31,6 +33,8 @@ import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.security.user.User;
 
+@Controller
+@RequestMapping(value = "/*/_services/poll")
 public class PollHandlerController
     extends ContentHandlerBaseController
 {

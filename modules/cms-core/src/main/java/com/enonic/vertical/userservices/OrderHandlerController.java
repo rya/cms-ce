@@ -28,6 +28,9 @@ import com.enonic.cms.portal.ShoppingCart;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -46,6 +49,8 @@ import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.security.user.User;
 
+@Controller
+@RequestMapping(value = "/*/_services/order")
 public class OrderHandlerController
     extends ContentHandlerBaseController
 {
@@ -140,6 +145,41 @@ public class OrderHandlerController
 
         ShoppingCart cart = (ShoppingCart) formItems.get( "_shoppingcart" );
         cart.toDoc( doc, contentdataElem, false );
+    }
+
+    @RequestMapping(value = "/cart_add", method = RequestMethod.GET)
+    public void cart_add( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/cart_remove", method = RequestMethod.GET)
+    public void cart_remove( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/cart_update", method = RequestMethod.GET)
+    public void cart_update( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/cart_checkout", method = RequestMethod.GET)
+    public void cart_checkout( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/cart_empty", method = RequestMethod.GET)
+    public void cart_empty( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
     }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,

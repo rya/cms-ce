@@ -16,6 +16,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
@@ -27,6 +30,8 @@ import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.SiteKey;
 
+@Controller
+@RequestMapping(value = "/*/_services/mail")
 public class SendMailController
     extends ContentHandlerBaseController
 {
@@ -44,6 +49,13 @@ public class SendMailController
     public final static int ERR_MISSING_TO_FIELD = 104;
 
     public final static int ERR_MISSING_SUBJECT_FIELD = 105;
+
+    @RequestMapping(value = "/send", method = RequestMethod.GET)
+    public void send( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )

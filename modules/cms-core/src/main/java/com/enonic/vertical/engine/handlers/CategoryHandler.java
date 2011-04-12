@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.google.common.primitives.Ints;
+
 import com.enonic.esl.sql.SelectString;
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.RelationAggregator;
@@ -39,7 +41,6 @@ import com.enonic.vertical.engine.dbmodel.CategoryView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRight2Table;
 import com.enonic.vertical.engine.dbmodel.ContentPublishedView;
 
-import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.category.CategoryXmlCreator;
@@ -112,18 +113,18 @@ public class CategoryHandler
             return new int[0];
         }
 
-        TIntArrayList categoryKeys = new TIntArrayList();
-        for ( int i = 0; i < superCategoryKeys.length; i++ )
+        List<Integer> categoryKeys = new ArrayList<Integer>();
+        for ( int superCategoryKey : superCategoryKeys )
         {
-            categoryKeys.add( getSubCategoriesByParent( new CategoryKey( superCategoryKeys[i] ), recursive ).toArray() );
+            categoryKeys.addAll( getSubCategoriesByParent( new CategoryKey( superCategoryKey ), recursive ) );
         }
 
-        return categoryKeys.toArray();
+        return Ints.toArray( categoryKeys );
     }
 
-    public TIntArrayList getSubCategoriesByParent( CategoryKey parentKey, boolean recursive )
+    public List<Integer> getSubCategoriesByParent( CategoryKey parentKey, boolean recursive )
     {
-        TIntArrayList categoryKeys = new TIntArrayList();
+        List<Integer> categoryKeys = new ArrayList<Integer>();
         CategoryEntity parent = categoryDao.findByKey( parentKey );
         if ( parent == null )
         {
@@ -134,7 +135,7 @@ public class CategoryHandler
             categoryKeys.add( categoryKey.toInt() );
             if ( recursive )
             {
-                categoryKeys.add( getSubCategoriesByParent( categoryKey, true ).toArray() );
+                categoryKeys.addAll( getSubCategoriesByParent( categoryKey, true ) );
             }
         }
         return categoryKeys;
@@ -212,7 +213,7 @@ public class CategoryHandler
                     preparedStmt2.setInt( 1, catKey );
                     resultSet2 = preparedStmt2.executeQuery();
 
-                    TIntArrayList catKeys = new TIntArrayList();
+                    List<Integer> catKeys = new ArrayList<Integer>();
                     while ( resultSet2.next() )
                     {
                         catKeys.add( resultSet2.getInt( "cat_lKey" ) );
@@ -225,7 +226,7 @@ public class CategoryHandler
 
                     if ( catKeys.size() > 0 )
                     {
-                        contentCount += getContentCount( con, catKeys.toArray(), recursive );
+                        contentCount += getContentCount( con, Ints.toArray( catKeys ), recursive );
                     }
                 }
             }

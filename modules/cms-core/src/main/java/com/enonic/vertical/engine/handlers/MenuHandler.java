@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import java.util.List;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
 import org.slf4j.Logger;
@@ -19,13 +20,13 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.event.MenuHandlerListener;
 import com.enonic.vertical.event.VerticalEventMulticaster;
 
-import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.core.security.user.User;
@@ -202,7 +203,7 @@ public final class MenuHandler
     {
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
-        TIntArrayList keyArray = new TIntArrayList();
+        List<Integer> keyArray = new ArrayList<Integer>();
         Connection con = null;
 
         try

@@ -4,12 +4,13 @@
  */
 package com.enonic.vertical.userservices;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 import com.enonic.vertical.VerticalProperties;
 
@@ -31,34 +32,48 @@ import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 
+@Controller
 public abstract class AbstractPresentationController
-    implements Controller, DisposableBean
+    implements /*Controller, */DisposableBean
 {
 
+    @Resource
     protected SiteService siteService;
 
+    @Resource
     protected SitePathResolver sitePathResolver;
 
+    @Resource
     protected VerticalProperties verticalProperties;
 
+    @Resource
     protected SiteRedirectHelper siteRedirectHelper;
 
+    @Resource
     protected SiteDao siteDao;
 
+    @Resource
     protected CategoryDao categoryDao;
 
+    @Resource
     protected ContentDao contentDao;
 
+    @Resource
     protected SecurityService securityService;
 
+    @Resource
     protected UserStoreService userStoreService;
 
+    @Resource
     protected SendMailService sendMailService;
 
+    @Resource
     protected ContentParserService contentParserService;
 
+    @Resource
     protected ContentService contentService;
 
+    @Resource
     protected SiteCachesService siteCachesService;
 
     public void setSiteCachesService( SiteCachesService value )

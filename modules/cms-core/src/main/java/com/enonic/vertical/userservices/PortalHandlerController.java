@@ -7,6 +7,7 @@ package com.enonic.vertical.userservices;
 import java.io.IOException;
 import java.text.ParseException;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,9 @@ import javax.servlet.http.HttpSession;
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.structure.SiteEntity;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.engine.VerticalEngineException;
@@ -28,13 +32,11 @@ import com.enonic.cms.core.resolver.ResolverContext;
 /**
  * Created by rmy - Date: Apr 3, 2009
  */
+@Controller
+@RequestMapping(value = "/*/_services/portal")
 public class PortalHandlerController
-    extends AbstractUserServicesHandlerController
+        extends AbstractUserServicesHandlerController
 {
-
-    private DeviceClassResolverService deviceClassResolverService;
-
-    private LocaleResolverService localeResolverService;
 
     private final static String FORM_ITEM_DEVICE_CLASS = "deviceclass";
 
@@ -42,15 +44,11 @@ public class PortalHandlerController
 
     private static final String FORCE_VALUE_SETTING_KEY = "lifetime";
 
-    public void setDeviceClassificationService( DeviceClassResolverService deviceClassResolverService )
-    {
-        this.deviceClassResolverService = deviceClassResolverService;
-    }
+    @Resource
+    private DeviceClassResolverService deviceClassResolverService;
 
-    public void setLocaleResolverService( LocaleResolverService localeResolverService )
-    {
-        this.localeResolverService = localeResolverService;
-    }
+    @Resource
+    private LocaleResolverService localeResolverService;
 
     private enum PortalOperation
     {
@@ -63,6 +61,34 @@ public class PortalHandlerController
     public PortalHandlerController()
     {
         super();
+    }
+
+    @RequestMapping(value = "/forcedeviceclass", method = RequestMethod.GET)
+    public void forcedeviceclass( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/resetdeviceclass", method = RequestMethod.GET)
+    public void resetdeviceclass( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/forcelocale", method = RequestMethod.GET)
+    public void forcelocale( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
+    }
+
+    @RequestMapping(value = "/resetlocale", method = RequestMethod.GET)
+    public void resetlocale( HttpServletRequest request, HttpServletResponse response )
+            throws Exception
+    {
+        handleRequest( request, response );
     }
 
     @Override

@@ -28,6 +28,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import com.google.common.primitives.Ints;
+
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.util.ArrayUtil;
@@ -46,7 +48,6 @@ import com.enonic.vertical.engine.processors.VersionKeyContentMapProcessor;
 import com.enonic.vertical.event.ContentHandlerListener;
 import com.enonic.vertical.event.VerticalEventMulticaster;
 
-import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.util.TIntObjectHashMap;
 
 import com.enonic.cms.store.dao.ContentTypeDao;
@@ -304,8 +305,8 @@ public final class ContentHandler
             }
             resultSet = preparedStmt.executeQuery();
 
-            TIntArrayList parentKeys = new TIntArrayList();
-            TIntArrayList childrenKeys = new TIntArrayList();
+            List<Integer> parentKeys = new ArrayList<Integer>();
+            List<Integer> childrenKeys = new ArrayList<Integer>();
             boolean moreResults = resultSet.next();
 
             int i;
@@ -572,7 +573,7 @@ public final class ContentHandler
                     selectColumns = getTitlesOnlyColumns();
                 }
 
-                int[] parentContentKeys = parentKeys.toArray();
+                int[] parentContentKeys = Ints.toArray( parentKeys );
                 StringBuffer sqlString = XDG.generateSelectSQL( contentTable, selectColumns, false, null );
                 XDG.appendWhereInSQL( sqlString, contentView.cov_lKey, parentContentKeys );
 
@@ -598,7 +599,7 @@ public final class ContentHandler
 
                 StringBuffer sqlString = XDG.generateSelectSQL( contentTable, selectColumns, false, null );
                 sqlString.append( " WHERE con_lKey IN (" );
-                int[] childrenContentKeys = childrenKeys.toArray();
+                int[] childrenContentKeys = Ints.toArray( childrenKeys );
                 int[] categoryKeys = getCategoryKeys( childrenContentKeys );
                 for ( int childrenContentKey : childrenContentKeys )
                 {
@@ -696,7 +697,7 @@ public final class ContentHandler
         return doc;
     }
 
-    private void getChildrenContentKeys( TIntArrayList childrenKeys, TIntObjectHashMap rckElemMap, boolean publishedOnly )
+    private void getChildrenContentKeys( List<Integer> childrenKeys, TIntObjectHashMap rckElemMap, boolean publishedOnly )
     {
 
         if ( rckElemMap.size() == 0 )
@@ -735,7 +736,7 @@ public final class ContentHandler
         }
     }
 
-    private void getParentContentKeys( TIntArrayList parentKeys, TIntObjectHashMap rckElemMap, boolean publishedOnly, boolean currentOnly )
+    private void getParentContentKeys( List<Integer> parentKeys, TIntObjectHashMap rckElemMap, boolean publishedOnly, boolean currentOnly )
     {
 
         if ( rckElemMap.size() == 0 )

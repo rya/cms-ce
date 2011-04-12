@@ -15,6 +15,8 @@ import com.enonic.cms.core.content.binary.BinaryData;
 import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -35,6 +37,8 @@ import com.enonic.cms.core.security.user.User;
  * modulebuilder XML found in the database. So this servlet will naturally <i>only</i> work for modules created with the modulebuilder. </p>
  * <p> If this functionality is needed for other modules, the buildContentXML method can be overloaded in a child class. </p>
  */
+@Controller
+@RequestMapping(value = "/*/_services/contentmail")
 public class ContentSendMailController
     extends SendMailController
 {

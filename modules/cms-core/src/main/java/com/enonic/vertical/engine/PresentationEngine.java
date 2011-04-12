@@ -175,11 +175,6 @@ public class PresentationEngine
         return binaryDataHandler.getBinaryData( user, binaryDataKey, timestamp );
     }
 
-    public XMLDocument getFormattedDate( int offset, String dateformat, String language, String country )
-    {
-        return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
-    }
-
     public Document getFusionBotQuery( String fusionBotUrl, String query, int siteNum, int page )
     {
         final String MESSAGE_00 = "Failed to query FusionBot search engine";
