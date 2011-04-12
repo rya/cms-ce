@@ -54,12 +54,6 @@
   <bean id="securityHandler" class="com.enonic.vertical.engine.handlers.SecurityHandler" parent="baseHandler">
   </bean>
 
-  <bean id="supportDataHandler" class="com.enonic.vertical.engine.handlers.SupportDataHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="unitHandler" class="com.enonic.vertical.engine.handlers.UnitHandler" parent="baseHandler">
-  </bean>
-
   <bean id="userHandler" class="com.enonic.vertical.engine.handlers.UserHandler" parent="baseHandler">
   </bean>
 
