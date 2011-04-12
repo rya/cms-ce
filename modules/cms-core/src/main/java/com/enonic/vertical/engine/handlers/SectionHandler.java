@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +28,6 @@ import com.enonic.vertical.engine.dbmodel.SectionView;
 import com.enonic.vertical.engine.processors.AttributeElementProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.event.ContentHandlerListener;
-
-import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.security.user.User;
@@ -518,9 +517,15 @@ public class SectionHandler
         sectionKeys = getCommonHandler().getIntArray( sql.toString(), (int[]) null );
         if ( recursive && sectionKeys.length > 0 )
         {
-            TIntArrayList keys = new TIntArrayList();
-            keys.add( sectionKeys );
-            keys.add( getSectionKeysBySuperSections( sectionKeys, recursive ) );
+            List<Integer> keys = new ArrayList<Integer>();
+            for ( int sectionKey : sectionKeys )
+            {
+                keys.add( sectionKey );
+            }
+            for ( int sectionKey : getSectionKeysBySuperSections( sectionKeys, recursive ) )
+            {
+                keys.add( sectionKey );
+            }
         }
         return sectionKeys;
     }

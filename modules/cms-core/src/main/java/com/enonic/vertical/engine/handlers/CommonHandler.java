@@ -12,6 +12,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.TransformerException;
 
@@ -19,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.google.common.primitives.Ints;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Constants;
@@ -33,8 +36,6 @@ import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
-
-import com.enonic.cms.framework.util.TIntArrayList;
 
 public class CommonHandler
     extends BaseHandler
@@ -232,7 +233,7 @@ public class CommonHandler
         Connection con = null;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
-        TIntArrayList keys = new TIntArrayList();
+        List<Integer> keys = new ArrayList<Integer>();
 
         try
         {
@@ -266,7 +267,7 @@ public class CommonHandler
             close( preparedStmt );
             close( con );
         }
-        return keys.toArray();
+        return Ints.toArray( keys );
     }
 
     public int[] getIntArray( String sql )
@@ -279,7 +280,7 @@ public class CommonHandler
         Connection con = null;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
-        TIntArrayList keys = new TIntArrayList();
+        List<Integer> keys = new ArrayList<Integer>();
 
         try
         {
@@ -320,7 +321,7 @@ public class CommonHandler
             close( preparedStmt );
             close( con );
         }
-        return keys.toArray();
+        return Ints.toArray( keys );
     }
 
     public String getString( String sql, Object[] paramValues )
