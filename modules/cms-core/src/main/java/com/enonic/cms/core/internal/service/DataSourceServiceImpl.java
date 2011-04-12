@@ -496,7 +496,7 @@ public final class DataSourceServiceImpl
     public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language,
                                          String country )
     {
-        return presentationEngine.getFormattedDate( offset, dateformat, language, country );
+        return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
     }
 
     /**
