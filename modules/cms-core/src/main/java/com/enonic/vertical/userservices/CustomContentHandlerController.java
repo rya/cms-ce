@@ -57,7 +57,7 @@ import com.enonic.cms.core.security.user.UserEntity;
  * Created by rmy - Date: Jun 24, 2009
  */
 @Controller
-@RequestMapping(value = "/*/_services/customcontent")
+@RequestMapping(value = "/site/**/_services/customcontent")
 public class CustomContentHandlerController
     extends ContentHandlerBaseController
 {

@@ -34,7 +34,7 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.security.user.User;
 
 @Controller
-@RequestMapping(value = "/*/_services/poll")
+@RequestMapping(value = "/site/**/_services/poll")
 public class PollHandlerController
     extends ContentHandlerBaseController
 {

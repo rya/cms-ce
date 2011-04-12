@@ -52,7 +52,7 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 
 @Controller
-@RequestMapping(value = "/*/_services/form")
+@RequestMapping(value = "/site/**/_services/form")
 public class FormHandlerController
     extends ContentHandlerBaseController
 {

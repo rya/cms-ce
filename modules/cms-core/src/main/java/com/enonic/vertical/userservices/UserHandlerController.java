@@ -84,7 +84,7 @@ import com.enonic.cms.domain.user.field.UserFieldTransformer;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
 
 @Controller
-@RequestMapping(value = "/*/_services/user")
+@RequestMapping(value = "/site/**/_services/user")
 public class UserHandlerController
     extends AbstractUserServicesHandlerController
 {

@@ -31,7 +31,7 @@ import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.domain.SiteKey;
 
 @Controller
-@RequestMapping(value = "/*/_services/mail")
+@RequestMapping(value = "/site/**/_services/mail")
 public class SendMailController
     extends ContentHandlerBaseController
 {

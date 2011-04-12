@@ -33,7 +33,7 @@ import com.enonic.cms.core.resolver.ResolverContext;
  * Created by rmy - Date: Apr 3, 2009
  */
 @Controller
-@RequestMapping(value = "/*/_services/portal")
+@RequestMapping(value = "/site/**/_services/portal")
 public class PortalHandlerController
         extends AbstractUserServicesHandlerController
 {

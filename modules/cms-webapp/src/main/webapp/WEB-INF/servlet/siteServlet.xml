@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans
-		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context
-		http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
+
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter">
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="alwaysUseFullPath" value="true"/>
+        <property name="order" value="4"/>
+    </bean>
 
   <!-- Placeholder configurer. -->
   <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -90,7 +96,6 @@
       <props>
         <prop key="/site/**/page">pageRedirectController</prop>
         <prop key="/site/**/errorpage">renderPageController</prop>
-        <!--<prop key="/site/*/_services/**">userServicesController</prop>-->
         <prop key="/site/**/_attachment">attachmentController</prop>
         <prop key="/site/**/_attachment/**">attachmentController</prop>
         <prop key="/site/**/datasource">dataSourceController</prop>
@@ -104,24 +109,9 @@
     </property>
   </bean>
 
-  <bean id="userServicesMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+  <bean id="userServicesMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
     <property name="order" value="4"/>
     <property name="alwaysUseFullPath" value="true"/>
-    <property name="mappings">
-      <props>
-<!--
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentHandlerBaseServlet">contentHandlerBaseController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentSendMailServlet">contentSendMailController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.FormHandlerServlet">formHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.OrderHandlerServlet">orderHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.PollHandlerServlet">pollHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.SendMailServlet">sendMailController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.UserHandlerServlet">userHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.PortalHandlerServlet">portalHandlerController</prop>
-        <prop key="/site/**/servlet/com.enonic.vertical.userservices.CustomContentHandlerServlet">customContentHandlerController</prop>
--->
-      </props>
-    </property>
   </bean>
 
   <!-- main handler mapping -->
@@ -255,66 +245,13 @@
     <property name="siteService" ref="siteService"/>
   </bean>
 
-<!--
-  <bean id="abstractUserServicesHandlerController" class="com.enonic.vertical.userservices.AbstractUserServicesHandlerController"
-        parent="presentationController">
-    <property name="captchaService" ref="captchaService"/>
-    <property name="userServicesRedirectHelper" ref="userServicesRedirectHelper"/>
-    <property name="userStoreParser" ref="userStoreParser"/>
-    <property name="userServicesAccessManager" ref="userServicesAccessManager"/>
-  </bean>
--->
-
-  <!-- UserServices servlets -->
-
-<!--
-  <bean id="contentHandlerBaseController" class="com.enonic.vertical.userservices.ContentHandlerBaseController"
-        parent="abstractUserServicesHandlerController"/>
--->
-
-<!--
-  <bean id="contentSendMailController" class="com.enonic.vertical.userservices.ContentSendMailController"
-        parent="abstractUserServicesHandlerController"/>
--->
-
-<!--
-  <bean id="formHandlerController" class="com.enonic.vertical.userservices.FormHandlerController"
-        parent="abstractUserServicesHandlerController"/>
--->
-
-<!--
-  <bean id="orderHandlerController" class="com.enonic.vertical.userservices.OrderHandlerController"
-        parent="abstractUserServicesHandlerController"/>
--->
-
-<!--
-  <bean id="pollHandlerController" class="com.enonic.vertical.userservices.PollHandlerController"
-        parent="abstractUserServicesHandlerController"/>
--->
-
-  <!--<bean id="sendMailController" class="com.enonic.vertical.userservices.SendMailController" parent="abstractUserServicesHandlerController"/>-->
-
-<!--
-  <bean id="userHandlerController" class="com.enonic.vertical.userservices.UserHandlerController"
-        parent="abstractUserServicesHandlerController">
-    <property name="preferenceService" ref="preferenceService"/>
-    <property name="loginService" ref="loginService"/>
-    <property name="userDao" ref="userDao"/>
-  </bean>
--->
-
-<!--
-  <bean id="customContentHandlerController" class="com.enonic.vertical.userservices.CustomContentHandlerController"
-        parent="abstractUserServicesHandlerController"/>
--->
-
-<!--
-  <bean id="portalHandlerController" class="com.enonic.vertical.userservices.PortalHandlerController"
-        parent="abstractUserServicesHandlerController">
-    <property name="deviceClassificationService" ref="deviceClassificationService"/>
-    <property name="localeResolverService" ref="localeResolverService"/>
-  </bean>
--->
+    <bean class="com.enonic.vertical.userservices.ContentSendMailController"/>
+    <bean class="com.enonic.vertical.userservices.FormHandlerController"/>
+    <bean class="com.enonic.vertical.userservices.PollHandlerController"/>
+    <bean class="com.enonic.vertical.userservices.SendMailController"/>
+    <bean class="com.enonic.vertical.userservices.UserHandlerController"/>
+    <bean class="com.enonic.vertical.userservices.CustomContentHandlerController"/>
+    <bean class="com.enonic.vertical.userservices.PortalHandlerController"/>
 
   <bean id="imageController" class="com.enonic.cms.portal.mvc.controller.ImageController" parent="abstractSiteController">
     <property name="imageService" ref="imageService"/>

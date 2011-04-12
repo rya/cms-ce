@@ -38,7 +38,7 @@ import com.enonic.cms.core.security.user.User;
  * <p> If this functionality is needed for other modules, the buildContentXML method can be overloaded in a child class. </p>
  */
 @Controller
-@RequestMapping(value = "/*/_services/contentmail")
+@RequestMapping(value = "/site/**/_services/contentmail")
 public class ContentSendMailController
     extends SendMailController
 {
