@@ -39,10 +39,10 @@
     <property name="xmlData" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
       <column name="LEN_XMLDATA" not-null="true" length="1000000"/>
     </property>
-    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+    <many-to-one name="site" class="com.enonic.cms.core.structure.SiteEntity" fetch="select">
       <column name="LEN_MEN_LKEY"/>
     </many-to-one>
-    <many-to-one name="user" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="user" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="LEN_USR_HKEY" length="40" not-null="true"/>
     </many-to-one>
   </class>

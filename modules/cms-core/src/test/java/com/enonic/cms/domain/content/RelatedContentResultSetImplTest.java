@@ -12,11 +12,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
 import org.junit.Test;
 
-import com.enonic.cms.domain.content.resultset.RelatedChildContent;
-import com.enonic.cms.domain.content.resultset.RelatedContent;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.content.resultset.RelatedChildContent;
+import com.enonic.cms.core.content.resultset.RelatedContent;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
 
 import static org.junit.Assert.*;
 
@@ -59,7 +63,7 @@ public class RelatedContentResultSetImplTest
         // verify
         assertFalse( set1.isEmpty() );
         assertEquals( 1, set1.size() );
-        assertSet( ContentKey.convertToSet( new ContentKey( child1_contentKey ) ), ContentKey.convertToSet( set1.getContentKeys() ) );
+        assertSet( ContentKey.convertToSet(new ContentKey(child1_contentKey)), ContentKey.convertToSet( set1.getContentKeys() ) );
         assertEquals( createContentSet( child1Content ), set1.getDinstinctSetOfContent() );
 
         List<RelatedContent> rootRelatedChildren =

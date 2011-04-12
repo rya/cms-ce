@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.core.structure;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class MenuItemXMLCreatorSetting
 {

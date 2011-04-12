@@ -6,6 +6,7 @@ package com.enonic.cms.core.resolver;
 
 import javax.xml.transform.URIResolver;
 
+import com.enonic.cms.core.resource.ResourceFile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.util.RegexpUtil;
@@ -17,10 +18,7 @@ import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
 
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resolver.locale.LocaleResolverException;
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resolver.locale.LocaleResolverException;
 
 /**
  * Created by rmy - Date: Apr 29, 2009

@@ -5,10 +5,10 @@
 package com.enonic.cms.core.preview;
 
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * This is to prevent LazyInitializationException occurring when lazy-initialized objects/collections are requested

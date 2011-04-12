@@ -8,7 +8,7 @@ import java.util.Properties;
 
 import org.junit.Test;
 
-import com.enonic.cms.business.SpecialCharacterTestStrings;
+import com.enonic.cms.core.business.SpecialCharacterTestStrings;
 
 import static org.junit.Assert.*;
 

@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 
 /**
  * Nov 16, 2010

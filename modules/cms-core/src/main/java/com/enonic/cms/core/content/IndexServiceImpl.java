@@ -8,6 +8,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.index.BigText;
+import com.enonic.cms.core.content.index.ContentDocument;
+import com.enonic.cms.core.content.index.SimpleText;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,20 +25,12 @@ import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.core.content.index.ContentIndexService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.index.BigText;
-import com.enonic.cms.domain.content.index.ContentDocument;
-import com.enonic.cms.domain.content.index.SimpleText;
-import com.enonic.cms.domain.content.index.config.IndexDefinition;
-import com.enonic.cms.domain.content.index.config.IndexDefinitionBuilder;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.config.IndexDefinition;
+import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public final class IndexServiceImpl
         implements IndexService

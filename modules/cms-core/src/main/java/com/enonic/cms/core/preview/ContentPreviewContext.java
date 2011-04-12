@@ -11,15 +11,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.domain.content.resultset.ContentResultSetWithOverridingContent;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSetWithOverridingContent;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
+import com.enonic.cms.core.content.resultset.ContentResultSetWithOverridingContent;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSetWithOverridingContent;
 
 /**
  * Sep 30, 2010

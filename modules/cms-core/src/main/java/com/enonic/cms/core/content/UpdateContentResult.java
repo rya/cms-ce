@@ -4,9 +4,6 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-
 
 public class UpdateContentResult
 {

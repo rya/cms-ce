@@ -10,19 +10,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
 import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreType;
 import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 import com.enonic.cms.domain.user.remote.RemotePrincipal;
 import com.enonic.cms.domain.user.remote.RemoteUser;

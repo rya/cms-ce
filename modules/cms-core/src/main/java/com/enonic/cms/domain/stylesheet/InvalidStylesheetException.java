@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.domain.stylesheet;
 
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceKey;
 
 
 public class InvalidStylesheetException

@@ -10,13 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
-import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.FunctionTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.PagePortletTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.RenderTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.TraceContext;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  * This class manages the rendering trace.

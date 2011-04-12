@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.enonic.cms.core.resource.FileResourceData;
 import org.springframework.util.FileCopyUtils;
 
 import com.enonic.cms.framework.io.UnicodeInputStream;
@@ -16,9 +17,8 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.resource.FileResourceData;
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.resource.ResourceFile;
 
 final class ResourceFileImpl
     extends ResourceBaseImpl
@@ -152,6 +152,6 @@ final class ResourceFileImpl
 
     private void doSetData( byte[] data )
     {
-        this.service.setResourceData( this.name, FileResourceData.create( data ) );
+        this.service.setResourceData( this.name, FileResourceData.create(data) );
     }
 }

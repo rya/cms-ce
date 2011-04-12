@@ -8,15 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.InvalidContentDataException;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.DataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DataEntry;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 
 public class ContentValidator
 {

@@ -4,16 +4,10 @@
  */
 package com.enonic.cms.core.content.index;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.index.AggregatedQuery;
-import com.enonic.cms.domain.content.index.AggregatedResult;
-import com.enonic.cms.domain.content.index.ContentDocument;
-import com.enonic.cms.domain.content.index.ContentIndexQuery;
-import com.enonic.cms.domain.content.index.IndexValueQuery;
-import com.enonic.cms.domain.content.index.IndexValueResultSet;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 /**
  * This interface defines the content index service.

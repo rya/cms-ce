@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -24,12 +27,9 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.event.VerticalEventListener;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
 
 public final class GroupHandler
     extends BaseHandler

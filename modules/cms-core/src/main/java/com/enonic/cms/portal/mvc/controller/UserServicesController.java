@@ -7,6 +7,7 @@ package com.enonic.cms.portal.mvc.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.portal.InvalidParameterValueException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.vertical.userservices.UserServicesParameterResolver;
@@ -18,9 +19,8 @@ import com.enonic.cms.portal.ticket.TicketValidator;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.InvalidParameterValueException;
-import com.enonic.cms.domain.portal.InvalidTicketException;
-import com.enonic.cms.domain.portal.ParameterMissingException;
+import com.enonic.cms.portal.InvalidTicketException;
+import com.enonic.cms.portal.ParameterMissingException;
 
 public class UserServicesController
     extends AbstractSiteController

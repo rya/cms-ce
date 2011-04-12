@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentLocations;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -19,14 +21,11 @@ import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentLocation;
-import com.enonic.cms.domain.content.ContentLocationSpecification;
-import com.enonic.cms.domain.content.ContentLocations;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 /**
  * Created by IntelliJ IDEA.

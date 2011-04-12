@@ -5,6 +5,10 @@
 package com.enonic.cms.server.service.xslt.function;
 
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -22,10 +26,6 @@ import com.enonic.cms.server.DeploymentAndRequestSetup;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
 
 import static org.junit.Assert.*;
 

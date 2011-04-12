@@ -4,14 +4,14 @@
  */
 package com.enonic.cms.core.security.group.access;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 
 public class GroupAccessResolverImpl

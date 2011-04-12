@@ -6,7 +6,7 @@ package com.enonic.cms.core.service;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.datasource.DataSourceContext;
 
 /**
  * This interface defines all "old" datasource methods that is available in the presentation layer.

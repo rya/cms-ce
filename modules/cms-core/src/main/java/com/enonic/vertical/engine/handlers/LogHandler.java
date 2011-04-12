@@ -10,6 +10,7 @@ import java.util.List;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.cms.core.log.Table;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,9 +26,8 @@ import com.enonic.vertical.event.ContentHandlerListener;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 
 public final class LogHandler

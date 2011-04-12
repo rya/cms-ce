@@ -6,23 +6,19 @@ package com.enonic.cms.core.resolver.deviceclass;
 
 import java.util.Calendar;
 
+import com.enonic.cms.core.resolver.*;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.structure.SiteEntity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.core.resolver.BaseResolverTest;
-import com.enonic.cms.core.resolver.ScriptResolverService;
-import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl;
-import com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver;
-
-import com.enonic.cms.business.SpecialCharacterTestStrings;
+import com.enonic.cms.core.business.SpecialCharacterTestStrings;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
+import com.enonic.cms.core.resource.ResourceKey;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

@@ -10,6 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceKeyResolverForSiteLocalResources;
+import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.ResourceNotFoundException;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,11 +25,7 @@ import com.enonic.cms.core.resource.ResourceService;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.ReservedLocalPaths;
-import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceKeyResolverForSiteLocalResources;
+import com.enonic.cms.core.resource.ResourceFile;
 
 public class ResourceFileController
     extends AbstractSiteController

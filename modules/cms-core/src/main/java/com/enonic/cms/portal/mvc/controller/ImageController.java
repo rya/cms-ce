@@ -11,6 +11,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.portal.ReservedLocalPaths;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,11 +35,9 @@ import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.ReservedLocalPaths;
-import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.portal.ResourceNotFoundException;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public final class ImageController
     extends AbstractSiteController

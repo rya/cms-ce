@@ -6,13 +6,10 @@ package com.enonic.cms.core.structure;
 
 import com.enonic.cms.core.security.SecurityService;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.structure.DefaultSiteAccessEntity;
-import com.enonic.cms.domain.structure.DefaultSiteAccumulatedAccessRights;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 /**
  * Nov 19, 2009

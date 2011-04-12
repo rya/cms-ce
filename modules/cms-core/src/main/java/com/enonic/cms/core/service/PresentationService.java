@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.core.service;
 
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public interface PresentationService
 {

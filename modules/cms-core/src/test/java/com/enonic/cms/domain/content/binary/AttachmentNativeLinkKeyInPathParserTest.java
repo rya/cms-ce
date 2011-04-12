@@ -4,10 +4,11 @@
  */
 package com.enonic.cms.domain.content.binary;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.*;
 import org.junit.Test;
 
 import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.content.ContentKey;
 
 import static org.junit.Assert.*;
 
@@ -26,7 +27,7 @@ public class AttachmentNativeLinkKeyInPathParserTest
     @Test
     public void attachment_path_with_content_key_and_extension()
     {
-        AttachmentNativeLinkKey linkKey = AttachmentNativeLinkKeyInPathParser.resolveFromUrlPath( new Path( "/home/_attachment/123.jpg" ) );
+        AttachmentNativeLinkKey linkKey = AttachmentNativeLinkKeyInPathParser.resolveFromUrlPath(new Path("/home/_attachment/123.jpg"));
         assertEquals( new ContentKey( 123 ), linkKey.getContentKey() );
         assertEquals( "jpg", linkKey.getExtension() );
         assertEquals( "123.jpg", linkKey.asUrlRepresentation() );

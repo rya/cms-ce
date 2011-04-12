@@ -8,6 +8,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.imports.ImportResult;
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateMidnight;
 import org.junit.Before;
@@ -36,16 +38,14 @@ import com.enonic.cms.core.content.imports.ImportJobFactory;
 
 import com.enonic.cms.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.contentdata.custom.BlockGroupDataEntries;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.DateDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.contentdata.custom.BlockGroupDataEntries;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.user.User;
 
 import static org.junit.Assert.*;
 

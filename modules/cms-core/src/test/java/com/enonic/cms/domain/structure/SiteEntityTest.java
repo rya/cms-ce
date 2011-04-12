@@ -7,12 +7,13 @@ package com.enonic.cms.domain.structure;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import junit.framework.TestCase;
 
 import com.enonic.cms.domain.CaseInsensitiveString;
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 public class SiteEntityTest
     extends TestCase

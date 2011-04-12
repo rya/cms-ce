@@ -7,12 +7,12 @@ package com.enonic.cms.core.localization;
 import java.io.IOException;
 import java.util.Properties;
 
+import com.enonic.cms.core.structure.SiteEntity;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resource.ResourceKey;
 
 public class LocalizationTestUtils
 {

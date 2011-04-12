@@ -16,9 +16,6 @@ import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resolver.deviceclass.UserAgentTestEnums;
 
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInput;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator;
-
 import static org.junit.Assert.*;
 
 

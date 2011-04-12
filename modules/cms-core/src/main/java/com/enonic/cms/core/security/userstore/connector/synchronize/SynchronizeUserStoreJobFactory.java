@@ -10,7 +10,7 @@ import com.enonic.cms.core.security.userstore.UserStoreConnectorManager;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
 
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 public class SynchronizeUserStoreJobFactory
 {

@@ -4,14 +4,14 @@
  */
 package com.enonic.cms.core.security.userstore.connector.remote;
 
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.core.security.userstore.connector.EmailAlreadyExistsException;
 import com.enonic.cms.core.security.userstore.connector.NameAlreadyExistsException;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.domain.user.remote.RemoteUser;
 
 public class UserSynchronizer

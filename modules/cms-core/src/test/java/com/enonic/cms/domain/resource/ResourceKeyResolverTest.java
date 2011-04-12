@@ -6,6 +6,7 @@ package com.enonic.cms.domain.resource;
 
 import java.util.HashMap;
 
+import com.enonic.cms.core.resource.ResourceKeyResolverForSiteLocalResources;
 import org.junit.Test;
 
 import com.enonic.cms.domain.Path;

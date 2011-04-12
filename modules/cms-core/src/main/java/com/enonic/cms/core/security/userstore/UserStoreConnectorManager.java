@@ -9,8 +9,7 @@ import java.util.Map;
 import com.enonic.cms.core.security.userstore.connector.UserStoreConnector;
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
 
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 
 public interface UserStoreConnectorManager
 {

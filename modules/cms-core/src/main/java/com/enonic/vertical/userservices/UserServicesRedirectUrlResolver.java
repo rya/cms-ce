@@ -14,8 +14,8 @@ import com.enonic.esl.net.URL;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.httpservices.IllegalRedirectException;
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
+import com.enonic.cms.portal.httpservices.IllegalRedirectException;
+import com.enonic.cms.portal.httpservices.UserServicesException;
 
 public class UserServicesRedirectUrlResolver
 {

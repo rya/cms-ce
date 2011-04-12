@@ -13,7 +13,7 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class UserServicesServiceImpl

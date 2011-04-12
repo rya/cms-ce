@@ -2,12 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.ContentEntity" table="TCONTENT" mutable="true">
+  <class name="com.enonic.cms.core.content.ContentEntity" table="TCONTENT" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="CON_LKEY" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
         <param name="table">TCONTENT</param>
-        <param name="idClassName">com.enonic.cms.domain.content.ContentKey</param>
+        <param name="idClassName">com.enonic.cms.core.content.ContentKey</param>
       </generator>
     </id>
     <property name="createdAt" type="timestamp">
@@ -31,25 +31,25 @@
     <property name="availableTo" type="timestamp">
       <column name="CON_DTEPUBLISHTO"/>
     </property>
-    <many-to-one name="category" class="com.enonic.cms.domain.content.category.CategoryEntity" fetch="select">
+    <many-to-one name="category" class="com.enonic.cms.core.content.category.CategoryEntity" fetch="select">
       <column name="CON_CAT_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="mainVersion" class="com.enonic.cms.domain.content.ContentVersionEntity" fetch="select" cascade="all">
+    <many-to-one name="mainVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
       <column name="CON_COV_LKEY"/>
     </many-to-one>
     <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
       <column name="CON_LAN_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="source" class="com.enonic.cms.domain.content.ContentEntity" fetch="select">
+    <many-to-one name="source" class="com.enonic.cms.core.content.ContentEntity" fetch="select">
       <column name="CON_LSOURCEKEY"/>
     </many-to-one>
-    <many-to-one name="owner" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="owner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="CON_USR_HOWNER" length="40" not-null="true"/>
     </many-to-one>
-    <many-to-one name="assignee" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="assignee" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="CON_USR_HASSIGNEE" length="40" not-null="false"/>
     </many-to-one>
-    <many-to-one name="assigner" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="assigner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="CON_USR_HASSIGNER" length="40" not-null="false"/>
     </many-to-one>
     <property name="assignmentDueDate" type="timestamp">
@@ -58,46 +58,46 @@
     <property name="assignmentDescription" type="string">
       <column name="CON_SASSIGNMENTDESCRIPTION" length="1024"/>
     </property>
-    <many-to-one name="draftVersion" class="com.enonic.cms.domain.content.ContentVersionEntity" fetch="select" cascade="all">
+    <many-to-one name="draftVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
       <column name="CON_COV_LDRAFT"/>
     </many-to-one>
     <map name="contentHomes" inverse="true" sort="natural">
       <cache usage="nonstrict-read-write"/>
       <key column="CHO_CON_LKEY"/>
       <map-key type="integer" column="CHO_MEN_LKEY"/>
-      <one-to-many class="com.enonic.cms.domain.structure.menuitem.ContentHomeEntity"/>
+      <one-to-many class="com.enonic.cms.core.structure.menuitem.ContentHomeEntity"/>
     </map>
     <bag name="versions" inverse="true" order-by="COV_DTECREATED">
       <cache usage="nonstrict-read-write"/>
       <key column="COV_CON_LKEY" not-null="true"/>
-      <one-to-many class="com.enonic.cms.domain.content.ContentVersionEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.ContentVersionEntity"/>
     </bag>
     <set name="sectionContents" inverse="true">
       <cache usage="nonstrict-read-write"/>
       <key column="SCO_CON_LKEY"/>
-      <one-to-many class="com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity"/>
+      <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
     </set>
     <set name="directMenuItemPlacements" inverse="true" table="TMENUITEMCONTENT"
-         sort="com.enonic.cms.domain.structure.menuitem.MenuItemComparatorByHierarchy">
+         sort="com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="MIC_CON_LKEY" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity">
+      <many-to-many class="com.enonic.cms.core.structure.menuitem.MenuItemEntity">
         <column name="MIC_MEI_LKEY" not-null="true"/>
       </many-to-many>
     </set>
-    <map name="contentAccessRights" inverse="true" sort="com.enonic.cms.domain.security.group.GroupKeyComparator" mutable="true"
+    <map name="contentAccessRights" inverse="true" sort="com.enonic.cms.core.security.group.GroupKeyComparator" mutable="true"
          cascade="all-delete-orphan">
       <cache usage="nonstrict-read-write"/>
       <key column="COA_CON_LKEY"/>
       <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="COA_GRP_HKEY"/>
-      <one-to-many class="com.enonic.cms.domain.content.ContentAccessEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.ContentAccessEntity"/>
     </map>
     <set name="relatedParents" table="TRELATEDCONTENT">
       <cache usage="nonstrict-read-write"/>
       <key column="RCO_CON_LCHILD" not-null="true"/>
-      <many-to-many class="com.enonic.cms.domain.content.ContentVersionEntity">
+      <many-to-many class="com.enonic.cms.core.content.ContentVersionEntity">
         <column name="RCO_CON_LPARENT" not-null="true"/>
       </many-to-many>
     </set>

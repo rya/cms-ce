@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.ContentPathResolver;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -80,7 +82,7 @@ public class ContentPathResolverTest
 
     private ContentPath resolvePath( String pathAsString )
     {
-        return ContentPathResolver.resolveContentPath( new Path( pathAsString ) );
+        return ContentPathResolver.resolveContentPath(new Path(pathAsString));
     }
 
     private void verifyContentPath( ContentPath resolvedPath, String contentKey, String contentName )

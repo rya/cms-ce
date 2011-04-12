@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupSpecification;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -20,13 +23,10 @@ import com.enonic.cms.core.security.userstore.connector.remote.MemberCache;
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
 import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 import com.enonic.cms.domain.user.remote.RemoteUser;
 

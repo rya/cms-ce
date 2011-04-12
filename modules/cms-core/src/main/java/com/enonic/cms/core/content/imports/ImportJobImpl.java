@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +19,10 @@ import com.enonic.cms.framework.util.BatchedList;
 import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.CtyImportConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportPurgeConfig;
-import com.enonic.cms.domain.content.imports.BatchedImportDataReader;
-import com.enonic.cms.domain.content.imports.ImportDataEntry;
-import com.enonic.cms.domain.content.imports.ImportDataReader;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportPurgeConfig;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public class ImportJobImpl

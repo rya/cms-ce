@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.log;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 import java.util.Date;
 

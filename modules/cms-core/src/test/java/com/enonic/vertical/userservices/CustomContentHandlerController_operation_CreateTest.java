@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.content.*;
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,32 +29,29 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.DomainFactory;
-import com.enonic.cms.core.content.DomainFixture;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
 
-import com.enonic.cms.business.AbstractPersistContentTest;
+import com.enonic.cms.core.business.AbstractPersistContentTest;
 
 import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.BooleanDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextAreaDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.xmlbased.XmlDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.user.User;
 
 import static junit.framework.Assert.assertTrue;
 import static junitx.framework.Assert.assertFalse;

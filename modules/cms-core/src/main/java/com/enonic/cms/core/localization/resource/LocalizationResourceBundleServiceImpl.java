@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Properties;
 
+import com.enonic.cms.core.resource.ResourceKey;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,9 +20,8 @@ import com.enonic.cms.store.resource.FileResourceListener;
 
 import com.enonic.cms.core.localization.LocalizationResourceBundle;
 import com.enonic.cms.core.localization.LocalizationResourceException;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Created by rmy - Date: Apr 22, 2009

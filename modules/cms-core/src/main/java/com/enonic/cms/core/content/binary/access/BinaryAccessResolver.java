@@ -6,6 +6,8 @@ package com.enonic.cms.core.content.binary.access;
 
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,11 +15,9 @@ import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public class BinaryAccessResolver

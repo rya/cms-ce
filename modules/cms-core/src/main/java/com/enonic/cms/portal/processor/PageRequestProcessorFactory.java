@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.processor;
 
+import com.enonic.cms.portal.PageRequestType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
@@ -12,9 +13,6 @@ import com.enonic.cms.portal.PortalAccessService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.PageTemplateDao;
 import com.enonic.cms.store.dao.SectionContentDao;
-
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 
 /**
  * Sep 29, 2009

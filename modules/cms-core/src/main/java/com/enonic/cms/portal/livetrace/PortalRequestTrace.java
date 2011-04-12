@@ -9,8 +9,8 @@ import org.joda.time.DateTime;
 import com.enonic.cms.domain.PathAndParamsToStringBuilder;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Oct 6, 2010

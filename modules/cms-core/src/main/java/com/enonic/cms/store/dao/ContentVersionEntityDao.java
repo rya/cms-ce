@@ -7,17 +7,17 @@ package com.enonic.cms.store.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.ContentVersionSpecification;
+import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.security.group.GroupKey;
 import org.hibernate.Query;
 
 import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.ContentVersionSpecification;
-import com.enonic.cms.domain.content.category.CategoryAccessEntity;
-import com.enonic.cms.domain.content.category.CategoryAccessType;
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.content.category.CategoryAccessEntity;
 
 public class ContentVersionEntityDao
     extends AbstractBaseEntityDao<ContentVersionEntity>
@@ -164,7 +164,7 @@ public class ContentVersionEntityDao
     /**
      * {@inheritDoc}
      *
-     * @see com.enonic.cms.store.dao.ContentVersionDao#findCountBySpecification(com.enonic.cms.domain.content.ContentVersionSpecification)
+     * @see com.enonic.cms.store.dao.ContentVersionDao#findCountBySpecification(com.enonic.cms.core.content.ContentVersionSpecification)
      */
     public int findCountBySpecification( ContentVersionSpecification specification )
     {

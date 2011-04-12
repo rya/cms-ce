@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.portal.rendering.WindowRendererContext;
-
-import com.enonic.cms.domain.structure.SiteEntity;
 
 /**
  * Created by IntelliJ IDEA.

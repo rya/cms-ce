@@ -11,12 +11,10 @@ import org.springframework.util.Assert;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.resultset.RelatedChildContent;
-import com.enonic.cms.domain.content.resultset.RelatedContent;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.content.resultset.RelatedChildContent;
+import com.enonic.cms.core.content.resultset.RelatedContent;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
 
 /**
  * Jun 11, 2009

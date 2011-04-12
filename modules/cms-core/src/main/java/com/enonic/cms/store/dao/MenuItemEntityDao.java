@@ -9,16 +9,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import org.hibernate.Query;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
-import com.enonic.cms.domain.structure.page.PageSpecification;
-import com.enonic.cms.domain.structure.page.template.PageTemplateSpecification;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.PageSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 
 public class MenuItemEntityDao
     extends AbstractBaseEntityDao<MenuItemEntity>

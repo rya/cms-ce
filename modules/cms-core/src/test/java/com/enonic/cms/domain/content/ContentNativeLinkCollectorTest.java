@@ -6,6 +6,10 @@ package com.enonic.cms.domain.content;
 
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentNativeLink;
+import com.enonic.cms.core.content.ContentNativeLinkCollector;
+import com.enonic.cms.core.content.ContentNativeLinkType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

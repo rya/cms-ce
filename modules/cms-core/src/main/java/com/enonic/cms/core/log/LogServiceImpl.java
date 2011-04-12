@@ -20,7 +20,7 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.LogEntryDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class LogServiceImpl
     implements LogService

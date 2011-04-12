@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.ContentHandlerEntity" table="TCONTENTHANDLER" mutable="false">
+  <class name="com.enonic.cms.core.content.ContentHandlerEntity" table="TCONTENTHANDLER" mutable="false">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.ContentHandlerKeyUserType">
       <column name="HAN_LKEY"/>

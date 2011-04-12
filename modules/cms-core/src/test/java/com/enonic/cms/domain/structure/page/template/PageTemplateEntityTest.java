@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.domain.structure.page.template;
 
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.datasource.Datasources;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.junit.Test;
-
-import com.enonic.cms.domain.portal.datasource.Datasources;
 
 import static org.junit.Assert.*;
 

@@ -21,7 +21,7 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.cms.core.home.HomeService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteProperties;
+import com.enonic.cms.core.structure.SiteProperties;
 
 public class SitePropertiesServiceImpl
     implements SitePropertiesService, InitializingBean
@@ -37,7 +37,7 @@ public class SitePropertiesServiceImpl
     public void afterPropertiesSet()
         throws Exception
     {
-        Resource resource = resourceLoader.getResource( "classpath:com/enonic/cms/business/render/site-default.properties" );
+        Resource resource = resourceLoader.getResource( "classpath:com/enonic/cms/core/business/render/site-default.properties" );
         try
         {
             defaultProperties = new Properties();

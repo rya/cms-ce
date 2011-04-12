@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.datasource;
 
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -17,12 +18,8 @@ import com.enonic.cms.portal.datasource.methodcall.MethodCallFactory;
 import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.portal.ShoppingCart;
-import com.enonic.cms.domain.portal.datasource.DataSourceResult;
-import com.enonic.cms.domain.portal.datasource.Datasource;
-import com.enonic.cms.domain.portal.datasource.Datasources;
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
-import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.portal.ShoppingCart;
+import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
 
 public class DatasourceExecutor
 {

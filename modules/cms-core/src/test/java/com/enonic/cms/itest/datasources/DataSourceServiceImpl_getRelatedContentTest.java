@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.itest.datasources;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.portal.datasource.DataSourceContext;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -33,17 +35,15 @@ import com.enonic.cms.core.content.ContentService;
 
 import com.enonic.cms.core.security.SecurityService;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.user.User;
 
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;

@@ -10,16 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
 import org.joda.time.ReadableDateTime;
 
-import com.enonic.cms.domain.content.ContentIndexEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.index.BigText;
-import com.enonic.cms.domain.content.index.ContentIndexConstants;
-import com.enonic.cms.domain.content.index.FieldHelper;
-import com.enonic.cms.domain.content.index.util.ValueConverter;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.util.ValueConverter;
 
 /**
  * This class implements the field set.

@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.content.index;
 
+import com.enonic.cms.core.content.index.FieldHelper;
 import junit.framework.TestCase;
 
 public class FieldHelperTest
@@ -11,7 +12,7 @@ public class FieldHelperTest
 {
     public void testTranslateFieldName()
     {
-        assertEquals( "a", FieldHelper.translateFieldName( "a" ) );
+        assertEquals( "a", FieldHelper.translateFieldName("a") );
         assertEquals( "a", FieldHelper.translateFieldName( "@a" ) );
         assertEquals( "a", FieldHelper.translateFieldName( "/a" ) );
         assertEquals( "a", FieldHelper.translateFieldName( "/@a" ) );

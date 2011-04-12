@@ -41,11 +41,7 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.StacktraceLoggingUnrequired;
 import com.enonic.cms.domain.UnauthorizedErrorType;
-import com.enonic.cms.domain.portal.ContentNameMismatchException;
-import com.enonic.cms.domain.portal.LoginPageNotFoundException;
-import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
-import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class PortalExceptionResolver
         implements HandlerExceptionResolver

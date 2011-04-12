@@ -7,10 +7,9 @@ package com.enonic.vertical.engine.handlers;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryStatistics;
 import junit.framework.TestCase;
-
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.category.CategoryStatistics;
 
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.expect;

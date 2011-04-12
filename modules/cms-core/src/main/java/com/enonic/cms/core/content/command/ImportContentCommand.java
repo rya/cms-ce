@@ -9,9 +9,9 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 public class ImportContentCommand
 {

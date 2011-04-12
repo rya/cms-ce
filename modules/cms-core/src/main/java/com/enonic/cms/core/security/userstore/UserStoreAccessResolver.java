@@ -4,8 +4,7 @@
  */
 package com.enonic.cms.core.security.userstore;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Jul 9, 2009

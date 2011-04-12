@@ -9,6 +9,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.binary.*;
+import com.enonic.cms.portal.PathRequiresAuthenticationException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,7 +27,6 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 import com.enonic.cms.core.SitePathResolver;
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
-import com.enonic.cms.core.content.binary.BinaryService;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.AutoLoginService;
@@ -42,18 +44,15 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNotFoundException;
-import com.enonic.cms.domain.content.binary.AttachmentRequest;
-import com.enonic.cms.domain.content.binary.AttachmentRequestResolver;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
-import com.enonic.cms.domain.portal.ReservedLocalPaths;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
+import com.enonic.cms.core.content.binary.AttachmentRequest;
+import com.enonic.cms.core.content.binary.AttachmentRequestResolver;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 
 public class AttachmentController
@@ -243,7 +242,7 @@ public class AttachmentController
 
         if ( !pathAsString.contains( ReservedLocalPaths.PATH_ATTACHMENT.toString() ) )
         {
-            throw AttachmentNotFoundException.notFound( sitePath.getLocalPath().toString() );
+            throw AttachmentNotFoundException.notFound(sitePath.getLocalPath().toString());
         }
 
         int i = pathAsString.lastIndexOf( ReservedLocalPaths.PATH_ATTACHMENT.toString() );

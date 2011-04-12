@@ -9,11 +9,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplatePortletEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 
 public class PageTemplateEntityDao
     extends AbstractBaseEntityDao<PageTemplateEntity>

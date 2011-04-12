@@ -7,6 +7,8 @@ package com.enonic.cms.core.content;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.command.AssignContentCommand;
@@ -16,26 +18,19 @@ import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentSpecification;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.ContentVersionSpecification;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.query.ContentByCategoryQuery;
-import com.enonic.cms.domain.content.query.ContentByContentQuery;
-import com.enonic.cms.domain.content.query.ContentByQueryQuery;
-import com.enonic.cms.domain.content.query.ContentBySectionQuery;
-import com.enonic.cms.domain.content.query.OpenContentQuery;
-import com.enonic.cms.domain.content.query.RelatedChildrenContentQuery;
-import com.enonic.cms.domain.content.query.RelatedContentQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentVersionResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.ContentByQueryQuery;
+import com.enonic.cms.core.content.query.ContentBySectionQuery;
+import com.enonic.cms.core.content.query.OpenContentQuery;
+import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentVersionResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public interface ContentService
 {

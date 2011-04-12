@@ -6,6 +6,8 @@ package com.enonic.vertical.engine.handlers;
 
 import java.util.Arrays;
 import java.util.List;
+
+import com.enonic.cms.core.structure.page.PageEntity;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,10 +16,9 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.structure.page.PageEntity;
-import com.enonic.cms.domain.structure.page.PageWindowEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.PageWindowEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 
 public final class PageHandler
     extends BaseHandler

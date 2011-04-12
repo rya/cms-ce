@@ -24,9 +24,9 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.PresentationService;
 
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.security.user.User;
 
 /**
  * This class wraps the presentation service and calls with the new client api.

@@ -7,6 +7,8 @@ package com.enonic.cms.domain.portal.instruction;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.enonic.cms.portal.instruction.CreateAttachmentUrlInstruction;
+import com.enonic.cms.portal.instruction.PostProcessInstruction;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;

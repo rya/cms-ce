@@ -4,10 +4,12 @@
  */
 package com.enonic.cms.domain.content.category;
 
+import com.enonic.cms.core.content.category.CategoryAccessKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.security.group.GroupKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;
-import com.enonic.cms.domain.security.group.GroupKey;
 
 
 public class CategoryAccessKeyEqualsTest

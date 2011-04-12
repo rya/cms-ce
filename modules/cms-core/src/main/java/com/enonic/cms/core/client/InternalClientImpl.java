@@ -14,6 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.imports.ImportResult;
+import com.enonic.cms.core.preferences.*;
+import com.enonic.cms.core.resource.ResourceXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.joda.time.DateTime;
@@ -71,18 +78,11 @@ import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
 import com.enonic.cms.api.client.model.preference.Preference;
 import com.enonic.cms.core.SitePropertiesService;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentXMLCreator;
-import com.enonic.cms.core.content.GetContentExecutor;
-import com.enonic.cms.core.content.GetContentResult;
-import com.enonic.cms.core.content.GetContentXmlCreator;
-import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
-import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.resource.ResourceService;
@@ -109,52 +109,46 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.content.imports.ImportResultXmlCreator;
-import com.enonic.cms.domain.content.index.ContentIndexQuery.SectionFilterStatus;
-import com.enonic.cms.domain.content.query.ContentByCategoryQuery;
-import com.enonic.cms.domain.content.query.ContentByContentQuery;
-import com.enonic.cms.domain.content.query.ContentByQueryQuery;
-import com.enonic.cms.domain.content.query.ContentBySectionQuery;
-import com.enonic.cms.domain.content.query.RelatedChildrenContentQuery;
-import com.enonic.cms.domain.content.query.RelatedContentQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceScope;
-import com.enonic.cms.domain.preference.PreferenceScopeKey;
-import com.enonic.cms.domain.preference.PreferenceScopeResolver;
-import com.enonic.cms.domain.preference.PreferenceScopeType;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceXmlCreator;
-import com.enonic.cms.domain.security.group.AddMembershipsCommand;
-import com.enonic.cms.domain.security.group.DeleteGroupCommand;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupNotFoundException;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.group.GroupXmlCreator;
-import com.enonic.cms.domain.security.group.QualifiedGroupname;
-import com.enonic.cms.domain.security.group.RemoveMembershipsCommand;
-import com.enonic.cms.domain.security.group.StoreNewGroupCommand;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.imports.ImportResultXmlCreator;
+import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.ContentByQueryQuery;
+import com.enonic.cms.core.content.query.ContentBySectionQuery;
+import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.preferences.PreferenceEntity;
+import com.enonic.cms.core.preferences.PreferenceKey;
+import com.enonic.cms.core.preferences.PreferenceScope;
+import com.enonic.cms.core.preferences.PreferenceScopeKey;
+import com.enonic.cms.core.preferences.PreferenceScopeResolver;
+import com.enonic.cms.core.preferences.PreferenceScopeType;
+import com.enonic.cms.core.preferences.PreferenceSpecification;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.group.AddMembershipsCommand;
+import com.enonic.cms.core.security.group.DeleteGroupCommand;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupNotFoundException;
+import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.group.GroupXmlCreator;
+import com.enonic.cms.core.security.group.QualifiedGroupname;
+import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
+import com.enonic.cms.core.security.group.StoreNewGroupCommand;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 
 /**
  * This class implements the local client.
@@ -1241,7 +1235,7 @@ public final class InternalClientImpl
                 contentByCategoryQuery.setFilterContentOnlineAt( now );
                 relatedContentQuery.setFilterContentOnlineAt( now );
             }
-            contentByCategoryQuery.setCategoryKeyFilter( CategoryKey.convertToList( params.categoryKeys ), params.levels );
+            contentByCategoryQuery.setCategoryKeyFilter( CategoryKey.convertToList(params.categoryKeys), params.levels );
 
             ContentResultSet contents = contentService.queryContent( contentByCategoryQuery );
             if ( previewContext.isPreviewingContent() )
@@ -1772,7 +1766,7 @@ public final class InternalClientImpl
         try
         {
             PreferenceKey preferenceKey =
-                    new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
+                    new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse(params.scope.getType().toString()),
                                        params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
 
             PreferenceEntity preferenceEntity = preferenceService.getPreference( preferenceKey );

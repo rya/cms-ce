@@ -7,6 +7,8 @@ package com.enonic.cms.domain.portal.instruction;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.enonic.cms.portal.instruction.CreateResourceUrlInstruction;
+import com.enonic.cms.portal.instruction.PostProcessInstruction;
 import org.junit.Test;
 
 import junit.framework.TestCase;

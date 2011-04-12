@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.framework.time.TimeService;
@@ -22,15 +26,11 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.core.security.userstore.UserStorageService;
 import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreType;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.user.DisplayNameResolver;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.user.DisplayNameResolver;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;

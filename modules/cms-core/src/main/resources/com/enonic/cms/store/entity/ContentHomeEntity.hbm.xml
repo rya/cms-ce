@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.menuitem.ContentHomeEntity" table="TCONTENTHOME" mutable="true">
+  <class name="com.enonic.cms.core.structure.menuitem.ContentHomeEntity" table="TCONTENTHOME" mutable="true">
     <cache usage="nonstrict-read-write"/>
-    <composite-id name="key" class="com.enonic.cms.domain.structure.menuitem.ContentHomeKey">
+    <composite-id name="key" class="com.enonic.cms.core.structure.menuitem.ContentHomeKey">
       <key-property name="contentKey" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
         <column name="CHO_CON_LKEY"/>
       </key-property>
@@ -12,17 +12,17 @@
         <column name="CHO_MEN_LKEY"/>
       </key-property>
     </composite-id>
-    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" update="false" insert="false"
+    <many-to-one name="content" class="com.enonic.cms.core.content.ContentEntity" update="false" insert="false"
                  fetch="select">
       <column name="CHO_CON_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="menuItem" class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity" fetch="select">
+    <many-to-one name="menuItem" class="com.enonic.cms.core.structure.menuitem.MenuItemEntity" fetch="select">
       <column name="CHO_MEI_LKEY"/>
     </many-to-one>
-    <many-to-one name="pageTemplate" class="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" fetch="select">
+    <many-to-one name="pageTemplate" class="com.enonic.cms.core.structure.page.template.PageTemplateEntity" fetch="select">
       <column name="CHO_PAT_LKEY"/>
     </many-to-one>
-    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" update="false" insert="false"
+    <many-to-one name="site" class="com.enonic.cms.core.structure.SiteEntity" update="false" insert="false"
                  fetch="select">
       <column name="CHO_MEN_LKEY" not-null="true"/>
     </many-to-one>

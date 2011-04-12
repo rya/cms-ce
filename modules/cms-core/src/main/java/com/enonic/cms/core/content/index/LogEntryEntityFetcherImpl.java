@@ -12,8 +12,6 @@ import com.enonic.cms.core.log.LogEntryEntity;
 import com.enonic.cms.core.log.LogEntryKey;
 import com.enonic.cms.store.dao.LogEntryDao;
 
-import com.enonic.cms.domain.content.index.LogEntryEntityFetcher;
-
 public final class LogEntryEntityFetcherImpl
     implements LogEntryEntityFetcher
 {

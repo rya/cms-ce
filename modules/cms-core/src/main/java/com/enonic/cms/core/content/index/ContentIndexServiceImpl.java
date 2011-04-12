@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,29 +22,12 @@ import com.enonic.cms.framework.jdbc.dialect.Dialect;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentIndexDao;
 
-import com.enonic.cms.domain.content.ContentIndexEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.index.AggregatedQuery;
-import com.enonic.cms.domain.content.index.AggregatedResult;
-import com.enonic.cms.domain.content.index.AggregatedResultImpl;
-import com.enonic.cms.domain.content.index.BigText;
-import com.enonic.cms.domain.content.index.ContentDocument;
-import com.enonic.cms.domain.content.index.ContentIndexConstants;
-import com.enonic.cms.domain.content.index.ContentIndexQuery;
-import com.enonic.cms.domain.content.index.IndexValueQuery;
-import com.enonic.cms.domain.content.index.IndexValueResultImpl;
-import com.enonic.cms.domain.content.index.IndexValueResultSet;
-import com.enonic.cms.domain.content.index.IndexValueResultSetImpl;
-import com.enonic.cms.domain.content.index.SimpleText;
-import com.enonic.cms.domain.content.index.TranslatedQuery;
-import com.enonic.cms.domain.content.index.UserDefinedField;
-import com.enonic.cms.domain.content.index.translator.AggregatedQueryTranslator;
-import com.enonic.cms.domain.content.index.translator.ContentQueryTranslator;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentResultSetLazyFetcher;
-import com.enonic.cms.domain.content.resultset.ContentResultSetNonLazy;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.translator.AggregatedQueryTranslator;
+import com.enonic.cms.core.content.index.translator.ContentQueryTranslator;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSetLazyFetcher;
+import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 
 /**
  * This class implements the content index service based on hibernate.

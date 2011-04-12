@@ -7,12 +7,10 @@ package com.enonic.cms.core.content.index;
 import org.joda.time.ReadableDateTime;
 import org.junit.Test;
 
-import com.enonic.cms.domain.content.index.ContentIndexQuery;
-import com.enonic.cms.domain.content.index.ContentIndexQueryExprParser;
-import com.enonic.cms.domain.content.index.queryexpression.CompareExpr;
-import com.enonic.cms.domain.content.index.queryexpression.LogicalExpr;
-import com.enonic.cms.domain.content.index.queryexpression.QueryExpr;
-import com.enonic.cms.domain.content.index.queryexpression.ValueExpr;
+import com.enonic.cms.core.content.index.queryexpression.CompareExpr;
+import com.enonic.cms.core.content.index.queryexpression.LogicalExpr;
+import com.enonic.cms.core.content.index.queryexpression.QueryExpr;
+import com.enonic.cms.core.content.index.queryexpression.ValueExpr;
 
 import static org.junit.Assert.*;
 

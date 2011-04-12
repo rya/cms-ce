@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.structure.RunAsType;
+import com.enonic.cms.core.structure.RunAsType;
 
 public class RunAsUserType
     extends AbstractIntegerBasedUserType<RunAsType>
@@ -16,7 +16,7 @@ public class RunAsUserType
 
     public RunAsType get( int value )
     {
-        return RunAsType.get( value );
+        return RunAsType.get(value);
     }
 
     public Integer getIntegerValue( RunAsType value )

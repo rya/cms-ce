@@ -8,29 +8,27 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.*;
 import org.jdom.Document;
 
 import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.ShoppingCart;
-import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.portal.datasource.DatasourcesType;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.ShoppingCart;
+import com.enonic.cms.portal.VerticalSession;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteProperties;
 
 /**
  * Apr 21, 2009

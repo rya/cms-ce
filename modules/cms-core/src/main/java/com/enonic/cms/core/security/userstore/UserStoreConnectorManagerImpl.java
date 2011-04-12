@@ -7,6 +7,7 @@ package com.enonic.cms.core.security.userstore;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
@@ -23,10 +24,6 @@ import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
 import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory;
-
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
 
 public final class UserStoreConnectorManagerImpl
     implements UserStoreConnectorManager

@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.contenttype.ContentTypeEntity" table="TCONTENTTYPE" mutable="true">
+  <class name="com.enonic.cms.core.content.contenttype.ContentTypeEntity" table="TCONTENTTYPE" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="CTY_LKEY"/>
@@ -23,7 +23,7 @@
     <property name="defaultCssKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
       <column name="CTY_SCSS" length="1024"/>
     </property>
-    <many-to-one name="handler" class="com.enonic.cms.domain.content.ContentHandlerEntity" fetch="select">
+    <many-to-one name="handler" class="com.enonic.cms.core.content.ContentHandlerEntity" fetch="select">
       <column name="CTY_HAN_LKEY" not-null="true"/>
     </many-to-one>
     <set name="categories" inverse="true" order-by="CAT_CTY_LKEY">
@@ -31,7 +31,7 @@
       <key>
         <column name="CAT_CTY_LKEY"/>
       </key>
-      <one-to-many class="com.enonic.cms.domain.content.category.CategoryEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.category.CategoryEntity"/>
     </set>
   </class>
   <query name="ContentTypeEntity.getResourceUsageCountCSS" cacheable="true" read-only="true">

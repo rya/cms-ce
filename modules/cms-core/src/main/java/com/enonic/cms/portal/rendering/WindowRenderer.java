@@ -4,6 +4,16 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.structure.TemplateParameter;
+import com.enonic.cms.core.structure.TemplateParameterType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.WindowNotFoundException;
+import com.enonic.cms.portal.datasource.*;
+import com.enonic.cms.portal.rendering.tracing.PagePortletTraceInfo;
+import com.enonic.cms.portal.rendering.viewtransformer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +26,6 @@ import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.portal.cache.PageCacheService;
-import com.enonic.cms.portal.datasource.DatasourceExecutor;
-import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
-import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
 import com.enonic.cms.portal.instruction.PostProcessInstructionContext;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
 import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
@@ -30,36 +37,23 @@ import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsContext;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.portal.rendering.tracing.TraceMarkerHelper;
-import com.enonic.cms.portal.rendering.viewtransformer.PortletXsltViewTransformer;
 
 import com.enonic.cms.domain.CacheObjectSettings;
 import com.enonic.cms.domain.CacheSettings;
 import com.enonic.cms.domain.CachedObject;
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.PortalRenderingException;
-import com.enonic.cms.domain.portal.Ticket;
-import com.enonic.cms.domain.portal.WindowNotFoundException;
-import com.enonic.cms.domain.portal.datasource.DataSourceResult;
-import com.enonic.cms.domain.portal.datasource.Datasources;
-import com.enonic.cms.domain.portal.datasource.DatasourcesType;
-import com.enonic.cms.domain.portal.rendering.ErrorRenderPortletResult;
-import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
-import com.enonic.cms.domain.portal.rendering.WindowCacheKey;
-import com.enonic.cms.domain.portal.rendering.tracing.PagePortletTraceInfo;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.StringTransformationParameter;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParameterOrigin;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParams;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.ViewTransformationResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.TemplateParameter;
-import com.enonic.cms.domain.structure.TemplateParameterType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.page.WindowKey;
+import com.enonic.cms.portal.PortalRenderingException;
+import com.enonic.cms.portal.Ticket;
+import com.enonic.cms.portal.datasource.DataSourceResult;
+import com.enonic.cms.portal.datasource.Datasources;
+import com.enonic.cms.portal.datasource.DatasourcesType;
+import com.enonic.cms.portal.rendering.viewtransformer.StringTransformationParameter;
+import com.enonic.cms.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
+import com.enonic.cms.portal.rendering.viewtransformer.TransformationParameterOrigin;
+import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**

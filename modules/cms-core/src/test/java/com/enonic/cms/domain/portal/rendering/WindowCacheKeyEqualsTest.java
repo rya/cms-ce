@@ -6,10 +6,11 @@ package com.enonic.cms.domain.portal.rendering;
 
 import java.util.Locale;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.rendering.WindowCacheKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 
 
 public class WindowCacheKeyEqualsTest

@@ -7,29 +7,31 @@ package com.enonic.cms.domain.content;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.enonic.esl.xml.XMLTool;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextAreaDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigParser;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.HtmlAreaDataEntryConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextAreaDataEntryConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.HtmlAreaDataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextAreaDataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 
 public class ContentVersionEntityTest
 {

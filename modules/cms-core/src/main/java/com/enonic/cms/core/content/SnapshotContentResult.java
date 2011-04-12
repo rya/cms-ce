@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.domain.content.ContentVersionEntity;
-
 /**
  * Created by IntelliJ IDEA.
  * User: rmh

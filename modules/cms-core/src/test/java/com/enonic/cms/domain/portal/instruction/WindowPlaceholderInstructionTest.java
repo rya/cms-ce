@@ -7,6 +7,8 @@ package com.enonic.cms.domain.portal.instruction;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.enonic.cms.portal.instruction.PostProcessInstruction;
+import com.enonic.cms.portal.instruction.RenderWindowInstruction;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

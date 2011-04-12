@@ -7,13 +7,15 @@ package com.enonic.cms.domain.security.group;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import org.junit.Test;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 import static org.junit.Assert.*;
 

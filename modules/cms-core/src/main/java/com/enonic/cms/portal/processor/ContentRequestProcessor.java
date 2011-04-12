@@ -6,6 +6,9 @@ package com.enonic.cms.portal.processor;
 
 import java.util.Map;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.*;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.base.Preconditions;
@@ -19,17 +22,11 @@ import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageResolver;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.portal.ContentNameMismatchException;
-import com.enonic.cms.domain.portal.ContentNotFoundException;
-import com.enonic.cms.domain.portal.ContentPath;
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.PageTemplateNotFoundException;
-import com.enonic.cms.domain.portal.PathToContentResolver;
-import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
-import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.ContentNameMismatchException;
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.PageRequestType;
+import com.enonic.cms.portal.PathToContentResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Sep 28, 2009

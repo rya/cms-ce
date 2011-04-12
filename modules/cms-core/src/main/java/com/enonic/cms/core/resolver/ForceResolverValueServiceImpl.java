@@ -17,9 +17,6 @@ import com.enonic.esl.servlet.http.CookieUtil;
 
 import com.enonic.cms.core.DeploymentPathResolver;
 
-import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.domain.resolver.ResolverContext;
-
 /**
  * Created by rmy - Date: May 5, 2009
  */

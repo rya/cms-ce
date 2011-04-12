@@ -7,8 +7,8 @@ package com.enonic.cms.core.resolver.mock;
 import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInput;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator;
+import com.enonic.cms.core.resolver.ResolverHttpRequestInput;
+import com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator;
 
 /**
  * Created by rmy - Date: Aug 24, 2009

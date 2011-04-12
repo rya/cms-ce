@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.page.PageWindowEntity" table="TPAGECONOBJ" mutable="true">
+  <class name="com.enonic.cms.core.structure.page.PageWindowEntity" table="TPAGECONOBJ" mutable="true">
     <cache usage="nonstrict-read-write"/>
-    <composite-id name="key" class="com.enonic.cms.domain.structure.page.PageWindowKey">
+    <composite-id name="key" class="com.enonic.cms.core.structure.page.PageWindowKey">
       <key-property name="portletKey" type="int">
         <column name="PCO_COB_LKEY"/>
       </key-property>
@@ -18,14 +18,14 @@
     <property name="timestamp" type="timestamp">
       <column name="PCO_DTETIMESTAMP" not-null="true"/>
     </property>
-    <many-to-one name="portlet" class="com.enonic.cms.domain.structure.portlet.PortletEntity" insert="false" update="false"
+    <many-to-one name="portlet" class="com.enonic.cms.core.structure.portlet.PortletEntity" insert="false" update="false"
                  fetch="select">
       <column name="PCO_COB_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="page" class="com.enonic.cms.domain.structure.page.PageEntity" insert="false" update="false" fetch="select">
+    <many-to-one name="page" class="com.enonic.cms.core.structure.page.PageEntity" insert="false" update="false" fetch="select">
       <column name="PCO_PAG_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="pageTemplateRegion" class="com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity" fetch="select">
+    <many-to-one name="pageTemplateRegion" class="com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity" fetch="select">
       <column name="PCO_PTP_LKEY" not-null="true"/>
     </many-to-one>
   </class>

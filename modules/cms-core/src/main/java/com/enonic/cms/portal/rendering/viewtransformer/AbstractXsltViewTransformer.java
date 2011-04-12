@@ -6,6 +6,7 @@ package com.enonic.cms.portal.rendering.viewtransformer;
 
 import javax.xml.transform.TransformerException;
 
+import com.enonic.cms.core.resource.ResourceKey;
 import org.slf4j.Logger;
 
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -19,8 +20,6 @@ import com.enonic.cms.core.xslt.XsltResource;
 
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.portal.rendering.StyleSheetURIResolver;
-
-import com.enonic.cms.domain.resource.ResourceKey;
 
 /**
  * May 13, 2009

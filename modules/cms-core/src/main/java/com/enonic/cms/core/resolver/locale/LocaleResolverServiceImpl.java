@@ -8,24 +8,23 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.resolver.*;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.resolver.ForceResolverValueService;
-import com.enonic.cms.core.resolver.ScriptResolverService;
 import com.enonic.cms.core.resource.ResourceService;
 
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.core.localization.LocaleParsingException;
-import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Created by rmy - Date: Apr 22, 2009

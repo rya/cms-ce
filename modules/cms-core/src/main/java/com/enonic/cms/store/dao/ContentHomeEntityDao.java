@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.store.dao;
 
-import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeKey;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 
 public class ContentHomeEntityDao
     extends AbstractBaseEntityDao<ContentHomeEntity>

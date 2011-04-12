@@ -6,12 +6,9 @@ package com.enonic.cms.core.content.binary;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.AttachmentRequest;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.security.user.User;
 
 public interface BinaryService
 {

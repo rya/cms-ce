@@ -13,11 +13,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
-import com.enonic.cms.core.resolver.ForceResolverValueServiceImpl;
-
-import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.domain.resolver.ResolverContext;
-
 import static org.junit.Assert.*;
 
 /**

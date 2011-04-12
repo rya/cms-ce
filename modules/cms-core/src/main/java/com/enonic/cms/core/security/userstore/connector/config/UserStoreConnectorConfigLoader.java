@@ -15,11 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
 
-import com.enonic.cms.domain.security.userstore.config.InvalidUserStoreConfigException;
-import com.enonic.cms.domain.security.userstore.connector.config.GroupPolicyConfig;
-import com.enonic.cms.domain.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
-import com.enonic.cms.domain.security.userstore.connector.config.UserPolicyConfig;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
 
 public class UserStoreConnectorConfigLoader
 {

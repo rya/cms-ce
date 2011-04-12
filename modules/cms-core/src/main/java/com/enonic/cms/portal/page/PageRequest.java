@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.jdom.Document;
 
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  * This interface defines the page request.

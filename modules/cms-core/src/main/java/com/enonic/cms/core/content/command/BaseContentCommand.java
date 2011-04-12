@@ -11,15 +11,15 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.enonic.cms.core.content.ContentAccessEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.content.ContentAccessEntity;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.ContentData;
 
 /**
  * Created by rmy - Date: Jun 3, 2009

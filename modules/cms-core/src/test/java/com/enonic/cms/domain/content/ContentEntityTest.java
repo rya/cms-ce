@@ -6,6 +6,10 @@ package com.enonic.cms.domain.content;
 
 import java.util.Date;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.junit.Test;

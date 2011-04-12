@@ -15,12 +15,6 @@ import com.google.common.collect.Multimap;
 import com.enonic.cms.store.dao.ResourceDao;
 import com.enonic.cms.store.dao.ResourceUsageDao;
 
-import com.enonic.cms.domain.resource.ResourceBase;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceReferencer;
-
 public class ResourceServiceImpl
     implements ResourceService
 {

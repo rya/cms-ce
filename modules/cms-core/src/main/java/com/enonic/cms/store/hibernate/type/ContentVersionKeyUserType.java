@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.content.ContentVersionKey;
+import com.enonic.cms.core.content.ContentVersionKey;
 
 
 public class ContentVersionKeyUserType

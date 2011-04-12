@@ -6,6 +6,9 @@ package com.enonic.cms.core.content.imports;
 
 import java.io.InputStream;
 
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
@@ -17,20 +20,12 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.index.ContentIndexService;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.category.CategoryAccessType;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.CtyImportConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportModeConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportStatusConfig;
-import com.enonic.cms.domain.content.imports.AbstractImportDataReader;
-import com.enonic.cms.domain.content.imports.ImportDataReader;
-import com.enonic.cms.domain.content.imports.ImportDataReaderCsv;
-import com.enonic.cms.domain.content.imports.ImportDataReaderXml;
-import com.enonic.cms.domain.content.imports.ImportException;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportModeConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportStatusConfig;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public class ImportJobFactory

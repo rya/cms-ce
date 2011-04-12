@@ -6,6 +6,7 @@ package com.enonic.cms.core.structure;
 
 import java.io.IOException;
 
+import com.enonic.cms.core.content.ContentEntity;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.springframework.core.io.ClassPathResource;
@@ -17,9 +18,8 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 
 public abstract class AbstractXmlCreatorTest
     extends TestCase

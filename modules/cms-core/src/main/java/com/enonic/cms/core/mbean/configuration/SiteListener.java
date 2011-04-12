@@ -6,6 +6,7 @@ package com.enonic.cms.core.mbean.configuration;
 
 import javax.management.ObjectName;
 
+import com.enonic.cms.core.structure.SiteEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -20,7 +21,6 @@ import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteEntity;
 
 public class SiteListener
         implements SiteEventListener, InitializingBean

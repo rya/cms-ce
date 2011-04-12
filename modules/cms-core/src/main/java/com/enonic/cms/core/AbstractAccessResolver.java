@@ -7,12 +7,12 @@ package com.enonic.cms.core;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 
 public abstract class AbstractAccessResolver<TEntity, TAccessType>

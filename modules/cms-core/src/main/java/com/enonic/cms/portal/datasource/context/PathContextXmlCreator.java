@@ -6,9 +6,8 @@ package com.enonic.cms.portal.datasource.context;
 
 import java.util.List;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.jdom.Element;
-
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 /**
  * Jul 28, 2009

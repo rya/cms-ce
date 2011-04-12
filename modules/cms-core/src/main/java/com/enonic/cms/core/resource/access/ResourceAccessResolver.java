@@ -4,12 +4,12 @@
  */
 package com.enonic.cms.core.resource.access;
 
+import com.enonic.cms.core.resource.ResourceKey;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class ResourceAccessResolver
 {

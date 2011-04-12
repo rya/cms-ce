@@ -8,18 +8,17 @@ import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import org.jdom.JDOMException;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
-import com.enonic.cms.domain.structure.page.PageEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public class MenuItemXmlCreatorTest
     extends AbstractSiteXmlCreatorTest

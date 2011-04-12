@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
-  <class name="com.enonic.cms.domain.content.category.CategoryEntity" table="TCATEGORY" mutable="true">
+  <class name="com.enonic.cms.core.content.category.CategoryEntity" table="TCATEGORY" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
       <column name="CAT_LKEY"/>
@@ -23,19 +23,19 @@
     <property name="timestamp" type="timestamp">
       <column name="CAT_DTETIMESTAMP" not-null="true"/>
     </property>
-    <many-to-one name="contentType" class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity" fetch="select">
+    <many-to-one name="contentType" class="com.enonic.cms.core.content.contenttype.ContentTypeEntity" fetch="select">
       <column name="CAT_CTY_LKEY"/>
     </many-to-one>
-    <many-to-one name="modifier" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="modifier" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="CAT_USR_HMODIFIER" length="40" not-null="true"/>
     </many-to-one>
-    <many-to-one name="owner" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="owner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="CAT_USR_HOWNER" length="40" not-null="true"/>
     </many-to-one>
-    <many-to-one name="parent" class="com.enonic.cms.domain.content.category.CategoryEntity" fetch="select">
+    <many-to-one name="parent" class="com.enonic.cms.core.content.category.CategoryEntity" fetch="select">
       <column name="CAT_CAT_LSUPER"/>
     </many-to-one>
-    <many-to-one name="unit" class="com.enonic.cms.domain.content.UnitEntity" fetch="select">
+    <many-to-one name="unit" class="com.enonic.cms.core.content.UnitEntity" fetch="select">
       <column name="CAT_UNI_LKEY" not-null="true"/>
     </many-to-one>
     <bag name="children" inverse="true" order-by="CAT_SNAME" where="CAT_BDELETED = 0" subselect="ordered by CAT_SNAME">
@@ -43,20 +43,20 @@
       <key>
         <column name="CAT_CAT_LSUPER"/>
       </key>
-      <one-to-many class="com.enonic.cms.domain.content.category.CategoryEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.category.CategoryEntity"/>
     </bag>
     <map name="accessRights" inverse="true" cascade="all">
       <cache usage="nonstrict-read-write"/>
       <key column="CAR_CAT_LKEY"/>
       <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="CAR_GRP_HKEY"/>
-      <one-to-many class="com.enonic.cms.domain.content.category.CategoryAccessEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.category.CategoryAccessEntity"/>
     </map>
     <set name="contents" inverse="true" order-by="CON_CAT_LKEY">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="CON_CAT_LKEY"/>
       </key>
-      <one-to-many class="com.enonic.cms.domain.content.ContentEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.ContentEntity"/>
     </set>
     <property name="autoMakeAvailable" type="int">
       <column name="CAT_BAUTOAPPROVE" not-null="true"/>

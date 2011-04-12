@@ -9,9 +9,8 @@ import java.util.List;
 import com.enonic.cms.core.SiteContext;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.portal.SiteNotFoundException;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.portal.SiteNotFoundException;
+import com.enonic.cms.core.security.user.User;
 
 public interface SiteService
 {
@@ -35,7 +34,7 @@ public interface SiteService
      * etc).
      *
      * @param siteKey the key identifying the site
-     * @throws SiteNotFoundException if site is not found
+     * @throws com.enonic.cms.portal.SiteNotFoundException if site is not found
      */
     SiteContext getSiteContext( SiteKey siteKey )
         throws SiteNotFoundException;

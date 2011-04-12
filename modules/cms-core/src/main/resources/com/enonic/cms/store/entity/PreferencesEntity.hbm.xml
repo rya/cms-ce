@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.preference.PreferenceEntity" table="TPREFERENCES" mutable="true">
+  <class name="com.enonic.cms.core.preferences.PreferenceEntity" table="TPREFERENCES" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.PreferenceKeyUserType">
       <column name="PRF_SKEY" length="255"/>

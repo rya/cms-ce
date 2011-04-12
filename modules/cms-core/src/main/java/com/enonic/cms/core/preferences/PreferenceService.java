@@ -6,10 +6,6 @@ package com.enonic.cms.core.preferences;
 
 import java.util.List;
 
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
-
 /**
  * This service object allows manipulation of user specific values.  There are two key objects to work with: <code>PreferenceEntity</code>
  * and <code>PreferenceKey</code>.  The key is a non-mutable identifier for the entity, which contains information about which user the
@@ -22,7 +18,7 @@ import com.enonic.cms.domain.preference.PreferenceSpecification;
  * <p/>
  * Removing a preference object from the system, must be done specifically.
  *
- * @see com.enonic.cms.domain.preference.PreferenceKey
+ * @see PreferenceKey
  */
 public interface PreferenceService
 {

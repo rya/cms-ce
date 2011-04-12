@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.content.category.CategoryAccessException;
+import com.enonic.cms.portal.VerticalSession;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -57,10 +59,8 @@ import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentAccessException;
-import com.enonic.cms.domain.content.category.CategoryAccessException;
-import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.content.ContentAccessException;
+import com.enonic.cms.portal.httpservices.UserServicesException;
 
 public class AbstractUserServicesHandlerController
     extends AbstractPresentationController

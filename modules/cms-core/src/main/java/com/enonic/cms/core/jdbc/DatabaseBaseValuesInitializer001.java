@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-import com.enonic.cms.domain.security.group.GroupType;
+import com.enonic.cms.core.security.group.GroupType;
 
 /**
  * Created by IntelliJ IDEA.

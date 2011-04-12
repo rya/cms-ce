@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.datasource;
 
+import com.enonic.cms.portal.PortalInstanceKey;
 import org.jdom.Element;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,11 +16,9 @@ import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsF
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.datasource.Datasource;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 import static org.junit.Assert.*;
 

@@ -6,8 +6,8 @@ package com.enonic.cms.core.security.userstore.connector.remote;
 
 import org.springframework.util.Assert;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 
 public class GroupSynchronizer

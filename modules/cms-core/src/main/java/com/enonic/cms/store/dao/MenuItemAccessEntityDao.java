@@ -7,9 +7,9 @@ package com.enonic.cms.store.dao;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 public class MenuItemAccessEntityDao
     extends AbstractBaseEntityDao<MenuItemAccessEntity>

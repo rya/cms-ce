@@ -6,7 +6,7 @@ package com.enonic.cms.core.structure;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccumulatedAccessRights;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 
 /**
  * Nov 19, 2009

@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" table="TPAGETEMPLATE" mutable="true">
+  <class name="com.enonic.cms.core.structure.page.template.PageTemplateEntity" table="TPAGETEMPLATE" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="PAT_LKEY"/>
@@ -23,7 +23,7 @@
     <property name="cssKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
       <column name="PAT_SCSS" length="1024"/>
     </property>
-    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+    <many-to-one name="site" class="com.enonic.cms.core.structure.SiteEntity" fetch="select">
       <column name="PAT_MEN_LKEY"/>
     </many-to-one>
     <property name="styleKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
@@ -40,21 +40,21 @@
       <key>
         <column name="PTT_PAT_LKEY" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity">
+      <many-to-many class="com.enonic.cms.core.content.contenttype.ContentTypeEntity">
         <column name="PTT_CTY_LKEY" not-null="true"/>
       </many-to-many>
     </set>
     <bag name="pagetTemplatePortlets" inverse="true" order-by="PTC_LORDER">
       <cache usage="nonstrict-read-write"/>
       <key column="PTC_PAT_LKEY"/>
-      <one-to-many class="com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity"/>
+      <one-to-many class="com.enonic.cms.core.structure.page.template.PageTemplatePortletEntity"/>
     </bag>
     <set name="pageTemplateRegions" inverse="true">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="PTP_PAT_LKEY"/>
       </key>
-      <one-to-many class="com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity"/>
+      <one-to-many class="com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity"/>
     </set>
   </class>
   <query name="PageTemplateEntity.findByContentType" cacheable="true">

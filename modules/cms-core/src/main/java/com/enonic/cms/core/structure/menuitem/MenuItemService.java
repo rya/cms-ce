@@ -4,11 +4,6 @@
  */
 package com.enonic.cms.core.structure.menuitem;
 
-import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
-import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
-import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-
 
 public interface MenuItemService
 {

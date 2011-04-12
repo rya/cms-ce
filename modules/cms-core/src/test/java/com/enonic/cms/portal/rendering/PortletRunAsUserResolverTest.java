@@ -4,16 +4,16 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 import static org.junit.Assert.*;
 

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.ReservedLocalPaths;
 
 public class LogoutController
     extends AbstractSiteController

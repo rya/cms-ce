@@ -11,7 +11,7 @@ import java.util.List;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 /**
  * Jul 18, 2009

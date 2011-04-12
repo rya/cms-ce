@@ -10,17 +10,15 @@ import java.util.Map;
 import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.CtyImportMappingConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfig;
-import com.enonic.cms.domain.content.imports.ImportException;
-import com.enonic.cms.domain.content.imports.ImportValueFormater;
-import com.enonic.cms.domain.content.imports.sourcevalueholders.AbstractSourceValue;
-import com.enonic.cms.domain.content.index.ContentIndexQuery;
-import com.enonic.cms.domain.content.index.config.IndexDefinition;
-import com.enonic.cms.domain.content.index.config.IndexDefinitionBuilder;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
+import com.enonic.cms.core.content.index.ContentIndexQuery;
+import com.enonic.cms.core.content.index.config.IndexDefinition;
+import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 public class RelatedContentFinder
 {

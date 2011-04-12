@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
+import com.enonic.cms.core.structure.SiteEntity;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.esl.containers.ExtendedMap;
@@ -21,9 +23,7 @@ import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resolver.ResolverContext;
 
 /**
  * Created by rmy - Date: Apr 3, 2009

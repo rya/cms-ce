@@ -8,14 +8,15 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
 
 import static org.junit.Assert.*;
 
@@ -53,7 +54,7 @@ public class ContentLocationComparatorOnPathTest
 
         ContentEntity content = new ContentEntity();
         SortedSet set = new TreeSet( new ContentLocationComparatorOnPath() );
-        set.add( ContentLocation.createSectionLocation( content, A_Aa, true ) );
+        set.add( ContentLocation.createSectionLocation(content, A_Aa, true) );
         set.add( ContentLocation.createSectionLocation( content, Aaaaa, true ) );
 
         Iterator<ContentLocation> it = set.iterator();

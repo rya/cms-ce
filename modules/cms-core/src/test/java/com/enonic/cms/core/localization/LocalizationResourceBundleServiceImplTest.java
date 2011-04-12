@@ -16,8 +16,8 @@ import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl;
 import com.enonic.cms.core.resource.ResourceService;
 
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

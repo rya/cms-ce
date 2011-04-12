@@ -6,15 +6,12 @@ package com.enonic.cms.core.image;
 
 import java.util.HashMap;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.enonic.cms.core.image.ImageRequest;
-import com.enonic.cms.core.image.ImageRequestParser;
-
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 public class ImageRequestParserTest
 {

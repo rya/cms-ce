@@ -4,15 +4,14 @@
  */
 package com.enonic.cms.core.resolver.deviceclass.mock;
 
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator;
 import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resolver.ResolverInputXMLCreator;
 
 import com.enonic.cms.core.resolver.deviceclass.UserAgentTestEnums;
-
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator;
 
 /**
  * Created by rmy - Date: Apr 15, 2009

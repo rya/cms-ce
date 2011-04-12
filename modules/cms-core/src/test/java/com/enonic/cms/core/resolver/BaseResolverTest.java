@@ -12,11 +12,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
 
-import com.enonic.cms.core.resolver.CacheResolverValueService;
-import com.enonic.cms.core.resolver.ForceResolverValueService;
 import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.domain.resolver.ResolverContext;
 
 import static org.easymock.EasyMock.createMock;
 import static org.mockito.Matchers.isA;

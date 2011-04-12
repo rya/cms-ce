@@ -6,6 +6,7 @@ package com.enonic.cms.domain.portal.instruction;
 
 import java.util.Arrays;
 
+import com.enonic.cms.portal.instruction.CreateContentUrlInstruction;
 import org.junit.Test;
 
 import junit.framework.TestCase;

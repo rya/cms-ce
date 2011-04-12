@@ -8,6 +8,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceData;
+import com.enonic.cms.core.resource.FileResourceName;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,10 +27,6 @@ import com.enonic.cms.framework.util.MimeTypeResolver;
 import com.enonic.cms.store.support.EntityChangeListener;
 import com.enonic.cms.store.support.EntityChangeListenerHub;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
-
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceData;
-import com.enonic.cms.domain.resource.FileResourceName;
 
 public final class FileResourceServiceImpl
     implements FileResourceService, EntityChangeListener, BeanPostProcessor

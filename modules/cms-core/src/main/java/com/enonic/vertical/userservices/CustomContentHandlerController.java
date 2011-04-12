@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.portal.PrettyPathNameCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,34 +25,26 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
-import com.enonic.cms.core.content.CreateContentException;
-import com.enonic.cms.core.content.UpdateContentException;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.core.content.UpdateContentResult;
-
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.ContentDataParserException;
-import com.enonic.cms.domain.content.contentdata.ContentDataParserInvalidDataException;
-import com.enonic.cms.domain.content.contentdata.ContentDataParserUnsupportedTypeException;
-import com.enonic.cms.domain.content.contentdata.InvalidContentDataException;
-import com.enonic.cms.domain.content.contentdata.MissingRequiredContentDataException;
-import com.enonic.cms.domain.content.contentdata.custom.support.CustomContentDataFormParser;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.ContentDataParserException;
+import com.enonic.cms.core.content.contentdata.ContentDataParserInvalidDataException;
+import com.enonic.cms.core.content.contentdata.ContentDataParserUnsupportedTypeException;
+import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
+import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
+import com.enonic.cms.core.content.contentdata.custom.support.CustomContentDataFormParser;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Created by rmy - Date: Jun 24, 2009
@@ -348,7 +343,7 @@ public class CustomContentHandlerController
         CustomContentDataFormParser customContentParser = new CustomContentDataFormParser( contentType.getContentTypeConfig(), formItems );
         ContentData contentData = customContentParser.parseContentData();
         createContentCommand.setContentData( contentData );
-        createContentCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentData.getTitle() ) );
+        createContentCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName(contentData.getTitle()) );
 
         return createContentCommand;
     }

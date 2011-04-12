@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.store.dao;
 
+import com.enonic.cms.core.security.RememberedLoginEntity;
+import com.enonic.cms.core.security.RememberedLoginKey;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.security.RememberedLoginEntity;
-import com.enonic.cms.domain.security.RememberedLoginKey;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 
 public class RememberedLoginEntityDao

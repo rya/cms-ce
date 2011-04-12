@@ -6,13 +6,13 @@ package com.enonic.cms.core.structure;
 
 import com.enonic.cms.core.security.SecurityService;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccumulatedAccessRights;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 
 /**
  * Nov 19, 2009

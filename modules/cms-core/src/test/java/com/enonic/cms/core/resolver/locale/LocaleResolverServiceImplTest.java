@@ -6,17 +6,16 @@ package com.enonic.cms.core.resolver.locale;
 
 import java.util.Locale;
 
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.enonic.cms.core.resolver.BaseResolverTest;
-import com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl;
 
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 import static org.junit.Assert.*;
 

@@ -16,7 +16,7 @@ import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.VirtualFileDao;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 
 public final class DbUsedBlobKeyFinder
     implements UsedBlobKeyFinder

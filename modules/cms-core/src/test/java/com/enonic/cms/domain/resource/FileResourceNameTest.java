@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.resource;
 
+import com.enonic.cms.core.resource.FileResourceName;
 import org.junit.Assert;
 import org.junit.Test;
 

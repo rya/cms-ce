@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.portal.rendering;
 
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.RegionFactory;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.PageRequestType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.RegionFactory;
 
 /**
  * Sep 28, 2009

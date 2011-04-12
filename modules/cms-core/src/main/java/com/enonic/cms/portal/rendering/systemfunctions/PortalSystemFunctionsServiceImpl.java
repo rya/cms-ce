@@ -9,12 +9,12 @@ import java.util.Map;
 import com.enonic.cms.framework.io.ParameterSerializer;
 import com.enonic.cms.framework.io.SimpleParameterSerializer;
 
+import com.enonic.cms.portal.rendering.RenderedWindowResult;
 import com.enonic.cms.portal.rendering.WindowRenderer;
 import com.enonic.cms.portal.rendering.WindowRendererFactory;
 
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
-import com.enonic.cms.domain.structure.page.WindowKey;
+import com.enonic.cms.core.structure.page.WindowKey;
 
 /**
  * Apr 28, 2009

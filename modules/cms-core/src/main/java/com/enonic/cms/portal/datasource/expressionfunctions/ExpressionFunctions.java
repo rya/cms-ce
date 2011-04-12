@@ -11,7 +11,9 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import com.enonic.cms.core.preferences.*;
 import com.enonic.cms.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.portal.PortalInstanceKey;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -20,19 +22,12 @@ import org.joda.time.format.PeriodFormatter;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.portal.page.PageRequestFactory;
 
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceScope;
-import com.enonic.cms.domain.preference.PreferenceScopeKey;
-import com.enonic.cms.domain.preference.PreferenceScopeKeyResolver;
-import com.enonic.cms.domain.preference.PreferenceScopeResolver;
-import com.enonic.cms.domain.preference.PreferenceScopeType;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.preferences.PreferenceScope;
+import com.enonic.cms.core.preferences.PreferenceScopeKey;
+import com.enonic.cms.core.preferences.PreferenceScopeType;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  *

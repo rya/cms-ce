@@ -6,8 +6,8 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.domain.content.ContentHandlerEntity;
-import com.enonic.cms.domain.content.ContentHandlerKey;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerKey;
 
 public class ContentHandlerEntityDao
     extends AbstractBaseEntityDao<ContentHandlerEntity>

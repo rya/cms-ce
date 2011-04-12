@@ -7,6 +7,7 @@ package com.enonic.cms.portal.mvc.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.portal.ParameterMissingException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -28,8 +29,7 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.ParameterMissingException;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public abstract class AbstractSiteController
         extends AbstractController
@@ -124,7 +124,7 @@ public abstract class AbstractSiteController
      *
      * @param names
      * @param request
-     * @see com.enonic.cms.domain.portal.ParameterMissingException
+     * @see com.enonic.cms.portal.ParameterMissingException
      */
     protected void expectedParameters( String[] names, HttpServletRequest request )
     {

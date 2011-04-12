@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.content.binary;
 
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

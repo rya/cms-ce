@@ -12,10 +12,6 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
-import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
-
 import static org.junit.Assert.*;
 
 /**

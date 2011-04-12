@@ -13,7 +13,7 @@ import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.portal.cache.SiteCachesService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.portal.SiteNotFoundException;
+import com.enonic.cms.portal.SiteNotFoundException;
 
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.expect;

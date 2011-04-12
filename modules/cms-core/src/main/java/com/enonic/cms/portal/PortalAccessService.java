@@ -12,12 +12,10 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
-import com.enonic.cms.domain.portal.PortalAccessDeniedException;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * This is called a Service because it not only checks the access but also throws corresponding exceptions.

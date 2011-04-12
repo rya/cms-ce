@@ -7,6 +7,11 @@ package com.enonic.cms.core.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
+import com.enonic.cms.portal.PrettyPathNameCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.api.client.ClientException;
@@ -20,9 +25,6 @@ import com.enonic.cms.api.client.model.SnapshotContentParams;
 import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.category.CategoryService;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
@@ -41,27 +43,23 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentLocation;
-import com.enonic.cms.domain.content.ContentLocationSpecification;
-import com.enonic.cms.domain.content.ContentLocations;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.category.CategoryAccessType;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
-import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.legacy.LegacyFileContentData;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public class InternalClientContentService
@@ -198,7 +196,7 @@ public class InternalClientContentService
         final CustomContentData contentdata = customContentResolver.resolveContentdata( params.contentData, contentType );
 
         command.setContentData( contentdata );
-        command.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
+        command.setContentName( PrettyPathNameCreator.generatePrettyPathName(contentdata.getTitle()) );
 
         final List<BinaryDataAndBinary> binaryDatas = BinaryDataAndBinary.convertFromBinaryInputs( params.contentData.getBinaryInputs() );
 

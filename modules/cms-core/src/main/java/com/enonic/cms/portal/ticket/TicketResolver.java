@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.domain.portal.Ticket;
+import com.enonic.cms.portal.Ticket;
 
 public class TicketResolver
 {

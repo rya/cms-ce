@@ -2,12 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.ContentVersionEntity" table="TCONTENTVERSION" mutable="true">
+  <class name="com.enonic.cms.core.content.ContentVersionEntity" table="TCONTENTVERSION" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="COV_LKEY" type="com.enonic.cms.store.hibernate.type.ContentVersionKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
         <param name="table">TCONTENTVERSION</param>
-        <param name="idClassName">com.enonic.cms.domain.content.ContentVersionKey</param>
+        <param name="idClassName">com.enonic.cms.core.content.ContentVersionKey</param>
       </generator>
     </id>
     <property name="status" type="int">
@@ -28,29 +28,29 @@
     <property name="changeComment" type="string">
       <column name="COV_SDESCRIPTION" length="1024"/>
     </property>
-    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" fetch="select">
+    <many-to-one name="content" class="com.enonic.cms.core.content.ContentEntity" fetch="select">
       <column name="COV_CON_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="snapshotSource" class="com.enonic.cms.domain.content.ContentVersionEntity" fetch="select">
+    <many-to-one name="snapshotSource" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select">
       <column name="COV_COV_LSNAPSHOTSOURCE"/>
     </many-to-one>
     <set name="snapshots" inverse="true" cascade="all-delete-orphan">
       <cache usage="nonstrict-read-write"/>
       <key column="COV_COV_LSNAPSHOTSOURCE"/>
-      <one-to-many class="com.enonic.cms.domain.content.ContentVersionEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.ContentVersionEntity"/>
     </set>
-    <many-to-one name="modifiedBy" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
+    <many-to-one name="modifiedBy" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="COV_USR_HMODIFIER" length="40" not-null="true"/>
     </many-to-one>
     <set name="contentBinaryData" inverse="true" cascade="all-delete-orphan" order-by="CBD_LKEY">
       <cache usage="nonstrict-read-write"/>
       <key column="CBD_COV_LKEY"/>
-      <one-to-many class="com.enonic.cms.domain.content.binary.ContentBinaryDataEntity"/>
+      <one-to-many class="com.enonic.cms.core.content.binary.ContentBinaryDataEntity"/>
     </set>
     <set name="relatedChildren" inverse="true" table="TRELATEDCONTENT" cascade="none" order-by="RCO_CON_LCHILD">
       <cache usage="nonstrict-read-write"/>
       <key column="RCO_CON_LPARENT" not-null="true"/>
-      <many-to-many class="com.enonic.cms.domain.content.ContentEntity" column="RCO_CON_LCHILD"/>
+      <many-to-many class="com.enonic.cms.core.content.ContentEntity" column="RCO_CON_LCHILD"/>
     </set>
   </class>
 </hibernate-mapping>

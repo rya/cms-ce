@@ -8,10 +8,10 @@ import java.util.Locale;
 
 import com.enonic.cms.core.SiteURLResolver;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.portal.PortalInstanceKey;
 
 /**
  * May 7, 2009

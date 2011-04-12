@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.itest.client;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.portal.datasource.DataSourceContext;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -24,7 +26,6 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.GetContentParams;
 import com.enonic.cms.core.client.InternalClientImpl;
-import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.preview.ContentPreviewContext;
 import com.enonic.cms.core.preview.PreviewContext;
@@ -38,20 +39,19 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.itest.DomainFactory;
 
 import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.user.User;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
@@ -198,7 +198,7 @@ public class InternalClientImpl_getContentTest
         Mockito.when( previewService.isInPreview() ).thenReturn( true );
         internalClient.setPreviewService( previewService );
 
-        ContentKey contentKey = createPersonContent( "Content 1", com.enonic.cms.domain.content.ContentStatus.DRAFT );
+        ContentKey contentKey = createPersonContent( "Content 1", ContentStatus.DRAFT );
 
         ContentEntity contentInPreview = new ContentEntity( fixture.findContentByKey( contentKey ) );
         ContentVersionEntity contentVersionInPreview = new ContentVersionEntity( contentInPreview.getMainVersion() );
@@ -233,7 +233,7 @@ public class InternalClientImpl_getContentTest
         Mockito.when( previewService.isInPreview() ).thenReturn( true );
         internalClient.setPreviewService( previewService );
 
-        ContentKey contentKey = createPersonContent( "Content 1", com.enonic.cms.domain.content.ContentStatus.ARCHIVED );
+        ContentKey contentKey = createPersonContent( "Content 1", ContentStatus.ARCHIVED );
 
         ContentEntity contentInPreview = new ContentEntity( fixture.findContentByKey( contentKey ) );
         ContentVersionEntity contentVersionInPreview = new ContentVersionEntity( contentInPreview.getMainVersion() );
@@ -267,10 +267,10 @@ public class InternalClientImpl_getContentTest
         Mockito.when( previewService.isInPreview() ).thenReturn( true );
         internalClient.setPreviewService( previewService );
 
-        ContentKey relatedTo1 = createPersonContent( "Child of requested content", com.enonic.cms.domain.content.ContentStatus.DRAFT );
+        ContentKey relatedTo1 = createPersonContent( "Child of requested content", ContentStatus.DRAFT );
         ContentKey content1 = createPersonContentWithRelatedContent( "Request content", relatedTo1 );
         ContentKey parentOf1 =
-            createPersonContentWithRelatedContent( "Parent to requested content", com.enonic.cms.domain.content.ContentStatus.DRAFT,
+            createPersonContentWithRelatedContent( "Parent to requested content", ContentStatus.DRAFT,
                                                    content1 );
 
         ContentEntity contentInPreview = new ContentEntity( fixture.findContentByKey( content1 ) );
@@ -312,7 +312,7 @@ public class InternalClientImpl_getContentTest
         internalClient.setPreviewService( previewService );
 
         // setup: persist content
-        ContentKey sonContentKey = createPersonContent( "Child of requested content", com.enonic.cms.domain.content.ContentStatus.DRAFT );
+        ContentKey sonContentKey = createPersonContent( "Child of requested content", ContentStatus.DRAFT );
         ContentKey fatherContentKey = createPersonContentWithRelatedContent( "Request content", null );
 
         ContentEntity contentInPreview = new ContentEntity( fixture.findContentByKey( fatherContentKey ) );
@@ -413,10 +413,10 @@ public class InternalClientImpl_getContentTest
         Mockito.when( previewService.isInPreview() ).thenReturn( true );
         internalClient.setPreviewService( previewService );
 
-        ContentKey relatedDraft = createPersonContent( "Related draft", com.enonic.cms.domain.content.ContentStatus.DRAFT );
-        ContentKey relatedApproved = createPersonContent( "Related approved", com.enonic.cms.domain.content.ContentStatus.APPROVED );
+        ContentKey relatedDraft = createPersonContent( "Related draft", ContentStatus.DRAFT );
+        ContentKey relatedApproved = createPersonContent( "Related approved", ContentStatus.APPROVED );
         ContentKey parent1 =
-            createPersonContentWithRelatedContents( "Parent content 1", com.enonic.cms.domain.content.ContentStatus.DRAFT, relatedDraft,
+            createPersonContentWithRelatedContents( "Parent content 1", ContentStatus.DRAFT, relatedDraft,
                                                     relatedApproved );
 
         ContentEntity contentInPreview = fixture.findContentByKey( parent1 );
@@ -442,20 +442,20 @@ public class InternalClientImpl_getContentTest
 
     private ContentKey createPersonContent( String name )
     {
-        return createPersonContentWithRelatedContent( name, com.enonic.cms.domain.content.ContentStatus.APPROVED, null );
+        return createPersonContentWithRelatedContent( name, ContentStatus.APPROVED, null );
     }
 
-    private ContentKey createPersonContent( String name, com.enonic.cms.domain.content.ContentStatus status )
+    private ContentKey createPersonContent( String name, ContentStatus status )
     {
         return createPersonContentWithRelatedContent( name, status, null );
     }
 
     private ContentKey createPersonContentWithRelatedContent( String name, ContentKey relatedContent )
     {
-        return createPersonContentWithRelatedContent( name, com.enonic.cms.domain.content.ContentStatus.APPROVED, relatedContent );
+        return createPersonContentWithRelatedContent( name, ContentStatus.APPROVED, relatedContent );
     }
 
-    private ContentKey createPersonContentWithRelatedContent( String name, com.enonic.cms.domain.content.ContentStatus status,
+    private ContentKey createPersonContentWithRelatedContent( String name, ContentStatus status,
                                                               ContentKey relatedContent )
     {
         CustomContentData contentData = new CustomContentData( fixture.findContentTypeByName( "MyPersonType" ).getContentTypeConfig() );
@@ -471,7 +471,7 @@ public class InternalClientImpl_getContentTest
         return expectedContentKey;
     }
 
-    private ContentKey createPersonContentWithRelatedContents( String name, com.enonic.cms.domain.content.ContentStatus status,
+    private ContentKey createPersonContentWithRelatedContents( String name, ContentStatus status,
                                                                ContentKey... relatedContents )
     {
         CustomContentData contentData = new CustomContentData( fixture.findContentTypeByName( "MyPersonType" ).getContentTypeConfig() );
@@ -495,7 +495,7 @@ public class InternalClientImpl_getContentTest
     }
 
     private CreateContentCommand createCreateContentCommand( String categoryName, String creatorUid,
-                                                             com.enonic.cms.domain.content.ContentStatus contentStatus, DateTime dueDate,
+                                                             ContentStatus contentStatus, DateTime dueDate,
                                                              String assigneeUserName, ContentData contentData, DateTime availableFrom,
                                                              DateTime availableTo )
     {

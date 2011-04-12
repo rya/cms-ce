@@ -4,11 +4,13 @@
  */
 package com.enonic.cms.domain.structure.menuitem;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentKey;
 
 
 public class ContentHomeEntityEqualsTest

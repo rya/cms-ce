@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.menuitem.section.SectionContentTypeFilterEntity" table="tseccontypefilter2" mutable="true">
+  <class name="com.enonic.cms.core.structure.menuitem.section.SectionContentTypeFilterEntity" table="tseccontypefilter2" mutable="true">
     <cache usage="nonstrict-read-write"/>
 
     <id name="key" type="int">
@@ -10,11 +10,11 @@
       <generator class="assigned"/>
     </id>
 
-    <many-to-one name="section" class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity" fetch="select">
+    <many-to-one name="section" class="com.enonic.cms.core.structure.menuitem.MenuItemEntity" fetch="select">
       <column name="sctf_mei_lkey"/>
     </many-to-one>
 
-    <many-to-one name="contentType" class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity" fetch="select">
+    <many-to-one name="contentType" class="com.enonic.cms.core.content.contenttype.ContentTypeEntity" fetch="select">
       <column name="sctf_cty_lkey"/>
     </many-to-one>
 

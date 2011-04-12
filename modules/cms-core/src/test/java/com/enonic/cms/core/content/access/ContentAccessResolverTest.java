@@ -4,6 +4,10 @@
  */
 package com.enonic.cms.core.content.access;
 
+import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,19 +19,14 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.core.content.DomainFactory;
-import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.store.dao.GroupEntityDao;
 
-import com.enonic.cms.business.AbstractPersistContentTest;
+import com.enonic.cms.core.business.AbstractPersistContentTest;
 
 import com.enonic.cms.core.content.DomainFixture;
 
-import com.enonic.cms.domain.content.ContentAccessRightsAccumulated;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 
 import static org.junit.Assert.*;
 

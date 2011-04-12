@@ -21,9 +21,9 @@ import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
 
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.portal.datasource.Datasource;
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.datasource.Datasource;
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 
 /**
  * Jul 31, 2009

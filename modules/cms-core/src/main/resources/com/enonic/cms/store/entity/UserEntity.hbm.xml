@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.security.user.UserEntity" table="TUSER" mutable="true">
+  <class name="com.enonic.cms.core.security.user.UserEntity" table="TUSER" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="USR_HKEY" type="com.enonic.cms.store.hibernate.type.UserKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.UserIdentifierGenerator"/>
@@ -34,11 +34,11 @@
     <property name="photo" type="binary">
       <column name="USR_PHOTO" not-null="false"/>
     </property>
-    <many-to-one name="userStore" class="com.enonic.cms.domain.security.userstore.UserStoreEntity" fetch="select">
+    <many-to-one name="userStore" class="com.enonic.cms.core.security.userstore.UserStoreEntity" fetch="select">
       <column name="USR_DOM_LKEY" not-null="false"/>
     </many-to-one>
     <many-to-one name="userGroup" column="usr_grp_hkey" not-null="false" fetch="select"
-                 class="com.enonic.cms.domain.security.group.GroupEntity"/>
+                 class="com.enonic.cms.core.security.group.GroupEntity"/>
     <map name="fieldMap" cascade="all-delete-orphan" table="tUserField">
       <cache usage="nonstrict-read-write"/>
       <key column="USF_USR_HKEY" not-null="true"/>

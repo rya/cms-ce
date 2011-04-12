@@ -4,19 +4,20 @@
  */
 package com.enonic.cms.domain.structure.menuitem;
 
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.PageEntity;
 import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.page.PageEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 /**
  *

@@ -13,7 +13,7 @@ import com.enonic.cms.framework.util.HtmlEncoder;
 import com.enonic.cms.core.xslt.XsltProcessorErrors;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 
-import com.enonic.cms.domain.portal.PortletXsltViewTransformationException;
+import com.enonic.cms.portal.PortletXsltViewTransformationException;
 
 /**
  * Apr 30, 2009

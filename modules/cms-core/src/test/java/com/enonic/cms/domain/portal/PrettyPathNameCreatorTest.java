@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.portal.PrettyPathNameCreator;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -164,7 +165,7 @@ public class PrettyPathNameCreatorTest
 
     private void generateAndVerify( String suggestedName, String result )
     {
-        String generatedName = PrettyPathNameCreator.generatePrettyPathName( suggestedName );
+        String generatedName = PrettyPathNameCreator.generatePrettyPathName(suggestedName);
         assertEquals( "Unexpected result for : " + suggestedName, result, generatedName );
     }
 

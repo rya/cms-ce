@@ -4,12 +4,12 @@
  */
 package com.enonic.cms.portal.datasource.context;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteProperties;
 import org.jdom.Element;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserXmlCreator;
 
 /**
  * Apr 21, 2009

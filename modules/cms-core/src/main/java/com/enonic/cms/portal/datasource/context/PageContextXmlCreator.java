@@ -4,15 +4,15 @@
  */
 package com.enonic.cms.portal.datasource.context;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemRequestParameter;
+import com.enonic.cms.core.structure.page.Region;
+import com.enonic.cms.core.structure.page.Regions;
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemRequestParameter;
-import com.enonic.cms.domain.structure.page.Region;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 /**
  * May 15, 2009

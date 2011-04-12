@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.core.webdav;
 
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceName;
 import org.apache.jackrabbit.webdav.DavException;
 import org.apache.jackrabbit.webdav.DavMethods;
 import org.apache.jackrabbit.webdav.DavResource;
@@ -16,9 +18,6 @@ import org.apache.jackrabbit.webdav.lock.LockManager;
 import org.apache.jackrabbit.webdav.lock.SimpleLockManager;
 
 import com.enonic.cms.store.resource.FileResourceService;
-
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceName;
 
 /**
  * This class implemnts the resource factory.

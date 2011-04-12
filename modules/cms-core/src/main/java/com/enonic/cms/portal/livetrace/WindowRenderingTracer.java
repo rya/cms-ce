@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.portal.livetrace;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 /**
  * Nov 25, 2010

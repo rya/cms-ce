@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.portal.PortalResponse;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -36,12 +38,10 @@ import com.enonic.cms.domain.SiteBasePathAndSitePath;
 import com.enonic.cms.domain.SiteBasePathAndSitePathToStringBuilder;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.PortalRequest;
-import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.portal.RedirectInstruction;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.portal.PortalRequest;
+import com.enonic.cms.portal.RedirectInstruction;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * May 26, 2009

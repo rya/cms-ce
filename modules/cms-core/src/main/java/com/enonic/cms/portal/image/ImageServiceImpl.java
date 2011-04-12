@@ -6,6 +6,9 @@ package com.enonic.cms.portal.image;
 
 import java.awt.image.BufferedImage;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.google.common.base.Preconditions;
@@ -25,11 +28,8 @@ import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.core.image.ImageResponse;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 public final class ImageServiceImpl
     implements ImageService

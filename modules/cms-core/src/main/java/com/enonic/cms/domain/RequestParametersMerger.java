@@ -6,7 +6,7 @@ package com.enonic.cms.domain;
 
 import java.util.Map;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemRequestParameter;
+import com.enonic.cms.core.structure.menuitem.MenuItemRequestParameter;
 
 /**
  * Created by IntelliJ IDEA.

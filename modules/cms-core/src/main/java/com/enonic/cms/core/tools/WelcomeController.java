@@ -31,7 +31,7 @@ import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.store.support.ConnectionFactory;
 import com.enonic.cms.upgrade.UpgradeService;
 
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Controller for displaying the welcome page, the root page for an installation, listing all sites, plugins, etcs, and linking to DAV,

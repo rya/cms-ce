@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.security.userstore.connector;
 
+import com.enonic.cms.core.security.group.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
@@ -14,23 +15,19 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
-import com.enonic.cms.core.security.group.GroupStorageService;
-
-import com.enonic.cms.domain.security.group.DeleteGroupCommand;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.StoreNewGroupCommand;
-import com.enonic.cms.domain.security.group.UpdateGroupCommand;
-import com.enonic.cms.domain.security.user.DeleteUserCommand;
-import com.enonic.cms.domain.security.user.DisplayNameResolver;
-import com.enonic.cms.domain.security.user.StoreNewUserCommand;
-import com.enonic.cms.domain.security.user.UpdateUserCommand;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.user.UsernameResolver;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.group.DeleteGroupCommand;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.UpdateGroupCommand;
+import com.enonic.cms.core.security.user.DeleteUserCommand;
+import com.enonic.cms.core.security.user.DisplayNameResolver;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.user.UsernameResolver;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 /**
  * Jun 25, 2009

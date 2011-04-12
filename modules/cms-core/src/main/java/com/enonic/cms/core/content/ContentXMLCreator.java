@@ -11,6 +11,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.enonic.cms.core.content.binary.BinaryDataXmlCreator;
+import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentXmlCreator;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -26,24 +30,13 @@ import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.domain.CmsDateAndTimeFormats;
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.content.ContentAccessEntity;
-import com.enonic.cms.domain.content.ContentAccessRightsAccumulated;
-import com.enonic.cms.domain.content.ContentAccessXmlCreator;
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.UnitEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataXmlCreator;
-import com.enonic.cms.domain.content.category.CategoryAccessRightsAccumulated;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentVersionResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContent;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentXmlCreator;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentVersionResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContent;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 public class ContentXMLCreator
 {

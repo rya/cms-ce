@@ -4,8 +4,7 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Created by IntelliJ IDEA.

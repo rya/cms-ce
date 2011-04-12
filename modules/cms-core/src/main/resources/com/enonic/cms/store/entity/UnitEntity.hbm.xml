@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.UnitEntity" table="TUNIT" mutable="false">
+  <class name="com.enonic.cms.core.content.UnitEntity" table="TUNIT" mutable="false">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="UNI_LKEY"/>
@@ -23,7 +23,7 @@
     <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
       <column name="UNI_LAN_LKEY"/>
     </many-to-one>
-    <many-to-one name="parent" class="com.enonic.cms.domain.content.UnitEntity" fetch="select">
+    <many-to-one name="parent" class="com.enonic.cms.core.content.UnitEntity" fetch="select">
       <column name="UNI_LSUPERKEY"/>
     </many-to-one>
     <set name="contentTypes" inverse="false" table="TUNITCONTENTTYPE">
@@ -31,7 +31,7 @@
       <key>
         <column name="UCT_UNI_LKEY" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity">
+      <many-to-many class="com.enonic.cms.core.content.contenttype.ContentTypeEntity">
         <column name="UCT_CTY_LKEY" not-null="true"/>
       </many-to-many>
     </set>

@@ -9,7 +9,7 @@ import javax.security.auth.Subject;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * This class holds the logged in user per thread basis or in session.

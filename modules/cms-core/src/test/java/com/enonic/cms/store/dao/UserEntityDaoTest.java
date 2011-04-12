@@ -6,6 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.Date;
 
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,16 +22,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfigParser;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.user.Address;
 import com.enonic.cms.domain.user.UserInfo;
 
@@ -329,7 +329,7 @@ public class UserEntityDaoTest
 
         final String configAsString = "<config><user-fields><first-name required=\"true\"/></user-fields></config>";
         final XMLDocument configXmlDoc = XMLDocumentFactory.create( configAsString );
-        final UserStoreConfig config = UserStoreConfigParser.parse( configXmlDoc.getAsJDOMDocument().getRootElement() );
+        final UserStoreConfig config = UserStoreConfigParser.parse(configXmlDoc.getAsJDOMDocument().getRootElement());
         userStore.setConfig( config );
         return userStore;
     }

@@ -7,11 +7,10 @@ package com.enonic.cms.store.resource;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceBase;
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.*;
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.ResourceFolder;
+import com.enonic.cms.core.resource.ResourceKey;
 
 abstract class ResourceBaseImpl
     implements Serializable, ResourceBase

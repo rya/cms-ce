@@ -7,14 +7,13 @@ package com.enonic.cms.domain;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.ContentPathResolver;
+import com.enonic.cms.portal.WindowReference;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.util.Assert;
-
-import com.enonic.cms.domain.portal.ContentPath;
-import com.enonic.cms.domain.portal.ContentPathResolver;
-import com.enonic.cms.domain.portal.WindowReference;
 
 public class SitePath
 {
@@ -87,7 +86,7 @@ public class SitePath
 
         try
         {
-            this.contentPath = ContentPathResolver.resolveContentPath( this.localPath );
+            this.contentPath = ContentPathResolver.resolveContentPath(this.localPath);
         }
         catch ( Exception e )
         {
@@ -98,7 +97,7 @@ public class SitePath
         {
             if ( this.localPath.contains( WindowReference.WINDOW_PATH_PREFIX ) )
             {
-                this.windowReference = WindowReference.parse( this.localPath );
+                this.windowReference = WindowReference.parse(this.localPath);
             }
         }
         catch ( Exception e )

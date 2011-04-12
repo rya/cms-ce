@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.ContentAccessEntity" table="TCONACCESSRIGHT2" mutable="true">
+  <class name="com.enonic.cms.core.content.ContentAccessEntity" table="TCONACCESSRIGHT2" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="COA_SKEY" length="32">
       <generator class="uuid"/>
@@ -16,10 +16,10 @@
     <property name="updateAccess" type="int">
       <column name="COA_BUPDATE" not-null="true"/>
     </property>
-    <many-to-one name="group" class="com.enonic.cms.domain.security.group.GroupEntity" insert="true" update="false" fetch="select">
+    <many-to-one name="group" class="com.enonic.cms.core.security.group.GroupEntity" insert="true" update="false" fetch="select">
       <column name="COA_GRP_HKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" insert="true" update="false" fetch="select">
+    <many-to-one name="content" class="com.enonic.cms.core.content.ContentEntity" insert="true" update="false" fetch="select">
       <column name="COA_CON_LKEY" not-null="true"/>
     </many-to-one>
   </class>

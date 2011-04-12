@@ -2,10 +2,10 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.RelatedContentEntity" table="TRELATEDCONTENT" mutable="true">
+  <class name="com.enonic.cms.core.content.RelatedContentEntity" table="TRELATEDCONTENT" mutable="true">
     <cache usage="nonstrict-read-write"/>
 
-    <composite-id name="key" class="com.enonic.cms.domain.content.RelatedContentKey">
+    <composite-id name="key" class="com.enonic.cms.core.content.RelatedContentKey">
       <key-property name="parentContentVersionKey" type="com.enonic.cms.store.hibernate.type.ContentVersionKeyUserType">
         <column name="rco_con_lparent"/>
       </key-property>

@@ -6,6 +6,9 @@ package com.enonic.cms.itest.client;
 
 import java.io.IOException;
 
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,10 +28,7 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 import static org.junit.Assert.*;
 

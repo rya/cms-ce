@@ -4,17 +4,17 @@
  */
 package com.enonic.cms.core.security.userstore.connector;
 
-import com.enonic.cms.domain.security.group.DeleteGroupCommand;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.StoreNewGroupCommand;
-import com.enonic.cms.domain.security.group.UpdateGroupCommand;
-import com.enonic.cms.domain.security.user.DeleteUserCommand;
-import com.enonic.cms.domain.security.user.StoreNewUserCommand;
-import com.enonic.cms.domain.security.user.UpdateUserCommand;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.group.DeleteGroupCommand;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.StoreNewGroupCommand;
+import com.enonic.cms.core.security.group.UpdateGroupCommand;
+import com.enonic.cms.core.security.user.DeleteUserCommand;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 public interface UserStoreConnector
 {

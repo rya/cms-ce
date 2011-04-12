@@ -4,9 +4,6 @@
  */
 package com.enonic.cms.core.content.category;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
-
 /**
  * Mar 9, 2010
  */

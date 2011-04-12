@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.portal.rendering;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public class PortletRunAsUserResolver
 {

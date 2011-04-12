@@ -6,16 +6,17 @@ package com.enonic.cms.domain.structure.page;
 
 import java.util.Date;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.*;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplatePortletKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity;
 import org.junit.Test;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplatePortletKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.structure.page.template.PageTemplatePortletEntity;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 import static org.junit.Assert.*;
 
@@ -143,7 +144,7 @@ public class RegionFactoryTest
         MenuItemEntity menuItem = createMenuItem( 123, "forsiden", page );
 
         // excercise
-        Regions regions = RegionFactory.createRegionsForPage( pageTemplate, menuItem );
+        Regions regions = RegionFactory.createRegionsForPage(pageTemplate, menuItem);
 
         // verify correct portlet windows in leftColumn region
         assertEquals( 1, regions.numberOfRegions() );

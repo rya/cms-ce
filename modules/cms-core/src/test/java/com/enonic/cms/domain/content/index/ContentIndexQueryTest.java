@@ -5,6 +5,8 @@
 package com.enonic.cms.domain.content.index;
 
 
+import com.enonic.cms.core.content.index.ContentIndexQuery;
+import com.enonic.cms.core.content.index.IllegalQueryException;
 import junit.framework.TestCase;
 
 public class ContentIndexQueryTest

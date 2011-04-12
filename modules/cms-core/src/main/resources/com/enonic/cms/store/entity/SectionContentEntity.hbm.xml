@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity" table="TSECTIONCONTENT2" mutable="true">
+  <class name="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity" table="TSECTIONCONTENT2" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.SectionContentKeyUserType">
       <column name="SCO_LKEY"/>
@@ -14,13 +14,13 @@
     <property name="timestamp" type="timestamp">
       <column name="SCO_DTETIMESTAMP" not-null="true"/>
     </property>
-    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" fetch="select">
+    <many-to-one name="content" class="com.enonic.cms.core.content.ContentEntity" fetch="select">
       <column name="SCO_CON_LKEY" not-null="true"/>
     </many-to-one>
     <property name="order" type="int">
       <column name="SCO_LORDER" not-null="true"/>
     </property>
-    <many-to-one name="menuItem" class="com.enonic.cms.domain.structure.menuitem.MenuItemEntity" fetch="select">
+    <many-to-one name="menuItem" class="com.enonic.cms.core.structure.menuitem.MenuItemEntity" fetch="select">
       <column name="SCO_MEI_LKEY" not-null="true"/>
     </many-to-one>
   </class>

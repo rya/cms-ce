@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.datasource.processor;
 
+import com.enonic.cms.portal.datasource.DataSourceContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,8 +12,6 @@ import org.w3c.dom.Node;
 import com.enonic.esl.xml.XMLTool;
 
 import com.enonic.cms.portal.datasource.methodcall.MethodCall;
-
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 
 /**
  * Apr 30, 2009

@@ -14,8 +14,8 @@ import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public final class SendMailServiceImpl
     implements SendMailService

@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.resource;
 
+import com.enonic.cms.core.resource.ResourceKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

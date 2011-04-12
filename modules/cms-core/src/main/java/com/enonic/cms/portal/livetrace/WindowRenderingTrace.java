@@ -6,7 +6,7 @@ package com.enonic.cms.portal.livetrace;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.QualifiedUsername;
 
 /**
  * Oct 6, 2010

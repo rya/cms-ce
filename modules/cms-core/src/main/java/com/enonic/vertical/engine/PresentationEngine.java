@@ -13,6 +13,9 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.structure.SiteEntity;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -49,10 +52,7 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.core.calendar.CalendarService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.User;
 
 public class PresentationEngine
     extends BaseEngine
@@ -511,7 +511,7 @@ public class PresentationEngine
     public Document getCategories( User user, int key, int levels, boolean topLevel, boolean details, boolean catCount,
                                    boolean contentCount )
     {
-        return getCategoryHandler().getCategories( checkUser( user ), CategoryKey.parse( key ), levels, topLevel, details, catCount,
+        return getCategoryHandler().getCategories( checkUser( user ), CategoryKey.parse(key), levels, topLevel, details, catCount,
                                                    contentCount );
     }
 

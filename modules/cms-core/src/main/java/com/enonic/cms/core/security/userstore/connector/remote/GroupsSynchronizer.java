@@ -6,10 +6,10 @@ package com.enonic.cms.core.security.userstore.connector.remote;
 
 import java.util.Collection;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 
 public class GroupsSynchronizer

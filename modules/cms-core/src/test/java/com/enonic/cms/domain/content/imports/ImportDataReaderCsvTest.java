@@ -9,19 +9,22 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
+import com.enonic.cms.core.content.imports.ImportCSVSourceException;
+import com.enonic.cms.core.content.imports.ImportDataEntry;
+import com.enonic.cms.core.content.imports.ImportDataReaderCsv;
+import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.domain.content.contenttype.CtyFormConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportMappingConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportModeConfig;
-import com.enonic.cms.domain.content.contenttype.CtySetConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
-import com.enonic.cms.domain.content.imports.sourcevalueholders.AbstractSourceValue;
-import com.enonic.cms.domain.content.imports.sourcevalueholders.StringSourceValue;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.CtyFormConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportModeConfig;
+import com.enonic.cms.core.content.contenttype.CtySetConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
 
 import static org.junit.Assert.*;
 

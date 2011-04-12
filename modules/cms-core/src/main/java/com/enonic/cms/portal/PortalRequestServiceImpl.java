@@ -16,9 +16,6 @@ import com.enonic.cms.portal.processor.PageRequestProcessorFactory;
 import com.enonic.cms.portal.rendering.PageRendererFactory;
 import com.enonic.cms.portal.rendering.WindowRendererFactory;
 
-import com.enonic.cms.domain.portal.PortalRequest;
-import com.enonic.cms.domain.portal.PortalResponse;
-
 public final class PortalRequestServiceImpl
     implements PortalRequestService
 {

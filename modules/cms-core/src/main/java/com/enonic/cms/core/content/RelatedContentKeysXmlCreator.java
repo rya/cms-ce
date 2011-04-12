@@ -9,12 +9,10 @@ import java.util.Set;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.resultset.RelatedChildContent;
-import com.enonic.cms.domain.content.resultset.RelatedContent;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedParentContent;
+import com.enonic.cms.core.content.resultset.RelatedChildContent;
+import com.enonic.cms.core.content.resultset.RelatedContent;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedParentContent;
 
 
 public class RelatedContentKeysXmlCreator

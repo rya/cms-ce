@@ -9,17 +9,6 @@ import java.util.regex.Matcher;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
-import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateImageUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionPatterns;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializingException;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionType;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionUnknownTypeException;
-import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
-
 /**
  * Created by rmy - Date: Nov 18, 2009
  */

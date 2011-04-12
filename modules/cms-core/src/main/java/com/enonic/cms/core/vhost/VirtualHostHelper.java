@@ -14,7 +14,7 @@ public final class VirtualHostHelper
     /**
      * Source base.
      */
-    private final static String BASE_PATH = "com.enonic.cms.business.vhost.BASE_PATH";
+    private final static String BASE_PATH = "com.enonic.cms.core.business.vhost.BASE_PATH";
 
     /**
      * Return true if it has base path.

@@ -6,11 +6,8 @@ package com.enonic.cms.core.content.index;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.domain.content.ContentIndexEntity;
-import com.enonic.cms.domain.content.index.FieldHelper;
-import com.enonic.cms.domain.content.index.IndexValueQuery;
-import com.enonic.cms.domain.content.index.TranslatedQuery;
-import com.enonic.cms.domain.content.index.translator.AbstractQueryTranslator;
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.index.translator.AbstractQueryTranslator;
 
 /**
  * This class implements the index value query translator.

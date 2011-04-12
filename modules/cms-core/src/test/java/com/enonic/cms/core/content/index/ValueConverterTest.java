@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import com.enonic.cms.domain.content.index.util.ValueConverter;
+import com.enonic.cms.core.content.index.util.ValueConverter;
 
 import static org.junit.Assert.*;
 

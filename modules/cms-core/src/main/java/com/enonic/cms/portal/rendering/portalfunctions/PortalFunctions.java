@@ -12,6 +12,14 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.Ticket;
+import com.enonic.cms.portal.instruction.*;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
@@ -38,28 +46,19 @@ import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.portal.ReservedLocalPaths;
-import com.enonic.cms.domain.portal.Ticket;
-import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateImageUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
-import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.WindowKey;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.portal.instruction.CreateAttachmentUrlInstruction;
+import com.enonic.cms.portal.instruction.CreateContentUrlInstruction;
+import com.enonic.cms.portal.instruction.CreateResourceUrlInstruction;
+import com.enonic.cms.portal.instruction.PostProcessInstructionSerializer;
+import com.enonic.cms.portal.instruction.RenderWindowInstruction;
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.WindowKey;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 public class PortalFunctions
 {

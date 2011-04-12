@@ -9,18 +9,16 @@ import java.io.Writer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.portal.rendering.tracing.*;
 import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
-import com.enonic.cms.portal.rendering.tracing.RenderTrace;
-
-import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.RenderTraceInfo;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.portal.rendering.tracing.RenderTraceInfo;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  * This class implements the data source controller.

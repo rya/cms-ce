@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.portal.livetrace;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Nov 25, 2010

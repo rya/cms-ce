@@ -6,6 +6,7 @@ package com.enonic.cms.portal.rendering.viewtransformer;
 
 import java.util.List;
 
+import com.enonic.cms.core.structure.TemplateParameterType;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
@@ -22,12 +23,8 @@ import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 
-import com.enonic.cms.domain.portal.PortalRenderingException;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParameter;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParams;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.ViewTransformationResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.structure.TemplateParameterType;
+import com.enonic.cms.portal.PortalRenderingException;
+import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * Apr 26, 2009

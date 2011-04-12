@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.portal.livetrace;
 
-import com.enonic.cms.domain.content.binary.AttachmentRequest;
+import com.enonic.cms.core.content.binary.AttachmentRequest;
 
 /**
  * Nov 25, 2010

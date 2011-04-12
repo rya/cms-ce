@@ -10,6 +10,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
+import com.enonic.cms.portal.PortalRequest;
+import com.enonic.cms.portal.PortalResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -26,9 +28,7 @@ import com.enonic.cms.server.DeploymentAndRequestSetup;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.PortalRequest;
-import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.portal.RedirectInstruction;
+import com.enonic.cms.portal.RedirectInstruction;
 
 import static org.junit.Assert.*;
 

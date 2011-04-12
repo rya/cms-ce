@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.portal.ShoppingCart;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +44,7 @@ import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.portal.ShoppingCart;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class OrderHandlerController
     extends ContentHandlerBaseController

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.domain;
 
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
 
 /**
  * Created by IntelliJ IDEA.

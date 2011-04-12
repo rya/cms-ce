@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.security.group;
 
+import com.enonic.cms.core.security.group.GroupEntity;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

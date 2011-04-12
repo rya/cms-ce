@@ -6,14 +6,12 @@ package com.enonic.cms.core.resolver.locale;
 
 import java.util.Locale;
 
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.core.resolver.AbstractXsltScriptResolver;
-
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resolver.locale.LocaleParser;
 
 /**
  * Created by rmy - Date: Apr 29, 2009

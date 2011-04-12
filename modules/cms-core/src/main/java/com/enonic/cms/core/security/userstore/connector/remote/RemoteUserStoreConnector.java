@@ -11,6 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.security.InvalidCredentialsException;
+import com.enonic.cms.core.security.group.*;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
@@ -25,28 +30,23 @@ import com.enonic.cms.core.security.userstore.connector.synchronize.status.Synch
 
 import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
 
-import com.enonic.cms.domain.security.InvalidCredentialsException;
-import com.enonic.cms.domain.security.group.DeleteGroupCommand;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.group.StoreNewGroupCommand;
-import com.enonic.cms.domain.security.group.UpdateGroupCommand;
-import com.enonic.cms.domain.security.user.DeleteUserCommand;
-import com.enonic.cms.domain.security.user.DisplayNameResolver;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.StoreNewUserCommand;
-import com.enonic.cms.domain.security.user.UpdateUserCommand;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserImpl;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserNotFoundException;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.group.StoreNewGroupCommand;
+import com.enonic.cms.core.security.group.UpdateGroupCommand;
+import com.enonic.cms.core.security.user.DeleteUserCommand;
+import com.enonic.cms.core.security.user.DisplayNameResolver;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserImpl;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserNotFoundException;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;

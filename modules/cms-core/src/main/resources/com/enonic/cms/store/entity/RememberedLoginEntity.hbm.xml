@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.security.RememberedLoginEntity" table="tUserMenuGUID" mutable="true">
+  <class name="com.enonic.cms.core.security.RememberedLoginEntity" table="tUserMenuGUID" mutable="true">
     <cache usage="nonstrict-read-write"/>
-    <composite-id name="key" class="com.enonic.cms.domain.security.RememberedLoginKey">
+    <composite-id name="key" class="com.enonic.cms.core.security.RememberedLoginKey">
       <key-property name="siteKey" type="com.enonic.cms.store.hibernate.type.SiteKeyUserType">
         <column name="umg_men_lKey"/>
       </key-property>

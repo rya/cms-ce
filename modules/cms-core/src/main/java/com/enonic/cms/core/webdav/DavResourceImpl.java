@@ -14,6 +14,9 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceData;
+import com.enonic.cms.core.resource.FileResourceName;
 import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.util.Text;
 import org.apache.jackrabbit.webdav.DavConstants;
@@ -49,10 +52,6 @@ import org.slf4j.LoggerFactory;
 import com.enonic.cms.framework.util.MimeTypeResolver;
 
 import com.enonic.cms.api.Version;
-
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceData;
-import com.enonic.cms.domain.resource.FileResourceName;
 
 /**
  * This class implements the resource.

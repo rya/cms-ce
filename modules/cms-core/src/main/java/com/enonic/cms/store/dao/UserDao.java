@@ -6,12 +6,12 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
 
 public interface UserDao
     extends EntityDao<UserEntity>

@@ -4,9 +4,9 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public final class PageTemplateHandler
     extends BaseHandler

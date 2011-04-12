@@ -6,14 +6,12 @@ package com.enonic.cms.core.content.imports;
 
 import java.util.Date;
 
+import com.enonic.cms.core.content.category.CategoryEntity;
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.CtyImportConfig;
-import com.enonic.cms.domain.content.imports.ImportDataEntry;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public interface ImportJob

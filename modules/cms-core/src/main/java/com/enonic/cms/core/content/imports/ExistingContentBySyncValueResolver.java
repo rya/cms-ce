@@ -9,22 +9,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.enonic.cms.core.content.index.ContentIndexService;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.index.*;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.CtyImportConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfig;
-import com.enonic.cms.domain.content.imports.ImportException;
-import com.enonic.cms.domain.content.index.ContentIndexQuery;
-import com.enonic.cms.domain.content.index.IndexValueQuery;
-import com.enonic.cms.domain.content.index.IndexValueResult;
-import com.enonic.cms.domain.content.index.IndexValueResultSet;
-import com.enonic.cms.domain.content.index.config.IndexDefinition;
-import com.enonic.cms.domain.content.index.config.IndexDefinitionBuilder;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.index.ContentIndexQuery;
+import com.enonic.cms.core.content.index.IndexValueQuery;
+import com.enonic.cms.core.content.index.IndexValueResult;
+import com.enonic.cms.core.content.index.IndexValueResultSet;
+import com.enonic.cms.core.content.index.config.IndexDefinition;
+import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 public class ExistingContentBySyncValueResolver
 {

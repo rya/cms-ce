@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.store.dao;
 
+import com.enonic.cms.core.preferences.PreferenceEntity;
+import com.enonic.cms.core.preferences.PreferenceKey;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,9 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
 
 import static org.junit.Assert.*;
 

@@ -7,7 +7,7 @@ package com.enonic.cms.core.security;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 public final class SecurityHolderAdmin
 {

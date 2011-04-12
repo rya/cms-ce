@@ -97,7 +97,7 @@
         class="com.enonic.cms.core.resolver.ResolverInputXMLCreator"/>
 
   <bean id="resolverXMLCreator"
-        class="com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator"/>
+        class="com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator"/>
   <bean id="resolverInputCreator"
         class="com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator"/>
 

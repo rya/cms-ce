@@ -4,10 +4,11 @@
  */
 package com.enonic.cms.domain.content.binary;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.*;
 import org.junit.Test;
 
 import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.content.ContentKey;
 
 import static org.junit.Assert.*;
 
@@ -122,7 +123,7 @@ public class AttachmentNativeLinkKeyParserTest
     {
         try
         {
-            AttachmentNativeLinkKeyParser.parse( new Path( "143/binary" ) );
+            AttachmentNativeLinkKeyParser.parse(new Path("143/binary"));
             fail( "Expected InvalidAttachmentNativeLinkKeyException" );
         }
         catch ( InvalidAttachmentNativeLinkKeyException e )

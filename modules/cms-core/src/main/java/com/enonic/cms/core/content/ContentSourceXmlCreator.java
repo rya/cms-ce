@@ -20,11 +20,7 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.store.dao.ContentIndexDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentIndexEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.index.ContentIndexConstants;
+import com.enonic.cms.core.content.index.ContentIndexConstants;
 
 /**
  * This class is used for admin to build xml for extended info such as index values and content data.

@@ -6,6 +6,15 @@ package com.enonic.cms.domain.portal;
 
 import java.util.HashSet;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.PageRequestContext;
+import com.enonic.cms.portal.PageRequestContextResolver;
+import com.enonic.cms.portal.PageRequestType;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,12 +25,7 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

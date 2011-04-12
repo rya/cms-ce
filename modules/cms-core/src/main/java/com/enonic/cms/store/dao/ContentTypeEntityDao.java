@@ -6,9 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 
 public class ContentTypeEntityDao
     extends AbstractBaseEntityDao<ContentTypeEntity>

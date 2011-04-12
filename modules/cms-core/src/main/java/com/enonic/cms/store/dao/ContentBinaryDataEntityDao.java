@@ -6,9 +6,8 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
 
 public class ContentBinaryDataEntityDao
     extends AbstractBaseEntityDao<ContentBinaryDataEntity>

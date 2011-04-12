@@ -2,9 +2,9 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
-  <class name="com.enonic.cms.domain.content.category.CategoryAccessEntity" table="TCATACCESSRIGHT" mutable="true">
+  <class name="com.enonic.cms.core.content.category.CategoryAccessEntity" table="TCATACCESSRIGHT" mutable="true">
     <cache usage="nonstrict-read-write"/>
-    <composite-id name="key" class="com.enonic.cms.domain.content.category.CategoryAccessKey">
+    <composite-id name="key" class="com.enonic.cms.core.content.category.CategoryAccessKey">
       <key-property name="categoryKey" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
         <column name="CAR_CAT_LKEY"/>
       </key-property>
@@ -28,7 +28,7 @@
       <column name="CAR_BADMINISTRATE" not-null="true"/>
     </property>
 
-    <many-to-one name="group" class="com.enonic.cms.domain.security.group.GroupEntity" insert="false" update="false"
+    <many-to-one name="group" class="com.enonic.cms.core.security.group.GroupEntity" insert="false" update="false"
                  fetch="select">
       <column name="CAR_GRP_HKEY" not-null="true"/>
     </many-to-one>

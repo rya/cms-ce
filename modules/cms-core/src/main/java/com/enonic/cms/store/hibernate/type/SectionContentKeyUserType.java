@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 
 /**
  *

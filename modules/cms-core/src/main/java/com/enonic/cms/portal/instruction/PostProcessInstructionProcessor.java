@@ -4,10 +4,6 @@
  */
 package com.enonic.cms.portal.instruction;
 
-import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializingException;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionUnknownTypeException;
-
 /**
  * Created by IntelliJ IDEA.
  * User: rmh

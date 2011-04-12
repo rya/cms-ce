@@ -6,9 +6,8 @@ package com.enonic.cms.core.resolver.mock;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.resolver.ResolverHttpRequestInput;
 import com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator;
-
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInput;
 
 /**
  * Created by rmy - Date: Aug 24, 2009

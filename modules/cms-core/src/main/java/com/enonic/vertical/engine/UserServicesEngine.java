@@ -4,6 +4,7 @@
  */
 package com.enonic.vertical.engine;
 
+import com.enonic.cms.core.content.category.CategoryKey;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 
@@ -22,8 +23,7 @@ import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class UserServicesEngine
     extends BaseEngine
@@ -227,7 +227,7 @@ public class UserServicesEngine
 
     public String getContentTypeByCategory( int categoryKey )
     {
-        int contentTypeKey = categoryHandler.getContentTypeKey( CategoryKey.parse( categoryKey ) );
+        int contentTypeKey = categoryHandler.getContentTypeKey( CategoryKey.parse(categoryKey) );
         return XMLTool.documentToString( contentHandler.getContentType( contentTypeKey, false ) );
     }
 

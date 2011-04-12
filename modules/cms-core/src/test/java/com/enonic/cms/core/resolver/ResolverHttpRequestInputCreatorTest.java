@@ -20,7 +20,6 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInput;
 
 import static org.junit.Assert.*;
 

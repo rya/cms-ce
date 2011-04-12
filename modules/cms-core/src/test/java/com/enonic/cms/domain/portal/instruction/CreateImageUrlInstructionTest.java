@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.portal.instruction;
 
+import com.enonic.cms.portal.instruction.CreateImageUrlInstruction;
 import org.junit.Test;
 
 import junit.framework.TestCase;

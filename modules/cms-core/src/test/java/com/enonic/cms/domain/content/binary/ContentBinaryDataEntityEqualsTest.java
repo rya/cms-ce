@@ -4,11 +4,13 @@
  */
 package com.enonic.cms.domain.content.binary;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
 
 
 public class ContentBinaryDataEntityEqualsTest

@@ -9,6 +9,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -34,22 +41,10 @@ import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.resource.FileResourceService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateImageUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import static org.junit.Assert.*;
 

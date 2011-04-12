@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.content;
 
+import com.enonic.cms.core.content.ContentStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

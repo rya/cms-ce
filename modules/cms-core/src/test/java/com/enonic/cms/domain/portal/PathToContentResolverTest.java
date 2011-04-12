@@ -4,6 +4,12 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.*;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.portal.PathToContentResolver;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,16 +21,11 @@ import com.enonic.cms.store.dao.SectionContentDao;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 
 import static org.mockito.Mockito.isA;
 import static org.mockito.Mockito.mock;

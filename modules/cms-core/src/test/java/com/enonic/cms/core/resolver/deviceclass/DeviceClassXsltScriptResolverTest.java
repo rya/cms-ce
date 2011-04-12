@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.resolver.deviceclass;
 
+import com.enonic.cms.core.resolver.ResolverContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -15,9 +16,8 @@ import com.enonic.cms.core.resolver.deviceclass.mock.DeviceClassResolverXMLCreat
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.saxon.SaxonProcessorManager;
 
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
+import com.enonic.cms.core.resource.ResourceFile;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

@@ -7,14 +7,14 @@ package com.enonic.cms.core.security.userstore;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.framework.util.BatchedList;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.user.DeleteUserStoreCommand;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.user.DeleteUserStoreCommand;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 public class DeleteUserStoreJob
 {

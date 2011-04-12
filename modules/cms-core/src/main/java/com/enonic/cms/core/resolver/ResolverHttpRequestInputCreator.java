@@ -19,7 +19,6 @@ import com.enonic.cms.core.SiteURLResolver;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInput;
 
 /**
  * Created by rmy - Date: Apr 7, 2009

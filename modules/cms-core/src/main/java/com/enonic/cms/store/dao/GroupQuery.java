@@ -6,8 +6,8 @@ package com.enonic.cms.store.dao;
 
 import java.util.Collection;
 
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 public class GroupQuery
 {

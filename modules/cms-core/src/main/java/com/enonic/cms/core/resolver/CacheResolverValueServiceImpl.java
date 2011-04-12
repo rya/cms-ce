@@ -8,8 +8,6 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.domain.resolver.ResolverContext;
-
 /**
  * Created by rmy - Date: May 5, 2009
  */

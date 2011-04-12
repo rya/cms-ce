@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.domain.content.resultset.ContentResultSetWithOverridingContent;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
+import com.enonic.cms.core.content.resultset.ContentResultSetWithOverridingContent;
 
 import static org.junit.Assert.*;
 

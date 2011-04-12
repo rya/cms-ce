@@ -4,13 +4,13 @@
  */
 package com.enonic.cms.portal.datasource.context;
 
+import com.enonic.cms.core.resource.ResourceKey;
 import org.jdom.CDATA;
 import org.jdom.Element;
 
 import com.enonic.cms.core.resource.ResourceService;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * Apr 21, 2009

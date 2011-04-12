@@ -10,15 +10,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.core.security.userstore.connector.remote.AbstractBaseUserSynchronizer;
-import com.enonic.cms.core.security.userstore.connector.remote.UserSynchronizer;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.user.remote.RemoteUser;
 
 import static org.easymock.EasyMock.createMock;

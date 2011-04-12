@@ -14,6 +14,10 @@ import javax.el.ValueExpression;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.VerticalSession;
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.SimpleContext;
 
@@ -21,11 +25,7 @@ import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsF
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsStatic;
 
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public final class ExpressionFunctionsExecutor
 {

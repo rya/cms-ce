@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.domain.security.group;
 
+import com.enonic.cms.core.security.group.QualifiedGroupname;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import org.junit.Test;
-
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
 import static org.junit.Assert.*;
 

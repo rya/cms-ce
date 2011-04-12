@@ -9,9 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import org.hibernate.HibernateException;
-
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 
 
 public class PageTemplateTypeUserType
@@ -31,7 +30,7 @@ public class PageTemplateTypeUserType
         throws HibernateException, SQLException
     {
         int intValue = rs.getInt( names[0] );
-        return rs.wasNull() ? null : PageTemplateType.get( intValue );
+        return rs.wasNull() ? null : PageTemplateType.get(intValue);
     }
 
     public void nullSafeSet( PreparedStatement st, Object value, int index )

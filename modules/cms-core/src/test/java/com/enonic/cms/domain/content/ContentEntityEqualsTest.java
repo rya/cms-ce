@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.domain.content;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

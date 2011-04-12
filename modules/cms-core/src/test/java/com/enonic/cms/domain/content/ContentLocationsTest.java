@@ -6,14 +6,15 @@ package com.enonic.cms.domain.content;
 
 import java.util.Iterator;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
 
 import static org.junit.Assert.*;
 

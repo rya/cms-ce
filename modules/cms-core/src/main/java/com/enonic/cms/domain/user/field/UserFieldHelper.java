@@ -11,7 +11,7 @@ import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.enonic.cms.domain.resolver.locale.LocaleParser;
+import com.enonic.cms.core.resolver.locale.LocaleParser;
 import com.enonic.cms.domain.user.Gender;
 
 public final class UserFieldHelper

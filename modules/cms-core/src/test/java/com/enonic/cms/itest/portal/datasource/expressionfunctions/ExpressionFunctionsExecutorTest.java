@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.itest.portal.datasource.expressionfunctions;
 
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +24,7 @@ import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsF
 
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
 
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 import static org.junit.Assert.*;
 

@@ -7,6 +7,7 @@ package com.enonic.cms.store.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -20,12 +21,11 @@ import org.springframework.util.Assert;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.user.UserType;
 
 public class UserEntityDao
     extends AbstractBaseEntityDao<UserEntity>

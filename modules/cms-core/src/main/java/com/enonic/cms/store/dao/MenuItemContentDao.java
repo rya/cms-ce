@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.store.dao;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemContentEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemContentKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemContentKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemContentEntity;
 
 
 public interface MenuItemContentDao

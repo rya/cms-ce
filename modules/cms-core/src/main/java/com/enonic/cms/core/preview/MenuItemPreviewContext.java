@@ -6,7 +6,7 @@ package com.enonic.cms.core.preview;
 
 import java.io.Serializable;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Sep 30, 2010

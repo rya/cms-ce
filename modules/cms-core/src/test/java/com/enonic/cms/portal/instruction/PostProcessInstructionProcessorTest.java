@@ -20,15 +20,7 @@ import com.google.common.collect.Lists;
 
 import com.enonic.cms.portal.rendering.WindowRendererContext;
 
-import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateImageUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionPatterns;
-import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
-import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import static org.junit.Assert.*;
 

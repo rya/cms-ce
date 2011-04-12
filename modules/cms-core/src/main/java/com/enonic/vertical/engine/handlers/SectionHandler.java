@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -31,9 +32,8 @@ import com.enonic.vertical.event.ContentHandlerListener;
 import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class SectionHandler
     extends BaseHandler

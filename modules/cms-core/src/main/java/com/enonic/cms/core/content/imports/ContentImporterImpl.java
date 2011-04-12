@@ -11,38 +11,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.portal.PrettyPathNameCreator;
 import org.joda.time.DateTime;
 
-import com.enonic.cms.core.content.ContentStorer;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.core.content.UpdateContentResult;
-
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.DataEntry;
-import com.enonic.cms.domain.content.contenttype.CtyImportBlockConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportMappingConfig;
-import com.enonic.cms.domain.content.contenttype.CtyImportUpdateStrategyConfig;
-import com.enonic.cms.domain.content.imports.ImportDataEntry;
-import com.enonic.cms.domain.content.imports.ImportDataReader;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.content.imports.ImportValueFormater;
-import com.enonic.cms.domain.content.imports.InvalidImportDataException;
-import com.enonic.cms.domain.content.imports.sourcevalueholders.AbstractSourceValue;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DataEntry;
+import com.enonic.cms.core.content.contenttype.CtyImportBlockConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportUpdateStrategyConfig;
+import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class ContentImporterImpl
 {
@@ -341,7 +333,7 @@ public class ContentImporterImpl
         final CreateContentCommand createCommand = new CreateContentCommand();
         createCommand.setCreator( importer );
         createCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
-        createCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( newContentData.getTitle() ) );
+        createCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName(newContentData.getTitle()) );
         createCommand.setCategory( category );
         final DateTime availableFrom = resolveAvailableFrom( importData );
         if ( availableFrom != null )

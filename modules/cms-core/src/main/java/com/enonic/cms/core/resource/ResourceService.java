@@ -8,12 +8,6 @@ import java.util.HashMap;
 
 import com.google.common.collect.Multimap;
 
-import com.enonic.cms.domain.resource.ResourceBase;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceReferencer;
-
 public interface ResourceService
 {
 

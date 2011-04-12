@@ -12,30 +12,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 
-import com.enonic.cms.core.content.index.ContentIndexFieldSet;
-import com.enonic.cms.core.content.index.ContentIndexServiceImpl;
 import com.enonic.cms.store.dao.ContentIndexDao;
 
-import com.enonic.cms.domain.content.ContentIndexEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.index.AggregatedQuery;
-import com.enonic.cms.domain.content.index.AggregatedResult;
-import com.enonic.cms.domain.content.index.BigText;
-import com.enonic.cms.domain.content.index.ContentDocument;
-import com.enonic.cms.domain.content.index.ContentIndexQuery;
-import com.enonic.cms.domain.content.index.IndexValueQuery;
-import com.enonic.cms.domain.content.index.IndexValueResultSet;
-import com.enonic.cms.domain.content.index.UserDefinedField;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 public class ContentIndexServiceImplTest
     extends AbstractTransactionalSpringContextTests

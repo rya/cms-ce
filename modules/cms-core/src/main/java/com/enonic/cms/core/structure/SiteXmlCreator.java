@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -18,13 +19,9 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
-import com.enonic.cms.domain.structure.DefaultSiteAccumulatedAccessRights;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserXmlCreator;
 
 public class SiteXmlCreator
 {

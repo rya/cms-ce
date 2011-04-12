@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
 
 public class MenuItemTypeUserType
     extends AbstractIntegerBasedUserType<MenuItemType>
@@ -16,7 +16,7 @@ public class MenuItemTypeUserType
 
     public MenuItemType get( int value )
     {
-        return MenuItemType.get( value );
+        return MenuItemType.get(value);
     }
 
     public Integer getIntegerValue( MenuItemType value )

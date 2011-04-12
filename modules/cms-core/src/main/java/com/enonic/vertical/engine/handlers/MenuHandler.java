@@ -11,6 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -25,13 +28,11 @@ import com.enonic.vertical.event.VerticalEventMulticaster;
 import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public final class MenuHandler
     extends BaseHandler
@@ -454,7 +455,7 @@ public final class MenuHandler
         }
 
         // attribute: menu item type
-        MenuItemType menuItemType = MenuItemType.get( result.getInt( "mei_mid_lKey" ) );
+        MenuItemType menuItemType = MenuItemType.get(result.getInt("mei_mid_lKey"));
         menuItemElement.setAttribute( "type", menuItemType.getName() );
 
         if ( includeTypeSpecificXML )

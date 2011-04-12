@@ -7,14 +7,14 @@ package com.enonic.cms.core;
 
 import java.util.List;
 
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.domain.CacheSettings;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public class TightestCacheSettingsResolver
 {

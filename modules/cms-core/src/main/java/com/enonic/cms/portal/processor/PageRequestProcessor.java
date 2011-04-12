@@ -4,17 +4,15 @@
  */
 package com.enonic.cms.portal.processor;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageResolver;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.PageTemplateNotFoundException;
-import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
-import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.PageEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.PageTemplateNotFoundException;
+import com.enonic.cms.core.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 
 public class PageRequestProcessor

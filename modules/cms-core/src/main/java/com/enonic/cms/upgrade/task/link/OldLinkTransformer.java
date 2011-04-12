@@ -7,8 +7,8 @@ package com.enonic.cms.upgrade.task.link;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.link.ContentKeyResolver;
 import com.enonic.cms.domain.link.LinkTransformer;
 

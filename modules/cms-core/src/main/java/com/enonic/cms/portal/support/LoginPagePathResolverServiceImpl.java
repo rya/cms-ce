@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.support;
 
+import com.enonic.cms.portal.ReservedLocalPaths;
 import com.enonic.vertical.engine.Types;
 
 import com.enonic.cms.core.service.PresentationService;
@@ -11,8 +12,7 @@ import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.LoginPageNotFoundException;
-import com.enonic.cms.domain.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.LoginPageNotFoundException;
 
 public class LoginPagePathResolverServiceImpl
     implements LoginPagePathResolverService

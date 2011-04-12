@@ -9,13 +9,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.log.*;
 import org.hibernate.Query;
 import org.hibernate.transform.ResultTransformer;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
-
-import com.enonic.cms.domain.content.ContentEntity;
 
 public class LogEntryEntityDao
     extends AbstractBaseEntityDao<LogEntryEntity>

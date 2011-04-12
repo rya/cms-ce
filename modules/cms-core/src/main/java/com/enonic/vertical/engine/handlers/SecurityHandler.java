@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.security.group.GroupType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -35,10 +37,8 @@ import com.enonic.vertical.engine.dbmodel.ContentView;
 import com.enonic.vertical.engine.dbmodel.MenuItemARView;
 import com.enonic.vertical.engine.dbmodel.SectionContentView;
 import com.enonic.vertical.event.VerticalEventListener;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.User;
 
 final public class SecurityHandler
     extends BaseHandler

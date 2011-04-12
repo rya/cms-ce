@@ -6,19 +6,19 @@ package com.enonic.cms.portal.rendering.portalfunctions;
 
 import java.util.Set;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.*;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.instruction.CreateAttachmentUrlInstruction;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyParser;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithLabel;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 /**
  * Jan 21, 2010

@@ -4,6 +4,11 @@
  */
 package com.enonic.cms.portal.datasource.context;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteProperties;
+import com.enonic.cms.portal.VerticalSession;
+import com.enonic.cms.portal.datasource.Datasources;
+import com.enonic.cms.portal.datasource.DatasourcesType;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.springframework.beans.factory.InitializingBean;
@@ -18,12 +23,7 @@ import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.portal.datasource.Datasources;
-import com.enonic.cms.domain.portal.datasource.DatasourcesType;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
+import com.enonic.cms.portal.PageRequestType;
 
 /**
  * May 15, 2009

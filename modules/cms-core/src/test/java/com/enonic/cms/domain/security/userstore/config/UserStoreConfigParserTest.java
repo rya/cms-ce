@@ -9,6 +9,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
+import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Test;
@@ -178,7 +182,7 @@ public class UserStoreConfigParserTest
 
         try
         {
-            UserStoreConfigParser.parse( configEl );
+            UserStoreConfigParser.parse(configEl);
             fail( "An exception should have been thrown." );
         }
         catch ( Exception ex )

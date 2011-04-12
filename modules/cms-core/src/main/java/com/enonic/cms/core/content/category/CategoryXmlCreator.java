@@ -21,13 +21,10 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.content.ContentHandlerEntity;
-import com.enonic.cms.domain.content.category.CategoryAccessType;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class CategoryXmlCreator
 {

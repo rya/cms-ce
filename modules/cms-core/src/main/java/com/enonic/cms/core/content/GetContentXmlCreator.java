@@ -11,7 +11,7 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Nov 16, 2010

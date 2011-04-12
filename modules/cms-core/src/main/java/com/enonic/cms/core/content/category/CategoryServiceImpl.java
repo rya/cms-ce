@@ -7,6 +7,7 @@ package com.enonic.cms.core.content.category;
 import java.util.Date;
 import java.util.Map;
 
+import com.enonic.cms.core.security.group.GroupKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +22,8 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.content.category.CategoryAccessEntity;
-import com.enonic.cms.domain.content.category.CategoryAccessException;
-import com.enonic.cms.domain.content.category.CategoryAccessKey;
-import com.enonic.cms.domain.content.category.CategoryAccessType;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Mar 9, 2010

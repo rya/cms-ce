@@ -8,8 +8,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.domain.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
+import com.enonic.cms.core.resolver.ResolverContext;
 
 /**
  * Created by rmy - Date: Apr 22, 2009

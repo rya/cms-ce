@@ -6,6 +6,7 @@ package com.enonic.cms.domain.content.index;
 
 import java.util.Collection;
 
+import com.enonic.cms.core.content.index.BigText;
 import org.junit.Test;
 
 import junit.framework.TestCase;

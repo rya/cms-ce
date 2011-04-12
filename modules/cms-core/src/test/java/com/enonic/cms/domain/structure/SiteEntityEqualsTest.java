@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.structure;
 
+import com.enonic.cms.core.structure.SiteEntity;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

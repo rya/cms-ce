@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.portal.datasource.methodcall;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.datasource.DataSourceContext;
 
 /**
  * Jul 31, 2009

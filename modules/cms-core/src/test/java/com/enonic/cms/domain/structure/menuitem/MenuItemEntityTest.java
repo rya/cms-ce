@@ -12,14 +12,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 import org.jdom.JDOMException;
 
 import junit.framework.TestCase;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
 
 import static org.junit.Assert.*;
 

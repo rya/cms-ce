@@ -11,7 +11,7 @@ import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public final class UserHandler
     extends BaseHandler

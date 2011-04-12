@@ -4,15 +4,15 @@
  */
 package com.enonic.cms.core.content;
 
+import com.enonic.cms.core.content.index.IndexValueResult;
+import com.enonic.cms.core.content.index.IndexValueResultSet;
 import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.content.index.AggregatedResult;
-import com.enonic.cms.domain.content.index.IndexValueResult;
-import com.enonic.cms.domain.content.index.IndexValueResultSet;
+import com.enonic.cms.core.content.index.AggregatedResult;
 
 /**
  * Includes methods that creates the XML documentes for result sets with index values.

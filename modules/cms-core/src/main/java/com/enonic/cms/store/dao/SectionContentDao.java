@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.store.dao;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 
 /**
  *

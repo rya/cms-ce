@@ -11,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInput;
-import com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserXmlCreator;
 
 /**
  * Created by rmy - Date: Aug 24, 2009

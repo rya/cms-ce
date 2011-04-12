@@ -6,6 +6,10 @@ package com.enonic.cms.core.structure;
 
 import java.util.Date;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -18,15 +22,10 @@ import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
-import com.enonic.cms.domain.structure.page.PageEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
 
 public abstract class AbstractSiteXmlCreatorTest
     extends AbstractXmlCreatorTest

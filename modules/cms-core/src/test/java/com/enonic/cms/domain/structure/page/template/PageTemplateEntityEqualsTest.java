@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.structure.page.template;
 
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

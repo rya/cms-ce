@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.content.index;
 
+import com.enonic.cms.core.content.index.SimpleText;
 import org.junit.Test;
 
 import junit.framework.TestCase;

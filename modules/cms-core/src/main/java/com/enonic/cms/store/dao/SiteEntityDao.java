@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentTypeFilterEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,13 +23,9 @@ import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentTypeFilterEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class SiteEntityDao
     extends AbstractBaseEntityDao<SiteEntity>

@@ -15,6 +15,15 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.preferences.*;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -35,11 +44,6 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.calendar.CalendarService;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentXMLCreator;
-import com.enonic.cms.core.content.GetContentExecutor;
-import com.enonic.cms.core.content.GetContentResult;
-import com.enonic.cms.core.content.GetContentXmlCreator;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.country.Country;
@@ -48,7 +52,6 @@ import com.enonic.cms.core.country.CountryService;
 import com.enonic.cms.core.country.CountryXmlCreator;
 import com.enonic.cms.core.locale.LocaleService;
 import com.enonic.cms.core.locale.LocaleXmlCreator;
-import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserStoreParser;
@@ -72,43 +75,36 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.InvalidKeyException;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.index.ContentIndexQuery.SectionFilterStatus;
-import com.enonic.cms.domain.content.query.ContentByCategoryQuery;
-import com.enonic.cms.domain.content.query.ContentByContentQuery;
-import com.enonic.cms.domain.content.query.ContentByQueryQuery;
-import com.enonic.cms.domain.content.query.ContentBySectionQuery;
-import com.enonic.cms.domain.content.query.InvalidContentBySectionQueryException;
-import com.enonic.cms.domain.content.query.RelatedChildrenContentQuery;
-import com.enonic.cms.domain.content.query.RelatedContentQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
-import com.enonic.cms.domain.portal.ShoppingCart;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceScope;
-import com.enonic.cms.domain.preference.PreferenceScopeResolver;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
-import com.enonic.cms.domain.preference.PreferenceUniqueMatchResolver;
-import com.enonic.cms.domain.preference.PreferenceXmlCreator;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.ContentByQueryQuery;
+import com.enonic.cms.core.content.query.ContentBySectionQuery;
+import com.enonic.cms.core.content.query.InvalidContentBySectionQueryException;
+import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.portal.ShoppingCart;
+import com.enonic.cms.core.preferences.PreferenceEntity;
+import com.enonic.cms.core.preferences.PreferenceKey;
+import com.enonic.cms.core.preferences.PreferenceScope;
+import com.enonic.cms.core.preferences.PreferenceScopeResolver;
+import com.enonic.cms.core.preferences.PreferenceSpecification;
+import com.enonic.cms.core.preferences.PreferenceUniqueMatchResolver;
+import com.enonic.cms.core.preferences.PreferenceXmlCreator;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public final class DataSourceServiceImpl
         implements DataSourceService
@@ -303,7 +299,7 @@ public final class DataSourceServiceImpl
 
         ContentXMLCreator xmlCreator = new ContentXMLCreator();
 
-        Collection<CategoryKey> categoryKeySet = CategoryKey.convertToList( categoryKeys );
+        Collection<CategoryKey> categoryKeySet = CategoryKey.convertToList(categoryKeys);
 
         final Date now = new Date();
 
@@ -638,7 +634,7 @@ public final class DataSourceServiceImpl
         contentByContentQuery.setUser( user );
         try
         {
-            contentByContentQuery.setContentKeyFilter( ContentKey.convertToList( contentKey ) );
+            contentByContentQuery.setContentKeyFilter( ContentKey.convertToList(contentKey) );
         }
         catch ( InvalidKeyException e )
         {
@@ -1315,7 +1311,7 @@ public final class DataSourceServiceImpl
         else
         {
             List<PreferenceScope> resolvedScopes =
-                    PreferenceScopeResolver.resolveScopes( scope, context.getPortalInstanceKey(), context.getSiteKey() );
+                    PreferenceScopeResolver.resolveScopes(scope, context.getPortalInstanceKey(), context.getSiteKey());
 
             if ( resolvedScopes.isEmpty() )
             {
@@ -1802,7 +1798,7 @@ public final class DataSourceServiceImpl
 
         try
         {
-            spec.setMenuItemKeys( MenuItemKey.converToList( menuItemKeys ) );
+            spec.setMenuItemKeys( MenuItemKey.converToList(menuItemKeys) );
             spec.setContentTypeFilter( ContentTypeKey.convertToList( filterByContentTypes ) );
 
             spec.setUser( user );

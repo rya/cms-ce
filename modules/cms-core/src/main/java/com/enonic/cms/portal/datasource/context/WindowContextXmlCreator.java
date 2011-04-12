@@ -6,8 +6,8 @@ package com.enonic.cms.portal.datasource.context;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 /**
  * May 15, 2009

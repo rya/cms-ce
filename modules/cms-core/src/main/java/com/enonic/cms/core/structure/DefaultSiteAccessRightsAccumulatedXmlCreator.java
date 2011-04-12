@@ -6,8 +6,6 @@ package com.enonic.cms.core.structure;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.DefaultSiteAccumulatedAccessRights;
-
 /**
  * Nov 19, 2009
  */

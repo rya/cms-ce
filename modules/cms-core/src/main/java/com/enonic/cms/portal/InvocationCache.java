@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.datasource.DataSourceContext;
 
 /**
  * Keeps track of all executed methods and the result returned.  If a method is invoked with the same parameters, the same result is
@@ -132,7 +132,7 @@ public final class InvocationCache
 
                 appendArguments( str, (int[]) args[i] );
             }
-            else if ( ( args[i] instanceof DataSourceContext ) )
+            else if ( ( args[i] instanceof DataSourceContext) )
             {
                 // skip data source context, not necessary as long as it contains the same values for every datasource
             }

@@ -6,6 +6,8 @@ package com.enonic.cms.core.content.imports;
 
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,11 +20,7 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.index.ContentIndexService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.imports.ImportDataReader;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class ImportServiceImpl
     implements ImportService

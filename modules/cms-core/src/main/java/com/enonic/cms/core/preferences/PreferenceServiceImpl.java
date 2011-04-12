@@ -13,11 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.store.dao.PreferenceDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 
 public class PreferenceServiceImpl

@@ -4,9 +4,7 @@
  */
 package com.enonic.cms.portal.rendering.tracing;
 
-import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
-import com.enonic.cms.domain.portal.rendering.tracing.PagePortletTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.RenderTraceInfo;
+import com.enonic.cms.portal.rendering.RenderedWindowResult;
 
 /**
  * This class implements the render trace helper.

@@ -4,9 +4,6 @@
  */
 package com.enonic.cms.portal;
 
-import com.enonic.cms.domain.portal.PortalRequest;
-import com.enonic.cms.domain.portal.PortalResponse;
-
 /**
  * Apr 17, 2009
  */

@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import com.enonic.cms.core.structure.SiteProperties;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteProperties;
 
 public class MockSitePropertiesService
     implements SitePropertiesService

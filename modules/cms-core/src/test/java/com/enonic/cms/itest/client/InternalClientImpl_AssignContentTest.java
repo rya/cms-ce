@@ -7,6 +7,7 @@ package com.enonic.cms.itest.client;
 import java.io.IOException;
 import java.util.Date;
 
+import com.enonic.cms.core.content.*;
 import org.jdom.JDOMException;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -31,7 +32,6 @@ import com.enonic.cms.api.client.model.content.ContentDataInput;
 import com.enonic.cms.api.client.model.content.ContentStatus;
 import com.enonic.cms.api.client.model.content.TextInput;
 import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.security.SecurityHolder;
@@ -41,16 +41,16 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.itest.DomainFactory;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 
 import static org.junit.Assert.*;
 
@@ -245,7 +245,7 @@ public class InternalClientImpl_AssignContentTest
         createContentCommand.setAvailableFrom( new DateTime( 2010, 1, 1, 0, 0, 0, 0 ).toDate() );
         createContentCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.USE_GIVEN );
         createContentCommand.setPriority( 0 );
-        createContentCommand.setStatus( com.enonic.cms.domain.content.ContentStatus.DRAFT );
+        createContentCommand.setStatus( com.enonic.cms.core.content.ContentStatus.DRAFT );
         createContentCommand.setLanguage( fixture.findLanguageByCode( "en" ).getKey() );
         createContentCommand.setCategory( fixture.findCategoryByName( "MyCategory" ).getKey() );
         createContentCommand.setContentData( contentData );

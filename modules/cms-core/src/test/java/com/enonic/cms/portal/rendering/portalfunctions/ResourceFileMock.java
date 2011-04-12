@@ -7,12 +7,12 @@ package com.enonic.cms.portal.rendering.portalfunctions;
 import java.io.InputStream;
 import java.util.Calendar;
 
+import com.enonic.cms.core.resource.ResourceFolder;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * Created by rmy - Date: Nov 17, 2009

@@ -9,15 +9,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.security.group.GroupKey;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.enonic.esl.containers.ExtendedMap;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.UpdateUserCommand;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.UserEntity;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;

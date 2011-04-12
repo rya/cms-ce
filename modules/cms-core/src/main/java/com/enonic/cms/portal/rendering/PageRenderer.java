@@ -4,6 +4,14 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.page.Region;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.Ticket;
+import com.enonic.cms.portal.rendering.tracing.PageTraceInfo;
+import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -37,25 +45,15 @@ import com.enonic.cms.portal.rendering.viewtransformer.PageTemplateXsltViewTrans
 import com.enonic.cms.domain.CacheObjectSettings;
 import com.enonic.cms.domain.CacheSettings;
 import com.enonic.cms.domain.CachedObject;
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.Ticket;
-import com.enonic.cms.domain.portal.datasource.DataSourceResult;
-import com.enonic.cms.domain.portal.datasource.DatasourcesType;
-import com.enonic.cms.domain.portal.rendering.PageCacheKey;
-import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.RegionTransformationParameter;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParameterOrigin;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParams;
-import com.enonic.cms.domain.portal.rendering.viewtransformer.ViewTransformationResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.TemplateParameter;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Region;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.datasource.DataSourceResult;
+import com.enonic.cms.portal.datasource.DatasourcesType;
+import com.enonic.cms.portal.rendering.viewtransformer.RegionTransformationParameter;
+import com.enonic.cms.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
+import com.enonic.cms.portal.rendering.viewtransformer.TransformationParameterOrigin;
+import com.enonic.cms.portal.rendering.viewtransformer.TransformationParams;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.TemplateParameter;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 
@@ -394,7 +392,7 @@ public class PageRenderer
         if ( context.getMenuItem() == null )
         {
             //rendering pagetemplate for newsletter - special case
-            portalInstanceKey = PortalInstanceKey.createSite( context.getSite().getKey() );
+            portalInstanceKey = PortalInstanceKey.createSite(context.getSite().getKey());
         }
         else
         {

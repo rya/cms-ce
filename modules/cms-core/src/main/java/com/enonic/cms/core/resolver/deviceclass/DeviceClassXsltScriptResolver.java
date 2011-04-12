@@ -6,7 +6,7 @@ package com.enonic.cms.core.resolver.deviceclass;
 
 import com.enonic.cms.core.resolver.AbstractXsltScriptResolver;
 
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 
 /**
  * Created by rmy - Date: Apr 14, 2009

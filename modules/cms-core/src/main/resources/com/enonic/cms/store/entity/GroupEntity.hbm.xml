@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.security.group.GroupEntity" table="TGROUP" mutable="true">
+  <class name="com.enonic.cms.core.security.group.GroupEntity" table="TGROUP" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="GRP_HKEY" type="com.enonic.cms.store.hibernate.type.GroupKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.GroupIdentifierGenerator"/>
@@ -28,9 +28,9 @@
     <set name="user" inverse="false" fetch="select" lazy="true">
       <cache usage="nonstrict-read-write"/>
       <key column="USR_GRP_HKEY" not-null="false"/>
-      <one-to-many class="com.enonic.cms.domain.security.user.UserEntity"/>
+      <one-to-many class="com.enonic.cms.core.security.user.UserEntity"/>
     </set>
-    <many-to-one name="userStore" class="com.enonic.cms.domain.security.userstore.UserStoreEntity" fetch="select">
+    <many-to-one name="userStore" class="com.enonic.cms.core.security.userstore.UserStoreEntity" fetch="select">
       <column name="GRP_DOM_LKEY"/>
     </many-to-one>
     <set name="memberships" inverse="false" table="TGRPGRPMEMBERSHIP" fetch="select">
@@ -38,7 +38,7 @@
       <key>
         <column name="GGM_MBR_GRP_HKEY" length="40" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.security.group.GroupEntity" order-by="GRP_SNAME">
+      <many-to-many class="com.enonic.cms.core.security.group.GroupEntity" order-by="GRP_SNAME">
         <column name="GGM_GRP_HKEY" length="40" not-null="true"/>
       </many-to-many>
     </set>
@@ -47,7 +47,7 @@
       <key>
         <column name="GGM_GRP_HKEY" length="40" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.security.group.GroupEntity" order-by="GRP_SNAME">
+      <many-to-many class="com.enonic.cms.core.security.group.GroupEntity" order-by="GRP_SNAME">
         <column name="GGM_MBR_GRP_HKEY" length="40" not-null="true"/>
       </many-to-many>
     </set>
@@ -78,7 +78,7 @@
     and x.deleted &lt;= :deleted
   </query>
   <sql-query name="GroupEntity.findByQualifiedGroupname" cacheable="true">
-    <return alias="grp" class="com.enonic.cms.domain.security.group.GroupEntity"/>
+    <return alias="grp" class="com.enonic.cms.core.security.group.GroupEntity"/>
     SELECT {grp.*}
     FROM tgroup grp
     WHERE ( grp.grp_dom_lkey = :userStoreKey )

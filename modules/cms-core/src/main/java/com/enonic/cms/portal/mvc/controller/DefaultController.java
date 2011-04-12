@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.portal.*;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +23,6 @@ import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.servlet.OriginalUrlResolver;
-import com.enonic.cms.portal.PortalRequestService;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.portal.livetrace.PortalRequestTracer;
@@ -30,12 +30,11 @@ import com.enonic.cms.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.PortalRequest;
-import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.portal.RedirectInstruction;
-import com.enonic.cms.domain.portal.ShoppingCart;
-import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.portal.PortalResponse;
+import com.enonic.cms.portal.RedirectInstruction;
+import com.enonic.cms.portal.ShoppingCart;
+import com.enonic.cms.portal.VerticalSession;
+import com.enonic.cms.core.security.user.User;
 
 /**
  * Apr 17, 2009

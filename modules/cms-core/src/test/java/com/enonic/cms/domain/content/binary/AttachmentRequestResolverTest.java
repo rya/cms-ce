@@ -6,6 +6,10 @@ package com.enonic.cms.domain.content.binary;
 
 import java.util.Date;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.binary.AttachmentRequestResolver;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,17 +17,10 @@ import org.junit.Test;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.PathAndParams;
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerEntity;
-import com.enonic.cms.domain.content.ContentHandlerKey;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.AttachmentRequestResolver;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 
 /**
  * Created by IntelliJ IDEA.

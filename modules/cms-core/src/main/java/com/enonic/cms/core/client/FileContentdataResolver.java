@@ -9,9 +9,9 @@ import org.jdom.Element;
 
 import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
 
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
 
 public class FileContentdataResolver
 {

@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.domain.security.userstore;
 
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;

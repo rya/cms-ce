@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.page.PageEntity" table="TPAGE" mutable="false">
+  <class name="com.enonic.cms.core.structure.page.PageEntity" table="TPAGE" mutable="false">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="PAG_LKEY"/>
@@ -11,13 +11,13 @@
     <property name="xmlData" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
       <column name="PAG_SXML"/>
     </property>
-    <many-to-one name="template" class="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" fetch="select">
+    <many-to-one name="template" class="com.enonic.cms.core.structure.page.template.PageTemplateEntity" fetch="select">
       <column name="PAG_PAT_LKEY" not-null="true"/>
     </many-to-one>
     <set name="pageWindows" inverse="true" order-by="PCO_LORDER">
       <cache usage="nonstrict-read-write"/>
       <key column="PCO_PAG_LKEY"/>
-      <one-to-many class="com.enonic.cms.domain.structure.page.PageWindowEntity"/>
+      <one-to-many class="com.enonic.cms.core.structure.page.PageWindowEntity"/>
     </set>
   </class>
   <query name="PageEntity.findByTemplateKeys" cacheable="true">

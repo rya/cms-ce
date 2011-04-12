@@ -6,6 +6,8 @@ package com.enonic.cms.core.resolver.locale;
 
 import java.util.Locale;
 
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -18,9 +20,7 @@ import com.enonic.cms.core.xslt.saxon.SaxonProcessorManager;
 
 import com.enonic.cms.core.resolver.locale.mock.LocaleResolverInputXMLCreatorMock;
 
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFile;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

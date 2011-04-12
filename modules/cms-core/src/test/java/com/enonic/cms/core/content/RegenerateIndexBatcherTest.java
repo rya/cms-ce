@@ -10,12 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.IndexService;
-import com.enonic.cms.core.content.RegenerateIndexBatcher;
-
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.expect;

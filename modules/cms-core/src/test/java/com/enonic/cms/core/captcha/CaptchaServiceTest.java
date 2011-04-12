@@ -20,8 +20,8 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

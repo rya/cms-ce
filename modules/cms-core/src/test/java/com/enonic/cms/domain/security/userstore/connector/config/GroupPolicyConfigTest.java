@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.domain.security.userstore.connector.config;
 
+import com.enonic.cms.core.security.userstore.connector.config.GroupPolicyConfig;
+import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import org.junit.Test;
 
 import junit.framework.TestCase;

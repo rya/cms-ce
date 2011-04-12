@@ -8,6 +8,10 @@ import java.util.Calendar;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,12 +21,8 @@ import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.resolver.CacheResolverValueService;
 import com.enonic.cms.core.resolver.ScriptResolverService;
 
-import com.enonic.cms.domain.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.domain.resolver.ResolverContext;
-import com.enonic.cms.domain.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 
 /**
  * Created by rmy - Date: Mar 31, 2009
