@@ -8,10 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,42 +19,26 @@ import org.w3c.dom.Node;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Table;
-import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.CategoryAccessRight;
-import com.enonic.vertical.engine.ContentAccessRight;
-import com.enonic.vertical.engine.MenuAccessRight;
-import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.Types;
-import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineRuntimeException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
-import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.criteria.Criteria;
-import com.enonic.vertical.engine.criteria.MenuCriteria;
 import com.enonic.vertical.engine.criteria.MenuItemCriteria;
 import com.enonic.vertical.engine.dbmodel.CatAccessRightView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRightView;
 import com.enonic.vertical.engine.dbmodel.ContentView;
-import com.enonic.vertical.engine.dbmodel.MenuARView;
 import com.enonic.vertical.engine.dbmodel.MenuItemARView;
 import com.enonic.vertical.engine.dbmodel.SectionContentView;
 import com.enonic.vertical.event.VerticalEventListener;
-
-import com.enonic.cms.framework.util.UUIDGenerator;
-
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.user.QualifiedUsername;
 import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 
 final public class SecurityHandler
     extends BaseHandler

@@ -49,6 +49,7 @@ import com.enonic.cms.framework.util.TIntObjectHashMap;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
 import com.enonic.cms.domain.CalendarUtil;
+import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
@@ -380,7 +381,7 @@ public final class ContentHandler
 
                     LanguageKey languageKey = new LanguageKey( resultSet.getInt( "con_lan_lKey" ) );
                     elem.setAttribute( "languagekey", String.valueOf( languageKey ) );
-                    elem.setAttribute( "languagecode", getLanguageHandler().getLanguageCode( languageKey ) );
+                    elem.setAttribute( "languagecode", getLanguageCode( languageKey ) );
 
                     elem.setAttribute( "priority", resultSet.getString( "con_lPriority" ) );
                     Timestamp publishfrom = resultSet.getTimestamp( "con_dtePublishFrom" );
@@ -947,5 +948,11 @@ public final class ContentHandler
             contentView.con_lan_lKey, contentView.con_dteCreated, contentView.cov_lStatus, contentView.cov_lState,
             contentView.con_dtePublishFrom, contentView.con_dtePublishTo, contentView.cov_sTitle, contentView.con_lPriority,
             contentView.cov_dteTimestamp,};
+    }
+
+    private String getLanguageCode( LanguageKey languageKey )
+    {
+        LanguageEntity entity = languageDao.findByKey( languageKey );
+        return entity != null ? entity.getCode() : null;
     }
 }

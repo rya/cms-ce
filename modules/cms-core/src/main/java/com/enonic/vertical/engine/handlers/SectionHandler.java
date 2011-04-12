@@ -8,13 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -23,33 +21,19 @@ import org.w3c.dom.Element;
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
-import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalCopyException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.engine.dbmodel.ContentMinimalView;
-import com.enonic.vertical.engine.dbmodel.ContentView;
 import com.enonic.vertical.engine.dbmodel.SectionView;
 import com.enonic.vertical.engine.processors.AttributeElementProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
-import com.enonic.vertical.engine.processors.ProcessElementException;
 import com.enonic.vertical.event.ContentHandlerListener;
 
 import com.enonic.cms.framework.util.TIntArrayList;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
 
 public class SectionHandler
     extends BaseHandler

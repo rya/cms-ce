@@ -5,8 +5,6 @@
 package com.enonic.vertical.engine;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
@@ -22,8 +20,6 @@ import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.SystemHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.core.security.userstore.MemberOfResolver;
-
 public final class AdminEngine
     extends BaseEngine
     implements InitializingBean
@@ -37,9 +33,6 @@ public final class AdminEngine
     private ContentObjectHandler contentObjectHandler;
 
     private GroupHandler groupHandler;
-
-    @Autowired
-    private MemberOfResolver memberOfResolver;
 
     private LanguageHandler languageHandler;
 
