@@ -1,5 +1,1 @@
-tinyMCE.addI18n('nb.advhr_dlg',{
-width:"Bredde",
-size:"H\u00F8yde",
-noshade:"Ingen skygge"
-});
+tinyMCE.addI18n('nb.advhr_dlg',{size:"St\u00f8rrelse",noshade:"Ingen skygge",width:"Bredde"});
