@@ -263,44 +263,9 @@ public class PresentationEngine
         return menuHandler.getErrorPage( menuKey );
     }
 
-    public Document getSections( User user, SiteKey siteKey )
-    {
-        SectionCriteria criteria = new SectionCriteria();
-        criteria.setTreeStructure( true );
-        criteria.setSiteKey( siteKey );
-        return sectionHandler.getSections( user, criteria );
-    }
-
-    public Document getSections( User user, int superSectionKey, int level, boolean includeSection )
-    {
-        Document doc;
-        if ( superSectionKey >= 0 )
-        {
-            SectionCriteria criteria = new SectionCriteria();
-            criteria.setSuperSectionKey( superSectionKey );
-            criteria.setSectionRecursivly( true );
-            criteria.setIncludeSection( includeSection );
-            criteria.setLevel( level );
-            doc = sectionHandler.getSections( user, criteria );
-        }
-        else
-        {
-            doc = XMLTool.createDocument( "sections" );
-        }
-
-        return doc;
-    }
-
     public int getLoginPage( int menuKey )
     {
         return menuHandler.getLoginPage( menuKey );
-    }
-
-    public Document getCategories( User user, int key, int levels, boolean topLevel, boolean details, boolean catCount,
-                                   boolean contentCount )
-    {
-        return getCategoryHandler().getCategories( checkUser( user ), CategoryKey.parse(key), levels, topLevel, details, catCount,
-                                                   contentCount );
     }
 
     /**
@@ -400,26 +365,5 @@ public class PresentationEngine
     {
         SiteEntity site = siteDao.findByKey( siteKey.toInt() );
         return ( site != null );
-    }
-
-    public String getContents( User user, int[] contentKeys, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                               boolean includeAccessRights, boolean includeUserRights, ContentFilter contentFilter )
-    {
-
-        if ( user == null )
-        {
-            user = userHandler.getAnonymousUser();
-        }
-
-        Document doc =
-            contentHandler.getContents( user, contentKeys, true, false, parentLevel, childrenLevel, parentChildrenLevel, false, false,
-                                        contentFilter );
-
-        if ( includeAccessRights || includeUserRights )
-        {
-            securityHandler.appendAccessRights( user, doc, includeAccessRights, includeUserRights );
-        }
-
-        return XMLTool.documentToString( doc );
     }
 }

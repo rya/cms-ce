@@ -35,9 +35,6 @@ public class UserServicesServiceImpl
         userServicesEngine.createLogEntries( user, xmlData );
     }
 
-    /**
-     * Transaction NB: Denne metoden er hardkodet til å ikke logge, så trenger ikke write.
-     */
     public String getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel )
     {
         return userServicesEngine.getContent( user, key, publishOnly, parenLevel, childrenLevel, parenChildrenLevel );
