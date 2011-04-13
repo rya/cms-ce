@@ -27,9 +27,6 @@
   <bean id="categoryHandler" class="com.enonic.vertical.engine.handlers.CategoryHandler" parent="baseHandler">
   </bean>
 
-  <bean id="contentObjectHandler" class="com.enonic.vertical.engine.handlers.ContentObjectHandler" parent="baseHandler">
-  </bean>
-
   <bean id="groupHandler" class="com.enonic.vertical.engine.handlers.GroupHandler" parent="baseHandler">
   </bean>
 

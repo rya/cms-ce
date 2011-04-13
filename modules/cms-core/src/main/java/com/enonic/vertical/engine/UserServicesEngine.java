@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.cms.core.content.category.CategoryKey;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 
@@ -12,7 +11,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
-import com.enonic.vertical.engine.handlers.ContentObjectHandler;
 import com.enonic.vertical.engine.handlers.GroupHandler;
 import com.enonic.vertical.engine.handlers.LanguageHandler;
 import com.enonic.vertical.engine.handlers.LogHandler;
@@ -23,6 +21,7 @@ import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.user.User;
 
 public class UserServicesEngine
@@ -35,8 +34,6 @@ public class UserServicesEngine
     private CommonHandler commonHandler;
 
     private ContentHandler contentHandler;
-
-    private ContentObjectHandler contentObjectHandler;
 
     private GroupHandler groupHandler;
 
@@ -69,11 +66,6 @@ public class UserServicesEngine
     public void setContentHandler( ContentHandler contentHandler )
     {
         this.contentHandler = contentHandler;
-    }
-
-    public void setContentObjectHandler( ContentObjectHandler contentObjectHandler )
-    {
-        this.contentObjectHandler = contentObjectHandler;
     }
 
     public void setGroupHandler( GroupHandler groupHandler )

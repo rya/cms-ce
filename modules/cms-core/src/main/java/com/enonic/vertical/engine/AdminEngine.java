@@ -5,10 +5,10 @@
 package com.enonic.vertical.engine;
 
 import org.springframework.beans.factory.InitializingBean;
+
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
-import com.enonic.vertical.engine.handlers.ContentObjectHandler;
 import com.enonic.vertical.engine.handlers.GroupHandler;
 import com.enonic.vertical.engine.handlers.LanguageHandler;
 import com.enonic.vertical.engine.handlers.LogHandler;
@@ -29,8 +29,6 @@ public final class AdminEngine
     private CommonHandler commonHandler;
 
     private ContentHandler contentHandler;
-
-    private ContentObjectHandler contentObjectHandler;
 
     private GroupHandler groupHandler;
 
@@ -147,11 +145,6 @@ public final class AdminEngine
     public void setContentHandler( ContentHandler contentHandler )
     {
         this.contentHandler = contentHandler;
-    }
-
-    public void setContentObjectHandler( ContentObjectHandler contentObjectHandler )
-    {
-        this.contentObjectHandler = contentObjectHandler;
     }
 
     public void setGroupHandler( GroupHandler groupHandler )
