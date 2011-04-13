@@ -15,12 +15,6 @@
         <property name="order" value="4"/>
     </bean>
 
-    <!-- Placeholder configurer. -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-        <property name="properties" ref="loadedVerticalProperties"/>
-    </bean>
-
     <!-- Create the view resolver. -->
     <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
@@ -37,11 +31,6 @@
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
         <property name="exposeSpringMacroHelpers" value="true"/>
-    </bean>
-
-    <!-- Properties info controller. -->
-    <bean class="com.enonic.cms.core.tools.PropertiesInfoController">
-        <property name="properties" ref="loadedVerticalProperties"/>
     </bean>
 
 </beans>
