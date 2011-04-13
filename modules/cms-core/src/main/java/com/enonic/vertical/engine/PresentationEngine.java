@@ -13,9 +13,6 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.enonic.cms.core.content.binary.BinaryData;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.structure.SiteEntity;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -33,9 +30,7 @@ import com.enonic.vertical.engine.handlers.BinaryDataHandler;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
-import com.enonic.vertical.engine.handlers.ContentObjectHandler;
 import com.enonic.vertical.engine.handlers.GroupHandler;
-import com.enonic.vertical.engine.handlers.LanguageHandler;
 import com.enonic.vertical.engine.handlers.LogHandler;
 import com.enonic.vertical.engine.handlers.MenuHandler;
 import com.enonic.vertical.engine.handlers.PageHandler;
@@ -44,15 +39,14 @@ import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
+import com.enonic.cms.core.calendar.CalendarService;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.core.calendar.CalendarService;
-
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.security.user.User;
 
 public class PresentationEngine
     extends BaseEngine
@@ -72,11 +66,7 @@ public class PresentationEngine
 
     private ContentHandler contentHandler;
 
-    private ContentObjectHandler contentObjectHandler;
-
     private GroupHandler groupHandler;
-
-    private LanguageHandler languageHandler;
 
     private LogHandler logHandler;
 
@@ -127,11 +117,6 @@ public class PresentationEngine
     public GroupHandler getGroupHandler()
     {
         return groupHandler;
-    }
-
-    public LanguageHandler getLanguageHandler()
-    {
-        return languageHandler;
     }
 
     public LogHandler getLogHandler()
@@ -567,19 +552,9 @@ public class PresentationEngine
         this.contentHandler = contentHandler;
     }
 
-    public void setContentObjectHandler( ContentObjectHandler contentObjectHandler )
-    {
-        this.contentObjectHandler = contentObjectHandler;
-    }
-
     public void setGroupHandler( GroupHandler groupHandler )
     {
         this.groupHandler = groupHandler;
-    }
-
-    public void setLanguageHandler( LanguageHandler languageHandler )
-    {
-        this.languageHandler = languageHandler;
     }
 
     public void setLogHandler( LogHandler logHandler )

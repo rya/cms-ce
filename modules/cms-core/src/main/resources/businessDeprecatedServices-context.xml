@@ -25,7 +25,6 @@
     <property name="categoryHandler" ref="categoryHandler"/>
     <property name="contentObjectHandler" ref="contentObjectHandler"/>
     <property name="groupHandler" ref="groupHandler"/>
-    <property name="languageHandler" ref="languageHandler"/>
     <property name="logHandler" ref="logHandler"/>
     <property name="menuHandler" ref="menuHandler"/>
     <property name="pageHandler" ref="pageHandler"/>
@@ -41,7 +40,6 @@
     <property name="categoryHandler" ref="categoryHandler"/>
     <property name="contentObjectHandler" ref="contentObjectHandler"/>
     <property name="groupHandler" ref="groupHandler"/>
-    <property name="languageHandler" ref="languageHandler"/>
     <property name="logHandler" ref="logHandler"/>
     <property name="menuHandler" ref="menuHandler"/>
     <property name="pageHandler" ref="pageHandler"/>

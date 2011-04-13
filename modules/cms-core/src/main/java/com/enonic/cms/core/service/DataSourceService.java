@@ -312,12 +312,6 @@ public interface DataSourceService
      */
     public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language, String country );
 
-    /*
-     * Reserved for special use.
-     */
-
-    public XMLDocument getFusionBotQuery( DataSourceContext context, String fusionBotUrl, String query, int siteNum, int page );
-
     /**
      * Returns a menu tree. If levels is 0, entire menu are return. If levels is non-negative number, that number of tree levels are
      * returned or the entire tree if levels is greater than or equal to the number of levels in the menu tree. Only menu items marked as
@@ -465,18 +459,6 @@ public interface DataSourceService
      * @return An XML Document with all information about the sub menus.
      */
     public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem, int levels, boolean details );
-
-    /**
-     * Get a list of category forming a path to a category.
-     *
-     * @param context          the Vertical Site context
-     * @param categoryKey      a category key
-     * @param withContentCount if true, include content count for each category
-     * @param includeCategory  if true, include the root category
-     * @return category xml
-     */
-    public XMLDocument getSuperCategoryNames( DataSourceContext context, int categoryKey, boolean withContentCount,
-                                              boolean includeCategory );
 
     /**
      * Makes a connection to a url, places it in an xml element with a CDATA block.
@@ -641,36 +623,6 @@ public interface DataSourceService
                                            int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes );
 
     /**
-     * Return index values for a specified path.
-     *
-     * @param context              the Vertical Site Context
-     * @param path                 path to an indexed value
-     * @param categories           one or more category keys
-     * @param includeSubCategories include sub categories
-     * @param contentTypes         filter by one or more content types
-     * @param index                start from this index
-     * @param count                maximum number of index values to get
-     * @param distinct             return only distinct index values
-     * @param order="info"
-     * @return index values xml
-     */
-    public XMLDocument getIndexValues( DataSourceContext context, String path, int[] categories, boolean includeSubCategories,
-                                       int[] contentTypes, int index, int count, boolean distinct, String order );
-
-    /**
-     * Return aggregated index values for a specified path.
-     *
-     * @param context              the Vertical Site Context
-     * @param path                 path to an indexed value
-     * @param categories           one or more category keys
-     * @param includeSubCategories include sub categories
-     * @param contentTypes         filter by one or more content types
-     * @return index values xml
-     */
-    public XMLDocument getAggregatedIndexValues( DataSourceContext context, String path, int[] categories, boolean includeSubCategories,
-                                                 int[] contentTypes );
-
-    /**
      * Return content by category.
      *
      * @param context              the Vertical Site context
@@ -694,57 +646,6 @@ public interface DataSourceService
                                              String orderBy, int index, int count, boolean titlesOnly, int childrenLevel, int parentLevel,
                                              int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
                                              boolean includeUserRights, int[] contentTypes );
-
-    /**
-     * Return content by category for the logged in user.
-     *
-     * @param context              the Vertical Site context
-     * @param query                a search query (refer to the Administrator Guide for the syntax)
-     * @param categories           one or more categories to search in
-     * @param includeSubCategories include sub-categories of the categories before
-     * @param orderBy              an order by string (refer to the Administrator Guide for the syntax)
-     * @param index                start from this index
-     * @param count                maximum number of contents to get
-     * @param titlesOnly           if true, return only content titles
-     * @param parentLevel          the level of parents to include
-     * @param childrenLevel        the level of children to include
-     * @param parentChildrenLevel  the level of children for parents to include
-     * @param relatedTitlesOnly    if true, return only related content titles
-     * @param includeTotalCount    if true, include total count of contents returned excluding fromIndex and count
-     * @param includeUserRights    if true, include the current user's access rights to the content
-     * @param contentTypes         filter by zero or more content types
-     * @return contents xml
-     */
-    public XMLDocument getMyContentByCategory( DataSourceContext context, String query, int[] categories, boolean includeSubCategories,
-                                               String orderBy, int index, int count, boolean titlesOnly, int childrenLevel, int parentLevel,
-                                               int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
-                                               boolean includeUserRights, int[] contentTypes );
-
-    /**
-     * Find content by category. This methods performs a free-text search in one ore more categories.
-     *
-     * @param context              the Vertical Site context
-     * @param search               the search string
-     * @param operator             the search operator: "AND" or "OR". "AND" is the default.
-     * @param categories           one or more categories to search in
-     * @param includeSubCategories include sub-categories of the categories before
-     * @param orderBy              an order by string (refer to the Administrator Guide for the syntax)
-     * @param index                start from this index
-     * @param count                maximum number of contents to get
-     * @param titlesOnly           if true, return only content titles
-     * @param parentLevel          the level of parents to include
-     * @param childrenLevel        the level of children to include
-     * @param parentChildrenLevel  the level of children for parents to include
-     * @param relatedTitlesOnly    if true, return only related content titles
-     * @param includeTotalCount    if true, include total count of contents returned excluding fromIndex and count
-     * @param includeUserRights    if true, include the current user's access rights to the content
-     * @param contentTypes         filter by zero or more content types
-     * @return contents xml
-     */
-    public XMLDocument findContentByCategory( DataSourceContext context, String search, String operator, int[] categories,
-                                              boolean includeSubCategories, String orderBy, int index, int count, boolean titlesOnly,
-                                              int childrenLevel, int parentLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
-                                              boolean includeTotalCount, boolean includeUserRights, int[] contentTypes );
 
     /**
      * Get a sub tree of categories.
@@ -774,13 +675,6 @@ public interface DataSourceService
      */
     public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details, boolean catCount,
                                       boolean contentCount );
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String query, int collectionId, int page,
-                                           String sort );
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String queryAll, String queryExactPhrase,
-                                           String queryLeastOneWord, String queryWithoutTheWords, String language, String contentType,
-                                           int startDate, String occurance, int collectionId, int page, int pageSize, String sort );
 
 
     /**
@@ -840,7 +734,4 @@ public interface DataSourceService
 
     public XMLDocument getTimeZones( DataSourceContext context );
 
-    public XMLDocument getShoppingCartContents( DataSourceContext context, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                boolean updateStatistics, int[] filterByCategories, boolean categoryRecursive,
-                                                int[] filterByContentTypes );
 }
