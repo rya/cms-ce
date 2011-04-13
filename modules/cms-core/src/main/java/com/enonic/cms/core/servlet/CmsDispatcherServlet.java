@@ -17,8 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.enonic.cms.upgrade.UpgradeCheckerHelper;
-
 import com.enonic.cms.domain.Attribute;
 
 /**
@@ -28,11 +26,6 @@ public final class CmsDispatcherServlet
         extends DispatcherServlet
 {
     private static final Logger LOG = LoggerFactory.getLogger( CmsDispatcherServlet.class );
-
-    /**
-     * Upgrade check parameter.
-     */
-    private final static String UPGRADE_CHECK_PARAM = "upgradeCheck";
 
     @Override
     public void init( ServletConfig config )
@@ -46,10 +39,6 @@ public final class CmsDispatcherServlet
             throws Exception
     {
         startContextIfNeeded();
-        if ( upgradeIsNeeded( res ) )
-        {
-            return;
-        }
 
         ServletRequestAccessor.setRequest( req );
         // resolve and set original url if not set
@@ -67,15 +56,6 @@ public final class CmsDispatcherServlet
         }
 
         super.doService( req, res );
-    }
-
-    /**
-     * Check if upgrade is needed.
-     */
-    private boolean upgradeIsNeeded( HttpServletResponse res )
-            throws Exception
-    {
-        return "true".equals( getInitParameter( UPGRADE_CHECK_PARAM ) ) && UpgradeCheckerHelper.checkUpgrade( getServletContext(), res );
     }
 
     private ApplicationContext startContextIfNeeded()

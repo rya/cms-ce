@@ -10,8 +10,6 @@ public interface SystemMBean
 {
     String getCmsVersion();
 
-    int getDatabaseModelVersion();
-
     Properties getCmsProperties();
 
     String getSaxonVersion();

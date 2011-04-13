@@ -8,7 +8,6 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.upgrade.UpgradeService;
 
 /**
  * This class implements the database initializer. It will initialize the database if not initialized before.
@@ -21,8 +20,6 @@ public final class DatabaseInitializer
      */
     private AdminService adminService;
 
-    private UpgradeService upgradeService;
-
     private UserStoreService userStoreService;
 
     /**
@@ -31,11 +28,6 @@ public final class DatabaseInitializer
     public void setAdminService( AdminService adminService )
     {
         this.adminService = adminService;
-    }
-
-    public void setUpgradeService( UpgradeService upgradeService )
-    {
-        this.upgradeService = upgradeService;
     }
 
     /**
@@ -49,11 +41,7 @@ public final class DatabaseInitializer
 
        // databaseInitializerService.
         this.adminService.initializeDatabaseValues();
-
-        if ( !this.upgradeService.needsUpgrade() )
-        {
-            this.userStoreService.initializeUserStores();
-        }
+        this.userStoreService.initializeUserStores();
     }
 
     public void setUserStoreService( final UserStoreService userStoreService )

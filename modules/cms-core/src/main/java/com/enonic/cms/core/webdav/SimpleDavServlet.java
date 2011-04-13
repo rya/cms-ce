@@ -22,7 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.upgrade.UpgradeCheckerHelper;
 
 /**
  * This class implements the webdav servlet.
@@ -67,11 +66,6 @@ public final class SimpleDavServlet
     protected void service( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
-        if ( UpgradeCheckerHelper.checkUpgrade( getServletContext(), response ) )
-        {
-            return;
-        }
-
         ServletRequestAccessor.setRequest( request );
         super.service( request, response );
     }

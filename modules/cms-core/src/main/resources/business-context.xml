@@ -7,20 +7,6 @@
     <property name="keyEngine" ref="keyEngine"/>
   </bean>
 
-  <bean id="upgradePropertyResolver"
-        class="com.enonic.cms.upgrade.service.StandardPropertyResolver">
-    <property name="homeDir" value="${cms.home}"/>
-    <property name="properties" ref="loadedVerticalProperties"/>
-  </bean>
-
-  <!-- Transaction based upgrade service. -->
-  <bean id="upgradeService" class="com.enonic.cms.upgrade.service.UpgradeServiceImpl">
-    <property name="connectionFactory" ref="connectionFactory"/>
-    <property name="dialect" ref="dialectFactory"/>
-    <property name="transactionTemplate" ref="transcationTemplate"/>
-    <property name="propertyResolver" ref="upgradePropertyResolver"/>
-  </bean>
-
   <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
     <property name="calendarService" ref="calendarService"/>
     <property name="contentService" ref="contentService"/>

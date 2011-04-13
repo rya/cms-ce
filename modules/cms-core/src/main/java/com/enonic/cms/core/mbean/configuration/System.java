@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 
 import com.enonic.cms.api.Version;
-import com.enonic.cms.upgrade.UpgradeService;
 
 public class System
     implements SystemMBean
@@ -20,20 +19,10 @@ public class System
     @Qualifier("loadedVerticalProperties")
     private Properties properties;
 
-    @Autowired
-    @Qualifier("upgradeService")
-    private UpgradeService upgradeService;
-
     @ManagedAttribute
     public String getCmsVersion()
     {
         return Version.getVersion();
-    }
-
-    @ManagedAttribute
-    public int getDatabaseModelVersion()
-    {
-        return upgradeService.getCurrentModelNumber();
     }
 
     @ManagedAttribute
