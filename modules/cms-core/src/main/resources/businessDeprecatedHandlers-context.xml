@@ -30,9 +30,6 @@
   <bean id="groupHandler" class="com.enonic.vertical.engine.handlers.GroupHandler" parent="baseHandler">
   </bean>
 
-  <bean id="languageHandler" class="com.enonic.vertical.engine.handlers.LanguageHandler" parent="baseHandler">
-  </bean>
-
   <bean id="logHandler" class="com.enonic.vertical.engine.handlers.LogHandler" parent="baseHandler">
   </bean>
 

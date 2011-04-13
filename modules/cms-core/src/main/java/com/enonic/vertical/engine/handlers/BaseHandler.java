@@ -153,11 +153,6 @@ public abstract class BaseHandler
         return baseEngine.getGroupHandler();
     }
 
-    protected final LanguageHandler getLanguageHandler()
-    {
-        return baseEngine.getLanguageHandler();
-    }
-
     protected final LogHandler getLogHandler()
     {
         return baseEngine.getLogHandler();

@@ -12,7 +12,6 @@ import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
 import com.enonic.vertical.engine.handlers.GroupHandler;
-import com.enonic.vertical.engine.handlers.LanguageHandler;
 import com.enonic.vertical.engine.handlers.LogHandler;
 import com.enonic.vertical.engine.handlers.MenuHandler;
 import com.enonic.vertical.engine.handlers.PageHandler;
@@ -36,8 +35,6 @@ public class UserServicesEngine
     private ContentHandler contentHandler;
 
     private GroupHandler groupHandler;
-
-    private LanguageHandler languageHandler;
 
     private LogHandler logHandler;
 
@@ -71,11 +68,6 @@ public class UserServicesEngine
     public void setGroupHandler( GroupHandler groupHandler )
     {
         this.groupHandler = groupHandler;
-    }
-
-    public void setLanguageHandler( LanguageHandler languageHandler )
-    {
-        this.languageHandler = languageHandler;
     }
 
     public void setLogHandler( LogHandler logHandler )
@@ -146,11 +138,6 @@ public class UserServicesEngine
     public GroupHandler getGroupHandler()
     {
         return groupHandler;
-    }
-
-    public LanguageHandler getLanguageHandler()
-    {
-        return languageHandler;
     }
 
     public LogHandler getLogHandler()
