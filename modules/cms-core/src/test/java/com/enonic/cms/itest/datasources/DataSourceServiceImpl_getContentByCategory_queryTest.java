@@ -5,6 +5,7 @@
 package com.enonic.cms.itest.datasources;
 
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.service.DataSourceServiceImpl;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,6 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.DomainFactory;

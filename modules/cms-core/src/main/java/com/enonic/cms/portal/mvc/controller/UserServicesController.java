@@ -8,9 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.cms.portal.InvalidParameterValueException;
+import com.enonic.cms.portal.httpservices.UserServicesParameterResolver;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.enonic.vertical.userservices.UserServicesParameterResolver;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
@@ -109,7 +108,7 @@ public class UserServicesController
     private boolean ticketIsRequired( SitePath sitePath )
     {
         String handler = UserServicesParameterResolver.resolveHandlerFromSitePath( sitePath );
-        String operation = UserServicesParameterResolver.resolveOperationFromSitePath( sitePath );
+        String operation = UserServicesParameterResolver.resolveOperationFromSitePath(sitePath);
 
         if ( "user".equals( handler ) )
         {

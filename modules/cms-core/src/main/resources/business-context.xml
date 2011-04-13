@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="keyService" class="com.enonic.cms.core.internal.service.KeyServiceImpl">
+  <bean id="keyService" class="com.enonic.cms.core.service.KeyServiceImpl">
     <property name="keyEngine" ref="keyEngine"/>
   </bean>
 
@@ -21,7 +21,7 @@
     <property name="propertyResolver" ref="upgradePropertyResolver"/>
   </bean>
 
-  <bean id="dataSourceService" class="com.enonic.cms.core.internal.service.DataSourceServiceImpl">
+  <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
     <property name="calendarService" ref="calendarService"/>
     <property name="contentService" ref="contentService"/>
     <property name="contentDao" ref="contentDao"/>
@@ -39,7 +39,7 @@
   </bean>
 
   <bean id="userServicesService"
-        class="com.enonic.cms.core.internal.service.UserServicesServiceImpl">
+        class="com.enonic.cms.core.service.UserServicesServiceImpl">
     <property name="userServicesEngine">
       <bean id="userServicesEngine" class="com.enonic.vertical.engine.UserServicesEngine"
             parent="abstractBaseEngine">
@@ -142,7 +142,7 @@
   </bean>
 
   <bean id="userServicesRedirectHelper"
-        class="com.enonic.vertical.userservices.UserServicesRedirectUrlResolver"></bean>
+        class="com.enonic.cms.portal.httpservices.UserServicesRedirectUrlResolver"></bean>
 
   <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 

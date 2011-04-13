@@ -4,9 +4,6 @@
  */
 package com.enonic.cms.portal.image;
 
-import com.enonic.cms.core.image.ImageRequest;
-import com.enonic.cms.core.image.ImageResponse;
-
 public interface ImageService
 {
     public ImageResponse process( ImageRequest req );

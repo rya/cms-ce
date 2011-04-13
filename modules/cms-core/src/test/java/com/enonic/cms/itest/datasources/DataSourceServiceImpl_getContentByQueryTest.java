@@ -11,7 +11,7 @@ import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.security.SecurityService;
 
-import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
+import com.enonic.cms.core.service.DataSourceServiceImpl;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
