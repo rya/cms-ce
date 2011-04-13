@@ -223,7 +223,7 @@ public class ContentTypeHandlerServlet
             }
         }
 
-        int contentHandlerKey = formItems.getInt( "contenthandlerkey", -1 );
+        int contentHandlerKey = formItems.getInt( "contenthandlerkey", 0 );
 
         if ( reloading || hasErrors() )
         {
@@ -264,6 +264,8 @@ public class ContentTypeHandlerServlet
         {
             // Blank form, make dummy document
             doc = XMLTool.createDocument( "contenttypes" );
+
+            usehandlerindexing = true;
 
             // Create content type element
             contentTypeElem = XMLTool.createElement( doc, doc.getDocumentElement(), "contenttype" );
