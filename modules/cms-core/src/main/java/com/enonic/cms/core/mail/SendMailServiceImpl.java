@@ -6,7 +6,6 @@ package com.enonic.cms.core.mail;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -17,19 +16,21 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.UserEntity;
 
+import javax.inject.Inject;
+
 public final class SendMailServiceImpl
     implements SendMailService
 {
     protected final static Logger LOG =
         LoggerFactory.getLogger( SendMailServiceImpl.class );
 
-    @Autowired
+    @Inject
     private VerticalProperties properties;
 
-    @Autowired
+    @Inject
     private JavaMailSender mailSender;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     private static final String MAIL_ENCODING = "UTF-8";

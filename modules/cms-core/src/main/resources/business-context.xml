@@ -46,7 +46,6 @@
         <property name="commonHandler" ref="commonHandler"/>
         <property name="contentHandler" ref="contentHandler"/>
         <property name="categoryHandler" ref="categoryHandler"/>
-        <property name="contentObjectHandler" ref="contentObjectHandler"/>
         <property name="groupHandler" ref="groupHandler"/>
         <property name="logHandler" ref="logHandler"/>
         <property name="menuHandler" ref="menuHandler"/>
