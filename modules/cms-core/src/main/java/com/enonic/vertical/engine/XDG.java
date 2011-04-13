@@ -5,12 +5,9 @@
 package com.enonic.vertical.engine;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,59 +21,18 @@ import org.w3c.dom.Node;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Constants;
-import com.enonic.esl.sql.model.ForeignKeyColumn;
 import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.sql.model.View;
-import com.enonic.esl.sql.model.datatypes.CDATAType;
 import com.enonic.esl.sql.model.datatypes.DataType;
 import com.enonic.esl.sql.model.datatypes.XMLType;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.processors.ElementProcessor;
-import com.enonic.vertical.engine.processors.ProcessElementException;
 
 import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 
 public class XDG
 {
     private static final Logger LOG = LoggerFactory.getLogger( XDG.class.getName() );
-
-    public static final String OPERATOR_EQUAL = " = ";
-
-    public static final String JOINTYPE_JOIN = " JOIN ";
-
-    private final static int IN_VALUE_TRESHOLD = 500;
-
-    public static StringBuffer appendJoinSQL( StringBuffer sql, Column column, Table foreignTable, Column foreignColumn, String joinType )
-    {
-        if ( sql == null )
-        {
-            sql = new StringBuffer( joinType );
-        }
-        else
-        {
-            sql.append( joinType );
-        }
-
-        appendTable( sql, foreignTable );
-
-        sql.append( " ON " );
-        sql.append( column );
-        sql.append( " = " );
-        sql.append( foreignColumn );
-        return sql;
-    }
-
-    public static StringBuffer appendJoinSQL( StringBuffer sql, Column column, Table foreignTable, Column foreignColumn )
-    {
-        return appendJoinSQL( sql, column, foreignTable, foreignColumn, JOINTYPE_JOIN );
-    }
-
-    public static StringBuffer appendJoinSQL( StringBuffer sql, ForeignKeyColumn column )
-    {
-        return appendJoinSQL( sql, column, column.getReferencedTable(), column.getReferencedColumn(), JOINTYPE_JOIN );
-    }
 
     public static StringBuffer generateWhereSQL( StringBuffer sql, Column[] whereColumns )
     {
@@ -112,131 +68,6 @@ public class XDG
             }
         }
         return sql;
-    }
-
-    private static void appendAndSQL( StringBuffer sql )
-    {
-        String match = sql.toString().toUpperCase().trim();
-
-        if ( match.endsWith( "WHERE" ) )
-        {
-            sql.append( " " );
-        }
-        else if ( match.matches( "^(.+) VIEW([0-9]+)$" ) )
-        {
-            sql.append( " WHERE " );
-        }
-        else if ( match.indexOf( " WHERE" ) == -1 )
-        {
-            sql.append( " WHERE " );
-        }
-        else if ( !match.endsWith( "AND" ) )
-        {
-            sql.append( " AND " );
-        }
-        else
-        {
-            sql.append( " " );
-        }
-    }
-
-    public static void appendWhereSQL( StringBuffer sql, Column whereColumn, String operator, int value )
-    {
-        appendAndSQL( sql );
-        sql.append( whereColumn );
-        sql.append( operator );
-        sql.append( value );
-    }
-
-    public static void appendWhereSQL( StringBuffer sql, Column whereColumn, String operator )
-    {
-        appendAndSQL( sql );
-        sql.append( whereColumn );
-        sql.append( operator );
-    }
-
-
-    public static void appendWhereInSQL( StringBuffer sql, Column whereInColumn, int count )
-    {
-        if ( count > 0 )
-        {
-            appendAndSQL( sql );
-
-            InClauseBuilder.buildAndAppendTemplateInClause( sql, whereInColumn.getName(), count );
-
-        }
-    }
-
-    private static List<int[]> chunkKeys( int[] keys )
-    {
-        int pos = 0;
-        int left = keys.length;
-        List<int[]> list = new ArrayList<int[]>();
-
-        while ( left > 0 )
-        {
-            int size = Math.min( left, IN_VALUE_TRESHOLD );
-            int[] chunk = new int[size];
-            System.arraycopy( keys, pos, chunk, 0, size );
-            list.add( chunk );
-            left = left - size;
-            pos = pos + size;
-        }
-
-        return list;
-    }
-
-    // This method does not append and, and does not chunk up the values
-
-    private static void appendInSQL( StringBuffer sql, Column whereInColumn, int[] values )
-    {
-
-        List<Integer> valuesList = new ArrayList<Integer>( values.length );
-        for ( int value : values )
-        {
-            valuesList.add( value );
-        }
-        InClauseBuilder inclause = new InClauseBuilder<Integer>( whereInColumn.getName(), valuesList )
-        {
-            public void appendValue( StringBuffer sql, Integer value )
-            {
-                sql.append( value );
-            }
-        };
-        inclause.appendTo( sql );
-    }
-
-    public static void appendWhereInSQL( StringBuffer sql, Column whereInColumn, int[] values )
-    {
-        if ( values != null && values.length > 0 )
-        {
-            appendAndSQL( sql );
-
-            if ( values.length < IN_VALUE_TRESHOLD )
-            {
-                appendInSQL( sql, whereInColumn, values );
-            }
-            else
-            {
-                sql.append( "(" );
-                // We need to chunk up the values because oracle sucks
-                List<int[]> list = chunkKeys( values );
-
-                for ( Iterator<int[]> i = list.iterator(); i.hasNext(); )
-                {
-                    int[] chunk = i.next();
-                    appendInSQL( sql, whereInColumn, chunk );
-
-                    if ( i.hasNext() )
-                    {
-                        sql.append( " OR " );
-                    }
-                }
-
-                sql.append( ")" );
-            }
-
-        }
     }
 
     public static StringBuffer generateWhereInSQL( StringBuffer sql, String sqlStart, Column whereInColumn, int count )
@@ -281,31 +112,6 @@ public class XDG
             sql.append( "*" );
         }
         return sql;
-    }
-
-    public static StringBuffer generateFKJoinSQL( Table table1, Table table2, Column[] selectColumns, Column[] whereColumns )
-    {
-
-        StringBuffer sql = generateSelectSQL( table1, selectColumns, false, null );
-        appendJoinSQL( sql, table1.getForeignKey( table2 ) );
-        generateWhereSQL( sql, whereColumns );
-
-        return sql;
-    }
-
-    public static StringBuffer generateSelectSQL( Table table )
-    {
-        return generateSelectSQL( table, (Column[]) null, false, null );
-    }
-
-    public static StringBuffer generateSelectSQL( Table table, Column whereColumn )
-    {
-        return generateSelectSQL( table, (Column[]) null, false, new Column[]{whereColumn} );
-    }
-
-    public static StringBuffer generateSelectSQL( Table table, Column selectColumn, boolean distinct, Column[] whereColumns )
-    {
-        return generateSelectSQL( table, new Column[]{selectColumn}, distinct, whereColumns );
     }
 
     /**
@@ -365,234 +171,6 @@ public class XDG
         {
             sql.append( table );
         }
-    }
-
-    public static StringBuffer generateSelectWhereInSQL( Table table, Column[] selectColumns, boolean distinct, Column whereInColumn,
-                                                         int count )
-    {
-        // Generate SQL
-
-        StringBuffer sql = generateSelectSQL( table, selectColumns, distinct, null );
-        generateWhereInSQL( sql, null, whereInColumn, count );
-        return sql;
-    }
-
-    public static StringBuffer generateSelectWhereInSQL( Table table, Column selectColumn, boolean distinct, Column whereInColumn,
-                                                         int count )
-    {
-
-        Column[] selectColumns = null;
-        if ( selectColumn != null )
-        {
-            selectColumns = new Column[]{selectColumn};
-        }
-        return generateSelectWhereInSQL( table, selectColumns, distinct, whereInColumn, count );
-    }
-
-    public static Document resultSetToXML( Table table, ResultSet resultSet, Element parentElem, ElementProcessor[] elementProcessors,
-                                           String sortAttribute, int totalCount )
-        throws SQLException
-    {
-
-        ResultSetMetaData metaData = resultSet.getMetaData();
-
-        Document doc;
-        if ( parentElem == null )
-        {
-            doc = XMLTool.createDocument( table.getParentName() );
-            parentElem = doc.getDocumentElement();
-        }
-        else
-        {
-            doc = parentElem.getOwnerDocument();
-        }
-
-        int count = 0;
-        if ( totalCount == -1 )
-        {
-            totalCount = Integer.MAX_VALUE;
-        }
-        while ( count < totalCount && resultSet.next() )
-        {
-            count++;
-            Element elem = null;
-            if ( sortAttribute != null )
-            {
-                Column sortColumn = table.getColumn( "@" + sortAttribute );
-                if ( sortColumn != null )
-                {
-                    String sortValue = resultSet.getString( sortColumn.getName() );
-                    if ( !resultSet.wasNull() )
-                    {
-                        elem = XMLTool.createElement( doc, parentElem, table.getElementName(), null, sortAttribute, sortValue );
-                    }
-                }
-            }
-
-            if ( elem == null )
-            {
-                elem = XMLTool.createElement( doc, parentElem, table.getElementName() );
-            }
-
-            int columnCount = metaData.getColumnCount();
-            for ( int i = 1; i <= columnCount; i++ )
-            {
-                String columnName = metaData.getColumnLabel( i );
-
-                Column column = table.getColumn( columnName );
-                if ( column == null )
-                {
-                    String message = "column not in xml: %0, tablename: %1";
-                    Object[] msgData = {columnName, table};
-
-                    VerticalRuntimeException.error( XDG.class, VerticalEngineRuntimeException.class,
-                                                    StringUtil.expandString( message, msgData, null ) );
-                }
-                String xpath = column.getXPath();
-
-                if ( xpath == null )
-                {
-                    continue;
-                }
-
-                DataType type = column.getType();
-
-                Object data = type.getDataForXML( resultSet, i );
-
-                if ( !resultSet.wasNull() && !( data.toString().length() == 0 ) )
-                {
-                    setXPathValue( elem, xpath, data, type );
-                }
-            }
-            if ( elementProcessors != null )
-            {
-                try
-                {
-                    for ( ElementProcessor elementProcessor : elementProcessors )
-                    {
-                        if ( elementProcessor != null )
-                        {
-                            elementProcessor.process( elem );
-                        }
-                    }
-                }
-                catch ( ProcessElementException pee )
-                {
-                    String message = "Failed to run element processors: %t";
-                    LOG.error( StringUtil.expandString( message, (Object) null, pee ), pee );
-                }
-            }
-        }
-
-        return doc;
-    }
-
-    private static Element setXPathValue( Element parentElement, String xpath, Object value, DataType type )
-    {
-        String[] xpathSplit = StringUtil.splitString( xpath, '/' );
-        Element tmpElem = parentElement;
-
-        for ( int i = 0; i < xpathSplit.length; i++ )
-        {
-            String current = xpathSplit[i];
-
-            if ( current.startsWith( "@" ) )
-            {
-                tmpElem.setAttribute( current.substring( 1 ), value.toString() );
-            }
-            //else if (current.equals(".")) {
-            // Do nothing
-            //}
-            else if ( XMLTool.getElement( parentElement, current ) != null )
-            {
-                tmpElem = XMLTool.getElement( parentElement, current );
-                if ( i == xpathSplit.length - 1 )
-                {
-                    if ( value instanceof Document )
-                    // This should really never happen, means that an element is present where we want to add xml
-                    {
-                        tmpElem.appendChild( tmpElem.getOwnerDocument().importNode( ( (Document) value ).getDocumentElement(), true ) );
-                    }
-                    else if ( type instanceof CDATAType )
-                    {
-                        XMLTool.createCDATASection( tmpElem.getOwnerDocument(), tmpElem, value.toString() );
-                    }
-                    else
-                    {
-                        XMLTool.createTextNode( tmpElem.getOwnerDocument(), tmpElem, value.toString() );
-                    }
-                }
-            }
-            else
-            {
-                if ( i == xpathSplit.length - 1 )
-                {
-                    if ( value instanceof Document )
-                    {
-                        tmpElem.appendChild( tmpElem.getOwnerDocument().importNode( ( (Document) value ).getDocumentElement(), true ) );
-                    }
-                    else if ( type instanceof CDATAType )
-                    {
-                        tmpElem = XMLTool.createElement( tmpElem.getOwnerDocument(), tmpElem, current );
-                        XMLTool.createCDATASection( tmpElem.getOwnerDocument(), tmpElem, value.toString() );
-                    }
-                    else
-                    {
-                        tmpElem = XMLTool.createElement( tmpElem.getOwnerDocument(), tmpElem, current, value.toString() );
-                    }
-                }
-                else
-                {
-                    tmpElem = XMLTool.createElement( tmpElem.getOwnerDocument(), tmpElem, current );
-                }
-            }
-        }
-        return tmpElem;
-    }
-
-    public static StringBuffer generateInsertSQL( Table table, Element elem )
-    {
-        // Generate SQL
-        StringBuffer sql = new StringBuffer( "INSERT INTO " );
-        sql.append( table );
-        sql.append( " (" );
-
-        StringBuffer params = new StringBuffer();
-
-        Column[] columns = table.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            sql.append( columns[i].getName() );
-
-            if ( columns[i].getType() == Constants.COLUMN_CURRENT_TIMESTAMP || columns[i].getType() == Constants.COLUMN_CREATED_TIMESTAMP )
-            {
-                String text = XMLTool.getElementText( elem, columns[i].getXPath() );
-                if ( text == null || text.length() == 0 )
-                {
-                    params.append( "@currentTimestamp@" );
-                }
-                else
-                {
-                    params.append( "?" );
-                }
-            }
-            else
-            {
-                params.append( "?" );
-            }
-
-            // If there are more nodes
-            if ( i < columns.length - 1 )
-            {
-                sql.append( ( ", " ) );
-                params.append( ", " );
-            }
-        }
-        sql.append( ") VALUES (" );
-        sql.append( params );
-        sql.append( ")" );
-
-        return sql;
     }
 
     public static StringBuffer generateUpdateSQL( Table table, Column setColumn, Column whereColumn )

@@ -75,7 +75,8 @@ public class PresentationServiceImpl
 
     public String getPathString( int type, int key, boolean includeRoot )
     {
-        return presentationEngine.getPathString( type, key, includeRoot );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     public boolean siteExists( SiteKey siteKey )

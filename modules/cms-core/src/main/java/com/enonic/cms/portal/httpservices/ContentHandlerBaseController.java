@@ -215,7 +215,7 @@ public abstract class ContentHandlerBaseController
         }
         else
         {
-            doc = XMLTool.domparse( userServices.getContent( user, contentKey, false, 0, 0, 0 ) );
+            doc = XMLTool.domparse( userServices.getContent( user, contentKey, false ) );
             Element rootElem = doc.getDocumentElement();
             contentElem = XMLTool.getFirstElement( rootElem );
             rootElem.removeChild( contentElem );

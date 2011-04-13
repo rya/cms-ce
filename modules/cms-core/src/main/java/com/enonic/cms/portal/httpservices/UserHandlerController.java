@@ -150,16 +150,6 @@ public class UserHandlerController
         super();
     }
 
-    public void setLoginService( LoginService loginService )
-    {
-        this.loginService = loginService;
-    }
-
-    public void setPreferenceService( PreferenceService value )
-    {
-        this.preferenceService = value;
-    }
-
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public void login( HttpServletRequest request, HttpServletResponse response )
             throws Exception
@@ -1454,16 +1444,10 @@ public class UserHandlerController
 
             userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
         }
-        catch ( VerticalCreateException vce )
+        catch ( Exception vce )
         {
             String message = "Failed to create log entry: %t";
             LOG.error( StringUtil.expandString( message, (Object) null, vce ), vce );
-            return false;
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String message = "Failed to create log entry: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null, vse ), vse );
             return false;
         }
 

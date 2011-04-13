@@ -52,52 +52,7 @@ public abstract class BaseEngine
         this.datasourceExecutorFactory = value;
     }
 
-    public CategoryHandler getCategoryHandler()
-    {
-        throw new RuntimeException();
-    }
-
     public CommonHandler getCommonHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public ContentHandler getContentHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public GroupHandler getGroupHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public LogHandler getLogHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public SectionHandler getSectionHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public SecurityHandler getSecurityHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public PageHandler getPageHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public PageTemplateHandler getPageTemplateHandler()
-    {
-        throw new RuntimeException();
-    }
-
-    public UserHandler getUserHandler()
     {
         throw new RuntimeException();
     }

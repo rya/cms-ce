@@ -62,7 +62,7 @@ public class PollHandlerController
 
         int contentKey = formItems.getInt( "key" );
         User user = securityService.getOldUserObject();
-        String xml = userServices.getContent( user, contentKey, true, 0, 0, 0 );
+        String xml = userServices.getContent( user, contentKey, true );
 
         Document doc = XMLTool.domparse( xml, "contents" );
         Element contentsElement = doc.getDocumentElement();

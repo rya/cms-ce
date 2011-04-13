@@ -7,15 +7,11 @@ package com.enonic.vertical.engine.handlers;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.enonic.vertical.event.VerticalEventListener;
-
 import com.enonic.cms.store.dao.UserDao;
-
 import com.enonic.cms.core.security.user.User;
 
 public final class UserHandler
     extends BaseHandler
-    implements VerticalEventListener
 {
 
     @Autowired

@@ -133,54 +133,9 @@ public abstract class BaseHandler
         securityService = service;
     }
 
-    protected final CategoryHandler getCategoryHandler()
-    {
-        return baseEngine.getCategoryHandler();
-    }
-
-    protected final ContentHandler getContentHandler()
-    {
-        return baseEngine.getContentHandler();
-    }
-
     protected final CommonHandler getCommonHandler()
     {
         return baseEngine.getCommonHandler();
-    }
-
-    protected final GroupHandler getGroupHandler()
-    {
-        return baseEngine.getGroupHandler();
-    }
-
-    protected final LogHandler getLogHandler()
-    {
-        return baseEngine.getLogHandler();
-    }
-
-    protected final PageHandler getPageHandler()
-    {
-        return baseEngine.getPageHandler();
-    }
-
-    protected final PageTemplateHandler getPageTemplateHandler()
-    {
-        return baseEngine.getPageTemplateHandler();
-    }
-
-    protected final SectionHandler getSectionHandler()
-    {
-        return baseEngine.getSectionHandler();
-    }
-
-    protected final SecurityHandler getSecurityHandler()
-    {
-        return baseEngine.getSecurityHandler();
-    }
-
-    protected final UserHandler getUserHandler()
-    {
-        return baseEngine.getUserHandler();
     }
 
     protected final void close( ResultSet resultSet )
@@ -206,11 +161,4 @@ public abstract class BaseHandler
     {
         return baseEngine.getConnection();
     }
-
-    public final int getNextKey( String tableName )
-        throws VerticalKeyException
-    {
-        return keyService.generateNextKeySafe( tableName );
-    }
-
 }

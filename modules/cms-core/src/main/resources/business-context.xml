@@ -26,22 +26,6 @@
 
   <bean id="userServicesService"
         class="com.enonic.cms.core.service.UserServicesServiceImpl">
-    <property name="userServicesEngine">
-      <bean id="userServicesEngine" class="com.enonic.vertical.engine.UserServicesEngine"
-            parent="abstractBaseEngine">
-        <property name="commonHandler" ref="commonHandler"/>
-        <property name="contentHandler" ref="contentHandler"/>
-        <property name="categoryHandler" ref="categoryHandler"/>
-        <property name="groupHandler" ref="groupHandler"/>
-        <property name="logHandler" ref="logHandler"/>
-        <property name="menuHandler" ref="menuHandler"/>
-        <property name="pageHandler" ref="pageHandler"/>
-        <property name="pageTemplateHandler" ref="pageTemplateHandler"/>
-        <property name="sectionHandler" ref="sectionHandler"/>
-        <property name="securityHandler" ref="securityHandler"/>
-        <property name="userHandler" ref="userHandler"/>
-      </bean>
-    </property>
   </bean>
 
 

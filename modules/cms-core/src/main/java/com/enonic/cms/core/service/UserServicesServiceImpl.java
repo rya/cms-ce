@@ -4,65 +4,58 @@
  */
 package com.enonic.cms.core.service;
 
+import com.enonic.cms.store.dao.UserDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.vertical.engine.UserServicesEngine;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-
-import com.enonic.cms.core.service.UserServicesService;
-
 import com.enonic.cms.core.security.user.User;
 
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class UserServicesServiceImpl
     implements UserServicesService
 {
-
-    protected UserServicesEngine userServicesEngine;
-
-    public void setUserServicesEngine( UserServicesEngine userServicesEngine )
-    {
-        this.userServicesEngine = userServicesEngine;
-    }
-
+    @Autowired
+    private UserDao userDao;
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void createLogEntries( User user, String xmlData )
-        throws VerticalCreateException, VerticalSecurityException
     {
-        userServicesEngine.createLogEntries( user, xmlData );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
-    public String getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel )
+    public String getContent( User user, int key, boolean publishOnly )
     {
-        return userServicesEngine.getContent( user, key, publishOnly, parenLevel, childrenLevel, parenChildrenLevel );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     public String getContentTypeByCategory( int cKey )
     {
-        return userServicesEngine.getContentTypeByCategory( cKey );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     public String getContentTypeByContent( int contentKey )
     {
-        return userServicesEngine.getContentTypeByContent( contentKey );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     public User getAnonymousUser()
     {
-        return userServicesEngine.getAnonymousUser();
+        return this.userDao.findBuiltInAnonymousUser();
     }
 
     public String getMenuItem( User user, int mikey )
     {
-        return userServicesEngine.getMenuItem( user, mikey );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     public int getCurrentVersionKey( int contentKey )
     {
-        return userServicesEngine.getCurrentVersionKey( contentKey );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
-
 }

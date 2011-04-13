@@ -831,8 +831,8 @@ public final class DataSourceServiceImpl
     @Transactional(propagation = Propagation.REQUIRED)
     public XMLDocument getSections( DataSourceContext context, int superSectionKey, int level, boolean includeSection )
     {
-        throw new IllegalArgumentException("Deprecated datasource. Not in documentation.");
-        // return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), superSectionKey, level, includeSection ) );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     /**
@@ -841,8 +841,8 @@ public final class DataSourceServiceImpl
     @Transactional(propagation = Propagation.REQUIRED)
     public XMLDocument getSections( DataSourceContext context )
     {
-        throw new IllegalArgumentException("Deprecated datasource. Not in documentation.");
-        // return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), context.getSiteKey() ) );
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     /**
@@ -866,15 +866,8 @@ public final class DataSourceServiceImpl
     public XMLDocument getCategories( DataSourceContext context, int superCategoryKey, int level, boolean withContentCount,
                                       boolean includeCategory )
     {
-        throw new IllegalArgumentException("Datasource needs to be hibernated. Disabled for now.");
-        /*
-        org.w3c.dom.Document doc =
-                presentationEngine.getCategories( context.getUser(), superCategoryKey, level, includeCategory, true,
-                                                  true, withContentCount );
-
-        DataSourceServiceCompabilityKeeper.fixCategoriesCompability( doc );
-        return XMLDocumentFactory.create( doc );
-        */
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     /**
@@ -884,12 +877,8 @@ public final class DataSourceServiceImpl
     public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details,
                                       boolean catCount, boolean contentCount )
     {
-        throw new IllegalArgumentException("Datasource needs to be hibernated. Disabled for now.");
-        /*
-        return XMLDocumentFactory.create(
-                presentationEngine.getCategories( context.getUser(), key, levels, topLevel, details, catCount,
-                                                  contentCount ) );
-        */
+        // TODO: Implement method using Hibernate
+        throw new IllegalStateException("Method not implemented");
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
