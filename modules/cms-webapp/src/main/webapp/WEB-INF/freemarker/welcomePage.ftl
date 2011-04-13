@@ -1,6 +1,10 @@
 [#ftl]
 <html>
 <head>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="-1"/>
+
     <title>Welcome</title>
     <style type="text/css">
         h1 {
