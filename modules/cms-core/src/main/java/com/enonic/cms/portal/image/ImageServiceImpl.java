@@ -20,13 +20,10 @@ import com.enonic.cms.framework.util.ImageHelper;
 
 import com.enonic.cms.core.content.binary.BinaryService;
 import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
-import com.enonic.cms.core.image.ImageRequest;
-import com.enonic.cms.core.image.cache.ImageCache;
+import com.enonic.cms.portal.image.cache.ImageCache;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.image.ImageResponse;
 
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;

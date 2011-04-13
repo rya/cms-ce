@@ -5,6 +5,7 @@
 package com.enonic.cms.itest.content;
 
 import com.enonic.cms.core.content.*;
+import com.enonic.cms.portal.httpservices.UserServicesRedirectUrlResolver;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.vertical.userservices.CustomContentHandlerController;
-import com.enonic.vertical.userservices.UserServicesRedirectUrlResolver;
+import com.enonic.cms.portal.httpservices.CustomContentHandlerController;
 
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;

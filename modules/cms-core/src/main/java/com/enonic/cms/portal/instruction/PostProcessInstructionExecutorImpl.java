@@ -16,6 +16,7 @@ import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.portal.PathToContentResolver;
 import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.image.ImageRequestParams;
 import com.enonic.cms.portal.rendering.RenderedWindowResult;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -24,9 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
-import com.enonic.cms.core.image.ImageRequest;
-import com.enonic.cms.core.image.ImageRequestParams;
-import com.enonic.cms.core.image.ImageRequestParser;
+import com.enonic.cms.portal.image.ImageRequest;
+import com.enonic.cms.portal.image.ImageRequestParser;
 import com.enonic.cms.portal.image.ImageService;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionException;
 import com.enonic.cms.store.dao.ContentDao;

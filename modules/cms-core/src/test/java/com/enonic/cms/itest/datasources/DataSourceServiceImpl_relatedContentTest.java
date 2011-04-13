@@ -5,6 +5,7 @@
 package com.enonic.cms.itest.datasources;
 
 import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.service.DataSourceServiceImpl;
 import com.enonic.cms.portal.datasource.DataSourceContext;
 import org.jdom.Document;
 import org.joda.time.DateTime;
@@ -27,7 +28,6 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.test.AssertTool;

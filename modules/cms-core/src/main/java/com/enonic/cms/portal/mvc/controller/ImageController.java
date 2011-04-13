@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.image.*;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,15 +21,12 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
-import com.enonic.cms.core.image.ImageRequest;
-import com.enonic.cms.core.image.ImageRequestParser;
-import com.enonic.cms.core.image.ImageResponse;
+import com.enonic.cms.portal.image.ImageRequest;
+import com.enonic.cms.portal.image.ImageResponse;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.portal.image.ImageProcessorException;
-import com.enonic.cms.portal.image.ImageService;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.Path;

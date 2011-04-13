@@ -89,7 +89,7 @@ public abstract class AbstractRelatedContentFetcher
 //        }
 //
 //        List<RelatedChildContent> relatedChildContents = new ArrayList<RelatedChildContent>();
-//        for ( ContentVersionEntity version : versions )com.enonic.vertical.userservices.CustomContentHandlerController_operation_ModifyTest
+//        for ( ContentVersionEntity version : versions )com.enonic.cms.portal.httpservices.CustomContentHandlerController_operation_ModifyTest
 //        {
 //            for ( ContentKey relatedChildKey : version.getContentData().resolveRelatedContentKeys() )
 //            {

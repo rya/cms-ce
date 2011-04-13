@@ -206,7 +206,7 @@
         <property name="standardModelFactory" ref="standardModelFactory"/>
     </bean>
 
-    <bean id="presentationController" class="com.enonic.vertical.userservices.AbstractPresentationController"
+    <bean id="presentationController" class="com.enonic.cms.portal.httpservices.AbstractPresentationController"
           abstract="true">
         <property name="siteService" ref="siteService"/>
         <property name="sitePathResolver" ref="sitePathResolver"/>
@@ -244,7 +244,7 @@
     </bean>
 
 
-    <bean id="userServicesAccessManager" class="com.enonic.vertical.userservices.UserServicesAccessManagerImpl">
+    <bean id="userServicesAccessManager" class="com.enonic.cms.portal.httpservices.UserServicesAccessManagerImpl">
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="siteService" ref="siteService"/>
     </bean>
