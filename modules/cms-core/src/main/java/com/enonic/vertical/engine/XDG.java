@@ -7,8 +7,6 @@ package com.enonic.vertical.engine;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.xml.transform.TransformerException;
@@ -27,8 +25,6 @@ import com.enonic.esl.sql.model.datatypes.DataType;
 import com.enonic.esl.sql.model.datatypes.XMLType;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-
-import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 
 public class XDG
 {
@@ -67,25 +63,6 @@ public class XDG
                 }
             }
         }
-        return sql;
-    }
-
-    public static StringBuffer generateWhereInSQL( StringBuffer sql, String sqlStart, Column whereInColumn, int count )
-    {
-        if ( sqlStart == null )
-        {
-            sqlStart = " WHERE ";
-        }
-        if ( sql == null )
-        {
-            sql = new StringBuffer( sqlStart );
-        }
-        else
-        {
-            sql.append( sqlStart );
-        }
-
-        InClauseBuilder.buildAndAppendTemplateInClause( sql, whereInColumn.getName(), count );
         return sql;
     }
 

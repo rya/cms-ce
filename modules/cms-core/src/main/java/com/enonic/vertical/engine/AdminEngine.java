@@ -4,20 +4,12 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.SystemHandler;
 
 public final class AdminEngine
     extends BaseEngine
 {
-    private CommonHandler commonHandler;
-
     private SystemHandler systemHandler;
-
-    public CommonHandler getCommonHandler()
-    {
-        return commonHandler;
-    }
 
     public boolean initializeDatabaseSchema()
         throws Exception
@@ -29,11 +21,6 @@ public final class AdminEngine
         throws Exception
     {
         return this.systemHandler.initializeDatabaseValues();
-    }
-
-    public void setCommonHandler( CommonHandler commonHandler )
-    {
-        this.commonHandler = commonHandler;
     }
 
     public void setSystemHandler( SystemHandler systemHandler )

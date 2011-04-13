@@ -44,19 +44,12 @@ public class PresentationEngine
 
     private BinaryDataHandler binaryDataHandler;
 
-    private CommonHandler commonHandler;
-
     private MenuHandler menuHandler;
 
     private UserHandler userHandler;
 
     @Autowired
     private SiteDao siteDao;
-
-    public CommonHandler getCommonHandler()
-    {
-        return commonHandler;
-    }
 
     public BinaryData getBinaryData( User user, int binaryDataKey, long timestamp )
     {
@@ -189,11 +182,6 @@ public class PresentationEngine
     public void setBinaryDataHandler( BinaryDataHandler binaryDataHandler )
     {
         this.binaryDataHandler = binaryDataHandler;
-    }
-
-    public void setCommonHandler( CommonHandler commonHandler )
-    {
-        this.commonHandler = commonHandler;
     }
 
     public void setMenuHandler( MenuHandler menuHandler )

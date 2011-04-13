@@ -8,7 +8,6 @@
   -->
 
   <bean id="baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler" init-method="init">
-    <property name="keyService" ref="keyService"/>
     <property name="verticalProperties" ref="verticalProperties"/>
     <property name="baseEngine" ref="presentationEngine"/>
     <property name="securityService" ref="securityService"/>
@@ -18,34 +17,10 @@
     <property name="binaryAccessResolver" ref="binaryAccessResolver"/>
   </bean>
 
-  <bean id="contentHandler" class="com.enonic.vertical.engine.handlers.ContentHandler" parent="baseHandler">
-  </bean>
-
   <bean id="commonHandler" class="com.enonic.vertical.engine.handlers.CommonHandler" parent="baseHandler">
   </bean>
 
-  <bean id="categoryHandler" class="com.enonic.vertical.engine.handlers.CategoryHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="groupHandler" class="com.enonic.vertical.engine.handlers.GroupHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="logHandler" class="com.enonic.vertical.engine.handlers.LogHandler" parent="baseHandler">
-  </bean>
-
   <bean id="menuHandler" class="com.enonic.vertical.engine.handlers.MenuHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="pageHandler" class="com.enonic.vertical.engine.handlers.PageHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="pageTemplateHandler" class="com.enonic.vertical.engine.handlers.PageTemplateHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="sectionHandler" class="com.enonic.vertical.engine.handlers.SectionHandler" parent="baseHandler">
-  </bean>
-
-  <bean id="securityHandler" class="com.enonic.vertical.engine.handlers.SecurityHandler" parent="baseHandler">
   </bean>
 
   <bean id="userHandler" class="com.enonic.vertical.engine.handlers.UserHandler" parent="baseHandler">

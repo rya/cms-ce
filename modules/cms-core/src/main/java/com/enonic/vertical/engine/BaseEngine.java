@@ -11,17 +11,6 @@ import java.sql.Statement;
 
 import org.springframework.jdbc.support.JdbcUtils;
 
-import com.enonic.vertical.engine.handlers.CategoryHandler;
-import com.enonic.vertical.engine.handlers.CommonHandler;
-import com.enonic.vertical.engine.handlers.ContentHandler;
-import com.enonic.vertical.engine.handlers.GroupHandler;
-import com.enonic.vertical.engine.handlers.LogHandler;
-import com.enonic.vertical.engine.handlers.PageHandler;
-import com.enonic.vertical.engine.handlers.PageTemplateHandler;
-import com.enonic.vertical.engine.handlers.SectionHandler;
-import com.enonic.vertical.engine.handlers.SecurityHandler;
-import com.enonic.vertical.engine.handlers.UserHandler;
-
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
 import com.enonic.cms.store.support.ConnectionFactory;
@@ -50,11 +39,6 @@ public abstract class BaseEngine
     public void setDatasourceExecutorFactory( DatasourceExecutorFactory value )
     {
         this.datasourceExecutorFactory = value;
-    }
-
-    public CommonHandler getCommonHandler()
-    {
-        throw new RuntimeException();
     }
 
     /**

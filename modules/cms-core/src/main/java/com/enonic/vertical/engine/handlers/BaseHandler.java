@@ -13,14 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.BaseEngine;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
-import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
@@ -51,8 +49,6 @@ public abstract class BaseHandler
 
     @Autowired
     protected ContentService contentService;
-
-    private KeyService keyService;
 
     protected SecurityService securityService;
 
@@ -103,6 +99,9 @@ public abstract class BaseHandler
     @Autowired
     protected MemberOfResolver memberOfResolver;
 
+    @Autowired
+    protected CommonHandler commonHandler;
+
     public BaseHandler()
     {
 
@@ -122,12 +121,6 @@ public abstract class BaseHandler
         this.baseEngine = value;
     }
 
-
-    public void setKeyService( KeyService value )
-    {
-        this.keyService = value;
-    }
-
     public void setSecurityService( SecurityService service )
     {
         securityService = service;
@@ -135,12 +128,11 @@ public abstract class BaseHandler
 
     protected final CommonHandler getCommonHandler()
     {
-        return baseEngine.getCommonHandler();
+        return this.commonHandler;
     }
 
     protected final void close( ResultSet resultSet )
     {
-
         baseEngine.close( resultSet );
     }
 

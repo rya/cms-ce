@@ -4,10 +4,7 @@
  */
 package com.enonic.cms.framework.hibernate.support;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 
 public abstract class InClauseBuilder<T>
 {
@@ -78,23 +75,5 @@ public abstract class InClauseBuilder<T>
         StringBuffer str = new StringBuffer();
         appendTo( str );
         return str.toString();
-    }
-
-    public static void buildAndAppendTemplateInClause( StringBuffer sql, String columnName, int count )
-    {
-
-        List<String> values = new ArrayList<String>( count );
-        for ( int i = 1; i <= count; i++ )
-        {
-            values.add( "?" );
-        }
-        InClauseBuilder inclause = new InClauseBuilder<String>( columnName, values )
-        {
-            public void appendValue( StringBuffer sql, String value )
-            {
-                sql.append( "?" );
-            }
-        };
-        inclause.appendTo( sql );
     }
 }

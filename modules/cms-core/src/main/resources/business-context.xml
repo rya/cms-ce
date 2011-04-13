@@ -38,7 +38,6 @@
 
   <bean id="keyEngine" class="com.enonic.vertical.engine.KeyEngine" parent="abstractBaseEngine">
     <property name="keyHandler" ref="key-keyHandler"/>
-    <property name="commonHandler" ref="key-commonHandler"/>
   </bean>
 
 
