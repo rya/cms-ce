@@ -14,15 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.content.imports.ImportResult;
-import com.enonic.cms.core.preferences.*;
-import com.enonic.cms.core.resource.ResourceXmlCreator;
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
+import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import com.enonic.esl.util.Base64Util;
 
 import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -78,41 +74,25 @@ import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
 import com.enonic.cms.api.client.model.preference.Preference;
 import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.GetContentExecutor;
+import com.enonic.cms.core.content.GetContentResult;
+import com.enonic.cms.core.content.GetContentXmlCreator;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
-import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.resource.ResourceService;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.UserParser;
-import com.enonic.cms.core.security.UserStoreParser;
-import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.core.service.DataSourceService;
-import com.enonic.cms.core.service.KeyService;
-import com.enonic.cms.core.service.PresentationService;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.portal.cache.PageCacheService;
-import com.enonic.cms.portal.cache.SiteCachesService;
-import com.enonic.cms.portal.datasource.context.UserContextXmlCreator;
-import com.enonic.cms.store.dao.CategoryDao;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentTypeDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.GroupQuery;
-import com.enonic.cms.store.dao.MenuItemDao;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.content.imports.ImportResultXmlCreator;
 import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;
@@ -131,9 +111,17 @@ import com.enonic.cms.core.preferences.PreferenceScope;
 import com.enonic.cms.core.preferences.PreferenceScopeKey;
 import com.enonic.cms.core.preferences.PreferenceScopeResolver;
 import com.enonic.cms.core.preferences.PreferenceScopeType;
+import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.preferences.PreferenceSpecification;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceXmlCreator;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.UserParser;
+import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.DeleteGroupCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -146,9 +134,33 @@ import com.enonic.cms.core.security.group.QualifiedGroupname;
 import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
 import com.enonic.cms.core.security.group.StoreNewGroupCommand;
 import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.service.DataSourceService;
+import com.enonic.cms.core.service.KeyService;
+import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.cache.PageCacheService;
+import com.enonic.cms.portal.cache.SiteCachesService;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.datasource.context.UserContextXmlCreator;
+import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentTypeDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.GroupQuery;
+import com.enonic.cms.store.dao.MenuItemDao;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
+
+import com.enonic.cms.domain.SiteKey;
 
 /**
  * This class implements the local client.
@@ -172,8 +184,6 @@ public final class InternalClientImpl
     private PresentationService presentationService;
 
     private DataSourceService dataSourceService;
-
-    private PresentationInvoker invoker;
 
     private SecurityService securityService;
 
@@ -632,6 +642,11 @@ public final class InternalClientImpl
         return doGetRunAsUserName();
     }
 
+    private User getRunAsOldUser()
+    {
+        return securityService.getRunAsOldUser();
+    }
+
     /**
      * @inheritDoc
      */
@@ -760,16 +775,6 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
-    }
-
-    private synchronized PresentationInvoker getPresentationInvoker()
-    {
-        if ( this.invoker == null )
-        {
-            this.invoker = new PresentationInvoker( this.presentationService, this.dataSourceService, securityService );
-        }
-
-        return this.invoker;
     }
 
     private ClientException handleException( Exception e )
@@ -947,13 +952,18 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getCategories( params );
+            assertMinValue( "categoryKey", params.categoryKey, 0 );
+            return this.dataSourceService.getCategories( createDataSourceContext(), params.categoryKey, params.levels,
+                                                         params.includeTopCategory, true, false,
+                                                         params.includeContentCount ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
             throw handleException( e );
         }
     }
+
+
 
     /**
      * @inheritDoc
@@ -1429,7 +1439,9 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getMenu( params );
+            assertMinValue( "menuKey", params.menuKey, 0 );
+            return this.dataSourceService.getMenu( createDataSourceContext(), params.menuKey, params.tagItem,
+                                                   params.levels, false ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
@@ -1443,7 +1455,10 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getMenuBranch( params );
+            assertMinValue( "menuItemKey", params.menuItemKey, 0 );
+            return this.dataSourceService.getMenuBranch( createDataSourceContext(), params.menuItemKey,
+                                                         params.includeTopLevel, params.startLevel,
+                                                         params.levels ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
@@ -1457,7 +1472,8 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getMenuData( params );
+            assertMinValue( "menuKey", params.menuKey, 0 );
+            return this.dataSourceService.getMenuData( createDataSourceContext(), params.menuKey ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
@@ -1471,7 +1487,9 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getMenuItem( params );
+            assertMinValue( "menuItemKey", params.menuItemKey, 0 );
+            return this.dataSourceService.getMenuItem( createDataSourceContext(), params.menuItemKey,
+                                                       params.withParents, params.details ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
@@ -1485,7 +1503,9 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getSubMenu( params );
+            assertMinValue( "menuItemKey", params.menuItemKey, 0 );
+            return this.dataSourceService.getSubMenu( createDataSourceContext(), params.menuItemKey, params.tagItem,
+                                                      params.levels, false ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
@@ -1658,7 +1678,9 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getBinary( params );
+            assertMinValue( "binaryKey", params.binaryKey, 0 );
+            BinaryData binaryData = this.presentationService.getBinaryData( getRunAsOldUser(), params.binaryKey, -1, null, null, 0, false );
+            return getBinaryDocument( binaryData );
         }
         catch ( Exception e )
         {
@@ -1672,7 +1694,11 @@ public final class InternalClientImpl
     {
         try
         {
-            return getPresentationInvoker().getContentBinary( params );
+            assertMinValue( "contentKey", params.contentKey, 0 );
+
+            int binaryKey = this.presentationService.getBinaryDataKey( params.contentKey, params.label );
+            BinaryData binaryData = this.presentationService.getBinaryData( getRunAsOldUser(), binaryKey, -1, null, null, 0, false );
+            return getBinaryDocument( binaryData );
         }
         catch ( Exception e )
         {
@@ -2219,5 +2245,55 @@ public final class InternalClientImpl
         }
 
         return map;
+    }
+
+    private void assertMinValue( String name, int value, int minValue )
+    {
+        if ( value < minValue )
+        {
+            throw new IllegalArgumentException( "Parameter [" + name + "] must be >= " + minValue );
+        }
+    }
+
+    private DataSourceContext createDataSourceContext()
+    {
+        DataSourceContext dataSourceContext = new DataSourceContext();
+        dataSourceContext.setUser( securityService.getRunAsUser() );
+        return dataSourceContext;
+    }
+
+    private Document getBinaryDocument( BinaryData binaryData )
+    {
+        if ( binaryData == null )
+        {
+            return null;
+        }
+
+        Element binaryElem = new Element( "binary" );
+        Element fileNameElem = new Element( "filename" );
+        fileNameElem.setText( binaryData.fileName );
+        binaryElem.addContent( fileNameElem );
+
+        Element binaryKeyElem = new Element( "binarykey" );
+        binaryKeyElem.setText( String.valueOf( binaryData.key ) );
+        binaryElem.addContent( binaryKeyElem );
+
+        Element contentKeyElem = new Element( "contentkey" );
+        contentKeyElem.setText( String.valueOf( binaryData.contentKey ) );
+        binaryElem.addContent( contentKeyElem );
+
+        Element sizeElem = new Element( "binarykey" );
+        sizeElem.setText( String.valueOf( binaryData.data.length ) );
+        binaryElem.addContent( sizeElem );
+
+        Element timestampElem = new Element( "binarykey" );
+        timestampElem.setText( binaryData.timestamp.toString() );
+        binaryElem.addContent( timestampElem );
+
+        Element dataElem = new Element( "data" );
+        dataElem.setText( Base64Util.encode( binaryData.data ) );
+        binaryElem.addContent( dataElem );
+
+        return new Document( binaryElem );
     }
 }
