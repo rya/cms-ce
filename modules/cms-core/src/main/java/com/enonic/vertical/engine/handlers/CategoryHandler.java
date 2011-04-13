@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.Set;
 
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.content.category.CategoryStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +39,6 @@ import com.enonic.vertical.engine.dbmodel.CategoryView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRight2Table;
 import com.enonic.vertical.engine.dbmodel.ContentPublishedView;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-
-import com.enonic.cms.core.content.category.CategoryXmlCreator;
 import com.enonic.cms.store.dao.CategoryDao;
 
 import com.enonic.cms.domain.CalendarUtil;
@@ -54,33 +49,11 @@ public class CategoryHandler
 {
     private static final Logger LOG = LoggerFactory.getLogger( CategoryHandler.class.getName() );
 
-    private final static String CON_TABLE = "tContent";
-
     private final static String CAT_TABLE = "tCategory";
-
-    private final static String CAT_SELECT_CON_COUNT =
-        "SELECT cat_lKey," + " count(con_lKey) AS cat_con_lCount" + " FROM " + CAT_TABLE + " LEFT JOIN " + CON_TABLE +
-            " ON con_lKey IS NULL OR con_cat_lKey = cat_lKey";
-
-    private final static String CAT_SELECT_KEY = "SELECT cat_lKey FROM " + CAT_TABLE;
-
-    private final static String CAT_WHERE_CLAUSE_CAT_NOT_DELETED = " cat_bDeleted = 0";
-
-    private final static String CAT_WHERE_CLAUSE_CON_NOT_DELETED_OR_NULL = " (con_bDeleted IS NULL OR con_bDeleted = 0)";
-
-    private final static String CAT_WHERE_CLAUSE_MANY = " cat_lKey IN (%0)";
-
-    private final static String CAT_WHERE_CLAUSE_SCA_ONE = " cat_cat_lSuper = ?";
-
-    private final static String CAT_GROUP_BY_CAT = " GROUP BY cat_lKey";
-
-    // SQL objects:
 
     private SelectString catSelectName;
 
     private SelectString catSelectSca;
-
-    private CategoryStatisticsHelper categoryStatisticsHelper;
 
     @Autowired
     private CategoryDao categoryDao;
@@ -88,8 +61,6 @@ public class CategoryHandler
     public void init()
     {
         super.init();
-
-        categoryStatisticsHelper = new CategoryStatisticsHelper( this );
 
         // initialize SQL objects:
         catSelectName = new SelectString();
@@ -141,116 +112,6 @@ public class CategoryHandler
         return categoryKeys;
     }
 
-    /**
-     * @see CategoryHandler#getContentCount(Connection, CategoryKey, boolean)
-     */
-    public int getContentCount( Connection con, CategoryKey categoryKey, boolean recursive )
-    {
-
-        if ( categoryKey == null )
-        {
-            return 0;
-        }
-        return getContentCount( con, new int[]{categoryKey.toInt()}, recursive );
-    }
-
-    private int getContentCount( Connection _con, int[] categoryKeys, boolean recursive )
-    {
-
-        if ( categoryKeys == null || categoryKeys.length == 0 )
-        {
-            return 0;
-        }
-
-        Connection con = null;
-        PreparedStatement preparedStmt1 = null, preparedStmt2 = null;
-        ResultSet resultSet1 = null, resultSet2 = null;
-        int contentCount = 0;
-
-        try
-        {
-            StringBuffer sql = new StringBuffer( CAT_SELECT_CON_COUNT );
-            StringBuffer tempSql = new StringBuffer();
-            for ( int i = 0; i < categoryKeys.length; i++ )
-            {
-                if ( i > 0 )
-                {
-                    tempSql.append( ',' );
-                }
-                tempSql.append( Integer.toString( categoryKeys[i] ) );
-            }
-            sql.append( " WHERE" );
-            sql.append( CAT_WHERE_CLAUSE_CAT_NOT_DELETED );
-            sql.append( " AND" );
-            sql.append( CAT_WHERE_CLAUSE_CON_NOT_DELETED_OR_NULL );
-            sql.append( " AND" );
-            sql.append( StringUtil.expandString( CAT_WHERE_CLAUSE_MANY, tempSql ) );
-            sql.append( CAT_GROUP_BY_CAT );
-
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
-            preparedStmt1 = con.prepareStatement( sql.toString() );
-            resultSet1 = preparedStmt1.executeQuery();
-
-            while ( resultSet1.next() )
-            {
-                contentCount += resultSet1.getInt( "cat_con_lCount" );
-                int catKey = resultSet1.getInt( "cat_lKey" );
-
-                if ( recursive )
-                {
-                    sql.setLength( 0 );
-                    sql.append( CAT_SELECT_KEY );
-                    sql.append( " WHERE" );
-                    sql.append( CAT_WHERE_CLAUSE_SCA_ONE );
-                    preparedStmt2 = con.prepareStatement( sql.toString() );
-                    preparedStmt2.setInt( 1, catKey );
-                    resultSet2 = preparedStmt2.executeQuery();
-
-                    List<Integer> catKeys = new ArrayList<Integer>();
-                    while ( resultSet2.next() )
-                    {
-                        catKeys.add( resultSet2.getInt( "cat_lKey" ) );
-                    }
-
-                    resultSet2.close();
-                    resultSet2 = null;
-                    preparedStmt2.close();
-                    preparedStmt2 = null;
-
-                    if ( catKeys.size() > 0 )
-                    {
-                        contentCount += getContentCount( con, Ints.toArray( catKeys ), recursive );
-                    }
-                }
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to calculate categories' content counts: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null, sqle ), sqle );
-        }
-        finally
-        {
-            close( resultSet1 );
-            close( resultSet2 );
-            close( preparedStmt1 );
-            close( preparedStmt2 );
-            if ( _con == null )
-            {
-                close( con );
-            }
-        }
-
-        return contentCount;
-    }
-
     public int getContentTypeKey( CategoryKey categoryKey )
     {
         int contentTypeKey = -1;
@@ -260,56 +121,6 @@ public class CategoryHandler
             contentTypeKey = category.getContentType().getKey();
         }
         return contentTypeKey;
-    }
-
-    public Document getSuperCategoryNames( CategoryKey categoryKey, boolean withContentCount, boolean includeCategory )
-    {
-        Map<CategoryEntity, Integer> contentCountMap = new HashMap<CategoryEntity, Integer>();
-        List<CategoryEntity> categories = new ArrayList<CategoryEntity>();
-
-        CategoryXmlCreator xmlCreator = new CategoryXmlCreator();
-
-        if ( categoryKey == null )
-        {
-            return xmlCreator.createEmptyCategoryNamesDocument( "No categorykey given" ).getAsDOMDocument();
-        }
-
-        CategoryEntity category = categoryDao.findByKey( categoryKey );
-
-        if ( category == null )
-        {
-            return xmlCreator.createEmptyCategoryNamesDocument( "No category found" ).getAsDOMDocument();
-        }
-
-        CategoryEntity currCategory;
-
-        if ( includeCategory )
-        {
-            currCategory = category;
-        }
-        else
-        {
-            currCategory = category.getParent();
-        }
-
-        while ( currCategory != null )
-        {
-            categories.add( currCategory );
-
-            if ( withContentCount )
-            {
-                contentCountMap.put( category, getContentCount( null, category.getKey(), true ) );
-            }
-
-            currCategory = currCategory.getParent();
-        }
-
-        // Reverse list to get the root first in result
-        Collections.reverse( categories );
-
-        XMLDocument newDoc = xmlCreator.createCategoryNames( categories, contentCountMap );
-
-        return newDoc.getAsDOMDocument();
     }
 
     public int getUnitKey( CategoryKey categoryKey )
@@ -826,165 +637,4 @@ public class CategoryHandler
         sql.append( ")" );
         return sql.toString();
     }
-
-    public Map<Integer, CategoryStatistics> getCategoryStatistics( int unitKey )
-    {
-
-        StringBuffer sql = new StringBuffer();
-        sql.append( "select" );
-        sql.append( " cat_lkey," );
-        sql.append( " cat_cat_lsuper" );
-        sql.append( " from tcategory" );
-        sql.append( " where cat_uni_lkey = ?" );
-        sql.append( " order by cat_cat_lsuper asc, cat_lkey asc" );
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-        Map<Integer, CategoryStatistics> categoryStatistics = new HashMap<Integer, CategoryStatistics>();
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setInt( 1, unitKey );
-            resultSet = preparedStmt.executeQuery();
-
-            while ( resultSet.next() )
-            {
-
-                CategoryStatistics cs = new CategoryStatistics( resultSet.getInt( 1 ) );
-                cs.setParentCategoryKey( resultSet.getInt( 2 ) );
-                categoryStatistics.put( cs.getCategoryKey(), cs );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            throw new RuntimeException( "Failed to get category tree", sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-        return categoryStatistics;
-    }
-
-    public void collectStatisticsFromContent( int unitKey, Map<Integer, CategoryStatistics> catStats )
-    {
-
-        StringBuffer sql = new StringBuffer();
-        sql.append( "select" );
-        sql.append( " cat_lkey," );
-        sql.append( " cat_cat_lsuper," );
-        sql.append( " sum(@length@(cov_stitle))," );
-        sql.append( " sum(@length@(cov_sdescription))," );
-        sql.append( " sum(@length@(cov_xmlcontentdata))" );
-        sql.append( " from tcontentversion" );
-        sql.append( " left join tcontent on cov_con_lkey = con_lkey" );
-        sql.append( " left join tcategory on con_cat_lkey = cat_lkey" );
-        sql.append( " where cat_uni_lkey = ?" );
-        sql.append( " group by cat_lkey, cat_cat_lsuper" );
-        sql.append( " order by cat_cat_lsuper asc, cat_lkey asc" );
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-
-        // 4 bytes times 6 for the number columns
-        int constantSize = 4 * 6;
-        // 20 bytes times 2 for the user columns
-        constantSize += 20 * 2;
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setInt( 1, unitKey );
-            resultSet = preparedStmt.executeQuery();
-
-            while ( resultSet.next() )
-            {
-
-                Integer categoryKey = resultSet.getInt( 1 );
-                CategoryStatistics cs = catStats.get( categoryKey );
-                if ( cs != null )
-                {
-                    long amount = constantSize + resultSet.getLong( 3 ) + resultSet.getLong( 4 ) + resultSet.getLong( 5 );
-                    cs.addAmount( amount );
-                }
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            throw new RuntimeException( "Failed to get category statistics", sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
-    public void collectStatisticsFromBinaryData( int unitKey, Map<Integer, CategoryStatistics> catStats )
-    {
-
-        StringBuffer sql = new StringBuffer();
-        sql.append( "select" );
-        sql.append( " cat_lkey," );
-        sql.append( " cat_cat_lsuper," );
-        sql.append( " sum(@length@(bda_sfilename))," );
-        sql.append( " sum(bda_lfilesize)" );
-        sql.append( " from tbinarydata" );
-        sql.append( " left join tcontentbinarydata on bda_lkey = cbd_bda_lkey" );
-        sql.append( " left join tcontentversion on cbd_cov_lkey = cov_lkey" );
-        sql.append( " left join tcontent on cov_con_lkey = con_lkey" );
-        sql.append( " left join tcategory on con_cat_lkey = cat_lkey" );
-        sql.append( " where cat_uni_lkey = ?" );
-        sql.append( " group by cat_lkey, cat_cat_lsuper" );
-        sql.append( " order by cat_cat_lsuper asc, cat_lkey asc" );
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-
-        // 4 bytes times 6 for the number columns
-        int constantSize = 4 * 8;
-        // 20 bytes times 2 for the user columns
-        constantSize += 20 * 2;
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setInt( 1, unitKey );
-            resultSet = preparedStmt.executeQuery();
-
-            while ( resultSet.next() )
-            {
-
-                Integer categoryKey = new Integer( resultSet.getInt( 1 ) );
-                CategoryStatistics cs = catStats.get( categoryKey );
-                if ( cs != null )
-                {
-                    long filenameSize = resultSet.getLong( 3 ) * 2; // two times because it is in content version too
-                    long amount = constantSize + filenameSize + resultSet.getLong( 4 );
-                    cs.addAmount( amount );
-                }
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            throw new RuntimeException( "Failed to get category statistics", sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
 }

@@ -7,11 +7,8 @@ package com.enonic.cms.core.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,7 +33,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.vertical.engine.PresentationEngine;
-import com.enonic.vertical.engine.filters.ContentFilter;
 
 import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -90,7 +86,6 @@ import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
-import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.core.preferences.PreferenceEntity;
 import com.enonic.cms.core.preferences.PreferenceKey;
 import com.enonic.cms.core.preferences.PreferenceScope;
@@ -836,7 +831,8 @@ public final class DataSourceServiceImpl
     @Transactional(propagation = Propagation.REQUIRED)
     public XMLDocument getSections( DataSourceContext context, int superSectionKey, int level, boolean includeSection )
     {
-        return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), superSectionKey, level, includeSection ) );
+        throw new IllegalArgumentException("Deprecated datasource. Not in documentation.");
+        // return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), superSectionKey, level, includeSection ) );
     }
 
     /**
@@ -845,7 +841,8 @@ public final class DataSourceServiceImpl
     @Transactional(propagation = Propagation.REQUIRED)
     public XMLDocument getSections( DataSourceContext context )
     {
-        return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), context.getSiteKey() ) );
+        throw new IllegalArgumentException("Deprecated datasource. Not in documentation.");
+        // return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), context.getSiteKey() ) );
     }
 
     /**
@@ -862,40 +859,6 @@ public final class DataSourceServiceImpl
                                        contentTypes );
     }
 
-    private String convertSimpleSearch( String search, boolean opAnd )
-    {
-        String operator = opAnd ? " AND " : " OR ";
-        StringBuffer query = new StringBuffer();
-
-        if ( search != null )
-        {
-            HashSet<String> params = new HashSet<String>();
-            StringTokenizer tok = new StringTokenizer( search, " " );
-
-            while ( tok.hasMoreTokens() )
-            {
-                String param = tok.nextToken();
-                if ( param.length() > 0 )
-                {
-                    params.add( param );
-                }
-            }
-
-            for ( Iterator<String> i = params.iterator(); i.hasNext(); )
-            {
-                String param = i.next();
-                query.append( "((title CONTAINS \"" ).append( param ).append( "\") OR " );
-                query.append( "(* CONTAINS \"" ).append( param ).append( "\"))" );
-                if ( i.hasNext() )
-                {
-                    query.append( operator );
-                }
-            }
-        }
-
-        return query.toString();
-    }
-
     /**
      * @inheritDoc
      */
@@ -903,12 +866,15 @@ public final class DataSourceServiceImpl
     public XMLDocument getCategories( DataSourceContext context, int superCategoryKey, int level, boolean withContentCount,
                                       boolean includeCategory )
     {
+        throw new IllegalArgumentException("Datasource needs to be hibernated. Disabled for now.");
+        /*
         org.w3c.dom.Document doc =
                 presentationEngine.getCategories( context.getUser(), superCategoryKey, level, includeCategory, true,
                                                   true, withContentCount );
 
         DataSourceServiceCompabilityKeeper.fixCategoriesCompability( doc );
         return XMLDocumentFactory.create( doc );
+        */
     }
 
     /**
@@ -918,9 +884,12 @@ public final class DataSourceServiceImpl
     public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details,
                                       boolean catCount, boolean contentCount )
     {
+        throw new IllegalArgumentException("Datasource needs to be hibernated. Disabled for now.");
+        /*
         return XMLDocumentFactory.create(
                 presentationEngine.getCategories( context.getUser(), key, levels, topLevel, details, catCount,
                                                   contentCount ) );
+        */
     }
 
     @SuppressWarnings({"UnusedDeclaration"})

@@ -19,7 +19,6 @@
 
   <bean id="presentationEngine" class="com.enonic.vertical.engine.PresentationEngine" parent="abstractBaseEngine">
     <property name="binaryDataHandler" ref="binaryDataHandler"/>
-    <property name="calendarService" ref="calendarService"/>
     <property name="commonHandler" ref="commonHandler"/>
     <property name="contentHandler" ref="contentHandler"/>
     <property name="categoryHandler" ref="categoryHandler"/>
