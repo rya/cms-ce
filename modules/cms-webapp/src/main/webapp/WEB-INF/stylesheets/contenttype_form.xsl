@@ -220,7 +220,6 @@
                                 <xsl:with-param name="label" select="'%fldContentHandler%:'"/>
                                 <xsl:with-param name="selectedkey" select="$contenthandlerkey"/>
                                 <xsl:with-param name="selectnode" select="/contenttypes/contenthandlers/contenthandler"/>
-                                <xsl:with-param name="emptyrow" select="'%sysDropDownChoose%'"/>
                                 <xsl:with-param name="required" select="true()"/>
                                 <xsl:with-param name="disabled" select="/contenttypes/contenttype/@contentcount &gt; 0 and $create = '0'"/>
                                 <xsl:with-param name="onchangefunction" select="'updateContentType()'"/>
