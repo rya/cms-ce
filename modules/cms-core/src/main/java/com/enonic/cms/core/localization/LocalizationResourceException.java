@@ -10,13 +10,6 @@ package com.enonic.cms.core.localization;
 public class LocalizationResourceException
     extends RuntimeException
 {
-
-    public LocalizationResourceException( String message, Throwable t )
-    {
-
-        super( message, t );
-    }
-
     public LocalizationResourceException( String message )
     {
         super( message );

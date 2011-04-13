@@ -152,11 +152,9 @@ import com.enonic.cms.portal.datasource.DataSourceContext;
 import com.enonic.cms.portal.datasource.context.UserContextXmlCreator;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.GroupQuery;
-import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
@@ -174,12 +172,6 @@ public final class InternalClientImpl
     private InternalClientContentService internalClientContentService;
 
     private InternalClientRenderService internalClientRenderService;
-
-    private KeyService keyService;
-
-    private AdminService adminService;
-
-    private UserServicesService userServicesService;
 
     private PresentationService presentationService;
 
@@ -221,11 +213,6 @@ public final class InternalClientImpl
     @Autowired
     private ContentVersionDao contentVersionDao;
 
-    @Autowired
-    private ContentTypeDao contentTypeDao;
-
-    private MenuItemDao menuItemDao;
-
     @Autowired(required = false)
     private SiteCachesService siteCachesService;
 
@@ -240,31 +227,6 @@ public final class InternalClientImpl
     private SitePropertiesService sitePropertiesService;
 
     private PreviewService previewService;
-
-    public KeyService getKeyService()
-    {
-        return this.keyService;
-    }
-
-    public PresentationService getPresentationService()
-    {
-        return this.presentationService;
-    }
-
-    public DataSourceService getDataSourceService()
-    {
-        return this.dataSourceService;
-    }
-
-    public UserServicesService getUserServicesService()
-    {
-        return userServicesService;
-    }
-
-    public AdminService getAdminService()
-    {
-        return this.adminService;
-    }
 
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
     {
@@ -2119,21 +2081,6 @@ public final class InternalClientImpl
         return list;
     }
 
-    public void setKeyService( KeyService value )
-    {
-        this.keyService = value;
-    }
-
-    public void setAdminService( AdminService value )
-    {
-        this.adminService = value;
-    }
-
-    public void setUserServicesService( UserServicesService value )
-    {
-        this.userServicesService = value;
-    }
-
     public void setPresentationService( PresentationService value )
     {
         this.presentationService = value;
@@ -2182,12 +2129,6 @@ public final class InternalClientImpl
     public void setInternalClientContentService( InternalClientContentService internalClientContentService )
     {
         this.internalClientContentService = internalClientContentService;
-    }
-
-    @Autowired
-    public void setMenuItemDao( MenuItemDao menuItemDao )
-    {
-        this.menuItemDao = menuItemDao;
     }
 
     public void setPreviewService( PreviewService previewService )

@@ -31,18 +31,6 @@ public class CountryXmlCreator
         return new Document( countriesEl );
     }
 
-    public Document createCountryDocument( final Country country )
-    {
-        if ( country == null )
-        {
-            throw new IllegalArgumentException( "country cannot be null" );
-        }
-
-        Element countriesEl = new Element( "countries" );
-        countriesEl.addContent( doCreateCountryElement( country ) );
-        return new Document( countriesEl );
-    }
-
     private Element doCreateCountryElement( final Country country )
     {
         Element countryEl = new Element( "country" );

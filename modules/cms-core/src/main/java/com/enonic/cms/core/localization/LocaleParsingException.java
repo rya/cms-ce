@@ -10,12 +10,6 @@ package com.enonic.cms.core.localization;
 public class LocaleParsingException
     extends RuntimeException
 {
-
-    public LocaleParsingException( String message, Throwable t )
-    {
-        super( message, t );
-    }
-
     public LocaleParsingException( String message )
     {
         super( message );

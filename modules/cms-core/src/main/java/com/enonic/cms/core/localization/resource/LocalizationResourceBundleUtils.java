@@ -19,10 +19,6 @@ import com.enonic.cms.core.localization.LocaleParsingException;
  */
 public class LocalizationResourceBundleUtils
 {
-    public static final String RESOURCE_FILE_POSTFIX = "properties";
-
-    // Pattern to parse locale string on format Languagcode[-country][anything]
-
     private static final String LOCALE_PATTERN = "^(\\w{2})(_(\\w{2}))?(_(\\w{2}))?$";
 
     public static Locale parseLocaleString( String localeAsString )
@@ -47,13 +43,6 @@ public class LocalizationResourceBundleUtils
         }
 
         return new Locale( language, country == null ? "" : country, variant == null ? "" : variant );
-    }
-
-    public static String createLocaleString( Locale locale )
-    {
-        String localeString = locale.getLanguage();
-
-        return StringUtils.isNotEmpty( locale.getCountry() ) ? localeString + "-" + locale.getCountry() : localeString;
     }
 
     private static String getLanguageFromMatcher( Matcher matcher )

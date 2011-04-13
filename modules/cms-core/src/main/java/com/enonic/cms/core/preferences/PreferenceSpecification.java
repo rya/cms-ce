@@ -35,16 +35,6 @@ public class PreferenceSpecification
         this.preferenceScopes.addAll( value );
     }
 
-    public void addPreferenceScope( PreferenceScope scope )
-    {
-        if ( scope == null )
-        {
-            return;
-        }
-
-        this.preferenceScopes.add( scope );
-    }
-
     public void setWildCardBaseKey( String wildCardBaseKey )
     {
         if ( wildCardBaseKey != null )
