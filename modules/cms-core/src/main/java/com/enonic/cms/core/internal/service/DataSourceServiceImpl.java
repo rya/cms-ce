@@ -496,14 +496,6 @@ public final class DataSourceServiceImpl
     }
 
     /**
-     * Reserved for special use.
-     */
-    public XMLDocument getFusionBotQuery( DataSourceContext context, String fusionBotUrl, String query, int siteNum, int page )
-    {
-        return XMLDocumentFactory.create( presentationEngine.getFusionBotQuery( fusionBotUrl, query, siteNum, page ) );
-    }
-
-    /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
@@ -1147,23 +1139,6 @@ public final class DataSourceServiceImpl
                                                   contentCount ) );
     }
 
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String query, int collectionId, int page,
-                                           String sort )
-    {
-        return XMLDocumentFactory.create( presentationEngine.getSearchBloxQuery( searchBloxURL, query, collectionId, page, sort ) );
-    }
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String queryAll, String queryExactPhrase,
-                                           String queryLeastOneWord, String queryWithoutTheWords, String language, String contentType,
-                                           int startDate, String occurance, int collectionId, int page, int pageSize,
-                                           String sort )
-    {
-        return XMLDocumentFactory.create(
-                presentationEngine.getSearchBloxQuery( searchBloxURL, queryAll, queryExactPhrase, queryLeastOneWord,
-                                                       queryWithoutTheWords, language, contentType, startDate, occurance, collectionId, page, pageSize, sort ) );
-    }
-
     @SuppressWarnings({"UnusedDeclaration"})
     public XMLDocument getUserstore( final DataSourceContext context, final String userstore )
     {
@@ -1233,30 +1208,6 @@ public final class DataSourceServiceImpl
         return XMLDocumentFactory.create( userDoc );
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public XMLDocument getShoppingCartContents( DataSourceContext context, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                boolean updateStatistics, int[] filterByCategories, boolean categoryRecursive,
-                                                int[] filterByContentTypes )
-    {
-
-        ShoppingCart cart = context.getShoppingCart();
-        if ( cart != null )
-        {
-            int[] contentKeys = cart.toIdArray();
-            if ( contentKeys.length > 0 )
-            {
-                ContentFilter contentFilter = new ContentFilter( filterByCategories, categoryRecursive, filterByContentTypes );
-                return XMLDocumentFactory.create(
-                        presentationEngine.getContents( context.getUser(), contentKeys, parentLevel, childrenLevel,
-                                                        parentChildrenLevel, false, false, contentFilter ) );
-            }
-        }
-
-        return XMLDocumentFactory.create( "<contents/>" );
-    }
 
     /**
      * @inheritDoc

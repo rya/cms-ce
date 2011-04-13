@@ -312,12 +312,6 @@ public interface DataSourceService
      */
     public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language, String country );
 
-    /*
-     * Reserved for special use.
-     */
-
-    public XMLDocument getFusionBotQuery( DataSourceContext context, String fusionBotUrl, String query, int siteNum, int page );
-
     /**
      * Returns a menu tree. If levels is 0, entire menu are return. If levels is non-negative number, that number of tree levels are
      * returned or the entire tree if levels is greater than or equal to the number of levels in the menu tree. Only menu items marked as
@@ -775,13 +769,6 @@ public interface DataSourceService
     public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details, boolean catCount,
                                       boolean contentCount );
 
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String query, int collectionId, int page,
-                                           String sort );
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String queryAll, String queryExactPhrase,
-                                           String queryLeastOneWord, String queryWithoutTheWords, String language, String contentType,
-                                           int startDate, String occurance, int collectionId, int page, int pageSize, String sort );
-
 
     /**
      * Get page content with the possibility to include relative contents.
@@ -840,7 +827,4 @@ public interface DataSourceService
 
     public XMLDocument getTimeZones( DataSourceContext context );
 
-    public XMLDocument getShoppingCartContents( DataSourceContext context, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                boolean updateStatistics, int[] filterByCategories, boolean categoryRecursive,
-                                                int[] filterByContentTypes );
 }
