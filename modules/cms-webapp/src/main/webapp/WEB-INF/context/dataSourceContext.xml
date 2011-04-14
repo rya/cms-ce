@@ -42,18 +42,6 @@
     <property name="sessionFactory" ref="sessionFactory"/>
   </bean>
 
-  <bean id="decoratorManager" class="com.enonic.cms.store.support.DecoratorManager">
-    <property name="logging" value="${cms.jdbc.logging}"/>
-    <property name="sessionFactory" ref="sessionFactory"/>
-    <property name="cacheManager" ref="cacheFacadeManager"/>
-    <property name="dialect" ref="dialectFactory"/>
-  </bean>
-
-  <bean id="connectionFactory" class="com.enonic.cms.store.support.ConnectionFactory">
-    <property name="dataSource" ref="dataSource"/>
-    <property name="decorator" ref="decoratorManager"/>
-  </bean>
-
   <!-- Transaction manager. -->
   <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
     <property name="dataSource" ref="dataSource"/>

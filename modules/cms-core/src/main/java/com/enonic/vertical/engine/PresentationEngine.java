@@ -24,7 +24,6 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.handlers.BinaryDataHandler;
-import com.enonic.vertical.engine.handlers.CommonHandler;
 import com.enonic.vertical.engine.handlers.MenuHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 

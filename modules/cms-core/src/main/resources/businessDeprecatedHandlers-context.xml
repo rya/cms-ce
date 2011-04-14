@@ -17,18 +17,11 @@
     <property name="binaryAccessResolver" ref="binaryAccessResolver"/>
   </bean>
 
-  <bean id="commonHandler" class="com.enonic.vertical.engine.handlers.CommonHandler" parent="baseHandler">
-  </bean>
-
   <bean id="menuHandler" class="com.enonic.vertical.engine.handlers.MenuHandler" parent="baseHandler">
   </bean>
 
   <bean id="userHandler" class="com.enonic.vertical.engine.handlers.UserHandler" parent="baseHandler">
   </bean>
-
-  <bean id="systemHandler" class="com.enonic.vertical.engine.handlers.SystemHandler" parent="baseHandler">
-  </bean>
-
 
   <!--
 
@@ -38,12 +31,6 @@
   <bean id="key-baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler" init-method="init">
     <property name="verticalProperties" ref="verticalProperties"/>
     <property name="baseEngine" ref="keyEngine"/>
-  </bean>
-
-  <bean id="key-keyHandler" class="com.enonic.vertical.engine.handlers.KeyHandler" parent="key-baseHandler">
-  </bean>
-
-  <bean id="key-commonHandler" class="com.enonic.vertical.engine.handlers.CommonHandler" parent="key-baseHandler">
   </bean>
 
 </beans>

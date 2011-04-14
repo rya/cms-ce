@@ -10,7 +10,6 @@
 
   <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
     <property name="timeService" ref="timeService"/>
-    <property name="keyService" ref="keyService"/>
   </bean>
 
   <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">

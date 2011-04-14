@@ -4,16 +4,10 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.BaseEngine;
-import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.log.LogService;
@@ -36,8 +30,6 @@ import com.enonic.cms.store.dao.UserStoreDao;
 
 public abstract class BaseHandler
 {
-    protected final VerticalDatabase db = VerticalDatabase.getInstance();
-
     protected BaseEngine baseEngine;
 
     protected VerticalProperties verticalProperties;
@@ -124,33 +116,5 @@ public abstract class BaseHandler
     public void setSecurityService( SecurityService service )
     {
         securityService = service;
-    }
-
-    protected final CommonHandler getCommonHandler()
-    {
-        return this.commonHandler;
-    }
-
-    protected final void close( ResultSet resultSet )
-    {
-        baseEngine.close( resultSet );
-    }
-
-    protected final void close( Statement stmt )
-    {
-
-        baseEngine.close( stmt );
-    }
-
-    protected final void close( Connection con )
-    {
-
-        baseEngine.close( con );
-    }
-
-    protected final Connection getConnection()
-        throws SQLException
-    {
-        return baseEngine.getConnection();
     }
 }
