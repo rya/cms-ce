@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 
 import com.enonic.vertical.engine.XDG;
 
-import com.enonic.cms.framework.blob.BlobStoreObject;
+import com.enonic.cms.framework.blob.BlobRecord;
 
 import com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver;
 
@@ -56,8 +56,8 @@ public class BinaryDataHandler
 
         if ( binaryData.timestamp.getTime() > timestamp )
         {
-            BlobStoreObject blob = this.binaryDataDao.getBlob( contentBinaryData.getBinaryData() );
-            binaryData.data = blob.getData();
+            BlobRecord blob = this.binaryDataDao.getBlob( contentBinaryData.getBinaryData() );
+            binaryData.data = blob.getAsBytes();
         }
 
         return binaryData;

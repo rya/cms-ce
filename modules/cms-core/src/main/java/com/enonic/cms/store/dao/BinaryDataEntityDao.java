@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
-import com.enonic.cms.framework.blob.BlobStoreObject;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
@@ -98,27 +97,27 @@ public class BinaryDataEntityDao
         return this.blobStore.getRecord( new BlobKey( entity.getBlobKey() ) );
     }
 
-    public BlobStoreObject getBlob( BinaryDataEntity entity )
+    public BlobRecord getBlob( BinaryDataEntity entity )
     {
         if ( entity != null )
         {
-            return this.blobStore.get( entity.getBlobKey() );
+            return this.blobStore.getRecord( new BlobKey( entity.getBlobKey() ) );
         }
 
         return null;
     }
 
-    public void setBlob( BinaryDataKey key, BlobStoreObject blob )
+    public void setBlob( BinaryDataKey key, BlobRecord blob )
     {
         setBlob( findByKey( key ), blob );
     }
 
-    public void setBlob( BinaryDataEntity entity, BlobStoreObject blob )
+    public void setBlob( BinaryDataEntity entity, BlobRecord blob )
     {
         if ( entity != null )
         {
-            this.blobStore.put( blob );
-            entity.setBlobKey( blob.getId() );
+            this.blobStore.addRecord( blob.getStream() );
+            entity.setBlobKey( blob.getKey().toString() );
         }
     }
 
