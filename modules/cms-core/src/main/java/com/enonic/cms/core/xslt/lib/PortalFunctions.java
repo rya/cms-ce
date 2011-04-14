@@ -58,6 +58,37 @@ public final class PortalFunctions
         }
     }
 
+    public static Boolean isWindowEmpty( final Object windowKey )
+    {
+        try
+        {
+            return PortalFunctionsFactory.get().createPortalFunctions().isWindowEmpty( toString( windowKey ), new String[]{} );
+        }
+        catch ( Exception e )
+        {
+            final String failureReason = resolveFailureReason( e );
+            final String failureMessage = buildFailureMessage( "isWindowEmpty", failureReason );
+            LOG.warn( failureMessage );
+            return null;
+        }
+    }
+
+    public static Boolean isWindowEmpty( final Object windowKey, final Object[] params )
+    {
+        try
+        {
+            return PortalFunctionsFactory.get().createPortalFunctions().isWindowEmpty( toString( windowKey ), toStringArray( params ) );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            final String failureReason = resolveFailureReason( e );
+            final String failureMessage = buildFailureMessage( "isWindowEmpty", failureReason );
+            LOG.warn( failureMessage );
+            return null;
+        }
+    }
+
     public static String getPageKey()
     {
         try
