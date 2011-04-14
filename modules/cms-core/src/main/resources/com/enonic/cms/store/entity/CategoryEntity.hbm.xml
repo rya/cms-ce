@@ -6,7 +6,10 @@
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
       <column name="CAT_LKEY"/>
-      <generator class="assigned"/>
+      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+        <param name="table">TCATEGORY</param>
+        <param name="idClassName">com.enonic.cms.core.content.category.CategoryKey</param>
+      </generator>
     </id>
     <property name="created" type="timestamp">
       <column name="CAT_DTECREATED" not-null="true"/>

@@ -17,15 +17,19 @@ import com.enonic.cms.domain.InvalidKeyException;
 public class CategoryKey
     extends AbstractIntegerBasedKey
 {
-
-    public CategoryKey( String key )
+    public CategoryKey( String contentKey )
     {
-        init( key );
+        init( contentKey );
     }
 
-    public CategoryKey( int key )
+    public CategoryKey( int contentKey )
     {
-        init( key );
+        init( contentKey );
+    }
+
+    public CategoryKey( Integer contentKey )
+    {
+        init( contentKey );
     }
 
     public boolean equals( Object o )
