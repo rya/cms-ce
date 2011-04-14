@@ -117,44 +117,4 @@ public class KeyHandler
         }
         return key;
     }
-
-    public boolean keyExists( String tableName, int key )
-    {
-        Table table = db.getTable( tableName );
-        StringBuffer sql = XDG.generateSelectSQL( table, table.getPrimaryKeys(), false, table.getPrimaryKeys() );
-        return getCommonHandler().getInt( sql.toString(), key ) >= 0;
-    }
-
-    public void updateKey( String tableName, int minimumValue )
-        throws VerticalKeyException
-    {
-        Connection con = null;
-        try
-        {
-            con = getConnection();
-            CommonHandler commonHandler = getCommonHandler();
-
-            int rowCount =
-                commonHandler.updateInt( db.tKey, db.tKey.key_lLastKey, minimumValue, db.tKey.key_sTableName, tableName.toLowerCase() );
-            if ( rowCount == 0 )
-            {
-                Object[] values = {tableName.toLowerCase(), minimumValue};
-                StringBuffer sql = XDG.generateInsertSQL( db.tKey );
-                commonHandler.update( sql.toString(), values );
-                String message = "Inserted new key for table: %0";
-                LOG.info( StringUtil.expandString( message, tableName, null ) );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to update key for table \"%0\": %t";
-
-            VerticalRuntimeException.error( this.getClass(), VerticalKeyException.class,
-                                            StringUtil.expandString( message, tableName, sqle ), sqle );
-        }
-        finally
-        {
-            close( con );
-        }
-    }
 }

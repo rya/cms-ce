@@ -11,9 +11,4 @@ public interface KeyService
 
     public int generateNextKeySafe( String tableName )
         throws VerticalKeyException;
-
-    public void updateKey( String tableName, String pkColumnName, int minimumValue )
-        throws VerticalKeyException;
-
-    public boolean keyExists( String tableName, int key );
 }

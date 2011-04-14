@@ -28,15 +28,4 @@ public class KeyServiceImpl
     {
         return keyEngine.generateNextKeySafe( tableName );
     }
-
-    public void updateKey( String tableName, String pkColumnName, int minimumValue )
-        throws VerticalKeyException
-    {
-        keyEngine.updateKey( tableName, pkColumnName, minimumValue );
-    }
-
-    public boolean keyExists( String tableName, int key )
-    {
-        return keyEngine.keyExists( tableName, key );
-    }
 }

@@ -21,15 +21,4 @@ public class KeyEngine
     {
         return keyHandler.generateNextKeySafe( tableName );
     }
-
-    public void updateKey( String tableName, String pkColumnName, int minumumValue )
-        throws VerticalKeyException
-    {
-        keyHandler.updateKey( tableName, minumumValue );
-    }
-
-    public boolean keyExists( String tableName, int key )
-    {
-        return keyHandler.keyExists( tableName, key );
-    }
 }
