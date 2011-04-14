@@ -1198,7 +1198,7 @@ public class UserHandlerController
                 if ( !createdLogEntrySuccessfully )
                 {
                     String message = "Failed to create log entry. Aborted login.";
-                    VerticalUserServicesLogger.errorUserServices( this.getClass(), 0, message, null );
+                    VerticalUserServicesLogger.error( this.getClass(), 0, message, null );
                 }
             }
 
@@ -1223,6 +1223,10 @@ public class UserHandlerController
         }
         catch ( InvalidCredentialsException ice )
         {
+            if ( username == null )
+            {
+                username = formItems.getString( FORMITEM_EMAIL, null );
+            }
             reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
             String message = "User name and/or password is wrong: %0";
             VerticalUserServicesLogger.warn( this.getClass(), 0, message, username, null );
@@ -1230,6 +1234,10 @@ public class UserHandlerController
         }
         catch ( VerticalSecurityException vse )
         {
+            if ( username == null )
+            {
+                username = formItems.getString( FORMITEM_EMAIL, null );
+            }
             reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
             String message = "No rights to handle request: " + vse.getMessage();
             VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
@@ -1361,32 +1369,18 @@ public class UserHandlerController
             rootElement.setAttribute( "typekey", String.valueOf( type ) );
             rootElement.setAttribute( "inetaddress", remoteIP );
             rootElement.setAttribute( "menukey", String.valueOf( siteContext.getSiteKey() ) );
-//			Element logDataElement = XMLTool.createElement(doc, rootElement, "data");
-            if ( userStoreKey != null )
-            {
-                /*
-                    String domainName = userServices.getDomainName(domainKey);
-                    Element elem = XMLTool.createElement(doc, logDataElement, "domain", domainName);
-                    elem.setAttribute("key", String.valueOf(domainKey));
-                    */
-            }
+            XMLTool.createElement( doc, rootElement, "data" );
 
             userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
-        }
-        catch ( VerticalCreateException vce )
-        {
-            String message = "Failed to create log entry: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vce );
-            return false;
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String message = "Failed to create log entry: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vse );
-            return false;
-        }
 
-        return true;
+            return true;
+        }
+        catch ( Exception e )
+        {
+            String message = "Failed to create log entry: %t";
+            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
+            return false;
+        }
     }
 
     private void processLogout( SiteContext siteContext, HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -1443,28 +1437,14 @@ public class UserHandlerController
             rootElement.setAttribute( "inetaddress", remoteIP );
             rootElement.setAttribute( "menukey", String.valueOf( siteContext.getSiteKey() ) );
             XMLTool.createElement( doc, rootElement, "title", uid );
-//			Element logDataElement = XMLTool.createElement(doc, rootElement, "data");
-            if ( userStoreKey != null )
-            {
-                /*
-                    String domainName = userServices.getDomainName(domainKey);
-                    Element elem = XMLTool.createElement(doc, logDataElement, "domain", domainName);
-                    rootElement.setAttribute("userstorekey", String.valueOf(userStoreKey));
-                    elem.setAttribute("key", String.valueOf(domainKey));
-                    */
-            }
+            XMLTool.createElement( doc, rootElement, "data" );
 
             userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
         }
-        catch ( VerticalCreateException vce )
+        catch ( Exception e )
         {
             String message = "Failed to create log entry for failed login: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vce );
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String message = "Failed to create log entry for failed login: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 1, message, vse );
+            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
         }
     }
 

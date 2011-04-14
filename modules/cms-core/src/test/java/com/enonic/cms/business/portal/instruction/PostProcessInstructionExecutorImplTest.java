@@ -14,6 +14,8 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
@@ -60,6 +62,7 @@ import static org.junit.Assert.*;
  */
 public class PostProcessInstructionExecutorImplTest
 {
+    private static final Logger LOG = LoggerFactory.getLogger( PostProcessInstructionExecutorImplTest.class.getName() );
 
     private PostProcessInstructionExecutorImpl executor;
 
@@ -118,7 +121,7 @@ public class PostProcessInstructionExecutorImplTest
 
         result = executor.execute( instruction, context );
 
-        System.out.println( result );
+        LOG.info( result );
 
         verifyPath( result, resolvedPath, new String[]{"a", "b"}, null, true );
     }

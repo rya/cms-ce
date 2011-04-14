@@ -251,7 +251,7 @@
                     <xsl:with-param name="onclick">
                         <xsl:text>javascript:showUserAndGroupsPopup(</xsl:text>
                         <xsl:value-of select="$userstorekey"/>
-                        <xsl:text>, 'groups', false, null, null, true, true)</xsl:text>
+                        <xsl:text>, 'groups', false, false, true, true, true)</xsl:text>
                     </xsl:with-param>
                 </xsl:call-template>
             </td>

@@ -7,6 +7,7 @@ package com.enonic.cms.business.portal.rendering.portalfunctions;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,6 +19,7 @@ import org.joda.time.DateTime;
 import com.enonic.cms.framework.util.URLUtils;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -32,11 +34,18 @@ import com.enonic.cms.business.image.ImageRequest;
 import com.enonic.cms.business.image.ImageRequestParser;
 import com.enonic.cms.business.localization.LocalizationService;
 import com.enonic.cms.business.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.image.ImageService;
+import com.enonic.cms.business.portal.rendering.PageRendererContext;
+import com.enonic.cms.business.portal.rendering.WindowRenderer;
+import com.enonic.cms.business.portal.rendering.WindowRendererContext;
+import com.enonic.cms.business.portal.rendering.WindowRendererFactory;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.business.portal.rendering.tracing.TraceMarkerHelper;
 import com.enonic.cms.business.resolver.locale.LocaleResolverService;
 
 import com.enonic.cms.domain.Path;
+import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.content.ContentEntity;
@@ -53,6 +62,7 @@ import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
 import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
+import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
 import com.enonic.cms.domain.resolver.ResolverContext;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.structure.SiteEntity;
@@ -100,6 +110,10 @@ public class PortalFunctions
 
     private SitePropertiesService sitePropertiesService;
 
+    private WindowRendererFactory windowRendererFactory;
+
+    private DataSourceService dataSourceService;
+
     public String getInstanceKey()
     {
         return context.getPortalInstanceKey().toString();
@@ -121,6 +135,90 @@ public class PortalFunctions
             throw new PortalFunctionException( "Not in a context of a window" );
         }
         return context.isRenderedInline();
+    }
+
+    public Boolean isWindowEmpty( final String portletWindowKey, String[] params )
+    {
+        // save current PortalFunctionsContext
+        PortalFunctionsContext previousPortalFunctionContext = PortalFunctionsFactory.get().getContext();
+        try
+        {
+            RenderWindowInstruction renderWindowInstruction = new RenderWindowInstruction();
+            renderWindowInstruction.setParams( params );
+            renderWindowInstruction.setPortletWindowKey( portletWindowKey );
+
+            PageRendererContext pageRendererContext = PortalFunctionsFactory.get().getContext().getPageRendererContext();
+            WindowRendererContext windowRenderContext = new WindowRendererContext();
+            windowRenderContext.setContentFromRequest( pageRendererContext.getContentFromRequest() );
+            windowRenderContext.setOverridingSitePropertyCreateUrlAsPath( pageRendererContext.getOverridingSitePropertyCreateUrlAsPath() );
+            windowRenderContext.setDeviceClass( pageRendererContext.getDeviceClass() );
+            windowRenderContext.setEncodeURIs( pageRendererContext.isEncodeURIs() );
+            windowRenderContext.setForceNoCacheUsage( pageRendererContext.forceNoCacheUsage() );
+            windowRenderContext.setHttpRequest( pageRendererContext.getHttpRequest() );
+            windowRenderContext.setInvocationCache( new InvocationCache( dataSourceService ) );
+            windowRenderContext.setLanguage( pageRendererContext.getLanguage() );
+            windowRenderContext.setLocale( pageRendererContext.getLocale() );
+            windowRenderContext.setMenuItem( pageRendererContext.getMenuItem() );
+            windowRenderContext.setOriginalSitePath( pageRendererContext.getOriginalSitePath() );
+            windowRenderContext.setPageRequestType( pageRendererContext.getPageRequestType() );
+            windowRenderContext.setPageTemplate( pageRendererContext.getMenuItem().getPage().getTemplate() );
+            windowRenderContext.setPreviewContext( pageRendererContext.getPreviewContext() );
+            windowRenderContext.setProcessors( pageRendererContext.getProcessors() );
+            windowRenderContext.setProfile( pageRendererContext.getProfile() );
+            windowRenderContext.setRegionsInPage( pageRendererContext.getRegionsInPage() );
+            windowRenderContext.setRenderedInline( true );
+            windowRenderContext.setRenderer( pageRendererContext.getRenderer() );
+            windowRenderContext.setTicketId( pageRendererContext.getTicketId() );
+            windowRenderContext.setShoppingCart( pageRendererContext.getShoppingCart() );
+            windowRenderContext.setSite( pageRendererContext.getSite() );
+            windowRenderContext.setSitePath( pageRendererContext.getSitePath() );
+            windowRenderContext.setVerticalSession( pageRendererContext.getVerticalSession() );
+            windowRenderContext.setOriginalUrl( pageRendererContext.getOriginalUrl() );
+
+            String windowContent = executeRenderWindowInstruction( renderWindowInstruction, windowRenderContext );
+
+            return ( windowContent == null ) || ( windowContent.trim().isEmpty() );
+        }
+        finally
+        {
+            // restore previous PortalFunctionsContext
+            PortalFunctionsFactory.get().setContext( previousPortalFunctionContext );
+        }
+    }
+
+    private String executeRenderWindowInstruction( RenderWindowInstruction instruction, WindowRendererContext context )
+    {
+        WindowKey portletWindowKey = new WindowKey( instruction.getPortletWindowKey() );
+
+        String[] params = instruction.getParams();
+
+        HashMap<String, String> map = createParamsMap( params );
+
+        WindowRenderer windowRenderer = windowRendererFactory.createPortletRenderer( context );
+
+        RequestParameters portletParams = new RequestParameters();
+
+        for ( Map.Entry<String, String> entry : map.entrySet() )
+        {
+            portletParams.addParameterValue( entry.getKey(), entry.getValue() );
+        }
+
+        RenderedWindowResult renderedWindowResult = windowRenderer.renderWindowInline( portletWindowKey, portletParams );
+        String content = TraceMarkerHelper.unwrapResultWithPortletMarker( renderedWindowResult );
+        return content;
+    }
+
+    private HashMap<String, String> createParamsMap( String[] params )
+    {
+        HashMap<String, String> map = new HashMap<String, String>();
+        if ( ( params != null ) && ( params.length > 0 ) )
+        {
+            for ( int i = 0; i < ( params.length / 2 ); i++ )
+            {
+                map.put( params[i * 2], params[i * 2 + 1] );
+            }
+        }
+        return map;
     }
 
     public String createUrl( String local )
@@ -796,5 +894,15 @@ public class PortalFunctions
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
     {
         this.sitePropertiesService = sitePropertiesService;
+    }
+
+    public void setWindowRendererFactory( WindowRendererFactory windowRendererFactory )
+    {
+        this.windowRendererFactory = windowRendererFactory;
+    }
+
+    public void setDataSourceService( DataSourceService dataSourceService )
+    {
+        this.dataSourceService = dataSourceService;
     }
 }
