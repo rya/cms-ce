@@ -18,9 +18,6 @@ public class DateUtil
 
     private static DateFormat isoDateFormatNoTime = new SimpleDateFormat( "yyyy-MM-dd" );
 
-    private static DateFormat isoDateFormatWithTime = new SimpleDateFormat( "yyyy-MM-dd HH:mm" );
-    //private static DateFormat isoDateFormatWithTimeSeconds = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
-
     public static Date parseDateTime( String date )
         throws ParseException
     {
