@@ -16,7 +16,6 @@ import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
-import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
@@ -48,8 +47,6 @@ public class CategoryServiceImpl
     private ContentTypeDao contentTypeDao;
 
     private TimeService timeService;
-
-    private KeyService keyService;
 
     /**
      * This method is currently only used by the Client API.
@@ -88,10 +85,7 @@ public class CategoryServiceImpl
             contentType = contentTypeDao.findByKey( command.getContentType().toInt() );
         }
 
-        CategoryKey key = new CategoryKey( keyService.generateNextKeySafe( "tCategory" ) );
-
         CategoryEntity category = new CategoryEntity();
-        category.setKey( key );
         category.setContentType( contentType );
         category.setCreated( timeStamp );
         category.setDeleted( false );
@@ -103,12 +97,15 @@ public class CategoryServiceImpl
         category.setUnit( parentCategory.getUnitExcludeDeleted() );
         category.setAutoMakeAvailable( command.getAutoApprove() );
 
+        parentCategory.addChild( category );
+        categoryDao.storeNew( category );
+
         Map<GroupKey, CategoryAccessEntity> accessRights = parentCategory.getAccessRights();
         for ( GroupKey group : accessRights.keySet() )
         {
             CategoryAccessEntity parentAccessRight = accessRights.get( group );
             CategoryAccessEntity accessRight = new CategoryAccessEntity();
-            accessRight.setKey( new CategoryAccessKey( key, group ) );
+            accessRight.setKey( new CategoryAccessKey( category.getKey(), group ) );
             accessRight.setAdminAccess( parentAccessRight.isAdminAccess() );
             accessRight.setAdminBrowseAccess( parentAccessRight.isAdminBrowseAccess() );
             accessRight.setCreateAccess( parentAccessRight.isCreateAccess() );
@@ -117,20 +114,11 @@ public class CategoryServiceImpl
             category.addAccessRight( accessRight );
         }
 
-        parentCategory.addChild( category );
-
-        categoryDao.storeNew( category );
-
         return category.getKey();
     }
 
     public void setTimeService( TimeService timeService )
     {
         this.timeService = timeService;
-    }
-
-    public void setKeyService( KeyService keyService )
-    {
-        this.keyService = keyService;
     }
 }

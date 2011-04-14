@@ -4,14 +4,6 @@
  */
 package com.enonic.vertical.engine;
 
-import java.util.HashMap;
-
-import com.enonic.esl.sql.model.Table;
-import com.enonic.vertical.engine.dbmodel.ContentVersionView;
-import com.enonic.vertical.engine.dbmodel.ContentView;
-import com.enonic.vertical.engine.dbmodel.SectionContentView;
-import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
-
 /**
  * Maps all the main database tables to integer numbers and allows lookups by the number
  */
@@ -67,32 +59,6 @@ public class Types
     //public final static int MENUDETAILS			=  27;
     //public final static int MENUITEMALIAS		=  28;
     //public final static int MENUITEMSHORTCUT    =  29;
-
-    private final static HashMap<Integer, Table> tables = new HashMap<Integer, Table>();
-
-    static
-    {
-        VerticalDatabase db = VerticalDatabase.getInstance();
-        tables.put( BINARYDATA, db.tBinaryData );
-        tables.put( CONTENT, db.tContent );
-        tables.put( CONTENTHANDLER, db.tContentHandler );
-        tables.put( CONTENTTYPE, db.tContentType );
-        tables.put( CONTENTOBJECT, db.tContentObject );
-        tables.put( LOGENTRY, db.tLogEntry );
-        tables.put( MENU, db.tMenu );
-        tables.put( MENUITEM, db.tMenuItem );
-        tables.put( PAGE, db.tPage );
-        tables.put( PAGETEMPLATE, db.tPageTemplate );
-        tables.put( USER, db.tUser );
-        tables.put( SECTION, db.tMenuItem );
-        tables.put( CATEGORY, db.tCategory );
-        tables.put( CONTENTVIEW, ContentView.getInstance() );
-        tables.put( SECTIONCONTENT, SectionContentView.getInstance() );
-        tables.put( UNIT, db.tUnit );
-        tables.put( DOMAIN, db.tDomain );
-        tables.put( GROUP, db.tGroup );
-        tables.put( CONTENTVERSIONVIEW, ContentVersionView.getInstance() );
-    }
 
     // Prevent instantiation
 

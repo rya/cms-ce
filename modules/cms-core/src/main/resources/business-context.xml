@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="keyService" class="com.enonic.cms.core.service.KeyServiceImpl">
-    <property name="keyEngine" ref="keyEngine"/>
   </bean>
 
   <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
@@ -31,15 +30,6 @@
 
   <bean id="tightestCacheSettingsResolver"
         class="com.enonic.cms.core.TightestCacheSettingsResolver"/>
-
-  <!--
-      Engines
-  -->
-
-  <bean id="keyEngine" class="com.enonic.vertical.engine.KeyEngine" parent="abstractBaseEngine">
-    <property name="keyHandler" ref="key-keyHandler"/>
-  </bean>
-
 
   <!--
     Resolvers
