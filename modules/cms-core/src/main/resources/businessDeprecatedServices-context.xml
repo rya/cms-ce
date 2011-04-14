@@ -9,7 +9,6 @@
 
   <bean id="abstractBaseEngine" abstract="true" class="com.enonic.vertical.engine.BaseEngine">
     <property name="dataSourceService" ref="dataSourceService"/>
-    <property name="connectionFactory" ref="connectionFactory"/>
     <property name="datasourceExecutorFactory" ref="datasourceExecutorFactory"/>
   </bean>
 

@@ -4,10 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
@@ -117,22 +113,5 @@ public abstract class BaseHandler
     public void setSecurityService( SecurityService service )
     {
         securityService = service;
-    }
-
-    protected final void close( ResultSet resultSet )
-    {
-        baseEngine.close( resultSet );
-    }
-
-    protected final void close( Statement stmt )
-    {
-
-        baseEngine.close( stmt );
-    }
-
-    protected final void close( Connection con )
-    {
-
-        baseEngine.close( con );
     }
 }
