@@ -18,9 +18,6 @@ import com.enonic.cms.framework.jdbc.DialectConnectionDecorator;
 import com.enonic.cms.framework.jdbc.LoggingConnectionDecorator;
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
 
-import com.enonic.cms.store.hibernate.cache.invalidation.CacheInvalidator;
-import com.enonic.cms.store.hibernate.cache.invalidation.InvalidatorConnectionDecorator;
-
 /**
  * This class implements the decorator manager.
  */
@@ -41,11 +38,6 @@ public final class DecoratorManager
      * Dialect connection decorator.
      */
     private DialectConnectionDecorator dialectDecorator;
-
-    /**
-     * Invalidator connection decorator.
-     */
-    private InvalidatorConnectionDecorator invalidatorDecorator;
 
     /**
      * Logging decorator.
@@ -98,7 +90,6 @@ public final class DecoratorManager
         }
 
         conn = this.dialectDecorator.decorate( conn );
-        conn = this.invalidatorDecorator.decorate( conn );
 
         return conn;
     }
@@ -127,8 +118,6 @@ public final class DecoratorManager
     {
         SessionFactoryImplementor impl = (SessionFactoryImplementor) this.sessionFactory;
         Configuration config = HibernateConfigurator.getInstance().getConfiguration();
-        CacheInvalidator cacheInvalidator = new CacheInvalidator( config, impl, this.cacheManager );
-        this.invalidatorDecorator = new InvalidatorConnectionDecorator( cacheInvalidator );
         this.loggingDecorator = new LoggingConnectionDecorator();
         this.dialectDecorator = new DialectConnectionDecorator( this.dialect );
     }
