@@ -140,7 +140,6 @@ import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.core.service.PresentationService;

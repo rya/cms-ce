@@ -26,10 +26,6 @@
   <bean id="userHandler" class="com.enonic.vertical.engine.handlers.UserHandler" parent="baseHandler">
   </bean>
 
-  <bean id="systemHandler" class="com.enonic.vertical.engine.handlers.SystemHandler" parent="baseHandler">
-  </bean>
-
-
   <!--
 
       Key handlers
