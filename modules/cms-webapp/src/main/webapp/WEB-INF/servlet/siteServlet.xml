@@ -98,7 +98,6 @@
                 <prop key="/site/**/errorpage">renderPageController</prop>
                 <prop key="/site/**/_attachment">attachmentController</prop>
                 <prop key="/site/**/_attachment/**">attachmentController</prop>
-                <prop key="/site/**/datasource">dataSourceController</prop>
                 <prop key="/site/**/_image/**">imageController</prop>
             </props>
         </property>
@@ -192,8 +191,6 @@
         <property name="menuItemDao" ref="menuItemDao"/>
         <property name="portalRenderResponseServer" ref="portalRenderResultServer"/>
     </bean>
-
-    <bean id="dataSourceController" class="com.enonic.cms.portal.mvc.controller.DataSourceController"/>
 
     <bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
           parent="abstractSiteCommandController">
