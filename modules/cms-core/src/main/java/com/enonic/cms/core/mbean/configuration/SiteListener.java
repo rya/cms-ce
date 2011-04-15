@@ -4,12 +4,12 @@
  */
 package com.enonic.cms.core.mbean.configuration;
 
+import javax.annotation.PostConstruct;
 import javax.management.ObjectName;
 
 import com.enonic.cms.core.structure.SiteEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jmx.export.MBeanExporter;
@@ -23,7 +23,7 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.domain.SiteKey;
 
 public class SiteListener
-        implements SiteEventListener, InitializingBean
+        implements SiteEventListener
 {
     private static final Logger LOG = LoggerFactory.getLogger( SiteListener.class );
 
@@ -53,6 +53,7 @@ public class SiteListener
     @Qualifier("siteCachesService")
     private SiteCachesService siteCachesService;
 
+    @PostConstruct
     public void afterPropertiesSet()
             throws Exception
     {

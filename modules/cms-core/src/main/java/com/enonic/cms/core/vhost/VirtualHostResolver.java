@@ -8,18 +8,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * This class implements the virtual host resolver. This should be an interface if
  * multiple implementations will be added.
  */
 public final class VirtualHostResolver
-        implements InitializingBean
 {
     /**
      * Logger.
@@ -39,6 +38,7 @@ public final class VirtualHostResolver
     /**
      * Initializes the resolver.
      */
+    @PostConstruct
     public void afterPropertiesSet()
     {
         this.virtualHosts = new ArrayList<VirtualHost>();

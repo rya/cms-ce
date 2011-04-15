@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -24,7 +25,7 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.structure.SiteProperties;
 
 public class SitePropertiesServiceImpl
-    implements SitePropertiesService, InitializingBean
+    implements SitePropertiesService
 {
     private Properties defaultProperties;
 
@@ -34,6 +35,7 @@ public class SitePropertiesServiceImpl
 
     private ResourceLoader resourceLoader = new FileSystemResourceLoader();
 
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {

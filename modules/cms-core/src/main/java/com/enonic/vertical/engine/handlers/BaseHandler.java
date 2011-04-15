@@ -91,9 +91,6 @@ public abstract class BaseHandler
     @Autowired
     protected MemberOfResolver memberOfResolver;
 
-    @Autowired
-    protected CommonHandler commonHandler;
-
     public BaseHandler()
     {
 

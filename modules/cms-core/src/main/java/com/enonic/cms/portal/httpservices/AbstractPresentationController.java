@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.portal.httpservices;
 
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,7 +34,6 @@ import com.enonic.cms.domain.SitePath;
 
 @Controller
 public abstract class AbstractPresentationController
-    implements /*Controller, */DisposableBean
 {
 
     @Resource
@@ -180,6 +179,7 @@ public abstract class AbstractPresentationController
     }
 
 
+    @PreDestroy
     public void destroy()
     {
         // nothing more to destroy

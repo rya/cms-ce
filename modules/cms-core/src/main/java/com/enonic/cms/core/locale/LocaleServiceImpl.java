@@ -7,10 +7,11 @@ package com.enonic.cms.core.locale;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.springframework.beans.factory.InitializingBean;
+import javax.annotation.PostConstruct;
+
 
 public class LocaleServiceImpl
-    implements LocaleService, InitializingBean
+    implements LocaleService
 {
     private final ArrayList<Locale> locales = new ArrayList<Locale>();
 
@@ -19,6 +20,7 @@ public class LocaleServiceImpl
         return this.locales.toArray( new Locale[this.locales.size()] );
     }
 
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {

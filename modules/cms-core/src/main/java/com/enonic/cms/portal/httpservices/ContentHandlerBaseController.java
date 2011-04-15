@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -26,7 +27,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Controller;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -72,7 +72,6 @@ import com.enonic.cms.core.security.user.UserEntity;
 @Controller
 public abstract class ContentHandlerBaseController
     extends AbstractUserServicesHandlerController
-    implements InitializingBean
 {
     private static final Logger LOG = LoggerFactory.getLogger( ContentHandlerBaseController.class.getName() );
 
@@ -83,6 +82,7 @@ public abstract class ContentHandlerBaseController
     protected int WORD_BREAK_LIMIT;
 
 
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {

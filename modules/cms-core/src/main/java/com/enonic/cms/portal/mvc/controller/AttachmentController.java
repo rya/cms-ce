@@ -6,6 +6,7 @@ package com.enonic.cms.portal.mvc.controller;
 
 import java.io.IOException;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,7 +15,6 @@ import com.enonic.cms.core.content.binary.*;
 import com.enonic.cms.portal.PathRequiresAuthenticationException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -57,7 +57,6 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class AttachmentController
     extends AbstractController
-    implements InitializingBean
 {
 
     private BinaryService binaryService;
@@ -86,6 +85,7 @@ public class AttachmentController
 
     private PreviewService previewService;
 
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {

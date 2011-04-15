@@ -6,6 +6,8 @@ package com.enonic.cms.portal.rendering.viewtransformer;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import com.enonic.cms.core.structure.TemplateParameterType;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -13,7 +15,6 @@ import org.jdom.Namespace;
 import org.jdom.transform.JDOMSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.util.JDOMUtil;
@@ -31,7 +32,6 @@ import com.enonic.cms.core.resource.ResourceFile;
  */
 public class PageTemplateXsltViewTransformer
         extends AbstractXsltViewTransformer
-        implements InitializingBean
 {
     private static final Logger LOG = LoggerFactory.getLogger( PageTemplateXsltViewTransformer.class );
 
@@ -96,6 +96,7 @@ public class PageTemplateXsltViewTransformer
         return (Element[]) list.toArray( new Element[list.size()] );
     }
 
+    @PostConstruct
     public void afterPropertiesSet()
             throws Exception
     {

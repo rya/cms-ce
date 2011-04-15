@@ -9,19 +9,21 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.joda.time.DateTimeZone;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Sep 8, 2009
  */
 public class TimeZoneServiceImpl
-    implements TimeZoneService, InitializingBean
+    implements TimeZoneService
 {
 
     private List<DateTimeZone> timeZones = new ArrayList<DateTimeZone>();
 
     @SuppressWarnings({"unchecked"})
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {

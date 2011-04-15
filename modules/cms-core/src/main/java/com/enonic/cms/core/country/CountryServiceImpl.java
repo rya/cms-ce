@@ -8,10 +8,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 
 import com.enonic.cms.framework.util.JDOMUtil;
@@ -21,7 +22,7 @@ import com.enonic.cms.framework.util.JDOMUtil;
  * it.
  */
 public final class CountryServiceImpl
-        implements CountryService, InitializingBean
+        implements CountryService
 {
     private final static Logger LOG = LoggerFactory.getLogger( CountryServiceImpl.class );
 
@@ -44,6 +45,7 @@ public final class CountryServiceImpl
         return this.countriesMapByCode.get( countryCode );
     }
 
+    @PostConstruct
     public void afterPropertiesSet()
             throws Exception
     {

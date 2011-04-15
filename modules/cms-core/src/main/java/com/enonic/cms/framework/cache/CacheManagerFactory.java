@@ -6,9 +6,10 @@ package com.enonic.cms.framework.cache;
 
 import java.util.Properties;
 
-import org.springframework.beans.factory.DisposableBean;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.enonic.cms.framework.cache.base.AbstractCacheManager;
 import com.enonic.cms.framework.cache.standard.StandardCacheManager;
@@ -17,7 +18,7 @@ import com.enonic.cms.framework.cache.standard.StandardCacheManager;
  * This class switches between cache managers.
  */
 public final class CacheManagerFactory
-    implements FactoryBean, InitializingBean, DisposableBean
+    implements FactoryBean
 {
     /**
      * Config location.
@@ -32,6 +33,7 @@ public final class CacheManagerFactory
     /**
      * After properties set.
      */
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {
@@ -44,6 +46,7 @@ public final class CacheManagerFactory
     /**
      * Destroy the bean.
      */
+    @PreDestroy
     public void destroy()
         throws Exception
     {

@@ -4,13 +4,13 @@
  */
 package com.enonic.cms.store.support;
 
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.InitializingBean;
 
 public final class DataSourceFactory
-    implements FactoryBean, InitializingBean
+    implements FactoryBean
 {
     private boolean traceEnabled;
 
@@ -28,6 +28,7 @@ public final class DataSourceFactory
         this.originalDataSource = value;
     }
 
+    @PostConstruct
     public void afterPropertiesSet()
     {
         if ( !this.traceEnabled )

@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal.datasource.context;
 
+import javax.annotation.PostConstruct;
+
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteProperties;
 import com.enonic.cms.portal.VerticalSession;
@@ -11,7 +13,6 @@ import com.enonic.cms.portal.datasource.Datasources;
 import com.enonic.cms.portal.datasource.DatasourcesType;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.util.JDOMUtil;
@@ -29,7 +30,6 @@ import com.enonic.cms.portal.PageRequestType;
  * May 15, 2009
  */
 public class DatasourcesContextXmlCreator
-    implements InitializingBean
 {
     @Autowired
     private ResourceService resourceService;
@@ -208,6 +208,7 @@ public class DatasourcesContextXmlCreator
     }
 
 
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {

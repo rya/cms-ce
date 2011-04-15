@@ -6,9 +6,10 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -20,7 +21,7 @@ import com.enonic.cms.domain.EntityPageList;
 
 public class VirtualFileDaoImpl
     extends AbstractBaseEntityDao<VirtualFileEntity>
-    implements VirtualFileDao, InitializingBean, DisposableBean
+    implements VirtualFileDao
 {
     @Autowired
     @Qualifier("sessionFactory")
@@ -47,11 +48,13 @@ public class VirtualFileDaoImpl
     @Qualifier("blobStore")
     private BlobStore blobStore;
 
+    @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {
     }
 
+    @PreDestroy
     public void destroy()
     {
     }

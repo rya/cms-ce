@@ -9,10 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.CacheManager;
@@ -26,7 +27,7 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
  * This class implements the abstract cache manager.
  */
 public abstract class AbstractCacheManager
-    implements CacheManager, InitializingBean, DisposableBean
+    implements CacheManager
 {
     /**
      * Map of caches.
@@ -141,6 +142,7 @@ public abstract class AbstractCacheManager
     /**
      * Configure the manager.
      */
+    @PostConstruct
     public final void afterPropertiesSet()
         throws Exception
     {
@@ -150,6 +152,7 @@ public abstract class AbstractCacheManager
     /**
      * Destroy the manager.
      */
+    @PreDestroy
     public final void destroy()
         throws Exception
     {

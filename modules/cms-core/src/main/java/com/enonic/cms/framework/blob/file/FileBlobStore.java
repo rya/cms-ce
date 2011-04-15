@@ -11,9 +11,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
@@ -23,7 +24,6 @@ import com.enonic.cms.framework.blob.base.AbstractBlobStore;
 
 public final class FileBlobStore
         extends AbstractBlobStore
-        implements InitializingBean
 {
     private final static Logger LOG = LoggerFactory.getLogger( FileBlobStore.class );
 
@@ -36,6 +36,7 @@ public final class FileBlobStore
         this.dir = dir;
     }
 
+    @PostConstruct
     public void afterPropertiesSet()
     {
         mkdirs( this.dir, true );
