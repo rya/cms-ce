@@ -13,9 +13,9 @@
     <!--<property name="securityService" ref="securityService"/>-->
   </bean>
 
-  <bean id="binaryDataHandler" class="com.enonic.vertical.engine.handlers.BinaryDataHandler" parent="baseHandler">
+  <!--<bean id="binaryDataHandler" class="com.enonic.vertical.engine.handlers.BinaryDataHandler" parent="baseHandler">-->
     <!--<property name="binaryAccessResolver" ref="binaryAccessResolver"/>-->
-  </bean>
+  <!--</bean>-->
 
   <bean id="menuHandler" class="com.enonic.vertical.engine.handlers.MenuHandler" parent="baseHandler">
   </bean>

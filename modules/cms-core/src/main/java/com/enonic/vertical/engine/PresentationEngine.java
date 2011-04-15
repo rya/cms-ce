@@ -16,6 +16,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -24,13 +25,27 @@ import org.w3c.dom.Element;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.engine.handlers.BinaryDataHandler;
 import com.enonic.vertical.engine.handlers.MenuHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
+import com.enonic.cms.framework.blob.BlobStoreObject;
+
+import com.enonic.cms.core.content.ContentAccessType;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.store.dao.BinaryDataDao;
+import com.enonic.cms.store.dao.ContentBinaryDataDao;
+import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.SiteKey;
@@ -42,8 +57,18 @@ public class PresentationEngine
 
     private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
 
+
     @Inject
-    private BinaryDataHandler binaryDataHandler;
+    protected ContentBinaryDataDao contentBinaryDataDao;
+
+    @Inject
+    protected SecurityService securityService;
+
+    @Inject
+    protected ContentDao contentDao;
+
+    @Inject
+    protected BinaryDataDao binaryDataDao;
 
     @Inject
     private MenuHandler menuHandler;
@@ -54,6 +79,9 @@ public class PresentationEngine
     @Inject
     private SiteDao siteDao;
 
+    @Inject
+    private BinaryAccessResolver binaryAccessResolver;
+
     public BinaryData getBinaryData( User user, int binaryDataKey, long timestamp )
     {
 
@@ -62,7 +90,39 @@ public class PresentationEngine
             user = userHandler.getAnonymousUser();
         }
 
-        return binaryDataHandler.getBinaryData( user, binaryDataKey, timestamp );
+        UserEntity newUser = securityService.getUser( user );
+        BinaryDataEntity binaryData = binaryDataDao.findByKey( new BinaryDataKey( binaryDataKey ) );
+        if ( !binaryAccessResolver.hasReadAndIsAccessibleOnline( binaryData, newUser, new DateTime() ) )
+        {
+            return null;
+        }
+
+        ContentBinaryDataEntity contentBinaryData = contentBinaryDataDao.findByBinaryKey( binaryData.getKey() );
+        ContentVersionEntity contentVersion = contentBinaryData.getContentVersion();
+        ContentEntity content = contentVersion.getContent();
+
+        // fast check if anonymous have read
+        UserEntity anonymousUser = securityService.getUser( securityService.getAnonymousUserKey() );
+        boolean anonAccess = content.hasAccessRightSet( anonymousUser.getUserGroup(), ContentAccessType.READ );
+        return getBinaryData( contentBinaryData, anonAccess, timestamp );
+    }
+
+    private BinaryData getBinaryData( ContentBinaryDataEntity contentBinaryData, boolean anonAccess, long timestamp )
+    {
+        BinaryData binaryData = new BinaryData();
+        binaryData.key = contentBinaryData.getBinaryData().getKey();
+        binaryData.contentKey = contentBinaryData.getContentVersion().getContent().getKey().toInt();
+        binaryData.setSafeFileName( contentBinaryData.getBinaryData().getName() );
+        binaryData.timestamp = contentBinaryData.getBinaryData().getCreatedAt();
+        binaryData.anonymousAccess = anonAccess;
+
+        if ( binaryData.timestamp.getTime() > timestamp )
+        {
+            BlobStoreObject blob = this.binaryDataDao.getBlob( contentBinaryData.getBinaryData() );
+            binaryData.data = blob.getData();
+        }
+
+        return binaryData;
     }
 
     private Document getURL( String address, String encoding, int timeoutMs )
@@ -179,12 +239,16 @@ public class PresentationEngine
 
     public int getBinaryDataKey( int contentKey, String label )
     {
-        return binaryDataHandler.getBinaryDataKey( contentKey, label );
-    }
-
-    public void setBinaryDataHandler( BinaryDataHandler binaryDataHandler )
-    {
-        this.binaryDataHandler = binaryDataHandler;
+        ContentEntity content = contentDao.findByKey( new ContentKey( contentKey ) );
+        if ( content != null )
+        {
+            BinaryDataEntity binaryData = content.getMainVersion().getSingleBinaryData( label );
+            if ( binaryData != null )
+            {
+                return binaryData.getKey();
+            }
+        }
+        return -1;
     }
 
     public void setMenuHandler( MenuHandler menuHandler )
