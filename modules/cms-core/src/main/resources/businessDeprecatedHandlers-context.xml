@@ -3,31 +3,4 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <!--
-      Presentation handlers
-  -->
-
-  <bean id="baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler" init-method="init">
-    <!--<property name="verticalProperties" ref="verticalProperties"/>-->
-    <property name="baseEngine" ref="presentationEngine"/>
-    <!--<property name="securityService" ref="securityService"/>-->
-  </bean>
-
-  <!--<bean id="binaryDataHandler" class="com.enonic.vertical.engine.handlers.BinaryDataHandler" parent="baseHandler">-->
-    <!--<property name="binaryAccessResolver" ref="binaryAccessResolver"/>-->
-  <!--</bean>-->
-
-  <bean id="userHandler" class="com.enonic.vertical.engine.handlers.UserHandler" parent="baseHandler">
-  </bean>
-
-  <!--
-
-      Key handlers
-
-  -->
-  <bean id="key-baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler" init-method="init">
-    <!--<property name="verticalProperties" ref="verticalProperties"/>-->
-    <property name="baseEngine" ref="keyEngine"/>
-  </bean>
-
 </beans>

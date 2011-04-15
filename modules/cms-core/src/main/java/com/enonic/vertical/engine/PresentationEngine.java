@@ -4,28 +4,10 @@
  */
 package com.enonic.vertical.engine;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.net.URLConnection;
-
 import javax.inject.Inject;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang.StringUtils;
+import com.enonic.cms.store.dao.*;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.engine.handlers.UserHandler;
 
 import com.enonic.cms.framework.blob.BlobStoreObject;
 
@@ -42,20 +24,11 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.store.dao.BinaryDataDao;
-import com.enonic.cms.store.dao.ContentBinaryDataDao;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.SiteKey;
 
 public class PresentationEngine
-    extends BaseEngine
 {
-    private static final Logger LOG = LoggerFactory.getLogger( PresentationEngine.class.getName() );
-
-    private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
-
     @Inject
     protected ContentBinaryDataDao contentBinaryDataDao;
 
@@ -69,10 +42,10 @@ public class PresentationEngine
     protected BinaryDataDao binaryDataDao;
 
     @Inject
-    private UserHandler userHandler;
+    private SiteDao siteDao;
 
     @Inject
-    private SiteDao siteDao;
+    private UserDao userDao;
 
     @Inject
     private BinaryAccessResolver binaryAccessResolver;
@@ -82,7 +55,7 @@ public class PresentationEngine
 
         if ( user == null )
         {
-            user = userHandler.getAnonymousUser();
+            user =  this.userDao.findBuiltInAnonymousUser();
         }
 
         UserEntity newUser = securityService.getUser( user );
@@ -118,103 +91,6 @@ public class PresentationEngine
         }
 
         return binaryData;
-    }
-
-    private Document getURL( String address, String encoding, int timeoutMs )
-    {
-        InputStream in = null;
-        BufferedReader reader = null;
-        Document result;
-        try
-        {
-            URL url = new URL( address );
-            URLConnection urlConn = url.openConnection();
-            urlConn.setConnectTimeout( timeoutMs > 0 ? timeoutMs : DEFAULT_CONNECTION_TIMEOUT );
-            urlConn.setRequestProperty( "User-Agent", VerticalProperties.getVerticalProperties().getDataSourceUserAgent() );
-            String userInfo = url.getUserInfo();
-            if ( StringUtils.isNotBlank( userInfo ) )
-            {
-                String userInfoBase64Encoded = new String( Base64.encodeBase64( userInfo.getBytes() ) );
-                urlConn.setRequestProperty( "Authorization", "Basic " + userInfoBase64Encoded );
-            }
-            in = urlConn.getInputStream();
-
-            // encoding == null: XML file
-            if ( encoding == null )
-            {
-                result = XMLTool.domparse( in );
-            }
-            else
-            {
-                StringBuffer sb = new StringBuffer( 1024 );
-                reader = new BufferedReader( new InputStreamReader( in, encoding ) );
-                char[] line = new char[1024];
-                int charCount = reader.read( line );
-                while ( charCount > 0 )
-                {
-                    sb.append( line, 0, charCount );
-                    charCount = reader.read( line );
-                }
-
-                result = XMLTool.createDocument( "urlresult" );
-                Element root = result.getDocumentElement();
-                XMLTool.createCDATASection( result, root, sb.toString() );
-            }
-        }
-        catch ( SocketTimeoutException ste )
-        {
-            String message = "Socket timeout when trying to get url: " + address;
-            LOG.warn( message);
-            result = null;
-        }
-        catch ( IOException ioe )
-        {
-            String message = "Failed to get URL: %t";
-            LOG.warn( StringUtil.expandString( message, null, ioe ), ioe );
-            result = null;
-        }
-        catch ( RuntimeException re )
-        {
-            String message = "Failed to get URL: %t";
-            LOG.warn( StringUtil.expandString( message, null, re ), re );
-            result = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( reader != null )
-                {
-                    reader.close();
-                }
-                else if ( in != null )
-                {
-                    in.close();
-                }
-            }
-            catch ( IOException ioe )
-            {
-                String message = "Failed to close URL connection: %t";
-                LOG.warn( StringUtil.expandString( message, null, ioe ), ioe );
-            }
-        }
-
-        if ( result == null )
-        {
-            result = XMLTool.createDocument( "noresult" );
-        }
-
-        return result;
-    }
-
-    public Document getURLAsXML( String address, int timeout )
-    {
-        return getURL( address, null, timeout );
-    }
-
-    public Document getURLAsText( String address, String encoding, int timeout )
-    {
-        return getURL( address, encoding, timeout );
     }
 
     public boolean hasErrorPage( int menuKey )

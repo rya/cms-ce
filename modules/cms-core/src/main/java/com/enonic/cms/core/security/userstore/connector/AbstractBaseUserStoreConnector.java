@@ -8,8 +8,6 @@ import com.enonic.cms.core.security.group.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
-import com.enonic.vertical.engine.handlers.UserHandler;
-
 import com.enonic.cms.core.security.userstore.UserStorageService;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
@@ -93,7 +91,6 @@ public abstract class AbstractBaseUserStoreConnector
     {
         Assert.isTrue( StringUtils.isNotBlank( suggestedUsername ) );
 
-        suggestedUsername = UserHandler.latinToAZ( suggestedUsername ).toLowerCase();
         suggestedUsername.replaceAll( "\\s+", "" );
 
         int i = 0;

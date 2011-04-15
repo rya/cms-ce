@@ -191,9 +191,9 @@
 
     <build>
         <plugins>
-            <plugin>
+            <!--plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-            </plugin>
+            </plugin-->
         </plugins>
     </build>
 
