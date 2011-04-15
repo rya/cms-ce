@@ -29,7 +29,6 @@ import static org.junit.Assert.*;
  * Created by rmy - Date: Apr 23, 2009
  */
 public class LocalizationResourceBundleServiceImplTest
-    extends LocalizationResourceBundleServiceImpl
 {
     private LocalizationResourceBundleServiceImpl resourceBundleService;
 

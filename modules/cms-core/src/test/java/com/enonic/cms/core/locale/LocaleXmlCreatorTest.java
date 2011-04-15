@@ -6,33 +6,25 @@ package com.enonic.cms.core.locale;
 
 import java.io.IOException;
 import java.util.Locale;
-
-import javax.inject.Inject;
-
 import org.custommonkey.xmlunit.Diff;
 import org.custommonkey.xmlunit.XMLTestCase;
 import org.jdom.Document;
 import org.jdom.output.XMLOutputter;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 public class LocaleXmlCreatorTest
     extends XMLTestCase
 {
-
-    @Inject
     private LocaleService localeService;
+    private LocaleXmlCreator localeXmlCreator = new LocaleXmlCreator();
 
-    LocaleXmlCreator localeXmlCreator = new LocaleXmlCreator();
+    public void setUp()
+    {
+        this.localeService = new LocaleServiceImpl();
+        this.localeXmlCreator = new LocaleXmlCreator();
+    }
 
-    @Test
-    public void createDocument()
+    public void testCreateDocument()
     {
         Locale[] locales = localeService.getLocales();
         assertNotNull( locales );
@@ -42,8 +34,7 @@ public class LocaleXmlCreatorTest
 
     }
 
-    @Test
-    public void createSingleLocaleDocument()
+    public void testCreateSingleLocaleDocument()
         throws SAXException, IOException
     {
 
@@ -63,8 +54,7 @@ public class LocaleXmlCreatorTest
 
     }
 
-    @Test
-    public void createSingleLocaleDocumentWithInLocaleNO()
+    public void testCreateSingleLocaleDocumentWithInLocaleNO()
         throws SAXException, IOException
     {
 
@@ -87,8 +77,7 @@ public class LocaleXmlCreatorTest
 
     }
 
-    @Test
-    public void createSingleLocaleDocumentWithInLocaleSE()
+    public void testCreateSingleLocaleDocumentWithInLocaleSE()
         throws SAXException, IOException
     {
 

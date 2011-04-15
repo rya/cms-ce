@@ -14,32 +14,23 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
+import static junit.framework.Assert.*;
 
-import com.enonic.cms.core.calendar.CalendarService;
-
-/**
- *
- */
 public class CalendarServiceTest
-    extends AbstractDependencyInjectionSpringContextTests
 {
-
     private CalendarService service;
+    private XMLOutputter output;
 
-    XMLOutputter output = new XMLOutputter( Format.getPrettyFormat() );
-
-    public void setCalendarService( CalendarService service )
+    @Before
+    public void setUp()
     {
-        this.service = service;
+        this.service = new CalendarService();
+        this.output = new XMLOutputter( Format.getPrettyFormat() );
     }
 
-    public String[] getConfigLocations()
-    {
-        return ( new String[]{"classpath:" + getClass().getName().replace( '.', '/' ) + ".xml"} );
-    }
-
+    @Test
     public void testTodayFormat()
     {
         Calendar today = new GregorianCalendar();
