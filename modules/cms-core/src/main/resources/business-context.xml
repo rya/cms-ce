@@ -3,9 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="keyService" class="com.enonic.cms.core.service.KeyServiceImpl">
-  </bean>
-
   <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
     <!--<property name="calendarService" ref="calendarService"/>-->
     <!--<property name="contentService" ref="contentService"/>-->
