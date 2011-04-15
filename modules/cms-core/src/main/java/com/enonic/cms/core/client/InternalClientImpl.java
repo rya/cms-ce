@@ -167,14 +167,19 @@ public final class InternalClientImpl
 
     private static final Logger LOG = LoggerFactory.getLogger( InternalClientImpl.class );
 
+    @Inject
     private InternalClientContentService internalClientContentService;
 
+    @Inject
     private InternalClientRenderService internalClientRenderService;
 
+    @Inject
     private PresentationService presentationService;
 
+    @Inject
     private DataSourceService dataSourceService;
 
+    @Inject
     private SecurityService securityService;
 
     private TimeService timeService;
@@ -182,19 +187,25 @@ public final class InternalClientImpl
     @Inject
     private UserStoreService userStoreService;
 
+    @Inject
     private ContentService contentService;
 
     @Inject
     private ImportJobFactory importJobFactory;
 
+    @Inject
     private ResourceService resourceService;
 
+    @Inject
     private PreferenceService preferenceService;
 
+    @Inject
     private UserParser userParser;
 
+    @Inject
     private UserStoreParser userStoreParser;
 
+    @Inject
     private UserDao userDao;
 
     @Inject
@@ -206,6 +217,7 @@ public final class InternalClientImpl
     @Inject
     private CategoryDao categoryDao;
 
+    @Inject
     private ContentDao contentDao;
 
     @Inject
@@ -224,6 +236,7 @@ public final class InternalClientImpl
      */
     private SitePropertiesService sitePropertiesService;
 
+    @Inject
     private PreviewService previewService;
 
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )

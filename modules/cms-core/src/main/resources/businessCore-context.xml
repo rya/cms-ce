@@ -13,7 +13,7 @@
   </bean>
 
   <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
-    <property name="contentStorer" ref="contentStorer"/>
+    <!--<property name="contentStorer" ref="contentStorer"/>-->
   </bean>
 
   <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl">

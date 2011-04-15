@@ -93,6 +93,7 @@ public class InternalClientContentService
     @Inject
     private CategoryService categoryService;
 
+    @Inject
     private UserParser userParser;
 
     public int createCategory( CreateCategoryParams params )

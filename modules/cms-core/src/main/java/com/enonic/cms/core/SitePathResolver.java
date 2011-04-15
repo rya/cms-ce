@@ -6,6 +6,7 @@ package com.enonic.cms.core;
 
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.util.UrlPathHelper;
@@ -16,6 +17,7 @@ import com.enonic.cms.domain.SitePath;
 
 public class SitePathResolver
 {
+    @Inject
     private UrlPathHelperManager urlPathHelperManager;
 
     private String sitePathPrefix = "";

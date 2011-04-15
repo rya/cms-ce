@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.core.security.userstore;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.security.user.UserEntity;
 
 /**
@@ -11,6 +13,7 @@ import com.enonic.cms.core.security.user.UserEntity;
  */
 public class UserStoreAccessResolver
 {
+    @Inject
     private MemberOfResolver memberOfResolver;
 
     public boolean hasDeleteUserAccess( UserEntity user, UserStoreEntity userstore )

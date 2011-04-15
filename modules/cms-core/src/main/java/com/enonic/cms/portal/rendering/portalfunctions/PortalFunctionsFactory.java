@@ -25,6 +25,7 @@ public class PortalFunctionsFactory
 
     private static PortalFunctionsFactory instance;
 
+    @Inject
     private SiteURLResolver siteURLResolver;
 
     private ContentDao contentDao;

@@ -5,21 +5,21 @@
 
   <!-- Local client is the client implementation local for this vm. -->
   <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
-    <property name="presentationService" ref="presentationService"/>
-    <property name="dataSourceService" ref="dataSourceService"/>
-    <property name="internalClientRenderService" ref="internalClientRenderService"/>
-    <property name="internalClientContentService" ref="internalClientContentService"/>
-    <property name="userDao" ref="userDao"/>
-    <property name="userParser" ref="userParser"/>
-    <property name="userStoreParser" ref="userStoreParser"/>
-    <property name="resourceService" ref="resourceService"/>
-    <property name="preferenceService" ref="preferenceService"/>
+    <!--<property name="presentationService" ref="presentationService"/>-->
+    <!--<property name="dataSourceService" ref="dataSourceService"/>-->
+    <!--<property name="internalClientRenderService" ref="internalClientRenderService"/>-->
+    <!--<property name="internalClientContentService" ref="internalClientContentService"/>-->
+    <!--<property name="userDao" ref="userDao"/>-->
+    <!--<property name="userParser" ref="userParser"/>-->
+    <!--<property name="userStoreParser" ref="userStoreParser"/>-->
+    <!--<property name="resourceService" ref="resourceService"/>-->
+    <!--<property name="preferenceService" ref="preferenceService"/>-->
     <property name="cmsProperties" ref="loadedVerticalProperties"/>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="contentService" ref="contentService"/>
-    <property name="contentDao" ref="contentDao"/>
-    <property name="previewService" ref="previewService"/>
+    <!--<property name="securityService" ref="securityService"/>-->
+    <!--<property name="contentService" ref="contentService"/>-->
+    <!--<property name="contentDao" ref="contentDao"/>-->
+    <!--<property name="previewService" ref="previewService"/>-->
     <property name="timeService" ref="timeService"/>
   </bean>
 
@@ -29,7 +29,7 @@
   <bean id="internalClientContentService"
         class="com.enonic.cms.core.client.InternalClientContentService">
     <property name="siteCachesService" ref="siteCachesService"/>
-    <property name="userParser" ref="userParser"/>
+    <!--<property name="userParser" ref="userParser"/>-->
   </bean>
 
   <bean class="com.enonic.cms.core.client.LocalClientSetter">

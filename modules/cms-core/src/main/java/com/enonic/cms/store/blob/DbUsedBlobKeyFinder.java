@@ -7,6 +7,8 @@ package com.enonic.cms.store.blob;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import com.google.common.collect.Sets;
 
 import com.enonic.cms.framework.blob.BlobKey;
@@ -21,8 +23,10 @@ import com.enonic.cms.core.content.binary.BinaryDataEntity;
 public final class DbUsedBlobKeyFinder
     implements UsedBlobKeyFinder
 {
+    @Inject
     private BinaryDataDao binaryDataDao;
 
+    @Inject
     private VirtualFileDao virtualFileDao;
 
     public Set<BlobKey> findKeys()

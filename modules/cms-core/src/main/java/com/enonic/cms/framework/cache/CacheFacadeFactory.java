@@ -4,11 +4,14 @@
  */
 package com.enonic.cms.framework.cache;
 
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.FactoryBean;
 
 public final class CacheFacadeFactory
     implements FactoryBean
 {
+    @Inject
     private CacheManager cacheManager;
 
     private String cacheName;

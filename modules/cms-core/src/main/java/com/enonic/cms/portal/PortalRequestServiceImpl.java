@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.store.dao.ContentDao;
@@ -19,26 +21,37 @@ import com.enonic.cms.portal.rendering.WindowRendererFactory;
 public final class PortalRequestServiceImpl
     implements PortalRequestService
 {
+    @Inject
     private SiteDao siteDao;
 
+    @Inject
     private PortletDao portletDao;
 
+    @Inject
     private UserDao userDao;
 
+    @Inject
     private ContentDao contentDao;
 
+    @Inject
     private LanguageDao languageDao;
 
+    @Inject
     private PageRendererFactory pageRendererFactory;
 
+    @Inject
     private WindowRendererFactory windowRendererFactory;
 
+    @Inject
     private DataSourceService dataSourceService;
 
+    @Inject
     private PortalAccessService portalAccessService;
 
+    @Inject
     private PageRequestProcessorFactory pageRequestProcessorFactory;
 
+    @Inject
     private LivePortalTraceService liveTraceService;
 
     public PortalResponse processRequest( final PortalRequest request )

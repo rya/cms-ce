@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal.cache;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.CacheManager;
 
@@ -15,6 +17,7 @@ import com.enonic.cms.domain.SiteKey;
 public class PageCacheServiceFactory
 {
 
+    @Inject
     private CacheManager cacheManager;
 
     private SitePropertiesService sitePropertiesService;

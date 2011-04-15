@@ -5,16 +5,16 @@
 
   <bean id="imageCache" class="com.enonic.cms.portal.image.cache.ImageCacheFactory">
     <property name="cacheName" value="image"/>
-    <property name="cacheManager" ref="cacheFacadeManager"/>
+    <!--<property name="cacheManager" ref="cacheFacadeManager"/>-->
   </bean>
 
   <bean id="imageService" class="com.enonic.cms.portal.image.ImageServiceImpl">
-    <property name="imageCache" ref="imageCache"/>
-    <property name="binaryService" ref="binaryService"/>
-    <property name="binaryAccessResolver" ref="binaryAccessResolver"/>
-    <property name="binaryDataDao" ref="binaryDataDao"/>
-    <property name="contentDao" ref="contentDao"/>
-    <property name="userDao" ref="userDao"/>
+    <!--<property name="imageCache" ref="imageCache"/>-->
+    <!--<property name="binaryService" ref="binaryService"/>-->
+    <!--<property name="binaryAccessResolver" ref="binaryAccessResolver"/>-->
+    <!--<property name="binaryDataDao" ref="binaryDataDao"/>-->
+    <!--<property name="contentDao" ref="contentDao"/>-->
+    <!--<property name="userDao" ref="userDao"/>-->
     <property name="blobStore" ref="blobStore"/>
   </bean>
 

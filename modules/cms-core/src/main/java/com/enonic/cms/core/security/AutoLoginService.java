@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.security;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +19,10 @@ import com.enonic.cms.core.security.user.UserKey;
 
 public class AutoLoginService
 {
+    @Inject
     private SecurityService securityService;
 
+    @Inject
     private LoginService loginService;
 
     public UserEntity autologinWithRemoteUser( HttpServletRequest request )

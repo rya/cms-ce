@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.FileSystemResourceLoader;
@@ -31,6 +32,7 @@ public class SitePropertiesServiceImpl
 
     private Map<SiteKey, Properties> sitePropertiesMap = new ConcurrentHashMap<SiteKey, Properties>();
 
+    @Inject
     private HomeService homeService;
 
     private ResourceLoader resourceLoader = new FileSystemResourceLoader();

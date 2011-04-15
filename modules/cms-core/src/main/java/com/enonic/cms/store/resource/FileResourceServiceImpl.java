@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.resource.FileResource;
 import com.enonic.cms.core.resource.FileResourceData;
 import com.enonic.cms.core.resource.FileResourceName;
@@ -33,6 +35,7 @@ public final class FileResourceServiceImpl
 {
     private BlobStore blobStore;
 
+    @Inject
     private SessionFactory sessionFactory;
 
     private final ArrayList<FileResourceListener> listeners;

@@ -7,12 +7,14 @@ package com.enonic.cms.portal.mvc.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.util.UrlPathHelper;
 
 public class StandardModelFactory
 {
+    @Inject
     private UrlPathHelper urlDecodingUrlPathHelper;
 
 

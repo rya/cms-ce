@@ -42,10 +42,13 @@ public class PresentationEngine
 
     private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
 
+    @Inject
     private BinaryDataHandler binaryDataHandler;
 
+    @Inject
     private MenuHandler menuHandler;
 
+    @Inject
     private UserHandler userHandler;
 
     @Inject

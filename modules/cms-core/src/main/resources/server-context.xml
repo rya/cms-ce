@@ -8,23 +8,23 @@
   </bean>
 
   <bean id="portalFunctionsFactory" class="com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory">
-    <property name="siteURLResolver" ref="siteURLResolver"/>
+    <!--<property name="siteURLResolver" ref="siteURLResolver"/>-->
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
 
   <bean id="sitePathResolver" class="com.enonic.cms.core.SitePathResolver">
     <property name="sitePathPrefix" value="/site"/>
-    <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
+    <!--<property name="urlPathHelperManager" ref="urlPathHelperManager"/>-->
   </bean>
 
   <bean id="sitePathResolverForDebug" class="com.enonic.cms.core.SitePathResolver">
     <property name="sitePathPrefix" value="/site"/>
-    <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
+    <!--<property name="urlPathHelperManager" ref="urlPathHelperManager"/>-->
   </bean>
 
   <bean id="sitePathResolverForPreview" class="com.enonic.cms.core.SitePathResolver">
     <property name="sitePathPrefix" value="/preview"/>
-    <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
+    <!--<property name="urlPathHelperManager" ref="urlPathHelperManager"/>-->
   </bean>
 
   <bean id="siteURLResolver" class="com.enonic.cms.core.SiteURLResolver">
@@ -34,19 +34,19 @@
 
   <bean id="siteRedirectAndForwardHelper"
         class="com.enonic.cms.core.SiteRedirectAndForwardHelper">
-    <property name="siteURLResolver" ref="siteURLResolver"/>
+    <!--<property name="siteURLResolver" ref="siteURLResolver"/>-->
     <property name="replaceSpacesWithPlus" value="true"/>
   </bean>
 
   <bean id="siteService" class="com.enonic.cms.core.structure.SiteServiceImpl">
-    <property name="presentationService" ref="presentationService"/>
+    <!--<property name="presentationService" ref="presentationService"/>-->
     <property name="siteCachesService" ref="siteCachesService"/>
     <property name="siteContextManager">
       <bean class="com.enonic.cms.core.SiteContextManager"/>
     </property>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="siteDao" ref="siteDao"/>
-    <property name="userDao" ref="userDao"/>
+    <!--<property name="siteDao" ref="siteDao"/>-->
+    <!--<property name="userDao" ref="userDao"/>-->
   </bean>
 
   <bean id="urlDecodingUrlPathHelper" class="org.springframework.web.util.UrlPathHelper">
@@ -54,21 +54,20 @@
   </bean>
 
   <bean id="standardModelFactory" class="com.enonic.cms.portal.mvc.model.StandardModelFactory">
-    <property name="urlDecodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
   </bean>
 
   <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
-    <property name="securityService" ref="securityService"/>
-    <property name="loginService" ref="loginService"/>
+    <!--<property name="securityService" ref="securityService"/>-->
+    <!--<property name="loginService" ref="loginService"/>-->
   </bean>
 
   <!--<bean id="adminAjaxService" class="com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl"/>-->
 
   <!-- This configuration is used by the dav servlet. -->
   <bean id="davConfiguration" class="com.enonic.cms.core.webdav.DavConfiguration">
-    <property name="fileResourceService" ref="fileResourceService"/>
-    <property name="securityService" ref="securityService"/>
-    <property name="resourceAccessResolver" ref="resourceAccessResolver"/>
+    <!--<property name="fileResourceService" ref="fileResourceService"/>-->
+    <!--<property name="securityService" ref="securityService"/>-->
+    <!--<property name="resourceAccessResolver" ref="resourceAccessResolver"/>-->
   </bean>
 
   <bean id="originalUrlResolver" class="com.enonic.cms.core.servlet.OriginalUrlResolver"/>

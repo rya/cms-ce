@@ -109,19 +109,25 @@ public final class DataSourceServiceImpl
 {
     private static final Logger LOG = LoggerFactory.getLogger( DataSourceServiceImpl.class );
 
+    @Inject
     private CalendarService calendarService;
 
+    @Inject
     private ContentService contentService;
 
+    @Inject
     private PreferenceService preferenceService;
 
+    @Inject
     private PresentationEngine presentationEngine;
 
+    @Inject
     private SecurityService securityService;
 
     @Inject
     private ContentVersionDao contentVersionDao;
 
+    @Inject
     private ContentDao contentDao;
 
     @Inject
@@ -130,6 +136,7 @@ public final class DataSourceServiceImpl
     @Inject
     private MenuItemDao menuItemDao;
 
+    @Inject
     private UserDao userDao;
 
     @Inject
@@ -137,16 +144,21 @@ public final class DataSourceServiceImpl
 
     private SitePropertiesService sitePropertiesService;
 
+    @Inject
     private CountryService countryService;
 
+    @Inject
     private LocaleService localeService;
 
+    @Inject
     private TimeZoneService timeZoneService;
 
     private TimeService timeService;
 
+    @Inject
     private UserStoreService userStoreService;
 
+    @Inject
     private UserStoreParser userStoreParser;
 
     public XMLDocument getContentByQuery( DataSourceContext context, String query, String orderBy, int index, int count,

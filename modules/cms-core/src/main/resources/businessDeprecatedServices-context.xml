@@ -4,18 +4,18 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="presentationService" class="com.enonic.cms.core.service.PresentationServiceImpl">
-    <property name="presentationEngine" ref="presentationEngine"/>
+    <!--<property name="presentationEngine" ref="presentationEngine"/>-->
   </bean>
 
   <bean id="abstractBaseEngine" abstract="true" class="com.enonic.vertical.engine.BaseEngine">
-    <property name="dataSourceService" ref="dataSourceService"/>
-    <property name="datasourceExecutorFactory" ref="datasourceExecutorFactory"/>
+    <!--<property name="dataSourceService" ref="dataSourceService"/>-->
+    <!--<property name="datasourceExecutorFactory" ref="datasourceExecutorFactory"/>-->
   </bean>
 
   <bean id="presentationEngine" class="com.enonic.vertical.engine.PresentationEngine" parent="abstractBaseEngine">
-    <property name="binaryDataHandler" ref="binaryDataHandler"/>
-    <property name="menuHandler" ref="menuHandler"/>
-    <property name="userHandler" ref="userHandler"/>
+    <!--<property name="binaryDataHandler" ref="binaryDataHandler"/>-->
+    <!--<property name="menuHandler" ref="menuHandler"/>-->
+    <!--<property name="userHandler" ref="userHandler"/>-->
   </bean>
 
 </beans>

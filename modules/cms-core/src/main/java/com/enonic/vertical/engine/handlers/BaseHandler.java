@@ -32,6 +32,7 @@ public abstract class BaseHandler
 {
     protected BaseEngine baseEngine;
 
+    @Inject
     protected VerticalProperties verticalProperties;
 
     // Services:
@@ -42,6 +43,7 @@ public abstract class BaseHandler
     @Inject
     protected ContentService contentService;
 
+    @Inject
     protected SecurityService securityService;
 
     // Daos:

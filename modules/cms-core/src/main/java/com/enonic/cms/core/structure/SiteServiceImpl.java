@@ -7,6 +7,8 @@ package com.enonic.cms.core.structure;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.portal.SiteNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,7 @@ public class SiteServiceImpl
 
     private static final Logger LOG = LoggerFactory.getLogger( SiteServiceImpl.class );
 
+    @Inject
     private PresentationService presentationService;
 
     private SiteCachesService siteCachesService;
@@ -39,8 +42,10 @@ public class SiteServiceImpl
 
     private List<SiteEventListener> siteEventListeners = new ArrayList<SiteEventListener>();
 
+    @Inject
     private SiteDao siteDao;
 
+    @Inject
     private UserDao userDao;
 
     private final Object lock = new Object();

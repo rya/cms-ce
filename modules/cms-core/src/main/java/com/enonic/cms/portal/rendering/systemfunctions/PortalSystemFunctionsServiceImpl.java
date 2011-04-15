@@ -6,6 +6,8 @@ package com.enonic.cms.portal.rendering.systemfunctions;
 
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.framework.io.ParameterSerializer;
 import com.enonic.cms.framework.io.SimpleParameterSerializer;
 
@@ -24,6 +26,7 @@ public class PortalSystemFunctionsServiceImpl
 {
     private final static ParameterSerializer SERIALIZER = new SimpleParameterSerializer();
 
+    @Inject
     private WindowRendererFactory windowRendererFactory;
 
     private final ThreadLocal<PortalSystemFunctionsContext> portalSystemFunctionsContext = new ThreadLocal<PortalSystemFunctionsContext>();

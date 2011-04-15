@@ -4,13 +4,17 @@
  */
 package com.enonic.vertical.engine;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
 
 public abstract class BaseEngine
 {
+    @Inject
     protected DatasourceExecutorFactory datasourceExecutorFactory;
 
+    @Inject
     protected DataSourceService dataSourceService;
 
     public void setDataSourceService( DataSourceService dataSourceService )

@@ -8,13 +8,13 @@
   -->
 
   <bean id="baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler" init-method="init">
-    <property name="verticalProperties" ref="verticalProperties"/>
+    <!--<property name="verticalProperties" ref="verticalProperties"/>-->
     <property name="baseEngine" ref="presentationEngine"/>
-    <property name="securityService" ref="securityService"/>
+    <!--<property name="securityService" ref="securityService"/>-->
   </bean>
 
   <bean id="binaryDataHandler" class="com.enonic.vertical.engine.handlers.BinaryDataHandler" parent="baseHandler">
-    <property name="binaryAccessResolver" ref="binaryAccessResolver"/>
+    <!--<property name="binaryAccessResolver" ref="binaryAccessResolver"/>-->
   </bean>
 
   <bean id="menuHandler" class="com.enonic.vertical.engine.handlers.MenuHandler" parent="baseHandler">
@@ -29,7 +29,7 @@
 
   -->
   <bean id="key-baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler" init-method="init">
-    <property name="verticalProperties" ref="verticalProperties"/>
+    <!--<property name="verticalProperties" ref="verticalProperties"/>-->
     <property name="baseEngine" ref="keyEngine"/>
   </bean>
 

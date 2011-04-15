@@ -6,6 +6,8 @@ package com.enonic.cms.portal.image;
 
 import java.awt.image.BufferedImage;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
@@ -31,18 +33,24 @@ import com.enonic.cms.core.security.user.UserKey;
 public final class ImageServiceImpl
     implements ImageService
 {
+    @Inject
     private ImageCache imageCache;
 
+    @Inject
     private BinaryService binaryService;
 
     private final ImageProcessor processor;
 
+    @Inject
     private BinaryAccessResolver binaryAccessResolver;
 
+    @Inject
     private BinaryDataDao binaryDataDao;
 
+    @Inject
     private ContentDao contentDao;
 
+    @Inject
     private UserDao userDao;
 
     private BlobStore blobStore;

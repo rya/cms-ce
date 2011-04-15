@@ -4,6 +4,8 @@
  */
 package com.enonic.vertical.engine.handlers;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
@@ -25,6 +27,7 @@ public class BinaryDataHandler
     extends BaseHandler
 {
 
+    @Inject
     private BinaryAccessResolver binaryAccessResolver;
 
     public void setBinaryAccessResolver( BinaryAccessResolver value )

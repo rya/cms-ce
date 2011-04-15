@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,6 +19,7 @@ public class SiteRedirectHelper
 {
     private SitePathResolver sitePathResolver;
 
+    @Inject
     private SiteURLResolver siteURLResolver;
 
     public void setSitePathResolver( SitePathResolver value )

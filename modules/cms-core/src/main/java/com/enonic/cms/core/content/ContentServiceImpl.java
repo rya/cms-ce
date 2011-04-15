@@ -96,6 +96,7 @@ public class ContentServiceImpl
     @Inject
     private ContentTypeDao contentTypeDao;
 
+    @Inject
     private ContentStorer contentStorer;
 
     @Inject

@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal.image.cache;
 
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.FactoryBean;
 
 import com.enonic.cms.framework.cache.CacheManager;
@@ -13,6 +15,7 @@ public final class ImageCacheFactory
 {
     private String cacheName;
 
+    @Inject
     private CacheManager cacheManager;
 
     public void setCacheName( String cacheName )

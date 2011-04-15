@@ -43,8 +43,10 @@ public class DeviceClassResolverServiceImpl
 
     private ScriptResolverService deviceClassScriptResolver;
 
+    @Inject
     private ForceResolverValueService forceResolverValueService;
 
+    @Inject
     private CacheResolverValueService cacheResolverValueService;
 
     public String getDeviceClass( ResolverContext context )

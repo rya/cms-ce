@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.core.service;
 
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ public class PresentationServiceImpl
     implements PresentationService
 {
 
+    @Inject
     private PresentationEngine presentationEngine;
 
     public void setPresentationEngine( PresentationEngine value )

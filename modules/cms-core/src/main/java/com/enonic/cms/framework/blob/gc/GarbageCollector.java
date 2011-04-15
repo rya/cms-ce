@@ -6,6 +6,8 @@ package com.enonic.cms.framework.blob.gc;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,7 @@ public final class GarbageCollector
 
     private BlobStore store;
 
+    @Inject
     private UsedBlobKeyFinder finder;
 
     private boolean running;

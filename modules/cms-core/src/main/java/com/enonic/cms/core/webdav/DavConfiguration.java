@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.core.webdav;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.resource.access.ResourceAccessResolver;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.store.resource.FileResourceService;
@@ -13,13 +15,16 @@ import com.enonic.cms.store.resource.FileResourceService;
  */
 public class DavConfiguration
 {
+    @Inject
     private FileResourceService fileResourceService;
 
     /**
      * Security service.
      */
+    @Inject
     private SecurityService securityService;
 
+    @Inject
     private ResourceAccessResolver resourceAccessResolver;
 
     public FileResourceService getFileResourceService()

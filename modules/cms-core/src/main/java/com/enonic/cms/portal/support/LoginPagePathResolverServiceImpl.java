@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal.support;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.portal.ReservedLocalPaths;
 import com.enonic.vertical.engine.Types;
 
@@ -18,6 +20,7 @@ public class LoginPagePathResolverServiceImpl
     implements LoginPagePathResolverService
 {
 
+    @Inject
     private PresentationService presentationService;
 
     public void setPresentationService( PresentationService value )

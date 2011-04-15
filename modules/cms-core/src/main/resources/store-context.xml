@@ -25,17 +25,17 @@
 
   <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
     <property name="blobStore" ref="blobStore"/>
-    <property name="sessionFactory" ref="sessionFactory"/>
+    <!--<property name="sessionFactory" ref="sessionFactory"/>-->
   </bean>
 
   <bean id="blobStoreGarbageCollector" class="com.enonic.cms.framework.blob.gc.GarbageCollector">
-    <property name="finder" ref="usedBlobStoreFinder"/>
+    <!--<property name="finder" ref="usedBlobStoreFinder"/>-->
     <property name="store" ref="blobStore"/>
   </bean>
 
   <bean id="usedBlobStoreFinder" class="com.enonic.cms.store.blob.DbUsedBlobKeyFinder">
-    <property name="binaryDataDao" ref="binaryDataDao"/>
-    <property name="virtualFileDao" ref="virtualFileDao"/>
+    <!--<property name="binaryDataDao" ref="binaryDataDao"/>-->
+    <!--<property name="virtualFileDao" ref="virtualFileDao"/>-->
   </bean>
 
 </beans>

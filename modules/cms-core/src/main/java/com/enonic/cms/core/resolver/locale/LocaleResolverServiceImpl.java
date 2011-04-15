@@ -36,6 +36,7 @@ public class LocaleResolverServiceImpl
 
     private ScriptResolverService localeScriptResolver;
 
+    @Inject
     private ForceResolverValueService forceResolverValueService;
 
     public final static String LOCALE_FORCED_BASE_NAME = "ForceLocale";

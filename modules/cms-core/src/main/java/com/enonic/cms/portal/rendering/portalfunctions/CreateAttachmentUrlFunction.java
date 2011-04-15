@@ -6,6 +6,8 @@ package com.enonic.cms.portal.rendering.portalfunctions;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.*;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
@@ -25,6 +27,7 @@ import com.enonic.cms.core.content.binary.BinaryDataKey;
  */
 public class CreateAttachmentUrlFunction
 {
+    @Inject
     private ContentDao contentDao;
 
     public CreateAttachmentUrlInstruction createAttachmentUrl( String nativeLinkKey, String[] params, MenuItemKey menuItemKey )
