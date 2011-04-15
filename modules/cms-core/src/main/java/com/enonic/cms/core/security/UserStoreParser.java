@@ -4,18 +4,17 @@
  */
 package com.enonic.cms.core.security;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.cms.store.dao.UserStoreDao;
-
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.store.dao.UserStoreDao;
 
 public class UserStoreParser
 {
 
-    @Autowired
+    @Inject
     private UserStoreDao userStoreDao;
 
     public UserStoreEntity parseUserStore( String string )

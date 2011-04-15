@@ -6,38 +6,37 @@ package com.enonic.cms.core.content.imports;
 
 import java.util.List;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStorer;
+import com.enonic.cms.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.index.ContentIndexService;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
-import com.enonic.cms.core.content.command.UnassignContentCommand;
-import com.enonic.cms.core.content.index.ContentIndexService;
-
-import com.enonic.cms.core.security.user.UserEntity;
-
 public class ImportServiceImpl
     implements ImportService
 {
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private ContentStorer contentStorer;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private ContentTypeDao contentTypeDao;
 
-    @Autowired
+    @Inject
     private ContentIndexService contentIndexService;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class, timeout = 3600)

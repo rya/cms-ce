@@ -6,26 +6,26 @@ package com.enonic.cms.core.content.binary.access;
 
 import java.util.List;
 
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.store.dao.ContentBinaryDataDao;
-import com.enonic.cms.store.dao.GroupDao;
+import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.ContentBinaryDataDao;
+import com.enonic.cms.store.dao.GroupDao;
 
 
 public class BinaryAccessResolver
 {
-    @Autowired
+    @Inject
     private ContentBinaryDataDao contentBinaryDataDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
     public boolean hasReadAndIsAccessibleOnline( BinaryDataEntity binaryData, UserEntity user, DateTime atTime )

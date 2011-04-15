@@ -4,45 +4,44 @@
  */
 package com.enonic.cms.core.content.binary;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.portal.livetrace.BlobFetchingTrace;
 import com.enonic.cms.portal.livetrace.BlobFetchingTracer;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserEntity;
-
 public class BinaryServiceImpl
     implements BinaryService
 {
 
-    @Autowired
+    @Inject
     private BinaryDataDao binaryDataDao;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private BinaryAccessResolver binaryAccessResolver;
 
-    @Autowired
+    @Inject
     private TimeService timeService;
 
-    @Autowired
+    @Inject
     private PreviewService previewService;
 
-    @Autowired
+    @Inject
     private LivePortalTraceService livePortalTraceService;
 
     public BinaryDataEntity getBinaryDataForPortal( User user, AttachmentRequest attachmentRequest )

@@ -6,25 +6,25 @@ package com.enonic.cms.core.preferences;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.store.dao.PreferenceDao;
-import com.enonic.cms.store.dao.UserDao;
-
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.store.dao.PreferenceDao;
+import com.enonic.cms.store.dao.UserDao;
 
 
 public class PreferenceServiceImpl
     implements PreferenceService
 {
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private PreferenceDao preferenceDao;
 
     private PreferenceAccessResolver preferenceAccessResolver = new PreferenceAccessResolver();

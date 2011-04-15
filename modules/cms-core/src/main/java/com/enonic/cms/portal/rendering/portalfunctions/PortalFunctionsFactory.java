@@ -4,9 +4,8 @@
  */
 package com.enonic.cms.portal.rendering.portalfunctions;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
@@ -30,31 +29,31 @@ public class PortalFunctionsFactory
 
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private MenuItemDao menuItemDao;
 
-    @Autowired
+    @Inject
     private PortletDao portletDao;
 
-    @Autowired
+    @Inject
     private CaptchaService captchaService;
 
-    @Autowired
+    @Inject
     private LocalizationService localizeService;
 
-    @Autowired
+    @Inject
     private LocaleResolverService localeResolverService;
 
-    @Autowired
+    @Inject
     private ContentBinaryDataDao contentBinaryDataDao;
 
-    @Autowired
+    @Inject
     private ImageService imageService;
 
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private CreateAttachmentUrlFunction createAttachmentUrlFunction;
 
     private SitePropertiesService sitePropertiesService;
@@ -123,7 +122,7 @@ public class PortalFunctionsFactory
         this.siteURLResolver = value;
     }
 
-    @Autowired
+    @Inject
     public void setContentDao( ContentDao contentDao )
     {
         this.contentDao = contentDao;

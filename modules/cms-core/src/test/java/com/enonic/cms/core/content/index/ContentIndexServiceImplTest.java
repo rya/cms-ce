@@ -12,20 +12,20 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
-import com.enonic.cms.core.content.ContentIndexEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 
-import com.enonic.cms.store.dao.ContentIndexDao;
-
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.store.dao.ContentIndexDao;
 
 public class ContentIndexServiceImplTest
     extends AbstractTransactionalSpringContextTests
@@ -36,7 +36,7 @@ public class ContentIndexServiceImplTest
 
     private ContentIndexServiceImpl service;
 
-    @Autowired
+    @Inject
     private ContentIndexDao contentIndexDao;
 
     public String[] getConfigLocations()

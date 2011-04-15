@@ -8,10 +8,11 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
@@ -237,7 +238,7 @@ public abstract class AbstractBaseEntityDao<T>
         return hibernateTemplate;
     }
 
-    @Autowired
+    @Inject
     public final void setHibernateTemplate( HibernateTemplate value )
     {
         hibernateTemplate = value;

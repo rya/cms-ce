@@ -4,20 +4,19 @@
  */
 package com.enonic.cms.core.security.userstore.connector.synchronize;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.cms.core.security.userstore.UserStoreConnectorManager;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
 
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-
 public class SynchronizeUserStoreJobFactory
 {
-    @Autowired
+    @Inject
     private UserStoreService userStoreService;
 
-    @Autowired
+    @Inject
     private UserStoreConnectorManager userStoreConnectorManager;
 
     public SynchronizeUserStoreJob createSynchronizeUserStoreJob( final UserStoreKey userStoreKey, final SynchronizeUserStoreType type,

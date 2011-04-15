@@ -6,18 +6,19 @@ package com.enonic.cms.core.login;
 
 import java.rmi.server.UID;
 
-import com.enonic.cms.core.security.RememberedLoginEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.security.RememberedLoginEntity;
+import com.enonic.cms.core.security.RememberedLoginKey;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.RememberedLoginDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.security.RememberedLoginKey;
-import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * Jul 10, 2009
@@ -103,13 +104,13 @@ public class LoginServiceImpl
         return uid;
     }
 
-    @Autowired
+    @Inject
     public void setRememberedLoginDao( RememberedLoginDao value )
     {
         this.rememberedLoginDao = value;
     }
 
-    @Autowired
+    @Inject
     public void setTimeService( TimeService value )
     {
         this.timeService = value;

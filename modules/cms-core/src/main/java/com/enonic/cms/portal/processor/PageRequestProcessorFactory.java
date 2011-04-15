@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.portal.processor;
 
-import com.enonic.cms.portal.PageRequestType;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
+import com.enonic.cms.portal.PageRequestType;
 import com.enonic.cms.portal.PortalAccessService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.PageTemplateDao;
@@ -19,22 +19,22 @@ import com.enonic.cms.store.dao.SectionContentDao;
  */
 public class PageRequestProcessorFactory
 {
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private SectionContentDao sectionContentDao;
 
-    @Autowired
+    @Inject
     private PageTemplateDao pageTemplateDao;
 
-    @Autowired
+    @Inject
     private PortalAccessService portalAccessService;
 
-    @Autowired
+    @Inject
     private LocaleResolverService localeResolverService;
 
-    @Autowired
+    @Inject
     private DeviceClassResolverService deviceClassResolverService;
 
     public AbstractPageRequestProcessor create( PageRequestProcessorContext context )

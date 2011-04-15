@@ -4,34 +4,33 @@
  */
 package com.enonic.cms.core.log;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.LogEntryDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.security.user.UserEntity;
-
 public class LogServiceImpl
     implements LogService
 {
-    @Autowired
+    @Inject
     private LogEntryDao logEntryDao;
 
-    @Autowired
+    @Inject
     private TimeService timeService;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     private static final int PATH_FIELD_MAX_LENGTH = 256;

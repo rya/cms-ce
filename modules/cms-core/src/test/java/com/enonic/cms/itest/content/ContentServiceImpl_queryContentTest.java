@@ -4,13 +4,12 @@
  */
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentStatus;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,15 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-
-import com.enonic.cms.core.content.ContentService;
-
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
@@ -37,6 +34,8 @@ import com.enonic.cms.core.content.query.ContentByCategoryQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 
 import static org.junit.Assert.*;
 
@@ -46,14 +45,14 @@ import static org.junit.Assert.*;
 @Transactional
 public class ContentServiceImpl_queryContentTest
 {
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
     private DomainFixture fixture;
 
-    @Autowired
+    @Inject
     protected ContentService contentService;
 
 

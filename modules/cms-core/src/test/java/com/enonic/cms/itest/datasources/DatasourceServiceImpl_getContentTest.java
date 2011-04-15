@@ -4,15 +4,13 @@
  */
 package com.enonic.cms.itest.datasources;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.service.DataSourceServiceImpl;
-import com.enonic.cms.portal.datasource.DataSourceContext;
+import javax.inject.Inject;
+
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -25,21 +23,14 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.preview.ContentPreviewContext;
-import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.UserDao;
-
 import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
@@ -47,7 +38,17 @@ import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.preview.ContentPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.service.DataSourceServiceImpl;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.UserDao;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
@@ -71,25 +72,25 @@ public class DatasourceServiceImpl_getContentTest
 
     private static final DateTime DATE_TIME_2010_07_01_12_00_00_0 = new DateTime( 2010, 7, 1, 12, 0, 0, 0 );
 
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
     private DomainFixture fixture;
 
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
     private DataSourceServiceImpl dataSourceService;
 
-    @Autowired
+    @Inject
     private ContentService contentService;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     private XMLBytes personConfigAsXmlBytes;

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.portal.rendering;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.vertical.VerticalProperties;
 
@@ -24,34 +24,34 @@ import com.enonic.cms.portal.rendering.viewtransformer.PortletXsltViewTransforme
  */
 public class WindowRendererFactory
 {
-    @Autowired
+    @Inject
     private SiteCachesService siteCachesService;
 
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private ResourceService resourceService;
 
-    @Autowired
+    @Inject
     private DatasourceExecutorFactory datasourceExecutorFactory;
 
-    @Autowired
+    @Inject
     private PortletXsltViewTransformer portletXsltViewTransformer;
 
-    @Autowired
+    @Inject
     private VerticalProperties verticalProperties;
 
-    @Autowired
+    @Inject
     private SitePropertiesService sitePropertiesService;
 
-    @Autowired
+    @Inject
     private SiteURLResolver siteURLResolver;
 
-    @Autowired
+    @Inject
     private PostProcessInstructionExecutor postProcessInstructionExecutor;
 
-    @Autowired
+    @Inject
     private LivePortalTraceService livePortalTraceService;
 
     public WindowRenderer createPortletRenderer( WindowRendererContext windowRendererContext )

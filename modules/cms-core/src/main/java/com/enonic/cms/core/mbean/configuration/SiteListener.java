@@ -5,16 +5,16 @@
 package com.enonic.cms.core.mbean.configuration;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.management.ObjectName;
 
-import com.enonic.cms.core.structure.SiteEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jmx.export.MBeanExporter;
 
 import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteEventListener;
 import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.portal.cache.SiteCachesService;
@@ -34,22 +34,22 @@ public class SiteListener
         this.objectNamePrefix = objectNamePrefix;
     }
 
-    @Autowired
+    @Inject
     @Qualifier("siteService")
     private SiteService siteService;
 
-    @Autowired
+    @Inject
     @Qualifier("mbeanExporter")
     private MBeanExporter mbeanExporter;
 
-    @Autowired
+    @Inject
     @Qualifier("sitePropertiesService")
     private SitePropertiesService sitePropertiesService;
 
-    @Autowired
+    @Inject
     private SiteDao siteDao;
 
-    @Autowired
+    @Inject
     @Qualifier("siteCachesService")
     private SiteCachesService siteCachesService;
 

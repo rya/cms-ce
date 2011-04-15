@@ -4,7 +4,8 @@
  */
 package com.enonic.cms.core.mbean.cache;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedOperation;
@@ -15,7 +16,7 @@ import com.enonic.cms.framework.cache.CacheManager;
 public abstract class AbstractCache
     implements Cache
 {
-    @Autowired
+    @Inject
     @Qualifier("cacheFacadeManager")
     private CacheManager cacheManager;
 

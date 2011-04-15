@@ -8,19 +8,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.api.Version;
-import com.enonic.cms.core.structure.SiteService;
-
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteService;
 
 /**
  * Controller for displaying the welcome page, the root page for an installation, listing all sites, plugins, etcs, and linking to DAV,
@@ -33,7 +32,7 @@ public final class WelcomeController
 {
     private SiteService siteService;
 
-    @Autowired
+    @Inject
     public void setSiteService( SiteService siteService )
     {
         this.siteService = siteService;

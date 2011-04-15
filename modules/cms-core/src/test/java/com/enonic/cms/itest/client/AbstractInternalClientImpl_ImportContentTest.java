@@ -10,13 +10,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import javax.inject.Inject;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
@@ -25,36 +24,38 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ImportContentsParams;
 import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
 
 public abstract class AbstractInternalClientImpl_ImportContentTest
 {
-    @Autowired
+    @Inject
     protected HibernateTemplate hibernateTemplate;
 
     protected DomainFactory factory;
 
     protected DomainFixture fixture;
 
-    @Autowired
+    @Inject
     protected ContentService contentService;
 
-    @Autowired
+    @Inject
     @Qualifier("localClient")
     protected InternalClient internalClient;
 
-    @Autowired
+    @Inject
     protected ContentDao contentDao;
 
     @Before

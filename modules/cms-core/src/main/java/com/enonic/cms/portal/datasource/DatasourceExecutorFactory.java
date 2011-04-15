@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.portal.datasource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
 
@@ -13,7 +13,7 @@ import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
  */
 public class DatasourceExecutorFactory
 {
-    @Autowired
+    @Inject
     private DatasourcesContextXmlCreator datasourcesContextXmlCreator;
 
     public DatasourceExecutor createDatasourceExecutor( DatasourceExecutorContext datasourceExecutorContext )

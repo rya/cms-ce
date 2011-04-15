@@ -4,21 +4,20 @@
  */
 package com.enonic.cms.core.resolver;
 
+import javax.inject.Inject;
 import javax.xml.transform.URIResolver;
-
-import com.enonic.cms.core.resource.ResourceFile;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.util.RegexpUtil;
 
 import com.enonic.cms.framework.xml.XMLDocument;
+
+import com.enonic.cms.core.resolver.locale.LocaleResolverException;
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
-
-import com.enonic.cms.core.resolver.locale.LocaleResolverException;
 
 /**
  * Created by rmy - Date: Apr 29, 2009
@@ -85,7 +84,7 @@ public abstract class AbstractXsltScriptResolver
         return resolverInputXMLCreator.buildResolverInputXML( context );
     }
 
-    @Autowired
+    @Inject
     public void setResolverInputXMLCreator( ResolverInputXMLCreator resolverInputXMLCreator )
     {
         this.resolverInputXMLCreator = resolverInputXMLCreator;

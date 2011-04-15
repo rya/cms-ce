@@ -4,25 +4,25 @@
  */
 package com.enonic.cms.core.security.userstore;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.util.Assert;
 
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.UserDao;
-
+import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.UserDao;
 
 /**
  * Jul 21, 2009
  */
 public class MemberOfResolver
 {
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
 

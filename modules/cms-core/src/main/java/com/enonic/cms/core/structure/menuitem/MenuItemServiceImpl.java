@@ -4,36 +4,35 @@
  */
 package com.enonic.cms.core.structure.menuitem;
 
-import com.enonic.cms.core.content.ContentKey;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Collection;
+
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
-
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-
-import java.util.Collection;
-
 public class MenuItemServiceImpl
     implements MenuItemService
 {
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private MenuItemDao menuItemDao;
 
-    @Autowired
+    @Inject
     private SectionContentDao sectionContentDao;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

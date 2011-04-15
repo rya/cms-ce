@@ -4,12 +4,12 @@
  */
 package com.enonic.cms.itest.portal.datasource.expressionfunctions;
 
-import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,13 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
-
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
-
-import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 
 import static org.junit.Assert.*;
 
@@ -37,7 +36,7 @@ import static org.junit.Assert.*;
 @Transactional
 public class ExpressionFunctionsExecutorTest
 {
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;

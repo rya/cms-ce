@@ -6,15 +6,17 @@ package com.enonic.vertical.engine.handlers;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.enonic.cms.store.dao.UserDao;
+
+import javax.inject.Inject;
+
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.store.dao.UserDao;
 
 public final class UserHandler
     extends BaseHandler
 {
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     public static String latinToAZ( String input )

@@ -6,10 +6,9 @@ package com.enonic.cms.core.resolver;
 
 import java.util.Enumeration;
 
+import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.util.StringUtil;
 
@@ -198,7 +197,7 @@ public class ResolverHttpRequestInputCreator
         xmlDoc.endElement();
     }
 
-    @Autowired
+    @Inject
     public void setSiteUrlResolver( SiteURLResolver siteUrlResolver )
     {
         this.siteUrlResolver = siteUrlResolver;

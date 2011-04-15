@@ -8,9 +8,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.enonic.cms.framework.blob.BlobStore;
@@ -23,7 +23,7 @@ public class VirtualFileDaoImpl
     extends AbstractBaseEntityDao<VirtualFileEntity>
     implements VirtualFileDao
 {
-    @Autowired
+    @Inject
     @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;
 
@@ -44,7 +44,7 @@ public class VirtualFileDaoImpl
 
     private boolean defaultFoldersCreated = false;
 
-    @Autowired
+    @Inject
     @Qualifier("blobStore")
     private BlobStore blobStore;
 

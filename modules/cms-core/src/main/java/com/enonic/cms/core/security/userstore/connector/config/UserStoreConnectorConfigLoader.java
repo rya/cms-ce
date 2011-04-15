@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.vertical.VerticalProperties;
 
@@ -151,7 +151,7 @@ public class UserStoreConnectorConfigLoader
             String.format( "cms.userstore.connector.%s.groupPolicy", configName ) ) );
     }
 
-    @Autowired
+    @Inject
     public void setVerticalProperties( VerticalProperties value )
     {
         this.verticalProperties = value;

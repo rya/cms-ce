@@ -4,7 +4,8 @@
  */
 package com.enonic.cms.portal.rendering;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.enonic.vertical.VerticalProperties;
@@ -26,47 +27,47 @@ import com.enonic.cms.portal.rendering.viewtransformer.PageTemplateXsltViewTrans
 
 public class PageRendererFactory
 {
-    @Autowired
+    @Inject
     @Qualifier("siteCachesService")
     private SiteCachesService siteCachesService;
 
-    @Autowired
+    @Inject
     private PreferenceService preferenceService;
 
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private DatasourceExecutorFactory datasourceExecutorFactory;
 
-    @Autowired
+    @Inject
     private ResourceService resourceService;
 
-    @Autowired
+    @Inject
     private DataSourceService dataSourceService;
 
-    @Autowired
+    @Inject
     private PageTemplateXsltViewTransformer pageTemplateXsltViewTransformer;
 
-    @Autowired
+    @Inject
     private SitePropertiesService sitePropertiesService;
 
-    @Autowired
+    @Inject
     private SiteURLResolver siteURLResolver;
 
-    @Autowired
+    @Inject
     private VerticalProperties verticalProperties;
 
-    @Autowired
+    @Inject
     private TightestCacheSettingsResolver tightestCacheSettingsResolver;
 
-    @Autowired
+    @Inject
     private TimeService timeService;
 
-    @Autowired
+    @Inject
     private PostProcessInstructionExecutor postProcessInstructionExecutor;
 
-    @Autowired
+    @Inject
     private LivePortalTraceService livePortalTraceService;
 
     public PageRenderer createPageRenderer( PageRendererContext pageRendererContext )

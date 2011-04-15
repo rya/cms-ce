@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -141,9 +142,7 @@ import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.DataSourceService;
-import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.core.service.PresentationService;
-import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.portal.cache.SiteCachesService;
@@ -180,12 +179,12 @@ public final class InternalClientImpl
 
     private TimeService timeService;
 
-    @Autowired
+    @Inject
     private UserStoreService userStoreService;
 
     private ContentService contentService;
 
-    @Autowired
+    @Inject
     private ImportJobFactory importJobFactory;
 
     private ResourceService resourceService;
@@ -198,21 +197,21 @@ public final class InternalClientImpl
 
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private UserStoreDao userStoreDao;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private ContentVersionDao contentVersionDao;
 
-    @Autowired(required = false)
+    @Inject
     private SiteCachesService siteCachesService;
 
     /**

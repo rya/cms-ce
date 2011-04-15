@@ -6,51 +6,48 @@ package com.enonic.cms.core.security;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.vertical.VerticalProperties;
+
+import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.group.QualifiedGroupname;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.vertical.VerticalProperties;
-
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.GroupQuery;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.core.security.userstore.UserStoreService;
-
-import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.GroupQuery;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
 
 public class SecurityServiceImpl
     implements SecurityService
 {
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private UserStoreDao userStoreDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private UserStoreService userStoreService;
 
-    @Autowired
+    @Inject
     private VerticalProperties verticalProperties;
 
     private void initializeSecurityHolder()

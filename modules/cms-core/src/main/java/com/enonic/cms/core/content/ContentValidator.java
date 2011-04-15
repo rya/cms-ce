@@ -4,9 +4,7 @@
  */
 package com.enonic.cms.core.content;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.cms.store.dao.ContentDao;
+import javax.inject.Inject;
 
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
@@ -15,10 +13,11 @@ import com.enonic.cms.core.content.contentdata.custom.DataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
+import com.enonic.cms.store.dao.ContentDao;
 
 public class ContentValidator
 {
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
     public void validate( ContentData contentData )

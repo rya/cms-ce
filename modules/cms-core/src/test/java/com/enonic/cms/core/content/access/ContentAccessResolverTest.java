@@ -4,29 +4,27 @@
  */
 package com.enonic.cms.core.content.access;
 
-import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupType;
+import javax.inject.Inject;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.core.content.DomainFactory;
-import com.enonic.cms.store.dao.GroupEntityDao;
-
 import com.enonic.cms.core.business.AbstractPersistContentTest;
-
+import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.DomainFactory;
 import com.enonic.cms.core.content.DomainFixture;
-
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.junit.Assert.*;
 
@@ -38,10 +36,10 @@ import static org.junit.Assert.*;
 public class ContentAccessResolverTest
     extends AbstractPersistContentTest
 {
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
-    @Autowired
+    @Inject
     private GroupEntityDao groupEntityDao;
 
     private DomainFactory factory;

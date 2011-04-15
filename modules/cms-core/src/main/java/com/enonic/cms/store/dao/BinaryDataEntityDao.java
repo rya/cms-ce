@@ -6,10 +6,8 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.enonic.cms.framework.blob.BlobKey;
@@ -21,13 +19,16 @@ import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 
 
 public class BinaryDataEntityDao
     extends AbstractBaseEntityDao<BinaryDataEntity>
     implements BinaryDataDao
 {
-    @Autowired
+    @Inject
     @Qualifier("blobStore")
     private BlobStore blobStore;
 

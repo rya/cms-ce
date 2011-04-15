@@ -8,14 +8,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.imports.ImportResult;
+import javax.inject.Inject;
+
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -27,25 +26,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.command.ImportContentCommand;
-import com.enonic.cms.core.content.imports.ImportJob;
-import com.enonic.cms.core.content.imports.ImportService;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-
-import com.enonic.cms.core.content.imports.ImportJobFactory;
-
-import com.enonic.cms.core.security.SecurityHolder;
-
 import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.BlockGroupDataEntries;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.imports.ImportJob;
+import com.enonic.cms.core.content.imports.ImportJobFactory;
+import com.enonic.cms.core.content.imports.ImportResult;
+import com.enonic.cms.core.content.imports.ImportService;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 
 import static org.junit.Assert.*;
 
@@ -55,17 +53,17 @@ import static org.junit.Assert.*;
 @Transactional
 public class ImportServiceImpl_importWithBlockGroupsTest
 {
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
     private DomainFixture fixture;
 
-    @Autowired
+    @Inject
     private ImportJobFactory importJobFactory;
 
-    @Autowired
+    @Inject
     private ImportService importService;
 
     private String personContentTypeXml;

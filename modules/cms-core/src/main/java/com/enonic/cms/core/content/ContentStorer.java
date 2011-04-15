@@ -14,26 +14,42 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.content.category.CategoryAccessException;
-import com.enonic.cms.core.content.category.CategoryAccessType;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.blob.BlobStoreObject;
 
 import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.category.CategoryAccessException;
+import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.BaseContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.SnapshotContentCommand;
+import com.enonic.cms.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentDataModifier;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserNotFoundException;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.portal.ContentNotFoundException;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -45,60 +61,44 @@ import com.enonic.cms.store.dao.RelatedContentDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.content.command.SnapshotContentCommand;
-import com.enonic.cms.core.content.command.UnassignContentCommand;
-import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
-
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.core.content.contentdata.ContentData;
-import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
-import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentDataModifier;
-import com.enonic.cms.portal.ContentNotFoundException;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserNotFoundException;
 
 public class ContentStorer
 {
-    @Autowired
+    @Inject
     private BinaryDataDao binaryDataDao;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private ContentHomeDao contentHomeDao;
 
-    @Autowired
+    @Inject
     private ContentVersionDao contentVersionDao;
 
-    @Autowired
+    @Inject
     private RelatedContentDao relatedContentDao;
 
-    @Autowired
+    @Inject
     private SectionContentDao sectionContentDao;
 
-    @Autowired
+    @Inject
     private LanguageDao languageDao;
 
-    @Autowired
+    @Inject
     private IndexService indexService;
 
-    @Autowired
+    @Inject
     private ContentValidator contentValidator;
 
     public ContentEntity createContent( final CreateContentCommand createContentCommand )

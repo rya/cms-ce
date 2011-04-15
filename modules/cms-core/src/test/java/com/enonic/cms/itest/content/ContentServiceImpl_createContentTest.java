@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.enonic.cms.core.content.*;
+import javax.inject.Inject;
+
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,23 +26,25 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
-
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.junit.Assert.*;
 
@@ -61,19 +63,19 @@ public class ContentServiceImpl_createContentTest
 {
 
 
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
-    @Autowired
+    @Inject
     private GroupEntityDao groupEntityDao;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private ContentService contentService;
 
-    @Autowired
+    @Inject
     private ContentVersionDao contentVersionDao;
 
     private DomainFactory factory;

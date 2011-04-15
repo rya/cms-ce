@@ -10,17 +10,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.preferences.*;
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-import com.enonic.cms.portal.datasource.DataSourceContext;
-import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -28,7 +20,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,39 +31,17 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.calendar.CalendarService;
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
-import com.enonic.cms.core.country.Country;
-import com.enonic.cms.core.country.CountryCode;
-import com.enonic.cms.core.country.CountryService;
-import com.enonic.cms.core.country.CountryXmlCreator;
-import com.enonic.cms.core.locale.LocaleService;
-import com.enonic.cms.core.locale.LocaleXmlCreator;
-import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.UserStoreParser;
-import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.core.structure.MenuItemXmlCreator;
-import com.enonic.cms.core.structure.SiteXmlCreator;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
-import com.enonic.cms.core.timezone.TimeZoneService;
-import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
-import com.enonic.cms.portal.rendering.tracing.RenderTrace;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.MenuItemDao;
-import com.enonic.cms.store.dao.SiteDao;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.InvalidKeyException;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.GetContentExecutor;
+import com.enonic.cms.core.content.GetContentResult;
+import com.enonic.cms.core.content.GetContentXmlCreator;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;
@@ -86,19 +55,54 @@ import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.country.Country;
+import com.enonic.cms.core.country.CountryCode;
+import com.enonic.cms.core.country.CountryService;
+import com.enonic.cms.core.country.CountryXmlCreator;
+import com.enonic.cms.core.locale.LocaleService;
+import com.enonic.cms.core.locale.LocaleXmlCreator;
 import com.enonic.cms.core.preferences.PreferenceEntity;
 import com.enonic.cms.core.preferences.PreferenceKey;
 import com.enonic.cms.core.preferences.PreferenceScope;
 import com.enonic.cms.core.preferences.PreferenceScopeResolver;
+import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.preferences.PreferenceSpecification;
 import com.enonic.cms.core.preferences.PreferenceUniqueMatchResolver;
 import com.enonic.cms.core.preferences.PreferenceXmlCreator;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.timezone.TimeZoneService;
+import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.MenuItemDao;
+import com.enonic.cms.store.dao.SiteDao;
+import com.enonic.cms.store.dao.UserDao;
+
+import com.enonic.cms.domain.Attribute;
+import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.domain.SiteKey;
 
 public final class DataSourceServiceImpl
         implements DataSourceService
@@ -115,20 +119,20 @@ public final class DataSourceServiceImpl
 
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private ContentVersionDao contentVersionDao;
 
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private SiteDao siteDao;
 
-    @Autowired
+    @Inject
     private MenuItemDao menuItemDao;
 
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
     private SitePropertiesService sitePropertiesService;

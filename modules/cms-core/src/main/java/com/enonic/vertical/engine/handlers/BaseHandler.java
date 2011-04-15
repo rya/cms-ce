@@ -4,7 +4,7 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.BaseEngine;
@@ -36,59 +36,59 @@ public abstract class BaseHandler
 
     // Services:
 
-    @Autowired
+    @Inject
     protected LogService logService;
 
-    @Autowired
+    @Inject
     protected ContentService contentService;
 
     protected SecurityService securityService;
 
     // Daos:
 
-    @Autowired
+    @Inject
     protected BinaryDataDao binaryDataDao;
 
-    @Autowired
+    @Inject
     protected ContentBinaryDataDao contentBinaryDataDao;
 
-    @Autowired
+    @Inject
     protected ContentDao contentDao;
 
-    @Autowired
+    @Inject
     protected PortletDao portletDao;
 
-    @Autowired
+    @Inject
     protected CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     protected GroupDao groupDao;
 
-    @Autowired
+    @Inject
     protected LanguageDao languageDao;
 
-    @Autowired
+    @Inject
     protected MenuItemDao menuItemDao;
 
-    @Autowired
+    @Inject
     protected PageDao pageDao;
 
-    @Autowired
+    @Inject
     protected PageTemplateDao pageTemplateDao;
 
-    @Autowired
+    @Inject
     protected ResourceDao resourceDao;
 
-    @Autowired
+    @Inject
     protected SiteDao siteDao;
 
-    @Autowired
+    @Inject
     protected UserDao userDao;
 
-    @Autowired
+    @Inject
     protected UserStoreDao userStoreDao;
 
-    @Autowired
+    @Inject
     protected MemberOfResolver memberOfResolver;
 
     public BaseHandler()

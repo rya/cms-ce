@@ -7,23 +7,33 @@ package com.enonic.cms.core.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.portal.*;
 import org.jdom.CDATA;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.client.ClientHttpServletRequest;
 
 import com.enonic.cms.api.client.model.RenderContentParams;
 import com.enonic.cms.api.client.model.RenderPageParams;
 import com.enonic.cms.api.client.model.RenderParams;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.portal.PathToContentResolver;
+import com.enonic.cms.portal.PortalRequest;
+import com.enonic.cms.portal.PortalRequestService;
+import com.enonic.cms.portal.PortalResponse;
+import com.enonic.cms.portal.ShoppingCart;
+import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -36,41 +46,31 @@ import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.portal.PathToContentResolver;
-import com.enonic.cms.portal.PortalRequest;
-import com.enonic.cms.portal.PortalResponse;
-import com.enonic.cms.portal.ShoppingCart;
-import com.enonic.cms.portal.VerticalSession;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Sep 3, 2009
  */
 public class InternalClientRenderService
 {
-    @Autowired
+    @Inject
     private PortalRequestService portalRequestService;
 
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private MenuItemDao menuItemDao;
 
-    @Autowired
+    @Inject
     private SiteDao siteDao;
 
-    @Autowired
+    @Inject
     private LanguageDao languageDao;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private SectionContentDao sectionContentDao;
 
     public Document renderPage( final RenderPageParams params )

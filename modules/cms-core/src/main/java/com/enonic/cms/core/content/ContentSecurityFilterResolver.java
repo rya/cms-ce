@@ -8,13 +8,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.enonic.cms.core.security.SecurityService;
-
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;
 
 
@@ -68,7 +68,7 @@ public class ContentSecurityFilterResolver
     }
 
 
-    @Autowired
+    @Inject
     public void setSecurityService( @Qualifier("securityService") SecurityService value )
     {
         this.securityService = value;

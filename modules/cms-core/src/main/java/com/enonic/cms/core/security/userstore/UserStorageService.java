@@ -7,23 +7,15 @@ package com.enonic.cms.core.security.userstore;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.group.GroupType;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.store.dao.CategoryAccessDao;
-import com.enonic.cms.store.dao.ContentAccessDao;
-import com.enonic.cms.store.dao.DefaultSiteAccessDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.MenuItemAccessDao;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.store.dao.UserStoreDao;
-
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.DisplayNameResolver;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.user.UpdateUserCommand;
@@ -32,6 +24,14 @@ import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserNotFoundException;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.store.dao.CategoryAccessDao;
+import com.enonic.cms.store.dao.ContentAccessDao;
+import com.enonic.cms.store.dao.DefaultSiteAccessDao;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.MenuItemAccessDao;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
+
 import com.enonic.cms.domain.user.UserInfo;
 
 /**
@@ -293,49 +293,49 @@ public class UserStorageService
         return !displayNameGeneratedFromExistingUser.equals( displayName );
     }
 
-    @Autowired
+    @Inject
     public void setUserStoreDao( UserStoreDao userStoreDao )
     {
         this.userStoreDao = userStoreDao;
     }
 
-    @Autowired
+    @Inject
     public void setGroupDao( GroupDao groupDao )
     {
         this.groupDao = groupDao;
     }
 
-    @Autowired
+    @Inject
     public void setUserDao( UserDao userDao )
     {
         this.userDao = userDao;
     }
 
-    @Autowired
+    @Inject
     public void setTimeService( TimeService timeService )
     {
         this.timeService = timeService;
     }
 
-    @Autowired
+    @Inject
     public void setMenuItemAccessDao( MenuItemAccessDao menuItemAccessDao )
     {
         this.menuItemAccessDao = menuItemAccessDao;
     }
 
-    @Autowired
+    @Inject
     public void setCategoryAccessDao( CategoryAccessDao categoryAccessDao )
     {
         this.categoryAccessDao = categoryAccessDao;
     }
 
-    @Autowired
+    @Inject
     public void setContentAccessDao( ContentAccessDao contentAccessDao )
     {
         this.contentAccessDao = contentAccessDao;
     }
 
-    @Autowired
+    @Inject
     public void setDefaultSiteAccessDao( DefaultSiteAccessDao defaultSiteAccessDao )
     {
         this.defaultSiteAccessDao = defaultSiteAccessDao;

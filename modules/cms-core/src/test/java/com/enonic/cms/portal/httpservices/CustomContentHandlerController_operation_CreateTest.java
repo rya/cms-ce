@@ -6,15 +6,14 @@ package com.enonic.cms.portal.httpservices;
 
 import java.rmi.RemoteException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.core.content.*;
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
@@ -29,18 +28,12 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.portal.SiteRedirectHelper;
-import com.enonic.cms.store.dao.CategoryDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
-
 import com.enonic.cms.core.business.AbstractPersistContentTest;
-
-import com.enonic.cms.core.security.SecurityHolder;
-
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.DomainFactory;
+import com.enonic.cms.core.content.DomainFixture;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
@@ -51,7 +44,14 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEn
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.portal.SiteRedirectHelper;
+import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
+
+import com.enonic.cms.domain.SiteKey;
 
 import static junit.framework.Assert.assertTrue;
 import static junitx.framework.Assert.assertFalse;
@@ -65,13 +65,13 @@ import static org.junit.Assert.*;
 public class CustomContentHandlerController_operation_CreateTest
     extends AbstractPersistContentTest
 {
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private GroupEntityDao groupEntityDao;
 
     private SiteRedirectHelper siteRedirectHelper;

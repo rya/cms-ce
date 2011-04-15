@@ -6,11 +6,11 @@ package com.enonic.cms.core.localization;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleService;
-
 import com.enonic.cms.core.structure.SiteEntity;
 
 /**
@@ -79,7 +79,7 @@ public class LocalizationServiceImpl
         return resourceBundle.getLocalizedPhrase( phrase, arguments );
     }
 
-    @Autowired
+    @Inject
     public void setLocalizationResourceBundleService( LocalizationResourceBundleService localizationResourceBundleService )
     {
         this.localizationResourceBundleService = localizationResourceBundleService;

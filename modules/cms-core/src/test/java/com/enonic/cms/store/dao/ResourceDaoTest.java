@@ -7,13 +7,12 @@ package com.enonic.cms.store.dao;
 import java.util.Calendar;
 import java.util.List;
 
-import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.resource.ResourceFolder;
+import javax.inject.Inject;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.ConcurrencyFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -21,6 +20,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFolder;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +34,7 @@ public class ResourceDaoTest
 {
     private static final Logger LOG = LoggerFactory.getLogger( ResourceDaoTest.class.getName() );
 
-    @Autowired
+    @Inject
     private ResourceDao resourceDao;
 
     @Test

@@ -6,14 +6,12 @@ package com.enonic.cms.itest.client;
 
 import java.io.IOException;
 
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.CategoryKey;
+import javax.inject.Inject;
+
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,12 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
-
-import com.enonic.cms.core.security.user.User;
 
 import static org.junit.Assert.*;
 
@@ -39,10 +39,10 @@ import static org.junit.Assert.*;
 @Transactional
 public class InternalClientImpl_CreateCategoryTest
 {
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
-    @Autowired
+    @Inject
     private InternalClient internalClient;
 
     private DomainFactory factory;

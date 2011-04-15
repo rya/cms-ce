@@ -7,46 +7,46 @@ package com.enonic.cms.portal.instruction;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.enonic.cms.framework.util.UrlPathEncoder;
+
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyParser;
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.portal.PathToContentResolver;
 import com.enonic.cms.portal.ReservedLocalPaths;
-import com.enonic.cms.portal.image.ImageRequestParams;
-import com.enonic.cms.portal.rendering.RenderedWindowResult;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.cms.framework.util.UrlPathEncoder;
-
 import com.enonic.cms.portal.image.ImageRequest;
+import com.enonic.cms.portal.image.ImageRequestParams;
 import com.enonic.cms.portal.image.ImageRequestParser;
 import com.enonic.cms.portal.image.ImageService;
+import com.enonic.cms.portal.rendering.RenderedWindowResult;
+import com.enonic.cms.portal.rendering.WindowRenderer;
+import com.enonic.cms.portal.rendering.WindowRendererFactory;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionException;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.resource.FileResourceService;
 
-import com.enonic.cms.portal.rendering.WindowRenderer;
-import com.enonic.cms.portal.rendering.WindowRendererFactory;
-
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyParser;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.domain.nativelink.NativeLinkKey;
-import com.enonic.cms.core.resource.FileResourceName;
-import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Created by rmy - Date: Nov 19, 2009
@@ -490,37 +490,37 @@ public class PostProcessInstructionExecutorImpl
         return contentDao.findByKey( contentKey );
     }
 
-    @Autowired
+    @Inject
     public void setMenuItemDao( MenuItemDao menuItemDao )
     {
         this.menuItemDao = menuItemDao;
     }
 
-    @Autowired
+    @Inject
     public void setContentDao( ContentDao contentDao )
     {
         this.contentDao = contentDao;
     }
 
-    @Autowired
+    @Inject
     public void setImagesService( ImageService imagesService )
     {
         this.imagesService = imagesService;
     }
 
-    @Autowired
+    @Inject
     public void setWindowRendererFactory( WindowRendererFactory windowRendererFactory )
     {
         this.windowRendererFactory = windowRendererFactory;
     }
 
-    @Autowired
+    @Inject
     public void setFileResourceService( FileResourceService fileResourceService )
     {
         this.fileResourceService = fileResourceService;
     }
 
-    @Autowired
+    @Inject
     public void setSectionContentDao( SectionContentDao sectionContentDao )
     {
         this.sectionContentDao = sectionContentDao;

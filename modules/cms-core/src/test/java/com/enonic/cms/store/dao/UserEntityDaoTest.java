@@ -6,14 +6,12 @@ package com.enonic.cms.store.dao;
 
 import java.util.Date;
 
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -28,7 +26,11 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
+
 import com.enonic.cms.domain.user.Address;
 import com.enonic.cms.domain.user.UserInfo;
 
@@ -40,13 +42,13 @@ import static org.junit.Assert.*;
 @Transactional
 public class UserEntityDaoTest
 {
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private UserStoreDao userStoreDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
 

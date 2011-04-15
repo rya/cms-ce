@@ -6,15 +6,16 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ContentBinaryDataEntityDao
     extends AbstractBaseEntityDao<ContentBinaryDataEntity>
     implements ContentBinaryDataDao
 {
 
-    @Autowired
+    @Inject
     private BinaryDataDao binaryDataDao;
 
 

@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
@@ -252,7 +252,7 @@ public class LivePortalTraceServiceImpl
         Preconditions.checkArgument( enabled, "Unexpected call when Live Portal Tracing is disabled" );
     }
 
-    @Autowired
+    @Inject
     public void setTimeService( TimeService timeService )
     {
         this.timeService = timeService;

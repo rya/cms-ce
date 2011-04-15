@@ -4,17 +4,19 @@
  */
 package com.enonic.cms.core.service;
 
-import com.enonic.cms.store.dao.UserDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.store.dao.UserDao;
 
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class UserServicesServiceImpl
     implements UserServicesService
 {
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

@@ -7,12 +7,7 @@ package com.enonic.cms.core.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
-import com.enonic.cms.portal.PrettyPathNameCreator;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.cms.api.client.ClientException;
 import com.enonic.cms.api.client.model.AssignContentParams;
@@ -25,7 +20,24 @@ import com.enonic.cms.api.client.model.SnapshotContentParams;
 import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.CategoryService;
+import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
@@ -33,8 +45,15 @@ import com.enonic.cms.core.content.command.SnapshotContentCommand;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserParser;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.portal.PrettyPathNameCreator;
 import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.store.dao.CategoryDao;
@@ -43,53 +62,35 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentLocation;
-import com.enonic.cms.core.content.ContentLocationSpecification;
-import com.enonic.cms.core.content.ContentLocations;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.core.content.category.CategoryAccessType;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-import com.enonic.cms.core.security.user.UserEntity;
-
 
 public class InternalClientContentService
 {
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private ContentService contentService;
 
-    @Autowired
+    @Inject
     private ContentTypeDao contentTypeDao;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private ContentVersionDao contentVersionDao;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
     private SiteCachesService siteCachesService;
 
     private FileContentdataResolver fileContentResolver = new FileContentdataResolver();
 
-    @Autowired
+    @Inject
     private CategoryService categoryService;
 
     private UserParser userParser;

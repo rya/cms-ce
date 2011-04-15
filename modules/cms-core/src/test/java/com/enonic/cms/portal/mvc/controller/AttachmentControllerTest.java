@@ -9,7 +9,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
@@ -17,11 +18,11 @@ import com.enonic.cms.core.SitePathResolver;
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.UrlPathHelperManager;
 import com.enonic.cms.core.security.AutoLoginService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.structure.SiteService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -37,7 +38,7 @@ public abstract class AttachmentControllerTest
     extends AbstractControllerTest
 {
 
-    @Autowired
+    @Inject
     private AttachmentController controller;
 
     private SiteService siteService;

@@ -4,13 +4,12 @@
  */
 package com.enonic.cms.itest.datasources;
 
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.service.DataSourceServiceImpl;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -23,26 +22,26 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.test.AssertTool;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.itest.DomainFixture;
-
-import com.enonic.cms.core.content.ContentService;
-
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.service.DataSourceServiceImpl;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.itest.test.AssertTool;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.store.dao.UserDao;
 
 import static org.junit.Assert.*;
 
@@ -52,22 +51,22 @@ import static org.junit.Assert.*;
 @Transactional
 public class DataSourceServiceImpl_getContentByCategory_queryTest
 {
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
     private DomainFixture fixture;
 
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     private DataSourceServiceImpl dataSourceService;
 
-    @Autowired
+    @Inject
     private ContentService contentService;
 
 

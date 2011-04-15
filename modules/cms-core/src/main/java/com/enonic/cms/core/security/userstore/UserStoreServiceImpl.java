@@ -11,11 +11,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.enonic.cms.core.security.group.*;
-import com.enonic.cms.core.security.userstore.config.*;
-import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -26,20 +24,6 @@ import com.google.common.collect.Multimap;
 
 import com.enonic.vertical.VerticalProperties;
 
-import com.enonic.cms.core.security.group.access.GroupAccessResolver;
-import com.enonic.cms.core.security.userstore.connector.UserStoreConnector;
-import com.enonic.cms.core.security.userstore.connector.remote.MemberCache;
-import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
-import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
-import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
-import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.UserEntityDao;
-import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory;
-import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
-
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.CreateGroupAccessException;
 import com.enonic.cms.core.security.group.DeleteGroupAccessException;
@@ -47,11 +31,13 @@ import com.enonic.cms.core.security.group.DeleteGroupCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.group.GroupStorageService;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
 import com.enonic.cms.core.security.group.StoreNewGroupCommand;
 import com.enonic.cms.core.security.group.UpdateGroupAccessException;
 import com.enonic.cms.core.security.group.UpdateGroupCommand;
+import com.enonic.cms.core.security.group.access.GroupAccessResolver;
 import com.enonic.cms.core.security.user.DeleteUserCommand;
 import com.enonic.cms.core.security.user.DeleteUserStoreCommand;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
@@ -66,7 +52,21 @@ import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
 import com.enonic.cms.core.security.user.UserStorageInvalidArgumentException;
 import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
 import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
+import com.enonic.cms.core.security.userstore.connector.UserStoreConnector;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.core.security.userstore.connector.remote.MemberCache;
+import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
+import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory;
+import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
+import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
+import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.UserEntityDao;
+import com.enonic.cms.store.dao.UserStoreDao;
+
 import com.enonic.cms.domain.user.field.UserFieldType;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 import com.enonic.cms.domain.user.remote.RemoteUser;
@@ -74,34 +74,34 @@ import com.enonic.cms.domain.user.remote.RemoteUser;
 public class UserStoreServiceImpl
     implements UserStoreService
 {
-    @Autowired
+    @Inject
     private UserStoreConnectorManager userConnectorStoreManager;
 
-    @Autowired
+    @Inject
     private UserStoreDao userStoreDao;
 
-    @Autowired
+    @Inject
     private UserEntityDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private VerticalProperties verticalProperties;
 
-    @Autowired
+    @Inject
     private GroupStorageService groupStorageService;
 
-    @Autowired
+    @Inject
     private UserStorageService userStorageService;
 
-    @Autowired
+    @Inject
     private UserStoreAccessResolver userStoreAccessResolver;
 
-    @Autowired
+    @Inject
     private GroupAccessResolver groupAccessResolver;
 
-    @Autowired
+    @Inject
     private RemoteUserStoreFactory remoteUserStoreFactory;
 
     private static final String VALID_EMAIL_PATTERN =

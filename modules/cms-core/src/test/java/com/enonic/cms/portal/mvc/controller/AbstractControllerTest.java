@@ -7,26 +7,28 @@ package com.enonic.cms.portal.mvc.controller;
 import java.util.Date;
 import java.util.List;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupType;
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+
+import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.domain.LanguageKey;
 
 public abstract class AbstractControllerTest
 {
 
     private static int lastUsedId = -1;
 
-    @Autowired
+    @Inject
     protected HibernateTemplate hibernateTemplate;
 
     protected void initSystemData()

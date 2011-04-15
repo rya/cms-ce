@@ -6,25 +6,25 @@ package com.enonic.cms.core.resolver.locale;
 
 import java.util.Locale;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.core.resolver.*;
-import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.resource.ResourceKey;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
-
-import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.core.localization.LocaleParsingException;
+import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.core.resolver.ForceResolverValueService;
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.ScriptResolverResult;
+import com.enonic.cms.core.resolver.ScriptResolverService;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+
+import com.enonic.cms.domain.LanguageEntity;
 
 /**
  * Created by rmy - Date: Apr 22, 2009
@@ -167,7 +167,7 @@ public class LocaleResolverServiceImpl
         this.localeScriptResolver = localeScriptResolver;
     }
 
-    @Autowired
+    @Inject
     public void setResourceService( ResourceService resourceService )
     {
         this.resourceService = resourceService;

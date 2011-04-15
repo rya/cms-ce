@@ -6,9 +6,11 @@ package com.enonic.cms.core.content;
 
 import java.util.List;
 
-import org.jdom.Element;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
+import org.jdom.Element;
+
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
@@ -16,27 +18,25 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-
 
 public class ContentParserService
 {
-    @Autowired
+    @Inject
     private LanguageDao languageDao;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private ContentVersionDao contentVersionDao;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
     public ContentAndVersion parseContentAndVersion( String contentXml, List<BinaryDataKey> binaryDatas, boolean parseContentData )

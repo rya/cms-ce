@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.core.resolver;
 
+import javax.inject.Inject;
+
 import org.jdom.Content;
 import org.jdom.Document;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -86,13 +87,13 @@ public class ResolverInputXMLCreator
         this.resolverHttpRequestInputCreator = resolverHttpRequestInputCreator;
     }
 
-    @Autowired
+    @Inject
     public void setResolverHttpRequestInputXMLCreator( ResolverHttpRequestInputXMLCreator resolverHttpRequestInputXMLCreator )
     {
         this.resolverHttpRequestInputXMLCreator = resolverHttpRequestInputXMLCreator;
     }
 
-    @Autowired
+    @Inject
     public void setResolverInputCreator( ResolverHttpRequestInputCreator resolverHttpRequestInputCreator )
     {
         this.resolverHttpRequestInputCreator = resolverHttpRequestInputCreator;

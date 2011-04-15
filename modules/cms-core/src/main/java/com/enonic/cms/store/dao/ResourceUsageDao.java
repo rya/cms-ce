@@ -8,31 +8,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.resource.ResourceReferencer;
-import com.enonic.cms.core.resource.ResourceReferencerType;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceReferencer;
+import com.enonic.cms.core.resource.ResourceReferencerType;
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public class ResourceUsageDao
 {
-    @Autowired
+    @Inject
     private PageTemplateDao pageTemplateDao;
 
-    @Autowired
+    @Inject
     private PortletDao contentObjectDao;
 
-    @Autowired
+    @Inject
     private SiteDao siteDao;
 
-    @Autowired
+    @Inject
     private ContentTypeEntityDao contentTypeDao;
 
     public HashMap<ResourceKey, Long> getUsageCountMap()

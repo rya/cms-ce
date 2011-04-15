@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.util.Assert;
 
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.store.dao.CategoryAccessDao;
 import com.enonic.cms.store.dao.ContentAccessDao;
 import com.enonic.cms.store.dao.DefaultSiteAccessDao;
@@ -18,9 +21,6 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemAccessDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 public class GroupStorageService
 {
@@ -174,43 +174,43 @@ public class GroupStorageService
         categoryAccessDao.deleteByGroupKey( groupKey );
     }
 
-    @Autowired
+    @Inject
     public void setGroupDao( GroupDao groupDao )
     {
         this.groupDao = groupDao;
     }
 
-    @Autowired
+    @Inject
     public void setUserDao( UserDao userDao )
     {
         this.userDao = userDao;
     }
 
-    @Autowired
+    @Inject
     public void setUserStoreDao( UserStoreDao userStoreDao )
     {
         this.userStoreDao = userStoreDao;
     }
 
-    @Autowired
+    @Inject
     public void setMenuItemAccessDao( MenuItemAccessDao menuItemAccessDao )
     {
         this.menuItemAccessDao = menuItemAccessDao;
     }
 
-    @Autowired
+    @Inject
     public void setCategoryAccessDao( CategoryAccessDao categoryAccessDao )
     {
         this.categoryAccessDao = categoryAccessDao;
     }
 
-    @Autowired
+    @Inject
     public void setContentAccessDao( ContentAccessDao contentAccessDao )
     {
         this.contentAccessDao = contentAccessDao;
     }
 
-    @Autowired
+    @Inject
     public void setDefaultSiteAccessDao( DefaultSiteAccessDao defaultSiteAccessDao )
     {
         this.defaultSiteAccessDao = defaultSiteAccessDao;

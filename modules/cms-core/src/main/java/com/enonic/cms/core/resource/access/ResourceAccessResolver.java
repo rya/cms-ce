@@ -4,16 +4,15 @@
  */
 package com.enonic.cms.core.resource.access;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.resource.ResourceKey;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.cms.core.security.userstore.MemberOfResolver;
-
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
 
 public class ResourceAccessResolver
 {
-    @Autowired
+    @Inject
     private MemberOfResolver memberOfResolver;
 
     public boolean hasAccessToResourceTree( UserEntity executor )

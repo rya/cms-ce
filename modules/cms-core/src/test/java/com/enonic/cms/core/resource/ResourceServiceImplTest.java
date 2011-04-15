@@ -20,26 +20,26 @@ public class ResourceServiceImplTest
 
     }
 
-    /* @Autowired
+    /* @Inject
     @Qualifier("resourceService")
     private ResourceService resourceService;
 
-    @Autowired
+    @Inject
     private HibernateTemplate hibernateTemplate;
 
-    @Autowired
+    @Inject
     private PageTemplateDao pageTemplateDao;
 
-    @Autowired
+    @Inject
     private SiteDao siteDao;
 
-    @Autowired
+    @Inject
     private PortletDao contentObjectDao;
 
-    @Autowired
+    @Inject
     private LanguageDao languageDao;
 
-    @Autowired
+    @Inject
     private ContentTypeDao contentTypeDao;
 
 

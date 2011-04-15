@@ -4,7 +4,8 @@
  */
 package com.enonic.cms.core.resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import com.google.common.collect.Multimap;
 
 import com.enonic.cms.store.dao.ResourceDao;
@@ -13,10 +14,10 @@ import com.enonic.cms.store.dao.ResourceUsageDao;
 public class ResourceServiceImpl
     implements ResourceService
 {
-    @Autowired
+    @Inject
     private ResourceUsageDao resourceUsageDao;
 
-    @Autowired
+    @Inject
     private ResourceDao resourceDao;
 
     public ResourceFile getResourceFile( ResourceKey resourceKey )

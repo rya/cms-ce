@@ -7,49 +7,49 @@ package com.enonic.cms.core.security.userstore;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.security.group.GroupStorageService;
 import com.enonic.cms.core.security.userstore.connector.UserStoreConnector;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigLoader;
 import com.enonic.cms.core.security.userstore.connector.local.LocalUserStoreConnector;
+import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
+import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory;
 import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
-import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
-import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory;
-
 public final class UserStoreConnectorManagerImpl
     implements UserStoreConnectorManager
 {
-    @Autowired
+    @Inject
     private UserStoreConnectorConfigLoader userStoreConnectorConfigLoader;
 
-    @Autowired
+    @Inject
     private RemoteUserStoreFactory remoteUserStoreFactory;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private GroupStorageService groupStorageService;
 
-    @Autowired
+    @Inject
     private UserStorageService userStorageService;
 
-    @Autowired
+    @Inject
     private TimeService timeService;
 
-    @Autowired
+    @Inject
     private UserStoreDao userStoreDao;
 
     private final Map<UserStoreKey, RemoteUserStoreConnector> remoteUSConnectorMap = new HashMap<UserStoreKey, RemoteUserStoreConnector>();

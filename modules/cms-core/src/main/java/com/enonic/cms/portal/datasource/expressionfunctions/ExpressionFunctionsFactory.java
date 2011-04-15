@@ -4,12 +4,12 @@
  */
 package com.enonic.cms.portal.datasource.expressionfunctions;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.preferences.PreferenceService;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
 
 
 public class ExpressionFunctionsFactory
@@ -59,20 +59,20 @@ public class ExpressionFunctionsFactory
         return expressionFunctions;
     }
 
-    @Autowired
+    @Inject
     public void setPreferenceService( PreferenceService preferenceService )
     {
         this.preferenceService = preferenceService;
     }
 
-    @Autowired
+    @Inject
     public void setTimeService( TimeService timeService )
     {
         this.timeService = timeService;
     }
 
 
-    @Autowired
+    @Inject
     public void setMenuItemService( MenuItemService menuItemService )
     {
         this.menuItemService = menuItemService;

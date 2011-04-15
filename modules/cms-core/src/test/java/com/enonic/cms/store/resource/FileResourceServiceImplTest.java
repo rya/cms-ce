@@ -6,17 +6,19 @@ package com.enonic.cms.store.resource;
 
 import java.util.List;
 
-import com.enonic.cms.core.resource.FileResource;
-import com.enonic.cms.core.resource.FileResourceData;
-import com.enonic.cms.core.resource.FileResourceName;
+import javax.inject.Inject;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceData;
+import com.enonic.cms.core.resource.FileResourceName;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -24,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FileResourceServiceImplTest
 {
-    @Autowired
+    @Inject
     private FileResourceService fileService;
 
     @Test

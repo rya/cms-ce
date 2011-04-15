@@ -7,22 +7,22 @@ package com.enonic.cms.core.content.category;
 import java.util.Date;
 import java.util.Map;
 
-import com.enonic.cms.core.security.group.GroupKey;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Mar 9, 2010
@@ -31,19 +31,19 @@ public class CategoryServiceImpl
     implements CategoryService
 {
 
-    @Autowired
+    @Inject
     private MemberOfResolver memberOfResolver;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private ContentTypeDao contentTypeDao;
 
     private TimeService timeService;

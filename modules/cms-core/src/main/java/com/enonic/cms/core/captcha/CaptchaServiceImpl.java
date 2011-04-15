@@ -6,12 +6,12 @@ package com.enonic.cms.core.captcha;
 
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.jdom.Document;
 import org.jdom.Element;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.containers.ExtendedMap;
 
@@ -28,13 +28,13 @@ import com.enonic.cms.domain.SitePath;
 public class CaptchaServiceImpl
     implements CaptchaService
 {
-    @Autowired
+    @Inject
     private SecurityService securityService;
 
-    @Autowired
+    @Inject
     private SitePropertiesService sitePropertiesService;
 
-    @Autowired
+    @Inject
     private CaptchaRepository captchaRepository;
 
     private final String SITE_PROPERTY_CAPTCHA_ENABLE = "cms.site.httpServices.captchaEnabled";

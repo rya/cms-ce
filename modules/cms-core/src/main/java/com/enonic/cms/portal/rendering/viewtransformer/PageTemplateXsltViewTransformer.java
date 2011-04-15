@@ -7,25 +7,24 @@ package com.enonic.cms.portal.rendering.viewtransformer;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-import com.enonic.cms.core.structure.TemplateParameterType;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.Namespace;
 import org.jdom.transform.JDOMSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.structure.TemplateParameterType;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
-
 import com.enonic.cms.portal.PortalRenderingException;
-import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * Apr 26, 2009
@@ -103,7 +102,7 @@ public class PageTemplateXsltViewTransformer
         setup();
     }
 
-    @Autowired
+    @Inject
     public void setResourceService( ResourceService resourceService )
     {
         this.resourceService = resourceService;

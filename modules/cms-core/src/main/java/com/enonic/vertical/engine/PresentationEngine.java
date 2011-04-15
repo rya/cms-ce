@@ -12,11 +12,12 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import javax.inject.Inject;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -47,7 +48,7 @@ public class PresentationEngine
 
     private UserHandler userHandler;
 
-    @Autowired
+    @Inject
     private SiteDao siteDao;
 
     public BinaryData getBinaryData( User user, int binaryDataKey, long timestamp )

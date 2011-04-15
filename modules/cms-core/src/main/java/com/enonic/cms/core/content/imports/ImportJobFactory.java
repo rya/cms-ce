@@ -6,46 +6,44 @@ package com.enonic.cms.core.content.imports;
 
 import java.io.InputStream;
 
+import javax.inject.Inject;
+
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
-import com.enonic.cms.store.dao.CategoryDao;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.UserDao;
-
 import com.enonic.cms.core.content.command.ImportContentCommand;
-import com.enonic.cms.core.content.index.ContentIndexService;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportModeConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportStatusConfig;
+import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.UserDao;
 
 
 public class ImportJobFactory
 {
-    @Autowired
+    @Inject
     private ImportService importService;
 
-    @Autowired
+    @Inject
     private CategoryDao categoryDao;
 
-    @Autowired
+    @Inject
     private ContentDao contentDao;
 
-    @Autowired
+    @Inject
     private ContentIndexService contentIndexService;
 
-    @Autowired
+    @Inject
     private GroupDao groupDao;
 
-    @Autowired
+    @Inject
     private UserDao userDao;
 
     public ImportJob createImportJob( final ImportContentCommand command )
