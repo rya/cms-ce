@@ -25,7 +25,6 @@ import org.w3c.dom.Element;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.engine.handlers.MenuHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
 import com.enonic.cms.framework.blob.BlobStoreObject;
@@ -57,7 +56,6 @@ public class PresentationEngine
 
     private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
 
-
     @Inject
     protected ContentBinaryDataDao contentBinaryDataDao;
 
@@ -69,9 +67,6 @@ public class PresentationEngine
 
     @Inject
     protected BinaryDataDao binaryDataDao;
-
-    @Inject
-    private MenuHandler menuHandler;
 
     @Inject
     private UserHandler userHandler;
@@ -224,17 +219,43 @@ public class PresentationEngine
 
     public boolean hasErrorPage( int menuKey )
     {
-        return menuHandler.getErrorPage( menuKey ) >= 0;
+        int result;
+        SiteEntity entity = siteDao.findByKey( menuKey );
+        if ( ( entity == null ) || ( entity.getErrorPage() == null ) )
+        {
+            result = -1;
+        }
+        else
+        {
+            result = entity.getErrorPage().getKey();
+        }
+        return result >= 0;
     }
 
     public int getErrorPage( int menuKey )
     {
-        return menuHandler.getErrorPage( menuKey );
+        SiteEntity entity = siteDao.findByKey( menuKey );
+        if ( ( entity == null ) || ( entity.getErrorPage() == null ) )
+        {
+            return -1;
+        }
+        else
+        {
+            return entity.getErrorPage().getKey();
+        }
     }
 
     public int getLoginPage( int menuKey )
     {
-        return menuHandler.getLoginPage( menuKey );
+        SiteEntity entity = siteDao.findByKey( menuKey );
+        if ( ( entity == null ) || ( entity.getLoginPage() == null ) )
+        {
+            return -1;
+        }
+        else
+        {
+            return entity.getLoginPage().getKey();
+        }
     }
 
     public int getBinaryDataKey( int contentKey, String label )
@@ -249,16 +270,6 @@ public class PresentationEngine
             }
         }
         return -1;
-    }
-
-    public void setMenuHandler( MenuHandler menuHandler )
-    {
-        this.menuHandler = menuHandler;
-    }
-
-    public void setUserHandler( UserHandler userHandler )
-    {
-        this.userHandler = userHandler;
     }
 
     public boolean siteExists( SiteKey siteKey )

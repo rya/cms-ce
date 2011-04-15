@@ -17,9 +17,6 @@
     <!--<property name="binaryAccessResolver" ref="binaryAccessResolver"/>-->
   <!--</bean>-->
 
-  <bean id="menuHandler" class="com.enonic.vertical.engine.handlers.MenuHandler" parent="baseHandler">
-  </bean>
-
   <bean id="userHandler" class="com.enonic.vertical.engine.handlers.UserHandler" parent="baseHandler">
   </bean>
 
