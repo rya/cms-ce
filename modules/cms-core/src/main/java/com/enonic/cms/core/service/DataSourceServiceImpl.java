@@ -4,6 +4,13 @@
  */
 package com.enonic.cms.core.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -13,6 +20,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -23,6 +31,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.esl.util.StringUtil;
+import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.PresentationEngine;
 
 import com.enonic.cms.framework.time.TimeService;
@@ -109,6 +120,8 @@ public final class DataSourceServiceImpl
 {
     private static final Logger LOG = LoggerFactory.getLogger( DataSourceServiceImpl.class );
 
+    private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
+
     @Inject
     private CalendarService calendarService;
 
@@ -117,9 +130,6 @@ public final class DataSourceServiceImpl
 
     @Inject
     private PreferenceService preferenceService;
-
-    @Inject
-    private PresentationEngine presentationEngine;
 
     @Inject
     private SecurityService securityService;
@@ -785,7 +795,8 @@ public final class DataSourceServiceImpl
             LOG.debug( msg.toString() );
         }
 
-        return XMLDocumentFactory.create( presentationEngine.getURLAsText( url, encoding, timeout ) );
+        org.w3c.dom.Document doc = getURL( url, encoding, timeout );
+        return XMLDocumentFactory.create( doc );
     }
 
     /**
@@ -838,7 +849,8 @@ public final class DataSourceServiceImpl
             LOG.debug( msg.toString() );
         }
 
-        return XMLDocumentFactory.create( presentationEngine.getURLAsXML( url, timeout ) );
+        org.w3c.dom.Document doc = getURL( url, null, timeout );
+        return XMLDocumentFactory.create( doc );
     }
 
     /**
@@ -1775,11 +1787,6 @@ public final class DataSourceServiceImpl
         this.userDao = userDao;
     }
 
-    public void setPresentationEngine( PresentationEngine presentationEngine )
-    {
-        this.presentationEngine = presentationEngine;
-    }
-
     public void setSecurityService( SecurityService securityService )
     {
         this.securityService = securityService;
@@ -1828,5 +1835,92 @@ public final class DataSourceServiceImpl
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
     {
         this.sitePropertiesService = sitePropertiesService;
+    }
+
+    private org.w3c.dom.Document getURL( String address, String encoding, int timeoutMs )
+    {
+        InputStream in = null;
+        BufferedReader reader = null;
+        org.w3c.dom.Document result;
+        try
+        {
+            URL url = new URL( address );
+            URLConnection urlConn = url.openConnection();
+            urlConn.setConnectTimeout( timeoutMs > 0 ? timeoutMs : DEFAULT_CONNECTION_TIMEOUT );
+            urlConn.setRequestProperty( "User-Agent", VerticalProperties.getVerticalProperties().getDataSourceUserAgent() );
+            String userInfo = url.getUserInfo();
+            if ( StringUtils.isNotBlank( userInfo ) )
+            {
+                String userInfoBase64Encoded = new String( Base64.encodeBase64( userInfo.getBytes() ) );
+                urlConn.setRequestProperty( "Authorization", "Basic " + userInfoBase64Encoded );
+            }
+            in = urlConn.getInputStream();
+
+            // encoding == null: XML file
+            if ( encoding == null )
+            {
+                result = XMLTool.domparse( in );
+            }
+            else
+            {
+                StringBuffer sb = new StringBuffer( 1024 );
+                reader = new BufferedReader( new InputStreamReader( in, encoding ) );
+                char[] line = new char[1024];
+                int charCount = reader.read( line );
+                while ( charCount > 0 )
+                {
+                    sb.append( line, 0, charCount );
+                    charCount = reader.read( line );
+                }
+
+                result = XMLTool.createDocument( "urlresult" );
+                org.w3c.dom.Element root = result.getDocumentElement();
+                XMLTool.createCDATASection( result, root, sb.toString() );
+            }
+        }
+        catch ( SocketTimeoutException ste )
+        {
+            String message = "Socket timeout when trying to get url: " + address;
+            LOG.warn( message);
+            result = null;
+        }
+        catch ( IOException ioe )
+        {
+            String message = "Failed to get URL: %t";
+            LOG.warn( StringUtil.expandString( message, null, ioe ), ioe );
+            result = null;
+        }
+        catch ( RuntimeException re )
+        {
+            String message = "Failed to get URL: %t";
+            LOG.warn( StringUtil.expandString( message, null, re ), re );
+            result = null;
+        }
+        finally
+        {
+            try
+            {
+                if ( reader != null )
+                {
+                    reader.close();
+                }
+                else if ( in != null )
+                {
+                    in.close();
+                }
+            }
+            catch ( IOException ioe )
+            {
+                String message = "Failed to close URL connection: %t";
+                LOG.warn( StringUtil.expandString( message, null, ioe ), ioe );
+            }
+        }
+
+        if ( result == null )
+        {
+            result = XMLTool.createDocument( "noresult" );
+        }
+
+        return result;
     }
 }
