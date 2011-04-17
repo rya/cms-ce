@@ -18,7 +18,6 @@ import org.joda.time.DateTime;
 
 import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
-import com.enonic.cms.framework.jdbc.dialect.Dialect;
 
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
@@ -43,13 +42,6 @@ public final class ContentQueryTranslator
     private static final String CONTENTINDEXENTITY_CLASSNAME = ContentIndexEntity.class.getName();
 
     private static final String SECTIONCONTENTENITTY_CLASSNAME = SectionContentEntity.class.getName();
-
-    private final Dialect dialect;
-
-    public ContentQueryTranslator( Dialect dialect )
-    {
-        this.dialect = dialect;
-    }
 
     public TranslatedQuery translate( ContentIndexQuery query )
     {
@@ -282,21 +274,10 @@ public final class ContentQueryTranslator
         if ( dateTime != null )
         {
             DateTime dateTimeRoundedDownToNearestMinute = dateTime.minuteOfHour().roundFloorCopy();
-
-            if ( ( this.dialect != null ) && this.dialect.isInlineTimestampForSpeed() )
-            {
-                hqlQuery.addFilter( "AND", "x.contentPublishFrom <= " +
-                    this.dialect.formatTimestamp( dateTimeRoundedDownToNearestMinute.getMillis() ) );
-                hqlQuery.addFilter( "AND", "(x.contentPublishTo IS null OR x.contentPublishTo > " +
-                    this.dialect.formatTimestamp( dateTimeRoundedDownToNearestMinute.getMillis() ) + ")" );
-            }
-            else
-            {
-                hqlQuery.addFilter( "AND", "x.contentPublishFrom <= :publishFromDate" );
-                hqlQuery.addFilter( "AND", "(x.contentPublishTo IS null OR x.contentPublishTo > :publishToDate)" );
-                parameters.put( "publishFromDate", dateTimeRoundedDownToNearestMinute.toDate() );
-                parameters.put( "publishToDate", dateTimeRoundedDownToNearestMinute.toDate() );
-            }
+            hqlQuery.addFilter( "AND", "x.contentPublishFrom <= :publishFromDate" );
+            hqlQuery.addFilter( "AND", "(x.contentPublishTo IS null OR x.contentPublishTo > :publishToDate)" );
+            parameters.put( "publishFromDate", dateTimeRoundedDownToNearestMinute.toDate() );
+            parameters.put( "publishToDate", dateTimeRoundedDownToNearestMinute.toDate() );
         }
     }
 

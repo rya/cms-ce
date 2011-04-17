@@ -16,9 +16,7 @@
     <!--<property name="contentStorer" ref="contentStorer"/>-->
   </bean>
 
-  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl">
-    <property name="dialect" ref="dialectFactory"/>
-  </bean>
+  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
   <bean id="contentParserService" class="com.enonic.cms.core.content.ContentParserService"/>
 

@@ -15,8 +15,6 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.enonic.cms.framework.jdbc.dialect.Dialect;
-
 import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryKey;
@@ -41,8 +39,6 @@ public final class ContentIndexServiceImpl
     @Inject
     private ContentDao contentDao;
 
-    private Dialect dialect;
-
     private enum IndexState
     {
         CHANGED,
@@ -50,11 +46,6 @@ public final class ContentIndexServiceImpl
         NEW,
         CHANGED_AND_SHORTENED,
         CHANGED_AND_LENGTHENED
-    }
-
-    public void setDialect( Dialect dialect )
-    {
-        this.dialect = dialect;
     }
 
     /**
@@ -113,7 +104,7 @@ public final class ContentIndexServiceImpl
 
         try
         {
-            translated = new ContentQueryTranslator( this.dialect ).translate( contentIndexQuery );
+            translated = new ContentQueryTranslator().translate( contentIndexQuery );
         }
         catch ( Throwable e )
         {
