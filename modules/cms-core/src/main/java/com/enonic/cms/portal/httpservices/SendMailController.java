@@ -24,7 +24,6 @@ import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.UserServicesService;
 
@@ -59,7 +58,7 @@ public class SendMailController
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
+        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException,
         InstantiationException, ParseException
     {
         if ( operation.equals( "send" ) )

@@ -33,8 +33,6 @@ import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
@@ -299,7 +297,7 @@ public class FormHandlerController
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
+            throws VerticalUserServicesException, RemoteException
     {
 
         User user = securityService.getOldUserObject();

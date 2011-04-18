@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.itest;
 
-import com.enonic.vertical.engine.VerticalKeyException;
-
 import com.enonic.cms.core.service.KeyService;
 
 /**
@@ -17,7 +15,6 @@ public class MockKeyService
     private int nextKey = 0;
 
     public int generateNextKeySafe( String tableName )
-        throws VerticalKeyException
     {
         int keyToReturn = nextKey;
         nextKey++;
@@ -25,7 +22,6 @@ public class MockKeyService
     }
 
     public void updateKey( String tableName, String pkColumnName, int minimumValue )
-        throws VerticalKeyException
     {
         //To change body of implemented methods use File | Settings | File Templates.
     }

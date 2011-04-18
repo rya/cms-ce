@@ -19,10 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.binary.BinaryData;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.portal.PrettyPathNameCreator;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -38,18 +34,7 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalException;
 import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
-import com.enonic.cms.core.content.UpdateContentResult;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.portal.cache.PageCacheService;
-
-import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentEntity;
@@ -59,11 +44,23 @@ import com.enonic.cms.core.content.ContentLocationSpecification;
 import com.enonic.cms.core.content.ContentLocations;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.PrettyPathNameCreator;
+import com.enonic.cms.portal.cache.PageCacheService;
+
+import com.enonic.cms.domain.CalendarUtil;
+import com.enonic.cms.domain.SiteKey;
 
 /**
  * Base class for userservices servlets related to modifying content from "public" sites.  This class will take care of custom content. All
@@ -277,7 +274,7 @@ public abstract class ContentHandlerBaseController
      */
     protected void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalRemoveException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         User user = securityService.getOldUserObject();
         UserEntity runningUser = securityService.getUser( user );
@@ -306,7 +303,7 @@ public abstract class ContentHandlerBaseController
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         User oldTypeUser = securityService.getOldUserObject();
 
@@ -409,7 +406,7 @@ public abstract class ContentHandlerBaseController
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         User oldUser = securityService.getOldUserObject();
 

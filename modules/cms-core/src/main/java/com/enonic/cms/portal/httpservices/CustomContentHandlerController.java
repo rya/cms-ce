@@ -13,9 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.portal.PrettyPathNameCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -24,23 +21,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.vertical.engine.VerticalEngineException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.CreateContentException;
 import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.UpdateContentException;
 import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.service.UserServicesService;
-
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.ContentDataParserException;
 import com.enonic.cms.core.content.contentdata.ContentDataParserInvalidDataException;
@@ -51,6 +44,10 @@ import com.enonic.cms.core.content.contentdata.custom.support.CustomContentDataF
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.PrettyPathNameCreator;
+
+import com.enonic.cms.domain.SiteKey;
 
 /**
  * Created by rmy - Date: Jun 24, 2009
@@ -74,7 +71,7 @@ public class CustomContentHandlerController
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
+        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException,
         InstantiationException, ParseException
     {
         if ( operation.equals( "modify" ) )
@@ -86,7 +83,7 @@ public class CustomContentHandlerController
     @Override
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         User oldUser = securityService.getLoggedInPortalUser();
 
@@ -165,7 +162,7 @@ public class CustomContentHandlerController
     @Override
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         User oldTypeUser = securityService.getOldUserObject();
 
@@ -247,7 +244,7 @@ public class CustomContentHandlerController
 
     protected void handlerModify( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
 
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         User oldTypeUser = securityService.getOldUserObject();
 
