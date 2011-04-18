@@ -66,22 +66,7 @@
         <property name="alwaysUseFullPath" value="true"/>
         <property name="mappings">
             <props>
-                <prop key="/site/**/login.cms">loginController</prop>
-                <prop key="/site/**/logout.cms">logoutController</prop>
                 <prop key="/site/*/_captcha">captchaController</prop>
-                <prop key="/site/**/error.cms">errorPageController</prop>
-                <prop key="/site/**/fatal.cms">errorPageController</prop>
-            </props>
-        </property>
-    </bean>
-
-    <!-- legacy handler mapping without auto login plugin -->
-    <bean id="legacyHandlerMappingWithoutAutoLoginPlugin"
-          class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="2"/>
-        <property name="alwaysUseFullPath" value="true"/>
-        <property name="mappings">
-            <props>
                 <prop key="/site/*/_public/**">resourceFileController</prop>
                 <prop key="/site/*/~/**">resourceFileController</prop>
             </props>
@@ -90,13 +75,11 @@
 
     <!-- legacy handler mapping with auto login plugin-->
     <bean id="legacyHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="3"/>
+        <property name="order" value="2"/>
         <property name="alwaysUseFullPath" value="true"/>
         <property name="mappings">
             <props>
-                <prop key="/site/**/page">pageRedirectController</prop>
-                <prop key="/site/**/errorpage">renderPageController</prop>
-                <prop key="/site/**/_attachment">attachmentController</prop>
+                <!--prop key="/site/*/page">pageRedirectController</prop-->
                 <prop key="/site/**/_attachment/**">attachmentController</prop>
                 <prop key="/site/**/_image/**">imageController</prop>
             </props>
@@ -110,13 +93,13 @@
 
     <bean id="userServicesMapping"
           class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-        <property name="order" value="4"/>
+        <property name="order" value="3"/>
         <property name="alwaysUseFullPath" value="true"/>
     </bean>
 
     <!-- main handler mapping -->
     <bean id="mainHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="5"/>
+        <property name="order" value="4"/>
         <property name="alwaysUseFullPath" value="true"/>
         <property name="mappings">
             <props>
@@ -164,15 +147,15 @@
     </bean>
 
 
-    <bean id="abstractSiteCommandController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteCommandController"
+    <!--bean id="abstractSiteCommandController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteCommandController"
           abstract="true">
         <property name="cacheSeconds" value="-1"/>
         <property name="siteService" ref="siteService"/>
         <property name="sitePathResolver" ref="sitePathResolver"/>
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-    </bean>
+    </bean-->
 
-    <bean id="loginController" class="com.enonic.cms.portal.mvc.controller.LoginController"
+    <!--bean id="loginController" class="com.enonic.cms.portal.mvc.controller.LoginController"
           parent="abstractSiteCommandController">
         <property name="commandClass" value="com.enonic.cms.domain.command.LoginCommand"/>
         <property name="useForward" value="true"/>
@@ -180,28 +163,28 @@
     </bean>
 
     <bean id="logoutController" class="com.enonic.cms.portal.mvc.controller.LogoutController"
-          parent="abstractSiteController"/>
+          parent="abstractSiteController"/-->
 
     <bean id="captchaController" class="com.enonic.cms.portal.mvc.controller.CaptchaController">
         <property name="captchaRepository" ref="captchaRepository"/>
     </bean>
 
-    <bean id="pageRedirectController" class="com.enonic.cms.portal.mvc.controller.PageRedirectController"
+    <!--bean id="pageRedirectController" class="com.enonic.cms.portal.mvc.controller.PageRedirectController"
           parent="abstractSiteController">
         <property name="menuItemDao" ref="menuItemDao"/>
         <property name="portalRenderResponseServer" ref="portalRenderResultServer"/>
-    </bean>
+    </bean-->
 
-    <bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
+    <!--bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
           parent="abstractSiteCommandController">
         <property name="autoLoginService" ref="autoLoginService"/>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
+    </bean-->
 
-    <bean id="errorPageController" class="com.enonic.cms.portal.mvc.controller.ErrorPageController">
+    <!--bean id="errorPageController" class="com.enonic.cms.portal.mvc.controller.ErrorPageController">
         <property name="cacheSeconds" value="-1"/>
         <property name="standardModelFactory" ref="standardModelFactory"/>
-    </bean>
+    </bean-->
 
     <bean id="presentationController" class="com.enonic.cms.portal.httpservices.AbstractPresentationController"
           abstract="true">

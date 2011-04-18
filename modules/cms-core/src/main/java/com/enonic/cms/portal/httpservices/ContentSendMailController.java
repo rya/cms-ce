@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.content.binary.BinaryData;
 import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +22,13 @@ import org.w3c.dom.Element;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.security.user.User;
 
 /**
  * Extension of the standard sendmail servlet. <p/> <p> In addition to sending an email (using the functionality in {@link
@@ -48,7 +47,7 @@ public class ContentSendMailController
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
+        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException,
         InstantiationException, ParseException
     {
         if ( operation.equals( "send" ) )

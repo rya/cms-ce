@@ -14,16 +14,6 @@ import com.enonic.cms.framework.util.PropertiesUtil;
  */
 public final class VerticalProperties
 {
-    /**
-     * Mandatory 4.0.x minor version for upgrade.
-     */
-    public final static int REQUIRED_40X_MINOR_VERSION = 5;
-
-    /**
-     * Mandatory 40x version (used for upgrade).
-     */
-    public final static String REQUIRED_40X_VERSION = "Vertical Site v4.0." + REQUIRED_40X_MINOR_VERSION;
-
     private static VerticalProperties verticalProperties;
 
     private Properties properties;
@@ -103,26 +93,6 @@ public final class VerticalProperties
         return Integer.parseInt( getProperty( "com.enonic.vertical.presentation.autologinTimeout", "30" ) );
     }
 
-    /**
-     * Get property <code>com.enonic.vertical.adminweb.XSL_PREFIX</code>.
-     *
-     * @return The parameter converted to a Java long.
-     */
-    public long getMultiPartRequestMaxSize()
-    {
-        return Long.parseLong( getProperty( "cms.admin.binaryUploadMaxSize" ) );
-    }
-
-    /**
-     * Get property <code>com.enonic.vertical.xml.XMLTool.storeXHTML</code>.
-     *
-     * @return The parameter converted to a Java boolean.
-     */
-    public boolean isStoreXHTMLOn()
-    {
-        return !"false".equals( getProperty( "cms.xml.storeXHTML", "true" ) );
-    }
-
     public String getAdminPassword()
     {
         return getProperty( "cms.admin.password" );
@@ -157,7 +127,6 @@ public final class VerticalProperties
     {
         return getProperty( "cms.enonic.vertical.presentation.dataSource.getUrl.userAgent" );
     }
-
 
     public String getDatasourceDefaultResultRootElement()
     {

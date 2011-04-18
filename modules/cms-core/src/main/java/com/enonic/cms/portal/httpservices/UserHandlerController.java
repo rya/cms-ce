@@ -13,17 +13,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import javax.naming.NameNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.preferences.*;
-import com.enonic.cms.core.security.InvalidCredentialsException;
-import com.enonic.cms.core.security.userstore.*;
-import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.portal.PortalInstanceKeyResolver;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,26 +36,24 @@ import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalEngineException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.login.LoginService;
 import com.enonic.cms.core.mail.MessageSettings;
+import com.enonic.cms.core.preferences.PreferenceAccessException;
+import com.enonic.cms.core.preferences.PreferenceEntity;
+import com.enonic.cms.core.preferences.PreferenceKey;
+import com.enonic.cms.core.preferences.PreferenceScopeKey;
+import com.enonic.cms.core.preferences.PreferenceScopeKeyResolver;
+import com.enonic.cms.core.preferences.PreferenceScopeType;
+import com.enonic.cms.core.preferences.PreferenceService;
+import com.enonic.cms.core.security.InvalidCredentialsException;
 import com.enonic.cms.core.security.PasswordGenerator;
 import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -78,6 +70,19 @@ import com.enonic.cms.core.security.user.UserNotFoundException;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
 import com.enonic.cms.core.security.user.UserStorageInvalidArgumentException;
+import com.enonic.cms.core.security.userstore.UserStoreAccessException;
+import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenException;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.PortalInstanceKeyResolver;
+import com.enonic.cms.store.dao.UserDao;
+
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;
@@ -86,7 +91,7 @@ import com.enonic.cms.domain.user.field.UserInfoTransformer;
 @Controller
 @RequestMapping(value = "/site/**/_services/user")
 public class UserHandlerController
-    extends AbstractUserServicesHandlerController
+        extends AbstractUserServicesHandlerController
 {
     private static final Logger LOG = LoggerFactory.getLogger( UserHandlerController.class.getName() );
 
@@ -228,10 +233,11 @@ public class UserHandlerController
     }
 
     @Override
-    protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
-                                  UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
-        InstantiationException, ParseException
+    protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                  ExtendedMap formItems, UserServicesService userServices, SiteKey siteKey,
+                                  String operation )
+            throws VerticalUserServicesException, IOException, ClassNotFoundException,
+            IllegalAccessException, InstantiationException, ParseException
     {
         SitePath sitePath = getSitePath( request );
         SiteContext siteContext = getSiteContext( sitePath.getSiteKey() );
@@ -284,7 +290,7 @@ public class UserHandlerController
 
 
     protected void handlerEmailExists( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, RemoteException
+            throws VerticalUserServicesException, RemoteException
     {
         UserStoreKey userStoreKey;
         String email;
@@ -319,8 +325,9 @@ public class UserHandlerController
         redirectToPage( request, response, formItems, queryParams );
     }
 
-    protected void handlerSetGroups( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
-        throws VerticalUserServicesException, RemoteException
+    protected void handlerSetGroups( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                     ExtendedMap formItems )
+            throws VerticalUserServicesException, RemoteException
     {
         UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();
 
@@ -365,8 +372,9 @@ public class UserHandlerController
     }
 
 
-    protected void handlerJoinGroup( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
-        throws VerticalUserServicesException, RemoteException
+    protected void handlerJoinGroup( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                     ExtendedMap formItems )
+            throws VerticalUserServicesException, RemoteException
     {
 
         UserEntity user = securityService.getLoggedInPortalUserAsEntity();
@@ -402,7 +410,8 @@ public class UserHandlerController
             GroupSpecification userGroupForLoggedInUser = new GroupSpecification();
             userGroupForLoggedInUser.setKey( user.getUserGroupKey() );
 
-            AddMembershipsCommand addMembershipCommand = new AddMembershipsCommand( userGroupForLoggedInUser, executor.getKey() );
+            AddMembershipsCommand addMembershipCommand =
+                    new AddMembershipsCommand( userGroupForLoggedInUser, executor.getKey() );
             addMembershipCommand.setUpdateOpenGroupsOnly( true );
             addMembershipCommand.setRespondWithException( true );
             for ( GroupKey groupKeyToAdd : groupKeysToAdd )
@@ -470,7 +479,8 @@ public class UserHandlerController
         return existingMemberships;
     }
 
-    protected void addGroupsFromSetGroupsConfig( ExtendedMap formItems, UpdateUserCommand updateUserCommand, UserEntity user )
+    protected void addGroupsFromSetGroupsConfig( ExtendedMap formItems, UpdateUserCommand updateUserCommand,
+                                                 UserEntity user )
     {
 
         List<GroupKey> toBeAdded = getSubmittedGroupKeys( formItems, JOINGROUPKEY );
@@ -515,8 +525,9 @@ public class UserHandlerController
         return groupKeys;
     }
 
-    protected void handlerLeaveGroup( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
-        throws VerticalUserServicesException, RemoteException
+    protected void handlerLeaveGroup( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                      ExtendedMap formItems )
+            throws VerticalUserServicesException, RemoteException
     {
         UserEntity user = securityService.getLoggedInPortalUserAsEntity();
         UserEntity executor = securityService.getRunAsUser();
@@ -551,7 +562,8 @@ public class UserHandlerController
             GroupSpecification userGroupForLoggedInUser = new GroupSpecification();
             userGroupForLoggedInUser.setKey( user.getUserGroupKey() );
 
-            RemoveMembershipsCommand removeMembershipsCommand = new RemoveMembershipsCommand( userGroupForLoggedInUser, executor.getKey() );
+            RemoveMembershipsCommand removeMembershipsCommand =
+                    new RemoveMembershipsCommand( userGroupForLoggedInUser, executor.getKey() );
             removeMembershipsCommand.setUpdateOpenGroupsOnly( true );
             removeMembershipsCommand.setRespondWithException( true );
             for ( GroupKey groupKeyToRemove : submittedGroupKeysToRemove )
@@ -582,8 +594,9 @@ public class UserHandlerController
         redirectToPage( request, response, formItems );
     }
 
-    protected void handlerChangePassword( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, VerticalUpdateException, RemoteException
+    protected void handlerChangePassword( HttpServletRequest request, HttpServletResponse response,
+                                          ExtendedMap formItems )
+            throws VerticalUserServicesException, RemoteException
     {
         User loggedInUser = securityService.getOldUserObject();
 
@@ -671,27 +684,6 @@ public class UserHandlerController
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
             return;
         }
-        catch ( VerticalUpdateException vue )
-        {
-            if ( vue.getCause() instanceof NameNotFoundException )
-            {
-                String message = "User not found: %0.";
-                LOG.warn( StringUtil.expandString( message, uid, null ) );
-                redirectToErrorPage( request, response, formItems, ERR_USER_NOT_FOUND, null );
-                return;
-            }
-            else
-            {
-                throw vue;
-            }
-        }
-        catch ( VerticalSecurityException vue )
-        {
-            String message = "User id and/or password incorrect: %t";
-            LOG.warn( StringUtil.expandString( message, null, vue ), vue );
-            redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
-            return;
-        }
         catch ( Exception e )
         {
             handleExceptions( e, request, response, formItems );
@@ -701,8 +693,9 @@ public class UserHandlerController
         redirectToPage( request, response, formItems );
     }
 
-    protected void handlerResetPassword( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, VerticalUpdateException, RemoteException
+    protected void handlerResetPassword( HttpServletRequest request, HttpServletResponse response,
+                                         ExtendedMap formItems )
+            throws VerticalUserServicesException, RemoteException
     {
         UserStoreKey userStoreKey;
         String uid;
@@ -731,7 +724,8 @@ public class UserHandlerController
             return;
         }
 
-        boolean missingMailBodyOrFromEmail = !( formItems.containsKey( "mail_body" ) && formItems.containsKey( "from_email" ) );
+        boolean missingMailBodyOrFromEmail =
+                !( formItems.containsKey( "mail_body" ) && formItems.containsKey( "from_email" ) );
         if ( missingMailBodyOrFromEmail )
         {
             LOG.warn( StringUtil.expandString( "Missing either 'mail_body' or 'from_email' parameter.", null, null ) );
@@ -824,7 +818,7 @@ public class UserHandlerController
 
 
     protected void handlerModify( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+            throws VerticalUserServicesException, RemoteException
     {
         UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();
 
@@ -840,7 +834,8 @@ public class UserHandlerController
         {
             final UserSpecification updateUserSpecification = createUserSpecificationForUpdate( formItems );
 
-            final UpdateUserCommand updateUserCommand = new UpdateUserCommand( loggedInUser.getKey(), updateUserSpecification );
+            final UpdateUserCommand updateUserCommand =
+                    new UpdateUserCommand( loggedInUser.getKey(), updateUserSpecification );
 
             final String email = parseEmail( formItems );
 
@@ -878,14 +873,16 @@ public class UserHandlerController
     }
 
 
-    private void handleExceptions( Exception e, HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
+    private void handleExceptions( Exception e, HttpServletRequest request, HttpServletResponse response,
+                                   ExtendedMap formItems )
     {
         if ( e instanceof UserAlreadyExistsException )
         {
             String msg = "username already exists: %0";
 
-            String userId =
-                formItems.containsKey( FORMITEM_UID ) ? formItems.getString( FORMITEM_UID ) : formItems.getString( FORMITEM_USERNAME, "" );
+            String userId = formItems.containsKey( FORMITEM_UID )
+                    ? formItems.getString( FORMITEM_UID )
+                    : formItems.getString( FORMITEM_USERNAME, "" );
 
             LOG.warn( StringUtil.expandString( msg, userId, null ) );
             redirectToErrorPage( request, response, formItems, ERR_UID_ALREADY_EXISTS, null );
@@ -940,7 +937,7 @@ public class UserHandlerController
             LOG.warn( StringUtil.expandString( message, null, e ), e );
             redirectToErrorPage( request, response, formItems, ERR_USERSTORE_NOT_FOUND, null );
         }
-        else if ( e instanceof UserStoreConnectorPolicyBrokenException)
+        else if ( e instanceof UserStoreConnectorPolicyBrokenException )
         {
             String msg = e.getMessage();
             LOG.warn( StringUtil.expandString( msg, null, null ) );
@@ -955,7 +952,8 @@ public class UserHandlerController
         }
     }
 
-    private void updateGroupsInUpdateCommand( ExtendedMap formItems, UserEntity user, UpdateUserCommand updateUserCommand )
+    private void updateGroupsInUpdateCommand( ExtendedMap formItems, UserEntity user,
+                                              UpdateUserCommand updateUserCommand )
     {
         if ( formItems.containsKey( JOINGROUPKEY ) || formItems.containsKey( ALLGROUPKEYS ) )
         {
@@ -966,9 +964,9 @@ public class UserHandlerController
 
 
     @Override
-    protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
-                                  UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
+    protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                  ExtendedMap formItems, UserServicesService userServices, SiteKey siteKey )
+            throws VerticalUserServicesException, RemoteException
     {
         String[] requiredParameters = new String[]{"email"};
 
@@ -1050,7 +1048,8 @@ public class UserHandlerController
             VerticalProperties vp = VerticalProperties.getVerticalProperties();
             adminMail.setSMTPHost( vp.getSMTPHost() );
 
-            adminMail.addRecipient( formItems.getString( "admin_name", "" ), formItems.getString( "admin_email" ), Mail.TO_RECIPIENT );
+            adminMail.addRecipient( formItems.getString( "admin_name", "" ), formItems.getString( "admin_email" ),
+                                    Mail.TO_RECIPIENT );
 
             adminMail.setFrom( formItems.getString( "from_name", "" ), formItems.getString( "from_email", "" ) );
 
@@ -1146,9 +1145,9 @@ public class UserHandlerController
     }
 
     @Override
-    protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
-                                  UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+    protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                  ExtendedMap formItems, UserServicesService userServices, SiteKey siteKey )
+            throws VerticalUserServicesException, RemoteException
     {
 
         UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();
@@ -1165,7 +1164,8 @@ public class UserHandlerController
         {
             final UserSpecification updateUserSpecification = createUserSpecificationForUpdate( formItems );
 
-            final UpdateUserCommand updateUserCommand = new UpdateUserCommand( loggedInUser.getKey(), updateUserSpecification );
+            final UpdateUserCommand updateUserCommand =
+                    new UpdateUserCommand( loggedInUser.getKey(), updateUserSpecification );
 
             updateUserCommand.setEmail( parseEmail( formItems ) );
             updateUserCommand.setDisplayName( parseDisplayName( formItems ) );
@@ -1214,9 +1214,9 @@ public class UserHandlerController
         return spec;
     }
 
-    private void processLogin( SiteContext siteContext, HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               ExtendedMap formItems, UserServicesService userServices )
-        throws VerticalUserServicesException, RemoteException
+    private void processLogin( SiteContext siteContext, HttpServletRequest request, HttpServletResponse response,
+                               HttpSession session, ExtendedMap formItems, UserServicesService userServices )
+            throws VerticalUserServicesException, RemoteException
     {
         String username = null;
         User user = null;
@@ -1233,7 +1233,8 @@ public class UserHandlerController
 
                 if ( foundUser == null )
                 {
-                    throw new InvalidCredentialsException( "Not able to log in user: " + formItems.getString( FORMITEM_EMAIL ) );
+                    throw new InvalidCredentialsException(
+                            "Not able to log in user: " + formItems.getString( FORMITEM_EMAIL ) );
                 }
 
                 username = foundUser.getName();
@@ -1263,13 +1264,13 @@ public class UserHandlerController
             {
                 // Create log entry:
                 boolean createdLogEntrySuccessfully =
-                    createLogEntry( siteContext, user, userServices, request.getRemoteAddr(), LogType.LOGIN.asInteger(), userStoreKey );
+                        createLogEntry( siteContext, user, userServices, request.getRemoteAddr(),
+                                        LogType.LOGIN.asInteger(), userStoreKey );
                 if ( !createdLogEntrySuccessfully )
                 {
                     String message = "Failed to create log entry. Aborted login.";
 
-                    VerticalRuntimeException.error( this.getClass(), VerticalUserServicesException.class,
-                                                    StringUtil.expandString( message, (Object) null, null ) );
+                    throw new VerticalException(message);
                 }
             }
 
@@ -1299,24 +1300,18 @@ public class UserHandlerController
             LOG.warn( StringUtil.expandString( message, username, null ) );
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
         }
-        catch ( VerticalSecurityException vse )
-        {
-            reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
-            String message = "No rights to handle request: " + vse.getMessage();
-            LOG.warn( StringUtil.expandString( message, null, null ) );
-            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
-        }
         catch ( Exception e )
         {
             handleExceptions( e, request, response, formItems );
         }
     }
 
-    private void applyRememberUser( SiteContext siteContext, HttpServletResponse response, ExtendedMap formItems, User user,
-                                    String deploymentPath, String cookieName )
+    private void applyRememberUser( SiteContext siteContext, HttpServletResponse response, ExtendedMap formItems,
+                                    User user, String deploymentPath, String cookieName )
     {
         boolean resetGuid = false;
-        if ( formItems.getString( "resetguid", "false" ).equals( "true" ) || formItems.getString( "resetguid", "off" ).equals( "on" ) )
+        if ( formItems.getString( "resetguid", "false" ).equals( "true" ) ||
+                formItems.getString( "resetguid", "off" ).equals( "on" ) )
         {
             resetGuid = true;
         }
@@ -1336,7 +1331,8 @@ public class UserHandlerController
     {
         boolean rememberUser = false;
 
-        if ( formItems.getString( "rememberme", "false" ).equals( "true" ) || formItems.getString( "rememberme", "off" ).equals( "on" ) )
+        if ( formItems.getString( "rememberme", "false" ).equals( "true" ) ||
+                formItems.getString( "rememberme", "off" ).equals( "on" ) )
         {
             rememberUser = true;
         }
@@ -1395,7 +1391,8 @@ public class UserHandlerController
             QualifiedUsername qualifiedUsername = QualifiedUsername.parse( formItems.getString( FORMITEM_UID ) );
             if ( qualifiedUsername.hasUserStoreNameSet() )
             {
-                UserStoreEntity userStoreEntity = userStoreParser.parseUserStore( qualifiedUsername.getUserStoreName() );
+                UserStoreEntity userStoreEntity =
+                        userStoreParser.parseUserStore( qualifiedUsername.getUserStoreName() );
                 if ( userStoreEntity != null )
                 {
                     return userStoreEntity.getKey();
@@ -1403,9 +1400,11 @@ public class UserHandlerController
             }
         }
 
-        if ( formItems.containsKey( FORMITEM_USERSTORE ) && StringUtils.isNotBlank( formItems.getString( FORMITEM_USERSTORE ) ) )
+        if ( formItems.containsKey( FORMITEM_USERSTORE ) &&
+                StringUtils.isNotBlank( formItems.getString( FORMITEM_USERSTORE ) ) )
         {
-            UserStoreEntity userStoreEntity = userStoreParser.parseUserStore( formItems.getString( FORMITEM_USERSTORE ) );
+            UserStoreEntity userStoreEntity =
+                    userStoreParser.parseUserStore( formItems.getString( FORMITEM_USERSTORE ) );
             if ( userStoreEntity != null )
             {
                 return userStoreEntity.getKey();
@@ -1421,9 +1420,9 @@ public class UserHandlerController
         CookieUtil.setCookie( response, cookieName, null, 0, deploymentPath );
     }
 
-    private boolean createLogEntry( SiteContext siteContext, User user, UserServicesService userServices, String remoteIP, int type,
-                                    UserStoreKey userStoreKey )
-        throws RemoteException
+    private boolean createLogEntry( SiteContext siteContext, User user, UserServicesService userServices,
+                                    String remoteIP, int type, UserStoreKey userStoreKey )
+            throws RemoteException
     {
         try
         {
@@ -1454,9 +1453,9 @@ public class UserHandlerController
         return true;
     }
 
-    private void processLogout( SiteContext siteContext, HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                ExtendedMap formItems, UserServicesService userServices )
-        throws VerticalUserServicesException, RemoteException
+    private void processLogout( SiteContext siteContext, HttpServletRequest request, HttpServletResponse response,
+                                HttpSession session, ExtendedMap formItems, UserServicesService userServices )
+            throws VerticalUserServicesException, RemoteException
     {
 
         UserStoreKey userStoreKey = parseUserStoreKeyFromUidAndUserstore( formItems );
@@ -1469,7 +1468,8 @@ public class UserHandlerController
             {
                 if ( siteContext.isAuthenticationLoggingEnabled() )
                 {
-                    createLogEntry( siteContext, user, userServices, request.getRemoteAddr(), LogType.LOGOUT.asInteger(), userStoreKey );
+                    createLogEntry( siteContext, user, userServices, request.getRemoteAddr(),
+                                    LogType.LOGOUT.asInteger(), userStoreKey );
                 }
             }
             else
@@ -1498,43 +1498,30 @@ public class UserHandlerController
 
     private void reportFailedLogin( SiteContext siteContext, User user, UserServicesService userServices, String uid,
                                     UserStoreKey userStoreKey, String remoteIP )
-        throws RemoteException
+            throws RemoteException
     {
-        try
-        {
-            Document doc = XMLTool.createDocument( "logentry" );
-            Element rootElement = doc.getDocumentElement();
-            rootElement.setAttribute( "typekey", String.valueOf( LogType.LOGIN_FAILED.asInteger() ) );
-            rootElement.setAttribute( "inetaddress", remoteIP );
-            rootElement.setAttribute( "menukey", String.valueOf( siteContext.getSiteKey() ) );
-            XMLTool.createElement( doc, rootElement, "title", uid );
+        Document doc = XMLTool.createDocument( "logentry" );
+        Element rootElement = doc.getDocumentElement();
+        rootElement.setAttribute( "typekey", String.valueOf( LogType.LOGIN_FAILED.asInteger() ) );
+        rootElement.setAttribute( "inetaddress", remoteIP );
+        rootElement.setAttribute( "menukey", String.valueOf( siteContext.getSiteKey() ) );
+        XMLTool.createElement( doc, rootElement, "title", uid );
 //			Element logDataElement = XMLTool.createElement(doc, rootElement, "data");
-            if ( userStoreKey != null )
-            {
-                /*
-                    String domainName = userServices.getDomainName(domainKey);
-                    Element elem = XMLTool.createElement(doc, logDataElement, "domain", domainName);
-                    rootElement.setAttribute("userstorekey", String.valueOf(userStoreKey));
-                    elem.setAttribute("key", String.valueOf(domainKey));
-                    */
-            }
+        if ( userStoreKey != null )
+        {
+            /*
+            String domainName = userServices.getDomainName(domainKey);
+            Element elem = XMLTool.createElement(doc, logDataElement, "domain", domainName);
+            rootElement.setAttribute("userstorekey", String.valueOf(userStoreKey));
+            elem.setAttribute("key", String.valueOf(domainKey));
+            */
+        }
 
-            userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
-        }
-        catch ( VerticalCreateException vce )
-        {
-            String message = "Failed to create log entry for failed login: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null, vce ), vce );
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String message = "Failed to create log entry for failed login: %t";
-            LOG.error( StringUtil.expandString( message, (Object) null, vse ), vse );
-        }
+        userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
     }
 
     private void updateUserInSession( HttpSession session )
-        throws RemoteException
+            throws RemoteException
     {
         // It is only needed to update logged in user in session when we store the whole user object in the session
         // this we do not do anymore...
@@ -1549,7 +1536,8 @@ public class UserHandlerController
         */
     }
 
-    private void handlerSetPreferences( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, SiteKey siteKey )
+    private void handlerSetPreferences( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems,
+                                        SiteKey siteKey )
     {
 
         User olduser = securityService.getOldUserObject();
@@ -1561,7 +1549,8 @@ public class UserHandlerController
             return;
         }
 
-        PortalInstanceKey instanceKey = portalInstanceKeyResolver.resolvePortalInstanceKey( formItems.getString( "_instanceKey", null ) );
+        PortalInstanceKey instanceKey =
+                portalInstanceKeyResolver.resolvePortalInstanceKey( formItems.getString( "_instanceKey", null ) );
         instanceKey.setSite( siteKey );
         UserEntity user = securityService.getUser( olduser.getKey() );
 
@@ -1627,8 +1616,8 @@ public class UserHandlerController
         return "";
     }
 
-    private void handlerRemovePreferences( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems,
-                                           SiteKey siteKey )
+    private void handlerRemovePreferences( HttpServletRequest request, HttpServletResponse response,
+                                           ExtendedMap formItems, SiteKey siteKey )
     {
 
         User olduser = securityService.getOldUserObject();
@@ -1640,7 +1629,8 @@ public class UserHandlerController
             return;
         }
 
-        PortalInstanceKey instanceKey = portalInstanceKeyResolver.resolvePortalInstanceKey( formItems.getString( "_instanceKey", null ) );
+        PortalInstanceKey instanceKey =
+                portalInstanceKeyResolver.resolvePortalInstanceKey( formItems.getString( "_instanceKey", null ) );
         instanceKey.setSite( siteKey );
         UserEntity user = securityService.getUser( olduser.getKey() );
 
@@ -1652,7 +1642,8 @@ public class UserHandlerController
         {
             try
             {
-                PreferenceKey preferenceKey = resolvePreferenceKey( user.getKey(), instanceKey, preferenceKeyStr, defaultScope );
+                PreferenceKey preferenceKey =
+                        resolvePreferenceKey( user.getKey(), instanceKey, preferenceKeyStr, defaultScope );
 
                 if ( preferenceKey != null )
                 {
@@ -1679,7 +1670,8 @@ public class UserHandlerController
         redirectToPage( request, response, formItems );
     }
 
-    private PreferenceKey resolvePreferenceKey( UserKey userKey, PortalInstanceKey instanceKey, String key, String defaultScope )
+    private PreferenceKey resolvePreferenceKey( UserKey userKey, PortalInstanceKey instanceKey, String key,
+                                                String defaultScope )
     {
         if ( key == null || key.length() == 0 )
         {
@@ -1715,7 +1707,8 @@ public class UserHandlerController
     private PreferenceScopeKey resolveScopeKey( PortalInstanceKey instanceKey, PreferenceScopeType scopeType )
     {
         boolean submitFromPageTemplate = instanceKey.getPortletKey() == null;
-        if ( submitFromPageTemplate && ( scopeType == PreferenceScopeType.WINDOW || scopeType == PreferenceScopeType.PORTLET ) )
+        if ( submitFromPageTemplate &&
+                ( scopeType == PreferenceScopeType.WINDOW || scopeType == PreferenceScopeType.PORTLET ) )
         {
             throw new IllegalArgumentException( "Scope " + scopeType.getName() + " can only be used from a portlet" );
         }

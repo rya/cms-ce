@@ -24,14 +24,12 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.DeploymentPathResolver;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.security.user.User;
 
 @Controller
 @RequestMapping(value = "/site/**/_services/poll")
@@ -57,7 +55,7 @@ public class PollHandlerController
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
 
         int contentKey = formItems.getInt( "key" );

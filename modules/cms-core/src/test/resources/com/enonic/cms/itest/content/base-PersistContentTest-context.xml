@@ -9,9 +9,6 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-  <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
-  </bean>
-
   <import resource="../base-PersistTest-context.xml"/>
 
   <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>

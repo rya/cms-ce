@@ -12,22 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
-import com.enonic.cms.core.structure.SiteEntity;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
+import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.resolver.ResolverContext;
 
 /**
  * Created by rmy - Date: Apr 3, 2009
@@ -94,7 +93,7 @@ public class PortalHandlerController
     @Override
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
+        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException,
         InstantiationException, ParseException
     {
 

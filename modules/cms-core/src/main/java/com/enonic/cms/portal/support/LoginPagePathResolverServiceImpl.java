@@ -7,7 +7,6 @@ package com.enonic.cms.portal.support;
 import javax.inject.Inject;
 
 import com.enonic.cms.portal.ReservedLocalPaths;
-import com.enonic.vertical.engine.Types;
 
 import com.enonic.cms.core.service.PresentationService;
 
@@ -46,7 +45,7 @@ public class LoginPagePathResolverServiceImpl
             throw new LoginPageNotFoundException( siteKey );
         }
 
-        Path newLocalPath = new Path( presentationService.getPathString( Types.MENUITEM, menuItemKey, false ) );
+        Path newLocalPath = new Path( presentationService.getMenuPathString( menuItemKey, false ) );
         return sitePath.createNewInSameSite( newLocalPath, sitePath.getParams() );
     }
 }

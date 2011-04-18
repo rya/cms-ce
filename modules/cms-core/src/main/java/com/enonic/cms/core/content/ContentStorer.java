@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.framework.blob.BlobStoreObject;
+import com.enonic.cms.framework.blob.BlobRecord;
 
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
@@ -1141,7 +1141,7 @@ public class ContentStorer
         {
             BinaryDataEntity binaryData = cbd.getBinaryData();
 
-            BlobStoreObject blobStoreObject = binaryDataDao.getBlob( binaryData );
+            BlobRecord blobStoreObject = binaryDataDao.getBlob( new BinaryDataKey( binaryData.getBlobKey() ) );
             BinaryDataAndBinary newBinary = new BinaryDataAndBinary( binaryData, blobStoreObject );
             newBinary.setLabel( cbd.getLabel() );
             binaryDatas.add( newBinary );

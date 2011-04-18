@@ -24,8 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.content.category.CategoryAccessException;
-import com.enonic.cms.portal.VerticalSession;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -46,22 +44,19 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalEngineException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
 import com.enonic.cms.core.captcha.CaptchaService;
+import com.enonic.cms.core.content.ContentAccessException;
+import com.enonic.cms.core.content.category.CategoryAccessException;
 import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.VerticalSession;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.content.ContentAccessException;
 
 @Controller
 public abstract class AbstractUserServicesHandlerController
@@ -142,21 +137,21 @@ public abstract class AbstractUserServicesHandlerController
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
+            throws VerticalUserServicesException, RemoteException
     {
         LOG.error( StringUtil.expandString( "OperationWrapper CREATE not implemented.", (Object) null, null ) );
     }
 
     protected void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalRemoveException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         LOG.error( StringUtil.expandString( "OperationWrapper REMOVE not implemented.", (Object) null, null ) );
     }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
+        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException,
         InstantiationException, ParseException
     {
         String message = "Custom operation not implemented: ";
@@ -169,7 +164,7 @@ public abstract class AbstractUserServicesHandlerController
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
+        throws VerticalUserServicesException, RemoteException
     {
         String message = "OperationWrapper UPDATE not implemented.";
         LOG.error( StringUtil.expandString( message, (Object) null, null ) );
@@ -425,24 +420,6 @@ public abstract class AbstractUserServicesHandlerController
             LOG.error( StringUtil.expandString( message, (Object) null, vuse ), vuse );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_HANDLER, null );
         }
-        catch ( VerticalUpdateException vue )
-        {
-            String message = "Failed to handle update request: %t";
-            LOG.warn( StringUtil.expandString( message, null, vue ), vue );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
-        }
-        catch ( VerticalRemoveException vre )
-        {
-            String message = "Failed to handle remove request: %t";
-            LOG.warn( StringUtil.expandString( message, null, vre ), vre );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String message = "No rights to handle request: %t";
-            LOG.warn( StringUtil.expandString( message, null, vse ), vse );
-            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
-        }
         catch ( ContentAccessException vse )
         {
             String message = "No rights to handle request: %t";
@@ -454,12 +431,6 @@ public abstract class AbstractUserServicesHandlerController
             String message = "No rights to handle request: %t";
             LOG.warn( StringUtil.expandString( message, null, vse ), vse );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
-        }
-        catch ( VerticalEngineException vee )
-        {
-            String message = "Failed to handle engine request: %t";
-            LOG.warn( StringUtil.expandString( message, null, vee ), vee );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         catch ( UserServicesException use )
         {

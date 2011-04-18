@@ -8,13 +8,8 @@ package com.enonic.vertical;
  * Root exception for all Vertical exceptions.
  */
 public class VerticalException
-    extends RuntimeException
+        extends RuntimeException
 {
-    /**
-     * Message key.
-     */
-    private int messageKey;
-
     /**
      * Construct the exception.
      */
@@ -29,29 +24,5 @@ public class VerticalException
     public VerticalException( String message, Throwable cause )
     {
         super( message, cause );
-    }
-
-    /**
-     * Construct the exception.
-     */
-    public VerticalException( Throwable cause )
-    {
-        super( cause.getMessage(), cause );
-    }
-
-    /**
-     * Return the message key.
-     */
-    public int getMessageKey()
-    {
-        return this.messageKey;
-    }
-
-    /**
-     * Set message key.
-     */
-    public void setMessageKey( int messageKey )
-    {
-        this.messageKey = messageKey;
     }
 }

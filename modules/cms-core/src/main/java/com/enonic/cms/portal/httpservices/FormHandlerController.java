@@ -32,9 +32,7 @@ import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalRuntimeException;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalSecurityException;
+import com.enonic.vertical.VerticalException;
 
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
@@ -299,7 +297,7 @@ public class FormHandlerController
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
+            throws VerticalUserServicesException, RemoteException
     {
 
         User user = securityService.getOldUserObject();
@@ -438,10 +436,7 @@ public class FormHandlerController
         }
         catch ( IOException ioe )
         {
-
-            VerticalRuntimeException.error( this.getClass(), VerticalUserServicesException.class,
-                                            StringUtil.expandString( "Failed to read multipart request: %t", null,
-                                                                     ioe ), ioe );
+            throw new VerticalException("Failed to read multipart request: %t", ioe);
         }
         catch ( FormException e )
         {

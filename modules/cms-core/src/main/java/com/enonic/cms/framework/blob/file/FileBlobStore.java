@@ -18,12 +18,12 @@ import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.blob.BlobStore;
 import com.enonic.cms.framework.blob.BlobStoreException;
 import com.enonic.cms.framework.blob.BlobStoreHelper;
-import com.enonic.cms.framework.blob.base.AbstractBlobStore;
 
 public final class FileBlobStore
-        extends AbstractBlobStore
+        implements BlobStore
 {
     private final static Logger LOG = LoggerFactory.getLogger( FileBlobStore.class );
 

@@ -6,17 +6,16 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.framework.blob.BlobRecord;
-import com.enonic.cms.framework.blob.BlobStoreObject;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 
 public interface BinaryDataDao
-    extends EntityDao<BinaryDataEntity>
+        extends EntityDao<BinaryDataEntity>
 {
     List<BinaryDataEntity> findAll();
 
@@ -30,9 +29,9 @@ public interface BinaryDataDao
 
     BlobRecord getBlob( BinaryDataKey key );
 
-    BlobStoreObject getBlob( BinaryDataEntity entity );
+    BlobRecord getBlob( BinaryDataEntity entity );
 
-    void setBlob( BinaryDataKey key, BlobStoreObject blob );
+    void setBlob( BinaryDataKey key, BlobRecord blob );
 
-    void setBlob( BinaryDataEntity entity, BlobStoreObject blob );
+    void setBlob( BinaryDataEntity entity, BlobRecord blob );
 }
