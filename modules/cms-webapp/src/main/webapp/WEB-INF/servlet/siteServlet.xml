@@ -80,8 +80,8 @@
         <property name="mappings">
             <props>
                 <!--prop key="/site/*/page">pageRedirectController</prop-->
-                <prop key="/site/*/_attachment/**">attachmentController</prop>
-                <prop key="/site/*/_image/**">imageController</prop>
+                <prop key="/site/**/_attachment/**">attachmentController</prop>
+                <prop key="/site/**/_image/**">imageController</prop>
             </props>
         </property>
         <property name="interceptors">
