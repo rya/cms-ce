@@ -55,6 +55,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.w3c.tidy.Configuration;
+import org.w3c.tidy.TagTable;
 import org.w3c.tidy.Tidy;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -81,42 +82,7 @@ public final class XMLTool
             XPathFactory.newInstance();
 
     static {
-        TIDY.setBreakBeforeBR( false );
-        TIDY.setCharEncoding( Configuration.UTF8 );
-        TIDY.setMakeClean( false );
-        TIDY.setDropEmptyParas( true );
-        TIDY.setDropFontTags( false );
-        TIDY.setEncloseBlockText( false );
-        TIDY.setEncloseText( false );
-        TIDY.setFixBackslash( true );
-        TIDY.setFixComments( true );
-        TIDY.setEmacs( false );
-        TIDY.setHideEndTags( false );
-        TIDY.setIndentContent( false );
-        TIDY.setIndentAttributes( false );
-        TIDY.setSpaces( 2 );
-        TIDY.setXmlTags( false );
-        TIDY.setLiteralAttribs( true );
-        TIDY.setLogicalEmphasis( false );
-        TIDY.setOnlyErrors( false );
-        TIDY.setNumEntities( false );
-        TIDY.setXHTML( true );
-        TIDY.setXmlOut( true );
-        TIDY.setQuiet( true );
-        TIDY.setQuoteAmpersand( true );
-        TIDY.setQuoteMarks( false );
-        TIDY.setQuoteNbsp( true );
-        TIDY.setRawOut( true );
-        TIDY.setShowWarnings( false );
-        TIDY.setBurstSlides( false );
-        TIDY.setTidyMark( false );
-        TIDY.setUpperCaseAttrs( false  );
-        TIDY.setUpperCaseTags( false  );
-        TIDY.setWord2000( false );
-        TIDY.setWraplen( 0 );
-        TIDY.setWrapAttVals( false );
-        TIDY.setWrapScriptlets( false );
-        TIDY.setWrapSection( false );
+        loadTidyProperties();
     }
 
     private static class ElementComparator
@@ -1703,5 +1669,16 @@ public final class XMLTool
         elem.getParentNode().replaceChild( elem2, elem );
 
         return elem2;
+    }
+
+    private static void loadTidyProperties()
+    {
+        try {
+            final Properties props = new Properties();
+            props.load( XMLTool.class.getResourceAsStream( "tidy.properties" ) );
+            TIDY.setConfigurationFromProps( props );
+        } catch (Exception e) {
+            throw new Error("Failed to read tidy.properties", e);
+        }
     }
 }
