@@ -17,4 +17,12 @@ public class VerticalException
     {
         super( message );
     }
+
+    /**
+     * Construct the exception.
+     */
+    public VerticalException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }
