@@ -23,7 +23,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
-import com.enonic.cms.framework.blob.BlobStoreObject;
+import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 import com.enonic.cms.framework.util.MimeTypeResolver;
 
 import com.enonic.cms.store.support.EntityChangeListener;
@@ -266,10 +266,10 @@ public final class FileResourceServiceImpl
 
     private void setBlob( VirtualFileEntity entity, byte[] data )
     {
-        BlobStoreObject blob = new BlobStoreObject( data );
-        this.blobStore.put( blob );
-        entity.setBlobKey( blob.getId() );
-        entity.setLength( blob.getSize() );
+        BlobRecord blob = new MemoryBlobRecord( data );
+        this.blobStore.addRecord( blob.getStream() );
+        entity.setBlobKey( blob.getKey().toString() );
+        entity.setLength( blob.getLength() );
         entity.setLastModified( System.currentTimeMillis() );
     }
 

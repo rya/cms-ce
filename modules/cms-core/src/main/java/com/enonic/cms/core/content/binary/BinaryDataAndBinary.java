@@ -7,7 +7,8 @@ package com.enonic.cms.core.content.binary;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.framework.blob.BlobStoreObject;
+import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 import com.enonic.cms.framework.xml.IllegalCharacterCleaner;
 
 import com.enonic.cms.api.client.model.content.BinaryInput;
@@ -22,7 +23,7 @@ public class BinaryDataAndBinary
 
     private BinaryDataEntity binaryData;
 
-    private BlobStoreObject binary;
+    private BlobRecord binary;
 
     private String label;
 
@@ -33,10 +34,10 @@ public class BinaryDataAndBinary
 
     public BinaryDataAndBinary( BinaryDataEntity binaryData, byte[] binary )
     {
-        this( binaryData, new BlobStoreObject( binary ) );
+        this( binaryData, new MemoryBlobRecord( binary ) );
     }
 
-    public BinaryDataAndBinary( BinaryDataEntity binaryData, BlobStoreObject binary )
+    public BinaryDataAndBinary( BinaryDataEntity binaryData, BlobRecord binary )
     {
         this.binaryData = binaryData;
         this.binary = binary;
@@ -53,7 +54,7 @@ public class BinaryDataAndBinary
         return binaryData;
     }
 
-    public BlobStoreObject getBinary()
+    public BlobRecord getBinary()
     {
         return binary;
     }
@@ -92,8 +93,8 @@ public class BinaryDataAndBinary
             binaryDataEntity.setSize( binaryData.data.length );
         }
 
-        BlobStoreObject blob = new BlobStoreObject( binaryData.data );
-        binaryDataEntity.setBlobKey( blob.getId() );
+        MemoryBlobRecord blob = new MemoryBlobRecord( binaryData.data );
+        binaryDataEntity.setBlobKey( blob.getKey().toString() );
 
         BinaryDataAndBinary binaryDataAndBinary = new BinaryDataAndBinary( binaryDataEntity, blob );
         binaryDataAndBinary.setLabel( binaryData.label );
@@ -107,7 +108,7 @@ public class BinaryDataAndBinary
         binaryDataForSave.setCreatedAt( binaryData.getCreatedAt() );
         binaryDataForSave.setName( xmlCleaner.cleanXml( binaryData.getName() ) );
         binaryDataForSave.setSize( binaryData.getSize() );
-        binaryDataForSave.setBlobKey( binary.getId() );
+        binaryDataForSave.setBlobKey( binary.getKey().toString() );
         return binaryDataForSave;
     }
 
@@ -121,8 +122,8 @@ public class BinaryDataAndBinary
             byte[] data = binaryDataEntry.getBinary();
             binaryData.setSize( data.length );
 
-            BlobStoreObject blob = new BlobStoreObject( data );
-            binaryData.setBlobKey( blob.getId() );
+            MemoryBlobRecord blob = new MemoryBlobRecord( data );
+            binaryData.setBlobKey( blob.getKey().toString() );
 
             list.add( new BinaryDataAndBinary( binaryData, blob ) );
         }
@@ -156,8 +157,8 @@ public class BinaryDataAndBinary
         binaryData.setName( xmlCleaner.cleanXml( name ) );
         binaryData.setSize( data.length );
 
-        BlobStoreObject blob = new BlobStoreObject( data );
-        binaryData.setBlobKey( blob.getId() );
+        MemoryBlobRecord blob = new MemoryBlobRecord( data );
+        binaryData.setBlobKey( blob.getKey().toString() );
 
         return new BinaryDataAndBinary( binaryData, blob );
     }

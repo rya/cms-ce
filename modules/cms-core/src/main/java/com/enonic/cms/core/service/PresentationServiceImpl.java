@@ -10,7 +10,7 @@ import org.joda.time.DateTime;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.blob.BlobStoreObject;
+import com.enonic.cms.framework.blob.BlobRecord;
 
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
@@ -22,7 +22,6 @@ import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.service.PresentationService;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.binary.BinaryData;
@@ -109,8 +108,8 @@ public class PresentationServiceImpl
 
         if ( binaryData.timestamp.getTime() > timestamp )
         {
-            BlobStoreObject blob = this.binaryDataDao.getBlob( contentBinaryData.getBinaryData() );
-            binaryData.data = blob.getData();
+            BlobRecord blob = this.binaryDataDao.getBlob( contentBinaryData.getBinaryData() );
+            binaryData.data = blob.getAsBytes();
         }
 
         return binaryData;

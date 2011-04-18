@@ -9,9 +9,10 @@ import java.io.InputStream;
 
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.blob.BlobStoreHelper;
 
-final class MemoryBlobRecord
-    extends BlobRecord
+final public class MemoryBlobRecord
+        extends BlobRecord
 {
     private final byte[] data;
 
@@ -19,6 +20,11 @@ final class MemoryBlobRecord
     {
         super( key );
         this.data = data;
+    }
+
+    public MemoryBlobRecord( final byte[] data )
+    {
+        this( new BlobKey( BlobStoreHelper.createKey( data ).toString() ), data );
     }
 
     public long getLength()
