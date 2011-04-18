@@ -10,9 +10,6 @@
 
   <context:annotation-config/>
 
-  <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
-  </bean>
-
   <import resource="../../../base-PersistTest-context.xml"/>
 
   <import resource="classpath:store-dao-context.xml"/>
