@@ -18,7 +18,6 @@ import com.enonic.cms.portal.VerticalSession;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
@@ -53,8 +52,6 @@ public class PageRendererContext
     private ContentEntity contentFromRequest;
 
     private LanguageEntity language;
-
-    private DataSourceProcessor[] processors;
 
     private PreviewContext previewContext;
 
@@ -143,16 +140,6 @@ public class PageRendererContext
     public boolean isEncodeURIs()
     {
         return encodeURIs;
-    }
-
-    public DataSourceProcessor[] getProcessors()
-    {
-        return processors;
-    }
-
-    public void setProcessors( DataSourceProcessor[] processors )
-    {
-        this.processors = processors;
     }
 
     public PreviewContext getPreviewContext()

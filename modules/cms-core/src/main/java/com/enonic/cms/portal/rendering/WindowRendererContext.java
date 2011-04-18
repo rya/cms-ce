@@ -15,7 +15,6 @@ import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.PageRequestType;
 import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.VerticalSession;
-import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
@@ -48,8 +47,6 @@ public class WindowRendererContext
     private Regions regionsInPage;
 
     private InvocationCache invocationCache;
-
-    private DataSourceProcessor[] processors;
 
     private PreviewContext previewContext;
 
@@ -120,11 +117,6 @@ public class WindowRendererContext
         return invocationCache;
     }
 
-    public DataSourceProcessor[] getProcessors()
-    {
-        return processors;
-    }
-
     public PreviewContext getPreviewContext()
     {
         return previewContext;
@@ -193,11 +185,6 @@ public class WindowRendererContext
     public void setForceNoCacheUsage( boolean forceNoCacheUsage )
     {
         this.forceNoCacheUsage = forceNoCacheUsage;
-    }
-
-    public void setProcessors( DataSourceProcessor[] processors )
-    {
-        this.processors = processors;
     }
 
     public void setOriginalUrl( String originalUrl )

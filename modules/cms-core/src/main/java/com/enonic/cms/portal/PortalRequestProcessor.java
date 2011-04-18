@@ -188,7 +188,6 @@ public class PortalRequestProcessor
             windowRendererContext.setOriginalUrl( request.getOriginalUrl() );
             windowRendererContext.setPageRequestType( pageRequestType );
             windowRendererContext.setPreviewContext( request.getPreviewContext() );
-            windowRendererContext.setProcessors( null );
             windowRendererContext.setRegionsInPage( processorResult.getRegionsInPage() );
             windowRendererContext.setRenderedInline( false );
             windowRendererContext.setRenderer( requester );
@@ -224,7 +223,6 @@ public class PortalRequestProcessor
             pageRendererContext.setPageRequestType( pageRequestType );
             pageRendererContext.setPreviewContext( request.getPreviewContext() );
             pageRendererContext.setProfile( request.getProfile() );
-            pageRendererContext.setProcessors( null );
             pageRendererContext.setTicketId( request.getTicketId() );
             pageRendererContext.setSite( site );
             pageRendererContext.setSitePath( sitePath );

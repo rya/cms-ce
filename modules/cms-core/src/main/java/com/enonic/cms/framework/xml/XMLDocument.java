@@ -50,19 +50,7 @@ public interface XMLDocument
     /**
      * Return as a source.
      */
-    public Source getAsSource()
-        throws XMLException;
-
-    /**
-     * Return as a source.
-     */
     public Source getAsJDOMSource()
-        throws XMLException;
-
-    /**
-     * Return as a source.
-     */
-    public Source getAsDOMSource()
         throws XMLException;
 
     /**

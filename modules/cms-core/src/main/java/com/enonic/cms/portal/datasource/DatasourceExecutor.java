@@ -15,7 +15,6 @@ import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
 
 import com.enonic.cms.portal.datasource.methodcall.MethodCall;
 import com.enonic.cms.portal.datasource.methodcall.MethodCallFactory;
-import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.portal.ShoppingCart;
@@ -23,7 +22,6 @@ import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
 
 public class DatasourceExecutor
 {
-
     private DatasourceExecutorContext context;
 
     private DatasourcesContextXmlCreator datasourcesContextXmlCreator;
@@ -146,8 +144,6 @@ public class DatasourceExecutor
     {
         XMLDocument xmlDocument = methodCall.invoke();
 
-        xmlDocument = postProcessDocument( xmlDocument, methodCall );
-
         Document jdomDocument = (Document) xmlDocument.getAsJDOMDocument().clone();
 
         if ( datasource.getResultElementName() != null )
@@ -159,23 +155,6 @@ public class DatasourceExecutor
         }
 
         return jdomDocument;
-    }
-
-
-    private XMLDocument postProcessDocument( XMLDocument source, MethodCall methodCall )
-    {
-        if ( !context.hasProcessors() )
-        {
-            return source;
-        }
-
-        org.w3c.dom.Document doc = source.getAsDOMDocument();
-        for ( DataSourceProcessor processor : context.getProcessors() )
-        {
-            processor.postProcess( doc, methodCall );
-        }
-
-        return XMLDocumentFactory.create( doc );
     }
 
     private void setTraceDataSourceResult( Document result )

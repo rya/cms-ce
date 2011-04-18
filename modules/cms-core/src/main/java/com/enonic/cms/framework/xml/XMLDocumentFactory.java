@@ -4,11 +4,8 @@
  */
 package com.enonic.cms.framework.xml;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-
 import org.jdom.Document;
 
 /**
@@ -39,59 +36,10 @@ public final class XMLDocumentFactory
     /**
      * Create xml document based on string.
      */
-    public static XMLDocument create( XMLBytes doc )
-    {
-        return new XMLDocumentImpl( doc );
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( XMLBytes doc, String systemId )
-    {
-        XMLDocument xml = create( doc );
-        xml.setSystemId( systemId );
-        return xml;
-    }
-
-    /**
-     * Create xml document based on string.
-     */
     public static XMLDocument create( Reader input )
         throws XMLException
     {
         return new XMLDocumentImpl( XMLDocumentHelper.copyToString( input ) );
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( Reader input, String systemId )
-        throws XMLException
-    {
-        XMLDocument xml = create( input );
-        xml.setSystemId( systemId );
-        return xml;
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( InputStream input )
-        throws XMLException
-    {
-        return new XMLDocumentImpl( XMLDocumentHelper.copyToString( new InputStreamReader( input ) ) );
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( InputStream input, String systemId )
-        throws XMLException
-    {
-        XMLDocument xml = create( input );
-        xml.setSystemId( systemId );
-        return xml;
     }
 
     /**
@@ -105,7 +53,7 @@ public final class XMLDocumentFactory
     /**
      * Create xml document based on string.
      */
-    public static XMLDocument create( byte[] xml, String encoding, String systemId )
+    private static XMLDocument create( byte[] xml, String encoding, String systemId )
     {
         try
         {
@@ -126,30 +74,10 @@ public final class XMLDocumentFactory
     }
 
     /**
-     * Create xml document based on W3C dom document.
-     */
-    public static XMLDocument create( org.w3c.dom.Document doc, String systemId )
-    {
-        XMLDocument xml = create( doc );
-        xml.setSystemId( systemId );
-        return xml;
-    }
-
-    /**
      * Create xml document based on JDOM document.
      */
     public static XMLDocument create( Document doc )
     {
         return new XMLDocumentImpl( doc );
-    }
-
-    /**
-     * Create xml document based on JDOM document.
-     */
-    public static XMLDocument create( Document doc, String systemId )
-    {
-        XMLDocument xml = create( doc );
-        xml.setSystemId( systemId );
-        return xml;
     }
 }

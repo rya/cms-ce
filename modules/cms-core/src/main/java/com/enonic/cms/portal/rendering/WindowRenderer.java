@@ -445,7 +445,6 @@ public class WindowRenderer
         datasourceExecutorContext.setPortalInstanceKey( portalInstanceKey );
         datasourceExecutorContext.setPortletWindowRenderedInline( context.isRenderedInline() );
         datasourceExecutorContext.setPreviewContext( context.getPreviewContext() );
-        datasourceExecutorContext.setProcessors( context.getProcessors() );
         datasourceExecutorContext.setProfile( context.getProfile() );
         datasourceExecutorContext.setRequestParameters( this.requestParameters );
         datasourceExecutorContext.setShoppingCart( context.getShoppingCart() );

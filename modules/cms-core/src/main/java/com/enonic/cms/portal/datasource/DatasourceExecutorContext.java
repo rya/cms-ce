@@ -18,7 +18,6 @@ import com.enonic.cms.portal.*;
 import org.jdom.Document;
 
 import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.portal.datasource.processor.DataSourceProcessor;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
@@ -66,8 +65,6 @@ public class DatasourceExecutorContext
     private Document portletDocument;
 
     private ResourceKey[] cssKeys;
-
-    private DataSourceProcessor[] processors;
 
     private PreviewContext previewContext;
 
@@ -185,16 +182,6 @@ public class DatasourceExecutorContext
         return cssKeys;
     }
 
-    public DataSourceProcessor[] getProcessors()
-    {
-        return processors;
-    }
-
-    public boolean hasProcessors()
-    {
-        return processors != null && processors.length > 0;
-    }
-
     public PreviewContext getPreviewContext()
     {
         return previewContext;
@@ -253,11 +240,6 @@ public class DatasourceExecutorContext
     public void setCssKeys( ResourceKey[] cssKeys )
     {
         this.cssKeys = cssKeys;
-    }
-
-    public void setProcessors( DataSourceProcessor[] processors )
-    {
-        this.processors = processors;
     }
 
     public InvocationCache getDatasourceServiceInvocationCache()
