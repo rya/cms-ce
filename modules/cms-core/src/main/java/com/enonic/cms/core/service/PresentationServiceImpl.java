@@ -176,7 +176,7 @@ public class PresentationServiceImpl
         return -1;
     }
 
-    public String getPathString( int type, int key, boolean includeRoot )
+    public String getMenuPathString( int key, boolean includeRoot )
     {
         // TODO: Implement method using Hibernate
         throw new IllegalStateException("Method not implemented");
