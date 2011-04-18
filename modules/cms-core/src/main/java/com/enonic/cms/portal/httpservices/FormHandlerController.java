@@ -436,9 +436,7 @@ public class FormHandlerController
         }
         catch ( IOException ioe )
         {
-
-            VerticalException.error( this.getClass(), VerticalUserServicesException.class,
-                                     StringUtil.expandString( "Failed to read multipart request: %t", null, ioe ), ioe );
+            throw new VerticalException("Failed to read multipart request: %t", ioe);
         }
         catch ( FormException e )
         {

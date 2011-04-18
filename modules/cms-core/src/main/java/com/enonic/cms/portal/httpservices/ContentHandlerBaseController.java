@@ -156,7 +156,7 @@ public abstract class ContentHandlerBaseController
         catch ( ParseException pe )
         {
             String message = "Failed to parse a date: %t";
-            VerticalException.error( this.getClass(), VerticalException.class, message, pe );
+            throw new VerticalException(message, pe);
         }
     }
 
@@ -504,10 +504,7 @@ public abstract class ContentHandlerBaseController
         }
         catch ( IOException ioe )
         {
-
-            VerticalException.error( this.getClass(), VerticalException.class,
-                                            StringUtil.expandString( "Failed to read binary data: %t", (Object) null,
-                                                                     ioe ), ioe );
+            throw  new VerticalException("Failed to read binary data: %t", ioe);
         }
 
         return binaryData;
@@ -529,11 +526,8 @@ public abstract class ContentHandlerBaseController
         catch ( IOException ioe )
         {
             String message = "Failed to read file item stream: %t";
-
-            VerticalException.error( this.getClass(), VerticalException.class,
-                                            StringUtil.expandString( message, (Object) null, ioe ), ioe );
+            throw new VerticalException(message, ioe);
         }
-        return null;
     }
 
     private void createGroupBlock( ExtendedMap formItems, Document doc, Element contentdata, NodeList inputElements, String groupXPath,

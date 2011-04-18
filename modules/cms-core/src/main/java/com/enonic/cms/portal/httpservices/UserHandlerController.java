@@ -1270,8 +1270,7 @@ public class UserHandlerController
                 {
                     String message = "Failed to create log entry. Aborted login.";
 
-                    VerticalException.error( this.getClass(), VerticalUserServicesException.class,
-                                             StringUtil.expandString( message, (Object) null, null ) );
+                    throw new VerticalException(message);
                 }
             }
 

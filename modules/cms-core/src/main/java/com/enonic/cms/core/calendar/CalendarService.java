@@ -92,8 +92,7 @@ public class CalendarService
         if ( count < 0 )
         {
 
-            VerticalException.error(this.getClass(), VerticalException.class, StringUtil.expandString(
-                    "Parameter 'count' must be 0 or a positive integer.", (Object) null, null));
+            throw new VerticalException("Parameter 'count' must be 0 or a positive integer.");
         }
 
         // set current date
