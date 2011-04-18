@@ -10,11 +10,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import com.enonic.vertical.VerticalException;
 import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.esl.util.StringUtil;
-import com.enonic.vertical.VerticalRuntimeException;
 
 /**
  *
@@ -92,8 +92,8 @@ public class CalendarService
         if ( count < 0 )
         {
 
-            VerticalRuntimeException.error( this.getClass(), VerticalRuntimeException.class, StringUtil.expandString(
-                    "Parameter 'count' must be 0 or a positive integer.", (Object) null, null ) );
+            VerticalException.error(this.getClass(), VerticalException.class, StringUtil.expandString(
+                    "Parameter 'count' must be 0 or a positive integer.", (Object) null, null));
         }
 
         // set current date

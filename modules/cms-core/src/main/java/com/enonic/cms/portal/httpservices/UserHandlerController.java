@@ -36,8 +36,8 @@ import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalException;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.VerticalRuntimeException;
 
 import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.SiteContext;
@@ -1270,8 +1270,8 @@ public class UserHandlerController
                 {
                     String message = "Failed to create log entry. Aborted login.";
 
-                    VerticalRuntimeException.error( this.getClass(), VerticalUserServicesException.class,
-                                                    StringUtil.expandString( message, (Object) null, null ) );
+                    VerticalException.error( this.getClass(), VerticalUserServicesException.class,
+                                             StringUtil.expandString( message, (Object) null, null ) );
                 }
             }
 

@@ -33,7 +33,6 @@ import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalException;
-import com.enonic.vertical.VerticalRuntimeException;
 
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAndVersion;
@@ -157,7 +156,7 @@ public abstract class ContentHandlerBaseController
         catch ( ParseException pe )
         {
             String message = "Failed to parse a date: %t";
-            VerticalRuntimeException.error( this.getClass(), VerticalException.class, message, pe );
+            VerticalException.error( this.getClass(), VerticalException.class, message, pe );
         }
     }
 
@@ -506,7 +505,7 @@ public abstract class ContentHandlerBaseController
         catch ( IOException ioe )
         {
 
-            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+            VerticalException.error( this.getClass(), VerticalException.class,
                                             StringUtil.expandString( "Failed to read binary data: %t", (Object) null,
                                                                      ioe ), ioe );
         }
@@ -531,7 +530,7 @@ public abstract class ContentHandlerBaseController
         {
             String message = "Failed to read file item stream: %t";
 
-            VerticalRuntimeException.error( this.getClass(), VerticalException.class,
+            VerticalException.error( this.getClass(), VerticalException.class,
                                             StringUtil.expandString( message, (Object) null, ioe ), ioe );
         }
         return null;

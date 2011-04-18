@@ -32,7 +32,7 @@ import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalRuntimeException;
+import com.enonic.vertical.VerticalException;
 
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;
@@ -437,9 +437,8 @@ public class FormHandlerController
         catch ( IOException ioe )
         {
 
-            VerticalRuntimeException.error( this.getClass(), VerticalUserServicesException.class,
-                                            StringUtil.expandString( "Failed to read multipart request: %t", null,
-                                                                     ioe ), ioe );
+            VerticalException.error( this.getClass(), VerticalUserServicesException.class,
+                                     StringUtil.expandString( "Failed to read multipart request: %t", null, ioe ), ioe );
         }
         catch ( FormException e )
         {
