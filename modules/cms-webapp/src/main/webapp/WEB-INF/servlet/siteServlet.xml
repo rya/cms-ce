@@ -175,11 +175,11 @@
         <property name="portalRenderResponseServer" ref="portalRenderResultServer"/>
     </bean-->
 
-    <bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
+    <!--bean id="userServicesController" class="com.enonic.cms.portal.mvc.controller.UserServicesController"
           parent="abstractSiteCommandController">
         <property name="autoLoginService" ref="autoLoginService"/>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
+    </bean-->
 
     <!--bean id="errorPageController" class="com.enonic.cms.portal.mvc.controller.ErrorPageController">
         <property name="cacheSeconds" value="-1"/>
