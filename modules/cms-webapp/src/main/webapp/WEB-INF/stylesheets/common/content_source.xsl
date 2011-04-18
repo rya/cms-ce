@@ -23,7 +23,7 @@
         <fieldset>
           <legend>&nbsp;%blockContentXml%&nbsp;</legend>
           <pre class="content-source">
-            <xsl:value-of select="translate($source/data, '&#xA;','')"/>
+            <xsl:value-of select="$source/data"/>
           </pre>
         </fieldset>
 
