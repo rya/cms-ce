@@ -106,46 +106,6 @@ public abstract class AttachmentControllerTest
 
     }
 
-    //@Test
-    /*public void urlWithBinaryId()
-        throws Exception
-    {
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
-
-        request.setMethod( "GET" );
-        request.setRequestURI( "http://localhost/site/0/binary" );
-        request.setParameter( "id", "1" );
-
-        Resource file = new ClassPathResource( "test.jpg" );
-        byte[] content = getBytesFromFile( file.getFile() );
-        BinaryEntity binaryEntity = new BinaryEntity();
-        binaryEntity.setData( content );
-        binaryEntity.setKey( 1 );
-        CachedObject cachedObject = new CachedObject( binaryEntity );
-
-        expect( binaryService.getBinary( isA( SiteKey.class ), isA( UserEntity.class ), isA( BinaryDataKey.class ) ) ).andReturn(
-            cachedObject ).times( 1 );
-
-        BinaryDataEntity binaryDataEntity = new BinaryDataEntity();
-        binaryDataEntity.setCreatedAt( new Date( 2009, 1, 1 ) );
-        binaryDataEntity.setKey( 1 );
-        binaryDataEntity.setName( "test.jpg" );
-        binaryDataEntity.setSize( content.length );
-        expect( binaryService.getBinaryData( isA( BinaryDataKey.class ) ) ).andReturn( binaryDataEntity ).times( 1 );
-
-        replay( binaryService );
-
-        // call the method to test
-        controller.handleRequest( request, response );
-
-        verify( binaryService );
-        verify( sitePropertiesService );
-        verify( siteService );
-        verify( autoLoginService );
-
-    }*/
 
     //@Test
 

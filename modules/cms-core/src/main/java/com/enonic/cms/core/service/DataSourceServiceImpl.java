@@ -34,7 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.engine.PresentationEngine;
 
 import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;

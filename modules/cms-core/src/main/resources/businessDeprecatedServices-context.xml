@@ -7,10 +7,4 @@
     <!--<property name="presentationEngine" ref="presentationEngine"/>-->
   </bean>
 
-  <bean id="presentationEngine" class="com.enonic.vertical.engine.PresentationEngine">
-    <!--<property name="binaryDataHandler" ref="binaryDataHandler"/>-->
-    <!--<property name="menuHandler" ref="menuHandler"/>-->
-    <!--<property name="userHandler" ref="userHandler"/>-->
-  </bean>
-
 </beans>
