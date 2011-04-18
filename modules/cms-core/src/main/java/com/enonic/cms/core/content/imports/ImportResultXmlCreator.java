@@ -6,12 +6,10 @@ package com.enonic.cms.core.content.imports;
 
 import java.util.Map;
 
-import com.enonic.cms.core.content.ContentKey;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.core.content.ContentKey;
 
 public class ImportResultXmlCreator
 {
@@ -22,7 +20,7 @@ public class ImportResultXmlCreator
         this.includeContentInformation = includeContentInformation;
     }
 
-    public XMLDocument getReport( final ImportResult importResult )
+    public Document getReport( final ImportResult importResult )
     {
         final Element root = new Element( "importreport" );
         root.setAttribute( "elapsedTimeInSeconds", String.valueOf( importResult.getElapsedTimeInSeconds() ) );
@@ -36,7 +34,7 @@ public class ImportResultXmlCreator
         root.addContent( createReportElement( "remaining", importResult.getRemaining() ) );
         root.addContent( createReportElement( "alreadyArchived", importResult.getAlreadyArchived() ) );
 
-        return XMLDocumentFactory.create( doc );
+        return doc;
     }
 
     private Element createReportElement( final String name, final Map<ContentKey, String> entries )

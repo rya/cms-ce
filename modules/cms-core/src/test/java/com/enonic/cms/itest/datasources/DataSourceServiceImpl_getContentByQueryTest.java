@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -146,11 +145,10 @@ public class DataSourceServiceImpl_getContentByQueryTest
         int childrenLevel = 0;
         int parentLevel = 0;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContentByQuery( context, query, orderyBy, index, count, includeData, childrenLevel, parentLevel );
 
         // verify
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "2" );
         AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, content_1, content_2 );
     }

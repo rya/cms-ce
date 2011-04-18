@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.ContentEntity;
@@ -152,12 +151,10 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
         int childrenLevel = 1;
         int parentLevel = 0;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContentByQuery( context, query, orderyBy, index, count, includeData, childrenLevel, parentLevel );
 
         // verify
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "2" );
         AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, contentA.toString(), contentB.toString() );
         AssertTool.assertXPathEquals( "/contents/content[ title = 'Content A']/relatedcontentkeys/relatedcontentkey/@key", jdomDocResult,
@@ -201,12 +198,10 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
         int childrenLevel = 10;
         int parentLevel = 0;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContentByQuery( context, query, orderyBy, index, count, includeData, childrenLevel, parentLevel );
 
         // verify
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "4" );
         AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, fatherContentKey.toString(), daughterContentKey.toString(),
                                       sonContentKey.toString(), grandChildContentKey.toString() );
@@ -252,12 +247,10 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
         int childrenLevel = 0;
         int parentLevel = 10;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContentByQuery( context, query, orderyBy, index, count, includeData, childrenLevel, parentLevel );
 
         // verify
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "4" );
         AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, fatherContentKey.toString(), daughterContentKey.toString(),
                                       sonContentKey.toString(), grandChildContentKey.toString() );
@@ -305,12 +298,10 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
         int childrenLevel = 10;
         int parentLevel = 10;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContentByQuery( context, query, orderyBy, index, count, includeData, childrenLevel, parentLevel );
 
         // verify
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "4" );
         AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, fatherContentKey.toString(), daughterContentKey.toString(),
                                       sonContentKey.toString(), grandChildContentKey.toString() );

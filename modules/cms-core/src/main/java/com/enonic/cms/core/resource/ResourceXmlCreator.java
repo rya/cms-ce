@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jdom.Document;
+
 import com.google.common.collect.Multimap;
 
 import com.enonic.esl.util.DigestUtil;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.domain.CmsDateAndTimeFormats;
 import com.enonic.cms.domain.SiteKey;
@@ -89,14 +90,14 @@ public class ResourceXmlCreator
         this.usedByMap = usedByMap;
     }
 
-    public XMLDocument createResourceXml( ResourceFile resourceFile )
+    public Document createResourceXml( ResourceFile resourceFile )
     {
         XMLBuilder builder = new XMLBuilder();
         addResource( builder, resourceFile );
         return builder.getDocument();
     }
 
-    public XMLDocument createResourceTreeXml( ResourceFolder root )
+    public Document createResourceTreeXml( ResourceFolder root )
     {
         XMLBuilder builder = new XMLBuilder( "resources" );
         addRootAttributes( builder, root );

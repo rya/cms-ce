@@ -7,12 +7,12 @@ package com.enonic.cms.core.resolver;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resolver.deviceclass.UserAgentTestEnums;
 
@@ -30,7 +30,7 @@ public class ResolverHttpRequestXMLCreatorTest
 
     ResolverHttpRequestInput resolverHttpRequestInput;
 
-    XMLDocument xmlDoc;
+    Document xmlDoc;
 
     private final static int NUMBER_OF_COOKIES = 5;
 
@@ -49,7 +49,7 @@ public class ResolverHttpRequestXMLCreatorTest
     {
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( null );
         assertEquals( "request", getRootElementName() );
-        assertEquals( 1, getNumberOfElements( xmlDoc.getAsJDOMDocument().getRootElement() ) );
+        assertEquals( 1, getNumberOfElements( xmlDoc.getRootElement() ) );
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ResolverHttpRequestXMLCreatorTest
         setupFullRequest();
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( resolverHttpRequestInput );
 
-        Element rootElement = xmlDoc.getAsJDOMDocument().getRootElement();
+        Element rootElement = xmlDoc.getRootElement();
 
         assertEquals( 34, getNumberOfElements( rootElement ) );
 
@@ -78,7 +78,7 @@ public class ResolverHttpRequestXMLCreatorTest
 
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( resolverHttpRequestInput );
 
-        Element rootElement = xmlDoc.getAsJDOMDocument().getRootElement();
+        Element rootElement = xmlDoc.getRootElement();
 
         assertEquals( 29, getNumberOfElements( rootElement ) );
         assertEquals( 1, getNumberOfElements( findElement( rootElement, "cookies" ) ) );
@@ -93,7 +93,7 @@ public class ResolverHttpRequestXMLCreatorTest
 
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( resolverHttpRequestInput );
 
-        Element rootElement = xmlDoc.getAsJDOMDocument().getRootElement();
+        Element rootElement = xmlDoc.getRootElement();
 
         assertEquals( 24, getNumberOfElements( rootElement ) );
         assertEquals( 0, findElementsNumberOfChildren( rootElement, ResolverHttpRequestInputXMLCreator.PARAMETERS_ROOT_ELEMENT_NAME ) );
@@ -107,7 +107,7 @@ public class ResolverHttpRequestXMLCreatorTest
         resolverHttpRequestInput.setIp( null );
 
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( resolverHttpRequestInput );
-        Element rootElement = xmlDoc.getAsJDOMDocument().getRootElement();
+        Element rootElement = xmlDoc.getRootElement();
 
         assertTrue( "Ip should be empty",
                     StringUtils.isEmpty( findElement( rootElement, ResolverHttpRequestInputXMLCreator.IP_ELEMENT_NAME ).getValue() ) );
@@ -123,7 +123,7 @@ public class ResolverHttpRequestXMLCreatorTest
         addServerAndPort();
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( resolverHttpRequestInput );
 
-        Element rootElement = xmlDoc.getAsJDOMDocument().getRootElement();
+        Element rootElement = xmlDoc.getRootElement();
         assertEquals( 0, findElementsNumberOfChildren( rootElement, ResolverHttpRequestInputXMLCreator.ACCEPT_ROOT_ELEMENT_NAME ) );
     }
 
@@ -137,7 +137,7 @@ public class ResolverHttpRequestXMLCreatorTest
 
         xmlDoc = httpRequestInputXMLCreator.buildResolverInputXML( resolverHttpRequestInput );
 
-        Element rootElement = xmlDoc.getAsJDOMDocument().getRootElement();
+        Element rootElement = xmlDoc.getRootElement();
         assertEquals( 0, findElementsNumberOfChildren( rootElement, ResolverHttpRequestInputXMLCreator.HEADERS_ROOT_ELEMENT_NAME ) );
     }
 
@@ -230,7 +230,7 @@ public class ResolverHttpRequestXMLCreatorTest
 
     private String getRootElementName()
     {
-        return xmlDoc.getAsJDOMDocument().getRootElement().getName();
+        return xmlDoc.getRootElement().getName();
     }
 
     private int getNumberOfElements( Element element )

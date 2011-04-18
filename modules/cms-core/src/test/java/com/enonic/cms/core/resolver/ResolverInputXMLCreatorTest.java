@@ -7,10 +7,6 @@ package com.enonic.cms.core.resolver;
 import java.util.List;
 import java.util.Locale;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupType;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.structure.SiteEntity;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -19,15 +15,17 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resolver.mock.ResolverHttpRequestInputCreatorMock;
 import com.enonic.cms.core.resolver.mock.ResolverHttpRequestInputXMLCreatorMock;
-
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;
@@ -65,9 +63,8 @@ public class ResolverInputXMLCreatorTest
 
         ResolverContext context = new ResolverContext( request, new SiteEntity() );
 
-        XMLDocument input = resolverInputXMLCreator.buildResolverInputXML( context );
+        Document doc = resolverInputXMLCreator.buildResolverInputXML( context );
 
-        Document doc = input.getAsJDOMDocument();
         Element root = doc.getRootElement();
 
         assertEquals( root.getName(), "context" );
@@ -91,9 +88,8 @@ public class ResolverInputXMLCreatorTest
         ResolverContext context = new ResolverContext( request, new SiteEntity() );
         context.setUser( createNormalUser() );
 
-        XMLDocument input = resolverInputXMLCreator.buildResolverInputXML( context );
+        Document doc = resolverInputXMLCreator.buildResolverInputXML( context );
 
-        Document doc = input.getAsJDOMDocument();
         Element root = doc.getRootElement();
 
         Element userElement = JDOMUtil.getElement( root, "user" );

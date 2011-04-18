@@ -9,9 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -19,17 +16,18 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
-import com.enonic.cms.core.structure.page.PageEntity;
 
 public class MenuItemXmlCreator
 {
@@ -98,7 +96,7 @@ public class MenuItemXmlCreator
         return menuItemEl;
     }
 
-    public XMLDocument createLegacyGetMenuItem( MenuItemEntity menuItem )
+    public Document createLegacyGetMenuItem( MenuItemEntity menuItem )
     {
 
         if ( menuItem == null )
@@ -147,7 +145,7 @@ public class MenuItemXmlCreator
             insertLastMenuItemAsASubnode( xmlDocs );
         }
 
-        return XMLDocumentFactory.create( xmlDocs.get( 0 ) );
+        return xmlDocs.get( 0 );
     }
 
     private void insertLastMenuItemAsASubnode( List<Document> xmlDocs )

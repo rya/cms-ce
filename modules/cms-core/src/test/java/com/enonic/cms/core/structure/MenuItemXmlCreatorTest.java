@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.jdom.Document;
+import org.jdom.JDOMException;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import org.jdom.JDOMException;
-
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public class MenuItemXmlCreatorTest
@@ -66,7 +66,7 @@ public class MenuItemXmlCreatorTest
         setting = new MenuItemXMLCreatorSetting();
         setting.includeParents = true;
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi111 );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi111 );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -86,7 +86,7 @@ public class MenuItemXmlCreatorTest
         setting = new MenuItemXMLCreatorSetting();
         setting.includeParents = true;
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi1 );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi1 );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -116,7 +116,7 @@ public class MenuItemXmlCreatorTest
         setting = new MenuItemXMLCreatorSetting();
         setting.includeParents = false;
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi111 );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi111 );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -136,7 +136,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -155,7 +155,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -176,7 +176,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( shortcutMenuItem );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( shortcutMenuItem );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -210,7 +210,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -239,7 +239,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -264,7 +264,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
@@ -289,7 +289,7 @@ public class MenuItemXmlCreatorTest
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );
-        XMLDocument xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
+        Document xmlDoc = xmlCreator.createLegacyGetMenuItem( mi );
 
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }

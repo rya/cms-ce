@@ -29,7 +29,6 @@ import org.springframework.util.Assert;
 import com.enonic.esl.util.Base64Util;
 
 import com.enonic.cms.framework.time.TimeService;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLException;
 
 import com.enonic.cms.api.client.ClientException;
@@ -928,7 +927,7 @@ public final class InternalClientImpl
             assertMinValue( "categoryKey", params.categoryKey, 0 );
             return this.dataSourceService.getCategories( createDataSourceContext(), params.categoryKey, params.levels,
                                                          params.includeTopCategory, true, false,
-                                                         params.includeContentCount ).getAsJDOMDocument();
+                                                         params.includeContentCount );
         }
         catch ( Exception e )
         {
@@ -980,8 +979,7 @@ public final class InternalClientImpl
             getContentXmlCreator.includeUserRights( params.includeUserRights );
             getContentXmlCreator.versionInfoStyle( GetContentXmlCreator.VersionInfoStyle.CLIENT );
 
-            XMLDocument xml = getContentXmlCreator.create( getContentResult );
-            return xml.getAsJDOMDocument();
+            return getContentXmlCreator.create( getContentResult );
         }
         catch ( XMLException e )
         {
@@ -1040,7 +1038,7 @@ public final class InternalClientImpl
             xmlCreator.setOnlineCheckDate( now );
             xmlCreator.setIncludeAssignment( true );
 
-            return xmlCreator.createContentVersionsDocument( user, versions, relatedContent ).getAsJDOMDocument();
+            return xmlCreator.createContentVersionsDocument( user, versions, relatedContent );
 
         }
         catch ( Exception e )
@@ -1110,7 +1108,7 @@ public final class InternalClientImpl
             xmlCreator.setIncludeVersionsInfoForClient( true );
             xmlCreator.setIncludeAssignment( true );
 
-            return xmlCreator.createContentsDocument( user, contents, relatedContent ).getAsJDOMDocument();
+            return xmlCreator.createContentsDocument( user, contents, relatedContent );
         }
         catch ( Exception e )
         {
@@ -1179,7 +1177,7 @@ public final class InternalClientImpl
             xmlCreator.setIncludeVersionsInfoForClient( true );
             xmlCreator.setIncludeAssignment( true );
 
-            return xmlCreator.createContentsDocument( user, contents, relatedContent ).getAsJDOMDocument();
+            return xmlCreator.createContentsDocument( user, contents, relatedContent );
         }
         catch ( Exception e )
         {
@@ -1256,7 +1254,7 @@ public final class InternalClientImpl
             xmlCreator.setIncludeVersionsInfoForClient( true );
             xmlCreator.setIncludeAssignment( true );
 
-            return xmlCreator.createContentsDocument( user, randomContents, relatedContent ).getAsJDOMDocument();
+            return xmlCreator.createContentsDocument( user, randomContents, relatedContent );
         }
         catch ( XMLException e )
         {
@@ -1327,7 +1325,7 @@ public final class InternalClientImpl
                 relatedContents = previewContext.getContentPreviewContext().overrideRelatedContentResultSet( relatedContents );
             }
 
-            return xmlCreator.createContentsDocument( user, contents, relatedContents ).getAsJDOMDocument();
+            return xmlCreator.createContentsDocument( user, contents, relatedContents );
         }
         catch ( XMLException e )
         {
@@ -1398,7 +1396,7 @@ public final class InternalClientImpl
             xmlCreator.setIncludeVersionsInfoForClient( true );
             xmlCreator.setIncludeAssignment( true );
 
-            return xmlCreator.createContentsDocument( user, randomContents, relatedContent ).getAsJDOMDocument();
+            return xmlCreator.createContentsDocument( user, randomContents, relatedContent );
         }
         catch ( XMLException e )
         {
@@ -1414,7 +1412,7 @@ public final class InternalClientImpl
         {
             assertMinValue( "menuKey", params.menuKey, 0 );
             return this.dataSourceService.getMenu( createDataSourceContext(), params.menuKey, params.tagItem,
-                                                   params.levels, false ).getAsJDOMDocument();
+                                                   params.levels, false );
         }
         catch ( Exception e )
         {
@@ -1431,7 +1429,7 @@ public final class InternalClientImpl
             assertMinValue( "menuItemKey", params.menuItemKey, 0 );
             return this.dataSourceService.getMenuBranch( createDataSourceContext(), params.menuItemKey,
                                                          params.includeTopLevel, params.startLevel,
-                                                         params.levels ).getAsJDOMDocument();
+                                                         params.levels );
         }
         catch ( Exception e )
         {
@@ -1446,7 +1444,7 @@ public final class InternalClientImpl
         try
         {
             assertMinValue( "menuKey", params.menuKey, 0 );
-            return this.dataSourceService.getMenuData( createDataSourceContext(), params.menuKey ).getAsJDOMDocument();
+            return this.dataSourceService.getMenuData( createDataSourceContext(), params.menuKey );
         }
         catch ( Exception e )
         {
@@ -1462,7 +1460,7 @@ public final class InternalClientImpl
         {
             assertMinValue( "menuItemKey", params.menuItemKey, 0 );
             return this.dataSourceService.getMenuItem( createDataSourceContext(), params.menuItemKey,
-                                                       params.withParents, params.details ).getAsJDOMDocument();
+                                                       params.withParents, params.details );
         }
         catch ( Exception e )
         {
@@ -1478,7 +1476,7 @@ public final class InternalClientImpl
         {
             assertMinValue( "menuItemKey", params.menuItemKey, 0 );
             return this.dataSourceService.getSubMenu( createDataSourceContext(), params.menuItemKey, params.tagItem,
-                                                      params.levels, false ).getAsJDOMDocument();
+                                                      params.levels, false );
         }
         catch ( Exception e )
         {
@@ -1609,7 +1607,7 @@ public final class InternalClientImpl
             xmlCreator.setIncludeVersionsInfoForClient( true );
             xmlCreator.setIncludeAssignment( true );
 
-            return xmlCreator.createContentsDocument( user, mainResultContent, relatedContent ).getAsJDOMDocument();
+            return xmlCreator.createContentsDocument( user, mainResultContent, relatedContent );
         }
         catch ( XMLException e )
         {
@@ -1698,7 +1696,7 @@ public final class InternalClientImpl
             {
                 xmlCreator.setUsedByMap( this.resourceService.getUsedBy( resourceFile.getResourceKey() ) );
             }
-            return xmlCreator.createResourceXml( resourceFile ).getAsJDOMDocument();
+            return xmlCreator.createResourceXml( resourceFile );
         }
         catch ( Exception e )
         {
@@ -1747,7 +1745,7 @@ public final class InternalClientImpl
 
             final ImportResultXmlCreator reportCreator = new ImportResultXmlCreator();
             reportCreator.setIncludeContentInformation( true );
-            return reportCreator.getReport( report ).getAsJDOMDocument();
+            return reportCreator.getReport( report );
         }
         catch ( Exception e )
         {

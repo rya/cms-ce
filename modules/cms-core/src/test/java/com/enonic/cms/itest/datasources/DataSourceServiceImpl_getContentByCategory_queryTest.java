@@ -6,6 +6,7 @@ package com.enonic.cms.itest.datasources;
 
 import javax.inject.Inject;
 
+import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -150,13 +150,12 @@ public class DataSourceServiceImpl_getContentByCategory_queryTest
         int childrenLevel = 0;
         int parentLevel = 0;
 
-        XMLDocument xmlDocResult =
+        Document document =
             dataSourceService.getContentByCategory( context, categoryKeys, levels, query, orderyBy, index, count, includeData,
                                                     childrenLevel, parentLevel );
 
         // verify
-        AssertTool.assertXPathEquals( "/contents/content/@key", xmlDocResult.getAsJDOMDocument(),
-                                      new String[]{expectedContentKey.toString()} );
+        AssertTool.assertXPathEquals( "/contents/content/@key", document, new String[]{expectedContentKey.toString()} );
     }
 
     private CreateContentCommand createCreateContentCommand( String categoryName, String creatorUid, ContentStatus contentStatus,

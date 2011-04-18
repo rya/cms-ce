@@ -6,13 +6,9 @@ package com.enonic.cms.core.preferences;
 
 import java.io.IOException;
 
-import com.enonic.cms.core.preferences.PreferenceEntity;
-import com.enonic.cms.core.preferences.PreferenceKey;
-import com.enonic.cms.core.preferences.PreferenceXmlCreator;
+import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.junit.Test;
-
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.domain.AbstractXmlCreatorTest;
 
@@ -32,7 +28,7 @@ public class PreferenceXmlCreatorTest
         pref.setKey( key );
         pref.setValue( "testValue" );
 
-        XMLDocument xmlDoc = PreferenceXmlCreator.createPreferencesDocument(pref);
+        Document xmlDoc = PreferenceXmlCreator.createPreferencesDocument(pref);
         assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
     }
 }

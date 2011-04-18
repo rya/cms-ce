@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.ContentAndVersion;
@@ -178,10 +177,10 @@ public class DatasourceServiceImpl_getContentTest
         int parentLevel = 0;
 
         int[] contentKeys = new int[]{expectedContentKey.toInt()};
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContent( context, contentKeys, query, orderBy, index, count, includeData, childrenLevel, parentLevel );
 
-        assertXPathEquals( "/contents/content/@key", xmlDocResult.getAsJDOMDocument(), expectedContentKey.toString() );
+        assertXPathEquals( "/contents/content/@key", jdomDocResult, expectedContentKey.toString() );
     }
 
     @Test
@@ -206,11 +205,11 @@ public class DatasourceServiceImpl_getContentTest
 
         // Query the content with access
         int[] contentKeys = new int[]{expectedContentKey.toInt()};
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
-        assertXPathEquals( "/contents/content/@key", xmlDocResult.getAsJDOMDocument(), expectedContentKey.toString() );
+        assertXPathEquals( "/contents/content/@key", jdomDocResult, expectedContentKey.toString() );
     }
 
     @Test
@@ -236,14 +235,12 @@ public class DatasourceServiceImpl_getContentTest
 
         // Exercise
         int[] contentKeys = new int[]{requested1.toInt(), requested2.toInt()};
-        XMLDocument resultAsXMLDocument =
+        Document resultAsJDOM =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // Verify
-        Document resultAsJDOM = resultAsXMLDocument.getAsJDOMDocument();
-
         assertXPathEquals( "/contents/content/@key", resultAsJDOM, requested1.toString(), requested2.toString() );
         assertXPathEquals( "/contents/content[ @key=" + requested1 + "]/relatedcontentkeys/@count", resultAsJDOM, "1" );
         assertXPathEquals( "/contents/content[ @key=" + requested1 + "]/relatedcontentkeys/relatedcontentkey/@key", resultAsJDOM,
@@ -286,13 +283,12 @@ public class DatasourceServiceImpl_getContentTest
 
         // Exercise
         int[] contentKeys = new int[]{contentKey.toInt()};
-        XMLDocument resultAsXMLDocument =
+        Document resultAsJDOM =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // Verify
-        Document resultAsJDOM = resultAsXMLDocument.getAsJDOMDocument();
         assertXPathEquals( "/contents/content/@key", resultAsJDOM, contentKey.toString() );
         assertSingleXPathValueEquals( "/contents/content/title", resultAsJDOM, "Previewed" );
     }
@@ -325,13 +321,12 @@ public class DatasourceServiceImpl_getContentTest
 
         // Exercise
         int[] contentKeys = new int[]{contentKey.toInt()};
-        XMLDocument resultAsXMLDocument =
+        Document resultAsJDOM =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // Verify
-        Document resultAsJDOM = resultAsXMLDocument.getAsJDOMDocument();
         assertXPathEquals( "/contents/content/@key", resultAsJDOM, contentKey.toString() );
         assertSingleXPathValueEquals( "/contents/content/title", resultAsJDOM, "Previewed" );
     }
@@ -362,14 +357,12 @@ public class DatasourceServiceImpl_getContentTest
 
         // Exercise
         int[] contentKeys = new int[]{content1.toInt()};
-        XMLDocument resultAsXMLDocument =
+        Document resultAsJDOM =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // Verify
-        Document resultAsJDOM = resultAsXMLDocument.getAsJDOMDocument();
-
         assertXPathEquals( "/contents/content/@key", resultAsJDOM, content1.toString() );
         assertXPathEquals( "/contents/content/relatedcontentkeys/@count", resultAsJDOM, "2" );
         assertXPathEquals( "/contents/content/relatedcontentkeys/relatedcontentkey/@key", resultAsJDOM, parentOf1.toString(),
@@ -416,14 +409,12 @@ public class DatasourceServiceImpl_getContentTest
 
         // Exercise
         int[] contentKeys = new int[]{fatherContentKey.toInt()};
-        XMLDocument resultAsXMLDocument =
+        Document resultAsJDOM =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // Verify
-        Document resultAsJDOM = resultAsXMLDocument.getAsJDOMDocument();
-
         assertXPathEquals( "/contents/content/@key", resultAsJDOM, fatherContentKey.toString() );
         assertXPathEquals( "/contents/content/relatedcontentkeys/@count", resultAsJDOM, "1" );
         assertXPathEquals( "/contents/content/relatedcontentkeys/relatedcontentkey/@key", resultAsJDOM, sonContentKey.toString() );
@@ -477,14 +468,12 @@ public class DatasourceServiceImpl_getContentTest
         boolean categoryRecursive = false;
         int[] filterByContentTypes = null;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // verify: result does not include father's relation to the son
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-
         assertXPathEquals( "/contents/content/@key", jdomDocResult, father );
         assertXPathEquals( "/contents/content[title = 'Father']/relatedcontentkeys/@count", jdomDocResult, "1" );
         assertXPathEquals( "/contents/content[title = 'Father']/relatedcontentkeys/relatedcontentkey [@level = 1]/@key", jdomDocResult,
@@ -520,14 +509,12 @@ public class DatasourceServiceImpl_getContentTest
 
         // Exercise
         int[] contentKeys = new int[]{parent1.toInt()};
-        XMLDocument resultAsXMLDocument =
+        Document resultAsJDOM =
             dataSourceService.getContent( context, contentKeys, parentLevel, childrenLevel, parentChildrenLevel, updateStatistics,
                                           relatedTitlesOnly, includeUserRights, filterByCategories, categoryRecursive,
                                           filterByContentTypes );
 
         // Verify
-        Document resultAsJDOM = resultAsXMLDocument.getAsJDOMDocument();
-
         assertXPathEquals( "/contents/content/@key", resultAsJDOM, parent1.toString() );
         assertXPathEquals( "/contents/relatedcontents/content/@key", resultAsJDOM, relatedTo2.toString(), relatedTo1.toString() );
     }

@@ -56,10 +56,19 @@ public final class XMLBuilder
 
     /**
      * @return The document as an <code>XMLDocument</code>
+     * @deprecated
      */
-    public XMLDocument getDocument()
+    public XMLDocument getXMLDocument()
     {
         return XMLDocumentFactory.create( this.document );
+    }
+
+    /**
+     * @return The document as an <code>org.jdom.Document</code>
+     */
+    public Document getDocument()
+    {
+        return document;
     }
 
     /**
@@ -229,9 +238,9 @@ public final class XMLBuilder
      *
      * @param doc The entire document to import.
      */
-    public void importElement( XMLDocument doc )
+    public void importElement( Document doc )
     {
-        importElement( doc.getAsJDOMDocument().getRootElement() );
+        importElement( doc.getRootElement() );
     }
 
     public Element getCurrentElement()

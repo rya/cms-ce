@@ -12,7 +12,6 @@ import org.jdom.Element;
 
 import com.enonic.esl.util.DateUtil;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.framework.xml.XMLException;
 
@@ -259,8 +258,7 @@ public class DataEntryXmlCreator
             Document document;
             try
             {
-                final XMLDocument xml = XMLDocumentFactory.create( xmlStr );
-                document = xml.getAsJDOMDocument();
+                document = XMLDocumentFactory.create( xmlStr ).getAsJDOMDocument();
             }
             catch ( XMLException e )
             {

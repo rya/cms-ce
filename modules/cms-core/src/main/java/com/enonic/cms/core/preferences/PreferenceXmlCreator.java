@@ -6,13 +6,14 @@ package com.enonic.cms.core.preferences;
 
 import java.util.Collection;
 
+import org.jdom.Document;
+
 import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 public class PreferenceXmlCreator
 {
 
-    public static XMLDocument createPreferencesDocument( PreferenceEntity preference )
+    public static Document createPreferencesDocument( PreferenceEntity preference )
     {
 
         XMLBuilder builder = new XMLBuilder();
@@ -24,7 +25,7 @@ public class PreferenceXmlCreator
         return builder.getDocument();
     }
 
-    public static XMLDocument createPreferencesDocument( Collection<PreferenceEntity> preferences )
+    public static Document createPreferencesDocument( Collection<PreferenceEntity> preferences )
     {
 
         XMLBuilder builder = new XMLBuilder();
@@ -38,7 +39,7 @@ public class PreferenceXmlCreator
         return builder.getDocument();
     }
 
-    public static XMLDocument createEmptyPreferencesDocument( String message )
+    public static Document createEmptyPreferencesDocument( String message )
     {
         XMLBuilder builder = new XMLBuilder();
         builder.startElement( "preferences" );

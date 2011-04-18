@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -171,13 +170,11 @@ public class DataSourceServiceImpl_getRelatedContentTest
         int childrenLevel = 10;
         int parentLevel = 10;
 
-        XMLDocument xmlDocResult =
+        Document jdomDocResult =
             dataSourceService.getRelatedContent( context, contentKeys, relation, query, orderBy, index, count, includeData, childrenLevel,
                                                  parentLevel );
 
         // verify
-        Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
-
         assertXPathEquals( "/contents/@totalcount", jdomDocResult, "2" );
         assertXPathEquals( "/contents/content/@key", jdomDocResult, grandFather, grandMother );
         assertXPathEquals( "/contents/content[title = 'Grand father']/relatedcontentkeys/@count", jdomDocResult, "1" );

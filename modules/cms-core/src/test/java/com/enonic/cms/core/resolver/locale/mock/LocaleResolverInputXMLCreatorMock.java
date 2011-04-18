@@ -6,11 +6,12 @@ package com.enonic.cms.core.resolver.locale.mock;
 
 import java.util.Locale;
 
+import org.jdom.Document;
+
+import com.enonic.cms.framework.xml.XMLBuilder;
+
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator;
-import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
-
 import com.enonic.cms.core.resolver.ResolverInputXMLCreator;
 
 /**
@@ -29,30 +30,30 @@ public class LocaleResolverInputXMLCreatorMock
     }
 
     @Override
-    public XMLDocument buildResolverInputXML( ResolverContext context )
+    public Document buildResolverInputXML( ResolverContext context )
     {
-        XMLBuilder xmlDoc = new XMLBuilder();
+        XMLBuilder builder = new XMLBuilder();
 
-        xmlDoc.startElement( ROOT_ELEMENT_NAME );
+        builder.startElement( ROOT_ELEMENT_NAME );
 
-        xmlDoc.startElement( ResolverHttpRequestInputXMLCreator.REQUEST_ROOT_ELEMENT_NAME );
+        builder.startElement( ResolverHttpRequestInputXMLCreator.REQUEST_ROOT_ELEMENT_NAME );
 
-        xmlDoc.endElement();
+        builder.endElement();
 
-        xmlDoc.startElement( "user" );
+        builder.startElement( "user" );
 
-        xmlDoc.startElement( "block" );
+        builder.startElement( "block" );
 
         // Add user-stuff here, when ready, set locale in context
-        xmlDoc.addContentElement( "locale", locale.getLanguage() );
+        builder.addContentElement( "locale", locale.getLanguage() );
 
-        xmlDoc.endElement();
+        builder.endElement();
 
-        xmlDoc.endElement();
+        builder.endElement();
 
-        xmlDoc.endElement();
+        builder.endElement();
 
-        return xmlDoc.getDocument();
+        return builder.getDocument();
     }
 
     public Locale getLocale()

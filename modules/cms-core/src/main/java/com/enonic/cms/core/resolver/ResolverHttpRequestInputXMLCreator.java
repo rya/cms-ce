@@ -7,8 +7,9 @@ package com.enonic.cms.core.resolver;
 import java.util.Map;
 import java.util.Set;
 
+import org.jdom.Document;
+
 import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 /**
  * Created by rmy - Date: Apr 7, 2009
@@ -53,7 +54,7 @@ public class ResolverHttpRequestInputXMLCreator
 
     protected static final String PROTOCOL_ELEMENT_NAME = "protocol";
 
-    public XMLDocument buildResolverInputXML( ResolverHttpRequestInput resolverHttpRequestInput )
+    public Document buildResolverInputXML( ResolverHttpRequestInput resolverHttpRequestInput )
     {
         XMLBuilder xmlDoc = new XMLBuilder();
 

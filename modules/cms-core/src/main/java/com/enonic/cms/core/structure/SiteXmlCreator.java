@@ -8,20 +8,18 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
-
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserXmlCreator;
+import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+
+import com.enonic.cms.domain.SiteKey;
 
 public class SiteXmlCreator
 {
@@ -92,7 +90,7 @@ public class SiteXmlCreator
         return (Element) xmlDoc.getRootElement().getChild( "menu" ).detach();
     }
 
-    public XMLDocument createLegacyGetMenuData( SiteEntity site, SiteProperties siteProperties )
+    public Document createLegacyGetMenuData( SiteEntity site, SiteProperties siteProperties )
     {
         includeMenuItems = false;
         menuItemXmlCreator = new MenuItemXmlCreator( MenuItemXMLCreatorSetting.createFrom( this ), menuItemAccessResolver );
@@ -101,7 +99,7 @@ public class SiteXmlCreator
         return xmlDoc.getDocument();
     }
 
-    public XMLDocument createLegacyGetMenu( SiteEntity site, SiteProperties siteProperties )
+    public Document createLegacyGetMenu( SiteEntity site, SiteProperties siteProperties )
     {
 
         menuItemXmlCreator = new MenuItemXmlCreator( MenuItemXMLCreatorSetting.createFrom( this ), menuItemAccessResolver );
@@ -115,7 +113,8 @@ public class SiteXmlCreator
         return xmlDoc.getDocument();
     }
 
-    public XMLDocument createLegacyGetMenus( Collection<SiteEntity> sites, Map<SiteKey, SiteProperties> sitesPropertiesMap )
+    public Document createLegacyGetMenus( Collection<SiteEntity> sites,
+                                          Map<SiteKey, SiteProperties> sitesPropertiesMap )
     {
 
         XMLBuilder xmlDoc = new XMLBuilder( "menus" );
@@ -128,17 +127,17 @@ public class SiteXmlCreator
         return xmlDoc.getDocument();
     }
 
-    public static XMLDocument createEmptyMenuBranch()
+    public static Document createEmptyMenuBranch()
     {
-        return XMLDocumentFactory.create( new Document( new Element( "menuitems" ) ) );
+        return new Document( new Element( "menuitems" ) );
     }
 
-    public static XMLDocument createEmptyMenus()
+    public static Document createEmptyMenus()
     {
-        return XMLDocumentFactory.create( new Document( new Element( "menus" ) ) );
+        return new Document( new Element( "menus" ) );
     }
 
-    public XMLDocument createLegacyGetMenuBranch( SiteEntity siteEntity )
+    public Document createLegacyGetMenuBranch( SiteEntity siteEntity )
     {
         if ( siteEntity == null )
         {
@@ -206,7 +205,7 @@ public class SiteXmlCreator
         return xmlDoc.getDocument();
     }
 
-    public XMLDocument createLegacyGetSubMenu( SiteEntity siteEntity )
+    public Document createLegacyGetSubMenu( SiteEntity siteEntity )
     {
 
         if ( siteEntity == null )
@@ -231,9 +230,9 @@ public class SiteXmlCreator
         }
 
         boolean isTop = menuItemInBranch.isAtTopLevel();
-        XMLBuilder xmlDoc = new XMLBuilder();
-        createMenuItemsElement( xmlDoc, menuItemInBranch, isTop );
-        return xmlDoc.getDocument();
+        XMLBuilder builder = new XMLBuilder();
+        createMenuItemsElement( builder, menuItemInBranch, isTop );
+        return builder.getDocument();
     }
 
     private void createMenuItemsElementWithTopLevel( XMLBuilder xmlDoc, SiteEntity site, MenuItemEntity rootMenuItem )
@@ -287,11 +286,11 @@ public class SiteXmlCreator
         xmlDoc.endElement();
     }
 
-    private XMLDocument createMenuItemsWithErrorMessage( String errorMessage )
+    private Document createMenuItemsWithErrorMessage( String errorMessage )
     {
         Element menuItems = new Element( "menuitems" );
         menuItems.setAttribute( "error", errorMessage );
-        return XMLDocumentFactory.create( new Document( menuItems ) );
+        return new Document( menuItems );
     }
 
     private Element doCreateMenuElement( SiteEntity site, SiteProperties siteProperties, String rootElementName )

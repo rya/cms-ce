@@ -11,25 +11,17 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import com.enonic.cms.core.content.binary.BinaryDataXmlCreator;
-import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentXmlCreator;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.binary.BinaryDataXmlCreator;
+import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
-
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentVersionResultSet;
@@ -37,6 +29,11 @@ import com.enonic.cms.core.content.resultset.RelatedContent;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentXmlCreator;
+
+import com.enonic.cms.domain.CmsDateAndTimeFormats;
+import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.domain.LanguageKey;
 
 public class ContentXMLCreator
 {
@@ -168,8 +165,8 @@ public class ContentXMLCreator
         return doCreateContentElement( content, version, runningUser, includeContentData, false );
     }
 
-    public XMLDocument createContentsDocument( UserEntity runningUser, ContentAndVersion contentAndVersion,
-                                               RelatedContentResultSet children )
+    public Document createContentsDocument( UserEntity runningUser, ContentAndVersion contentAndVersion,
+                                            RelatedContentResultSet children )
     {
         Element contentsEl = new Element( "contents" );
 
@@ -187,7 +184,7 @@ public class ContentXMLCreator
             contentsEl.addContent( doCreateRelatedContentsElement( runningUser, children ) );
         }
 
-        return XMLDocumentFactory.create( new Document( contentsEl ) );
+        return new Document( contentsEl );
     }
 
     public Element createContentElement( UserEntity runningUser, ContentAndVersion contentAndVersion )
@@ -196,8 +193,8 @@ public class ContentXMLCreator
                                        false );
     }
 
-    public XMLDocument createContentVersionsDocument( UserEntity user, Collection<ContentVersionEntity> versions,
-                                                      RelatedContentResultSet children )
+    public Document createContentVersionsDocument( UserEntity user, Collection<ContentVersionEntity> versions,
+                                                   RelatedContentResultSet children )
     {
         if ( versions == null )
         {
@@ -219,11 +216,11 @@ public class ContentXMLCreator
             contentsElement.addContent( doCreateRelatedContentsElement( user, children ) );
         }
 
-        return XMLDocumentFactory.create( new Document( contentsElement ) );
+        return new Document( contentsElement );
     }
 
-    public XMLDocument createContentsDocument( final UserEntity runningUser, final ContentVersionEntity version,
-                                               final RelatedContentResultSet relatedContents )
+    public Document createContentsDocument( final UserEntity runningUser, final ContentVersionEntity version,
+                                            final RelatedContentResultSet relatedContents )
     {
         final Element contentsEl = createContentsElement();
 
@@ -242,10 +239,11 @@ public class ContentXMLCreator
             contentsEl.addContent( doCreateRelatedContentsElement( runningUser, relatedContents ) );
         }
 
-        return XMLDocumentFactory.create( new Document( contentsEl ) );
+        return new Document( contentsEl );
     }
 
-    public XMLDocument createContentsDocument( UserEntity user, ContentResultSet contentResultSet, RelatedContentResultSet relatedContents )
+    public Document createContentsDocument( UserEntity user, ContentResultSet contentResultSet,
+                                            RelatedContentResultSet relatedContents )
     {
         if ( contentResultSet == null )
         {
@@ -288,12 +286,12 @@ public class ContentXMLCreator
             contentsEl.addContent( relatedContentsElement );
         }
 
-        return XMLDocumentFactory.create( new Document( contentsEl ) );
+        return new Document( contentsEl );
 
     }
 
-    public XMLDocument createContentVersionsDocument( UserEntity user, ContentVersionResultSet contentVersionResultSet,
-                                                      RelatedContentResultSet relatedContents )
+    public Document createContentVersionsDocument( UserEntity user, ContentVersionResultSet contentVersionResultSet,
+                                                   RelatedContentResultSet relatedContents )
     {
         if ( contentVersionResultSet == null )
         {
@@ -337,12 +335,12 @@ public class ContentXMLCreator
             contentsEl.addContent( relatedContentsElement );
         }
 
-        return XMLDocumentFactory.create( new Document( contentsEl ) );
+        return new Document( contentsEl );
 
     }
 
-    public XMLDocument createContentVersionsDocument( UserEntity user, ContentResultSet contentResultSet,
-                                                      RelatedContentResultSet relatedContents )
+    public Document createContentVersionsDocument( UserEntity user, ContentResultSet contentResultSet,
+                                                   RelatedContentResultSet relatedContents )
     {
         if ( contentResultSet == null )
         {
@@ -390,11 +388,11 @@ public class ContentXMLCreator
             contentsEl.addContent( relatedContentsElement );
         }
 
-        return XMLDocumentFactory.create( new Document( contentsEl ) );
+        return new Document( contentsEl );
 
     }
 
-    public XMLDocument createEmptyDocument( String message )
+    public Document createEmptyDocument( String message )
     {
         Element root = createContentsElement();
         Document doc = new Document( root );
@@ -405,7 +403,7 @@ public class ContentXMLCreator
         {
             root.setAttribute( "message", message );
         }
-        return XMLDocumentFactory.create( doc );
+        return doc;
     }
 
     private Element createContentsElement()
@@ -417,7 +415,7 @@ public class ContentXMLCreator
         return new Element( DEFAULT_RESULTROOTNAME );
     }
 
-    private XMLDocument doCreateErrorDocument( Collection<String> errors, int index, int count )
+    private Document doCreateErrorDocument( Collection<String> errors, int index, int count )
     {
         Element root = createContentsElement();
         root.setAttribute( "index", String.valueOf( index ) );
@@ -435,7 +433,7 @@ public class ContentXMLCreator
             errorsEl.addContent( errorEl );
         }
 
-        return XMLDocumentFactory.create( doc );
+        return doc;
     }
 
     private Element doCreateRelatedContentsElement( final UserEntity user, final RelatedContentResultSet relatedContents )

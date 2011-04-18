@@ -7,6 +7,9 @@ package com.enonic.cms.core.resolver;
 import javax.inject.Inject;
 import javax.xml.transform.URIResolver;
 
+import org.jdom.Document;
+import org.jdom.transform.JDOMSource;
+
 import com.enonic.esl.util.RegexpUtil;
 
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -35,7 +38,7 @@ public abstract class AbstractXsltScriptResolver
 
     public ScriptResolverResult resolveValue( ResolverContext context, ResourceFile localeResolverScript )
     {
-        XMLDocument resolverInput = getResolverInput( context );
+        Document resolverInput = getResolverInput( context );
 
         String resolvedValue;
         try
@@ -70,16 +73,17 @@ public abstract class AbstractXsltScriptResolver
         return value;
     }
 
-    protected String resolveWithXsltScript( XMLDocument xslt, XMLDocument xml )
+    protected String resolveWithXsltScript( XMLDocument xslt, Document document )
         throws XsltProcessorException
     {
         URIResolver uriResolver = null;
         XsltProcessor processor = createProcessor( XSLT_RESOLVER_PROCESSOR_NAME, xslt, uriResolver );
-        String result = processor.process( xml.getAsJDOMSource() );
+
+        String result = processor.process( new JDOMSource( document ) );
         return cleanWhitespaces( result );
     }
 
-    protected XMLDocument getResolverInput( ResolverContext context )
+    protected Document getResolverInput( ResolverContext context )
     {
         return resolverInputXMLCreator.buildResolverInputXML( context );
     }

@@ -10,7 +10,6 @@ import org.jdom.Content;
 import org.jdom.Document;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserXmlCreator;
@@ -27,19 +26,19 @@ public class ResolverInputXMLCreator
     protected final static String ROOT_ELEMENT_NAME = "context";
 
 
-    public XMLDocument buildResolverInputXML( ResolverContext context )
+    public Document buildResolverInputXML( ResolverContext context )
     {
-        XMLBuilder xmlDoc = new XMLBuilder();
+        XMLBuilder builder = new XMLBuilder();
 
-        xmlDoc.startElement( ROOT_ELEMENT_NAME );
+        builder.startElement( ROOT_ELEMENT_NAME );
 
-        addHttpRequestInput( context, xmlDoc );
+        addHttpRequestInput( context, builder );
 
-        addUserInput( context, xmlDoc );
+        addUserInput( context, builder );
 
-        xmlDoc.endElement();
+        builder.endElement();
 
-        return xmlDoc.getDocument();
+        return builder.getDocument();
     }
 
     private void addHttpRequestInput( ResolverContext context, XMLBuilder xmlDoc )
@@ -47,7 +46,7 @@ public class ResolverInputXMLCreator
         xmlDoc.importElement( getRequestXMLInput( context ) );
     }
 
-    private XMLDocument getRequestXMLInput( ResolverContext context )
+    private Document getRequestXMLInput( ResolverContext context )
     {
         ResolverHttpRequestInput httpRequestInput = resolverHttpRequestInputCreator.createResolverHttpRequestInput( context.getRequest() );
 

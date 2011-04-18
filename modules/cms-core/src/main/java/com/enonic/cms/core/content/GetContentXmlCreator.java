@@ -4,13 +4,12 @@
  */
 package com.enonic.cms.core.content;
 
-import com.google.common.base.Preconditions;
+import org.jdom.Document;
 
-import com.enonic.cms.framework.xml.XMLDocument;
+import com.google.common.base.Preconditions;
 
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
-
 import com.enonic.cms.core.security.user.UserEntity;
 
 /**
@@ -85,7 +84,7 @@ public class GetContentXmlCreator
     }
 
 
-    public XMLDocument create( GetContentResult result )
+    public Document create( GetContentResult result )
     {
         Preconditions.checkNotNull( result );
         Preconditions.checkNotNull( user );

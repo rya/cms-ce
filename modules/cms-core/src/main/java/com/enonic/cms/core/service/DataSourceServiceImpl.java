@@ -34,10 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.engine.PresentationEngine;
 
 import com.enonic.cms.framework.time.TimeService;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.SitePropertiesService;
@@ -171,8 +169,8 @@ public final class DataSourceServiceImpl
     @Inject
     private UserStoreParser userStoreParser;
 
-    public XMLDocument getContentByQuery( DataSourceContext context, String query, String orderBy, int index, int count,
-                                          boolean includeData, int childrenLevel, int parentLevel )
+    public Document getContentByQuery( DataSourceContext context, String query, String orderBy, int index, int count,
+                                       boolean includeData, int childrenLevel, int parentLevel )
     {
         final PreviewContext previewContext = context.getPreviewContext();
 
@@ -205,7 +203,8 @@ public final class DataSourceServiceImpl
             RelatedContentResultSet relatedContents = contentService.queryRelatedContent( relatedContentQuery );
             if ( previewContext.isPreviewingContent() )
             {
-                relatedContents = previewContext.getContentPreviewContext().overrideRelatedContentResultSet( relatedContents );
+                relatedContents =
+                        previewContext.getContentPreviewContext().overrideRelatedContentResultSet( relatedContents );
             }
 
             xmlCreator.setResultIndexing( index, count );
@@ -213,11 +212,12 @@ public final class DataSourceServiceImpl
             xmlCreator.setIncludeContentData( includeData );
             xmlCreator.setIncludeCategoryData( true );
             xmlCreator.setIncludeRelatedContentData( includeData );
-            xmlCreator.setIncludeUserRightsInfo( false, new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
+            xmlCreator.setIncludeUserRightsInfo( false, new CategoryAccessResolver( groupDao ),
+                                                 new ContentAccessResolver( groupDao ) );
             xmlCreator.setIncludeVersionsInfoForSites( false );
             xmlCreator.setIncludeAssignment( true );
-            XMLDocument xml = xmlCreator.createContentsDocument( user, contents, relatedContents );
-            addDataTraceInfo( xml.getAsJDOMDocument() );
+            Document xml = xmlCreator.createContentsDocument( user, contents, relatedContents );
+            addDataTraceInfo( xml );
             return xml;
         }
         catch ( InvalidKeyException e )
@@ -229,8 +229,8 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
-                                   boolean includeData, int childrenLevel, int parentLevel )
+    public Document getContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index,
+                                int count, boolean includeData, int childrenLevel, int parentLevel )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeCategoryData = true;
@@ -244,7 +244,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContentVersion( DataSourceContext context, int[] versionKeys, int childrenLevel )
+    public Document getContentVersion( DataSourceContext context, int[] versionKeys, int childrenLevel )
     {
         return doGetContentVersion( context, versionKeys, childrenLevel );
     }
@@ -252,9 +252,9 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getRelatedContent( DataSourceContext context, int[] contentKeys, int relation, String query,
-                                          String orderBy, int index, int count, boolean includeData, int childrenLevel,
-                                          int parentLevel )
+    public Document getRelatedContent( DataSourceContext context, int[] contentKeys, int relation, String query,
+                                       String orderBy, int index, int count, boolean includeData, int childrenLevel,
+                                       int parentLevel )
     {
         boolean requireAll = false;
         boolean includeOwnerAndModifierData = true;
@@ -268,8 +268,9 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query,
-                                            String orderBy, int index, int count, boolean includeData, int childrenLevel, int parentLevel )
+    public Document getContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query,
+                                         String orderBy, int index, int count, boolean includeData, int childrenLevel,
+                                         int parentLevel )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeCategoryData = true;
@@ -282,8 +283,8 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getRandomContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query, int count,
-                                                  boolean includeData, int childrenLevel, int parentLevel )
+    public Document getRandomContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query,
+                                               int count, boolean includeData, int childrenLevel, int parentLevel )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeCategoryData = true;
@@ -296,8 +297,9 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query,
-                                             String orderBy, int index, int count, boolean includeData, int childrenLevel, int parentLevel )
+    public Document getContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query,
+                                          String orderBy, int index, int count, boolean includeData, int childrenLevel,
+                                          int parentLevel )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeCategoryData = true;
@@ -310,8 +312,8 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getRandomContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query, int count,
-                                                   boolean includeData, int childrenLevel, int parentLevel )
+    public Document getRandomContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query,
+                                                int count, boolean includeData, int childrenLevel, int parentLevel )
     {
         PreviewContext previewContext = context.getPreviewContext();
 
@@ -319,7 +321,7 @@ public final class DataSourceServiceImpl
 
         ContentXMLCreator xmlCreator = new ContentXMLCreator();
 
-        Collection<CategoryKey> categoryKeySet = CategoryKey.convertToList(categoryKeys);
+        Collection<CategoryKey> categoryKeySet = CategoryKey.convertToList( categoryKeys );
 
         final Date now = new Date();
 
@@ -364,23 +366,22 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeVersionsInfoForSites( false );
         xmlCreator.setIncludeAssignment( true );
 
-        XMLDocument doc = xmlCreator.createContentsDocument( user, randomContents, relatedContent );
+        Document doc = xmlCreator.createContentsDocument( user, randomContents, relatedContent );
 
-        addDataTraceInfo( doc.getAsJDOMDocument() );
+        addDataTraceInfo( doc );
         return doc;
     }
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getCalendar( DataSourceContext context, boolean relative, int year, int month, int count, boolean includeWeeks,
-                                    boolean includeDays, String language, String country )
+    public Document getCalendar( DataSourceContext context, boolean relative, int year, int month, int count,
+                                 boolean includeWeeks, boolean includeDays, String language, String country )
     {
-        return XMLDocumentFactory.create(
-                calendarService.getCalendar( relative, year, month, count, includeWeeks, includeDays, language, country ) );
+        return calendarService.getCalendar( relative, year, month, count, includeWeeks, includeDays, language, country );
     }
 
-    public XMLDocument getCountries( DataSourceContext context, String[] countryCodes, boolean includeRegions )
+    public Document getCountries( DataSourceContext context, String[] countryCodes, boolean includeRegions )
     {
 
         Collection<Country> countries;
@@ -400,14 +401,14 @@ public final class DataSourceServiceImpl
 
         CountryXmlCreator countryXmlCreator = new CountryXmlCreator();
         countryXmlCreator.setIncludeRegionsInfo( includeRegions );
-        return XMLDocumentFactory.create( countryXmlCreator.createCountriesDocument( countries ) );
+        return countryXmlCreator.createCountriesDocument( countries );
     }
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
-                                   int parentChildrenLevel, boolean updateStatistics )
+    public Document getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
+                                int parentChildrenLevel, boolean updateStatistics )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
@@ -427,8 +428,8 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
-                                   int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
+    public Document getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
+                                int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
@@ -447,9 +448,9 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
-                                   int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights, int[] filterByCategories,
-                                   boolean categoryRecursive, int[] filterByContentTypes )
+    public Document getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
+                                int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights,
+                                int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
@@ -464,9 +465,10 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
-                                   int parentChildrenLevel, boolean updateStatistics, boolean relatedTitlesOnly, boolean includeUserRights,
-                                   int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes )
+    public Document getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
+                                int parentChildrenLevel, boolean updateStatistics, boolean relatedTitlesOnly,
+                                boolean includeUserRights, int[] filterByCategories, boolean categoryRecursive,
+                                int[] filterByContentTypes )
     {
         boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
@@ -481,45 +483,47 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String orderBy,
-                                            int fromIndex, int count, boolean titlesOnly, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                            boolean relatedTitlesOnly, boolean includeTotalCount, boolean includeUserRights,
-                                            int[] filterByContentTypes )
+    public Document getContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String orderBy,
+                                         int fromIndex, int count, boolean titlesOnly, int parentLevel,
+                                         int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
+                                         boolean includeTotalCount, boolean includeUserRights,
+                                         int[] filterByContentTypes )
     {
         return doGetContentBySection( context, menuItemKeys, levels, "", orderBy, fromIndex, count, parentLevel,
-                                      childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly, !relatedTitlesOnly, includeUserRights,
-                                      filterByContentTypes );
+                                      childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly,
+                                      !relatedTitlesOnly, includeUserRights, filterByContentTypes );
     }
 
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getContentBySection( DataSourceContext context, String query, int[] menuItemKeys, int levels,
-                                            String orderBy, int fromIndex, int count, boolean titlesOnly, int parentLevel, int childrenLevel,
-                                            int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
-                                            boolean includeUserRights, int[] filterByContentTypes )
+    public Document getContentBySection( DataSourceContext context, String query, int[] menuItemKeys, int levels,
+                                         String orderBy, int fromIndex, int count, boolean titlesOnly, int parentLevel,
+                                         int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
+                                         boolean includeTotalCount, boolean includeUserRights,
+                                         int[] filterByContentTypes )
     {
         return doGetContentBySection( context, menuItemKeys, levels, query, orderBy, fromIndex, count, parentLevel,
-                                      childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly, !relatedTitlesOnly, includeUserRights,
-                                      filterByContentTypes );
+                                      childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly,
+                                      !relatedTitlesOnly, includeUserRights, filterByContentTypes );
 
     }
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language,
-                                         String country )
+    public Document getFormattedDate( DataSourceContext context, int offset, String dateformat, String language,
+                                      String country )
     {
-        return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
+        return calendarService.getFormattedDate( offset, dateformat, language, country );
     }
 
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenu( DataSourceContext context, int menuKey, int tagItem, int levels )
+    public Document getMenu( DataSourceContext context, int menuKey, int tagItem, int levels )
     {
         return doGetMenu( getUserEntity( context.getUser() ), menuKey, tagItem, levels );
     }
@@ -528,7 +532,7 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenu( DataSourceContext context, int menuKey, int tagItem, int levels, boolean details )
+    public Document getMenu( DataSourceContext context, int menuKey, int tagItem, int levels, boolean details )
     {
         // param "details" not in use
         return doGetMenu( getUserEntity( context.getUser() ), menuKey, tagItem, levels );
@@ -538,7 +542,7 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenu( DataSourceContext context, int menuItemKey, int levels )
+    public Document getMenu( DataSourceContext context, int menuItemKey, int levels )
     {
         if ( menuItemKey < 0 )
         {
@@ -556,7 +560,7 @@ public final class DataSourceServiceImpl
      * @return menu data xml
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuData( DataSourceContext context, int menuId )
+    public Document getMenuData( DataSourceContext context, int menuId )
     {
         return doGetMenuData( menuId );
     }
@@ -568,7 +572,7 @@ public final class DataSourceServiceImpl
      * @return menu data xml
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuData( DataSourceContext context )
+    public Document getMenuData( DataSourceContext context )
     {
         return doGetMenuData( context.getSiteKey().toInt() );
     }
@@ -583,14 +587,15 @@ public final class DataSourceServiceImpl
      * @return menu tree xml
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel )
+    public Document getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel )
     {
         return doGetMenuBranch( getUserEntity( context.getUser() ), menuItem, topLevel, 0, 0 );
     }
 
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel, int startLevel, int levels )
+    public Document getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel, int startLevel,
+                                   int levels )
     {
         return doGetMenuBranch( getUserEntity( context.getUser() ), menuItem, topLevel, startLevel, levels );
     }
@@ -599,7 +604,7 @@ public final class DataSourceServiceImpl
      * Return the menu branch.
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel, boolean details )
+    public Document getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel, boolean details )
     {
         // param "details" not in use
         return doGetMenuBranch( getUserEntity( context.getUser() ), menuItem, topLevel, 0, 0 );
@@ -609,13 +614,14 @@ public final class DataSourceServiceImpl
      * Not in use.
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuItem( DataSourceContext context, int key, boolean withParents )
+    public Document getMenuItem( DataSourceContext context, int key, boolean withParents )
     {
         return doGetMenuItem( getUserEntity( context.getUser() ), key, withParents );
     }
 
     /**
      * Get a menu item.
+     *
      *
      * @param context     the Vertical Site context
      * @param key         a menu item key
@@ -624,7 +630,7 @@ public final class DataSourceServiceImpl
      * @return menu item xml
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getMenuItem( DataSourceContext context, int key, boolean withParents, boolean complete )
+    public Document getMenuItem( DataSourceContext context, int key, boolean withParents, boolean complete )
     {
         // param "complete" not in use
         return doGetMenuItem( getUserEntity( context.getUser() ), key, withParents );
@@ -633,7 +639,8 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getRandomContentByParent( DataSourceContext context, int count, int contentKey, boolean includeUserRights )
+    public Document getRandomContentByParent( DataSourceContext context, int count, int contentKey,
+                                              boolean includeUserRights )
     {
         PreviewContext previewContext = context.getPreviewContext();
 
@@ -646,7 +653,7 @@ public final class DataSourceServiceImpl
         contentByContentQuery.setUser( user );
         try
         {
-            contentByContentQuery.setContentKeyFilter( ContentKey.convertToList(contentKey) );
+            contentByContentQuery.setContentKeyFilter( ContentKey.convertToList( contentKey ) );
         }
         catch ( InvalidKeyException e )
         {
@@ -680,21 +687,23 @@ public final class DataSourceServiceImpl
         xmlCreator.setResultIndexing( 0, count );
         xmlCreator.setIncludeVersionsInfoForSites( false );
         xmlCreator.setIncludeAssignment( true );
-        XMLDocument doc = xmlCreator.createContentsDocument( user, randomizedContents, new RelatedContentResultSetImpl() );
+        Document doc = xmlCreator.createContentsDocument( user, randomizedContents, new RelatedContentResultSetImpl() );
 
-        addDataTraceInfo( doc.getAsJDOMDocument() );
+        addDataTraceInfo( doc );
         return doc;
     }
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getRandomContentBySections( DataSourceContext context, String query, int[] menuItemKeys, int levels, int count,
-                                                   boolean titlesOnly, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                   boolean relatedTitlesOnly, boolean includeUserRights )
+    public Document getRandomContentBySections( DataSourceContext context, String query, int[] menuItemKeys, int levels,
+                                                int count, boolean titlesOnly, int parentLevel, int childrenLevel,
+                                                int parentChildrenLevel, boolean relatedTitlesOnly,
+                                                boolean includeUserRights )
     {
         return doGetRandomContentBySection( context, menuItemKeys, levels, query, count, parentLevel, childrenLevel,
-                                            parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly, !relatedTitlesOnly, includeUserRights );
+                                            parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly,
+                                            !relatedTitlesOnly, includeUserRights );
     }
 
     /**
@@ -705,7 +714,7 @@ public final class DataSourceServiceImpl
      * @param tagItem Menu item key to tag
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem )
+    public Document getSubMenu( DataSourceContext context, int key, int tagItem )
     {
         return doGetSubMenu( getUserEntity( context.getUser() ), key, tagItem, 0 );
         //return presentationEngine.getSubMenu( context.getUser(), key, tagItem, 0 );
@@ -720,7 +729,7 @@ public final class DataSourceServiceImpl
      * @param levels  Number of levels to fetch
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem, int levels )
+    public Document getSubMenu( DataSourceContext context, int key, int tagItem, int levels )
     {
         return doGetSubMenu( getUserEntity( context.getUser() ), key, tagItem, levels );
         //return presentationEngine.getSubMenu( context.getUser(), key, tagItem, levels );
@@ -736,7 +745,7 @@ public final class DataSourceServiceImpl
      * @param details Fetch details if true
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem, int levels, boolean details )
+    public Document getSubMenu( DataSourceContext context, int key, int tagItem, int levels, boolean details )
     {
         // param "details" not in use
         return doGetSubMenu( getUserEntity( context.getUser() ), key, tagItem, levels );
@@ -746,7 +755,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getURLAsText( DataSourceContext context, String url, String encoding )
+    public Document getURLAsText( DataSourceContext context, String url, String encoding )
     {
         if ( LOG.isDebugEnabled() )
         {
@@ -773,7 +782,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getURLAsText( DataSourceContext context, String url, String encoding, int timeout )
+    public Document getURLAsText( DataSourceContext context, String url, String encoding, int timeout )
     {
         if ( LOG.isDebugEnabled() )
         {
@@ -796,13 +805,13 @@ public final class DataSourceServiceImpl
         }
 
         org.w3c.dom.Document doc = getURL( url, encoding, timeout );
-        return XMLDocumentFactory.create( doc );
+        return XMLDocumentFactory.create( doc ).getAsJDOMDocument();
     }
 
     /**
      * Makes a connection to a url that has an xml as result.
      */
-    public XMLDocument getURLAsXML( DataSourceContext context, String url )
+    public Document getURLAsXML( DataSourceContext context, String url )
     {
         if ( LOG.isDebugEnabled() )
         {
@@ -828,7 +837,7 @@ public final class DataSourceServiceImpl
     /**
      * Makes a connection to a url that has an xml as result.
      */
-    public XMLDocument getURLAsXML( DataSourceContext context, String url, int timeout )
+    public Document getURLAsXML( DataSourceContext context, String url, int timeout )
     {
         if ( LOG.isDebugEnabled() )
         {
@@ -850,67 +859,68 @@ public final class DataSourceServiceImpl
         }
 
         org.w3c.dom.Document doc = getURL( url, null, timeout );
-        return XMLDocumentFactory.create( doc );
+        return XMLDocumentFactory.create( doc ).getAsJDOMDocument();
     }
 
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSections( DataSourceContext context, int superSectionKey, int level, boolean includeSection )
+    public Document getSections( DataSourceContext context, int superSectionKey, int level, boolean includeSection )
     {
         // TODO: Implement method using Hibernate
-        throw new IllegalStateException("Method not implemented");
+        throw new IllegalStateException( "Method not implemented" );
     }
 
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSections( DataSourceContext context )
+    public Document getSections( DataSourceContext context )
     {
         // TODO: Implement method using Hibernate
-        throw new IllegalStateException("Method not implemented");
+        throw new IllegalStateException( "Method not implemented" );
     }
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getContentByCategory( DataSourceContext context, String query, int[] categories, boolean includeSubCategories,
-                                             String orderBy, int index, int count, boolean titlesOnly, int childrenLevel, int parentLevel,
-                                             int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
-                                             boolean includeUserRights, int[] contentTypes )
+    public Document getContentByCategory( DataSourceContext context, String query, int[] categories,
+                                          boolean includeSubCategories, String orderBy, int index, int count,
+                                          boolean titlesOnly, int childrenLevel, int parentLevel,
+                                          int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
+                                          boolean includeUserRights, int[] contentTypes )
     {
         int levels = includeSubCategories ? Integer.MAX_VALUE : 1;
         return doGetContentByCategory( context, categories, levels, query, orderBy, index, count, childrenLevel,
-                                       parentLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly, !relatedTitlesOnly, includeUserRights,
-                                       contentTypes );
+                                       parentLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly,
+                                       !relatedTitlesOnly, includeUserRights, contentTypes );
     }
 
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getCategories( DataSourceContext context, int superCategoryKey, int level, boolean withContentCount,
-                                      boolean includeCategory )
+    public Document getCategories( DataSourceContext context, int superCategoryKey, int level, boolean withContentCount,
+                                   boolean includeCategory )
     {
         // TODO: Implement method using Hibernate
-        throw new IllegalStateException("Method not implemented");
+        throw new IllegalStateException( "Method not implemented" );
     }
 
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details,
-                                      boolean catCount, boolean contentCount )
+    public Document getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details,
+                                   boolean catCount, boolean contentCount )
     {
         // TODO: Implement method using Hibernate
-        throw new IllegalStateException("Method not implemented");
+        throw new IllegalStateException( "Method not implemented" );
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
-    public XMLDocument getUserstore( final DataSourceContext context, final String userstore )
+    public Document getUserstore( final DataSourceContext context, final String userstore )
     {
         final UserStoreXmlCreator userStoreXmlCreator = new UserStoreXmlCreator( userStoreService.getUserStoreConnectorConfigs() );
         Document userstoreDoc;
@@ -939,15 +949,15 @@ public final class DataSourceServiceImpl
             userstoreDoc = userStoreXmlCreator.createUserStoreNotFoundDocument( userstore );
         }
 
-        return XMLDocumentFactory.create( userstoreDoc );
+        return userstoreDoc;
     }
 
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getUser( DataSourceContext context, String qualifiedUsername, boolean includeMemberships, boolean normalizeGroups,
-                                boolean includeCustomUserFields )
+    public Document getUser( DataSourceContext context, String qualifiedUsername, boolean includeMemberships,
+                             boolean normalizeGroups, boolean includeCustomUserFields )
     {
         UserEntity userEntity;
         if ( qualifiedUsername != null && qualifiedUsername.length() > 0 )
@@ -975,7 +985,7 @@ public final class DataSourceServiceImpl
             userDoc = xmlCreator.createUserDocument( userEntity, includeMemberships, normalizeGroups );
         }
 
-        return XMLDocumentFactory.create( userDoc );
+        return userDoc;
     }
 
 
@@ -983,7 +993,7 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getPreferences( DataSourceContext context, String scope, String wildCardKey, boolean uniqueMatch )
+    public Document getPreferences( DataSourceContext context, String scope, String wildCardKey, boolean uniqueMatch )
     {
 
         return doGetPreferences( context, scope, wildCardKey, uniqueMatch );
@@ -994,7 +1004,7 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getPreferences( DataSourceContext context, String scope, String wildCardKey )
+    public Document getPreferences( DataSourceContext context, String scope, String wildCardKey )
     {
 
         return doGetPreferences( context, scope, wildCardKey, true );
@@ -1004,7 +1014,7 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getPreferences( DataSourceContext context, String scope )
+    public Document getPreferences( DataSourceContext context, String scope )
     {
 
         return doGetPreferences( context, scope, null, true );
@@ -1014,13 +1024,14 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getPreferences( DataSourceContext context )
+    public Document getPreferences( DataSourceContext context )
     {
 
         return doGetPreferences( context, null, null, true );
     }
 
-    private XMLDocument doGetPreferences( DataSourceContext context, String scope, String wildCardKey, boolean uniqueMatch )
+    private Document doGetPreferences( DataSourceContext context, String scope, String wildCardKey,
+                                       boolean uniqueMatch )
     {
         final UserEntity user = getUserEntity( context.getUser() );
 
@@ -1084,8 +1095,8 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
-                                       int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
+    public Document getPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
+                                    int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
     {
         return doGetPageContent( context, menuItemId, parentLevel, childrenLevel, parentChildrenLevel, includeUserRights );
     }
@@ -1094,14 +1105,14 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
-                                       int parentChildrenLevel, boolean updateStatistics )
+    public Document getPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
+                                    int parentChildrenLevel, boolean updateStatistics )
     {
         return doGetPageContent( context, menuItemId, parentLevel, childrenLevel, parentChildrenLevel, false );
     }
 
-    private XMLDocument doGetPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
-                                          int parentChildrenLevel, boolean includeUserRights )
+    private Document doGetPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
+                                       int parentChildrenLevel, boolean includeUserRights )
     {
         PreviewContext previewContext = context.getPreviewContext();
 
@@ -1139,8 +1150,8 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeVersionsInfoForSites( false );
         xmlCreator.setIncludeAssignment( true );
 
-        XMLDocument xml = xmlCreator.createContentsDocument( user, content, relatedContent );
-        addDataTraceInfo( xml.getAsJDOMDocument() );
+        Document xml = xmlCreator.createContentsDocument( user, content, relatedContent );
+        addDataTraceInfo( xml );
 
         return xml;
     }
@@ -1148,10 +1159,11 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String orderBy,
-                                           boolean requireAll, int fromIndex, int count, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                           boolean includeTotalCount, int[] filterByCategories, boolean categoryRecursive,
-                                           int[] filterByContentTypes )
+    public Document getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String orderBy,
+                                        boolean requireAll, int fromIndex, int count, int parentLevel,
+                                        int childrenLevel, int parentChildrenLevel, boolean includeTotalCount,
+                                        int[] filterByCategories, boolean categoryRecursive,
+                                        int[] filterByContentTypes )
     {
         return doGetRelatedContent( context, contentKeys, relation, null, orderBy, requireAll, fromIndex, count,
                                     parentLevel, childrenLevel, parentChildrenLevel, true, true, true, true,
@@ -1161,50 +1173,56 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String orderBy,
-                                           boolean requireAll, int fromIndex, int count, boolean titlesOnly, int parentLevel, int childrenLevel,
-                                           int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
-                                           int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes )
+    public Document getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String orderBy,
+                                        boolean requireAll, int fromIndex, int count, boolean titlesOnly,
+                                        int parentLevel, int childrenLevel, int parentChildrenLevel,
+                                        boolean relatedTitlesOnly, boolean includeTotalCount, int[] filterByCategories,
+                                        boolean categoryRecursive, int[] filterByContentTypes )
     {
         return doGetRelatedContent( context, contentKeys, relation, null, orderBy, requireAll, fromIndex, count,
-                                    parentLevel, childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly, !relatedTitlesOnly, filterByCategories,
-                                    categoryRecursive, filterByContentTypes );
+                                    parentLevel, childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly,
+                                    !titlesOnly, !relatedTitlesOnly, filterByCategories, categoryRecursive,
+                                    filterByContentTypes );
     }
 
     /**
      * @inheritDoc
      */
-    public XMLDocument getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String query,
-                                           String orderBy, boolean requireAll, int fromIndex, int count, boolean titlesOnly, int parentLevel,
-                                           int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
-                                           boolean includeTotalCount, int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes )
+    public Document getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String query,
+                                        String orderBy, boolean requireAll, int fromIndex, int count,
+                                        boolean titlesOnly, int parentLevel, int childrenLevel, int parentChildrenLevel,
+                                        boolean relatedTitlesOnly, boolean includeTotalCount, int[] filterByCategories,
+                                        boolean categoryRecursive, int[] filterByContentTypes )
     {
         return doGetRelatedContent( context, contentKeys, relation, query, orderBy, requireAll, fromIndex, count,
-                                    parentLevel, childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly, !titlesOnly, !relatedTitlesOnly,
-                                    filterByCategories, categoryRecursive, filterByContentTypes );
+                                    parentLevel, childrenLevel, parentChildrenLevel, !titlesOnly, !titlesOnly,
+                                    !titlesOnly, !relatedTitlesOnly, filterByCategories, categoryRecursive,
+                                    filterByContentTypes );
     }
 
 
-    public XMLDocument getLocales( DataSourceContext context )
+    public Document getLocales( DataSourceContext context )
     {
         Locale[] locales = localeService.getLocales();
         LocaleXmlCreator localeXmlCreator = new LocaleXmlCreator();
-        return XMLDocumentFactory.create( localeXmlCreator.createLocalesDocument( locales ) );
+        return localeXmlCreator.createLocalesDocument( locales );
     }
 
-    public XMLDocument getTimeZones( DataSourceContext context )
+    public Document getTimeZones( DataSourceContext context )
     {
         Collection<DateTimeZone> timeZones = timeZoneService.getTimeZones();
         DateTime now = timeService.getNowAsDateTime();
         TimeZoneXmlCreator timeZoneXmlCreator = new TimeZoneXmlCreator( now );
-        return XMLDocumentFactory.create( timeZoneXmlCreator.createTimeZonesDocument( timeZones ) );
+        return timeZoneXmlCreator.createTimeZonesDocument( timeZones );
     }
 
-    private XMLDocument doGetRelatedContent( DataSourceContext context, int[] contentKeys, int relation, String query,
-                                             String orderBy, boolean requireAll, int index, int count, int parentLevel,
-                                             int childrenLevel, int parentChildrenLevel, boolean includeOwnerAndModifierData, boolean includeContentData,
-                                             boolean includeCategoryData, boolean includeRelatedContentData, int[] filterByCategories,
-                                             boolean categoryRecursive, int[] filterByContentTypes )
+    private Document doGetRelatedContent( DataSourceContext context, int[] contentKeys, int relation, String query,
+                                          String orderBy, boolean requireAll, int index, int count, int parentLevel,
+                                          int childrenLevel, int parentChildrenLevel,
+                                          boolean includeOwnerAndModifierData, boolean includeContentData,
+                                          boolean includeCategoryData, boolean includeRelatedContentData,
+                                          int[] filterByCategories, boolean categoryRecursive,
+                                          int[] filterByContentTypes )
     {
         PreviewContext previewContext = context.getPreviewContext();
 
@@ -1330,23 +1348,25 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeRelatedContentData( includeRelatedContentData );
         xmlCreator.setIncludeVersionsInfoForSites( false );
         xmlCreator.setIncludeAssignment( true );
-        XMLDocument doc = xmlCreator.createContentsDocument( user, mainResultContent, relatedContent );
+        Document doc = xmlCreator.createContentsDocument( user, mainResultContent, relatedContent );
 
-        addDataTraceInfo( doc.getAsJDOMDocument() );
+        addDataTraceInfo( doc );
         return doc;
     }
 
-    private XMLDocument doGetContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
-                                      int parentLevel, int childrenLevel, int parentChildrenLevel, boolean includeOwnerAndModifierData,
-                                      boolean includeContentData, boolean includeCategoryData, boolean includeRelatedContentData,
-                                      boolean includeUserRights, int[] filterByCategories, boolean categoryRecursive,
-                                      int[] filterByContentTypes )
+    private Document doGetContent( DataSourceContext context, int[] contentKeys, String query, String orderBy,
+                                   int index, int count, int parentLevel, int childrenLevel, int parentChildrenLevel,
+                                   boolean includeOwnerAndModifierData, boolean includeContentData,
+                                   boolean includeCategoryData, boolean includeRelatedContentData,
+                                   boolean includeUserRights, int[] filterByCategories, boolean categoryRecursive,
+                                   int[] filterByContentTypes )
     {
 
         UserEntity user = getUserEntity( context.getUser() );
 
         GetContentExecutor executor =
-                new GetContentExecutor( contentService, contentDao, userDao, timeService.getNowAsDateTime(), context.getPreviewContext() );
+                new GetContentExecutor( contentService, contentDao, userDao, timeService.getNowAsDateTime(),
+                                        context.getPreviewContext() );
         try
         {
             executor.user( user.getKey() );
@@ -1373,8 +1393,8 @@ public final class DataSourceServiceImpl
             getContentXmlCreator.includeRelatedContentsContentData( includeRelatedContentData );
             getContentXmlCreator.includeUserRights( includeUserRights );
             getContentXmlCreator.versionInfoStyle( GetContentXmlCreator.VersionInfoStyle.PORTAL );
-            XMLDocument xml = getContentXmlCreator.create( getContentResult );
-            addDataTraceInfo( xml.getAsJDOMDocument() );
+            Document xml = getContentXmlCreator.create( getContentResult );
+            addDataTraceInfo( xml );
             return xml;
         }
         catch ( InvalidKeyException e )
@@ -1384,7 +1404,7 @@ public final class DataSourceServiceImpl
         }
     }
 
-    private XMLDocument doGetContentVersion( DataSourceContext context, int[] versionKeys, int childrenLevel )
+    private Document doGetContentVersion( DataSourceContext context, int[] versionKeys, int childrenLevel )
     {
         ContentXMLCreator xmlCreator = new ContentXMLCreator();
 
@@ -1440,11 +1460,12 @@ public final class DataSourceServiceImpl
         }
     }
 
-    private XMLDocument doGetContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query,
-                                                String orderBy, int index, int count, int childrenLevel, int parentLevel, int parentChildrenLevel,
-                                                boolean includeOwnerAndModifierData, boolean includeContentData,
-                                                boolean includeCategoryData, boolean includeRelatedContentData, boolean includeUserRights,
-                                                int[] contentTypes )
+    private Document doGetContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query,
+                                             String orderBy, int index, int count, int childrenLevel, int parentLevel,
+                                             int parentChildrenLevel, boolean includeOwnerAndModifierData,
+                                             boolean includeContentData, boolean includeCategoryData,
+                                             boolean includeRelatedContentData, boolean includeUserRights,
+                                             int[] contentTypes )
     {
         final PreviewContext previewContext = context.getPreviewContext();
 
@@ -1494,8 +1515,8 @@ public final class DataSourceServiceImpl
             xmlCreator.setIncludeVersionsInfoForSites( false );
             xmlCreator.setIncludeAssignment( true );
 
-            XMLDocument doc = xmlCreator.createContentsDocument( user, contents, relatedContent );
-            addDataTraceInfo( doc.getAsJDOMDocument() );
+            Document doc = xmlCreator.createContentsDocument( user, contents, relatedContent );
+            addDataTraceInfo( doc );
             return doc;
 
         }
@@ -1505,10 +1526,12 @@ public final class DataSourceServiceImpl
         }
     }
 
-    private XMLDocument doGetContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query,
-                                               String orderBy, int fromIndex, int count, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                               boolean includeOwnerAndModifierData, boolean includeContentData, boolean includeCategoryData,
-                                               boolean includeRelatedContentData, boolean includeUserRights, int[] filterByContentTypes )
+    private Document doGetContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query,
+                                            String orderBy, int fromIndex, int count, int parentLevel,
+                                            int childrenLevel, int parentChildrenLevel,
+                                            boolean includeOwnerAndModifierData, boolean includeContentData,
+                                            boolean includeCategoryData, boolean includeRelatedContentData,
+                                            boolean includeUserRights, int[] filterByContentTypes )
     {
         PreviewContext previewContext = context.getPreviewContext();
         UserEntity user = getUserEntity( context.getUser() );
@@ -1519,7 +1542,7 @@ public final class DataSourceServiceImpl
 
         try
         {
-            spec.setMenuItemKeys( MenuItemKey.converToList(menuItemKeys) );
+            spec.setMenuItemKeys( MenuItemKey.converToList( menuItemKeys ) );
             spec.setContentTypeFilter( ContentTypeKey.convertToList( filterByContentTypes ) );
 
             spec.setUser( user );
@@ -1563,8 +1586,8 @@ public final class DataSourceServiceImpl
                 relatedContents = previewContext.getContentPreviewContext().overrideRelatedContentResultSet( relatedContents );
             }
 
-            XMLDocument document = xmlCreator.createContentsDocument( user, contents, relatedContents );
-            addDataTraceInfo( document.getAsJDOMDocument() );
+            Document document = xmlCreator.createContentsDocument( user, contents, relatedContents );
+            addDataTraceInfo( document );
             return document;
         }
         catch ( InvalidKeyException e )
@@ -1577,11 +1600,11 @@ public final class DataSourceServiceImpl
         }
     }
 
-    private XMLDocument doGetRandomContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query, int count,
-                                                     int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                     boolean includeOwnerAndModifierData, boolean includeContentData,
-                                                     boolean includeCategoryData, boolean includeRelatedContentData,
-                                                     boolean includeUserRights )
+    private Document doGetRandomContentBySection( DataSourceContext context, int[] menuItemKeys, int levels,
+                                                  String query, int count, int parentLevel, int childrenLevel,
+                                                  int parentChildrenLevel, boolean includeOwnerAndModifierData,
+                                                  boolean includeContentData, boolean includeCategoryData,
+                                                  boolean includeRelatedContentData, boolean includeUserRights )
     {
         PreviewContext previewContext = context.getPreviewContext();
 
@@ -1637,8 +1660,8 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeVersionsInfoForSites( false );
         xmlCreator.setIncludeAssignment( true );
 
-        XMLDocument doc = xmlCreator.createContentsDocument( user, randomContent, relatedContent );
-        addDataTraceInfo( doc.getAsJDOMDocument() );
+        Document doc = xmlCreator.createContentsDocument( user, randomContent, relatedContent );
+        addDataTraceInfo( doc );
         return doc;
     }
 
@@ -1652,7 +1675,7 @@ public final class DataSourceServiceImpl
         return -1;
     }
 
-    private XMLDocument doGetMenu( UserEntity user, int siteKey, int menuItemKey, int levels )
+    private Document doGetMenu( UserEntity user, int siteKey, int menuItemKey, int levels )
     {
         SiteEntity site = siteDao.findByKey( new SiteKey( siteKey ) );
 
@@ -1665,7 +1688,7 @@ public final class DataSourceServiceImpl
         return siteXmlCreator.createLegacyGetMenu( site, sitePropertiesService.getSiteProperties( site.getKey() ) );
     }
 
-    private XMLDocument doGetMenuData( int siteKey )
+    private Document doGetMenuData( int siteKey )
     {
         SiteEntity site = siteDao.findByKey( siteKey );
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( new MenuItemAccessResolver( groupDao ) );
@@ -1674,7 +1697,7 @@ public final class DataSourceServiceImpl
         return siteXmlCreator.createLegacyGetMenuData( site, sitePropertiesService.getSiteProperties( site.getKey() ) );
     }
 
-    private XMLDocument doGetMenuBranch( UserEntity user, int menuItemKey, boolean topLevel, int startLevel, int levels )
+    private Document doGetMenuBranch( UserEntity user, int menuItemKey, boolean topLevel, int startLevel, int levels )
     {
         if ( menuItemKey < 0 )
         {
@@ -1696,7 +1719,7 @@ public final class DataSourceServiceImpl
         return siteXmlCreator.createLegacyGetMenuBranch( site );
     }
 
-    private XMLDocument doGetMenuItem( UserEntity user, int menuItemKey, boolean includeParents )
+    private Document doGetMenuItem( UserEntity user, int menuItemKey, boolean includeParents )
     {
         MenuItemXMLCreatorSetting setting = new MenuItemXMLCreatorSetting();
         setting.user = user;
@@ -1706,7 +1729,7 @@ public final class DataSourceServiceImpl
         return creator.createLegacyGetMenuItem( menuItem );
     }
 
-    private XMLDocument doGetSubMenu( UserEntity user, int menuItemKey, int activeMenuItemKey, int levels )
+    private Document doGetSubMenu( UserEntity user, int menuItemKey, int activeMenuItemKey, int levels )
     {
         if ( menuItemKey < 0 )
         {
@@ -1881,7 +1904,7 @@ public final class DataSourceServiceImpl
         catch ( SocketTimeoutException ste )
         {
             String message = "Socket timeout when trying to get url: " + address;
-            LOG.warn( message);
+            LOG.warn( message );
             result = null;
         }
         catch ( IOException ioe )
