@@ -43,7 +43,7 @@ public interface PresentationService
      */
     public int getLoginPage( int menuKey );
 
-    public String getPathString( int type, int key, boolean includeRoot );
+    public String getMenuPathString( int key, boolean includeRoot );
 
     public boolean hasErrorPage( int menuKey );
 
