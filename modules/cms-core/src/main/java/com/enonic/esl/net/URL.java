@@ -4,12 +4,10 @@
  */
 package com.enonic.esl.net;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
-import com.enonic.esl.containers.MultiValueMap;
+import java.util.*;
 
 public class URL
 {
@@ -42,9 +40,9 @@ public class URL
     {
         private Iterator entryIterator;
 
-        private ParameterIterator( MultiValueMap queryParams )
+        private ParameterIterator( Multimap queryParams )
         {
-            entryIterator = queryParams.entrySet().iterator();
+            entryIterator = queryParams.entries().iterator();
         }
 
         public boolean hasNext()
@@ -68,7 +66,7 @@ public class URL
 
     private String baseURL;
 
-    private MultiValueMap queryParams = new MultiValueMap();
+    private Multimap queryParams = HashMultimap.create();
 
     private String label;
 
@@ -157,13 +155,13 @@ public class URL
      * Add parameters from av multi-value map. Iterates over the map's values and append them to the URL string as "name=value" pairs.
      * Previously added parameters with the same names as those added are preserved, as multiple values pr. name is allowed.
      *
-     * @param valueMap MultiValueMap
+     * @param valueMap Multimap
      */
-    public void addParameters( MultiValueMap valueMap )
+    public void addParameters( Multimap valueMap )
     {
         for ( Object key : valueMap.keySet() )
         {
-            for ( Object value : ( valueMap.getValueList( key ) ) )
+            for ( Object value : ( valueMap.get(key) ) )
             {
                 queryParams.put( URLUtil.encode( key.toString() ), URLUtil.encode( value.toString() ) );
             }
@@ -183,11 +181,13 @@ public class URL
         }
         if ( value == null || value.length() == 0 )
         {
-            queryParams.put( URLUtil.encode( name ), "", true );
+            queryParams.removeAll(URLUtil.encode( name ));
+            queryParams.put(URLUtil.encode(name), "");
         }
         else
         {
-            queryParams.put( URLUtil.encode( name ), URLUtil.encode( value ), true );
+            queryParams.removeAll(URLUtil.encode( name ));
+            queryParams.put( URLUtil.encode( name ), URLUtil.encode( value ) );
         }
 
         return true;
@@ -199,10 +199,10 @@ public class URL
         {
             return null;
         }
-        return queryParams.getValueList( name );
+        return new ArrayList(queryParams.get( name ));
     }
 
-    public MultiValueMap getParameterMap()
+    public Multimap getParameterMap()
     {
         return queryParams;
     }
@@ -213,7 +213,7 @@ public class URL
         {
             return null;
         }
-        List valueList = queryParams.getValueList( name );
+        List valueList = new ArrayList(queryParams.get( name ));
         if ( valueList != null && valueList.size() > 0 )
         {
             return (String) valueList.get( 0 );
@@ -237,7 +237,7 @@ public class URL
         while ( keyIterator.hasNext() )
         {
             String key = (String) keyIterator.next();
-            for ( Object value : queryParams.getValueList( key ) )
+            for ( Object value : queryParams.get(key) )
             {
                 if ( firstParam )
                 {

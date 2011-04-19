@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.framework.util;
 
+import com.google.common.collect.Multimap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -346,13 +348,13 @@ public class URL
      * Add parameters from av multi-value map. Iterates over the map's values and append them to the URL string as "name=value" pairs.
      * Previously added parameters with the same names as those added are preserved, as multiple values pr. name is allowed.
      *
-     * @param valueMap MultiValueMap
+     * @param valueMap Multimap
      */
-    public void addParameters( MultiValueMap valueMap )
+    public void addParameters( Multimap valueMap )
     {
         for ( Object key : valueMap.keySet() )
         {
-            for ( Object value : ( valueMap.getValueList( key ) ) )
+            for ( Object value : ( valueMap.get( key ) ) )
             {
                 queryParams.put( UrlPathEncoder.encode( key.toString() ), UrlPathEncoder.encode( value.toString() ) );
             }

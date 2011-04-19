@@ -4,21 +4,20 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import java.util.Iterator;
-
-import javax.servlet.http.HttpServletRequest;
-
-import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.net.URL;
-
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.net.URL;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
 
 public class UserServicesRedirectUrlResolver
 {
 
-    public String resolveRedirectUrlToPage( HttpServletRequest request, String redirect, MultiValueMap queryParams )
+    public String resolveRedirectUrlToPage( HttpServletRequest request, String redirect, Multimap queryParams )
     {
         if ( redirect == null || redirect.length() == 0 )
         {
@@ -43,12 +42,12 @@ public class UserServicesRedirectUrlResolver
         throw new IllegalRedirectException( redirect );
     }
 
-    public String resolveRedirectUrlToErrorPage( HttpServletRequest request, ExtendedMap formItems, int[] codes, MultiValueMap queryParams )
+    public String resolveRedirectUrlToErrorPage( HttpServletRequest request, ExtendedMap formItems, int[] codes, Multimap queryParams )
     {
 
         if ( queryParams == null )
         {
-            queryParams = new MultiValueMap();
+            queryParams = HashMultimap.create();
         }
 
         // Check for a fatal exception
@@ -78,7 +77,7 @@ public class UserServicesRedirectUrlResolver
         }
 
         String errorKey = errorKeyBuilder.toString();
-        queryParams.remove( errorKey );
+        queryParams.removeAll(errorKey);
         for ( int code : codes )
         {
             queryParams.put( errorKey, String.valueOf( code ) );
@@ -118,14 +117,14 @@ public class UserServicesRedirectUrlResolver
     }
 
 
-    private String appendParams( String urlString, MultiValueMap queryParams )
+    private String appendParams( String urlString, Multimap queryParams )
     {
         URL url = new URL( urlString );
         if ( queryParams != null && queryParams.size() > 0 )
         {
             for ( Object key : queryParams.keySet() )
             {
-                for ( Object o : ( queryParams.getValueList( key ) ) )
+                for ( Object o : ( queryParams.get(key) ) )
                 {
                     url.addParameter( key.toString(), o.toString() );
                 }

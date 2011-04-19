@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Multimap;
 import org.apache.commons.fileupload.FileItem;
 
 import com.enonic.esl.net.URL;
@@ -54,12 +55,12 @@ public class ExtendedMap
         super( t );
     }
 
-    public ExtendedMap( MultiValueMap multi )
+    public ExtendedMap( Multimap multi )
     {
         this( multi, false );
     }
 
-    public ExtendedMap( MultiValueMap multi, boolean allowNullValues )
+    public ExtendedMap( Multimap multi, boolean allowNullValues )
     {
         super();
         this.allowNullValues = allowNullValues;
@@ -68,7 +69,7 @@ public class ExtendedMap
         while ( iter.hasNext() )
         {
             Object key = iter.next();
-            List values = multi.getValueList( key );
+            List values = new ArrayList(multi.get( key ));
             if ( values.size() > 1 )
             {
                 if ( values.get( 0 ) instanceof FileItem )

@@ -4,31 +4,24 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.rmi.RemoteException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.fileupload.DiskFileUpload;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUpload;
-import org.apache.commons.fileupload.FileUploadBase;
-import org.apache.commons.fileupload.FileUploadException;
+import com.enonic.cms.core.captcha.CaptchaService;
+import com.enonic.cms.core.content.ContentAccessException;
+import com.enonic.cms.core.content.category.CategoryAccessException;
+import com.enonic.cms.core.security.UserStoreParser;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.domain.Attribute;
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.framework.util.UrlPathDecoder;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
+import com.enonic.cms.portal.VerticalSession;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.util.ArrayUtil;
+import com.enonic.esl.util.RegexpUtil;
+import com.enonic.esl.util.StringUtil;
+import com.google.common.collect.Multimap;
+import com.octo.captcha.service.CaptchaServiceException;
+import org.apache.commons.fileupload.*;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,27 +30,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.octo.captcha.service.CaptchaServiceException;
-
-import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.util.ArrayUtil;
-import com.enonic.esl.util.RegexpUtil;
-import com.enonic.esl.util.StringUtil;
-
-import com.enonic.cms.framework.util.UrlPathDecoder;
-import com.enonic.cms.framework.xml.XMLDocumentHelper;
-
-import com.enonic.cms.core.captcha.CaptchaService;
-import com.enonic.cms.core.content.ContentAccessException;
-import com.enonic.cms.core.content.category.CategoryAccessException;
-import com.enonic.cms.core.security.UserStoreParser;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.portal.VerticalSession;
-
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public abstract class AbstractUserServicesHandlerController
@@ -454,7 +440,7 @@ public abstract class AbstractUserServicesHandlerController
     }
 
     protected void redirectToPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems,
-                                   MultiValueMap queryParams )
+                                   Multimap queryParams )
     {
         String redirect = formItems.getString( "_redirect", null );
 
@@ -477,13 +463,13 @@ public abstract class AbstractUserServicesHandlerController
     }
 
     protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int code,
-                                        MultiValueMap queryParams )
+                                        Multimap queryParams )
     {
         redirectToErrorPage( request, response, formItems, new int[]{code}, queryParams );
     }
 
     protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int[] codes,
-                                        MultiValueMap queryParams )
+                                        Multimap queryParams )
     {
         String url = userServicesRedirectUrlResolver.resolveRedirectUrlToErrorPage( request, formItems, codes, queryParams );
         siteRedirectHelper.sendRedirect( request, response, url );

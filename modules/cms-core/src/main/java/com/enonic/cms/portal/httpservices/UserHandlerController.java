@@ -4,22 +4,39 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.rmi.RemoteException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.mail.MessagingException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.enonic.cms.core.DeploymentPathResolver;
+import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.VerticalException;
 import com.enonic.cms.core.VerticalProperties;
+import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.login.LoginService;
+import com.enonic.cms.core.mail.MessageSettings;
+import com.enonic.cms.core.preferences.*;
+import com.enonic.cms.core.security.InvalidCredentialsException;
+import com.enonic.cms.core.security.PasswordGenerator;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.group.*;
+import com.enonic.cms.core.security.user.*;
+import com.enonic.cms.core.security.userstore.*;
+import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.domain.user.UserInfo;
+import com.enonic.cms.domain.user.field.UserFieldMap;
+import com.enonic.cms.domain.user.field.UserFieldTransformer;
+import com.enonic.cms.domain.user.field.UserInfoTransformer;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.PortalInstanceKeyResolver;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.net.Mail;
+import com.enonic.esl.servlet.http.CookieUtil;
+import com.enonic.esl.util.RegexpUtil;
+import com.enonic.esl.util.StringUtil;
+import com.enonic.esl.xml.XMLTool;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,62 +47,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.net.Mail;
-import com.enonic.esl.servlet.http.CookieUtil;
-import com.enonic.esl.util.RegexpUtil;
-import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.xml.XMLTool;
-
-import com.enonic.cms.core.DeploymentPathResolver;
-import com.enonic.cms.core.SiteContext;
-import com.enonic.cms.core.log.LogType;
-import com.enonic.cms.core.login.LoginService;
-import com.enonic.cms.core.mail.MessageSettings;
-import com.enonic.cms.core.preferences.PreferenceAccessException;
-import com.enonic.cms.core.preferences.PreferenceEntity;
-import com.enonic.cms.core.preferences.PreferenceKey;
-import com.enonic.cms.core.preferences.PreferenceScopeKey;
-import com.enonic.cms.core.preferences.PreferenceScopeKeyResolver;
-import com.enonic.cms.core.preferences.PreferenceScopeType;
-import com.enonic.cms.core.preferences.PreferenceService;
-import com.enonic.cms.core.security.InvalidCredentialsException;
-import com.enonic.cms.core.security.PasswordGenerator;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
-import com.enonic.cms.core.security.group.AddMembershipsCommand;
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.group.GroupSpecification;
-import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
-import com.enonic.cms.core.security.user.QualifiedUsername;
-import com.enonic.cms.core.security.user.StoreNewUserCommand;
-import com.enonic.cms.core.security.user.UpdateUserCommand;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserNotFoundException;
-import com.enonic.cms.core.security.user.UserSpecification;
-import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
-import com.enonic.cms.core.security.user.UserStorageInvalidArgumentException;
-import com.enonic.cms.core.security.userstore.UserStoreAccessException;
-import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenException;
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.portal.PortalInstanceKeyResolver;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.user.UserInfo;
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserFieldTransformer;
-import com.enonic.cms.domain.user.field.UserInfoTransformer;
+import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/site/**/_services/user")
@@ -314,7 +287,7 @@ public class UserHandlerController
         List<UserEntity> usersWithEmail = userDao.findBySpecification( userSpec );
         boolean exists = !usersWithEmail.isEmpty();
 
-        MultiValueMap queryParams = new MultiValueMap();
+        Multimap queryParams = HashMultimap.create();
         queryParams.put( "exists", String.valueOf( exists ) );
         queryParams.put( "email", email );
 

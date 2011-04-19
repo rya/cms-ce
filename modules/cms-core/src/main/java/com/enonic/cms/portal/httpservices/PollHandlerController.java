@@ -4,14 +4,16 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import java.rmi.RemoteException;
-import java.util.Map;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.enonic.cms.core.DeploymentPathResolver;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.servlet.http.CookieUtil;
+import com.enonic.esl.util.StringUtil;
+import com.enonic.esl.xml.XMLTool;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -19,17 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.servlet.http.CookieUtil;
-import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.xml.XMLTool;
-
-import com.enonic.cms.core.DeploymentPathResolver;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.service.UserServicesService;
-
-import com.enonic.cms.domain.SiteKey;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.rmi.RemoteException;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/site/**/_services/poll")
@@ -73,7 +70,7 @@ public class PollHandlerController
         Cookie cookie = CookieUtil.getCookie( request, tmp );
         if ( cookie != null && cookie.getValue().equals( "done" ) )
         {
-            MultiValueMap queryParams = new MultiValueMap();
+            Multimap queryParams = HashMultimap.create();
             queryParams.put( "status", "alreadyanswered" );
             redirectToPage( request, response, formItems, queryParams );
             return;
