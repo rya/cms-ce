@@ -13,7 +13,6 @@ import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorErrors;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
-import com.enonic.cms.core.xslt.XsltResource;
 
 public abstract class BaseProcessorManager
     implements XsltProcessorManager
@@ -25,13 +24,6 @@ public abstract class BaseProcessorManager
         final Transformer transformer = createTransformer(xsl, resolver);
         transformer.setURIResolver( resolver );
         return new XsltProcessorImpl( transformer );
-    }
-
-    @Override
-    public final XsltProcessor createProcessor( final XsltResource xsl, final URIResolver resolver )
-        throws XsltProcessorException
-    {
-        return createProcessor( xsl.getAsSource(), resolver );
     }
 
     protected abstract TransformerFactory getTransformerFactory()

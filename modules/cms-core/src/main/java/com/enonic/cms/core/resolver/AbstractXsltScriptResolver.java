@@ -20,7 +20,6 @@ import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
-import com.enonic.cms.core.xslt.XsltResource;
 
 /**
  * Created by rmy - Date: Apr 29, 2009
@@ -28,8 +27,6 @@ import com.enonic.cms.core.xslt.XsltResource;
 public abstract class AbstractXsltScriptResolver
     implements ScriptResolverService
 {
-    protected final static String ROOT_ELEMENT_NAME = "context";
-
     protected final static String RESOLVING_EXCEPTION_MSG = "Failed to resolve value";
 
     private static final String XSLT_RESOLVER_PROCESSOR_NAME = "xsltResolverProcessor";
@@ -58,10 +55,13 @@ public abstract class AbstractXsltScriptResolver
     protected XsltProcessor createProcessor( String name, XMLDocument xslt, URIResolver uriResolver )
         throws XsltProcessorException
     {
-        XsltResource resource = new XsltResource( name, xslt.getAsString() );
-        XsltProcessorManager manager = XsltProcessorManagerAccessor.getProcessorManager();
-        XsltProcessor processor = manager.createProcessor( resource, uriResolver );
+        final JDOMSource source = new JDOMSource(xslt.getAsJDOMDocument());
+        source.setSystemId(name);
+
+        final XsltProcessorManager manager = XsltProcessorManagerAccessor.getProcessorManager();
+        final XsltProcessor processor = manager.createProcessor( source, uriResolver );
         processor.setOmitXmlDecl( true );
+        
         return processor;
     }
 
