@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
@@ -206,7 +205,7 @@ public class SendMailController
 
                 redirectToPage( request, response, formItems );
             }
-            catch ( ESLException esle )
+            catch ( RuntimeException esle )
             {
                 String message = "Failed to send email: %t";
                 LOG.error( StringUtil.expandString( message, (Object) null, esle ), esle );

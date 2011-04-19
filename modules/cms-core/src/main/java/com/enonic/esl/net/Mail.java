@@ -28,7 +28,6 @@ import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.esl.ESLException;
 import com.enonic.esl.activation.ByteArrayDataSource;
 import com.enonic.esl.activation.FileItemDataSource;
 import com.enonic.esl.util.RegexpUtil;
@@ -100,7 +99,7 @@ public class Mail
      * One solution could be to catch the exception thrown. Another solution could be to use the JavaMail API directly. </p>
      */
     public void send()
-            throws ESLException
+            throws RuntimeException
     {
         // smtp server
         Properties smtpProperties = new Properties();
@@ -135,7 +134,7 @@ public class Mail
             if ( ( to.size() == 0 && bcc.size() == 0 ) || subject == null || ( message == null && htmlMessage == null ) )
             {
                 LOG.error( "Missing data. Unable to send mail." );
-                throw new ESLException( "Missing data. Unable to send mail." );
+                throw new RuntimeException( "Missing data. Unable to send mail." );
             }
 
             // set to:
@@ -268,13 +267,13 @@ public class Mail
         {
             String MESSAGE_30 = "Error in email address: " + e.getMessage();
             LOG.warn( MESSAGE_30 );
-            throw new ESLException( MESSAGE_30, e );
+            throw new RuntimeException( MESSAGE_30, e );
         }
         catch ( UnsupportedEncodingException e )
         {
             String MESSAGE_40 = "Unsupported encoding: " + e.getMessage();
             LOG.error( MESSAGE_40, e );
-            throw new ESLException( MESSAGE_40, e );
+            throw new RuntimeException( MESSAGE_40, e );
         }
         catch ( SendFailedException sfe )
         {
@@ -295,19 +294,19 @@ public class Mail
             if ( t != null )
             {
                 String MESSAGE_50 = "Error sending mail: " + t.getMessage();
-                throw new ESLException( MESSAGE_50, t );
+                throw new RuntimeException( MESSAGE_50, t );
             }
             else
             {
                 String MESSAGE_50 = "Error sending mail: " + sfe.getMessage();
-                throw new ESLException( MESSAGE_50, sfe );
+                throw new RuntimeException( MESSAGE_50, sfe );
             }
         }
         catch ( MessagingException e )
         {
             String MESSAGE_50 = "Error sending mail: " + e.getMessage();
             LOG.error( MESSAGE_50, e );
-            throw new ESLException( MESSAGE_50, e );
+            throw new RuntimeException( MESSAGE_50, e );
         }
     }
 

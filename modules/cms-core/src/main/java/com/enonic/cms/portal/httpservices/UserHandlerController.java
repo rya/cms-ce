@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.Mail;
@@ -913,7 +912,7 @@ public class UserHandlerController
             LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
         }
-        else if ( e instanceof ESLException )
+        else if ( e instanceof RuntimeException )
         {
             String message = "Not able to send mail: %t";
             LOG.error( StringUtil.expandString( message, (Object) null, e ), e );
