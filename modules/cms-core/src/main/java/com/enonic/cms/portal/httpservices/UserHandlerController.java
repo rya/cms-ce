@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.VerticalException;
+import com.enonic.cms.core.VerticalProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +37,6 @@ import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
-import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.SiteContext;

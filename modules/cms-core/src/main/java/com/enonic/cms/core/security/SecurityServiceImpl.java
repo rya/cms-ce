@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.vertical.VerticalProperties;
+import com.enonic.cms.core.VerticalProperties;
 
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;

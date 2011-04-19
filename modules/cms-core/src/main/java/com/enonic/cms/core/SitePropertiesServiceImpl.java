@@ -18,8 +18,6 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-import com.enonic.vertical.VerticalProperties;
-
 import com.enonic.cms.core.home.HomeService;
 
 import com.enonic.cms.domain.SiteKey;

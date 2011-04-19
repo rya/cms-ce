@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.vertical;
+package com.enonic.cms.core;
 
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;

@@ -37,7 +37,7 @@
 
   <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
 
-  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
+  <bean id="verticalProperties" class="com.enonic.cms.core.VerticalProperties"/>
 
   <bean id="synchronizeUserStoreJobFactory"
         class="com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>

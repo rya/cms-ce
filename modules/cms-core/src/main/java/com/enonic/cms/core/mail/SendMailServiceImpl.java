@@ -4,12 +4,11 @@
  */
 package com.enonic.cms.core.mail;
 
+import com.enonic.cms.core.VerticalProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-
-import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.store.dao.UserDao;
 

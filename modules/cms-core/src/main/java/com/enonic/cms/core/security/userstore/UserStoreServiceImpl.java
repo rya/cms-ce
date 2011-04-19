@@ -22,7 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-import com.enonic.vertical.VerticalProperties;
+import com.enonic.cms.core.VerticalProperties;
 
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.CreateGroupAccessException;

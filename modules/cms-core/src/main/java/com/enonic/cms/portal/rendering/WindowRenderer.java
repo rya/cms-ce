@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import com.enonic.cms.core.VerticalProperties;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.structure.TemplateParameter;
 import com.enonic.cms.core.structure.TemplateParameterType;
@@ -16,8 +17,6 @@ import com.enonic.cms.portal.rendering.tracing.PagePortletTraceInfo;
 import com.enonic.cms.portal.rendering.viewtransformer.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;

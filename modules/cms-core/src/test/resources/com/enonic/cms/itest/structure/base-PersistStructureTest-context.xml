@@ -55,7 +55,7 @@
 
   <bean id="userStoreConnectorManager" class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl"/>
 
-  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
+  <bean id="verticalProperties" class="com.enonic.cms.core.VerticalProperties"/>
 
 </beans>
 

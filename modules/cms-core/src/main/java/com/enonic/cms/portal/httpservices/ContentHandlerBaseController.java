@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.VerticalException;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -32,7 +33,6 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
 
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAndVersion;

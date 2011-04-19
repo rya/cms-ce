@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 
-import com.enonic.vertical.VerticalProperties;
+import com.enonic.cms.core.VerticalProperties;
 
 import com.enonic.cms.core.SitePropertiesServiceImpl;
 import com.enonic.cms.core.home.HomeService;

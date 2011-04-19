@@ -13,7 +13,7 @@
 
   <import resource="classpath:store-dao-context.xml"/>
 
-  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
+  <bean id="verticalProperties" class="com.enonic.cms.core.VerticalProperties"/>
 
   <bean id="userStoreService" class="com.enonic.cms.core.security.userstore.UserStoreServiceImpl"/>
 

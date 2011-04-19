@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.VerticalException;
 import com.enonic.cms.portal.PrettyPathNameCreator;
 import com.enonic.cms.portal.VerticalSession;
 import org.apache.commons.fileupload.FileItem;
@@ -32,7 +33,6 @@ import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.VerticalException;
 
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.service.UserServicesService;

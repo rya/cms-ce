@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import com.enonic.vertical.VerticalException;
+import com.enonic.cms.core.VerticalException;
 
 public class VerticalUserServicesException
     extends VerticalException

@@ -6,7 +6,7 @@ package com.enonic.cms.portal.rendering;
 
 import javax.inject.Inject;
 
-import com.enonic.vertical.VerticalProperties;
+import com.enonic.cms.core.VerticalProperties;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;

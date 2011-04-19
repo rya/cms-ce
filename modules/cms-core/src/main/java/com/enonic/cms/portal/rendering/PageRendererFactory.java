@@ -6,9 +6,8 @@ package com.enonic.cms.portal.rendering;
 
 import javax.inject.Inject;
 
+import com.enonic.cms.core.VerticalProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.framework.time.TimeService;
 

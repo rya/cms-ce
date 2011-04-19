@@ -10,11 +10,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import com.enonic.vertical.VerticalException;
+import com.enonic.cms.core.VerticalException;
 import org.jdom.Document;
 import org.jdom.Element;
-
-import com.enonic.esl.util.StringUtil;
 
 /**
  *

@@ -48,7 +48,7 @@ public final class ConfigBuilder
     {
         Properties props = new Properties();
         props.putAll( this.systemProperties );
-        props.putAll( loadFromClassPath( "com/enonic/vertical/default.properties" ) );
+        props.putAll( loadFromClassPath("com/enonic/cms/core/default.properties") );
         props.putAll( loadFromHomeDir( "config/cms.properties" ) );
         props.putAll( getHomeDirProperties() );
         return PropertiesUtil.interpolate( props );

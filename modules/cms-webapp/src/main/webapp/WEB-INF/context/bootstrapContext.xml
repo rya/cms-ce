@@ -12,7 +12,7 @@
   </bean>
 
   <!-- Incject vertical properties singleton. -->
-  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties">
+  <bean id="verticalProperties" class="com.enonic.cms.core.VerticalProperties">
     <property name="properties" ref="loadedVerticalProperties"/>
   </bean>
 

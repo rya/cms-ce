@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import com.enonic.cms.core.VerticalProperties;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.structure.page.Region;
@@ -15,8 +16,6 @@ import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
-
-import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.framework.time.TimeService;
 
