@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.framework.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -22,7 +21,6 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.DOMBuilder;
 import org.jdom.input.SAXBuilder;
-import org.jdom.output.DOMOutputter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.transform.JDOMSource;
@@ -128,32 +126,6 @@ public final class JDOMUtil
     }
 
     /**
-     * Convert to w3c dom.
-     */
-    public static org.w3c.dom.Document toW3CDocument( Document doc )
-        throws JDOMException
-    {
-        DOMOutputter builder = new DOMOutputter();
-        return builder.output( doc );
-    }
-
-    public static byte[] toBytes( Document doc )
-    {
-        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-        XMLOutputter outputter = new XMLOutputter();
-        try
-        {
-            outputter.output( doc, byteOutputStream );
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( "Failed to convert document to bytes", e );
-        }
-
-        return byteOutputStream.toByteArray();
-    }
-
-    /**
      * Return first child element.
      */
     public static Element getFirstElement( Element root )
@@ -195,22 +167,6 @@ public final class JDOMUtil
         if ( root != null )
         {
             List list = root.getChildren();
-            return (Element[]) list.toArray( new Element[list.size()] );
-        }
-        else
-        {
-            return new Element[0];
-        }
-    }
-
-    /**
-     * Return the child elements of an element.
-     */
-    public static Element[] getElements( Element root, String name )
-    {
-        if ( root != null )
-        {
-            List list = root.getChildren( name );
             return (Element[]) list.toArray( new Element[list.size()] );
         }
         else
