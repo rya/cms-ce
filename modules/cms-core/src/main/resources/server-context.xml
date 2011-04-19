@@ -10,6 +10,8 @@
   <bean id="portalFunctionsFactory" class="com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsFactory">
     <property name="siteURLResolver" ref="siteURLResolver"/>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="windowRendererFactory" ref="windowRendererFactory"/>
+    <property name="dataSourceService" ref="dataSourceService"/>
   </bean>
 
   <bean id="sitePathResolver" class="com.enonic.cms.business.SitePathResolver">

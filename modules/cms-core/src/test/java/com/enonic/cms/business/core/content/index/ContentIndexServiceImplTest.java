@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Random;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.AbstractTransactionalSpringContextTests;
 
@@ -36,6 +38,7 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 public class ContentIndexServiceImplTest
     extends AbstractTransactionalSpringContextTests
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ContentIndexServiceImplTest.class.getName() );
 
     private static final int NUMBER_OF_STANDARD_INDEX_FIELDS = 13;
 
@@ -1814,7 +1817,7 @@ public class ContentIndexServiceImplTest
         {
             if ( !list.contains( new ContentKey( contentKey ) ) )
             {
-                System.out.println( contentKey );
+                LOG.info( "{}", contentKey );
             }
 
             assertTrue( "Unexpected ContentResultSet. ContentKey not found: " + contentKey, list.contains( new ContentKey( contentKey ) ) );

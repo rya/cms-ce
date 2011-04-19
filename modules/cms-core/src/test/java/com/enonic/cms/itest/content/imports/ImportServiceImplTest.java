@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
+import java.util.TimeZone;
 
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
@@ -1626,8 +1627,11 @@ public class ImportServiceImplTest
         {
             assertTrue( "Expected ImportException", e instanceof ImportException );
             ImportException importException = (ImportException) e;
+
+            //timezone fix
+            int tz = TimeZone.getDefault().getOffset( new Date().getTime() )/(1000*60*60);
             assertEquals(
-                "Given publishFrom (2012-08-01T00:00:00.000+02:00) bust be before given publishTo (2010-08-01T00:00:00.000+02:00)",
+                "Given publishFrom (2012-08-01T00:00:00.000+0"+ tz +":00) bust be before given publishTo (2010-08-01T00:00:00.000+0"+ tz +":00)",
                 importException.getMessage() );
         }
     }

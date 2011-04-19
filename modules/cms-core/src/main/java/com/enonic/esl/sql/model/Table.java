@@ -8,10 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.enonic.esl.containers.StringMap;
 
 public class Table
 {
+    private static final Logger LOG = LoggerFactory.getLogger( Table.class.getName() );
+
     private String tableName, elementName, parentName;
 
     private ArrayList<Column> columnList = new ArrayList<Column>();
@@ -123,7 +128,7 @@ public class Table
     {
         if ( columnName.startsWith( "count(" ) )
         {
-            System.out.println( "COUNT: " + columnName );
+            LOG.info( "COUNT: {}", columnName );
             return new Column( columnName, null );
         }
         else

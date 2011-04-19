@@ -8,6 +8,11 @@ public class VerticalCreateException
     extends VerticalEngineException
 {
 
+    public VerticalCreateException( String message )
+    {
+        super( message );
+    }
+
     public VerticalCreateException()
     {
         super( "dummmy" );

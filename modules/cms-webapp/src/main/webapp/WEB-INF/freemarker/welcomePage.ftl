@@ -109,6 +109,7 @@ ${message.value}
         <li><a href="${baseUrl}/tools/reindexcontent">Reindex Content Tool</a></li>
         <li><a href="${baseUrl}/tools/connectioninfo">Connection Information</a></li>
         <li><a href="${baseUrl}/tools/liveportaltrace">Live Portal Trace</a></li>
+        <li><a href="${baseUrl}/tools/plugininfo">Plugin Information</a></li>
     </ul>
 </div>
 </body>

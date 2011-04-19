@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.framework.blob.BlobStoreObject;
+import com.enonic.cms.framework.blob.BlobRecord;
 
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
@@ -1153,7 +1153,7 @@ public class ContentStorer
         {
             BinaryDataEntity binaryData = cbd.getBinaryData();
 
-            BlobStoreObject blobStoreObject = binaryDataDao.getBlob( binaryData );
+            BlobRecord blobStoreObject = binaryDataDao.getBlob( new BinaryDataKey( binaryData.getBlobKey() ) );
             BinaryDataAndBinary newBinary = new BinaryDataAndBinary( binaryData, blobStoreObject );
             newBinary.setLabel( cbd.getLabel() );
             binaryDatas.add( newBinary );

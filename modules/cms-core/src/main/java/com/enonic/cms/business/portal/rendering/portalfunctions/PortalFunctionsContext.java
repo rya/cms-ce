@@ -7,6 +7,7 @@ package com.enonic.cms.business.portal.rendering.portalfunctions;
 import java.util.Locale;
 
 import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.business.portal.rendering.PageRendererContext;
 
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
@@ -35,6 +36,8 @@ public class PortalFunctionsContext
     private boolean isRenderedInline;
 
     private SiteURLResolver siteURLResolver;
+
+    private PageRendererContext pageRendererContext;
 
     public Locale getLocale()
     {
@@ -124,5 +127,15 @@ public class PortalFunctionsContext
     public void setEncodeImageUrlParams( boolean encodeImageUrlParams )
     {
         this.encodeImageUrlParams = encodeImageUrlParams;
+    }
+
+    public PageRendererContext getPageRendererContext()
+    {
+        return pageRendererContext;
+    }
+
+    public void setPageRendererContext( PageRendererContext pageRendererContext )
+    {
+        this.pageRendererContext = pageRendererContext;
     }
 }

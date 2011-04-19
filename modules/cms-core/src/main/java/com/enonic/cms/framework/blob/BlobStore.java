@@ -58,11 +58,4 @@ public interface BlobStore
     public boolean deleteRecord( BlobKey key )
         throws BlobStoreException;
 
-    @Deprecated
-    public BlobStoreObject get( String id )
-        throws BlobStoreException;
-
-    @Deprecated
-    public void put( BlobStoreObject data )
-        throws BlobStoreException;
 }

@@ -44,6 +44,7 @@
     <bean class="com.enonic.cms.server.service.tools.ConnectionInfoController"/>
     <bean class="com.enonic.cms.server.service.tools.LivePortalTraceController"/>
     <bean class="com.enonic.cms.server.service.tools.StaticFileController"/>
+    <bean class="com.enonic.cms.server.service.tools.PluginInfoController"/>
 
     <bean class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
 

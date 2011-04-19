@@ -356,6 +356,7 @@ function isEmpty(e)
 function error(element, msg, tabPane)
 {
     alert(msg);
+
     if (!element)
         return;
 
@@ -365,10 +366,7 @@ function error(element, msg, tabPane)
             var _objTabPage = getParentNodeOfClass( element, "tab-page" );
             if ( typeof tabPane.setSelectedPage == 'function' )
                 tabPane.setSelectedPage( _objTabPage.id );
-                        
         }
-
-        moveFocusTo( element );
     }
     catch (e){
 
@@ -379,9 +377,8 @@ function error(element, msg, tabPane)
             tabPane.setSelectedPage( objTabPage.id );
             moveFocusTo( element );
         }
-
-        moveFocusTo( element );
     }
+    moveFocusTo( element );
 }
 
 function findPos(obj) {
@@ -993,6 +990,8 @@ function validateRelatedContent(e, fieldname, tabPane) {
 function validateRequired(e, fieldname, tabPane, ignoreFirstPos) {
   var i;
 
+
+
   if (isArray(e)) {
     // element er et kobble med related content ( e[i].value )
     for( i = 0; i < e.length; i++ ) {
@@ -1129,14 +1128,14 @@ function isArray( obj )
 
 function checkAll(formName, fields, tabPane)
 {
-  var i;
+    var i;
 	var f = document.forms[formName];
 
 	for (i = 0; i < fields.length; i++)
 	{
 		if ( fields[i] != null)
 		{
-		    var element = f.elements[fields[i][1]];
+		    var element = f[fields[i][1]];
 	        var elementCaption = fields[i][0];
 	        var regExp;
 

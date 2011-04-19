@@ -3,7 +3,7 @@
     <!ENTITY nbsp "&#160;">
 ]>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-  <xsl:output method="html" doctype-public="-//W3C//DTD XHTML 1.1//EN" doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"/>
+  <xsl:output method="xhtml" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
   <xsl:include href="common/button.xsl"/>
   <xsl:include href="common/generic_parameters.xsl"/>
   <xsl:param name="errorcode"/>
@@ -20,7 +20,7 @@
   <xsl:param name="license_message"/>
 
   <xsl:template match="/">
-    <html dir="ltr" xml:lang="{$languagecode}" xmlns="http://www.w3.org/1999/xhtml">
+    <html xml:lang="{$languagecode}" lang="{$languagecode}" xmlns="http://www.w3.org/1999/xhtml">
       <head>
         <title>Enonic CMS - Login</title>
         <link type="text/css" rel="stylesheet" media="screen" href="css/admin.css" />
