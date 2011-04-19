@@ -366,20 +366,17 @@ function error(element, msg, tabPane)
             var _objTabPage = getParentNodeOfClass( element, "tab-page" );
             if ( typeof tabPane.setSelectedPage == 'function' )
                 tabPane.setSelectedPage( _objTabPage.id );
-                        
         }
     }
     catch (e){
 
         if( tabPane != null ) {
             // get tabPageId to the page where the form element is.
-
             var objTabPage = getParentNodeOfClass( element, "tab-page" );
             // move the pane to the right page
             tabPane.setSelectedPage( objTabPage.id );
             moveFocusTo( element );
         }
-
     }
     moveFocusTo( element );
 }
