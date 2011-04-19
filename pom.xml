@@ -74,7 +74,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>r08</version>
+                <version>r09</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -269,7 +269,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>3.0.5.RELEASE</version>
+                <version>3.1.0.M1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>commons-logging</groupId>
@@ -280,7 +280,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
-                <version>3.0.5.RELEASE</version>
+                <version>3.1.0.M1</version>
             </dependency>
             <dependency>
                 <groupId>cglib</groupId>
@@ -290,7 +290,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>3.0.5.RELEASE</version>
+                <version>3.1.0.M1</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -431,6 +431,10 @@
         <repository>
             <id>jboss</id>
             <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+        </repository>
+        <repository>
+            <id>spring.milestone</id>
+            <url>http://maven.springframework.org/milestone</url>
         </repository>
     </repositories>
 
