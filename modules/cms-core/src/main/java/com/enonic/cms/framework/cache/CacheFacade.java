@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.framework.cache;
 
-import com.enonic.cms.framework.xml.XMLDocument;
+import org.jdom.Document;
 
 /**
  * This interface defines the cache definition.
@@ -94,5 +94,5 @@ public interface CacheFacade
     /**
      * Return xml details.
      */
-    public XMLDocument getInfoAsXml();
+    public Document getInfoAsXml();
 }

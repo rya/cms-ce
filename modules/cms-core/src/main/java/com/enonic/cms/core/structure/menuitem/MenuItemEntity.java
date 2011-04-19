@@ -1,31 +1,42 @@
 package com.enonic.cms.core.structure.menuitem;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.structure.RunAsType;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.core.structure.page.PageEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.CacheSettings;
-import com.enonic.cms.domain.CaseInsensitiveString;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
+import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+
+import com.enonic.cms.domain.CacheSettings;
+import com.enonic.cms.domain.CaseInsensitiveString;
+import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.domain.Path;
 
 /**
  * Created by IntelliJ IDEA.
@@ -1212,10 +1223,10 @@ class MenuItemData
     public byte[] getAsBytes()
     {
 
-        XMLDocument xmlDocument = XMLDocumentFactory.create(xmlDoc);
+        String str = XMLDocumentHelper.convertToString( xmlDoc );
         try
         {
-            return xmlDocument.getAsString().getBytes( "UTF-8" );
+            return str.getBytes( "UTF-8" );
         }
         catch ( UnsupportedEncodingException e )
         {

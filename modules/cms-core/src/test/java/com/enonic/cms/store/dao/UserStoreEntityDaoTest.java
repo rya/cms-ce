@@ -8,6 +8,7 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import org.jdom.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
@@ -46,8 +46,8 @@ public class UserStoreEntityDaoTest
         userStore.setConnectorName( "TestConnectorName" );
 
         final String configAsString = "<config><user-fields><first-name required=\"true\"/></user-fields></config>";
-        final XMLDocument configXmlDoc = XMLDocumentFactory.create( configAsString );
-        final UserStoreConfig config = UserStoreConfigParser.parse( configXmlDoc.getAsJDOMDocument().getRootElement() );
+        final Document configXmlDoc = XMLDocumentFactory._create( configAsString );
+        final UserStoreConfig config = UserStoreConfigParser.parse( configXmlDoc.getRootElement() );
         userStore.setConfig( config );
 
         userStoreDao.storeNew( userStore );

@@ -4,27 +4,34 @@
  */
 package com.enonic.cms.portal.rendering;
 
-import com.enonic.cms.core.VerticalProperties;
-import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.structure.TemplateParameter;
-import com.enonic.cms.core.structure.TemplateParameterType;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.page.Window;
-import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.portal.WindowNotFoundException;
-import com.enonic.cms.portal.datasource.*;
-import com.enonic.cms.portal.rendering.tracing.PagePortletTraceInfo;
-import com.enonic.cms.portal.rendering.viewtransformer.*;
+import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
+import com.enonic.cms.core.VerticalProperties;
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.TemplateParameter;
+import com.enonic.cms.core.structure.TemplateParameterType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.core.structure.page.WindowKey;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.PortalRenderingException;
+import com.enonic.cms.portal.Ticket;
+import com.enonic.cms.portal.WindowNotFoundException;
 import com.enonic.cms.portal.cache.PageCacheService;
+import com.enonic.cms.portal.datasource.DatasourceExecutor;
+import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
+import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
+import com.enonic.cms.portal.datasource.Datasources;
+import com.enonic.cms.portal.datasource.DatasourcesType;
 import com.enonic.cms.portal.instruction.PostProcessInstructionContext;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
 import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
@@ -34,25 +41,20 @@ import com.enonic.cms.portal.livetrace.WindowRenderingTracer;
 import com.enonic.cms.portal.page.PageRequestFactory;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsContext;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory;
+import com.enonic.cms.portal.rendering.tracing.PagePortletTraceInfo;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.portal.rendering.tracing.TraceMarkerHelper;
+import com.enonic.cms.portal.rendering.viewtransformer.PortletXsltViewTransformer;
+import com.enonic.cms.portal.rendering.viewtransformer.StringTransformationParameter;
+import com.enonic.cms.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
+import com.enonic.cms.portal.rendering.viewtransformer.TransformationParameterOrigin;
+import com.enonic.cms.portal.rendering.viewtransformer.TransformationParams;
+import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
 
 import com.enonic.cms.domain.CacheObjectSettings;
 import com.enonic.cms.domain.CacheSettings;
 import com.enonic.cms.domain.CachedObject;
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.portal.PortalRenderingException;
-import com.enonic.cms.portal.Ticket;
-import com.enonic.cms.portal.datasource.DataSourceResult;
-import com.enonic.cms.portal.datasource.Datasources;
-import com.enonic.cms.portal.datasource.DatasourcesType;
-import com.enonic.cms.portal.rendering.viewtransformer.StringTransformationParameter;
-import com.enonic.cms.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
-import com.enonic.cms.portal.rendering.viewtransformer.TransformationParameterOrigin;
-import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**
@@ -278,9 +280,9 @@ public class WindowRenderer
         RenderedWindowResult portletResult;
         try
         {
-            DataSourceResult dataSourceResult = getDataSourceResult( window, exectuor );
+            Document document = getDataSourceResult( window, exectuor );
 
-            ViewTransformationResult portletViewTransformation = renderWindowView( window, dataSourceResult.getData() );
+            ViewTransformationResult portletViewTransformation = renderWindowView( window, document );
 
             if ( window.getPortlet().getBorderKey() != null )
             {
@@ -321,7 +323,7 @@ public class WindowRenderer
         return portletResult;
     }
 
-    private ViewTransformationResult renderWindowView( Window window, XMLDocument xml )
+    private ViewTransformationResult renderWindowView( Window window, Document xml )
     {
         if ( window.getPortlet().getXmlDataAsJDOMDocument().getRootElement().getChild( "datasources" ) == null )
         {
@@ -413,7 +415,8 @@ public class WindowRenderer
 
         try
         {
-            return portletXsltViewTransformer.transform( viewFile, viewParameters, XMLDocumentFactory.create( DUMMY_XML ) );
+            return portletXsltViewTransformer.transform( viewFile, viewParameters, XMLDocumentFactory._create(
+                    DUMMY_XML ) );
         }
         finally
         {
@@ -421,7 +424,7 @@ public class WindowRenderer
         }
     }
 
-    private DataSourceResult getDataSourceResult( Window window, UserEntity executor )
+    private Document getDataSourceResult( Window window, UserEntity executor )
     {
         Datasources datasources = window.getPortlet().getDatasources();
 

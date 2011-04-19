@@ -6,6 +6,7 @@ package com.enonic.cms.framework.xml;
 
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+
 import org.jdom.Document;
 
 /**
@@ -79,5 +80,18 @@ public final class XMLDocumentFactory
     public static XMLDocument create( Document doc )
     {
         return new XMLDocumentImpl( doc );
+    }
+
+    public static Document _create( Reader input )
+        throws XMLException
+    {
+        String str = XMLDocumentHelper.copyToString( input );
+        return _create( str );
+    }
+
+    public static Document _create( String str )
+        throws XMLException
+    {
+        return XMLDocumentHelper.convertToJDOMDocument( str );
     }
 }

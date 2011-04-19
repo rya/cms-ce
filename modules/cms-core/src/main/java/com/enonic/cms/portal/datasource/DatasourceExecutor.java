@@ -4,21 +4,18 @@
  */
 package com.enonic.cms.portal.datasource;
 
-import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
-
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.portal.datasource.methodcall.MethodCall;
 import com.enonic.cms.portal.datasource.methodcall.MethodCallFactory;
-import com.enonic.cms.portal.rendering.tracing.RenderTrace;
-
-import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 public class DatasourceExecutor
 {
@@ -32,10 +29,8 @@ public class DatasourceExecutor
         this.context = datasourceExecutorContext;
     }
 
-    public DataSourceResult getDataSourceResult( Datasources datasources )
+    public Document getDataSourceResult( Datasources datasources )
     {
-        DataSourceResult dataSourceResult = new DataSourceResult();
-
         Document resultDoc = new Document( new Element( resolveResultRootElementName( datasources ) ) );
         Element verticaldataEl = resultDoc.getRootElement();
 
@@ -62,10 +57,9 @@ public class DatasourceExecutor
             }
         }
 
-        dataSourceResult.setData( XMLDocumentFactory.create( resultDoc ) );
         setTraceDataSourceResult( resultDoc );
 
-        return dataSourceResult;
+        return resultDoc;
     }
 
     /**
@@ -142,9 +136,9 @@ public class DatasourceExecutor
 
     private Document executeMethodCall( final Datasource datasource, final MethodCall methodCall )
     {
-        XMLDocument xmlDocument = methodCall.invoke();
+        Document document = methodCall.invoke();
 
-        Document jdomDocument = (Document) xmlDocument.getAsJDOMDocument().clone();
+        Document jdomDocument = (Document) document.clone();
 
         if ( datasource.getResultElementName() != null )
         {
@@ -162,7 +156,7 @@ public class DatasourceExecutor
         DataTraceInfo info = RenderTrace.getCurrentDataTraceInfo();
         if ( info != null )
         {
-            info.setDataSourceResult( XMLDocumentFactory.create( result ) );
+            info.setDataSourceResult( result );
         }
     }
 

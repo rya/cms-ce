@@ -46,6 +46,7 @@ import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.core.captcha.CaptchaService;
 import com.enonic.cms.core.content.ContentAccessException;
@@ -384,8 +385,10 @@ public abstract class AbstractUserServicesHandlerController
                         vsession = new VerticalSession();
                         session.setAttribute( VerticalSession.VERTICAL_SESSION_OBJECT, vsession );
                     }
-                    vsession.setAttribute( "error_" + handler + "_" + operation,
-                                           captchaService.buildErrorXMLForSessionContext( formItems ).getAsDOMDocument() );
+                    org.jdom.Document jdomDocument = captchaService.buildErrorXMLForSessionContext( formItems );
+                    org.w3c.dom.Document w3cDocument = XMLDocumentHelper.convertToW3CDocument( jdomDocument );
+
+                    vsession.setAttribute( "error_" + handler + "_" + operation, w3cDocument );
                     redirectToErrorPage( request, response, formItems, ERR_INVALID_CAPTCHA, null );
                     return null;
                 }

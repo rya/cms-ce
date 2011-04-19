@@ -8,6 +8,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,7 +18,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -330,8 +330,8 @@ public class UserEntityDaoTest
         userStore.setConnectorName( "TestConnectorName" );
 
         final String configAsString = "<config><user-fields><first-name required=\"true\"/></user-fields></config>";
-        final XMLDocument configXmlDoc = XMLDocumentFactory.create( configAsString );
-        final UserStoreConfig config = UserStoreConfigParser.parse(configXmlDoc.getAsJDOMDocument().getRootElement());
+        final Document configXmlDoc = XMLDocumentFactory._create( configAsString );
+        final UserStoreConfig config = UserStoreConfigParser.parse(configXmlDoc.getRootElement());
         userStore.setConfig( config );
         return userStore;
     }

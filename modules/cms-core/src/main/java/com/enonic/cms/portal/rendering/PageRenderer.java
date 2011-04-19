@@ -4,15 +4,6 @@
  */
 package com.enonic.cms.portal.rendering;
 
-import com.enonic.cms.core.VerticalProperties;
-import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.structure.page.Region;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.portal.Ticket;
-import com.enonic.cms.portal.rendering.tracing.PageTraceInfo;
-import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -22,13 +13,24 @@ import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.TightestCacheSettingsResolver;
+import com.enonic.cms.core.VerticalProperties;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.DataSourceService;
+import com.enonic.cms.core.structure.TemplateParameter;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Region;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.portal.InvocationCache;
+import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.Ticket;
 import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.portal.datasource.DatasourceExecutor;
 import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
+import com.enonic.cms.portal.datasource.DatasourcesType;
 import com.enonic.cms.portal.instruction.PostProcessInstructionContext;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
 import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
@@ -37,22 +39,19 @@ import com.enonic.cms.portal.livetrace.PageRenderingTrace;
 import com.enonic.cms.portal.livetrace.PageRenderingTracer;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsContext;
 import com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory;
+import com.enonic.cms.portal.rendering.tracing.PageTraceInfo;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.portal.rendering.tracing.TraceMarkerHelper;
 import com.enonic.cms.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer;
-
-import com.enonic.cms.domain.CacheObjectSettings;
-import com.enonic.cms.domain.CacheSettings;
-import com.enonic.cms.domain.CachedObject;
-import com.enonic.cms.portal.datasource.DataSourceResult;
-import com.enonic.cms.portal.datasource.DatasourcesType;
 import com.enonic.cms.portal.rendering.viewtransformer.RegionTransformationParameter;
 import com.enonic.cms.portal.rendering.viewtransformer.TemplateParameterTransformationParameter;
 import com.enonic.cms.portal.rendering.viewtransformer.TransformationParameterOrigin;
 import com.enonic.cms.portal.rendering.viewtransformer.TransformationParams;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.TemplateParameter;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.portal.rendering.viewtransformer.ViewTransformationResult;
+
+import com.enonic.cms.domain.CacheObjectSettings;
+import com.enonic.cms.domain.CacheSettings;
+import com.enonic.cms.domain.CachedObject;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 
@@ -137,16 +136,16 @@ public class PageRenderer
         RenderedPageResult renderedPageResult = doRenderPageTemplate( pageTemplate );
 
         String renderedPageContentIncludingRenderedWindows =
-            executePostProcessInstructions( pageTemplate, renderedPageResult.getContent(), renderedPageResult.getOutputMethod() );
+                executePostProcessInstructions( pageTemplate, renderedPageResult.getContent(), renderedPageResult.getOutputMethod() );
 
         renderedPageContentIncludingRenderedWindows =
-            renderedPageContentIncludingRenderedWindows.replace( Ticket.getPlaceholder(), context.getTicketId() );
+                renderedPageContentIncludingRenderedWindows.replace( Ticket.getPlaceholder(), context.getTicketId() );
 
         renderedPageResult.setContent( renderedPageContentIncludingRenderedWindows );
 
         CacheSettings normalizedPageCacheSettings =
-            tightestCacheSettingsResolver.resolveTightestCacheSettingsForPage( context.getMenuItem(), context.getRegionsInPage(),
-                                                                               pageTemplate );
+                tightestCacheSettingsResolver.resolveTightestCacheSettingsForPage( context.getMenuItem(), context.getRegionsInPage(),
+                                                                                   pageTemplate );
         DateTime requestTime = context.getRequestTime();
         DateTime expirationTime = requestTime.plusSeconds( normalizedPageCacheSettings.getSpecifiedSecondsToLive() );
         renderedPageResult.setExpirationTime( expirationTime );
@@ -198,7 +197,7 @@ public class PageRenderer
             throw new StylesheetNotFoundException( stylesheetKey );
         }
 
-        DataSourceResult dataSourceResult = executeDataSources( pageTemplate );
+        Document document = executeDataSources( pageTemplate );
 
         final TransformationParams transformationParams = new TransformationParams();
         for ( Region region : context.getRegionsInPage().getRegions() )
@@ -214,20 +213,13 @@ public class PageRenderer
             if ( transformationParams.notContains( templateParam.getName() ) )
             {
                 transformationParams.add(
-                    new TemplateParameterTransformationParameter( templateParam, TransformationParameterOrigin.PAGETEMPLATE ) );
+                        new TemplateParameterTransformationParameter( templateParam, TransformationParameterOrigin.PAGETEMPLATE ) );
             }
         }
 
-        Document model;
-        if ( dataSourceResult == null || dataSourceResult.getData() == null )
-        {
-            String resultRootName = verticalProperties.getDatasourceDefaultResultRootElement();
-            model = new Document( new Element( resultRootName ) );
-        }
-        else
-        {
-            model = dataSourceResult.getData().getAsJDOMDocument();
-        }
+        document = ( document != null )
+                ? document
+                : new Document( new Element( verticalProperties.getDatasourceDefaultResultRootElement() ) );
 
         PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey();
 
@@ -246,7 +238,7 @@ public class PageRenderer
         ViewTransformationResult viewTransformationResult;
         try
         {
-            viewTransformationResult = pageTemplateXsltViewTransformer.transform( pageTemplateStylesheet, model, transformationParams );
+            viewTransformationResult = pageTemplateXsltViewTransformer.transform( pageTemplateStylesheet, document, transformationParams );
         }
         finally
         {
@@ -256,9 +248,9 @@ public class PageRenderer
         if ( RenderTrace.isTraceOn() )
         {
             viewTransformationResult.setContent(
-                TraceMarkerHelper.writePageMarker( RenderTrace.getCurrentRenderTraceInfo(),
-                                                   viewTransformationResult.getContent(),
-                                                   viewTransformationResult.getOutputMethod() ) );
+                    TraceMarkerHelper.writePageMarker( RenderTrace.getCurrentRenderTraceInfo(),
+                                                       viewTransformationResult.getContent(),
+                                                       viewTransformationResult.getOutputMethod() ) );
         }
 
         RenderedPageResult renderedPageResult = new RenderedPageResult();
@@ -315,7 +307,7 @@ public class PageRenderer
         postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
 
         PostProcessInstructionProcessor postProcessInstructionProcessor =
-            new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
+                new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
 
         String evaluatePostProcessInstructions = postProcessInstructionProcessor.processInstructions( pageMarkup );
 
@@ -336,7 +328,7 @@ public class PageRenderer
         return siteURLResolver;
     }
 
-    private DataSourceResult executeDataSources( PageTemplateEntity pageTemplate )
+    private Document executeDataSources( PageTemplateEntity pageTemplate )
     {
         // resolve css key
         ResourceKey cssKey = context.getSite().getDefaultCssKey();

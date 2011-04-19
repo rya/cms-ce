@@ -13,10 +13,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.jdom.Document;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.CategoryEntity;
@@ -473,8 +472,9 @@ public class ContentServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getAggregatedIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter,
-                                                 boolean includeSubCategories, Collection<ContentTypeKey> contentTypeFilter )
+    public Document getAggregatedIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter,
+                                              boolean includeSubCategories,
+                                              Collection<ContentTypeKey> contentTypeFilter )
     {
         Set<CategoryKey> categoryKeySet = new HashSet<CategoryKey>();
         categoryKeySet.addAll( categoryFilter );
@@ -496,8 +496,9 @@ public class ContentServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument getIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter, boolean includeSubCategories,
-                                       Collection<ContentTypeKey> contentTypeFilter, int index, int count, boolean descOrder )
+    public Document getIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter,
+                                    boolean includeSubCategories, Collection<ContentTypeKey> contentTypeFilter,
+                                    int index, int count, boolean descOrder )
     {
         Set<CategoryKey> categoryKeySet = new HashSet<CategoryKey>();
         categoryKeySet.addAll( categoryFilter );

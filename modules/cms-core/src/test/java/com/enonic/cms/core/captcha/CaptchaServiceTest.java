@@ -7,21 +7,22 @@ package com.enonic.cms.core.captcha;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 
-import com.enonic.cms.framework.xml.XMLDocument;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -125,9 +126,9 @@ public class CaptchaServiceTest
         // Here starts the real test:
         assertTrue( captchaService.validateCaptcha( formItems, req, "form", "create" ) );
         assertFalse( captchaService.validateCaptcha( formItems, req, "content", "create" ) );
-        XMLDocument xmlDoc = captchaService.buildErrorXMLForSessionContext( formItems );
-        assertNotNull( xmlDoc );
-        String xml = xmlDoc.getAsString();
+        Document document = captchaService.buildErrorXMLForSessionContext( formItems );
+        assertNotNull( document );
+        String xml = XMLDocumentHelper.convertToString( document );
         assertTrue( xml.contains( "123" ) );
         assertTrue( xml.contains( "def" ) );
         assertFalse( xml.contains( "ghi" ) );

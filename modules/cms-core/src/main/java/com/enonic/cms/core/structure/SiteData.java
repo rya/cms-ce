@@ -10,13 +10,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.core.resource.ResourceKey;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
+
+import com.enonic.cms.core.resource.ResourceKey;
 
 /**
  * May 29, 2009
@@ -202,10 +202,10 @@ public class SiteData
 
     public byte[] getAsBytes()
     {
-        XMLDocument xmlDocument = XMLDocumentFactory.create( xmlDoc );
+        String str = XMLDocumentHelper.convertToString( xmlDoc );
         try
         {
-            return xmlDocument.getAsString().getBytes( "UTF-8" );
+            return str.getBytes( "UTF-8" );
         }
         catch ( UnsupportedEncodingException e )
         {

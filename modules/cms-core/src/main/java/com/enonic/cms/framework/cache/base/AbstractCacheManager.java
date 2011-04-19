@@ -20,8 +20,6 @@ import com.enonic.cms.framework.cache.CacheManager;
 import com.enonic.cms.framework.cache.config.CacheConfig;
 import com.enonic.cms.framework.cache.config.CacheManagerConfig;
 import com.enonic.cms.framework.cache.config.PropertiesCacheManagerConfig;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 /**
  * This class implements the abstract cache manager.
@@ -180,14 +178,14 @@ public abstract class AbstractCacheManager
     /**
      * @Inherit
      */
-    public XMLDocument getInfoAsXml()
+    public Document getInfoAsXml()
     {
         Element root = new Element( "caches" );
         for ( AbstractCacheFacade cache : this.cacheMap.values() )
         {
-            root.addContent( cache.getInfoAsXml().getAsJDOMDocument().getRootElement().detach() );
+            root.addContent( cache.getInfoAsXml().getRootElement().detach() );
         }
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 }

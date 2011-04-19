@@ -7,17 +7,16 @@ package com.enonic.cms.core.content;
 import java.util.Collection;
 import java.util.List;
 
+import org.jdom.Document;
+
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.framework.xml.XMLDocument;
-
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;
@@ -112,6 +111,7 @@ public interface ContentService
     /**
      * Collect all index values and create an aggregated set of all.
      *
+     *
      * @param user                 The currently logged in user.
      * @param field                The field from which to get the index values.
      * @param categoryFilter       A filter, to limit the values to a certain category.
@@ -119,11 +119,12 @@ public interface ContentService
      * @param contentTypeFilter    A filter, to limit the values to a certain content type.
      * @return A result set of aggregated index values.
      */
-    XMLDocument getAggregatedIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter,
-                                          boolean includeSubCategories, Collection<ContentTypeKey> contentTypeFilter );
+    Document getAggregatedIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter,
+                                       boolean includeSubCategories, Collection<ContentTypeKey> contentTypeFilter );
 
     /**
      * Find index values.
+     *
      *
      * @param user                 The currently logged in user.
      * @param field                The field from which to get the index values.
@@ -135,8 +136,9 @@ public interface ContentService
      * @param descOrder            Whether or not to sort the result in the opposite order.
      * @return A result set of index values.
      */
-    XMLDocument getIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter, boolean includeSubCategories,
-                                Collection<ContentTypeKey> contentTypeFilter, int index, int count, boolean descOrder );
+    Document getIndexValues( UserEntity user, String field, Collection<CategoryKey> categoryFilter,
+                             boolean includeSubCategories, Collection<ContentTypeKey> contentTypeFilter, int index,
+                             int count, boolean descOrder );
 
     /**
      * Find the specific content corresponding to the given menuItemID. This is not done by searching, but a simple lookup in the database.

@@ -6,16 +6,14 @@ package com.enonic.cms.core.content.contenttype;
 
 import java.util.List;
 
-import com.enonic.cms.core.resource.ResourceFolder;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.resource.ResourceFolder;
+import com.enonic.cms.core.resource.ResourceKey;
 
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.core.content.ContentHandlerEntity;
-import com.enonic.cms.core.resource.ResourceKey;
 
 public class ContentTypeXmlCreator
 {
@@ -33,7 +31,7 @@ public class ContentTypeXmlCreator
         this.resourceRoot = resourceRoot;
     }
 
-    public XMLDocument createContentTypesDocument( List<ContentTypeEntity> contentTypes )
+    public Document createContentTypesDocument( List<ContentTypeEntity> contentTypes )
     {
         final Element root = new Element( "contenttypes" );
 
@@ -41,7 +39,7 @@ public class ContentTypeXmlCreator
         {
             root.addContent( doCreateContentTypeElement( contentType ) );
         }
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
     private Element doCreateContentTypeElement( ContentTypeEntity contentType )

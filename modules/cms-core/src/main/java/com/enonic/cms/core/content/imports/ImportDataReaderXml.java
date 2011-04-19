@@ -17,7 +17,6 @@ import java.util.Set;
 
 import javax.xml.transform.stream.StreamResult;
 
-import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.jdom.Document;
@@ -32,12 +31,12 @@ import net.sf.saxon.sxpath.XPathEvaluator;
 import net.sf.saxon.sxpath.XPathExpression;
 import net.sf.saxon.trans.XPathException;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.contenttype.CtyImportBlockConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
+import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
 import com.enonic.cms.core.content.imports.sourcevalueholders.BinarySourceValue;
 import com.enonic.cms.core.content.imports.sourcevalueholders.StringArraySourceValue;
 import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
@@ -126,8 +125,7 @@ public class ImportDataReaderXml
         throws Exception
     {
 
-        final XMLDocument tep = XMLDocumentFactory.create( new InputStreamReader( data, "UTF-8" ) );
-        final Document doc = tep.getAsJDOMDocument();
+        final Document doc = XMLDocumentFactory._create( new InputStreamReader( data, "UTF-8" ) );
 
         this.evaluator.setDefaultElementNamespace( doc.getRootElement().getNamespace().getURI() );
 

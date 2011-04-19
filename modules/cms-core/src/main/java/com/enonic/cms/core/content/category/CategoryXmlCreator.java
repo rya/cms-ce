@@ -15,16 +15,13 @@ import org.jdom.CDATA;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
-
-import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.security.user.UserEntity;
+
+import com.enonic.cms.domain.CalendarUtil;
 
 public class CategoryXmlCreator
 {
@@ -118,7 +115,7 @@ public class CategoryXmlCreator
         this.rootAccess = rootAccess;
     }
 
-    public XMLDocument createEmptyCategoriesDocument( String message )
+    public Document createEmptyCategoriesDocument( String message )
     {
         Element root = new Element( "categories" );
         Document doc = new Document( root );
@@ -127,10 +124,10 @@ public class CategoryXmlCreator
         {
             root.setAttribute( "message", message );
         }
-        return XMLDocumentFactory.create( doc );
+        return doc;
     }
 
-    public XMLDocument createCategoryBranch( List<CategoryEntity> categories, CategoryKey selectedTopCategory )
+    public Document createCategoryBranch( List<CategoryEntity> categories, CategoryKey selectedTopCategory )
     {
         final Element root = new Element( "categories" );
         root.setAttribute( "disabled", !rootAccess ? "true" : "false" );
@@ -143,20 +140,20 @@ public class CategoryXmlCreator
                 root.addContent( doCreateCategoryElement( category, includeChildren, null ) );
             }
         }
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
-    public XMLDocument createCategoryBranch( CategoryEntity category )
+    public Document createCategoryBranch( CategoryEntity category )
     {
         final Element root = new Element( "categories" );
 
         root.addContent( doCreateCategoryElement( category, true, null ) );
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
 
-    public XMLDocument createEmptyCategoryNamesDocument( String message )
+    public Document createEmptyCategoryNamesDocument( String message )
     {
         Element root = new Element( "categorynames" );
         Document doc = new Document( root );
@@ -165,15 +162,15 @@ public class CategoryXmlCreator
         {
             root.setAttribute( "message", message );
         }
-        return XMLDocumentFactory.create( doc );
+        return doc;
     }
 
-    public XMLDocument createCategoryNames( CategoryEntity category )
+    public Document createCategoryNames( CategoryEntity category )
     {
         return createCategoryNames( category, null );
     }
 
-    public XMLDocument createCategoryNames( CategoryEntity category, Map<CategoryEntity, Integer> contentCountMap )
+    public Document createCategoryNames( CategoryEntity category, Map<CategoryEntity, Integer> contentCountMap )
     {
         List<CategoryEntity> categories = new ArrayList<CategoryEntity>();
         categories.add( category );
@@ -181,7 +178,7 @@ public class CategoryXmlCreator
         return createCategoryNames( categories, contentCountMap );
     }
 
-    public XMLDocument createCategoryNames( List<CategoryEntity> categories, Map<CategoryEntity, Integer> contentCountMap )
+    public Document createCategoryNames( List<CategoryEntity> categories, Map<CategoryEntity, Integer> contentCountMap )
     {
         final Element root = new Element( "categorynames" );
 
@@ -197,7 +194,7 @@ public class CategoryXmlCreator
             root.addContent( createCategoryNameElement( category, includeContentCount ? contentCountMap.get( category ) : null ) );
         }
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
     private Element createCategoryNameElement( CategoryEntity category, Integer contentCount )
@@ -233,7 +230,7 @@ public class CategoryXmlCreator
         return element;
     }
 
-    public XMLDocument createCategory( CategoryEntity category )
+    public Document createCategory( CategoryEntity category )
     {
         if ( category == null )
         {
@@ -247,7 +244,7 @@ public class CategoryXmlCreator
             root.addContent( doCreateCategoryElement( category, false, null ) );
         }
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
 

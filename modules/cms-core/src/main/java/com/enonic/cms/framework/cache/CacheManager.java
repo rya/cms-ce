@@ -6,7 +6,7 @@ package com.enonic.cms.framework.cache;
 
 import java.util.Collection;
 
-import com.enonic.cms.framework.xml.XMLDocument;
+import org.jdom.Document;
 
 /**
  * This interface defines the cache manager.
@@ -36,5 +36,5 @@ public interface CacheManager
     /**
      * Return xml details.
      */
-    public XMLDocument getInfoAsXml();
+    public Document getInfoAsXml();
 }

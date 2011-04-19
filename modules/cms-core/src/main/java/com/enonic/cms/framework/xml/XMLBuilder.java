@@ -55,15 +55,6 @@ public final class XMLBuilder
     }
 
     /**
-     * @return The document as an <code>XMLDocument</code>
-     * @deprecated
-     */
-    public XMLDocument getXMLDocument()
-    {
-        return XMLDocumentFactory.create( this.document );
-    }
-
-    /**
      * @return The document as an <code>org.jdom.Document</code>
      */
     public Document getDocument()

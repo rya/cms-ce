@@ -15,12 +15,9 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import com.enonic.cms.framework.xml.IllegalCharacterCleaner;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.store.dao.ContentIndexDao;
 
 import com.enonic.cms.core.content.index.ContentIndexConstants;
+import com.enonic.cms.store.dao.ContentIndexDao;
 
 /**
  * This class is used for admin to build xml for extended info such as index values and content data.
@@ -39,7 +36,7 @@ public final class ContentSourceXmlCreator
         this.contentIndexDao = contentIndexDao;
     }
 
-    public XMLDocument createSourceDocument( ContentVersionEntity version )
+    public Document createSourceDocument( ContentVersionEntity version )
     {
         Element root = new Element( "source" );
         addContentDataElem( root, version );
@@ -49,7 +46,7 @@ public final class ContentSourceXmlCreator
             // list only indexes when version is the main version
             addIndexesElem( root, version.getContent().getKey() );
         }
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
     private void addContentDataElem( Element parent, ContentVersionEntity version )

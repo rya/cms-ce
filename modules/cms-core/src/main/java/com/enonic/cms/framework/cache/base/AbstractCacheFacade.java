@@ -9,8 +9,6 @@ import org.jdom.Element;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.config.CacheConfig;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 /**
  * This class implements the abstract cache.
@@ -204,7 +202,7 @@ public abstract class AbstractCacheFacade
     /**
      * @inherit
      */
-    public final XMLDocument getInfoAsXml()
+    public final Document getInfoAsXml()
     {
         Element root = new Element( "cache" );
 
@@ -221,7 +219,7 @@ public abstract class AbstractCacheFacade
         statsElem.setAttribute( "cacheMisses", String.valueOf( getMissCount() ) );
 
         root.addContent( statsElem );
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
     private String createCompositeKey( String group, String key )

@@ -4,15 +4,12 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.core.content.index.IndexValueResult;
-import com.enonic.cms.core.content.index.IndexValueResultSet;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.content.index.AggregatedResult;
+import com.enonic.cms.core.content.index.IndexValueResult;
+import com.enonic.cms.core.content.index.IndexValueResultSet;
 
 /**
  * Includes methods that creates the XML documentes for result sets with index values.
@@ -23,11 +20,12 @@ public class ContentIndexValuesXMLCreator
     /**
      * Create aggregated index values document.
      *
+     *
      * @param path   The path to the result set.  Set as an attribute on the root element.
      * @param result The aggregated data to use in creating the XML.
      * @return A full XML with the results.
      */
-    public XMLDocument createIndexValuesDocument( String path, AggregatedResult result )
+    public Document createIndexValuesDocument( String path, AggregatedResult result )
     {
         Element root = new Element( "index" );
         root.setAttribute( "path", path );
@@ -40,17 +38,18 @@ public class ContentIndexValuesXMLCreator
         values.setAttribute( "average", String.valueOf( result.getAverageValue() ) );
         root.addContent( values );
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
     /**
      * Create index values document.
      *
+     *
      * @param path   The path to the result set.  Set as an attribute on the root element.
      * @param result The aggregated data to use in creating the XML.
      * @return A full XML with the results.
      */
-    public XMLDocument createIndexValuesDocument( String path, IndexValueResultSet result )
+    public Document createIndexValuesDocument( String path, IndexValueResultSet result )
     {
         Element root = new Element( "index" );
         root.setAttribute( "path", path );
@@ -71,6 +70,6 @@ public class ContentIndexValuesXMLCreator
             values.addContent( value );
         }
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 }

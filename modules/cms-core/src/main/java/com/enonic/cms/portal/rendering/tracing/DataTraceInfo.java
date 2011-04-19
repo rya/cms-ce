@@ -13,9 +13,6 @@ import java.util.Map;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.domain.SiteKey;
 
 /**
@@ -32,7 +29,7 @@ public abstract class DataTraceInfo
     /**
      * Data source result.
      */
-    private XMLDocument dataSourceResult;
+    private Document dataSourceResult;
 
     private final Map<Integer, String> contentInfo;
 
@@ -66,9 +63,9 @@ public abstract class DataTraceInfo
     /**
      * Return render trace as xml.
      */
-    public final XMLDocument getRenderTraceAsXml()
+    public final Document getRenderTraceAsXml()
     {
-        return XMLDocumentFactory.create( new Document( getDataTraceXmlElement() ) );
+        return new Document( getDataTraceXmlElement() );
     }
 
     /**
@@ -101,7 +98,7 @@ public abstract class DataTraceInfo
     /**
      * Return the data source result.
      */
-    public XMLDocument getDataSourceResult()
+    public Document getDataSourceResult()
     {
         return this.dataSourceResult;
     }
@@ -109,7 +106,7 @@ public abstract class DataTraceInfo
     /**
      * Set data source result.
      */
-    public void setDataSourceResult( XMLDocument dataSourceResult )
+    public void setDataSourceResult( Document dataSourceResult )
     {
         this.dataSourceResult = dataSourceResult;
     }

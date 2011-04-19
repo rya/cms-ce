@@ -15,9 +15,6 @@ import org.jdom.Element;
 
 import com.enonic.esl.containers.ExtendedMap;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.security.SecurityService;
 
@@ -104,7 +101,7 @@ public class CaptchaServiceImpl
     /**
      * @inheritDoc
      */
-    public XMLDocument buildErrorXMLForSessionContext( Map<String, Object> formItems )
+    public Document buildErrorXMLForSessionContext( Map<String, Object> formItems )
     {
         Element root = new Element( "form" );
         Document doc = new Document( root );
@@ -130,7 +127,7 @@ public class CaptchaServiceImpl
                 }
             }
         }
-        return XMLDocumentFactory.create( doc );
+        return doc;
     }
 
     public void setSitePropertiesService( SitePropertiesService service )

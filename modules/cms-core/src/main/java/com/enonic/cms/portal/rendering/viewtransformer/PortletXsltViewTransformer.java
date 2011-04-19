@@ -35,7 +35,7 @@ public class PortletXsltViewTransformer
     private static final Logger LOG = LoggerFactory.getLogger( PortletXsltViewTransformer.class );
 
     public ViewTransformationResult transform( ResourceFile viewFile, TransformationParams transformationParams,
-                                               XMLDocument xml )
+                                               Document xml )
     {
         try
         {
@@ -66,7 +66,7 @@ public class PortletXsltViewTransformer
 
             String stringResult;
 
-            stringResult = processor.process( new JDOMSource( xml.getAsJDOMDocument() ) );
+            stringResult = processor.process( new JDOMSource( xml ) );
             ViewTransformationResult viewTransformationResult = new ViewTransformationResult();
             viewTransformationResult.setContent( stringResult );
             viewTransformationResult.setHttpContentType( processor.getContentType() );

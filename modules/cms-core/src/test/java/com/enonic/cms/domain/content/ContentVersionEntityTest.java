@@ -7,11 +7,7 @@ package com.enonic.cms.domain.content;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.category.CategoryEntity;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -19,9 +15,14 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
@@ -89,8 +90,8 @@ public class ContentVersionEntityTest
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
 
-        final XMLDocument xmlDoc = XMLDocumentFactory.create( standardConfigXml.toString() );
-        standardConfigAsXMLBytes = xmlDoc.getAsBytes();
+        final Document jdomDocument = XMLDocumentFactory._create( standardConfigXml.toString() );
+        standardConfigAsXMLBytes = XMLDocumentHelper.convertToDocumentData( jdomDocument );
     }
 
     @Test

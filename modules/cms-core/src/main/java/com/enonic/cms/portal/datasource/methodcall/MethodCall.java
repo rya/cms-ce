@@ -10,12 +10,11 @@ import java.lang.reflect.Method;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.portal.datasource.DatasourceException;
-
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.portal.InvocationCache;
+import com.enonic.cms.portal.datasource.DatasourceException;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 public final class MethodCall
@@ -33,7 +32,7 @@ public final class MethodCall
         this.method = method;
     }
 
-    public XMLDocument invoke()
+    public Document invoke()
     {
         Object o = null;
 
@@ -60,15 +59,15 @@ public final class MethodCall
 
         if ( o instanceof XMLDocument )
         {
-            return (XMLDocument) o;
+            return ((XMLDocument) o).getAsJDOMDocument();
         }
         else if ( o instanceof Document )
         {
-            return XMLDocumentFactory.create( (Document) o );
+            return (Document) o;
         }
         else if ( o instanceof org.w3c.dom.Document )
         {
-            return XMLDocumentFactory.create( (org.w3c.dom.Document) o );
+            return XMLDocumentFactory.create( (org.w3c.dom.Document) o ).getAsJDOMDocument();
         }
         else
         {
@@ -76,7 +75,7 @@ public final class MethodCall
         }
     }
 
-    private XMLDocument createValueDocument( Object value )
+    private Document createValueDocument( Object value )
     {
         Element root = new Element( "value" );
         if ( value != null )
@@ -84,7 +83,7 @@ public final class MethodCall
             root.setText( value.toString() );
         }
 
-        return XMLDocumentFactory.create( new Document( root ) );
+        return new Document( root );
     }
 
     private Object invokeMethod( Object target, Method method, Object[] args )

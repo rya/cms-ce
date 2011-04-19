@@ -8,7 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.framework.xml.XMLDocument;
+import org.jdom.Document;
 
 import com.enonic.cms.domain.SiteKey;
 
@@ -45,11 +45,12 @@ public interface CaptchaService
      * <p/>
      * Note: This method is general.  We should look for other uses of this, and possibly place it in a more suitable class.
      *
+     *
      * @param formItems All the data from the form, that the user entered.  System parameters starting with underscore ('_'), will not be
      *                  included in the returned XML.
      * @return An XML document containing all the parameters that the user entered.
      */
-    XMLDocument buildErrorXMLForSessionContext( Map<String, Object> formItems );
+    Document buildErrorXMLForSessionContext( Map<String, Object> formItems );
 
     /**
      * Checks the system properties to see whether a request to the given site and handler, using the given operation, will be captcha
