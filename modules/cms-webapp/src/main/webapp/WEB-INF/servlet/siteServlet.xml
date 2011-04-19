@@ -45,6 +45,11 @@
     <property name="menuItemDao" ref="menuItemDao"/>
   </bean>
 
+  <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.portal.security.AutoLoginInterceptor">
+    <property name="pluginManager" ref="extensionManager"/>
+    <property name="securityService" ref="securityService"/>
+  </bean>
+
   <bean id="basicAuthInterceptor" class="com.enonic.cms.server.service.portal.security.BasicAuthInterceptor">
     <property name="securityService" ref="securityService"/>
   </bean>
@@ -93,6 +98,7 @@
     </property>
     <property name="interceptors">
       <list>
+        <ref bean="autoLoginInterceptor"/>
         <ref bean="basicAuthInterceptor"/>
       </list>
     </property>
@@ -131,6 +137,7 @@
     </property>
     <property name="interceptors">
       <list>
+        <ref bean="autoLoginInterceptor"/>
         <ref bean="basicAuthInterceptor"/>
       </list>
     </property>

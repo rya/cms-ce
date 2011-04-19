@@ -14,6 +14,9 @@
 
   <import resource="../base-PersistTest-context.xml"/>
 
+  <bean id="pluginManager" class="com.enonic.cms.business.plugin.ExtensionManagerImpl">
+  </bean>
+
   <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
 
   <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>

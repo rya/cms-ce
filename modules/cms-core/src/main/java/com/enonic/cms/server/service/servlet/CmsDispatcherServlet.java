@@ -9,6 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
+import com.enonic.cms.business.plugin.ExtensionManager;
+import com.enonic.cms.business.plugin.ExtensionManagerAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -22,6 +25,9 @@ import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
 
 import com.enonic.cms.domain.Attribute;
 
+import java.util.Collection;
+import java.util.Stack;
+
 /**
  * This class implements a modification of the dispatcher servlet.
  */
@@ -34,6 +40,8 @@ public final class CmsDispatcherServlet
      * Upgrade check parameter.
      */
     private final static String UPGRADE_CHECK_PARAM = "upgradeCheck";
+
+    private OriginalPathResolver originalPathResolver = new OriginalPathResolver();
 
     @Override
     public void init( ServletConfig config )
@@ -67,7 +75,65 @@ public final class CmsDispatcherServlet
             LOG.debug( msg.toString() );
         }
 
+        Stack<HttpInterceptor> pluginsReadyForPostHandle = new Stack<HttpInterceptor>();
+        if ( executePreHandle( req, res, pluginsReadyForPostHandle ) )
+        {
         super.doService( req, res );
+    }
+
+        executePostHandle( req, res, pluginsReadyForPostHandle );
+    }
+
+    private Collection<HttpInterceptor> getInterceptorPlugins( HttpServletRequest req )
+    {
+        ExtensionManager pluginManager = ExtensionManagerAccessor.getExtensionManager();
+        String path = originalPathResolver.getRequestPathFromHttpRequest( req );
+        return pluginManager.findMatchingHttpInterceptors( path );
+
+    }
+
+    /**
+     * Find the applicable interceptor plugins for the given request, and execute their pre processing routine if they
+     * have not allready been executed.
+     *
+     * @param req                       The servlet request.
+     * @param res                       The servlet response.
+     * @param pluginsReadyForPostHandle A list of all previously executed plugins. These will not be executed again,
+     *                                  while all the new plugins that are executed this time around, are added to the list.
+     * @return <code>true</code> if it should proceed, <code>false</code> if execution should be interrupted.
+     * @throws Exception Any exception that a plugin may throw.
+     */
+    private boolean executePreHandle( HttpServletRequest req, HttpServletResponse res, Stack<HttpInterceptor> pluginsReadyForPostHandle )
+        throws Exception
+    {
+        for ( HttpInterceptor plugin : getInterceptorPlugins( req ) )
+        {
+            boolean proceed = plugin.preHandle( req, res );
+            pluginsReadyForPostHandle.add( plugin );
+            if ( !proceed )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Execute the post processing routine of the interceptor plugins that was prehandled successfully.
+     *
+     * @param req                       The servlet request.
+     * @param res                       The servlet response.
+     * @param pluginsReadyForPostHandle The plugins to execute.
+     * @throws Exception Any exception that a plugin may throw.
+     */
+    private void executePostHandle( HttpServletRequest req, HttpServletResponse res, Stack<HttpInterceptor> pluginsReadyForPostHandle )
+        throws Exception
+    {
+        for ( HttpInterceptor plugin : pluginsReadyForPostHandle )
+        {
+            plugin.postHandle( req, res );
+        }
     }
 
     /**

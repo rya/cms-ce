@@ -7,6 +7,9 @@ package com.enonic.cms.business.portal.datasource.methodcall;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.enonic.cms.api.plugin.ext.FunctionLibrary;
+import com.enonic.cms.business.plugin.ExtensionManager;
+import com.enonic.cms.business.plugin.ExtensionManagerAccessor;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
@@ -40,19 +43,27 @@ public class MethodCallFactory
             return null;
         }
 
-        Class targetClass = dataSourceObject.getTargetClass();
+        String pluginName = resolvePluginName(methodName);
+
+        FunctionLibrary pluginObject = pluginName != null ? getPluginObject( pluginName ) : null;
+        Object targetObject = pluginObject != null ? pluginObject.getTarget() : dataSourceObject;
+        Class targetClass = pluginObject != null ? pluginObject.getTargetClass() : dataSourceObject.getTargetClass();
+        boolean useContext = pluginObject == null;
 
         List parameterEl = datasource.getParameterElements();
-        int paramCount = parameterEl.size() + 1;
+        int paramCount = parameterEl.size() + ( useContext ? 1 : 0 );
 
-        Method method = resolveMethod( targetClass, methodName, paramCount, true );
+        Method method = resolveMethod( targetClass, methodName, paramCount, useContext );
         Class[] paramTypes = method.getParameterTypes();
         MethodCallParameter[] parameters = new MethodCallParameter[paramCount];
 
+        if ( useContext )
+        {
         DataSourceContext dataSourceContext = createDataSourceContext( context );
         parameters[0] = new MethodCallParameter( "__context__", dataSourceContext, "false", DataSourceContext.class );
+        }
 
-        int paramOffset = 1;
+        int paramOffset = useContext ? 1 : 0;
         for ( int i = 0; i < parameterEl.size(); i++ )
         {
 
@@ -75,7 +86,7 @@ public class MethodCallFactory
             }
         }
 
-        return new MethodCall( dataSourceObject, parameters, method );
+        return new MethodCall( targetObject, parameters, method );
     }
 
     private static MethodCallParameter createParameter( Element parmeterEl, Class paramType, DatasourceExecutorContext context )
@@ -150,6 +161,19 @@ public class MethodCallFactory
         return dataSourceContext;
     }
 
+    private static String resolvePluginName( String methodName )
+    {
+        int pos = methodName.indexOf( '.' );
+        if ( pos > 0 )
+        {
+            return methodName.substring( 0, pos );
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     private static String resolveLocalMethodName( String methodName )
     {
         int pos = methodName.indexOf( '.' );
@@ -160,6 +184,20 @@ public class MethodCallFactory
         else
         {
             return methodName;
+        }
+    }
+
+    private static FunctionLibrary getPluginObject( String pluginName )
+    {
+        ExtensionManager pluginManager = ExtensionManagerAccessor.getExtensionManager();
+        FunctionLibrary object = pluginManager.findFunctionLibrary(pluginName);
+        if ( object == null )
+        {
+            throw new VerticalRenderException( "Plugin [" + pluginName + "] is not registered" );
+        }
+        else
+        {
+            return object;
         }
     }
 
