@@ -4,10 +4,17 @@
  */
 package com.enonic.cms.business.core.content;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.api.plugin.ext.TextExtractor;
+import com.enonic.cms.business.plugin.ExtensionManager;
+import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.util.MimeTypeResolver;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +53,9 @@ public final class IndexServiceImpl
 
     @Autowired
     private ContentDao contentDao;
+
+    @Autowired
+    private ExtensionManager pluginManager;
 
     @Autowired
     private BinaryDataDao binaryDataDao;
@@ -146,9 +156,25 @@ public final class IndexServiceImpl
     }
 
     private BigText extractText( BinaryDataEntity binaryData )
-            throws Exception
+        throws IOException
     {
-        return null;
+        String mimeType = MimeTypeResolver.getInstance().getMimeType( binaryData.getName() );
+        TextExtractor textExtractor = pluginManager.findTextExtractorPluginByMimeType( mimeType );
+
+        String fullTextString;
+        if ( textExtractor == null )
+        {
+            return null;
+        }
+        else
+    {
+            BlobRecord blob = binaryDataDao.getBlob(binaryData);
+            //InputStream stream = new ByteArrayInputStream( blob.getAsBytes() );
+            InputStream stream = blob.getStream();
+            fullTextString = textExtractor.extractText( stream );
+        }
+
+        return fullTextString != null ? new BigText( fullTextString ) : null;
     }
 
     /**

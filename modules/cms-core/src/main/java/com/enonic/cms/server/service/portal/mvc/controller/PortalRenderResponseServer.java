@@ -6,10 +6,17 @@ package com.enonic.cms.server.service.portal.mvc.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
+import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
+import com.enonic.cms.business.plugin.ExtensionManager;
+import com.enonic.cms.business.plugin.ExtensionManagerAccessor;
+import com.enonic.cms.domain.portal.PortalRenderingException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -49,6 +56,8 @@ import com.enonic.cms.domain.structure.SiteEntity;
  */
 public class PortalRenderResponseServer
 {
+    private final static String EXECUTED_PLUGINS = "EXECUTED_PLUGINS";
+
     private static final int SECOND_IN_MILLIS = 1000;
 
     private SitePropertiesService sitePropertiesService;
@@ -104,7 +113,7 @@ public class PortalRenderResponseServer
         }
 
         // filter response with any response plugins
-        String content = response.getContent();
+        String content = filterResponseWithPlugins(httpRequest, response.getContent(), response.getHttpContentType());
         response.setContent( content );
 
         boolean handleEtagLogic = cacheHeadersEnabled && !forceNoCache;
@@ -279,6 +288,40 @@ public class PortalRenderResponseServer
         }
 
         return expirationTime;
+    }
+
+    private String filterResponseWithPlugins( HttpServletRequest httpRequest, String response, String contentType )
+    {
+        try
+        {
+            ExtensionManager pluginManager = ExtensionManagerAccessor.getExtensionManager();
+
+            SitePath originalSitePath = (SitePath) httpRequest.getAttribute( Attribute.ORIGINAL_SITEPATH );
+
+            @SuppressWarnings({"unchecked"}) Set<HttpProcessor> executedPlugins =
+                (Set<HttpProcessor>) httpRequest.getAttribute( EXECUTED_PLUGINS );
+            if ( executedPlugins == null )
+            {
+                executedPlugins = new HashSet<HttpProcessor>();
+                httpRequest.setAttribute( EXECUTED_PLUGINS, executedPlugins );
+            }
+
+            for ( HttpResponseFilter plugin : pluginManager.findMatchingHttpResponseFilters( originalSitePath ) )
+            {
+                if ( !executedPlugins.contains( plugin ) )
+                {
+                    response = plugin.filterResponse( httpRequest, response, contentType );
+                    executedPlugins.add( plugin );
+                }
+
+            }
+
+            return response;
+        }
+        catch ( Exception e )
+        {
+            throw new PortalRenderingException( "Response filter plugin failed: " + e.getMessage(), e );
+        }
     }
 
     private boolean resolveCacheHeadersEnabledForSite( final SiteKey requestedSiteKey )

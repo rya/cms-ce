@@ -16,6 +16,9 @@
 
   <import resource="classpath:store-dao-context.xml"/>
 
+  <bean id="pluginManager" class="com.enonic.cms.business.plugin.ExtensionManagerImpl">
+  </bean>
+
   <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
 
   <bean id="userStoreService" class="com.enonic.cms.business.core.security.userstore.UserStoreServiceImpl"/>

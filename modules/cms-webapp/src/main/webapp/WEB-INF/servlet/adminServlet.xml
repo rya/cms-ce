@@ -27,6 +27,12 @@
     <property name="exposeSpringMacroHelpers" value="true"/>
   </bean>
 
+  <!-- Interceptor to trigger autologin plugins. -->
+  <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
+    <property name="pluginManager" ref="extensionManager"/>
+    <property name="securityService" ref="securityService"/>
+  </bean>
+
   <!-- Admin handler mappings. -->
   <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
     <property name="order" value="3"/>
@@ -46,6 +52,11 @@
         <entry key="/admin/preview/**" value-ref="previewController"/>
       </map>
     </property>
+    <property name="interceptors">
+      <list>
+        <ref bean="autoLoginInterceptor"/>
+      </list>
+    </property>
   </bean>
 
   <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
@@ -61,6 +72,7 @@
     </property>
     <property name="interceptors">
       <list>
+        <ref bean="autoLoginInterceptor"/>
         <ref bean="loginCheckInterceptor"/>
       </list>
     </property>
