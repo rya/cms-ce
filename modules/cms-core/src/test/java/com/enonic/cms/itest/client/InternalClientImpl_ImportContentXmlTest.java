@@ -23,10 +23,7 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.itest.test.AssertTool;
-
 import com.enonic.cms.core.business.SpecialCharacterTestStrings;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStatus;
@@ -36,6 +33,7 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEn
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.itest.test.AssertTool;
 
 import static org.junit.Assert.*;
 
@@ -939,7 +937,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForStringBasedXmlImport_Simple()
@@ -977,7 +975,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForStringBasedXmlImportWithBlocks()
@@ -1024,7 +1022,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForStringBasedXmlImportWithBlocksToBlocks()
@@ -1080,7 +1078,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForStringBasedXmlImportWithNamespaces()
@@ -1129,7 +1127,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForStringBasedXmlImportWithPublishFromAndToFromImportData()
@@ -1174,7 +1172,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForContentKeyBasedXmlImport()
@@ -1223,7 +1221,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForCustomRelatedContentXmlImport()
@@ -1257,7 +1255,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForImageRelatedContentXmlImport()
@@ -1291,7 +1289,7 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForMiscXmlImport()
@@ -1334,6 +1332,6 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 }

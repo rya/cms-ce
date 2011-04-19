@@ -125,7 +125,7 @@ public class ImportDataReaderXml
         throws Exception
     {
 
-        final Document doc = XMLDocumentFactory._create( new InputStreamReader( data, "UTF-8" ) );
+        final Document doc = XMLDocumentFactory.create( new InputStreamReader( data, "UTF-8" ) );
 
         this.evaluator.setDefaultElementNamespace( doc.getRootElement().getNamespace().getURI() );
 

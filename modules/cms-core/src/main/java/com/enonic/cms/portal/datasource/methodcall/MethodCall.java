@@ -10,8 +10,7 @@ import java.lang.reflect.Method;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.datasource.DatasourceException;
@@ -57,17 +56,13 @@ public final class MethodCall
             RenderTrace.exitFunction();
         }
 
-        if ( o instanceof XMLDocument )
-        {
-            return ((XMLDocument) o).getAsJDOMDocument();
-        }
-        else if ( o instanceof Document )
+        if ( o instanceof org.jdom.Document )
         {
             return (Document) o;
         }
         else if ( o instanceof org.w3c.dom.Document )
         {
-            return XMLDocumentFactory.create( (org.w3c.dom.Document) o ).getAsJDOMDocument();
+            return XMLDocumentHelper.convertToJDOMDocument( (org.w3c.dom.Document) o );
         }
         else
         {

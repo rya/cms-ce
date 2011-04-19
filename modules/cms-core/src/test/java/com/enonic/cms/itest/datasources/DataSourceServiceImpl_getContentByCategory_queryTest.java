@@ -99,7 +99,7 @@ public class DataSourceServiceImpl_getContentByCategory_queryTest
         ctyconf.startBlock( "Person" );
         ctyconf.addInput( "name", "text", "contentdata/name", "Name", true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
 
         // setup content type, unit category, users, and rights
         fixture.save(

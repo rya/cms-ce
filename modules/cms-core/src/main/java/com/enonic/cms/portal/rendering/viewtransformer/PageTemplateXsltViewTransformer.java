@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceService;
@@ -38,11 +37,11 @@ public class PageTemplateXsltViewTransformer
     {
         try
         {
-            XMLDocument xslt = xsltTemplateFile.getDataAsXml();
+            Document xslt = xsltTemplateFile.getDataAsXml();
             XsltProcessor processor = createProcessor( xsltTemplateFile.getResourceKey(), xslt );
 
             // Iterate over the parameters defined in the xslt template
-            for ( Element parameterEl : findXsltParamElements( xslt.getAsJDOMDocument() ) )
+            for ( Element parameterEl : findXsltParamElements( xslt ) )
             {
                 TemplateParameterType parameterType = resolveTemplateParameterType( parameterEl );
                 String parameterName = parameterEl.getAttributeValue( "name" );

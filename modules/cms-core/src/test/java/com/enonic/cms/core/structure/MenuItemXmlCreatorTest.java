@@ -194,7 +194,7 @@ public class MenuItemXmlCreatorTest
         String xmlDataString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<data cachedisabled=\"false\" cachetype=\"default\">" +
             "<parameters><parameter name=\"key\" override=\"false\">1366</parameter></parameters>" +
             "<document>built in content</document></data>";
-        mi.setXmlData( XMLDocumentFactory.create( xmlDataString ).getAsJDOMDocument() );
+        mi.setXmlData( XMLDocumentFactory.create( xmlDataString ) );
 
         mi.setSection( true );
         Set<ContentTypeEntity> filteredContentTypes = new LinkedHashSet<ContentTypeEntity>();
@@ -228,7 +228,7 @@ public class MenuItemXmlCreatorTest
 
         String xmlDataString =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + "<data cachedisabled=\"false\" cachetype=\"default\">" + "<document/></data>";
-        mi.setXmlData( XMLDocumentFactory.create( xmlDataString ).getAsJDOMDocument() );
+        mi.setXmlData( XMLDocumentFactory.create( xmlDataString ) );
         mi.setContent( createContent( "1001" ) );
 
         PageEntity page = createPage( "201" );

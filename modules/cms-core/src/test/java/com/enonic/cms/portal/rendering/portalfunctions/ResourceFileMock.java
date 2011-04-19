@@ -7,12 +7,13 @@ package com.enonic.cms.portal.rendering.portalfunctions;
 import java.io.InputStream;
 import java.util.Calendar;
 
-import com.enonic.cms.core.resource.ResourceFolder;
-import com.enonic.cms.core.resource.ResourceKey;
+import org.jdom.Document;
+
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFolder;
+import com.enonic.cms.core.resource.ResourceKey;
 
 /**
  * Created by rmy - Date: Nov 17, 2009
@@ -42,7 +43,7 @@ public class ResourceFileMock
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public XMLDocument getDataAsXml()
+    public Document getDataAsXml()
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -67,7 +68,7 @@ public class ResourceFileMock
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public void setData( XMLDocument data )
+    public void setData( Document data )
     {
         //To change body of implemented methods use File | Settings | File Templates.
     }

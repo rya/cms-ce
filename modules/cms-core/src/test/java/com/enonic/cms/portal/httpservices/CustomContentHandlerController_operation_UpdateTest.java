@@ -129,7 +129,7 @@ public class CustomContentHandlerController_operation_UpdateTest
         ctyconf.addInput( "tobenull", "text", "contentdata/tobenull", "To be set to null", false );
         ctyconf.addInput( "toalsobeempty", "text", "contentdata/toalsobeempty", "To also be set to empty", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save(
             factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -194,7 +194,7 @@ public class CustomContentHandlerController_operation_UpdateTest
         ctyconf.addInput( "myTitle", "text", "contentdata/mytitle", "Mandantory", true );
         ctyconf.addInput( "myCheckbox", "checkbox", "contentdata/mycheckbox", "My checkbox", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save(
             factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -390,7 +390,7 @@ public class CustomContentHandlerController_operation_UpdateTest
 
     private void createAndSaveContentTypeAndCategory( String contentTypeName, String categoryName, ContentTypeConfigBuilder ctyconf )
     {
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save(
             factory.createContentType( contentTypeName, ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

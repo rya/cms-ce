@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.core.content.contentdata.custom;
 
-import com.enonic.cms.core.content.ContentHandlerEntity;
 import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +11,7 @@ import org.junit.Test;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
@@ -428,7 +428,8 @@ public class BlockGroupDataEntriesModifierTest
 
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
-        return XMLDocumentFactory.create( xml.toString() ).getAsBytes();
+
+        return XMLDocumentFactory.asBytes( xml.toString() );
     }
 
     private XMLBytes createNumbersContentTypeXml()
@@ -461,6 +462,7 @@ public class BlockGroupDataEntriesModifierTest
 
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
-        return XMLDocumentFactory.create( xml.toString() ).getAsBytes();
+
+        return XMLDocumentFactory.asBytes( xml.toString() );
     }
 }

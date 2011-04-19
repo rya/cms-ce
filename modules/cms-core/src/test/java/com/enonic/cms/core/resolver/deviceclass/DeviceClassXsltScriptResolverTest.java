@@ -4,20 +4,19 @@
  */
 package com.enonic.cms.core.resolver.deviceclass;
 
-import com.enonic.cms.core.resolver.ResolverContext;
+import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentImpl;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 import com.enonic.cms.core.resolver.deviceclass.mock.DeviceClassResolverXMLCreatorMock;
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.saxon.SaxonProcessorManager;
-
-import com.enonic.cms.core.resolver.ScriptResolverResult;
-import com.enonic.cms.core.resource.ResourceFile;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -95,17 +94,13 @@ public class DeviceClassXsltScriptResolverTest
 
     private void setupResourceAndXsltManager()
     {
-        expect( resourceFile.getDataAsXml() ).andReturn( createXMLDocument() ).anyTimes();
+        Document document = XMLDocumentFactory.create( createDeviceClassResolverXslt() );
+
+        expect( resourceFile.getDataAsXml() ).andReturn( document ).anyTimes();
         replay( resourceFile );
 
         SaxonProcessorManager xsltProcessorManager = new SaxonProcessorManager();
         XsltProcessorManagerAccessor.setProcessorManager( xsltProcessorManager );
-    }
-
-    private XMLDocument createXMLDocument()
-    {
-        XMLDocument xmlDoc = new XMLDocumentImpl( createDeviceClassResolverXslt() );
-        return xmlDoc;
     }
 
     private String createDeviceClassResolverXslt()

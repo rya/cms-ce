@@ -106,7 +106,7 @@ public class RelatedContentFetcherForContentVersionTest
         ctyconf.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content", false,
                                         true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save(
             factory.createContentType( "MyRelatingContent", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

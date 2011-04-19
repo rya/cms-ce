@@ -14,51 +14,24 @@ import org.jdom.Document;
  */
 public final class XMLDocumentFactory
 {
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( String doc )
-        throws XMLException
+    public static Document create( Reader input )
+            throws XMLException
     {
-        return new XMLDocumentImpl( doc );
+        String str = XMLDocumentHelper.copyToString( input );
+        return create( str );
     }
 
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( String doc, String systemId )
-        throws XMLException
+    public static Document create( String str )
+            throws XMLException
     {
-        XMLDocument xml = create( doc );
-        xml.setSystemId( systemId );
-        return xml;
+        return XMLDocumentHelper.convertToJDOMDocument( str );
     }
 
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( Reader input )
-        throws XMLException
-    {
-        return new XMLDocumentImpl( XMLDocumentHelper.copyToString( input ) );
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( byte[] xml, String encoding )
-    {
-        return create( xml, encoding, null );
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    private static XMLDocument create( byte[] xml, String encoding, String systemId )
+    public static Document create( byte[] xml, String encoding )
     {
         try
         {
-            return create( new String( xml, encoding ), systemId );
+            return create( new String( xml, encoding ) );
         }
         catch ( UnsupportedEncodingException e )
         {
@@ -66,32 +39,18 @@ public final class XMLDocumentFactory
         }
     }
 
-    /**
-     * Create xml document based on W3C dom document.
-     */
-    public static XMLDocument create( org.w3c.dom.Document doc )
+    public static XMLBytes asBytes( String str )
+            throws XMLException
     {
-        return new XMLDocumentImpl( doc );
+        org.jdom.Document jdomDocument = create( str );
+        return XMLDocumentHelper.convertToDocumentData( jdomDocument );
     }
 
-    /**
-     * Create xml document based on JDOM document.
-     */
-    public static XMLDocument create( Document doc )
+    public static String asString( String str )
+            throws XMLException
     {
-        return new XMLDocumentImpl( doc );
+        org.jdom.Document jdomDocument = create( str );
+        return XMLDocumentHelper.convertToString( jdomDocument );
     }
 
-    public static Document _create( Reader input )
-        throws XMLException
-    {
-        String str = XMLDocumentHelper.copyToString( input );
-        return _create( str );
-    }
-
-    public static Document _create( String str )
-        throws XMLException
-    {
-        return XMLDocumentHelper.convertToJDOMDocument( str );
-    }
 }

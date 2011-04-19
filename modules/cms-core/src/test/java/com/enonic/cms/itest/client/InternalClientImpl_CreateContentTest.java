@@ -101,7 +101,7 @@ public class InternalClientImpl_CreateContentTest
         standardConfigXml.append( "         </block>" );
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );
@@ -177,7 +177,7 @@ public class InternalClientImpl_CreateContentTest
         ctyconf.addInput( "laerer-navn", "text", "navn", "Navn" );
         ctyconf.addInput( "laerer-karakter", "text", "karakter", "Karakter" );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save( factory.createContentType( "Skole", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.save( factory.createUnit( "MyUnit", "en" ) );

@@ -12,8 +12,6 @@ import org.jdom.transform.JDOMSource;
 
 import com.enonic.esl.util.RegexpUtil;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-
 import com.enonic.cms.core.resolver.locale.LocaleResolverException;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.xslt.XsltProcessor;
@@ -52,10 +50,10 @@ public abstract class AbstractXsltScriptResolver
 
     protected abstract ScriptResolverResult populateScriptResolverResult( String resolvedValue );
 
-    protected XsltProcessor createProcessor( String name, XMLDocument xslt, URIResolver uriResolver )
+    protected XsltProcessor createProcessor( String name, Document xslt, URIResolver uriResolver )
         throws XsltProcessorException
     {
-        final JDOMSource source = new JDOMSource(xslt.getAsJDOMDocument());
+        final JDOMSource source = new JDOMSource( xslt );
         source.setSystemId(name);
 
         final XsltProcessorManager manager = XsltProcessorManagerAccessor.getProcessorManager();
@@ -73,7 +71,7 @@ public abstract class AbstractXsltScriptResolver
         return value;
     }
 
-    protected String resolveWithXsltScript( XMLDocument xslt, Document document )
+    protected String resolveWithXsltScript( Document xslt, Document document )
         throws XsltProcessorException
     {
         URIResolver uriResolver = null;

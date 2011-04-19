@@ -23,11 +23,7 @@ import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ImportContentsParams;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.itest.test.AssertTool;
-
 import com.enonic.cms.core.business.SpecialCharacterTestStrings;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStatus;
@@ -37,7 +33,9 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEn
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.itest.test.AssertTool;
 
 import static org.junit.Assert.*;
 
@@ -599,7 +597,7 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForStringBasedCSVImportWithPublishFromAndToFromImportData()
@@ -644,7 +642,7 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForContentKeyBasedCSVImport()
@@ -693,7 +691,7 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForCustomRelatedContentCSVImport()
@@ -727,7 +725,7 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForImageRelatedContentCSVImport()
@@ -761,7 +759,7 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigForMiscCSVImport()
@@ -804,6 +802,6 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 }

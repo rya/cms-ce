@@ -7,7 +7,6 @@ package com.enonic.cms.domain.content;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.junit.Test;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
@@ -90,8 +88,7 @@ public class ContentVersionEntityTest
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
 
-        final Document jdomDocument = XMLDocumentFactory._create( standardConfigXml.toString() );
-        standardConfigAsXMLBytes = XMLDocumentHelper.convertToDocumentData( jdomDocument );
+        standardConfigAsXMLBytes = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
     }
 
     @Test

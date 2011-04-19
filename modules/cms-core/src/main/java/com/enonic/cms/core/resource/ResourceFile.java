@@ -6,8 +6,9 @@ package com.enonic.cms.core.resource;
 
 import java.io.InputStream;
 
+import org.jdom.Document;
+
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 public interface ResourceFile
     extends ResourceBase
@@ -16,7 +17,7 @@ public interface ResourceFile
 
     long getSize();
 
-    XMLDocument getDataAsXml();
+    Document getDataAsXml();
 
     XMLBytes getDataAsXmlBytes();
 
@@ -26,7 +27,7 @@ public interface ResourceFile
 
     InputStream getDataAsInputStream();
 
-    void setData( XMLDocument data );
+    void setData( Document data );
 
     void setData( XMLBytes data );
 

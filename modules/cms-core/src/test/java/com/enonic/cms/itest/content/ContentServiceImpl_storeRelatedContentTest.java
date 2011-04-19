@@ -111,7 +111,7 @@ public class ContentServiceImpl_storeRelatedContentTest
         ctyconf.addRelatedContentInput( "mySingleRelatedToBeModified", "relatedcontent", "contentdata/mySingleRelatedToBeModified",
                                         "My related2", false, false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save(
             factory.createContentType( "MyRelatedTypes", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

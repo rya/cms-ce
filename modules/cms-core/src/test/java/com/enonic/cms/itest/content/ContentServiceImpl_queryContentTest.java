@@ -76,7 +76,7 @@ public class ContentServiceImpl_queryContentTest
         ctyconf.startBlock( "Person" );
         ctyconf.addInput( "name", "text", "contentdata/name", "Name", true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
 
         fixture.save(
             factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );

@@ -33,12 +33,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.cms.core.VerticalProperties;
 
 import com.enonic.cms.framework.time.TimeService;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.VerticalProperties;
 import com.enonic.cms.core.calendar.CalendarService;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -804,8 +804,8 @@ public final class DataSourceServiceImpl
             LOG.debug( msg.toString() );
         }
 
-        org.w3c.dom.Document doc = getURL( url, encoding, timeout );
-        return XMLDocumentFactory.create( doc ).getAsJDOMDocument();
+        org.w3c.dom.Document w3cDocument = getURL( url, encoding, timeout );
+        return XMLDocumentHelper.convertToJDOMDocument( w3cDocument );
     }
 
     /**
@@ -858,8 +858,8 @@ public final class DataSourceServiceImpl
             LOG.debug( msg.toString() );
         }
 
-        org.w3c.dom.Document doc = getURL( url, null, timeout );
-        return XMLDocumentFactory.create( doc ).getAsJDOMDocument();
+        org.w3c.dom.Document w3cDocument = getURL( url, null, timeout );
+        return XMLDocumentHelper.convertToJDOMDocument( w3cDocument );
     }
 
     /**

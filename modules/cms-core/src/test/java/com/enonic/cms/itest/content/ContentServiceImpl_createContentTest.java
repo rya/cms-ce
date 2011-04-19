@@ -121,7 +121,7 @@ public class ContentServiceImpl_createContentTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );

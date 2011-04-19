@@ -81,7 +81,7 @@ public class InternalClientImpl_CreateFileContentTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsBytes();
+        contentTypeConfig = XMLDocumentFactory.asBytes( contentTypeConfigXml.toString() );
 
         hibernateTemplate.flush();
 

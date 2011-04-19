@@ -97,7 +97,7 @@ public class DataSourceServiceImpl_getContentByQueryTest
         ctyconf.startBlock( "MyContent" );
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
 
         fixture.save(
             factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(),

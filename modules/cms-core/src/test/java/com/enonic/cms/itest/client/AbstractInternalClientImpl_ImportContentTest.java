@@ -210,7 +210,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     private XMLBytes getConfigRelatedContent()
@@ -232,7 +232,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.asBytes( config.toString() );
     }
 
     protected boolean contentKeyExistInContentCollection( Collection<ContentEntity> contents, ContentKey key )

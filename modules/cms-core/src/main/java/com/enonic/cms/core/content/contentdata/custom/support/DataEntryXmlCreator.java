@@ -258,7 +258,7 @@ public class DataEntryXmlCreator
             Document document;
             try
             {
-                document = XMLDocumentFactory.create( xmlStr ).getAsJDOMDocument();
+                document = XMLDocumentFactory.create( xmlStr );
             }
             catch ( XMLException e )
             {

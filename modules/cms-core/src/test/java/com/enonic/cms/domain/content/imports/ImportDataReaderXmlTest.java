@@ -10,11 +10,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.imports.ImportDataEntry;
-import com.enonic.cms.core.content.imports.ImportDataReaderXml;
-import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
-import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 import org.jdom.Document;
 import org.jdom.xpath.XPath;
 import org.junit.Before;
@@ -22,6 +17,7 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.CtyFormConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
@@ -32,6 +28,10 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.HtmlAreaDataEntry
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextAreaDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.XmlDataEntryConfig;
+import com.enonic.cms.core.content.imports.ImportDataEntry;
+import com.enonic.cms.core.content.imports.ImportDataReaderXml;
+import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
+import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 
 import static org.junit.Assert.*;
 
@@ -93,7 +93,7 @@ public class ImportDataReaderXmlTest
 
         Map<CtyImportMappingConfig, AbstractSourceValue> configAndValueMap = importEntry.getConfigAndValueMap();
         String htmlareaAsString = ( (StringSourceValue) configAndValueMap.get( importMappingHtmlarea ) ).getValue();
-        Document htlmareaAsDocument = XMLDocumentFactory.create( htmlareaAsString ).getAsJDOMDocument();
+        Document htlmareaAsDocument = XMLDocumentFactory.create( htmlareaAsString );
         assertFalse( xpathExists( "/my-htmlarea/div", htlmareaAsDocument ) );
         assertTrue( xpathExists( "/div", htlmareaAsDocument ) );
     }
@@ -120,7 +120,8 @@ public class ImportDataReaderXmlTest
 
         Map<CtyImportMappingConfig, AbstractSourceValue> configAndValueMap = importEntry.getConfigAndValueMap();
         String htmlareaAsString =
-            XMLDocumentFactory.create( ( (StringSourceValue) configAndValueMap.get( importMappingHtmlarea ) ).getValue() ).getAsString();
+            XMLDocumentFactory.asString(
+                    ( (StringSourceValue) configAndValueMap.get( importMappingHtmlarea ) ).getValue() );
         assertEquals( "before<div>first</div><p>second</p>", htmlareaAsString );
     }
 
@@ -146,12 +147,12 @@ public class ImportDataReaderXmlTest
         Map<CtyImportMappingConfig, AbstractSourceValue> configAndValueMap = importEntry.getConfigAndValueMap();
 
         Document xmlAsDocument =
-            XMLDocumentFactory.create( ( (StringSourceValue) configAndValueMap.get( importMappingXml ) ).getValue() ).getAsJDOMDocument();
+            XMLDocumentFactory.create( ( (StringSourceValue) configAndValueMap.get( importMappingXml ) ).getValue() );
         assertFalse( xpathExists( "/my-xml/root", xmlAsDocument ) );
         assertTrue( xpathExists( "/root", xmlAsDocument ) );
 
         String xmlAsString =
-            XMLDocumentFactory.create( ( (StringSourceValue) configAndValueMap.get( importMappingXml ) ).getValue() ).getAsString();
+            XMLDocumentFactory.asString( ( (StringSourceValue) configAndValueMap.get( importMappingXml ) ).getValue() );
         assertEquals( "<root>some text<subnode>subtext</subnode></root>", xmlAsString );
     }
 

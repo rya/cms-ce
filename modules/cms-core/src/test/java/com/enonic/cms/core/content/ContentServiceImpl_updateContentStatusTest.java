@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -26,12 +25,10 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
 import com.enonic.cms.core.business.AbstractPersistContentTest;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
-
+import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
@@ -39,6 +36,7 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import static org.junit.Assert.*;
 
@@ -81,7 +79,7 @@ public class ContentServiceImpl_updateContentStatusTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );

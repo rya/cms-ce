@@ -7,7 +7,7 @@ package com.enonic.cms.portal.datasource;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
@@ -119,7 +119,8 @@ public class DatasourceExecutor
     {
         if ( cart != null )
         {
-            return XMLDocumentFactory.create( cart.toDoc( full ) ).getAsJDOMDocument();
+            org.w3c.dom.Document w3cDocument = cart.toDoc( full );
+            return XMLDocumentHelper.convertToJDOMDocument( w3cDocument );
         }
         else
         {

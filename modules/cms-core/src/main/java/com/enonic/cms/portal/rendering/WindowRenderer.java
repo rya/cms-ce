@@ -415,7 +415,7 @@ public class WindowRenderer
 
         try
         {
-            return portletXsltViewTransformer.transform( viewFile, viewParameters, XMLDocumentFactory._create(
+            return portletXsltViewTransformer.transform( viewFile, viewParameters, XMLDocumentFactory.create(
                     DUMMY_XML ) );
         }
         finally

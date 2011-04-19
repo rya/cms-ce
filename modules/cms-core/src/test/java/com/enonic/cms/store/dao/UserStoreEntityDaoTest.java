@@ -46,7 +46,7 @@ public class UserStoreEntityDaoTest
         userStore.setConnectorName( "TestConnectorName" );
 
         final String configAsString = "<config><user-fields><first-name required=\"true\"/></user-fields></config>";
-        final Document configXmlDoc = XMLDocumentFactory._create( configAsString );
+        final Document configXmlDoc = XMLDocumentFactory.create( configAsString );
         final UserStoreConfig config = UserStoreConfigParser.parse( configXmlDoc.getRootElement() );
         userStore.setConfig( config );
 

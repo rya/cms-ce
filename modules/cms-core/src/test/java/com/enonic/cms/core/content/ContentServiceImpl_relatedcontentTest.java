@@ -23,13 +23,10 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.business.AbstractPersistContentTest;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.core.business.AbstractPersistContentTest;
-
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
@@ -40,6 +37,7 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDat
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import static org.junit.Assert.*;
 
@@ -92,7 +90,7 @@ public class ContentServiceImpl_relatedcontentTest
         configXml.append( "     </form>" );
         configXml.append( "</config>" );
         configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
-        config = XMLDocumentFactory.create( configXml.toString() ).getAsBytes();
+        config = XMLDocumentFactory.asBytes( configXml.toString() );
 
         initSystemData();
 

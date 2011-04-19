@@ -112,7 +112,7 @@ public abstract class AbstractSiteXmlCreatorTest
         mi.setModifier( standardUser );
         if ( includeParams )
         {
-            Document doc = XMLDocumentFactory._create( xmlDataString );
+            Document doc = XMLDocumentFactory.create( xmlDataString );
             mi.setXmlData( doc );
         }
         return mi;

@@ -155,7 +155,7 @@ public class InternalClientImpl_UpdateContentTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         // standardConfig = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
     }
 
     private void saveNeededEntities()
@@ -451,7 +451,7 @@ public class InternalClientImpl_UpdateContentTest
         ctyconf.addInput( "laerer-navn", "text", "navn", "Navn" );
         ctyconf.addInput( "laerer-karakter", "text", "karakter", "Karakter" );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save( factory.createContentType( "Skole", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.save( factory.createUnit( "MyUnit", "en" ) );

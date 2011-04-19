@@ -394,7 +394,7 @@ public class ContentTypeImportConfigParserTest
 
     private Element xmlStringToRootElement( String xml )
     {
-        Document document = XMLDocumentFactory.create( xml ).getAsJDOMDocument();
+        Document document = XMLDocumentFactory.create( xml );
         return document.getRootElement();
     }
 }

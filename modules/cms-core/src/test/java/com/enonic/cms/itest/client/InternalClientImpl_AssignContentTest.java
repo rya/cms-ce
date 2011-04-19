@@ -277,7 +277,7 @@ public class InternalClientImpl_AssignContentTest
         standardConfigXml.append( "         </block>" );
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
     }
 
     private String createClientUserQualifiedName( UserEntity user )

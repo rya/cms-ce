@@ -4,29 +4,11 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import com.enonic.cms.core.business.AbstractPersistContentTest;
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.portal.SiteRedirectHelper;
-import com.enonic.cms.store.dao.CategoryDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
-import com.enonic.esl.containers.ExtendedMap;
-import com.google.common.collect.Multimap;
+import java.rmi.RemoteException;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.fileupload.FileItem;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,15 +22,42 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import java.rmi.RemoteException;
+import com.google.common.collect.Multimap;
+
+import com.enonic.esl.containers.ExtendedMap;
+
+import com.enonic.cms.framework.xml.XMLBytes;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.business.AbstractPersistContentTest;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.DomainFactory;
+import com.enonic.cms.core.content.DomainFixture;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.portal.SiteRedirectHelper;
+import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
+
+import com.enonic.cms.domain.SiteKey;
 
 import static junit.framework.Assert.assertTrue;
 import static junitx.framework.Assert.assertFalse;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -661,7 +670,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
     private void createAndSaveContentTypeAndCategory( String contentTypeName, String categoryName, ContentTypeConfigBuilder ctyconf )
     {
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save(
             factory.createContentType( contentTypeName, ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

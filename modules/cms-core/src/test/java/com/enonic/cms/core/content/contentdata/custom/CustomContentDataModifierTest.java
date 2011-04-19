@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.core.content.contentdata.custom;
 
-import com.enonic.cms.core.content.ContentHandlerEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
 import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +11,8 @@ import org.junit.Test;
 import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
@@ -381,7 +381,8 @@ public class CustomContentDataModifierTest
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
         ctyconf.addInput( "htmlarea", "htmlarea", "contentdata/htmlarea", "Htmlarea", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+
 
         ContentTypeEntity contentType = new ContentTypeEntity();
         contentType.setHandler( contentHandler );
@@ -450,6 +451,7 @@ public class CustomContentDataModifierTest
 
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
-        return XMLDocumentFactory.create( xml.toString() ).getAsBytes();
+
+        return XMLDocumentFactory.asBytes( xml.toString() );
     }
 }

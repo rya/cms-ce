@@ -93,7 +93,7 @@ public class InternalClientImpl_UpdateFileContentTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsBytes();
+        contentTypeConfig = XMLDocumentFactory.asBytes( contentTypeConfigXml.toString() );
 
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
         fixture.save( factory.createContentHandler( "File content", ContentHandlerName.FILE.getHandlerClassShortName() ) );

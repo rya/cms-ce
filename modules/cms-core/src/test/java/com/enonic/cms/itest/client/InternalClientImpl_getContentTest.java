@@ -126,7 +126,7 @@ public class InternalClientImpl_getContentTest
         ctyconf.addRelatedContentInput( "my-relatedcontents", "relatedcontent", "contentdata/my-relatedcontents", "My relatedcontents",
                                         false, true );
         ctyconf.endBlock();
-        personConfigAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        personConfigAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
 
         fixture.save(
             factory.createContentType( "MyPersonType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), personConfigAsXmlBytes ) );
@@ -143,7 +143,7 @@ public class InternalClientImpl_getContentTest
         ctyconfMyRelated.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content",
                                                  false, true );
         ctyconfMyRelated.endBlock();
-        XMLBytes myRelatedconfigAsXmlBytes = XMLDocumentFactory.create( ctyconfMyRelated.toString() ).getAsBytes();
+        XMLBytes myRelatedconfigAsXmlBytes = XMLDocumentFactory.asBytes( ctyconfMyRelated.toString() );
 
         fixture.save(
             factory.createContentType( "MyRelatedType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), myRelatedconfigAsXmlBytes ) );

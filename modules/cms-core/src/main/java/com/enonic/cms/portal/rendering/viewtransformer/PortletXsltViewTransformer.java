@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceService;
@@ -39,12 +38,11 @@ public class PortletXsltViewTransformer
     {
         try
         {
-            XMLDocument viewAsXMLDocument = viewFile.getDataAsXml();
+            Document viewAsDocument = viewFile.getDataAsXml();
 
-            XsltProcessor processor = createProcessor( viewFile.getResourceKey(), viewAsXMLDocument, true );
+            XsltProcessor processor = createProcessor( viewFile.getResourceKey(), viewAsDocument, true );
             processor.clearParameters();
 
-            Document viewAsDocument = viewAsXMLDocument.getAsJDOMDocument();
             for ( Element parameterEl : findXsltParamElements( viewAsDocument ) )
             {
                 TemplateParameterType parameterType = resolveTemplateParameterType( parameterEl );

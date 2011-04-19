@@ -11,7 +11,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
 import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.resource.ResourceService;
@@ -203,8 +203,10 @@ public class DatasourcesContextXmlCreator
 
     private Element buildVerticalSessionXml( VerticalSession session )
     {
-        Document doc = XMLDocumentFactory.create( session.toXML() ).getAsJDOMDocument();
-        return (Element) JDOMUtil.getFirstElement( doc.getRootElement() ).detach();
+        org.w3c.dom.Document w3cDocument = session.toXML();
+        Document jdomDocument = XMLDocumentHelper.convertToJDOMDocument( w3cDocument );
+
+        return (Element) JDOMUtil.getFirstElement( jdomDocument.getRootElement() ).detach();
     }
 
 

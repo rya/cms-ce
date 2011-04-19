@@ -100,7 +100,7 @@ public class ImportServiceImplTest
 
         fixture.save( factory.createContentHandler( "MyHandler", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.save( factory.createContentType( "PersonCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
-                                                 XMLDocumentFactory.create( personContentTypeXml ).getAsBytes() ) );
+                                                 XMLDocumentFactory.asBytes( personContentTypeXml ) ) );
         fixture.save( factory.createUnit( "MyUnit" ) );
         fixture.save( factory.createCategory( "Persons", "PersonCty", "MyUnit", "testuser", "testuser" ) );
         fixture.save( factory.createCategoryAccessForUser( "Persons", "testuser", "read, create, approve" ) );
@@ -714,7 +714,7 @@ public class ImportServiceImplTest
         CustomContentData contentDataJrund =
             (CustomContentData) fixture.findFirstContentVersionByTitle( "Jørund Vier Skriubakken" ).getContentData();
         HtmlAreaDataEntry htmlAreaDataEntry = (HtmlAreaDataEntry) contentDataJrund.getEntry( "htmlarea" );
-        Document htmlAreaAsDoc = XMLDocumentFactory.create( htmlAreaDataEntry.getValue() ).getAsJDOMDocument();
+        Document htmlAreaAsDoc = XMLDocumentFactory.create( htmlAreaDataEntry.getValue() );
         AssertTool.assertXPathExist( "/div", htmlAreaAsDoc );
     }
 
@@ -762,7 +762,7 @@ public class ImportServiceImplTest
             (CustomContentData) fixture.findFirstContentVersionByTitle( "Jørund Vier Skriubakken" ).getContentData();
         HtmlAreaDataEntry htmlAreaDataEntry = (HtmlAreaDataEntry) contentDataJrund.getEntry( "htmlarea" );
 
-        String importedHtmlAreaValueAsString = XMLDocumentFactory.create( htmlAreaDataEntry.getValue() ).getAsString();
+        String importedHtmlAreaValueAsString = XMLDocumentFactory.asString( htmlAreaDataEntry.getValue() );
         assertEquals( "<div>first root element</div><p>second root element</p>", importedHtmlAreaValueAsString );
     }
 
@@ -1660,7 +1660,7 @@ public class ImportServiceImplTest
     private void updateContentType( String contentTypeName, String contentTypeXml )
     {
         ContentTypeEntity contentType = fixture.findContentTypeByName( contentTypeName );
-        contentType.setData( XMLDocumentFactory.create( contentTypeXml ).getAsBytes() );
+        contentType.setData( XMLDocumentFactory.asBytes( contentTypeXml ) );
         fixture.flushAndClearHibernateSesssion();
     }
 

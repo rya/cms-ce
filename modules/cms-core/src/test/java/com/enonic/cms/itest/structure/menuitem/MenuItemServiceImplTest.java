@@ -82,7 +82,7 @@ public class MenuItemServiceImplTest
         ctyconf.addInput( "heading", "text", "contentdata/intro/heading", "heading", true );
         ctyconf.addInput( "teaser", "text", "contentdata/intro/teaser", "teaser" );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
         fixture.save( factory.createContentType( "MenuItem", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.flushAndClearHibernateSesssion();

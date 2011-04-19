@@ -9,14 +9,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.enonic.cms.core.resource.FileResourceData;
+import org.jdom.Document;
 import org.springframework.util.FileCopyUtils;
 
 import com.enonic.cms.framework.io.UnicodeInputStream;
 import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
+import com.enonic.cms.core.resource.FileResourceData;
 import com.enonic.cms.core.resource.FileResourceName;
 import com.enonic.cms.core.resource.ResourceFile;
 
@@ -39,14 +40,15 @@ final class ResourceFileImpl
         return ensureResource().getSize();
     }
 
-    public XMLDocument getDataAsXml()
+    public Document getDataAsXml()
     {
         return doGetDataAsXml( true );
     }
 
     public XMLBytes getDataAsXmlBytes()
     {
-        return doGetDataAsXml( true ).getAsBytes();
+        Document jdomDocument = doGetDataAsXml( true );
+        return XMLDocumentHelper.convertToDocumentData( jdomDocument );
     }
 
     public String getDataAsString()
@@ -67,9 +69,10 @@ final class ResourceFileImpl
         return data != null ? new ByteArrayInputStream( data ) : null;
     }
 
-    public void setData( XMLDocument data )
+    public void setData( Document data )
     {
-        doSetData( data.getAsBytes().getData() );
+        XMLBytes bytes = XMLDocumentHelper.convertToDocumentData( data );
+        doSetData( bytes.getData() );
     }
 
     public void setData( XMLBytes data )
@@ -118,7 +121,7 @@ final class ResourceFileImpl
         }
     }
 
-    private XMLDocument doGetDataAsXml( boolean skipBOM )
+    private Document doGetDataAsXml( boolean skipBOM )
     {
         byte[] data = doGetDataAsByteArray( skipBOM );
         if ( data == null )
