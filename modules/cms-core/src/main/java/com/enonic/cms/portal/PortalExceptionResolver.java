@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.enonic.cms.core.VerticalProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -80,6 +81,7 @@ public class PortalExceptionResolver
         this.siteURLResolver = value;
     }
 
+    @Autowired
     public void setMenuItemDao( MenuItemDao menuItemDao )
     {
         this.menuItemDao = menuItemDao;

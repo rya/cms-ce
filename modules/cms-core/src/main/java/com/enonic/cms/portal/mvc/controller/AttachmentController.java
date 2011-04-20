@@ -15,6 +15,7 @@ import com.enonic.cms.core.content.binary.*;
 import com.enonic.cms.portal.PathRequiresAuthenticationException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -335,6 +336,7 @@ public class AttachmentController
         this.binaryService = value;
     }
 
+    @Autowired
     public void setContentDao( ContentDao dao )
     {
         contentDao = dao;
@@ -370,11 +372,13 @@ public class AttachmentController
         this.sitePropertiesService = sitePropertiesService;
     }
 
+    @Autowired
     public void setSiteDao( SiteDao siteDao )
     {
         this.siteDao = siteDao;
     }
 
+    @Autowired
     public void setUserDao( UserDao userDao )
     {
         this.userDao = userDao;

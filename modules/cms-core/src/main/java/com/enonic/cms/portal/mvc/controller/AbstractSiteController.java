@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -50,6 +51,7 @@ public abstract class AbstractSiteController
         this.siteService = value;
     }
 
+    @Autowired
     public void setSiteDao( SiteDao value )
     {
         this.siteDao = value;
