@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.portal.datasource;
 
-import com.enonic.cms.portal.ShoppingCart;
 import com.google.common.base.Preconditions;
 
 import com.enonic.cms.core.preview.PreviewContext;
@@ -16,8 +15,6 @@ import com.enonic.cms.core.security.user.UserEntity;
 public class DataSourceContext
 {
     private SiteKey siteKey = null;
-
-    private ShoppingCart shoppingCart;
 
     private PortalInstanceKey portalInstanceKey;
 
@@ -42,11 +39,6 @@ public class DataSourceContext
         siteKey = value;
     }
 
-    public void setShoppingCart( final ShoppingCart value )
-    {
-        shoppingCart = value;
-    }
-
     public void setPortalInstanceKey( final PortalInstanceKey value )
     {
         portalInstanceKey = value;
@@ -60,11 +52,6 @@ public class DataSourceContext
     public SiteKey getSiteKey()
     {
         return siteKey;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
     }
 
     public PortalInstanceKey getPortalInstanceKey()

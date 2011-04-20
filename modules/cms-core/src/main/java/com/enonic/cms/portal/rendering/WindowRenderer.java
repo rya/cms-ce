@@ -449,7 +449,6 @@ public class WindowRenderer
         datasourceExecutorContext.setPreviewContext( context.getPreviewContext() );
         datasourceExecutorContext.setProfile( context.getProfile() );
         datasourceExecutorContext.setRequestParameters( this.requestParameters );
-        datasourceExecutorContext.setShoppingCart( context.getShoppingCart() );
         datasourceExecutorContext.setSite( context.getSite() );
         datasourceExecutorContext.setUser( executor );
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );

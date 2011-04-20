@@ -288,7 +288,6 @@ public class PageRenderer
         windowRenderContext.setRenderedInline( true );
         windowRenderContext.setRenderer( context.getRenderer() );
         windowRenderContext.setTicketId( context.getTicketId() );
-        windowRenderContext.setShoppingCart( context.getShoppingCart() );
         windowRenderContext.setSite( context.getSite() );
         windowRenderContext.setSitePath( context.getSitePath() );
         windowRenderContext.setVerticalSession( context.getVerticalSession() );
@@ -363,7 +362,6 @@ public class PageRenderer
         datasourceExecutorContext.setPreviewContext( context.getPreviewContext() );
         datasourceExecutorContext.setProfile( context.getProfile() );
         datasourceExecutorContext.setRegions( context.getRegionsInPage() );
-        datasourceExecutorContext.setShoppingCart( context.getShoppingCart() );
         datasourceExecutorContext.setSite( context.getSite() );
         datasourceExecutorContext.setSiteProperties( sitePropertiesService.getSiteProperties( context.getSite().getKey() ) );
         datasourceExecutorContext.setRequestParameters( context.getSitePath().getRequestParameters() );

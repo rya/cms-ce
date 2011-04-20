@@ -32,7 +32,6 @@ import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.portal.PortalResponse;
 import com.enonic.cms.portal.RedirectInstruction;
-import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.core.security.user.User;
 
@@ -105,7 +104,6 @@ public class DefaultController
             request.setRequestParams( getRequestParameters( httpRequest ) );
             request.setTicketId( httpSession.getId() );
             request.setOriginalSitePath( originalSitePath );
-            request.setShoppingCart( getAndEnsureShoppingCartOnHttpSession( httpSession ) );
             request.setVerticalSession( getAndEnsureVerticalSessionOnHttpSession( httpSession ) );
             request.setHttpReferer( httpRequest.getHeader( "referer" ) );
             request.setOriginalUrl( originalUrl );
@@ -180,17 +178,6 @@ public class DefaultController
         }
 
         return parameters;
-    }
-
-    private ShoppingCart getAndEnsureShoppingCartOnHttpSession( HttpSession httpSession )
-    {
-        ShoppingCart cart = (ShoppingCart) httpSession.getAttribute( "shoppingcart" );
-        if ( cart == null )
-        {
-            cart = new ShoppingCart();
-            httpSession.setAttribute( "shoppingcart", cart );
-        }
-        return cart;
     }
 
     private VerticalSession getAndEnsureVerticalSessionOnHttpSession( HttpSession httpSession )

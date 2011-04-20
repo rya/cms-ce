@@ -9,7 +9,6 @@ import org.jdom.Element;
 
 import com.enonic.cms.framework.xml.XMLDocumentHelper;
 
-import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.portal.datasource.methodcall.MethodCall;
@@ -36,16 +35,6 @@ public class DatasourceExecutor
 
         Element contextEl = datasourcesContextXmlCreator.createContextElement( datasources, context );
         verticaldataEl.addContent( contextEl );
-
-        if ( datasources.isShoppingCartSetToFull() || datasources.isShoppingCartSetToSummary() )
-        {
-            Document shoppingCartDoc = buildShoppingCartXml( context.getShoppingCart(), datasources.isShoppingCartSetToFull() );
-
-            // shoppingcart
-            Element contentobject = getOrCreateElement( verticaldataEl, "contentobject" );
-            Element shoppingcart = shoppingCartDoc.getRootElement();
-            contentobject.addContent( shoppingcart.detach() );
-        }
 
         // execute data sources
         for ( Datasource datasource : datasources.getDatasourceElements() )
@@ -114,20 +103,6 @@ public class DatasourceExecutor
         }
         return context.getDefaultResultRootElementName();
     }
-
-    private Document buildShoppingCartXml( ShoppingCart cart, boolean full )
-    {
-        if ( cart != null )
-        {
-            org.w3c.dom.Document w3cDocument = cart.toDoc( full );
-            return XMLDocumentHelper.convertToJDOMDocument( w3cDocument );
-        }
-        else
-        {
-            return new Document( new Element( "shoppingcart" ) );
-        }
-    }
-
 
     private Document executeMethodCall( Datasource datasource )
     {

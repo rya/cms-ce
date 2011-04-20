@@ -13,7 +13,6 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.PageRequestType;
-import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.VerticalSession;
 
 import com.enonic.cms.domain.LanguageEntity;
@@ -61,8 +60,6 @@ public class WindowRendererContext
     private SitePath sitePath;
 
     private SitePath originalSitePath;
-
-    private ShoppingCart shoppingCart;
 
     private VerticalSession verticalSession;
 
@@ -225,16 +222,6 @@ public class WindowRendererContext
     public void setDeviceClass( String deviceClass )
     {
         this.deviceClass = deviceClass;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart( ShoppingCart shoppingCart )
-    {
-        this.shoppingCart = shoppingCart;
     }
 
     public VerticalSession getVerticalSession()

@@ -23,8 +23,6 @@ public class PortalRequest
 
     private VerticalSession verticalSession;
 
-    private ShoppingCart shoppingCart;
-
     private int overridingLanguage = -1;
 
     private String profile;
@@ -66,16 +64,6 @@ public class PortalRequest
     public void setVerticalSession( VerticalSession verticalSession )
     {
         this.verticalSession = verticalSession;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart( ShoppingCart shoppingCart )
-    {
-        this.shoppingCart = shoppingCart;
     }
 
     public int getOverridingLanguage()

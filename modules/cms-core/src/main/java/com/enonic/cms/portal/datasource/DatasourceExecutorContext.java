@@ -23,7 +23,6 @@ import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.portal.ShoppingCart;
 import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
@@ -69,8 +68,6 @@ public class DatasourceExecutorContext
     private PreviewContext previewContext;
 
     private InvocationCache datasourceServiceInvocationCache;
-
-    private ShoppingCart shoppingCart;
 
     private String deviceClass;
 
@@ -225,16 +222,6 @@ public class DatasourceExecutorContext
     public void setPortletDocument( Document value )
     {
         this.portletDocument = value;
-    }
-
-    public void setShoppingCart( ShoppingCart shoppingCart )
-    {
-        this.shoppingCart = shoppingCart;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
     }
 
     public void setCssKeys( ResourceKey[] cssKeys )
