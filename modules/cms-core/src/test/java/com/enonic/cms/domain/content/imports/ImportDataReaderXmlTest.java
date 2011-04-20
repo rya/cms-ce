@@ -119,9 +119,7 @@ public class ImportDataReaderXmlTest
         assertFalse( reader.hasMoreEntries() );
 
         Map<CtyImportMappingConfig, AbstractSourceValue> configAndValueMap = importEntry.getConfigAndValueMap();
-        String htmlareaAsString =
-            XMLDocumentFactory.asString(
-                    ( (StringSourceValue) configAndValueMap.get( importMappingHtmlarea ) ).getValue() );
+        String htmlareaAsString = (( StringSourceValue) configAndValueMap.get( importMappingHtmlarea ) ).getValue();
         assertEquals( "before<div>first</div><p>second</p>", htmlareaAsString );
     }
 
@@ -153,7 +151,7 @@ public class ImportDataReaderXmlTest
 
         String xmlAsString =
             XMLDocumentFactory.asString( ( (StringSourceValue) configAndValueMap.get( importMappingXml ) ).getValue() );
-        assertEquals( "<root>some text<subnode>subtext</subnode></root>", xmlAsString );
+        assertEquals( "<?xml version=\"1.0\" encoding=\"UTF-8\"?><root>some text<subnode>subtext</subnode></root>", xmlAsString );
     }
 
     @Test
