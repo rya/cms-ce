@@ -1,9 +1,6 @@
 package com.enonic.cms.core.config;
 
 import org.junit.Test;
-import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
-
 import java.util.Map;
 import java.util.Properties;
 import static org.junit.Assert.*;
@@ -32,7 +29,6 @@ public class GlobalConfigBuilderTest
         final Properties props = new Properties();
         props.setProperty("cms.home", "/some/folder");
 
-        final ConversionService converter = new DefaultConversionService();
-        return new GlobalConfigBuilder(props, converter).build();
+        return new GlobalConfigBuilder(props).build();
     }
 }
