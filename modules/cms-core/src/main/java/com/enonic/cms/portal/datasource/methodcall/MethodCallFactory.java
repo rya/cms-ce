@@ -16,14 +16,14 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.portal.InvocationCache;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.datasource.Datasource;
 import com.enonic.cms.portal.datasource.DatasourceException;
 import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
+import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.portal.datasource.DataSourceContext;
-import com.enonic.cms.portal.datasource.Datasource;
-import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 
 /**
  * Jul 31, 2009
@@ -74,8 +74,9 @@ public class MethodCallFactory
                 throw new IllegalArgumentException( msg.toString(), e );
             }
         }
+        boolean isCacheable = datasource.isCacheable();
 
-        return new MethodCall( dataSourceObject, parameters, method );
+        return new MethodCall( dataSourceObject, parameters, method, isCacheable );
     }
 
     private static MethodCallParameter createParameter( Element parmeterEl, Class paramType, DatasourceExecutorContext context )

@@ -20,15 +20,18 @@ public final class MethodCall
 {
     private final Object target;
 
-    private MethodCallParameter[] parameters;
+    private final MethodCallParameter[] parameters;
 
-    private Method method;
+    private final Method method;
 
-    public MethodCall( Object target, MethodCallParameter[] parameters, Method method )
+    private final boolean isCacheable;
+
+    public MethodCall( Object target, MethodCallParameter[] parameters, Method method, boolean isCacheable )
     {
         this.target = target;
         this.parameters = parameters;
         this.method = method;
+        this.isCacheable = isCacheable;
     }
 
     public Document invoke()
@@ -38,7 +41,7 @@ public final class MethodCall
         try
         {
             RenderTrace.enterFunction( method.getName() );
-            o = invokeMethod( target, method, getArguments() );
+            o = invokeMethod( target, method, getArguments(), isCacheable );
         }
         catch ( Throwable iae )
         {
@@ -81,14 +84,14 @@ public final class MethodCall
         return new Document( root );
     }
 
-    private Object invokeMethod( Object target, Method method, Object[] args )
+    private Object invokeMethod( Object target, Method method, Object[] args, boolean isCacheable )
         throws Throwable
     {
         try
         {
             if ( target instanceof InvocationCache )
             {
-                return ( (InvocationCache) target ).invoke( method, args );
+                return ( (InvocationCache) target ).invoke( method, args, isCacheable );
             }
             else
             {
