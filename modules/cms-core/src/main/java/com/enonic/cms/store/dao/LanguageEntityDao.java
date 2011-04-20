@@ -8,7 +8,9 @@ import java.util.List;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class LanguageEntityDao
     extends AbstractBaseEntityDao<LanguageEntity>
     implements LanguageDao

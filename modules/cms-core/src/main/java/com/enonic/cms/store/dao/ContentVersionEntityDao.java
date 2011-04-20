@@ -18,7 +18,9 @@ import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ContentVersionEntityDao
     extends AbstractBaseEntityDao<ContentVersionEntity>
     implements ContentVersionDao

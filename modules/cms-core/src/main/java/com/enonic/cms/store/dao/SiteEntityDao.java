@@ -26,7 +26,9 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class SiteEntityDao
     extends AbstractBaseEntityDao<SiteEntity>
     implements SiteDao

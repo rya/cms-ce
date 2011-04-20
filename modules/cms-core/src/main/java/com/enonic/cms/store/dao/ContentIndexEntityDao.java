@@ -22,7 +22,9 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ContentIndexEntityDao
     extends AbstractBaseEntityDao<ContentIndexEntity>
     implements ContentIndexDao

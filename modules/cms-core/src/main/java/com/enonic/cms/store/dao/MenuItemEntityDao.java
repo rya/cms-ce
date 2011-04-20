@@ -19,7 +19,9 @@ import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.PageSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class MenuItemEntityDao
     extends AbstractBaseEntityDao<MenuItemEntity>
     implements MenuItemDao

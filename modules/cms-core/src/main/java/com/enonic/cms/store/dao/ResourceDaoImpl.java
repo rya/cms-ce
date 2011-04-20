@@ -4,19 +4,20 @@
  */
 package com.enonic.cms.store.dao;
 
-import javax.inject.Inject;
-
 import com.enonic.cms.core.resource.FileResourceName;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceFolder;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.store.resource.FileResourceService;
 import com.enonic.cms.store.resource.ResourceFolderImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ResourceDaoImpl
     implements ResourceDao
 {
-    @Inject
+    @Autowired
     private FileResourceService fileResourceService;
 
     public ResourceFolder getResourceRoot()

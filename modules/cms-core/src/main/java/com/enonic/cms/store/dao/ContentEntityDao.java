@@ -24,7 +24,9 @@ import com.enonic.cms.core.content.RelatedContentEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedParentContent;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ContentEntityDao
     extends AbstractBaseEntityDao<ContentEntity>
     implements ContentDao

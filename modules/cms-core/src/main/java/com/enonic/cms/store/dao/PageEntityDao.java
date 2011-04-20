@@ -7,8 +7,9 @@ package com.enonic.cms.store.dao;
 import java.util.List;
 
 import com.enonic.cms.core.structure.page.PageEntity;
+import org.springframework.stereotype.Repository;
 
-
+@Repository
 public class PageEntityDao
     extends AbstractBaseEntityDao<PageEntity>
     implements PageDao
