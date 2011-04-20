@@ -7,18 +7,6 @@
   <import resource="classpath:businessPortalDatasource-context.xml"/>
 
   <bean id="portalRequestService" class="com.enonic.cms.portal.PortalRequestServiceImpl">
-    <!--<property name="pageRendererFactory" ref="pageRendererFactory"/>-->
-    <!--<property name="windowRendererFactory" ref="windowRendererFactory"/>-->
-    <!--<property name="dataSourceService" ref="dataSourceService"/>-->
-    <!--<property name="languageDao" ref="languageDao"/>-->
-    <!--<property name="portalAccessService" ref="portalAccessService"/>-->
-    <!--<property name="userDao" ref="userDao"/>-->
-    <!--<property name="portletDao" ref="portletDao"/>-->
-    <!--<property name="siteDao" ref="siteDao"/>-->
-    <!--<property name="pageRequestProcessorFactory" ref="pageRequestProcessorFactory"/>-->
-    <!--<property name="contentDao" ref="contentDao"/>-->
-    <!--<property name="livePortalTraceService" ref="livePortalTraceService"/>-->
-
   </bean>
 
   <bean id="livePortalTraceService" class="com.enonic.cms.portal.livetrace.LivePortalTraceServiceImpl">
@@ -37,16 +25,13 @@
         class="com.enonic.cms.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
   <bean id="portalSystemFunctionsService" class="com.enonic.cms.portal.rendering.systemfunctions.PortalSystemFunctionsServiceImpl">
-    <!--<property name="windowRendererFactory" ref="windowRendererFactory"/>-->
   </bean>
 
   <bean id="loginPagePathResolverService" class="com.enonic.cms.portal.support.LoginPagePathResolverServiceImpl">
-    <!--<property name="presentationService" ref="presentationService"/>-->
   </bean>
 
   <bean id="siteRedirectHelper" class="com.enonic.cms.portal.SiteRedirectHelper">
     <property name="sitePathResolver" ref="sitePathResolver"/>
-    <!--<property name="siteURLResolver" ref="siteURLResolver"/>-->
   </bean>
 
   <bean id="pageRendererFactory" class="com.enonic.cms.portal.rendering.PageRendererFactory"/>
@@ -60,13 +45,10 @@
   <bean id="siteCachesService" class="com.enonic.cms.portal.cache.SiteCachesServiceImpl">
     <property name="pageCacheServiceFactory">
       <bean class="com.enonic.cms.portal.cache.PageCacheServiceFactory">
-        <!--<property name="cacheManager" ref="cacheFacadeManager"/>-->
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
       </bean>
     </property>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <!--<property name="cacheManager" ref="cacheFacadeManager"/>-->
   </bean>
-
 
 </beans>

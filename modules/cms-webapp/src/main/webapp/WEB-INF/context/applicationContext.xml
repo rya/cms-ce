@@ -12,7 +12,6 @@
   <import resource="bootstrapContext.xml"/>
   <import resource="dataSourceContext.xml"/>
 
-  <import resource="classpath:businessDeprecatedHandlers-context.xml"/>
   <import resource="classpath:store-context.xml"/>
 
   <import resource="classpath:business-context.xml"/>
@@ -21,11 +20,7 @@
   <import resource="classpath:businessUserstore-context.xml"/>
   <import resource="classpath:businessPortal-context.xml"/>
   <import resource="classpath:businessImage-context.xml"/>
-  <import resource="classpath:businessDeprecatedServices-context.xml"/>
-  <import resource="classpath:businessDeprecatedContentXmlBuilder-context.xml"/>
 
   <import resource="classpath:server-context.xml"/>
-
-  <import resource="initializationContext.xml"/>
 
 </beans>

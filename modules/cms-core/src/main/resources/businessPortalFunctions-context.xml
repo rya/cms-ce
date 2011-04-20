@@ -4,7 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="createAttachmentUrclFunction" class="com.enonic.cms.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
-    <!--<property name="contentDao" ref="contentDao"/>-->
   </bean>
 
 </beans>

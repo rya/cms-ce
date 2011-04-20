@@ -21,7 +21,6 @@
   <bean id="memberOfResolver" class="com.enonic.cms.core.security.userstore.MemberOfResolver"/>
 
   <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver">
-    <!--<property name="memberOfResolver" ref="memberOfResolver"/>-->
   </bean>
 
   <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>

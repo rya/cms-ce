@@ -4,19 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
-    <!--<property name="calendarService" ref="calendarService"/>-->
-    <!--<property name="contentService" ref="contentService"/>-->
-    <!--<property name="contentDao" ref="contentDao"/>-->
-    <!--<property name="userDao" ref="userDao"/>-->
-    <!--<property name="presentationEngine" ref="presentationEngine"/>-->
-    <!--<property name="preferenceService" ref="preferenceService"/>-->
-    <!--<property name="securityService" ref="securityService"/>-->
-    <!--<property name="countryService" ref="countryService"/>-->
-    <!--<property name="localeService" ref="localeService"/>-->
-    <!--<property name="timeZoneService" ref="timeZoneService"/>-->
     <property name="timeService" ref="timeService"/>
-    <!--<property name="userStoreParser" ref="userStoreParser"/>-->
-    <!--<property name="userStoreService" ref="userStoreService"/>-->
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
 
@@ -49,8 +37,6 @@
   <bean id="deviceClassificationService"
         class="com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl">
     <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
-    <!--<property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>-->
-    <!--<property name="cacheResolverValueService" ref="sessionCachedResolverValueService"/>-->
   </bean>
 
   <bean id="deviceClassXsltScriptResolver"
@@ -62,7 +48,6 @@
         class="com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl">
     <property name="propertiesCache">
       <bean class="com.enonic.cms.framework.cache.CacheFacadeFactory">
-        <!--<property name="cacheManager" ref="cacheFacadeManager"/>-->
         <property name="cacheName" value="localization"/>
       </bean>
     </property>
@@ -71,23 +56,12 @@
   <bean id="localeResolverService"
         class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
     <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
-    <!--<property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>-->
   </bean>
 
   <bean id="localeXsltScriptResolver"
         class="com.enonic.cms.core.resolver.locale.LocaleXsltScriptResolver"/>
 
-  <!--
-      Misc.
-  -->
-
-    <!-- commented due to B-1788 - B-1793 tickets
-  <bean id="adminConsoleLoginAccessResolver"
-        class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
-        -->
-
   <bean id="sitePropertiesService" class="com.enonic.cms.core.SitePropertiesServiceImpl">
-    <!--<property name="homeService" ref="homeService"/>-->
   </bean>
 
 
