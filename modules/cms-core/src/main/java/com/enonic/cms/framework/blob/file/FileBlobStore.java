@@ -23,7 +23,7 @@ import com.enonic.cms.framework.blob.BlobStoreException;
 import com.enonic.cms.framework.blob.BlobStoreHelper;
 
 public final class FileBlobStore
-        implements BlobStore
+    implements BlobStore
 {
     private final static Logger LOG = LoggerFactory.getLogger( FileBlobStore.class );
 

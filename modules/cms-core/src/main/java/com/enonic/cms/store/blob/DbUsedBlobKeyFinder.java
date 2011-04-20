@@ -7,8 +7,6 @@ package com.enonic.cms.store.blob;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import com.google.common.collect.Sets;
 
 import com.enonic.cms.framework.blob.BlobKey;
@@ -19,14 +17,14 @@ import com.enonic.cms.store.dao.VirtualFileDao;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class DbUsedBlobKeyFinder
     implements UsedBlobKeyFinder
 {
-    @Inject
     private BinaryDataDao binaryDataDao;
-
-    @Inject
     private VirtualFileDao virtualFileDao;
 
     public Set<BlobKey> findKeys()
@@ -64,11 +62,13 @@ public final class DbUsedBlobKeyFinder
         }
     }
 
+    @Autowired
     public void setBinaryDataDao( final BinaryDataDao dao )
     {
         this.binaryDataDao = dao;
     }
 
+    @Autowired
     public void setVirtualFileDao( final VirtualFileDao dao )
     {
         this.virtualFileDao = dao;

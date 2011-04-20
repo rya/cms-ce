@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.portal.rendering.portalfunctions;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.core.SitePropertiesService;
@@ -19,42 +18,43 @@ import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.PortletDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PortalFunctionsFactory
 {
-
     private static PortalFunctionsFactory instance;
 
-    @Inject
     private SiteURLResolver siteURLResolver;
 
     private ContentDao contentDao;
 
-    @Inject
+    @Autowired
     private MenuItemDao menuItemDao;
 
-    @Inject
+    @Autowired
     private PortletDao portletDao;
 
-    @Inject
+    @Autowired
     private CaptchaService captchaService;
 
-    @Inject
+    @Autowired
     private LocalizationService localizeService;
 
-    @Inject
+    @Autowired
     private LocaleResolverService localeResolverService;
 
-    @Inject
+    @Autowired
     private ContentBinaryDataDao contentBinaryDataDao;
 
-    @Inject
+    @Autowired
     private ImageService imageService;
 
-    @Inject
+    @Autowired
     private SecurityService securityService;
 
-    @Inject
+    @Autowired
     private CreateAttachmentUrlFunction createAttachmentUrlFunction;
 
     private SitePropertiesService sitePropertiesService;
@@ -117,18 +117,19 @@ public class PortalFunctionsFactory
         return portalFunctions;
     }
 
-
+    @Autowired
     public void setSiteURLResolver( SiteURLResolver value )
     {
         this.siteURLResolver = value;
     }
 
-    @Inject
+    @Autowired
     public void setContentDao( ContentDao contentDao )
     {
         this.contentDao = contentDao;
     }
 
+    @Autowired
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
     {
         this.sitePropertiesService = sitePropertiesService;

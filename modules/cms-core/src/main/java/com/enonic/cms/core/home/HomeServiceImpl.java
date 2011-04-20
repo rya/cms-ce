@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.home;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
 import com.enonic.cms.core.home.HomeService;
@@ -13,6 +14,7 @@ public class HomeServiceImpl
 {
     public Resource homeDir;
 
+    @Value("${cms.home.uri}")
     public void setHomeDir( Resource homeDir )
     {
         this.homeDir = homeDir;

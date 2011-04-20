@@ -77,24 +77,12 @@
         <property name="directory" value="${cms.blobstore.dir}"/>
     </bean>
 
-    <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
-        <property name="blobStore" ref="blobStore"/>
-    </bean>
-
-    <bean id="blobStoreGarbageCollector" class="com.enonic.cms.framework.blob.gc.GarbageCollector">
-        <property name="store" ref="blobStore"/>
-    </bean>
-
-    <bean id="usedBlobStoreFinder" class="com.enonic.cms.store.blob.DbUsedBlobKeyFinder">
-    </bean>
-
-    <bean id="homeService" class="com.enonic.cms.core.home.HomeServiceImpl">
-        <property name="homeDir" value="${cms.home.uri}"/>
-    </bean>
-
-    <bean id="portalFunctionsFactory" class="com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory">
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
+    <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl"/>
+    <bean id="blobStoreGarbageCollector" class="com.enonic.cms.framework.blob.gc.GarbageCollector"/>
+    <bean id="usedBlobStoreFinder" class="com.enonic.cms.store.blob.DbUsedBlobKeyFinder"/>
+    <bean id="homeService" class="com.enonic.cms.core.home.HomeServiceImpl"/>
+    <bean id="portalFunctionsFactory" class="com.enonic.cms.portal.rendering.portalfunctions.PortalFunctionsFactory"/>
+    <bean id="standardModelFactory" class="com.enonic.cms.portal.mvc.model.StandardModelFactory"/>
 
     <bean id="sitePathResolver" class="com.enonic.cms.core.SitePathResolver">
         <property name="sitePathPrefix" value="/site"/>
@@ -128,9 +116,6 @@
 
     <bean id="urlDecodingUrlPathHelper" class="org.springframework.web.util.UrlPathHelper">
         <property name="urlDecode" value="true"/>
-    </bean>
-
-    <bean id="standardModelFactory" class="com.enonic.cms.portal.mvc.model.StandardModelFactory">
     </bean>
 
     <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
@@ -444,6 +429,6 @@
 
     <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
-    <import resource="classpath:store-dao-context.xml"/>
+    <context:component-scan base-package="com.enonic.cms.store.dao"/>
 
 </beans>
