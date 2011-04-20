@@ -6,7 +6,9 @@ package com.enonic.cms.store.dao;
 
 import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
 import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ContentHomeEntityDao
     extends AbstractBaseEntityDao<ContentHomeEntity>
     implements ContentHomeDao

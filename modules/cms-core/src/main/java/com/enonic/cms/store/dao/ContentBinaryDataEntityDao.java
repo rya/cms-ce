@@ -6,19 +6,14 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ContentBinaryDataEntityDao
     extends AbstractBaseEntityDao<ContentBinaryDataEntity>
     implements ContentBinaryDataDao
 {
-
-    @Inject
-    private BinaryDataDao binaryDataDao;
-
-
     public ContentBinaryDataEntity findByBinaryKey( Integer binaryKey )
     {
         return findFirstByNamedQuery( ContentBinaryDataEntity.class, "ContentBinaryDataEntity.findByBinaryKey", "key", binaryKey );

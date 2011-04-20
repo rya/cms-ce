@@ -14,7 +14,9 @@ import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplatePortletEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.domain.EntityPageList;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class PageTemplateEntityDao
     extends AbstractBaseEntityDao<PageTemplateEntity>
     implements PageTemplateDao

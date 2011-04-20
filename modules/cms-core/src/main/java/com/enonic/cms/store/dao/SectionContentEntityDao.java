@@ -8,7 +8,9 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class SectionContentEntityDao
     extends AbstractBaseEntityDao<SectionContentEntity>
     implements SectionContentDao

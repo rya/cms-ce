@@ -15,7 +15,9 @@ import org.hibernate.Query;
 import org.hibernate.transform.ResultTransformer;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class LogEntryEntityDao
     extends AbstractBaseEntityDao<LogEntryEntity>
     implements LogEntryDao

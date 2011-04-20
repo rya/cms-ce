@@ -10,7 +10,9 @@ import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.content.category.CategoryKey;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class CategoryEntityDao
     extends AbstractBaseEntityDao<CategoryEntity>
     implements CategoryDao
