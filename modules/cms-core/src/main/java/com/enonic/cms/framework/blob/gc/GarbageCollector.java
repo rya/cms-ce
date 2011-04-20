@@ -6,8 +6,6 @@ package com.enonic.cms.framework.blob.gc;
 
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,23 +13,27 @@ import com.google.common.collect.Sets;
 
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobStore;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class GarbageCollector
 {
     private final static Logger LOG = LoggerFactory.getLogger( GarbageCollector.class );
 
     private BlobStore store;
 
-    @Inject
     private UsedBlobKeyFinder finder;
 
     private boolean running;
 
+    @Autowired
     public void setStore( final BlobStore store )
     {
         this.store = store;
     }
 
+    @Autowired
     public void setFinder( final UsedBlobKeyFinder finder )
     {
         this.finder = finder;

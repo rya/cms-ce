@@ -8,8 +8,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import com.enonic.cms.core.resource.FileResource;
 import com.enonic.cms.core.resource.FileResourceData;
 import com.enonic.cms.core.resource.FileResourceName;
@@ -18,6 +16,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import com.enonic.cms.framework.blob.BlobKey;
@@ -29,13 +28,14 @@ import com.enonic.cms.framework.util.MimeTypeResolver;
 import com.enonic.cms.store.support.EntityChangeListener;
 import com.enonic.cms.store.support.EntityChangeListenerHub;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class FileResourceServiceImpl
     implements FileResourceService, EntityChangeListener, BeanPostProcessor
 {
     private BlobStore blobStore;
 
-    @Inject
     private SessionFactory sessionFactory;
 
     private final ArrayList<FileResourceListener> listeners;
@@ -46,11 +46,13 @@ public final class FileResourceServiceImpl
         EntityChangeListenerHub.getInstance().addListener( this );
     }
 
+    @Autowired
     public void setBlobStore( BlobStore blobStore )
     {
         this.blobStore = blobStore;
     }
 
+    @Autowired
     public void setSessionFactory( SessionFactory sessionFactory )
     {
         this.sessionFactory = sessionFactory;
