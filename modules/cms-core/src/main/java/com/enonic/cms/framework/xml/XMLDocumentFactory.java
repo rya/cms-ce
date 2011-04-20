@@ -39,13 +39,6 @@ public final class XMLDocumentFactory
         }
     }
 
-    public static XMLBytes asBytes( String str )
-            throws XMLException
-    {
-        org.jdom.Document jdomDocument = create( str );
-        return XMLDocumentHelper.convertToDocumentData( jdomDocument );
-    }
-
     public static String asString( String str )
             throws XMLException
     {

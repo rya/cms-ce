@@ -4,33 +4,8 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import java.rmi.RemoteException;
-
-import javax.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.esl.containers.ExtendedMap;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.business.AbstractPersistContentTest;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.DomainFactory;
-import com.enonic.cms.core.content.DomainFixture;
+import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
@@ -42,12 +17,27 @@ import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+import com.enonic.esl.containers.ExtendedMap;
+import org.jdom.Document;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.domain.SiteKey;
+import javax.inject.Inject;
+import java.rmi.RemoteException;
 
 import static junitx.framework.Assert.assertFalse;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -132,7 +122,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "myTitle", "text", "contentdata/mytitle", "Mandantory", true );
         ctyconf.addInput( "myCheckbox", "checkbox", "contentdata/mycheckbox", "My checkbox", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( "MyContentType1", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -181,7 +171,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "myTitle", "text", "contentdata/mytitle", "Mandantory", true );
         ctyconf.addInput( "myIncludedCheckbox", "checkbox", "contentdata/myincludedcheckbox", "My checkbox to change", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( "MyContentType2", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -239,7 +229,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "toalsochangetoblank", "text", "contentdata/toalsochangetoblank", "To also be changed to blank", false );
         ctyconf.addInput( "unchanged", "text", "contentdata/unchanged", "Should not be changed", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( "MyContentType3", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -308,7 +298,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "phone_number", "text", "number", "Number", false );
         ctyconf.endBlock();
 
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( "PersonContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -382,7 +372,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "phone_number", "text", "number", "Number", false );
         ctyconf.endBlock();
 
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( "PersonContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -573,7 +563,7 @@ public class CustomContentHandlerController_operation_ModifyTest
 
     private void createAndSaveContentTypeAndCategory( String contentTypeName, String categoryName, ContentTypeConfigBuilder ctyconf )
     {
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( contentTypeName, ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

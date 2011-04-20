@@ -4,34 +4,9 @@
  */
 package com.enonic.cms.itest.client;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.content.ContentStatus;
-import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
-import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
-import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
-import com.enonic.cms.api.client.model.content.file.FileKeywordsInput;
-import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.api.client.model.content.file.*;
 import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -44,11 +19,29 @@ import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.itest.test.AssertTool;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -69,7 +62,7 @@ public class InternalClientImpl_CreateFileContentTest
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
 
-    private XMLBytes contentTypeConfig;
+    private Document contentTypeConfig;
 
     @Before
     public void before()
@@ -81,7 +74,7 @@ public class InternalClientImpl_CreateFileContentTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.asBytes( contentTypeConfigXml.toString() );
+        contentTypeConfig = XMLDocumentFactory.create(contentTypeConfigXml.toString());
 
         hibernateTemplate.flush();
 

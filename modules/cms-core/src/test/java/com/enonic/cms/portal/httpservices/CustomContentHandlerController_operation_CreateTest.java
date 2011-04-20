@@ -4,37 +4,8 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import java.rmi.RemoteException;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.fileupload.FileItem;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.google.common.collect.Multimap;
-
-import com.enonic.esl.containers.ExtendedMap;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.business.AbstractPersistContentTest;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.DomainFactory;
-import com.enonic.cms.core.content.DomainFixture;
+import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
@@ -48,16 +19,36 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+import com.enonic.esl.containers.ExtendedMap;
+import com.google.common.collect.Multimap;
+import org.apache.commons.fileupload.FileItem;
+import org.jdom.Document;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.domain.SiteKey;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import java.rmi.RemoteException;
 
 import static junit.framework.Assert.assertTrue;
 import static junitx.framework.Assert.assertFalse;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -670,7 +661,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
     private void createAndSaveContentTypeAndCategory( String contentTypeName, String categoryName, ContentTypeConfigBuilder ctyconf )
     {
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( contentTypeName, ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

@@ -4,8 +4,27 @@
  */
 package com.enonic.cms.itest.datasources;
 
-import javax.inject.Inject;
-
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.service.DataSourceServiceImpl;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.time.MockTimeService;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.itest.test.AssertTool;
+import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.store.dao.UserDao;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -20,35 +39,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import javax.inject.Inject;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.content.contentdata.ContentData;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.service.DataSourceServiceImpl;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.itest.test.AssertTool;
-import com.enonic.cms.portal.datasource.DataSourceContext;
-import com.enonic.cms.store.dao.UserDao;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -109,7 +102,7 @@ public class DataSourceServiceImpl_relatedContentTest
         ctyconf.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content", false,
                                         true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
 
         fixture.save(
             factory.createContentType( "MyRelatedType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );

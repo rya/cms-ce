@@ -86,7 +86,7 @@ public class ImportServiceImpl_importWithBlockGroupsTest
 
         fixture.save( factory.createContentHandler( "MyHandler", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.save( factory.createContentType( "PersonCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
-                                                 XMLDocumentFactory.asBytes( personContentTypeXml ) ) );
+                                                 XMLDocumentFactory.create( personContentTypeXml ) ) );
         fixture.save( factory.createUnit( "MyUnit" ) );
         fixture.save( factory.createCategory( "Persons", "PersonCty", "MyUnit", "testuser", "testuser" ) );
         fixture.save( factory.createCategoryAccessForUser( "Persons", "testuser", "read, create, approve" ) );
@@ -1133,7 +1133,7 @@ public class ImportServiceImpl_importWithBlockGroupsTest
     private void updateContentType( String contentTypeName, String contentTypeXml )
     {
         ContentTypeEntity contentType = fixture.findContentTypeByName( contentTypeName );
-        contentType.setData( XMLDocumentFactory.asBytes( contentTypeXml ) );
+        contentType.setData( XMLDocumentFactory.create( contentTypeXml ) );
         fixture.flushAndClearHibernateSesssion();
     }
 

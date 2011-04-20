@@ -4,12 +4,23 @@
  */
 package com.enonic.cms.itest.content;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.inject.Inject;
-
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -22,29 +33,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.CreateContentException;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -84,7 +76,7 @@ public class ContentServiceImpl_createContentTest
 
     private Element standardConfigEl;
 
-    private XMLBytes standardConfig;
+    private Document standardConfig;
 
     @Before
     public void setUp()
@@ -121,7 +113,7 @@ public class ContentServiceImpl_createContentTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
+        standardConfig = XMLDocumentFactory.create(standardConfigXml.toString());
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );

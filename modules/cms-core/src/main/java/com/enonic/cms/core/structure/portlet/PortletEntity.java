@@ -4,31 +4,27 @@
  */
 package com.enonic.cms.core.structure.portlet;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.TemplateParameter;
+import com.enonic.cms.core.structure.TemplateParameterType;
+import com.enonic.cms.domain.CacheSettings;
+import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
+import com.enonic.cms.framework.xml.XMLDocumentHelper;
+import com.enonic.cms.portal.datasource.Datasources;
+import com.enonic.cms.portal.datasource.DatasourcesType;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.jdom.Attribute;
+import org.jdom.Document;
+import org.jdom.Element;
+
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.jdom.Attribute;
-import org.jdom.Document;
-import org.jdom.Element;
-
-import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentHelper;
-
-import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.structure.RunAsType;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.TemplateParameter;
-import com.enonic.cms.core.structure.TemplateParameterType;
-import com.enonic.cms.portal.datasource.Datasources;
-import com.enonic.cms.portal.datasource.DatasourcesType;
-
-import com.enonic.cms.domain.CacheSettings;
 
 public class PortletEntity
     implements Serializable
@@ -423,11 +419,6 @@ class PortletData
         {
             throw new RuntimeException( "Failed to get as bytes: ", e );
         }
-    }
-
-    public XMLBytes getAsXMLBytes()
-    {
-        return new XMLBytes( getAsBytes() );
     }
 
     public Document getJDOMDocument()

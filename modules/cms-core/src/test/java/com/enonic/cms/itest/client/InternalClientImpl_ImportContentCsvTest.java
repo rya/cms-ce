@@ -4,24 +4,6 @@
  */
 package com.enonic.cms.itest.client;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
-import org.jdom.Document;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.api.client.model.ImportContentsParams;
 import com.enonic.cms.core.business.SpecialCharacterTestStrings;
 import com.enonic.cms.core.content.ContentEntity;
@@ -35,7 +17,22 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.test.AssertTool;
+import org.jdom.Document;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -529,17 +526,17 @@ public class InternalClientImpl_ImportContentCsvTest
         return builder.toString();
     }
 
-    private XMLBytes getConfigForStringBasedCSVImport()
+    private Document getConfigForStringBasedCSVImport()
     {
         return doGetConfigForStringBasedCSVImport( 2 );
     }
 
-    private XMLBytes getConfigForStringBasedCSVImport_Draft()
+    private Document getConfigForStringBasedCSVImport_Draft()
     {
         return doGetConfigForStringBasedCSVImport( 0 );
     }
 
-    private XMLBytes doGetConfigForStringBasedCSVImport( int status )
+    private Document doGetConfigForStringBasedCSVImport( int status )
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -597,10 +594,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForStringBasedCSVImportWithPublishFromAndToFromImportData()
+    private Document getConfigForStringBasedCSVImportWithPublishFromAndToFromImportData()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -642,10 +639,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForContentKeyBasedCSVImport()
+    private Document getConfigForContentKeyBasedCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -691,10 +688,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForCustomRelatedContentCSVImport()
+    private Document getConfigForCustomRelatedContentCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -725,10 +722,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForImageRelatedContentCSVImport()
+    private Document getConfigForImageRelatedContentCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -759,10 +756,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForMiscCSVImport()
+    private Document getConfigForMiscCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -802,6 +799,6 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 }

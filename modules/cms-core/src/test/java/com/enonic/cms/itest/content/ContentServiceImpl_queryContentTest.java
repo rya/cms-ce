@@ -4,21 +4,6 @@
  */
 package com.enonic.cms.itest.content;
 
-import javax.inject.Inject;
-
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -34,10 +19,23 @@ import com.enonic.cms.core.content.query.ContentByCategoryQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
+import org.jdom.Document;
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import javax.inject.Inject;
+
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -76,7 +74,7 @@ public class ContentServiceImpl_queryContentTest
         ctyconf.startBlock( "Person" );
         ctyconf.addInput( "name", "text", "contentdata/name", "Name", true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
 
         fixture.save(
             factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );

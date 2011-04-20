@@ -4,38 +4,7 @@
  */
 package com.enonic.cms.itest.content;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.ContentAccessEntity;
-import com.enonic.cms.core.content.ContentAccessType;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
@@ -50,11 +19,31 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConf
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -83,7 +72,7 @@ public class ContentServiceImplTest
 
     private Element standardConfigEl;
 
-    private XMLBytes standardConfig;
+    private Document standardConfig;
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
 
@@ -127,7 +116,7 @@ public class ContentServiceImplTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
+        standardConfig = XMLDocumentFactory.create(standardConfigXml.toString());
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );

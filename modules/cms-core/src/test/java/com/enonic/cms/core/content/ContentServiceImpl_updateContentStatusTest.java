@@ -4,27 +4,6 @@
  */
 package com.enonic.cms.core.content;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.business.AbstractPersistContentTest;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
@@ -37,6 +16,25 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConf
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -50,7 +48,7 @@ public class ContentServiceImpl_updateContentStatusTest
 {
     private Element standardConfigEl;
 
-    private XMLBytes standardConfig;
+    private Document standardConfig;
 
     @Before
     public void before()
@@ -79,7 +77,7 @@ public class ContentServiceImpl_updateContentStatusTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
+        standardConfig = XMLDocumentFactory.create(standardConfigXml.toString());
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );

@@ -4,18 +4,6 @@
  */
 package com.enonic.cms.domain.content;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -31,13 +19,23 @@ import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.HtmlAreaDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextAreaDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public class ContentVersionEntityTest
 {
 
     private Element standardConfigEl;
 
-    private XMLBytes standardConfigAsXMLBytes;
+    private Document standardConfigAsXMLBytes;
 
     @Before
     public void before()
@@ -88,7 +86,7 @@ public class ContentVersionEntityTest
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
 
-        standardConfigAsXMLBytes = XMLDocumentFactory.asBytes( standardConfigXml.toString() );
+        standardConfigAsXMLBytes = XMLDocumentFactory.create(standardConfigXml.toString());
     }
 
     @Test

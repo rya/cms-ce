@@ -4,25 +4,6 @@
  */
 package com.enonic.cms.itest.structure.menuitem;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.inject.Inject;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
@@ -33,16 +14,26 @@ import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.structure.menuitem.ApproveSectionContentCommand;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessException;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemService;
-import com.enonic.cms.core.structure.menuitem.RemoveContentFromSectionCommand;
-import com.enonic.cms.core.structure.menuitem.UnapproveSectionContentCommand;
+import com.enonic.cms.core.structure.menuitem.*;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
+import org.jdom.Document;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -82,7 +73,7 @@ public class MenuItemServiceImplTest
         ctyconf.addInput( "heading", "text", "contentdata/intro/heading", "heading", true );
         ctyconf.addInput( "teaser", "text", "contentdata/intro/teaser", "teaser" );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save( factory.createContentType( "MenuItem", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.flushAndClearHibernateSesssion();

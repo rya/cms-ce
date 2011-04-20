@@ -4,29 +4,22 @@
  */
 package com.enonic.cms.core.content;
 
-import java.util.Date;
-
+import com.enonic.cms.core.business.TableKeyGeneratorFixture;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.category.*;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-import org.joda.time.DateTime;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-
-import com.enonic.cms.core.business.TableKeyGeneratorFixture;
-
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.core.content.category.CategoryAccessEntity;
-import com.enonic.cms.core.content.category.CategoryAccessKey;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.domain.LanguageKey;
+import org.jdom.Document;
+import org.joda.time.DateTime;
+
+import java.util.Date;
 
 /**
  * Nov 26, 2009
@@ -137,7 +130,7 @@ public class DomainFactory
         return contentHandler;
     }
 
-    public ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
+    public ContentTypeEntity createContentType( String name, String contentHandlerClassName, Document data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
         contenType.setKey( tableKeyGeneratorFixture.nextKey2() );

@@ -4,16 +4,25 @@
  */
 package com.enonic.cms.itest.content;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.inject.Inject;
-
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.resultset.*;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentEntityDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
+import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,36 +34,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.RelatedContentFetcher;
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.content.resultset.ContentResultSet;
-import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.core.content.resultset.RelatedChildContent;
-import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.core.content.resultset.RelatedParentContent;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.store.dao.ContentEntityDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
+import javax.inject.Inject;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -112,7 +93,7 @@ public class RelatedContentFetcherTest
         ctyconf.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content", false,
                                         true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
         fixture.save(
             factory.createContentType( "MyRelatingContent", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
