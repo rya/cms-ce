@@ -15,6 +15,7 @@ import com.enonic.cms.portal.PortalResponse;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.base.Preconditions;
@@ -306,11 +307,13 @@ public class PortalRenderResponseServer
         this.siteRedirectAndForwardHelper = siteRedirectAndForwardHelper;
     }
 
+    @Autowired
     public void setUserDao( UserDao userDao )
     {
         this.userDao = userDao;
     }
 
+    @Autowired
     public void setSiteDao( SiteDao siteDao )
     {
         this.siteDao = siteDao;
