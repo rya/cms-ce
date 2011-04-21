@@ -4,34 +4,7 @@
  */
 package com.enonic.cms.core.business;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.inject.Inject;
-
-import org.jdom.Document;
-import org.jdom.transform.JDOMSource;
-import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-
-import net.sf.saxon.om.NodeInfo;
-import net.sf.saxon.sxpath.XPathEvaluator;
-import net.sf.saxon.sxpath.XPathExpression;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerEntity;
-import com.enonic.cms.core.content.ContentHandlerKey;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentStorer;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.UnitEntity;
+import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
@@ -47,12 +20,25 @@ import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.domain.LanguageKey;
+import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+import net.sf.saxon.om.NodeInfo;
+import net.sf.saxon.sxpath.XPathEvaluator;
+import net.sf.saxon.sxpath.XPathExpression;
+import org.jdom.Document;
+import org.jdom.transform.JDOMSource;
+import org.joda.time.DateTime;
+import org.junit.Assert;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
+import javax.inject.Inject;
+import java.util.Date;
+import java.util.List;
 
 
 public abstract class AbstractPersistContentTest
@@ -204,14 +190,15 @@ public abstract class AbstractPersistContentTest
         return createContentType( name, contentHandlerClassName, null );
     }
 
-    protected ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
+    protected ContentTypeEntity createContentType( String name, String contentHandlerClassName, org.jdom.Document data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
         contenType.setKey( ++lastUsedId );
         contenType.setName( name );
         contenType.setHandler( findContentHandlerByClassName( contentHandlerClassName ) );
         contenType.setTimestamp( new Date() );
-        contenType.setData( data );
+        if (data != null)
+          contenType.setData( data );
         return contenType;
     }
 

@@ -4,13 +4,6 @@
  */
 package com.enonic.cms.core.content.contentdata.custom;
 
-import org.joda.time.DateMidnight;
-import org.junit.Before;
-import org.junit.Test;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
@@ -18,6 +11,11 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import org.jdom.Document;
+import org.joda.time.DateMidnight;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -381,7 +379,7 @@ public class CustomContentDataModifierTest
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
         ctyconf.addInput( "htmlarea", "htmlarea", "contentdata/htmlarea", "Htmlarea", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() );
 
 
         ContentTypeEntity contentType = new ContentTypeEntity();
@@ -410,7 +408,7 @@ public class CustomContentDataModifierTest
         assertEquals( newContentData, modifiedContentData );
     }
 
-    private XMLBytes createPersonContentTypeXml()
+    private Document createPersonContentTypeXml()
     {
         StringBuffer xml = new StringBuffer();
         xml.append( "<moduledata>" );
@@ -452,6 +450,6 @@ public class CustomContentDataModifierTest
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
 
-        return XMLDocumentFactory.asBytes( xml.toString() );
+        return XMLDocumentFactory.create(xml.toString());
     }
 }

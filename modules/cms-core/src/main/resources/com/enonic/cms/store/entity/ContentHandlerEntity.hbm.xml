@@ -20,7 +20,7 @@
     <property name="timestamp" type="timestamp">
       <column name="HAN_DTETIMESTAMP" not-null="true"/>
     </property>
-    <property name="xmlConfig" type="com.enonic.cms.store.hibernate.type.XMLBytesUserType">
+    <property name="xmlConfig" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
       <column name="HAN_XMLCONFIG"/>
     </property>
   </class>

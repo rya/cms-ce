@@ -4,16 +4,13 @@
  */
 package com.enonic.cms.portal.rendering.portalfunctions;
 
-import java.io.InputStream;
-import java.util.Calendar;
-
-import org.jdom.Document;
-
-import com.enonic.cms.framework.xml.XMLBytes;
-
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceFolder;
 import com.enonic.cms.core.resource.ResourceKey;
+import org.jdom.Document;
+
+import java.io.InputStream;
+import java.util.Calendar;
 
 /**
  * Created by rmy - Date: Nov 17, 2009
@@ -48,11 +45,6 @@ public class ResourceFileMock
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public XMLBytes getDataAsXmlBytes()
-    {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public String getDataAsString()
     {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -69,11 +61,6 @@ public class ResourceFileMock
     }
 
     public void setData( Document data )
-    {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    public void setData( XMLBytes data )
     {
         //To change body of implemented methods use File | Settings | File Templates.
     }

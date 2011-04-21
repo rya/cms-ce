@@ -4,31 +4,7 @@
  */
 package com.enonic.cms.itest.datasources;
 
-import javax.inject.Inject;
-
-import org.jdom.Document;
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.ContentAndVersion;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
@@ -43,16 +19,29 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.DataSourceServiceImpl;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.time.MockTimeService;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.portal.datasource.DataSourceContext;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
+import org.jdom.Document;
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;
-import static org.junit.Assert.*;
+import javax.inject.Inject;
+
+import static com.enonic.cms.itest.test.AssertTool.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
@@ -92,7 +81,7 @@ public class DatasourceServiceImpl_getContentTest
     @Inject
     private UserDao userDao;
 
-    private XMLBytes personConfigAsXmlBytes;
+    private Document personConfigAsXmlBytes;
 
     private MockHttpServletRequest httpRequest;
 
@@ -124,7 +113,7 @@ public class DatasourceServiceImpl_getContentTest
         ctyconf.addRelatedContentInput( "my-relatedcontents", "relatedcontent", "contentdata/my-relatedcontents", "My relatedcontents",
                                         false, true );
         ctyconf.endBlock();
-        personConfigAsXmlBytes = XMLDocumentFactory.asBytes( ctyconf.toString() );
+        personConfigAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
 
         fixture.save(
             factory.createContentType( "MyPersonType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), personConfigAsXmlBytes ) );
@@ -141,7 +130,7 @@ public class DatasourceServiceImpl_getContentTest
         ctyconfMyRelated.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content",
                                                  false, true );
         ctyconfMyRelated.endBlock();
-        XMLBytes myRelatedconfigAsXmlBytes = XMLDocumentFactory.asBytes( ctyconfMyRelated.toString() );
+        Document myRelatedconfigAsXmlBytes = XMLDocumentFactory.create(ctyconfMyRelated.toString());
 
         fixture.save(
             factory.createContentType( "MyRelatedType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), myRelatedconfigAsXmlBytes ) );

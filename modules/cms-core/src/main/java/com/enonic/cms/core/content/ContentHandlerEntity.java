@@ -4,12 +4,11 @@
  */
 package com.enonic.cms.core.content;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.jdom.Document;
+
 import java.io.Serializable;
 import java.util.Date;
-
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
-import com.enonic.cms.framework.xml.XMLBytes;
 
 public class ContentHandlerEntity
     implements Serializable
@@ -22,7 +21,7 @@ public class ContentHandlerEntity
 
     private String description;
 
-    private XMLBytes xmlConfig;
+    private Document xmlConfig;
 
     private Date timestamp;
 
@@ -46,7 +45,7 @@ public class ContentHandlerEntity
         return description;
     }
 
-    public XMLBytes getXmlConfig()
+    public Document getXmlConfig()
     {
         return xmlConfig;
     }
@@ -76,7 +75,7 @@ public class ContentHandlerEntity
         this.description = description;
     }
 
-    public void setXmlConfig( XMLBytes xmlConfig )
+    public void setXmlConfig( Document xmlConfig )
     {
         this.xmlConfig = xmlConfig;
     }

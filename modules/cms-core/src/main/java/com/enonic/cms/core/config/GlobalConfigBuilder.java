@@ -3,7 +3,8 @@ package com.enonic.cms.core.config;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.core.convert.support.GenericConversionService;
+import org.springframework.format.support.FormattingConversionService;
 
 import java.io.File;
 import java.util.Properties;
@@ -16,7 +17,9 @@ final class GlobalConfigBuilder
     public GlobalConfigBuilder(final Properties props)
     {
         this.props = props;
-        this.converter = new DefaultConversionService();
+        GenericConversionService converterService = new GenericConversionService();
+        converterService.addConverter(new String2FileConverter());
+        this.converter = converterService;
     }
 
     public GlobalConfig build()

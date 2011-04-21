@@ -4,14 +4,19 @@
  */
 package com.enonic.cms.itest.client;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-
-import javax.inject.Inject;
-
+import com.enonic.cms.api.client.model.ImportContentsParams;
+import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -19,25 +24,12 @@ import org.junit.Before;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.api.client.model.ImportContentsParams;
-import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 public abstract class AbstractInternalClientImpl_ImportContentTest
 {
@@ -69,7 +61,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         fixture.flushAndClearHibernateSesssion();
     }
 
-    protected void setupImport( final XMLBytes config )
+    protected void setupImport( final Document config )
     {
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
         fixture.createAndStoreUserAndUserGroup( "testuser2", "testuser2 fullname", UserType.NORMAL, "testuserstore" );
@@ -197,7 +189,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         hibernateTemplate.clear();
     }
 
-    private XMLBytes getConfigImage()
+    private Document getConfigImage()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -210,10 +202,10 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigRelatedContent()
+    private Document getConfigRelatedContent()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -232,7 +224,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
     protected boolean contentKeyExistInContentCollection( Collection<ContentEntity> contents, ContentKey key )

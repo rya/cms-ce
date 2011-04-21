@@ -4,24 +4,18 @@
  */
 package com.enonic.cms.core.content.contenttype;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLBytes;
-
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
+import java.io.Serializable;
+import java.util.*;
 
 public class ContentTypeEntity
     implements Serializable
@@ -33,9 +27,9 @@ public class ContentTypeEntity
 
     private String description;
 
-    private XMLBytes data;
-
     private transient ContentTypeConfig contentTypeConfig;
+
+    private LazyInitializedJDOMDocument data;
 
     private Date timestamp;
 
@@ -75,9 +69,9 @@ public class ContentTypeEntity
         return description;
     }
 
-    public XMLBytes getData()
+    public Document getData()
     {
-        return data;
+        return data != null ? data.getDocument() : null;
     }
 
     public Date getTimestamp()
@@ -133,9 +127,9 @@ public class ContentTypeEntity
         this.description = description;
     }
 
-    public void setData( XMLBytes data )
+    public void setData( Document data )
     {
-        this.data = data;
+        this.data = LazyInitializedJDOMDocument.parse(data);
         this.contentTypeConfig = null;
     }
 
@@ -168,7 +162,7 @@ public class ContentTypeEntity
         return this.contentTypeConfig;
     }
 
-    private ContentTypeConfig parseContentTypeConfig( XMLBytes configData )
+    private ContentTypeConfig parseContentTypeConfig( Document configData )
     {
         ContentHandlerName contentHandlerName = getContentHandlerName();
 
@@ -181,7 +175,7 @@ public class ContentTypeEntity
         {
             return null;
         }
-        Document contentTypeDoc = configData.getAsJDOMDocument();
+        Document contentTypeDoc = configData;
         if ( contentTypeDoc == null )
         {
             return null;
@@ -231,7 +225,7 @@ public class ContentTypeEntity
             return new Element( "indexparameters" );
         }
 
-        Document doc = getData().getAsJDOMDocument();
+        Document doc = getData();
 
         if ( doc == null )
         {

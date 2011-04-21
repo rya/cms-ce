@@ -4,25 +4,6 @@
  */
 package com.enonic.cms.itest.client;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.jdom.Document;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.core.business.SpecialCharacterTestStrings;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
@@ -33,7 +14,19 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEn
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.test.AssertTool;
+import org.jdom.Document;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -879,7 +872,7 @@ public class InternalClientImpl_ImportContentXmlTest
         return builder.toString();
     }
 
-    private XMLBytes getConfigForStringBasedXmlImport()
+    private Document getConfigForStringBasedXmlImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -937,10 +930,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForStringBasedXmlImport_Simple()
+    private Document getConfigForStringBasedXmlImport_Simple()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -975,10 +968,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForStringBasedXmlImportWithBlocks()
+    private Document getConfigForStringBasedXmlImportWithBlocks()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1022,10 +1015,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForStringBasedXmlImportWithBlocksToBlocks()
+    private Document getConfigForStringBasedXmlImportWithBlocksToBlocks()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1078,10 +1071,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForStringBasedXmlImportWithNamespaces()
+    private Document getConfigForStringBasedXmlImportWithNamespaces()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1127,10 +1120,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForStringBasedXmlImportWithPublishFromAndToFromImportData()
+    private Document getConfigForStringBasedXmlImportWithPublishFromAndToFromImportData()
     {
         StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1172,10 +1165,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForContentKeyBasedXmlImport()
+    private Document getConfigForContentKeyBasedXmlImport()
     {
         StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1221,10 +1214,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForCustomRelatedContentXmlImport()
+    private Document getConfigForCustomRelatedContentXmlImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1255,10 +1248,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForImageRelatedContentXmlImport()
+    private Document getConfigForImageRelatedContentXmlImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1289,10 +1282,10 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 
-    private XMLBytes getConfigForMiscXmlImport()
+    private Document getConfigForMiscXmlImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -1332,6 +1325,6 @@ public class InternalClientImpl_ImportContentXmlTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.asBytes( config.toString() );
+        return XMLDocumentFactory.create(config.toString());
     }
 }
