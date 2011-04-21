@@ -71,12 +71,12 @@ public final class InvocationCache
         return str.toString();
     }
 
-    public Object invoke( Method method, Object[] args )
+    public Object invoke( Method method, Object[] args, boolean isCacheable )
         throws Throwable
     {
         Object result;
 
-        if ( isCacheable( method ) )
+        if ( isCacheable )
         {
             String key = getCacheKey( method, args );
             result = this.cache.get( key );
@@ -93,12 +93,6 @@ public final class InvocationCache
         }
 
         return result;
-    }
-
-    private boolean isCacheable( Method method )
-    {
-        // we cant cache getPreferences calls, cause they depend on objectKey, which change within a request
-        return !method.getName().startsWith( "getPreferences" );
     }
 
     private Object invokeReal( Method method, Object[] args )

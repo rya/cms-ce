@@ -69,4 +69,24 @@ public class Datasource
         }
         return conditionAttr.getValue().trim();
     }
+
+    public boolean isCacheable()
+    {
+        String methodname = getMethodName();
+
+        // we cant cache getPreferences calls, cause they depend on objectKey, which change within a request
+        if ( methodname!= null && methodname.startsWith( "getPreferences" ) )
+        {
+            return false;
+        }
+
+        Attribute cacheableAttr = xmlElement.getAttribute( "cacheable" );
+        if ( cacheableAttr != null )
+        {
+            return Boolean.valueOf( cacheableAttr.getValue().trim() );
+        }
+
+        // default value except plugins
+        return true;
+    }
 }
