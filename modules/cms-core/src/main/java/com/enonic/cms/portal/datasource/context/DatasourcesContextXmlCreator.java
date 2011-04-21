@@ -18,7 +18,6 @@ import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteProperties;
 import com.enonic.cms.portal.PageRequestType;
-import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.portal.datasource.Datasources;
 import com.enonic.cms.portal.datasource.DatasourcesType;
@@ -158,11 +157,6 @@ public class DatasourcesContextXmlCreator
         // Session context
         if ( datasources.hasSessionContext() )
         {
-            VerticalSession verticalSession = context.getVerticalSession();
-            if ( verticalSession != null )
-            {
-                contextElem.addContent( buildVerticalSessionXml( verticalSession ) );
-            }
         }
 
         // Cookie context
@@ -200,15 +194,6 @@ public class DatasourcesContextXmlCreator
         parent.addContent( elem );
         return elem;
     }
-
-    private Element buildVerticalSessionXml( VerticalSession session )
-    {
-        org.w3c.dom.Document w3cDocument = session.toXML();
-        Document jdomDocument = XMLDocumentHelper.convertToJDOMDocument( w3cDocument );
-
-        return (Element) JDOMUtil.getFirstElement( jdomDocument.getRootElement() ).detach();
-    }
-
 
     @PostConstruct
     public void afterPropertiesSet()

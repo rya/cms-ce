@@ -32,7 +32,6 @@ import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.portal.PortalResponse;
 import com.enonic.cms.portal.RedirectInstruction;
-import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.core.security.user.User;
 
 /**
@@ -104,7 +103,6 @@ public class DefaultController
             request.setRequestParams( getRequestParameters( httpRequest ) );
             request.setTicketId( httpSession.getId() );
             request.setOriginalSitePath( originalSitePath );
-            request.setVerticalSession( getAndEnsureVerticalSessionOnHttpSession( httpSession ) );
             request.setHttpReferer( httpRequest.getHeader( "referer" ) );
             request.setOriginalUrl( originalUrl );
 
@@ -179,18 +177,6 @@ public class DefaultController
 
         return parameters;
     }
-
-    private VerticalSession getAndEnsureVerticalSessionOnHttpSession( HttpSession httpSession )
-    {
-        VerticalSession vsession = (VerticalSession) httpSession.getAttribute( VerticalSession.VERTICAL_SESSION_OBJECT );
-        if ( vsession == null )
-        {
-            vsession = new VerticalSession();
-            httpSession.setAttribute( VerticalSession.VERTICAL_SESSION_OBJECT, vsession );
-        }
-        return vsession;
-    }
-
 
     public void setSecurityService( SecurityService service )
     {

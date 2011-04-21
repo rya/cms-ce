@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import de.odysseus.el.ExpressionFactoryImpl;
 import de.odysseus.el.util.SimpleContext;
@@ -34,8 +33,6 @@ public final class ExpressionFunctionsExecutor
 
     private RequestParameters requestParameters;
 
-    private VerticalSession verticalSession;
-
     private HttpServletRequest httpRequest;
 
     private ExpressionContext expressionContext;
@@ -50,11 +47,6 @@ public final class ExpressionFunctionsExecutor
         this.expressionContext = expressionContext;
     }
 
-    public void setVerticalSession( VerticalSession verticalSession )
-    {
-        this.verticalSession = verticalSession;
-    }
-
     public void setHttpRequest( HttpServletRequest httpRequest )
     {
         this.httpRequest = httpRequest;
@@ -66,7 +58,6 @@ public final class ExpressionFunctionsExecutor
         SimpleContext context = new SimpleContext();
         addFunctions( context );
         context.setVariable( "param", EXPR_FACTORY.createValueExpression( createParameterMap(), Map.class ) );
-        context.setVariable( "session", EXPR_FACTORY.createValueExpression( createSessionMap(), Map.class ) );
         context.setVariable( "cookie", EXPR_FACTORY.createValueExpression( createCookieMap(), Map.class ) );
         context.setVariable( "user", EXPR_FACTORY.createValueExpression( createUserMap(), Map.class ) );
         context.setVariable( "portal", EXPR_FACTORY.createValueExpression( createPortalMap(), Map.class ) );
@@ -203,24 +194,6 @@ public final class ExpressionFunctionsExecutor
                 if ( value != null )
                 {
                     map.put( name, value );
-                }
-            }
-        }
-
-        return map;
-    }
-
-    private Map<String, String> createSessionMap()
-    {
-        HashMap<String, String> map = new HashMap<String, String>();
-        if ( this.verticalSession != null )
-        {
-            for ( String name : this.verticalSession.getAttributeNames() )
-            {
-                Object value = this.verticalSession.getAttribute( name );
-                if ( value != null )
-                {
-                    map.put( name, value.toString() );
                 }
             }
         }

@@ -194,7 +194,6 @@ public class PortalRequestProcessor
             windowRendererContext.setTicketId( request.getTicketId() );
             windowRendererContext.setSite( site );
             windowRendererContext.setSitePath( sitePath );
-            windowRendererContext.setVerticalSession( request.getVerticalSession() );
 
             final WindowRenderer windowRenderer = windowRendererFactory.createPortletRenderer( windowRendererContext );
 
@@ -225,7 +224,6 @@ public class PortalRequestProcessor
             pageRendererContext.setTicketId( request.getTicketId() );
             pageRendererContext.setSite( site );
             pageRendererContext.setSitePath( sitePath );
-            pageRendererContext.setVerticalSession( request.getVerticalSession() );
             PageRenderer pageRenderer = pageRendererFactory.createPageRenderer( pageRendererContext );
 
             final RenderedPageResult result = pageRenderer.renderPage( processorResult.getPageTemplate() );

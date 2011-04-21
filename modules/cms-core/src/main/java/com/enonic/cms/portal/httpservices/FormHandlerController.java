@@ -16,7 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import com.enonic.cms.core.VerticalException;
 import com.enonic.cms.portal.PrettyPathNameCreator;
-import com.enonic.cms.portal.VerticalSession;
 import org.apache.commons.fileupload.FileItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -301,12 +300,6 @@ public class FormHandlerController
     {
 
         User user = securityService.getOldUserObject();
-        VerticalSession vsession = (VerticalSession) session.getAttribute( VerticalSession.VERTICAL_SESSION_OBJECT );
-        if ( vsession == null )
-        {
-            vsession = new VerticalSession();
-            session.setAttribute( VerticalSession.VERTICAL_SESSION_OBJECT, vsession );
-        }
 
         try
         {
@@ -429,9 +422,6 @@ public class FormHandlerController
                 mailReciept( menuItemKey, formElement, formItems, contentReference );
             }
 
-            // Remove the error XML if content creation and/or e-mail dispatch was successfull
-            vsession.removeAttribute( "error_form_create" );
-
             redirectToPage( request, response, formItems );
         }
         catch ( IOException ioe )
@@ -440,7 +430,6 @@ public class FormHandlerController
         }
         catch ( FormException e )
         {
-            vsession.setAttribute( "error_form_create", e.doc );
             int[] tmp = new int[e.errorCodes.length];
             for ( int i = 0; i < e.errorCodes.length; i++ )
             {

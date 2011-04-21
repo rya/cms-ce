@@ -60,7 +60,6 @@ public class DatasourceExecutorTest
         context.setPortalInstanceKey( portalInstanceKey );
         context.setSite( context.getSite() );
         context.setUser( userEntity );
-        context.setVerticalSession( null );
     }
 
     @Test

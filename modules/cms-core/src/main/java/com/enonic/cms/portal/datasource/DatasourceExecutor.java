@@ -80,7 +80,6 @@ public class DatasourceExecutor
             expressionExecutor.setExpressionContext( expressionFunctionsContext );
             expressionExecutor.setHttpRequest( context.getHttpRequest() );
             expressionExecutor.setRequestParameters( context.getRequestParameters() );
-            expressionExecutor.setVerticalSession( context.getVerticalSession() );
 
             String evaluatedExpression = expressionExecutor.evaluate( datasource.getCondition() );
             return evaluatedExpression.equals( "true" );
