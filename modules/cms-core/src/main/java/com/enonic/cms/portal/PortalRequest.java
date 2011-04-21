@@ -21,8 +21,6 @@ public class PortalRequest
 
     private Map<String, Object> requestParams;
 
-    private VerticalSession verticalSession;
-
     private int overridingLanguage = -1;
 
     private String profile;
@@ -54,16 +52,6 @@ public class PortalRequest
     public void setRequestParams( Map<String, Object> requestParams )
     {
         this.requestParams = requestParams;
-    }
-
-    public VerticalSession getVerticalSession()
-    {
-        return verticalSession;
-    }
-
-    public void setVerticalSession( VerticalSession verticalSession )
-    {
-        this.verticalSession = verticalSession;
     }
 
     public int getOverridingLanguage()

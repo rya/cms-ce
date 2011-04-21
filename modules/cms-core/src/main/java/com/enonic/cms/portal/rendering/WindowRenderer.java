@@ -451,7 +451,6 @@ public class WindowRenderer
         datasourceExecutorContext.setRequestParameters( this.requestParameters );
         datasourceExecutorContext.setSite( context.getSite() );
         datasourceExecutorContext.setUser( executor );
-        datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setWindow( window );
 
         DatasourceExecutor dataSourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );

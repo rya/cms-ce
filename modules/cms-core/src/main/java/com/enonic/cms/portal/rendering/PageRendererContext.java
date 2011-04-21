@@ -13,7 +13,6 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Regions;
 import com.enonic.cms.portal.PageRequestType;
-import com.enonic.cms.portal.VerticalSession;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.core.preview.PreviewContext;
@@ -63,8 +62,6 @@ public class PageRendererContext
     private SitePath originalSitePath;
 
     private SitePath sitePath;
-
-    private VerticalSession verticalSession;
 
     private String profile;
 
@@ -212,16 +209,6 @@ public class PageRendererContext
     public void setTicketId( String ticketId )
     {
         this.ticketId = ticketId;
-    }
-
-    public VerticalSession getVerticalSession()
-    {
-        return verticalSession;
-    }
-
-    public void setVerticalSession( VerticalSession verticalSession )
-    {
-        this.verticalSession = verticalSession;
     }
 
     public LanguageEntity getLanguage()

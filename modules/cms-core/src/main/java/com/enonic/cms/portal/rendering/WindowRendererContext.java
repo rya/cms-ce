@@ -13,7 +13,6 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.PageRequestType;
-import com.enonic.cms.portal.VerticalSession;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
@@ -60,8 +59,6 @@ public class WindowRendererContext
     private SitePath sitePath;
 
     private SitePath originalSitePath;
-
-    private VerticalSession verticalSession;
 
     private String profile;
 
@@ -222,16 +219,6 @@ public class WindowRendererContext
     public void setDeviceClass( String deviceClass )
     {
         this.deviceClass = deviceClass;
-    }
-
-    public VerticalSession getVerticalSession()
-    {
-        return verticalSession;
-    }
-
-    public void setVerticalSession( VerticalSession verticalSession )
-    {
-        this.verticalSession = verticalSession;
     }
 
     public LanguageEntity getLanguage()

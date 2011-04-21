@@ -14,7 +14,6 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.framework.util.UrlPathDecoder;
 import com.enonic.cms.framework.xml.XMLDocumentHelper;
-import com.enonic.cms.portal.VerticalSession;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.RegexpUtil;
@@ -365,16 +364,9 @@ public abstract class AbstractUserServicesHandlerController
                 Boolean captchaOk = captchaService.validateCaptcha( formItems, request, handler, operation );
                 if ( ( captchaOk != null ) && ( !captchaOk ) )
                 {
-                    VerticalSession vsession = (VerticalSession) session.getAttribute( VerticalSession.VERTICAL_SESSION_OBJECT );
-                    if ( vsession == null )
-                    {
-                        vsession = new VerticalSession();
-                        session.setAttribute( VerticalSession.VERTICAL_SESSION_OBJECT, vsession );
-                    }
                     org.jdom.Document jdomDocument = captchaService.buildErrorXMLForSessionContext( formItems );
                     org.w3c.dom.Document w3cDocument = XMLDocumentHelper.convertToW3CDocument( jdomDocument );
 
-                    vsession.setAttribute( "error_" + handler + "_" + operation, w3cDocument );
                     redirectToErrorPage( request, response, formItems, ERR_INVALID_CAPTCHA, null );
                     return null;
                 }

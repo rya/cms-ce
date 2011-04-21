@@ -290,7 +290,6 @@ public class PageRenderer
         windowRenderContext.setTicketId( context.getTicketId() );
         windowRenderContext.setSite( context.getSite() );
         windowRenderContext.setSitePath( context.getSitePath() );
-        windowRenderContext.setVerticalSession( context.getVerticalSession() );
         windowRenderContext.setOriginalUrl( context.getOriginalUrl() );
 
         PostProcessInstructionContext postProcessInstructionContext = new PostProcessInstructionContext();
@@ -365,7 +364,6 @@ public class PageRenderer
         datasourceExecutorContext.setSite( context.getSite() );
         datasourceExecutorContext.setSiteProperties( sitePropertiesService.getSiteProperties( context.getSite().getKey() ) );
         datasourceExecutorContext.setRequestParameters( context.getSitePath().getRequestParameters() );
-        datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setUser( context.getRunAsUser() );
 
         DatasourceExecutor datasourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );

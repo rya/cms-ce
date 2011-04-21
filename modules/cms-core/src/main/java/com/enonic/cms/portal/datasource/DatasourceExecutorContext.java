@@ -23,7 +23,6 @@ import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteProperties;
@@ -70,8 +69,6 @@ public class DatasourceExecutorContext
     private InvocationCache datasourceServiceInvocationCache;
 
     private String deviceClass;
-
-    private VerticalSession verticalSession;
 
     private LanguageEntity language;
 
@@ -247,16 +244,6 @@ public class DatasourceExecutorContext
     public void setDeviceClass( String deviceClass )
     {
         this.deviceClass = deviceClass;
-    }
-
-    public VerticalSession getVerticalSession()
-    {
-        return verticalSession;
-    }
-
-    public void setVerticalSession( VerticalSession verticalSession )
-    {
-        this.verticalSession = verticalSession;
     }
 
     public LanguageEntity getLanguage()

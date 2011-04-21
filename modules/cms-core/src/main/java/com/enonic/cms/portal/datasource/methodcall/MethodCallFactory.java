@@ -121,11 +121,6 @@ public class MethodCallFactory
         {
             overridedValue = requestParam.getParameterValuesAsCommaSeparatedString();
         }
-        else if ( context.getVerticalSession() != null && overrideBySession &&
-            context.getVerticalSession().getAttribute( parameterName ) != null )
-        {
-            overridedValue = context.getVerticalSession().getAttribute( parameterName ).toString();
-        }
 
         return overridedValue;
     }
@@ -260,7 +255,6 @@ public class MethodCallFactory
             expressionExecutor.setExpressionContext( expressionFunctionsContext );
             expressionExecutor.setHttpRequest( context.getHttpRequest() );
             expressionExecutor.setRequestParameters( context.getRequestParameters() );
-            expressionExecutor.setVerticalSession( context.getVerticalSession() );
 
             return expressionExecutor.evaluate( expression );
         }

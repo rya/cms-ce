@@ -32,7 +32,6 @@ import com.enonic.cms.portal.PathToContentResolver;
 import com.enonic.cms.portal.PortalRequest;
 import com.enonic.cms.portal.PortalRequestService;
 import com.enonic.cms.portal.PortalResponse;
-import com.enonic.cms.portal.VerticalSession;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -217,22 +216,8 @@ public class InternalClientRenderService
         portalRequest.setTicketId( httpRequest.getSession().getId() );
         portalRequest.setRequestTime( new DateTime() );
         portalRequest.setOriginalUrl( httpRequest.getRequestURL().toString() );
-        portalRequest.setVerticalSession( getAndEnsureVerticalSessionOnHttpSession( httpRequest.getSession() ) );
 
         return portalRequest;
-    }
-
-    // FIXME duplicate code
-
-    private VerticalSession getAndEnsureVerticalSessionOnHttpSession( HttpSession httpSession )
-    {
-        VerticalSession vsession = (VerticalSession) httpSession.getAttribute( VerticalSession.VERTICAL_SESSION_OBJECT );
-        if ( vsession == null )
-        {
-            vsession = new VerticalSession();
-            httpSession.setAttribute( VerticalSession.VERTICAL_SESSION_OBJECT, vsession );
-        }
-        return vsession;
     }
 
     private HashMap<String, Object> compileRequestParameters( String[] params )
