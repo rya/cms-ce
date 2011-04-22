@@ -5,13 +5,13 @@ Welcome to the home of Enonic CMS Community Edition. Here you will find all sour
 
 ## Building
 
-Build all code and run all tests including integration tests:
+Build all code and run all tests (excluding integration tests):
 
     mvn clean install
 
-Build all code skipping integration tests:
+Build all code and run all tests (including integration tests):
 
-    mvn -DskipITs clean install
+    mvn -Pintegration clean install
 
 Build all code skipping all tests:
 

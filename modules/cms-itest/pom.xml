@@ -15,6 +15,10 @@
     <packaging>jar</packaging>
     <name>Enonic CMS Integration Tests</name>
 
+    <properties>
+        <skip.integration.tests>true</skip.integration.tests>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -24,8 +28,9 @@
                         <java.awt.headless>true</java.awt.headless>
                     </systemPropertyVariables>
                     <excludes>
-                        <exclude>**</exclude>
+                        <exclude>com/enonic/cms/itest/**</exclude>
                     </excludes>
+                    <skipTests>${skip.integration.tests}</skipTests>
                 </configuration>
             </plugin>
         </plugins>
@@ -83,5 +88,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>integration</id>
+            <properties>
+                <skip.integration.tests>false</skip.integration.tests>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
