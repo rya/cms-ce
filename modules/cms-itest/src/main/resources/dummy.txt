@@ -1,0 +1,2 @@
+
+Included here so that Maven does not complain about empty jar.

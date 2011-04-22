@@ -5,7 +5,6 @@
 package com.enonic.cms.itest.client;
 
 import com.enonic.cms.api.client.model.ImportContentsParams;
-import com.enonic.cms.core.business.SpecialCharacterTestStrings;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStatus;

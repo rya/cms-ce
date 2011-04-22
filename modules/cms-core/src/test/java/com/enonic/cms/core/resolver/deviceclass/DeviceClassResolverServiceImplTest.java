@@ -13,8 +13,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.core.business.SpecialCharacterTestStrings;
-
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.ScriptResolverResult;
@@ -34,8 +32,6 @@ public class DeviceClassResolverServiceImplTest
 {
     private DeviceClassResolverServiceImpl deviceClassResolverService;
 
-    private ResourceFile resourceFileMock;
-
     private ScriptResolverService deviceClassResolverServiceMock;
 
     private static final String DEVICE_CLASS_SESSION_VALUE = "fromSession";
@@ -44,7 +40,7 @@ public class DeviceClassResolverServiceImplTest
 
     private static final String RESOLVED_DEVICE_NAME = "resolvedDeviceName";
 
-    private static final String NASTY_COOKIE_VALUE = SpecialCharacterTestStrings.NORWEGIAN;
+    private static final String NASTY_COOKIE_VALUE = "\u00c6\u00d8\u00c5\u00e6\u00f8\u00e5";
 
     private static final Calendar CALENDER_INSTANSE = Calendar.getInstance();
 
@@ -172,7 +168,7 @@ public class DeviceClassResolverServiceImplTest
 
     private void setUpGetResourceFileMock( boolean hasResolverScript, boolean timeStampChanged )
     {
-        resourceFileMock = hasResolverScript ? createMock( ResourceFile.class ) : null;
+        ResourceFile resourceFileMock = hasResolverScript ? createMock( ResourceFile.class ) : null;
 
         if ( hasResolverScript )
         {
