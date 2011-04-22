@@ -8,9 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
 import org.joda.time.DateTimeZone;
 
 /**
@@ -19,16 +16,14 @@ import org.joda.time.DateTimeZone;
 public class TimeZoneServiceImpl
     implements TimeZoneService
 {
+    private final List<DateTimeZone> timeZones;
 
-    private List<DateTimeZone> timeZones = new ArrayList<DateTimeZone>();
-
-    @SuppressWarnings({"unchecked"})
-    @PostConstruct
-    public void afterPropertiesSet()
-        throws Exception
+    public TimeZoneServiceImpl()
     {
-        Set<String> ids = DateTimeZone.getAvailableIDs();
-        timeZones.add( DateTimeZone.UTC );
+        this.timeZones = new ArrayList<DateTimeZone>();
+
+        final Set<String> ids = DateTimeZone.getAvailableIDs();
+        this.timeZones.add( DateTimeZone.UTC );
         for ( String id : ids )
         {
             if ( !id.equals( "UTC" ) )
