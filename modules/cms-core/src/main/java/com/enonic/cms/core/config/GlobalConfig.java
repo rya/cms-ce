@@ -9,5 +9,7 @@ public interface GlobalConfig
 
     public File getConfigDir();
 
+    public int getXslMaxRecursionDepth();
+
     public Map<String, String> getMap();
 }

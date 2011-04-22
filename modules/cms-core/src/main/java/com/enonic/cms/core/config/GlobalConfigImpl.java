@@ -1,42 +1,48 @@
 package com.enonic.cms.core.config;
 
+import com.enonic.cms.api.util.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import org.springframework.core.convert.ConversionService;
+
 import java.io.File;
 import java.util.Map;
 
 final class GlobalConfigImpl
     implements GlobalConfig
 {
-    private File homeDir;
-    private File configDir;
-    private Map<String, String> map;
+    private final Map<String, String> map;
+    private final ConversionService converter;
 
+    public GlobalConfigImpl(final ConversionService converter, final Map<String, String> map)
+    {
+        this.converter = converter;
+        this.map = map;
+    }
+    
     public File getHomeDir()
     {
-        return this.homeDir;
-    }
-
-    public void setHomeDir(final File homeDir)
-    {
-        this.homeDir = homeDir;
+        return get("cms.home", File.class);
     }
 
     public File getConfigDir()
     {
-        return this.configDir;
+        return new File(getHomeDir(), "config");
     }
 
-    public void setConfigDir(final File configDir)
+    public int getXslMaxRecursionDepth()
     {
-        this.configDir = configDir;
+        return get("cms.xsl.maxRecursionDepth", Integer.class);
     }
 
     public Map<String, String> getMap()
     {
-        return this.map;
+        return ImmutableMap.copyOf(this.map);
     }
 
-    public void setMap(final Map<String, String> map)
+    private <T> T get(final String key, final Class<T> type)
     {
-        this.map = map;
+        final String value = this.map.get(key);
+        Preconditions.checkNotNull(value, "Property [" + key + "] is not defined");
+        return this.converter.convert(value, type);
     }
 }
