@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.group.GroupSpecification;
-import com.enonic.cms.core.security.group.GroupType;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -26,17 +23,22 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+
+import com.enonic.cms.domain.EntityPageList;
 
 @Repository
 public class GroupEntityDao
-    extends AbstractBaseEntityDao<GroupEntity>
-    implements GroupDao
+        extends AbstractBaseEntityDao<GroupEntity>
+        implements GroupDao
 {
     private final static GroupType[] GLOBAL_GROUP_TYPES =
-        new GroupType[]{GroupType.ANONYMOUS, GroupType.CONTRIBUTORS, GroupType.ADMINS, GroupType.GLOBAL_GROUP, GroupType.DEVELOPERS,
-            GroupType.EXPERT_CONTRIBUTORS};
+            new GroupType[]{GroupType.ANONYMOUS, GroupType.CONTRIBUTORS, GroupType.ADMINS, GroupType.GLOBAL_GROUP, GroupType.DEVELOPERS,
+                    GroupType.EXPERT_CONTRIBUTORS};
 
     private boolean initializedCacheKeys = false;
 
@@ -244,7 +246,8 @@ public class GroupEntityDao
 
     public Collection<GroupEntity> findByUserstore( UserStoreKey userStoreKey, boolean includeDeleted )
     {
-        return findByNamedQuery( GroupEntity.class, "GroupEntity.findByUserStore", new String[]{"userStoreKey", "deleted"},
+        return findByNamedQuery( GroupEntity.class, "GroupEntity.findByUserStore",
+                                 new String[]{"userStoreKey", "deleted"},
                                  new Object[]{userStoreKey.toInt(), includeDeleted ? 1 : 0} );
     }
 
@@ -258,14 +261,16 @@ public class GroupEntityDao
 
     public List<GroupEntity> findByUserStoreKeyAndGroupname( UserStoreKey userStoreKey, String groupName, boolean includeDeleted )
     {
-        return findByNamedQuery( GroupEntity.class, "GroupEntity.findByQualifiedGroupname", new String[]{"userStoreKey", "name", "deleted"},
+        return findByNamedQuery( GroupEntity.class, "GroupEntity.findByQualifiedGroupname",
+                                 new String[]{"userStoreKey", "name", "deleted"},
                                  new Object[]{userStoreKey.toInt(), groupName, includeDeleted ? 1 : 0} );
     }
 
     public GroupEntity findSingleUndeletedByUserStoreKeyAndGroupname( UserStoreKey userStoreKey, String groupName )
     {
         return findSingleByNamedQuery( GroupEntity.class, "GroupEntity.findByQualifiedGroupname",
-                                       new String[]{"userStoreKey", "name", "deleted"}, new Object[]{userStoreKey.toInt(), groupName, 0} );
+                                       new String[]{"userStoreKey", "name", "deleted"},
+                                       new Object[]{userStoreKey.toInt(), groupName, 0} );
     }
 
     public GroupEntity findSingleByGroupType( GroupType groupType )
@@ -294,7 +299,7 @@ public class GroupEntityDao
         {
 
             public Object doInHibernate( Session session )
-                throws HibernateException, SQLException
+                    throws HibernateException, SQLException
             {
 
                 Criteria crit = session.createCriteria( GroupEntity.class ).setCacheable( true );
@@ -319,13 +324,46 @@ public class GroupEntityDao
     }
 
     @SuppressWarnings({"unchecked"})
+    public List<GroupEntity> browseAccount( final String nameExpression,
+                                            final String orderBy,
+                                            final boolean orderAscending )
+    {
+
+        return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()
+        {
+
+            public Object doInHibernate( Session session )
+                    throws HibernateException, SQLException
+            {
+
+                Criteria criteria = session.createCriteria( GroupEntity.class ).setCacheable( true );
+                criteria.add( Restrictions.eq( "deleted", 0 ) );
+
+                if ( !StringUtils.isEmpty( nameExpression ) )
+                {
+                    criteria.add( Restrictions.ilike( "name", nameExpression, MatchMode.ANYWHERE ) );
+
+                }
+
+                if ( orderBy != null )
+                {
+                    Order sortOrder = ( orderAscending ) ? Order.asc( orderBy ) : Order.desc( orderBy );
+                    criteria.addOrder( sortOrder.ignoreCase() );
+                }
+
+                return criteria.list();
+            }
+        } );
+    }
+
+    @SuppressWarnings({"unchecked"})
     public List<GroupEntity> findByQuery( final GroupQuery spec )
     {
         return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()
         {
 
             public Object doInHibernate( Session session )
-                throws HibernateException, SQLException
+                    throws HibernateException, SQLException
             {
 
                 Criteria crit = session.createCriteria( GroupEntity.class ).setCacheable( true );

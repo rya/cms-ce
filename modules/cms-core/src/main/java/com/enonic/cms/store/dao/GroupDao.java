@@ -8,11 +8,12 @@ import java.util.Collection;
 import java.util.List;
 
 import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupSpecification;
-import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+
+import com.enonic.cms.domain.EntityPageList;
 
 
 public interface GroupDao
@@ -55,6 +56,8 @@ public interface GroupDao
     GroupEntity findSingleByGroupTypeAndUserStore( GroupType groupType, UserStoreKey userStoreKey );
 
     GroupEntity findGlobalGroupByName( String name, boolean includeDeleted );
+
+    List<GroupEntity> browseAccount( String nameExpression, String orderBy, boolean orderAscending );
 
     List<GroupEntity> findByQuery( GroupQuery spec );
 
