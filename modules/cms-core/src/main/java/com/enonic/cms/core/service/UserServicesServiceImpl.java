@@ -4,10 +4,14 @@
  */
 package com.enonic.cms.core.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.esl.util.UncheckedCastUtil;
 
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.store.dao.UserDao;
@@ -59,5 +63,11 @@ public class UserServicesServiceImpl
     {
         // TODO: Implement method using Hibernate
         throw new IllegalStateException("Method not implemented");
+    }
+
+    @Override
+    public List<User> browseAccount( String nameExpression, String orderBy, boolean orderAscending )
+    {
+        return UncheckedCastUtil.castList( userDao.browseAccount( nameExpression, orderBy, orderAscending ), User.class );
     }
 }

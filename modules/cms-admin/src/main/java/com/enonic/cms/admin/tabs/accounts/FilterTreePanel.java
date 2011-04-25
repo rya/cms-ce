@@ -1,5 +1,7 @@
 package com.enonic.cms.admin.tabs.accounts;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class FilterTreePanel
     private UserPanel userPanel;
 
     @Autowired
+    private TablePanel tablePanel;
+
+    @Autowired
     private UserServicesService userServicesService;
 
     @PostConstruct
@@ -43,8 +48,10 @@ public class FilterTreePanel
 
         search.addListener( new FieldEvents.TextChangeListener() {
             public void textChange( FieldEvents.TextChangeEvent event ) {
-                User user = userServicesService.getAnonymousUser();
-                userPanel.showUser(user, event.getText());
+//                User user = userServicesService.getAnonymousUser();
+//                userPanel.showUser(user, event.getText());
+                List<User> users = userServicesService.browseAccount( event.getText(), User.NAME_PROPERTY, true );
+                tablePanel.showUsers(users);
             }
         });
 
