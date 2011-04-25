@@ -1,4 +1,4 @@
-package com.enonic.cms.admin.tab.annotations;
+package com.enonic.cms.admin.tabs.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,7 +7,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Options
+public @interface TopLevelTab
 {
     public String title();
+    public int order();
 }

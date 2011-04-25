@@ -23,4 +23,6 @@
 
   <import resource="classpath:server-context.xml"/>
 
+
+  <import resource="classpath:vaadin-context.xml"/>
 </beans>
