@@ -10,9 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 
 import com.enonic.cms.admin.tabs.accounts.AccordionPanel;
@@ -21,7 +22,7 @@ import com.enonic.cms.admin.tabs.accounts.UserPanel;
 import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 @TopLevelTab(title = "Accounts", order = 1024)
 public class AccountsTab extends AbstractBaseTab
 {
@@ -49,19 +50,21 @@ public class AccountsTab extends AbstractBaseTab
         top.addComponent( comboBox, "top:5px; right:0px" );
 
         addComponent( top );
+        setExpandRatio( top, 0 );
 
-        HorizontalLayout line = new HorizontalLayout();
-        line.setSpacing( true );
-        line.setWidth( "100%" );
-        line.setHeight( "520px" );
+        HorizontalSplitPanel line = new HorizontalSplitPanel();
+        line.setSplitPosition(200, Sizeable.UNITS_PIXELS);
+        line.setSizeFull();
 
         line.addComponent( accordionPanel );
-        line.addComponent( tablePanel );
-        line.addComponent( userPanel );
-
-        line.setExpandRatio( userPanel, 1.0f );
+        HorizontalSplitPanel line2 = new HorizontalSplitPanel();
+        line2.setSplitPosition(500, Sizeable.UNITS_PIXELS);
+        line2.addComponent( tablePanel );
+        line2.addComponent( userPanel );
+        line.addComponent( line2 );
 
         addComponent( line );
+        setExpandRatio( line, 1 );
     }
 
 }
