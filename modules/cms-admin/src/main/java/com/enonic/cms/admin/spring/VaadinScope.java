@@ -17,12 +17,12 @@ import org.springframework.web.context.request.SessionScope;
  *
  * prototype scope is not enough for vaadin: AccountsTab and FilterTreePanel will have different UserPanel objects
  *
- * references can be stored-found in map kept in session (fast but spends memory),
- * or searched in vaadin application (that already stored in session - this is slow)
+ * references can be stored-found in map kept in session (fast but spends memory - this solution),
+ * or searched in vaadin application - that already stored in session - this is slow
  *
  * session scope may be used too, but this solution will increase session map.
  *
- * anyway if vaadin scope may just
+ * anyway if vaadin scope may just keep object in session adding prefix to name
  */
 public class VaadinScope
         extends SessionScope
