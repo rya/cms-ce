@@ -43,8 +43,8 @@ public class FilterTreePanel
 
         search.addListener( new FieldEvents.TextChangeListener() {
             public void textChange( FieldEvents.TextChangeEvent event ) {
-                User user = userServicesService.getAnonymousUser();
-                userPanel.showUser(user, event.getText());
+                //User user = userServicesService.getAnonymousUser();
+                //userPanel.showUser(user, event.getText());
             }
         });
 
