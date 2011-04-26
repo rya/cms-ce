@@ -4,47 +4,47 @@
  */
 package com.enonic.cms.admin;
 
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;
 
-import com.enonic.cms.admin.tab.AccountsTab;
-import com.enonic.cms.admin.tab.BaseTab;
-import com.enonic.cms.admin.tab.ContentTab;
-import com.enonic.cms.admin.tab.ReportsTab;
-import com.enonic.cms.admin.tab.SystemTab;
+import com.enonic.cms.admin.tabs.AbstractBaseTab;
 
+@Component
+@Scope("prototype")
 final class AdminWindow
     extends Window
 {
+    @Resource
+    private ApplicationContext applicationContext;
+
     public AdminWindow()
     {
+        setWidth("100%");
+        setHeight( "900px" );
         setCaption( "Enonic CMS" );
+    }
 
+    @PostConstruct
+    void init() {
         TabSheet tabSheet = new TabSheet();
-        tabSheet.setHeight("550px");
+        tabSheet.setHeight( "650px" );
         tabSheet.setWidth("100%");
 
-        // TODO : permissions ?
-        Class<BaseTab>[] tabs = new Class[]
-        {
-                AccountsTab.class,
-                ContentTab.class,
-                ReportsTab.class,
-                SystemTab.class
-        };
-
-        for ( Class<BaseTab> tabClass : tabs  )
-        {
-            try
-            {
-                BaseTab tab = tabClass.newInstance();
-                tabSheet.addTab( tab );
-            }
-            catch ( Exception e) {
-                throw new RuntimeException( e );
-            }
+        Map<String, AbstractBaseTab> tabs = applicationContext.getBeansOfType( AbstractBaseTab.class );
+        for (AbstractBaseTab tab : tabs.values()) {
+            tabSheet.addTab( tab );
         }
 
         addComponent(tabSheet);
     }
+
 }
