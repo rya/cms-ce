@@ -7,7 +7,6 @@ package com.enonic.cms.admin.tabs.accounts;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -30,16 +29,13 @@ public class FilterTreePanel
         extends VerticalLayout
 {
     @Autowired
-    private UserPanel userPanel;
-
-    @Autowired
     private TablePanel tablePanel;
 
     @Autowired
-    private UserServicesService userServicesService;
+    private transient UserServicesService userServicesService;
 
     @Autowired
-    private GroupStorageService groupStorageService;
+    private transient GroupStorageService groupStorageService;
 
     @PostConstruct
     private void init()
@@ -54,12 +50,13 @@ public class FilterTreePanel
         search.setInputPrompt( "search" );
         search.setStyleName( "accounts-search-text" );
 
+        // init table
+        List<User> users = userServicesService.findAll();
+        tablePanel.showUsers(users);
 
         search.addListener( new FieldEvents.TextChangeListener() {
             public void textChange( FieldEvents.TextChangeEvent event ) {
-//                User user = userServicesService.getAnonymousUser();
-//                userPanel.showUser(user, event.getText());
-                List<User> users = userServicesService.browseAccount( event.getText(), User.NAME_PROPERTY, true );
+                List<User> users = userServicesService.findByCriteria( event.getText(), User.NAME_PROPERTY, true );
                 tablePanel.showUsers(users);
             }
         });

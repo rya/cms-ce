@@ -24,7 +24,9 @@ public interface UserServicesService
 
     public int getCurrentVersionKey( int contentKey );
 
-    List<User> browseAccount( String nameExpression, String orderBy, boolean orderAscending );
+    List<User> findByCriteria( String nameExpression, String orderBy, boolean orderAscending );
+
+    List<User> findAll();
 
     Long count();
 }

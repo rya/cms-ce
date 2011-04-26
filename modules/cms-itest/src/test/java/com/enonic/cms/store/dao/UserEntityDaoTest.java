@@ -375,7 +375,7 @@ public class UserEntityDaoTest
         userDao.getHibernateTemplate().flush();
         userDao.getHibernateTemplate().clear();
 
-        List<UserEntity> users = userDao.browseAccount( "splayNa", "name", true );
+        List<UserEntity> users = userDao.findByCriteria( "splayNa", "name", true );
 
         Assertions.assertCollectionWithOneItem( user, users );
     }
