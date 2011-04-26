@@ -67,9 +67,15 @@ public class UserServicesServiceImpl
     }
 
     @Override
-    public List<User> browseAccount( String nameExpression, String orderBy, boolean orderAscending )
+    public List<User> findByCriteria( String nameExpression, String orderBy, boolean orderAscending )
     {
-        return UncheckedCastUtil.castList( userDao.browseAccount( nameExpression, orderBy, orderAscending ), User.class );
+        return UncheckedCastUtil.castList( userDao.findByCriteria( nameExpression, orderBy, orderAscending ), User.class );
+    }
+
+    @Override
+    public List<User> findAll()
+    {
+        return UncheckedCastUtil.castList( userDao.findAll( false ), User.class );
     }
 
     @Override

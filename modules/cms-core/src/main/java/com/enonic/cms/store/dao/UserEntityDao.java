@@ -236,9 +236,8 @@ public class UserEntityDao
     }
 
     @SuppressWarnings({"unchecked"})
-    public List<UserEntity> browseAccount( final String nameExpression,
-                                           final String orderBy,
-                                           final boolean orderAscending )
+    public List<UserEntity> findByCriteria( final String nameExpression, final String orderBy,
+                                            final boolean orderAscending )
     {
 
         return (List<UserEntity>) getHibernateTemplate().execute( new HibernateCallback()
@@ -250,7 +249,7 @@ public class UserEntityDao
 
                 Criteria criteria = session.createCriteria( UserEntity.class ).setCacheable( true );
                 criteria.add( Restrictions.eq( "deleted", 0 ) );
-                criteria.add( Restrictions.ne( "type", UserType.ADMINISTRATOR.getKey() ) );
+//                criteria.add( Restrictions.ne( "type", UserType.ADMINISTRATOR.getKey() ) );
 
                 if ( !StringUtils.isEmpty( nameExpression ) )
                 {

@@ -39,7 +39,7 @@ public interface UserDao
 
     List<UserEntity> findByUserStoreKey( UserStoreKey userStoreKey, Integer index, Integer count, boolean includeDeleted );
 
-    List<UserEntity> browseAccount( String nameExpression, String orderBy, boolean orderAscending );
+    List<UserEntity> findByCriteria( String nameExpression, String orderBy, boolean orderAscending );
 
     List<UserEntity> findByQuery( UserStoreKey userStoreKey, String queryStr, String orderBy, boolean orderAscending );
 
