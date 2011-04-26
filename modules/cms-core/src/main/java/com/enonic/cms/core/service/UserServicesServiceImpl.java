@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.esl.util.UncheckedCastUtil;
 
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.UserDao;
 
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -69,5 +70,11 @@ public class UserServicesServiceImpl
     public List<User> browseAccount( String nameExpression, String orderBy, boolean orderAscending )
     {
         return UncheckedCastUtil.castList( userDao.browseAccount( nameExpression, orderBy, orderAscending ), User.class );
+    }
+
+    @Override
+    public Long count()
+    {
+        return userDao.count( UserEntity.class );
     }
 }

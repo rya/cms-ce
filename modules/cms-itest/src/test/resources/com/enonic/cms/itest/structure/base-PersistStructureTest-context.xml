@@ -19,7 +19,7 @@
     <property name="sessionFactory" ref="sessionFactory"/>
   </bean>
 
-  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
+  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageServiceImpl"/>
 
   <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 

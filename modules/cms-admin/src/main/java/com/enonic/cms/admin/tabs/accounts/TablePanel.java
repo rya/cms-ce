@@ -8,11 +8,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.data.Container;
-import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.ui.Table;
-
-import com.enonic.esl.util.DateUtil;
 
 import com.enonic.cms.core.security.user.User;
 
@@ -62,12 +59,32 @@ public class TablePanel extends Table
 
         for ( User user : users )
         {
-            Item item = container.addItem(count ++);
-            item.getItemProperty( TYPE ).setValue(user.getType().getName());
-            item.getItemProperty( DISPLAY_NAME ).setValue(user.getDisplayName());
-            item.getItemProperty( QUALIFIED_NAME ).setValue(user.getQualifiedName());
-            item.getItemProperty( LAST_MODIFIED ).setValue( DateUtil.formatISODate( user.getTimestamp() ) );
+            Object id = container.addItem();
+            container
+                    .getContainerProperty(id, TYPE)
+                    .setValue(user.getType().getName());
+
+            container
+                    .getContainerProperty(id, DISPLAY_NAME)
+                    .setValue(user.getType().getName());
+
+            container
+                    .getContainerProperty(id, QUALIFIED_NAME)
+                    .setValue(user.getType().getName());
+
+            container
+                    .getContainerProperty(id, LAST_MODIFIED)
+                    .setValue(user.getType().getName());
+
+
+//            Item item = container.addItem(count ++);
+//            item.getItemProperty( TYPE ).setValue(user.getType().getName());
+//            item.getItemProperty( DISPLAY_NAME ).setValue(user.getDisplayName());
+//            item.getItemProperty( QUALIFIED_NAME ).setValue(user.getQualifiedName());
+//            item.getItemProperty( LAST_MODIFIED ).setValue( DateUtil.formatISODate( user.getTimestamp() ) );
         }
+
+        setContainerDataSource( container );
 
 //        String content = caption + " (" + user.getName() + ")";
 //        username.setPropertyDataSource( new ObjectProperty<String>( content, String.class ) );

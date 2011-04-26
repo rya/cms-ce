@@ -52,7 +52,7 @@
 
   <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver"/>
 
-  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
+  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageServiceImpl"/>
 
   <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
 

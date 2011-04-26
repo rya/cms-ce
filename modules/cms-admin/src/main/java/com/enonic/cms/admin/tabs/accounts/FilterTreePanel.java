@@ -14,6 +14,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import com.enonic.cms.core.security.group.GroupStorageService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
@@ -31,6 +32,9 @@ public class FilterTreePanel
 
     @Autowired
     private UserServicesService userServicesService;
+
+    @Autowired
+    private GroupStorageService groupStorageService;
 
     @PostConstruct
     private void init()
@@ -58,8 +62,15 @@ public class FilterTreePanel
         column.addComponent( search );
 
         column.addComponent( createBoldLabel( "Type" ) );
-        column.addComponent( createCheckBox( "Users (456)" ) );
-        column.addComponent( createCheckBox( "Groups (4)" ) );
+        // Users
+        Long count = userServicesService.count();
+        String present = String.format("Users (%s)", count);
+        column.addComponent( createCheckBox( present ) );
+
+        // Groups
+        count = groupStorageService.count();
+        present = String.format("Groups (%s)", count);
+        column.addComponent( createCheckBox( present ) );
 
         column.addComponent( createBoldLabel( "Userstores" ) );
         column.addComponent( createCheckBox( "AD (10)" ) );
