@@ -7,7 +7,6 @@ package com.enonic.cms.admin.tabs.accounts;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -32,11 +31,11 @@ public class FilterTreePanel
     @Autowired
     private TablePanel tablePanel;
 
-    @Autowired @Transient
-    private UserServicesService userServicesService;
+    @Autowired
+    private transient UserServicesService userServicesService;
 
-    @Autowired @Transient
-    private GroupStorageService groupStorageService;
+    @Autowired
+    private transient GroupStorageService groupStorageService;
 
     @PostConstruct
     private void init()

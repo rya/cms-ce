@@ -32,7 +32,6 @@ public class TablePanel
     @PostConstruct
     private void init()
     {
-        setCaption( "100 matches " );
         setStyleName( "accounts-table" );
         setSelectable( true );
         setWidth( "450px" );
@@ -49,6 +48,9 @@ public class TablePanel
 
     public void showUsers( List<User> users )
     {
+        String caption = users.isEmpty() ? "" : String.format( "%s matches", users.size() );
+        setCaption( caption );
+
         Container container = getContainerDataSource();
         container.removeAllItems();
 
