@@ -431,4 +431,6 @@
 
     <context:component-scan base-package="com.enonic.cms.store.dao"/>
 
+
+  <import resource="classpath:vaadin-context.xml"/>
 </beans>
