@@ -7,7 +7,7 @@ package com.enonic.cms.framework.cache;
 import org.springframework.beans.factory.FactoryBean;
 
 public final class CacheFacadeFactory
-    implements FactoryBean
+    implements FactoryBean<CacheFacade>
 {
     private CacheManager cacheManager;
 
@@ -23,8 +23,7 @@ public final class CacheFacadeFactory
         this.cacheName = cacheName;
     }
 
-    public Object getObject()
-        throws Exception
+    public CacheFacade getObject()
     {
         return this.cacheManager.getOrCreateCache( this.cacheName );
     }

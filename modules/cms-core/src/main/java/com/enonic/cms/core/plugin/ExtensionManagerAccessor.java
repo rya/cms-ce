@@ -1,4 +1,4 @@
-package com.enonic.cms.business.plugin;
+package com.enonic.cms.core.plugin;
 
 /**
  * This class implements the plugin manager accessor.

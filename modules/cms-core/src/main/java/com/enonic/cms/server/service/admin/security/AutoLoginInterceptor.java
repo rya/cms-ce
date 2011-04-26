@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -18,7 +19,6 @@ import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.plugin.ExtensionManager;
 
 import com.enonic.cms.domain.security.user.QualifiedUsername;
 import com.enonic.cms.domain.security.user.UserEntity;

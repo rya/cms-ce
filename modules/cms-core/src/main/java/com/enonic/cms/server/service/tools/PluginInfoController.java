@@ -6,14 +6,14 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.Plugin;
 
-import com.enonic.cms.business.plugin.ExtensionManager;
-import com.enonic.cms.business.plugin.ExtensionManagerAccessor;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 
 @RequestMapping(value = "/tools/plugininfo")
 public final class PluginInfoController

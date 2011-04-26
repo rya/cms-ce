@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
-import com.enonic.cms.business.plugin.ExtensionManager;
-import com.enonic.cms.business.plugin.ExtensionManagerAccessor;
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.domain.portal.PortalRenderingException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;

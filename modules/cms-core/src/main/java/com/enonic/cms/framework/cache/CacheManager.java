@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.framework.cache;
 
-import java.util.Collection;
-
 import com.enonic.cms.framework.xml.XMLDocument;
 
 /**
@@ -22,16 +20,6 @@ public interface CacheManager
      * Create a cache by name with default configuration.
      */
     public CacheFacade getOrCreateCache( String name );
-
-    /**
-     * Return names of all caches.
-     */
-    public Collection<String> getCacheNames();
-
-    /**
-     * Return the disk store path.
-     */
-    public String getDiskStorePath();
 
     /**
      * Return xml details.

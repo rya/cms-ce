@@ -8,8 +8,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
-import com.enonic.cms.business.plugin.ExtensionManager;
-import com.enonic.cms.business.plugin.ExtensionManagerAccessor;
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 

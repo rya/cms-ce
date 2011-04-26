@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.business.core.content;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.enonic.cms.api.plugin.ext.TextExtractor;
-import com.enonic.cms.business.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManager;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.MimeTypeResolver;
 import org.jdom.Document;

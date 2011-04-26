@@ -215,11 +215,11 @@
     <property name="properties" ref="loadedVerticalProperties"/>
     <property name="localClient" ref="localClient"/>
     <property name="pluginEnvironment">
-      <bean class="com.enonic.cms.business.plugin.PluginEnvironmentImpl"/>
+      <bean class="com.enonic.cms.core.plugin.PluginEnvironmentImpl"/>
     </property>
   </bean>
 
-  <bean id="extensionManager" class="com.enonic.cms.business.plugin.ExtensionManagerImpl">
+  <bean id="extensionManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
     <property name="pluginRegistry" ref="pluginManager"/>
   </bean>
 

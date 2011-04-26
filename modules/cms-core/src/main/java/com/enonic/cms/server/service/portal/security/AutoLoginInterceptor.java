@@ -14,7 +14,7 @@ import com.enonic.cms.server.service.servlet.OriginalPathResolver;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManager;
 
 import com.enonic.cms.domain.security.user.QualifiedUsername;
 import com.enonic.cms.domain.security.user.UserEntity;

@@ -1,4 +1,4 @@
-package com.enonic.cms.business.plugin;
+package com.enonic.cms.core.plugin.manager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,12 +6,14 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
+import com.enonic.cms.core.plugin.PluginRegistry;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
-import com.enonic.cms.api.CmsException;
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
@@ -20,7 +22,6 @@ import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
 import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
 import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
-import com.enonic.cms.core.plugin.PluginRegistry;
 
 import com.enonic.cms.business.SiteURLResolver;
 
@@ -39,7 +40,7 @@ public final class ExtensionManagerImpl
     public void afterPropertiesSet()
         throws Exception
     {
-        ExtensionManagerAccessor.setExtensionManager( this );
+        ExtensionManagerAccessor.setExtensionManager(this);
     }
 
     private List<Extension> getAllExtensions()
@@ -122,8 +123,9 @@ public final class ExtensionManagerImpl
     {
         if ( originalSitePath == null )
         {
-            throw new CmsException( "SitePath is null: illegal request" );
+            throw new IllegalArgumentException( "SitePath is null: illegal request" );
         }
+
         return SiteURLResolver.DEFAULT_SITEPATH_PREFIX + "/" + originalSitePath.getSiteKey() + originalSitePath.getLocalPath();
 
     }

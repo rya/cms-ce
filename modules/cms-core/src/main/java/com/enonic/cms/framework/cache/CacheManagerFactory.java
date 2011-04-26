@@ -17,7 +17,7 @@ import com.enonic.cms.framework.cache.standard.StandardCacheManager;
  * This class switches between cache managers.
  */
 public final class CacheManagerFactory
-    implements FactoryBean, InitializingBean, DisposableBean
+    implements FactoryBean<CacheManager>, InitializingBean, DisposableBean
 {
     /**
      * Config location.
@@ -64,8 +64,7 @@ public final class CacheManagerFactory
     /**
      * Return the object.
      */
-    public Object getObject()
-        throws Exception
+    public CacheManager getObject()
     {
         return this.cacheManager;
     }

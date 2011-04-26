@@ -1,7 +1,5 @@
 package com.enonic.cms.api.plugin.ext;
 
-import java.util.Properties;
-
 /**
  * TaskHandler is a superclass that all scheduled tasks must implement.  The implemented class, must
  * then be declared as a spring bean, and the bean will then appear as a selection in the
@@ -10,31 +8,35 @@ import java.util.Properties;
 public abstract class TaskHandler
     extends ExtensionBase
 {
-    private final String name;
-
-    public TaskHandler()
-    {
-        this.name = getClass().getSimpleName();
-    }
+    private String name;
+    private String cron;
 
     /**
-     * Name is an attribute that is primarly needed for future use, if we at some time might want or
-     * need to distinguish between different plugins of the same class.  At this time, we
-     * only instantiate it with the class name and leave it at that.
+     * Unique qualifying name of the task. This should be globally unique.
      */
     public final String getName()
     {
-        return name;
+        return this.name != null ? this.name : getClass().getName();
+    }
+
+    public final void setName(final String name)
+    {
+        this.name = name;
+    }
+
+    public final String getCron()
+    {
+        return this.cron;
+    }
+
+    public final void setCron(final String cron)
+    {
+        this.cron = cron;
     }
 
     /**
-     * The execute method is the entry point for the task plugin.  This is the method that will be called according to the schedule set in
-     * the admin console.
-     *
-     * @param props These properties are set in the admin console, and passed to this method for customization of the execution.
-     * @throws Exception The implementing class may throw any Exception.  The exception will be printed in the Enonic CMS error log, and
-     *                   execution will be terminated for the current execution, but will start over, next time the task is scheduled to run.
+     * The execute method is the entry point for the task plugin.
      */
-    public abstract void execute( Properties props )
+    public abstract void execute()
         throws Exception;
 }
