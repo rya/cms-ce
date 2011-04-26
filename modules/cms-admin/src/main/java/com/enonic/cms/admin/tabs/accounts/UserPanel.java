@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.admin.tabs.accounts;
 
 import java.util.Date;
@@ -17,18 +21,17 @@ import com.vaadin.ui.VerticalLayout;
 import com.enonic.cms.core.security.user.User;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 public class UserPanel
         extends VerticalLayout
 {
-    private static Label username;
+    private Label username;
 
     @PostConstruct
     private void init()
     {
         setStyleName( "accounts-left-panel" );
-        setWidth( "98%" );
-        setHeight( "500px" );
+        setSizeFull();
 
         VerticalLayout columns = new VerticalLayout();
         columns.setSpacing( true );
@@ -50,7 +53,7 @@ public class UserPanel
         addComponent( columns );
     }
 
-    private static AbstractLayout createPath()
+    private AbstractLayout createPath()
     {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setSpacing( true );
@@ -58,7 +61,7 @@ public class UserPanel
         layout.addComponent( new Label(">") );
         layout.addComponent( new Link("AD", null) );
         layout.addComponent( new Label(">") );
-        username = new Label( "tsi" );
+        username = new Label( "" );
         layout.addComponent( username );
         return layout;
     }
@@ -69,6 +72,5 @@ public class UserPanel
         String content = caption + " (" + user.getName() + ")";
         username.setPropertyDataSource(new ObjectProperty<String>(content, String.class)  );
 
-        //username.setCaption( content );
     }
 }
