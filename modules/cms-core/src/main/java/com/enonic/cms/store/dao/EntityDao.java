@@ -48,5 +48,12 @@ public interface EntityDao<T>
 
     void evict( T entity );
 
+    /**
+     * Calculates number of instances in database.
+     *
+     * @return number of instances
+     */
+    Long count( Class<T> clazz );
+
     HibernateTemplate getHibernateTemplate();
 }

@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.core.service;
 
+import java.util.List;
+
 import com.enonic.cms.core.security.user.User;
 
 public interface UserServicesService
@@ -21,4 +23,8 @@ public interface UserServicesService
     public String getMenuItem( User user, int mikey );
 
     public int getCurrentVersionKey( int contentKey );
+
+    List<User> browseAccount( String nameExpression, String orderBy, boolean orderAscending );
+
+    Long count();
 }

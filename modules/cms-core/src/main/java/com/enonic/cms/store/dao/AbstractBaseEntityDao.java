@@ -199,6 +199,21 @@ public abstract class AbstractBaseEntityDao<T>
         getHibernateTemplate().evict( object );
     }
 
+    public Long count( Class<T> clazz )
+    {
+        // TODO: count(*) is performance-down operation cause FULL TABLE SCAN operation in MSSQL, Oracle, pgSQL (not related to mysql only with myISAM engine!)
+        // refer http://www.sqlhacks.com/Optimize/Fast_Count for details.
+
+/*
+        String hql = "SELECT ROWS FROM sys.sysindexes WHERE id = OBJECT_ID('TUSER') AND indid = 1";
+        final Query query = createSQLQuery( hql );
+        return ( (Number) query.list().get( 0 ) ).longValue();
+*/
+
+        final int totalCount = findTotalCount( clazz, null );
+        return (long) totalCount;
+    }
+
     public int deleteByNamedQuery( final String queryName, String paramName, Object paramValue )
     {
         return executeByNamedQuery( queryName, paramName != null ? new String[]{paramName} : null,
@@ -289,6 +304,18 @@ public abstract class AbstractBaseEntityDao<T>
                 throws HibernateException, SQLException
             {
                 return session.createQuery( query );
+            }
+        } );
+    }
+
+    private Query createSQLQuery( final String query )
+    {
+        return (Query) this.hibernateTemplate.execute( new HibernateCallback()
+        {
+            public Object doInHibernate( Session session )
+                throws HibernateException, SQLException
+            {
+                return session.createSQLQuery( query );
             }
         } );
     }
