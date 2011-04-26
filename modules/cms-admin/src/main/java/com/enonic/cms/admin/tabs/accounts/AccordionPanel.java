@@ -11,32 +11,28 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.ui.Accordion;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 public class AccordionPanel
-        extends VerticalLayout
+        extends Accordion
 {
     @Autowired
     private FilterTreePanel filterTreePanel;
+
+    public AccordionPanel()
+    {
+        setSizeFull();
+    }
 
     @PostConstruct
     private void init()
     {
         addStyleName( "accounts-left-panel" );
-        setWidth( "180px" );
 
-        Accordion accordion = new Accordion();
-        accordion.setHeight( "500px" );
-        accordion.setWidth( "100%" );
-        accordion.addTab( filterTreePanel, "Filter", getIcon() );
-        accordion.addTab( new VerticalLayout(), "Recent", getIcon() );
-
-        addComponent( accordion );
+        addTab( filterTreePanel, "Filter", getIcon() );
+        addTab( new VerticalLayout(), "Recent", getIcon() );
     }
 
 

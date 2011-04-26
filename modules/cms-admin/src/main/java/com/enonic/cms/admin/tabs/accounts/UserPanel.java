@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
-import java.util.Date;
-
 import javax.annotation.PostConstruct;
 
 import org.springframework.context.annotation.Scope;

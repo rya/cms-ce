@@ -14,6 +14,7 @@ abstract public class AbstractBaseTab
     public AbstractBaseTab()
     {
         setMargin( true );
+        setSizeFull();
         TopLevelTab topLevelTab = getClass().getAnnotation( TopLevelTab.class );
         setCaption( topLevelTab.title() ); // TODO i18n
     }

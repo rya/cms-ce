@@ -1,8 +1,10 @@
 @import "../reindeer/styles.css";
 
 .accounts-left-panel {
+/*
     border: 1px solid #C2C3C4;
     margin-top: 15px;
+*/
 }
 
 .accounts-left-panel .accounts-check-title {
@@ -16,7 +18,9 @@
 .accounts-left-panel .v-accordion-item-caption {
     background-color: #95BCF2;
     font-weight: bold;
+    font-size: 102%;
     height: 24px;
+    padding-top: 4px;
     text-shadow: none;
 }
 
