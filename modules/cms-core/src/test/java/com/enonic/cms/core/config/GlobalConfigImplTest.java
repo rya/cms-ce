@@ -2,7 +2,6 @@ package com.enonic.cms.core.config;
 
 import com.google.common.collect.Maps;
 import org.junit.Test;
-import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
 
 import java.util.Map;
@@ -32,12 +31,12 @@ public class GlobalConfigImplTest
 
     private GlobalConfigImpl build()
     {
-        final DefaultConversionService converter = new DefaultConversionService();
-
+        GenericConversionService converterService = new GenericConversionService();
+        converterService.addConverter(new String2FileConverter());
         final Map<String, String> props = Maps.newHashMap();
         props.put("cms.home", "/some/folder");
         props.put("cms.xsl.maxRecursionDepth", "1");
 
-        return new GlobalConfigImpl(converter, props);
+        return new GlobalConfigImpl(converterService, props);
     }
 }
