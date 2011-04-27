@@ -11,6 +11,7 @@ import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 import com.enonic.cms.domain.EntityPageList;
@@ -23,7 +24,7 @@ public interface GroupDao
 
     GroupEntity findByKey( GroupKey groupKey );
 
-    Collection<GroupEntity> findAll( boolean includeDeleted );
+    List<GroupEntity> findAll( boolean includeDeleted );
 
     List<GroupEntity> findBySpecification( GroupSpecification specification );
 
@@ -57,7 +58,9 @@ public interface GroupDao
 
     GroupEntity findGlobalGroupByName( String name, boolean includeDeleted );
 
-    List<GroupEntity> browseAccount( String nameExpression, String orderBy, boolean orderAscending );
+    List<GroupEntity> findByCriteria( String nameExpression, String orderBy, boolean orderAscending );
+
+    List<GroupEntity> findByCriteria( AccordionSearchCriteria criteria );
 
     List<GroupEntity> findByQuery( GroupQuery spec );
 

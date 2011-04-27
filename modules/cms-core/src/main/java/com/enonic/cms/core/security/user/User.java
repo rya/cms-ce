@@ -6,13 +6,14 @@ package com.enonic.cms.core.security.user;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 import com.enonic.cms.domain.user.UserInfo;
 
 
-public interface User
+public interface User extends IAccordionPresentation
 {
     public static final String ROOT_UID = "admin";
 

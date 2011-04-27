@@ -23,6 +23,7 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
@@ -295,7 +296,7 @@ public class UserEntityDaoTest
     @Test
     public void findByEmailAndUserStore()
     {
-        final UserStoreEntity userStore = createUserStore();
+        final UserStoreEntity userStore = createUserStore( "TestName" );
 
         userStoreDao.storeNew( userStore );
 
@@ -347,7 +348,7 @@ public class UserEntityDaoTest
     }
 
     @Test
-    public void testBrowseAccount()
+    public void testFindByParameters()
     {
         // Setup of prerequisites
         UserEntity user = new UserEntity();
@@ -380,13 +381,106 @@ public class UserEntityDaoTest
         Assertions.assertCollectionWithOneItem( user, users );
     }
 
-    private UserStoreEntity createUserStore()
+    @Test
+    public void testFindByCriteria()
+    {
+        final UserStoreEntity userStore1 = createUserStore( "TestName1" );
+        userStoreDao.storeNew( userStore1 );
+        final UserStoreKey userStoreKey1 = userStore1.getKey();
+
+        final UserStoreEntity userStore2 = createUserStore( "TestName2" );
+        userStoreDao.storeNew( userStore2 );
+        final UserStoreKey userStoreKey2 = userStore2.getKey();
+
+        userStoreDao.getHibernateTemplate().flush();
+        userStoreDao.getHibernateTemplate().clear();
+
+        // Setup of prerequisites
+        UserEntity user1 = new UserEntity();
+        user1.setDeleted( false );
+        user1.setEmail( "email@example.com" );
+        user1.setDisplayName( "DisplayName" );
+        user1.setName( "uid" );
+        user1.setSyncValue( "syncValue" );
+        user1.setType( UserType.NORMAL );
+        user1.setTimestamp( new DateTime() );
+        user1.setUserStore( userStore1 );
+
+        userDao.storeNew( user1 );
+
+        UserEntity user2 = new UserEntity();
+        user2.setDeleted( false );
+        user2.setEmail( "email@example.com" );
+        user2.setDisplayName( "DisplayName" );
+        user2.setName( "uid" );
+        user2.setSyncValue( "syncValue" );
+        user2.setType( UserType.NORMAL );
+        user2.setTimestamp( new DateTime() );
+        user2.setUserStore( userStore2 );
+
+        userDao.storeNew( user2 );
+
+        UserEntity user3 = new UserEntity();
+        user3.setDeleted( false );
+        user3.setEmail( "email@example.com" );
+        user3.setDisplayName( "DisplayName" );
+        user3.setName( "PPuid-RR" );
+        user3.setSyncValue( "syncValue" );
+        user3.setType( UserType.NORMAL );
+        user3.setTimestamp( new DateTime() );
+        user3.setUserStore( userStore1 );
+
+        userDao.storeNew( user3 );
+
+        UserEntity user4 = new UserEntity();
+        user4.setDeleted( false );
+        user4.setEmail( "email@example.com" );
+        user4.setDisplayName( "DisplayName" );
+        user4.setName( "invalid" );
+        user4.setSyncValue( "syncValue" );
+        user4.setType( UserType.NORMAL );
+        user4.setTimestamp( new DateTime() );
+        user4.setUserStore( userStore1 );
+
+        userDao.storeNew( user4 );
+
+        GroupEntity userGroup = new GroupEntity();
+        userGroup.setDeleted( 0 );
+        userGroup.setDescription( null );
+        userGroup.setName( "userGroup" );
+        userGroup.setSyncValue( "sync" );
+        userGroup.setUser( user1 );
+        userGroup.setUser( user2 );
+        userGroup.setUser( user3 );
+        userGroup.setUser( user4 );
+        userGroup.setType( GroupType.USER );
+        userGroup.setRestricted( false );
+        groupDao.storeNew( userGroup );
+
+        user1.setUserGroup( userGroup );
+        user2.setUserGroup( userGroup );
+        user3.setUserGroup( userGroup );
+        user4.setUserGroup( userGroup );
+
+        userDao.getHibernateTemplate().flush();
+        userDao.getHibernateTemplate().clear();
+
+        AccordionSearchCriteria criteria = new AccordionSearchCriteria();
+        criteria.setNameExpression( "uid" );
+        criteria.appendUserStoreKey( userStoreKey1 );
+
+        List<UserEntity> users = userDao.findByCriteria( criteria );
+
+        Assertions.assertUnorderedArrayListEquals( new UserEntity[]{user1, user3}, users );
+    }
+
+    private UserStoreEntity createUserStore( String name )
     {
         final UserStoreEntity userStore = new UserStoreEntity();
 
         userStore.setDefaultStore( false );
         userStore.setDeleted( false );
-        userStore.setName( "TestName" );
+        userStore.setName( name );
         userStore.setConnectorName( "TestConnectorName" );
 
         final String configAsString = "<config><user-fields><first-name required=\"true\"/></user-fields></config>";

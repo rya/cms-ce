@@ -42,4 +42,6 @@
 
   <bean id="userDao" class="com.enonic.cms.store.dao.UserEntityDao"/>
 
+  <bean id="userStoreDao" class="com.enonic.cms.store.dao.UserStoreEntityDao"/>
+
 </beans>

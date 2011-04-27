@@ -12,6 +12,10 @@ import javax.inject.Inject;
 
 import org.springframework.util.Assert;
 
+import com.enonic.esl.util.UncheckedCastUtil;
+
+import com.enonic.cms.core.security.IAccordionPresentation;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.store.dao.CategoryAccessDao;
@@ -178,6 +182,14 @@ public class GroupStorageServiceImpl implements GroupStorageService
     public Long count()
     {
         return groupDao.count( GroupEntity.class );
+    }
+
+    @Override
+    public List<IAccordionPresentation> findByCriteria( AccordionSearchCriteria criteria )
+    {
+        return ( criteria.hasCriteria() )
+                ? UncheckedCastUtil.castList( groupDao.findByCriteria( criteria ), IAccordionPresentation.class )
+                : UncheckedCastUtil.castList( groupDao.findAll( false ), IAccordionPresentation.class );
     }
 
     @Inject

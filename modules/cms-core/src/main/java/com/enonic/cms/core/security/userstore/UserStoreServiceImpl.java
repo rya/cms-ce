@@ -23,7 +23,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import com.enonic.cms.core.VerticalProperties;
-
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.CreateGroupAccessException;
 import com.enonic.cms.core.security.group.DeleteGroupAccessException;
@@ -941,6 +940,17 @@ public class UserStoreServiceImpl
         {
             return false;
         }
+    }
+
+    @Override
+    public List<UserStoreEntity> findAll()
+    {
+        return userStoreDao.findAll();
+    }
+
+    public UserStoreEntity findByName( String name )
+    {
+        return userStoreDao.findByName( name );
     }
 
     public UserStoreEntity getDefaultUserStore()

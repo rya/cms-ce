@@ -27,6 +27,7 @@ import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 import com.enonic.cms.domain.EntityPageList;
@@ -140,7 +141,7 @@ public class GroupEntityDao
         return get( GroupEntity.class, groupKey );
     }
 
-    public Collection<GroupEntity> findAll( boolean includeDeleted )
+    public List<GroupEntity> findAll( boolean includeDeleted )
     {
         return findByNamedQuery( GroupEntity.class, "GroupEntity.findAll", "deleted", includeDeleted ? 1 : 0 );
     }
@@ -324,9 +325,8 @@ public class GroupEntityDao
     }
 
     @SuppressWarnings({"unchecked"})
-    public List<GroupEntity> browseAccount( final String nameExpression,
-                                            final String orderBy,
-                                            final boolean orderAscending )
+    public List<GroupEntity> findByCriteria( final String nameExpression, final String orderBy,
+                                             final boolean orderAscending )
     {
 
         return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()
@@ -349,6 +349,37 @@ public class GroupEntityDao
                 {
                     Order sortOrder = ( orderAscending ) ? Order.asc( orderBy ) : Order.desc( orderBy );
                     criteria.addOrder( sortOrder.ignoreCase() );
+                }
+
+                return criteria.list();
+            }
+        } );
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public List<GroupEntity> findByCriteria( final AccordionSearchCriteria acriteria )
+    {
+        return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()
+        {
+
+            public Object doInHibernate( Session session )
+                    throws HibernateException, SQLException
+            {
+
+                Criteria criteria = session.createCriteria( GroupEntity.class ).setCacheable( true );
+                criteria.add( Restrictions.eq( "deleted", 0 ) );
+
+                String nameExpression = acriteria.getNameExpression();
+                if ( !StringUtils.isEmpty( nameExpression ) )
+                {
+                    criteria.add( Restrictions.ilike( "name", nameExpression, MatchMode.ANYWHERE ) );
+
+                }
+
+                List<UserStoreKey> userStoreKeys = acriteria.getUserStoreKeys();
+                if ( !userStoreKeys.isEmpty() )
+                {
+                    criteria.add( Restrictions.in( "userStore.key", userStoreKeys ) );
                 }
 
                 return criteria.list();
