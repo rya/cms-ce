@@ -50,8 +50,10 @@ public class UserPanel
         column1.addComponent( createUserDataSection() );
 
         addComponent( column1 );
-
-        addComponent( createButtonLayout() );
+        setExpandRatio( column1, 2.0f );
+        com.vaadin.ui.Component buttonPane = createButtonLayout();
+        addComponent(buttonPane);
+        setExpandRatio( buttonPane, 1.0f );
 
     }
 
