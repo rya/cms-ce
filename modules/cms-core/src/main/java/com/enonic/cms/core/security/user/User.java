@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.core.security.user;
 
+import org.joda.time.DateTime;
+
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
-import org.joda.time.DateTime;
 
 import com.enonic.cms.domain.user.UserInfo;
 
@@ -16,6 +17,8 @@ public interface User
     public static final String ROOT_UID = "admin";
 
     public static final String ANONYMOUS_UID = "anonymous";
+
+    String NAME_PROPERTY = "name";
 
     UserKey getKey();
 

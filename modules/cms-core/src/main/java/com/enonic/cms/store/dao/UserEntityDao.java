@@ -7,7 +7,7 @@ package com.enonic.cms.store.dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.enonic.cms.core.security.userstore.UserStoreKey;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -21,12 +21,14 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+
+import com.enonic.cms.domain.EntityPageList;
 
 @Repository
 public class UserEntityDao
@@ -233,6 +235,42 @@ public class UserEntityDao
         } );
     }
 
+    @SuppressWarnings({"unchecked"})
+    public List<UserEntity> findByCriteria( final String nameExpression, final String orderBy,
+                                            final boolean orderAscending )
+    {
+
+        return (List<UserEntity>) getHibernateTemplate().execute( new HibernateCallback()
+        {
+
+            public Object doInHibernate( Session session )
+                    throws HibernateException, SQLException
+            {
+
+                Criteria criteria = session.createCriteria( UserEntity.class ).setCacheable( true );
+                criteria.add( Restrictions.eq( "deleted", 0 ) );
+//                criteria.add( Restrictions.ne( "type", UserType.ADMINISTRATOR.getKey() ) );
+
+                if ( !StringUtils.isEmpty( nameExpression ) )
+                {
+                    criteria.add( Restrictions.or( Restrictions.ilike( "name", nameExpression, MatchMode.ANYWHERE ),
+                                                   Restrictions.ilike( "displayName", nameExpression,
+                                                                       MatchMode.ANYWHERE ) ) );
+
+                }
+
+                if ( orderBy != null )
+                {
+                    Order sortOrder = ( orderAscending ) ? Order.asc( orderBy ) : Order.desc( orderBy );
+                    criteria.addOrder( sortOrder.ignoreCase() );
+                }
+
+                return criteria.list();
+            }
+        } );
+    }
+
+    @SuppressWarnings({"unchecked"})
     public List<UserEntity> findByQuery( final UserStoreKey userStoreKey, final String queryStr, final String orderBy,
                                          final boolean orderAscending )
     {

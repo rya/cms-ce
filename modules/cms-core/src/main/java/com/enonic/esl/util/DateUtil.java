@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+
 public class DateUtil
 {
 
@@ -45,6 +47,13 @@ public class DateUtil
 
     public static String formatISODate( Date date )
     {
+        return isoDateFormatNoTime.format( date );
+    }
+
+    public static String formatISODate( DateTime dateTime )
+    {
+        Date date = new Date(dateTime.getMillis());
+
         return isoDateFormatNoTime.format( date );
     }
 }

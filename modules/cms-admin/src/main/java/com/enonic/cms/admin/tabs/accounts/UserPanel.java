@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.admin.tabs.accounts;
 
 import com.enonic.cms.core.security.user.User;
@@ -11,7 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 public class UserPanel
         extends HorizontalLayout
 {
@@ -20,8 +24,7 @@ public class UserPanel
     private void init()
     {
         setStyleName( "accounts-left-panel" );
-        setWidth( "98%" );
-        setHeight( "500px" );
+        setSizeFull();
 
         setSpacing(true);
         setMargin(true);
@@ -91,7 +94,7 @@ public class UserPanel
         return vLayout;
     }
 
-    private static Button createButton(String caption){
+	    private static Button createButton(String caption){
         Button button = new Button(caption);
         button.setWidth(100, Sizeable.UNITS_PIXELS);
         return button;

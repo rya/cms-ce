@@ -28,16 +28,14 @@ final class AdminWindow
 
     public AdminWindow()
     {
-        setWidth("100%");
-        setHeight( "900px" );
         setCaption( "Enonic CMS" );
+        setSizeFull();
     }
 
     @PostConstruct
     void init() {
         TabSheet tabSheet = new TabSheet();
-        tabSheet.setHeight( "650px" );
-        tabSheet.setWidth("100%");
+        tabSheet.setSizeFull();
 
         Map<String, AbstractBaseTab> tabs = applicationContext.getBeansOfType( AbstractBaseTab.class );
         for (AbstractBaseTab tab : tabs.values()) {

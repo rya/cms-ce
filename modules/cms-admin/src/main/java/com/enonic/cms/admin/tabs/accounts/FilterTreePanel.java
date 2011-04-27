@@ -1,4 +1,10 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.admin.tabs.accounts;
+
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -12,6 +18,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import com.enonic.cms.core.security.group.GroupStorageService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
@@ -22,10 +29,13 @@ public class FilterTreePanel
         extends VerticalLayout
 {
     @Autowired
-    private UserPanel userPanel;
+    private TablePanel tablePanel;
 
     @Autowired
-    private UserServicesService userServicesService;
+    private transient UserServicesService userServicesService;
+
+    @Autowired
+    private transient GroupStorageService groupStorageService;
 
     @PostConstruct
     private void init()
@@ -40,6 +50,9 @@ public class FilterTreePanel
         search.setInputPrompt( "search" );
         search.setStyleName( "accounts-search-text" );
 
+        // init table
+        List<User> users = userServicesService.findAll();
+        tablePanel.showUsers(users);
 
         search.addListener( new FieldEvents.TextChangeListener() {
             public void textChange( FieldEvents.TextChangeEvent event ) {
@@ -51,8 +64,15 @@ public class FilterTreePanel
         column.addComponent( search );
 
         column.addComponent( createBoldLabel( "Type" ) );
-        column.addComponent( createCheckBox( "Users (456)" ) );
-        column.addComponent( createCheckBox( "Groups (4)" ) );
+        // Users
+        Long count = userServicesService.count();
+        String present = String.format("Users (%s)", count);
+        column.addComponent( createCheckBox( present ) );
+
+        // Groups
+        count = groupStorageService.count();
+        present = String.format("Groups (%s)", count);
+        column.addComponent( createCheckBox( present ) );
 
         column.addComponent( createBoldLabel( "Userstores" ) );
         column.addComponent( createCheckBox( "AD (10)" ) );
