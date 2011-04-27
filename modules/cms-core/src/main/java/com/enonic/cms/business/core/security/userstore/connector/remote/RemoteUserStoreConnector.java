@@ -44,6 +44,7 @@ import com.enonic.cms.domain.security.user.UserType;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
 import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
@@ -77,7 +78,20 @@ public class RemoteUserStoreConnector
 
     public boolean canUpdateUser()
     {
-        return connectorConfig.canUpdateUser();
+        return connectorConfig.canUpdateUser() || userStoreHasEditableUserFields();
+    }
+
+    private boolean userStoreHasEditableUserFields()
+    {
+        Collection<UserStoreUserFieldConfig> fields = userStoreConfig.getLocalOnlyUserFieldConfigs();
+        for ( UserStoreUserFieldConfig field : fields )
+        {
+            if ( !field.isReadOnly() )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean canUpdateUserPassword()
@@ -165,8 +179,15 @@ public class RemoteUserStoreConnector
     {
         if ( !connectorConfig.canUpdateUser() )
         {
-            throw new UserStoreConnectorPolicyBrokenException( userStoreName, connectorName,
-                                                               "Trying to update user without 'update' policy" );
+            if ( userStoreHasEditableUserFields() )
+            {
+                updateLocalFieldsOfRemoteUser( command );
+            }
+            else
+            {
+                throw new UserStoreConnectorPolicyBrokenException( userStoreName, connectorName,
+                                                                   "Trying to update user without 'update' policy" );
+            }
         }
 
         final UserEntity userToUpdate = userDao.findSingleBySpecification( command.getSpecification() );
@@ -180,7 +201,7 @@ public class RemoteUserStoreConnector
 
         if ( remoteUser == null )
         {
-            throw new RuntimeException( "User does not found in remote userstore '" + userStoreName + "' from specification: " +
+            throw new RuntimeException( "User not found in remote userstore '" + userStoreName + "' from specification: " +
                 command.getSpecification().toString() );
         }
 
@@ -196,6 +217,28 @@ public class RemoteUserStoreConnector
         {
             updateMembershipsRemote( userToUpdate, remoteUser, command.getMemberships() );
         }
+
+        updateUserLocally( command );
+    }
+
+    public void updateLocalFieldsOfRemoteUser( final UpdateUserCommand command )
+    {
+        final UserEntity userToUpdate = userDao.findSingleBySpecification( command.getSpecification() );
+
+        if ( userToUpdate == null )
+        {
+            throw new UserNotFoundException( command.getSpecification() );
+        }
+
+        final RemoteUser remoteUser = remoteUserStorePlugin.getUser( userToUpdate.getName() );
+
+        if ( remoteUser == null )
+        {
+            throw new RuntimeException( "User not found in remote userstore '" + userStoreName + "' from specification: " +
+                                            command.getSpecification().toString() );
+        }
+
+        updateUserModifiableValues( command, remoteUser );
 
         updateUserLocally( command );
     }
