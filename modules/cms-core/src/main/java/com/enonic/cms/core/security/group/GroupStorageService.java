@@ -4,6 +4,11 @@
  */
 package com.enonic.cms.core.security.group;
 
+import java.util.List;
+
+import com.enonic.cms.core.security.IAccordionPresentation;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
+
 public interface GroupStorageService
 {
 
@@ -18,4 +23,6 @@ public interface GroupStorageService
     void deleteGroup( final DeleteGroupCommand command );
 
     Long count();
+
+    List<IAccordionPresentation> findByCriteria( AccordionSearchCriteria criteria );
 }

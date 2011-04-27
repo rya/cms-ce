@@ -6,6 +6,8 @@ package com.enonic.cms.core.service;
 
 import java.util.List;
 
+import com.enonic.cms.core.security.IAccordionPresentation;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.User;
 
 public interface UserServicesService
@@ -26,7 +28,7 @@ public interface UserServicesService
 
     List<User> findByCriteria( String nameExpression, String orderBy, boolean orderAscending );
 
-    List<User> findAll();
+    List<IAccordionPresentation> findByCriteria( AccordionSearchCriteria criteria );
 
     Long count();
 }

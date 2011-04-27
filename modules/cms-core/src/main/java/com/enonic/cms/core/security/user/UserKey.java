@@ -14,7 +14,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import com.enonic.cms.domain.InvalidKeyException;
 
 public class UserKey
-    implements Serializable
+    implements Comparable<UserKey>, Serializable
 {
 
     private String value;
@@ -28,6 +28,11 @@ public class UserKey
             key = key.substring( 1 );
         }
         init( key );
+    }
+
+    @Override
+    public int compareTo(UserKey arg0) {
+      return this.value.compareTo(arg0.value);
     }
 
     private void init( String value )

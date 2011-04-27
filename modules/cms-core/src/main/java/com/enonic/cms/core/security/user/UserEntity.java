@@ -6,30 +6,34 @@ package com.enonic.cms.core.security.user;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.group.GroupType;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 
 import com.google.common.collect.Maps;
 
+import com.enonic.esl.util.DateUtil;
+
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+
 import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
 
 public class UserEntity
-    implements User, Serializable
+    implements User, Comparable<UserEntity>, Serializable
 {
     private UserKey key;
 
@@ -86,6 +90,11 @@ public class UserEntity
         this.photo = source.getPhoto();
         this.password = source.getPassword();
         this.fieldMap = source.getFieldMap() != null ? Maps.newHashMap( source.getFieldMap() ) : null;
+    }
+
+    @Override
+    public int compareTo(UserEntity arg0) {
+      return this.getKey().compareTo(arg0.getKey());
     }
 
     public UserKey getKey()
@@ -492,5 +501,23 @@ public class UserEntity
     public void setPhoto( byte[] photo )
     {
         this.photo = photo;
+    }
+
+    @Override
+    public Date getLastModified()
+    {
+        return timestamp != null ? new Date(timestamp.getMillis()) : null;
+    }
+
+    @Override
+    public String getISODate()
+    {
+        return timestamp != null ? DateUtil.formatISODate( timestamp ) : "";
+    }
+
+    @Override
+    public String getTypeName()
+    {
+        return type.getName();
     }
 }

@@ -6,6 +6,7 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
@@ -40,6 +41,8 @@ public interface UserDao
     List<UserEntity> findByUserStoreKey( UserStoreKey userStoreKey, Integer index, Integer count, boolean includeDeleted );
 
     List<UserEntity> findByCriteria( String nameExpression, String orderBy, boolean orderAscending );
+
+    List<UserEntity> findByCriteria( AccordionSearchCriteria criteria );
 
     List<UserEntity> findByQuery( UserStoreKey userStoreKey, String queryStr, String orderBy, boolean orderAscending );
 

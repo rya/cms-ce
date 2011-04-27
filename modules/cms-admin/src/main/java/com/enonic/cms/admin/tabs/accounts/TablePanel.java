@@ -8,18 +8,16 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import com.vaadin.event.ItemClickEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Table;
 
-import com.enonic.esl.util.DateUtil;
-
-import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.IAccordionPresentation;
 
 @Component
 @Scope("vaadin")
@@ -27,8 +25,11 @@ public class TablePanel
         extends Table
 {
     private static final String TYPE = "type";
+
     private static final String DISPLAY_NAME = "display name";
+
     private static final String QUALIFIED_NAME = "qualified name";
+
     private static final String LAST_MODIFIED = "last modified";
 
     @Autowired
@@ -47,42 +48,36 @@ public class TablePanel
         container.addContainerProperty( QUALIFIED_NAME, String.class, null );
         container.addContainerProperty( LAST_MODIFIED, String.class, null );
 
-        this.addListener(new ItemClickEvent.ItemClickListener() {
+        this.addListener( new ItemClickEvent.ItemClickListener()
+        {
             @Override
-            public void itemClick(ItemClickEvent itemClickEvent) {
-                String userName = itemClickEvent.getItem().getItemProperty(QUALIFIED_NAME).toString();
+            public void itemClick( ItemClickEvent itemClickEvent )
+            {
+                String userName = itemClickEvent.getItem().getItemProperty( QUALIFIED_NAME ).toString();
                 userPanel.showUser( userName );
             }
-        });
-        setContainerDataSource(container);
+        } );
+        setContainerDataSource( container );
     }
 
-    public void showUsers( List<User> users )
+    public void showIssues( List<IAccordionPresentation> issues )
     {
-        String caption = users.isEmpty() ? "" : String.format( "%s matches", users.size() );
+        String caption = issues.isEmpty() ? "" : String.format( "%s matches", issues.size() );
         setCaption( caption );
 
         Container container = getContainerDataSource();
         container.removeAllItems();
 
-        for ( User user : users )
+        for ( IAccordionPresentation issue : issues )
         {
             Object id = container.addItem();
-            container
-                    .getContainerProperty( id, TYPE )
-                    .setValue( user.getType().getName() );
+            container.getContainerProperty( id, TYPE ).setValue( issue.getTypeName() );
 
-            container
-                    .getContainerProperty( id, DISPLAY_NAME )
-                    .setValue( user.getDisplayName() );
+            container.getContainerProperty( id, DISPLAY_NAME ).setValue( issue.getDisplayName() );
 
-            container
-                    .getContainerProperty( id, QUALIFIED_NAME )
-                    .setValue( user.getQualifiedName() );
+            container.getContainerProperty( id, QUALIFIED_NAME ).setValue( issue.getQualifiedName().toString() );
 
-            container
-                    .getContainerProperty( id, LAST_MODIFIED )
-                    .setValue( DateUtil.formatISODate( user.getTimestamp() ) );
+            container.getContainerProperty( id, LAST_MODIFIED ).setValue( issue.getISODate() );
         }
     }
 }
