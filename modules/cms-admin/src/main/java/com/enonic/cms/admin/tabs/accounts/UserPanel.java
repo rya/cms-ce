@@ -11,6 +11,7 @@ import com.vaadin.data.Property;
 import com.vaadin.data.util.MethodProperty;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.terminal.Sizeable;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 
@@ -125,9 +126,9 @@ public class UserPanel
             }
         };
         Label usIdLabel = new Label( usIdProperty );
-        Label pic = new Label( "pic" );
+        Embedded icon = new Embedded("", new ThemeResource( "images/no_avatar.gif" ));
         gridLayout.addComponent( nameLabel, 0, 0, 2, 0 );
-        gridLayout.addComponent( pic, 0, 1, 0, 3 );
+        gridLayout.addComponent( icon, 0, 1, 0, 3 );
         gridLayout.addComponent( emailTitle, 1, 1 );
         gridLayout.addComponent( emailLabel, 2, 1 );
         gridLayout.addComponent( usIdTitle, 1, 2 );
