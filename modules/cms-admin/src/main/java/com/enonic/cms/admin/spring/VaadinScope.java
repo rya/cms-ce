@@ -13,16 +13,18 @@ import org.springframework.web.context.request.SessionScope;
 
 
 /**
+ * <p>
  * vaadin scope
- *
+ * </p><p>
  * prototype scope is not enough for vaadin: AccountsTab and FilterTreePanel will have different UserPanel objects
- *
+ * </p><p>
  * references can be stored-found in map kept in session (fast but spends memory - this solution),
- * or searched in vaadin application - that already stored in session - this is slow
- *
- * session scope may be used too, but this solution will increase session map.
- *
- * anyway if vaadin scope may just keep object in session adding prefix to name
+ * or searched in vaadin application - that is already stored in session - this is slow
+ * </p><p>
+ * session scope may be used instead, but this solution will increase session map.
+ * </p><p>
+ * anyway vaadin scope may just keep object in session adding prefix to name
+ * </p>
  */
 public class VaadinScope
         extends SessionScope
@@ -44,7 +46,7 @@ public class VaadinScope
     @Override
     public Object get( String name, ObjectFactory objectFactory )
     {
-        Map<String, Object> objects = (Map<String, Object>)super.get( VAADIN_OBJECTS_MAP, factory );
+        Map<String, Object> objects = getObjects();
 
         Object object = objects.get( name );
 
@@ -59,8 +61,13 @@ public class VaadinScope
     @Override
     public Object remove( String name )
     {
-        Map<String, Object> objects = (Map<String, Object>)super.get( VAADIN_OBJECTS_MAP, factory );
-        return objects.remove( name );
+        return getObjects().remove( name );
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> getObjects()
+    {
+        return (Map<String, Object>) super.get( VAADIN_OBJECTS_MAP, factory );
     }
 
 }

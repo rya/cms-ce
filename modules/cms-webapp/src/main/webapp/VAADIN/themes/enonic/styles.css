@@ -25,7 +25,10 @@
 }
 
 .accounts-left-panel .v-accordion-item-open .v-accordion-item-caption {
-    background: #95BCF2 none;
+    background: url("common/img/sel-bg.png") repeat-x scroll 0 0 #4D749F  ;
+    color: white;
+    text-shadow: 0 1px 0 #3B5A7A;
+    /*background: #95BCF2 none;*/
 }
 
 .accounts-left-panel .v-accordion-item-caption {
