@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.event.FieldEvents;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
@@ -24,7 +25,7 @@ import com.enonic.cms.core.service.UserServicesService;
 
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 public class FilterTreePanel
         extends VerticalLayout
 {
@@ -41,12 +42,14 @@ public class FilterTreePanel
     private void init()
     {
         setStyleName( "accounts-spacer" );
+        setSizeFull();
         setMargin( true );
 
         VerticalLayout column = new VerticalLayout();
+        column.setSizeFull();
 
         final TextField search = new TextField();
-        search.setWidth( "162px" );
+        search.setWidth( "100%" );
         search.setInputPrompt( "search" );
         search.setStyleName( "accounts-search-text" );
 
@@ -62,38 +65,47 @@ public class FilterTreePanel
         });
 
         column.addComponent( search );
+        column.setExpandRatio( search, 0 );
 
-        column.addComponent( createBoldLabel( "Type" ) );
+        createBoldLabel( column, "Type"  );
         // Users
         Long count = userServicesService.count();
         String present = String.format("Users (%s)", count);
-        column.addComponent( createCheckBox( present ) );
+        createCheckBox( column, present  );
 
         // Groups
         count = groupStorageService.count();
         present = String.format("Groups (%s)", count);
-        column.addComponent( createCheckBox( present ) );
+        createCheckBox( column, present  );
 
-        column.addComponent( createBoldLabel( "Userstores" ) );
-        column.addComponent( createCheckBox( "AD (10)" ) );
-        column.addComponent( createCheckBox( "Community (134)" ) );
-        column.addComponent( createCheckBox( "LDAP2 (43)" ) );
+        createBoldLabel( column, "Userstores"  );
+        createCheckBox( column, "AD (10)"  );
+        createCheckBox( column, "Community (134)"  );
+
+        for (int i=0;i<10;i++)
+        createCheckBox( column, "LDAP2 (43)"  );
 
         addComponent( column );
+        setComponentAlignment( column, Alignment.TOP_LEFT );
     }
 
 
-    private Label createBoldLabel( String name )
+    private void createBoldLabel( VerticalLayout column, String name )
     {
         Label label = new Label( name );
         label.setStyleName( "accounts-check-title" );
-        return label;
+        column.addComponent( label );
+        column.setExpandRatio( label, 0 );
+        column.setComponentAlignment( label, Alignment.TOP_LEFT );
     }
 
-    private CheckBox createCheckBox( String title )
+    private void createCheckBox( VerticalLayout column, String title )
     {
         CheckBox checkBox = new CheckBox( title );
         checkBox.setStyleName( "accounts-check-filter" );
-        return checkBox;
+
+        column.addComponent( checkBox );
+        column.setExpandRatio( checkBox, 0 );
+        column.setComponentAlignment( checkBox, Alignment.TOP_LEFT );
     }
 }

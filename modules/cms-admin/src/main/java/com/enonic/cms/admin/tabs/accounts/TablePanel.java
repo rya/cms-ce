@@ -34,8 +34,7 @@ public class TablePanel
     {
         setStyleName( "accounts-table" );
         setSelectable( true );
-        setWidth( "450px" );
-        setHeight( "500px" );
+        setSizeFull();
 
         IndexedContainer container = new IndexedContainer();
         container.addContainerProperty( TYPE, String.class, null );

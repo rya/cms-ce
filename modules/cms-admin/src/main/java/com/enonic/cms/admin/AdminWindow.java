@@ -14,17 +14,18 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
 import com.enonic.cms.admin.tabs.AbstractBaseTab;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 final class AdminWindow
     extends Window
 {
     @Resource
-    private ApplicationContext applicationContext;
+    private transient ApplicationContext applicationContext;
 
     public AdminWindow()
     {
@@ -34,6 +35,9 @@ final class AdminWindow
 
     @PostConstruct
     void init() {
+        VerticalLayout layout = new VerticalLayout();
+        layout.setSizeFull();
+
         TabSheet tabSheet = new TabSheet();
         tabSheet.setSizeFull();
 
@@ -42,7 +46,10 @@ final class AdminWindow
             tabSheet.addTab( tab );
         }
 
-        addComponent(tabSheet);
+        layout.addComponent(tabSheet);
+        layout.setExpandRatio(tabSheet, 1);
+
+        setContent(layout);
     }
 
 }

@@ -12,7 +12,7 @@ import com.vaadin.ui.Label;
 import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 @TopLevelTab(title = "System", order = 4096)
 public class SystemTab
         extends AbstractBaseTab

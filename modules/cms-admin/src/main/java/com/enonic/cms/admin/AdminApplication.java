@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.vaadin.Application;
 
 @Component
-@Scope("prototype")
+@Scope("vaadin")
 final class AdminApplication
     extends Application
 {

@@ -4,11 +4,8 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
-import com.enonic.cms.core.security.user.User;
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.terminal.Sizeable;
-import com.vaadin.ui.*;
-import com.vaadin.ui.themes.BaseTheme;
+import javax.annotation.PostConstruct;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
