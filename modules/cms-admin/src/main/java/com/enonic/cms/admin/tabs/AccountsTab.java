@@ -6,6 +6,10 @@ package com.enonic.cms.admin.tabs;
 
 import javax.annotation.PostConstruct;
 
+import com.enonic.cms.admin.tabs.accounts.AccordionPanel;
+import com.enonic.cms.admin.tabs.accounts.TablePanel;
+import com.enonic.cms.admin.tabs.accounts.UserPanel;
+import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

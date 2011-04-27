@@ -57,13 +57,6 @@ public class FilterTreePanel
         List<User> users = userServicesService.findAll();
         tablePanel.showUsers(users);
 
-        search.addListener( new FieldEvents.TextChangeListener() {
-            public void textChange( FieldEvents.TextChangeEvent event ) {
-                //User user = userServicesService.getAnonymousUser();
-                //userPanel.showUser(user, event.getText());
-            }
-        });
-
         column.addComponent( search );
         column.setExpandRatio( search, 0 );
 

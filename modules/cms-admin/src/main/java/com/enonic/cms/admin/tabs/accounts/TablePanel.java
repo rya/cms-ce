@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.vaadin.event.ItemClickEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +31,9 @@ public class TablePanel
     private static final String QUALIFIED_NAME = "qualified name";
     private static final String LAST_MODIFIED = "last modified";
 
+    @Autowired
+    private UserPanel userPanel;
+
     @PostConstruct
     private void init()
     {
@@ -42,7 +47,14 @@ public class TablePanel
         container.addContainerProperty( QUALIFIED_NAME, String.class, null );
         container.addContainerProperty( LAST_MODIFIED, String.class, null );
 
-        setContainerDataSource( container );
+        this.addListener(new ItemClickEvent.ItemClickListener() {
+            @Override
+            public void itemClick(ItemClickEvent itemClickEvent) {
+                String userName = itemClickEvent.getItem().getItemProperty(QUALIFIED_NAME).toString();
+                userPanel.showUser( userName );
+            }
+        });
+        setContainerDataSource(container);
     }
 
     public void showUsers( List<User> users )
