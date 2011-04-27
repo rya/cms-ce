@@ -60,17 +60,20 @@ var CMSLinkDialog = {
         var ed = tinyMCEPopup.editor;
         var dom = ed.dom;
         var hrefVal = dom.getAttrib( selectedNode, 'href' );
-        var targetVal = dom.getAttrib( selectedNode, 'target' );
         var titleVal =  dom.getAttrib( selectedNode, 'title' );
         var relVal = dom.getAttrib( selectedNode, 'rel' );
         var linkType = getLinkType( hrefVal );
         var linkTypeUrlField = 'input-' + linkType;
+        var targetVal = dom.getAttrib( selectedNode, 'target' );
+
+        this.onChangeLinkType( linkType );
+
+        if ( hrefVal.indexOf('download=true') > -1 )
+            targetVal = 'download';
 
         setFormElemValue( 'targetlist', targetVal );
         setFormElemValue( 'title', titleVal );
         setFormElemValue( 'rel', relVal );
-
-        this.onChangeLinkType( linkType );
 
         var selectedIsUrlOrMailLink = linkTypeUrlField === 'input-standard' || linkTypeUrlField === 'input-mail';
         var selectedIsAnchor = linkTypeUrlField === 'input-anchor';
@@ -89,6 +92,8 @@ var CMSLinkDialog = {
 
     onChangeLinkType : function( linkType )
     {
+        this.handleTargetForTypeFile( linkType )
+
         var linkTypeSelectElem = document.getElementById( 'link-type' );
         var urlFieldContainers = document.getElementById( 'url-field-containers').getElementsByTagName( 'tr' );
         var urlFieldToDisplay = document.getElementById( linkType + '-field-container' );
@@ -105,6 +110,29 @@ var CMSLinkDialog = {
                 urlFieldContainer.style.display = ( urlFieldContainer === urlFieldToDisplay ) ? '' : 'none';
             }
         }
+
+    },
+
+    handleTargetForTypeFile: function( linkType )
+    {
+        var targetList = document.getElementById('targetlist');
+        var selected = targetList.selectedIndex;
+
+        removeAllDropdownOptions( targetList );
+
+        addDropdownOption( targetList, cmslang.optOpenExistingWindow, '' );
+
+        if ( linkType !== 'file' )
+        {
+            addDropdownOption( targetList, cmslang.optURLOpenNewWindow, '_blank' );
+        }
+
+        if ( linkType === 'file' )
+        {
+            addDropdownOption( targetList, cmslang.optDownloadFile, 'download' );
+        }
+
+        targetList.selectedIndex = selected;
     },
 
     insertLinkAction : function()
@@ -226,6 +254,18 @@ function setAllAttribs( elm ) {
     var selectedLinkType = getLinkTypeValue();
     var href = getFormElementValue('input-' + selectedLinkType);
 	var target = getSelectValue(formObj, 'targetlist');
+
+    var isDownloadFileEqTrue = target === 'download';
+    if ( isDownloadFileEqTrue )
+    {
+        target = '';
+        var hrefValueHasParameters = href.indexOf('?') > -1 || href.indexOf('&') > -1;
+        href = hrefValueHasParameters ? ( href + '&download=true' ) : ( href + '?download=true' )
+    }
+    else
+    {
+       href = href.replace(/(\?|&)download=true/gim, '');
+    }
 
 	setAttrib(elm, 'href', href);
 	setAttrib(elm, 'title');
@@ -391,6 +431,22 @@ function getKeyFromInternalUrl( url )
 function getLinkTypeValue()
 {
     return document.forms['formAdmin']['link-type'].value;
+}
+
+function addDropdownOption( dropdown, labelText, value )
+{
+    dropdown.options[dropdown.options.length] = new Option( labelText, value );
+}
+
+function removeAllDropdownOptions( dropdown )
+{
+    if ( dropdown === null )
+        return;
+
+    while ( dropdown.hasChildNodes() )
+    {
+        dropdown.removeChild( dropdown.firstChild );
+    }
 }
 
 function getAnchorListHTML( selectedLinkHrefValue )

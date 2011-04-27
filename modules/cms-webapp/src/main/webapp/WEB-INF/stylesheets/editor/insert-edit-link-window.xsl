@@ -51,6 +51,9 @@
             cmdUpdateLink : "%cmdUpdateLink%",
             errInvalidLink : "%errInvalidLink%",
             contentRepositories : '%headContentRepositories%',
+            optOpenExistingWindow : '%optOpenInExistingWindow%',
+            optURLOpenNewWindow : '%optURLOpenNewWindow%',
+            optDownloadFile : '%optDownloadFile%',
             sites : '%headMenus%'
           }
 
@@ -200,8 +203,7 @@
                     </td>
                     <td id="targetlistcontainer">
                       <select name="target" id="targetlist">
-                        <option value="">%optOpenExistingWindow%</option>
-                        <option value="_blank" selected="selected">%optDownloadFile%</option>
+                          <!-- Populated by cms_link_dialog.js -->
                       </select>
                     </td>
                   </tr>
