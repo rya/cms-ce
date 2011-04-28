@@ -4,14 +4,12 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
-import java.awt.Desktop;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
@@ -23,8 +21,7 @@ import com.vaadin.ui.Table;
 import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.user.User;
 
-@Component
-@Scope("vaadin")
+@VaadinComponent
 public class TablePanel
         extends Table
 {
@@ -106,13 +103,13 @@ public class TablePanel
         {
             Item item = container.addItem( issue );
 
-            item.getItemProperty( TYPE ).setValue( issue.getTypeName() );
+            item.getItemProperty(TYPE).setValue(issue.getTypeName());
 
-            item.getItemProperty( DISPLAY_NAME ).setValue( issue.getDisplayName() );
+            item.getItemProperty(DISPLAY_NAME).setValue(issue.getDisplayName());
 
-            item.getItemProperty( QUALIFIED_NAME ).setValue( issue.getQualifiedName().toString() );
+            item.getItemProperty(QUALIFIED_NAME).setValue(issue.getQualifiedName().toString());
 
-            item.getItemProperty( LAST_MODIFIED ).setValue( issue.getISODate() );
+            item.getItemProperty(LAST_MODIFIED).setValue(issue.getISODate());
         }
     }
 }

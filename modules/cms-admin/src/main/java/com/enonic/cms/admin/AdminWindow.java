@@ -9,9 +9,8 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
@@ -19,8 +18,7 @@ import com.vaadin.ui.Window;
 
 import com.enonic.cms.admin.tabs.AbstractBaseTab;
 
-@Component
-@Scope("vaadin")
+@VaadinComponent
 final class AdminWindow
     extends Window
 {

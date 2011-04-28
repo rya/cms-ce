@@ -6,15 +6,13 @@ package com.enonic.cms.admin.tabs.accounts;
 
 import javax.annotation.PostConstruct;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.VerticalLayout;
 
-@Component
-@Scope("vaadin")
+@VaadinComponent
 public class AccordionPanel
         extends Accordion
 {

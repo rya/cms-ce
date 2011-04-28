@@ -7,7 +7,6 @@ package com.enonic.cms.admin;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -22,19 +21,16 @@ public final class AdminServlet
     protected Application getNewApplication( final HttpServletRequest req )
         throws ServletException
     {
-        ServletContext servletContext = req.getSession().getServletContext();
+        final ServletContext servletContext = req.getSession().getServletContext();
 
-        WebApplicationContext springWebApplicationContext =
+        final WebApplicationContext springWebApplicationContext =
                 WebApplicationContextUtils.getRequiredWebApplicationContext( servletContext );
 
-        AdminApplication adminApplication = springWebApplicationContext.getBean( AdminApplication.class );
-
-        return adminApplication;
+        return springWebApplicationContext.getBean( getApplicationClass() );
     }
 
     @Override
     protected Class<? extends Application> getApplicationClass()
-        throws ClassNotFoundException
     {
         return AdminApplication.class;
     }

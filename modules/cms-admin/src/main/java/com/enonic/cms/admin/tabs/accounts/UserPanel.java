@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.vaadin.data.Property;
-import com.vaadin.data.util.MethodProperty;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.ThemeResource;
@@ -16,15 +16,12 @@ import com.vaadin.ui.*;
 import com.vaadin.ui.themes.BaseTheme;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
 import java.util.List;
 
-@Component
-@Scope("vaadin")
+@VaadinComponent
 public class UserPanel
         extends HorizontalLayout
 {
@@ -53,7 +50,7 @@ public class UserPanel
         setExpandRatio( column1, 2.0f );
         com.vaadin.ui.Component buttonPane = createButtonLayout();
         addComponent(buttonPane);
-        setExpandRatio( buttonPane, 1.0f );
+        setExpandRatio(buttonPane, 1.0f);
 
     }
 

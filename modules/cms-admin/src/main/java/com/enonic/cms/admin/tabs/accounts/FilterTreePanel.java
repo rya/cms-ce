@@ -11,9 +11,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
@@ -32,8 +31,7 @@ import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.UserServicesService;
 
 
-@Component
-@Scope("vaadin")
+@VaadinComponent
 public class FilterTreePanel
         extends VerticalLayout
 {
@@ -167,7 +165,7 @@ public class FilterTreePanel
     private AccordionSearchCriteria populateSearchCriteria( String nameExpression )
     {
         AccordionSearchCriteria criteria = new AccordionSearchCriteria();
-        criteria.setNameExpression( nameExpression );
+        criteria.setNameExpression(nameExpression);
 
         for ( Map.Entry<String, CheckBox> entry : userStoresMap.entrySet() )
         {
@@ -199,6 +197,6 @@ public class FilterTreePanel
             issues.addAll( groupStorageService.findByCriteria( criteria ) );
         }
 
-        tablePanel.showIssues( issues );
+        tablePanel.showIssues(issues);
     }
 }

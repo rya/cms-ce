@@ -4,14 +4,12 @@
  */
 package com.enonic.cms.admin;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 import com.vaadin.Application;
 
-@Component
-@Scope("vaadin")
+@VaadinComponent
 final class AdminApplication
     extends Application
 {
