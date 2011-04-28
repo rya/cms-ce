@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
+import java.awt.Desktop;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,11 +14,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.vaadin.data.Container;
+import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Table;
 
 import com.enonic.cms.core.security.IAccordionPresentation;
+import com.enonic.cms.core.security.user.User;
 
 @Component
 @Scope("vaadin")
@@ -31,6 +35,14 @@ public class TablePanel
     private static final String QUALIFIED_NAME = "qualified name";
 
     private static final String LAST_MODIFIED = "last modified";
+
+    private static final Action ACTION_EDIT = new Action( "Edit" );
+
+    private static final Action ACTION_DELETE = new Action( "Delete" );
+
+    private static final Action ACTION_COPY = new Action( "Copy" );
+
+    private static final Action ACTION_CHANGEPWD = new Action( "Change password" );
 
     @Autowired
     private UserPanel userPanel;
@@ -48,6 +60,28 @@ public class TablePanel
         container.addContainerProperty( QUALIFIED_NAME, String.class, null );
         container.addContainerProperty( LAST_MODIFIED, String.class, null );
 
+        this.addActionHandler( new Action.Handler()
+        {
+
+            @Override
+            public Action[] getActions( Object o, Object o1 )
+            {
+                if ( o instanceof User )
+                {
+                    return new Action[]{ACTION_COPY, ACTION_EDIT, ACTION_DELETE, ACTION_CHANGEPWD};
+                }
+                else
+                {
+                    return new Action[]{ACTION_COPY, ACTION_EDIT, ACTION_DELETE};
+                }
+            }
+
+            @Override
+            public void handleAction( Action action, Object o, Object o1 )
+            {
+                //TODO: add handlers for each action
+            }
+        } );
         this.addListener( new ItemClickEvent.ItemClickListener()
         {
             @Override
@@ -70,14 +104,15 @@ public class TablePanel
 
         for ( IAccordionPresentation issue : issues )
         {
-            Object id = container.addItem();
-            container.getContainerProperty( id, TYPE ).setValue( issue.getTypeName() );
+            Item item = container.addItem( issue );
 
-            container.getContainerProperty( id, DISPLAY_NAME ).setValue( issue.getDisplayName() );
+            item.getItemProperty( TYPE ).setValue( issue.getTypeName() );
 
-            container.getContainerProperty( id, QUALIFIED_NAME ).setValue( issue.getQualifiedName().toString() );
+            item.getItemProperty( DISPLAY_NAME ).setValue( issue.getDisplayName() );
 
-            container.getContainerProperty( id, LAST_MODIFIED ).setValue( issue.getISODate() );
+            item.getItemProperty( QUALIFIED_NAME ).setValue( issue.getQualifiedName().toString() );
+
+            item.getItemProperty( LAST_MODIFIED ).setValue( issue.getISODate() );
         }
     }
 }

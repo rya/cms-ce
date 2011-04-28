@@ -193,7 +193,11 @@ class UserPanelBean
 
     public void setUserStoreName( String userStoreName )
     {
-        this.userStoreName = userStoreName;
+        if ((userStoreName != null) && (userStoreName.trim().equals( "" ))){
+            this.userStoreName = userStoreName;
+        }else{
+            this.userStoreName = "<none>";
+        }
     }
 
     public String getDisplayName()
