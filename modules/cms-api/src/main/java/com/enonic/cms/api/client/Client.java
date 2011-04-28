@@ -201,7 +201,7 @@ public interface Client
      * Finds and returns the content that is specified by the content keys in the <code>params</code> object.
      *
      * @param params This object specifies what to search for.  The <code>contentKeys</code> array is mandatory.
-     * @return An XML describing the content that has been found.
+     * @return An XML describing the content that has been found.  The root element of the XML document will be &lt;contents&gt;
      * @throws ClientException If an error occurs looking for the content.  Check the cause carefully to find out what the problem really
      *                         is.
      */
