@@ -5,8 +5,8 @@
 package com.enonic.cms.core.resolver;
 
 import javax.inject.Inject;
-import javax.xml.transform.URIResolver;
 
+import com.enonic.cms.core.xslt.*;
 import org.jdom.Document;
 import org.jdom.transform.JDOMSource;
 
@@ -14,10 +14,6 @@ import com.enonic.esl.util.RegexpUtil;
 
 import com.enonic.cms.core.resolver.locale.LocaleResolverException;
 import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.xslt.XsltProcessor;
-import com.enonic.cms.core.xslt.XsltProcessorException;
-import com.enonic.cms.core.xslt.XsltProcessorManager;
-import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 
 /**
  * Created by rmy - Date: Apr 29, 2009
@@ -50,14 +46,11 @@ public abstract class AbstractXsltScriptResolver
 
     protected abstract ScriptResolverResult populateScriptResolverResult( String resolvedValue );
 
-    protected XsltProcessor createProcessor( String name, Document xslt, URIResolver uriResolver )
+    protected XsltProcessor createProcessor( String name, Document xslt )
         throws XsltProcessorException
     {
-        final JDOMSource source = new JDOMSource( xslt );
-        source.setSystemId(name);
-
         final XsltProcessorManager manager = XsltProcessorManagerAccessor.getProcessorManager();
-        final XsltProcessor processor = manager.createProcessor( source, uriResolver );
+        final XsltProcessor processor = manager.createProcessor( XsltResource.create(name, xslt) );
         processor.setOmitXmlDecl( true );
         
         return processor;
@@ -74,8 +67,7 @@ public abstract class AbstractXsltScriptResolver
     protected String resolveWithXsltScript( Document xslt, Document document )
         throws XsltProcessorException
     {
-        URIResolver uriResolver = null;
-        XsltProcessor processor = createProcessor( XSLT_RESOLVER_PROCESSOR_NAME, xslt, uriResolver );
+        XsltProcessor processor = createProcessor( XSLT_RESOLVER_PROCESSOR_NAME, xslt );
 
         String result = processor.process( new JDOMSource( document ) );
         return cleanWhitespaces( result );

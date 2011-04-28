@@ -6,18 +6,12 @@ package com.enonic.cms.portal.rendering.viewtransformer;
 
 import javax.xml.transform.TransformerException;
 
+import com.enonic.cms.core.xslt.*;
 import org.jdom.Document;
-import org.jdom.transform.JDOMSource;
 import org.slf4j.Logger;
 
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceService;
-import com.enonic.cms.core.xslt.XsltProcessor;
-import com.enonic.cms.core.xslt.XsltProcessorErrors;
-import com.enonic.cms.core.xslt.XsltProcessorException;
-import com.enonic.cms.core.xslt.XsltProcessorManager;
-import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
-import com.enonic.cms.portal.rendering.StyleSheetURIResolver;
 
 /**
  * May 13, 2009
@@ -26,8 +20,6 @@ public abstract class AbstractXsltViewTransformer
 
 {
     protected final static String XSLT_NS = "http://www.w3.org/1999/XSL/Transform";
-
-    protected StyleSheetURIResolver styleSheetURIResolver;
 
     protected ResourceService resourceService;
 
@@ -57,11 +49,8 @@ public abstract class AbstractXsltViewTransformer
     protected XsltProcessor createProcessor( ResourceKey styleSheetKey, Document xslt )
         throws XsltProcessorException
     {
-        final JDOMSource source = new JDOMSource( xslt );
-        source.setSystemId(styleSheetKey.toString());
-
         final XsltProcessorManager manager = XsltProcessorManagerAccessor.getProcessorManager();
-        return manager.createProcessor( source, styleSheetURIResolver );
+        return manager.createProcessor( XsltResource.create(styleSheetKey.toString(), xslt) );
     }
 
     protected XsltProcessor createProcessor( ResourceKey styleSheetKey, Document xslt, boolean omitXmlDecl )
@@ -71,11 +60,5 @@ public abstract class AbstractXsltViewTransformer
         processor = createProcessor( styleSheetKey, xslt );
         processor.setOmitXmlDecl( omitXmlDecl );
         return processor;
-    }
-
-
-    protected void setup()
-    {
-        styleSheetURIResolver = new StyleSheetURIResolver( resourceService );
     }
 }

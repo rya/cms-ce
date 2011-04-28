@@ -43,6 +43,8 @@
         <property name="maxRecursionDepth" value="${cms.xsl.maxRecursionDepth}"/>
     </bean>
 
+    <bean class="com.enonic.cms.core.xslt.XsltResourceLoaderImpl"/>
+
     <!-- Setup transaction by annotations. -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 

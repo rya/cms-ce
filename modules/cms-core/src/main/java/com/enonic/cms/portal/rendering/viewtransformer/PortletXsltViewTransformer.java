@@ -98,14 +98,6 @@ public class PortletXsltViewTransformer
         return (Element[]) list.toArray( new Element[list.size()] );
     }
 
-    @PostConstruct
-    public void afterPropertiesSet()
-            throws Exception
-    {
-        setup();
-    }
-
-
     @Inject
     public void setResourceService( ResourceService resourceService )
     {

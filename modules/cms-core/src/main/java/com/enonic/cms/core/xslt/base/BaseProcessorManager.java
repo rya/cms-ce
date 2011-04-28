@@ -9,19 +9,20 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.URIResolver;
 
-import com.enonic.cms.core.xslt.XsltProcessor;
-import com.enonic.cms.core.xslt.XsltProcessorErrors;
-import com.enonic.cms.core.xslt.XsltProcessorException;
-import com.enonic.cms.core.xslt.XsltProcessorManager;
+import com.enonic.cms.core.xslt.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BaseProcessorManager
     implements XsltProcessorManager
 {
-    @Override
-    public final XsltProcessor createProcessor( final Source xsl, final URIResolver resolver )
+    @Autowired
+    public XsltResourceLoader loader;
+
+    public final XsltProcessor createProcessor( final XsltResource xslt )
         throws XsltProcessorException
     {
-        final Transformer transformer = createTransformer(xsl, resolver);
+        final LoaderURIResolver resolver = new LoaderURIResolver(this.loader, xslt.getPath());
+        final Transformer transformer = createTransformer(xslt.getSource(), resolver);
         transformer.setURIResolver( resolver );
         return new XsltProcessorImpl( transformer );
     }
@@ -35,7 +36,7 @@ public abstract class BaseProcessorManager
         final XsltProcessorErrors errors = new XsltProcessorErrors();
         final TransformerFactory factory = getTransformerFactory();
         factory.setErrorListener( errors );
-        factory.setURIResolver( resolver );
+        factory.setURIResolver(resolver);
 
         try {
             return factory.newTransformer(xsl);
