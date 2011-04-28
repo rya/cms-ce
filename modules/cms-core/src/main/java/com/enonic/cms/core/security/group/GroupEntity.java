@@ -7,20 +7,22 @@ package com.enonic.cms.core.security.group;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 public class GroupEntity
-    implements Serializable
+    implements Serializable, Comparable<GroupEntity>, IAccordionPresentation
 {
 
     private GroupKey key;
@@ -50,6 +52,11 @@ public class GroupEntity
     private transient Set<GroupEntity> allMemberships;
 
     private transient List<GroupKey> allMembershipsGroupKeys;
+
+    @Override
+    public int compareTo(GroupEntity arg0) {
+      return this.getGroupKey().compareTo(arg0.getGroupKey());
+    }
 
     public GroupKey getGroupKey()
     {
@@ -547,4 +554,27 @@ public class GroupEntity
 
     }
 
+    @Override
+    public String getDisplayName()
+    {
+        return getName();
+    }
+
+    @Override
+    public Date getLastModified()
+    {
+        return null;
+    }
+
+    @Override
+    public String getISODate()
+    {
+        return "";
+    }
+
+    @Override
+    public String getTypeName()
+    {
+        return String.valueOf( type );
+    }
 }

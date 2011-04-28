@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.util.UncheckedCastUtil;
 
+import com.enonic.cms.core.security.IAccordionPresentation;
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.UserDao;
@@ -73,9 +75,11 @@ public class UserServicesServiceImpl
     }
 
     @Override
-    public List<User> findAll()
+    public List<IAccordionPresentation> findByCriteria( AccordionSearchCriteria criteria )
     {
-        return UncheckedCastUtil.castList( userDao.findAll( false ), User.class );
+        return ( criteria.hasCriteria() )
+                ? UncheckedCastUtil.castList( userDao.findByCriteria( criteria ), IAccordionPresentation.class )
+                : UncheckedCastUtil.castList( userDao.findAll( false ), IAccordionPresentation.class );
     }
 
     @Override

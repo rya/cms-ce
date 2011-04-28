@@ -14,7 +14,7 @@ import com.enonic.cms.domain.InvalidKeyException;
 import com.enonic.cms.domain.StringBasedKey;
 
 public class GroupKey
-    implements StringBasedKey, Serializable
+    implements StringBasedKey, Comparable<GroupKey>, Serializable
 {
 
     private String value;
@@ -43,6 +43,11 @@ public class GroupKey
         }
 
         this.value = value;
+    }
+
+    @Override
+    public int compareTo(GroupKey arg0) {
+      return this.value.compareTo(arg0.value);
     }
 
     public boolean equals( Object o )

@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
+import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
@@ -263,6 +264,39 @@ public class UserEntityDao
                 {
                     Order sortOrder = ( orderAscending ) ? Order.asc( orderBy ) : Order.desc( orderBy );
                     criteria.addOrder( sortOrder.ignoreCase() );
+                }
+
+                return criteria.list();
+            }
+        } );
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public List<UserEntity> findByCriteria( final AccordionSearchCriteria acriteria )
+    {
+        return (List<UserEntity>) getHibernateTemplate().execute( new HibernateCallback()
+        {
+
+            public Object doInHibernate( Session session )
+                    throws HibernateException, SQLException
+            {
+
+                Criteria criteria = session.createCriteria( UserEntity.class ).setCacheable( true );
+                criteria.add( Restrictions.eq( "deleted", 0 ) );
+//                criteria.add( Restrictions.ne( "type", UserType.ADMINISTRATOR.getKey() ) );
+
+                String nameExpression = acriteria.getNameExpression();
+                if ( !StringUtils.isEmpty( nameExpression ) )
+                {
+                    criteria.add( Restrictions.or( Restrictions.ilike( "name", nameExpression, MatchMode.ANYWHERE ),
+                                                   Restrictions.ilike( "displayName", nameExpression,
+                                                                       MatchMode.ANYWHERE ) ) );
+                }
+
+                List<UserStoreKey> userStoreKeys = acriteria.getUserStoreKeys();
+                if ( !userStoreKeys.isEmpty() )
+                {
+                    criteria.add( Restrictions.in( "userStore.key", userStoreKeys ) );
                 }
 
                 return criteria.list();

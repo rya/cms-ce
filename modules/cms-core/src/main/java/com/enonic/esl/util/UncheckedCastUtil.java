@@ -14,7 +14,6 @@ public class UncheckedCastUtil
      * cast within a method, without having to taint the whole method
      * with a SuppressWarnings("unchecked") annotation.
      * <p/>
-     * See Bug #311: Remove compile warnings
      *
      * @param <T>   the element type
      * @param list  the List to cast
@@ -34,7 +33,6 @@ public class UncheckedCastUtil
      * cast within a method, without having to taint the whole method
      * with a SuppressWarnings("unchecked") annotation.
      * <p/>
-     * See Bug #311: Remove compile warnings
      *
      * @param <T>   the element type
      * @param set   the Set to cast
@@ -54,7 +52,6 @@ public class UncheckedCastUtil
      * cast within a method, without having to taint the whole method
      * with a SuppressWarnings("unchecked") annotation.
      * <p/>
-     * See Bug #311: Remove compile warnings
      *
      * @param <T>        the element type
      * @param collection the Collection to cast
@@ -74,7 +71,6 @@ public class UncheckedCastUtil
      * cast within a method, without having to taint the whole method
      * with a SuppressWarnings("unchecked") annotation.
      * <p/>
-     * See Bug #311: Remove compile warnings
      *
      * @param <T>    the object type
      * @param object the object to class
@@ -93,7 +89,6 @@ public class UncheckedCastUtil
      * cast within a method, without having to taint the whole method
      * with a SuppressWarnings("unchecked") annotation.
      * <p/>
-     * See Bug #311: Remove compile warnings
      *
      * @param <T>    the object type
      * @param object the object to class

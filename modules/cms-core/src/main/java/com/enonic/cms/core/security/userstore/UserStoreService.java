@@ -9,13 +9,6 @@ import java.util.Map;
 
 import com.google.common.collect.Multimap;
 
-import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
-import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
-
-import com.enonic.cms.core.security.userstore.connector.remote.MemberCache;
-
-import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
-
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.DeleteGroupCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -35,6 +28,11 @@ import com.enonic.cms.core.security.user.UserNotFoundException;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.core.security.userstore.connector.remote.MemberCache;
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
+import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
+import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
+
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 import com.enonic.cms.domain.user.remote.RemoteUser;
 
@@ -88,6 +86,10 @@ public interface UserStoreService
                                       final MemberCache memberCache );
 
     void deleteGroupsLocally( final LocalGroupsStatus status, final List<GroupKey> groups );
+
+    List<UserStoreEntity> findAll();
+
+    UserStoreEntity findByName( String name );
 
     UserStoreEntity getDefaultUserStore();
 

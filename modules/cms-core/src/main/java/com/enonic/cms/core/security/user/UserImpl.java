@@ -4,11 +4,16 @@
  */
 package com.enonic.cms.core.security.user;
 
-import com.enonic.cms.core.security.userstore.UserStoreKey;
+import java.util.Date;
+
 import org.joda.time.DateTime;
+
+import com.enonic.esl.util.DateUtil;
 
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+
 import com.enonic.cms.domain.user.UserInfo;
 
 /**
@@ -268,6 +273,24 @@ public class UserImpl
         }
 
         return user;
+    }
+
+    @Override
+    public Date getLastModified()
+    {
+        return timestamp != null ? new Date(timestamp.getMillis()) : null;
+    }
+
+    @Override
+    public String getISODate()
+    {
+        return timestamp != null ? DateUtil.formatISODate( timestamp ) : "";
+    }
+
+    @Override
+    public String getTypeName()
+    {
+        return type.getName();
     }
 }
 
