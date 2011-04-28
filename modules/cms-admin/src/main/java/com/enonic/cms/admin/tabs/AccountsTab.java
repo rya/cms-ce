@@ -19,6 +19,8 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -50,8 +52,11 @@ public class AccountsTab extends AbstractBaseTab
         label.setContentMode( Label.CONTENT_XHTML );
         top.addComponent( label );
 
-        ComboBox comboBox = new ComboBox();
-        top.addComponent( comboBox, "top:5px; right:0px" );
+        MenuBar bar = new MenuBar();
+        MenuBar.MenuItem newItem = bar.addItem( "New", null, null );
+        newItem.addItem( "New (User)", null, null );
+        newItem.addItem( "New (Group)", null, null );
+        top.addComponent( bar, "top:5px; right:0px" );
 
         addComponent( top );
         setExpandRatio( top, 0 );
