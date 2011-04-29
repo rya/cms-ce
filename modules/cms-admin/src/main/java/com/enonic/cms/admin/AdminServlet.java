@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.admin;
 
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.AbstractApplicationServlet;
+
+import com.enonic.cms.admin.spring.events.ApplicationCreatedEvent;
+import com.enonic.cms.admin.spring.events.ApplicationEventListener;
 
 public final class AdminServlet
     extends AbstractApplicationServlet
@@ -26,7 +31,18 @@ public final class AdminServlet
         final WebApplicationContext springWebApplicationContext =
                 WebApplicationContextUtils.getRequiredWebApplicationContext( servletContext );
 
-        return springWebApplicationContext.getBean( getApplicationClass() );
+        Application application = springWebApplicationContext.getBean( getApplicationClass() );
+
+        /* will eagerly create vaadin beans - this will fail */
+        //springWebApplicationContext.publishEvent( new ApplicationEvent("core"){} );
+
+        Map<String,ApplicationEventListener> listeners = springWebApplicationContext.getBeansOfType( ApplicationEventListener.class );
+        for (ApplicationEventListener event : listeners.values()) {
+            event.onApplicationEvent( new ApplicationCreatedEvent() );
+        }
+
+
+        return application;
     }
 
     @Override
