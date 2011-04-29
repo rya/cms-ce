@@ -26,6 +26,8 @@ public class UserPanel
         extends HorizontalLayout
 {
 
+    private static final String PATH_TO_USER_ICON = "images/no_avatar.gif";
+
     @Autowired
     private transient UserServicesService userServicesService;
 
@@ -125,7 +127,7 @@ public class UserPanel
             }
         };
         Label usIdLabel = new Label( usIdProperty );
-        Embedded icon = new Embedded("", new ThemeResource( "images/no_avatar.gif" ));
+        Embedded icon = new Embedded("", new ThemeResource( PATH_TO_USER_ICON ));
         gridLayout.addComponent( nameLabel, 0, 0, 2, 0 );
         gridLayout.addComponent( icon, 0, 1, 0, 3 );
         gridLayout.addComponent( emailTitle, 1, 1 );
