@@ -2317,7 +2317,7 @@ public class CategoryHandler
         sql.append( " cat_lkey," );
         sql.append( " cat_cat_lsuper," );
         sql.append( " sum(@length@(bda_sfilename))," );
-        sql.append( " sum(bda_lfilesize)" );
+        sql.append( " sum(bda_lfilesize * 1.0)" );
         sql.append( " from tbinarydata" );
         sql.append( " left join tcontentbinarydata on bda_lkey = cbd_bda_lkey" );
         sql.append( " left join tcontentversion on cbd_cov_lkey = cov_lkey" );
@@ -2351,7 +2351,7 @@ public class CategoryHandler
                 if ( cs != null )
                 {
                     long filenameSize = resultSet.getLong( 3 ) * 2; // two times because it is in content version too
-                    long amount = constantSize + filenameSize + resultSet.getLong( 4 );
+                    long amount = constantSize + filenameSize + new Double(resultSet.getDouble( 4 )).longValue();
                     cs.addAmount( amount );
                 }
             }
