@@ -9,11 +9,11 @@ import com.vaadin.ui.Label;
 import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 @VaadinComponent
-@TopLevelTab(title = "System", order = 6096)
-public class SystemTab
+@TopLevelTab(title = "Applications", order = 4096)
+public class ApplicationsTab
         extends AbstractBaseTab
 {
-    public SystemTab()
+    public ApplicationsTab()
     {
         addComponent( new Label("TODO") );
     }
