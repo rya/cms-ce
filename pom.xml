@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.enonic</groupId>
-        <artifactId>parent</artifactId>
-        <version>3</version>
+        <groupId>com.enonic.pom</groupId>
+        <artifactId>base</artifactId>
+        <version>1</version>
     </parent>
 
     <groupId>com.enonic.cms</groupId>
@@ -404,16 +404,8 @@
 
     <repositories>
         <repository>
-            <id>enonic</id>
-            <url>http://repo.enonic.com/maven</url>
-        </repository>
-        <repository>
-            <id>jboss</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
-        </repository>
-        <repository>
-            <id>spring.milestone</id>
-            <url>http://maven.springframework.org/milestone</url>
+            <id>enonic.repo</id>
+            <url>http://repo.enonic.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
 
