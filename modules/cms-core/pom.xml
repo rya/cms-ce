@@ -79,7 +79,7 @@
             <artifactId>saxon-jdom</artifactId>
         </dependency>
         <dependency>
-            <groupId>jparsec</groupId>
+            <groupId>org.codehaus.jparsec</groupId>
             <artifactId>jparsec</artifactId>
         </dependency>
         <dependency>
