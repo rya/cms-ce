@@ -468,7 +468,7 @@
     <repositories>
         <repository>
             <id>enonic.repo</id>
-            <url>http://repo.enonic.com/artifactory/repo</url>
+            <url>http://repo.enonic.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
 
