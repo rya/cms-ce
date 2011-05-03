@@ -17,6 +17,7 @@
 
     <properties>
         <skip.integration.tests>true</skip.integration.tests>
+        <distribution.repo>private</distribution.repo>
     </properties>
 
     <build>
