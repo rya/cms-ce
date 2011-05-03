@@ -1264,32 +1264,33 @@ public class UserHandlerServlet
                     Set<UserEntity> users = new LinkedHashSet<UserEntity>();
                     for ( String groupKey : groupStringArray )
                     {
+                        // Global groups do not belong to any user store
                         GroupSpecification groupSpecification = new GroupSpecification();
-                        groupSpecification.setUserStoreKey( userStoreKey );
                         groupSpecification.setKey( new GroupKey( groupKey ) );
                         GroupEntity groupEntity = groupDao.findSingleBySpecification( groupSpecification );
 
-                        Set<GroupEntity> userGroups = null;
-                        if ( recursive )
+                        // Show global groups and groups in current user store
+                        if (groupEntity.getUserStore() == null || groupEntity.getUserStore().getKey().equals( userStoreKey ))
                         {
-                            userGroups = groupEntity.getAllMembersRecursively();
-                        }
-                        else
-                        {
-                            userGroups = groupEntity.getMembers( false );
-                        }
-                        Iterator<GroupEntity> userGroupsIterator = userGroups.iterator();
-                        while ( userGroupsIterator.hasNext() )
-                        {
-                            GroupEntity userGroup = userGroupsIterator.next();
-                            if ( userGroup.isOfType( GroupType.USER, false ) )
+                            Set<GroupEntity> userGroups;
+                            if ( recursive )
                             {
-                                users.add( userGroup.getUser() );
+                                userGroups = groupEntity.getAllMembersRecursively();
+                            }
+                            else
+                            {
+                                userGroups = groupEntity.getMembers( false );
+                            }
+
+                            for ( GroupEntity userGroup : userGroups )
+                            {
+                                if ( userGroup.isOfType( GroupType.USER, false ) )
+                                {
+                                    users.add( userGroup.getUser() );
+                                }
                             }
 
                         }
-
-
                     }
 
                     UserXmlCreator userXmlCreator = new UserXmlCreator();
