@@ -15,6 +15,10 @@
     <packaging>pom</packaging>
     <name>Enonic CMS Distro</name>
 
+    <properties>
+        <distribution.repo>inhouse</distribution.repo>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

@@ -15,6 +15,10 @@
     <packaging>jar</packaging>
     <name>Enonic CMS Admin</name>
 
+    <properties>
+        <distribution.repo>inhouse</distribution.repo>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
