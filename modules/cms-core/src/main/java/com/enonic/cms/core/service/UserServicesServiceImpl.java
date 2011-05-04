@@ -17,6 +17,7 @@ import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.UserDao;
 
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -86,5 +87,11 @@ public class UserServicesServiceImpl
     public Long count()
     {
         return userDao.count( UserEntity.class );
+    }
+
+    @Override
+    public User getUserByKey( UserKey userKey )
+    {
+        return userDao.findByKey( userKey );
     }
 }
