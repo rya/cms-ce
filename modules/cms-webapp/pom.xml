@@ -15,6 +15,10 @@
     <packaging>war</packaging>
     <name>Enonic CMS WebApp</name>
 
+    <properties>
+        <distribution.repo>private</distribution.repo>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

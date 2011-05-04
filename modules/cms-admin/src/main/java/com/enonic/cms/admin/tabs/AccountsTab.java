@@ -20,7 +20,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 
 @VaadinComponent
-@TopLevelTab(title = "Accounts", order = 1024)
+@TopLevelTab(title = "Accounts", order = 2048)
 public class AccountsTab extends AbstractBaseTab
 {
     @Autowired

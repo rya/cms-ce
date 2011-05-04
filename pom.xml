@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.enonic</groupId>
-        <artifactId>parent</artifactId>
-        <version>3</version>
+        <groupId>com.enonic.pom</groupId>
+        <artifactId>base</artifactId>
+        <version>2</version>
     </parent>
 
     <groupId>com.enonic.cms</groupId>
@@ -181,7 +181,7 @@
                 <version>9.1.0.8</version>
             </dependency>
             <dependency>
-                <groupId>jparsec</groupId>
+                <groupId>org.codehaus.jparsec</groupId>
                 <artifactId>jparsec</artifactId>
                 <version>2.0</version>
             </dependency>
@@ -404,16 +404,8 @@
 
     <repositories>
         <repository>
-            <id>enonic</id>
-            <url>http://repo.enonic.com/maven</url>
-        </repository>
-        <repository>
-            <id>jboss</id>
-            <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
-        </repository>
-        <repository>
-            <id>spring.milestone</id>
-            <url>http://maven.springframework.org/milestone</url>
+            <id>enonic.repo</id>
+            <url>http://repo.enonic.com/g/public</url>
         </repository>
     </repositories>
 

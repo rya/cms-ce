@@ -9,7 +9,7 @@ import com.vaadin.ui.Label;
 import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 @VaadinComponent
-@TopLevelTab(title = "Content", order = 2048)
+@TopLevelTab(title = "Content", order = 3072)
 public class ContentTab
         extends AbstractBaseTab
 {
