@@ -9,6 +9,7 @@ import java.util.List;
 import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.user.AccordionSearchCriteria;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserKey;
 
 public interface UserServicesService
 {
@@ -31,4 +32,6 @@ public interface UserServicesService
     List<IAccordionPresentation> findByCriteria( AccordionSearchCriteria criteria );
 
     Long count();
+
+    public User getUserByKey(UserKey userKey);
 }

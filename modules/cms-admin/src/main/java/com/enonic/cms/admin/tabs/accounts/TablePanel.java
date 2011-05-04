@@ -8,18 +8,32 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
+import com.vaadin.Application;
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
+import com.vaadin.terminal.Sizeable;
+import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Window;
 
+import com.enonic.cms.admin.AdminApplication;
+import com.enonic.cms.admin.AdminWindow;
+import com.enonic.cms.admin.image.EmbeddedImageFactory;
+import com.enonic.cms.admin.spring.VaadinComponent;
+import com.enonic.cms.admin.window.PopupWindowFactory;
 import com.enonic.cms.core.security.IAccordionPresentation;
+import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.service.UserServicesService;
 
 @VaadinComponent
 public class TablePanel
@@ -42,7 +56,19 @@ public class TablePanel
     private static final Action ACTION_CHANGEPWD = new Action( "Change password" );
 
     @Autowired
+    private EmbeddedImageFactory imageFactory;
+
+    @Autowired
+    private UserServicesService userServicesService;
+
+    @Autowired
+    private AdminWindow adminWindow;
+
+    @Autowired
     private UserPanel userPanel;
+
+    @Autowired
+    private PopupWindowFactory windowFactory;
 
     @PostConstruct
     private void init()
@@ -52,7 +78,7 @@ public class TablePanel
         setSizeFull();
 
         IndexedContainer container = new IndexedContainer();
-        container.addContainerProperty( TYPE, String.class, null );
+        container.addContainerProperty( TYPE, Embedded.class, null );
         container.addContainerProperty( DISPLAY_NAME, String.class, null );
         container.addContainerProperty( QUALIFIED_NAME, String.class, null );
         container.addContainerProperty( LAST_MODIFIED, String.class, null );
@@ -74,9 +100,16 @@ public class TablePanel
             }
 
             @Override
-            public void handleAction( Action action, Object o, Object o1 )
+            public void handleAction( Action action, Object sender, Object target )
             {
-                //TODO: add handlers for each action
+                if (action.equals( ACTION_DELETE )){
+                    if (target instanceof UserEntity){
+                        UserEntity user = (UserEntity)target;
+                        user = (UserEntity) userServicesService.getUserByKey( user.getKey() );
+                        Window deleteWindow = windowFactory.createDeleteWindow( user );
+                        adminWindow.addWindow( deleteWindow );
+                    }
+                }
             }
         } );
         this.addListener( new ItemClickEvent.ItemClickListener()
@@ -103,13 +136,36 @@ public class TablePanel
         {
             Item item = container.addItem( issue );
 
-            item.getItemProperty(TYPE).setValue(issue.getTypeName());
+            Embedded icon = null;
+            if ( issue instanceof User )
+            {
+                if ( ( (UserEntity) issue ).getPhoto() != null )
+                {
+                    byte[] photoBytes = ( (UserEntity) issue ).getPhoto();
+                    icon = imageFactory.createEmbeddedImage( photoBytes);
 
-            item.getItemProperty(DISPLAY_NAME).setValue(issue.getDisplayName());
+                }
+                else
+                {
+                    icon = imageFactory.createEmbeddedImage( AdminApplication.PATH_TO_USER_ICON );
+                }
+                icon.setHeight( 45, Sizeable.UNITS_PIXELS );
+                icon.setWidth( 45, Sizeable.UNITS_PIXELS );
+                item.getItemProperty( TYPE ).setValue( icon );
+            }
+            else if ( issue instanceof GroupEntity )
+            {
+                icon = new Embedded( "", new ThemeResource( AdminApplication.PATH_TO_GROUP_ICON ) );
+                icon.setHeight( 45, Sizeable.UNITS_PIXELS );
+                icon.setWidth( 45, Sizeable.UNITS_PIXELS );
+                item.getItemProperty( TYPE ).setValue( icon );
+            }
 
-            item.getItemProperty(QUALIFIED_NAME).setValue(issue.getQualifiedName().toString());
+            item.getItemProperty( DISPLAY_NAME ).setValue( issue.getDisplayName() );
 
-            item.getItemProperty(LAST_MODIFIED).setValue(issue.getISODate());
+            item.getItemProperty( QUALIFIED_NAME ).setValue( issue.getQualifiedName().toString() );
+
+            item.getItemProperty( LAST_MODIFIED ).setValue( issue.getISODate() );
         }
     }
 }

@@ -4,22 +4,36 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
-import com.enonic.cms.admin.spring.VaadinComponent;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.service.UserServicesService;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Property;
 import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractLayout;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Embedded;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.BaseTheme;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.enonic.esl.util.UncheckedCastUtil;
 
-import javax.annotation.PostConstruct;
-
-import java.util.List;
+import com.enonic.cms.admin.AdminApplication;
+import com.enonic.cms.admin.AdminWindow;
+import com.enonic.cms.admin.image.EmbeddedImageFactory;
+import com.enonic.cms.admin.spring.VaadinComponent;
+import com.enonic.cms.admin.window.PopupWindowFactory;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.service.UserServicesService;
 
 @VaadinComponent
 public class UserPanel
@@ -27,9 +41,20 @@ public class UserPanel
 {
 
     @Autowired
+    private EmbeddedImageFactory imageFactory;
+
+    @Autowired
     private transient UserServicesService userServicesService;
 
+    @Autowired
+    private AdminWindow adminWindow;
+
+    @Autowired
+    private PopupWindowFactory windowFactory;
+
     private UserPanelBean userPanelBean;
+
+    private Embedded userPhotoItem;
 
     @PostConstruct
     private void init()
@@ -49,8 +74,8 @@ public class UserPanel
         addComponent( column1 );
         setExpandRatio( column1, 2.0f );
         com.vaadin.ui.Component buttonPane = createButtonLayout();
-        addComponent(buttonPane);
-        setExpandRatio(buttonPane, 1.0f);
+        addComponent( buttonPane );
+        setExpandRatio( buttonPane, 1.0f );
 
     }
 
@@ -72,7 +97,7 @@ public class UserPanel
                 return getValue().getName();
             }
         };
-        Label nameLabel = new Label( nameProperty);
+        Label nameLabel = new Label( nameProperty );
         breadCrumbLayout.addComponent( usButton );
         breadCrumbLayout.addComponent( gtLabel );
         breadCrumbLayout.addComponent( nameUsButton );
@@ -125,9 +150,11 @@ public class UserPanel
             }
         };
         Label usIdLabel = new Label( usIdProperty );
-        Embedded icon = new Embedded("", new ThemeResource( "images/no_avatar.gif" ));
+        userPhotoItem = new Embedded( "", new ThemeResource( AdminApplication.PATH_TO_USER_ICON ) );
+        userPhotoItem.setHeight( 100, Sizeable.UNITS_PIXELS );
+        userPhotoItem.setWidth( 100, Sizeable.UNITS_PIXELS );
         gridLayout.addComponent( nameLabel, 0, 0, 2, 0 );
-        gridLayout.addComponent( icon, 0, 1, 0, 3 );
+        gridLayout.addComponent( userPhotoItem, 0, 1, 0, 3 );
         gridLayout.addComponent( emailTitle, 1, 1 );
         gridLayout.addComponent( emailLabel, 2, 1 );
         gridLayout.addComponent( usIdTitle, 1, 2 );
@@ -144,10 +171,37 @@ public class UserPanel
         vLayout.setSpacing( true );
         vLayout.setMargin( true );
         vLayout.addComponent( createButton( "Edit" ) );
-        vLayout.addComponent( createButton( "Delete" ) );
+        Button deleteButton = createButton( "Delete" );
+        deleteButton.addListener( new Button.ClickListener()
+        {
+            @Override
+            public void buttonClick( Button.ClickEvent clickEvent )
+            {
+                UserEntity user = (UserEntity) userServicesService.getUserByKey( userPanelBean.getUserKey() );
+                Window deleteUserWindow = windowFactory.createDeleteWindow( user );
+                adminWindow.addWindow( deleteUserWindow );
+            }
+        } );
+        vLayout.addComponent( deleteButton );
         vLayout.addComponent( createButton( "Copy" ) );
         vLayout.addComponent( createButton( "Change pwd" ) );
         return vLayout;
+    }
+
+    private void drawUserAvatar()
+    {
+        Embedded newUserPhoto = null;
+        if ( userPanelBean.getUserPhoto() != null )
+        {
+            byte[] photoBytes = userPanelBean.getUserPhoto();
+            newUserPhoto = imageFactory.createEmbeddedImage( photoBytes );
+
+        }
+        else
+        {
+            newUserPhoto = imageFactory.createEmbeddedImage( AdminApplication.PATH_TO_USER_ICON );
+        }
+        userPhotoItem.setSource( newUserPhoto.getSource() );
     }
 
     private Button createButton( String caption )
@@ -159,14 +213,19 @@ public class UserPanel
 
     public void showUser( String userName )
     {
-        List<User> users = userServicesService.findByCriteria( userName, "name", true );
+        List<UserEntity> users =
+                UncheckedCastUtil.castList( userServicesService.findByCriteria( userName, "name", true ),
+                                            UserEntity.class );
         if ( users.size() > 0 )
         {
-            User user = users.get( 0 );
+            UserEntity user = users.get( 0 );
+            userPanelBean.setUserKey( user.getKey() );
             userPanelBean.setDisplayName( user.getDisplayName() );
             userPanelBean.setEmail( user.getEmail() );
             userPanelBean.setName( user.getName() );
             userPanelBean.setUserStoreName( user.getQualifiedName().getUserStoreName() );
+            userPanelBean.setUserPhoto( user.getPhoto() );
+            drawUserAvatar();
             requestRepaintAll();
         }
     }
@@ -175,6 +234,8 @@ public class UserPanel
 
 class UserPanelBean
 {
+    private UserKey userKey;
+
     private String userStoreName = "";
 
     private String displayName = "";
@@ -183,6 +244,18 @@ class UserPanelBean
 
     private String email = "";
 
+    private byte[] userPhoto;
+
+    public byte[] getUserPhoto()
+    {
+        return userPhoto;
+    }
+
+    public void setUserPhoto( byte[] userPhoto )
+    {
+        this.userPhoto = userPhoto;
+    }
+
     public String getUserStoreName()
     {
         return userStoreName;
@@ -190,9 +263,12 @@ class UserPanelBean
 
     public void setUserStoreName( String userStoreName )
     {
-        if ((userStoreName != null) && (userStoreName.trim().equals( "" ))){
+        if ( ( userStoreName != null ) && ( userStoreName.trim().equals( "" ) ) )
+        {
             this.userStoreName = userStoreName;
-        }else{
+        }
+        else
+        {
             this.userStoreName = "<none>";
         }
     }
@@ -228,4 +304,13 @@ class UserPanelBean
     }
 
 
+    public UserKey getUserKey()
+    {
+        return userKey;
+    }
+
+    public void setUserKey( UserKey userKey )
+    {
+        this.userKey = userKey;
+    }
 }

@@ -14,4 +14,5 @@ public interface IAccordionPresentation
     Date getLastModified();
 
     String getISODate();
+
 }

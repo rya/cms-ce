@@ -21,7 +21,7 @@ import com.enonic.cms.admin.spring.events.ApplicationEventListener;
 import com.enonic.cms.admin.tabs.AbstractBaseTab;
 
 @VaadinComponent
-final class AdminWindow
+final public class AdminWindow
         extends Window
         implements ApplicationEventListener
 {
