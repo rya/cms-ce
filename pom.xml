@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.enonic.pom</groupId>
         <artifactId>base</artifactId>
-        <version>2</version>
+        <version>3</version>
     </parent>
 
     <groupId>com.enonic.cms</groupId>
@@ -23,6 +23,7 @@
     </licenses>
 
     <properties>
+    	<distribution.repo>inhouse</distribution.repo>
         <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
     </properties>
@@ -468,7 +469,7 @@
     <repositories>
         <repository>
             <id>enonic.repo</id>
-            <url>http://repo.enonic.com/g/public</url>
+            <url>http://repo.enonic.com/artifactory/repo</url>
         </repository>
     </repositories>
 
