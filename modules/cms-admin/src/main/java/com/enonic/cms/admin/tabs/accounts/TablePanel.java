@@ -4,22 +4,13 @@
  */
 package com.enonic.cms.admin.tabs.accounts;
 
-import java.awt.Desktop;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.xml.transform.stream.StreamSource;
 
-import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.support.ApplicationObjectSupport;
-import org.springframework.stereotype.Component;
->>>>>>> Stashed changes
 
 import com.vaadin.Application;
 import com.vaadin.data.Container;
@@ -27,17 +18,15 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.Action;
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.terminal.ApplicationResource;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.StreamResource;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.terminal.gwt.client.ApplicationConfiguration;
-import com.vaadin.terminal.gwt.client.ApplicationConnection;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Table;
 
-import com.enonic.cms.admin.AdminApplication;
+import com.enonic.cms.admin.image.EmbeddedImageFactory;
 import com.enonic.cms.admin.image.ImageStreamSource;
+import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.User;
@@ -49,6 +38,8 @@ public class TablePanel
 {
 
     private static final String PATH_TO_USER_ICON = "images/no_avatar.gif";
+
+    private static final String AVATAR_JPG = "avatar.jpg";
 
     private static final String PATH_TO_GROUP_ICON = "images/group_icon.jpg";
 
@@ -68,8 +59,11 @@ public class TablePanel
 
     private static final Action ACTION_CHANGEPWD = new Action( "Change password" );
 
-    @Resource
+    @Autowired
     private transient ApplicationContext applicationContext;
+
+    @Autowired
+    private Application adminApplication;
 
     @Autowired
     private UserPanel userPanel;
@@ -133,28 +127,22 @@ public class TablePanel
         {
             Item item = container.addItem( issue );
 
-            item.getItemProperty(TYPE).setValue(issue.getTypeName());
             Embedded icon = null;
             if ( issue instanceof User )
             {
                 if ( ( (UserEntity) issue ).getPhoto() != null )
                 {
                     byte[] photoBytes = ( (UserEntity) issue ).getPhoto();
-                    StreamResource.StreamSource imageSource =
-                            new ImageStreamSource( new ByteArrayInputStream( photoBytes ) );
-                    AdminApplication adminApplication = applicationContext.getBean( AdminApplication.class );
-                    adminApplication.equals( null );
+                    icon = EmbeddedImageFactory.createEmbeddedImage( photoBytes, adminApplication );
 
-                    //StreamResource resource = new StreamResource( imageSource, "icon", application );
-                    //icon = new Embedded( "", resource );
                 }
                 else
                 {
-                    icon = new Embedded( "", new ThemeResource( PATH_TO_USER_ICON ) );
+                    icon = EmbeddedImageFactory.createEmbeddedImage( PATH_TO_USER_ICON );
                 }
-                //icon.setHeight( 45, Sizeable.UNITS_PIXELS );
-                //icon.setWidth( 45, Sizeable.UNITS_PIXELS );
-                //item.getItemProperty( TYPE ).setValue( icon );
+                icon.setHeight( 45, Sizeable.UNITS_PIXELS );
+                icon.setWidth( 45, Sizeable.UNITS_PIXELS );
+                item.getItemProperty( TYPE ).setValue( icon );
             }
             else if ( issue instanceof GroupEntity )
             {
@@ -164,11 +152,11 @@ public class TablePanel
                 item.getItemProperty( TYPE ).setValue( icon );
             }
 
-            item.getItemProperty(DISPLAY_NAME).setValue(issue.getDisplayName());
+            item.getItemProperty( DISPLAY_NAME ).setValue( issue.getDisplayName() );
 
-            item.getItemProperty(QUALIFIED_NAME).setValue(issue.getQualifiedName().toString());
+            item.getItemProperty( QUALIFIED_NAME ).setValue( issue.getQualifiedName().toString() );
 
-            item.getItemProperty(LAST_MODIFIED).setValue(issue.getISODate());
+            item.getItemProperty( LAST_MODIFIED ).setValue( issue.getISODate() );
         }
     }
 }
