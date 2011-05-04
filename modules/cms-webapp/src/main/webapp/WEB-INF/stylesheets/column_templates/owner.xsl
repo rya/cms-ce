@@ -14,6 +14,10 @@
     <xsl:text>%fldOwner%</xsl:text>
   </xsl:template>
 
+  <xsl:template match="owner" mode="orderby">
+    <xsl:text>owner/qualifiedname</xsl:text>
+  </xsl:template>
+
   <xsl:template match="owner" mode="width">
     <xsl:text>150</xsl:text>
   </xsl:template>

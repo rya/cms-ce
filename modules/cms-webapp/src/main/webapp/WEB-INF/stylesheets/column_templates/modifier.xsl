@@ -15,7 +15,7 @@
   </xsl:template>
 
   <xsl:template match="modifier" mode="orderby">
-    <xsl:text>modifier</xsl:text>
+    <xsl:text>modifier/qualifiedname</xsl:text>
   </xsl:template>
 
   <xsl:template match="modifier" mode="width">
