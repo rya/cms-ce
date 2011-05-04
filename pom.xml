@@ -23,7 +23,6 @@
     </licenses>
 
     <properties>
-    	<distribution.repo>inhouse</distribution.repo>
         <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
     </properties>
