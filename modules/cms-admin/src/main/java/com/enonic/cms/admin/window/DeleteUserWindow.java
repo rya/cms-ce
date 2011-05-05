@@ -1,6 +1,5 @@
-package com.enonic.cms.admin.tabs.accounts;
+package com.enonic.cms.admin.window;
 
-import com.vaadin.event.MouseEvents;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
