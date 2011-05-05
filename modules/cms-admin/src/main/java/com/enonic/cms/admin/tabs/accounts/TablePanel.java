@@ -51,8 +51,6 @@ public class TablePanel
 
     private static final Action ACTION_DELETE = new Action( "Delete" );
 
-    private static final Action ACTION_COPY = new Action( "Copy" );
-
     private static final Action ACTION_CHANGEPWD = new Action( "Change password" );
 
     @Autowired
@@ -91,11 +89,11 @@ public class TablePanel
             {
                 if ( o instanceof User )
                 {
-                    return new Action[]{ACTION_COPY, ACTION_EDIT, ACTION_DELETE, ACTION_CHANGEPWD};
+                    return new Action[]{ ACTION_EDIT, ACTION_DELETE, ACTION_CHANGEPWD};
                 }
                 else
                 {
-                    return new Action[]{ACTION_COPY, ACTION_EDIT, ACTION_DELETE};
+                    return new Action[]{ ACTION_EDIT, ACTION_DELETE};
                 }
             }
 
