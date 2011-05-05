@@ -51,8 +51,6 @@ public class TablePanel
 
     private static final Action ACTION_DELETE = new Action( "Delete" );
 
-    private static final Action ACTION_COPY = new Action( "Copy" );
-
     private static final Action ACTION_CHANGEPWD = new Action( "Change password" );
 
     @Autowired
@@ -91,23 +89,35 @@ public class TablePanel
             {
                 if ( o instanceof User )
                 {
-                    return new Action[]{ACTION_COPY, ACTION_EDIT, ACTION_DELETE, ACTION_CHANGEPWD};
+                    return new Action[]{ ACTION_EDIT, ACTION_DELETE, ACTION_CHANGEPWD};
                 }
                 else
                 {
-                    return new Action[]{ACTION_COPY, ACTION_EDIT, ACTION_DELETE};
+                    return new Action[]{ ACTION_EDIT, ACTION_DELETE};
                 }
             }
 
             @Override
             public void handleAction( Action action, Object sender, Object target )
             {
-                if (action.equals( ACTION_DELETE )){
-                    if (target instanceof UserEntity){
-                        UserEntity user = (UserEntity)target;
+                if ( action.equals( ACTION_DELETE ) )
+                {
+                    if ( target instanceof UserEntity )
+                    {
+                        UserEntity user = (UserEntity) target;
                         user = (UserEntity) userServicesService.getUserByKey( user.getKey() );
                         Window deleteWindow = windowFactory.createDeleteWindow( user );
                         adminWindow.addWindow( deleteWindow );
+                    }
+                }
+                else if ( action.equals( ACTION_CHANGEPWD ) )
+                {
+                    if ( target instanceof UserEntity )
+                    {
+                        UserEntity user = (UserEntity) target;
+                        user = (UserEntity) userServicesService.getUserByKey( user.getKey() );
+                        Window pwdWindow = windowFactory.createChangePwdWindow( user );
+                        adminWindow.addWindow( pwdWindow );
                     }
                 }
             }
@@ -142,7 +152,7 @@ public class TablePanel
                 if ( ( (UserEntity) issue ).getPhoto() != null )
                 {
                     byte[] photoBytes = ( (UserEntity) issue ).getPhoto();
-                    icon = imageFactory.createEmbeddedImage( photoBytes);
+                    icon = imageFactory.createEmbeddedImage( photoBytes );
 
                 }
                 else

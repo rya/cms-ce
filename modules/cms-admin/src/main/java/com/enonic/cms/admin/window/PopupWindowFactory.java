@@ -2,12 +2,10 @@ package com.enonic.cms.admin.window;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.Application;
 import com.vaadin.ui.Window;
 
 import com.enonic.cms.admin.image.EmbeddedImageFactory;
 import com.enonic.cms.admin.spring.VaadinComponent;
-import com.enonic.cms.admin.tabs.accounts.DeleteUserWindow;
 import com.enonic.cms.core.security.user.UserEntity;
 
 /**
@@ -27,6 +25,10 @@ public class PopupWindowFactory
     public Window createDeleteWindow( UserEntity user )
     {
         return new DeleteUserWindow( user, imageFactory );
+    }
+
+    public Window createChangePwdWindow( UserEntity user){
+        return new ChangePasswordUserWindow(user, imageFactory);
     }
 
 }

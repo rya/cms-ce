@@ -183,7 +183,6 @@ public class UserPanel
             }
         } );
         vLayout.addComponent( deleteButton );
-        vLayout.addComponent( createButton( "Copy" ) );
         vLayout.addComponent( createButton( "Change pwd" ) );
         return vLayout;
     }

@@ -1,4 +1,4 @@
-package com.enonic.cms.admin.tabs.accounts;
+package com.enonic.cms.admin.window;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
