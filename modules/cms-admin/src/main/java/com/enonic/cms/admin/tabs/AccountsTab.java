@@ -18,6 +18,7 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.VerticalLayout;
 
 @VaadinComponent
 @TopLevelTab(title = "Accounts", order = 2048)
@@ -63,7 +64,10 @@ public class AccountsTab extends AbstractBaseTab
         line2.addComponent( userPanel );
         line.addComponent( line2 );
 
+        VerticalLayout space = new VerticalLayout();
+        space.setHeight( 60, Sizeable.UNITS_PIXELS );
         addComponent( line );
+        addComponent( space );
         setExpandRatio( line, 1 );
     }
 
