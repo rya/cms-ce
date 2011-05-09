@@ -120,6 +120,13 @@ function UserPickerAutoComplete( id, config )
 
     // -------------------------------------------------------------------------------------------------------------------------------------
 
+    t.autoCompleteElement.click( function()
+    {
+        onClick();
+    });
+
+    // -------------------------------------------------------------------------------------------------------------------------------------
+
     function AjaxService_findUsers( request, response )
     {
         var name = request.term;
@@ -216,6 +223,16 @@ function UserPickerAutoComplete( id, config )
             t.autoCompleteElement.attr('class', 'placeholder-text');
 
             t.removeUser();
+        }
+    }
+
+    // -------------------------------------------------------------------------------------------------------------------------------------
+
+    function onClick()
+    {
+        if ( t.autoCompleteElement.val().length > 2 )
+        {
+            t.autoCompleteElement.autocomplete( 'search', t.autoCompleteElement.val() );
         }
     }
 
