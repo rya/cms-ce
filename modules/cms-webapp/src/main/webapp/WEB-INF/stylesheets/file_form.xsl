@@ -70,11 +70,13 @@
           var cookiename = "contentform";
 
           var validatedFields = new Array(2);
-          validatedFields[0] = new Array("%fldName%", "name", validateRequired);
+          var idx = 0;
+          validatedFields[ idx++ ] = new Array("%fldName%", "name", validateRequired);
           <xsl:if test="$create=1">
-              validatedFields[1] = new Array("%fldFile%", "newfile", validateRequired);
+              validatedFields[ idx++ ] = new Array("%fldFile%", "newfile", validateRequired);
           </xsl:if>
-                    
+            validatedFields[ idx++ ] = new Array("%fldFile%", "newfile", validateRequired);
+
           function validateAll( formName )
           {
             var f = document.forms[formName];

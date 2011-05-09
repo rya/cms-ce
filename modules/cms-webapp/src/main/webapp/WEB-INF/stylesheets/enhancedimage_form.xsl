@@ -103,14 +103,14 @@
           // -------------------------------------------------------------------------------------------------------------------------------
 
           var validatedFields = new Array();
-          var g_validatedFields_index = 0;
+          var idx = 0;
 
           <xsl:if test="$create = 1">
-            <xsl:text>validatedFields[g_validatedFields_index++] = new Array("%fldFile%", "origimagefilename", validateRequired);</xsl:text>
+            <xsl:text>validatedFields[ idx++ ] = new Array("%fldFile%", "origimagefilename", validateRequired);</xsl:text>
           </xsl:if>
 
-          validatedFields[g_validatedFields_index++] = new Array("%fldChooseFile%", "origimagefilename", validateRegexp, g_validImageFileTypesPattern, "%msgNotValidImageFileType%");
-          validatedFields[g_validatedFields_index++] = new Array("%fldName%", "name", validateRequired);
+          validatedFields[ idx++ ] = new Array("%fldChooseFile%", "origimagefilename", validateRegexp, g_validImageFileTypesPattern, "%msgNotValidImageFileType%");
+          validatedFields[ idx++ ] = new Array("%fldName%", "name", validateRequired);
 
           // -------------------------------------------------------------------------------------------------------------------------------
 
@@ -343,11 +343,11 @@
             <script type="text/javascript" language="JavaScript">
                 // Disable buttons
                 if (document.getElementById('savebtn') != null)
-                setTextButtonEnabled( document.getElementById('savebtn'), false );
+                    setTextButtonEnabled( document.getElementById('savebtn'), false );
                 if (document.getElementById('publishbtn') != null)
-                setTextButtonEnabled( document.getElementById('publishbtn'), false );
+                    setTextButtonEnabled( document.getElementById('publishbtn'), false );
                 if (document.getElementById('undraftbtn') != null)
-                setTextButtonEnabled( document.getElementById('undraftbtn'), false );
+                    setTextButtonEnabled( document.getElementById('undraftbtn'), false );
             </script>
         </xsl:if>
     </html>
