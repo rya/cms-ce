@@ -30,7 +30,7 @@ public class AccordionPanel
         addStyleName( "accounts-left-panel" );
 
         addTab( filterTreePanel, "Filter", getIcon() );
-        addTab( new VerticalLayout(), "Recent", getIcon() );
+        addTab( new VerticalLayout(), "Tree", getIcon() );
     }
 
 

@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 
 import org.springframework.context.ApplicationContext;
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -48,7 +49,6 @@ final public class AdminWindow
 
             TabSheet tabSheet = new TabSheet();
             tabSheet.setSizeFull();
-
             Map<String, AbstractBaseTab> tabs = applicationContext.getBeansOfType( AbstractBaseTab.class );
             for ( AbstractBaseTab tab : tabs.values() )
             {

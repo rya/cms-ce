@@ -12,15 +12,18 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import com.enonic.cms.admin.spring.VaadinComponent;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.BaseTheme;
 
 import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.group.GroupStorageService;
@@ -47,14 +50,6 @@ public class FilterTreePanel
     @Autowired
     private transient UserStoreService userStoreService;
 
-/*
-    private Property userBoxModel;
-
-    private Property groupBoxModel;
-
-    private Property searchTextModel;
-*/
-
     private CheckBox userBox;
 
     private CheckBox groupBox;
@@ -78,20 +73,21 @@ public class FilterTreePanel
         search.setInputPrompt( "search" );
         search.setStyleName( "accounts-search-text" );
 
-        search.addListener( new FieldEvents.TextChangeListener()
-        {
-            public void textChange( FieldEvents.TextChangeEvent event )
-            {
-                onChangeSearchCriteria( event.getText() );
-            }
-        } );
-
         navigator.addComponent( search );
         navigator.setExpandRatio( search, 0 );
 
         createBoldLabel( navigator, "Type" );
         createUserCheckBox( navigator );
         createGroupCheckBox( navigator );
+        Button searchButton = createButton( navigator, "Search" );
+        searchButton.addListener( new Button.ClickListener()
+        {
+            @Override
+            public void buttonClick( Button.ClickEvent clickEvent )
+            {
+                onChangeSearchCriteria( search.getValue().toString() );
+            }
+        } );
 
         // Userstores
         createBoldLabel( navigator, "Userstores" );
@@ -106,15 +102,29 @@ public class FilterTreePanel
 
             CheckBox checkBox = createCheckBox( navigator, String.format( "%s (%s)", name, relationships.size() ) );
             navigator.addComponent( checkBox );
+            navigator.setExpandRatio( checkBox, 0 );
+            navigator.setComponentAlignment( checkBox, Alignment.TOP_LEFT );
 
             userStoresMap.put( name, checkBox );
         }
-
+        Button linkButton = createButton( navigator, "show all" );
+        linkButton.setStyleName( BaseTheme.BUTTON_LINK );
+        navigator.setComponentAlignment( linkButton, Alignment.TOP_LEFT );
+        Button usSearchButton = createButton( navigator, "Search" );
         addComponent( navigator );
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
 
         // init state
         userBox.setValue( true );
+    }
+
+    private Button createButton( VerticalLayout navigator, String title )
+    {
+        Button button = new Button( title );
+        navigator.addComponent( button );
+        navigator.setExpandRatio( button, 0 );
+        navigator.setComponentAlignment( button, Alignment.TOP_CENTER );
+        return button;
     }
 
     private void createBoldLabel( VerticalLayout navigator, String name )
@@ -165,7 +175,7 @@ public class FilterTreePanel
     private AccordionSearchCriteria populateSearchCriteria( String nameExpression )
     {
         AccordionSearchCriteria criteria = new AccordionSearchCriteria();
-        criteria.setNameExpression(nameExpression);
+        criteria.setNameExpression( nameExpression );
 
         for ( Map.Entry<String, CheckBox> entry : userStoresMap.entrySet() )
         {
@@ -197,6 +207,6 @@ public class FilterTreePanel
             issues.addAll( groupStorageService.findByCriteria( criteria ) );
         }
 
-        tablePanel.showIssues(issues);
+        tablePanel.showIssues( issues );
     }
 }
