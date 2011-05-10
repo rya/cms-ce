@@ -25,6 +25,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.VerticalSplitPanel;
 
 @VaadinComponent
 @TopLevelTab(title = "Accounts", order = 2048)
@@ -79,8 +80,8 @@ public class AccountsTab
         filterComponent.setExpandRatio( accordionPanel, 1.0f );
         line.addComponent( filterComponent );
 
-        HorizontalSplitPanel line2 = new HorizontalSplitPanel();
-        line2.setSplitPosition( 500, Sizeable.UNITS_PIXELS );
+        VerticalSplitPanel line2 = new VerticalSplitPanel();
+        line2.setSplitPosition( 400, Sizeable.UNITS_PIXELS );
         line2.addComponent( tablePanel );
         line2.addComponent( userPanel );
         line.addComponent( line2 );
