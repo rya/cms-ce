@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import com.enonic.cms.admin.AdminWindow;
 import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.admin.tabs.accounts.AccordionPanel;
+import com.enonic.cms.admin.tabs.accounts.NewItemMenu;
 import com.enonic.cms.admin.tabs.accounts.TablePanel;
 import com.enonic.cms.admin.tabs.accounts.UserPanel;
 import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
@@ -42,7 +43,11 @@ public class AccountsTab
     @Autowired
     private UserPanel userPanel;
 
+    @Autowired
     private OptionGroup selectView;
+
+    @Autowired
+    private NewItemMenu newItemMenu;
 
     @PostConstruct
     private void init()
@@ -55,26 +60,6 @@ public class AccountsTab
         label.setContentMode( Label.CONTENT_XHTML );
         top.addComponent( label );
 
-        MenuBar bar = new MenuBar();
-        MenuBar.MenuItem newItem = bar.addItem( "New", null, null );
-        newItem.addItem( "New (User)", null, null );
-        newItem.addItem( "New (Group)", null, null );
-        top.addComponent( bar, "top:5px; right:0px" );
-        OptionGroup selectView = new OptionGroup();
-        selectView.setHeight( 25, Sizeable.UNITS_PIXELS );
-        selectView.addItem( "Overview" );
-        selectView.addItem( "Browse" );
-        selectView.addItem( "Views" );
-        selectView.setStyleName( "selectView" );
-        selectView.setImmediate(true);
-        selectView.addListener( new Property.ValueChangeListener()
-        {
-            public void valueChange( Property.ValueChangeEvent event )
-            {
-                getWindow().showNotification( "Selected city: " + event.getProperty() );
-
-            }
-        } );
         addComponent( top );
         addComponent( selectView );
         setSpacing( true );
@@ -85,8 +70,15 @@ public class AccountsTab
         HorizontalSplitPanel line = new HorizontalSplitPanel();
         line.setSplitPosition( 200, Sizeable.UNITS_PIXELS );
         line.setSizeFull();
+        // Filter component
+        VerticalLayout filterComponent = new VerticalLayout();
+        filterComponent.setSpacing( true );
+        filterComponent.setHeight( 100, Sizeable.UNITS_PERCENTAGE );
+        filterComponent.addComponent( newItemMenu );
+        filterComponent.addComponent( accordionPanel );
+        filterComponent.setExpandRatio( accordionPanel, 1.0f );
+        line.addComponent( filterComponent );
 
-        line.addComponent( accordionPanel );
         HorizontalSplitPanel line2 = new HorizontalSplitPanel();
         line2.setSplitPosition( 500, Sizeable.UNITS_PIXELS );
         line2.addComponent( tablePanel );
