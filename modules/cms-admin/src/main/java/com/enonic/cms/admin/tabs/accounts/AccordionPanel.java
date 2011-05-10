@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import com.enonic.cms.admin.spring.VaadinComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.Accordion;
 import com.vaadin.ui.VerticalLayout;
 
@@ -28,7 +29,7 @@ public class AccordionPanel
     private void init()
     {
         addStyleName( "accounts-left-panel" );
-
+        setHeight( 100, Sizeable.UNITS_PERCENTAGE );
         addTab( filterTreePanel, "Filter", getIcon() );
         addTab( new VerticalLayout(), "Tree", getIcon() );
     }
