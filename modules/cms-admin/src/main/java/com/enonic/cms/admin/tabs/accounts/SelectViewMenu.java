@@ -28,14 +28,13 @@ public class SelectViewMenu
     @PostConstruct
     public void init()
     {
-        OptionGroup selectView = new OptionGroup();
-        selectView.setHeight( 25, Sizeable.UNITS_PIXELS );
-        selectView.addItem( OVERVIEW_MENU_ITEM );
-        selectView.addItem( BROWSE_MENU_ITEM );
-        selectView.addItem( VIEWS_MENU_ITEM );
-        selectView.setStyleName( STYLE_NAME );
-        selectView.setImmediate( true );
-        selectView.addListener( new Property.ValueChangeListener()
+        setHeight( 25, Sizeable.UNITS_PIXELS );
+        addItem( OVERVIEW_MENU_ITEM );
+        addItem( BROWSE_MENU_ITEM );
+        addItem( VIEWS_MENU_ITEM );
+        setStyleName( STYLE_NAME );
+        setImmediate( true );
+        addListener( new Property.ValueChangeListener()
         {
             public void valueChange( Property.ValueChangeEvent event )
             {
