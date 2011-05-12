@@ -4,21 +4,27 @@
  */
 package com.enonic.cms.portal.datasource;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.el.ExpressionFactory;
-import javax.el.ValueExpression;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.expression.MapAccessor;
+import org.springframework.expression.AccessException;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.Expression;
+import org.springframework.expression.ExpressionParser;
+import org.springframework.expression.ParserContext;
+import org.springframework.expression.TypedValue;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
-import de.odysseus.el.ExpressionFactoryImpl;
-import de.odysseus.el.util.SimpleContext;
 
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsStatic;
@@ -28,8 +34,11 @@ import com.enonic.cms.core.security.user.UserEntity;
 
 public final class ExpressionFunctionsExecutor
 {
+    private static final Logger LOG = LoggerFactory.getLogger( "EL" );
 
-    private static final ExpressionFactory EXPR_FACTORY = new ExpressionFactoryImpl();
+    private static final ExpressionParser EXPR_FACTORY = new SpelExpressionParser();
+    private static final TemplateParserContext TEMPLATE_PARSER_CONTEXT= new TemplateParserContext();
+
 
     private RequestParameters requestParameters;
 
@@ -55,28 +64,39 @@ public final class ExpressionFunctionsExecutor
     public String evaluate( String expression )
         throws Exception
     {
-        SimpleContext context = new SimpleContext();
-        addFunctions( context );
-        context.setVariable( "param", EXPR_FACTORY.createValueExpression( createParameterMap(), Map.class ) );
-        context.setVariable( "cookie", EXPR_FACTORY.createValueExpression( createCookieMap(), Map.class ) );
-        context.setVariable( "user", EXPR_FACTORY.createValueExpression( createUserMap(), Map.class ) );
-        context.setVariable( "portal", EXPR_FACTORY.createValueExpression( createPortalMap(), Map.class ) );
-
-        ValueExpression exp = EXPR_FACTORY.createValueExpression( context, expression, String.class );
+        // all functions in ExpressionFunctionsStatic are available by default
+        StandardEvaluationContext context = new StandardEvaluationContext(new ExpressionFunctionsStatic() {
+            public Map<String, String> param = createParameterMap();
+            //public Map<String, String> session = createSessionMap(); /* hza: i do not know why session is not supported ! */
+            public Map<String, String> cookie = createCookieMap();
+            public Map<String, String> user = createUserMap();
+            public Map<String, String> portal = createPortalMap();
+        });
 
         ExpressionFunctionsFactory.get().setContext( expressionContext );
 
-        String evaluatedString;
+        context.addPropertyAccessor( new SafeMapAccessor() );
+
+        Expression exp = EXPR_FACTORY.parseExpression( expression, TEMPLATE_PARSER_CONTEXT );
+
+        String evaluatedString = "";
+
         try
         {
             evaluatedString = exp.getValue( context ).toString();
+        }
+        catch ( Exception e )
+        {
+            LOG.error( "EL evaluation fails !", e );
         }
         finally
         {
             ExpressionFunctionsFactory.get().removeContext();
         }
+
         return evaluatedString;
     }
+
 
     private Map<String, String> createPortalMap()
     {
@@ -221,33 +241,50 @@ public final class ExpressionFunctionsExecutor
         return map;
     }
 
-    private void addFunctions( SimpleContext context )
+    /**
+     *  does not throw Exception if map does not contain key
+     */
+    private static class SafeMapAccessor
+            extends MapAccessor
     {
-        for ( Method method : ExpressionFunctionsStatic.class.getMethods() )
+        @Override
+        public TypedValue read( EvaluationContext context, Object target, String name )
+                throws AccessException
         {
-            int modifiers = method.getModifiers();
-            if ( Modifier.isPublic( modifiers ) && Modifier.isStatic( modifiers ) )
-            {
-                addFunction( context, method );
+            Map map = (Map) target;
+            Object value = map.get(name);
+            if (value == null && !map.containsKey(name)) {
+                return TypedValue.NULL;
             }
+            return new TypedValue(value);
         }
-    }
 
-    private void addFunction( SimpleContext context, Method method )
-    {
-        String name = method.getName();
-        String prefix = "";
-        String localName = name;
-
-        int pos = name.indexOf( "_" );
-        if ( pos > -1 )
+        @Override
+        public boolean canRead( EvaluationContext context, Object target, String name )
+                throws AccessException
         {
-            prefix = name.substring( 0, pos );
-            localName = name.substring( pos + 1 );
+            return true;
         }
-
-        context.setFunction( prefix, localName, method );
     }
 
+    /**
+     *  support for ${} format. SPEL by default uses #{} format
+     */
+    private static class TemplateParserContext
+            implements ParserContext
+    {
+        public String getExpressionPrefix()
+        {
+            return "${";
+        }
 
-}
+        public String getExpressionSuffix()
+        {
+            return "}";
+        }
+
+        public boolean isTemplate()
+        {
+            return true;
+        }
+    }}
