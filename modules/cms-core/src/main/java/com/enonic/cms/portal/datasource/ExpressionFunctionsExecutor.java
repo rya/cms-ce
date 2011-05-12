@@ -70,7 +70,7 @@ public final class ExpressionFunctionsExecutor
             //public Map<String, String> session = createSessionMap(); /* hza: i do not know why session is not supported ! */
             public Map<String, String> cookie = createCookieMap();
             public Map<String, String> user = createUserMap();
-            public Map<String, String> portal = createPortalMap();
+            public Map<String, Object> portal = createPortalMap();
         });
 
         ExpressionFunctionsFactory.get().setContext( expressionContext );
@@ -98,9 +98,9 @@ public final class ExpressionFunctionsExecutor
     }
 
 
-    private Map<String, String> createPortalMap()
+    private Map<String, Object> createPortalMap()
     {
-        Map<String, String> portalMap = new HashMap<String, String>();
+        Map<String, Object> portalMap = new HashMap<String, Object>();
 
         portalMap.put( "deviceClass", expressionContext.getDeviceClass() );
         portalMap.put( "locale", createLocale() );
@@ -114,11 +114,11 @@ public final class ExpressionFunctionsExecutor
 
     }
 
-    private String createIsWindowInline()
+    private Boolean createIsWindowInline()
     {
         if ( expressionContext.isPortletWindowRenderedInline() != null )
         {
-            return expressionContext.isPortletWindowRenderedInline().toString();
+            return expressionContext.isPortletWindowRenderedInline();
         }
         return null;
     }
