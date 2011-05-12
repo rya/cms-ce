@@ -704,6 +704,10 @@ public abstract class AdminHandlerBaseServlet
         session = request.getSession( false );
         response.setContentType( "text/html;charset=UTF-8" );
 
+        // Make IE 9 behave like IE 8
+        // http://msdn.microsoft.com/en-us/library/cc288325%28v=vs.85%29.aspx#Servers
+        response.setHeader( "X-UA-Compatible", "IE=EmulateIE8" );
+
         if ( session == null )
         {
             VerticalAdminLogger.debug( this.getClass(), 100, "Session is null. Redirecting to login.", null );
