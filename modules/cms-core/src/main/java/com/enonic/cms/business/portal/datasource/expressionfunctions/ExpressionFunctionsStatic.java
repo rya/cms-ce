@@ -7,7 +7,7 @@ package com.enonic.cms.business.portal.datasource.expressionfunctions;
 /**
  * This class implements the expression functions.
  */
-public final class ExpressionFunctionsStatic
+public class ExpressionFunctionsStatic
 {
 
     public static String isnotblank( String str )

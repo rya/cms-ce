@@ -111,8 +111,8 @@
             <artifactId>tidy</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.odysseus.juel</groupId>
-            <artifactId>juel</artifactId>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-expression</artifactId>
         </dependency>
         <dependency>
             <groupId>com.googlecode.concurrentlinkedhashmap</groupId>
