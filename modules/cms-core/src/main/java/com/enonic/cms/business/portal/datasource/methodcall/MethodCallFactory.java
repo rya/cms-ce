@@ -7,9 +7,6 @@ package com.enonic.cms.business.portal.datasource.methodcall;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import com.enonic.cms.api.plugin.ext.FunctionLibrary;
-import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
@@ -18,6 +15,10 @@ import com.enonic.esl.util.TStringArrayList;
 import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 
 import com.enonic.cms.framework.util.JDOMUtil;
+
+import com.enonic.cms.api.plugin.ext.FunctionLibrary;
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 
 import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
@@ -88,7 +89,7 @@ public class MethodCallFactory
 
         boolean isCacheable = datasource.isCacheable();
 
-        return new MethodCall( dataSourceObject, parameters, method, isCacheable );
+        return new MethodCall( targetObject, parameters, method, isCacheable );
     }
 
     private static MethodCallParameter createParameter( Element parmeterEl, Class paramType, DatasourceExecutorContext context )
