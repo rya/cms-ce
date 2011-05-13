@@ -95,3 +95,6 @@ div.v-tabsheet-content {
     color: black;
 }
 
+.v-tabsheet-tabitemcell {
+    padding-left: 0px !important;;
+}
