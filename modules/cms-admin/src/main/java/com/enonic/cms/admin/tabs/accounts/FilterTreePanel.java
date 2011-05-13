@@ -111,7 +111,8 @@ public class FilterTreePanel
             // TODO [RNE]: Are GROUP relationships wanted ??
             List<UserEntity> relationships = userStoreService.getUsers( userStore.getKey() );
 
-            CheckBox checkBox = createCheckBox( navigator, String.format( "%s (%s)", name, relationships.size() ) );
+//            CheckBox checkBox = createCheckBox( navigator, String.format( "%s (%s)", name, relationships.size() ) );
+            CheckBox checkBox = createCheckBox( navigator, String.format( "%s", name ) );
             navigator.addComponent( checkBox );
             navigator.setExpandRatio( checkBox, 0 );
             navigator.setComponentAlignment( checkBox, Alignment.TOP_LEFT );
