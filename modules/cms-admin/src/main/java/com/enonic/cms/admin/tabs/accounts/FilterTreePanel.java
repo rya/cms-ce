@@ -88,7 +88,7 @@ public class FilterTreePanel
         createBoldLabel( navigator, "Type" );
         createUserCheckBox( navigator );
         createGroupCheckBox( navigator );
-/* Commented by RYA. @See issue #B-01965.
+/* Commented by RYA in 5.0. @See issue #B-01965.
         Button searchButton = createButton( navigator, "Search" );
         searchButton.addListener( new Button.ClickListener()
         {
@@ -121,7 +121,7 @@ public class FilterTreePanel
         Button linkButton = createButton( navigator, "show all" );
         linkButton.setStyleName( BaseTheme.BUTTON_LINK );
         navigator.setComponentAlignment( linkButton, Alignment.TOP_LEFT );
-// Commented by RYA. @See issue #B-01965.
+// Commented by RYA in 5.0. @See issue #B-01965.
 //        Button usSearchButton = createButton( navigator, "Search" );
         addComponent( navigator );
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
@@ -151,16 +151,22 @@ public class FilterTreePanel
 
     private void createUserCheckBox( VerticalLayout navigator )
     {
+/* Commented by RYA in 5.0. @See issue #B-01962
         Long count = userServicesService.count();
         String title = String.format( "Users (%s)", count );
         userBox = createCheckBox( navigator, title );
+*/
+        userBox = createCheckBox( navigator, "Users" );
     }
 
     private void createGroupCheckBox( VerticalLayout navigator )
     {
+/* Commented by RYA in 5.0. @See issue #B-01962
         Long count = groupStorageService.count();
         String title = String.format( "Groups (%s)", count );
         groupBox = createCheckBox( navigator, title );
+*/
+        groupBox = createCheckBox( navigator, "Groups" );
     }
 
     private CheckBox createCheckBox( VerticalLayout navigator, String title )
