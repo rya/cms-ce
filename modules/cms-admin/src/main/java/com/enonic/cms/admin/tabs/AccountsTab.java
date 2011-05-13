@@ -81,7 +81,7 @@ public class AccountsTab
         line.addComponent( filterComponent );
 
         VerticalSplitPanel line2 = new VerticalSplitPanel();
-        line2.setSplitPosition( 400, Sizeable.UNITS_PIXELS );
+        line2.setSplitPosition( 300, Sizeable.UNITS_PIXELS );
         line2.addComponent( tablePanel );
         line2.addComponent( userPanel );
         line.addComponent( line2 );
