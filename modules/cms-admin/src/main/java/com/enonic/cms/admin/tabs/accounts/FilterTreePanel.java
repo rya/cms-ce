@@ -11,11 +11,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import com.enonic.cms.admin.spring.VaadinComponent;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.data.Property;
 import com.vaadin.event.FieldEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -25,6 +22,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.BaseTheme;
 
+import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.group.GroupStorageService;
 import com.enonic.cms.core.security.user.AccordionSearchCriteria;
@@ -73,12 +71,24 @@ public class FilterTreePanel
         search.setInputPrompt( "search" );
         search.setStyleName( "accounts-search-text" );
 
+        search.addListener( new FieldEvents.TextChangeListener()
+        {
+            public void textChange( FieldEvents.TextChangeEvent event )
+            {
+                onChangeSearchCriteria( event.getText() );
+            }
+        } );
+        // [IMPORTANT] Need to textfield-listener applied
+        // @See http://vaadin.com/forum/-/message_boards/view_message/98506
+        search.setImmediate( true );
+
         navigator.addComponent( search );
         navigator.setExpandRatio( search, 0 );
 
         createBoldLabel( navigator, "Type" );
         createUserCheckBox( navigator );
         createGroupCheckBox( navigator );
+/* Commented by RYA. @See issue #B-01965.
         Button searchButton = createButton( navigator, "Search" );
         searchButton.addListener( new Button.ClickListener()
         {
@@ -88,6 +98,7 @@ public class FilterTreePanel
                 onChangeSearchCriteria( search.getValue().toString() );
             }
         } );
+*/
 
         // Userstores
         createBoldLabel( navigator, "Userstores" );
@@ -110,12 +121,14 @@ public class FilterTreePanel
         Button linkButton = createButton( navigator, "show all" );
         linkButton.setStyleName( BaseTheme.BUTTON_LINK );
         navigator.setComponentAlignment( linkButton, Alignment.TOP_LEFT );
-        Button usSearchButton = createButton( navigator, "Search" );
+// Commented by RYA. @See issue #B-01965.
+//        Button usSearchButton = createButton( navigator, "Search" );
         addComponent( navigator );
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
-
+/*
         // init state
         userBox.setValue( true );
+*/
     }
 
     private Button createButton( VerticalLayout navigator, String title )
@@ -152,22 +165,23 @@ public class FilterTreePanel
 
     private CheckBox createCheckBox( VerticalLayout navigator, String title )
     {
-        CheckBox checkBox = new CheckBox( title );
+        CheckBox checkBox = new CheckBox( title, new Button.ClickListener()
+        {
+            @Override
+            public void buttonClick( Button.ClickEvent event )
+            {
+                String searchText = (String) search.getValue();
+                onChangeSearchCriteria( searchText );
+            }
+        });
+        // [IMPORTANT] Need to button-listener applied
+        // @See http://vaadin.com/forum/-/message_boards/view_message/98506
+        checkBox.setImmediate( true );
         checkBox.setStyleName( "accounts-check-filter" );
 
         navigator.addComponent( checkBox );
         navigator.setExpandRatio( checkBox, 0 );
         navigator.setComponentAlignment( checkBox, Alignment.TOP_LEFT );
-
-        checkBox.addListener( new Property.ValueChangeListener()
-        {
-            @Override
-            public void valueChange( Property.ValueChangeEvent event )
-            {
-                String searchText = (String) search.getValue();
-                onChangeSearchCriteria( searchText );
-            }
-        } );
 
         return checkBox;
     }
