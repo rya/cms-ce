@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import com.enonic.cms.admin.AdminWindow;
 import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.admin.tabs.accounts.AccordionPanel;
+import com.enonic.cms.admin.tabs.accounts.MultipleSelectionPanel;
 import com.enonic.cms.admin.tabs.accounts.NewItemMenu;
 import com.enonic.cms.admin.tabs.accounts.TablePanel;
 import com.enonic.cms.admin.tabs.accounts.UserPanel;
@@ -16,13 +17,11 @@ import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vaadin.data.Property;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalSplitPanel;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.VerticalSplitPanel;
@@ -49,6 +48,9 @@ public class AccountsTab
 
     @Autowired
     private NewItemMenu newItemMenu;
+
+    @Autowired
+    private MultipleSelectionPanel multipleSelectionPanel;
 
     @PostConstruct
     private void init()
@@ -81,9 +83,11 @@ public class AccountsTab
         line.addComponent( filterComponent );
 
         VerticalSplitPanel line2 = new VerticalSplitPanel();
-        line2.setSplitPosition( 300, Sizeable.UNITS_PIXELS );
+        line2.setSizeFull();
+        line2.setSplitPosition( 350, Sizeable.UNITS_PIXELS );
         line2.addComponent( tablePanel );
-        line2.addComponent( userPanel );
+//        line2.addComponent( userPanel );
+        line2.addComponent( multipleSelectionPanel );
         line.addComponent( line2 );
 
         VerticalLayout space = new VerticalLayout();

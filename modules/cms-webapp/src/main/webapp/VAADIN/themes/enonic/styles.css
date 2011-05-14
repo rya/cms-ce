@@ -98,3 +98,7 @@ div.v-tabsheet-content {
 .v-tabsheet-tabitemcell {
     padding-left: 0px !important;;
 }
+
+.selectedPanel .v-panel-content > div{
+    background: #d3d3d3;
+}
