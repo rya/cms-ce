@@ -5,12 +5,12 @@
 package com.enonic.cms.admin;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 
 import org.springframework.context.ApplicationContext;
 
-import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -20,6 +20,7 @@ import com.enonic.cms.admin.spring.events.ApplicationCreatedEvent;
 import com.enonic.cms.admin.spring.events.ApplicationEvent;
 import com.enonic.cms.admin.spring.events.ApplicationEventListener;
 import com.enonic.cms.admin.tabs.AbstractBaseTab;
+import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 @VaadinComponent
 final public class AdminWindow
@@ -36,7 +37,7 @@ final public class AdminWindow
     }
 
     /**
-     * create tabs after AdminApplication is created - helps agains cyclic dependencies
+     * create tabs after AdminApplication is created - helps against cyclic dependencies
      * @param event event
      */
     @Override
@@ -49,8 +50,14 @@ final public class AdminWindow
 
             TabSheet tabSheet = new TabSheet();
             tabSheet.setSizeFull();
+
             Map<String, AbstractBaseTab> tabs = applicationContext.getBeansOfType( AbstractBaseTab.class );
+            Map<Integer, AbstractBaseTab> sortedTabs = new TreeMap<Integer, AbstractBaseTab>();
             for ( AbstractBaseTab tab : tabs.values() )
+            {
+                sortedTabs.put(tab.getClass().getAnnotation( TopLevelTab.class ).order(), tab);
+            }
+            for ( AbstractBaseTab tab : sortedTabs.values() )
             {
                 tabSheet.addTab( tab );
             }
