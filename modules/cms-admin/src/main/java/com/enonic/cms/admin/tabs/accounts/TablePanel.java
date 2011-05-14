@@ -74,6 +74,9 @@ public class TablePanel
     @Autowired
     private PopupWindowFactory windowFactory;
 
+    @Autowired
+    private MultipleSelectionPanel multipleSelectionPanel;
+
     private Boolean allChecked = Boolean.FALSE;
 
     @PostConstruct
@@ -85,7 +88,7 @@ public class TablePanel
         setImmediate( true );
         setSizeFull();
         IndexedContainer container = new IndexedContainer();
-        container.addContainerProperty( CHECKBOX, CheckBox.class, new CheckBox() );
+        container.addContainerProperty( CHECKBOX, CheckBox.class, null );
         setColumnHeader( CHECKBOX, "" );
         setColumnIcon( CHECKBOX, new ThemeResource( "images/uncheckedbox.gif" ) );
         container.addContainerProperty( TYPE, Embedded.class, null );
@@ -107,12 +110,11 @@ public class TablePanel
 
         Container container = getContainerDataSource();
         container.removeAllItems();
-        setValue( null );
 
+        setValue(null);
         for ( final IAccordionPresentation issue : issues )
         {
             Item item = container.addItem( issue );
-
             Embedded icon = null;
             if ( issue instanceof User )
             {
@@ -170,6 +172,7 @@ public class TablePanel
 
             item.getItemProperty( LAST_MODIFIED ).setValue( issue.getISODate() );
         }
+        setValue( null );
     }
 
     /*
@@ -247,22 +250,24 @@ public class TablePanel
     public void valueChange( Property.ValueChangeEvent valueChangeEvent )
     {
         Set<?> value = (Set<?>) getValue();
-        Collection itemIds = getItemIds();
+        Collection<IAccordionPresentation> itemIds = (Collection<IAccordionPresentation>) getItemIds();
         if ( null == value || value.size() == 0 )
         {
 
         }
         else
         {
-            for ( Object itemId : itemIds )
+            for ( IAccordionPresentation itemId : itemIds )
             {
                 CheckBox ch = (CheckBox) getItem( itemId ).getItemProperty( CHECKBOX ).getValue();
                 if ( value.contains( itemId ) )
                 {
+                    multipleSelectionPanel.addItem( itemId );
                     ch.setValue( Boolean.TRUE );
                 }
                 else
                 {
+                    multipleSelectionPanel.removeItem( itemId );
                     ch.setValue( Boolean.FALSE );
                 }
             }
