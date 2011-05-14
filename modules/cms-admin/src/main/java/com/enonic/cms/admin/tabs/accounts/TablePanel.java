@@ -77,6 +77,9 @@ public class TablePanel
     @Autowired
     private MultipleSelectionPanel multipleSelectionPanel;
 
+    @Autowired
+    private DetailsPanel detailsPanel;
+
     private Boolean allChecked = Boolean.FALSE;
 
     @PostConstruct
@@ -111,7 +114,7 @@ public class TablePanel
         Container container = getContainerDataSource();
         container.removeAllItems();
 
-        setValue(null);
+        setValue( null );
         for ( final IAccordionPresentation issue : issues )
         {
             Item item = container.addItem( issue );
@@ -251,12 +254,16 @@ public class TablePanel
     {
         Set<?> value = (Set<?>) getValue();
         Collection<IAccordionPresentation> itemIds = (Collection<IAccordionPresentation>) getItemIds();
-        if ( null == value || value.size() == 0 )
+        if ( value.size() > 0 )
         {
-
-        }
-        else
-        {
+            if ( value.size() > 1 )
+            {
+                detailsPanel.switchToMultipleMode();
+            }
+            else
+            {
+                detailsPanel.switchToSingleMode();
+            }
             for ( IAccordionPresentation itemId : itemIds )
             {
                 CheckBox ch = (CheckBox) getItem( itemId ).getItemProperty( CHECKBOX ).getValue();

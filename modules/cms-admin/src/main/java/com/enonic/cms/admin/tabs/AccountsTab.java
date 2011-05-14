@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import com.enonic.cms.admin.AdminWindow;
 import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.admin.tabs.accounts.AccordionPanel;
+import com.enonic.cms.admin.tabs.accounts.DetailsPanel;
 import com.enonic.cms.admin.tabs.accounts.MultipleSelectionPanel;
 import com.enonic.cms.admin.tabs.accounts.NewItemMenu;
 import com.enonic.cms.admin.tabs.accounts.TablePanel;
@@ -50,6 +51,9 @@ public class AccountsTab
     private NewItemMenu newItemMenu;
 
     @Autowired
+    private DetailsPanel detailsPanel;
+
+    @Autowired
     private MultipleSelectionPanel multipleSelectionPanel;
 
     @PostConstruct
@@ -86,8 +90,7 @@ public class AccountsTab
         line2.setSizeFull();
         line2.setSplitPosition( 350, Sizeable.UNITS_PIXELS );
         line2.addComponent( tablePanel );
-//        line2.addComponent( userPanel );
-        line2.addComponent( multipleSelectionPanel );
+        line2.addComponent( detailsPanel );
         line.addComponent( line2 );
 
         VerticalLayout space = new VerticalLayout();
