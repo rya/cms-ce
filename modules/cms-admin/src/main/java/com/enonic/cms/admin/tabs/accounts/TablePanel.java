@@ -119,7 +119,7 @@ public class TablePanel
         {
             Item item = container.addItem( issue );
             Embedded icon = null;
-            if ( issue instanceof User )
+            if ( issue instanceof UserEntity )
             {
                 if ( ( (UserEntity) issue ).getPhoto() != null )
                 {
@@ -246,7 +246,11 @@ public class TablePanel
     public void itemClick( ItemClickEvent itemClickEvent )
     {
         String userName = itemClickEvent.getItem().getItemProperty( QUALIFIED_NAME ).toString();
-        userPanel.showUser( userName );
+        Object itemId = itemClickEvent.getItemId();
+        if (itemId instanceof UserEntity){
+            UserEntity user = (UserEntity)itemId;
+            userPanel.showUser( user.getKey() );
+        }
     }
 
     @Override

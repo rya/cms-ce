@@ -27,6 +27,7 @@ public class DetailsPanel extends HorizontalLayout
 
     @PostConstruct
     public void init(){
+        setSizeFull();
         addComponent( userPanel );
     }
 

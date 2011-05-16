@@ -210,23 +210,17 @@ public class UserPanel
         return button;
     }
 
-    public void showUser( String userName )
+    public void showUser( UserKey userKey )
     {
-        List<UserEntity> users =
-                UncheckedCastUtil.castList( userServicesService.findByCriteria( userName, "name", true ),
-                                            UserEntity.class );
-        if ( users.size() > 0 )
-        {
-            UserEntity user = users.get( 0 );
-            userPanelBean.setUserKey( user.getKey() );
-            userPanelBean.setDisplayName( user.getDisplayName() );
-            userPanelBean.setEmail( user.getEmail() );
-            userPanelBean.setName( user.getName() );
-            userPanelBean.setUserStoreName( user.getQualifiedName().getUserStoreName() );
-            userPanelBean.setUserPhoto( user.getPhoto() );
-            drawUserAvatar();
-            requestRepaintAll();
-        }
+        UserEntity user = (UserEntity) userServicesService.getUserByKey( userKey );
+        userPanelBean.setUserKey( user.getKey() );
+        userPanelBean.setDisplayName( user.getDisplayName() );
+        userPanelBean.setEmail( user.getEmail() );
+        userPanelBean.setName( user.getName() );
+        userPanelBean.setUserStoreName( user.getQualifiedName().getUserStoreName() );
+        userPanelBean.setUserPhoto( user.getPhoto() );
+        drawUserAvatar();
+        requestRepaintAll();
     }
 
 }
