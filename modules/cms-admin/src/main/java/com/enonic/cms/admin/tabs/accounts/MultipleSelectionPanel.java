@@ -47,9 +47,9 @@ public class MultipleSelectionPanel
 
     private Map<IAccordionPresentation, SelectedItemPushButton> selectedItems;
 
-    public MultipleSelectionPanel( )
+    public MultipleSelectionPanel()
     {
-        super(MAX_IN_COL, MAX_IN_ROW);
+        super( MAX_IN_COL, MAX_IN_ROW );
     }
 
     @PostConstruct
@@ -58,7 +58,7 @@ public class MultipleSelectionPanel
         selectedItems = new HashMap<IAccordionPresentation, SelectedItemPushButton>();
         setMargin( true );
         setSpacing( true );
-        Button deleteButton = createButton( "Delete" );
+        setSizeFull();
     }
 
     public void addItem( IAccordionPresentation item )
@@ -80,23 +80,33 @@ public class MultipleSelectionPanel
         if ( selectedItems.containsKey( item ) )
         {
             selectedItems.remove( item );
-            removeAllComponents();
-            for ( SelectedItemPushButton button : selectedItems.values() )
-            {
-                if ( getComponentCount() <= MAX_IN_COL * MAX_IN_ROW )
-                {
-                    addComponent( button );
-                }
-            }
+            updatePanel();
         }
     }
 
-
-    private Button createButton( String caption )
+    public void removeSelectedItems()
     {
-        Button button = new Button( caption );
-        button.setWidth( 100, Sizeable.UNITS_PIXELS );
-        return button;
+        List<SelectedItemPushButton> buttons = new ArrayList<SelectedItemPushButton>( selectedItems.values() );
+        for ( SelectedItemPushButton button : buttons )
+        {
+            if ( button.isSelected() )
+            {
+                selectedItems.remove( button.getEntry() );
+            }
+        }
+        updatePanel();
+    }
+
+    private void updatePanel()
+    {
+        removeAllComponents();
+        for ( SelectedItemPushButton button : selectedItems.values() )
+        {
+            if ( getComponentCount() < MAX_IN_COL * MAX_IN_ROW )
+            {
+                addComponent( button );
+            }
+        }
     }
 
 
