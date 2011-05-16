@@ -7,6 +7,11 @@
     */
 }
 
+.bold {
+    font-weight: bold;
+}
+
+
 .accounts-left-panel .accounts-check-title {
     font-weight: bold;
 }
