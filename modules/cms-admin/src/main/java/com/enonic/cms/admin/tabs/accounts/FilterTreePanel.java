@@ -6,6 +6,7 @@ package com.enonic.cms.admin.tabs.accounts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CheckBox;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -105,6 +107,7 @@ public class FilterTreePanel
         userStoresMap.clear();
 
         List<UserStoreEntity> userStores = userStoreService.findAll();
+
         for ( UserStoreEntity userStore : userStores )
         {
             String name = userStore.getName();
@@ -170,17 +173,41 @@ public class FilterTreePanel
         groupBox = createCheckBox( navigator, "Groups" );
     }
 
-    private CheckBox createCheckBox( VerticalLayout navigator, String title )
+    private CheckBox createCheckBox( final VerticalLayout navigator, String title )
     {
-        CheckBox checkBox = new CheckBox( title, new Button.ClickListener()
+        final CheckBox checkBox = new CheckBox( title );
+        Button.ClickListener bold = new Button.ClickListener()
         {
             @Override
             public void buttonClick( Button.ClickEvent event )
             {
                 String searchText = (String) search.getValue();
                 onChangeSearchCriteria( searchText );
+
+                boolean checked = Boolean.class.cast( checkBox.getValue() );
+
+                for (int i = navigator.getComponentCount(); i-->0;)
+                {
+                    Component component = navigator.getComponent( i );
+                    if (component instanceof CheckBox)
+                    {
+                        CheckBox cb = CheckBox.class.cast( component );
+                        boolean currentIsType = cb == userBox || cb == groupBox;
+                        boolean userstoreClicked = checkBox != userBox && checkBox != groupBox;
+                        boolean hasToUncheck = userstoreClicked && !currentIsType;
+                        if ( cb != checkBox && hasToUncheck)
+                        {
+                            cb.setValue( false );
+                            cb.removeStyleName( "bold" );
+                        }
+                    }
+                }
+
+                if (checked) checkBox.addStyleName( "bold" );
+                if (!checked) checkBox.removeStyleName( "bold" );
             }
-        });
+        };
+        checkBox.addListener( bold );
         // [IMPORTANT] Need to button-listener applied
         // @See http://vaadin.com/forum/-/message_boards/view_message/98506
         checkBox.setImmediate( true );
