@@ -6,7 +6,6 @@ package com.enonic.cms.admin.tabs.accounts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,6 @@ import com.enonic.cms.admin.spring.VaadinComponent;
 import com.enonic.cms.core.security.IAccordionPresentation;
 import com.enonic.cms.core.security.group.GroupStorageService;
 import com.enonic.cms.core.security.user.AccordionSearchCriteria;
-import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.UserServicesService;
@@ -112,8 +110,7 @@ public class FilterTreePanel
         {
             String name = userStore.getName();
             // TODO [RNE]: Are GROUP relationships wanted ??
-            List<UserEntity> relationships = userStoreService.getUsers( userStore.getKey() );
-
+//            List<UserEntity> relationships = userStoreService.getUsers( userStore.getKey() );
 //            CheckBox checkBox = createCheckBox( navigator, String.format( "%s (%s)", name, relationships.size() ) );
             CheckBox checkBox = createCheckBox( navigator, String.format( "%s", name ) );
             navigator.addComponent( checkBox );
@@ -129,10 +126,9 @@ public class FilterTreePanel
 //        Button usSearchButton = createButton( navigator, "Search" );
         addComponent( navigator );
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
-/*
         // init state
         userBox.setValue( true );
-*/
+        onChangeSearchCriteria( "" );
     }
 
     private Button createButton( VerticalLayout navigator, String title )
