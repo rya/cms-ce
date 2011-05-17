@@ -18,6 +18,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import com.enonic.cms.admin.image.EmbeddedImageFactory;
@@ -42,6 +43,8 @@ public class MultipleSelectionPanel
 
     private static String CLOSE_ICON_PATH = "images/close-icon.png";
 
+    private Label infoLabel;
+
     @Autowired
     private EmbeddedImageFactory imageFactory;
 
@@ -59,6 +62,7 @@ public class MultipleSelectionPanel
         setMargin( true );
         setSpacing( true );
         setSizeFull();
+        infoLabel = new Label();
     }
 
     public void addItem( IAccordionPresentation item )
@@ -71,6 +75,11 @@ public class MultipleSelectionPanel
             if ( selectedItems.size() <= MAX_IN_COL * MAX_IN_ROW )
             {
                 addComponent( newButton );
+            }
+            else
+            {
+                infoLabel.setValue(
+                        "And " + String.valueOf( selectedItems.size() - MAX_IN_COL * MAX_IN_ROW ) + " more" );
             }
         }
     }
@@ -102,11 +111,21 @@ public class MultipleSelectionPanel
         removeAllComponents();
         for ( SelectedItemPushButton button : selectedItems.values() )
         {
-            if ( getComponentCount() < MAX_IN_COL * MAX_IN_ROW )
-            {
-                addComponent( button );
-            }
+            addComponent( button );
         }
+        if ( getComponentCount() < MAX_IN_COL * MAX_IN_ROW )
+        {
+            infoLabel.setValue( "" );
+        }
+        else
+        {
+            infoLabel.setValue( "And " + String.valueOf( selectedItems.size() - MAX_IN_COL * MAX_IN_ROW ) + " more" );
+        }
+    }
+
+    public Label getInfoLabel()
+    {
+        return infoLabel;
     }
 
 
