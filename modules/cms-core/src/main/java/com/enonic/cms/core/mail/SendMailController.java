@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.portal.httpservices;
+package com.enonic.cms.core.mail;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -25,6 +25,8 @@ import com.enonic.esl.net.Mail;
 import com.enonic.esl.util.StringUtil;
 
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.httpservices.ContentHandlerBaseController;
+import com.enonic.cms.portal.httpservices.VerticalUserServicesException;
 
 import com.enonic.cms.domain.SiteKey;
 

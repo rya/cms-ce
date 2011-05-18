@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.admin.tabs;
 
+import java.util.Set;
+
 import javax.annotation.PostConstruct;
 
 import com.enonic.cms.admin.AdminWindow;
@@ -18,6 +20,8 @@ import com.enonic.cms.admin.tabs.annotations.TopLevelTab;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.data.Property;
+import com.vaadin.data.util.ObjectProperty;
 import com.vaadin.terminal.Sizeable;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Alignment;
@@ -89,7 +93,11 @@ public class AccountsTab
         VerticalSplitPanel line2 = new VerticalSplitPanel();
         line2.setSizeFull();
         line2.setSplitPosition( 350, Sizeable.UNITS_PIXELS );
-        line2.addComponent( tablePanel );
+        VerticalLayout vl = new VerticalLayout();
+//        vl.setSizeFull();
+        vl.addComponent( tablePanel );
+        vl.addComponent( tablePanel.getInfoLabel() );
+        line2.addComponent( vl );
         line2.addComponent( detailsPanel );
         line.addComponent( line2 );
 

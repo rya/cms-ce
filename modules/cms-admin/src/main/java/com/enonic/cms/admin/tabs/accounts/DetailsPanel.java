@@ -52,8 +52,11 @@ public class DetailsPanel
     public void switchToMultipleMode()
     {
         removeAllComponents();
-        addComponent( multipleSelectionPanel );
-        setExpandRatio( multipleSelectionPanel, 2.0f );
+        VerticalLayout vl = new VerticalLayout();
+        vl.addComponent( multipleSelectionPanel );
+        vl.addComponent( multipleSelectionPanel.getInfoLabel() );
+        addComponent( vl );
+        setExpandRatio( vl, 2.0f );
         addComponent( buttonLayout );
         setExpandRatio( buttonLayout, 0.5f );
     }

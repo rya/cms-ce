@@ -23,6 +23,7 @@ import com.vaadin.terminal.Sizeable;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.CheckBox;
 import com.vaadin.ui.Embedded;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
 
@@ -82,9 +83,12 @@ public class TablePanel
 
     private Boolean allChecked = Boolean.FALSE;
 
+    private Label infoLabel;
+
     @PostConstruct
     private void init()
     {
+        infoLabel = new Label("0 object(s) selected");
         setStyleName( "accounts-table" );
         setSelectable( true );
         setMultiSelect( true );
@@ -283,5 +287,10 @@ public class TablePanel
                 }
             }
         }
+        infoLabel.setValue( value.size() + " object(s) selected" );
+    }
+
+    public Label getInfoLabel(){
+        return infoLabel;
     }
 }

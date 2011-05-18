@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.portal.httpservices;
+package com.enonic.cms.core.mail;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -27,12 +27,13 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.portal.httpservices.VerticalUserServicesException;
 
 import com.enonic.cms.domain.SiteKey;
 
 /**
  * Extension of the standard sendmail servlet. <p/> <p> In addition to sending an email (using the functionality in {@link
- * SendMailController}), content is created in the category specified in the form. The content is created as specified in the appropriate
+ * com.enonic.cms.core.mail.SendMailController}), content is created in the category specified in the form. The content is created as specified in the appropriate
  * modulebuilder XML found in the database. So this servlet will naturally <i>only</i> work for modules created with the modulebuilder. </p>
  * <p> If this functionality is needed for other modules, the buildContentXML method can be overloaded in a child class. </p>
  */
