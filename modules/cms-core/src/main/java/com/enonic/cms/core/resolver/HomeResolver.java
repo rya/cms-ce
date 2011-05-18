@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.boot;
+package com.enonic.cms.core.resolver;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,9 @@ import org.apache.commons.lang.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-final class HomeResolver
+import com.enonic.cms.core.boot.SharedConstants;
+
+public final class HomeResolver
         implements SharedConstants
 {
     private final static Logger LOG = LoggerFactory.getLogger( HomeResolver.class );

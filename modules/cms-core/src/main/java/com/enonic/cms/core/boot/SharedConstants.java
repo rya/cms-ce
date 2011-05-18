@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.boot;
 
-interface SharedConstants
+public interface SharedConstants
 {
     public final static String CMS_HOME = "cms.home";
     public final static String CMS_HOME_URI = "cms.home.uri";

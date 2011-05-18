@@ -6,6 +6,8 @@ package com.enonic.cms.core.boot;
 
 import java.io.File;
 
+import com.enonic.cms.core.resolver.HomeResolver;
+
 public final class HomeAccessor
 {
     private static File DIR;
