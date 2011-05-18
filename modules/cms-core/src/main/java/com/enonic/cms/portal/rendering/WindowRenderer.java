@@ -345,6 +345,7 @@ public class WindowRenderer
         PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey( window );
 
         PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
+        portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );
         portalFunctionsContext.setSite( context.getSite() );
         portalFunctionsContext.setMenuItem( context.getMenuItem() );
@@ -398,6 +399,7 @@ public class WindowRenderer
         portalFunctionsContext.setEncodeURIs( context.isEncodeURIs() );
         portalFunctionsContext.setLocale( context.getLocale() );
         portalFunctionsContext.setMenuItem( context.getMenuItem() );
+        portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );
         portalFunctionsContext.setPortalInstanceKey( portalInstanceKey );
         portalFunctionsContext.setRenderedInline( context.isRenderedInline() );

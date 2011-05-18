@@ -17,6 +17,7 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.portal.ContentPath;
 import com.enonic.cms.portal.ReservedLocalPaths;
 import com.enonic.cms.portal.Ticket;
 import com.enonic.cms.portal.image.ImageRequest;
@@ -178,7 +179,9 @@ public class PortalFunctions
             throw new PortalFunctionException( "Portlet does not exist: " + menuItemKey );
         }
 
-        Path localPath = menuItem.getPath();
+        ContentPath contentPath = context.getSitePath().getContentPath();
+
+        Path localPath = contentPath != null ? context.getOriginalSitePath().getLocalPath() : menuItem.getPath();
         String portletPathStr = "_window/" + portlet.getName().toLowerCase();
         if ( outputFormat != null )
         {
