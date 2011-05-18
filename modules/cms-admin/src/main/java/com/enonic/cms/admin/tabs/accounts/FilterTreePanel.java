@@ -128,9 +128,10 @@ public class FilterTreePanel
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
 
         // init state
-        userBox.setValue( true );
-        userBox.addStyleName( "bold" );
-        onChangeSearchCriteria( "" );
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put( "state", Boolean.TRUE );
+
+        userBox.changeVariables( userBox, variables );
     }
 
     private Button createButton( VerticalLayout navigator, String title )
