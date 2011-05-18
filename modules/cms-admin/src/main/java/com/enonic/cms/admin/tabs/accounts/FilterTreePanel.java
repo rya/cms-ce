@@ -126,8 +126,10 @@ public class FilterTreePanel
 //        Button usSearchButton = createButton( navigator, "Search" );
         addComponent( navigator );
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
+
         // init state
         userBox.setValue( true );
+        userBox.addStyleName( "bold" );
         onChangeSearchCriteria( "" );
     }
 
