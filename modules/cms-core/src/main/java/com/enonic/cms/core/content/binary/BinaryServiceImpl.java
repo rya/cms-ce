@@ -11,7 +11,7 @@ import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
+import com.enonic.cms.core.resolver.BinaryAccessResolver;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.security.user.User;

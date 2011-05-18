@@ -17,7 +17,7 @@ import org.jdom.Document;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.command.AssignContentCommand;

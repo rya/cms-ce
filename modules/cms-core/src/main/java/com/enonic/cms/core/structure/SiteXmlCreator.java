@@ -16,7 +16,7 @@ import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserXmlCreator;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.resolver.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import com.enonic.cms.domain.SiteKey;

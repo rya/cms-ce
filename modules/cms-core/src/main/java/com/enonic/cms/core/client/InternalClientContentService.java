@@ -38,7 +38,7 @@ import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.CategoryService;
 import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;

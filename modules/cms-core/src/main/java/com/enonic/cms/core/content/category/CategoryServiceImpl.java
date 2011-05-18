@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;

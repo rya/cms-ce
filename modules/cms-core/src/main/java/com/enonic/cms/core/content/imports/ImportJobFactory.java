@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;

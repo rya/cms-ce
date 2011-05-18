@@ -21,6 +21,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.enonic.cms.core.resolver.VirtualHostResolver;
+
 public final class VirtualHostFilter
         extends GenericFilterBean
 {

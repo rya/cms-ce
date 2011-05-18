@@ -2,16 +2,15 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.content.access;
+package com.enonic.cms.core.resolver;
 
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.AbstractAccessResolver;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.store.dao.GroupDao;
-
-import com.enonic.cms.core.AbstractAccessResolver;
 
 import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
 import com.enonic.cms.core.security.user.UserEntity;

@@ -13,7 +13,7 @@ import org.jdom.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.resolver.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.CaseInsensitiveString;
 import com.enonic.cms.core.security.user.UserEntity;

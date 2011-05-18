@@ -23,7 +23,7 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
-import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
@@ -31,7 +31,7 @@ import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.category.CategoryAccessException;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.BaseContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;

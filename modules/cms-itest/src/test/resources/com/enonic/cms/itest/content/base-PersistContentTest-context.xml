@@ -31,7 +31,7 @@
 
   <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
-  <bean id="binaryAccessResolver" class="com.enonic.cms.core.content.binary.access.BinaryAccessResolver"/>
+  <bean id="binaryAccessResolver" class="com.enonic.cms.core.resolver.BinaryAccessResolver"/>
 
   <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 

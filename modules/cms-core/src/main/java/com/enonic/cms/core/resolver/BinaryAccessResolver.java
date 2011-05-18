@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.content.binary.access;
+package com.enonic.cms.core.resolver;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.security.user.UserEntity;

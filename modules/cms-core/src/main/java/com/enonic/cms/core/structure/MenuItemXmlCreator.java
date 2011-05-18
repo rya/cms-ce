@@ -19,7 +19,7 @@ import com.enonic.cms.framework.xml.XMLBuilder;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.resolver.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;

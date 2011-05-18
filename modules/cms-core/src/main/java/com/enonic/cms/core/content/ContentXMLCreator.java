@@ -17,11 +17,11 @@ import org.jdom.Element;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataXmlCreator;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentVersionResultSet;

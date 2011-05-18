@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.framework.util;
+package com.enonic.cms.core.resolver;
 
 import java.io.IOException;
 import java.io.InputStream;

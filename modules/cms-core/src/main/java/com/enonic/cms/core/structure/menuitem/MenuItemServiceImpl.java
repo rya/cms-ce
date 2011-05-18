@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.resolver.MenuItemAccessResolver;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
