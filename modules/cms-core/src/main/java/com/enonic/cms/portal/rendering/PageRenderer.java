@@ -224,6 +224,7 @@ public class PageRenderer
         PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey();
 
         PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
+        portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );
         portalFunctionsContext.setSite( context.getSite() );
         portalFunctionsContext.setMenuItem( context.getMenuItem() );

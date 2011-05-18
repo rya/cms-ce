@@ -36,6 +36,8 @@ public class PortalFunctionsContext
 
     private SiteURLResolver siteURLResolver;
 
+    private SitePath sitePath;
+
     public Locale getLocale()
     {
         return locale;
@@ -124,5 +126,15 @@ public class PortalFunctionsContext
     public void setEncodeImageUrlParams( boolean encodeImageUrlParams )
     {
         this.encodeImageUrlParams = encodeImageUrlParams;
+    }
+
+    public void setSitePath( SitePath sitePath )
+    {
+        this.sitePath = sitePath;
+    }
+
+    public SitePath getSitePath()
+    {
+        return sitePath;
     }
 }
