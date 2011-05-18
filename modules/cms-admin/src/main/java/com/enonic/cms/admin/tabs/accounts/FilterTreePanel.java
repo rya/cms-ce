@@ -126,9 +126,12 @@ public class FilterTreePanel
 //        Button usSearchButton = createButton( navigator, "Search" );
         addComponent( navigator );
         setComponentAlignment( navigator, Alignment.TOP_LEFT );
+
         // init state
-        userBox.setValue( true );
-        onChangeSearchCriteria( "" );
+        Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put( "state", Boolean.TRUE );
+
+        userBox.changeVariables( userBox, variables );
     }
 
     private Button createButton( VerticalLayout navigator, String title )
