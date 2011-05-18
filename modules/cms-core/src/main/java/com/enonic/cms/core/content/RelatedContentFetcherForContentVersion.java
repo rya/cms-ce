@@ -8,7 +8,7 @@ import java.util.Collection;
 
 import org.springframework.util.Assert;
 
-import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.core.content.resultset.RelatedChildContent;

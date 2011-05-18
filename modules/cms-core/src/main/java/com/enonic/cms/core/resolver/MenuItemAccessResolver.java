@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.structure.access;
+package com.enonic.cms.core.resolver;
 
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupMembershipSearcher;
@@ -10,7 +10,7 @@ import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.core.AbstractAccessResolver;
+import com.enonic.cms.core.resolver.AbstractAccessResolver;
 
 import com.enonic.cms.core.security.user.UserEntity;
 

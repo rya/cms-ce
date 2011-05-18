@@ -2,9 +2,9 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.content.category.access;
+package com.enonic.cms.core.resolver;
 
-import com.enonic.cms.core.AbstractAccessResolver;
+import com.enonic.cms.core.resolver.AbstractAccessResolver;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;

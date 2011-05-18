@@ -8,8 +8,8 @@ import org.jdom.Document;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.security.user.UserEntity;
 
 /**

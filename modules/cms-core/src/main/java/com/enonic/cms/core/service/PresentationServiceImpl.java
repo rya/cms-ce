@@ -19,7 +19,7 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.content.binary.access.BinaryAccessResolver;
+import com.enonic.cms.core.resolver.BinaryAccessResolver;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.UserEntity;
 

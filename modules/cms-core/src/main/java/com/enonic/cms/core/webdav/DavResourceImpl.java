@@ -49,7 +49,7 @@ import org.apache.jackrabbit.webdav.property.ResourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.cms.framework.util.MimeTypeResolver;
+import com.enonic.cms.core.resolver.MimeTypeResolver;
 
 import com.enonic.cms.api.Version;
 

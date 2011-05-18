@@ -6,6 +6,8 @@ package com.enonic.cms.framework.util;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.resolver.MimeTypeResolver;
+
 public class MimeTypeResolverTest
     extends TestCase
 {

@@ -7,9 +7,9 @@ package com.enonic.cms.portal;
 import javax.inject.Inject;
 
 import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.resolver.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.GroupDao;

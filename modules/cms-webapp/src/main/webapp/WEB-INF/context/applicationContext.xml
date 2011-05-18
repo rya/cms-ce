@@ -24,7 +24,7 @@
     </bean>
 
     <!-- Configure virtual host resolver. -->
-    <bean class="com.enonic.cms.core.vhost.VirtualHostResolver">
+    <bean class="com.enonic.cms.core.resolver.VirtualHostResolver">
         <property name="configuration">
             <bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
                 <property name="location" value="${cms.home.uri}/config/vhost.properties"/>
@@ -206,7 +206,7 @@
     <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
     <!-- resolvers -->
-    <bean id="binaryAccessResolver" class="com.enonic.cms.core.content.binary.access.BinaryAccessResolver"/>
+    <bean id="binaryAccessResolver" class="com.enonic.cms.core.resolver.BinaryAccessResolver"/>
 
     <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
