@@ -20,6 +20,7 @@ import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.DomainFactory;
 import com.enonic.cms.core.content.DomainFixture;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;
