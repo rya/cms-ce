@@ -260,8 +260,13 @@ public abstract class AbstractBaseEntityDao<T>
 
     protected final EntityPageList<T> findPageList( Class<T> clz, String filter, int index, int count )
     {
+        return findPageList(clz, filter, index, count, null);
+    }
+
+    protected final EntityPageList<T> findPageList( Class<T> clz, String filter, int index, int count, String order )
+    {
         final int totalCount = findTotalCount( clz, filter );
-        final List<T> list = findPageItems( clz, filter, index, count );
+        final List<T> list = findPageItems( clz, filter, index, count, order );
         return new EntityPageList<T>( index, totalCount, list );
     }
 
@@ -280,7 +285,7 @@ public abstract class AbstractBaseEntityDao<T>
     }
 
     @SuppressWarnings("unchecked")
-    private List<T> findPageItems( Class<T> clz, String filter, int index, int count )
+    private List<T> findPageItems( Class<T> clz, String filter, int index, int count, String order )
     {
         final StringBuffer hql = new StringBuffer( "select x from " );
         hql.append( clz.getName() ).append( " x" );
@@ -288,6 +293,10 @@ public abstract class AbstractBaseEntityDao<T>
         if ( filter != null )
         {
             hql.append( " where " ).append( filter );
+        }
+
+        if (order != null) {
+            hql.append(" order by ").append( order );
         }
 
         final Query query = createQuery( hql.toString() );

@@ -85,10 +85,6 @@
       <param-name>contextConfigLocation</param-name>
       <param-value>/WEB-INF/servlet/siteServlet.xml</param-value>
     </init-param>
-    <init-param>
-      <param-name>upgradeCheck</param-name>
-      <param-value>true</param-value>
-    </init-param>
   </servlet>
 
   <servlet>
@@ -98,7 +94,11 @@
 
   <servlet>
     <servlet-name>admin</servlet-name>
-    <servlet-class>com.enonic.cms.admin.AdminServlet</servlet-class>
+    <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/servlet/adminServlet.xml</param-value>
+    </init-param>
   </servlet>
 
   <servlet-mapping>
@@ -119,7 +119,6 @@
   <servlet-mapping>
     <servlet-name>admin</servlet-name>
     <url-pattern>/admin/*</url-pattern>
-    <url-pattern>/VAADIN/*</url-pattern>
   </servlet-mapping>
 
   <session-config>

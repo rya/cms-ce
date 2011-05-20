@@ -387,7 +387,7 @@
     </bean>
 
     <bean id="userServicesRedirectHelper"
-          class="com.enonic.cms.portal.httpservices.UserServicesRedirectUrlResolver"></bean>
+          class="com.enonic.cms.portal.httpservices.UserServicesRedirectUrlResolver"/>
 
     <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 
@@ -418,7 +418,6 @@
       </property>
     </bean>
 
-
     <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
 
     <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
@@ -432,7 +431,4 @@
     <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
     <context:component-scan base-package="com.enonic.cms.store.dao"/>
-
-
-  <import resource="classpath:vaadin-context.xml"/>
 </beans>

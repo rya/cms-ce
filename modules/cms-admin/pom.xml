@@ -31,8 +31,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin</artifactId>
+            <groupId>ch.ralscha</groupId>
+            <artifactId>extdirectspring</artifactId>
         </dependency>
     </dependencies>
 

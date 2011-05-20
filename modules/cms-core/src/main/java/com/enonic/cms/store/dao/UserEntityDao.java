@@ -7,6 +7,7 @@ package com.enonic.cms.store.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.google.common.base.Strings;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -401,6 +402,11 @@ public class UserEntityDao
 
     public EntityPageList<UserEntity> findAll( int index, int count )
     {
-        return findPageList( UserEntity.class, "x.deleted = 0", index, count );
+        return findAll(index, count, "x.deleted = 0", null);
+    }
+
+    public EntityPageList<UserEntity> findAll( int index, int count, final String query, String order )
+    {
+        return findPageList( UserEntity.class, query, index, count, order );
     }
 }
