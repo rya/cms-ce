@@ -3,7 +3,7 @@ Ext.define('CMS.controller.Users', {
 
     stores: ['Users'],
     models: ['User'],
-    views: ['user.Grid', 'user.Detail', 'user.Filter', 'user.Edit', 'user.Delete', 'user.ChangePassword'],
+    views: ['user.Grid', 'user.Detail', 'user.Filter', 'user.Edit', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
 
     refs: [
         {ref: 'userGrid', selector: 'userGrid'},
@@ -12,7 +12,8 @@ Ext.define('CMS.controller.Users', {
         {ref: 'filterTextField', selector: 'userFilter textfield'},
         {ref: 'userEditWindow', selector: 'userEditWindow', autoCreate: true, xtype: 'userEditWindow'},
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
-        {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'}
+        {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
+        {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'}
     ],
 
     init: function() {
@@ -21,18 +22,19 @@ Ext.define('CMS.controller.Users', {
                 selectionchange: this.updateInfo
             },
             'userGrid > tableview': {
-                refresh: this.selectUser
+                refresh: this.selectUser,
+                itemcontextmenu: this.popupMenu
             },
             'userFilter button[action=search]': {
                 click: this.searchFilter
             },
-            'userDetail button[action=delete]': {
+            '*[action=delete]': {
                 click: this.deleteUser
             },
-            'userDetail button[action=edit]': {
+            '*[action=edit]': {
                 click: this.editUser
             },
-            'userDetail button[action=changePassword]': {
+            '*[action=changePassword]': {
                 click: this.changePassword
             }
         });
@@ -75,6 +77,12 @@ Ext.define('CMS.controller.Users', {
 
     changePassword: function() {
         this.getUserChangePasswordWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
+    },
+
+    popupMenu: function(view, rec, node, index, e) {
+        e.stopEvent();
+        this.getUserContextMenu().showAt(e.getXY());
+        return false;
     }
 
 });

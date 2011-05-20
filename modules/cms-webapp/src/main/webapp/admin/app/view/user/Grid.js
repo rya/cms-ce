@@ -34,14 +34,14 @@ Ext.define('CMS.view.user.Grid', {
                 text: 'User Store',
                 dataIndex: 'userStore',
                 sortable: true
-            }/*,
+            },
             {
                 text: 'Last Modified',
                 dataIndex: 'lastModified',
                 sortable: true,
                 xtype: 'datecolumn',
                 format: 'm-d-Y'
-            }*/
+            }
         ];
 
         this.bbar = {
@@ -52,48 +52,9 @@ Ext.define('CMS.view.user.Grid', {
             emptyMsg: 'No users to display'
         };
 
-        var editUser = Ext.create('Ext.Action', {
-            icon   : 'images/icons/user_edit.png',
-            text: 'Edit User',
-
-            handler: function(widget, event) {
-            }
-        });
-
-        var deleteUser = Ext.create('Ext.Action', {
-            icon   : 'images/icons/user_delete.png',
-            text: 'Delete User',
-            
-            handler: function(widget, event) {
-            }
-        });
-
-        var changePassword = Ext.create('Ext.Action', {
-            icon   : 'images/icons/key.png',
-            text: 'Change Password',
-
-            handler: function(widget, event) {
-            }
-        });
-
-        var contextMenu = Ext.create('Ext.menu.Menu', {
-            items: [
-                editUser,
-                deleteUser,
-                changePassword
-            ]
-        });
-
         this.viewConfig = {
             trackOver : true,
-            stripeRows: true,
-            listeners: {
-                itemcontextmenu: function(view, rec, node, index, e) {
-                    e.stopEvent();
-                    contextMenu.showAt(e.getXY());
-                    return false;
-                }
-            }
+            stripeRows: true
         };
 
         this.callParent(arguments);
