@@ -334,6 +334,11 @@ public class UserStoreServiceImpl
 
         final UserStoreConnector usc = doGetUSConnector( userStoreKey );
 
+        if ( command.getDisplayName() == null )
+        {
+            command.setDisplayName( userToUpdate.getDisplayName() );
+        }
+
         if ( command.removePhoto() )
         {
             // Make sure a new photo isn't set
