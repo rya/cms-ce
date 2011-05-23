@@ -6,6 +6,7 @@ Ext.application({
     name: 'CMS',
 
     appFolder: 'app',
+    autoCreateViewport: true,
 
     controllers: [
         'Users'
