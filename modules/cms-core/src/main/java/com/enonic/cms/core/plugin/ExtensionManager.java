@@ -1,6 +1,7 @@
 package com.enonic.cms.core.plugin;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
@@ -8,7 +9,6 @@ import com.enonic.cms.api.plugin.ext.TextExtractor;
 import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
 import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
-import com.enonic.cms.core.plugin.PluginRegistry;
 
 import com.enonic.cms.domain.SitePath;
 
@@ -39,4 +39,8 @@ public interface ExtensionManager
     public Collection<TextExtractor> getAllTextExtractorPlugins();
 
     public PluginRegistry getPluginRegistry();
+
+    public Map<String, ExtensionListener> getListeners();
+
+    public void setListeners( Map<String, ExtensionListener> listeners );
 }
