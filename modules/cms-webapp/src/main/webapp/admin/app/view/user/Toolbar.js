@@ -4,8 +4,8 @@ Ext.define('CMS.view.user.Toolbar', {
 
     items: [
         {
-            xtype: 'splitbutton',
-            text : 'New',
+            xtype: 'button',
+            text: 'New',
             menu: new Ext.menu.Menu({
                 items: [
                     {
