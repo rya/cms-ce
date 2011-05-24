@@ -75,6 +75,7 @@ public final class LivePortalTraceController
             }
             model.put( "lastHistoryRecordNumber", lastHistoryRecordNumber );
 
+            res.setHeader( "Content-Type", "application/json" );
             return new ModelAndView( "livePortalTrace_history_trace", model );
         }
         else
