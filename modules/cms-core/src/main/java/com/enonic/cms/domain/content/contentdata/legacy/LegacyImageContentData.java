@@ -48,6 +48,7 @@ public class LegacyImageContentData
 
         replaceBinaryKeyPlaceHoldersInImages( binaryDatas );
         replaceBinaryKeyPlaceHoldersInSourceImage( binaryDatas );
+        replaceBinaryKeyPlaceholdersInBinaryData( binaryDatas );
     }
 
     public void turnBinaryKeysIntoPlaceHolders( Map<BinaryDataKey, Integer> indexByBinaryDataKey )
@@ -110,5 +111,16 @@ public class LegacyImageContentData
         }
     }
 
+    public void replaceBinaryKeyPlaceholdersInBinaryData( List<BinaryDataKey> binaryDatas )
+    {
+        Element binaryDataEl = contentDataEl.getChild( "binarydata" );
+        if ( binaryDataEl == null )
+        {
+            return;
+        }
+
+        Attribute attr = binaryDataEl.getAttribute( "key" );
+        replaceBinaryKeyPlaceHolder( attr, binaryDatas );
+    }
 
 }

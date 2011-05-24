@@ -15,6 +15,7 @@ import com.enonic.cms.api.client.model.ContentDataInputUpdateStrategy;
 import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
+import com.enonic.cms.api.client.model.CreateImageContentParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.SnapshotContentParams;
 import com.enonic.cms.api.client.model.UnassignContentParams;
@@ -59,6 +60,7 @@ import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.domain.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.domain.content.contentdata.legacy.LegacyImageContentData;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
@@ -91,6 +93,8 @@ public class InternalClientContentService
     private SiteCachesService siteCachesService;
 
     private FileContentdataResolver fileContentResolver = new FileContentdataResolver();
+
+    private ImageContentdataResolver imageContentResolver = new ImageContentdataResolver();
 
     @Autowired
     private CategoryService categoryService;
@@ -345,6 +349,64 @@ public class InternalClientContentService
         createCommand.setContentData( contentdata );
         createCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
         createCommand.setBinaryDatas( binaryDataEntries );
+        createCommand.setUseCommandsBinaryDataToAdd( true );
+
+        ContentKey contentKey = contentService.createContent( createCommand );
+        return contentKey.toInt();
+    }
+
+    private void validateCreateImageContentParams( CreateImageContentParams params )
+    {
+        if ( params.categoryKey == null )
+        {
+            throw new IllegalArgumentException( "categoryKey must be specified" );
+        }
+        if ( params.status == null )
+        {
+            throw new IllegalArgumentException( "status must be specified" );
+        }
+        if ( params.contentData == null )
+        {
+            throw new IllegalArgumentException( "data must be specified" );
+        }
+        if ( params.publishFrom != null && params.publishTo != null && !params.publishTo.after( params.publishFrom ) )
+        {
+            throw new IllegalArgumentException( "publishTo must be after publishFrom" );
+        }
+
+        CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
+        if ( category == null )
+        {
+            throw new IllegalArgumentException( "category does not exists, id: " + params.categoryKey );
+        }
+    }
+
+    public int createImageContent( CreateImageContentParams params )
+            throws ClientException
+    {
+        validateCreateImageContentParams( params );
+
+        CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
+
+        UserEntity runningUser = securityService.getRunAsUser();
+
+        LegacyImageContentData contentdata =
+                (LegacyImageContentData) imageContentResolver.resolveContentdata( params.contentData );
+        List<BinaryDataAndBinary> binaryData = new ArrayList<BinaryDataAndBinary>();
+        binaryData.add( BinaryDataAndBinary.convertFromBinaryInput( params.contentData.binary ) );
+
+        CreateContentCommand createCommand = new CreateContentCommand();
+        createCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
+        createCommand.setCreator( runningUser );
+        createCommand.setStatus( ContentStatus.get( params.status ) );
+        createCommand.setPriority( 0 );
+        createCommand.setCategory( category );
+        createCommand.setLanguage( category.getUnitExcludeDeleted().getLanguage() );
+        createCommand.setAvailableFrom( params.publishFrom );
+        createCommand.setAvailableTo( params.publishTo );
+        createCommand.setContentData( contentdata );
+        createCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
+        createCommand.setBinaryDatas( binaryData );
         createCommand.setUseCommandsBinaryDataToAdd( true );
 
         ContentKey contentKey = contentService.createContent( createCommand );

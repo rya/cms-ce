@@ -769,27 +769,58 @@
           </x:if>
 
           <fieldset>
-            <legend>&nbsp;%blockEventLog%&nbsp;</legend>
-            <table width="99%" cellspacing="2" cellpadding="2">
-              <x:if test="/users/user/@key">
-                <tr>
-                  <td>
-                    <x:call-template name="button">
-                      <x:with-param name="name" select="'vieweventlog'"/>
-                      <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="caption" select="'%cmdViewEventLog%'"/>
-                      <x:with-param name="onclick">
-                        <x:text>viewEventLog(-1,</x:text>
-                        <x:text>-1,</x:text>
-                        <x:text>-1, '</x:text>
-                        <x:value-of select="/users/user/@key"/>
-                        <x:text>')</x:text>
-                      </x:with-param>
-                    </x:call-template>
-                  </td>
-                </tr>
-              </x:if>
-            </table>
+            <legend>&nbsp;%blockLastLogins%&nbsp;</legend>
+              <table width="99%" cellspacing="2" cellpadding="2">
+                  <x:if test="/users/user/@key">
+                      <tr>
+                          <td>
+                              <table>
+                                  <tr>
+                                      <th style="width:100px; text-align:left">%fldTimestamp%</th>
+                                      <th style="width:150px; text-align:left">%fldSite%</th>
+                                      <th style="text-align:left">%fldClient%</th>
+                                  </tr>
+                                  <x:for-each select="/users/logentries/logentry">
+                                      <tr>
+                                          <td>
+                                              <x:value-of select="@timestamp"/>
+                                          </td>
+                                          <td>
+                                              <x:choose>
+                                                  <x:when test="@menukey">
+                                                      <x:value-of select="@menuname"/>
+                                                  </x:when>
+                                                  <x:otherwise>
+                                                      <x:text>Adminweb</x:text>
+                                                  </x:otherwise>
+                                              </x:choose>
+                                          </td>
+                                          <td>
+                                              <x:value-of select="@inetaddress"/>
+                                          </td>
+                                      </tr>
+                                  </x:for-each>
+                              </table>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <x:call-template name="button">
+                                  <x:with-param name="name" select="'vieweventlog'"/>
+                                  <x:with-param name="type" select="'button'"/>
+                                  <x:with-param name="caption" select="'%cmdViewEventLog%'"/>
+                                  <x:with-param name="onclick">
+                                      <x:text>viewEventLog(-1,</x:text>
+                                      <x:text>-1,</x:text>
+                                      <x:text>-1, '</x:text>
+                                      <x:value-of select="/users/user/@key"/>
+                                      <x:text>')</x:text>
+                                  </x:with-param>
+                              </x:call-template>
+                          </td>
+                      </tr>
+                  </x:if>
+              </table>
           </fieldset>
         </div>
       </x:template>

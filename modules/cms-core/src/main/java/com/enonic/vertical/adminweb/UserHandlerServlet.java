@@ -461,6 +461,16 @@ public class UserHandlerServlet
                 xslParams.put( "generated-display-name",
                                displayNameResolver.resolveDisplayName( synchronizedUser.getName(), synchronizedUser.getDisplayName(),
                                                                        synchronizedUser.getUserInfo() ) );
+
+                Element usersElem = userDoc.getDocumentElement();
+                Element userElem = XMLTool.getElement( usersElem, "user" );
+                String userKey = userElem.getAttribute( "key" );
+
+                MultiValueMap adminParams = new MultiValueMap();
+                adminParams.put( "@userkey", userKey );
+                adminParams.put( "@typekey", 1 );
+                String logEntries = admin.getLogEntries( user, adminParams, 0, 5, true );
+                XMLTool.mergeDocuments( userDoc, XMLTool.domparse( logEntries ), true );
             }
             else
             {
