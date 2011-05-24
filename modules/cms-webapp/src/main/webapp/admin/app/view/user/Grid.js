@@ -2,7 +2,6 @@ Ext.define('CMS.view.user.Grid', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
-    title : 'Users',
     layout: 'fit',
     loadMask: true,
     columnLines: true,

@@ -3,7 +3,7 @@ Ext.define('CMS.controller.Users', {
 
     stores: ['Users'],
     models: ['User'],
-    views: ['user.Grid', 'user.Detail', 'user.Filter', 'user.Edit', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
+    views: ['user.Toolbar', 'user.Grid', 'user.Detail', 'user.Filter', 'user.Edit', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
 
     refs: [
         {ref: 'userGrid', selector: 'userGrid'},
@@ -18,6 +18,12 @@ Ext.define('CMS.controller.Users', {
 
     init: function() {
         this.control({
+            '*[action=newUser]': {
+                click: this.newUser
+            },
+            '*[action=newGroup]': {
+                click: this.newGroup
+            },
             'userGrid': {
                 selectionchange: this.updateInfo
             },
@@ -38,6 +44,14 @@ Ext.define('CMS.controller.Users', {
                 click: this.changePassword
             }
         });
+    },
+
+    newUser: function() {
+        Ext.Msg.alert('New User', 'Not implemented.');
+    },
+
+    newGroup: function() {
+        Ext.Msg.alert('New Group', 'Not implemented.');
     },
 
     updateInfo: function(selModel, selected) {

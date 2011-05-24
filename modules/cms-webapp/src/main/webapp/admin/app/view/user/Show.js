@@ -3,6 +3,7 @@ Ext.define('CMS.view.user.Show', {
     alias : 'widget.userShow',
 
     requires: [
+        'CMS.view.user.Toolbar',
         'CMS.view.user.Grid',
         'CMS.view.user.Detail'
     ],
@@ -14,7 +15,15 @@ Ext.define('CMS.view.user.Show', {
         this.items = [
             {
                 region: 'center',
-                xtype: 'userGrid',
+                title : 'Accounts',
+                items: [
+                    {
+                        xtype: 'userToolbar'
+                    },
+                    {
+                        xtype: 'userGrid'
+                    }
+                ],
                 flex: 2
             },
             {
