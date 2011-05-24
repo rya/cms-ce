@@ -62,7 +62,7 @@ Ext.define('CMS.view.user.Grid', {
 
     nameRenderer: function(value, p, record) {
         return Ext.String.format(
-                '<img src="photo?key={0}&thumb=1" style="float:left;margin-right:6px"><b>{1}</b><br><i>{2}</i> in user store <i>{3}</i>',
+                '<img src="rest/users/{0}/photo/thumb" style="float:left;margin-right:6px"><b>{1}</b><br><i>{2}</i> in user store <i>{3}</i>',
                 record.data.key,
                 value,
                 record.data.name,

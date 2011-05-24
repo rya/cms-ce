@@ -35,20 +35,20 @@ public final class UserModel
         this.qualifiedName = qualifiedName;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
     public String getUserStore() {
         return userStore;
     }
 
     public void setUserStore(String userStore) {
         this.userStore = userStore;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public Date getLastModified() {

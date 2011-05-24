@@ -30,10 +30,6 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>ch.ralscha</groupId>
-            <artifactId>extdirectspring</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

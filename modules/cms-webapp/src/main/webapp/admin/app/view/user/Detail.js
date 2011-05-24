@@ -10,7 +10,7 @@ Ext.define('CMS.view.user.Detail', {
 
         this.tpl = new Ext.XTemplate(
                 '<div class="user-info">',
-                '<img src="photo?key={key}&thumb=0" width="100">',
+                '<img src="rest/users/{key}/photo" width="100">',
                 '<h3>{displayName}</h3>',
                 '<dl>',
                 '<dt>Local Name</dt><dd>{name}</dd>',

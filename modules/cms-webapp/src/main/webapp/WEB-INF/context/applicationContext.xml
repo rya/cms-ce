@@ -10,6 +10,8 @@
 
     <context:annotation-config/>
 
+    <import resource="classpath*:META-INF/spring/*.xml"/>
+
     <bean id="loadedVerticalProperties" class="com.enonic.cms.core.boot.BootPropertiesFactoryBean"/>
 
     <!-- Placeholder configurer. -->
@@ -430,5 +432,4 @@
 
     <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
-    <context:component-scan base-package="com.enonic.cms.store.dao"/>
 </beans>

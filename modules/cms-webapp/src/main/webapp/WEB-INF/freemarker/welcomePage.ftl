@@ -51,15 +51,15 @@
 <div class="infoBox">
     <b>Management components</b>
     <ul>
-        <li><a href="${baseUrl}/admin/index.html">Admin Console</a></li>
-        <li><a href="${baseUrl}/dav">WebDav Location</a></li>
+        <li><a href="${baseUrl}admin/index.html">Admin Console</a></li>
+        <li><a href="${baseUrl}dav">WebDav Location</a></li>
     </ul>
 </div>
 <div class="infoBox">
     <b>Sites</b>
     <ul>
         [#list sites?keys?sort as key]
-            <li><a href="${baseUrl}/site/${sites[key]}">${key}</a> <!--(${sites[key]})--></li>
+            <li><a href="${baseUrl}site/${sites[key]}">${key}</a> <!--(${sites[key]})--></li>
         [/#list]
 
     </ul>
@@ -67,7 +67,7 @@
 <div class="infoBox">
     <b>RPC endpoints</b>
     <ul>
-        <li>Java - ${baseUrl}/rpc/bin</li>
+        <li>Java - ${baseUrl}rpc/bin</li>
     </ul>
 </div>
 
