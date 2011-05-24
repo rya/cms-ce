@@ -205,7 +205,7 @@ public class PortalRequestTrace
 
     public String getSiteLocalUrl()
     {
-        if ( siteLocalPathAndParams == null )
+        if ( siteLocalPathAndParams == null && sitePath != null )
         {
             PathAndParamsToStringBuilder stringBuilder = new PathAndParamsToStringBuilder();
             this.siteLocalPathAndParams = stringBuilder.toString( sitePath.getPathAndParams() );
