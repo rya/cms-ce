@@ -2,6 +2,9 @@ Ext.define('CMS.view.user.Grid', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
+    requires: [
+        'CMS.view.user.Toolbar'
+    ],
     layout: 'fit',
     loadMask: true,
     columnLines: true,
@@ -49,6 +52,10 @@ Ext.define('CMS.view.user.Grid', {
             displayInfo: true,
             displayMsg: 'Displaying users {0} - {1} of {2}',
             emptyMsg: 'No users to display'
+        };
+
+        this.tbar = {
+            xtype: 'userToolbar'
         };
 
         this.viewConfig = {
