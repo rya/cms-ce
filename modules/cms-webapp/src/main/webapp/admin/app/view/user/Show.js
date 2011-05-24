@@ -15,7 +15,6 @@ Ext.define('CMS.view.user.Show', {
         this.items = [
             {
                 region: 'center',
-                title : 'Accounts',
                 items: [
                     {
                         xtype: 'userToolbar'
