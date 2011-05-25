@@ -17,7 +17,7 @@ Ext.define('CMS.view.user.Grid', {
 
     initComponent: function() {
 
-        // this.selModel = Ext.create('Ext.selection.CheckboxModel');
+        this.selModel = Ext.create('Ext.selection.CheckboxModel');
 
         this.columns = [
             {
