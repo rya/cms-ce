@@ -28,7 +28,7 @@ Ext.define('CMS.controller.Users', {
                 selectionchange: this.updateInfo
             },
             'userGrid > tableview': {
-                refresh: this.selectUser,
+                //refresh: this.selectUser,
                 itemcontextmenu: this.popupMenu
             },
             'userFilter button[action=search]': {
