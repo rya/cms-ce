@@ -4,8 +4,11 @@
  */
 package com.enonic.cms.business.portal.datasource.context;
 
+import java.util.Map;
+
 import org.jdom.Element;
 
+import com.enonic.cms.domain.structure.TemplateParameter;
 import com.enonic.cms.domain.structure.page.Window;
 import com.enonic.cms.domain.structure.portlet.PortletEntity;
 
@@ -35,6 +38,25 @@ public class WindowContextXmlCreator
 
         portletEl.setAttribute( "key", portlet.getPortletKey().toString() );
         portletEl.addContent( new Element( "name" ).setText( portlet.getName() ) );
+
+        Map<String, TemplateParameter> templateParameters = portlet.getTemplateParameters();
+        Element paramatersEl = new Element( "paramaters" );
+        for ( TemplateParameter templateParameter : templateParameters.values() )
+        {
+            Element paramaterEl = new Element( "paramater" );
+
+            Element nameEl = new Element( "name" );
+            Element valueEl = new Element( "value" );
+
+            nameEl.setText( templateParameter.getName() );
+            valueEl.setText( templateParameter.getValue() );
+
+            paramaterEl.addContent( nameEl );
+            paramaterEl.addContent( valueEl );
+
+            paramatersEl.addContent( paramaterEl );
+        }
+        portletEl.addContent( paramatersEl );
 
         if ( portletDocumentEl != null )
         {
