@@ -33,39 +33,22 @@ Ext.define( 'CMS.view.user.Delete', {
                     id: 'dName'
                 }
             ]
-        },
-        {
-            xtype: 'container',
-            layout: {
-                type: 'hbox',
-                align: 'stretch',
-                pack: 'center',
-                defaultMargins: {top:0, right:110, bottom:0, left:50}
-            },
-            height: 20,
-            items: [
-                {
-                    xtype: 'button',
-                    text: 'Cancel',
-                    handler: function(b, e)
-                    {
-                        b.findParentByType('window').close();
-                    }
-                },
-                {
-                    xtype: 'button',
-                    text: 'Delete',
-                    handler: function()
-                    {
-                        alert( 'Not implemented' );
-                    }
-                }
-            ]
         }
     ],
 
     initComponent: function()
     {
+        this.buttons = [
+            {
+                text: 'Cancel',
+                scope: this,
+                handler: this.close
+            },
+            {
+                text: 'Delete',
+                action: 'deleteUser'
+            }
+        ];
         this.callParent( arguments );
 
     },

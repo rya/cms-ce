@@ -44,7 +44,7 @@ Ext.define('CMS.view.user.Detail', {
                     {
                         text: 'Delete User',
                         icon: 'resources/images/user_delete.png',
-                        action: 'delete'
+                        action: 'showDeleteWindow'
                     },
                     '-',
                     {
