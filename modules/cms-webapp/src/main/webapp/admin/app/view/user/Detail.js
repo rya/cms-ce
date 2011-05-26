@@ -31,10 +31,10 @@ Ext.define('CMS.view.user.Detail', {
 
         this.dockedItems = [
             {
-                dock: 'right',
+                dock: 'top',
                 xtype: 'toolbar',
                 border: false,
-                padding: 10,
+                padding: 5,
                 items: [
                     {
                         text: 'Edit User',
