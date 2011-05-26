@@ -12,13 +12,9 @@ Ext.define('CMS.view.user.Grid', {
     frame: false,
     store: 'Users',
 
-    /*verticalScrollerType : 'paginggridscroller',
-     invalidateScrollerOnRefresh : false,
-     */
-
     initComponent: function() {
 
-        // this.selModel = Ext.create('Ext.selection.CheckboxModel');
+        this.selModel = Ext.create('Ext.selection.CheckboxModel');
 
         this.columns = [
             {
