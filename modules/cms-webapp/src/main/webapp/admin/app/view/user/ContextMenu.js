@@ -11,7 +11,7 @@ Ext.define('CMS.view.user.ContextMenu', {
         {
             text: 'Delete User',
             icon: 'resources/images/user_delete.png',
-            action: 'delete'
+            action: 'showDeleteWindow'
         },
         '-',
         {
