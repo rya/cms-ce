@@ -6,7 +6,6 @@ package com.enonic.cms.core.tools;
 
 import com.enonic.cms.api.Version;
 import com.enonic.cms.core.jaxrs.freemarker.FreemarkerModel;
-import com.enonic.cms.core.spring.PrototypeScope;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import java.util.Map;
 
 @Path("/")
 @Component
-@PrototypeScope
 public final class WelcomeResource
 {
     private SiteService siteService;
