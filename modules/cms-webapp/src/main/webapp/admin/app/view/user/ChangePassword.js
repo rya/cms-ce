@@ -41,15 +41,17 @@ Ext.define('CMS.view.user.ChangePassword', {
 		Ext.apply(this, {
 			items: [form],
 
-            buttons: [{
-                text: 'Change',
-                handler: this.doChange
-            }, {
-                text: 'Cancel',
-                handler: this.close,
-                scope: this
-
-            }]
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: this.close,
+                    scope: this
+                },
+                {
+                    text: 'Change',
+                    handler: this.doChange
+                }
+            ]
 		});
 
 

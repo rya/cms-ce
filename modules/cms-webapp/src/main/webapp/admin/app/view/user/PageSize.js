@@ -4,6 +4,7 @@
 Ext.define('CMS.view.user.PageSize', {
     extend      : 'Ext.form.field.ComboBox',
     alias       : 'plugin.pageSize',
+    editable    : false,
     beforeText  : 'Show',
     afterText   : 'rows per page',
     mode        : 'local',

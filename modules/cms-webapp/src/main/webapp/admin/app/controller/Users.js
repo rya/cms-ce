@@ -25,10 +25,7 @@ Ext.define('CMS.controller.Users', {
                 click: this.newGroup
             },
             'userGrid': {
-                selectionchange: this.updateInfo
-            },
-            'userGrid > tableview': {
-                //refresh: this.selectUser,
+                selectionchange: this.updateInfo,
                 itemcontextmenu: this.popupMenu
             },
             'userFilter button[action=search]': {
@@ -45,6 +42,9 @@ Ext.define('CMS.controller.Users', {
             },
             '*[action=changePassword]': {
                 click: this.changePassword
+            },
+            'userDetail': {
+                render: this.setDetailsToolbarDisabled
             }
         });
     },
@@ -66,6 +66,7 @@ Ext.define('CMS.controller.Users', {
         }
 
         userDetail.setTitle(selected.length + " user selected");
+        this.setDetailsToolbarDisabled();
     },
 
     selectUser: function(view) {
@@ -104,6 +105,17 @@ Ext.define('CMS.controller.Users', {
         e.stopEvent();
         this.getUserContextMenu().showAt(e.getXY());
         return false;
+    },
+
+    setDetailsToolbarDisabled: function() {
+        var disable = !this.gridHasSelection();
+        Ext.ComponentQuery.query('*[action=edit]')[0].setDisabled(disable);
+        Ext.ComponentQuery.query('*[action=showDeleteWindow]')[0].setDisabled(disable);
+        Ext.ComponentQuery.query('*[action=changePassword]')[0].setDisabled(disable);
+    },
+
+    gridHasSelection: function() {
+        return this.getUserGrid().getSelectionModel().getSelection().length > 0;
     }
 
 });
