@@ -34,7 +34,10 @@ Ext.define('CMS.controller.Users', {
             'userFilter button[action=search]': {
                 click: this.searchFilter
             },
-            '*[action=delete]': {
+            '*[action=showDeleteWindow]': {
+                click: this.showDeleteUserWindow
+            },
+            '*[action=deleteUser]': {
                 click: this.deleteUser
             },
             '*[action=edit]': {
@@ -81,8 +84,12 @@ Ext.define('CMS.controller.Users', {
         usersStore.loadPage(1);
     },
 
-    deleteUser: function() {
+    showDeleteUserWindow: function() {
         this.getUserDeleteWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
+    },
+
+    deleteUser: function() {
+        alert('Not implemented');
     },
 
     editUser: function() {
