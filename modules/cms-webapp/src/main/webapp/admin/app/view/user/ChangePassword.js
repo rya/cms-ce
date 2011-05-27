@@ -72,7 +72,7 @@ Ext.define('CMS.view.user.ChangePassword', {
     doChange: function(e) {
         var form = Ext.getCmp('userChangePasswordForm').getForm();
         if (form.isValid()) {
-            Ext.Msg.alert('Enonic CMS', 'Not implemented');
+            Ext.Msg.alert('Change Password', 'TODO');
         }
     }
 

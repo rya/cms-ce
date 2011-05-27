@@ -3,7 +3,7 @@ Ext.define('CMS.controller.Users', {
 
     stores: ['Users'],
     models: ['User'],
-    views: ['user.Toolbar', 'user.Grid', 'user.Detail', 'user.Filter', 'user.Edit', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
+    views: ['user.Toolbar', 'user.Grid', 'user.Detail', 'user.Filter', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
 
     refs: [
         {ref: 'userGrid', selector: 'userGrid'},
@@ -38,10 +38,10 @@ Ext.define('CMS.controller.Users', {
                 click: this.deleteUser
             },
             '*[action=edit]': {
-                click: this.editUser
+                click: this.showEditUserForm
             },
             '*[action=changePassword]': {
-                click: this.changePassword
+                click: this.showChangePasswordWindow
             },
             'userDetail': {
                 render: this.setDetailsToolbarDisabled
@@ -50,11 +50,11 @@ Ext.define('CMS.controller.Users', {
     },
 
     newUser: function() {
-        Ext.Msg.alert('New User', 'Not implemented.');
+        Ext.Msg.alert('New User', 'TODO');
     },
 
     newGroup: function() {
-        Ext.Msg.alert('New Group', 'Not implemented.');
+        Ext.Msg.alert('New Group', 'TODO');
     },
 
     updateInfo: function(selModel, selected) {
@@ -90,14 +90,14 @@ Ext.define('CMS.controller.Users', {
     },
 
     deleteUser: function() {
-        alert('Not implemented');
+        Ext.Msg.alert('Do Delete User', 'TODO');
     },
 
-    editUser: function() {
-        this.getUserEditWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
+    showEditUserForm: function() {
+        Ext.Msg.alert('Show Edit User Form', 'TODO');
     },
 
-    changePassword: function() {
+    showChangePasswordWindow: function() {
         this.getUserChangePasswordWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
     },
 
