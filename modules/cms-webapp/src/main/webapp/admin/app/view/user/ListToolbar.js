@@ -6,6 +6,7 @@ Ext.define('CMS.view.user.ListToolbar', {
         {
             xtype: 'button',
             text: 'New',
+            icon: 'resources/images/add.png',
             menu: new Ext.menu.Menu({
                 items: [
                     {
