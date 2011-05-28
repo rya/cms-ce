@@ -3,7 +3,7 @@ Ext.define('CMS.view.user.Grid', {
     alias : 'widget.userGrid',
 
     requires: [
-        'CMS.view.user.Toolbar',
+        'CMS.view.user.ListToolbar',
         'CMS.view.user.PageSize'
     ],
     layout: 'fit',
@@ -53,7 +53,7 @@ Ext.define('CMS.view.user.Grid', {
         };
 
         this.tbar = {
-            xtype: 'userToolbar'
+            xtype: 'userListToolbar'
         };
 
         this.viewConfig = {
