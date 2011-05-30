@@ -865,6 +865,16 @@ public class UserHandlerController
             LOG.warn( StringUtil.expandString( message, null, null ) );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
         }
+        else if ( e instanceof MissingRequiredUserFieldException )
+        {
+            LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
+        }
+        else if ( e instanceof ReadOnlyUserFieldPolicyException )
+        {
+            LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+        }
         else if ( e instanceof UserStorageExistingEmailException )
         {
             LOG.warn( StringUtil.expandString( e.getMessage(), null, null ) );
@@ -1080,9 +1090,6 @@ public class UserHandlerController
     {
         final UserFieldTransformer fieldTransformer = new UserFieldTransformer();
         final UserFieldMap userFieldMap = fieldTransformer.toUserFields( formItems );
-
-        final UserStoreEntity userStore = userStoreService.getUserStore( userStoreKey );
-        userStore.getConfig().validateUserFieldMap( userFieldMap );
 
         final UserInfoTransformer infoTransformer = new UserInfoTransformer();
 
