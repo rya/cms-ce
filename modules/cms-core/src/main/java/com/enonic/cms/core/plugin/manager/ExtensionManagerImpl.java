@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
-import com.enonic.cms.core.plugin.PluginRegistry;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
@@ -22,6 +22,10 @@ import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
 import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
 import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
+import com.enonic.cms.core.plugin.ExtensionListener;
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
+import com.enonic.cms.core.plugin.PluginRegistry;
 
 import com.enonic.cms.business.SiteURLResolver;
 
@@ -31,6 +35,11 @@ public final class ExtensionManagerImpl
     implements ExtensionManager, InitializingBean
 {
     private PluginRegistry pluginRegistry;
+
+    private Map<String, ExtensionListener> listeners;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     public void setPluginRegistry( final PluginRegistry pluginRegistry )
     {
@@ -187,5 +196,16 @@ public final class ExtensionManagerImpl
     public PluginRegistry getPluginRegistry()
     {
         return this.pluginRegistry;
+    }
+
+    public Map<String, ExtensionListener> getListeners()
+    {
+        this.listeners = this.applicationContext.getBeansOfType( ExtensionListener.class );
+        return this.listeners;
+    }
+
+    public void setListeners( Map<String, ExtensionListener> listeners )
+    {
+        this.listeners = listeners;
     }
 }
