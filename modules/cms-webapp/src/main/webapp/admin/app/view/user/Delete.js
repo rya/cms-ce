@@ -2,7 +2,7 @@ Ext.define( 'CMS.view.user.Delete', {
     extend: 'Ext.window.Window',
     alias: 'widget.userDeleteWindow',
 
-    height: 130,
+    height: 182,
     width: 400,
 
     title: 'Delete User',
@@ -50,7 +50,6 @@ Ext.define( 'CMS.view.user.Delete', {
             }
         ];
         this.callParent( arguments );
-
     },
 
     doShow: function( model )
