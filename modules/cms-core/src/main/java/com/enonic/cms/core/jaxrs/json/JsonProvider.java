@@ -1,4 +1,4 @@
-package com.enonic.cms.admin.jaxrs;
+package com.enonic.cms.core.jaxrs.json;
 
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
