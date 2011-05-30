@@ -2,7 +2,7 @@ Ext.define( 'CMS.view.user.Delete', {
     extend: 'Ext.window.Window',
     alias: 'widget.userDeleteWindow',
 
-    height: 130,
+    height: 182,
     width: 400,
 
     title: 'Delete User',
@@ -45,17 +45,16 @@ Ext.define( 'CMS.view.user.Delete', {
                 handler: this.close
             },
             {
-                text: 'Delete',
+                text: 'Delete user',
                 action: 'deleteUser'
             }
         ];
         this.callParent( arguments );
-
     },
 
     doShow: function( model )
     {
-        this.title = 'Delete User >> ' + model.data.displayName;
+        this.title = 'Delete User';
         this.child( '#line1' ).child( '#dName' ).text = model.data.displayName + ' (' + model.data.qualifiedName + ')';
         this.child( '#line1' ).child( '#photo' ).src = 'rest/users/' + model.data.key + '/photo';
         this.show();

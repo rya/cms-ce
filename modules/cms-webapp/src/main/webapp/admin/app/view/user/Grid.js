@@ -3,7 +3,8 @@ Ext.define('CMS.view.user.Grid', {
     alias : 'widget.userGrid',
 
     requires: [
-        'CMS.view.user.Toolbar'
+        'CMS.view.user.ListToolbar',
+        'CMS.view.user.PageSize'
     ],
     layout: 'fit',
     loadMask: true,
@@ -47,11 +48,12 @@ Ext.define('CMS.view.user.Grid', {
             store: this.store,
             displayInfo: true,
             displayMsg: 'Displaying users {0} - {1} of {2}',
-            emptyMsg: 'No users to display'
+            emptyMsg: 'No users to display',
+            plugins: ['pageSize']
         };
 
         this.tbar = {
-            xtype: 'userToolbar'
+            xtype: 'userListToolbar'
         };
 
         this.viewConfig = {

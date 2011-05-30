@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 
-@Path("/admin/rest/users")
+@Path("/users")
 @PrototypeScope
 @Component
 @Produces("application/json")

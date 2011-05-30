@@ -1,11 +1,12 @@
-Ext.define('CMS.view.user.Toolbar', {
+Ext.define('CMS.view.user.ListToolbar', {
     extend: 'Ext.toolbar.Toolbar',
-    alias: 'widget.userToolbar',
+    alias: 'widget.userListToolbar',
 
     items: [
         {
             xtype: 'button',
             text: 'New',
+            icon: 'resources/images/add.png',
             menu: new Ext.menu.Menu({
                 items: [
                     {

@@ -611,6 +611,12 @@ public class ContentServiceImpl
             {
                 return true;
             }
+
+            // check if content is published in a section page
+            if ( !contentEntity.getSectionContents().isEmpty() )
+            {
+                return true;
+            }
         }
 
         return false;
@@ -651,7 +657,13 @@ public class ContentServiceImpl
 
     private void logEvent( UserKey actor, ContentEntity content, LogType type )
     {
-        String title = content.getMainVersion().getTitle() + " (" + content.getKey().toInt() + ")";
+        String title = content.getMainVersion().getTitle();
+        String titleKey = " (" + content.getKey().toInt() + ")";
+        if ( title.length() + titleKey.length() > ContentTitleValidator.CONTENT_TITLE_MAX_LENGTH )
+        {
+            title = title.substring( 0, ContentTitleValidator.CONTENT_TITLE_MAX_LENGTH - titleKey.length() );
+        }
+        title = title + titleKey;
         StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
         command.setUser( actor );
         command.setTableKeyValue( content.getKey().toInt() );
@@ -663,6 +675,4 @@ public class ContentServiceImpl
 
         logService.storeNew( command );
     }
-
 }
-
