@@ -4,7 +4,7 @@ Ext.define('CMS.view.user.Grid', {
 
     requires: [
         'CMS.view.user.Toolbar',
-        'CMS.view.user.PageSize'
+        'CMS.plugin.PageSize'
     ],
     layout: 'fit',
     loadMask: true,
