@@ -20,6 +20,8 @@ import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+
+import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -40,12 +42,6 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Jun 8, 2010
- * Time: 9:30:59 AM
- */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -113,7 +109,7 @@ public class ContentServiceImpl_createContentTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create(standardConfigXml.toString());
+        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() );
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );
@@ -204,4 +200,38 @@ public class ContentServiceImpl_createContentTest
         }
 
     }
+
+    @Test
+    public void testCreateContentMaximumNameLength()
+    {
+        Date startTime = Calendar.getInstance().getTime();
+
+        CreateContentCommand command = createCreateContentCommand( ContentStatus.DRAFT );
+        command.setContentName( StringUtils.repeat( "x", ContentNameValidator.CONTENT_NAME_MAX_LENGTH ) );
+
+        ContentKey contentKey = contentService.createContent( command );
+
+        ContentEntity persistedContent = contentDao.findByKey( contentKey );
+
+        assertNotNull( persistedContent.getTimestamp() );
+        assertTrue( startTime.compareTo( persistedContent.getTimestamp() ) <= 0 );
+    }
+
+    @Test
+    public void testCreateContentNameTooLong()
+    {
+        CreateContentCommand command = createCreateContentCommand( ContentStatus.DRAFT );
+        command.setContentName( StringUtils.repeat( "x", ContentNameValidator.CONTENT_NAME_MAX_LENGTH + 1 ) );
+        try
+        {
+            contentService.createContent( command );
+            fail( "Expected exception" );
+        }
+        catch ( Throwable e )
+        {
+            assertTrue( e instanceof CreateContentException );
+            assertTrue( e.getMessage().toLowerCase().contains( "too long" ) );
+        }
+    }
+
 }
