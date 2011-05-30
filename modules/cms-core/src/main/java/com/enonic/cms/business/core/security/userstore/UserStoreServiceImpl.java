@@ -73,7 +73,9 @@ import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfigParser;
 import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
 import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
+import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.domain.user.field.UserInfoTransformer;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 import com.enonic.cms.domain.user.remote.RemoteUser;
 
@@ -151,7 +153,7 @@ public class UserStoreServiceImpl
         final UserStoreConnector usc = doGetUSConnector( command.getUserStoreKey() );
 
         verifyMandatoryFieldsForCreate( command );
-
+        verifyRequiredUserFieldsForCreate( command, userStore.getConfig() );
         verifyUniqueEmailForCreate( command );
 
         return usc.storeNewUser( command );
@@ -178,6 +180,12 @@ public class UserStoreServiceImpl
             throw new UserStorageInvalidArgumentException( Arrays.asList( oneOfRequiredArguments ),
                                                            "Invalid arguments in storage operation, missing one of the following arguments: " );
         }
+    }
+
+    private void verifyRequiredUserFieldsForCreate( final StoreNewUserCommand command, final UserStoreConfig userStoreConfig )
+    {
+        final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
+        userStoreConfig.validateRequiredFields( commandUserFields );
     }
 
     public void verifyUniqueEmailAddress( String email, UserStoreKey userStoreKey )
@@ -215,13 +223,20 @@ public class UserStoreServiceImpl
         doVerifyUniqueEmailAdress( command.getEmail(), command.getUserStoreKey() );
     }
 
-    private void verifyUpdateUserCommand( final UpdateUserCommand command )
+    private void verifyUpdateUserCommand( final UpdateUserCommand command, final UserStoreEntity userStore )
     {
         verifyRestrictedGroupAccess( command );
 
         verifyMandatoryFieldsForUpdate( command );
 
         verifyUniqueEmailForUpdate( command );
+
+        // validate required user fields if the strategy is REPLACE_ALL
+        if ( command.getUpdateStrategy() == UpdateUserCommand.UpdateStrategy.REPLACE_ALL )
+        {
+            final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
+            userStore.getConfig().validateRequiredFields( commandUserFields );
+        }
     }
 
     private void verifyRestrictedGroupAccess( UpdateUserCommand command )
@@ -350,7 +365,7 @@ public class UserStoreServiceImpl
             command.getUserInfo().setPhoto( userToUpdate.getPhoto() );
         }
 
-        verifyUpdateUserCommand( command );
+        verifyUpdateUserCommand( command, userStore );
 
         usc.updateUser( command );
     }

@@ -68,7 +68,9 @@ import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.group.GroupSpecification;
 import com.enonic.cms.domain.security.group.RemoveMembershipsCommand;
+import com.enonic.cms.domain.security.user.MissingRequiredUserFieldException;
 import com.enonic.cms.domain.security.user.QualifiedUsername;
+import com.enonic.cms.domain.security.user.ReadOnlyUserFieldPolicyException;
 import com.enonic.cms.domain.security.user.StoreNewUserCommand;
 import com.enonic.cms.domain.security.user.UpdateUserCommand;
 import com.enonic.cms.domain.security.user.User;
@@ -827,6 +829,16 @@ public class UserHandlerController
             VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
             redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
         }
+        else if ( e instanceof MissingRequiredUserFieldException )
+        {
+            VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
+        }
+        else if ( e instanceof ReadOnlyUserFieldPolicyException )
+        {
+            VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+        }
         else if ( e instanceof UserStorageExistingEmailException )
         {
             VerticalUserServicesLogger.warn( this.getClass(), 0, e.getMessage(), null );
@@ -1040,9 +1052,6 @@ public class UserHandlerController
     {
         final UserFieldTransformer fieldTransformer = new UserFieldTransformer();
         final UserFieldMap userFieldMap = fieldTransformer.toUserFields( formItems );
-
-        final UserStoreEntity userStore = userStoreService.getUserStore( userStoreKey );
-        userStore.getConfig().validateUserFieldMap( userFieldMap );
 
         final UserInfoTransformer infoTransformer = new UserInfoTransformer();
 

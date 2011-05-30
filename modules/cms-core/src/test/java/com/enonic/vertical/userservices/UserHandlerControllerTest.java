@@ -4,37 +4,123 @@
  */
 package com.enonic.vertical.userservices;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.containers.ExtendedMap;
 
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.testtools.DomainFactory;
+import com.enonic.cms.testtools.DomainFixture;
+
+import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.business.core.security.userstore.UserStoreService;
+import com.enonic.cms.business.portal.SiteRedirectHelper;
+
+import com.enonic.cms.domain.Attribute;
+import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.domain.security.user.StoreNewUserCommand;
 import com.enonic.cms.domain.security.user.UpdateUserCommand;
 import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.domain.security.userstore.StoreNewUserStoreCommand;
+import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
+import com.enonic.cms.domain.user.UserInfo;
+import com.enonic.cms.domain.user.field.UserFieldType;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
+import static junit.framework.Assert.fail;
+import static org.easymock.classextension.EasyMock.createMock;
 
-/**
- * Created by rmy - Date: Jul 16, 2009
- */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
 public class UserHandlerControllerTest
     extends UserHandlerController
 {
 
-    UserHandlerController userHandlerController;
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private SecurityService securityService;
+
+    @Autowired
+    private UserStoreService userStoreService;
+
+
+    @Autowired
+    private HibernateTemplate hibernateTemplate;
+
+    private DomainFactory factory;
+
+    private DomainFixture fixture;
+
+    private MockHttpServletRequest request = new MockHttpServletRequest();
+
+    private MockHttpServletResponse response = new MockHttpServletResponse();
+
+    private MockHttpSession session = new MockHttpSession();
+
+    private UserHandlerController userHandlerController;
 
     @Before
     public void setUp()
     {
+        fixture = new DomainFixture( hibernateTemplate );
+        factory = new DomainFactory( fixture );
+
+        fixture.initSystemData();
+
         userHandlerController = new UserHandlerController();
+        userHandlerController.setUserDao( userDao );
+        userHandlerController.setSecurityService( securityService );
+        userHandlerController.setUserStoreService( userStoreService );
+        userHandlerController.setUserServicesRedirectHelper( new UserServicesRedirectUrlResolver() );
+
+        // just need a dummy of the SiteRedirectHelper
+        siteRedirectHelper = createMock( SiteRedirectHelper.class );
+        userHandlerController.setSiteRedirectHelper( siteRedirectHelper );
+
+        request.setRemoteAddr( "127.0.0.1" );
+        ServletRequestAccessor.setRequest( request );
+
+        SecurityHolder.setAnonUser( fixture.findUserByName( "anonymous" ).getKey() );
+
+    }
+
+    @After
+    public void after()
+    {
+        securityService.logoutPortalUser();
     }
 
     @Test
@@ -55,6 +141,184 @@ public class UserHandlerControllerTest
 
         assertEquals( "Should have 4 groups", updateUserCommand.getMemberships().size(), 4 );
         assertTrue( "Should contain groupKeys: 2, 3, 6, 7", updateUserCommand.getMemberships().containsAll( expectedEntries ) );
+    }
+
+    @Test
+    public void modify()
+        throws RemoteException
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.MIDDLE_NAME, "" ) );
+
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName( "Qhawe" );
+        userInfo.setLastName( "Skriubakken" );
+        createNormalUser( "qhawe", "myLocalStore", userInfo );
+
+        loginPortalUser( "qhawe" );
+
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/modify" ) );
+
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "first_name", "Vier" );
+
+        userHandlerController.handlerModify( request, response, formItems );
+
+        assertEquals( "Vier", fixture.findUserByName( "qhawe" ).getUserInfo().getFirstName() );
+    }
+
+    @Test
+    public void create_without_required_fields_on_local_user_store_throws_exception()
+        throws Exception
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "required" ) );
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        // exercise
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "username", "testcreate" );
+        formItems.putString( "password", "password" );
+        formItems.putString( "email", "test@test.com" );
+        formItems.putString( "first_name", "First name" );
+        formItems.putString( "last_name", "Last name" );
+
+        try
+        {
+            userHandlerController.handlerCreate( request, response, session, formItems, null, null );
+            fail( "Expected exception" );
+        }
+        catch ( Exception e )
+        {
+            assertTrue( e instanceof UserServicesException );
+            assertEquals( "Error in userservices, error code: 400", e.getMessage() );
+        }
+
+    }
+
+    @Test
+    public void update_without_required_fields_on_local_user_store_throws_exception()
+        throws Exception
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "required" ) );
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName( "First name" );
+        userInfo.setLastName( "Last name" );
+        userInfo.setInitials( "INI" );
+        createNormalUser( "testuser", "myLocalStore", userInfo );
+
+        // exercise
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "username", "testcreate" );
+        formItems.putString( "password", "password" );
+        formItems.putString( "email", "test@test.com" );
+        formItems.putString( "first_name", "First name changed" );
+        formItems.putString( "last_name", "Last name changed" );
+
+        loginPortalUser( "testuser" );
+
+        try
+        {
+            userHandlerController.handlerUpdate( request, response, session, formItems, null, null );
+            fail( "Expected exception" );
+        }
+        catch ( Exception e )
+        {
+            assertTrue( e instanceof UserServicesException );
+            assertEquals( "Error in userservices, error code: 400", e.getMessage() );
+        }
+
+    }
+
+    @Test
+    public void modify_without_required_fields_on_local_user_store()
+        throws Exception
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "required" ) );
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName( "First name" );
+        userInfo.setLastName( "Last name" );
+        userInfo.setInitials( "INI" );
+        createNormalUser( "testuser", "myLocalStore", userInfo );
+
+        // exercise
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "initials", "ABC" );
+
+        loginPortalUser( "testuser" );
+
+        userHandlerController.handlerModify( request, response, formItems );
+
+        // verify
+        assertEquals( "ABC", fixture.findUserByName( "testuser" ).getUserInfo().getInitials() );
+    }
+
+    private UserStoreUserFieldConfig createUserStoreUserFieldConfig( UserFieldType type, String properties )
+    {
+        UserStoreUserFieldConfig fieldConfig = new UserStoreUserFieldConfig( type );
+        fieldConfig.setRemote( properties.contains( "remote" ) );
+        fieldConfig.setReadOnly( properties.contains( "read-only" ) );
+        fieldConfig.setRequired( properties.contains( "required" ) );
+        fieldConfig.setIso( properties.contains( "iso" ) );
+        return fieldConfig;
+    }
+
+    private void loginPortalUser( String userName )
+    {
+        SecurityHolder.setRunAsUser( fixture.findUserByName( userName ).getKey() );
+        SecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
+    }
+
+    private UserStoreKey createLocalUserStore( String name, boolean defaultStore, UserStoreConfig config )
+    {
+        StoreNewUserStoreCommand command = new StoreNewUserStoreCommand();
+        command.setStorer( fixture.findUserByName( "admin" ).getKey() );
+        command.setName( name );
+        command.setDefaultStore( defaultStore );
+        command.setConfig( config );
+        return userStoreService.storeNewUserStore( command );
+    }
+
+    private UserKey createNormalUser( String userName, String userStoreName, UserInfo userInfo )
+    {
+        StoreNewUserCommand command = new StoreNewUserCommand();
+        command.setStorer( fixture.findUserByName( "admin" ).getKey() );
+        command.setUsername( userName );
+        command.setUserStoreKey( fixture.findUserStoreByName( userStoreName ).getKey() );
+        command.setAllowAnyUserAccess( true );
+        command.setEmail( userName + "@example.com" );
+        command.setPassword( "password" );
+        command.setType( UserType.NORMAL );
+        command.setDisplayName( userName );
+        command.setUserInfo( userInfo );
+
+        return userStoreService.storeNewUser( command );
     }
 
     private List<GroupKey> generateGroupKeyList( String[] keys )

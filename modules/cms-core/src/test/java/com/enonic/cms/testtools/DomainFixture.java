@@ -81,8 +81,11 @@ public class DomainFixture
         save( factory.createGroup( GroupType.EXPERT_CONTRIBUTORS.getName(), GroupType.EXPERT_CONTRIBUTORS ) );
         save( factory.createGroup( GroupType.CONTRIBUTORS.getName(), GroupType.CONTRIBUTORS ) );
 
-        save( factory.createUserStore( "testuserstore" ) );
+        UserStoreEntity testuserstore = factory.createUserStore( "testuserstore" );
+        testuserstore.setDefaultStore( true );
+        save( testuserstore );
         save( factory.createGroupInUserstore( GroupType.AUTHENTICATED_USERS.getName(), GroupType.AUTHENTICATED_USERS, "testuserstore" ) );
+        save( factory.createGroupInUserstore( GroupType.USERSTORE_ADMINS.getName(), GroupType.USERSTORE_ADMINS, "testuserstore" ) );
 
         createAndStoreUserAndUserGroup( "anonymous", UserType.ANONYMOUS.getName(), UserType.ANONYMOUS, null );
 
@@ -98,6 +101,11 @@ public class DomainFixture
 
     public UserEntity createAndStoreUserAndUserGroup( String uid, String displayName, UserType type, String userStoreName )
     {
+        return createAndStoreUserAndUserGroup( uid, null, displayName, type, userStoreName );
+    }
+
+    public UserEntity createAndStoreUserAndUserGroup( String uid, String password, String displayName, UserType type, String userStoreName )
+    {
         GroupEntity userGroup = new GroupEntity();
         userGroup.setName( uid );
         userGroup.setSyncValue( uid );
@@ -107,6 +115,10 @@ public class DomainFixture
         hibernateTemplate.save( userGroup );
 
         UserEntity user = factory.createUser( uid, displayName, type, userStoreName );
+        if ( password != null )
+        {
+            user.encodePassword( password );
+        }
         user.setUserGroup( userGroup );
 
         hibernateTemplate.save( user );
@@ -143,7 +155,7 @@ public class DomainFixture
 
     public UserEntity findUserByKey( String value )
     {
-        return findUserByKey( value );
+        return findUserByKey( new UserKey( value ) );
     }
 
     public UserEntity findUserByKey( UserKey value )

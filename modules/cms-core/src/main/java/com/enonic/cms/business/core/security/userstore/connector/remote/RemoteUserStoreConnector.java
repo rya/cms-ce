@@ -47,6 +47,7 @@ import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
 import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.domain.user.UserInfo;
+import com.enonic.cms.domain.user.field.UserField;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
@@ -78,10 +79,10 @@ public class RemoteUserStoreConnector
 
     public boolean canUpdateUser()
     {
-        return connectorConfig.canUpdateUser() || userStoreHasEditableUserFields();
+        return connectorConfig.canUpdateUser() || userStoreHasLocalAndEditableUserFields();
     }
 
-    private boolean userStoreHasEditableUserFields()
+    private boolean userStoreHasLocalAndEditableUserFields()
     {
         Collection<UserStoreUserFieldConfig> fields = userStoreConfig.getLocalOnlyUserFieldConfigs();
         for ( UserStoreUserFieldConfig field : fields )
@@ -137,12 +138,10 @@ public class RemoteUserStoreConnector
         ensureValidUserName( command );
 
         RemoteUser remoteUser = new RemoteUser( command.getUsername() );
-
         remoteUser.setEmail( command.getEmail() );
 
-        final UserInfoTransformer infoTransformer = new UserInfoTransformer();
-        final UserFieldMap userFieldMap = infoTransformer.toUserFields( command.getUserInfo() );
-
+        final UserFieldMap userFieldMap = new UserInfoTransformer().toUserFields( command.getUserInfo() );
+        userStoreConfig.validateReadOnlyFieldsNotExists( userFieldMap );
         userFieldMap.retain( userStoreConfig.getRemoteOnlyUserFieldTypes() );
 
         remoteUser.getUserFields().addAll( userFieldMap.getAll() );
@@ -177,18 +176,13 @@ public class RemoteUserStoreConnector
 
     public void updateUser( final UpdateUserCommand command )
     {
-        if ( !connectorConfig.canUpdateUser() )
+        if ( !canUpdateUser() )
         {
-            if ( userStoreHasEditableUserFields() )
-            {
-                updateLocalFieldsOfRemoteUser( command );
-            }
-            else
-            {
-                throw new UserStoreConnectorPolicyBrokenException( userStoreName, connectorName,
-                                                                   "Trying to update user without 'update' policy" );
-            }
+            throw new UserStoreConnectorPolicyBrokenException( userStoreName, connectorName,
+                                                               "Trying to update user without 'update' policy or any locally editable fields" );
         }
+
+        validateFields( command );
 
         final UserEntity userToUpdate = userDao.findSingleBySpecification( command.getSpecification() );
 
@@ -201,46 +195,77 @@ public class RemoteUserStoreConnector
 
         if ( remoteUser == null )
         {
-            throw new RuntimeException( "User not found in remote userstore '" + userStoreName + "' from specification: " +
-                command.getSpecification().toString() );
+            throw new RuntimeException(
+                "User not found in remote userstore '" + userStoreName + "' from specification: " + command.getSpecification().toString() );
         }
 
-        updateUserModifiableValues( command, remoteUser );
-
-        final boolean success = remoteUserStorePlugin.updatePrincipal( remoteUser );
-        if ( !success )
+        if ( connectorConfig.canUpdateUser() )
         {
-            throw new RuntimeException( "User does not exists: " + command.getSpecification().getName() );
+            updateUserModifiableValues( command, remoteUser );
+
+            final boolean success = remoteUserStorePlugin.updatePrincipal( remoteUser );
+            if ( !success )
+            {
+                throw new RuntimeException( "User does not exists: " + command.getSpecification().getName() );
+            }
+
+            if ( connectorConfig.groupsStoredRemote() )
+            {
+                updateMembershipsRemote( userToUpdate, remoteUser, command.getMemberships() );
+            }
         }
 
-        if ( connectorConfig.groupsStoredRemote() )
-        {
-            updateMembershipsRemote( userToUpdate, remoteUser, command.getMemberships() );
-        }
-
+        resetRemoteFieldsInCommand( command, remoteUser );
         updateUserLocally( command );
     }
 
-    public void updateLocalFieldsOfRemoteUser( final UpdateUserCommand command )
+    private void validateFields( final UpdateUserCommand command )
     {
-        final UserEntity userToUpdate = userDao.findSingleBySpecification( command.getSpecification() );
+        final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
 
-        if ( userToUpdate == null )
+        userStoreConfig.validateReadOnlyFieldsNotExists( commandUserFields );
+
+        if ( connectorConfig.canUpdateUser() )
         {
-            throw new UserNotFoundException( command.getSpecification() );
+            return;
         }
 
-        final RemoteUser remoteUser = remoteUserStorePlugin.getUser( userToUpdate.getName() );
+        commandUserFields.retain( userStoreConfig.getRemoteOnlyUserFieldTypes() );
 
-        if ( remoteUser == null )
+        if ( commandUserFields.getSize() == 0 )
         {
-            throw new RuntimeException( "User not found in remote userstore '" + userStoreName + "' from specification: " +
-                                            command.getSpecification().toString() );
+            return;
         }
 
-        updateUserModifiableValues( command, remoteUser );
+        StringBuffer remoteFields = new StringBuffer();
+        Collection<UserField> remainingRemoteFields = commandUserFields.getAll();
+        for ( UserField userField : remainingRemoteFields )
+        {
+            remoteFields.append( userField.getType().getName() ).append( ", " );
+        }
 
-        updateUserLocally( command );
+        throw new UserStoreConnectorPolicyBrokenException( userStoreName, connectorName,
+                                                           "Trying to update remote fields on a user store without 'update' policy. The fields are: " +
+                                                               remoteFields.toString() );
+    }
+
+    private void resetRemoteFieldsInCommand( final UpdateUserCommand command, final RemoteUser remoteUser )
+    {
+        final UserInfoTransformer infoTransformer = new UserInfoTransformer();
+        final UserFieldMap commandUserFields = infoTransformer.toUserFields( command.getUserInfo() );
+
+        // remove remote fields from update command
+        commandUserFields.retain( userStoreConfig.getLocalOnlyUserFieldTypes() );
+
+        // get remote fields values from remote user
+        final UserFieldMap remoteFields = remoteUser.getUserFields();
+        remoteFields.retain( userStoreConfig.getRemoteOnlyUserFieldTypes() );
+
+        // merge remote fields with local fields from command
+        commandUserFields.addAll( remoteFields.getAll() );
+
+        UserInfo userWithRemoteValues = infoTransformer.toUserInfo( commandUserFields );
+        command.setUserInfo( userWithRemoteValues );
     }
 
     private void updateUserModifiableValues( final UpdateUserCommand command, final RemoteUser remoteUser )
