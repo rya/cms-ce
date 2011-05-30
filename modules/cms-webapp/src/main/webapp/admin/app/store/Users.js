@@ -7,8 +7,8 @@ Ext.define('CMS.store.Users', {
     autoLoad: true,
 
     proxy: {
-        type: 'ajax',
-        url: 'app/data/Users.json',
+        type: 'rest',
+        url: 'rest/users',
         reader: {
             type: 'json',
             root: 'users',

@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import com.enonic.cms.core.security.user.MissingRequiredUserFieldException;
+import com.enonic.cms.core.security.user.ReadOnlyUserFieldPolicyException;
+
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
@@ -74,22 +77,32 @@ public class UserStoreConfig
         }
     }
 
-    public void validateUserFieldMap( final UserFieldMap userFieldMap )
+    public void validateRequiredFields( final UserFieldMap userFieldMap )
     {
         for ( final UserStoreUserFieldConfig userFieldConfig : userFieldConfigs )
         {
             if ( userFieldConfig.isRequired() && !userFieldMap.hasField( userFieldConfig.getType() ) )
             {
-                throw new IllegalArgumentException(
-                    "Invalid user field map. Missing required user info: " + userFieldConfig.getType().getName() );
-            }
-
-            if ( userFieldConfig.isReadOnly() && userFieldMap.hasField( userFieldConfig.getType() ) )
-            {
-                throw new IllegalArgumentException(
-                    "Invalid user field map. Read only user info found: " + userFieldConfig.getType().getName() );
+                throw new MissingRequiredUserFieldException( userFieldConfig.getType() );
             }
         }
+    }
+
+    public void validateReadOnlyFieldsNotExists( final UserFieldMap userFieldMap )
+    {
+        for ( final UserStoreUserFieldConfig userFieldConfig : userFieldConfigs )
+        {
+            if ( userFieldConfig.isReadOnly() && userFieldMap.hasField( userFieldConfig.getType() ) )
+            {
+                throw new ReadOnlyUserFieldPolicyException( userFieldConfig.getType() );
+            }
+        }
+    }
+
+    public void validateUserFieldMap( final UserFieldMap userFieldMap )
+    {
+        validateRequiredFields( userFieldMap );
+        validateReadOnlyFieldsNotExists( userFieldMap );
     }
 
     private Collection<UserStoreUserFieldConfig> getUserFieldConfigs( final boolean remoteFlagValue )

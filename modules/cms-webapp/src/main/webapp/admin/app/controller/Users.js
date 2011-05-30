@@ -3,7 +3,7 @@ Ext.define('CMS.controller.Users', {
 
     stores: ['Users'],
     models: ['User'],
-    views: ['user.Toolbar', 'user.Grid', 'user.Detail', 'user.Filter', 'user.Edit', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
+    views: ['user.ListToolbar', 'user.Grid', 'user.Detail', 'user.Filter', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
 
     refs: [
         {ref: 'userGrid', selector: 'userGrid'},
@@ -25,33 +25,36 @@ Ext.define('CMS.controller.Users', {
                 click: this.newGroup
             },
             'userGrid': {
-                selectionchange: this.updateInfo
-            },
-            'userGrid > tableview': {
-                //refresh: this.selectUser,
+                selectionchange: this.updateInfo,
                 itemcontextmenu: this.popupMenu
             },
             'userFilter button[action=search]': {
                 click: this.searchFilter
             },
-            '*[action=delete]': {
+            '*[action=showDeleteWindow]': {
+                click: this.showDeleteUserWindow
+            },
+            '*[action=deleteUser]': {
                 click: this.deleteUser
             },
             '*[action=edit]': {
-                click: this.editUser
+                click: this.showEditUserForm
             },
             '*[action=changePassword]': {
-                click: this.changePassword
+                click: this.showChangePasswordWindow
+            },
+            'userDetail': {
+                render: this.setDetailsToolbarDisabled
             }
         });
     },
 
     newUser: function() {
-        Ext.Msg.alert('New User', 'Not implemented.');
+        Ext.Msg.alert('New User', 'TODO');
     },
 
     newGroup: function() {
-        Ext.Msg.alert('New Group', 'Not implemented.');
+        Ext.Msg.alert('New Group', 'TODO');
     },
 
     updateInfo: function(selModel, selected) {
@@ -63,6 +66,7 @@ Ext.define('CMS.controller.Users', {
         }
 
         userDetail.setTitle(selected.length + " user selected");
+        this.setDetailsToolbarDisabled();
     },
 
     selectUser: function(view) {
@@ -81,15 +85,19 @@ Ext.define('CMS.controller.Users', {
         usersStore.loadPage(1);
     },
 
-    deleteUser: function() {
+    showDeleteUserWindow: function() {
         this.getUserDeleteWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
     },
 
-    editUser: function() {
-        this.getUserEditWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
+    deleteUser: function() {
+        Ext.Msg.alert('Do Delete User', 'TODO');
     },
 
-    changePassword: function() {
+    showEditUserForm: function() {
+        Ext.Msg.alert('Show Edit User Form', 'TODO');
+    },
+
+    showChangePasswordWindow: function() {
         this.getUserChangePasswordWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
     },
 
@@ -97,6 +105,17 @@ Ext.define('CMS.controller.Users', {
         e.stopEvent();
         this.getUserContextMenu().showAt(e.getXY());
         return false;
+    },
+
+    setDetailsToolbarDisabled: function() {
+        var disable = !this.gridHasSelection();
+        Ext.ComponentQuery.query('*[action=edit]')[0].setDisabled(disable);
+        Ext.ComponentQuery.query('*[action=showDeleteWindow]')[0].setDisabled(disable);
+        Ext.ComponentQuery.query('*[action=changePassword]')[0].setDisabled(disable);
+    },
+
+    gridHasSelection: function() {
+        return this.getUserGrid().getSelectionModel().getSelection().length > 0;
     }
 
 });

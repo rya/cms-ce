@@ -1,4 +1,4 @@
-package com.enonic.cms.core.jaxrs.json;
+package com.enonic.cms.admin.jaxrs;
 
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
