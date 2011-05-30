@@ -48,7 +48,7 @@ Ext.define('CMS.view.user.ChangePassword', {
                     scope: this
                 },
                 {
-                    text: 'Change',
+                    text: 'Change password',
                     handler: this.doChange
                 }
             ]
@@ -59,7 +59,7 @@ Ext.define('CMS.view.user.ChangePassword', {
     },
 
     doShow: function(model) {
-        this.title = 'Change Password >> ' + model.data.displayName;
+        this.title = 'Change Password';
         this.show();
 
         this.down('#password1').focus('', 10);

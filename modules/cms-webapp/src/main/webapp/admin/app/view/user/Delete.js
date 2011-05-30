@@ -45,7 +45,7 @@ Ext.define( 'CMS.view.user.Delete', {
                 handler: this.close
             },
             {
-                text: 'Delete',
+                text: 'Delete user',
                 action: 'deleteUser'
             }
         ];
@@ -55,7 +55,7 @@ Ext.define( 'CMS.view.user.Delete', {
 
     doShow: function( model )
     {
-        this.title = 'Delete User >> ' + model.data.displayName;
+        this.title = 'Delete User';
         this.child( '#line1' ).child( '#dName' ).text = model.data.displayName + ' (' + model.data.qualifiedName + ')';
         this.child( '#line1' ).child( '#photo' ).src = 'rest/users/' + model.data.key + '/photo';
         this.show();
