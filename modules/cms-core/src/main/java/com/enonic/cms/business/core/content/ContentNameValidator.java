@@ -6,17 +6,11 @@ package com.enonic.cms.business.core.content;
 
 import org.apache.commons.lang.StringUtils;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: 12/21/10
- * Time: 9:31 AM
- */
 public class ContentNameValidator
 {
+    public static final int CONTENT_NAME_MAX_LENGTH = 256;
 
     private static final String FORBIDDEN_CHARS = "/\\#;";
-
 
     public static void validate( String contentName )
     {
@@ -35,7 +29,10 @@ public class ContentNameValidator
             throw new ContentNameValidatorException( "Content name cannot contain any of these characters: " + FORBIDDEN_CHARS );
         }
 
-
+        if ( contentName.length() > CONTENT_NAME_MAX_LENGTH )
+        {
+            throw new ContentNameValidatorException(
+                "Content name is too long: " + contentName.length() + " . Maximum length is " + CONTENT_NAME_MAX_LENGTH + " characters." );
+        }
     }
-
 }

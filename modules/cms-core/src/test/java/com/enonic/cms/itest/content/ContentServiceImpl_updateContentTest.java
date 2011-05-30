@@ -5,9 +5,9 @@
 package com.enonic.cms.itest.content;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -27,12 +27,13 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
+import com.enonic.cms.business.core.content.ContentNameValidator;
 import com.enonic.cms.business.core.content.ContentService;
+import com.enonic.cms.business.core.content.UpdateContentException;
 import com.enonic.cms.business.core.content.UpdateContentResult;
 import com.enonic.cms.business.core.content.command.CreateContentCommand;
 import com.enonic.cms.business.core.content.command.UpdateContentCommand;
@@ -47,17 +48,9 @@ import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntr
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.security.user.UserType;
 
 import static org.junit.Assert.*;
-
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Jun 7, 2010
- * Time: 9:46:38 AM
- */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -77,9 +70,6 @@ public class ContentServiceImpl_updateContentTest
 
     @Autowired
     private ContentService contentService;
-
-    @Autowired
-    private ContentVersionDao contentVersionDao;
 
     private DomainFactory factory;
 
@@ -190,8 +180,6 @@ public class ContentServiceImpl_updateContentTest
     {
         UserEntity testUser = fixture.findUserByName( "testuser" );
 
-        Date now = Calendar.getInstance().getTime();
-
         CreateContentCommand createCommand = createCreateContentCommand( ContentStatus.DRAFT.getKey(), testUser );
 
         ContentKey contentKey = contentService.createContent( createCommand );
@@ -208,8 +196,6 @@ public class ContentServiceImpl_updateContentTest
             createUpdateContentCommand( contentKey, persistedContent.getDraftVersion().getKey(), ContentStatus.DRAFT.getKey(), false,
                                         false );
 
-        UserKey testUserKey = testUser.getKey();
-
         UpdateContentResult result = contentService.updateContent( command );
 
         assertFalse( "No changes should have been done to content or version", result.isAnyChangesMade() );
@@ -219,6 +205,68 @@ public class ContentServiceImpl_updateContentTest
         persistedContent = contentDao.findByKey( contentKey );
 
         assertEquals( "Timestamp should be unchanged", originalTimestamp, persistedContent.getTimestamp() );
+    }
+
+    @Test
+    public void testUpdateContentMaximumNameLength()
+    {
+        UserEntity testUser = fixture.findUserByName( "testuser" );
+        CreateContentCommand createCommand = createCreateContentCommand( ContentStatus.DRAFT.getKey(), testUser );
+        ContentKey contentKey = contentService.createContent( createCommand );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        ContentEntity persistedContent = contentDao.findByKey( contentKey );
+
+        UpdateContentCommand command =
+            createUpdateContentCommand( contentKey, persistedContent.getDraftVersion().getKey(), ContentStatus.DRAFT.getKey(), false,
+                                        false );
+        String newName = StringUtils.repeat( "x", ContentNameValidator.CONTENT_NAME_MAX_LENGTH );
+        command.setContentName( newName );
+
+        UpdateContentResult result = contentService.updateContent( command );
+
+        assertTrue( "Content should have been updated", result.isAnyChangesMade() );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        persistedContent = contentDao.findByKey( contentKey );
+
+        assertNotNull( persistedContent.getTimestamp() );
+        assertEquals( "Content name should have been updated", persistedContent.getName(), newName );
+    }
+
+    @Test
+    public void testUpdateContentNameTooLong()
+    {
+        UserEntity testUser = fixture.findUserByName( "testuser" );
+        CreateContentCommand createCommand = createCreateContentCommand( ContentStatus.DRAFT.getKey(), testUser );
+        ContentKey contentKey = contentService.createContent( createCommand );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        ContentEntity persistedContent = contentDao.findByKey( contentKey );
+
+        UpdateContentCommand command =
+            createUpdateContentCommand( contentKey, persistedContent.getDraftVersion().getKey(), ContentStatus.DRAFT.getKey(), false,
+                                        false );
+        String newName = StringUtils.repeat( "x", ContentNameValidator.CONTENT_NAME_MAX_LENGTH + 1 );
+        command.setContentName( newName );
+
+        try
+        {
+            contentService.updateContent( command );
+            fail( "Expected exception" );
+        }
+        catch ( AssertionError e )
+        {
+            throw e;
+        }
+        catch ( Throwable e )
+        {
+            assertTrue( e instanceof UpdateContentException );
+            assertTrue( e.getMessage().toLowerCase().contains( "too long" ) );
+        }
     }
 
 }

@@ -266,6 +266,7 @@ public class ContentStorer
     {
         contentValidator.validate( newContentVersion.getContentData() );
         ContentNameValidator.validate( newContent.getName() );
+        ContentTitleValidator.validate( newContentVersion.getContentData() );
 
         if ( accessRightsStrategy == CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY )
         {
@@ -319,6 +320,7 @@ public class ContentStorer
         final boolean contentHasChanged = doUpdateContentProperties( persistedContent, updateCommand );
 
         ContentNameValidator.validate( persistedContent.getName() );
+        ContentTitleValidator.validate( updateCommand.getContentData() );
 
         if ( contentHasChanged )
         {
