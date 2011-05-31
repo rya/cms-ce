@@ -14,6 +14,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import com.enonic.cms.api.plugin.ext.Extension;
+import com.enonic.cms.core.plugin.ExtensionListener;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 
 final class ExtensionTracker
     extends ServiceTracker
@@ -34,6 +36,10 @@ final class ExtensionTracker
         if ( ext instanceof Extension )
         {
             this.map.put( ref, (Extension) ext );
+            for ( ExtensionListener listener : ExtensionManagerAccessor.getExtensionManager().getListeners().values() )
+            {
+                listener.extensionAdded( (Extension) ext );
+            }
         }
 
         return ext;
@@ -42,6 +48,11 @@ final class ExtensionTracker
     @Override
     public void removedService( final ServiceReference ref, final Object service )
     {
+        Extension ext = this.map.get( ref );
+        for ( ExtensionListener listener : ExtensionManagerAccessor.getExtensionManager().getListeners().values() )
+        {
+            listener.extensionRemoved( ext );
+        }
         this.map.remove( ref );
         super.removedService( ref, service );
     }

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -32,6 +33,7 @@ import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
+import com.enonic.cms.business.core.content.ContentNameValidator;
 import com.enonic.cms.business.core.content.ContentService;
 import com.enonic.cms.business.core.content.CreateContentException;
 import com.enonic.cms.business.core.content.command.CreateContentCommand;
@@ -48,13 +50,6 @@ import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserType;
 
 import static org.junit.Assert.*;
-
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Jun 8, 2010
- * Time: 9:30:59 AM
- */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -213,4 +208,38 @@ public class ContentServiceImpl_createContentTest
         }
 
     }
+
+    @Test
+    public void testCreateContentMaximumNameLength()
+    {
+        Date startTime = Calendar.getInstance().getTime();
+
+        CreateContentCommand command = createCreateContentCommand( ContentStatus.DRAFT );
+        command.setContentName( StringUtils.repeat( "x", ContentNameValidator.CONTENT_NAME_MAX_LENGTH ) );
+
+        ContentKey contentKey = contentService.createContent( command );
+
+        ContentEntity persistedContent = contentDao.findByKey( contentKey );
+
+        assertNotNull( persistedContent.getTimestamp() );
+        assertTrue( startTime.compareTo( persistedContent.getTimestamp() ) <= 0 );
+    }
+
+    @Test
+    public void testCreateContentNameTooLong()
+    {
+        CreateContentCommand command = createCreateContentCommand( ContentStatus.DRAFT );
+        command.setContentName( StringUtils.repeat( "x", ContentNameValidator.CONTENT_NAME_MAX_LENGTH + 1 ) );
+        try
+        {
+            contentService.createContent( command );
+            fail( "Expected exception" );
+        }
+        catch ( Throwable e )
+        {
+            assertTrue( e instanceof CreateContentException );
+            assertTrue( e.getMessage().toLowerCase().contains( "too long" ) );
+        }
+    }
+
 }

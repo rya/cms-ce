@@ -23,6 +23,8 @@ public class PortalFunctionsContext
 
     private Locale locale;
 
+    private SitePath sitePath;
+
     private SitePath originalSitePath;
 
     private SiteEntity site;
@@ -137,5 +139,15 @@ public class PortalFunctionsContext
     public void setPageRendererContext( PageRendererContext pageRendererContext )
     {
         this.pageRendererContext = pageRendererContext;
+    }
+
+    public SitePath getSitePath()
+    {
+        return sitePath;
+    }
+
+    public void setSitePath( SitePath sitePath )
+    {
+        this.sitePath = sitePath;
     }
 }

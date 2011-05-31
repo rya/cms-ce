@@ -7,7 +7,7 @@
 {
 "historyRecordNumber": "${pastTrace.historyRecordNumber}",
 "portalRequestTrace": [@lib.portalRequestTraceJSON portalRequestTrace=pastTrace.portalRequestTrace/]
-},
+}[#if pastTrace_has_next],[/#if]
 [/#list]
 ]
 }

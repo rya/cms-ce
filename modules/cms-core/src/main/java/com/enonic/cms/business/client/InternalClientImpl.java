@@ -34,6 +34,7 @@ import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
+import com.enonic.cms.api.client.model.CreateImageContentParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
@@ -917,6 +918,20 @@ public final class InternalClientImpl
         try
         {
             return internalClientContentService.updateFileContent( params );
+        }
+        catch ( Exception e )
+        {
+            throw handleException( e );
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public int createImageContent( CreateImageContentParams params )
+            throws ClientException
+    {
+        try
+        {
+            return internalClientContentService.createImageContent( params );
         }
         catch ( Exception e )
         {

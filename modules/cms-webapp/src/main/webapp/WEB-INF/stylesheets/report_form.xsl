@@ -76,7 +76,11 @@
                     </xsl:if>
                     pageURL = pageURL + "&amp;inserttypekey=" + inserttypekey;
                     pageURL = pageURL + "&amp;fieldname=" + fieldname;
-                    var props = "toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,copyhistory=0,width=" + width + ",height=" + height;
+
+                    var leftPosition = (screen.width - width) / 2;
+                    var topPosition = (screen.height - height) / 2;
+
+                    var props = "toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=1,resizable=1,copyhistory=0,width=" + width + ",height=" + height + ",top=" + topPosition + ",left=" + leftPosition;
                     newWindow = window.open(pageURL, "ResourceSelector", props);
                     newWindow.focus();
                 }
@@ -171,10 +175,10 @@
                   <input type="hidden" name="state" value="{$state}"/>
                   <input type="hidden" name="owner" value="{$owner}"/>
                   <input type="hidden" name="created.op" value="{$created.op}"/>
-                  <input type="hidden" name="created" value="{$created}"/>
+                  <input type="hidden" name="datecreated" value="{$created}"/>
                   <input type="hidden" name="modifier" value="{$modifier}"/>
                   <input type="hidden" name="modified.op" value="{$modified.op}"/>
-                  <input type="hidden" name="modified" value="{$modified}"/>
+                  <input type="hidden" name="datemodified" value="{$modified}"/>
                   <input type="hidden" name="acontentkey" value="{$acontentkey}"/>
                   <input type="hidden" name="filter" value="{$filter}"/>
 
