@@ -5,10 +5,12 @@ Ext.define('CMS.store.Users', {
 
     pageSize: 10,
     autoLoad: true,
+    remoteSort: true,
 
     proxy: {
         type: 'rest',
         url: 'rest/users',
+        simpleSortMode: true,
         reader: {
             type: 'json',
             root: 'users',

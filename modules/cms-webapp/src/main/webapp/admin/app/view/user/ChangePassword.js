@@ -5,12 +5,60 @@ Ext.define('CMS.view.user.ChangePassword', {
     title: 'Change Password',
     modal: true,
 
+    layout: 'fit',
+    resizable: true,
+
+    width: 400,
+    height: 250,
+
+    minWidth: 400,
+    minHeight: 250,
+
     initComponent: function() {
+        var textPanel = {
+            xtype: 'container',
+            layout: 'vbox',
+            margins: '0 0 0 8',
+            height: 40,
+            flex: 1,
+
+            items: [{
+                xtype: 'label',
+                flex: 1
+            },{
+                id: 'name',
+                xtype: 'label',
+                style: 'font-weight: bold'
+            },{
+                id: 'email',
+                xtype: 'box'
+            }]
+        };
+
+        var textAndPhotoPanel = {
+            xtype: 'container',
+            layout: 'hbox',
+
+            width: 320,
+            padding: '20 0 20 0',
+
+            items: [{
+                xtype: 'image',
+                id: 'photo',
+                padding: '0 0 0 70'
+            }, textPanel ]
+        };
 
         var form = {
             id: 'userChangePasswordForm',
             xtype: 'form',
-            bodyStyle: 'padding: 10px;',
+
+            bodyStyle: 'padding: 10 30 30 10;',
+
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
 
             defaults: {
                 xtype: 'textfield',
@@ -19,17 +67,17 @@ Ext.define('CMS.view.user.ChangePassword', {
                 minLength: 3,
                 maxLength: 64,
 
-                enableKeyEvents: true,
-
-                labelWidth: 150
+                labelWidth: 110,
+                labelAlign: 'right'
             },
 
-            items: [{
+            items: [textAndPhotoPanel,
+                {
                 itemId: 'password1',
                 fieldLabel: 'New password'
             }, {
                 itemId: 'password2',
-                fieldLabel: 'Confirm new password',
+                fieldLabel: 'Confirm password',
                 validator: function(value) {
                     var password1 = this.previousSibling('#password1');
                     return (value === password1.getValue()) ? true : 'Passwords do not match.'
@@ -59,13 +107,15 @@ Ext.define('CMS.view.user.ChangePassword', {
     },
 
     doShow: function(model) {
-        this.title = 'Change Password';
+        var data = model.data;
+
+        this.down('#photo').src = 'rest/users/' + data.key + '/photo/thumb';
+        this.down('#name').text = data.displayName + ' (' +  data.qualifiedName +  ')';
+        this.down('#email').autoEl = {tag: 'a', href: 'mailto:' + data.email, html: data.email};
+
         this.show();
 
         this.down('#password1').focus('', 10);
-
-        var el = Ext.getCmp('userChangePasswordForm');
-        el.on('keyup', alert, this);
     },
 
 

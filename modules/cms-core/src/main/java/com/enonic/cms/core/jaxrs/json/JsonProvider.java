@@ -1,4 +1,4 @@
-package com.enonic.cms.admin.jaxrs;
+package com.enonic.cms.core.jaxrs.json;
 
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
@@ -35,7 +34,7 @@ public final class JsonProvider
     public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations,
                                final MediaType mediaType)
     {
-        return mediaType.equals(MediaType.APPLICATION_JSON_TYPE);
+        return !type.equals(byte[].class) && mediaType.equals(MediaType.APPLICATION_JSON_TYPE);
     }
 
     public long getSize(final Object obj, final Class<?> type, final Type genericType, final Annotation[] annotations,
