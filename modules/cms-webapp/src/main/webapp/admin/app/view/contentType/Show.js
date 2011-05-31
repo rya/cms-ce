@@ -3,7 +3,8 @@ Ext.define('CMS.view.contentType.Show', {
     alias : 'widget.contentTypeShow',
 
     requires: [
-        'CMS.view.contentType.Grid'
+        'CMS.view.contentType.Grid',
+        'CMS.view.contentType.Detail'
     ],
 
     layout: 'border',
@@ -15,6 +16,11 @@ Ext.define('CMS.view.contentType.Show', {
                 region: 'center',
                 xtype: 'contentTypeGrid',
                 flex: 2
+            },
+            {
+                region: 'south',
+                xtype: 'contentTypeDetail',
+                flex: 1
             }
         ];
 

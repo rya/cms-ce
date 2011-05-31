@@ -1,30 +1,30 @@
 
-.user-info {
+.detail-info {
     padding: 10px;
 }
 
-.user-info img {
+.detail-info img {
     float: right;
 }
 
-.user-info h3 {
+.detail-info h3 {
     font-size: 24px;
     font-weight: normal;
 }
 
-.user-info dl {
+.detail-info dl {
     float: left;
     padding: 10px;
     width: 50%;
     font-size: 12px;
 }
 
-.user-info dl dt {
+.detail-info dl dt {
     float:left;
     font-style: italic;
     width: 120px;
 }
 
-.user-info dl dd {
+.detail-info dl dd {
 
 }
