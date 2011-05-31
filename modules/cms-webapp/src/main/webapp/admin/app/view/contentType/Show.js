@@ -1,9 +1,9 @@
-Ext.define('CMS.view.property.Show', {
+Ext.define('CMS.view.contentType.Show', {
     extend: 'Ext.panel.Panel',
-    alias : 'widget.propertyShow',
+    alias : 'widget.contentTypeShow',
 
     requires: [
-        'CMS.view.property.Grid'
+        'CMS.view.contentType.Grid'
     ],
 
     layout: 'border',
@@ -13,7 +13,7 @@ Ext.define('CMS.view.property.Show', {
         this.items = [
             {
                 region: 'center',
-                xtype: 'propertyGrid',
+                xtype: 'contentTypeGrid',
                 flex: 2
             }
         ];
