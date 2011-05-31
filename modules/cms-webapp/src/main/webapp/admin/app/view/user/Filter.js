@@ -1,20 +1,37 @@
 Ext.define('CMS.view.user.Filter', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userFilter',
+    cls: 'facet-navigation',
 
     title: 'Filter',
     split: true,
     collapsible: true,
 
-    userstore: {
-        style : 'text-decoration: underline; cursor: pointer; color: blue',
+    facetType: {
+        listeners : {
+           change: function(field, newVal, oldVal) {
+               var boxLabelEl = field.boxLabelEl;
+               if (field.checked) {
+                   boxLabelEl.addCls('facet-selected');
+               } else {
+                   boxLabelEl.removeCls('facet-selected');
+               }
+           },
+           scope: this.el
+        }
+    },
+
+    facetUserstore: {
         listeners : {
            render: function() {
               Ext.fly(this.el).on('click', function(e, t) {
-                  Ext.select('.usertore-list').applyStyles( { fontWeight : 'normal'} );
-                  var fly =  Ext.fly( t );
-                  var checked = fly.getStyle('fontWeight') === 'bold';
-                  if (!checked) fly.applyStyles( { fontWeight : 'bold' } );
+                  Ext.select('.facet-single-select-item').each(function(el) {
+                      if (el.dom == t) {
+                          el.addCls('facet-selected');
+                      } else {
+                          el.removeCls('facet-selected');
+                      }
+                  }, this);
               });
            },
            scope: this.el
@@ -53,41 +70,36 @@ Ext.define('CMS.view.user.Filter', {
 
             items: [search, {
                 xtype: 'label',
-                style: 'font-weight:bold;',
                 text: 'Type',
-                margins: '0 0 2 0'
+                cls: 'facet-header'
             }, {
                 xtype: 'checkbox',
                 boxLabel: 'Users',
-                margins: '0 0 0 8'
+                cls: 'facet-multi-select-item',
+                listeners: this.facetType.listeners
             }, {
                 xtype: 'checkbox',
                 boxLabel: 'Groups',
-                margins: '0 0 0 8'
+                cls: 'facet-multi-select-item',
+                listeners: this.facetType.listeners
             }, {
                 xtype: 'label',
-                style: 'font-weight: bold',
                 text: 'Userstore',
-                margins: '4 0 2 0'
+                cls: 'facet-header'
             }, {
                 xtype: 'label',
                 text: 'default',
-                cls: 'usertore-list',
-                margins: '0 0 0 8',
-                style: this.userstore.style + '; font-weight : bold',
-                listeners: this.userstore.listeners
+                cls: 'facet-single-select-item',
+                listeners: this.facetUserstore.listeners
             }, {
                 xtype: 'label',
                 text: 'global',
-                cls: 'usertore-list',
-                margins: '0 0 0 8',
-                style: this.userstore.style,
-                listeners: this.userstore.listeners
+                cls: 'facet-single-select-item',
+                listeners: this.facetUserstore.listeners
             }]
         };
 
  		Ext.apply(this, filter);
-
 
         this.callParent(arguments);
     }
