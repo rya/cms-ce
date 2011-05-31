@@ -12,6 +12,7 @@ public final class UserModelHelper
         final UserModel model = new UserModel();
         model.setKey(entity.getKey().toString());
         model.setName(entity.getName());
+        model.setEmail(entity.getEmail());
         model.setQualifiedName(entity.getQualifiedName().toString());
         model.setDisplayName(entity.getDisplayName());
         model.setLastModified(entity.getLastModified());
