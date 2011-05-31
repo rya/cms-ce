@@ -34,7 +34,7 @@ public final class JsonProvider
     public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations,
                                final MediaType mediaType)
     {
-        return mediaType.equals(MediaType.APPLICATION_JSON_TYPE);
+        return !type.equals(byte[].class) && mediaType.equals(MediaType.APPLICATION_JSON_TYPE);
     }
 
     public long getSize(final Object obj, final Class<?> type, final Type genericType, final Annotation[] annotations,
