@@ -6,6 +6,7 @@ public final class UserModel
 {
     private String key;
     private String name;
+    private String email;
     private String qualifiedName;
     private String displayName;
     private String userStore;
@@ -25,6 +26,14 @@ public final class UserModel
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail( String email ) {
+        this.email = email;
     }
 
     public String getQualifiedName() {
