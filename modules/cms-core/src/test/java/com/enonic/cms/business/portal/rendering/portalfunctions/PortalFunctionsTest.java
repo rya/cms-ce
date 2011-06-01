@@ -14,6 +14,7 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
+import com.enonic.cms.store.dao.PortletDao;
 
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
@@ -32,6 +33,7 @@ import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.domain.portal.ContentPath;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
@@ -41,12 +43,12 @@ import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
 import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
 import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.domain.structure.RunAsType;
 import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.domain.structure.page.WindowKey;
+import com.enonic.cms.domain.structure.portlet.PortletEntity;
 import com.enonic.cms.domain.structure.portlet.PortletKey;
 
 import static junit.framework.Assert.assertEquals;
@@ -62,6 +64,8 @@ public class PortalFunctionsTest
     private MenuItemDao menuItemDao;
 
     private ContentDao contentDao;
+
+    private PortletDao portletDao;
 
     private ResourceService resourceService;
 
@@ -100,6 +104,7 @@ public class PortalFunctionsTest
 
         menuItemDao = mock( MenuItemDao.class );
         contentDao = mock( ContentDao.class );
+        portletDao = mock( PortletDao.class );
         resourceService = mock( ResourceService.class );
         contentBinaryDataDao = mock( ContentBinaryDataDao.class );
 
@@ -735,12 +740,84 @@ public class PortalFunctionsTest
 
     }
 
-    private SiteEntity createSite( SiteKey key, String name )
+    @Test
+    public void testCreateWindowUrlFromMenuItemPage()
+        throws IOException
     {
-        SiteEntity site = new SiteEntity();
-        site.setKey( key.toInt() );
-        site.setName( name );
-        return site;
+        when( portletDao.findByKey( 90 ) ).thenReturn( createPortlet( site1, "createWindowUrlPortlet" ) );
+        portalFunctions.setPortletDao( portletDao );
+
+        // mock up menu item
+        SitePath originalSitePath = new SitePath( siteKey1, "/en/features/xslt-functions/createwindowurl-test" );
+        context.setOriginalSitePath( originalSitePath );
+
+        MenuItemEntity menuEn = createMenuItem( "98", "en", site1 );
+        MenuItemEntity menuFeatures = createMenuItem( "99", "features", menuEn, site1 );
+        MenuItemEntity menuXsltFunc = createMenuItem( "100", "xslt-functions", menuFeatures, site1 );
+        MenuItemEntity menuCreateWindowUrl = createMenuItem( "101", "createwindowurl-test", menuXsltFunc, site1 );
+
+        when( menuItemDao.findByKey( 101 ) ).thenReturn( menuCreateWindowUrl );
+
+        // site path
+        SitePath sitePath = new SitePath( siteKey1, "/en/features/xslt-functions/createwindowurl-test" );
+        context.setSitePath( sitePath );
+
+        // set current menu item and portlet in context
+        MenuItemKey menuItemKeyWindow = new MenuItemKey( 101 );
+        PortletKey portletKey = new PortletKey( 90 );
+        PortalInstanceKey portalInstanceKey = PortalInstanceKey.createWindow( menuItemKeyWindow, portletKey );
+        context.setPortalInstanceKey( portalInstanceKey );
+
+        WindowKey windowKey = new WindowKey(menuItemKeyWindow, portletKey );
+        String windowUrl = portalFunctions.createWindowUrl(windowKey, new String[]{});
+
+        assertEquals( "http://localhost/site/1/en/features/xslt-functions/createwindowurl-test/_window/createwindowurlportlet", windowUrl );
+    }
+
+    @Test
+    public void testCreateWindowUrlFromContentPage()
+        throws IOException
+    {
+        when( portletDao.findByKey( 90 ) ).thenReturn( createPortlet( site1, "createWindowUrlPortlet" ) );
+        portalFunctions.setPortletDao( portletDao );
+
+        // mock up menu item
+        SitePath originalSitePath = new SitePath( siteKey1, "/en/features/xslt-functions/createwindowurl-test/article1" );
+        context.setOriginalSitePath( originalSitePath );
+
+        MenuItemEntity menuEn = createMenuItem( "98", "en", site1 );
+        MenuItemEntity menuFeatures = createMenuItem( "99", "features", menuEn, site1 );
+        MenuItemEntity menuXsltFunc = createMenuItem( "100", "xslt-functions", menuFeatures, site1 );
+        MenuItemEntity menuCreateWindowUrl = createMenuItem( "101", "createwindowurl-test", menuXsltFunc, site1 );
+
+        when( menuItemDao.findByKey( 101 ) ).thenReturn( menuCreateWindowUrl );
+
+        // site path
+        SitePath sitePath = new SitePath( siteKey1, "/en/features/xslt-functions/createwindowurl-test" );
+        ContentPath contentPath = new ContentPath( new ContentKey( 1000 ), "article1", menuCreateWindowUrl.getPath() );
+        sitePath.setContentPath( contentPath );
+        context.setSitePath( sitePath );
+
+        // set current menu item and portlet in context
+        MenuItemKey menuItemKeyWindow = new MenuItemKey( 101 );
+        PortletKey portletKey = new PortletKey( 90 );
+        PortalInstanceKey portalInstanceKey = PortalInstanceKey.createWindow( menuItemKeyWindow, portletKey );
+        context.setPortalInstanceKey( portalInstanceKey );
+
+        WindowKey windowKey = new WindowKey(menuItemKeyWindow, portletKey );
+        String windowUrl = portalFunctions.createWindowUrl(windowKey, new String[]{});
+
+        assertEquals( "http://localhost/site/1/en/features/xslt-functions/createwindowurl-test/article1/_window/createwindowurlportlet",
+                      windowUrl );
+    }
+
+    private PortletEntity createPortlet( SiteEntity site, String name )
+    {
+        PortletEntity portlet = new PortletEntity();
+        portlet.setSite( site );
+        portlet.setName( name );
+        portlet.setRunAs( RunAsType.INHERIT );
+        return portlet;
     }
 
     private MenuItemEntity createMenuItem( String key, String name )
@@ -777,21 +854,4 @@ public class PortalFunctionsTest
         return content;
     }
 
-    private ContentHomeEntity createContentHome( SiteEntity site, MenuItemEntity menuItem )
-    {
-        ContentHomeEntity contentHome = new ContentHomeEntity();
-        contentHome.setSite( site );
-        contentHome.setMenuItem( menuItem );
-        return contentHome;
-    }
-
-    private SectionContentEntity createApprovedSectionContent( MenuItemEntity menuItem, SectionContentKey sectionContentKey )
-    {
-        SectionContentEntity sectionContent = new SectionContentEntity();
-        sectionContent.setKey( sectionContentKey );
-        sectionContent.setMenuItem( menuItem );
-        sectionContent.setOrder( Integer.valueOf( "1" ) );
-        sectionContent.setApproved( true );
-        return sectionContent;
-    }
 }
