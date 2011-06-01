@@ -9,7 +9,7 @@ Ext.define('CMS.controller.Users', {
         {ref: 'userGrid', selector: 'userGrid'},
         {ref: 'userDetail', selector: 'userDetail'},
         {ref: 'userFilter', selector: 'userFilter'},
-        {ref: 'filterTextField', selector: 'userFilter textfield'},
+        {ref: 'filterTextField', selector: 'userFilter textfield[name=filter]'},
         {ref: 'userEditWindow', selector: 'userEditWindow', autoCreate: true, xtype: 'userEditWindow'},
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
         {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
@@ -27,6 +27,9 @@ Ext.define('CMS.controller.Users', {
             'userGrid': {
                 selectionchange: this.updateInfo,
                 itemcontextmenu: this.popupMenu
+            },
+            'userFilter': {
+                specialkey: this.specialKeyHandler
             },
             'userFilter button[action=search]': {
                 click: this.searchFilter
@@ -83,6 +86,12 @@ Ext.define('CMS.controller.Users', {
         usersStore.clearFilter();
         usersStore.filter('displayName', textField.getValue());
         usersStore.loadPage(1);
+    },
+
+    specialKeyHandler: function( field, event ) {
+        if ( event.getKey() == event.ENTER ) {
+            this.searchFilter();
+        }
     },
 
     showDeleteUserWindow: function() {
