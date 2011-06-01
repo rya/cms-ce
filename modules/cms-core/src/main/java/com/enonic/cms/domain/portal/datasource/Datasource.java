@@ -80,7 +80,7 @@ public class Datasource
             return false;
         }
 
-        Attribute cacheableAttr = xmlElement.getAttribute( "cacheable" );
+        Attribute cacheableAttr = xmlElement.getAttribute( "cache" );
         if ( cacheableAttr != null )
         {
             return Boolean.valueOf( cacheableAttr.getValue().trim() );
