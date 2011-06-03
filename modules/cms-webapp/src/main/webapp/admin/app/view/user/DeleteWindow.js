@@ -1,4 +1,4 @@
-Ext.define( 'CMS.view.user.Delete', {
+Ext.define( 'CMS.view.user.DeleteWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.userDeleteWindow',
 

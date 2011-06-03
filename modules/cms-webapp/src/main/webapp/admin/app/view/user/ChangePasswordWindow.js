@@ -1,4 +1,4 @@
-Ext.define('CMS.view.user.ChangePassword', {
+Ext.define('CMS.view.user.ChangePasswordWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.userChangePasswordWindow',
 

@@ -3,7 +3,6 @@ Ext.define('CMS.view.user.Grid', {
     alias : 'widget.userGrid',
 
     requires: [
-        'CMS.view.user.ListToolbar',
         'CMS.plugin.PageSize'
     ],
     layout: 'fit',
@@ -43,6 +42,29 @@ Ext.define('CMS.view.user.Grid', {
             }
         ];
 
+        this.tbar = {
+            xtype: 'toolbar',
+            items: {
+            xtype: 'button',
+                text: 'New',
+                icon: 'resources/images/add.png',
+                menu: new Ext.menu.Menu({
+                    items: [
+                        {
+                            text: 'User',
+                            icon: 'resources/images/user_add.png',
+                            action: 'newUser'
+                        },
+                        {
+                            text: 'Group',
+                            icon: 'resources/images/group_add.png',
+                            action: 'newGroup'
+                        }
+                    ]
+                })
+            }
+        };
+
         this.bbar = {
             xtype: 'pagingtoolbar',
             store: this.store,
@@ -50,10 +72,6 @@ Ext.define('CMS.view.user.Grid', {
             displayMsg: 'Displaying users {0} - {1} of {2}',
             emptyMsg: 'No users to display',
             plugins: ['pageSize']
-        };
-
-        this.tbar = {
-            xtype: 'userListToolbar'
         };
 
         this.viewConfig = {

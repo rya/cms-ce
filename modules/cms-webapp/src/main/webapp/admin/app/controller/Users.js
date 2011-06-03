@@ -3,7 +3,14 @@ Ext.define('CMS.controller.Users', {
 
     stores: ['Users'],
     models: ['User'],
-    views: ['user.ListToolbar', 'user.Grid', 'user.Detail', 'user.Filter', 'user.Delete', 'user.ChangePassword', 'user.ContextMenu'],
+    views: [
+        'user.Grid',
+        'user.DetailPanel',
+        'user.FilterPanel',
+        'user.DeleteWindow',
+        'user.ChangePasswordWindow',
+        'user.ContextMenu'
+    ],
 
     refs: [
         {ref: 'userGrid', selector: 'userGrid'},

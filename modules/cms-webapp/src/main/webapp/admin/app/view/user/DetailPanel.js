@@ -1,4 +1,4 @@
-Ext.define('CMS.view.user.Detail', {
+Ext.define('CMS.view.user.DetailPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userDetail',
 

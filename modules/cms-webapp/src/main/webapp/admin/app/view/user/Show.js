@@ -4,7 +4,7 @@ Ext.define('CMS.view.user.Show', {
 
     requires: [
         'CMS.view.user.Grid',
-        'CMS.view.user.Detail'
+        'CMS.view.user.DetailPanel'
     ],
 
     layout: 'border',
