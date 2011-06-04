@@ -47,12 +47,12 @@ Ext.define('CMS.view.user.Grid', {
             items: [
                 {
                     text: 'New User',
-                    icon: 'resources/images/user_add.png',
+                    iconCls: 'user-add',
                     action: 'newUser'
                 },
                 {
                     text: 'New Group',
-                    icon: 'resources/images/group_add.png',
+                    iconCls: 'group-add',
                     action: 'newGroup'
                 },
                 '-',

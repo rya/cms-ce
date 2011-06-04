@@ -5,18 +5,18 @@ Ext.define('CMS.view.user.ContextMenu', {
     items: [
         {
             text: 'Edit User',
-            icon: 'resources/images/user_edit.png',
+            iconCls: 'edit-user',
             action: 'edit'
         },
         {
             text: 'Delete User',
-            icon: 'resources/images/user_delete.png',
+            iconCls: 'delete-user',
             action: 'showDeleteWindow'
         },
         '-',
         {
             text: 'Change Password',
-            icon: 'resources/images/key.png',
+            iconCls: 'change-password',
             action: 'changePassword'
         }
     ]

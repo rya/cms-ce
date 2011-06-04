@@ -65,3 +65,32 @@
 .x-menu-item img.details-hide, .details-hide {
     background-image: url("../images/details_hide.gif");
 }
+
+
+/* ----- Buttons -----*/
+.x-btn .user-add, .user-add {
+    background-image: url("../images/user_add.png");
+}
+
+.x-btn .group-add, .group-add {
+    background-image: url("../images/group_add.png");
+}
+
+.x-btn .edit-user, .edit-user
+{
+    background-image: url("../images/user_edit.png");
+}
+
+.x-btn .delete-user, .delete-user {
+    background-image: url("../images/delete.png");
+}
+
+.x-btn .change-password, .change-password {
+    background-image: url("../images/key.png");
+}
+
+.x-btn .find, .find {
+    background-image: url("../images/find.png");
+}
+
+
