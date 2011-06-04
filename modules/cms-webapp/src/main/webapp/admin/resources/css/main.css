@@ -1,4 +1,4 @@
-
+/* ----- Accounts Details Panel ----- */
 .detail-info {
     padding: 10px;
 }
@@ -29,7 +29,7 @@
 
 }
 
-/* ----- Accounts Filter ----- */
+/* ----- Accounts Filter Panel ----- */
 .facet-navigation,
 .facet-navigation .x-form-item {
     font-size: 11px !important;
@@ -51,4 +51,17 @@
 
 .facet-selected {
     font-weight: bold;
+}
+
+/* ----- Details Panel Cycle Menu Items -----*/
+.x-menu-item img.details-bottom, .details-bottom {
+    background-image: url("../images/details-bottom.gif");
+}
+
+.x-menu-item img.details-right, .details-right {
+    background-image: url("../images/details-right.gif");
+}
+
+.x-menu-item img.details-hide, .details-hide {
+    background-image: url("../images/details-hide.gif");
 }

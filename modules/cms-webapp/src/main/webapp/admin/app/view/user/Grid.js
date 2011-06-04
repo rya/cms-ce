@@ -44,25 +44,44 @@ Ext.define('CMS.view.user.Grid', {
 
         this.tbar = {
             xtype: 'toolbar',
-            items: {
-            xtype: 'button',
-                text: 'New',
-                icon: 'resources/images/add.png',
-                menu: new Ext.menu.Menu({
-                    items: [
-                        {
-                            text: 'User',
-                            icon: 'resources/images/user_add.png',
-                            action: 'newUser'
-                        },
-                        {
-                            text: 'Group',
-                            icon: 'resources/images/group_add.png',
-                            action: 'newGroup'
-                        }
-                    ]
-                })
-            }
+            items: [
+                {
+                    text: 'New User',
+                    icon: 'resources/images/user_add.png',
+                    action: 'newUser'
+                },
+                {
+                    text: 'New Group',
+                    icon: 'resources/images/group_add.png',
+                    action: 'newGroup'
+                },
+                '-',
+                {
+                    xtype: 'cycle',
+                    text: 'Details Pane',
+                    prependText: 'Details: ',
+                    showText: true,
+                    scope: this,
+                    menu: {
+                        id: 'details-position-menu',
+                        items: [
+                            {
+                                text: 'Bottom',
+                                checked: true,
+                                iconCls:'details-bottom'
+                            },
+                            {
+                                text: 'Right',
+                                iconCls:'details-right'
+                            },
+                            {
+                                text: 'Hide',
+                                iconCls:'details-hide'
+                            }
+                        ]
+                    }
+                }
+            ]
         };
 
         this.bbar = {
