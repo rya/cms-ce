@@ -55,13 +55,13 @@
 
 /* ----- Details Panel Cycle Menu Items -----*/
 .x-menu-item img.details-bottom, .details-bottom {
-    background-image: url("../images/details-bottom.gif");
+    background-image: url("../images/details_bottom.gif");
 }
 
 .x-menu-item img.details-right, .details-right {
-    background-image: url("../images/details-right.gif");
+    background-image: url("../images/details_right.gif");
 }
 
 .x-menu-item img.details-hide, .details-hide {
-    background-image: url("../images/details-hide.gif");
+    background-image: url("../images/details_hide.gif");
 }
