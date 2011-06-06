@@ -1,0 +1,47 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="desktop/css/desktop.css" />
+
+    <script type="text/javascript" src="ext/ext-all.js"></script>
+
+    <script type="text/javascript">
+
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: true
+        });
+
+        Ext.Loader.setPath({
+            'Ext.ux.desktop': 'desktop/js'
+        });
+
+        Ext.application({
+            name: 'CMS',
+            appFolder: 'app',
+
+            controllers: [
+                'Users', 'Properties', 'Languages', 'ContentTypes'
+            ],
+
+            requires: [
+                'CMS.view.Desktop'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    layout: 'fit',
+                    items: [{xtype: 'cmsdesktop'}]
+                });
+            }
+
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>
