@@ -1,0 +1,55 @@
+{
+    "total": 5,
+    "systemCaches": [
+        {
+            "key": 1,
+            "implementation": "name1",
+            "timeToLive": 100,
+            "maxMemElements": 1000,
+            "maxDiskElements": 1000,
+            "objectCount": 123,
+            "cacheHits": 4938,
+            "cacheMisses": 1348
+        },
+        {
+            "key": 1,
+            "implementation": "name2",
+            "timeToLive": 100,
+            "maxMemElements": 1000,
+            "maxDiskElements": 1000,
+            "objectCount": 124,
+            "cacheHits": 4391,
+            "cacheMisses": 348
+        },
+        {
+            "key": 1,
+            "implementation": "name3",
+            "timeToLive": 100,
+            "maxMemElements": 1000,
+            "maxDiskElements": 1000,
+            "objectCount": 417,
+            "cacheHits": 1238,
+            "cacheMisses": 18349
+        },
+        {
+            "key": 1,
+            "implementation": "name4",
+            "timeToLive": 100,
+            "maxMemElements": 1000,
+            "maxDiskElements": 1000,
+            "objectCount": 1234,
+            "cacheHits": 48912,
+            "cacheMisses": 3892
+        },
+        {
+            "key": 1,
+            "implementation": "name5",
+            "timeToLive": 100,
+            "maxMemElements": 1000,
+            "maxDiskElements": 1000,
+            "objectCount": 1233,
+            "cacheHits": 1248,
+            "cacheMisses": 7187
+        },
+    ]
+}
