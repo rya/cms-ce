@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -21,7 +20,6 @@ import com.enonic.cms.business.captcha.CaptchaService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.localization.LocalizationService;
 import com.enonic.cms.business.portal.image.ImageService;
-import com.enonic.cms.business.portal.rendering.WindowRendererFactory;
 import com.enonic.cms.business.resolver.locale.LocaleResolverService;
 
 public class PortalFunctionsFactory
@@ -60,11 +58,10 @@ public class PortalFunctionsFactory
     @Autowired
     private CreateAttachmentUrlFunction createAttachmentUrlFunction;
 
+    @Autowired
+    private IsWindowEmptyFunction isWindowEmptyFunction;
+
     private SitePropertiesService sitePropertiesService;
-
-    private WindowRendererFactory windowRendererFactory;
-
-    private DataSourceService dataSourceService;
 
     private final ThreadLocal<PortalFunctionsContext> context = new ThreadLocal<PortalFunctionsContext>();
 
@@ -119,9 +116,8 @@ public class PortalFunctionsFactory
         portalFunctions.setImageService( imageService );
         portalFunctions.setSecurityService( securityService );
         portalFunctions.setCreateAttachmentUrlFunction( createAttachmentUrlFunction );
+        portalFunctions.setIsWindowEmptyFunction( isWindowEmptyFunction );
         portalFunctions.setSitePropertiesService( sitePropertiesService );
-        portalFunctions.setWindowRendererFactory( windowRendererFactory );
-        portalFunctions.setDataSourceService( dataSourceService );
 
         return portalFunctions;
     }
@@ -143,13 +139,4 @@ public class PortalFunctionsFactory
         this.sitePropertiesService = sitePropertiesService;
     }
 
-    public void setWindowRendererFactory( WindowRendererFactory windowRendererFactory )
-    {
-        this.windowRendererFactory = windowRendererFactory;
-    }
-
-    public void setDataSourceService( DataSourceService dataSourceService )
-    {
-        this.dataSourceService = dataSourceService;
-    }
 }
