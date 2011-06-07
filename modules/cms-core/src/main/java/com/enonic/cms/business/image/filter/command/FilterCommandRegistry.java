@@ -39,6 +39,7 @@ public final class FilterCommandRegistry
         register( new FlipVerticalCommand() );
         register( new ColorizeFilterCommand() );
         register( new HSBColorizeFilterCommand() );
+        register( new ScaleBlockFilterCommand() );
     }
 
     private void register( FilterCommand command )
