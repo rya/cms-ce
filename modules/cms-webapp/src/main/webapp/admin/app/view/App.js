@@ -8,10 +8,10 @@ Ext.define('CMS.view.App', {
         'Ext.ux.desktop.modules.Notepad',
         'Ext.ux.desktop.modules.Settings',
         
-        'CMS.view.modules.Properties',
-        'CMS.view.modules.Languages',
-        'CMS.view.modules.ContentTypes',
-        'CMS.view.modules.Accounts'
+        'CMS.view.modules.PropertyModule',
+        'CMS.view.modules.LanguageModule',
+        'CMS.view.modules.ContentTypeModule',
+        'CMS.view.modules.AccountModule'
     ],
 
     init: function() {
@@ -25,10 +25,10 @@ Ext.define('CMS.view.App', {
     getModules : function(){
         return [
             new Ext.ux.desktop.modules.Notepad(),
-            new CMS.view.modules.Accounts(),
-            new CMS.view.modules.ContentTypes(),
-            new CMS.view.modules.Properties(),
-            new CMS.view.modules.Languages()
+            new CMS.view.modules.AccountModule(),
+            new CMS.view.modules.ContentTypeModule(),
+            new CMS.view.modules.PropertyModule(),
+            new CMS.view.modules.LanguageModule()
         ];
     },
 

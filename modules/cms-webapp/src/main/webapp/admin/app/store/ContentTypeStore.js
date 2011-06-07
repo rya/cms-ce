@@ -1,7 +1,7 @@
-Ext.define( 'CMS.store.ContentTypes', {
+Ext.define( 'CMS.store.ContentTypeStore', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.ContentType',
+    model: 'CMS.model.ContentTypeModel',
 
     pageSize: 10,
     autoLoad: true,

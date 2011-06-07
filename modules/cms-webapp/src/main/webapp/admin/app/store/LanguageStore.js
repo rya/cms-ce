@@ -1,7 +1,7 @@
-Ext.define('CMS.store.Languages', {
+Ext.define('CMS.store.LanguageStore', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.Language',
+    model: 'CMS.model.LanguageModel',
 
     pageSize: 10,
     autoLoad: true,

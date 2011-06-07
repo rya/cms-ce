@@ -1,16 +1,16 @@
-Ext.define('CMS.view.modules.Languages', {
+Ext.define('CMS.view.modules.PropertyModule', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [
-        'CMS.view.language.Grid'
+        'CMS.view.property.GridPanel'
     ],
     
 
-    id: 'languages',
+    id: 'properties',
 
     init : function(){
         this.launcher = {
-            text: 'Languages',
+            text: 'Properties',
             iconCls: 'notepad',
             handler: this.createWindow,
             scope: this
@@ -19,11 +19,11 @@ Ext.define('CMS.view.modules.Languages', {
 
     createWindow : function(){
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('languages');
+        var win = desktop.getWindow('properties');
         if(!win){
             win = desktop.createWindow({
-                id: 'languages',
-                title:'Languages',
+                id: 'properties',
+                title:'Properties',
                 width: 800,
                 height: 600,
                 iconCls: 'notepad',
@@ -42,7 +42,7 @@ Ext.define('CMS.view.modules.Languages', {
                 items: [
                     {
                         region: 'center',
-                        xtype: 'languageGrid'
+                        xtype: 'propertyGrid'
                     }
                 ]
             });

@@ -1,4 +1,4 @@
-Ext.define('CMS.view.property.Grid', {
+Ext.define('CMS.view.property.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.propertyGrid',
 
@@ -6,7 +6,7 @@ Ext.define('CMS.view.property.Grid', {
     loadMask: true,
     columnLines: true,
     frame: false,
-    store: 'Properties',
+    store: 'PropertyStore',
 
     initComponent: function() {
 

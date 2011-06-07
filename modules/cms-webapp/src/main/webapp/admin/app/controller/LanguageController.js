@@ -1,9 +1,9 @@
-Ext.define('CMS.controller.Languages', {
+Ext.define('CMS.controller.LanguageController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['Languages'],
-    models: ['Language'],
-    views: ['language.Toolbar', 'language.Grid'],
+    stores: ['LanguageStore'],
+    models: ['LanguageModel'],
+    views: ['language.Toolbar', 'language.GridPanel'],
 
     refs: [
         {ref: 'languageGrid', selector: 'languageGrid'}

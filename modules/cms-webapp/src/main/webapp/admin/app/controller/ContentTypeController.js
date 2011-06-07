@@ -1,9 +1,9 @@
-Ext.define( 'CMS.controller.ContentTypes', {
+Ext.define( 'CMS.controller.ContentTypeController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['ContentTypes'],
-    models: ['ContentType'],
-    views: ['contentType.Grid', 'contentType.Detail', 'contentType.ContextMenu'],
+    stores: ['ContentTypeStore'],
+    models: ['ContentTypeModel'],
+    views: ['contentType.GridPanel', 'contentType.DetailPanel', 'contentType.ContextMenu'],
 
     refs: [
         {ref: 'contentTypeGrid', selector: 'contentTypeGrid'},

@@ -1,16 +1,16 @@
-Ext.define('CMS.view.modules.ContentTypes', {
+Ext.define('CMS.view.modules.LanguageModule', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [
-        'CMS.view.contentType.Show'
+        'CMS.view.language.GridPanel'
     ],
     
 
-    id: 'contentTypes',
+    id: 'languages',
 
     init : function(){
         this.launcher = {
-            text: 'Content Types',
+            text: 'Languages',
             iconCls: 'notepad',
             handler: this.createWindow,
             scope: this
@@ -19,11 +19,11 @@ Ext.define('CMS.view.modules.ContentTypes', {
 
     createWindow : function(){
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('contentTypes');
+        var win = desktop.getWindow('languages');
         if(!win){
             win = desktop.createWindow({
-                id: 'contentTypes',
-                title:'Content Types',
+                id: 'languages',
+                title:'Languages',
                 width: 800,
                 height: 600,
                 iconCls: 'notepad',
@@ -42,7 +42,7 @@ Ext.define('CMS.view.modules.ContentTypes', {
                 items: [
                     {
                         region: 'center',
-                        xtype: 'contentTypeShow'
+                        xtype: 'languageGrid'
                     }
                 ]
             });

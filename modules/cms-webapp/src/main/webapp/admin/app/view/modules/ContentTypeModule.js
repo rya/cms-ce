@@ -1,24 +1,16 @@
-/*!
- * Ext JS Library 4.0
- * Copyright(c) 2006-2011 Sencha Inc.
- * licensing@sencha.com
- * http://www.sencha.com/license
- */
-
-Ext.define('CMS.view.modules.Accounts', {
+Ext.define('CMS.view.modules.ContentTypeModule', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [
-        'CMS.view.user.Show',
-        'CMS.view.user.FilterPanel'
+        'CMS.view.contentType.ShowPanel'
     ],
     
 
-    id: 'accounts',
+    id: 'contentTypes',
 
     init : function(){
         this.launcher = {
-            text: 'Accounts',
+            text: 'Content Types',
             iconCls: 'notepad',
             handler: this.createWindow,
             scope: this
@@ -27,11 +19,11 @@ Ext.define('CMS.view.modules.Accounts', {
 
     createWindow : function(){
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('accounts');
+        var win = desktop.getWindow('contentTypes');
         if(!win){
             win = desktop.createWindow({
-                id: 'accounts',
-                title:'Accounts',
+                id: 'contentTypes',
+                title:'Content Types',
                 width: 800,
                 height: 600,
                 iconCls: 'notepad',
@@ -50,12 +42,7 @@ Ext.define('CMS.view.modules.Accounts', {
                 items: [
                     {
                         region: 'center',
-                        xtype: 'userShow'
-                    },
-                    {
-                        region: 'west',
-                        width: 225,
-                        xtype: 'userFilter'
+                        xtype: 'contentTypeShow'
                     }
                 ]
             });

@@ -1,4 +1,4 @@
-Ext.define('CMS.view.contentType.Detail', {
+Ext.define('CMS.view.contentType.DetailPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.contentTypeDetail',
 

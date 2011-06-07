@@ -1,7 +1,7 @@
-Ext.define('CMS.store.Users', {
+Ext.define('CMS.store.UserStore', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.User',
+    model: 'CMS.model.UserModel',
 
     pageSize: 10,
     autoLoad: true,
