@@ -33,7 +33,8 @@ Ext.define('CMS.controller.Users', {
             },
             'userGrid': {
                 selectionchange: this.updateInfo,
-                itemcontextmenu: this.popupMenu
+                itemcontextmenu: this.popupMenu,
+                itemdblclick: this.showEditUserForm
             },
             'userFilter': {
                 enterKeyPress: this.filterHandleEnterKey
