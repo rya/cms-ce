@@ -36,7 +36,7 @@ Ext.define('CMS.controller.Users', {
                 itemcontextmenu: this.popupMenu
             },
             'userFilter': {
-                specialkey: this.specialKeyHandler
+                enterKeyPress: this.filterHandleEnterKey
             },
             'userFilter button[action=search]': {
                 click: this.searchFilter
@@ -95,7 +95,7 @@ Ext.define('CMS.controller.Users', {
         usersStore.loadPage(1);
     },
 
-    specialKeyHandler: function( field, event ) {
+    filterHandleEnterKey: function( field, event ) {
         if ( event.getKey() == event.ENTER ) {
             this.searchFilter();
         }

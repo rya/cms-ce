@@ -46,7 +46,7 @@ Ext.define('CMS.view.user.FilterPanel', {
             items: [{
                 xtype: 'textfield',
                 enableKeyEvents: true,
-                bubbleEvents: ['specialkey'],
+                bubbleEvents: ['enterKeyPress'],
                 name: 'filter',
                 flex: 1
             },{
