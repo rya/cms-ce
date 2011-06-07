@@ -31,7 +31,9 @@ Ext.define( 'CMS.view.contentType.GridPanel', {
             },
             {
                 text: 'Modified',
+                xtype: 'datecolumn',
                 dataIndex: 'timestamp',
+                format: 'Y-m-d h:m',
                 sortable: true,
                 flex: 2
             }

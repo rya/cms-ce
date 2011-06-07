@@ -35,10 +35,10 @@ Ext.define('CMS.view.user.GridPanel', {
             },
             {
                 text: 'Last Modified',
-                dataIndex: 'lastModified',
-                sortable: true,
                 xtype: 'datecolumn',
-                format: 'm-d-Y'
+                dataIndex: 'lastModified',
+                format: 'Y-m-d h:m',
+                sortable: true
             }
         ];
 

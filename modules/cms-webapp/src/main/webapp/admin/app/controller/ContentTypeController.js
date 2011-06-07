@@ -25,7 +25,8 @@ Ext.define( 'CMS.controller.ContentTypeController', {
             },
             'contentTypeGrid': {
                 selectionchange: this.updateInfo,
-                itemcontextmenu: this.popupMenu
+                itemcontextmenu: this.popupMenu,
+                itemdblclick: this.editContentType
             }
         } );
     },
