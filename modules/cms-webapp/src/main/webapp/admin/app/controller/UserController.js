@@ -38,7 +38,8 @@ Ext.define('CMS.controller.UserController', {
                 itemdblclick: this.showEditUserForm
             },
             'userFilter': {
-                enterKeyPress: this.filterHandleEnterKey
+                enterKeyPress: this.filterHandleEnterKey,
+                render: this.onFilterPanelRender
             },
             'userFilter button[action=search]': {
                 click: this.searchFilter
@@ -86,6 +87,10 @@ Ext.define('CMS.controller.UserController', {
         if (first) {
             view.getSelectionModel().select(first);
         }
+    },
+
+    onFilterPanelRender: function() {
+        Ext.getCmp('filter').focus(false, 10);
     },
 
     searchFilter: function() {
