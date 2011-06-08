@@ -1,4 +1,4 @@
-Ext.define('CMS.model.User', {
+Ext.define('CMS.model.UserModel', {
     extend: 'Ext.data.Model',
 
     fields: [

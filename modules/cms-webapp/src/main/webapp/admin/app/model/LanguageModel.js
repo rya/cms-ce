@@ -1,4 +1,4 @@
-Ext.define('CMS.model.Language', {
+Ext.define('CMS.model.LanguageModel', {
     extend: 'Ext.data.Model',
 
     fields: [

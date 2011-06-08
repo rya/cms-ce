@@ -1,11 +1,11 @@
-Ext.define( 'CMS.store.ContentTypes', {
+Ext.define( 'CMS.store.ContentHandlers', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.ContentType',
+    model: 'CMS.model.ContentHandler',
 
     pageSize: 10,
     autoLoad: true,
-    remoteSort: true,
+    remoteSort: false,
 
     sorters: [
         {
@@ -16,10 +16,10 @@ Ext.define( 'CMS.store.ContentTypes', {
 
     proxy: {
         type: 'ajax',
-        url: 'app/data/ContentTypes.json',
+        url: 'app/data/ContentHandlers.json',
         reader: {
             type: 'json',
-            root: 'contentTypes',
+            root: 'contentHandlers',
             totalProperty : 'total'
         }
     }

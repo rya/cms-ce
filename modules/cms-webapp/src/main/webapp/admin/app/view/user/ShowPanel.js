@@ -1,10 +1,10 @@
-Ext.define('CMS.view.contentType.Show', {
+Ext.define('CMS.view.user.ShowPanel', {
     extend: 'Ext.panel.Panel',
-    alias : 'widget.contentTypeShow',
+    alias : 'widget.userShow',
 
     requires: [
-        'CMS.view.contentType.Grid',
-        'CMS.view.contentType.Detail'
+        'CMS.view.user.GridPanel',
+        'CMS.view.user.DetailPanel'
     ],
 
     layout: 'border',
@@ -14,12 +14,12 @@ Ext.define('CMS.view.contentType.Show', {
         this.items = [
             {
                 region: 'center',
-                xtype: 'contentTypeGrid',
+                xtype: 'userGrid',
                 flex: 2
             },
             {
                 region: 'south',
-                xtype: 'contentTypeDetail',
+                xtype: 'userDetail',
                 flex: 1
             }
         ];

@@ -1,16 +1,16 @@
-Ext.define('CMS.view.language.Grid', {
+Ext.define('CMS.view.language.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.languageGrid',
 
     requires: [
         'CMS.view.language.Toolbar',
-        'CMS.plugin.PageSize'
+        'CMS.plugin.PageSizePlugin'
     ],
     layout: 'fit',
     loadMask: true,
     columnLines: true,
     frame: false,
-    store: 'Languages',
+    store: 'LanguageStore',
 
     initComponent: function() {
 
@@ -20,13 +20,19 @@ Ext.define('CMS.view.language.Grid', {
                 dataIndex: 'languageCode',
                 sortable: true,
                 width: 100,
-                align: 'right'
+                align: 'right',
+                field: {
+                    allowBlank: false
+                }
             },
             {
                 text: 'Description',
                 dataIndex: 'description',
                 sortable: true,
-                flex: 1
+                flex: 1,
+                field: {
+                    allowBlank: false
+                }
             },
             {
                 text: 'Key',
@@ -53,6 +59,12 @@ Ext.define('CMS.view.language.Grid', {
             trackOver : true,
             stripeRows: true
         };
+
+        var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+            clicksToEdit: 1
+        });
+
+        this.plugins = [cellEditing];
 
         this.callParent(arguments);
     }

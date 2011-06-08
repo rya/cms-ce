@@ -1,7 +1,7 @@
-Ext.define('CMS.store.Properties', {
+Ext.define('CMS.store.PropertyStore', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.Property',
+    model: 'CMS.model.PropertyModel',
 
     pageSize: 10,
     autoLoad: true,

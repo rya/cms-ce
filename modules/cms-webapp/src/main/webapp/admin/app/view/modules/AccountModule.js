@@ -1,16 +1,24 @@
-Ext.define('CMS.view.modules.Properties', {
+/*!
+ * Ext JS Library 4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+
+Ext.define('CMS.view.modules.AccountModule', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [
-        'CMS.view.property.Grid'
+        'CMS.view.user.ShowPanel',
+        'CMS.view.user.FilterPanel'
     ],
     
 
-    id: 'properties',
+    id: 'accounts',
 
     init : function(){
         this.launcher = {
-            text: 'Properties',
+            text: 'Accounts',
             iconCls: 'notepad',
             handler: this.createWindow,
             scope: this
@@ -19,11 +27,11 @@ Ext.define('CMS.view.modules.Properties', {
 
     createWindow : function(){
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('properties');
+        var win = desktop.getWindow('accounts');
         if(!win){
             win = desktop.createWindow({
-                id: 'properties',
-                title:'Properties',
+                id: 'accounts',
+                title:'Accounts',
                 width: 800,
                 height: 600,
                 iconCls: 'notepad',
@@ -42,7 +50,12 @@ Ext.define('CMS.view.modules.Properties', {
                 items: [
                     {
                         region: 'center',
-                        xtype: 'propertyGrid'
+                        xtype: 'userShow'
+                    },
+                    {
+                        region: 'west',
+                        width: 225,
+                        xtype: 'userFilter'
                     }
                 ]
             });
