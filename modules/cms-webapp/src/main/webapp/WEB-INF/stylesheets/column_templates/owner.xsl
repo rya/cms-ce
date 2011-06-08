@@ -8,8 +8,8 @@
   <xsl:template match="owner" mode="display">
     <xsl:param name="contentelem"/>
     <span>
-      <xsl:attribute name="title"><xsl:value-of select="$contentelem/owner/@qualified-name"/></xsl:attribute>
-      <xsl:value-of select="$contentelem/owner/display-name"/>
+      <xsl:attribute name="title"><xsl:value-of select="$contentelem/owner/display-name"/></xsl:attribute>
+      <xsl:value-of select="$contentelem/owner/@qualified-name"/>
     </span>
   </xsl:template>
 

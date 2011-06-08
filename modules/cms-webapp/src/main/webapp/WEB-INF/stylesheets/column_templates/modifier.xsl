@@ -8,8 +8,8 @@
   <xsl:template match="modifier" mode="display">
     <xsl:param name="contentelem"/>
     <span>
-      <xsl:attribute name="title"><xsl:value-of select="$contentelem/modifier/@qualified-name"/></xsl:attribute>
-      <xsl:value-of select="$contentelem/modifier/display-name"/>
+      <xsl:attribute name="title"><xsl:value-of select="$contentelem/modifier/display-name"/></xsl:attribute>
+      <xsl:value-of select="$contentelem/modifier/@qualified-name"/>
     </span>
   </xsl:template>
 
