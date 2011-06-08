@@ -3,6 +3,7 @@ Ext.define('CMS.view.main.Toolbar', {
 
     alias: 'widget.mainToolbar',
     id: 'cms-main-toolbar',
+
     items: [
         {
             id: 'cms-start-button',
@@ -12,10 +13,12 @@ Ext.define('CMS.view.main.Toolbar', {
             menu: [
                 {
                     text: 'Dashboard',
+                    appUrl: 'dashboard.html',
                     iconCls: 'icon-dashboard'
                 },
                 {
                     text: 'Accounts',
+                    appUrl: 'accounts.html',
                     iconCls: 'icon-accounts'
                 },
                 {

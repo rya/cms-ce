@@ -10,12 +10,20 @@ Ext.define('CMS.controller.MainController', {
     init: function() {
         this.control({
             '*[id=cms-start-button] menu > menuitem': {
-                click: this.onStartMenuItemClick
+                click: this.loadApplication
             }
         });
     },
 
-    onStartMenuItemClick: function(item, e, options ) {
+    loadApplication: function(item, e, options ) {
+        if (item.appUrl !== undefined) return; // for now.
+
+        this.getIframe().src = item.appUrl;
         this.getSelectedAppLabel().setText(item.text);
+    },
+
+    getIframe: function() {
+        return Ext.getDom('cms-main-iframe');
     }
+
 });
