@@ -16,10 +16,14 @@ Ext.define('CMS.controller.MainController', {
     },
 
     loadApplication: function(item, e, options ) {
-        if (item.appUrl !== undefined) return; // for now.
+        if (item.appUrl === undefined) return; // for now.
 
         this.getIframe().src = item.appUrl;
-        this.getSelectedAppLabel().setText(item.text);
+        this.setApplicationLabelText(item.text);
+    },
+
+    setApplicationLabelText: function(text) {
+        this.getSelectedAppLabel().setText(text);
     },
 
     getIframe: function() {
