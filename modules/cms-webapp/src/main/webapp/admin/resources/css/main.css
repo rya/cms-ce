@@ -1,3 +1,22 @@
+/* ----- Main ----- */
+
+#cms-main-toolbar {
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    /*padding: 8px 15px;*/
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+.x-btn .cms-start-button,
+.cms-start-button {
+    background-image: url("../images/enonic-logo-24x24.png");
+}
+
+#cms-main-toolbar #cms-selected-application-label {
+    margin-left: 10px;
+}
+
 /* ----- Accounts Details Panel ----- */
 .detail-info {
     padding: 10px;
@@ -68,6 +87,9 @@
 
 
 /* ----- Buttons -----*/
+/* TODO: prefix classes with icon- */
+/* TODO: Remove .x-btn */
+
 .x-btn .user-add, .user-add {
     background-image: url("../images/user_add.png");
 }
@@ -93,4 +115,26 @@
     background-image: url("../images/find.png");
 }
 
+.x-btn .icon-report, .icon-report {
+    background-image: url("../images/report.png");
+}
 
+.x-btn .icon-accounts, .icon-accounts {
+    background-image: url("../images/group.png");
+}
+
+.x-btn .icon-system, .icon-system {
+    background-image: url("../images/cog.png");
+}
+
+.x-btn .icon-log-out, .icon-log-out {
+    background-image: url("../images/door_out.png");
+}
+
+.x-btn .icon-dashboard, .icon-dashboard {
+    background-image: url("../images/house.png");
+}
+
+.x-btn .x-icon-user, .x-icon-user {
+    background-image: url("../images/x-user.jpeg");
+}

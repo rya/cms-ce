@@ -1,0 +1,64 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <script type="text/javascript" src="ext/ext-all.js"></script>
+    <script type="text/javascript">
+
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false
+        });
+
+        Ext.application({
+            name: 'CMS',
+            appFolder: 'app',
+
+            controllers: [
+                'MainController'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    id: 'cms-main-viewport',
+                    layout: 'border',
+                    padding: 5,
+
+                    items: [
+                        {
+                            id: 'cms-main-toolbar',
+                            region: 'north',
+                            xtype: 'mainToolbar'
+
+                        },
+                        {
+                            id: 'cms-main-center',
+                            region: 'center',
+                            xtype: 'tabpanel',
+                            tabPosition: 'bottom',
+
+                            items: [
+                                {
+                                    title: 'Tab 1'
+                                },
+                                {
+                                    title: 'Tab 2'
+                                },
+                                {
+                                    title: 'Tab 3'
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>
