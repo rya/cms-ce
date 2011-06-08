@@ -2,7 +2,7 @@
     "total": 5,
     "systemCaches": [
         {
-            "key": 1,
+            "key": "images",
             "implementation": "name1",
             "timeToLive": 100,
             "maxMemElements": 1000,
@@ -12,7 +12,7 @@
             "cacheMisses": 1348
         },
         {
-            "key": 1,
+            "key": "pages",
             "implementation": "name2",
             "timeToLive": 100,
             "maxMemElements": 1000,
@@ -22,7 +22,7 @@
             "cacheMisses": 348
         },
         {
-            "key": 1,
+            "key": "smthing",
             "implementation": "name3",
             "timeToLive": 100,
             "maxMemElements": 1000,
@@ -32,7 +32,7 @@
             "cacheMisses": 18349
         },
         {
-            "key": 1,
+            "key": "cache1",
             "implementation": "name4",
             "timeToLive": 100,
             "maxMemElements": 1000,
@@ -42,7 +42,7 @@
             "cacheMisses": 3892
         },
         {
-            "key": 1,
+            "key": "cache2",
             "implementation": "name5",
             "timeToLive": 100,
             "maxMemElements": 1000,
