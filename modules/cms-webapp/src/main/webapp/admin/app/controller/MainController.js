@@ -16,7 +16,6 @@ Ext.define('CMS.controller.MainController', {
     },
 
     onStartMenuItemClick: function(item, e, options ) {
-        console.log(item);
         this.getSelectedAppLabel().setText(item.text);
     }
 });

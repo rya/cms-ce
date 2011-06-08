@@ -49,7 +49,7 @@ Ext.define('CMS.view.main.Toolbar', {
                     iconCls: 'x-icon-user'
                 },
                 {
-                    text: 'Log out',
+                    text: 'Log Out',
                     iconCls: 'icon-log-out'
                 }
             ]
