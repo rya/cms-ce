@@ -1,7 +1,7 @@
 Ext.define( 'CMS.view.systemCache.CacheListPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.cacheListPanel',
-    store: 'SystemCaches',
+    store: 'SystemCacheStore',
     items: [],
     autoScroll: true,
     bodyPadding: 5,
@@ -12,7 +12,7 @@ Ext.define( 'CMS.view.systemCache.CacheListPanel', {
 
     requires: [
         'CMS.view.systemCache.CachePanel',
-        'CMS.store.SystemCaches'
+        'CMS.store.SystemCacheStore'
     ],
 
     initComponent: function()

@@ -1,4 +1,4 @@
-Ext.define('CMS.model.SystemCache', {
+Ext.define('CMS.model.SystemCacheModel', {
     extend: 'Ext.data.Model',
 
     fields: [

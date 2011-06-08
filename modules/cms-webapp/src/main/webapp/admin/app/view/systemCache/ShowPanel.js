@@ -1,6 +1,6 @@
-Ext.define('CMS.view.systemCache.Show', {
+Ext.define('CMS.view.systemCache.ShowPanel', {
     extend: 'Ext.panel.Panel',
-    alias : 'widget.systemCache',
+    alias : 'widget.systemCacheShow',
 
     requires: [
         'CMS.view.systemCache.CacheListPanel'

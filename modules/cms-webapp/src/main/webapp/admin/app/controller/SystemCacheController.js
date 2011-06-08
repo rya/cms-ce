@@ -1,8 +1,8 @@
-Ext.define( 'CMS.controller.SystemCaches', {
+Ext.define( 'CMS.controller.SystemCacheController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['SystemCaches'],
-    models: ['SystemCache'],
+    stores: ['SystemCacheStore'],
+    models: ['SystemCacheModel'],
     views: ['systemCache.CacheListPanel', 'systemCache.CachePanel'],
 
     refs: [

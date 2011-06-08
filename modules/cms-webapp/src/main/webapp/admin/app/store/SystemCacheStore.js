@@ -1,7 +1,7 @@
-Ext.define( 'CMS.store.SystemCaches', {
+Ext.define( 'CMS.store.SystemCacheStore', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.SystemCache',
+    model: 'CMS.model.SystemCacheModel',
 
     pageSize: 10,
     autoLoad: true,
