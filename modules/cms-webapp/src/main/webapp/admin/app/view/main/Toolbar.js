@@ -8,7 +8,7 @@ Ext.define('CMS.view.main.Toolbar', {
         {
             id: 'cms-start-button',
             xtype: 'button',
-            scale: 'medium',
+            scale: 'large',
             iconCls: 'cms-start-button',
             menu: [
                 {
