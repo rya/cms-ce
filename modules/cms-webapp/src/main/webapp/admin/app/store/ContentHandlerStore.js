@@ -1,7 +1,7 @@
-Ext.define( 'CMS.store.ContentHandlers', {
+Ext.define( 'CMS.store.ContentHandlerStore', {
     extend: 'Ext.data.Store',
 
-    model: 'CMS.model.ContentHandler',
+    model: 'CMS.model.ContentHandlerModel',
 
     pageSize: 10,
     autoLoad: true,

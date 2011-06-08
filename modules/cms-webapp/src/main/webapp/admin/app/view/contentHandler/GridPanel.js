@@ -1,16 +1,16 @@
-Ext.define('CMS.view.contentHandler.Grid', {
+Ext.define('CMS.view.contentHandler.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.contentHandlerGrid',
 
     requires: [
         'CMS.view.contentHandler.Toolbar',
-        'CMS.plugin.PageSize'
+        'CMS.plugin.PageSizePlugin'
     ],
     layout: 'fit',
     loadMask: true,
     columnLines: true,
     frame: false,
-    store: 'ContentHandlers',
+    store: 'ContentHandlerStore',
 
     initComponent: function() {
 
