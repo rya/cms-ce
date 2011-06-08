@@ -7,7 +7,10 @@
 
   <xsl:template match="owner" mode="display">
     <xsl:param name="contentelem"/>
-    <xsl:value-of select="$contentelem/owner/display-name"/>
+    <span>
+      <xsl:attribute name="title"><xsl:value-of select="$contentelem/owner/@qualified-name"/></xsl:attribute>
+      <xsl:value-of select="$contentelem/owner/display-name"/>
+    </span>
   </xsl:template>
 
   <xsl:template match="owner" mode="title">
