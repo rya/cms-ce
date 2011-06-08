@@ -1,9 +1,9 @@
-Ext.define('CMS.controller.ContentHandlers', {
+Ext.define('CMS.controller.ContentHandlerController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['ContentHandlers'],
-    models: ['ContentHandler'],
-    views: ['contentHandler.Toolbar', 'contentHandler.Grid', 'contentHandler.ContextMenu'],
+    stores: ['ContentHandlerStore'],
+    models: ['ContentHandlerModel'],
+    views: ['contentHandler.Toolbar', 'contentHandler.GridPanel', 'contentHandler.ContextMenu'],
 
     refs: [
         {ref: 'contentHandlerGrid', selector: 'contentHandlerGrid'},

@@ -1,4 +1,4 @@
-Ext.define( 'CMS.model.ContentHandler', {
+Ext.define( 'CMS.model.ContentHandlerModel', {
     extend: 'Ext.data.Model',
 
     fields: [
