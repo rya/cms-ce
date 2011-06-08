@@ -1,10 +1,10 @@
-Ext.define('CMS.controller.Users', {
+Ext.define('CMS.controller.UserController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['Users'],
-    models: ['User'],
+    stores: ['UserStore'],
+    models: ['UserModel'],
     views: [
-        'user.Grid',
+        'user.GridPanel',
         'user.DetailPanel',
         'user.FilterPanel',
         'user.DeleteWindow',
@@ -13,6 +13,7 @@ Ext.define('CMS.controller.Users', {
     ],
 
     refs: [
+        {ref: 'userStore', selector: 'UserStore'},
         {ref: 'userGrid', selector: 'userGrid'},
         {ref: 'userDetail', selector: 'userDetail'},
         {ref: 'userFilter', selector: 'userFilter'},
@@ -81,14 +82,14 @@ Ext.define('CMS.controller.Users', {
     },
 
     selectUser: function(view) {
-        var first = this.getUsersStore().getAt(0);
+        var first = this.getUserStoreStore().getAt(0);
         if (first) {
             view.getSelectionModel().select(first);
         }
     },
 
     searchFilter: function() {
-        var usersStore = this.getUsersStore();
+        var usersStore = this.getUserStoreStore();
         var textField = this.getFilterTextField();
 
         usersStore.clearFilter();

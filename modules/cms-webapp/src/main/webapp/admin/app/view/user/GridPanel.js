@@ -1,15 +1,15 @@
-Ext.define('CMS.view.user.Grid', {
+Ext.define('CMS.view.user.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
     requires: [
-        'CMS.plugin.PageSize'
+        'CMS.plugin.PageSizePlugin'
     ],
     layout: 'fit',
     loadMask: true,
     columnLines: true,
     frame: false,
-    store: 'Users',
+    store: 'UserStore',
 
     initComponent: function() {
 
@@ -35,10 +35,10 @@ Ext.define('CMS.view.user.Grid', {
             },
             {
                 text: 'Last Modified',
-                dataIndex: 'lastModified',
-                sortable: true,
                 xtype: 'datecolumn',
-                format: 'm-d-Y'
+                dataIndex: 'lastModified',
+                format: 'Y-m-d h:m',
+                sortable: true
             }
         ];
 

@@ -1,16 +1,16 @@
-Ext.define('CMS.view.language.Grid', {
+Ext.define('CMS.view.language.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.languageGrid',
 
     requires: [
         'CMS.view.language.Toolbar',
-        'CMS.plugin.PageSize'
+        'CMS.plugin.PageSizePlugin'
     ],
     layout: 'fit',
     loadMask: true,
     columnLines: true,
     frame: false,
-    store: 'Languages',
+    store: 'LanguageStore',
 
     initComponent: function() {
 

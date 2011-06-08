@@ -1,4 +1,4 @@
-Ext.define('CMS.model.ContentType', {
+Ext.define('CMS.model.ContentTypeModel', {
     extend: 'Ext.data.Model',
 
     fields: [

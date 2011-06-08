@@ -1,17 +1,17 @@
-Ext.define( 'CMS.view.contentType.Grid', {
+Ext.define( 'CMS.view.contentType.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.contentTypeGrid',
 
     requires: [
         'CMS.view.contentType.Toolbar',
-        'CMS.plugin.PageSize'
+        'CMS.plugin.PageSizePlugin'
     ],
 
     layout: 'fit',
     loadMask: true,
     columnLines: true,
     frame: false,
-    store: 'ContentTypes',
+    store: 'ContentTypeStore',
 
     initComponent: function()
     {
@@ -31,7 +31,9 @@ Ext.define( 'CMS.view.contentType.Grid', {
             },
             {
                 text: 'Modified',
+                xtype: 'datecolumn',
                 dataIndex: 'timestamp',
+                format: 'Y-m-d h:m',
                 sortable: true,
                 flex: 2
             }

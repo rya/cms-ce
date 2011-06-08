@@ -1,4 +1,4 @@
-Ext.define('CMS.model.Property', {
+Ext.define('CMS.model.PropertyModel', {
     extend: 'Ext.data.Model',
 
     fields: [

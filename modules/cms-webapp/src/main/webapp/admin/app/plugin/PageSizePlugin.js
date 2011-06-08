@@ -1,7 +1,7 @@
 /**
 * Ext.ux.grid.PageSize
 */
-Ext.define('CMS.plugin.PageSize', {
+Ext.define('CMS.plugin.PageSizePlugin', {
     extend      : 'Ext.form.field.ComboBox',
     alias       : 'plugin.pageSize',
     editable    : false,
