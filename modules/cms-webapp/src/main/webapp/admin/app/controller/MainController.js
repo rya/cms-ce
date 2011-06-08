@@ -20,10 +20,15 @@ Ext.define('CMS.controller.MainController', {
 
         this.getIframe().src = item.appUrl;
         this.setApplicationLabelText(item.text);
+        this.setUrlFragment(item.text);
     },
 
     setApplicationLabelText: function(text) {
         this.getSelectedAppLabel().setText(text);
+    },
+
+    setUrlFragment: function(fragmentId) {
+        window.location.hash = fragmentId;
     },
 
     getIframe: function() {
