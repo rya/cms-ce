@@ -1,11 +1,6 @@
 /* ----- Main ----- */
 
 #cms-main-toolbar {
-    color: #596F8F;
-    font-size: 22px;
-    font-weight: 200;
-    /*padding: 8px 15px;*/
-    text-shadow: 0 1px 0 #FFFFFF;
 }
 
 .x-btn .cms-start-button,
@@ -14,6 +9,10 @@
 }
 
 #cms-main-toolbar #cms-selected-application-label {
+    color: #596F8F;
+    font-size: 22px;
+    font-weight: 200;
+    text-shadow: 0 1px 0 #FFFFFF;
     margin-left: 10px;
 }
 

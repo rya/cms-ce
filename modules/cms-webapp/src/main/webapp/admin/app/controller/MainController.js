@@ -5,6 +5,7 @@ Ext.define('CMS.controller.MainController', {
 
     refs: [
         {ref: 'selectedAppLabel', selector: 'mainToolbar label[id=cms-selected-application-label]'},
+        {ref: 'startMenuButton', selector: 'mainToolbar button[id=cms-start-button]'},
     ],
 
     init: function() {
