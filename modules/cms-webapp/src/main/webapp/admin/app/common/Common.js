@@ -25,7 +25,3 @@ Ext.define('CMS.common.Common', {
 
      constructor: function() { }
 });
-
-Ext.EventManager.addListener( Ext.getDoc(), 'click', function() {
-    CMS.common.Common.hideMenus();
-});
