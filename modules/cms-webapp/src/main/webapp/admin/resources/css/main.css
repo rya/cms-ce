@@ -5,13 +5,13 @@
 
 #main-selected-application-label {
     height: 28px;
-    background-position: 10px 6px;
+    background-position: 4px 6px;
     background-repeat: no-repeat;
     color: #04468C;
     font-size: 14px;
     font-weight: 200;
     text-shadow: 0 1px 0 #FFFFFF;
-    padding: 5px 0 0 34px;
+    padding: 5px 0 0 28px;
 
 }
 
