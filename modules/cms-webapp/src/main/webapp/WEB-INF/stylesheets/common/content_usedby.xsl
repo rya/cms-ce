@@ -22,9 +22,15 @@
           tabPane1.addTabPage( document.getElementById( "tab-page-usedby" ) );
           tabPane1.enablePageClickEvent();
 
-          function handle_tabpane_onclick( pageIndex )
+          function handle_tabpane_onclick( pageIndex, page )
           {
-            getUsedByAsHtml(<xsl:value-of select="$contentKey"/>);
+            if (page &amp;&amp; page.id == "tab-page-usedby")
+                getUsedByAsHtml(<xsl:value-of select="$contentKey"/>);
+          }
+
+          function getUsedBy( contentKey )
+          {
+            AjaxService.getUsedBy(contentKey, {callback:handleResponse_getUsedBy});
           }
 
           function handleResponse_getUsedBy(relatedContent)

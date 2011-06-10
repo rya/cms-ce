@@ -285,7 +285,7 @@ WebFXTabPage.prototype.select = function () {
     if ( typeof handle_tabpane_onclick === 'function' ) {
         // Enonic/Jørund: Added extra code
         if( this.tabPane.pageClickEvent == true ) {
-            handle_tabpane_onclick(this.index);
+            handle_tabpane_onclick(this.index, this.element);
         }
 
     }
