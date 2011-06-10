@@ -47,12 +47,12 @@ Ext.define('CMS.view.user.GridPanel', {
             items: [
                 {
                     text: 'New User',
-                    iconCls: 'user-add',
+                    iconCls: 'icon-user-add',
                     action: 'newUser'
                 },
                 {
                     text: 'New Group',
-                    iconCls: 'group-add',
+                    iconCls: 'icon-group-add',
                     action: 'newGroup'
                 },
                 '-',
@@ -68,15 +68,15 @@ Ext.define('CMS.view.user.GridPanel', {
                             {
                                 text: 'Bottom',
                                 checked: true,
-                                iconCls:'details-bottom'
+                                iconCls:'icon-details-bottom'
                             },
                             {
                                 text: 'Right',
-                                iconCls:'details-right'
+                                iconCls:'icon-details-right'
                             },
                             {
                                 text: 'Hide',
-                                iconCls:'details-hide'
+                                iconCls:'icon-details-hide'
                             }
                         ]
                     }

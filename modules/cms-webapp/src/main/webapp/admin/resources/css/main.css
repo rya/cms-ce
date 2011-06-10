@@ -3,20 +3,15 @@
 #main-toolbar {
 }
 
-.x-btn .main-start-button,
-.main-start-button {
-    background-image: url("../images/enonic-logo-16x16.png");
-}
-
 #main-selected-application-label {
     height: 28px;
-    background-position: 4px 6px;
+    background-position: 10px 6px;
     background-repeat: no-repeat;
     color: #04468C;
     font-size: 14px;
     font-weight: 200;
     text-shadow: 0 1px 0 #FFFFFF;
-    padding: 5px 0 0 28px;
+    padding: 5px 0 0 34px;
 
 }
 
@@ -89,72 +84,73 @@
 }
 
 /* ----- Details Panel Cycle Menu Items -----*/
-.x-menu-item img.details-bottom, .details-bottom {
+.x-menu-item img.icon-details-bottom, .icon-details-bottom {
     background-image: url("../images/details_bottom.gif");
 }
 
-.x-menu-item img.details-right, .details-right {
+.x-menu-item img.icon-details-right, .icon-details-right {
     background-image: url("../images/details_right.gif");
 }
 
-.x-menu-item img.details-hide, .details-hide {
+.x-menu-item img.icon-details-hide, .icon-details-hide {
     background-image: url("../images/details_hide.gif");
 }
 
 
-/* ----- Buttons -----*/
-/* TODO: prefix classes with icon- */
-/* TODO: Remove .x-btn */
+/* ----- Icons -----*/
 
-.x-btn .user-add, .user-add {
+.icon-main-start-button {
+    background-image: url("../images/enonic-logo-16x16.png");
+}
+
+.icon-user-add {
     background-image: url("../images/user_add.png");
 }
 
-.x-btn .group-add, .group-add {
+.icon-group-add {
     background-image: url("../images/group_add.png");
 }
 
-.x-btn .edit-user, .edit-user
-{
+.icon-edit-user {
     background-image: url("../images/user_edit.png");
 }
 
-.x-btn .delete-user, .delete-user {
+.icon-delete-user {
     background-image: url("../images/delete.png");
 }
 
-.x-btn .change-password, .change-password {
+.icon-change-password {
     background-image: url("../images/key.png");
 }
 
-.x-btn .find, .find {
+.icon-find {
     background-image: url("../images/find.png");
 }
 
-.x-btn .icon-report, .icon-report {
+.icon-report {
     background-image: url("../images/report.png");
 }
 
-.x-btn .icon-accounts, .icon-accounts {
+.icon-accounts {
     background-image: url("../images/group.png");
 }
 
-.x-btn .icon-system, .icon-system {
+.icon-system {
     background-image: url("../images/cog.png");
 }
 
-.x-btn .icon-settings, .icon-settings {
+.icon-settings {
     background-image: url("../images/cog.png");
 }
 
-.x-btn .icon-log-out, .icon-log-out {
+.icon-log-out {
     background-image: url("../images/door_out.png");
 }
 
-.x-btn .icon-dashboard, .icon-dashboard {
+.icon-dashboard {
     background-image: url("../images/house.png");
 }
 
-.x-btn .x-icon-user, .x-icon-user {
+.x-icon-user {
     background-image: url("../images/x-user.jpeg");
 }

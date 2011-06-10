@@ -52,7 +52,7 @@ Ext.define('CMS.view.user.FilterPanel', {
                 flex: 1
             },{
                 xtype: 'button',
-                iconCls: 'find',
+                iconCls: 'icon-find',
                 action: 'search',
                 margins: '0 0 0 5'
             }]

@@ -38,18 +38,18 @@ Ext.define('CMS.view.user.DetailPanel', {
                 items: [
                     {
                         text: 'Edit User',
-                        iconCls: 'edit-user',
+                        iconCls: 'icon-edit-user',
                         action: 'edit'
                     },
                     {
                         text: 'Delete User',
-                        iconCls: 'delete-user',
+                        iconCls: 'icon-delete-user',
                         action: 'showDeleteWindow'
                     },
                     '-',
                     {
                         text: 'Change Password',
-                        iconCls: 'change-password',
+                        iconCls: 'icon-change-password',
                         action: 'changePassword'
                     }
                 ]

@@ -8,7 +8,7 @@ Ext.define('CMS.view.main.Toolbar', {
         {
             id: 'main-start-button',
             xtype: 'button',
-            iconCls: 'main-start-button',
+            iconCls: 'icon-main-start-button',
             menu: [
                 {
                     id: 0,
@@ -79,6 +79,11 @@ Ext.define('CMS.view.main.Toolbar', {
                 {
                     text: 'Profile'
                 },
+                {
+                    text: 'Change Password',
+                    iconCls: 'icon-change-password'
+                },
+                '-',
                 {
                     text: 'Log out',
                     iconCls: 'icon-log-out'
