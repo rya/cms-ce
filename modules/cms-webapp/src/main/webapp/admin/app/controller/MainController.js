@@ -4,28 +4,47 @@ Ext.define('CMS.controller.MainController', {
     views: ['main.Toolbar'],
 
     refs: [
-        {ref: 'selectedAppLabel', selector: 'mainToolbar label[id=cms-selected-application-label]'},
-        {ref: 'startMenuButton', selector: 'mainToolbar button[id=cms-start-button]'},
+        {ref: 'selectedAppLabel', selector: 'mainToolbar label[id=main-selected-application-label]'},
+        {ref: 'startMenuButton', selector: 'mainToolbar button[id=main-start-button]'},
     ],
 
     init: function() {
         this.control({
-            '*[id=cms-start-button] menu > menuitem': {
-                click: this.loadApplication
+            'viewport': {
+                afterrender: this.loadDefaultApp
+            },
+            '*[id=main-start-button] menu > menuitem': {
+                click: this.loadApp
             }
         });
     },
 
-    loadApplication: function(item, e, options ) {
-        if (item.appUrl === undefined) return; // for now.
+    loadDefaultApp: function(component, options) {
+        var defaultApplication = this.getStartMenuButton().menu.items.items[0];
+        this.loadApp(defaultApplication, null, null);
+    },
+
+    loadApp: function(item, e, options ) {
+        this.updateSelectedAppLabel(item);
+
+        if (item.appUrl === '') {
+            Ext.Msg.alert(item.text + ' App', 'TODO');
+            return;
+        } // For now.
 
         this.getIframe().src = item.appUrl;
-        this.setApplicationLabelText(item.text);
         this.setUrlFragment(item.text);
     },
 
-    setApplicationLabelText: function(text) {
-        this.getSelectedAppLabel().setText(text);
+    updateSelectedAppLabel: function(item) {
+        var label = this.getSelectedAppLabel();
+        var existingAppIconCls = label.el.dom.className.match(/icon-[a-z-_]+/g);
+        if (existingAppIconCls) {
+            label.removeCls(existingAppIconCls[0]);
+        }
+
+        label.addCls(item.iconCls);
+        label.setText(item.text);
     },
 
     setUrlFragment: function(fragmentId) {
@@ -33,7 +52,7 @@ Ext.define('CMS.controller.MainController', {
     },
 
     getIframe: function() {
-        return Ext.getDom('cms-main-iframe');
+        return Ext.getDom('main-iframe');
     }
 
 });

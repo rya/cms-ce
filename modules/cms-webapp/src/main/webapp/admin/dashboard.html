@@ -5,6 +5,35 @@
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all.js"></script>
     <script type="text/javascript" src="app/common/Common.js"></script>
+
+    <script type="text/javascript">
+
+        Ext.Loader.setConfig({
+            enabled: true,
+            disableCaching: false
+        });
+
+        Ext.application({
+            name: 'CMS',
+            appFolder: 'app',
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    layout: 'border',
+                    padding: 5,
+
+                    items: [
+                        {
+                            region: 'center',
+                        }
+                    ]
+                });
+            }
+
+        });
+
+    </script>
+
 </head>
 <body>
 </body>

@@ -64,7 +64,7 @@ Ext.define('CMS.view.user.FilterPanel', {
                 type: 'vbox',
                 align: 'stretch'
             },
-            border: false,
+            border: true,
             bodyPadding: 10,
 
             defaults: {

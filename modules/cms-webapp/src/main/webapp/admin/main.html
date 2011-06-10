@@ -21,26 +21,24 @@
 
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
-                    id: 'cms-main-viewport',
+                    id: 'main-viewport',
                     layout: 'border',
-                    padding: 5,
-
+                    padding: 0,
                     items: [
                         {
-                            id: 'cms-main-toolbar',
+                            id: 'main-toolbar',
                             region: 'north',
                             xtype: 'mainToolbar'
-
                         },
                         {
-                            id: 'cms-main-center',
+                            id: 'main-center',
                             region: 'center',
-                            html: '<iframe id="cms-main-iframe" src="dashboard.html"><!-- --></iframe>'
+                            bodyCls: 'main-center-inner',
+                            html: '<iframe id="main-iframe" src="#"><!-- --></iframe>'
                         }
                     ]
                 });
             }
-
         });
 
     </script>

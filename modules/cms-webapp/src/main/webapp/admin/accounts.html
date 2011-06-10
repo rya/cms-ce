@@ -28,17 +28,18 @@
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
                     layout: 'border',
-                    padding: 0,
+                    padding: 5,
 
                     items: [
-                        {
-                            region: 'center',
-                            xtype: 'userShow'
-                        },
                         {
                             region: 'west',
                             width: 225,
                             xtype: 'userFilter'
+                        },
+
+                        {
+                            region: 'center',
+                            xtype: 'userShow'
                         }
                     ]
                 });
