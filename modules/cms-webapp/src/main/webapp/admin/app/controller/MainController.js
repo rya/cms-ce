@@ -20,6 +20,10 @@ Ext.define('CMS.controller.MainController', {
     },
 
     loadDefaultApp: function(component, options) {
+        if (!window.appLoadMask) {
+            window.appLoadMask = new Ext.LoadMask(Ext.getDom('main-center'), {msg:"Please wait..."});
+        }
+
         var defaultApplication = this.getStartMenuButton().menu.items.items[0];
         this.loadApp(defaultApplication, null, null);
     },
@@ -31,6 +35,8 @@ Ext.define('CMS.controller.MainController', {
             Ext.Msg.alert(item.text + ' App', 'TODO');
             return;
         } // For now.
+
+        window.appLoadMask.show();
 
         this.getIframe().src = item.appUrl;
         this.setUrlFragment(item.text);
