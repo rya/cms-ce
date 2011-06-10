@@ -4,7 +4,6 @@ Ext.define('CMS.view.main.Toolbar', {
     alias: 'widget.mainToolbar',
     id: 'main-toolbar',
 
-
     items: [
         {
             xtype: 'tbspacer', width: 5
@@ -43,13 +42,13 @@ Ext.define('CMS.view.main.Toolbar', {
                         },
                         {
                             id: 40,
-                            text: 'Sporingsapplikasjon',
+                            text: 'SkiFree',
                             appUrl: '',
                             iconCls: ''
                         },
                         {
                             id: 50,
-                            text: 'SkiFree',
+                            text: 'Sporingsapplikasjon',
                             appUrl: '',
                             iconCls: ''
                         }
