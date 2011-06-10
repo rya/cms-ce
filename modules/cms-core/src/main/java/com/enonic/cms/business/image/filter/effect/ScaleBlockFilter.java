@@ -10,13 +10,16 @@ public final class ScaleBlockFilter
 
     private final int height;
 
-    private final float offset;
+    private final float xOffset;
 
-    public ScaleBlockFilter( int width, int height, float offset )
+    private final float yOffset;
+
+    public ScaleBlockFilter( int width, int height, float xOffset, float yOffset )
     {
         this.width = width;
         this.height = height;
-        this.offset = Math.max( Math.min( offset, 1f ), 0 );
+        this.xOffset = Math.max( Math.min( xOffset, 1f ), 0 );
+        this.yOffset = Math.max( Math.min( yOffset, 1f ), 0 );
     }
 
     public BufferedImage filter( BufferedImage source )
@@ -58,10 +61,10 @@ public final class ScaleBlockFilter
         }
 
         int widthDiff = newWidth - viewWidth;
-        int widthOffset = (int) ( widthDiff * this.offset );
+        int widthOffset = (int) ( widthDiff * this.xOffset );
 
         int heightDiff = newHeight - viewHeight;
-        int heightOffset = (int) ( heightDiff * this.offset );
+        int heightOffset = (int) ( heightDiff * this.yOffset );
 
         BufferedImage targetImage = getScaledInstance( source, newWidth, newHeight );
         return targetImage.getSubimage( widthOffset, heightOffset, viewWidth, viewHeight );
