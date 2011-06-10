@@ -4,7 +4,11 @@ Ext.define('CMS.view.main.Toolbar', {
     alias: 'widget.mainToolbar',
     id: 'main-toolbar',
 
+
     items: [
+        {
+            xtype: 'tbspacer', width: 5
+        },
         {
             id: 'main-start-button',
             xtype: 'button',
@@ -66,6 +70,9 @@ Ext.define('CMS.view.main.Toolbar', {
             ]
         },
         {
+            xtype: 'tbspacer', width: 5
+        },
+        {
             id: 'main-selected-application-label',
             xtype: 'label',
             text: '&nbsp;'
@@ -86,7 +93,10 @@ Ext.define('CMS.view.main.Toolbar', {
                 '-',
                 {
                     text: 'Log out',
-                    iconCls: 'icon-log-out'
+                    iconCls: 'icon-log-out',
+                    handler: function() {
+                        document.location.href = 'index.html';
+                    }
                 }
             ]
         },
@@ -103,7 +113,7 @@ Ext.define('CMS.view.main.Toolbar', {
                     text: 'For'
                 },
                 {
-                    text: 'For Selected App'
+                    text: 'Selected App'
                 }
             ]
         }
