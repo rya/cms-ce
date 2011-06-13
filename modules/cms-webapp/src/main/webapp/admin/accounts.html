@@ -4,6 +4,8 @@
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all.js"></script>
+    <script type="text/javascript" src="app/configuration.js"></script>
+
     <script type="text/javascript">
 
         Ext.Loader.setConfig({
@@ -31,18 +33,18 @@
 
                     items: [
                         {
-                            region: 'center',
-                            xtype: 'userShow'
-                        },
-                        {
                             region: 'west',
                             width: 225,
                             xtype: 'userFilter'
+                        },
+
+                        {
+                            region: 'center',
+                            xtype: 'userShow'
                         }
                     ]
                 });
             }
-
         });
 
     </script>

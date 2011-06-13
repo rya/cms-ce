@@ -38,7 +38,8 @@ Ext.define('CMS.controller.UserController', {
                 itemdblclick: this.showEditUserForm
             },
             'userFilter': {
-                specialkey: this.specialKeyHandler
+                enterKeyPress: this.filterHandleEnterKey,
+                render: this.onFilterPanelRender
             },
             'userFilter button[action=search]': {
                 click: this.searchFilter
@@ -88,6 +89,10 @@ Ext.define('CMS.controller.UserController', {
         }
     },
 
+    onFilterPanelRender: function() {
+        Ext.getCmp('filter').focus(false, 10);
+    },
+
     searchFilter: function() {
         var usersStore = this.getUserStoreStore();
         var textField = this.getFilterTextField();
@@ -97,7 +102,7 @@ Ext.define('CMS.controller.UserController', {
         usersStore.loadPage(1);
     },
 
-    specialKeyHandler: function( field, event ) {
+    filterHandleEnterKey: function( field, event ) {
         if ( event.getKey() == event.ENTER ) {
             this.searchFilter();
         }

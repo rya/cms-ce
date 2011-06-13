@@ -4,8 +4,7 @@
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all.js"></script>
-    <script type="text/javascript" src="app/configuration.js"></script>
-
+    <script type="text/javascript" src="app/common/Common.js"></script>
     <script type="text/javascript">
 
         Ext.Loader.setConfig({
@@ -18,28 +17,30 @@
             appFolder: 'app',
 
             controllers: [
-                'PropertyController'
+                'MainController'
             ],
-
-            requires: [
-                'CMS.view.property.GridPanel'
-            ],
-
 
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
+                    id: 'main-viewport',
                     layout: 'border',
-                    padding: 5,
+                    padding: 0,
 
                     items: [
                         {
+                            id: 'main-toolbar',
+                            region: 'north',
+                            xtype: 'mainToolbar'
+                        },
+                        {
+                            id: 'main-center',
                             region: 'center',
-                            xtype: 'propertyGrid'
+                            bodyCls: 'main-center-inner',
+                            html: '<iframe id="main-iframe" src="#"><!-- --></iframe>'
                         }
                     ]
                 });
             }
-
         });
 
     </script>

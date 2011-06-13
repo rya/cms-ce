@@ -4,8 +4,6 @@
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all.js"></script>
-    <script type="text/javascript" src="app/configuration.js"></script>
-
     <script type="text/javascript">
 
         Ext.Loader.setConfig({
@@ -18,13 +16,12 @@
             appFolder: 'app',
 
             controllers: [
-                'PropertyController'
+                'ContentHandlerController'
             ],
 
             requires: [
-                'CMS.view.property.GridPanel'
+                'CMS.view.contentHandler.GridPanel'
             ],
-
 
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
@@ -34,7 +31,7 @@
                     items: [
                         {
                             region: 'center',
-                            xtype: 'propertyGrid'
+                            xtype: 'contentHandlerGrid'
                         }
                     ]
                 });

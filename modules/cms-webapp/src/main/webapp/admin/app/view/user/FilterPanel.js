@@ -46,12 +46,13 @@ Ext.define('CMS.view.user.FilterPanel', {
             items: [{
                 xtype: 'textfield',
                 enableKeyEvents: true,
-                bubbleEvents: ['specialkey'],
+                bubbleEvents: ['enterKeyPress'],
+                id: 'filter',
                 name: 'filter',
                 flex: 1
             },{
                 xtype: 'button',
-                iconCls: 'find',
+                iconCls: 'icon-find',
                 action: 'search',
                 margins: '0 0 0 5'
             }]
@@ -63,7 +64,7 @@ Ext.define('CMS.view.user.FilterPanel', {
                 type: 'vbox',
                 align: 'stretch'
             },
-            border: false,
+            border: true,
             bodyPadding: 10,
 
             defaults: {

@@ -17,8 +17,18 @@ Ext.define('CMS.controller.LanguageController', {
         });
     },
 
-    newLanguage: function() {
-        Ext.Msg.alert('New Language', 'Not implemented.');
+    newLanguage: function()
+    {
+        var editor = this.getLanguageGrid().getPlugin('cellEditor');
+        editor.cancelEdit();
+        var r = Ext.ModelManager.create( {
+                                             key: '',
+                                             languageCode: '',
+                                             description: '',
+                                             lastModified: new Date()
+                                         }, 'CMS.model.LanguageModel' );
+        this.getLanguageStoreStore().insert( 0, r );
+        editor.startEditByPosition( {row: 0, column: 0} );
     }
 
 });
