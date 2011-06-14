@@ -17,7 +17,6 @@ Ext.define( 'CMS.view.systemCache.CacheListPanel', {
 
     initComponent: function()
     {
-        var panels = []
         this.store = Ext.data.StoreManager.lookup( this.store );
         this.mon( this.store, {
             scope: this,
@@ -41,10 +40,10 @@ Ext.define( 'CMS.view.systemCache.CacheListPanel', {
                 objectCount: item.data.objectCount,
                 cacheHits: item.data.cacheHits,
                 cacheMisses: item.data.cacheMisses
-            }
+            };
             Ext.Array.include( items, itemPanel );
         } );
-        this.add( items )
+        this.add( items );
 
     }
 

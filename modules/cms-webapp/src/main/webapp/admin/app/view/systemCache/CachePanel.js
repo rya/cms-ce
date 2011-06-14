@@ -69,7 +69,7 @@ Ext.define( 'CMS.view.systemCache.CachePanel', {
                 text: 'Cache misses: ' + this.cacheMisses
             }
 
-        ]
+        ];
         this.callParent( arguments );
     }
 } );
