@@ -61,6 +61,7 @@ Ext.define('CMS.view.language.GridPanel', {
         };
 
         var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+            pluginId: 'cellEditor',
             clicksToEdit: 1
         });
 
