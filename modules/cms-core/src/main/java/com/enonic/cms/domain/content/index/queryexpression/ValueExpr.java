@@ -6,6 +6,8 @@ package com.enonic.cms.domain.content.index.queryexpression;
 
 import org.joda.time.ReadableDateTime;
 
+import com.enonic.cms.domain.content.index.util.ValueConverter;
+
 /**
  * This class implements the value expression.
  */
@@ -79,6 +81,24 @@ public final class ValueExpr
     public boolean isDate()
     {
         return this.value instanceof ReadableDateTime;
+    }
+
+    /**
+     * Return true if the expression is a string with a valid date/time format.
+     * Expressions with the following formats are accepted:
+     *   yyyy-MM-ddTHH:mm:ss
+     *   yyyy-MM-dd HH:mm:ss
+     *   yyyy-MM-dd HH:mm
+     *   yyyy-MM-dd
+     */
+    public boolean isValidDateString()
+    {
+        if ( !isString() )
+        {
+            return false;
+        }
+        ReadableDateTime date = ValueConverter.toDate( (String) this.value );
+        return date != null;
     }
 
     /**
