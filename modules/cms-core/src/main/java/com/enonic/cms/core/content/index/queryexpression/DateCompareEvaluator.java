@@ -23,8 +23,36 @@ public class DateCompareEvaluator
         }
         else
         {
+            if ( isDateField( left ) && isValidDateString( right ) && isExpressionOperatorValidForDates( expr ) )
+            {
+                CompareExpr cexpr = new CompareExpr( expr.getOperator(), left,
+                                                     new FunctionExpr( "date", new ArrayExpr( new ValueExpr[]{(ValueExpr) right} ) ) );
+
+                QueryExpr expression = new QueryExpr( cexpr, null );
+                expression = (QueryExpr)expression.evaluate( new FunctionEvaluator() );
+                expression = (QueryExpr)expression.evaluate( new DateCompareEvaluator() );
+                return expression.getExpr();
+            }
+
             return new CompareExpr( expr.getOperator(), left, right );
         }
+    }
+
+    private boolean isDateField( Expression expr )
+    {
+        return ( expr instanceof FieldExpr ) && ( (FieldExpr) expr ).isDateField();
+    }
+
+    private boolean isValidDateString( Expression expr )
+    {
+        return ( expr instanceof ValueExpr ) && ( (ValueExpr) expr ).isValidDateString();
+    }
+
+    private boolean isExpressionOperatorValidForDates( CompareExpr expr )
+    {
+        int operator = expr.getOperator();
+        return ( operator != CompareExpr.LIKE ) && ( operator != CompareExpr.NOT_LIKE ) &&
+               ( operator != CompareExpr.IN ) && ( operator != CompareExpr.NOT_IN );
     }
 
     private Expression createFixedDateCompare( int op, Expression left, ValueExpr right )

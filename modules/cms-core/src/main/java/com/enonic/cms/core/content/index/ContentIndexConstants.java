@@ -63,6 +63,8 @@ public interface ContentIndexConstants
             F_MODIFIER_KEY, F_MODIFIER_QUALIFIEDNAME, F_ASSIGNEE_QUALIFIEDNAME, F_ASSIGNER_QUALIFIEDNAME, F_ASSIGNMENT_DUE_DATE, F_TITLE,
             F_FULLTEXT, M_STATUS, F_PRIORITY, M_CONTENT_TYPE_KEY, M_CATEGORY_KEY};
 
+    public static final String[] DATE_FIELDS = { M_PUBLISH_FROM, M_PUBLISH_TO, F_TIMESTAMP, F_CREATED };
+
     public static final String BLANK_REPLACER = "#";
 
     public static final String BLANK_PUBLISH_FROM_REPLACER = Long.toString( Long.MIN_VALUE );
