@@ -33,12 +33,6 @@ Ext.define('CMS.view.language.GridPanel', {
                 field: {
                     allowBlank: false
                 }
-            },
-            {
-                text: 'Key',
-                dataIndex: 'key',
-                sortable: true,
-                width: 300
             }
         ];
 
