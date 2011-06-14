@@ -1,8 +1,8 @@
-// TODO: Temporary. We should not use Ext in these documents.
+// TODO: More appropriate Class name
 Ext.define('CMS.common.Common', {
      statics: {
          hideMenus: function() {
-             var componentQuery = this.getMainWindow().Ext.ComponentQuery;
+             var componentQuery = Ext.ComponentQuery;
              var toolbarMenuButtons = componentQuery.query('mainToolbar button[menu]');
              var menu = null;
              for (var i = 0; i < toolbarMenuButtons.length; i++) {
@@ -11,16 +11,8 @@ Ext.define('CMS.common.Common', {
                     menu.hide();
                  }
              }
-         },
-
-         showLoader: function() {
-             var appLoadMask = new Ext.LoadMask(Ext.getBody(), {msg:"Please wait..."});
-             appLoadMask.show();
-         },
-
-         getMainWindow: function() {
-             return window.parent;
          }
+
      },
 
      constructor: function() { }

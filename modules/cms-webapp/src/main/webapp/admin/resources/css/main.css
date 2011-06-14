@@ -3,6 +3,12 @@
 #main-toolbar {
 }
 
+#main-start-button {
+    background-color: #dbeeff;
+    background: -moz-linear-gradient(top, #dbeeff 0%, #bbd2f0 100%); /* FF3.6+ */
+    border-color: #81a4d0;
+}
+
 #main-selected-application-label {
     height: 28px;
     background-position: 0 6px;

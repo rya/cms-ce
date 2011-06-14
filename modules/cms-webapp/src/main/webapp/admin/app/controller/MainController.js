@@ -4,7 +4,7 @@ Ext.define('CMS.controller.MainController', {
     views: ['main.Toolbar'],
 
     refs: [
-        {ref: 'selectedAppLabel', selector: 'mainToolbar label[id=main-selected-application-label]'},
+        {ref: 'appLabel', selector: 'mainToolbar label[id=main-selected-application-label]'},
         {ref: 'startMenuButton', selector: 'mainToolbar button[id=main-start-button]'},
     ],
 
@@ -29,21 +29,19 @@ Ext.define('CMS.controller.MainController', {
     },
 
     loadApp: function(item, e, options ) {
-        this.updateSelectedAppLabel(item);
-
         if (item.appUrl === '') {
-            Ext.Msg.alert(item.text + ' App', 'TODO');
-            return;
-        } // For now.
+            item.appUrl = 'blank.html'
+        }
 
         window.appLoadMask.show();
-
+        window.document.title = 'Enonic CMS Admin - ' + item.text;
+        this.updateAppLabel(item);
         this.getIframe().src = item.appUrl;
         this.setUrlFragment(item.text);
     },
 
-    updateSelectedAppLabel: function(item) {
-        var label = this.getSelectedAppLabel();
+    updateAppLabel: function(item) {
+        var label = this.getAppLabel();
         var existingAppIconCls = label.el.dom.className.match(/icon-[a-z-_]+/g);
         if (existingAppIconCls) {
             label.removeCls(existingAppIconCls[0]);
