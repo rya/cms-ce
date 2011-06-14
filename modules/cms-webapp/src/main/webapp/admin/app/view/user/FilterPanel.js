@@ -77,12 +77,12 @@ Ext.define('CMS.view.user.FilterPanel', {
                 cls: 'facet-header'
             }, {
                 xtype: 'checkbox',
-                boxLabel: 'Users',
+                boxLabel: 'Users (917)',
                 cls: 'facet-multi-select-item',
                 listeners: this.facetType.listeners
             }, {
                 xtype: 'checkbox',
-                boxLabel: 'Groups',
+                boxLabel: 'Groups (5)',
                 cls: 'facet-multi-select-item',
                 listeners: this.facetType.listeners
             }, {
@@ -91,12 +91,12 @@ Ext.define('CMS.view.user.FilterPanel', {
                 cls: 'facet-header'
             }, {
                 xtype: 'label',
-                text: 'default',
+                text: 'default (922)',
                 cls: 'facet-single-select-item',
                 listeners: this.facetUserstore.listeners
             }, {
                 xtype: 'label',
-                text: 'global',
+                text: 'global (124)',
                 cls: 'facet-single-select-item',
                 listeners: this.facetUserstore.listeners
             }]
