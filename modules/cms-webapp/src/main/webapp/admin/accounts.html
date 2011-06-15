@@ -31,16 +31,31 @@
                     layout: 'border',
                     padding: 5,
 
-                    items: [
-                        {
-                            region: 'west',
-                            width: 225,
-                            xtype: 'userFilter'
-                        },
-
+                     items: [
                         {
                             region: 'center',
-                            xtype: 'userShow'
+                            xtype: 'tabpanel',
+                            items: [
+                                {
+                                    title: 'Browse',
+                                    xtype: 'panel',
+                                    layout: 'border',
+                                    items: [
+                                        {
+                                            region: 'west',
+                                            width: 225,
+                                            xtype: 'userFilter'
+                                        },
+                                        {
+                                            region: 'center',
+                                            xtype: 'userShow'
+                                        }
+                                    ]
+                                },
+                                {
+                                    title: 'Tab 2'
+                                }
+                            ]
                         }
                     ]
                 });

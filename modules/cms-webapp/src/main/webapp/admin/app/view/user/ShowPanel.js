@@ -9,6 +9,7 @@ Ext.define('CMS.view.user.ShowPanel', {
 
     layout: 'border',
     border: false,
+    padding: 0,
 
     initComponent: function() {
         this.items = [
