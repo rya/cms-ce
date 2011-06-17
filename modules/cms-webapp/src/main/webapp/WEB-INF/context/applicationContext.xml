@@ -293,8 +293,13 @@
     <bean id="expressionFunctionsFactory"
           class="com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory"/>
 
-    <bean id="createAttachmentUrclFunction"
+    <bean id="createAttachmentUrlFunction"
           class="com.enonic.cms.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
+    </bean>
+
+    <bean id="isWindowEmptyFunction" class="com.enonic.cms.portal.rendering.portalfunctions.IsWindowEmptyFunction">
+      <property name="dataSourceService" ref="dataSourceService"/>
+      <property name="windowRendererFactory" ref="windowRendererFactory"/>
     </bean>
 
     <bean id="synchronizeUserStoreJobFactory"
