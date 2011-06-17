@@ -25,8 +25,9 @@ Ext.define('CMS.controller.UserController', {
         {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'}
     ],
 
-    init: function() {
-        this.control({
+    init: function()
+    {
+        this.control( {
             'viewport': {
                 afterrender: this.createBrowseTab
             },
@@ -63,96 +64,7 @@ Ext.define('CMS.controller.UserController', {
             'userDetail': {
                 render: this.setDetailsToolbarDisabled
             }
-        });
-    },
-
-    createNewUserTab: function() {
-        var tabPanel = this.getTabPanel();
-        var tab = tabPanel.addTab({
-            title: 'New User: ',
-            html: 'New User Form',
-            iconCls: 'icon-user-add'
-        });
-    },
-
-    createEditUserTab: function() {
-        var selectedItem = this.getSelectedGridItem();
-        var user = selectedItem.data;
-        var tabPanel = this.getTabPanel();
-        var tab = tabPanel.addTab({
-            title: user.displayName + ' (' + user.qualifiedName + ')',
-            html: 'Edit User Form: ' + user.displayName + ' (' + user.qualifiedName + ')',
-            iconCls: 'icon-edit-user'
-        });
-    },
-
-    createNewGroupTab: function() {
-        var tabPanel = this.getTabPanel();
-        var tab = tabPanel.addTab({
-            title: 'New Group: ',
-            html: 'New Group Form',
-            iconCls: 'icon-group-add'
-        });
-    },
-
-    showDeleteUserWindow: function() {
-        this.getUserDeleteWindow().doShow(this.getSelectedGridItem());
-    },
-
-    showChangePasswordWindow: function() {
-        this.getUserChangePasswordWindow().doShow(this.getSelectedGridItem());
-    },
-
-    updateDetailsPanel: function(selModel, selected) {
-        var user = selected[0];
-        var userDetail = this.getUserDetail();
-
-        if (user) {
-            userDetail.update(user.data);
-        }
-
-        userDetail.setTitle(selected.length + " user selected");
-        this.setDetailsToolbarDisabled();
-    },
-
-    searchFilter: function() {
-        var usersStore = this.getUserStoreStore();
-        var textField = this.getFilterTextField();
-
-        usersStore.clearFilter();
-        usersStore.filter('displayName', textField.getValue());
-        usersStore.loadPage(1);
-    },
-
-    filterHandleEnterKey: function( field, event ) {
-        if ( event.getKey() == event.ENTER ) {
-            this.searchFilter();
-        }
-    },
-
-    deleteUser: function() {
-        Ext.Msg.alert('Do Delete User', 'TODO');
-    },
-
-    popupMenu: function(view, rec, node, index, e) {
-        e.stopEvent();
-        this.getUserContextMenu().showAt(e.getXY());
-        return false;
-    },
-
-    setDetailsToolbarDisabled: function() {
-        var disable = !this.gridHasSelection();
-        Ext.ComponentQuery.query('*[action=edit]')[0].setDisabled(disable);
-        Ext.ComponentQuery.query('*[action=showDeleteWindow]')[0].setDisabled(disable);
-        Ext.ComponentQuery.query('*[action=changePassword]')[0].setDisabled(disable);
-    },
-
-    gridHasSelection: function() {
-        return this.getUserGrid().getSelectionModel().getSelection().length > 0;
-    },
-
-    getSelectedGridItem: function() {
-        return this.getUserGrid().getSelectionModel().selected.get(0);
+        } );
     },
 
     createBrowseTab: function( component, options )
@@ -176,8 +88,111 @@ Ext.define('CMS.controller.UserController', {
         } );
     },
 
-    onFilterPanelRender: function() {
-        Ext.getCmp('filter').focus(false, 10);
+    createNewUserTab: function()
+    {
+        this.getTabPanel().addTab( {
+            title: 'New User: ',
+            html: 'New User Form',
+            iconCls: 'icon-user-add'
+        } );
+    },
+
+    createEditUserTab: function()
+    {
+        var selectedGridItem = this.getSelectedGridItem();
+        var user = selectedGridItem.data;
+
+        this.getTabPanel().addTab( {
+            title: user.displayName + ' (' + user.qualifiedName + ')',
+            html: 'Edit User Form: ' + user.displayName + ' (' + user.qualifiedName + ')',
+            iconCls: 'icon-edit-user'
+        } );
+    },
+
+    createNewGroupTab: function()
+    {
+        this.getTabPanel().addTab( {
+            title: 'New Group: ',
+            html: 'New Group Form',
+            iconCls: 'icon-group-add'
+        } );
+    },
+
+    showDeleteUserWindow: function()
+    {
+        this.getUserDeleteWindow().doShow( this.getSelectedGridItem() );
+    },
+
+    showChangePasswordWindow: function()
+    {
+        this.getUserChangePasswordWindow().doShow( this.getSelectedGridItem() );
+    },
+
+    updateDetailsPanel: function( selModel, selected )
+    {
+        var user = selected[0];
+        var userDetail = this.getUserDetail();
+
+        if ( user )
+        {
+            userDetail.update( user.data );
+        }
+
+        userDetail.setTitle( selected.length + " user selected" );
+        this.setDetailsToolbarDisabled();
+    },
+
+    searchFilter: function()
+    {
+        var usersStore = this.getUserStoreStore();
+        var textField = this.getFilterTextField();
+
+        usersStore.clearFilter();
+        usersStore.filter( 'displayName', textField.getValue() );
+        usersStore.loadPage( 1 );
+    },
+
+    filterHandleEnterKey: function( field, event )
+    {
+        if ( event.getKey() == event.ENTER )
+        {
+            this.searchFilter();
+        }
+    },
+
+    popupMenu: function( view, rec, node, index, e )
+    {
+        e.stopEvent();
+        this.getUserContextMenu().showAt( e.getXY() );
+        return false;
+    },
+
+    deleteUser: function()
+    {
+        Ext.Msg.alert( 'Do Delete User', 'TODO' );
+    },
+
+    setDetailsToolbarDisabled: function()
+    {
+        var disable = !this.gridHasSelection();
+        Ext.ComponentQuery.query( '*[action=edit]' )[0].setDisabled( disable );
+        Ext.ComponentQuery.query( '*[action=showDeleteWindow]' )[0].setDisabled( disable );
+        Ext.ComponentQuery.query( '*[action=changePassword]' )[0].setDisabled( disable );
+    },
+
+    gridHasSelection: function()
+    {
+        return this.getUserGrid().getSelectionModel().getSelection().length > 0;
+    },
+
+    getSelectedGridItem: function()
+    {
+        return this.getUserGrid().getSelectionModel().selected.get( 0 );
+    },
+
+    onFilterPanelRender: function()
+    {
+        Ext.getCmp( 'filter' ).focus( false, 10 );
     }
 
 });
