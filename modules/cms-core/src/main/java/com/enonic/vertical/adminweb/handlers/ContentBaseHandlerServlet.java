@@ -547,7 +547,7 @@ public class ContentBaseHandlerServlet
                     entryElem.setAttribute( "exists", "true" );
                     someExists = true;
 
-                    int contentKey = admin.getContentKey( superCategoryKey, name );
+                    int contentKey = admin.getContentKey( superCategoryKey, cropName( name ));
                     ContentAccessRight contentAccessRight = admin.getContentAccessRight( user, contentKey );
                     if ( contentAccessRight.getUpdate() )
                     {
