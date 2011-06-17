@@ -2,8 +2,7 @@ Ext.define( 'CMS.common.TabPanel', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.cmsTabPanel',
     defaults: {
-        closable: true,
-        bodyPadding: 10
+        closable: true
     },
 
     initComponent: function()
