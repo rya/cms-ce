@@ -91,9 +91,18 @@ Ext.define('CMS.controller.UserController', {
     createNewUserTab: function()
     {
         this.getTabPanel().addTab( {
-            title: 'New User: ',
+            title: 'New User',
             html: 'New User Form',
             iconCls: 'icon-user-add'
+        } );
+    },
+
+    createNewGroupTab: function()
+    {
+        this.getTabPanel().addTab( {
+            title: 'New Group',
+            html: 'New Group Form',
+            iconCls: 'icon-group-add'
         } );
     },
 
@@ -109,13 +118,9 @@ Ext.define('CMS.controller.UserController', {
         } );
     },
 
-    createNewGroupTab: function()
+    createEditGroupTab: function()
     {
-        this.getTabPanel().addTab( {
-            title: 'New Group: ',
-            html: 'New Group Form',
-            iconCls: 'icon-group-add'
-        } );
+
     },
 
     showDeleteUserWindow: function()

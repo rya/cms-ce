@@ -54,7 +54,8 @@ Ext.define('CMS.view.user.GridPanel', {
                     text: 'New Group',
                     iconCls: 'icon-group-add',
                     action: 'newGroup'
-                },
+                }
+                /*,
                 '-',
                 {
                     xtype: 'cycle',
@@ -81,6 +82,7 @@ Ext.define('CMS.view.user.GridPanel', {
                         ]
                     }
                 }
+                */
             ]
         };
 

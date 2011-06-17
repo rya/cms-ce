@@ -1,9 +1,15 @@
 Ext.define( 'CMS.common.TabPanel', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.cmsTabPanel',
+    requires: [
+        'CMS.plugin.TabCloseMenu'
+    ],
+
     defaults: {
         closable: true
     },
+
+    plugins: ['tabCloseMenu'],
 
     initComponent: function()
     {
