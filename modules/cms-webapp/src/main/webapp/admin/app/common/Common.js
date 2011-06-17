@@ -1,5 +1,4 @@
-// TODO: More appropriate Class name
-Ext.define('CMS.common.Common', {
+Ext.define('CMS.common.MainToolbar', {
      statics: {
          hideMenus: function() {
              var componentQuery = Ext.ComponentQuery;

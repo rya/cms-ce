@@ -22,6 +22,7 @@
             ],
 
             requires: [
+                'CMS.common.TabPanel',
                 'CMS.view.user.ShowPanel',
                 'CMS.view.user.FilterPanel'
             ],
@@ -31,34 +32,10 @@
                     layout: 'border',
                     padding: 5,
 
-                     items: [
+                    items: [
                         {
                             region: 'center',
-                            xtype: 'tabpanel',
-                            items: [
-                                {
-                                    title: 'Browse',
-                                    xtype: 'panel',
-                                    layout: 'border',
-                                    items: [
-                                        {
-                                            region: 'west',
-                                            width: 225,
-                                            xtype: 'userFilter'
-                                        },
-                                        {
-                                            region: 'center',
-                                            xtype: 'userShow'
-                                        }
-                                    ]
-                                },
-                                {
-                                    title: 'Tab 2'
-                                },
-                                {
-                                    title: 'Tab 3'
-                                }
-                            ]
+                            xtype: 'cmsTabPanel'
                         }
                     ]
                 });

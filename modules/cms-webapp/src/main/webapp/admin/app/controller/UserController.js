@@ -13,6 +13,7 @@ Ext.define('CMS.controller.UserController', {
     ],
 
     refs: [
+        {ref: 'tabPanel', selector: 'cmsTabPanel'},
         {ref: 'userStore', selector: 'UserStore'},
         {ref: 'userGrid', selector: 'userGrid'},
         {ref: 'userDetail', selector: 'userDetail'},
@@ -26,16 +27,19 @@ Ext.define('CMS.controller.UserController', {
 
     init: function() {
         this.control({
+            'viewport': {
+                afterrender: this.createBrowseTab
+            },
             '*[action=newUser]': {
-                click: this.newUser
+                click: this.createNewUserTab
             },
             '*[action=newGroup]': {
-                click: this.newGroup
+                click: this.createNewGroupTab
             },
             'userGrid': {
-                selectionchange: this.updateInfo,
+                selectionchange: this.updateDetailsPanel,
                 itemcontextmenu: this.popupMenu,
-                itemdblclick: this.showEditUserForm
+                itemdblclick: this.createEditUserTab
             },
             'userFilter': {
                 enterKeyPress: this.filterHandleEnterKey,
@@ -51,7 +55,7 @@ Ext.define('CMS.controller.UserController', {
                 click: this.deleteUser
             },
             '*[action=edit]': {
-                click: this.showEditUserForm
+                click: this.createEditUserTab
             },
             '*[action=changePassword]': {
                 click: this.showChangePasswordWindow
@@ -62,15 +66,44 @@ Ext.define('CMS.controller.UserController', {
         });
     },
 
-    newUser: function() {
-        Ext.Msg.alert('New User', 'TODO');
+    createNewUserTab: function() {
+        var tabPanel = this.getTabPanel();
+        var tab = tabPanel.addTab({
+            title: 'New User: ',
+            html: 'New User Form',
+            iconCls: 'icon-user-add'
+        });
     },
 
-    newGroup: function() {
-        Ext.Msg.alert('New Group', 'TODO');
+    createEditUserTab: function() {
+        var selectedItem = this.getSelectedGridItem();
+        var user = selectedItem.data;
+        var tabPanel = this.getTabPanel();
+        var tab = tabPanel.addTab({
+            title: user.displayName + ' (' + user.qualifiedName + ')',
+            html: 'Edit User Form: ' + user.displayName + ' (' + user.qualifiedName + ')',
+            iconCls: 'icon-edit-user'
+        });
     },
 
-    updateInfo: function(selModel, selected) {
+    createNewGroupTab: function() {
+        var tabPanel = this.getTabPanel();
+        var tab = tabPanel.addTab({
+            title: 'New Group: ',
+            html: 'New Group Form',
+            iconCls: 'icon-group-add'
+        });
+    },
+
+    showDeleteUserWindow: function() {
+        this.getUserDeleteWindow().doShow(this.getSelectedGridItem());
+    },
+
+    showChangePasswordWindow: function() {
+        this.getUserChangePasswordWindow().doShow(this.getSelectedGridItem());
+    },
+
+    updateDetailsPanel: function(selModel, selected) {
         var user = selected[0];
         var userDetail = this.getUserDetail();
 
@@ -80,17 +113,6 @@ Ext.define('CMS.controller.UserController', {
 
         userDetail.setTitle(selected.length + " user selected");
         this.setDetailsToolbarDisabled();
-    },
-
-    selectUser: function(view) {
-        var first = this.getUserStoreStore().getAt(0);
-        if (first) {
-            view.getSelectionModel().select(first);
-        }
-    },
-
-    onFilterPanelRender: function() {
-        Ext.getCmp('filter').focus(false, 10);
     },
 
     searchFilter: function() {
@@ -108,20 +130,8 @@ Ext.define('CMS.controller.UserController', {
         }
     },
 
-    showDeleteUserWindow: function() {
-        this.getUserDeleteWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
-    },
-
     deleteUser: function() {
         Ext.Msg.alert('Do Delete User', 'TODO');
-    },
-
-    showEditUserForm: function() {
-        Ext.Msg.alert('Show Edit User Form', 'TODO');
-    },
-
-    showChangePasswordWindow: function() {
-        this.getUserChangePasswordWindow().doShow(this.getUserGrid().getSelectionModel().selected.get(0));
     },
 
     popupMenu: function(view, rec, node, index, e) {
@@ -139,6 +149,35 @@ Ext.define('CMS.controller.UserController', {
 
     gridHasSelection: function() {
         return this.getUserGrid().getSelectionModel().getSelection().length > 0;
+    },
+
+    getSelectedGridItem: function() {
+        return this.getUserGrid().getSelectionModel().selected.get(0);
+    },
+
+    createBrowseTab: function( component, options )
+    {
+        this.getTabPanel().addTab( {
+            title: 'Browse',
+            xtype: 'panel',
+            layout: 'border',
+            items: [
+                {
+                    region: 'west',
+                    width: 225,
+                    xtype: 'userFilter'
+                },
+                {
+                    region: 'center',
+                    xtype: 'userShow'
+                }
+            ],
+            closable: false
+        } );
+    },
+
+    onFilterPanelRender: function() {
+        Ext.getCmp('filter').focus(false, 10);
     }
 
 });

@@ -109,6 +109,10 @@
     background-image: url("../images/enonic-logo-16x16.png");
 }
 
+.icon-user {
+    background-image: url("../images/user.png");
+}
+
 .icon-user-add {
     background-image: url("../images/user_add.png");
 }
