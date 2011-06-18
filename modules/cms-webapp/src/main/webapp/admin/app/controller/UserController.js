@@ -92,7 +92,7 @@ Ext.define('CMS.controller.UserController', {
     {
         this.getTabPanel().addTab( {
             title: 'New User',
-            html: 'New User Form',
+            items: this.createDummyUserForm(),
             iconCls: 'icon-user-add'
         } );
     },
@@ -113,7 +113,7 @@ Ext.define('CMS.controller.UserController', {
 
         this.getTabPanel().addTab( {
             title: user.displayName + ' (' + user.qualifiedName + ')',
-            html: 'Edit User Form: ' + user.displayName + ' (' + user.qualifiedName + ')',
+            items: this.createDummyUserForm(user),
             iconCls: 'icon-edit-user'
         } );
     },
@@ -198,6 +198,150 @@ Ext.define('CMS.controller.UserController', {
     onFilterPanelRender: function()
     {
         Ext.getCmp( 'filter' ).focus( false, 10 );
+    },
+
+    // Dummy form
+    createDummyUserForm: function(user)
+    {
+
+        return Ext.create( 'Ext.form.Panel', {
+            bodyStyle:'padding:5px',
+            fieldDefaults: {
+                labelAlign: 'top',
+                msgTarget: 'side'
+            },
+            defaults: {
+                anchor: '100%'
+            },
+
+            items: [
+                {
+                    layout:'column',
+                    border:false,
+                    items:[
+                        {
+                            columnWidth:.5,
+                            border:false,
+                            layout: 'anchor',
+                            defaultType: 'textfield',
+                            items: [
+                                {
+                                    fieldLabel: 'First Name',
+                                    name: 'first',
+                                    value: user ? user.name : '',
+                                    anchor:'95%'
+                                },
+                                {
+                                    fieldLabel: 'Company',
+                                    name: 'company',
+                                    anchor:'95%'
+                                }
+                            ]
+                        },
+                        {
+                            columnWidth:.5,
+                            border:false,
+                            layout: 'anchor',
+                            defaultType: 'textfield',
+                            items: [
+                                {
+                                    fieldLabel: 'Last Name',
+                                    name: 'last',
+                                    anchor:'95%'
+                                },
+                                {
+                                    fieldLabel: 'Email',
+                                    name: 'email',
+                                    vtype:'email',
+                                    anchor:'95%'
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    xtype:'tabpanel',
+                    plain:true,
+                    activeTab: 0,
+                    height:235,
+                    defaults:{bodyStyle:'padding:10px'},
+                    items:[
+                        {
+                            title:'Personal Details',
+                            defaults: {width: 230},
+                            defaultType: 'textfield',
+
+                            items: [
+                                {
+                                    fieldLabel: 'First Name',
+                                    name: 'first',
+                                    allowBlank:false
+                                },
+                                {
+                                    fieldLabel: 'Last Name',
+                                    name: 'last'
+                                },
+                                {
+                                    fieldLabel: 'Company',
+                                    name: 'company'
+                                },
+                                {
+                                    fieldLabel: 'Email',
+                                    name: 'email',
+                                    vtype:'email'
+                                }
+                            ]
+                        },
+                        {
+                            title:'Phone Numbers',
+                            defaults: {width: 230},
+                            defaultType: 'textfield',
+
+                            items: [
+                                {
+                                    fieldLabel: 'Home',
+                                    name: 'home',
+                                    value: '(888) 555-1212'
+                                },
+                                {
+                                    fieldLabel: 'Business',
+                                    name: 'business'
+                                },
+                                {
+                                    fieldLabel: 'Mobile',
+                                    name: 'mobile'
+                                },
+                                {
+                                    fieldLabel: 'Fax',
+                                    name: 'fax'
+                                }
+                            ]
+                        },
+                        {
+                            cls: 'x-plain',
+                            title: 'Biography',
+                            layout: 'fit',
+                            items: {
+                                xtype: 'htmleditor',
+                                name: 'bio2',
+                                fieldLabel: 'Biography'
+                            }
+                        }
+                    ]
+                }
+            ],
+
+            buttons: [
+                {
+                    text: 'Save'
+                },
+                {
+                    text: 'Cancel'
+                }
+            ]
+        } );
+
+
     }
 
 });
