@@ -1,6 +1,7 @@
 /* ----- Main ----- */
 
 #main-toolbar {
+    border: none !important;
 }
 
 #main-start-button {

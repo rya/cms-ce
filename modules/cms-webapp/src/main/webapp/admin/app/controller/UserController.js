@@ -204,11 +204,12 @@ Ext.define('CMS.controller.UserController', {
     {
 
         return Ext.create( 'Ext.form.Panel', {
-            bodyStyle:'padding:5px',
+            bodyStyle:'padding:15px',
             fieldDefaults: {
                 labelAlign: 'top',
                 msgTarget: 'side'
             },
+
             defaults: {
                 anchor: '100%'
             },
