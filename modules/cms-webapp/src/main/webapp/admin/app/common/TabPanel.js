@@ -16,16 +16,46 @@ Ext.define( 'CMS.common.TabPanel', {
         this.callParent( arguments );
     },
 
-    addTab: function( item )
+    addTab: function( items, closable )
     {
-        var tab = this.add( item );
+        var me = this;
+        items.closable = closable !== undefined ? closable : true;
+        var tab = this.add( items );
+
+        if ( closable )
+        {
+            tab.on( {
+                beforeclose: function( tab, options )
+                {
+                    me.onBeforeCloseTab( tab, options )
+                }
+            });
+        }
+
         this.setActiveTab( tab );
+    },
+
+    onBeforeCloseTab: function( tab, options )
+    {
+        var tabToActivate = null;
+        var activatePreviousTab = tab.isVisible();
+        if ( activatePreviousTab )
+        {
+            var tabIndex = this.items.findIndex( 'id', tab.id );
+            tabToActivate = this.items.items[ tabIndex - 1 ];
+        }
+        else
+        {
+            tabToActivate = this.getActiveTab();
+        }
+
+        this.setActiveTab( tabToActivate );
     },
 
     removeAllTabs: function()
     {
         var all = this.items.items;
-        var last = all[this.getTabCount()-1];
+        var last = all[this.getTabCount() -1 ];
         while ( this.getTabCount() > 1 )
         {
             this.remove( last );

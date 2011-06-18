@@ -83,9 +83,8 @@ Ext.define('CMS.controller.UserController', {
                     region: 'center',
                     xtype: 'userShow'
                 }
-            ],
-            closable: false
-        } );
+            ]
+        }, false );
     },
 
     createNewUserTab: function()
@@ -94,7 +93,7 @@ Ext.define('CMS.controller.UserController', {
             title: 'New User',
             items: this.createDummyUserForm(),
             iconCls: 'icon-user-add'
-        } );
+        }, true );
     },
 
     createNewGroupTab: function()
@@ -103,7 +102,7 @@ Ext.define('CMS.controller.UserController', {
             title: 'New Group',
             html: 'New Group Form',
             iconCls: 'icon-group-add'
-        } );
+        }, true );
     },
 
     createEditUserTab: function()
@@ -115,7 +114,7 @@ Ext.define('CMS.controller.UserController', {
             title: user.displayName + ' (' + user.qualifiedName + ')',
             items: this.createDummyUserForm(user),
             iconCls: 'icon-edit-user'
-        } );
+        }, true );
     },
 
     createEditGroupTab: function()
