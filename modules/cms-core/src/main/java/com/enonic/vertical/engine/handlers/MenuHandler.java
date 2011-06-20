@@ -21,8 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.transform.TransformerException;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
@@ -30,7 +28,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.w3c.dom.traversal.NodeIterator;
 
 import com.enonic.esl.sql.JDBCUtil;
 import com.enonic.esl.sql.model.Column;
@@ -684,8 +681,9 @@ public final class MenuHandler
         {
             Element shortcutElem = XMLTool.createElement( menuItemElement.getOwnerDocument(), menuItemElement, "shortcut" );
             Integer shortcut = (Integer) columnValues[19];
-            shortcutElem.setAttribute( "key", String.valueOf( shortcut ) );
-            final String menuItemName = getMenuItemName( shortcut );
+            final String shortcutKey = ( shortcut == null ) ? "" : String.valueOf( shortcut );
+            shortcutElem.setAttribute( "key", shortcutKey );
+            final String menuItemName = ( shortcut == null ) ? "" : getMenuItemName( shortcut );
             shortcutElem.setAttribute( "name", menuItemName );
             Integer forward = (Integer) columnValues[20];
             if ( forward == 0 )
