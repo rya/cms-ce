@@ -433,6 +433,8 @@ public class UserStoreServiceImpl
         }
 
         userStoreToDelete.setDeleted( true );
+
+        userConnectorStoreManager.invalidateCachedConfig( command.getKey() );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -593,6 +595,8 @@ public class UserStoreServiceImpl
         userStoreToUpdate.setConfig( command.getConfig() );
 
         userStoreDao.getHibernateTemplate().flush();
+
+        userConnectorStoreManager.invalidateCachedConfig( command.getKey() );
     }
 
 

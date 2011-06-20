@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.business.core.security.userstore;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,9 +56,11 @@ public final class UserStoreConnectorManagerImpl
     @Autowired
     private UserStoreDao userStoreDao;
 
-    private final Map<UserStoreKey, RemoteUserStoreConnector> remoteUSConnectorMap = new HashMap<UserStoreKey, RemoteUserStoreConnector>();
+    private final Map<UserStoreKey, RemoteUserStoreConnector> remoteUSConnectorMap =
+        Collections.synchronizedMap( new HashMap<UserStoreKey, RemoteUserStoreConnector>() );
 
-    private final Map<UserStoreKey, LocalUserStoreConnector> localUSConnectorMap = new HashMap<UserStoreKey, LocalUserStoreConnector>();
+    private final Map<UserStoreKey, LocalUserStoreConnector> localUSConnectorMap =
+        Collections.synchronizedMap( new HashMap<UserStoreKey, LocalUserStoreConnector>() );
 
     private boolean useInternalOnly = false;
 
@@ -74,6 +77,12 @@ public final class UserStoreConnectorManagerImpl
     public UserStoreConnectorConfig getUserStoreConnectorConfig( final String configName )
     {
         return userStoreConnectorConfigLoader.getConfig( configName );
+    }
+
+    public void invalidateCachedConfig( UserStoreKey userStoreKey )
+    {
+        remoteUSConnectorMap.remove( userStoreKey );
+        localUSConnectorMap.remove( userStoreKey );
     }
 
     public UserStoreConnector getUserStoreConnector( final UserStoreKey userStoreKey )
