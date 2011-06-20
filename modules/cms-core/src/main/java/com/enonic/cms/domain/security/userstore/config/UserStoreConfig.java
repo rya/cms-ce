@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import com.enonic.cms.domain.security.user.MissingRequiredUserFieldException;
 import com.enonic.cms.domain.security.user.ReadOnlyUserFieldPolicyException;
+import com.enonic.cms.domain.user.field.UserField;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
@@ -80,11 +81,32 @@ public class UserStoreConfig
     {
         for ( final UserStoreUserFieldConfig userFieldConfig : userFieldConfigs )
         {
-            if ( userFieldConfig.isRequired() && !userFieldMap.hasField( userFieldConfig.getType() ) )
+            if ( userFieldConfig.isRequired() && isFieldMissingOrEmpty( userFieldMap, userFieldConfig.getType() ) )
             {
                 throw new MissingRequiredUserFieldException( userFieldConfig.getType() );
             }
         }
+    }
+
+    private boolean isFieldMissingOrEmpty( final UserFieldMap userFieldMap, final UserFieldType userFieldType )
+    {
+        if ( !userFieldMap.hasField( userFieldType ) )
+        {
+            return true;
+        }
+
+        UserField userField = userFieldMap.getField( userFieldType );
+        Object value = userField.getValue();
+        if ( value instanceof String )
+        {
+            return ( (String) value ).trim().isEmpty();
+        }
+        else if ( value instanceof byte[] )
+        {
+            return ( (byte[]) value ).length == 0;
+        }
+
+        return false;
     }
 
     public void validateReadOnlyFieldsNotExists( final UserFieldMap userFieldMap )
