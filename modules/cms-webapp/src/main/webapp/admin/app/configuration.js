@@ -40,8 +40,8 @@
 
         }
     }
-
-    hideLoadMaskOnLoad();
-    hideMainMenusOnClick();
+    //Commented because this functions caused js errors
+    //hideLoadMaskOnLoad();
+    //hideMainMenusOnClick();
 
 })();
