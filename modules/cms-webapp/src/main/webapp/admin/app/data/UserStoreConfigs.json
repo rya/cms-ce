@@ -1,0 +1,121 @@
+{
+    "userStoreConfigs": [
+        {
+            "userfields": [
+                {
+                    "fieldname": "username",
+                    "fieldlabel": "Username",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "password",
+                    "fieldlabel": "Password",
+                    "fieldtype": "password",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "repeat_password",
+                    "fieldlabel": "Repeat password",
+                    "fieldtype": "password",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "email",
+                    "fieldlabel": "E-mail",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "display_name",
+                    "fieldlabel": "Display Name",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "prefix",
+                    "fieldlabel": "Prefix",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "first_name",
+                    "fieldlabel": "First name",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "middle_name",
+                    "fieldlabel": "Middle name",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "last_name",
+                    "fieldlabel": "Last namel",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "birthday",
+                    "fieldlabel": "Birthday",
+                    "fieldtype": "date",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "photo",
+                    "fieldlabel": "Photo",
+                    "fieldtype": "file",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "country",
+                    "fieldlabel": "Country",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "phone",
+                    "fieldlabel": "Phone",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                },
+                {
+                    "fieldname": "locale",
+                    "fieldlabel": "Locale",
+                    "fieldtype": "string",
+                    "remote": false,
+                    "readonly": false,
+                    "required": true
+                }
+            ]
+        }
+
+    ]
+}
