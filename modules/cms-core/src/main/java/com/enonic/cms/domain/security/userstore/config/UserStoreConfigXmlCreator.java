@@ -51,18 +51,11 @@ public class UserStoreConfigXmlCreator
     {
 
         final Element userFieldConfigEl = new Element( fieldConfig.getType().getName() );
-        if ( fieldConfig.isReadOnly() )
-        {
-            userFieldConfigEl.setAttribute( "readonly", Boolean.TRUE.toString() );
-        }
-        if ( fieldConfig.isRequired() )
-        {
-            userFieldConfigEl.setAttribute( "required", Boolean.TRUE.toString() );
-        }
-        if ( fieldConfig.isRemote() )
-        {
-            userFieldConfigEl.setAttribute( "remote", Boolean.TRUE.toString() );
-        }
+
+        userFieldConfigEl.setAttribute( "readonly", String.valueOf( fieldConfig.isReadOnly() ) );
+        userFieldConfigEl.setAttribute( "required", String.valueOf( fieldConfig.isRequired() ) );
+        userFieldConfigEl.setAttribute( "remote", String.valueOf( fieldConfig.isRemote() ) );
+
         if ( fieldConfig.getType() == UserFieldType.ADDRESS )
         {
             userFieldConfigEl.setAttribute( "iso", Boolean.valueOf( fieldConfig.useIso() ).toString() );
