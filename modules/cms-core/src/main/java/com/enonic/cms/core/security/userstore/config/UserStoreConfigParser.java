@@ -145,7 +145,7 @@ public class UserStoreConfigParser
         final String remote = fieldConfigEl.getAttributeValue( "remote" );
         if ( remote != null )
         {
-            if ( !remoteConfigAllowed )
+            if ( "true".equals( remote ) && !remoteConfigAllowed )
             {
                 throw new InvalidUserStoreConfigException(
                     "Illegal attribute. 'remote' attribute cannot be used without a remote connector.", fieldConfigEl );
