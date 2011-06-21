@@ -183,7 +183,7 @@ public class UserStoreConfigParserTest
         }
         catch ( Exception ex )
         {
-            assertEquals( InvalidUserStoreConfigException.class.getName(), ex.getClass().getName() );
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute value. 'remote' must be 'true' or 'false': fisk." ) );
         }
     }
 
@@ -206,7 +206,7 @@ public class UserStoreConfigParserTest
         }
         catch ( Exception ex )
         {
-            assertEquals( InvalidUserStoreConfigException.class.getName(), ex.getClass().getName() );
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute value. 'iso' must be 'true' or 'false': fisk." ) );
         }
     }
 
@@ -229,7 +229,7 @@ public class UserStoreConfigParserTest
         }
         catch ( Exception ex )
         {
-            assertEquals( InvalidUserStoreConfigException.class.getName(), ex.getClass().getName() );
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute value. 'iso' only valid for type: ADDRESS." ) );
         }
     }
 
@@ -535,6 +535,46 @@ public class UserStoreConfigParserTest
             {
                 assertEquals( true, userFieldConfig.useIso() );
             }
+        }
+    }
+
+    @Test
+    public void testParseFieldConfigRemoteValid()
+        throws IOException, JDOMException
+    {
+        final StringBuffer configXml = new StringBuffer();
+        configXml.append( "<config>" );
+        configXml.append( "  <user-fields>" );
+        configXml.append( "    <prefix readonly=\"true\"/>" );
+        configXml.append( "  </user-fields>" );
+        configXml.append( "</config>" );
+        final Element configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
+
+        UserStoreConfig userStoreConfig = UserStoreConfigParser.parse( configEl, false );
+
+        assertTrue( userStoreConfig.getUserFieldConfigs().iterator().next().isReadOnly() );
+    }
+
+    @Test
+    public void testParseFieldConfigRemoteInvalid()
+        throws IOException, JDOMException
+    {
+        final StringBuffer configXml = new StringBuffer();
+        configXml.append( "<config>" );
+        configXml.append( "  <user-fields>" );
+        configXml.append( "    <prefix remote=\"true\"/>" );
+        configXml.append( "  </user-fields>" );
+        configXml.append( "</config>" );
+        final Element configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
+
+        try
+        {
+            UserStoreConfigParser.parse( configEl, false );
+            fail( "An exception should have been thrown." );
+        }
+        catch ( Exception ex )
+        {
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute. 'remote' attribute cannot be used without a remote connector." ) );
         }
     }
 }
