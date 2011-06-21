@@ -9,15 +9,16 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
-import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
-import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Test;
 
 import com.enonic.cms.framework.util.JDOMUtil;
+
+import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
+import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 
 import com.enonic.cms.domain.user.field.UserFieldType;
 
@@ -182,12 +183,12 @@ public class UserStoreConfigParserTest
 
         try
         {
-            UserStoreConfigParser.parse(configEl);
+            UserStoreConfigParser.parse( configEl );
             fail( "An exception should have been thrown." );
         }
         catch ( Exception ex )
         {
-            assertEquals( InvalidUserStoreConfigException.class.getName(), ex.getClass().getName() );
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute value. 'remote' must be 'true' or 'false': fisk." ) );
         }
     }
 
@@ -210,7 +211,7 @@ public class UserStoreConfigParserTest
         }
         catch ( Exception ex )
         {
-            assertEquals( InvalidUserStoreConfigException.class.getName(), ex.getClass().getName() );
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute value. 'iso' must be 'true' or 'false': fisk." ) );
         }
     }
 
@@ -233,7 +234,7 @@ public class UserStoreConfigParserTest
         }
         catch ( Exception ex )
         {
-            assertEquals( InvalidUserStoreConfigException.class.getName(), ex.getClass().getName() );
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute value. 'iso' only valid for type: ADDRESS." ) );
         }
     }
 
@@ -539,6 +540,46 @@ public class UserStoreConfigParserTest
             {
                 assertEquals( true, userFieldConfig.useIso() );
             }
+        }
+    }
+
+    @Test
+    public void testParseFieldConfigRemoteValid()
+        throws IOException, JDOMException
+    {
+        final StringBuffer configXml = new StringBuffer();
+        configXml.append( "<config>" );
+        configXml.append( "  <user-fields>" );
+        configXml.append( "    <prefix readonly=\"true\"/>" );
+        configXml.append( "  </user-fields>" );
+        configXml.append( "</config>" );
+        final Element configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
+
+        UserStoreConfig userStoreConfig = UserStoreConfigParser.parse( configEl, false );
+
+        assertTrue( userStoreConfig.getUserFieldConfigs().iterator().next().isReadOnly() );
+    }
+
+    @Test
+    public void testParseFieldConfigRemoteInvalid()
+        throws IOException, JDOMException
+    {
+        final StringBuffer configXml = new StringBuffer();
+        configXml.append( "<config>" );
+        configXml.append( "  <user-fields>" );
+        configXml.append( "    <prefix remote=\"true\"/>" );
+        configXml.append( "  </user-fields>" );
+        configXml.append( "</config>" );
+        final Element configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
+
+        try
+        {
+            UserStoreConfigParser.parse( configEl, false );
+            fail( "An exception should have been thrown." );
+        }
+        catch ( Exception ex )
+        {
+            assertTrue( ex.getMessage().startsWith( "Illegal attribute. 'remote' attribute cannot be used without a remote connector." ) );
         }
     }
 }
