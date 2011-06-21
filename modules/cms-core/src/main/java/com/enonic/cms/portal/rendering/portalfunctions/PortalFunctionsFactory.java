@@ -57,6 +57,9 @@ public class PortalFunctionsFactory
     @Autowired
     private CreateAttachmentUrlFunction createAttachmentUrlFunction;
 
+    @Autowired
+    private IsWindowEmptyFunction isWindowEmptyFunction;
+
     private SitePropertiesService sitePropertiesService;
 
     private final ThreadLocal<PortalFunctionsContext> context = new ThreadLocal<PortalFunctionsContext>();
@@ -112,6 +115,7 @@ public class PortalFunctionsFactory
         portalFunctions.setImageService( imageService );
         portalFunctions.setSecurityService( securityService );
         portalFunctions.setCreateAttachmentUrlFunction( createAttachmentUrlFunction );
+        portalFunctions.setIsWindowEmptyFunction( isWindowEmptyFunction );
         portalFunctions.setSitePropertiesService( sitePropertiesService );
 
         return portalFunctions;

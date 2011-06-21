@@ -1,6 +1,7 @@
 /* ----- Main ----- */
 
 #main-toolbar {
+    border: none !important;
 }
 
 #main-start-button {
@@ -107,6 +108,10 @@
 
 .icon-main-start-button {
     background-image: url("../images/enonic-logo-16x16.png");
+}
+
+.icon-user {
+    background-image: url("../images/user.png");
 }
 
 .icon-user-add {

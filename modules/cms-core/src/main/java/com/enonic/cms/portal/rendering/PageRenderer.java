@@ -234,6 +234,7 @@ public class PageRenderer
         portalFunctionsContext.setRenderedInline( false );
         portalFunctionsContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
         portalFunctionsContext.setSiteURLResolver( resolveSiteURLResolver() );
+        portalFunctionsContext.setPageRendererContext( context );
 
         PortalFunctionsFactory.get().setContext( portalFunctionsContext );
         ViewTransformationResult viewTransformationResult;

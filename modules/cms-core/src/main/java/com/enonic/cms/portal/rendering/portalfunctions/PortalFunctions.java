@@ -97,6 +97,8 @@ public class PortalFunctions
 
     private CreateAttachmentUrlFunction createAttachmentUrlFunction;
 
+    private IsWindowEmptyFunction isWindowEmptyFunction;
+
     private SitePropertiesService sitePropertiesService;
 
     public String getInstanceKey()
@@ -120,6 +122,11 @@ public class PortalFunctions
             throw new PortalFunctionException( "Not in a context of a window" );
         }
         return context.isRenderedInline();
+    }
+
+    public Boolean isWindowEmpty( final String portletWindowKey, String[] params )
+    {
+        return isWindowEmptyFunction.isWindowEmpty( new WindowKey( portletWindowKey ), params );
     }
 
     public String createUrl( String local )
@@ -797,5 +804,10 @@ public class PortalFunctions
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
     {
         this.sitePropertiesService = sitePropertiesService;
+    }
+
+    public void setIsWindowEmptyFunction( IsWindowEmptyFunction windowEmptyFunction )
+    {
+        isWindowEmptyFunction = windowEmptyFunction;
     }
 }
