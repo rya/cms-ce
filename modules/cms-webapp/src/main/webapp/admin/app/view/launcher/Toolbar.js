@@ -1,35 +1,45 @@
-Ext.define('CMS.view.main.Toolbar', {
+Ext.define('CMS.view.launcher.Toolbar', {
     extend: 'Ext.toolbar.Toolbar',
 
-    alias: 'widget.mainToolbar',
-    id: 'main-toolbar',
+    alias: 'widget.launcherToolbar',
+    id: 'launcher-toolbar',
 
     items: [
         {
-            xtype: 'tbspacer', width: 5
+            xtype: 'tbspacer', width: 10
         },
         {
-            id: 'main-start-button',
+            xtype: 'component',
+            id: 'launcher-logo',
+            autoEl: {
+                tag: 'div'
+            }
+        },
+        {
+            xtype: 'tbspacer', width: 20
+        },
+        {
+            id: 'launcher-start-button',
             xtype: 'button',
-            iconCls: 'icon-main-start-button',
+            text: 'Dashboard',
             menu: [
                 {
                     id: 0,
                     text: 'Dashboard',
                     appUrl: 'dashboard.html',
-                    iconCls: 'icon-dashboard'
+                    icon: 'resources/images/house.png'
                 },
                 {
                     id: 10,
                     text: 'Accounts',
                     appUrl: 'accounts.html',
-                    iconCls: 'icon-accounts'
+                    icon: 'resources/images/group.png'
                 },
                 {
                     id: 20,
-                    text: 'Content',
-                    appUrl: '',
-                    iconCls: ''
+                    text: 'CMS',
+                    appUrl: 'cms.html',
+                    icon: 'resources/images/enonic-logo16x16.png'
                 },
                 {
                     text: 'Applications',
@@ -38,19 +48,19 @@ Ext.define('CMS.view.main.Toolbar', {
                             id: 30,
                             text: 'Flatskjerm',
                             appUrl: '',
-                            iconCls: ''
+                            icon: ''
                         },
                         {
                             id: 40,
                             text: 'SkiFree',
                             appUrl: '',
-                            iconCls: ''
+                            icon: ''
                         },
                         {
                             id: 50,
                             text: 'Sporingsapplikasjon',
                             appUrl: '',
-                            iconCls: ''
+                            icon: ''
                         }
                     ]
                 },
@@ -58,27 +68,19 @@ Ext.define('CMS.view.main.Toolbar', {
                     id: 60,
                     text: 'Reports',
                     appUrl: '',
-                    iconCls: 'icon-report'
+                    icon: 'resources/images/report.png'
                 },
                 {
                     id: 70,
                     text: 'System',
                     appUrl: 'properties.html',
-                    iconCls: 'icon-system'
+                    icon: 'resources/images/cog.png'
                 }
             ]
         },
-        {
-            xtype: 'tbspacer', width: 5
-        },
-        {
-            id: 'main-selected-application-label',
-            xtype: 'label',
-            text: '&nbsp;'
-        },
         '->',
         {
-            id: 'main-logged-in-user-button',
+            id: 'launcher-logged-in-user-button',
             xtype: 'button',
             text: 'John Doe',
             menu: [
@@ -87,12 +89,12 @@ Ext.define('CMS.view.main.Toolbar', {
                 },
                 {
                     text: 'Change Password',
-                    iconCls: 'icon-change-password'
+                    icon: 'icon-change-password'
                 },
                 '-',
                 {
                     text: 'Log out',
-                    iconCls: 'icon-log-out',
+                    icon: 'icon-log-out',
                     handler: function() {
                         document.location.href = 'index.html';
                     }
@@ -101,7 +103,7 @@ Ext.define('CMS.view.main.Toolbar', {
         },
         '-',
         {
-            id: 'main-settings-button',
+            id: 'launcher-settings-button',
             xtype: 'button',
             iconCls: 'icon-settings',
             menu: [

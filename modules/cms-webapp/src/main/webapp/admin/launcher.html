@@ -17,26 +17,26 @@
             appFolder: 'app',
 
             controllers: [
-                'MainController'
+                'LauncherController'
             ],
 
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
-                    id: 'main-viewport',
+                    id: 'launcher-viewport',
                     layout: 'border',
                     padding: 0,
 
                     items: [
                         {
-                            id: 'main-toolbar',
+                            id: 'launcher-toolbar',
                             region: 'north',
-                            xtype: 'mainToolbar'
+                            xtype: 'launcherToolbar'
                         },
                         {
-                            id: 'main-center',
+                            id: 'launcher-center',
                             region: 'center',
-                            bodyCls: 'main-center-inner',
-                            html: '<iframe id="main-iframe" src="#"><!-- --></iframe>'
+                            bodyCls: 'launcher-center-inner',
+                            html: '<iframe id="launcher-iframe" src="#"><!-- --></iframe>'
                         }
                     ]
                 });
