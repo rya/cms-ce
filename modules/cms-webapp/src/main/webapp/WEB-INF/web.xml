@@ -70,9 +70,12 @@
     </listener>
 
     <servlet>
-        <servlet-name>tools</servlet-name>
-        <servlet-class>com.enonic.cms.core.tools.ToolsServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <servlet-name>main</servlet-name>
+        <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/servlet/mainServlet.xml</param-value>
+        </init-param>
     </servlet>
 
     <servlet>
@@ -85,18 +88,21 @@
     </servlet>
 
     <servlet>
+        <servlet-name>admin</servlet-name>
+        <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>/WEB-INF/servlet/adminServlet.xml</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet>
         <servlet-name>dav</servlet-name>
         <servlet-class>com.enonic.cms.core.webdav.SimpleDavServlet</servlet-class>
     </servlet>
 
-    <servlet>
-        <servlet-name>admin</servlet-name>
-        <servlet-class>com.enonic.cms.admin.AdminServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
     <servlet-mapping>
-        <servlet-name>tools</servlet-name>
+        <servlet-name>main</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
