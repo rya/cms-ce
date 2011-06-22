@@ -10,9 +10,7 @@ import com.enonic.esl.containers.ExtendedMap;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by rmy - Date: Jun 16, 2009
- */
+
 public class FormItemEntriesGroupTest
 {
     @Test
@@ -20,6 +18,7 @@ public class FormItemEntriesGroupTest
     {
         FormItemsGroup formItemsGroup = new FormItemsGroup( "group", createFormItems() );
 
+        assertEquals( 3, formItemsGroup.getGroupIndexes().size());
         assertOrder( formItemsGroup );
     }
 
@@ -62,12 +61,12 @@ public class FormItemEntriesGroupTest
     {
         ExtendedMap formItems = new ExtendedMap();
 
-        formItems.put( "group[2].item1", "4" );
-        formItems.put( "group[1].item1", "1" );
-        formItems.put( "group[1].item2", "2" );
-        formItems.put( "group[2].item2", "3" );
-        formItems.put( "group[3].item2", "6" );
-        formItems.put( "group[3].item1", "5" );
+        formItems.put( "group[2].item-1", "4" );
+        formItems.put( "group[1].item-1", "1" );
+        formItems.put( "group[1].item-2", "2" );
+        formItems.put( "group[2].item-2", "3" );
+        formItems.put( "group[3].item-2", "6" );
+        formItems.put( "group[3].item-1", "5" );
         return formItems;
     }
 
