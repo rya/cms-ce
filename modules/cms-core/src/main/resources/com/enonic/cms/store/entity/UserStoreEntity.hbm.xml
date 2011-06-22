@@ -23,7 +23,7 @@
       <column name="DOM_SCONFIGNAME" length="64" not-null="false"/>
     </property>
     <property name="config" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
-      <column name="DOM_XMLDATA"/>
+      <column name="DOM_XMLDATA" length="1600"/>
     </property>
   </class>
   <query name="UserStoreEntity.findByName" cacheable="true">
