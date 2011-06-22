@@ -7,7 +7,7 @@
                     "fieldlabel": "Username",
                     "fieldtype": "string",
                     "remote": false,
-                    "readonly": false,
+                    "readonly": true,
                     "required": true
                 },
                 {
@@ -79,7 +79,7 @@
                     "fieldlabel": "Birthday",
                     "fieldtype": "date",
                     "remote": false,
-                    "readonly": false,
+                    "readonly": true,
                     "required": true
                 },
                 {
@@ -107,12 +107,13 @@
                     "required": true
                 },
                 {
-                    "fieldname": "locale",
-                    "fieldlabel": "Locale",
+                    "fieldname": "address",
+                    "fieldlabel": "Address",
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,
-                    "required": true
+                    "required": true,
+                    "iso": true
                 }
             ]
         }
