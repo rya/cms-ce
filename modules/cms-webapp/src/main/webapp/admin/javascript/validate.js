@@ -1014,6 +1014,22 @@ function validateRequired(e, fieldname, tabPane, ignoreFirstPos) {
   }
 }
 
+function validateMaxLength(e, fieldname) {
+    if( e == null || e.value == null )
+    {
+        return true;
+    }
+
+    if (e.maxLength !== undefined && e.value.length > e.maxLength)
+    {
+      error(e, errorCustom + ': ' + fieldname);
+      return false;
+    }
+
+    return true;
+}
+
+
 function validateRequiredOpen( e, fieldname, tabPane, ignoreFirstPos )
 {
     var i, isOpen;
