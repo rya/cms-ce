@@ -895,6 +895,7 @@ public final class AdminEngine
         xmlCreator.setIncludeVersionsInfoForAdmin( true );
         xmlCreator.setIncludeAssignment( true );
         xmlCreator.setIncludeDraftInfo( true );
+        xmlCreator.setIncludeRepositoryPathInfo( false );
         return xmlCreator.createContentsDocument( user, contents, relatedContents );
     }
 

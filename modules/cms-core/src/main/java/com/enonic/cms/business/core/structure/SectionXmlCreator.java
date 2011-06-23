@@ -45,7 +45,7 @@ public class SectionXmlCreator
         contentXMLCreator.setIncludeAccessRightsInfo( false );
         contentXMLCreator.setIncludeRelatedContentsInfo( false );
         contentXMLCreator.setIncludeSectionActivationInfo( true );
-        contentXMLCreator.setIncludeRepositoryPathInfo( false );
+        contentXMLCreator.setIncludeRepositoryPathInfo( true );
         contentXMLCreator.setIncludeUserRightsInfo( true, categoryAccessResolver, contentAccessResolver );
         contentXMLCreator.setIncludeVersionsInfoForAdmin( false );
         contentXMLCreator.setIncludeOwnerAndModifierData( false );

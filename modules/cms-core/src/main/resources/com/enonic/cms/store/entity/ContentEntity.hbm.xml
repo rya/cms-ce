@@ -146,4 +146,12 @@
     and c.deleted = 0
   </query>
 
+  <query name="ContentEntity.countContentInCategoryByName" cacheable="false">
+    select count(c)
+    from ContentEntity c
+    where c.category.key = :categoryKey
+    and c.name = :name
+    and c.deleted = 0
+  </query>
+
 </hibernate-mapping>

@@ -138,6 +138,10 @@
           var cookiename = "contentform";
           var idx = 0;
           var validatedFields = new Array();
+
+          validatedFields[idx] = new Array("<xsl:value-of select="//input[@name = /config/form/title/@name]/display"/>", "<xsl:value-of select="/config/form/title/@name"/>", validateMaxLength);
+          ++idx;
+
           <xsl:for-each select="//input[@required = 'true' and not(@type = 'dropdown') and not(@type = 'date') and not(@type = 'radiobutton') and not(@type = 'checkbox') and not(@type = 'relatedcontent')]">
             <xsl:text>validatedFields[idx] = new Array("</xsl:text>
             <xsl:value-of select="display"/>
@@ -3152,7 +3156,16 @@
                 <xsl:value-of select="$input/maxlength/@value"/>
                 <xsl:text>'</xsl:text>
               </xsl:when>
-              <xsl:otherwise>''</xsl:otherwise>
+              <xsl:otherwise>
+                  <xsl:choose>
+                      <xsl:when test="/config/form/title/@name = $input/@name">
+                          <xsl:text>'256'</xsl:text>
+                      </xsl:when>
+                      <xsl:otherwise>
+                          <xsl:text>''</xsl:text>
+                      </xsl:otherwise>
+                  </xsl:choose>
+              </xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
         </x:with-param>
