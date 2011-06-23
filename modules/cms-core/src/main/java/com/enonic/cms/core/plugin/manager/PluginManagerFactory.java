@@ -1,6 +1,7 @@
 package com.enonic.cms.core.plugin.manager;
 
 import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -8,10 +9,12 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ServletContextAware;
 
 import com.enonic.cms.api.client.LocalClient;
 import com.enonic.cms.api.plugin.PluginEnvironment;
+import com.enonic.cms.core.plugin.ExtensionListener;
 import com.enonic.cms.core.plugin.PluginRegistry;
 import com.enonic.cms.core.plugin.config.PluginConfigManager;
 import com.enonic.cms.core.plugin.container.FelixOsgiContainer;
@@ -33,6 +36,7 @@ public final class PluginManagerFactory
     private final PluginConfigManager configManager;
 
     private final HotDeployer hotDeployer;
+
 
     public PluginManagerFactory()
     {
@@ -112,5 +116,11 @@ public final class PluginManagerFactory
     public void setServletContext( final ServletContext context )
     {
         this.container.setServletContext( context );
+    }
+
+    @Autowired
+    public void setExtensionListeners( List<ExtensionListener> listeners )
+    {
+        this.manager.setListeners( listeners );
     }
 }
