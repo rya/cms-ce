@@ -4,11 +4,13 @@
  */
 package com.enonic.cms.itest.portal.datasource.expressionfunctions;
 
+import com.enonic.cms.domain.RequestParameters;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,9 +30,6 @@ import com.enonic.cms.domain.security.user.UserEntity;
 
 import static org.junit.Assert.*;
 
-/**
- * May 28, 2010
- */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @TransactionConfiguration(defaultRollback = true)
@@ -76,6 +75,23 @@ public class ExpressionFunctionsExecutorTest
 
         efExecutor = new ExpressionFunctionsExecutor();
         efExecutor.setExpressionContext( expressionContext );
+    }
+
+    @Test
+    public void testParametersEvaulation()
+            throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addParameter("subCat", "18");
+        request.addParameter("sub-cat", "27");
+        efExecutor.setHttpRequest(request);
+        efExecutor.setRequestParameters(new RequestParameters(request.getParameterMap()));
+
+        String evaluated18 = efExecutor.evaluate("${param.subCat}");
+        assertEquals("18", evaluated18);
+
+        String evaluated27 = efExecutor.evaluate("${param['sub-cat']}");
+        assertEquals("27", evaluated27);
     }
 
     @Test
