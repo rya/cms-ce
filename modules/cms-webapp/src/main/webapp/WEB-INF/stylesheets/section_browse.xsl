@@ -442,7 +442,8 @@
                       <xsl:call-template name="addJSEvent">
                         <xsl:with-param name="node" select="."/>
                       </xsl:call-template>
-                      <xsl:value-of select="."/>
+                        <div style="font-weight: bold"><xsl:value-of select="."/></div>
+                        <span style="color: gray"><xsl:value-of select="@path-to-content"/></span>
                     </td>
 
                     <!-- Display contenttype column -->
@@ -695,3 +696,4 @@
     </xsl:attribute>
   </xsl:template>
 </xsl:stylesheet>
+

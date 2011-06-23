@@ -742,17 +742,13 @@ public class ContentEntity
     public String getPathAsString()
     {
         String categoryPath = getCategory().getPathAsString();
+
         if ( categoryPath == null )
         {
             return null;
         }
 
-        ContentVersionEntity currentVersion = getMainVersion();
-        if ( null != currentVersion )
-        {
-            return categoryPath + "/" + currentVersion.getTitle();
-        }
-        return null;
+        return categoryPath + "/" + getName();
     }
 
     public void addOwnerAccessRight()
