@@ -39,4 +39,6 @@ public interface ContentDao
     EntityPageList<ContentEntity> findAll( int index, int count );
 
     int findCountBySpecification( ContentSpecification specification );
+
+    boolean checkNameExists( CategoryEntity category, String name );
 }

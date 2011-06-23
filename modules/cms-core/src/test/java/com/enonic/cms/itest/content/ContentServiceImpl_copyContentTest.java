@@ -206,6 +206,8 @@ public class ContentServiceImpl_copyContentTest
         ContentEntity newContent = contentDao.findByKey( newContentKey );
         assertNotNull( newContent );
 
+        assertEquals( newContent.getName(), "testcontent_0(1)" );
+
         assertEquals( 1, newContent.getVersionCount() );
         assertEquals( ContentStatus.DRAFT.getKey(), newContent.getMainVersion().getStatus().getKey() );
 

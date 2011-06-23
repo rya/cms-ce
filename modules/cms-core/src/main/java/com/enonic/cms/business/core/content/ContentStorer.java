@@ -25,6 +25,7 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentEntityDao;
 import com.enonic.cms.store.dao.ContentHomeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
@@ -112,6 +113,9 @@ public class ContentStorer
 
     @Autowired
     private ContentValidator contentValidator;
+
+    @Autowired
+    private ContentEntityDao contentEntityDao;
 
     public ContentEntity createContent( final CreateContentCommand createContentCommand )
     {
@@ -1120,7 +1124,7 @@ public class ContentStorer
 
         ContentEntity newContent = new ContentEntity();
 
-        newContent.setName( sourceContent.getName() );
+        newContent.setName( new ContentNameForCopiesResolver(contentEntityDao).findUniqueNameInCategory( sourceContent ) );
         newContent.setCategory( toCategory );
         newContent.setLanguage( sourceContent.getLanguage() );
         newContent.setSource( sourceContent );
