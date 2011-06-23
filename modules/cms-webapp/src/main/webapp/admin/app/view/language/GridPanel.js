@@ -33,12 +33,6 @@ Ext.define('CMS.view.language.GridPanel', {
                 field: {
                     allowBlank: false
                 }
-            },
-            {
-                text: 'Key',
-                dataIndex: 'key',
-                sortable: true,
-                width: 300
             }
         ];
 
@@ -61,6 +55,7 @@ Ext.define('CMS.view.language.GridPanel', {
         };
 
         var cellEditing = Ext.create('Ext.grid.plugin.CellEditing', {
+            pluginId: 'cellEditor',
             clicksToEdit: 1
         });
 

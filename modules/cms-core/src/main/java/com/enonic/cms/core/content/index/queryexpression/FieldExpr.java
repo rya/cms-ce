@@ -4,12 +4,26 @@
  */
 package com.enonic.cms.core.content.index.queryexpression;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.enonic.cms.core.content.index.ContentIndexConstants;
+
+
 /**
  * This class implements the field expression.
  */
 public final class FieldExpr
     implements Expression
 {
+    private static final Set<String> DATE_FIELDS = new TreeSet<String>( String.CASE_INSENSITIVE_ORDER );
+
+    static
+    {
+        DATE_FIELDS.addAll( Arrays.asList( ContentIndexConstants.DATE_FIELDS ) );
+    }
+
     /**
      * Field expression.
      */
@@ -37,6 +51,11 @@ public final class FieldExpr
     public String toString()
     {
         return this.path;
+    }
+
+    public boolean isDateField()
+    {
+        return DATE_FIELDS.contains( path );
     }
 
     /**

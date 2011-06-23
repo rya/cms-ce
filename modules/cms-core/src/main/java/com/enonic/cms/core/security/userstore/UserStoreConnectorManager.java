@@ -20,4 +20,6 @@ public interface UserStoreConnectorManager
     Map<String, UserStoreConnectorConfig> getUserStoreConnectorConfigs();
 
     UserStoreConnectorConfig getUserStoreConnectorConfig( final String configName );
+
+    void invalidateCachedConfig( final UserStoreKey userStoreKey );
 }

@@ -12,6 +12,7 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.portal.PortalInstanceKey;
+import com.enonic.cms.portal.rendering.PageRendererContext;
 
 /**
  * May 7, 2009
@@ -35,6 +36,8 @@ public class PortalFunctionsContext
     private boolean isRenderedInline;
 
     private SiteURLResolver siteURLResolver;
+
+    private PageRendererContext pageRendererContext;
 
     private SitePath sitePath;
 
@@ -136,5 +139,15 @@ public class PortalFunctionsContext
     public SitePath getSitePath()
     {
         return sitePath;
+    }
+
+    public PageRendererContext getPageRendererContext()
+    {
+        return pageRendererContext;
+    }
+
+    public void setPageRendererContext( PageRendererContext pageRendererContext )
+    {
+        this.pageRendererContext = pageRendererContext;
     }
 }

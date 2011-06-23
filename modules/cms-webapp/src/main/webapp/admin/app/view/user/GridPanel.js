@@ -47,14 +47,15 @@ Ext.define('CMS.view.user.GridPanel', {
             items: [
                 {
                     text: 'New User',
-                    iconCls: 'user-add',
+                    iconCls: 'icon-user-add',
                     action: 'newUser'
                 },
                 {
                     text: 'New Group',
-                    iconCls: 'group-add',
+                    iconCls: 'icon-group-add',
                     action: 'newGroup'
-                },
+                }
+                /*,
                 '-',
                 {
                     xtype: 'cycle',
@@ -68,19 +69,20 @@ Ext.define('CMS.view.user.GridPanel', {
                             {
                                 text: 'Bottom',
                                 checked: true,
-                                iconCls:'details-bottom'
+                                iconCls:'icon-details-bottom'
                             },
                             {
                                 text: 'Right',
-                                iconCls:'details-right'
+                                iconCls:'icon-details-right'
                             },
                             {
                                 text: 'Hide',
-                                iconCls:'details-hide'
+                                iconCls:'icon-details-hide'
                             }
                         ]
                     }
                 }
+                */
             ]
         };
 
@@ -103,7 +105,7 @@ Ext.define('CMS.view.user.GridPanel', {
 
     nameRenderer: function(value, p, record) {
         return Ext.String.format(
-                '<img src="rest/users/{0}/photo/thumb" style="float:left;margin-right:6px"><b>{1}</b><br><i>{2}</i> in user store <i>{3}</i>',
+                '<img src="data/photo?key={0}&thumb=true" style="float:left;margin-right:6px"><b>{1}</b><br><i>{2}</i> in user store <i>{3}</i>',
                 record.data.key,
                 value,
                 record.data.name,

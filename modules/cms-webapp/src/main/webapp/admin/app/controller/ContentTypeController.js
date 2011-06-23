@@ -24,7 +24,7 @@ Ext.define( 'CMS.controller.ContentTypeController', {
                 click: this.deleteContentType
             },
             'contentTypeGrid': {
-                selectionchange: this.updateInfo,
+                selectionchange: this.updateDetailsPanel,
                 itemcontextmenu: this.popupMenu,
                 itemdblclick: this.editContentType
             }
@@ -44,7 +44,7 @@ Ext.define( 'CMS.controller.ContentTypeController', {
         Ext.Msg.alert('Delete Content Type', 'Not implemented.');
     },
 
-    updateInfo: function(selModel, selected) {
+    updateDetailsPanel: function(selModel, selected) {
         var contentType = selected[0];
         var contentTypeDetail = this.getContentTypeDetail();
 

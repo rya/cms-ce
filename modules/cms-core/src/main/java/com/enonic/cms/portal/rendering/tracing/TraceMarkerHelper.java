@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal.rendering.tracing;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.enonic.cms.portal.rendering.RenderedWindowResult;
 
 /**
@@ -82,5 +84,19 @@ public final class TraceMarkerHelper
         str.append( "</div>" );
 
         result.setContent( str.toString() );
+    }
+
+    public static String unwrapResultWithPortletMarker( RenderedWindowResult result )
+    {
+        String content = result.getContent();
+        String contentUnwrapped = StringUtils.substringBetween( content, "<div id=\"marker-", "</div>" );
+        if ( contentUnwrapped != null )
+        {
+            return StringUtils.substringAfter( contentUnwrapped, ">" );
+        }
+        else
+        {
+            return content;
+        }
     }
 }

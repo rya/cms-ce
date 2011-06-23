@@ -10,7 +10,7 @@
 
     <context:annotation-config/>
 
-    <import resource="classpath*:META-INF/spring/*.xml"/>
+    <context:component-scan base-package="com.enonic.cms.store.dao"/>
 
     <bean id="loadedVerticalProperties" class="com.enonic.cms.core.boot.BootPropertiesFactoryBean"/>
 
@@ -293,8 +293,13 @@
     <bean id="expressionFunctionsFactory"
           class="com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory"/>
 
-    <bean id="createAttachmentUrclFunction"
+    <bean id="createAttachmentUrlFunction"
           class="com.enonic.cms.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
+    </bean>
+
+    <bean id="isWindowEmptyFunction" class="com.enonic.cms.portal.rendering.portalfunctions.IsWindowEmptyFunction">
+      <property name="dataSourceService" ref="dataSourceService"/>
+      <property name="windowRendererFactory" ref="windowRendererFactory"/>
     </bean>
 
     <bean id="synchronizeUserStoreJobFactory"

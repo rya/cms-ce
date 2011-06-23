@@ -4,7 +4,12 @@
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all.js"></script>
+    <script type="text/javascript" src="data/direct/api.js"></script>
+    <script type="text/javascript" src="app/configuration.js"></script>
+
     <script type="text/javascript">
+
+        Ext.direct.Manager.addProvider(CMS.direct.REMOTING_API);
 
         Ext.Loader.setConfig({
             enabled: true,
@@ -20,6 +25,7 @@
             ],
 
             requires: [
+                'CMS.common.TabPanel',
                 'CMS.view.user.ShowPanel',
                 'CMS.view.user.FilterPanel'
             ],
@@ -32,17 +38,11 @@
                     items: [
                         {
                             region: 'center',
-                            xtype: 'userShow'
-                        },
-                        {
-                            region: 'west',
-                            width: 225,
-                            xtype: 'userFilter'
+                            xtype: 'cmsTabPanel'
                         }
                     ]
                 });
             }
-
         });
 
     </script>
