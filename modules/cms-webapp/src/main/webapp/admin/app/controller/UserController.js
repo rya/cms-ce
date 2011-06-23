@@ -71,12 +71,6 @@ Ext.define( 'CMS.controller.UserController', {
                           'userDetail': {
                               render: this.setDetailsToolbarDisabled
                           },
-                          '*[action=newUser]': {
-                              click: this.newUser
-                          },
-                          '*[action=newGroup]': {
-                              click: this.newGroup
-                          },
                           'editUserWindow textfield[name=prefix]': {
                               keyup: this.textFieldHandleEnterKey
                           },
@@ -94,21 +88,6 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           'editUserWindow textfield[name=address_label]': {
                               keyup: this.updateTabTitle
-                          },
-                          'userFilter button[action=search]': {
-                              click: this.searchFilter
-                          },
-                          '*[action=showDeleteWindow]': {
-                              click: this.showDeleteUserWindow
-                          },
-                          '*[action=deleteUser]': {
-                              click: this.deleteUser
-                          },
-                          '*[action=edit]': {
-                              click: this.showEditUserForm
-                          },
-                          '*[action=changePassword]': {
-                              click: this.showChangePasswordWindow
                           }
                       } );
     },
