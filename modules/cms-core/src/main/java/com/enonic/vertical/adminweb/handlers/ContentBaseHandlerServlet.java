@@ -1458,7 +1458,7 @@ public class ContentBaseHandlerServlet
             contentXMLCreator.setIncludeUserRightsInfoForRelated( true, categoryAccessResolver, contentAccessResolver );
             contentXMLCreator.setIncludeVersionsInfoForAdmin( true );
             contentXMLCreator.setIncludeRelatedContentsInfo( true );
-            contentXMLCreator.setIncludeRepositoryPathInfo( false );
+            contentXMLCreator.setIncludeRepositoryPathInfo( true );
             contentXMLCreator.setIncludeAssignment( true );
             contentXMLCreator.setIncludeDraftInfo( true );
             contentXMLCreator.setOrderByCreatedAtDescending( true );

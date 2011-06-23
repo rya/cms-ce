@@ -64,6 +64,8 @@ public class ContentTitleXmlCreator
         el.setAttribute( "has-draft", Boolean.toString( content.hasDraft() ) );
         el.setAttribute( "draft-key", content.hasDraft() ? content.getDraftVersion().getKey().toString() : "" );
 
+        el.setAttribute( "path-to-content", content.getPathAsString() );
+
         if ( includeSectionInfo )
         {
             boolean isActivatedInSection = content.isActiviatedInSection( currentSection );
