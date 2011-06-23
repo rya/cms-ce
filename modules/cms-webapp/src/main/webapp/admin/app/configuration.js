@@ -5,9 +5,7 @@
         disableCaching: true
     });
 
-    if ( !window.parent.CMS ) return;
-
-    function hideLoadMaskOnLoad()
+    function cms_hideLoadMaskOnLoad()
     {
         if (window.addEventListener)
         {
@@ -25,7 +23,7 @@
         }
     }
 
-    function hideMainMenusOnClick()
+    function cms_hideMainMenusOnClick()
     {
         if (window.addEventListener)
         {
@@ -42,8 +40,14 @@
 
         }
     }
-    //Commented because this functions caused js errors
-    //hideLoadMaskOnLoad();
-    //hideMainMenusOnClick();
 
+    function cms_launcherExist()
+    {
+        return window.parent.frames.length > 0;
+    }
+
+    if ( cms_launcherExist() ) {
+        cms_hideLoadMaskOnLoad();
+        cms_hideMainMenusOnClick();
+    }
 })();

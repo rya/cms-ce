@@ -5,11 +5,13 @@ Ext.define( 'CMS.common.TabPanel', {
         'CMS.plugin.TabCloseMenu'
     ],
 
+    plugins: ['tabCloseMenu'],
+
     defaults: {
         closable: true
     },
 
-    plugins: ['tabCloseMenu'],
+    bodyCls: 'no-border',
 
     initComponent: function()
     {
@@ -24,9 +26,8 @@ Ext.define( 'CMS.common.TabPanel', {
 
         if ( closable )
         {
-            tab.on( {
-                beforeclose: function( tab, options )
-                {
+            tab.on({
+                beforeclose: function( tab, options ) {
                     me.onBeforeCloseTab( tab, options )
                 }
             });
