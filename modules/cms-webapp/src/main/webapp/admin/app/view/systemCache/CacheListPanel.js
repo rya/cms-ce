@@ -7,7 +7,7 @@ Ext.define( 'CMS.view.systemCache.CacheListPanel', {
     bodyPadding: 5,
     layout: {
         type: 'table',
-        columns: 4
+        columns: 1
     },
 
     requires: [
