@@ -55,6 +55,8 @@ public class DeleteUserStoreJob
     {
         userStoreService.deleteUserStore( command );
 
+        userStoreService.invalidateUserStoreCachedConfig( command.getKey() );
+
         deleteUserStoreUsers();
 
         deleteUserStoreGroups();
