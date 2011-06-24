@@ -1,39 +1,40 @@
 Ext.define( 'CMS.common.TabPanel', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.cmsTabPanel',
-    requires: [
-        'CMS.plugin.TabCloseMenu'
-    ],
-
+    requires: ['CMS.plugin.TabCloseMenu'],
+    defaults: { closable: true },
     plugins: ['tabCloseMenu'],
-
-    defaults: {
-        closable: true
-    },
-
-    bodyCls: 'no-border',
 
     initComponent: function()
     {
         this.callParent( arguments );
     },
 
-    addTab: function( items, closable )
+    addTab: function( items )
     {
-        var me = this;
-        items.closable = closable !== undefined ? closable : true;
-        var tab = this.add( items );
-
-        if ( closable )
+        var tabPanel = this;
+        var tab = this.getTabById( items.id );
+        // Create a new tab if it is not already created
+        if ( !tab )
         {
-            tab.on({
-                beforeclose: function( tab, options ) {
-                    me.onBeforeCloseTab( tab, options )
-                }
-            });
+            tab = this.add( items );
+
+            if ( tab.closable )
+            {
+                tab.on({
+                    beforeclose: function( tab, options ) {
+                        tabPanel.onBeforeCloseTab( tab, options )
+                    }
+                });
+            }
         }
 
         this.setActiveTab( tab );
+    },
+
+    getTabById: function( id )
+    {
+        return this.getComponent(id);
     },
 
     onBeforeCloseTab: function( tab, options )

@@ -133,7 +133,9 @@ Ext.define( 'CMS.controller.UserController', {
     createBrowseTab: function( component, options )
     {
         this.getTabPanel().addTab( {
+            id: 'tab-browse',
             title: 'Browse',
+            closable: false,
             xtype: 'panel',
             layout: 'border',
             items: [
@@ -147,7 +149,7 @@ Ext.define( 'CMS.controller.UserController', {
                     xtype: 'userShow'
                 }
             ]
-        }, false );
+        });
     },
 
     createNewUserTab: function()
@@ -156,7 +158,7 @@ Ext.define( 'CMS.controller.UserController', {
             title: 'New User',
             items: this.createDummyUserForm(),
             iconCls: 'icon-user-add'
-        }, true );
+        });
     },
 
     createNewGroupTab: function()
@@ -165,7 +167,7 @@ Ext.define( 'CMS.controller.UserController', {
             title: 'New Group',
             html: 'New Group Form',
             iconCls: 'icon-group-add'
-        }, true );
+        });
     },
 
     createEditUserTab: function()
@@ -174,10 +176,11 @@ Ext.define( 'CMS.controller.UserController', {
         var user = selectedGridItem.data;
 
         this.getTabPanel().addTab( {
+            id: 'tab-user-' + user.key,
             title: user.displayName + ' (' + user.qualifiedName + ')',
             items: this.createDummyUserForm( user ),
             iconCls: 'icon-edit-user'
-        }, true );
+        });
     },
 
     createEditGroupTab: function()
