@@ -50,5 +50,4 @@
         cms_hideLoadMaskOnLoad();
         cms_hideMainMenusOnClick();
     }
-
 })();

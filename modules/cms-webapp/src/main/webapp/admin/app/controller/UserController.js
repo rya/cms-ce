@@ -1,15 +1,18 @@
-Ext.define('CMS.controller.UserController', {
+Ext.define( 'CMS.controller.UserController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['UserStore'],
-    models: ['UserModel'],
+    stores: ['UserStore', 'UserStoreConfigStore', 'CountryStore', 'CallingCodeStore', 'LanguageStore',
+        'RegionStore'],
+    models: ['UserModel', 'UserFieldModel', 'UserStoreConfigModel', 'CountryModel', 'CallingCodeModel',
+        'LanguageModel', 'RegionModel'],
     views: [
         'user.GridPanel',
         'user.DetailPanel',
         'user.FilterPanel',
         'user.DeleteWindow',
         'user.ChangePasswordWindow',
-        'user.ContextMenu'
+        'user.ContextMenu',
+        'user.EditUserWindow'
     ],
 
     refs: [
@@ -19,90 +22,150 @@ Ext.define('CMS.controller.UserController', {
         {ref: 'userDetail', selector: 'userDetail'},
         {ref: 'userFilter', selector: 'userFilter'},
         {ref: 'filterTextField', selector: 'userFilter textfield[name=filter]'},
-        {ref: 'userEditWindow', selector: 'userEditWindow', autoCreate: true, xtype: 'userEditWindow'},
+        {ref: 'editUserWindow', selector: 'editUserWindow', autoCreate: true, xtype: 'editUserWindow'},
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
         {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
-        {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'}
+        {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'},
+        {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'}
     ],
 
     init: function()
     {
         this.control( {
-            'viewport': {
-                afterrender: this.createBrowseTab
-            },
-            '*[action=newUser]': {
-                click: this.createNewUserTab
-            },
-            '*[action=newGroup]': {
-                click: this.createNewGroupTab
-            },
-            'userGrid': {
-                selectionchange: this.updateDetailsPanel,
-                itemcontextmenu: this.popupMenu,
-                itemdblclick: this.createEditUserTab
-            },
-            'userFilter': {
-                enterKeyPress: this.filterHandleEnterKey,
-                render: this.onFilterPanelRender
-            },
-            'userFilter button[action=search]': {
-                click: this.searchFilter
-            },
-            '*[action=showDeleteWindow]': {
-                click: this.showDeleteUserWindow
-            },
-            '*[action=deleteUser]': {
-                click: this.deleteUser
-            },
-            '*[action=edit]': {
-                click: this.createEditUserTab
-            },
-            '*[action=changePassword]': {
-                click: this.showChangePasswordWindow
-            },
-            'userDetail': {
-                render: this.setDetailsToolbarDisabled
-            }
-        } );
+                          'viewport': {
+                              afterrender: this.createBrowseTab
+                          },
+                          '*[action=newUser]': {
+                              click: this.createNewUserTab
+                          },
+                          '*[action=newGroup]': {
+                              click: this.createNewGroupTab
+                          },
+                          'userGrid': {
+                              selectionchange: this.updateDetailsPanel,
+                              itemcontextmenu: this.popupMenu,
+                              itemdblclick: this.createEditUserTab
+                          },
+                          'userFilter': {
+                              specialkey: this.filterHandleEnterKey,
+                              render: this.onFilterPanelRender
+                          },
+                          'userFilter button[action=search]': {
+                              click: this.searchFilter
+                          },
+                          '*[action=showDeleteWindow]': {
+                              click: this.showDeleteUserWindow
+                          },
+                          '*[action=deleteUser]': {
+                              click: this.deleteUser
+                          },
+                          '*[action=addNewTab]': {
+                              click: this.addNewTab
+                          },
+                          '*[action=edit]': {
+                              click: this.createEditUserTab
+                          },
+                          '*[action=changePassword]': {
+                              click: this.showChangePasswordWindow
+                          },
+                          'userDetail': {
+                              render: this.setDetailsToolbarDisabled
+                          },
+                          'editUserWindow textfield[name=prefix]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserWindow textfield[name=first_name]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserWindow textfield[name=middle_name]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserWindow textfield[name=last_name]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserWindow textfield[name=suffix]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserWindow textfield[name=address_label]': {
+                              keyup: this.updateTabTitle
+                          }
+                      } );
+    },
+
+    newUser: function()
+    {
+        Ext.Msg.alert( 'New User', 'TODO' );
+    },
+
+    newGroup: function()
+    {
+        Ext.Msg.alert( 'New Group', 'TODO' );
+    },
+
+    updateInfo: function( selModel, selected )
+    {
+        var user = selected[0];
+        var userDetail = this.getUserDetail();
+
+        if ( user )
+        {
+            userDetail.update( user.data );
+        }
+
+        userDetail.setTitle( selected.length + " user selected" );
+        this.setDetailsToolbarDisabled();
+    },
+
+    selectUser: function( view )
+    {
+        var first = this.getUserStoreStore().getAt( 0 );
+        if ( first )
+        {
+            view.getSelectionModel().select( first );
+        }
+    },
+
+    onFilterPanelRender: function()
+    {
+        Ext.getCmp( 'filter' ).focus( false, 10 );
     },
 
     createBrowseTab: function( component, options )
     {
         this.getTabPanel().addTab( {
-            title: 'Browse',
-            xtype: 'panel',
-            layout: 'border',
-            items: [
-                {
-                    region: 'west',
-                    width: 225,
-                    xtype: 'userFilter'
-                },
-                {
-                    region: 'center',
-                    xtype: 'userShow'
-                }
-            ]
-        }, false );
+                                       title: 'Browse',
+                                       xtype: 'panel',
+                                       layout: 'border',
+                                       items: [
+                                           {
+                                               region: 'west',
+                                               width: 225,
+                                               xtype: 'userFilter'
+                                           },
+                                           {
+                                               region: 'center',
+                                               xtype: 'userShow'
+                                           }
+                                       ]
+                                   }, false );
     },
 
     createNewUserTab: function()
     {
         this.getTabPanel().addTab( {
-            title: 'New User',
-            items: this.createDummyUserForm(),
-            iconCls: 'icon-user-add'
-        }, true );
+                                       title: 'New User',
+                                       items: this.createDummyUserForm(),
+                                       iconCls: 'icon-user-add'
+                                   }, true );
     },
 
     createNewGroupTab: function()
     {
         this.getTabPanel().addTab( {
-            title: 'New Group',
-            html: 'New Group Form',
-            iconCls: 'icon-group-add'
-        }, true );
+                                       title: 'New Group',
+                                       html: 'New Group Form',
+                                       iconCls: 'icon-group-add'
+                                   }, true );
     },
 
     createEditUserTab: function()
@@ -111,10 +174,10 @@ Ext.define('CMS.controller.UserController', {
         var user = selectedGridItem.data;
 
         this.getTabPanel().addTab( {
-            title: user.displayName + ' (' + user.qualifiedName + ')',
-            items: this.createDummyUserForm(user),
-            iconCls: 'icon-edit-user'
-        }, true );
+                                       title: user.displayName + ' (' + user.qualifiedName + ')',
+                                       items: this.createDummyUserForm( user ),
+                                       iconCls: 'icon-edit-user'
+                                   }, true );
     },
 
     createEditGroupTab: function()
@@ -176,17 +239,43 @@ Ext.define('CMS.controller.UserController', {
         Ext.Msg.alert( 'Do Delete User', 'TODO' );
     },
 
+    showEditUserForm: function()
+    {
+        this.getEditUserWindow().doShow();
+    },
+
     setDetailsToolbarDisabled: function()
     {
         var disable = !this.gridHasSelection();
         Ext.ComponentQuery.query( '*[action=edit]' )[0].setDisabled( disable );
         Ext.ComponentQuery.query( '*[action=showDeleteWindow]' )[0].setDisabled( disable );
         Ext.ComponentQuery.query( '*[action=changePassword]' )[0].setDisabled( disable );
-    },
+    }
+    ,
 
     gridHasSelection: function()
     {
         return this.getUserGrid().getSelectionModel().getSelection().length > 0;
+    }
+    ,
+
+    textFieldHandleEnterKey: function( field, event )
+    {
+        var prefix = this.getEditUserWindow().down( '#prefix' )
+                ? Ext.String.trim( this.getEditUserWindow().down( '#prefix' ).getValue() ) : '';
+        var firstName = this.getEditUserWindow().down( '#first_name' )
+                ? Ext.String.trim( this.getEditUserWindow().down( '#first_name' ).getValue() ) : '';
+        var middleName = this.getEditUserWindow().down( '#middle_name' )
+                ? Ext.String.trim( this.getEditUserWindow().down( '#middle_name' ).getValue() ) : '';
+        var lastName = this.getEditUserWindow().down( '#last_name' )
+                ? Ext.String.trim( this.getEditUserWindow().down( '#last_name' ).getValue() ) : '';
+        var suffix = this.getEditUserWindow().down( '#suffix' )
+                ? Ext.String.trim( this.getEditUserWindow().down( '#suffix' ).getValue() ) : '';
+        var displayName = this.getEditUserWindow().down( '#display_name' );
+        if ( displayName )
+        {
+            displayName.setValue( prefix + ' ' + firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix );
+        }
     },
 
     getSelectedGridItem: function()
@@ -194,13 +283,25 @@ Ext.define('CMS.controller.UserController', {
         return this.getUserGrid().getSelectionModel().selected.get( 0 );
     },
 
-    onFilterPanelRender: function()
+    addNewTab: function()
     {
-        Ext.getCmp( 'filter' ).focus( false, 10 );
+        var tabPanel = this.getEditUserWindow().down( '#addressTabPanel' );
+        if ( tabPanel.items.length == 1 )
+        {
+            tabPanel.items.get( 0 ).closable = true;
+        }
+        var newTab = tabPanel.items.get( 0 ).cloneConfig( {closable: true, text: '[no title]'} );
+        tabPanel.add( newTab );
+    },
+
+    updateTabTitle: function ( field, event )
+    {
+        var tabPanel = this.getEditUserWindow().down( '#addressTabPanel' );
+        tabPanel.getActiveTab().setTitle(field.getValue());
     },
 
     // Dummy form
-    createDummyUserForm: function(user)
+    createDummyUserForm: function( user )
     {
 
         return Ext.create( 'Ext.form.Panel', {
@@ -341,7 +442,6 @@ Ext.define('CMS.controller.UserController', {
             ]
         } );
 
-
     }
 
-});
+} );
