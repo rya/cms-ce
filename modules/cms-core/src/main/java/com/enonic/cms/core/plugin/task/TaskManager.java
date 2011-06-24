@@ -105,6 +105,7 @@ final class TaskManager
         if ( queuedTask != null )
         {
             queuedTask.cancel();
+            this.taskQueue.remove( taskId );
         }
     }
 
