@@ -5,7 +5,7 @@ Ext.define( 'CMS.view.systemCache.CachePanel', {
     title: 'Details',
     split: true,
     autoScroll: true,
-    width: 300,
+    //width: '100%',
     height: 250,
     bodyBorder: true,
     frame: true,
