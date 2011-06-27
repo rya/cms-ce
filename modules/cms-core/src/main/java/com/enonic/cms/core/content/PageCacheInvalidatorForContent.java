@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.content;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.portal.cache.SiteCachesService;
 
@@ -32,6 +33,23 @@ public class PageCacheInvalidatorForContent
         {
             PageCacheService pageCacheService = siteCachesService.getPageCacheService( contentLocation.getSiteKey() );
             pageCacheService.removeEntriesByMenuItem( contentLocation.getMenuItemKey() );
+
+            renderParentPage( contentLocation.getMenuItem().getParent(), pageCacheService );
+        }
+    }
+
+    private void renderParentPage( MenuItemEntity itemEntity, PageCacheService pageCacheService )
+    {
+        if ( itemEntity != null )
+        {
+            if ( itemEntity.isRenderable() )
+            {
+                pageCacheService.removeEntriesByMenuItem( itemEntity.getMenuItemKey() );
+            }
+            else
+            {
+                renderParentPage( itemEntity.getParent(), pageCacheService );
+            }
         }
     }
 }

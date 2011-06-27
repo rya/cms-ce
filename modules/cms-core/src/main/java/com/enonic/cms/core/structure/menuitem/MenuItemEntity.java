@@ -167,6 +167,11 @@ public class MenuItemEntity
         // there are no mutable object fields (String is immutable)
     }
 
+    public boolean isRenderable()
+    {
+        return menuItemType.isRenderable();
+    }
+
     public int getKey()
     {
         return key;
