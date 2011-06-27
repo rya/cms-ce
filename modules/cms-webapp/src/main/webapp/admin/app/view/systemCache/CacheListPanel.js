@@ -4,10 +4,16 @@ Ext.define( 'CMS.view.systemCache.CacheListPanel', {
     store: 'SystemCacheStore',
     items: [],
     autoScroll: true,
-    bodyPadding: 5,
+    //bodyPadding: 5,
+    width: '100%',
     layout: {
         type: 'table',
-        columns: 1
+        columns: 1,
+        tableAttrs: {
+            style: {
+                width: '98%'
+            }
+        }
     },
 
     requires: [
