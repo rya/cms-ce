@@ -24,17 +24,17 @@ import com.enonic.cms.domain.resource.ResourceKey;
  */
 public class SiteData
 {
-    private static final String LOCALE_RESOLVER_ELEMENT_NAME = "locale-resolver";
+    public static final String LOCALE_RESOLVER_ELEMENT_NAME = "locale-resolver";
 
-    private static final String DEVICE_CLASS_RESOLVER_ELEMENT_NAME = "device-class-resolver";
+    public static final String DEVICE_CLASS_RESOLVER_ELEMENT_NAME = "device-class-resolver";
 
-    private static final String PATH_TO_PUBLIC_HOME_RESOURCES_ELEMENT_NAME = "path-to-public-home";
+    public static final String PATH_TO_PUBLIC_HOME_RESOURCES_ELEMENT_NAME = "path-to-public-home";
 
-    private static final String PATH_TO_HOME_RESOURCES_ELEMENT_NAME = "path-to-home";
+    public static final String PATH_TO_HOME_RESOURCES_ELEMENT_NAME = "path-to-home";
 
-    private static final String DEFAULT_LOCALIZATION_RESOURCE_ELMENT_NAME = "default-localization-resource";
+    public static final String DEFAULT_LOCALIZATION_RESOURCE_ELMENT_NAME = "default-localization-resource";
 
-    private static final String DEFAULT_CSS_ELEMENT_NAME = "defaultcss";
+    public static final String DEFAULT_CSS_ELEMENT_NAME = "defaultcss";
 
     private Document xmlDoc;
 
