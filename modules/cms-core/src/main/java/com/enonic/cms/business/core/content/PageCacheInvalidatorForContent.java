@@ -12,6 +12,7 @@ import com.enonic.cms.domain.content.ContentLocation;
 import com.enonic.cms.domain.content.ContentLocationSpecification;
 import com.enonic.cms.domain.content.ContentLocations;
 import com.enonic.cms.domain.content.ContentVersionEntity;
+import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 
 public class PageCacheInvalidatorForContent
@@ -38,6 +39,23 @@ public class PageCacheInvalidatorForContent
         {
             PageCacheService pageCacheService = siteCachesService.getPageCacheService( contentLocation.getSiteKey() );
             pageCacheService.removeEntriesByMenuItem( contentLocation.getMenuItemKey() );
+
+            renderParentPage( contentLocation.getMenuItem().getParent(), pageCacheService );
+        }
+    }
+
+    private void renderParentPage( MenuItemEntity itemEntity, PageCacheService pageCacheService )
+    {
+        if ( itemEntity != null )
+        {
+            if ( itemEntity.isRenderable() )
+            {
+                pageCacheService.removeEntriesByMenuItem( itemEntity.getMenuItemKey() );
+            }
+            else
+            {
+                renderParentPage( itemEntity.getParent(), pageCacheService );
+            }
         }
     }
 }
