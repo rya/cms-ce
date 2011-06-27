@@ -4,14 +4,20 @@
  */
 package com.enonic.cms.core.servlet;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -23,21 +29,42 @@ import com.enonic.cms.domain.Attribute;
  * This class implements a modification of the dispatcher servlet.
  */
 public final class CmsDispatcherServlet
-        extends DispatcherServlet
+    extends DispatcherServlet
 {
     private static final Logger LOG = LoggerFactory.getLogger( CmsDispatcherServlet.class );
 
+    private final static List<HttpMethod> ALLOWED_HTTP_METHODS =
+        Arrays.asList( HttpMethod.GET, HttpMethod.POST, HttpMethod.HEAD, HttpMethod.OPTIONS );
+
     @Override
     public void init( ServletConfig config )
-            throws ServletException
+        throws ServletException
     {
         super.init( config );
         startContextIfNeeded();
     }
 
-    protected void doService( HttpServletRequest req, HttpServletResponse res )
-            throws Exception
+    @Override
+    protected void doOptions( HttpServletRequest request, HttpServletResponse response )
+        throws ServletException, IOException
     {
+        response.setHeader( "Allow", StringUtils.join( ALLOWED_HTTP_METHODS, "," ) );
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
+
+    protected void doService( HttpServletRequest req, HttpServletResponse res )
+        throws Exception
+    {
+
+        HttpMethod requestMethod = HttpMethod.valueOf( req.getMethod() );
+
+        if ( !ALLOWED_HTTP_METHODS.contains( requestMethod ) )
+        {
+            res.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED );
+            return;
+        }
+
         startContextIfNeeded();
 
         ServletRequestAccessor.setRequest( req );

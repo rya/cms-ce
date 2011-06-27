@@ -426,8 +426,6 @@ public class UserStoreServiceImpl
         }
 
         userStoreToDelete.setDeleted( true );
-
-        userConnectorStoreManager.invalidateCachedConfig( command.getKey() );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -588,8 +586,6 @@ public class UserStoreServiceImpl
         userStoreToUpdate.setConfig( command.getConfig() );
 
         userStoreDao.getHibernateTemplate().flush();
-
-        userConnectorStoreManager.invalidateCachedConfig( command.getKey() );
     }
 
 
@@ -1051,6 +1047,11 @@ public class UserStoreServiceImpl
                     "Remote plugin '" + connectorName + "' does not support type: " + userFieldConfig.getType().getName() );
             }
         }
+    }
+
+    public void invalidateUserStoreCachedConfig( UserStoreKey userStoreKey )
+    {
+        userConnectorStoreManager.invalidateCachedConfig( userStoreKey );
     }
 
     public boolean canCreateUser( final UserStoreKey userStoreKey )

@@ -1,0 +1,72 @@
+{
+    "total": 80,
+    "regions": [
+        {
+            "name":"Akershus"
+        },
+        {
+            "name":"Aust-Agder"
+        },
+        {
+            "name":"Buskerud"
+        },
+        {
+            "name":"Finnmark"
+        },
+        {
+            "name":"Hedmark"
+        },
+        {
+            "name":"Hordaland"
+        },
+        {
+            "name":"Møre og Romsdal"
+        },
+        {
+            "name":"Akershus"
+        },
+        {
+            "name":"Nordland"
+        },
+        {
+            "name":"Nord Trøndelag"
+        },
+        {
+            "name":"Oppland"
+        },
+        {
+            "name":"Oslo"
+        },
+        {
+            "name":"Rogaland"
+        },
+        {
+            "name":"Sogn og Fjordane"
+        },
+        {
+            "name":"Sør Trøndelag"
+        },
+        {
+            "name":"Telemark"
+        },
+        {
+            "name":"Troms"
+        },
+        {
+            "name":"Vest-Agder"
+        },
+        {
+            "name":"Vestfold"
+        },
+        {
+            "name":"Østfold"
+        },
+        {
+            "name":"Vestfold"
+        },
+        {
+            "name":"Svalbard"
+        }
+
+    ]
+}

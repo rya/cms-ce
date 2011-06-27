@@ -16,24 +16,28 @@ Ext.define('CMS.controller.CmsController', {
     createDefaultTabs: function( component, options )
     {
         this.getTabPanel().addTab( {
-           title: 'Content',
-           xtype: 'panel'
-       }, false );
+            title: 'Content',
+            closable: false,
+            xtype: 'panel'
+        }, false );
 
         this.getTabPanel().addTab( {
-           title: 'Sites',
-           xtype: 'panel'
-       }, false );
+            title: 'Sites',
+            closable: false,
+            xtype: 'panel'
+        }, false );
 
         this.getTabPanel().addTab( {
-           title: 'Portlets',
-           xtype: 'panel'
-       }, false );
+            title: 'Portlets',
+            closable: false,
+            xtype: 'panel'
+        }, false );
 
         this.getTabPanel().addTab( {
-           title: 'Page Templates',
-           xtype: 'panel'
-       }, false );
+            title: 'Page Templates',
+            closable: false,
+            xtype: 'panel'
+        }, false );
 
         this.getTabPanel().setActiveTab(0);
     }
