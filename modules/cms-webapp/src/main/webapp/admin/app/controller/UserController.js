@@ -12,7 +12,11 @@ Ext.define( 'CMS.controller.UserController', {
         'user.DeleteWindow',
         'user.ChangePasswordWindow',
         'user.ContextMenu',
-        'user.EditUserWindow'
+        'user.EditUserWindow',
+        'user.EditUserPanel',
+        'user.EditUserMembershipPanel',
+        'user.EditUserPreferencesPanel',
+        'user.EditUserPropertiesPanel'
     ],
 
     refs: [
@@ -22,6 +26,7 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'userDetail', selector: 'userDetail'},
         {ref: 'userFilter', selector: 'userFilter'},
         {ref: 'filterTextField', selector: 'userFilter textfield[name=filter]'},
+        {ref: 'editUserPanel', selector: 'editUserWindow editUserPanel', autoCreate: true, xtype: 'editUserPanel'},
         {ref: 'editUserWindow', selector: 'editUserWindow', autoCreate: true, xtype: 'editUserWindow'},
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
         {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
@@ -71,22 +76,22 @@ Ext.define( 'CMS.controller.UserController', {
             'userDetail': {
                 render: this.setDetailsToolbarDisabled
             },
-            'editUserWindow textfield[name=prefix]': {
+            'editUserPanel textfield[name=prefix]': {
                 keyup: this.textFieldHandleEnterKey
             },
-            'editUserWindow textfield[name=first_name]': {
+            'editUserPanel textfield[name=first_name]': {
                 keyup: this.textFieldHandleEnterKey
             },
-            'editUserWindow textfield[name=middle_name]': {
+            'editUserPanel textfield[name=middle_name]': {
                 keyup: this.textFieldHandleEnterKey
             },
-            'editUserWindow textfield[name=last_name]': {
+            'editUserPanel textfield[name=last_name]': {
                 keyup: this.textFieldHandleEnterKey
             },
-            'editUserWindow textfield[name=suffix]': {
+            'editUserPanel textfield[name=suffix]': {
                 keyup: this.textFieldHandleEnterKey
             },
-            'editUserWindow textfield[name=address_label]': {
+            'editUserPanel textfield[name=address_label]': {
                 keyup: this.updateTabTitle
             }
         } );
@@ -244,7 +249,9 @@ Ext.define( 'CMS.controller.UserController', {
 
     showEditUserForm: function()
     {
+
         this.getEditUserWindow().doShow();
+        this.getEditUserPanel().doShow();
     },
 
     setDetailsToolbarDisabled: function()
