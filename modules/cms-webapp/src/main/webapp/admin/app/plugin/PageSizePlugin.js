@@ -25,7 +25,7 @@ Ext.define('CMS.plugin.PageSizePlugin', {
     */
     store: new Ext.data.SimpleStore({
         fields: ['text', 'value'],
-        data: [['20', 20], ['40', 40], ['100', 100]]
+        data: [['10', 10], ['50', 50], ['100', 100]]
     }),
     /**
     * assing the select and specialkey events for the combobox
@@ -41,7 +41,7 @@ Ext.define('CMS.plugin.PageSizePlugin', {
             }
         });
         this.store.on("load", function() {
-            me.setValue(40);
+            me.setValue(10);
         });
         this.store.load();
     },
