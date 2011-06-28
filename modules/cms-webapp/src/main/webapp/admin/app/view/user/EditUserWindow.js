@@ -8,9 +8,6 @@ Ext.define( 'CMS.view.user.EditUserWindow', {
         'CMS.view.user.EditUserMembershipPanel'
     ],
 
-    measureWidth: true,
-    measureHeight: true,
-
     defaults: {
         bodyPadding: 10
     },
@@ -18,11 +15,13 @@ Ext.define( 'CMS.view.user.EditUserWindow', {
     items: [
         {
             xtype: 'tabpanel',
-            measureWidth: true,
-            measureHeight: true,
+            width: 600,
+            height: 700,
+            autoScroll: true,
             items: [
                 {
-                    xtype: 'editUserPanel'
+                    xtype: 'editUserPanel',
+                    autoScroll: true
                 },
                 {
                     xtype: 'editUserPropertiesPanel'

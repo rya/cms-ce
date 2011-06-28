@@ -3,8 +3,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     alias: 'widget.editUserPanel',
     store: 'UserStoreConfigStore',
 
-    measureWidth: true,
     measureHeight: true,
+    measureWidth: true,
 
     defaults: {
         bodyPadding: 10
@@ -16,9 +16,13 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     layout: {
         type: 'table',
         columns: 2,
-        align: 'stretch',
         defaultMargins: {top:10, right:10, bottom:10, left:10},
-        padding: 10
+        padding: 10,
+        tableAttrs: {
+            style: {
+                width: 'auto'
+            }
+        }
     },
 
     buttons: [
@@ -333,8 +337,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         var tabbedPanel = {
             xtype: 'tabpanel',
             itemId: 'addressTabPanel',
-            measureWidth: true,
-            measureHeight: true,
+            height: 280,
+            width: 300,
             items: [tabItem],
             buttons: [
                 {
