@@ -311,6 +311,41 @@ public class UserHandlerControllerTest
     }
 
     @Test
+    public void create_with_blank_required_fields_on_local_user_store_throws_exception()
+        throws Exception
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "required" ) );
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        // exercise
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "username", "testcreate" );
+        formItems.putString( "password", "password" );
+        formItems.putString( "email", "test@test.com" );
+        formItems.putString( "first_name", "First name" );
+        formItems.putString( "last_name", "Last name" );
+        formItems.putString( "initials", "  " ); // field set but blank
+
+        try
+        {
+            userHandlerController.handlerCreate( request, response, session, formItems, null, null );
+            fail( "Expected exception" );
+        }
+        catch ( Exception e )
+        {
+            assertTrue( e instanceof UserServicesException );
+            assertEquals( "Error in userservices, error code: 400", e.getMessage() );
+        }
+
+    }
+
+    @Test
     public void update_with_empty_required_fields_on_local_user_store_throws_exception()
         throws Exception
     {
@@ -354,7 +389,7 @@ public class UserHandlerControllerTest
     }
 
     @Test
-    public void modify_with_empty_required_fields_on_local_user_store()
+    public void update_with_blank_required_fields_on_local_user_store_throws_exception()
         throws Exception
     {
         UserStoreConfig userStoreConfig = new UserStoreConfig();
@@ -374,15 +409,100 @@ public class UserHandlerControllerTest
         // exercise
         request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "initials", "ABC" );
-        formItems.putString( "first_name", "" ); // field set but empty
-        formItems.putString( "last_name", "" ); // field set but empty
+        formItems.putString( "username", "testcreate" );
+        formItems.putString( "password", "password" );
+        formItems.putString( "email", "test@test.com" );
+        formItems.putString( "first_name", "First name changed" );
+        formItems.putString( "last_name", "Last name changed" );
+        formItems.putString( "initials", " " ); // field set but blank
+
         loginPortalUser( "testuser" );
 
-        userHandlerController.handlerModify( request, response, formItems );
+        try
+        {
+            userHandlerController.handlerUpdate( request, response, session, formItems, null, null );
+            fail( "Expected exception" );
+        }
+        catch ( Exception e )
+        {
+            assertTrue( e instanceof UserServicesException );
+            assertEquals( "Error in userservices, error code: 400", e.getMessage() );
+        }
 
-        // verify
-        assertEquals( "ABC", fixture.findUserByName( "testuser" ).getUserInfo().getInitials() );
+    }
+
+    @Test
+    public void modify_with_empty_required_fields_on_local_user_store_throws_exception()
+        throws Exception
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "required" ) );
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName( "First name" );
+        userInfo.setLastName( "Last name" );
+        userInfo.setInitials( "INI" );
+        createNormalUser( "testuser", "myLocalStore", userInfo );
+
+        // exercise
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "initials", "" ); // field set but empty
+        formItems.putString( "last_name", "Last name changed" );
+        loginPortalUser( "testuser" );
+
+        try
+        {
+            userHandlerController.handlerModify( request, response, formItems );
+            fail( "Expected exception" );
+        }
+        catch ( Exception e )
+        {
+            assertTrue( e instanceof UserServicesException );
+            assertEquals( "Error in userservices, error code: 400", e.getMessage() );
+        }
+    }
+
+    @Test
+    public void modify_with_blank_required_fields_on_local_user_store_throws_exception()
+        throws Exception
+    {
+        UserStoreConfig userStoreConfig = new UserStoreConfig();
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.FIRST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.LAST_NAME, "required" ) );
+        userStoreConfig.addUserFieldConfig( createUserStoreUserFieldConfig( UserFieldType.INITIALS, "required" ) );
+        createLocalUserStore( "myLocalStore", true, userStoreConfig );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName( "First name" );
+        userInfo.setLastName( "Last name" );
+        userInfo.setInitials( "INI" );
+        createNormalUser( "testuser", "myLocalStore", userInfo );
+
+        // exercise
+        request.setAttribute( Attribute.ORIGINAL_SITEPATH, new SitePath( new SiteKey( 0 ), "/_services/user/create" ) );
+        ExtendedMap formItems = new ExtendedMap( true );
+        formItems.putString( "initials", "  " ); // field set but blank
+        formItems.putString( "last_name", "Last name changed" );
+        loginPortalUser( "testuser" );
+
+        try
+        {
+            userHandlerController.handlerModify( request, response, formItems );
+            fail( "Expected exception" );
+        }
+        catch ( Exception e )
+        {
+            assertTrue( e instanceof UserServicesException );
+            assertEquals( "Error in userservices, error code: 400", e.getMessage() );
+        }
     }
 
     private UserStoreUserFieldConfig createUserStoreUserFieldConfig( UserFieldType type, String properties )

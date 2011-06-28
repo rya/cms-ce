@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.enonic.cms.core.security.user.MissingRequiredUserFieldException;
 import com.enonic.cms.core.security.user.ReadOnlyUserFieldPolicyException;
 
@@ -78,7 +80,39 @@ public class UserStoreConfig
         }
     }
 
-    public void validateRequiredFields( final UserFieldMap userFieldMap )
+    public void validateNoRequiredFieldsAreBlank( final UserFieldMap userFieldMap )
+    {
+        for ( final UserStoreUserFieldConfig userFieldConfig : userFieldConfigs )
+        {
+            if ( userFieldConfig.isRequired() && isFieldPresentButBlank( userFieldMap, userFieldConfig.getType() ) )
+            {
+                throw new MissingRequiredUserFieldException( userFieldConfig.getType() );
+            }
+        }
+    }
+
+    private boolean isFieldPresentButBlank( UserFieldMap userFieldMap, UserFieldType userFieldType )
+    {
+        if ( !userFieldMap.hasField( userFieldType ) )
+        {
+            return false;
+        }
+
+        UserField userField = userFieldMap.getField( userFieldType );
+        Object value = userField.getValue();
+        if ( value instanceof String )
+        {
+            return StringUtils.isBlank( (String) value );
+        }
+        else if ( value instanceof byte[] )
+        {
+            return ( (byte[]) value ).length == 0;
+        }
+
+        return false;
+    }
+
+    public void validateAllRequiredFieldsArePresent( final UserFieldMap userFieldMap )
     {
         for ( final UserStoreUserFieldConfig userFieldConfig : userFieldConfigs )
         {
@@ -100,7 +134,7 @@ public class UserStoreConfig
         Object value = userField.getValue();
         if ( value instanceof String )
         {
-            return ( (String) value ).trim().isEmpty();
+            return StringUtils.isBlank( (String) value );
         }
         else if ( value instanceof byte[] )
         {
@@ -123,7 +157,7 @@ public class UserStoreConfig
 
     public void validateUserFieldMap( final UserFieldMap userFieldMap )
     {
-        validateRequiredFields( userFieldMap );
+        validateAllRequiredFieldsArePresent( userFieldMap );
         validateReadOnlyFieldsNotExists( userFieldMap );
     }
 
