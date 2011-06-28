@@ -71,7 +71,7 @@ public final class InvocationCache
         return str.toString();
     }
 
-    public Object invoke( Method method, Object[] args, boolean isCacheable )
+    public Object invoke( Object targetObject, Method method, Object[] args, boolean isCacheable )
         throws Throwable
     {
         Object result;
@@ -83,24 +83,24 @@ public final class InvocationCache
 
             if ( result == null )
             {
-                result = invokeReal( method, args );
+                result = invokeReal( targetObject, method, args );
                 this.cache.put( key, result );
             }
         }
         else
         {
-            result = invokeReal( method, args );
+            result = invokeReal( targetObject, method, args );
         }
 
         return result;
     }
 
-    private Object invokeReal( Method method, Object[] args )
+    private Object invokeReal( Object targetObject, Method method, Object[] args )
         throws Throwable
     {
         try
         {
-            return method.invoke( this.target, args );
+            return method.invoke( targetObject, args );
         }
         catch ( InvocationTargetException e )
         {

@@ -89,7 +89,7 @@ public class MethodCallFactory
 
         boolean isCacheable = datasource.isCacheable();
 
-        return new MethodCall( targetObject, parameters, method, isCacheable );
+        return new MethodCall( dataSourceObject, targetObject, parameters, method, isCacheable );
     }
 
     private static MethodCallParameter createParameter( Element parmeterEl, Class paramType, DatasourceExecutorContext context )
