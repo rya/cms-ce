@@ -17,8 +17,6 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         {
             xtype: 'tabpanel',
             region: 'center',
-            height: '99.9%',
-            width: '100%',
             items: [
                 {
                     xtype: 'editUserFormPanel',
@@ -43,9 +41,7 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     modal: true,
 
     layout: {
-        type: 'border',
-        defaultMargins: {top:10, right:10, bottom:10, left:10},
-        padding: 10
+        type: 'border'
     },
 
     initComponent: function()
