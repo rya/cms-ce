@@ -250,20 +250,23 @@ Ext.define( 'CMS.controller.UserController', {
 
     showEditUserForm: function(el, e)
     {
-        var tabId, tabTitle;
+        var tabId, tabTitle, iconCls;
         if (el.action == 'newUser'){
             tabId = 'new-user';
             tabTitle = 'New User';
+            iconCls = 'icon-user-add';
         }else{
             var userDetail = this.getUserDetail();
             var currentUser = userDetail.getCurrentUser();
             tabId = currentUser.userStore + '-' + currentUser.name;
             tabTitle = currentUser.userStore + '/' + currentUser.name;
+            iconCls = 'icon-edit-user';
         }
 
         this.getTabPanel().addTab( {
                id: tabId,
                title: tabTitle,
+               iconCls: iconCls,
                closable: true,
                items: [
                    {
