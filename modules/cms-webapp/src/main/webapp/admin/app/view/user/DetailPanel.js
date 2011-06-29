@@ -57,6 +57,14 @@ Ext.define('CMS.view.user.DetailPanel', {
         ];
 
         this.callParent(arguments);
+    },
+
+    setCurrentUser: function(user){
+        this.currentUser = user;
+    },
+
+    getCurrentUser: function(){
+        return this.currentUser;
     }
 
 });

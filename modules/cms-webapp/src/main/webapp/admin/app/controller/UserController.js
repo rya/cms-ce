@@ -12,8 +12,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.DeleteWindow',
         'user.ChangePasswordWindow',
         'user.ContextMenu',
-        'user.EditUserWindow',
         'user.EditUserPanel',
+        'user.EditUserFormPanel',
         'user.EditUserMembershipPanel',
         'user.EditUserPreferencesPanel',
         'user.EditUserPropertiesPanel'
@@ -26,8 +26,8 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'userDetail', selector: 'userDetail'},
         {ref: 'userFilter', selector: 'userFilter'},
         {ref: 'filterTextField', selector: 'userFilter textfield[name=filter]'},
-        {ref: 'editUserPanel', selector: 'editUserWindow editUserPanel', autoCreate: true, xtype: 'editUserPanel'},
-        {ref: 'editUserWindow', selector: 'editUserWindow', autoCreate: true, xtype: 'editUserWindow'},
+        {ref: 'editUserFormPanel', selector: 'editUserPanel editUserFormPanel', autoCreate: true, xtype: 'editUserFormPanel'},
+        {ref: 'editUserPanel', selector: 'editUserPanel', xtype: 'editUserPanel'},
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
         {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
         {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'},
@@ -37,64 +37,64 @@ Ext.define( 'CMS.controller.UserController', {
     init: function()
     {
         this.control( {
-            'viewport': {
-                afterrender: this.createBrowseTab
-            },
-            '*[action=newUser]': {
-                click: this.showEditUserForm
-            },
-            '*[action=newGroup]': {
-                click: this.createNewGroupTab
-            },
-            'userGrid': {
-                selectionchange: this.updateDetailsPanel,
-                itemcontextmenu: this.popupMenu,
-                itemdblclick: this.showEditUserForm
-            },
-            'userFilter': {
-                specialkey: this.filterHandleEnterKey,
-                render: this.onFilterPanelRender
-            },
-            'userFilter button[action=search]': {
-                click: this.searchFilter
-            },
-            '*[action=showDeleteWindow]': {
-                click: this.showDeleteUserWindow
-            },
-            '*[action=deleteUser]': {
-                click: this.deleteUser
-            },
-            '*[action=addNewTab]': {
-                click: this.addNewTab
-            },
-            '*[action=edit]': {
-                click: this.showEditUserForm
-            },
-            '*[action=changePassword]': {
-                click: this.showChangePasswordWindow
-            },
-            'userDetail': {
-                render: this.setDetailsToolbarDisabled
-            },
-            'editUserPanel textfield[name=prefix]': {
-                keyup: this.textFieldHandleEnterKey
-            },
-            'editUserPanel textfield[name=first_name]': {
-                keyup: this.textFieldHandleEnterKey
-            },
-            'editUserPanel textfield[name=middle_name]': {
-                keyup: this.textFieldHandleEnterKey
-            },
-            'editUserPanel textfield[name=last_name]': {
-                keyup: this.textFieldHandleEnterKey
-            },
-            'editUserPanel textfield[name=suffix]': {
-                keyup: this.textFieldHandleEnterKey
-            },
-            'editUserPanel textfield[name=address_label]': {
-                keyup: this.updateTabTitle
-            }
-        } );
+                          'viewport': {
+                              afterrender: this.createBrowseTab
+                          },
+                          '*[action=newUser]': {
+                              click: this.showEditUserForm
+                          },
+                          '*[action=newGroup]': {
+                              click: this.createNewGroupTab
+                          },
+                          'userGrid': {
+                              selectionchange: this.updateDetailsPanel,
+                              itemcontextmenu: this.popupMenu,
+                              itemdblclick: this.showEditUserForm
+                          },
+                          'userFilter': {
+                              specialkey: this.filterHandleEnterKey,
+                              render: this.onFilterPanelRender
+                          },
+                          'userFilter button[action=search]': {
+                              click: this.searchFilter
+                          },
+                          '*[action=showDeleteWindow]': {
+                              click: this.showDeleteUserWindow
+                          },
+                          '*[action=deleteUser]': {
+                              click: this.deleteUser
+                          },
+                          '*[action=addNewTab]': {
+                              click: this.addNewTab
+                          },
+                          '*[action=edit]': {
+                              click: this.showEditUserForm
+                          },
+                          '*[action=changePassword]': {
+                              click: this.showChangePasswordWindow
+                          },
+                          'userDetail': {
+                              render: this.setDetailsToolbarDisabled
+                          },
+                          'editUserPanel textfield[name=prefix]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserPanel textfield[name=first_name]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserPanel textfield[name=middle_name]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserPanel textfield[name=last_name]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserPanel textfield[name=suffix]': {
+                              keyup: this.textFieldHandleEnterKey
+                          },
+                          'editUserPanel textfield[name=address_label]': {
+                              keyup: this.updateTabTitle
+                          }
+                      } );
     },
 
     newUser: function()
@@ -138,41 +138,41 @@ Ext.define( 'CMS.controller.UserController', {
     createBrowseTab: function( component, options )
     {
         this.getTabPanel().addTab( {
-            id: 'tab-browse',
-            title: 'Browse',
-            closable: false,
-            xtype: 'panel',
-            layout: 'border',
-            items: [
-                {
-                    region: 'west',
-                    width: 225,
-                    xtype: 'userFilter'
-                },
-                {
-                    region: 'center',
-                    xtype: 'userShow'
-                }
-            ]
-        });
+                                       id: 'tab-browse',
+                                       title: 'Browse',
+                                       closable: false,
+                                       xtype: 'panel',
+                                       layout: 'border',
+                                       items: [
+                                           {
+                                               region: 'west',
+                                               width: 225,
+                                               xtype: 'userFilter'
+                                           },
+                                           {
+                                               region: 'center',
+                                               xtype: 'userShow'
+                                           }
+                                       ]
+                                   } );
     },
 
     createNewUserTab: function()
     {
         this.getTabPanel().addTab( {
-            title: 'New User',
-            items: this.createDummyUserForm(),
-            iconCls: 'icon-user-add'
-        });
+                                       title: 'New User',
+                                       items: this.createDummyUserForm(),
+                                       iconCls: 'icon-user-add'
+                                   } );
     },
 
     createNewGroupTab: function()
     {
         this.getTabPanel().addTab( {
-            title: 'New Group',
-            html: 'New Group Form',
-            iconCls: 'icon-group-add'
-        });
+                                       title: 'New Group',
+                                       html: 'New Group Form',
+                                       iconCls: 'icon-group-add'
+                                   } );
     },
 
     createEditUserTab: function()
@@ -181,11 +181,11 @@ Ext.define( 'CMS.controller.UserController', {
         var user = selectedGridItem.data;
 
         this.getTabPanel().addTab( {
-            id: 'tab-user-' + user.key,
-            title: user.displayName + ' (' + user.qualifiedName + ')',
-            items: this.createDummyUserForm( user ),
-            iconCls: 'icon-edit-user'
-        });
+                                       id: 'tab-user-' + user.key,
+                                       title: user.displayName + ' (' + user.qualifiedName + ')',
+                                       items: this.createDummyUserForm( user ),
+                                       iconCls: 'icon-edit-user'
+                                   } );
     },
 
     createEditGroupTab: function()
@@ -211,6 +211,7 @@ Ext.define( 'CMS.controller.UserController', {
         if ( user )
         {
             userDetail.update( user.data );
+            userDetail.setCurrentUser( user.data );
         }
 
         userDetail.setTitle( selected.length + " user selected" );
@@ -247,11 +248,29 @@ Ext.define( 'CMS.controller.UserController', {
         Ext.Msg.alert( 'Do Delete User', 'TODO' );
     },
 
-    showEditUserForm: function()
+    showEditUserForm: function(el, e)
     {
+        var tabId, tabTitle;
+        if (el.action == 'newUser'){
+            tabId = 'new-user';
+            tabTitle = 'New User';
+        }else{
+            var userDetail = this.getUserDetail();
+            var currentUser = userDetail.getCurrentUser();
+            tabId = currentUser.userStore + '-' + currentUser.name;
+            tabTitle = currentUser.userStore + '/' + currentUser.name;
+        }
 
-        this.getEditUserWindow().doShow();
-        this.getEditUserPanel().doShow();
+        this.getTabPanel().addTab( {
+               id: tabId,
+               title: tabTitle,
+               closable: true,
+               items: [
+                   {
+                       xtype: 'editUserPanel'
+                   }
+               ]
+           } );
     },
 
     setDetailsToolbarDisabled: function()
@@ -293,7 +312,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     addNewTab: function()
     {
-        var tabPanel = this.getEditUserWindow().down( '#addressTabPanel' );
+        var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
         if ( tabPanel.items.length == 1 )
         {
             tabPanel.items.get( 0 ).closable = true;
@@ -304,8 +323,8 @@ Ext.define( 'CMS.controller.UserController', {
 
     updateTabTitle: function ( field, event )
     {
-        var tabPanel = this.getEditUserWindow().down( '#addressTabPanel' );
-        tabPanel.getActiveTab().setTitle(field.getValue());
+        var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
+        tabPanel.getActiveTab().setTitle( field.getValue() );
     },
 
     // Dummy form
