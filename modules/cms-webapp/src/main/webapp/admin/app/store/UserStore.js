@@ -6,14 +6,15 @@ Ext.define('CMS.store.UserStore', {
     pageSize: 10,
     autoLoad: true,
     remoteSort: true,
-    buffered: true,
 
     proxy: {
-        type: 'direct',
-        directFn: CMS.rpc.accountAction.getUsers,
-        reader : {
-	        root : 'records',
-		    totalProperty : 'total'
-		}
+        type: 'rest',
+        url: 'rest/users',
+        simpleSortMode: true,
+        reader: {
+            type: 'json',
+            root: 'users',
+            totalProperty : 'total'
+        }
     }
 });

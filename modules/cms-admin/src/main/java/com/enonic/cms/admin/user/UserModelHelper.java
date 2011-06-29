@@ -1,10 +1,11 @@
-package com.enonic.cms.admin.account;
+package com.enonic.cms.admin.user;
 
 import com.enonic.cms.core.security.user.UserEntity;
-import java.util.ArrayList;
+import com.enonic.cms.domain.EntityPageList;
+
 import java.util.List;
 
-final class UserModelHelper
+public final class UserModelHelper
 {
     public static UserModel toModel(final UserEntity entity)
     {
@@ -25,12 +26,13 @@ final class UserModelHelper
         return model;
     }
 
-    public static List<UserModel> toModel(final List<UserEntity> list)
+    public static UsersModel toModel(final EntityPageList<UserEntity> list)
     {
-        final  List<UserModel> model = new ArrayList<UserModel>();
+        final UsersModel model = new UsersModel();
+        model.setTotal(list.getTotal());
 
-        for (final UserEntity entity : list) {
-            model.add(toModel(entity));
+        for (final UserEntity entity : list.getList()) {
+            model.addUser(toModel(entity));
         }
         
         return model;

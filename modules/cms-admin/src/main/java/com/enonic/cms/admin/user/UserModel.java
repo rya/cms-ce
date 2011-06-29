@@ -1,7 +1,4 @@
-package com.enonic.cms.admin.account;
-
-import com.enonic.cms.admin.mapper.JsonDateTimeSerializer;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+package com.enonic.cms.admin.user;
 
 import java.util.Date;
 
@@ -63,7 +60,6 @@ public final class UserModel
         this.displayName = displayName;
     }
 
-    @JsonSerialize(using = JsonDateTimeSerializer.class)
     public Date getLastModified() {
         return lastModified;
     }

@@ -109,7 +109,7 @@ Ext.define('CMS.view.user.ChangePasswordWindow', {
     doShow: function(model) {
         var data = model.data;
 
-        this.down('#photo').src = 'rest/users/' + data.key + '/photo/thumb';
+        this.down('#photo').src = 'rest/users/' + data.key + '/photo?thumb=true';
         this.down('#name').text = data.displayName + ' (' +  data.qualifiedName +  ')';
         this.down('#email').autoEl = {tag: 'a', href: 'mailto:' + data.email, html: data.email};
 

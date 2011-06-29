@@ -69,39 +69,39 @@
         <listener-class>com.enonic.cms.core.boot.BootContextListener</listener-class>
     </listener>
 
-    <servlet>
+    <!--servlet>
         <servlet-name>main</servlet-name>
         <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/servlet/mainServlet.xml</param-value>
         </init-param>
-    </servlet>
+    </servlet-->
 
-    <servlet>
+    <!--servlet>
         <servlet-name>site</servlet-name>
         <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/servlet/siteServlet.xml</param-value>
         </init-param>
-    </servlet>
+    </servlet-->
 
-    <servlet>
+    <!--servlet>
         <servlet-name>admin</servlet-name>
         <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/servlet/adminServlet.xml</param-value>
         </init-param>
-    </servlet>
+    </servlet-->
 
-    <servlet>
+    <!--servlet>
         <servlet-name>dav</servlet-name>
         <servlet-class>com.enonic.cms.core.webdav.SimpleDavServlet</servlet-class>
-    </servlet>
+    </servlet-->
 
-    <servlet-mapping>
+    <!--servlet-mapping>
         <servlet-name>main</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
@@ -114,11 +114,22 @@
     <servlet-mapping>
         <servlet-name>site</servlet-name>
         <url-pattern>/site/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping-->
 
-    <servlet-mapping>
+    <!--servlet-mapping>
         <servlet-name>dav</servlet-name>
         <url-pattern>/dav/*</url-pattern>
+    </servlet-mapping-->
+
+    <servlet>
+        <servlet-name>main</servlet-name>
+        <servlet-class>com.enonic.cms.core.jaxrs.SpringRestServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>main</servlet-name>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
     <session-config>
