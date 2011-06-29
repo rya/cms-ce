@@ -128,7 +128,7 @@ public class FormHandlerController
                 }
             }
 
-            if ( "text".equals( type ) || "textarea".equals( type ) )
+            if ( "text".equals( type ) || "textarea".equals( type ) || "checkbox".equals( type ) )
             {
                 String value = formItems.getString( formName, "" );
 
