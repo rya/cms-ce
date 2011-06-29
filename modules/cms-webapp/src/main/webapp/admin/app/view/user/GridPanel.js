@@ -1,4 +1,4 @@
-Ext.define('CMS.view.user.GridPanel', {
+Ext.define( 'CMS.view.user.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
@@ -11,10 +11,8 @@ Ext.define('CMS.view.user.GridPanel', {
     frame: false,
     store: 'UserStore',
 
-    initComponent: function() {
-
-        // this.selModel = Ext.create('Ext.selection.CheckboxModel');
-
+    initComponent: function()
+    {
         this.columns = [
             {
                 text: 'Display Name',
@@ -55,34 +53,6 @@ Ext.define('CMS.view.user.GridPanel', {
                     iconCls: 'icon-group-add',
                     action: 'newGroup'
                 }
-                /*,
-                '-',
-                {
-                    xtype: 'cycle',
-                    text: 'Details Pane',
-                    prependText: 'Details: ',
-                    showText: true,
-                    scope: this,
-                    menu: {
-                        id: 'details-position-menu',
-                        items: [
-                            {
-                                text: 'Bottom',
-                                checked: true,
-                                iconCls:'icon-details-bottom'
-                            },
-                            {
-                                text: 'Right',
-                                iconCls:'icon-details-right'
-                            },
-                            {
-                                text: 'Hide',
-                                iconCls:'icon-details-hide'
-                            }
-                        ]
-                    }
-                }
-                */
             ]
         };
 
@@ -100,12 +70,13 @@ Ext.define('CMS.view.user.GridPanel', {
             stripeRows: true
         };
 
-        this.callParent(arguments);
+        this.callParent( arguments );
     },
 
-    nameRenderer: function(value, p, record) {
+    nameRenderer: function( value, p, record )
+    {
         return Ext.String.format(
-                '<img src="data/photo?key={0}&thumb=true" style="float:left;margin-right:6px"><b>{1}</b><br><i>{2}</i> in user store <i>{3}</i>',
+                '<img src="data/photo?key={0}&thumb=true" class="thumbnail"><strong>{1}</strong><br><em>{2}</em> in user store <strong>{3}</strong>',
                 record.data.key,
                 value,
                 record.data.name,
