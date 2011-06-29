@@ -4,37 +4,45 @@
  */
 package com.enonic.cms.server.service.servlet;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Stack;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
-import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
 
 import com.enonic.cms.domain.Attribute;
 
-import java.util.Collection;
-import java.util.Stack;
-
 /**
  * This class implements a modification of the dispatcher servlet.
  */
 public final class CmsDispatcherServlet
-        extends DispatcherServlet
+    extends DispatcherServlet
 {
     private static final Logger LOG = LoggerFactory.getLogger( CmsDispatcherServlet.class );
+
+    private final static List<HttpMethod> ALLOWED_HTTP_METHODS =
+        Arrays.asList( HttpMethod.GET, HttpMethod.POST, HttpMethod.HEAD, HttpMethod.OPTIONS );
 
     /**
      * Upgrade check parameter.
@@ -45,15 +53,32 @@ public final class CmsDispatcherServlet
 
     @Override
     public void init( ServletConfig config )
-            throws ServletException
+        throws ServletException
     {
         super.init( config );
         startContextIfNeeded();
     }
 
-    protected void doService( HttpServletRequest req, HttpServletResponse res )
-            throws Exception
+    @Override
+    protected void doOptions( HttpServletRequest request, HttpServletResponse response )
+        throws ServletException, IOException
     {
+        response.setHeader( "Allow", StringUtils.join( ALLOWED_HTTP_METHODS, "," ) );
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
+    protected void doService( HttpServletRequest req, HttpServletResponse res )
+        throws Exception
+    {
+
+        HttpMethod requestMethod = HttpMethod.valueOf( req.getMethod() );
+
+        if ( !ALLOWED_HTTP_METHODS.contains( requestMethod ) )
+        {
+            res.sendError( HttpServletResponse.SC_METHOD_NOT_ALLOWED );
+            return;
+        }
+
         startContextIfNeeded();
         if ( upgradeIsNeeded( res ) )
         {
@@ -78,8 +103,8 @@ public final class CmsDispatcherServlet
         Stack<HttpInterceptor> pluginsReadyForPostHandle = new Stack<HttpInterceptor>();
         if ( executePreHandle( req, res, pluginsReadyForPostHandle ) )
         {
-        super.doService( req, res );
-    }
+            super.doService( req, res );
+        }
 
         executePostHandle( req, res, pluginsReadyForPostHandle );
     }
@@ -140,7 +165,7 @@ public final class CmsDispatcherServlet
      * Check if upgrade is needed.
      */
     private boolean upgradeIsNeeded( HttpServletResponse res )
-            throws Exception
+        throws Exception
     {
         return "true".equals( getInitParameter( UPGRADE_CHECK_PARAM ) ) && UpgradeCheckerHelper.checkUpgrade( getServletContext(), res );
     }

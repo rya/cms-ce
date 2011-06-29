@@ -2517,7 +2517,7 @@ public final class MenuHandler
             // language key:
             preparedStmt.setInt( 6, Integer.parseInt( root_elem.getAttribute( "languagekey" ) ) );
 
-            Element detailsElement = XMLTool.getElement( root_elem, "detials" );
+            Element detailsElement = XMLTool.getElement( root_elem, "details" );
 
             // Statistics URL:
             tmpElement = XMLTool.getElement( detailsElement, "statistics" );
@@ -2624,7 +2624,7 @@ public final class MenuHandler
             siteData.addPageType( pageType );
         }
 
-        Element defaultCss = XMLTool.getElement( menuDataElement, "defaultcss" );
+        Element defaultCss = XMLTool.getElement( menuDataElement, SiteData.DEFAULT_CSS_ELEMENT_NAME );
         if ( defaultCss != null )
         {
             String defaultCssKey = defaultCss.getAttribute( "key" );
@@ -2632,6 +2632,61 @@ public final class MenuHandler
             if ( StringUtils.isNotEmpty( defaultCssKey ) )
             {
                 siteData.setDefaultCssKey( new ResourceKey( defaultCssKey ) );
+            }
+        }
+
+        // DeviceClassResolver:
+        Element tmpElement = XMLTool.getElement( menuDataElement, SiteData.DEVICE_CLASS_RESOLVER_ELEMENT_NAME );
+        if ( tmpElement != null )
+        {
+            String deviceClassResolverUrl = tmpElement.getChildNodes().item( 0 ).getTextContent();
+            if ( StringUtils.isNotEmpty( deviceClassResolverUrl ) )
+            {
+                siteData.setDeviceClassResolver( new ResourceKey( deviceClassResolverUrl ) );
+            }
+        }
+
+        // Default localization resource:
+        tmpElement = XMLTool.getElement( menuDataElement, SiteData.DEFAULT_LOCALIZATION_RESOURCE_ELMENT_NAME );
+        if ( tmpElement != null )
+        {
+            String defaultLocalizationResource = tmpElement.getChildNodes().item( 0 ).getTextContent();
+            if ( StringUtils.isNotEmpty( defaultLocalizationResource ) )
+            {
+                siteData.setDefaultLocalizationResource( new ResourceKey( defaultLocalizationResource ) );
+            }
+        }
+
+        // locale resolver
+        tmpElement = XMLTool.getElement( menuDataElement, SiteData.LOCALE_RESOLVER_ELEMENT_NAME );
+        if ( tmpElement != null )
+        {
+            String localeResolver = tmpElement.getChildNodes().item( 0 ).getTextContent();
+            if ( StringUtils.isNotEmpty( localeResolver ) )
+            {
+                siteData.setLocaleResolver( new ResourceKey( localeResolver ) );
+            }
+        }
+
+        // Path to public home:
+        tmpElement = XMLTool.getElement( menuDataElement, SiteData.PATH_TO_PUBLIC_HOME_RESOURCES_ELEMENT_NAME);
+        if ( tmpElement != null )
+        {
+            String pathToPublicHome = tmpElement.getChildNodes().item( 0 ).getTextContent();
+            if ( StringUtils.isNotEmpty( pathToPublicHome ) )
+            {
+                siteData.setPathToPublicResources( new ResourceKey( pathToPublicHome ) );
+            }
+        }
+
+        // Path to home:
+        tmpElement = XMLTool.getElement( menuDataElement, SiteData.PATH_TO_HOME_RESOURCES_ELEMENT_NAME);
+        if ( tmpElement != null )
+        {
+            String pathToHome = tmpElement.getChildNodes().item( 0 ).getTextContent();
+            if ( StringUtils.isNotEmpty( pathToHome ) )
+            {
+                siteData.setPathToResources( new ResourceKey( pathToHome ) );
             }
         }
     }

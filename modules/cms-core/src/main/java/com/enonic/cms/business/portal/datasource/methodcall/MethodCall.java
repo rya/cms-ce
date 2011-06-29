@@ -22,14 +22,17 @@ public final class MethodCall
 {
     private final Object target;
 
+    private final InvocationCache invocationCache;
+
     private final MethodCallParameter[] parameters;
 
     private final Method method;
 
     private final boolean isCacheable;
 
-    public MethodCall( Object target, MethodCallParameter[] parameters, Method method, boolean isCacheable )
+    public MethodCall( InvocationCache invocationCache, Object target, MethodCallParameter[] parameters, Method method, boolean isCacheable )
     {
+        this.invocationCache = invocationCache;
         this.target = target;
         this.parameters = parameters;
         this.method = method;
@@ -43,7 +46,7 @@ public final class MethodCall
         try
         {
             RenderTrace.enterFunction( method.getName() );
-            o = invokeMethod( target, method, getArguments(), isCacheable );
+            o = invokeMethod( invocationCache, target, method, getArguments(), isCacheable );
         }
         catch ( Throwable iae )
         {
@@ -90,19 +93,12 @@ public final class MethodCall
         return XMLDocumentFactory.create( new Document( root ) );
     }
 
-    private Object invokeMethod( Object target, Method method, Object[] args, boolean isCacheable )
+    private Object invokeMethod( InvocationCache invocationCache, Object target, Method method, Object[] args, boolean isCacheable )
         throws Throwable
     {
         try
         {
-            if ( target instanceof InvocationCache )
-            {
-                return ( (InvocationCache) target ).invoke( method, args, isCacheable );
-            }
-            else
-            {
-                return method.invoke( target, args );
-            }
+            return invocationCache.invoke( target, method, args, isCacheable );
         }
         catch ( InvocationTargetException e )
         {

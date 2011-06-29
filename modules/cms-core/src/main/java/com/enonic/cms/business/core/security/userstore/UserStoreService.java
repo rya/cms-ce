@@ -103,6 +103,8 @@ public interface UserStoreService
 
     Map<String, UserStoreConnectorConfig> getUserStoreConnectorConfigs();
 
+    void invalidateUserStoreCachedConfig( final UserStoreKey userStoreKey );
+
     boolean canSynchronizeUsers( final UserStoreKey userStoreKey );
 
     boolean canSynchronizeGroups( final UserStoreKey userStoreKey );

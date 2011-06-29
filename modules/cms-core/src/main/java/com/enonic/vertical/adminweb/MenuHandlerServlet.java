@@ -882,12 +882,16 @@ public class MenuHandlerServlet
                 XMLTool.createElement( doc, itemElement, "help", tmp );
             }
 
-            // data common for text and textarea
-            if ( "text".equals( type ) || "textarea".equals( type ) || "fileattachment".equals( type ) )
+            // data common for text, textarea and checkbox
+            if ( "text".equals( type ) || "textarea".equals( type ) || "fileattachment".equals( type ) || "checkbox".equals( type ) )
             {
                 // required
                 itemElement.setAttribute( "required", required.popData() );
+            }
 
+            // data common for text and textarea
+            if ( "text".equals( type ) || "textarea".equals( type ) || "fileattachment".equals( type ) )
+            {
                 // width
                 if ( !( "fileattachment".equals( type ) ) && ( ( tmp = width.popData() ).length() > 0 ) )
                 {

@@ -185,7 +185,7 @@ public class UserStoreServiceImpl
     private void verifyRequiredUserFieldsForCreate( final StoreNewUserCommand command, final UserStoreConfig userStoreConfig )
     {
         final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
-        userStoreConfig.validateRequiredFields( commandUserFields );
+        userStoreConfig.validateAllRequiredFieldsArePresent( commandUserFields );
     }
 
     public void verifyUniqueEmailAddress( String email, UserStoreKey userStoreKey )
@@ -231,11 +231,16 @@ public class UserStoreServiceImpl
 
         verifyUniqueEmailForUpdate( command );
 
-        // validate required user fields if the strategy is REPLACE_ALL
+        final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
         if ( command.getUpdateStrategy() == UpdateUserCommand.UpdateStrategy.REPLACE_ALL )
         {
-            final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
-            userStore.getConfig().validateRequiredFields( commandUserFields );
+            // user-update operation
+            userStore.getConfig().validateAllRequiredFieldsArePresent( commandUserFields );
+        }
+        else
+        {
+            // user-modify operation
+            userStore.getConfig().validateNoRequiredFieldsAreBlank( commandUserFields );
         }
     }
 
@@ -433,8 +438,6 @@ public class UserStoreServiceImpl
         }
 
         userStoreToDelete.setDeleted( true );
-
-        userConnectorStoreManager.invalidateCachedConfig( command.getKey() );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -595,8 +598,6 @@ public class UserStoreServiceImpl
         userStoreToUpdate.setConfig( command.getConfig() );
 
         userStoreDao.getHibernateTemplate().flush();
-
-        userConnectorStoreManager.invalidateCachedConfig( command.getKey() );
     }
 
 
@@ -1047,6 +1048,11 @@ public class UserStoreServiceImpl
                     "Remote plugin '" + connectorName + "' does not support type: " + userFieldConfig.getType().getName() );
             }
         }
+    }
+
+    public void invalidateUserStoreCachedConfig( UserStoreKey userStoreKey )
+    {
+        userConnectorStoreManager.invalidateCachedConfig( userStoreKey );
     }
 
     public boolean canCreateUser( final UserStoreKey userStoreKey )

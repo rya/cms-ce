@@ -20,7 +20,6 @@ import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.core.plugin.ExtensionManager;
 import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 
-import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.business.portal.datasource.ExpressionFunctionsExecutor;
 
@@ -35,8 +34,7 @@ import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionCon
 public class MethodCallFactory
 {
 
-    public static MethodCall create( final DatasourceExecutorContext context, final Datasource datasource,
-                                     final InvocationCache dataSourceObject )
+    public static MethodCall create( final DatasourceExecutorContext context, final Datasource datasource )
     {
         String methodName = datasource.getMethodName();
         if ( methodName == null )
@@ -47,8 +45,9 @@ public class MethodCallFactory
         String pluginName = resolvePluginName(methodName);
 
         FunctionLibrary pluginObject = pluginName != null ? getPluginObject( pluginName ) : null;
-        Object targetObject = pluginObject != null ? pluginObject.getTarget() : dataSourceObject;
-        Class targetClass = pluginObject != null ? pluginObject.getTargetClass() : dataSourceObject.getTargetClass();
+
+        Object targetObject = pluginObject != null ? pluginObject.getTarget() : context.getDataSourceService();
+        Class targetClass = targetObject.getClass();
         boolean useContext = pluginObject == null;
 
         List parameterEl = datasource.getParameterElements();
@@ -89,7 +88,7 @@ public class MethodCallFactory
 
         boolean isCacheable = datasource.isCacheable();
 
-        return new MethodCall( targetObject, parameters, method, isCacheable );
+        return new MethodCall( context.getInvocationCache(), targetObject, parameters, method, isCacheable );
     }
 
     private static MethodCallParameter createParameter( Element parmeterEl, Class paramType, DatasourceExecutorContext context )

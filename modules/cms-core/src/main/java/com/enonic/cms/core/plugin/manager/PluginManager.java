@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import com.enonic.cms.api.plugin.ext.Extension;
+import com.enonic.cms.core.plugin.ExtensionListener;
 import com.enonic.cms.core.plugin.Plugin;
 import com.enonic.cms.core.plugin.PluginRegistry;
 
@@ -19,13 +20,15 @@ final class PluginManager
 {
     private ExtensionTracker extensions;
 
+    private List<ExtensionListener> listeners;
+
     private BundleContext context;
 
     public void start( final BundleContext context )
         throws Exception
     {
         this.context = context;
-        this.extensions = new ExtensionTracker( this.context );
+        this.extensions = new ExtensionTracker( this.context, this.listeners );
         this.extensions.open();
     }
 
@@ -74,5 +77,8 @@ final class PluginManager
         return null;
     }
 
-    
+    public void setListeners( List<ExtensionListener> listeners )
+    {
+        this.listeners = listeners;
+    }
 }

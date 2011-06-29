@@ -2706,7 +2706,7 @@
                       <input type="hidden" name="field_type" value="{@type}"/>
                       <input type="hidden" name="field_helptext" value="{help}"/>
 
-                      <xsl:if test="@type = 'text' or @type = 'textarea' or @type = 'radiobuttons' or @type = 'fileattachment' or @type = 'dropdown' or @type = 'fromemail' or @type = 'fromname'">
+                      <xsl:if test="@type = 'text' or @type = 'checkbox' or @type = 'textarea' or @type = 'radiobuttons' or @type = 'fileattachment' or @type = 'dropdown' or @type = 'fromemail' or @type = 'fromname'">
                         <input type="hidden" name="field_required">
                           <xsl:attribute name="value">
                             <xsl:choose>

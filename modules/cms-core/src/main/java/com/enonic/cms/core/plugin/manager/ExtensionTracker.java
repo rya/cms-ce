@@ -15,7 +15,6 @@ import com.google.common.collect.Maps;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.ExtensionListener;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 
 final class ExtensionTracker
     extends ServiceTracker
@@ -23,20 +22,25 @@ final class ExtensionTracker
 {
     private final Map<ServiceReference, Extension> map;
 
-    public ExtensionTracker( final BundleContext context )
+    private List<ExtensionListener> listeners;
+
+    public ExtensionTracker( final BundleContext context, List<ExtensionListener> listeners )
     {
         super( context, Extension.class.getName(), null );
         this.map = Maps.newHashMap();
+        this.listeners = listeners;
     }
 
     @Override
     public Object addingService( final ServiceReference ref )
     {
         final Object ext = super.addingService( ref );
+
         if ( ext instanceof Extension )
         {
             this.map.put( ref, (Extension) ext );
-            for ( ExtensionListener listener : ExtensionManagerAccessor.getExtensionManager().getListeners().values() )
+
+            for ( ExtensionListener listener : listeners )
             {
                 listener.extensionAdded( (Extension) ext );
             }
@@ -49,10 +53,12 @@ final class ExtensionTracker
     public void removedService( final ServiceReference ref, final Object service )
     {
         Extension ext = this.map.get( ref );
-        for ( ExtensionListener listener : ExtensionManagerAccessor.getExtensionManager().getListeners().values() )
+
+        for ( ExtensionListener listener : listeners )
         {
             listener.extensionRemoved( ext );
         }
+
         this.map.remove( ref );
         super.removedService( ref, service );
     }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.service.DataSourceService;
+
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.business.core.resource.ResourceService;
@@ -54,6 +56,9 @@ public class WindowRendererFactory
     @Autowired
     private LivePortalTraceService livePortalTraceService;
 
+    @Autowired
+    private DataSourceService dataSourceService;
+
     public WindowRenderer createPortletRenderer( WindowRendererContext windowRendererContext )
     {
         PageCacheService pageCacheService = siteCachesService.getPageCacheService( windowRendererContext.getSite().getKey() );
@@ -69,6 +74,7 @@ public class WindowRendererFactory
         windowRenderer.setVerticalProperties( verticalProperties );
         windowRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         windowRenderer.setLiveTraceService( livePortalTraceService );
+        windowRenderer.setDataSourceService( dataSourceService );
 
         return windowRenderer;
     }

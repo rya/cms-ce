@@ -17,30 +17,11 @@ import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 public final class InvocationCache
 {
 
-    /**
-     * Source target.
-     */
-    private final Object target;
-
-    /**
-     * A cache of invocations.
-     */
     private final HashMap<String, Object> cache;
 
-    public InvocationCache( Object target )
+    public InvocationCache() // Object target )
     {
-        this.target = target;
         this.cache = new HashMap<String, Object>();
-    }
-
-    public Object getTarget()
-    {
-        return this.target;
-    }
-
-    public Class getTargetClass()
-    {
-        return this.target.getClass();
     }
 
     private void appendSignature( StringBuffer str, Method method )
@@ -62,45 +43,46 @@ public final class InvocationCache
     }
 
 
-    private String getCacheKey( Method method, Object[] args )
+    private String getCacheKey( Object targetObject, Method method, Object[] args )
     {
         StringBuffer str = new StringBuffer();
+        str.append( targetObject.hashCode() ).append( "-" );
         appendSignature( str, method );
         str.append( "-" );
         appendArguments( str, args );
         return str.toString();
     }
 
-    public Object invoke( Method method, Object[] args, boolean isCacheable )
+    public Object invoke( Object targetObject, Method method, Object[] args, boolean isCacheable )
         throws Throwable
     {
         Object result;
 
         if ( isCacheable )
         {
-            String key = getCacheKey( method, args );
+            String key = getCacheKey( targetObject, method, args );
             result = this.cache.get( key );
 
             if ( result == null )
             {
-                result = invokeReal( method, args );
+                result = invokeReal( targetObject, method, args );
                 this.cache.put( key, result );
             }
         }
         else
         {
-            result = invokeReal( method, args );
+            result = invokeReal( targetObject, method, args );
         }
 
         return result;
     }
 
-    private Object invokeReal( Method method, Object[] args )
+    private Object invokeReal( Object targetObject, Method method, Object[] args )
         throws Throwable
     {
         try
         {
-            return method.invoke( this.target, args );
+            return method.invoke( targetObject, args );
         }
         catch ( InvocationTargetException e )
         {

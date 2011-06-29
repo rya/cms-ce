@@ -301,6 +301,8 @@ public class UserStoreHandlerServlet
             command.setConfig( config );
 
             userStoreService.updateUserStore( command );
+
+            userStoreService.invalidateUserStoreCachedConfig( command.getKey() );
         }
 
         private void storeNewUserStore( ExtendedMap formItems, User user, UserStoreService userStoreService )
