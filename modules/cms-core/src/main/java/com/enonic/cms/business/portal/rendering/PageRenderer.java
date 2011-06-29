@@ -96,10 +96,12 @@ public class PageRenderer
 
     private PageRenderingTrace pageRenderingTrace;
 
-    protected PageRenderer( PageRendererContext pageRendererContext, DataSourceService dataSourceService )
+    private DataSourceService dataSourceService;
+
+    protected PageRenderer( PageRendererContext pageRendererContext )
     {
         this.context = pageRendererContext;
-        this.invocationCache = new InvocationCache( dataSourceService );
+        this.invocationCache = new InvocationCache();
     }
 
     public RenderedPageResult renderPage( PageTemplateEntity pageTemplate )
@@ -362,7 +364,7 @@ public class PageRenderer
         DatasourceExecutorContext datasourceExecutorContext = new DatasourceExecutorContext();
         datasourceExecutorContext.setContentFromRequest( context.getContentFromRequest() );
         datasourceExecutorContext.setCssKeys( cssKeys );
-        datasourceExecutorContext.setDatasourceServiceInvocationCache( invocationCache );
+        datasourceExecutorContext.setInvocationCache( invocationCache );
         datasourceExecutorContext.setDatasourcesType( DatasourcesType.PAGETEMPLATE );
         datasourceExecutorContext.setDefaultResultRootElementName( verticalProperties.getDatasourceDefaultResultRootElement() );
         datasourceExecutorContext.setDeviceClass( context.getDeviceClass() );
@@ -384,6 +386,7 @@ public class PageRenderer
         datasourceExecutorContext.setRequestParameters( context.getSitePath().getRequestParameters() );
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setUser( context.getRunAsUser() );
+        datasourceExecutorContext.setDataSourceService( this.dataSourceService );
 
         DatasourceExecutor datasourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -550,4 +553,10 @@ public class PageRenderer
     {
         this.livePortalTraceService = livePortalTraceService;
     }
+
+    public void setDataSourceService( DataSourceService dataSourceService )
+    {
+        this.dataSourceService = dataSourceService;
+    }
 }
+

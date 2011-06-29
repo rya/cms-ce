@@ -22,7 +22,7 @@ public final class MethodCall
 {
     private final Object target;
 
-    private final InvocationCache dataSourceObject;
+    private final InvocationCache invocationCache;
 
     private final MethodCallParameter[] parameters;
 
@@ -30,9 +30,9 @@ public final class MethodCall
 
     private final boolean isCacheable;
 
-    public MethodCall( InvocationCache dataSourceObject, Object target, MethodCallParameter[] parameters, Method method, boolean isCacheable )
+    public MethodCall( InvocationCache invocationCache, Object target, MethodCallParameter[] parameters, Method method, boolean isCacheable )
     {
-        this.dataSourceObject = dataSourceObject;
+        this.invocationCache = invocationCache;
         this.target = target;
         this.parameters = parameters;
         this.method = method;
@@ -46,7 +46,7 @@ public final class MethodCall
         try
         {
             RenderTrace.enterFunction( method.getName() );
-            o = invokeMethod( dataSourceObject, target, method, getArguments(), isCacheable );
+            o = invokeMethod( invocationCache, target, method, getArguments(), isCacheable );
         }
         catch ( Throwable iae )
         {
@@ -93,20 +93,12 @@ public final class MethodCall
         return XMLDocumentFactory.create( new Document( root ) );
     }
 
-    private Object invokeMethod( InvocationCache dataSourceObject, Object target, Method method, Object[] args, boolean isCacheable )
+    private Object invokeMethod( InvocationCache invocationCache, Object target, Method method, Object[] args, boolean isCacheable )
         throws Throwable
     {
         try
         {
-            if ( target instanceof InvocationCache )
-            {
-                InvocationCache invocationCache = (InvocationCache) target;
-                return dataSourceObject.invoke( invocationCache.getTarget(), method, args, isCacheable );
-            }
-            else
-            {
-                return dataSourceObject.invoke( target, method, args, isCacheable );
-            }
+            return invocationCache.invoke( target, method, args, isCacheable );
         }
         catch ( InvocationTargetException e )
         {

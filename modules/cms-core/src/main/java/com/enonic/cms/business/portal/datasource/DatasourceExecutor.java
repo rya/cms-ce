@@ -142,7 +142,7 @@ public class DatasourceExecutor
 
     private Document executeMethodCall( Datasource datasource )
     {
-        MethodCall methodCall = MethodCallFactory.create( context, datasource, context.getDatasourceServiceInvocationCache() );
+        MethodCall methodCall = MethodCallFactory.create( context, datasource );
         return executeMethodCall( datasource, methodCall );
     }
 

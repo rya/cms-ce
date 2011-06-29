@@ -698,7 +698,7 @@ public final class ContentObjectHandlerServlet
         DatasourceExecutorContext datasourceExecutorContext = new DatasourceExecutorContext();
         datasourceExecutorContext.setCssKeys( cssKeys );
         datasourceExecutorContext.setDatasourcesType( DatasourcesType.PAGETEMPLATE );
-        datasourceExecutorContext.setDatasourceServiceInvocationCache( new InvocationCache( dataSourceService ) );
+        datasourceExecutorContext.setInvocationCache( new InvocationCache() );
         datasourceExecutorContext.setHttpRequest( null );
         datasourceExecutorContext.setLanguage( site.getLanguage() );
         datasourceExecutorContext.setOriginalSitePath( sitePath );
@@ -710,6 +710,7 @@ public final class ContentObjectHandlerServlet
         datasourceExecutorContext.setPortalInstanceKey( null );
         datasourceExecutorContext.setUser( userEntity );
         datasourceExecutorContext.setDefaultResultRootElementName( verticalProperties.getDatasourceDefaultResultRootElement() );
+        datasourceExecutorContext.setDataSourceService( this.dataSourceService );
 
         DatasourceExecutor datasourceExecutor = datasourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -740,7 +741,7 @@ public final class ContentObjectHandlerServlet
         }
         datasourceExecutorContext.setCssKeys( cssKeys );
         datasourceExecutorContext.setDatasourcesType( DatasourcesType.PORTLET );
-        datasourceExecutorContext.setDatasourceServiceInvocationCache( new InvocationCache( dataSourceService ) );
+        datasourceExecutorContext.setInvocationCache( new InvocationCache() );
         datasourceExecutorContext.setHttpRequest( null );
         datasourceExecutorContext.setLanguage( site.getLanguage() );
         datasourceExecutorContext.setOriginalSitePath( sitePath );
@@ -752,6 +753,7 @@ public final class ContentObjectHandlerServlet
         datasourceExecutorContext.setPortalInstanceKey( null );
         datasourceExecutorContext.setUser( userEntity );
         datasourceExecutorContext.setDefaultResultRootElementName( verticalProperties.getDatasourceDefaultResultRootElement() );
+        datasourceExecutorContext.setDataSourceService( this.dataSourceService );
 
         DatasourceExecutor datasourceExecutor = datasourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
