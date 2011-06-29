@@ -49,6 +49,7 @@ import com.enonic.vertical.engine.dbmodel.CategoryView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRight2Table;
 import com.enonic.vertical.engine.dbmodel.ContentPublishedView;
 
+import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 
@@ -2103,20 +2104,17 @@ public class CategoryHandler
         sql.append( ", " ).append( table.cat_sName.getName() );
         sql.append( ", " ).append( table.cat_sDescription.getName() );
         sql.append( " FROM " ).append( table.getReplacementSql() );
-        sql.append( " WHERE " ).append( table.cat_lKey.getName() );
-        sql.append( " IN (" );
+        sql.append( " WHERE " );
 
-        for ( Iterator i = keys.iterator(); i.hasNext(); )
+        InClauseBuilder inClauseFilter = new InClauseBuilder<Object>( table.cat_lKey.getName(), keys )
         {
-            sql.append( i.next() );
-
-            if ( i.hasNext() )
+            public void appendValue( StringBuffer sql, Object value )
             {
-                sql.append( ", " );
+                sql.append( value );
             }
-        }
+        };
 
-        sql.append( ")" );
+        sql.append( inClauseFilter );
         return sql.toString();
     }
 
