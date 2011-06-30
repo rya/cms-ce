@@ -44,9 +44,6 @@ public class PageRendererFactory
     private ResourceService resourceService;
 
     @Autowired
-    private DataSourceService dataSourceService;
-
-    @Autowired
     private PageTemplateXsltViewTransformer pageTemplateXsltViewTransformer;
 
     @Autowired
@@ -70,9 +67,12 @@ public class PageRendererFactory
     @Autowired
     private LivePortalTraceService livePortalTraceService;
 
+    @Autowired
+    private DataSourceService dataSourceService;
+
     public PageRenderer createPageRenderer( PageRendererContext pageRendererContext )
     {
-        PageRenderer pageRenderer = new PageRenderer( pageRendererContext, dataSourceService );
+        PageRenderer pageRenderer = new PageRenderer( pageRendererContext );
 
         pageRenderer.setDataSourceExecutorFactory( datasourceExecutorFactory );
         pageRenderer.setPageTemplateXsltViewTransformer( pageTemplateXsltViewTransformer );
@@ -85,6 +85,7 @@ public class PageRendererFactory
         pageRenderer.setTimeService( timeService );
         pageRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         pageRenderer.setLivePortalTraceService( livePortalTraceService );
+        pageRenderer.setDataSourceService( dataSourceService );
 
         return pageRenderer;
     }

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jdom.Document;
 
+import com.enonic.cms.core.service.DataSourceService;
+
 import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.business.preview.PreviewContext;
@@ -73,7 +75,7 @@ public class DatasourceExecutorContext
 
     private PreviewContext previewContext;
 
-    private InvocationCache datasourceServiceInvocationCache;
+    private InvocationCache invocationCache;
 
     private ShoppingCart shoppingCart;
 
@@ -90,6 +92,8 @@ public class DatasourceExecutorContext
     private Locale locale;
 
     private String defaultResultRootElementName;
+
+    private DataSourceService dataSourceService;
 
 
     public DatasourcesType getDatasourcesType()
@@ -262,14 +266,14 @@ public class DatasourceExecutorContext
         this.processors = processors;
     }
 
-    public InvocationCache getDatasourceServiceInvocationCache()
+    public InvocationCache getInvocationCache()
     {
-        return datasourceServiceInvocationCache;
+        return invocationCache;
     }
 
-    public void setDatasourceServiceInvocationCache( InvocationCache value )
+    public void setInvocationCache( InvocationCache value )
     {
-        this.datasourceServiceInvocationCache = value;
+        this.invocationCache = value;
     }
 
     public String getDeviceClass()
@@ -370,5 +374,15 @@ public class DatasourceExecutorContext
     public void setDefaultResultRootElementName( final String value )
     {
         defaultResultRootElementName = value;
+    }
+
+    public DataSourceService getDataSourceService()
+    {
+        return dataSourceService;
+    }
+
+    public void setDataSourceService( DataSourceService dataSourceService )
+    {
+        this.dataSourceService = dataSourceService;
     }
 }

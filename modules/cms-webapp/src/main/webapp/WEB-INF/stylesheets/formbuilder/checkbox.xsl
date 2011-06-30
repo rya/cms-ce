@@ -43,7 +43,15 @@
 			var label_td = ownerDoc.createElement('td');
 			var _label = ownerDoc.createTextNode(this.label);
 			label_td.appendChild(_label);
-			
+
+			if (document.getElementsByName('field_required')[0].checked)
+			{
+				var req_elem = ownerDoc.createElement('span');
+				req_elem.className = 'requiredfield';
+				req_elem.appendChild(ownerDoc.createTextNode(' *'));
+				label_td.appendChild(req_elem);
+			}
+
 			// type
 			//var type_td = tr.insertCell();
 			//type_td.appendChild(ownerDoc.createTextNode('%optFieldCheckbox%'));
@@ -64,6 +72,12 @@
 			element.setAttribute('value',this.label);
 			label_td.appendChild(element);
 
+			// field required
+			element = createNamedElement(ownerDoc, 'input','field_required');
+			element.setAttribute('type','hidden');
+			element.setAttribute('value',document.getElementsByName('field_required')[0].checked);
+			label_td.appendChild(element);
+
           /*******************************************************************************
 
 			// type
@@ -80,6 +94,11 @@
           element = ownerDoc.createElement('<input type="hidden" name="field_label" value="'+
                                                this.label +'" />');
           label_td.appendChild(element);
+
+			// required
+			element = ownerDoc.createElement('<input type="hidden" name="field_required" value="'+
+                                            document.getElementsByName('field_required')[0].checked +'" />');
+			label_td.appendChild(element);
 			************************************************************************************/
 			
 			// default value
@@ -143,6 +162,13 @@
                 <xsl:with-param name="name" select="'field_label'"/>
                 <xsl:with-param name="selectnode" select="''"/>
                 <xsl:with-param name="required" select="'true'"/>
+            </xsl:call-template>
+        </tr>
+        <tr>
+            <xsl:call-template name="checkbox_boolean">
+                <xsl:with-param name="label" select="'%fldRequired%:'"/>
+                <xsl:with-param name="name" select="'field_required'"/>
+                <xsl:with-param name="selectnode" select="''"/>
             </xsl:call-template>
         </tr>
         <tr>

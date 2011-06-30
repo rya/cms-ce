@@ -230,7 +230,6 @@
 
             skin : 'cms',
             content_css : '<xsl:value-of select="$defaultcss"/>
-
             <!--
               Has custom css?
             -->
@@ -256,7 +255,7 @@
             auto_reset_designmode : true,
             extended_valid_elements : 'style[type|media|title],script[type|src|charset]',
             theme_advanced_blockformats : '<xsl:value-of select="$block-format-elements-list"/>',
-            paste_use_dialog : true,
+            paste_text_use_dialog : true,
             paste_auto_cleanup_on_paste : true,
             paste_convert_middot_lists : true,
             paste_strip_class_attributes : 'all',

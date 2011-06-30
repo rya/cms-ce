@@ -12,6 +12,8 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.service.DataSourceService;
+
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.business.core.resource.ResourceService;
@@ -93,6 +95,8 @@ public class WindowRenderer
 
     private LivePortalTraceService liveTraceService;
 
+    private DataSourceService dataSourceService;
+
     /**
      * The window rendering trace for this window rendering.
      */
@@ -117,14 +121,13 @@ public class WindowRenderer
             if ( !context.isRenderedInline() )
             {
                 throw new IllegalStateException(
-                        "context is indicating that a render direct is expected, but render window inline was called" );
+                    "context is indicating that a render direct is expected, but render window inline was called" );
             }
 
             final Window window = context.getRegionsInPage().getWindowByKey( windowKey );
             if ( window == null )
             {
-                throw new WindowNotFoundException( context.getSite().getKey(), context.getSitePath().getLocalPath(),
-                                                   windowKey );
+                throw new WindowNotFoundException( context.getSite().getKey(), context.getSitePath().getLocalPath(), windowKey );
             }
 
             WindowRenderingTracer.traceRequestedWindow( windowRenderingTrace, window );
@@ -157,8 +160,7 @@ public class WindowRenderer
             final Window window = context.getRegionsInPage().getWindowByKey( windowKey );
             if ( window == null )
             {
-                throw new WindowNotFoundException( context.getSite().getKey(), context.getSitePath().getLocalPath(),
-                                                   windowKey );
+                throw new WindowNotFoundException( context.getSite().getKey(), context.getSitePath().getLocalPath(), windowKey );
             }
 
             WindowRenderingTracer.traceRequestedWindow( windowRenderingTrace, window );
@@ -219,9 +221,8 @@ public class WindowRenderer
 
             if ( useCache && portletResult.isErrorFree() )
             {
-                CachedObject cachedPortletHolder = pageCacheService.cachePortletWindow( cacheKey, portletResult,
-                                                                                        CacheObjectSettings.createFrom(
-                                                                                                portletCacheSettings ) );
+                CachedObject cachedPortletHolder =
+                    pageCacheService.cachePortletWindow( cacheKey, portletResult, CacheObjectSettings.createFrom( portletCacheSettings ) );
                 portletResult.setExpirationTimeInCache( cachedPortletHolder.getExpirationTime() );
             }
 
@@ -258,7 +259,8 @@ public class WindowRenderer
         postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( createSiteURLResolver( true ) );
         postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
 
-        PostProcessInstructionProcessor postProcessInstructionProcessor = new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
+        PostProcessInstructionProcessor postProcessInstructionProcessor =
+            new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
 
         String evaluatePostProcessInstructions = postProcessInstructionProcessor.processInstructions( pageMarkup );
 
@@ -305,7 +307,8 @@ public class WindowRenderer
         }
         catch ( Exception e )
         {
-            String message = "Error occured rendering window \"" + window.getPortlet().getName() + "\" (key " + window.getPortlet().getKey() +
+            String message =
+                "Error occured rendering window \"" + window.getPortlet().getName() + "\" (key " + window.getPortlet().getKey() +
                     ") while handling request to site path: " + context.getSitePath().asString();
             PortletErrorMessageMarkupCreator portletErrorMessageMarkupCreator = new PortletErrorMessageMarkupCreator();
             String errorMarkup = portletErrorMessageMarkupCreator.createMarkup( message, e );
@@ -340,7 +343,7 @@ public class WindowRenderer
         for ( TemplateParameter templateParameter : window.getPortlet().getTemplateParameters().values() )
         {
             transformationParams.add(
-                    new TemplateParameterTransformationParameter( templateParameter, TransformationParameterOrigin.PORTLET ) );
+                new TemplateParameterTransformationParameter( templateParameter, TransformationParameterOrigin.PORTLET ) );
         }
 
         SiteURLResolver siteURLResolver = new SiteURLResolver();
@@ -388,8 +391,8 @@ public class WindowRenderer
         {
             if ( TemplateParameterType.CONTENT.equals( templateParam.getType() ) )
             {
-                viewParameters.add( new StringTransformationParameter( templateParam.getName(), contentToBorder,
-                                                                       TransformationParameterOrigin.BORDER ) );
+                viewParameters.add(
+                    new StringTransformationParameter( templateParam.getName(), contentToBorder, TransformationParameterOrigin.BORDER ) );
             }
             else
             {
@@ -438,8 +441,9 @@ public class WindowRenderer
 
         DatasourceExecutorContext datasourceExecutorContext = new DatasourceExecutorContext();
         datasourceExecutorContext.setContentFromRequest( context.getContentFromRequest() );
-        datasourceExecutorContext.setPortletDocument( window.getPortlet().getGetDataDocmentChildElementDocumentAsRootElementInItsOwnDocument() );
-        datasourceExecutorContext.setDatasourceServiceInvocationCache( context.getInvocationCache() );
+        datasourceExecutorContext.setPortletDocument(
+            window.getPortlet().getGetDataDocmentChildElementDocumentAsRootElementInItsOwnDocument() );
+        datasourceExecutorContext.setInvocationCache( context.getInvocationCache() );
         datasourceExecutorContext.setDatasourcesType( DatasourcesType.PORTLET );
         datasourceExecutorContext.setDefaultResultRootElementName( verticalProperties.getDatasourceDefaultResultRootElement() );
         datasourceExecutorContext.setDeviceClass( context.getDeviceClass() );
@@ -461,6 +465,7 @@ public class WindowRenderer
         datasourceExecutorContext.setUser( executor );
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setWindow( window );
+        datasourceExecutorContext.setDataSourceService( this.dataSourceService );
 
         DatasourceExecutor dataSourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -608,5 +613,10 @@ public class WindowRenderer
     public void setLiveTraceService( LivePortalTraceService liveTraceService )
     {
         this.liveTraceService = liveTraceService;
+    }
+
+    public void setDataSourceService( DataSourceService dataSourceService )
+    {
+        this.dataSourceService = dataSourceService;
     }
 }

@@ -199,7 +199,7 @@ public class PortalRequestProcessor
             windowRendererContext.setForceNoCacheUsage( false );
             windowRendererContext.setEncodeURIs( request.isEncodeURIs() );
             windowRendererContext.setHttpRequest( httpRequest );
-            windowRendererContext.setInvocationCache( new InvocationCache( dataSourceService ) );
+            windowRendererContext.setInvocationCache( new InvocationCache() );
             windowRendererContext.setLanguage( processorResult.getLanguage() );
             windowRendererContext.setLocale( processorResult.getLocale() );
             windowRendererContext.setMenuItem( menuItem );

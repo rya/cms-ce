@@ -1550,37 +1550,38 @@ public final class InternalClientImpl
             }
 
             // Get the main content (related content to base content)
-            final RelatedContentQuery relatedContentToBaseContentSpec = new RelatedContentQuery( now );
-            relatedContentToBaseContentSpec.setUser( user );
-            relatedContentToBaseContentSpec.setContentResultSet( baseContent );
-            relatedContentToBaseContentSpec.setParentLevel( params.relation < 0 ? 1 : 0 );
-            relatedContentToBaseContentSpec.setChildrenLevel( params.relation > 0 ? 1 : 0 );
-            relatedContentToBaseContentSpec.setParentChildrenLevel( 0 );
-            relatedContentToBaseContentSpec.setIncludeOnlyMainVersions( true );
-            if ( params.includeOfflineContent )
-            {
-                relatedContentToBaseContentSpec.setFilterIncludeOfflineContent();
-            }
-            else
-            {
-                relatedContentToBaseContentSpec.setFilterContentOnlineAt( now );
-            }
-            final RelatedContentResultSet relatedContentToBaseContent = contentService.queryRelatedContent( relatedContentToBaseContentSpec );
+            final RelatedContentResultSet relatedContentToBaseContent;
+            if (params.requireAll && baseContent.getLength() > 1) {
+                relatedContentToBaseContent = contentService.getRelatedContentRequiresAll(user, params.relation, baseContent);
+            } else {
+                final RelatedContentQuery relatedContentToBaseContentSpec = new RelatedContentQuery(now);
+                relatedContentToBaseContentSpec.setUser(user);
+                relatedContentToBaseContentSpec.setContentResultSet(baseContent);
+                relatedContentToBaseContentSpec.setParentLevel(params.relation < 0 ? 1 : 0);
+                relatedContentToBaseContentSpec.setChildrenLevel(params.relation > 0 ? 1 : 0);
+                relatedContentToBaseContentSpec.setParentChildrenLevel(0);
+                relatedContentToBaseContentSpec.setIncludeOnlyMainVersions(true);
+                if (params.includeOfflineContent) {
+                    relatedContentToBaseContentSpec.setFilterIncludeOfflineContent();
+                } else {
+                    relatedContentToBaseContentSpec.setFilterContentOnlineAt(now);
+                }
+                relatedContentToBaseContent = contentService.queryRelatedContent(relatedContentToBaseContentSpec);
 
-            final boolean previewedContentIsAmongBaseContent = previewContext.isPreviewingContent() &&
-                    baseContent.containsContent( previewContext.getContentPreviewContext().getContentPreviewed().getKey() );
-            if ( previewedContentIsAmongBaseContent )
-            {
-                // ensuring offline related content to the previewed content to be included when previewing
-                RelatedContentQuery relatedSpecForPreviewedContent = new RelatedContentQuery( relatedContentToBaseContentSpec );
-                relatedSpecForPreviewedContent.setFilterIncludeOfflineContent();
-                relatedSpecForPreviewedContent.setContentResultSet( new ContentResultSetNonLazy( previewContext.getContentPreviewContext().getContentAndVersionPreviewed().getContent() ) );
+                final boolean previewedContentIsAmongBaseContent = previewContext.isPreviewingContent() &&
+                        baseContent.containsContent(previewContext.getContentPreviewContext().getContentPreviewed().getKey());
+                if (previewedContentIsAmongBaseContent) {
+                    // ensuring offline related content to the previewed content to be included when previewing
+                    RelatedContentQuery relatedSpecForPreviewedContent = new RelatedContentQuery(relatedContentToBaseContentSpec);
+                    relatedSpecForPreviewedContent.setFilterIncludeOfflineContent();
+                    relatedSpecForPreviewedContent.setContentResultSet(new ContentResultSetNonLazy(previewContext.getContentPreviewContext().getContentAndVersionPreviewed().getContent()));
 
-                RelatedContentResultSet relatedContentsForPreviewedContent = contentService.queryRelatedContent( relatedSpecForPreviewedContent );
+                    RelatedContentResultSet relatedContentsForPreviewedContent = contentService.queryRelatedContent(relatedSpecForPreviewedContent);
 
-                relatedContentToBaseContent.overwrite( relatedContentsForPreviewedContent );
-                previewContext.getContentPreviewContext().registerContentToBeAvailableOnline(
-                        relatedContentToBaseContent );
+                    relatedContentToBaseContent.overwrite(relatedContentsForPreviewedContent);
+                    previewContext.getContentPreviewContext().registerContentToBeAvailableOnline(
+                            relatedContentToBaseContent);
+                }
             }
 
             // Get the main result content
