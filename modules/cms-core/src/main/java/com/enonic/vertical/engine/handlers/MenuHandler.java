@@ -860,7 +860,7 @@ public final class MenuHandler
                 String defaultLocalizationResource = tmpElement.getAttribute( "key" );
                 if ( StringUtils.isNotEmpty( defaultLocalizationResource ) )
                 {
-                    siteData.setDeviceClassResolver( new ResourceKey( defaultLocalizationResource ) );
+                    siteData.setDefaultLocalizationResource( new ResourceKey( defaultLocalizationResource ) );
                 }
             }
 
@@ -923,11 +923,10 @@ public final class MenuHandler
             }
 
             // Run As User:
-            String runAsUserGroupKey = rootElement.getAttribute( "runas" );
-            if ( StringUtils.isNotEmpty( runAsUserGroupKey ) )
+            String runAsUserKey = rootElement.getAttribute( "runas" );
+            if ( StringUtils.isNotEmpty( runAsUserKey ) )
             {
-                UserKey userKey = getUserKeyFromGroupKey( runAsUserGroupKey );
-                preparedStmt.setString( 10, userKey != null ? userKey.toString() : null );
+                preparedStmt.setString( 10, runAsUserKey );
             }
             else
             {
@@ -1749,6 +1748,8 @@ public final class MenuHandler
                 menuElement.setAttribute( "languagekey", String.valueOf( languageKey ) );
                 menuElement.setAttribute( "languagecode", result.getString( "lan_sCode" ) );
                 menuElement.setAttribute( "language", result.getString( "lan_sDescription" ) );
+                menuElement.setAttribute( "runas", result.getString( "men_usr_hRunAs" ) );
+
                 String name = result.getString( "men_sName" );
                 if ( !result.wasNull() )
                 {
@@ -2539,11 +2540,10 @@ public final class MenuHandler
             }
 
             // Run As User:
-            String runAsUserGroupKey = root_elem.getAttribute( "runas" );
-            if ( StringUtils.isNotEmpty( runAsUserGroupKey ) )
+            String runAsUserKey = root_elem.getAttribute( "runas" );
+            if ( StringUtils.isNotEmpty( runAsUserKey ) )
             {
-                UserKey userKey = getUserKeyFromGroupKey( runAsUserGroupKey );
-                preparedStmt.setString( 8, userKey != null ? userKey.toString() : null );
+                preparedStmt.setString( 8, runAsUserKey );
             }
             else
             {
