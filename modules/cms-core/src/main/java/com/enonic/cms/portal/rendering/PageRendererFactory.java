@@ -6,7 +6,6 @@ package com.enonic.cms.portal.rendering;
 
 import javax.inject.Inject;
 
-import com.enonic.cms.core.VerticalProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.enonic.cms.framework.time.TimeService;
@@ -14,6 +13,7 @@ import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.TightestCacheSettingsResolver;
+import com.enonic.cms.core.VerticalProperties;
 import com.enonic.cms.core.preferences.PreferenceService;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.SecurityService;
@@ -43,9 +43,6 @@ public class PageRendererFactory
     private ResourceService resourceService;
 
     @Inject
-    private DataSourceService dataSourceService;
-
-    @Inject
     private PageTemplateXsltViewTransformer pageTemplateXsltViewTransformer;
 
     @Inject
@@ -69,9 +66,12 @@ public class PageRendererFactory
     @Inject
     private LivePortalTraceService livePortalTraceService;
 
+    @Inject
+    private DataSourceService dataSourceService;
+
     public PageRenderer createPageRenderer( PageRendererContext pageRendererContext )
     {
-        PageRenderer pageRenderer = new PageRenderer( pageRendererContext, dataSourceService );
+        PageRenderer pageRenderer = new PageRenderer( pageRendererContext );
 
         pageRenderer.setDataSourceExecutorFactory( datasourceExecutorFactory );
         pageRenderer.setPageTemplateXsltViewTransformer( pageTemplateXsltViewTransformer );
@@ -84,6 +84,7 @@ public class PageRendererFactory
         pageRenderer.setTimeService( timeService );
         pageRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         pageRenderer.setLivePortalTraceService( livePortalTraceService );
+        pageRenderer.setDataSourceService( dataSourceService );
 
         return pageRenderer;
     }

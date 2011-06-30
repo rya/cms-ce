@@ -7,8 +7,6 @@ package com.enonic.cms.portal.datasource;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.framework.xml.XMLDocumentHelper;
-
 import com.enonic.cms.portal.datasource.context.DatasourcesContextXmlCreator;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.portal.datasource.methodcall.MethodCall;
@@ -105,7 +103,7 @@ public class DatasourceExecutor
 
     private Document executeMethodCall( Datasource datasource )
     {
-        MethodCall methodCall = MethodCallFactory.create( context, datasource, context.getDatasourceServiceInvocationCache() );
+        MethodCall methodCall = MethodCallFactory.create( context, datasource );
         return executeMethodCall( datasource, methodCall );
     }
 

@@ -302,7 +302,6 @@
     </bean>
 
     <bean id="isWindowEmptyFunction" class="com.enonic.cms.portal.rendering.portalfunctions.IsWindowEmptyFunction">
-      <property name="dataSourceService" ref="dataSourceService"/>
       <property name="windowRendererFactory" ref="windowRendererFactory"/>
     </bean>
 

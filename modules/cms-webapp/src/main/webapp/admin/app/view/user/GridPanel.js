@@ -76,7 +76,7 @@ Ext.define( 'CMS.view.user.GridPanel', {
     nameRenderer: function( value, p, record )
     {
         return Ext.String.format(
-                '<img src="rest/users/{0}/photo?thumb=true" class="thumbnail"><strong>{1}</strong><br><em>{2}</em> in user store <strong>{3}</strong>',
+                '<img src="data/user/photo?key={0}&thumb=true" class="thumbnail"><strong>{1}</strong><br><em>{2}</em> in user store <strong>{3}</strong>',
                 record.data.key,
                 value,
                 record.data.name,

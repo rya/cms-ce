@@ -8,24 +8,26 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jdom.Document;
+
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.service.DataSourceService;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteProperties;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Regions;
 import com.enonic.cms.core.structure.page.Window;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.portal.*;
-import org.jdom.Document;
-
-import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.portal.InvocationCache;
+import com.enonic.cms.portal.PageRequestType;
+import com.enonic.cms.portal.PortalInstanceKey;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.portal.PortalInstanceKey;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.SiteProperties;
 
 /**
  * Apr 21, 2009
@@ -66,7 +68,7 @@ public class DatasourceExecutorContext
 
     private PreviewContext previewContext;
 
-    private InvocationCache datasourceServiceInvocationCache;
+    private InvocationCache invocationCache;
 
     private String deviceClass;
 
@@ -80,6 +82,7 @@ public class DatasourceExecutorContext
 
     private String defaultResultRootElementName;
 
+    private DataSourceService dataSourceService;
 
     public DatasourcesType getDatasourcesType()
     {
@@ -226,14 +229,14 @@ public class DatasourceExecutorContext
         this.cssKeys = cssKeys;
     }
 
-    public InvocationCache getDatasourceServiceInvocationCache()
+    public void setInvocationCache( InvocationCache value )
     {
-        return datasourceServiceInvocationCache;
+        this.invocationCache = value;
     }
 
-    public void setDatasourceServiceInvocationCache( InvocationCache value )
+    public InvocationCache getInvocationCache()
     {
-        this.datasourceServiceInvocationCache = value;
+        return invocationCache;
     }
 
     public String getDeviceClass()
@@ -324,5 +327,15 @@ public class DatasourceExecutorContext
     public void setDefaultResultRootElementName( final String value )
     {
         defaultResultRootElementName = value;
+    }
+
+    public DataSourceService getDataSourceService()
+    {
+        return dataSourceService;
+    }
+
+    public void setDataSourceService( DataSourceService dataSourceService )
+    {
+        this.dataSourceService = dataSourceService;
     }
 }

@@ -67,14 +67,14 @@
         </init-param>
     </servlet-->
 
-    <!--servlet>
+    <servlet>
         <servlet-name>site</servlet-name>
         <servlet-class>com.enonic.cms.core.servlet.CmsDispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/servlet/siteServlet.xml</param-value>
         </init-param>
-    </servlet-->
+    </servlet>
 
     <!--servlet>
         <servlet-name>admin</servlet-name>
@@ -85,10 +85,10 @@
         </init-param>
     </servlet-->
 
-    <!--servlet>
+    <servlet>
         <servlet-name>dav</servlet-name>
         <servlet-class>com.enonic.cms.core.webdav.SimpleDavServlet</servlet-class>
-    </servlet-->
+    </servlet>
 
     <!--servlet-mapping>
         <servlet-name>main</servlet-name>
@@ -98,17 +98,17 @@
     <servlet-mapping>
         <servlet-name>admin</servlet-name>
         <url-pattern>/admin/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping!-->
 
     <servlet-mapping>
         <servlet-name>site</servlet-name>
         <url-pattern>/site/*</url-pattern>
-    </servlet-mapping-->
+    </servlet-mapping>
 
-    <!--servlet-mapping>
+    <servlet-mapping>
         <servlet-name>dav</servlet-name>
         <url-pattern>/dav/*</url-pattern>
-    </servlet-mapping-->
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>main</servlet-name>

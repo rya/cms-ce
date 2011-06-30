@@ -15,7 +15,6 @@ import com.enonic.esl.util.StringUtil;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
-import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.datasource.DataSourceContext;
 import com.enonic.cms.portal.datasource.Datasource;
 import com.enonic.cms.portal.datasource.DatasourceException;
@@ -31,8 +30,7 @@ import com.enonic.cms.domain.RequestParameters;
 public class MethodCallFactory
 {
 
-    public static MethodCall create( final DatasourceExecutorContext context, final Datasource datasource,
-                                     final InvocationCache dataSourceObject )
+    public static MethodCall create( final DatasourceExecutorContext context, final Datasource datasource )
     {
         String methodName = datasource.getMethodName();
         if ( methodName == null )
@@ -40,7 +38,8 @@ public class MethodCallFactory
             return null;
         }
 
-        Class targetClass = dataSourceObject.getTargetClass();
+        Object targetObject = context.getDataSourceService();
+        Class targetClass = targetObject.getClass();
 
         List parameterEl = datasource.getParameterElements();
         int paramCount = parameterEl.size() + 1;
@@ -76,7 +75,7 @@ public class MethodCallFactory
         }
         boolean isCacheable = datasource.isCacheable();
 
-        return new MethodCall( dataSourceObject, parameters, method, isCacheable );
+        return new MethodCall( context.getInvocationCache(), targetObject, parameters, method, isCacheable );
     }
 
     private static MethodCallParameter createParameter( Element parmeterEl, Class paramType, DatasourceExecutorContext context )

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 
 @Component
-@Path("/admin/rest/users")
+@Path("/admin/data/user")
 @Produces("application/json")
 public final class UsersResource
 {
@@ -21,6 +21,7 @@ public final class UsersResource
     private UserPhotoService photoService;
 
     @GET
+    @Path("list")
     public UsersModel getAll(@InjectParam final UserLoadRequest req)
     {
         final EntityPageList<UserEntity> list = this.userDao.findAll(req.getStart(), req.getLimit(),
@@ -29,17 +30,17 @@ public final class UsersResource
     }
 
     @GET
-    @Path("{key}")
-    public UserModel getUser(@PathParam("key") final String key)
+    @Path("detail")
+    public UserModel getUser(@QueryParam("key") final String key)
     {
         final UserEntity entity = findEntity(key);
         return UserModelHelper.toModel(entity);
     }
 
     @GET
-    @Path("{key}/photo")
+    @Path("photo")
     @Produces("image/png")
-    public byte[] getPhoto(@PathParam("key") final String key,
+    public byte[] getPhoto(@QueryParam("key") final String key,
                            @QueryParam("thumb") @DefaultValue("false") final boolean thumb)
         throws Exception
     {
@@ -49,6 +50,10 @@ public final class UsersResource
 
     private UserEntity findEntity(final String key)
     {
+        if (key == null) {
+            throw new NotFoundException();
+        }
+
         final UserEntity entity = this.userDao.findByKey(key);
         if (entity == null) {
             throw new NotFoundException();
