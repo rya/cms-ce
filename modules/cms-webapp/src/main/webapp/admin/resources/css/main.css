@@ -182,3 +182,30 @@
 .icon-dashboard {
     background-image: url("../images/house.png");
 }
+
+/*-----  Dashboard  -----*/
+
+.dashboard .dashboard-body {
+    padding: 0 0 10px 10px;
+}
+
+.dashboard .dashlet-column {
+    padding: 10px 10px 0 0;
+}
+
+.dashboard .x-panel-dd-spacer {
+    border: 2px dashed #99bbe8;
+    background: #f6f6f6;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.dashboard .dashlet {
+    margin-bottom: 10px;
+    padding: 1px;
+}
+
+.dashboard .dashlet .x-panel-body {
+    background: #fff;
+}
