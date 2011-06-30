@@ -127,7 +127,10 @@ Ext.define("CMS.view.dashboard.DropTarget", {
                 }
                 l.proxy.hide();
             } else {
-                var dashlet = Ext.create(g.draggedRecord.data.xtype);
+                var dashlet = Ext.create(g.draggedRecord.data.xtype, {
+                    title: g.draggedRecord.data.title,
+                    html: g.draggedRecord.data.body
+                });
                 Ext.isNumber(k) ? j.insert(k, dashlet) : j.add(dashlet);
             }
             this.portal.fireEvent("drop", b);

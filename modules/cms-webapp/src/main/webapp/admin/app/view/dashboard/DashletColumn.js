@@ -6,5 +6,5 @@ Ext.define("CMS.view.dashboard.DashletColumn", {
     },
     defaultType: "dashlet",
     cls: "dashlet-column",
-    autoHeight: true
+    autoHeight: false
 });

@@ -8,6 +8,7 @@ Ext.define('CMS.view.dashboard.GridDashlet', {
     ],
 
     bodyPadding: 0,
+    autoScroll: false,
     height: 200,
     title: 'Grid Dashlet',
     html: 'Grid dashlet text',

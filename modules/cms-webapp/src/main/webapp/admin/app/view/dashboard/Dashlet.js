@@ -3,16 +3,19 @@ Ext.define('CMS.view.dashboard.Dashlet', {
     alias: 'widget.dashlet',
 
     cls: 'dashlet',
-    bodyCls: 'dashlet-body',
     title: 'Dashlet Panel',
 
     collapsible: true,
     draggable: true,
     closable: true,
+    resizable: true,
+    resizeHandles: 'n,s',
+    autoScroll: true,
     border: false,
     frame: true,
-    minHeight: 200,
-    autoHeight: true,
+    minHeight: 100,
+    maxHeight: 500,
+    autoHeight: false,
     bodyPadding: 10,
     layout: "fit",
 

@@ -12,9 +12,15 @@ Ext.define('CMS.view.dashboard.ChartDashlet', {
     ],
 
     height: 300,
+    autoScroll: false,
     bodyPadding: 0,
     title: 'Chart Dashlet',
     html: 'Chart dashlet text',
+    listeners: {
+        afterrender: function() {
+            this.doLayout();
+        }
+    },
 
     getData: function () {
         var b = [{
@@ -34,19 +40,19 @@ Ext.define('CMS.view.dashboard.ChartDashlet', {
     },
 
     initComponent: function () {
-        Ext.apply(this, {
-            items: {
-                xtype: "chart",
-                animate: false,
-                shadow: false,
-                store: Ext.create("Ext.data.JsonStore", {
-                    fields: ["name", "sp500", "djia"],
-                    data: this.getData()
-                }),
-                legend: {
-                    position: "bottom"
-                },
-                axes: [{
+        this.items = {
+            xtype: "chart",
+            animate: false,
+            shadow: false,
+            store: Ext.create( "Ext.data.JsonStore", {
+                fields: ["name", "sp500", "djia"],
+                data: this.getData()
+            } ),
+            legend: {
+                position: "bottom"
+            },
+            axes: [
+                {
                     type: "Numeric",
                     position: "left",
                     fields: ["djia"],
@@ -54,7 +60,8 @@ Ext.define('CMS.view.dashboard.ChartDashlet', {
                     label: {
                         font: "11px Arial"
                     }
-                }, {
+                },
+                {
                     type: "Numeric",
                     position: "right",
                     grid: false,
@@ -63,8 +70,10 @@ Ext.define('CMS.view.dashboard.ChartDashlet', {
                     label: {
                         font: "11px Arial"
                     }
-                }],
-                series: [{
+                }
+            ],
+            series: [
+                {
                     type: "line",
                     lineWidth: 1,
                     showMarkers: false,
@@ -75,7 +84,8 @@ Ext.define('CMS.view.dashboard.ChartDashlet', {
                     style: {
                         "stroke-width": 1
                     }
-                }, {
+                },
+                {
                     type: "line",
                     lineWidth: 1,
                     showMarkers: false,
@@ -85,9 +95,9 @@ Ext.define('CMS.view.dashboard.ChartDashlet', {
                     style: {
                         "stroke-width": 1
                     }
-                }]
-            }
-        });
+                }
+            ]
+        };
         this.callParent(arguments)
     }
 
