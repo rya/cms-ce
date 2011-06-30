@@ -1,4 +1,4 @@
-Ext.define('CMS.view.user.ChangePasswordWindow', {
+Ext.define( 'CMS.view.user.ChangePasswordWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.userChangePasswordWindow',
 
@@ -9,30 +9,35 @@ Ext.define('CMS.view.user.ChangePasswordWindow', {
     resizable: true,
 
     width: 400,
-    height: 250,
+    height: 295,
 
     minWidth: 400,
-    minHeight: 250,
+    minHeight: 295,
 
-    initComponent: function() {
+    initComponent: function()
+    {
         var textPanel = {
             xtype: 'container',
             layout: 'vbox',
             margins: '0 0 0 8',
-            height: 40,
+            height: 100,
             flex: 1,
 
-            items: [{
-                xtype: 'label',
-                flex: 1
-            },{
-                id: 'name',
-                xtype: 'label',
-                style: 'font-weight: bold'
-            },{
-                id: 'email',
-                xtype: 'box'
-            }]
+            items: [
+                {
+                    xtype: 'label',
+                    flex: 1
+                },
+                {
+                    id: 'name',
+                    xtype: 'label',
+                    style: 'font-weight: bold'
+                },
+                {
+                    id: 'email',
+                    xtype: 'box'
+                }
+            ]
         };
 
         var textAndPhotoPanel = {
@@ -42,11 +47,14 @@ Ext.define('CMS.view.user.ChangePasswordWindow', {
             width: 320,
             padding: '20 0 20 0',
 
-            items: [{
-                xtype: 'image',
-                id: 'photo',
-                padding: '0 0 0 70'
-            }, textPanel ]
+            items: [
+                {
+                    xtype: 'image',
+                    id: 'photo',
+                    padding: '0 0 0 70'
+                },
+                textPanel
+            ]
         };
 
         var form = {
@@ -73,21 +81,22 @@ Ext.define('CMS.view.user.ChangePasswordWindow', {
 
             items: [textAndPhotoPanel,
                 {
-                itemId: 'password1',
-                fieldLabel: 'New password'
-            }, {
-                itemId: 'password2',
-                fieldLabel: 'Confirm password',
-                validator: function(value) {
-                    var password1 = this.previousSibling('#password1');
-                    return (value === password1.getValue()) ? true : 'Passwords do not match.'
-                }
-            }]
+                    itemId: 'password1',
+                    fieldLabel: 'New password'
+                }, {
+                    itemId: 'password2',
+                    fieldLabel: 'Confirm password',
+                    validator: function( value )
+                    {
+                        var password1 = this.previousSibling( '#password1' );
+                        return (value === password1.getValue()) ? true : 'Passwords do not match.'
+                    }
+                }]
         };
 
 
-		Ext.apply(this, {
-			items: [form],
+        Ext.apply( this, {
+            items: [form],
 
             buttons: [
                 {
@@ -100,30 +109,33 @@ Ext.define('CMS.view.user.ChangePasswordWindow', {
                     handler: this.doChange
                 }
             ]
-		});
+        } );
 
 
-        this.callParent(arguments);
+        this.callParent( arguments );
     },
 
-    doShow: function(model) {
+    doShow: function( model )
+    {
         var data = model.data;
 
-        this.down('#photo').src = 'data/user/photo?key=' + data.key + '&thumb=true';
-        this.down('#name').text = data.displayName + ' (' +  data.qualifiedName +  ')';
-        this.down('#email').autoEl = {tag: 'a', href: 'mailto:' + data.email, html: data.email};
+        this.down( '#photo' ).setSrc( 'data/user/photo?key=' + data.key + '&thumb=false' );
+        this.down( '#name' ).setText( data.displayName + ' (' + data.qualifiedName + ')' );
+        this.down( '#email' ).autoEl = {tag: 'a', href: 'mailto:' + data.email, html: data.email};
 
         this.show();
 
-        this.down('#password1').focus('', 10);
+        this.down( '#password1' ).focus( '', 10 );
     },
 
 
-    doChange: function(e) {
-        var form = Ext.getCmp('userChangePasswordForm').getForm();
-        if (form.isValid()) {
-            Ext.Msg.alert('Change Password', 'TODO');
+    doChange: function( e )
+    {
+        var form = Ext.getCmp( 'userChangePasswordForm' ).getForm();
+        if ( form.isValid() )
+        {
+            Ext.Msg.alert( 'Change Password', 'TODO' );
         }
     }
 
-});
+} );
