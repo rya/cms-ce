@@ -75,14 +75,13 @@ import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
+import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
-
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
-import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.core.content.AssignContentResult;
@@ -107,7 +106,6 @@ import com.enonic.cms.business.core.content.mail.ImportedContentAssignmentMailTe
 import com.enonic.cms.business.core.structure.MenuItemAccessRightAccumulator;
 import com.enonic.cms.business.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.business.mail.MailRecipient;
-import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
 import com.enonic.cms.domain.SiteKey;
@@ -116,7 +114,6 @@ import com.enonic.cms.domain.content.ContentAccessException;
 import com.enonic.cms.domain.content.ContentAndVersion;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentLocation;
 import com.enonic.cms.domain.content.ContentLocationSpecification;
 import com.enonic.cms.domain.content.ContentLocations;
 import com.enonic.cms.domain.content.ContentMoveAccessException;
@@ -1634,12 +1631,7 @@ public class ContentBaseHandlerServlet
 
             contentService.deleteContent( runningerUser, content );
 
-            for ( ContentLocation contentLocation : contentLocations.getAllLocations() )
-            {
-                PageCacheService pageCacheService = siteCachesService.getPageCacheService( contentLocation.getSiteKey() );
-                pageCacheService.removeEntriesByMenuItem( contentLocation.getMenuItemKey() );
-            }
-
+            new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContentLocations( contentLocations );
         }
 
         CategoryKey categoryKey = new CategoryKey( formItems.getInt( "cat" ) );
@@ -3263,11 +3255,7 @@ public class ContentBaseHandlerServlet
 
                     contentService.deleteContent( runningUser, content );
 
-                    for ( ContentLocation contentLocation : contentLocations.getAllLocations() )
-                    {
-                        PageCacheService pageCacheService = siteCachesService.getPageCacheService( contentLocation.getSiteKey() );
-                        pageCacheService.removeEntriesByMenuItem( contentLocation.getMenuItemKey() );
-                    }
+                    new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContentLocations( contentLocations );
                 }
             }
             catch ( ContentAccessException e )

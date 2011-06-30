@@ -33,28 +33,33 @@ public class PageCacheInvalidatorForContent
     {
         ContentLocationSpecification contentLocationSpecification = new ContentLocationSpecification();
         contentLocationSpecification.setIncludeInactiveLocationsInSection( false );
-        final ContentLocations contentLocations = content.getLocations( contentLocationSpecification );
+        ContentLocations contentLocations = content.getLocations( contentLocationSpecification );
 
+        invalidateForContentLocations( contentLocations );
+    }
+
+    public void invalidateForContentLocations( ContentLocations contentLocations )
+    {
         for ( ContentLocation contentLocation : contentLocations.getAllLocations() )
         {
             PageCacheService pageCacheService = siteCachesService.getPageCacheService( contentLocation.getSiteKey() );
             pageCacheService.removeEntriesByMenuItem( contentLocation.getMenuItemKey() );
 
-            renderParentPage( contentLocation.getMenuItem().getParent(), pageCacheService );
+            cleanPageCache( contentLocation.getMenuItem().getParent(), pageCacheService );
         }
     }
 
-    private void renderParentPage( MenuItemEntity itemEntity, PageCacheService pageCacheService )
+    private void cleanPageCache( MenuItemEntity menuItem, PageCacheService pageCacheService )
     {
-        if ( itemEntity != null )
+        if ( menuItem != null )
         {
-            if ( itemEntity.isRenderable() )
+            if ( menuItem.isRenderable() )
             {
-                pageCacheService.removeEntriesByMenuItem( itemEntity.getMenuItemKey() );
+                pageCacheService.removeEntriesByMenuItem( menuItem.getMenuItemKey() );
             }
             else
             {
-                renderParentPage( itemEntity.getParent(), pageCacheService );
+                cleanPageCache( menuItem.getParent(), pageCacheService );
             }
         }
     }
