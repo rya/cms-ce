@@ -8,8 +8,8 @@ Ext.define('CMS.store.UserStore', {
     remoteSort: true,
 
     proxy: {
-        type: 'rest',
-        url: 'rest/users',
+        type: 'ajax',
+        url: 'data/user/list',
         simpleSortMode: true,
         reader: {
             type: 'json',
