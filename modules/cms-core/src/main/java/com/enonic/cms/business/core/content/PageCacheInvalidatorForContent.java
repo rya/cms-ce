@@ -12,6 +12,7 @@ import com.enonic.cms.domain.content.ContentLocation;
 import com.enonic.cms.domain.content.ContentLocationSpecification;
 import com.enonic.cms.domain.content.ContentLocations;
 import com.enonic.cms.domain.content.ContentVersionEntity;
+import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 
 public class PageCacheInvalidatorForContent
@@ -32,12 +33,34 @@ public class PageCacheInvalidatorForContent
     {
         ContentLocationSpecification contentLocationSpecification = new ContentLocationSpecification();
         contentLocationSpecification.setIncludeInactiveLocationsInSection( false );
-        final ContentLocations contentLocations = content.getLocations( contentLocationSpecification );
+        ContentLocations contentLocations = content.getLocations( contentLocationSpecification );
 
+        invalidateForContentLocations( contentLocations );
+    }
+
+    public void invalidateForContentLocations( ContentLocations contentLocations )
+    {
         for ( ContentLocation contentLocation : contentLocations.getAllLocations() )
         {
             PageCacheService pageCacheService = siteCachesService.getPageCacheService( contentLocation.getSiteKey() );
             pageCacheService.removeEntriesByMenuItem( contentLocation.getMenuItemKey() );
+
+            cleanPageCache( contentLocation.getMenuItem().getParent(), pageCacheService );
+        }
+    }
+
+    private void cleanPageCache( MenuItemEntity menuItem, PageCacheService pageCacheService )
+    {
+        if ( menuItem != null )
+        {
+            if ( menuItem.isRenderable() )
+            {
+                pageCacheService.removeEntriesByMenuItem( menuItem.getMenuItemKey() );
+            }
+            else
+            {
+                cleanPageCache( menuItem.getParent(), pageCacheService );
+            }
         }
     }
 }
