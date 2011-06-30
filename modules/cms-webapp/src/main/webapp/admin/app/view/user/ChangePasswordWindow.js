@@ -9,10 +9,10 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
     resizable: true,
 
     width: 400,
-    height: 295,
+    height: 280,
 
     minWidth: 400,
-    minHeight: 295,
+    minHeight: 280,
 
     initComponent: function()
     {
@@ -45,7 +45,8 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
             layout: 'hbox',
 
             width: 320,
-            padding: '20 0 20 0',
+            padding: '0 0 20 0',
+            align: 'bottom',
 
             items: [
                 {
