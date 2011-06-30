@@ -68,7 +68,7 @@
                 },
                 {
                     "fieldname": "last_name",
-                    "fieldlabel": "Last namel",
+                    "fieldlabel": "Last name",
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,

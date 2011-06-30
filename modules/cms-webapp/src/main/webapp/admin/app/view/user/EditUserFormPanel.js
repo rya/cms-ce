@@ -7,6 +7,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         bodyPadding: 10
     },
 
+    autoScroll: true,
+
     title: 'User',
     modal: true,
 
@@ -14,7 +16,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         type: 'table',
         columns: 2,
         defaultMargins: {top:10, right:10, bottom:10, left:10},
-        padding: 10
+        padding: 10,
+        tdAttrs: {
+            style:{
+                padding: '10px'
+            }
+        }
     },
 
     buttons: [
@@ -79,6 +86,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         this.callParent( arguments );
         this.removeAll();
         this.generateForm();
+        this.show();
     },
 
     createAutoCompleteField: function ( field )
@@ -173,10 +181,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     createPhotoField: function( field )
     {
-        return {xtype: 'textfield',
+        return {xtype: 'filefield',
             fieldLabel: field.fieldlabel,
-            inputType: 'file',
-            measureWidth: true,
             disabled: field.readonly,
             name: field.fieldname};
     },

@@ -268,6 +268,7 @@ Ext.define( 'CMS.controller.UserController', {
                title: tabTitle,
                iconCls: iconCls,
                closable: true,
+               autoScroll: true,
                items: [
                    {
                        xtype: 'editUserPanel'
@@ -321,7 +322,8 @@ Ext.define( 'CMS.controller.UserController', {
             tabPanel.items.get( 0 ).closable = true;
         }
         var newTab = tabPanel.items.get( 0 ).cloneConfig( {closable: true, text: '[no title]'} );
-        tabPanel.add( newTab );
+        newTab = tabPanel.add( newTab );
+        tabPanel.setActiveTab(newTab);
     },
 
     updateTabTitle: function ( field, event )

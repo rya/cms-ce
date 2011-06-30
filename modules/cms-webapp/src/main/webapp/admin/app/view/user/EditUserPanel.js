@@ -8,6 +8,7 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         'CMS.view.user.EditUserMembershipPanel'
     ],
 
+    autoScroll: true,
 
     defaults: {
         bodyPadding: 10
