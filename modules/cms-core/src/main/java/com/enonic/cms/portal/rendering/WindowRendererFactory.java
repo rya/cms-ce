@@ -6,12 +6,12 @@ package com.enonic.cms.portal.rendering;
 
 import javax.inject.Inject;
 
-import com.enonic.cms.core.VerticalProperties;
-
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
+import com.enonic.cms.core.VerticalProperties;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.portal.datasource.DatasourceExecutorFactory;
@@ -54,6 +54,9 @@ public class WindowRendererFactory
     @Inject
     private LivePortalTraceService livePortalTraceService;
 
+    @Inject
+    private DataSourceService dataSourceService;
+
     public WindowRenderer createPortletRenderer( WindowRendererContext windowRendererContext )
     {
         PageCacheService pageCacheService = siteCachesService.getPageCacheService( windowRendererContext.getSite().getKey() );
@@ -69,6 +72,7 @@ public class WindowRendererFactory
         windowRenderer.setVerticalProperties( verticalProperties );
         windowRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         windowRenderer.setLiveTraceService( livePortalTraceService );
+        windowRenderer.setDataSourceService( dataSourceService );
 
         return windowRenderer;
     }
