@@ -33,6 +33,7 @@ Ext.define('CMS.plugin.PageSizePlugin', {
     */
     onInitView: function(paging) {
         var me = this;
+        var defaultValue = paging.store.pageSize ? paging.store.pageSize : 10;
         paging.items.insert(11, this);
         this.on('select', this.onPageSizeChanged, paging);
         this.on('specialkey', function(combo, e) {
@@ -41,7 +42,7 @@ Ext.define('CMS.plugin.PageSizePlugin', {
             }
         });
         this.store.on("load", function() {
-            me.setValue(10);
+            me.setValue(defaultValue);
         });
         this.store.load();
     },
