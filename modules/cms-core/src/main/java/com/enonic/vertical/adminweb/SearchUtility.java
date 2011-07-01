@@ -373,7 +373,7 @@ public final class SearchUtility
         xmlCreator.setIncludeRelatedContentData( !relatedTitlesOnly );
         xmlCreator.setIncludeUserRightsInfo( includeUserRight, new CategoryAccessResolver( groupDao ),
                                              new ContentAccessResolver( groupDao ) );
-        xmlCreator.setIncludeRepositoryPathInfo( true );
+        xmlCreator.setIncludeRepositoryPathInfo( includeSubCategories );
         return xmlCreator.createContentsDocument( userEntity, contents, relatedContents );
     }
 

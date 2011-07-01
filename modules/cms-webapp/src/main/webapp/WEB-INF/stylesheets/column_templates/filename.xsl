@@ -7,11 +7,20 @@
 	
 	<xsl:include href="../common/getsuffix.xsl"/>
 
-	<xsl:template match="filename" mode="display">
-		<xsl:param name="contentxpath"/>
-		
-		<xsl:value-of select="saxon:evaluate(concat($contentxpath, @xpath))"/>
-	</xsl:template>
+    <xsl:template match="filename" mode="display">
+        <xsl:param name="contentxpath"/>
+        <div style="font-weight: bold">
+            <xsl:value-of select="saxon:evaluate(concat($contentxpath, @xpath))"/>
+        </div>
+        <span style="color: gray">
+            <xsl:if test="saxon:evaluate(concat($contentxpath, '@repositorypath'))">
+                <xsl:value-of select="saxon:evaluate(concat($contentxpath, '@repositorypath'))"/>
+                <xsl:text>/</xsl:text>
+            </xsl:if>
+            <xsl:value-of select="saxon:evaluate(concat($contentxpath, 'name'))"/>
+        </span>
+    </xsl:template>
+
 	
 	<xsl:template match="filename" mode="title">
 		<xsl:text>%fldName%</xsl:text>
