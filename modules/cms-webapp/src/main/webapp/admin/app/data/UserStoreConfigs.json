@@ -8,7 +8,7 @@
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": true,
-                    "required": true
+                    "required": false
                 },
                 {
                     "fieldname": "password",
@@ -78,7 +78,7 @@
                     "fieldname": "birthday",
                     "fieldlabel": "Birthday",
                     "fieldtype": "date",
-                    "remote": false,
+                    "remote": true,
                     "readonly": true,
                     "required": true
                 },
@@ -102,7 +102,7 @@
                     "fieldname": "phone",
                     "fieldlabel": "Phone",
                     "fieldtype": "string",
-                    "remote": false,
+                    "remote": true,
                     "readonly": false,
                     "required": true
                 },
@@ -112,7 +112,7 @@
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,
-                    "required": true,
+                    "required": false,
                     "iso": true
                 }
             ]

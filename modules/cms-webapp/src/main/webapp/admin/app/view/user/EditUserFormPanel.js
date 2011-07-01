@@ -166,6 +166,18 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         if ( field.fieldname == 'display_name' )
         {
             textField.disabled = true;
+            textField.fieldLabel = '';
+            return {
+                xtype: 'fieldcontainer',
+                layout: 'hbox',
+                measureWidth: true,
+                fieldLabel: field.fieldlabel,
+                items: [textField, {
+                    xtype: 'button',
+                    iconCls: 'icon-locked',
+                    action: 'toggleDisplayNameField'
+                }]
+            };
         }
         return textField;
     },
@@ -225,6 +237,19 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             {
                 var createFunc = eval( fieldSet + '.' + item.fieldname );
                 var newField = createFunc( item );
+                if ( item.required )
+                {
+                    newField.fieldLabel = newField.fieldLabel + "<span style=\"color:red;\" ext:qtip=\"This field is required\">*</span>";
+                }
+                if ( item.remote )
+                {
+                    newField = {
+                        xtype: 'fieldcontainer',
+                        layout: 'hbox',
+                        items: [newField, {xtype: 'image', src: 'resources/images/icon_remote_10px.gif'}]
+                    };
+                }
+
                 Ext.Array.include( fieldItems, newField )
             }
         }, this );
@@ -242,113 +267,115 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         }
     },
 
-    generateAddressFieldSet: function ( field )
-    {
-        var countryField, regionField;
-        if ( field.iso )
-        {
-            var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
-            var regionStore = Ext.data.StoreManager.lookup( 'RegionStore' );
-            var countryField = {
-                xtype: 'combobox',
-                store: countryStore,
-                fieldLabel: 'Country',
-                valueField: 'name',
-                displayField: 'name',
-                name: 'address_country',
-                itemId: 'address_country',
-                disabled: field.readonly
-            };
-            var regionField = {
-                xtype: 'combobox',
-                store: regionStore,
-                valueField: 'name',
-                displayField: 'name',
-                fieldLabel: 'Region',
-                name: 'address_region',
-                itemId: 'address_region',
-                disabled: field.readonly
-            };
-        }
-        else
-        {
-            var countryField = {
-                xtype: 'textfield',
-                fieldLabel: 'Country',
-                name: 'address_country',
-                itemId: 'address_country',
-                disabled: field.readonly
-            };
-            var regionField = {
-                xtype: 'textfield',
-                fieldLabel: 'Region',
-                name: 'address_region',
-                itemId: 'address_region',
-                disabled: field.readonly
-            };
-        }
-        var fieldSetItem = {
-            measureWidth: true,
-            measureHeight: true,
-            defaults: {
-                bodyPadding: 10
-            },
-            xtype: 'fieldset',
-            title: 'Address',
-            items: [
+    generateAddressFieldSet
+            :
+            function ( field )
+            {
+                var countryField, regionField;
+                if ( field.iso )
                 {
-                    xtype: 'textfield',
-                    fieldLabel: 'Label',
-                    name: 'address_label',
-                    itemId: 'address_label',
-                    enableKeyEvents: true,
-                    bubbleEvents: ['keyup'],
-                    disabled: field.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Street',
-                    name: 'address_street',
-                    itemId: 'address_street',
-                    disabled: field.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Postal Code',
-                    name: 'address_postal_code',
-                    itemId: 'address_postal_code',
-                    disabled: field.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Postal Address',
-                    name: 'address_postal_address',
-                    itemId: 'address_postal_address',
-                    disabled: field.readonly
-                },
-                countryField,
-                regionField
-            ]
-        };
-        var tabItem = {
-            title: '[no title]',
-            items: [fieldSetItem]
-        };
-        var tabbedPanel = {
-            xtype: 'tabpanel',
-            itemId: 'addressTabPanel',
-            height: 280,
-            width: 300,
-            items: [tabItem],
-            buttons: [
-                {
-                    text: 'Add New Address',
-                    action: 'addNewTab'
+                    var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
+                    var regionStore = Ext.data.StoreManager.lookup( 'RegionStore' );
+                    var countryField = {
+                        xtype: 'combobox',
+                        store: countryStore,
+                        fieldLabel: 'Country',
+                        valueField: 'name',
+                        displayField: 'name',
+                        name: 'address_country',
+                        itemId: 'address_country',
+                        disabled: field.readonly
+                    };
+                    var regionField = {
+                        xtype: 'combobox',
+                        store: regionStore,
+                        valueField: 'name',
+                        displayField: 'name',
+                        fieldLabel: 'Region',
+                        name: 'address_region',
+                        itemId: 'address_region',
+                        disabled: field.readonly
+                    };
                 }
-            ]
-        };
-        return tabbedPanel;
-    }
+                else
+                {
+                    var countryField = {
+                        xtype: 'textfield',
+                        fieldLabel: 'Country',
+                        name: 'address_country',
+                        itemId: 'address_country',
+                        disabled: field.readonly
+                    };
+                    var regionField = {
+                        xtype: 'textfield',
+                        fieldLabel: 'Region',
+                        name: 'address_region',
+                        itemId: 'address_region',
+                        disabled: field.readonly
+                    };
+                }
+                var fieldSetItem = {
+                    measureWidth: true,
+                    measureHeight: true,
+                    defaults: {
+                        bodyPadding: 10
+                    },
+                    xtype: 'fieldset',
+                    title: 'Address',
+                    items: [
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Label',
+                            name: 'address_label',
+                            itemId: 'address_label',
+                            enableKeyEvents: true,
+                            bubbleEvents: ['keyup'],
+                            disabled: field.readonly
+                        },
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Street',
+                            name: 'address_street',
+                            itemId: 'address_street',
+                            disabled: field.readonly
+                        },
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Postal Code',
+                            name: 'address_postal_code',
+                            itemId: 'address_postal_code',
+                            disabled: field.readonly
+                        },
+                        {
+                            xtype: 'textfield',
+                            fieldLabel: 'Postal Address',
+                            name: 'address_postal_address',
+                            itemId: 'address_postal_address',
+                            disabled: field.readonly
+                        },
+                        countryField,
+                        regionField
+                    ]
+                };
+                var tabItem = {
+                    title: '[no title]',
+                    items: [fieldSetItem]
+                };
+                var tabbedPanel = {
+                    xtype: 'tabpanel',
+                    itemId: 'addressTabPanel',
+                    height: 280,
+                    width: 300,
+                    items: [tabItem],
+                    buttons: [
+                        {
+                            text: 'Add New Address',
+                            action: 'addNewTab'
+                        }
+                    ]
+                };
+                return tabbedPanel;
+            }
 
 } );
 
