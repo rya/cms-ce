@@ -59,7 +59,7 @@ public final class DatabaseSchemaGenerator
     public static void generateDatabaseSchemas( File outputDir, List schema )
         throws Exception
     {
-        for ( Dialect dialect : DialectResolver.getInstance().getDialects() )
+        for ( Dialect dialect : DialectResolver.getDialects() )
         {
             generateDatabaseSchema( outputDir, dialect, schema );
         }
