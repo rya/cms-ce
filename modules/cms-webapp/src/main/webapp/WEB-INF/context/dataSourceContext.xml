@@ -10,17 +10,21 @@
   <!-- Setup transaction by annotations. -->
   <tx:annotation-driven transaction-manager="transactionManager"/>
 
-  <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
+  <bean id="dialectResolver" class="com.enonic.cms.framework.jdbc.dialect.DialectResolver">
     <property name="originalDataSource">
       <jee:jndi-lookup jndi-name="java:comp/env/jdbc/cms"/>
     </property>
+    <property name="dialectName" value="${cms.jdbc.dialect}"/>
+  </bean>
+
+  <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
+    <property name="dialectResolver" ref="dialectResolver"/>
     <property name="traceEnabled" value="${cms.jdbc.connectionTrace}"/>
   </bean>
 
-  <!-- Dialect factory. -->
+    <!-- Dialect factory. -->
   <bean id="dialectFactory" class="com.enonic.cms.framework.jdbc.dialect.DialectFactory">
-    <property name="dataSource" ref="dataSource"/>
-    <property name="dialectName" value="${cms.jdbc.dialect}"/>
+    <property name="dialectResolver" ref="dialectResolver"/>
   </bean>
 
   <!-- Setup the hibernate session factory. -->

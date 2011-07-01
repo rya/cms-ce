@@ -23,45 +23,7 @@ public final class DialectFactory
      */
     private final static Logger LOG = LoggerFactory.getLogger( DialectFactory.class );
 
-    /**
-     * Data source.
-     */
-    private DataSource dataSource;
-
-    /**
-     * Dialect name.
-     */
-    private String dialectName;
-
-    /**
-     * Resolved dialect.
-     */
-    private Dialect resolvedDialect;
-
-    /**
-     * Resolve dialect.
-     */
-    private Dialect resolveDialect()
-            throws Exception
-    {
-        if ( this.dialectName != null )
-        {
-            return DialectResolver.getInstance().resolveByName( this.dialectName );
-        }
-        else
-        {
-            Connection conn = this.dataSource.getConnection();
-
-            try
-            {
-                return DialectResolver.getInstance().resolveByVendor( conn );
-            }
-            finally
-            {
-                conn.close();
-            }
-        }
-    }
+    private DialectResolver dialectResolver;
 
     /**
      * Return the dialect.
@@ -69,13 +31,7 @@ public final class DialectFactory
     public synchronized Object getObject()
             throws Exception
     {
-        if ( this.resolvedDialect == null )
-        {
-            this.resolvedDialect = resolveDialect();
-            LOG.info( "Using [" + this.resolvedDialect.getName() + "] dialect" );
-        }
-
-        return this.resolvedDialect;
+        return dialectResolver.resolveDialect();
     }
 
     /**
@@ -94,34 +50,8 @@ public final class DialectFactory
         return true;
     }
 
-    /**
-     * Set the dialect name.
-     */
-    public void setDialectName( String dialectName )
+    public void setDialectResolver( DialectResolver dialectResolver )
     {
-        if ( dialectName == null )
-        {
-            this.dialectName = null;
-        }
-        else if ( "auto".equals( dialectName ) )
-        {
-            this.dialectName = null;
-        }
-        else if ( dialectName.startsWith( "postgres" ) )
-        {
-            this.dialectName = "postgresql";
-        }
-        else
-        {
-            this.dialectName = dialectName;
-        }
-    }
-
-    /**
-     * Set the datasource.
-     */
-    public void setDataSource( DataSource dataSource )
-    {
-        this.dataSource = dataSource;
+        this.dialectResolver = dialectResolver;
     }
 }
