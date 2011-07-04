@@ -211,7 +211,7 @@ public class DataSourceFactory
         public void setQueryTimeout( int seconds )
                 throws SQLException
         {
-            LOG.info( "ignoring setQueryTimeout ( {} ) call", seconds );
+            // ignore
         }
     }
 
@@ -227,7 +227,7 @@ public class DataSourceFactory
         public void setQueryTimeout( int seconds )
                 throws SQLException
         {
-            LOG.info( "ignoring setQueryTimeout ( {} ) call", seconds );
+            // ignore
         }
     }
 
