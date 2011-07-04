@@ -20,6 +20,7 @@ public final class FilterCommandRegistry
         register( new GrayscaleFilterCommand() );
         register( new InvertFilterCommand() );
         register( new RoundedFilterCommand() );
+        register( new ScaleBlockFilterCommand() );
         register( new ScaleHeightFilterCommand() );
         register( new ScaleMaxFilterCommand() );
         register( new ScaleSquareFilterCommand() );
