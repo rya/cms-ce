@@ -15,6 +15,9 @@
     <context:component-scan base-package="com.enonic.cms.admin"/>
     <context:component-scan base-package="com.enonic.cms.core.tools"/>
 
+    <!-- Enable if jcr is needed. -->
+    <!-- context:component-scan base-package="com.enonic.cms.core.jcr"/-->
+
     <bean id="loadedVerticalProperties" class="com.enonic.cms.core.boot.BootPropertiesFactoryBean"/>
 
     <!-- Placeholder configurer. -->
@@ -301,7 +304,6 @@
     </bean>
 
     <bean id="isWindowEmptyFunction" class="com.enonic.cms.portal.rendering.portalfunctions.IsWindowEmptyFunction">
-      <property name="dataSourceService" ref="dataSourceService"/>
       <property name="windowRendererFactory" ref="windowRendererFactory"/>
     </bean>
 

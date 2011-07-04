@@ -16,7 +16,7 @@ Ext.define('CMS.view.launcher.Toolbar', {
             }
         },
         {
-            xtype: 'tbspacer', width: 20
+            xtype: 'tbspacer', width: 15
         },
         {
             id: 'launcher-start-button',
@@ -89,12 +89,12 @@ Ext.define('CMS.view.launcher.Toolbar', {
                 },
                 {
                     text: 'Change Password',
-                    icon: 'icon-change-password'
+                    iconCls: 'icon-change-password'
                 },
                 '-',
                 {
                     text: 'Log out',
-                    icon: 'icon-log-out',
+                    iconCls: 'icon-log-out',
                     handler: function() {
                         document.location.href = 'index.html';
                     }

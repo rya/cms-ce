@@ -54,8 +54,11 @@ Ext.define( 'CMS.view.user.DeleteWindow', {
     doShow: function( model )
     {
         this.title = 'Delete User';
-        this.child( '#line1' ).child( '#dName' ).text = model.data.displayName + ' (' + model.data.qualifiedName + ')';
-        this.child( '#line1' ).child( '#photo' ).src = 'rest/users/' + model.data.key + '/photo';
+        var name = this.child( '#line1' ).child( '#dName' );
+        var photo = this.child( '#line1' ).child( '#photo' );
+        name.text = model.data.displayName + ' (' + model.data.qualifiedName + ')';
+        photo.src = 'data/user/photo?key=' + model.data.key;
+        photo.addCls('photo');
         this.show();
     }
 

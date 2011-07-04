@@ -6,39 +6,45 @@ package com.enonic.cms.portal;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemType;
-import com.enonic.cms.core.structure.page.WindowKey;
-import com.enonic.cms.portal.processor.*;
-import com.enonic.cms.portal.rendering.*;
 import com.google.common.base.Preconditions;
 
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.page.WindowKey;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
+import com.enonic.cms.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.portal.livetrace.PortalRequestTracer;
+import com.enonic.cms.portal.processor.AbstractPageRequestProcessor;
+import com.enonic.cms.portal.processor.DirectiveRequestProcessor;
+import com.enonic.cms.portal.processor.DirectiveRequestProcessorContext;
+import com.enonic.cms.portal.processor.DirectiveRequestProcessorResult;
+import com.enonic.cms.portal.processor.PageRequestProcessorContext;
+import com.enonic.cms.portal.processor.PageRequestProcessorFactory;
+import com.enonic.cms.portal.processor.PageRequestProcessorResult;
+import com.enonic.cms.portal.rendering.PageRenderer;
+import com.enonic.cms.portal.rendering.PageRendererContext;
+import com.enonic.cms.portal.rendering.PageRendererFactory;
+import com.enonic.cms.portal.rendering.RenderedPageResult;
+import com.enonic.cms.portal.rendering.RenderedWindowResult;
+import com.enonic.cms.portal.rendering.WindowRenderer;
+import com.enonic.cms.portal.rendering.WindowRendererContext;
+import com.enonic.cms.portal.rendering.WindowRendererFactory;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.portal.livetrace.PortalRequestTrace;
-
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.RequestParametersMerger;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.portal.processor.DirectiveRequestProcessorContext;
-import com.enonic.cms.portal.processor.DirectiveRequestProcessorResult;
-import com.enonic.cms.portal.processor.PageRequestProcessorContext;
-import com.enonic.cms.portal.processor.PageRequestProcessorResult;
-import com.enonic.cms.portal.rendering.RenderedPageResult;
-import com.enonic.cms.portal.rendering.RenderedWindowResult;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 /**
  * Class for processing portal requests. Create new instance for each use.
@@ -180,7 +186,7 @@ public class PortalRequestProcessor
             windowRendererContext.setForceNoCacheUsage( false );
             windowRendererContext.setEncodeURIs( request.isEncodeURIs() );
             windowRendererContext.setHttpRequest( httpRequest );
-            windowRendererContext.setInvocationCache( new InvocationCache( dataSourceService ) );
+            windowRendererContext.setInvocationCache( new InvocationCache() );
             windowRendererContext.setLanguage( processorResult.getLanguage() );
             windowRendererContext.setLocale( processorResult.getLocale() );
             windowRendererContext.setMenuItem( menuItem );

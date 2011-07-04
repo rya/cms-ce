@@ -6,7 +6,7 @@
 
 #launcher-toolbar {
     border: none !important;
-    height: 32px;
+    height: 34px;
     background: #dbeeff;
     background: -moz-linear-gradient(top, #dbeeff 0%, #bbd2f0 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dbeeff), color-stop(100%, #bbd2f0));
@@ -45,11 +45,21 @@
     border: 0
 }
 
+/* ----- Accounts -----*/
+
+img.thumbnail {
+    width: 40px;
+    height: 40px;
+}
+
+img.photo {
+    width: 100px;
+    height: 100px;
+}
+
 /* ----- Accounts Grid -----*/
 
 .x-grid-cell img.thumbnail {
-    width: 40px;
-    height: 40px;
     float: left;
     margin-right: 6px
 }
@@ -83,11 +93,6 @@
 }
 
 .detail-info dl dd {
-}
-
-.detail-info img.photo {
-    width: 100px;
-    height: 100px;
 }
 
 /* ----- Accounts Filter Panel ----- */
@@ -193,4 +198,31 @@
 
 .icon-remote {
     background: url("../images/icon_remote_10px.gif") no-repeat;
+}
+
+/*-----  Dashboard  -----*/
+
+.dashboard .dashboard-body {
+    padding: 0 0 10px 10px;
+}
+
+.dashboard .dashlet-column {
+    padding: 10px 10px 0 0;
+}
+
+.dashboard .x-panel-dd-spacer {
+    border: 2px dashed #99bbe8;
+    background: #f6f6f6;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.dashboard .dashlet {
+    margin-bottom: 10px;
+    padding: 1px;
+}
+
+.dashboard .dashlet .x-panel-body {
+    background: #fff;
 }

@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.enonic.cms.core.service.DataSourceService;
-
 import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.rendering.PageRendererContext;
@@ -25,8 +23,6 @@ import com.enonic.cms.domain.RequestParameters;
 
 public class IsWindowEmptyFunction
 {
-    private DataSourceService dataSourceService;
-
     private WindowRendererFactory windowRendererFactory;
 
     public IsWindowEmptyFunction()
@@ -47,7 +43,7 @@ public class IsWindowEmptyFunction
             windowRenderContext.setEncodeURIs( pageRendererContext.isEncodeURIs() );
             windowRenderContext.setForceNoCacheUsage( pageRendererContext.forceNoCacheUsage() );
             windowRenderContext.setHttpRequest( pageRendererContext.getHttpRequest() );
-            windowRenderContext.setInvocationCache( new InvocationCache( dataSourceService ) );
+            windowRenderContext.setInvocationCache( new InvocationCache() );
             windowRenderContext.setLanguage( pageRendererContext.getLanguage() );
             windowRenderContext.setLocale( pageRendererContext.getLocale() );
             windowRenderContext.setMenuItem( pageRendererContext.getMenuItem() );
@@ -111,11 +107,6 @@ public class IsWindowEmptyFunction
             }
         }
         return map;
-    }
-
-    public void setDataSourceService( DataSourceService dataSourceService )
-    {
-        this.dataSourceService = dataSourceService;
     }
 
     public void setWindowRendererFactory( WindowRendererFactory windowRendererFactory )
