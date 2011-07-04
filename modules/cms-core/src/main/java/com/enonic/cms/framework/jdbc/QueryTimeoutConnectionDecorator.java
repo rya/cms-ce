@@ -23,8 +23,6 @@ import com.enonic.cms.framework.jdbc.delegate.DelegatingStatement;
 public final class QueryTimeoutConnectionDecorator
     implements ConnectionDecorator
 {
-    private final static Logger LOG = LoggerFactory.getLogger( QueryTimeoutConnectionDecorator.class );
-
     /**
      * Decorate the connection.
      */
@@ -86,7 +84,7 @@ public final class QueryTimeoutConnectionDecorator
         public void setQueryTimeout( int seconds )
                 throws SQLException
         {
-            LOG.info( "ignoring setQueryTimeout ( {} ) call", seconds );
+            // ignore
         }
     }
 
@@ -110,7 +108,7 @@ public final class QueryTimeoutConnectionDecorator
         public void setQueryTimeout( int seconds )
                 throws SQLException
         {
-            LOG.info( "ignoring setQueryTimeout ( {} ) call", seconds );
+            // ignore
         }
     }
 }
