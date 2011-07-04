@@ -1159,7 +1159,7 @@ public class ContentStorer
         {
             BinaryDataEntity binaryData = cbd.getBinaryData();
 
-            BlobRecord blobStoreObject = binaryDataDao.getBlob( new BinaryDataKey( binaryData.getBlobKey() ) );
+            BlobRecord blobStoreObject = binaryDataDao.getBlob( new BinaryDataKey( binaryData.getKey() ) );
             BinaryDataAndBinary newBinary = new BinaryDataAndBinary( binaryData, blobStoreObject );
             newBinary.setLabel( cbd.getLabel() );
             binaryDatas.add( newBinary );
