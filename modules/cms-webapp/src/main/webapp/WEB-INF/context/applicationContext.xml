@@ -56,7 +56,11 @@
     <!-- Setup transaction by annotations. -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/cms"/>
+    <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
+        <property name="originalDataSource">
+          <jee:jndi-lookup jndi-name="java:comp/env/jdbc/cms"/>
+        </property>
+    </bean>
 
     <!-- Setup the hibernate session factory. -->
     <bean id="sessionFactory" class="com.enonic.cms.store.support.HibernateConfigurator">
