@@ -14,9 +14,6 @@ import java.util.regex.Pattern;
 
 import com.enonic.esl.containers.ExtendedMap;
 
-/**
- * Created by rmy - Date: Jun 16, 2009
- */
 public class FormItemsGroup
 {
     private Pattern groupPattern;
@@ -25,7 +22,7 @@ public class FormItemsGroup
 
     public FormItemsGroup( String groupName, ExtendedMap formItems )
     {
-        groupPattern = Pattern.compile( groupName + "\\[(\\d+)\\]\\.(\\w+)" );
+        groupPattern = Pattern.compile( groupName + "\\[(\\d+)\\]\\.([-\\w]+)" );
 
         for ( Object entry : formItems.keySet() )
         {
