@@ -40,7 +40,7 @@
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,
-                    "required": true
+                    "required": false
                 },
                 {
                     "fieldname": "prefix",
@@ -48,7 +48,7 @@
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,
-                    "required": true
+                    "required": false
                 },
                 {
                     "fieldname": "first_name",
@@ -56,7 +56,7 @@
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,
-                    "required": true
+                    "required": false
                 },
                 {
                     "fieldname": "middle_name",
@@ -64,7 +64,7 @@
                     "fieldtype": "string",
                     "remote": false,
                     "readonly": false,
-                    "required": true
+                    "required": false
                 },
                 {
                     "fieldname": "last_name",
@@ -72,7 +72,7 @@
                     "fieldtype": "string",
                     "remote": true,
                     "readonly": false,
-                    "required": true
+                    "required": false
                 },
                 {
                     "fieldname": "birthday",
