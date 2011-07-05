@@ -16,11 +16,10 @@ Ext.define( 'CMS.view.user.DeleteWindow', {
 
     items: [
         {
-            xtype: 'container',
+            xtype: 'form',
             id: 'line1',
             layout: {
                 type: 'hbox',
-                pack: 'left',
                 defaultMargins: {top:0, right:10, bottom:0, left:0}
             },
             items: [

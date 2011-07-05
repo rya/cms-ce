@@ -16,7 +16,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.EditUserFormPanel',
         'user.EditUserMembershipPanel',
         'user.EditUserPreferencesPanel',
-        'user.EditUserPropertiesPanel'
+        'user.EditUserPropertiesPanel',
+        'user.UserFormField'
     ],
 
     refs: [
@@ -45,6 +46,9 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           '*[action=newGroup]': {
                               click: this.createNewGroupTab
+                          },
+                          '*[action=toggleDisplayNameField]': {
+                              click: this.toggleDisplayNameField
                           },
                           'userGrid': {
                               selectionchange: this.updateDetailsPanel,
@@ -258,7 +262,7 @@ Ext.define( 'CMS.controller.UserController', {
             var userDetail = this.getUserDetail();
             var currentUser = userDetail.getCurrentUser();
             tabId = currentUser.userStore + '-' + currentUser.name;
-            tabTitle = currentUser.userStore + '/' + currentUser.name;
+            tabTitle = currentUser.displayName + ' (' + currentUser.qualifiedName + ')';
             iconCls = 'icon-edit-user';
         }
 
@@ -291,17 +295,17 @@ Ext.define( 'CMS.controller.UserController', {
 
     textFieldHandleEnterKey: function( field, event )
     {
-        var prefix = this.getEditUserWindow().down( '#prefix' )
-                ? Ext.String.trim( this.getEditUserWindow().down( '#prefix' ).getValue() ) : '';
-        var firstName = this.getEditUserWindow().down( '#first_name' )
-                ? Ext.String.trim( this.getEditUserWindow().down( '#first_name' ).getValue() ) : '';
-        var middleName = this.getEditUserWindow().down( '#middle_name' )
-                ? Ext.String.trim( this.getEditUserWindow().down( '#middle_name' ).getValue() ) : '';
-        var lastName = this.getEditUserWindow().down( '#last_name' )
-                ? Ext.String.trim( this.getEditUserWindow().down( '#last_name' ).getValue() ) : '';
-        var suffix = this.getEditUserWindow().down( '#suffix' )
-                ? Ext.String.trim( this.getEditUserWindow().down( '#suffix' ).getValue() ) : '';
-        var displayName = this.getEditUserWindow().down( '#display_name' );
+        var prefix = this.getEditUserPanel().down( '#prefix' )
+                ? Ext.String.trim( this.getEditUserPanel().down( '#prefix' ).getValue() ) : '';
+        var firstName = this.getEditUserPanel().down( '#first_name' )
+                ? Ext.String.trim( this.getEditUserPanel().down( '#first_name' ).getValue() ) : '';
+        var middleName = this.getEditUserPanel().down( '#middle_name' )
+                ? Ext.String.trim( this.getEditUserPanel().down( '#middle_name' ).getValue() ) : '';
+        var lastName = this.getEditUserPanel().down( '#last_name' )
+                ? Ext.String.trim( this.getEditUserPanel().down( '#last_name' ).getValue() ) : '';
+        var suffix = this.getEditUserPanel().down( '#suffix' )
+                ? Ext.String.trim( this.getEditUserPanel().down( '#suffix' ).getValue() ) : '';
+        var displayName = this.getEditUserPanel().down( '#display_name' );
         if ( displayName )
         {
             displayName.setValue( prefix + ' ' + firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix );
@@ -329,6 +333,20 @@ Ext.define( 'CMS.controller.UserController', {
     {
         var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
         tabPanel.getActiveTab().setTitle( field.getValue() );
+    },
+
+    toggleDisplayNameField: function (item, event){
+        var locked = 'icon-locked';
+        var open = 'icon-unlocked';
+        var displayNameField = this.getEditUserPanel().down( '#display_name' );
+        if (item.iconCls == locked){
+            item.setIconCls(open);
+            displayNameField.setDisabled(false);
+        }else{
+            item.setIconCls(locked);
+            displayNameField.setDisabled(true);
+        }
+
     },
 
     // Dummy form

@@ -188,6 +188,18 @@ img.photo {
     background-image: url("../images/house.png");
 }
 
+.icon-locked {
+    background: url("../images/icon_lock_closed.png");
+}
+
+.icon-unlocked {
+    background: url("../images/icon_lock_open.png") no-repeat;
+}
+
+.icon-remote {
+    background: url("../images/icon_remote_10px.gif") no-repeat;
+}
+
 /*-----  Dashboard  -----*/
 
 .dashboard .dashboard-body {
