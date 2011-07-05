@@ -14,7 +14,6 @@
                     "fieldname": "password",
                     "fieldlabel": "Password",
                     "fieldtype": "password",
-                    "remote": true,
                     "readonly": false,
                     "required": true
                 },
@@ -22,7 +21,6 @@
                     "fieldname": "repeat_password",
                     "fieldlabel": "Repeat password",
                     "fieldtype": "password",
-                    "remote": true,
                     "readonly": false,
                     "required": true
                 },
