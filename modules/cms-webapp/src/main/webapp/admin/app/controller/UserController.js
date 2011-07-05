@@ -228,8 +228,7 @@ Ext.define( 'CMS.controller.UserController', {
         var textField = this.getFilterTextField();
 
         usersStore.clearFilter();
-        usersStore.filter( 'displayName', textField.getValue() );
-        usersStore.loadPage( 1 );
+        usersStore.load({params:{query: textField.getValue()}});
     },
 
     filterHandleEnterKey: function( field, event )
