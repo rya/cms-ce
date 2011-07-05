@@ -23,11 +23,11 @@ Ext.define( 'CMS.view.user.UserFormField', {
         var builderFunction;
         if ( this.type )
         {
-            var builderFunction = eval( 'this.fieldConfigBuilders.' + this.type );
+            builderFunction = this.fieldConfigBuilders[this.type];
         }
         else
         {
-            var builderFunction = eval( 'this.fieldConfigBuilders.text' );
+            builderFunction = this.fieldConfigBuilders.text;
         }
         fieldConfig = builderFunction( fieldConfig, this );
 

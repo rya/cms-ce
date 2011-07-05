@@ -170,13 +170,13 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     generateForm: function()
     {
         var storeConfig = this.store.first();
-        this.add( this.generateFieldSet( 'User', 'this.userFieldSet', storeConfig ) );
-        this.add( this.generateFieldSet( 'Name', 'this.nameFieldSet', storeConfig ) );
-        this.add( this.generateFieldSet( 'Photo', 'this.photoFieldSet', storeConfig ) );
-        this.add( this.generateFieldSet( 'Personal Information', 'this.detailsFieldSet', storeConfig ) );
-        this.add( this.generateFieldSet( 'Location', 'this.locationFieldSet', storeConfig ) );
-        this.add( this.generateFieldSet( 'Communication', 'this.communicationFieldSet', storeConfig ) );
-        this.add( this.generateFieldSet( 'Address', 'this.addressFieldSet', storeConfig ) );
+        this.add( this.generateFieldSet( 'User', this.userFieldSet, storeConfig ) );
+        this.add( this.generateFieldSet( 'Name', this.nameFieldSet, storeConfig ) );
+        this.add( this.generateFieldSet( 'Photo', this.photoFieldSet, storeConfig ) );
+        this.add( this.generateFieldSet( 'Personal Information', this.detailsFieldSet, storeConfig ) );
+        this.add( this.generateFieldSet( 'Location', this.locationFieldSet, storeConfig ) );
+        this.add( this.generateFieldSet( 'Communication', this.communicationFieldSet, storeConfig ) );
+        this.add( this.generateFieldSet( 'Address', this.addressFieldSet, storeConfig ) );
     },
 
     generateFieldSet: function( title, fieldSet, storeConfig )
@@ -192,7 +192,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         var fieldItems = [];
         Ext.Array.each( storeConfig.raw.userfields, function ( item )
         {
-            if ( eval( fieldSet + '.' + item.fieldname ) )
+            if ( fieldSet[item.fieldname] )
             {
                 var baseConfig = {
                     fieldLabel: item.fieldlabel,
@@ -201,7 +201,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     remote: item.remote,
                     readonly: item.readonly
                 };
-                var createFunc = eval( fieldSet + '.' + item.fieldname );
+                var createFunc = fieldSet[item.fieldname];
                 var newField = createFunc( item );
                 newField = Ext.apply(newField, baseConfig);
                 Ext.Array.include( fieldItems, newField )
