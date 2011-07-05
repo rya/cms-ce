@@ -524,7 +524,7 @@ public class GroupEntity
 
         final boolean checkGroupFilter = groupTypeFilter != null ? true : false;
 
-        Iterator<GroupEntity> membersIterator = members.iterator();
+        Iterator<GroupEntity> membersIterator = getMembers( false ).iterator();
         while ( membersIterator.hasNext() )
         {
             GroupEntity member = membersIterator.next();
