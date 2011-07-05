@@ -23,7 +23,6 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
-import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
@@ -31,7 +30,6 @@ import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.category.CategoryAccessException;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.BaseContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
@@ -45,6 +43,8 @@ import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataExcepti
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentDataModifier;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserNotFoundException;
@@ -1143,7 +1143,7 @@ public class ContentStorer
         {
             BinaryDataEntity binaryData = cbd.getBinaryData();
 
-            BlobRecord blobStoreObject = binaryDataDao.getBlob( new BinaryDataKey( binaryData.getBlobKey() ) );
+            BlobRecord blobStoreObject = binaryDataDao.getBlob( new BinaryDataKey( binaryData.getKey() ) );
             BinaryDataAndBinary newBinary = new BinaryDataAndBinary( binaryData, blobStoreObject );
             newBinary.setLabel( cbd.getLabel() );
             binaryDatas.add( newBinary );
