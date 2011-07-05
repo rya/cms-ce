@@ -6,15 +6,15 @@
                     "fieldname": "username",
                     "fieldlabel": "Username",
                     "fieldtype": "string",
-                    "remote": false,
+                    "remote": true,
                     "readonly": true,
-                    "required": false
+                    "required": true
                 },
                 {
                     "fieldname": "password",
                     "fieldlabel": "Password",
                     "fieldtype": "password",
-                    "remote": false,
+                    "remote": true,
                     "readonly": false,
                     "required": true
                 },
@@ -22,7 +22,7 @@
                     "fieldname": "repeat_password",
                     "fieldlabel": "Repeat password",
                     "fieldtype": "password",
-                    "remote": false,
+                    "remote": true,
                     "readonly": false,
                     "required": true
                 },
@@ -30,7 +30,7 @@
                     "fieldname": "email",
                     "fieldlabel": "E-mail",
                     "fieldtype": "string",
-                    "remote": false,
+                    "remote": true,
                     "readonly": false,
                     "required": true
                 },
@@ -70,7 +70,7 @@
                     "fieldname": "last_name",
                     "fieldlabel": "Last name",
                     "fieldtype": "string",
-                    "remote": false,
+                    "remote": true,
                     "readonly": false,
                     "required": true
                 },

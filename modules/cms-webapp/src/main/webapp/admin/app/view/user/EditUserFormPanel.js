@@ -92,29 +92,21 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     createAutoCompleteField: function ( field )
     {
         var callingCodeStore = Ext.data.StoreManager.lookup( 'CallingCodeStore' );
-        var autoCompleteField = {
-            xtype: 'combobox',
-            store: callingCodeStore,
-            triggeredAction: 'all',
-            typeAhead: true,
-            mode: 'remote',
-            minChars: 1,
-            forceSelection: true,
-            hideTrigger: true,
+        var f = {
+            xtype: 'userFormField',
+            type: 'autocomplete',
+            fieldLabel: field.fieldlabel,
+            fieldStore: callingCodeStore,
             valueField: 'calling_code',
             displayField: 'calling_code',
-            fieldLabel: field.fieldlabel,
-            name: field.fieldname,
-            itemId: field.fieldname,
-            disabled: field.readonly,
-            listConfig:{
+            displayConfig:{
                 getInnerTpl: function()
                 {
                     return '{calling_code} ({english_name})';
                 }
             }
         };
-        return autoCompleteField;
+        return f;
     },
 
     createComboBoxField: function ( field )
@@ -134,77 +126,45 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             displayField = 'description';
         }
 
-        var fieldConfig = {
-            fieldLabel: field.fieldlabel,
-            name: field.fieldname,
-            itemId: field.fieldname,
-            disabled: field.readonly
+        return {
+            xtype: 'userFormField',
+            type: 'combo',
+            fieldStore: fieldStore,
+            valueField: valueField,
+            displayField: displayField
         };
-        if ( fieldStore.getTotalCount() > 0 )
-        {
-            fieldConfig.xtype = 'combobox';
-            fieldConfig.store = fieldStore;
-            fieldConfig.valueField = valueField;
-            fieldConfig.displayField = displayField;
-        }
-        else
-        {
-            fieldConfig.xtype = 'textfield';
-        }
-        return fieldConfig;
     },
 
     createTextField: function( field )
     {
-        var textField = {xtype: 'textfield',
-            enableKeyEvents: true,
-            bubbleEvents: ['keyup'],
-            fieldLabel: field.fieldlabel,
-            disabled: field.readonly,
-            name: field.fieldname,
-            itemId: field.fieldname};
-        if ( field.fieldname == 'display_name' )
-        {
-            textField.disabled = true;
-            textField.fieldLabel = '';
-            return {
-                xtype: 'fieldcontainer',
-                layout: 'hbox',
-                measureWidth: true,
-                fieldLabel: field.fieldlabel,
-                items: [textField, {
-                    xtype: 'button',
-                    iconCls: 'icon-locked',
-                    action: 'toggleDisplayNameField'
-                }]
-            };
-        }
-        return textField;
+        return {
+            xtype: 'userFormField',
+            type: 'text'
+        };
     },
 
     createPasswordField: function( field )
     {
-        return {xtype: 'textfield',
-            fieldLabel: field.fieldlabel,
-            inputType: 'password',
-            disabled: field.readonly,
-            name: field.fieldname};
+        return {
+            xtype: 'userFormField',
+            type: 'password'
+        };
     },
 
     createPhotoField: function( field )
     {
-        return {xtype: 'filefield',
-            fieldLabel: field.fieldlabel,
-            disabled: field.readonly,
-            name: field.fieldname};
+        return {
+            xtype: 'userFormField',
+            type: 'file'
+        };
     },
 
     createDateField: function( field )
     {
-        return {xtype: 'datefield',
-            disabled: field.readonly,
-            fieldLabel: field.fieldlabel,
-            name: field.fieldname};
+        return {
+            xtype: 'userFormField',
+            type: 'date'
+        };
     },
 
     generateForm: function()
@@ -222,8 +182,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     generateFieldSet: function( title, fieldSet, storeConfig )
     {
         var fieldSetItem = {
-            measureWidth: true,
-            measureHeight: true,
+            width: 300,
             defaults: {
                 bodyPadding: 10
             },
@@ -235,21 +194,16 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         {
             if ( eval( fieldSet + '.' + item.fieldname ) )
             {
+                var baseConfig = {
+                    fieldLabel: item.fieldlabel,
+                    fieldname: item.fieldname,
+                    required: item.required,
+                    remote: item.remote,
+                    readonly: item.readonly
+                };
                 var createFunc = eval( fieldSet + '.' + item.fieldname );
                 var newField = createFunc( item );
-                if ( item.required )
-                {
-                    newField.fieldLabel = newField.fieldLabel + "<span style=\"color:red;\" ext:qtip=\"This field is required\">*</span>";
-                }
-                if ( item.remote )
-                {
-                    newField = {
-                        xtype: 'fieldcontainer',
-                        layout: 'hbox',
-                        items: [newField, {xtype: 'image', src: 'resources/images/icon_remote_10px.gif'}]
-                    };
-                }
-
+                newField = Ext.apply(newField, baseConfig);
                 Ext.Array.include( fieldItems, newField )
             }
         }, this );
@@ -267,115 +221,113 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         }
     },
 
-    generateAddressFieldSet
-            :
-            function ( field )
-            {
-                var countryField, regionField;
-                if ( field.iso )
+    generateAddressFieldSet: function ( field )
+    {
+        var countryField, regionField;
+        if ( field.iso )
+        {
+            var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
+            var regionStore = Ext.data.StoreManager.lookup( 'RegionStore' );
+            var countryField = {
+                xtype: 'combobox',
+                store: countryStore,
+                fieldLabel: 'Country',
+                valueField: 'name',
+                displayField: 'name',
+                name: 'address_country',
+                itemId: 'address_country',
+                disabled: field.readonly
+            };
+            var regionField = {
+                xtype: 'combobox',
+                store: regionStore,
+                valueField: 'name',
+                displayField: 'name',
+                fieldLabel: 'Region',
+                name: 'address_region',
+                itemId: 'address_region',
+                disabled: field.readonly
+            };
+        }
+        else
+        {
+            var countryField = {
+                xtype: 'textfield',
+                fieldLabel: 'Country',
+                name: 'address_country',
+                itemId: 'address_country',
+                disabled: field.readonly
+            };
+            var regionField = {
+                xtype: 'textfield',
+                fieldLabel: 'Region',
+                name: 'address_region',
+                itemId: 'address_region',
+                disabled: field.readonly
+            };
+        }
+        var fieldSetItem = {
+            measureWidth: true,
+            measureHeight: true,
+            defaults: {
+                bodyPadding: 10
+            },
+            xtype: 'fieldset',
+            title: 'Address',
+            items: [
                 {
-                    var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
-                    var regionStore = Ext.data.StoreManager.lookup( 'RegionStore' );
-                    var countryField = {
-                        xtype: 'combobox',
-                        store: countryStore,
-                        fieldLabel: 'Country',
-                        valueField: 'name',
-                        displayField: 'name',
-                        name: 'address_country',
-                        itemId: 'address_country',
-                        disabled: field.readonly
-                    };
-                    var regionField = {
-                        xtype: 'combobox',
-                        store: regionStore,
-                        valueField: 'name',
-                        displayField: 'name',
-                        fieldLabel: 'Region',
-                        name: 'address_region',
-                        itemId: 'address_region',
-                        disabled: field.readonly
-                    };
-                }
-                else
+                    xtype: 'textfield',
+                    fieldLabel: 'Label',
+                    name: 'address_label',
+                    itemId: 'address_label',
+                    enableKeyEvents: true,
+                    bubbleEvents: ['keyup'],
+                    disabled: field.readonly
+                },
                 {
-                    var countryField = {
-                        xtype: 'textfield',
-                        fieldLabel: 'Country',
-                        name: 'address_country',
-                        itemId: 'address_country',
-                        disabled: field.readonly
-                    };
-                    var regionField = {
-                        xtype: 'textfield',
-                        fieldLabel: 'Region',
-                        name: 'address_region',
-                        itemId: 'address_region',
-                        disabled: field.readonly
-                    };
+                    xtype: 'textfield',
+                    fieldLabel: 'Street',
+                    name: 'address_street',
+                    itemId: 'address_street',
+                    disabled: field.readonly
+                },
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Postal Code',
+                    name: 'address_postal_code',
+                    itemId: 'address_postal_code',
+                    disabled: field.readonly
+                },
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Postal Address',
+                    name: 'address_postal_address',
+                    itemId: 'address_postal_address',
+                    disabled: field.readonly
+                },
+                countryField,
+                regionField
+            ]
+        };
+        var tabItem = {
+            title: '[no title]',
+            items: [fieldSetItem]
+        };
+        var tabbedPanel = {
+            xtype: 'tabpanel',
+            itemId: 'addressTabPanel',
+            height: 280,
+            width: 300,
+            items: [tabItem],
+            buttons: [
+                {
+                    text: 'Add New Address',
+                    action: 'addNewTab'
                 }
-                var fieldSetItem = {
-                    measureWidth: true,
-                    measureHeight: true,
-                    defaults: {
-                        bodyPadding: 10
-                    },
-                    xtype: 'fieldset',
-                    title: 'Address',
-                    items: [
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: 'Label',
-                            name: 'address_label',
-                            itemId: 'address_label',
-                            enableKeyEvents: true,
-                            bubbleEvents: ['keyup'],
-                            disabled: field.readonly
-                        },
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: 'Street',
-                            name: 'address_street',
-                            itemId: 'address_street',
-                            disabled: field.readonly
-                        },
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: 'Postal Code',
-                            name: 'address_postal_code',
-                            itemId: 'address_postal_code',
-                            disabled: field.readonly
-                        },
-                        {
-                            xtype: 'textfield',
-                            fieldLabel: 'Postal Address',
-                            name: 'address_postal_address',
-                            itemId: 'address_postal_address',
-                            disabled: field.readonly
-                        },
-                        countryField,
-                        regionField
-                    ]
-                };
-                var tabItem = {
-                    title: '[no title]',
-                    items: [fieldSetItem]
-                };
-                var tabbedPanel = {
-                    xtype: 'tabpanel',
-                    itemId: 'addressTabPanel',
-                    height: 280,
-                    width: 300,
-                    items: [tabItem],
-                    buttons: [
-                        {
-                            text: 'Add New Address',
-                            action: 'addNewTab'
-                        }
-                    ]
-                };
-                return tabbedPanel;
-            }
+            ]
+        };
+        return tabbedPanel;
+    }
 
 } );
 

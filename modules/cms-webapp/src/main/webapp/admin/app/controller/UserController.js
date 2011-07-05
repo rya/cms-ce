@@ -16,7 +16,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.EditUserFormPanel',
         'user.EditUserMembershipPanel',
         'user.EditUserPreferencesPanel',
-        'user.EditUserPropertiesPanel'
+        'user.EditUserPropertiesPanel',
+        'user.UserFormField'
     ],
 
     refs: [
@@ -262,7 +263,7 @@ Ext.define( 'CMS.controller.UserController', {
             var userDetail = this.getUserDetail();
             var currentUser = userDetail.getCurrentUser();
             tabId = currentUser.userStore + '-' + currentUser.name;
-            tabTitle = currentUser.name + ' (' + currentUser.qualifiedName + ')';
+            tabTitle = currentUser.displayName + ' (' + currentUser.qualifiedName + ')';
             iconCls = 'icon-edit-user';
         }
 
