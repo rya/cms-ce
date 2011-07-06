@@ -65,57 +65,43 @@ public class AdminServiceImpl
         this.resourceService = value;
     }
 
-    /**
-     */
     public String getPageTemplates( PageTemplateType type )
     {
         return adminEngine.getPageTemplates( type );
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = 86400)
     public void copyMenu( User user, int menuKey, boolean includeContent )
         throws VerticalCopyException, VerticalSecurityException
     {
         adminEngine.copyMenu( user, menuKey, includeContent );
     }
 
-    /**
-     */
     public boolean contentExists( int categoryKey, String contentTitle )
     {
         return adminEngine.contentExists( categoryKey, contentTitle );
     }
 
-    /**
-     */
     public int getContentKey( int categoryKey, String contentTitle )
     {
         return adminEngine.getContentKey( categoryKey, contentTitle );
     }
 
-    /**
-     */
     public String getContentCreatedTimestamp( int contentKey )
     {
         return adminEngine.getContentCreatedTimestamp( contentKey );
     }
 
-    /**
-     */
     public Date getContentPublishFromTimestamp( int contentKey )
     {
         return adminEngine.getContentPublishFromTimestamp( contentKey );
     }
 
-    /**
-     */
     public Date getContentPublishToTimestamp( int contentKey )
     {
         return adminEngine.getContentPublishToTimestamp( contentKey );
     }
 
-    /**
-     */
     public int getCategoryKey( int superCategoryKey, String name )
     {
         return adminEngine.getCategoryKey( superCategoryKey, name );
@@ -128,8 +114,6 @@ public class AdminServiceImpl
         return adminEngine.createCategory( user, superCategoryKey, name );
     }
 
-    /**
-     */
     public MenuItemKey getSectionKeyByMenuItemKey( MenuItemKey menuItemKey )
     {
         return adminEngine.getSectionKeyByMenuItemKey( menuItemKey );
@@ -142,25 +126,16 @@ public class AdminServiceImpl
         return adminEngine.createCategory( user, xmlData );
     }
 
-    /**
-     *
-     */
     public String getCategory( User user, int categoryKey )
     {
         return adminEngine.getCategory( user, categoryKey );
     }
 
-    /**
-     *
-     */
     public int getCategoryKey( int contentKey )
     {
         return adminEngine.getCategoryKey( contentKey );
     }
 
-    /**
-     *
-     */
     public String getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )
     {
         return adminEngine.getSuperCategoryNames( categoryKey, withContentCount, includeCategory );
@@ -196,9 +171,6 @@ public class AdminServiceImpl
         adminEngine.createLanguage( user, languageCode, description );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String[] createLogEntries( User user, String xmlData )
     {
@@ -258,100 +230,64 @@ public class AdminServiceImpl
         return adminEngine.createUnit( xmlData );
     }
 
-    /**
-     *
-     */
     public String generateUID( String fName, String sName, UserStoreKey userStoreKey )
     {
         return adminEngine.generateUID( fName, sName, userStoreKey );
     }
 
-    /**
-     *
-     */
     public BinaryData getBinaryData( User user, int binaryDataKey )
     {
         return adminEngine.getBinaryData( binaryDataKey );
     }
 
-    /**
-     *
-     */
     public String getAccessRights( User user, int type, int key, boolean includeUserright )
     {
         return adminEngine.getAccessRights( user, type, key, includeUserright );
     }
 
-    /**
-     *
-     */
     public String getDefaultAccessRights( User user, int type, int key )
     {
         return adminEngine.getDefaultAccessRights( user, type, key );
     }
 
 
-    /**
-     *
-     */
     public String getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
     {
         return adminEngine.getContent( user, contentKey, parentLevel, childrenLevel, parentChildrenLevel );
     }
 
-    /**
-     *
-     */
     public String getCategoryName( int categoryKey )
     {
 
         return adminEngine.getCategoryName( categoryKey );
     }
 
-    /**
-     *
-     */
     public String getCategoryNameXML( int categoryKey )
     {
 
         return adminEngine.getCategoryNameXML( categoryKey );
     }
 
-    /**
-     *
-     */
     public CategoryAccessRight getCategoryAccessRight( User user, int categoryKey )
     {
         return adminEngine.getCategoryAccessRight( user, categoryKey );
     }
 
-    /**
-     *
-     */
     public ContentAccessRight getContentAccessRight( User user, int categoryKey )
     {
         return adminEngine.getContentAccessRight( user, categoryKey );
     }
 
-    /**
-     *
-     */
     public MenuAccessRight getMenuAccessRight( User user, int menuKey )
     {
         return adminEngine.getMenuAccessRight( user, menuKey );
     }
 
-    /**
-     *
-     */
     public int[] getContentKeysByCategory( User user, int categoryKey )
     {
         return adminEngine.getContentKeysByCategory( user, categoryKey );
     }
 
-    /**
-     *
-     */
     public String getContentObject( int coc_lKey )
     {
         return adminEngine.getContentObject( coc_lKey );
@@ -365,257 +301,161 @@ public class AdminServiceImpl
         return adminEngine.getContentObjectRunAs( contentObjectKey );
     }
 
-    /**
-     *
-     */
     public String getContentObjectsByMenu( int menuKey )
     {
         return adminEngine.getContentObjectsByMenu( menuKey );
     }
 
-    /**
-     *
-     */
     public String getContentTitle( int versionKey )
     {
         return adminEngine.getContentTitle( versionKey );
     }
 
-    /**
-     *
-     */
     public String getContentType( int contentTypeKey )
     {
         return adminEngine.getContentType( contentTypeKey );
     }
 
-    /**
-     *
-     */
     public String getContentType( int contentTypeKey, boolean includeContentCount )
     {
         return adminEngine.getContentType( contentTypeKey, includeContentCount );
     }
 
-    /**
-     *
-     */
     public int getContentCountByContentType( int contentTypeKey )
     {
         return adminEngine.getContentCountByContentType( contentTypeKey );
     }
 
-    /**
-     *
-     */
     public int getContentTypeKey( int contentKey )
     {
         return adminEngine.getContentTypeKey( contentKey );
     }
 
-    /**
-     *
-     */
     public int[] getContentTypeKeysByHandler( String handlerClass )
     {
         return adminEngine.getContentTypeKeysByHandler( handlerClass );
     }
 
-    /**
-     *
-     */
     public int getContentTypeKeyByCategory( int categoryKey )
     {
         return adminEngine.getContentTypeKeyByCategory( categoryKey );
     }
 
-    /**
-     *
-     */
     public String getContentTypeName( int contentTypeKey )
     {
         return adminEngine.getContentTypeName( contentTypeKey );
     }
 
-    /**
-     *
-     */
     public String getContentTypes()
     {
         return adminEngine.getContentTypes();
     }
 
-    /**
-     *
-     */
     public String getLanguage( LanguageKey languageKey )
     {
         return adminEngine.getLanguage( languageKey ).getAsString();
     }
 
-    /**
-     *
-     */
     public String getLanguages()
     {
         return adminEngine.getLanguages().getAsString();
     }
 
-    /**
-     *
-     */
     public String getMenu( User user, int menuKey, boolean complete )
     {
         return adminEngine.getMenu( user, menuKey, complete );
     }
 
-    /**
-     *
-     */
     public String getMenuName( int menuKey )
     {
         return adminEngine.getMenuName( menuKey );
     }
 
-    /**
-     *
-     */
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey key )
     {
         return adminEngine.getMenuItemAccessRight( user, key );
     }
 
-    /**
-     *
-     */
     public String getMenuItem( User user, int key, boolean withParents )
     {
         return adminEngine.getMenuItem( user, key, withParents );
     }
 
-    /**
-     *
-     */
     public String getMenuItem( User user, int key, boolean withParents, boolean complete )
     {
         return adminEngine.getMenuItem( user, key, withParents, complete );
     }
 
-    /**
-     *
-     */
     public String getMenuItemName( int menuItemKey )
     {
         return adminEngine.getMenuItemName( menuItemKey );
     }
 
-    /**
-     *
-     */
     public String getMenuItemsByContentObject( User user, int cobKey )
     {
         return adminEngine.getMenuItemsByContentObject( user, cobKey );
     }
 
-    /**
-     *
-     */
     public String getMenuItemsByPageTemplates( User user, int[] pageTemplateKeys )
     {
         return adminEngine.getMenuItemsByPageTemplates( user, pageTemplateKeys );
     }
 
-    /**
-     *
-     */
     public String getPageTemplate( int pageTemplateKey )
     {
         return adminEngine.getPageTemplate( new PageTemplateKey( pageTemplateKey ) );
     }
 
-    /**
-     *
-     */
     public String getPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys )
     {
         return adminEngine.getPageTemplatesByMenu( menuKey, excludeTypeKeys );
     }
 
-    /**
-     *
-     */
     public String getPageTemplatesByContentObject( int contentObjectKey )
     {
         return adminEngine.getPageTemplatesByContentObject( contentObjectKey );
     }
 
-    /**
-     *
-     */
     public String getPageTemplParams( int pageTemplateKey )
     {
         return adminEngine.getPageTemplParams( pageTemplateKey );
     }
 
-    /**
-     *
-     */
     public int getSuperCategoryKey( int categoryKey )
     {
         return adminEngine.getSuperCategoryKey( categoryKey );
     }
 
-    /**
-     *
-     */
     public String getUnit( int unitKey )
     {
         return adminEngine.getUnit( unitKey );
     }
 
-    /**
-     *
-     */
     public String getUnitName( int unitKey )
     {
         return adminEngine.getUnitName( unitKey );
     }
 
-    /**
-     *
-     */
     public int getUnitKey( int categoryKey )
     {
         return adminEngine.getUnitKey( categoryKey );
     }
 
-    /**
-     *
-     */
     public int getUnitLanguageKey( int unitKey )
     {
         return adminEngine.getUnitLanguageKey( unitKey );
     }
 
-    /**
-     *
-     */
     public String getUnitNamesXML( Filter filter )
     {
         return adminEngine.getUnitNamesXML( filter );
     }
 
-    /**
-     *
-     */
     public boolean hasContent( int contentCategoryKey )
     {
         return adminEngine.hasContent( contentCategoryKey );
     }
 
-    /**
-     *
-     */
     public boolean hasSubCategories( int contentCategoryKey )
     {
         return adminEngine.hasSubCategories( contentCategoryKey );
@@ -633,9 +473,6 @@ public class AdminServiceImpl
         adminEngine.regenerateIndexForContentHandler( contentHandlerKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeContentObject( int coc_lKey )
         throws VerticalSecurityException, VerticalRemoveException
@@ -643,9 +480,6 @@ public class AdminServiceImpl
         adminEngine.removeContentObject( coc_lKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeContentType( User user, int contentTypeKey )
         throws VerticalSecurityException, VerticalRemoveException
@@ -653,9 +487,6 @@ public class AdminServiceImpl
         adminEngine.removeContentType( user, contentTypeKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeLanguage( LanguageKey languageKey )
         throws VerticalSecurityException, VerticalRemoveException
@@ -663,9 +494,6 @@ public class AdminServiceImpl
         adminEngine.removeLanguage( languageKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeMenu( User user, int key )
         throws VerticalRemoveException, VerticalSecurityException
@@ -673,9 +501,6 @@ public class AdminServiceImpl
         adminEngine.removeMenu( user, key );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removePageTemplate( int pageTemplateKey )
         throws VerticalSecurityException, VerticalRemoveException
@@ -683,9 +508,6 @@ public class AdminServiceImpl
         adminEngine.removePageTemplate( pageTemplateKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeUnit( User user, int unitKey )
         throws VerticalSecurityException, VerticalRemoveException
@@ -693,9 +515,6 @@ public class AdminServiceImpl
         adminEngine.removeUnit( user, unitKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateContentObject( String xmlData )
         throws VerticalSecurityException, VerticalUpdateException
@@ -703,36 +522,24 @@ public class AdminServiceImpl
         adminEngine.updateContentObject( xmlData );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateContentType( User user, String xmlData )
     {
         adminEngine.updateContentType( user, xmlData );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateLanguage( LanguageKey languageKey, String languageCode, String description )
     {
         adminEngine.updateLanguage( languageKey, languageCode, description );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateMenuData( User user, String xmlData )
     {
         adminEngine.updateMenuData( user, xmlData );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updatePageTemplate( User user, String xmlData )
     {
@@ -746,33 +553,21 @@ public class AdminServiceImpl
         adminEngine.updateUnit( xmlData );
     }
 
-    /**
-     *
-     */
     public String getGroup( String gKey )
     {
         return adminEngine.getGroup( gKey );
     }
 
-    /**
-     *
-     */
     public String getContentTypeModuleData( int ctKey )
     {
         return adminEngine.getContentTypeModuleData( ctKey );
     }
 
-    /**
-     *
-     */
     public int getContentCount( int categoryKey, boolean recursive )
     {
         return adminEngine.getContentCount( categoryKey, recursive );
     }
 
-    /**
-     *
-     */
     public XMLDocument getContent( User user, CategoryKey categoryKey, boolean includeSubCategories, String orderBy, int index, int count,
                                    int childrenLevel, int parentLevel, int parentChildrenLevel )
     {
@@ -780,66 +575,42 @@ public class AdminServiceImpl
                                        parentChildrenLevel );
     }
 
-    /**
-     *
-     */
     public boolean isEnterpriseAdmin( User user )
     {
         return adminEngine.isEnterpriseAdmin( user );
     }
 
-    /**
-     *
-     */
     public boolean isAdmin( User user )
     {
         return adminEngine.isAdmin( user );
     }
 
-    /**
-     *
-     */
     public boolean isUserStoreAdmin( User user, UserStoreKey userStoreKey )
     {
         return adminEngine.isUserStoreAdmin( user, userStoreKey );
     }
 
-    /**
-     *
-     */
     public void moveCategory( User user, int catKey, int superCatKey )
         throws VerticalUpdateException, VerticalSecurityException
     {
         adminEngine.moveCategory( user, catKey, superCatKey );
     }
 
-    /**
-     *
-     */
     public XMLDocument getMenu( User user, int type, Criteria criteria, boolean includeSubtrees )
     {
         return adminEngine.getMenu( user, type, criteria, includeSubtrees );
     }
 
-    /**
-     *
-     */
     public String getPath( User user, int type, int key )
     {
         return adminEngine.getPath( user, type, key );
     }
 
-    /**
-     *
-     */
     public String getMenusForAdmin( User user, MenuGetterSettings getterSettings )
     {
         return adminEngine.getMenusForAdmin( user, getterSettings );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void moveMenuItem( User user, Element[] menuItemElems, int menuItemKey, int fromMenuKey, int fromParentKey, int toMenuKey,
                               int toParentKey )
@@ -847,59 +618,38 @@ public class AdminServiceImpl
         adminEngine.moveMenuItem( user, menuItemElems, menuItemKey, fromMenuKey, fromParentKey, toMenuKey, toParentKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void shiftMenuItems( User user, Element[] menuItemElems, int menuKey, int parentMenuItemKey )
     {
         adminEngine.shiftMenuItems( user, menuItemElems, menuKey, parentMenuItemKey );
     }
 
-    /**
-     *
-     */
     public String getUserNames( String[] groupKeys )
     {
         return adminEngine.getUserNames( groupKeys );
     }
 
-    /**
-     *
-     */
     public String getContentHandler( int contentHandlerKey )
     {
         return adminEngine.getContentHandler( contentHandlerKey );
     }
 
-    /**
-     *
-     */
     public String getContentHandlerClassForContentType( int contentTypeKey )
     {
         return adminEngine.getContentHandlerClassForContentType( contentTypeKey );
     }
 
-    /**
-     *
-     */
     public String getContentHandlers()
     {
         return adminEngine.getContentHandlers();
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createContentHandler( User user, String xmlData )
     {
         return adminEngine.createContentHandler( user, xmlData );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateContentHandler( User user, String xmlData )
         throws VerticalSecurityException, VerticalUpdateException
@@ -907,9 +657,6 @@ public class AdminServiceImpl
         adminEngine.updateContentHandler( user, xmlData );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeContentHandler( User user, int contentHandlerKey )
         throws VerticalSecurityException, VerticalRemoveException
@@ -922,25 +669,16 @@ public class AdminServiceImpl
         return adminEngine.getContentTypes( includeContentCount );
     }
 
-    /**
-     *
-     */
     public String getIndexingParametersXML( int contentTypeKey )
     {
         return adminEngine.getIndexingParametersXML( contentTypeKey );
     }
 
-    /**
-     *
-     */
     public String getContentHandlerByContentType( int contentTypeKey )
     {
         return XMLTool.documentToString( adminEngine.getContentHandlerByContentType( contentTypeKey ) );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createSection( String xmlData )
         throws VerticalSecurityException
@@ -949,9 +687,6 @@ public class AdminServiceImpl
         return adminEngine.createSection( doc );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateSection( User user, String xmlData )
         throws VerticalUpdateException, VerticalSecurityException
@@ -960,25 +695,16 @@ public class AdminServiceImpl
         adminEngine.updateSection( user, doc );
     }
 
-    /**
-     *
-     */
     public long getSectionContentTimestamp( MenuItemKey sectionKey )
     {
         return adminEngine.getSectionContentTimestamp( sectionKey );
     }
 
-    /**
-     *
-     */
     public String getSections( User user, SectionCriteria criteria )
     {
         return adminEngine.getSections( user, criteria );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeSection( int sectionKey, boolean recursive )
         throws VerticalRemoveException, VerticalSecurityException
@@ -986,9 +712,6 @@ public class AdminServiceImpl
         adminEngine.removeSection( sectionKey, recursive );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void copySection( int sectionKey )
         throws VerticalCopyException, VerticalSecurityException
@@ -996,9 +719,6 @@ public class AdminServiceImpl
         adminEngine.copySection( sectionKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void addContentToSections( User user, String xmlData )
         throws VerticalSecurityException
@@ -1006,17 +726,11 @@ public class AdminServiceImpl
         adminEngine.addContentToSections( user, xmlData );
     }
 
-    /**
-     *
-     */
     public String getSuperSectionNames( MenuItemKey sectionKey, boolean includeSection )
     {
         return adminEngine.getSuperSectionNames( sectionKey, includeSection );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void setSectionContentsApproved( User user, int sectionKey, int[] contentKeys, boolean approved )
         throws VerticalUpdateException, VerticalSecurityException
@@ -1024,17 +738,11 @@ public class AdminServiceImpl
         adminEngine.setSectionContentsApproved( user, sectionKey, contentKeys, approved );
     }
 
-    /**
-     *
-     */
     public boolean isSectionOrdered( int sectionKey )
     {
         return adminEngine.isSectionOrdered( sectionKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateSectionContent( User user, MenuItemKey sectionKey, int contentKey, int order, boolean approved )
         throws VerticalUpdateException, VerticalSecurityException
@@ -1042,25 +750,16 @@ public class AdminServiceImpl
         adminEngine.updateSectionContent( user, sectionKey, contentKey, order, approved );
     }
 
-    /**
-     *
-     */
     public MenuItemKey getMenuItemKeyBySection( MenuItemKey sectionKey )
     {
         return adminEngine.getMenuItemKeyBySection( sectionKey );
     }
 
-    /**
-     *
-     */
     public int getMenuKeyBySection( MenuItemKey sectionKey )
     {
         return adminEngine.getMenuKeyBySection( sectionKey );
     }
 
-    /**
-     *
-     */
     public XMLDocument getContentTitlesBySection( MenuItemKey sectionKey, String orderBy, int fromIndex, int count,
                                                   boolean includeTotalCount, boolean approveOnly )
     {
@@ -1068,25 +767,16 @@ public class AdminServiceImpl
         return adminEngine.getContentTitlesBySection( sectionKey, orderBy, fromIndex, count, includeTotalCount, approveOnly );
     }
 
-    /**
-     *
-     */
     public XMLDocument getContentTitles( int[] contentKeys )
     {
         return adminEngine.getContentTitles( contentKeys );
     }
 
-    /**
-     *
-     */
     public String getUsersWithPublishRight( int categoryKey )
     {
         return adminEngine.getUsersWithPublishRight( categoryKey );
     }
 
-    /**
-     *
-     */
     public String getContentOwner( int contentKey )
     {
         return adminEngine.getContentOwner( contentKey );
@@ -1102,105 +792,66 @@ public class AdminServiceImpl
         return adminEngine.getLogEntry( key );
     }
 
-    /**
-     *
-     */
     public int getMenuKeyByMenuItem( MenuItemKey menuItemKey )
     {
         return adminEngine.getMenuKeyByMenuItem( menuItemKey );
     }
 
-    /**
-     *
-     */
     public int getParentMenuItemKey( int menuItemKey )
     {
         return adminEngine.getParentMenuItemKey( menuItemKey );
     }
 
-    /**
-     *
-     */
     public String getCategoryPathXML( CategoryKey categoryKey, int[] contentTypes )
     {
         return adminEngine.getCategoryPathXML( categoryKey, contentTypes );
     }
 
-    /**
-     *
-     */
     public ResourceKey getContentTypeCSSKey( int contentTypeKey )
     {
         return adminEngine.getContentTypeCSSKey( contentTypeKey );
     }
 
-    /**
-     *
-     */
     public XMLDocument getContentTypes( int[] contentTypeKeys, boolean includeContentCount )
     {
         return adminEngine.getContentTypes( contentTypeKeys, includeContentCount );
     }
 
-    /**
-     *
-     */
     public String getData( User user, int type, int[] keys )
     {
         return adminEngine.getData( user, type, keys );
     }
 
-    /**
-     *
-     */
     public ResourceKey getDefaultCSSByMenu( int menuKey )
     {
         return adminEngine.getDefaultCSSByMenu( menuKey );
     }
 
-    /**
-     *
-     */
     public int getCurrentVersionKey( int contentKey )
     {
         return adminEngine.getCurrentVersionKey( contentKey );
     }
 
-    /**
-     *
-     */
     public int[] getBinaryDataKeysByVersion( int versionKey )
     {
         return adminEngine.getBinaryDataKeysByVersion( versionKey );
     }
 
-    /**
-     *
-     */
     public int getContentKeyByVersionKey( int versionKey )
     {
         return adminEngine.getContentKeyByVersionKey( versionKey );
     }
 
-    /**
-     *
-     */
     public String getContentVersion( User user, int versionKey )
     {
         return adminEngine.getContentVersion( user, versionKey );
     }
 
-    /**
-     *
-     */
     public String getContentXMLField( User user, int versionKey )
     {
         return adminEngine.getContentXMLField( versionKey );
     }
 
-    /**
-     *
-     */
     public int[] getContentTypesByHandlerClass( String className )
     {
         return adminEngine.getContentTypesByHandlerClass( className );
@@ -1211,25 +862,16 @@ public class AdminServiceImpl
         return adminEngine.getBinaryDataKey( contentKey, label );
     }
 
-    /**
-     *
-     */
     public String getCategoryMenu( User user, int categoryKey, int[] contentTypes, boolean includeRootCategories )
     {
         return adminEngine.getCategoryMenu( user, categoryKey, contentTypes, includeRootCategories );
     }
 
-    /**
-     *
-     */
     public int getContentVersionState( int versionKey )
     {
         return adminEngine.getContentVersionState( versionKey );
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean initializeDatabaseSchema()
         throws Exception
@@ -1237,9 +879,6 @@ public class AdminServiceImpl
         return adminEngine.initializeDatabaseSchema();
     }
 
-    /**
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public boolean initializeDatabaseValues()
         throws Exception
@@ -1252,19 +891,11 @@ public class AdminServiceImpl
         return adminEngine.getPageTemplateType( new PageTemplateKey( pageTemplateKey ) );
     }
 
-    /**
-     *
-     *
-     */
     public boolean isContentVersionApproved( int versionKey )
     {
         return adminEngine.isContentVersionApproved( versionKey );
     }
 
-    /**
-     *
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
         throws VerticalUpdateException
@@ -1272,10 +903,6 @@ public class AdminServiceImpl
         adminEngine.updateContentPublishing( user, contentKey, versionKey, status, publishFrom, publishTo );
     }
 
-    /**
-     *
-     *
-     */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void setContentHome( User user, int contentKey, int menuKey, int menuItemKey, int pageTemplateKey )
         throws VerticalUpdateException
@@ -1283,44 +910,26 @@ public class AdminServiceImpl
         adminEngine.setContentHome( user, contentKey, menuKey, menuItemKey, pageTemplateKey );
     }
 
-    /**
-     *
-     *
-     */
     public String getContentHomes( int contentKey )
     {
         return adminEngine.getContentHomes( contentKey );
     }
 
-    /**
-     *
-     *
-     */
     public String getPathString( int type, int key )
     {
         return adminEngine.getPathString( type, key );
     }
 
-    /**
-     *
-     *
-     */
     public String getContentTitleXML( int versionKey )
     {
         return adminEngine.getContentTitleXML( versionKey );
     }
 
-    /**
-     *
-     */
     public boolean hasContentPageTemplates( int menuKey, int contentTypeKey )
     {
         return adminEngine.hasContentPageTemplates( menuKey, contentTypeKey );
     }
 
-    /**
-     *
-     */
     public int getContentStatus( int versionKey )
     {
         return adminEngine.getContentStatus( versionKey );
@@ -1366,9 +975,6 @@ public class AdminServiceImpl
         return this.adminEngine.getMenuMap();
     }
 
-    /**
-     *
-     */
     public String getUnits()
     {
         return adminEngine.getUnits();
