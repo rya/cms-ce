@@ -2,9 +2,9 @@ Ext.define( 'CMS.controller.UserController', {
     extend: 'Ext.app.Controller',
 
     stores: ['UserStore', 'UserStoreConfigStore', 'CountryStore', 'CallingCodeStore', 'LanguageStore',
-        'RegionStore'],
+        'RegionStore', 'GroupStore'],
     models: ['UserModel', 'UserFieldModel', 'UserStoreConfigModel', 'CountryModel', 'CallingCodeModel',
-        'LanguageModel', 'RegionModel'],
+        'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
         'user.GridPanel',
         'user.DetailPanel',
@@ -17,7 +17,10 @@ Ext.define( 'CMS.controller.UserController', {
         'user.EditUserMembershipPanel',
         'user.EditUserPreferencesPanel',
         'user.EditUserPropertiesPanel',
-        'user.UserFormField'
+        'user.UserFormField',
+        'user.MembershipGridPanel',
+        'user.UserMembershipWindow',
+        'user.GroupItemField'
     ],
 
     refs: [
@@ -32,7 +35,9 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
         {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
         {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'},
-        {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'}
+        {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'},
+        {ref: 'userMembershipWindow', selector: 'userMembershipWindow', autoCreate: true, xtype: 'userMembershipWindow'},
+        {ref: 'editUserMembershipPanel', selector: 'editUserMembershipPanel', autoCreate: true, xtype: 'editUserMembershipPanel'}
     ],
 
     init: function()
@@ -54,6 +59,9 @@ Ext.define( 'CMS.controller.UserController', {
                               selectionchange: this.updateDetailsPanel,
                               itemcontextmenu: this.popupMenu,
                               itemdblclick: this.showEditUserForm
+                          },
+                          'membershipGridPanel': {
+                              itemclick: this.selectGroup
                           },
                           'userFilter': {
                               specialkey: this.filterHandleEnterKey,
@@ -97,6 +105,12 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           'editUserPanel textfield[name=address_label]': {
                               keyup: this.updateTabTitle
+                          },
+                          '*[action=addGroup]': {
+                              click: this.showAddGroupWindow
+                          },
+                          '*[action=deleteGroup]': {
+                              click: this.deleteGroup
                           }
                       } );
     },
@@ -348,6 +362,22 @@ Ext.define( 'CMS.controller.UserController', {
         }
 
     },
+
+    showAddGroupWindow: function(){
+        this.getUserMembershipWindow().doShow();
+    },
+
+    selectGroup: function(view, record){
+        var editUserMembershipPanel = this.getEditUserMembershipPanel();
+        editUserMembershipPanel.addGroup(record.get('key'), record.get('name'));
+        this.getUserMembershipWindow().hide();
+    },
+
+    deleteGroup: function(element, event){
+        var group = element.findParentByType('groupItemField');
+        this.getEditUserMembershipPanel().remove(group);
+    },
+
 
     // Dummy form
     createDummyUserForm: function( user )

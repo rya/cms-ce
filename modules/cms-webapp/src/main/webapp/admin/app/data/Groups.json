@@ -1,0 +1,19 @@
+{
+    "total": 5,
+    "groups": [
+        {
+            "key": 1,
+            "name": "Authenticated Users",
+            "userStore": "default",
+            "memberCount": "10",
+            "restrictedEnrollment": true
+        },
+        {
+            "key": 2,
+            "name": "Userstore Administrators",
+            "userStore": "default",
+            "memberCount": "5",
+            "restrictedEnrollment": true
+        }
+    ]
+}
