@@ -196,11 +196,11 @@
 </tr>
 <tr>
     <td>Content key</td>
-    <td>${attachmentRequestTrace.contentKey}</td>
+    <td>${attachmentRequestTrace.contentKey!}</td>
 </tr>
 <tr>
     <td>Binary key</td>
-    <td>${attachmentRequestTrace.binaryDataKey}</td>
+    <td>${attachmentRequestTrace.binaryDataKey!}</td>
 </tr>
 <tr>
     <td>Duration</td>
@@ -209,7 +209,7 @@
     [#if attachmentRequestTrace.hasBlobFetchingTrace() == true]
     <tr>
         <td>Size (bytes)</td>
-        <td>${attachmentRequestTrace.blobFetchingTrace.sizeInBytes}</td>
+        <td>${attachmentRequestTrace.blobFetchingTrace.sizeInBytes!}</td>
     </tr>
         [#else]
         <tr>
