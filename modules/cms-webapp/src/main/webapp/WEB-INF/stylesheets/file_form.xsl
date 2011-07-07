@@ -75,7 +75,6 @@
           <xsl:if test="$create=1">
               validatedFields[ idx++ ] = new Array("%fldFile%", "newfile", validateRequired);
           </xsl:if>
-            validatedFields[ idx++ ] = new Array("%fldFile%", "newfile", validateRequired);
 
           function validateAll( formName )
           {
