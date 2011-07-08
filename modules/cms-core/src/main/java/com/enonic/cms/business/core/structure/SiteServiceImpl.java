@@ -10,7 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
@@ -26,12 +25,10 @@ import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 
 public class SiteServiceImpl
-        implements SiteService
+    implements SiteService
 {
 
     private static final Logger LOG = LoggerFactory.getLogger( SiteServiceImpl.class );
-
-    private PresentationService presentationService;
 
     private SiteCachesService siteCachesService;
 
@@ -121,7 +118,8 @@ public class SiteServiceImpl
         initCache( siteContext );
 
         siteContext.setAccessLoggingEnabled( sitePropertiesService.getPropertyAsBoolean( "cms.site.logging.access", siteKey ) );
-        siteContext.setAuthenticationLoggingEnabled( sitePropertiesService.getPropertyAsBoolean( "cms.site.logging.authentication", siteKey ) );
+        siteContext.setAuthenticationLoggingEnabled(
+            sitePropertiesService.getPropertyAsBoolean( "cms.site.logging.authentication", siteKey ) );
 
         return siteContext;
     }
@@ -141,14 +139,14 @@ public class SiteServiceImpl
      */
     public boolean siteExists( SiteKey siteKey )
     {
-        return presentationService.siteExists( siteKey );
+        return siteDao.findByKey( siteKey.toInt() ) != null;
     }
 
     /**
      * @inheritDoc
      */
     public void checkSiteExist( SiteKey siteKey )
-            throws SiteNotFoundException
+        throws SiteNotFoundException
     {
         if ( !siteExists( siteKey ) )
         {
@@ -160,12 +158,12 @@ public class SiteServiceImpl
      * @inheritDoc
      */
     public SiteContext getSiteContext( SiteKey siteKey )
-            throws SiteNotFoundException
+        throws SiteNotFoundException
     {
 
         SiteContext siteContext = siteContextManager.getSiteContext( siteKey );
 
-        boolean siteExistsInDb = presentationService.siteExists( siteKey );
+        boolean siteExistsInDb = siteDao.findByKey( siteKey ) != null;
         boolean isRegistered = siteContext != null;
 
         if ( siteExistsInDb && isRegistered )
@@ -193,11 +191,6 @@ public class SiteServiceImpl
 
         UserEntity user = userDao.findByKey( oldUser.getKey() );
         return siteDao.findByPublishPossible( contentTypeKey, user );
-    }
-
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
     }
 
     public void setSiteCachesService( SiteCachesService value )

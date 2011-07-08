@@ -15,11 +15,6 @@ public class AttachmentNativeLinkKey
 {
     private String extension;
 
-    public AttachmentNativeLinkKey()
-    {
-
-    }
-
     public AttachmentNativeLinkKey( ContentKey contentKey )
     {
         super( contentKey );

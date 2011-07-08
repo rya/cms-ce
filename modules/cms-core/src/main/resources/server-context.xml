@@ -39,7 +39,6 @@
   </bean>
 
   <bean id="siteService" class="com.enonic.cms.business.core.structure.SiteServiceImpl">
-    <property name="presentationService" ref="presentationService"/>
     <property name="siteCachesService" ref="siteCachesService"/>
     <property name="siteContextManager">
       <bean class="com.enonic.cms.business.SiteContextManager"/>

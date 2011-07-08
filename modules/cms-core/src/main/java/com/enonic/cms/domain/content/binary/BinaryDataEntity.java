@@ -16,7 +16,7 @@ public class BinaryDataEntity
 
     private String name;
 
-    private int size;
+    private Integer size;
 
     private Date createdAt;
 

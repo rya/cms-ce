@@ -268,6 +268,18 @@ public class ContentEntity
         return versions;
     }
 
+    public ContentVersionEntity getVersion( ContentVersionKey contentVersionKey )
+    {
+        for ( ContentVersionEntity version : versions )
+        {
+            if ( version.getKey().equals( contentVersionKey ) )
+            {
+                return version;
+            }
+        }
+        return null;
+    }
+
     public int getVersionCount()
     {
         return versions.size();

@@ -12,24 +12,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
+
+import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.image.ImageRequest;
 import com.enonic.cms.business.image.ImageRequestParser;
 import com.enonic.cms.business.image.ImageResponse;
 import com.enonic.cms.business.portal.image.ImageProcessorException;
+import com.enonic.cms.business.portal.image.ImageRequestAccessResolver;
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.domain.security.user.UserEntity;
 
 public final class ImageController
     extends AbstractController
 {
+    private static final Logger LOG = LoggerFactory.getLogger( ImageController.class );
+
     private ImageService imageService;
 
     private boolean disableParamEncoding;
@@ -38,8 +48,12 @@ public final class ImageController
 
     private SecurityService securityService;
 
+    private ContentDao contentDao;
 
-    protected final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
+    private GroupDao groupDao;
+
+
+    public final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
         throws Exception
     {
         ImageRequest imageRequest = createImageRequest( request );
@@ -61,7 +75,6 @@ public final class ImageController
         boolean encodeParams = !( this.disableParamEncoding || RenderTrace.isTraceOn() );
         ImageRequest imageRequest = this.requestParser.parse( request.getPathInfo(), params, encodeParams );
         imageRequest.setRequester( resolveRequester() );
-        imageRequest.setServeOfflineContent( true );
         imageRequest.setRequestDateTime( new DateTime() );
         return imageRequest;
     }
@@ -74,6 +87,12 @@ public final class ImageController
     private void process( ImageRequest req, HttpServletResponse res )
         throws IOException
     {
+        if ( !hasRequestAccess( req ) )
+        {
+            res.sendError( HttpServletResponse.SC_NOT_FOUND );
+            return;
+        }
+
         try
         {
             ImageResponse imageResponse = this.imageService.process( req );
@@ -90,8 +109,20 @@ public final class ImageController
         }
         catch ( ImageProcessorException e )
         {
+            LOG.warn( e.getMessage(), e );
             res.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage() );
         }
+    }
+
+    private boolean hasRequestAccess( final ImageRequest imageRequest )
+    {
+        final UserEntity loggedInPortalUser = securityService.getLoggedInAdminConsoleUserAsEntity();
+
+        ImageRequestAccessResolver.Access access =
+            new ImageRequestAccessResolver( contentDao, new ContentAccessResolver( groupDao ) ).imageRequester(
+                loggedInPortalUser ).isAccessible( imageRequest );
+
+        return access == ImageRequestAccessResolver.Access.OK;
     }
 
     public void setImageService( ImageService imageService )
@@ -107,5 +138,15 @@ public final class ImageController
     public void setSecurityService( SecurityService securityService )
     {
         this.securityService = securityService;
+    }
+
+    public void setContentDao( ContentDao contentDao )
+    {
+        this.contentDao = contentDao;
+    }
+
+    public void setGroupDao( GroupDao groupDao )
+    {
+        this.groupDao = groupDao;
     }
 }

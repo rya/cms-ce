@@ -667,7 +667,7 @@ public class PortalFunctions
         ImageRequest request = parser.parse( "_image/" + key, null, false );
         request.setRequester( securityService.getRunAsUser() );
         request.setRequestDateTime( new DateTime() );
-        return imageService.canAccess( request );
+        return imageService.accessibleInPortal( request );
     }
 
     private void addParamsToSitePath( String[] params, SitePath sitePath )

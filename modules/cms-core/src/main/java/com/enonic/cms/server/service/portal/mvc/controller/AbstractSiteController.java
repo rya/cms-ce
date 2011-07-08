@@ -20,20 +20,16 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.business.SiteContext;
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.structure.SiteService;
 
 import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.portal.ParameterMissingException;
-import com.enonic.cms.domain.security.user.User;
 
 public abstract class AbstractSiteController
-        extends AbstractController
+    extends AbstractController
 {
 
     private static final Logger LOG = LoggerFactory.getLogger( AbstractSiteController.class );
@@ -47,8 +43,6 @@ public abstract class AbstractSiteController
     protected SitePathResolver sitePathResolver;
 
     protected PresentationService presentationService;
-
-    protected User anonymousUser;
 
     protected SecurityService securityService;
 
@@ -77,14 +71,13 @@ public abstract class AbstractSiteController
         this.sitePathResolver = value;
     }
 
-
     public void setSecurityService( SecurityService value )
     {
         this.securityService = value;
     }
 
-    protected final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
-            throws Exception
+    public final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
+        throws Exception
     {
 
         // Get check and eventually set original sitePath
@@ -107,42 +100,17 @@ public abstract class AbstractSiteController
     {
         if ( modelAndView != null )
         {
-            LOG.debug( modelAndView.getViewName() );
+            LOG.trace( modelAndView.getViewName() );
         }
         return modelAndView;
     }
 
 
     /**
-     * Process the site path and return a {@link org.springframework.web.servlet.ModelAndView}.
+     * Process the site path and return a {@link ModelAndView}.
      */
-    protected abstract ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response,
-                                                           SitePath sitePath )
-            throws Exception;
-
-    /**
-     * Check that the given parameters are found in the given request, if not throw a ParameterMissingException.
-     *
-     * @param names
-     * @param request
-     * @see com.enonic.cms.domain.portal.ParameterMissingException
-     */
-    protected void expectedParameters( String[] names, HttpServletRequest request )
-    {
-        for ( String name : names )
-        {
-            String value = request.getParameter( name );
-            if ( value == null || value.trim().length() == 0 )
-            {
-                throw new ParameterMissingException( name );
-            }
-        }
-    }
-
-    protected SiteContext getSiteContext( SiteKey siteKey )
-    {
-        return siteService.getSiteContext( siteKey );
-    }
+    protected abstract ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
+        throws Exception;
 
     protected void enableHttpCacheHeaders( HttpServletResponse response, SitePath sitePath, DateTime now, Integer siteCacheSettingsMaxAge,
                                            boolean anonymousAccess )

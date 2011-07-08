@@ -12,6 +12,7 @@
       <xsl:param name="name"/>
       <xsl:param name="selectnode"/>
       <xsl:param name="binarykey"/>
+      <xsl:param name="versionkey"/>
       <xsl:param name="colspan"/>
       <xsl:param name="rows"/>
       <xsl:param name="cols"/>
@@ -26,6 +27,10 @@
                 <xsl:if test="$binarykey != ''">
                   <xsl:text>/binary/</xsl:text>
                   <xsl:value-of select="$binarykey"/>
+                </xsl:if>
+                <xsl:if test="$versionkey != ''">
+                  <xsl:text>?_version=</xsl:text>
+                  <xsl:value-of select="$versionkey"/>
                 </xsl:if>
               </xsl:attribute>
               %openFile%

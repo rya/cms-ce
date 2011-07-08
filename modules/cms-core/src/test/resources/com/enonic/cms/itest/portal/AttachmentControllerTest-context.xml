@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="classpath:com/enonic/cms/itest/portal/base-PortalTest-context.xml"/>
+
+    <bean id="internalClientContentService"
+          class="com.enonic.cms.business.client.InternalClientContentService">
+    </bean>
+
+
+    <bean id="attachmentController" class="com.enonic.cms.server.service.portal.mvc.controller.AttachmentController">
+        <property name="binaryService" ref="binaryService"/>
+        <property name="contentDao" ref="contentDao"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="autoLoginService" ref="autoLoginService"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="siteDao" ref="siteDao"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="livePortalTraceService" ref="livePortalTraceService"/>
+        <property name="previewService" ref="previewService"/>
+        <property name="groupDao" ref="groupDao"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+</beans>

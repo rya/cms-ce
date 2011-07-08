@@ -16,7 +16,6 @@
   </bean>
 
   <bean id="binaryDataHandler" class="com.enonic.vertical.engine.handlers.BinaryDataHandler" parent="baseHandler">
-    <property name="binaryAccessResolver" ref="binaryAccessResolver"/>
   </bean>
 
   <bean id="contentHandler" class="com.enonic.vertical.engine.handlers.ContentHandler" parent="baseHandler">

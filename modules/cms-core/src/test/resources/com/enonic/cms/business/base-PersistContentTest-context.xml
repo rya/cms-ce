@@ -32,8 +32,6 @@
 
   <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl"/>
 
-  <bean id="binaryAccessResolver" class="com.enonic.cms.business.core.content.binary.access.BinaryAccessResolver"/>
-
   <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
 
   <bean id="contentSecurityFilterResolver" class="com.enonic.cms.business.core.content.ContentSecurityFilterResolver"/>

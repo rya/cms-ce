@@ -19,6 +19,8 @@ import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.content.ContentVersionKey;
 import com.enonic.cms.domain.content.RelatedContentEntity;
 import com.enonic.cms.domain.content.UnitEntity;
+import com.enonic.cms.domain.content.binary.BinaryDataEntity;
+import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
@@ -339,6 +341,13 @@ public class DomainFixture
                              hibernateTemplate.find( "from RelatedContentEntity where key.parentContentVersionKey = ?", versionKey ) );
     }
 
+    public BinaryDataEntity findBinaryDataByKey( BinaryDataKey binaryDataKey )
+    {
+        BinaryDataEntity example = new BinaryDataEntity();
+        example.setKey( binaryDataKey.toInt() );
+        return (BinaryDataEntity) findFirstByExample( example );
+    }
+
     public MenuItemEntity findMenuItemByName( String name, int order )
     {
         MenuItemEntity example = new MenuItemEntity();
@@ -401,4 +410,5 @@ public class DomainFixture
     {
         return (List<T>) list;
     }
+
 }

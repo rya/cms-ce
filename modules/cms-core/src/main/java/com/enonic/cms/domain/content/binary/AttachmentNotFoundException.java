@@ -6,6 +6,7 @@ package com.enonic.cms.domain.content.binary;
 
 import com.enonic.cms.domain.NotFoundErrorType;
 import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.domain.content.ContentKey;
 
 public class AttachmentNotFoundException
     extends RuntimeException
@@ -15,19 +16,29 @@ public class AttachmentNotFoundException
 
     private Reason reason;
 
-    public static AttachmentNotFoundException noAccess( BinaryDataKey binaryDataKey )
+    public static AttachmentNotFoundException noAccess( ContentKey contentKey )
     {
-        return new AttachmentNotFoundException( "Attachment not found: '" + binaryDataKey + "'", Reason.NO_ACCESS );
+        return new AttachmentNotFoundException( "Attachment not found, contentKey: '" + contentKey + "'", Reason.NO_ACCESS );
+    }
+
+    public static AttachmentNotFoundException noAccess( String path )
+    {
+        return new AttachmentNotFoundException( "Attachment not found, path: '" + path + "'", Reason.NO_ACCESS );
     }
 
     public static AttachmentNotFoundException notFound( String path )
     {
-        return new AttachmentNotFoundException( "Attachment not found: '" + path + "'", Reason.NOT_FOUND );
+        return new AttachmentNotFoundException( "Attachment not found, path: '" + path + "'", Reason.NOT_FOUND );
     }
 
     public static AttachmentNotFoundException notFound( BinaryDataKey binaryDataKey )
     {
-        return new AttachmentNotFoundException( "Attachment not found: '" + binaryDataKey + "'", Reason.NOT_FOUND );
+        return new AttachmentNotFoundException( "Attachment not found, binaryDataKey: '" + binaryDataKey + "'", Reason.NOT_FOUND );
+    }
+
+    public static AttachmentNotFoundException notFound( ContentKey contentKey )
+    {
+        return new AttachmentNotFoundException( "Attachment not found, contentKey: '" + contentKey + "'", Reason.NOT_FOUND );
     }
 
     public AttachmentNotFoundException( String message, Reason reason )

@@ -9,6 +9,8 @@ import java.util.Date;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 
+import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 import com.enonic.cms.framework.xml.XMLBytes;
 
 import com.enonic.cms.domain.LanguageEntity;
@@ -25,6 +27,8 @@ import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.content.UnitEntity;
 import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.domain.content.binary.BinaryDataEntity;
+import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.domain.content.binary.ContentBinaryDataKey;
 import com.enonic.cms.domain.content.category.CategoryAccessEntity;
 import com.enonic.cms.domain.content.category.CategoryAccessKey;
 import com.enonic.cms.domain.content.category.CategoryAccessType;
@@ -434,5 +438,20 @@ public class DomainFactory
         sectionContent.setMenuItem( menuItem );
         return sectionContent;
 
+    }
+
+    public ContentBinaryDataEntity createContentBinaryData( String label, BinaryDataEntity binaryData, ContentVersionEntity contentVersion )
+    {
+        ContentBinaryDataEntity contentBinaryData = new ContentBinaryDataEntity();
+        contentBinaryData.setKey( new ContentBinaryDataKey( tableKeyGeneratorFixture.nextKey2() ) );
+        contentBinaryData.setLabel( label );
+        contentBinaryData.setContentVersion( contentVersion );
+        contentBinaryData.setBinaryData( binaryData );
+        return contentBinaryData;
+    }
+
+    public BlobRecord createBlobRecord( byte[] data )
+    {
+        return new MemoryBlobRecord( data );
     }
 }

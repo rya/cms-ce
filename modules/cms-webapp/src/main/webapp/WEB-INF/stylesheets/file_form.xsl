@@ -21,6 +21,8 @@
   <xsl:param name="create"/>
   <xsl:param name="contenttypekey"/>
 
+  <xsl:variable name="current-version-key" select="/contents/content/@versionkey"/>
+
   <xsl:template match="/">
     <html>
       <head>
@@ -151,6 +153,7 @@
                             <xsl:with-param name="name" select="/contents/content/contentdata/name"/>
                             <xsl:with-param name="selectnode" select="/contents/content/@key"/>
                             <xsl:with-param name="binarykey" select="/contents/content/contentdata/binarydata/@key"/>
+                            <xsl:with-param name="versionkey" select="$current-version-key"/>
                             <xsl:with-param name="label" select="''"/>
                             <xsl:with-param name="size" select="'65'"/>
                             <xsl:with-param name="colspan" select="'3'"/>

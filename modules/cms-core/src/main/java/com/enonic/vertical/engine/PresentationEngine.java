@@ -48,7 +48,6 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.business.core.calendar.CalendarService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.structure.SiteEntity;
@@ -176,17 +175,6 @@ public class PresentationEngine
     public UserHandler getUserHandler()
     {
         return userHandler;
-    }
-
-    public BinaryData getBinaryData( User user, int binaryDataKey, long timestamp )
-    {
-
-        if ( user == null )
-        {
-            user = userHandler.getAnonymousUser();
-        }
-
-        return binaryDataHandler.getBinaryData( user, binaryDataKey, timestamp );
     }
 
     public XMLDocument getFormattedDate( int offset, String dateformat, String language, String country )

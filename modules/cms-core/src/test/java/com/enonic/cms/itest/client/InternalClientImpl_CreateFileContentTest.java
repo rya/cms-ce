@@ -134,6 +134,7 @@ public class InternalClientImpl_CreateFileContentTest
 
         Set<ContentBinaryDataEntity> contentBinaryDatas = persistedVersion.getContentBinaryData();
         assertEquals( 1, contentBinaryDatas.size() );
+        assertEquals( "source", contentBinaryDatas.iterator().next().getLabel() );
 
         BinaryDataEntity binaryDataResolvedFromContentBinaryData = contentBinaryDatas.iterator().next().getBinaryData();
         assertEquals( "Dummy Name", binaryDataResolvedFromContentBinaryData.getName() );

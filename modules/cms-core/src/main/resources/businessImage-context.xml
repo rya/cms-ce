@@ -10,9 +10,6 @@
 
   <bean id="imageService" class="com.enonic.cms.business.portal.image.ImageServiceImpl">
     <property name="imageCache" ref="imageCache"/>
-    <property name="binaryService" ref="binaryService"/>
-    <property name="binaryAccessResolver" ref="binaryAccessResolver"/>
-    <property name="binaryDataDao" ref="binaryDataDao"/>
     <property name="contentDao" ref="contentDao"/>
     <property name="userDao" ref="userDao"/>
     <property name="blobStore" ref="blobStore"/>

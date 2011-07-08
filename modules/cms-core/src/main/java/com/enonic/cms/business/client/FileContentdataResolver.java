@@ -19,7 +19,7 @@ public class FileContentdataResolver
     public ContentData resolveContentdata( FileContentDataInput fileContentDataInput )
     {
         Document xml = buildXml( fileContentDataInput );
-        return new LegacyFileContentData( xml, BinaryDataAndBinary.convertFromBinaryInput( fileContentDataInput.binary ) );
+        return new LegacyFileContentData( xml, BinaryDataAndBinary.convertFromFileBinaryInput( fileContentDataInput.binary ) );
     }
 
     private Document buildXml( FileContentDataInput input )

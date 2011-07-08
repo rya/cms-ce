@@ -12,20 +12,17 @@ import com.enonic.cms.domain.SitePath;
 public class AttachmentRequestException
     extends RuntimeException
 {
-    private SitePath sitePath;
-
     public AttachmentRequestException( SitePath sitePath, String referer, Exception e )
     {
         super( buildMessage( sitePath, referer, e ), e );
-        this.sitePath = sitePath;
     }
 
     private static String buildMessage( SitePath sitePath, String referer, Exception e )
     {
         StringBuffer buf = new StringBuffer();
         buf.append( "Failed to serve attachment request [" );
-        buf.append( sitePath.asString() );
-        buf.append( "] " );
+        buf.append( sitePath.getLocalPath().getPathAsString() );
+        buf.append( "] on site " ).append( sitePath.getSiteKey() );
         if ( referer != null )
         {
             buf.append( "referer was [" ).append( referer ).append( "] " );

@@ -11,16 +11,9 @@ import junit.framework.TestCase;
 
 import com.enonic.cms.business.image.ImageRequestParser;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Nov 26, 2009
- * Time: 9:55:23 AM
- */
 public class ImageServiceImplTest
     extends TestCase
 {
-
 
     private ImageServiceImpl imageService;
 

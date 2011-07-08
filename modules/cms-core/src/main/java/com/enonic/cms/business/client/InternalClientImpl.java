@@ -157,13 +157,12 @@ import com.enonic.cms.domain.security.user.UserXmlCreator;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.api.util.*;
 
 /**
  * This class implements the local client.
  */
 public final class InternalClientImpl
-        implements InternalClient
+    implements InternalClient
 {
 
     private static final Logger LOG = LoggerFactory.getLogger( InternalClientImpl.class );
@@ -281,7 +280,7 @@ public final class InternalClientImpl
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Deprecated
     public String getUser()
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -299,7 +298,7 @@ public final class InternalClientImpl
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Deprecated
     public String getUserName()
-            throws ClientException
+        throws ClientException
     {
 
         try
@@ -317,7 +316,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getUser( GetUserParams params )
-            throws ClientException
+        throws ClientException
     {
 
         try
@@ -359,7 +358,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getUsers( GetUsersParams params )
-            throws ClientException
+        throws ClientException
     {
 
         try
@@ -379,7 +378,7 @@ public final class InternalClientImpl
 
             UserStoreEntity userStore = userStoreParser.parseUserStore( params.userStore );
             List<UserEntity> users =
-                    this.securityService.getUsers( userStore.getKey(), params.index, params.count, params.includeDeletedUsers );
+                this.securityService.getUsers( userStore.getKey(), params.index, params.count, params.includeDeletedUsers );
             UserXmlCreator xmlCreator = new UserXmlCreator();
             xmlCreator.setAdminConsoleStyle( false );
             return xmlCreator.createUsersDocument( users, params.includeMemberships, params.normalizeGroups );
@@ -393,7 +392,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getGroups( GetGroupsParams params )
-            throws ClientException
+        throws ClientException
     {
 
         try
@@ -446,7 +445,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document joinGroups( JoinGroupsParams params )
-            throws ClientException
+        throws ClientException
     {
 
         try
@@ -501,7 +500,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document leaveGroups( LeaveGroupsParams params )
-            throws ClientException
+        throws ClientException
     {
 
         try
@@ -602,7 +601,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void deleteGroup( DeleteGroupParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -636,7 +635,7 @@ public final class InternalClientImpl
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     @Deprecated
     public String getRunAsUser()
-            throws ClientException
+        throws ClientException
     {
         return doGetRunAsUserName();
     }
@@ -646,7 +645,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String getRunAsUserName()
-            throws ClientException
+        throws ClientException
     {
         return doGetRunAsUserName();
     }
@@ -672,7 +671,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getUserContext()
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -691,7 +690,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getRunAsUserContext()
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -710,7 +709,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String login( String user, String password )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -728,7 +727,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public String impersonate( String user )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -775,7 +774,7 @@ public final class InternalClientImpl
     {
         if ( this.invoker == null )
         {
-            this.invoker = new PresentationInvoker( this.presentationService, this.dataSourceService, securityService );
+            this.invoker = new PresentationInvoker( this.dataSourceService, securityService );
         }
 
         return this.invoker;
@@ -817,7 +816,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createContent( CreateContentParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -927,7 +926,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createImageContent( CreateImageContentParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -966,7 +965,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getCategories( GetCategoriesParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -983,15 +982,14 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContent( GetContentParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
             UserEntity user = securityService.getRunAsUser();
 
-            GetContentExecutor executor =
-                    new GetContentExecutor( contentService, contentDao, userDao, timeService.getNowAsDateTime(),
-                                            previewService.getPreviewContext() );
+            GetContentExecutor executor = new GetContentExecutor( contentService, contentDao, userDao, timeService.getNowAsDateTime(),
+                                                                  previewService.getPreviewContext() );
             executor.user( user.getKey() );
             executor.query( params.query );
             executor.orderBy( params.orderBy );
@@ -1010,7 +1008,7 @@ public final class InternalClientImpl
             GetContentResult getContentResult = executor.execute();
 
             GetContentXmlCreator getContentXmlCreator =
-                    new GetContentXmlCreator( new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
+                new GetContentXmlCreator( new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
 
             getContentXmlCreator.user( user );
             getContentXmlCreator.startingIndex( params.index );
@@ -1052,8 +1050,7 @@ public final class InternalClientImpl
                     continue;
                 }
 
-                final boolean mainVersionOnlineCheckOK =
-                        !params.contentRequiredToBeOnline || version.getContent().isOnline( now );
+                final boolean mainVersionOnlineCheckOK = !params.contentRequiredToBeOnline || version.getContent().isOnline( now );
                 final boolean accessCheckOK = contentAccessResolver.hasReadContentAccess( user, version.getContent() );
                 if ( mainVersionOnlineCheckOK && accessCheckOK )
                 {
@@ -1094,7 +1091,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContentByQuery( GetContentByQueryParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1163,7 +1160,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContentByCategory( GetContentByCategoryParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1232,7 +1229,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getRandomContentByCategory( GetRandomContentByCategoryParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1309,7 +1306,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContentBySection( GetContentBySectionParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1380,7 +1377,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getRandomContentBySection( GetRandomContentBySectionParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1448,7 +1445,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenu( GetMenuParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1462,7 +1459,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenuBranch( GetMenuBranchParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1476,7 +1473,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenuData( GetMenuDataParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1490,7 +1487,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenuItem( GetMenuItemParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1504,7 +1501,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getSubMenu( GetSubMenuParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1521,7 +1518,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getRelatedContent( final GetRelatedContentsParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1545,42 +1542,50 @@ public final class InternalClientImpl
             ContentResultSet baseContent = contentService.queryContent( baseContentQuery );
             if ( previewContext.isPreviewingContent() )
             {
-                baseContent = previewContext.getContentPreviewContext().applyPreviewedContentOnContentResultSet( baseContent,
-                                                                                                                 params.contentKeys );
+                baseContent =
+                    previewContext.getContentPreviewContext().applyPreviewedContentOnContentResultSet( baseContent, params.contentKeys );
             }
 
             // Get the main content (related content to base content)
             final RelatedContentResultSet relatedContentToBaseContent;
-            if (params.requireAll && baseContent.getLength() > 1) {
-                relatedContentToBaseContent = contentService.getRelatedContentRequiresAll(user, params.relation, baseContent);
-            } else {
-                final RelatedContentQuery relatedContentToBaseContentSpec = new RelatedContentQuery(now);
-                relatedContentToBaseContentSpec.setUser(user);
-                relatedContentToBaseContentSpec.setContentResultSet(baseContent);
-                relatedContentToBaseContentSpec.setParentLevel(params.relation < 0 ? 1 : 0);
-                relatedContentToBaseContentSpec.setChildrenLevel(params.relation > 0 ? 1 : 0);
-                relatedContentToBaseContentSpec.setParentChildrenLevel(0);
-                relatedContentToBaseContentSpec.setIncludeOnlyMainVersions(true);
-                if (params.includeOfflineContent) {
+            if ( params.requireAll && baseContent.getLength() > 1 )
+            {
+                relatedContentToBaseContent = contentService.getRelatedContentRequiresAll( user, params.relation, baseContent );
+            }
+            else
+            {
+                final RelatedContentQuery relatedContentToBaseContentSpec = new RelatedContentQuery( now );
+                relatedContentToBaseContentSpec.setUser( user );
+                relatedContentToBaseContentSpec.setContentResultSet( baseContent );
+                relatedContentToBaseContentSpec.setParentLevel( params.relation < 0 ? 1 : 0 );
+                relatedContentToBaseContentSpec.setChildrenLevel( params.relation > 0 ? 1 : 0 );
+                relatedContentToBaseContentSpec.setParentChildrenLevel( 0 );
+                relatedContentToBaseContentSpec.setIncludeOnlyMainVersions( true );
+                if ( params.includeOfflineContent )
+                {
                     relatedContentToBaseContentSpec.setFilterIncludeOfflineContent();
-                } else {
-                    relatedContentToBaseContentSpec.setFilterContentOnlineAt(now);
                 }
-                relatedContentToBaseContent = contentService.queryRelatedContent(relatedContentToBaseContentSpec);
+                else
+                {
+                    relatedContentToBaseContentSpec.setFilterContentOnlineAt( now );
+                }
+                relatedContentToBaseContent = contentService.queryRelatedContent( relatedContentToBaseContentSpec );
 
                 final boolean previewedContentIsAmongBaseContent = previewContext.isPreviewingContent() &&
-                        baseContent.containsContent(previewContext.getContentPreviewContext().getContentPreviewed().getKey());
-                if (previewedContentIsAmongBaseContent) {
+                    baseContent.containsContent( previewContext.getContentPreviewContext().getContentPreviewed().getKey() );
+                if ( previewedContentIsAmongBaseContent )
+                {
                     // ensuring offline related content to the previewed content to be included when previewing
-                    RelatedContentQuery relatedSpecForPreviewedContent = new RelatedContentQuery(relatedContentToBaseContentSpec);
+                    RelatedContentQuery relatedSpecForPreviewedContent = new RelatedContentQuery( relatedContentToBaseContentSpec );
                     relatedSpecForPreviewedContent.setFilterIncludeOfflineContent();
-                    relatedSpecForPreviewedContent.setContentResultSet(new ContentResultSetNonLazy(previewContext.getContentPreviewContext().getContentAndVersionPreviewed().getContent()));
+                    relatedSpecForPreviewedContent.setContentResultSet( new ContentResultSetNonLazy(
+                        previewContext.getContentPreviewContext().getContentAndVersionPreviewed().getContent() ) );
 
-                    RelatedContentResultSet relatedContentsForPreviewedContent = contentService.queryRelatedContent(relatedSpecForPreviewedContent);
+                    RelatedContentResultSet relatedContentsForPreviewedContent =
+                        contentService.queryRelatedContent( relatedSpecForPreviewedContent );
 
-                    relatedContentToBaseContent.overwrite(relatedContentsForPreviewedContent);
-                    previewContext.getContentPreviewContext().registerContentToBeAvailableOnline(
-                            relatedContentToBaseContent);
+                    relatedContentToBaseContent.overwrite( relatedContentsForPreviewedContent );
+                    previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( relatedContentToBaseContent );
                 }
             }
 
@@ -1650,7 +1655,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document renderContent( RenderContentParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1664,7 +1669,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document renderPage( RenderPageParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1678,11 +1683,11 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getBinary( GetBinaryParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
-            return getPresentationInvoker().getBinary( params );
+            return internalClientContentService.getBinary( params );
         }
         catch ( Exception e )
         {
@@ -1692,11 +1697,11 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContentBinary( GetContentBinaryParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
-            return getPresentationInvoker().getContentBinary( params );
+            return internalClientContentService.getContentBinary( params );
         }
         catch ( Exception e )
         {
@@ -1706,7 +1711,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getResource( GetResourceParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1733,7 +1738,7 @@ public final class InternalClientImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document importContents( final ImportContentsParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1785,18 +1790,17 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Preference getPreference( GetPreferenceParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
             PreferenceKey preferenceKey =
-                    new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
-                                       params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
+                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
+                                   params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
 
             PreferenceEntity preferenceEntity = preferenceService.getPreference( preferenceKey );
 
-            return new Preference( params.scope, params.key,
-                                   preferenceEntity != null ? preferenceEntity.getValue() : null );
+            return new Preference( params.scope, params.key, preferenceEntity != null ? preferenceEntity.getValue() : null );
         }
         catch ( Exception e )
         {
@@ -1809,7 +1813,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public List<Preference> getPreferences()
-            throws ClientException
+        throws ClientException
     {
         try
         {
@@ -1821,8 +1825,8 @@ public final class InternalClientImpl
                 final PreferenceKey preferenceKey = preference.getKey();
                 final PreferenceScope prefrenceScope = new PreferenceScope( preferenceKey.getScopeType(), preferenceKey.getScopeKey() );
                 preferences.add(
-                        new Preference( PreferenceScopeResolver.resolveClientScope( prefrenceScope ), preference.getKey().getBaseKey(),
-                                        preference.getValue() ) );
+                    new Preference( PreferenceScopeResolver.resolveClientScope( prefrenceScope ), preference.getKey().getBaseKey(),
+                                    preference.getValue() ) );
             }
             return preferences;
 
@@ -1838,7 +1842,7 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void setPreference( SetPreferenceParams params )
-            throws ClientException
+        throws ClientException
     {
         if ( params.scope == null )
         {
@@ -1848,8 +1852,8 @@ public final class InternalClientImpl
         try
         {
             PreferenceKey preferenceKey =
-                    new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
-                                       params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
+                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
+                                   params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
 
             PreferenceEntity preference = new PreferenceEntity();
             preference.setKey( preferenceKey );
@@ -1868,13 +1872,13 @@ public final class InternalClientImpl
      */
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void deletePreference( DeletePreferenceParams params )
-            throws ClientException
+        throws ClientException
     {
         try
         {
             PreferenceKey preferenceKey =
-                    new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
-                                       params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
+                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
+                                   params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
 
             PreferenceEntity preference = new PreferenceEntity();
             preference.setKey( preferenceKey );
@@ -1894,8 +1898,7 @@ public final class InternalClientImpl
             UserEntity runningUser = securityService.getRunAsUser();
             if ( !( runningUser.isEnterpriseAdmin() || runningUser.isAdministrator() ) )
             {
-                throw new IllegalAccessException(
-                        "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
+                throw new IllegalAccessException( "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
             }
 
             SiteKey siteKey = new SiteKey( siteKeyInt );
@@ -1928,8 +1931,7 @@ public final class InternalClientImpl
             UserEntity runningUser = securityService.getRunAsUser();
             if ( !( runningUser.isEnterpriseAdmin() || runningUser.isAdministrator() ) )
             {
-                throw new IllegalAccessException(
-                        "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
+                throw new IllegalAccessException( "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
             }
 
             for ( Integer menuItemKeyInt : menuItemKeys )
@@ -1957,8 +1959,7 @@ public final class InternalClientImpl
             UserEntity runningUser = securityService.getRunAsUser();
             if ( !( runningUser.isEnterpriseAdmin() || runningUser.isAdministrator() ) )
             {
-                throw new IllegalAccessException(
-                        "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
+                throw new IllegalAccessException( "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
             }
 
             for ( Integer contentKeyInt : contentKeys )
@@ -2050,7 +2051,7 @@ public final class InternalClientImpl
     }
 
     private QualifiedGroupname parseQualifiedGroupname( String string )
-            throws UserStoreNotFoundException
+        throws UserStoreNotFoundException
     {
 
         if ( string == null )
@@ -2084,7 +2085,7 @@ public final class InternalClientImpl
                 if ( !qualifiedGroupname.isGlobal() )
                 {
                     throw new IllegalArgumentException(
-                            "Either UserStore key or UserStore name must be specified when group is not global." );
+                        "Either UserStore key or UserStore name must be specified when group is not global." );
                 }
             }
         }

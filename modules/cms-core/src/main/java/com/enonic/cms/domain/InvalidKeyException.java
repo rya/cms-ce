@@ -6,7 +6,7 @@ package com.enonic.cms.domain;
 
 public class InvalidKeyException
     extends RuntimeException
-    implements NotFoundErrorType
+    implements BadRequestErrorType
 {
     private String key;
 
