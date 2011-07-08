@@ -629,6 +629,7 @@
 %errLDAPUpdateNotAllowed%|Har ikke tilgang til å endre passord|Access to update password was denied|Har ikke adgang til at ændre adgangskode|Du har inte rättigheter att ändra lösenord
 %errUnknownError%|En ukjent feil oppsto|An unknown error occured|Der opstod en ukendt fejl|Ett okänt fel har uppstått
 %fldNewsletterPage%|Nyhetsbrevside|Newsletter page|Nyhedsbrevside|Nyhetsbrevsid
+%fldGeneratedNewsletter%|MISSING|Generated newsletter. Please use 'Generate' button|MISSING|MISSING
 %headSend%|Send|Send|Send|Skicka
 %blockSendNewsletter%|Send nyhetsbrev|Send newsletter|Send nyhedsbrev|Skicka nyhetsbrev
 %tooltipPreviewNewsletter%|Viser nyhetsbrevet i nytt vindu|Displays the newsletter in a new window|Viser nyhedsbrev i nyt vindue|Visar nyhetsbrevet i ett nytt fönster
