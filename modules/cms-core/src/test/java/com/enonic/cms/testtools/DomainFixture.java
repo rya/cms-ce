@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.enonic.cms.business.core.security.SecurityHolder;
+
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentHandlerEntity;
@@ -49,29 +51,9 @@ public class DomainFixture
         this.factory = factory;
     }
 
-    private void deleteAllEntities( Class entityClass )
-    {
-        List entities = hibernateTemplate.find( "from " + entityClass.getName() );
-        hibernateTemplate.deleteAll( entities );
-        hibernateTemplate.flush();
-    }
-
     public void initSystemData()
     {
         hibernateTemplate.clear();
-
-        /*deleteAllEntities( ContentAccessEntity.class );
-        deleteAllEntities( CategoryAccessEntity.class );
-        deleteAllEntities( BinaryDataEntity.class );
-        deleteAllEntities( ContentBinaryDataEntity.class );
-        deleteAllEntities( ContentVersionEntity.class );
-        deleteAllEntities( ContentEntity.class );
-        deleteAllEntities( CategoryEntity.class );
-        deleteAllEntities( UnitEntity.class );
-        deleteAllEntities( LanguageEntity.class );
-        deleteAllEntities( GroupEntity.class );
-        deleteAllEntities( UserEntity.class );
-        deleteAllEntities( UserStoreEntity.class );*/
 
         save( factory.createLanguage( "en" ) );
 
@@ -92,6 +74,9 @@ public class DomainFixture
         save( factory.createUser( User.ROOT_UID, "Enterprise Admin", UserType.ADMINISTRATOR, null ) );
 
         flushAndClearHibernateSesssion();
+
+        SecurityHolder.setAnonUser( findUserByName( "anonymous" ).getKey() );
+        SecurityHolder.setUser( findUserByName( "anonymous" ).getKey() );
     }
 
     public UserEntity createAndStoreNormalUserWithUserGroup( String uid, String displayName, String userStoreName )
