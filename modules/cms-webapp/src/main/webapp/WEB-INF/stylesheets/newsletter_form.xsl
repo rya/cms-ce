@@ -48,9 +48,10 @@
         <script type="text/javascript" src="javascript/cms/ui/SplitButton.js">//</script>
 
         <script type="text/javascript" language="JavaScript">
-          var validatedFields = new Array(2);
+          var validatedFields = new Array(3);
           validatedFields[0] = new Array("%fldSubject%", "contentdata_subject", validateRequired);
           validatedFields[1] = new Array("%fldNewsletterPage%", "contentdata_newsletter_@menuitemkey", validateRequired);
+          validatedFields[2] = new Array("%fldGeneratedNewsletter%", "contentdata_newsletter_XML", validateRequired);
 
           function validateAll( formName )
           {
