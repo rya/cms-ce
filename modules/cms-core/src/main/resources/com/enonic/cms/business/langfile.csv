@@ -629,7 +629,7 @@
 %errLDAPUpdateNotAllowed%|Har ikke tilgang til å endre passord|Access to update password was denied|Har ikke adgang til at ændre adgangskode|Du har inte rättigheter att ändra lösenord
 %errUnknownError%|En ukjent feil oppsto|An unknown error occured|Der opstod en ukendt fejl|Ett okänt fel har uppstått
 %fldNewsletterPage%|Nyhetsbrevside|Newsletter page|Nyhedsbrevside|Nyhetsbrevsid
-%fldGeneratedNewsletter%|MISSING|Generated newsletter. Please use 'Generate' button|MISSING|MISSING
+%fldGeneratedNewsletter%|Generert nyhetsbrev. Klikk på 'Generer'-knappen|Generated newsletter. Please use 'Generate' button|Klik på 'Generer'-knappen|Genererad nyhetsbrev. Klicka på 'Generera'-knappen
 %headSend%|Send|Send|Send|Skicka
 %blockSendNewsletter%|Send nyhetsbrev|Send newsletter|Send nyhedsbrev|Skicka nyhetsbrev
 %tooltipPreviewNewsletter%|Viser nyhetsbrevet i nytt vindu|Displays the newsletter in a new window|Viser nyhedsbrev i nyt vindue|Visar nyhetsbrevet i ett nytt fönster
@@ -1281,7 +1281,7 @@
 %synchFinished%|Sist fullført|Last completed|Sidst fuldført|Senast fullföljd
 %cahceWasCleared%|Mellomlageret ble tømt|The Cache was cleared|Cachen blev ryddet|Cache blev tömt
 %statisticsWasCleared%|Statistikken ble nullstilt|The statistics was reseted|Statistikken blev nulstillet|Statestiken blev återställd
-%generateNewsletter%|Generer|Generate|Lav|Generera
+%generateNewsletter%|Generer|Generate|Generer|Generera
 %synchGettingInfo%|Henter informasjon...|Getting info...|Henter information...|Hämtar information...
 %synchSynchronizingInProgress%|Synkronisering pågår...|Synchronizing in progress...|Synkronisering i gang...|Synkronisering pågår...
 %synchSynchronizingRemoteUsers%|Synkroniserer eksterne brukere|Synchronizing remote users|Synkroniserer eksterne brugere|Synkroniserar externa användare
