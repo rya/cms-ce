@@ -10,6 +10,7 @@ Ext.define( 'CMS.view.user.MembershipGridPanel', {
 
     initComponent: function()
     {
+        this.selModel = new Ext.selection.CheckboxModel();
         this.columns = [
             {
                 text: 'Name',

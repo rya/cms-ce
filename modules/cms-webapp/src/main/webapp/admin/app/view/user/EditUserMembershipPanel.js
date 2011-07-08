@@ -20,6 +20,25 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
     {
         this.items = [
             {
+                xtype: 'combobox',
+                store: 'GroupStore',
+                triggeredAction: 'all',
+                typeAhead: true,
+                mode: 'remote',
+                minChars: 1,
+                forceSelection: true,
+                hideTrigger: true,
+                valueField: 'key',
+                displayField: 'name',
+                listConfig: {
+                getInnerTpl: function()
+                {
+                    return '{name} ({memberCount} members)';
+                },
+                action: 'selectGroup'
+            }
+            },
+            {
                 xtype: 'button',
                 text: 'Add',
                 action: 'addGroup'
@@ -33,14 +52,27 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
         this.callParent( arguments )
     },
 
-    addGroup: function(id, title){
+    addGroup: function( id, title )
+    {
         var group = {
             xtype: 'groupItemField',
             groupId: id,
             title: title
         };
         var pos = this.items.getCount() - 1;
-        this.insert(pos, group);
+        var unique = true;
+        var items = this.items;
+        Ext.each( items, function( el, index )
+        {
+            if ( items.get( index ).groupId == id )
+            {
+                unique = false;
+            }
+        } );
+        if ( unique )
+        {
+            this.insert( pos, group );
+        }
     }
 
 } );

@@ -8,6 +8,16 @@ Ext.define( 'CMS.view.user.UserMembershipWindow', {
     width: 600,
     height: 400,
 
+    buttons: [
+        {
+            text: 'Add',
+            action: 'selectGroups'
+        },
+        {
+            text: 'Cancel',
+            action: 'closeMembershipWindow'
+        }],
+
     layout: 'fit',
 
     initComponent: function()

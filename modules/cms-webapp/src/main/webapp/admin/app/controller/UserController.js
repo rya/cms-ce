@@ -37,7 +37,8 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'},
         {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'},
         {ref: 'userMembershipWindow', selector: 'userMembershipWindow', autoCreate: true, xtype: 'userMembershipWindow'},
-        {ref: 'editUserMembershipPanel', selector: 'editUserMembershipPanel', autoCreate: true, xtype: 'editUserMembershipPanel'}
+        {ref: 'editUserMembershipPanel', selector: 'editUserMembershipPanel', autoCreate: true, xtype: 'editUserMembershipPanel'},
+        {ref: 'membershipGridPanel', selector: 'membershipGridPanel'}
     ],
 
     init: function()
@@ -59,9 +60,6 @@ Ext.define( 'CMS.controller.UserController', {
                               selectionchange: this.updateDetailsPanel,
                               itemcontextmenu: this.popupMenu,
                               itemdblclick: this.showEditUserForm
-                          },
-                          'membershipGridPanel': {
-                              itemclick: this.selectGroup
                           },
                           'userFilter': {
                               specialkey: this.filterHandleEnterKey,
@@ -111,6 +109,15 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           '*[action=deleteGroup]': {
                               click: this.deleteGroup
+                          },
+                          '*[action=selectGroups]': {
+                              click: this.selectGroup
+                          },
+                          '*[action=closeMembershipWindow]': {
+                              click: this.closeMembershipWindow
+                          },
+                          '*[action=selectGroup]': {
+                              select: this.selectGroup
                           }
                       } );
     },
@@ -367,15 +374,33 @@ Ext.define( 'CMS.controller.UserController', {
         this.getUserMembershipWindow().doShow();
     },
 
-    selectGroup: function(view, record){
+    selectGroup: function(){
+        var membershipGridPanel = this.getMembershipGridPanel();
+        var selection = membershipGridPanel.getSelectionModel().getSelection();
         var editUserMembershipPanel = this.getEditUserMembershipPanel();
-        editUserMembershipPanel.addGroup(record.get('key'), record.get('name'));
+        Ext.each(selection, function(item, index){
+            editUserMembershipPanel.addGroup(item.get('key'), item.get('name'));
+        });
         this.getUserMembershipWindow().hide();
+        membershipGridPanel.getSelectionModel().deselectAll();
     },
 
     deleteGroup: function(element, event){
         var group = element.findParentByType('groupItemField');
         this.getEditUserMembershipPanel().remove(group);
+    },
+
+    closeMembershipWindow: function(){
+        var membershipGridPanel = this.getMembershipGridPanel();
+        var selectionModel = membershipGridPanel.getSelectionModel()
+        selectionModel.deselectAll();
+        this.getUserMembershipWindow().hide();
+    },
+
+    selectGroup: function(field, value){
+        var editUserMembershipPanel = this.getEditUserMembershipPanel();
+        editUserMembershipPanel.addGroup(value.get('key'), value.get('name'));
+        field.deselectAll();
     },
 
 
