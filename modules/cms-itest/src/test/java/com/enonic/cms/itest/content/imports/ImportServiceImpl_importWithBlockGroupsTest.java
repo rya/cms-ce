@@ -40,7 +40,6 @@ import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.content.imports.ImportService;
 import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
@@ -74,8 +73,7 @@ public class ImportServiceImpl_importWithBlockGroupsTest
         throws IOException
     {
         personContentTypeXml = resourceToString(
-            new ClassPathResource(
-                    "com/enonic/cms/itest/content/imports/personContentType-importWithBlockGroupsTest.xml" ) );
+            new ClassPathResource( "com/enonic/cms/itest/content/imports/personContentType-importWithBlockGroupsTest.xml" ) );
 
         fixture = new DomainFixture( hibernateTemplate );
         factory = new DomainFactory( fixture );
@@ -95,7 +93,6 @@ public class ImportServiceImpl_importWithBlockGroupsTest
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
         SecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
         SecurityHolder.setRunAsUser( fixture.findUserByName( "testuser" ).getKey() );
     }

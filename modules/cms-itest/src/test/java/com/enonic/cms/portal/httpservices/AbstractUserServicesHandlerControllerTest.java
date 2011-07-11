@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import com.enonic.cms.portal.httpservices.AbstractUserServicesHandlerController;
 import org.junit.Test;
 
 import com.enonic.esl.containers.ExtendedMap;
@@ -67,8 +66,8 @@ public class AbstractUserServicesHandlerControllerTest
                                                                                            true ).size() );
 
         assertEquals( "Should miss one required parameters", 1,
-                      AbstractUserServicesHandlerController.findMissingRequiredParameters(new String[]{"p1", "p2", "p5"}, formItems,
-                              false).size() );
+                      AbstractUserServicesHandlerController.findMissingRequiredParameters( new String[]{"p1", "p2", "p5"}, formItems,
+                                                                                           false ).size() );
     }
 
 

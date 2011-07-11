@@ -120,7 +120,7 @@ public class CustomContentHandlerController_operation_ModifyTest
 
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.createAndStoreNormalUserWithUserGroup( "testuser", "Test user", "testuserstore" );
-        SecurityHolder.setAnonUser( fixture.findUserByName( "testuser" ).getKey() );
+        SecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
     }
 
     @Test

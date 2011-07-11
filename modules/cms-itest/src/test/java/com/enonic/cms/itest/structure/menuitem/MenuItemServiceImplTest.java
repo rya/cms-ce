@@ -4,21 +4,13 @@
  */
 package com.enonic.cms.itest.structure.menuitem;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupType;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.structure.menuitem.*;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,11 +21,26 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.structure.menuitem.ApproveSectionContentCommand;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessException;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.RemoveContentFromSectionCommand;
+import com.enonic.cms.core.structure.menuitem.UnapproveSectionContentCommand;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 
 import static org.junit.Assert.*;
 
@@ -62,7 +69,6 @@ public class MenuItemServiceImplTest
         // setup needed common data for each test
         fixture.initSystemData();
 
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         fixture.flushAndClearHibernateSesssion();
@@ -73,7 +79,7 @@ public class MenuItemServiceImplTest
         ctyconf.addInput( "heading", "text", "contentdata/intro/heading", "heading", true );
         ctyconf.addInput( "teaser", "text", "contentdata/intro/teaser", "teaser" );
         ctyconf.endBlock();
-        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() );
         fixture.save( factory.createContentType( "MenuItem", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.flushAndClearHibernateSesssion();
@@ -398,48 +404,48 @@ public class MenuItemServiceImplTest
         VerifyFinalResultOfApproveUnapproveTest( contentOpinionPro.getKey().toInt(), contentOpinionAgainst.getKey().toInt() );
     }
 
-    @Test (expected = MenuItemAccessException.class)
-      public void testApproveContentAccessRight_noPublish()
-      {
-          // Data for test:
-          MenuItemEntity menuItemPolitics =
-              factory.createSectionMenuItem( "Opinion", 40, "Unordered", "Opinion", "The Newspaper", "aru", "aru", "en", "Hello World!", 10,
-                                             false, null, false, null );
-          fixture.save( menuItemPolitics );
+    @Test(expected = MenuItemAccessException.class)
+    public void testApproveContentAccessRight_noPublish()
+    {
+        // Data for test:
+        MenuItemEntity menuItemPolitics =
+            factory.createSectionMenuItem( "Opinion", 40, "Unordered", "Opinion", "The Newspaper", "aru", "aru", "en", "Hello World!", 10,
+                                           false, null, false, null );
+        fixture.save( menuItemPolitics );
 
-          MenuItemAccessEntity allRightsUserAccess = factory.createMenuItemAccess( "Opinion", 40, fixture.findGroupByName( "aru_group" ),
-                                                                                   "read, create, update, delete, add, publish" );
-          MenuItemAccessEntity readOnlyUserAccess =
-              factory.createMenuItemAccess( "Opinion", 40, fixture.findGroupByName( "nru_group" ), "read, update, delete, add" );
+        MenuItemAccessEntity allRightsUserAccess = factory.createMenuItemAccess( "Opinion", 40, fixture.findGroupByName( "aru_group" ),
+                                                                                 "read, create, update, delete, add, publish" );
+        MenuItemAccessEntity readOnlyUserAccess =
+            factory.createMenuItemAccess( "Opinion", 40, fixture.findGroupByName( "nru_group" ), "read, update, delete, add" );
 
-          fixture.save( allRightsUserAccess, readOnlyUserAccess );
+        fixture.save( allRightsUserAccess, readOnlyUserAccess );
 
-          ContentEntity contentOpinionPro = factory.createContent( "Articles", "en", "aru", "0", new Date() );
-          ContentEntity contentOpinionAgainst = factory.createContent( "Articles", "en", "aru", "0", new Date() );
-          fixture.save( contentOpinionPro, contentOpinionAgainst );
-          ContentKey proKey = contentOpinionPro.getKey();
-          ContentKey againstKey = contentOpinionAgainst.getKey();
+        ContentEntity contentOpinionPro = factory.createContent( "Articles", "en", "aru", "0", new Date() );
+        ContentEntity contentOpinionAgainst = factory.createContent( "Articles", "en", "aru", "0", new Date() );
+        fixture.save( contentOpinionPro, contentOpinionAgainst );
+        ContentKey proKey = contentOpinionPro.getKey();
+        ContentKey againstKey = contentOpinionAgainst.getKey();
 
-          SectionContentEntity sectionContentPro = factory.createContentSection( "Opinion", 40, proKey, true, 1 );
-          SectionContentEntity sectionContentAgainst = factory.createContentSection( "Opinion", 40, againstKey, true, 2 );
-          fixture.save( sectionContentPro, sectionContentAgainst );
-          fixture.flushAndClearHibernateSesssion();
+        SectionContentEntity sectionContentPro = factory.createContentSection( "Opinion", 40, proKey, true, 1 );
+        SectionContentEntity sectionContentAgainst = factory.createContentSection( "Opinion", 40, againstKey, true, 2 );
+        fixture.save( sectionContentPro, sectionContentAgainst );
+        fixture.flushAndClearHibernateSesssion();
 
-          // Assert that all data is set up correctly
-          MenuItemEntity section = fixture.findMenuItemByName( "Opinion", 40 );
-          assertEquals( 2, section.getSectionContents().size() );
+        // Assert that all data is set up correctly
+        MenuItemEntity section = fixture.findMenuItemByName( "Opinion", 40 );
+        assertEquals( 2, section.getSectionContents().size() );
 
-          final UserEntity noPublishRightUser = fixture.findUserByName( "nru" );
+        final UserEntity noPublishRightUser = fixture.findUserByName( "nru" );
 
-          // Try unapprove content
-          UnapproveSectionContentCommand unapproveCommand = new UnapproveSectionContentCommand();
-          unapproveCommand.setUpdater( noPublishRightUser.getKey() );
-          unapproveCommand.setSection( fixture.findMenuItemByName( "Opinion", 40 ).getMenuItemKey() );
-          unapproveCommand.addUnapprovedContentToUpdate( contentOpinionAgainst.getKey() );
-          menuItemService.unapproveSectionContent( unapproveCommand );
-          fixture.flushAndClearHibernateSesssion();
+        // Try unapprove content
+        UnapproveSectionContentCommand unapproveCommand = new UnapproveSectionContentCommand();
+        unapproveCommand.setUpdater( noPublishRightUser.getKey() );
+        unapproveCommand.setSection( fixture.findMenuItemByName( "Opinion", 40 ).getMenuItemKey() );
+        unapproveCommand.addUnapprovedContentToUpdate( contentOpinionAgainst.getKey() );
+        menuItemService.unapproveSectionContent( unapproveCommand );
+        fixture.flushAndClearHibernateSesssion();
 
-      }
+    }
 
     @Test
     public void testGetPageKeyByPath()
@@ -447,24 +453,19 @@ public class MenuItemServiceImplTest
         String keys;
 
         MenuItemEntity menuItem1 =
-            factory.createSectionMenuItem( "name1", 40, "menuName1", "displayName1", "The Newspaper",
-                                           "aru", "aru", "en", "Hello World!", 10,
-                                           false, null, false, null );
+            factory.createSectionMenuItem( "name1", 40, "menuName1", "displayName1", "The Newspaper", "aru", "aru", "en", "Hello World!",
+                                           10, false, null, false, null );
         fixture.save( menuItem1 );
 
         MenuItemEntity menuItem2 =
-            factory.createSectionMenuItem( "name2", 40, "menuName2", "displayName2", "The Newspaper",
-                                           "aru", "aru", "en", "Hello World!", 10,
-                                           false, null, false, null );
+            factory.createSectionMenuItem( "name2", 40, "menuName2", "displayName2", "The Newspaper", "aru", "aru", "en", "Hello World!",
+                                           10, false, null, false, null );
         fixture.save( menuItem2 );
-
 
         MenuItemEntity section = fixture.findMenuItemByName( "Hello World!", 10 );
 
         Collection<MenuItemEntity> children = section.getChildren();
         assertEquals( 2, children.size() );
-
-
 
         keys = menuItemService.getPageKeyByPath( section, "/" );
         assertEquals( keys, "" + section.getKey() );
@@ -473,134 +474,127 @@ public class MenuItemServiceImplTest
         assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "/Hello World!/name1" );
-        assertEquals( keys, "" + menuItem1.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "/Hello World!/name2" );
-        assertEquals( keys, "" + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "/Hello World!/name2/nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "/../" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "/nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "/Hello World!/" );
-        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey());
-
-
+        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "." );
-        assertEquals( keys, "" + section.getKey());
+        assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "./" );
-        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "./name2" );
-        assertEquals( keys, "" + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "./../Hello World!/name2" );
-        assertEquals( keys, "" + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "./../../Hello World!/name2" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, ".." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "../." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "../" );
-        assertEquals( keys, "" + section.getKey());
+        assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( section, "../nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "../../" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "../.." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "../../.." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( section, "./nope" );
-        assertEquals( keys, "");
-
-
-
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "." );
-        assertEquals( keys, "" + menuItem1.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, ".." );
-        assertEquals( keys, "" + section.getKey());
+        assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./.." );
-        assertEquals( keys, "" + section.getKey());
-
+        assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../" );
-        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./../" );
-        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey());
-
+        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./.././././" );
-        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./././.././././" );
-        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() + "," + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../name1" );
-        assertEquals( keys, "" + menuItem1.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../name2" );
-        assertEquals( keys, "" + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./../name1" );
-        assertEquals( keys, "" + menuItem1.getKey());
+        assertEquals( keys, "" + menuItem1.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./../name2" );
-        assertEquals( keys, "" + menuItem2.getKey());
+        assertEquals( keys, "" + menuItem2.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../../Hello World!" );
-        assertEquals( keys, "" + section.getKey());
+        assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./../../Hello World!" );
-        assertEquals( keys, "" + section.getKey());
+        assertEquals( keys, "" + section.getKey() );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../.." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../../.." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./nope/." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "./nope/.." );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
 
         keys = menuItemService.getPageKeyByPath( menuItem1, "../nope" );
-        assertEquals( keys, "");
+        assertEquals( keys, "" );
     }
 
 
