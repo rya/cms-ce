@@ -51,9 +51,12 @@ public class MenuItemServiceImpl
         UserEntity remover = userDao.findByKey( command.getRemover() );
         MenuItemEntity section = menuItemDao.findByKey( command.getSection() );
 
-        if ( !new MenuItemAccessResolver( groupDao ).hasAccess( remover, section, MenuItemAccessType.DELETE ) )
+        MenuItemAccessResolver accessResolver = new MenuItemAccessResolver( groupDao );
+
+        if ( !accessResolver.hasAccess( remover, section, MenuItemAccessType.ADD )
+          && !accessResolver.hasAccess( remover, section, MenuItemAccessType.PUBLISH ) )
         {
-            throw new MenuItemAccessException( "Cannot remove section content.", remover.getQualifiedName(), MenuItemAccessType.DELETE,
+            throw new MenuItemAccessException( "Cannot remove section content.", remover.getQualifiedName(), MenuItemAccessType.ADD,
                                                command.getSection() );
         }
 
