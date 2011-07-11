@@ -179,6 +179,123 @@ public class MenuItemServiceImplTest
         assertEquals( politicsKey2, testDetailResult2.getContent().getKey() );
     }
 
+    private enum Access
+    {
+        ALLOWED,
+        DENIED
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read", Access.DENIED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_update()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, update", Access.DENIED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_create()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, create", Access.DENIED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, delete", Access.DENIED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete_publish()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, delete, publish", Access.ALLOWED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add", Access.ALLOWED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_delete()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add, delete", Access.ALLOWED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add, publish", Access.ALLOWED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish_delete()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add, publish, delete", Access.ALLOWED );
+    }
+
+    private void checkUserPermissionForRemoveContentFromSection( String permissions, Access expecting )
+    {
+        String userName = "usr";
+
+        GroupEntity userGroup = factory.createGroupInUserstore( userName + "_group", GroupType.USERSTORE_GROUP, "testuserstore" );
+        fixture.save( userGroup );
+        fixture.save( factory.createUser( userName, permissions + " Rights User", UserType.NORMAL, "testuserstore", userGroup ) );
+        fixture.save( factory.createCategoryAccessForUser( "Articles", userName, "read" ) );
+
+
+        MenuItemEntity menuItemPolitics =
+            factory.createSectionMenuItem( "Opinion", 40, "Unordered", "Opinion", "The Newspaper", "aru", "aru", "en", "Hello World!", 10,
+                                           false, null, false, null );
+
+
+        fixture.save( menuItemPolitics );
+
+        MenuItemAccessEntity menuItemAccess =
+            factory.createMenuItemAccess( "Opinion", 40, fixture.findGroupByName( userName + "_group" ), permissions );
+
+        fixture.save( menuItemAccess );
+
+        ContentEntity contentEntity = factory.createContent( "Articles", "en", "aru", "0", new Date() );
+        fixture.save( contentEntity);
+        ContentKey contentKey = contentEntity.getKey();
+
+        SectionContentEntity sectionContentEntity = factory.createContentSection( "Opinion", 40, contentKey, true, 1 );
+        fixture.save( sectionContentEntity );
+        fixture.flushAndClearHibernateSesssion();
+
+
+
+        // Verify that a user with only list rights can not remove from the section.
+        RemoveContentFromSectionCommand removeContentFromSectionCommand = new RemoveContentFromSectionCommand();
+        removeContentFromSectionCommand.setRemover( fixture.findUserByName( userName ).getKey() );
+        removeContentFromSectionCommand.setSection( fixture.findMenuItemByName( "Opinion", 40 ).getMenuItemKey() );
+        removeContentFromSectionCommand.addContentToRemove( contentEntity.getKey() );
+
+        try
+        {
+            menuItemService.removeContentFromSection( removeContentFromSectionCommand );
+
+            if (expecting == Access.DENIED )
+            {
+                fail( "The removeContentFromSection method should throw a MenuItemAccessException in this case." );
+            }
+        }
+        catch ( MenuItemAccessException e )
+        {
+            if (expecting == Access.ALLOWED )
+            {
+                fail( "The removeContentFromSection method should remove item in this case." );
+            }
+        }
+    }
+
+
     @Test
     public void testReorderingContentInASection()
     {
