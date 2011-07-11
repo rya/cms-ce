@@ -139,8 +139,10 @@
           var idx = 0;
           var validatedFields = new Array();
 
-          validatedFields[idx] = new Array("<xsl:value-of select="//input[@name = /config/form/title/@name]/display"/>", "<xsl:value-of select="/config/form/title/@name"/>", validateMaxLength);
-          ++idx;
+          <xsl:if test="//input[@name = /config/form/title/@name and not (@readonly = 'true')]">
+              validatedFields[idx] = new Array("<xsl:value-of select="//input[@name = /config/form/title/@name]/display"/>", "<xsl:value-of select="/config/form/title/@name"/>", validateMaxLength);
+              ++idx;
+          </xsl:if>
 
           <xsl:for-each select="//input[@required = 'true' and not(@type = 'dropdown') and not(@type = 'date') and not(@type = 'radiobutton') and not(@type = 'checkbox') and not(@type = 'relatedcontent')]">
             <xsl:text>validatedFields[idx] = new Array("</xsl:text>
