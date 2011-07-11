@@ -31,22 +31,12 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
                 valueField: 'key',
                 displayField: 'name',
                 listConfig: {
-                getInnerTpl: function()
-                {
-                    return '{name} ({memberCount} members)';
-                },
-                action: 'selectGroup'
-            }
-            },
-            {
-                xtype: 'button',
-                text: 'Add',
-                action: 'addGroup'
-            },
-            {
-                xtype: 'button',
-                text: 'Add',
-                action: 'addGroup'
+                    getInnerTpl: function()
+                    {
+                        return '{name} ({memberCount} members)';
+                    },
+                    action: 'selectGroup'
+                }
             }
         ];
         this.callParent( arguments )
@@ -59,7 +49,7 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
             groupId: id,
             title: title
         };
-        var pos = this.items.getCount() - 1;
+        var pos = this.items.getCount();
         var unique = true;
         var items = this.items;
         Ext.each( items, function( el, index )
