@@ -226,3 +226,14 @@ img.photo {
 .dashboard .dashlet .x-panel-body {
     background: #fff;
 }
+
+.icon-delete {
+    background-image: url("../images/delete.png");
+}
+
+.group-item {
+    font-size: 14px;
+    font-weight: 200;
+    margin: 5;
+    vertical-align: middle;
+}
