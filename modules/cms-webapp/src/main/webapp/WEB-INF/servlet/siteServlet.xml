@@ -112,34 +112,18 @@
         </property>
     </bean>
 
-
-    <bean id="attachmentController" class="com.enonic.cms.portal.mvc.controller.AttachmentController">
-        <property name="binaryService" ref="binaryService"/>
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="siteService" ref="siteService"/>
-        <property name="autoLoginService" ref="autoLoginService"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="resourceService" ref="resourceService"/>
-        <property name="livePortalTraceService" ref="livePortalTraceService"/>
-        <property name="previewService" ref="previewService"/>
-    </bean>
-
     <bean id="abstractSiteController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteController"
           abstract="true">
         <property name="cacheSeconds" value="-1"/>
-        <property name="siteService" ref="siteService"/>
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-        <property name="presentationService" ref="presentationService"/>
-        <property name="securityService" ref="securityService"/>
     </bean>
 
+    <bean id="attachmentController" class="com.enonic.cms.portal.mvc.controller.AttachmentController" parent="abstractSiteController"/>
+
+    <bean id="imageController" class="com.enonic.cms.portal.mvc.controller.ImageController"
+          parent="abstractSiteController"/>
+
     <bean id="resourceFileController" class="com.enonic.cms.portal.mvc.controller.ResourceFileController"
-          parent="abstractSiteController">
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="resourceService" ref="resourceService"/>
-    </bean>
+          parent="abstractSiteController"/>
 
 
     <!--bean id="abstractSiteCommandController" class="com.enonic.cms.portal.mvc.controller.AbstractSiteCommandController"
@@ -160,9 +144,7 @@
     <bean id="logoutController" class="com.enonic.cms.portal.mvc.controller.LogoutController"
           parent="abstractSiteController"/-->
 
-    <bean id="captchaController" class="com.enonic.cms.portal.mvc.controller.CaptchaController">
-        <property name="captchaRepository" ref="captchaRepository"/>
-    </bean>
+    <bean id="captchaController" class="com.enonic.cms.portal.mvc.controller.CaptchaController"/>
 
     <!--bean id="pageRedirectController" class="com.enonic.cms.portal.mvc.controller.PageRedirectController"
           parent="abstractSiteController">
@@ -220,15 +202,6 @@
     <bean id="userServicesAccessManager" class="com.enonic.cms.portal.httpservices.UserServicesAccessManagerImpl">
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="siteService" ref="siteService"/>
-    </bean>
-
-    <bean id="imageController" class="com.enonic.cms.portal.mvc.controller.ImageController"
-          parent="abstractSiteController">
-        <property name="imageService" ref="imageService"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="autoLoginService" ref="autoLoginService"/>
-        <property name="previewService" ref="previewService"/>
     </bean>
 
 </beans>

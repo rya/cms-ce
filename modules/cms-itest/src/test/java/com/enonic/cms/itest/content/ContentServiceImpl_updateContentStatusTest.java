@@ -2,9 +2,40 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.content;
+package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.business.AbstractPersistContentTest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
@@ -16,25 +47,10 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConf
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
 
 import static org.junit.Assert.*;
 
@@ -44,8 +60,23 @@ import static org.junit.Assert.*;
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class ContentServiceImpl_updateContentStatusTest
-    extends AbstractPersistContentTest
 {
+    @Inject
+    private HibernateTemplate hibernateTemplate;
+
+    @Inject
+    private ContentService contentService;
+
+    @Inject
+    private ContentDao contentDao;
+
+    @Inject
+    private ContentVersionDao contentVersionDao;
+
+    private DomainFactory factory;
+
+    private DomainFixture fixture;
+
     private Element standardConfigEl;
 
     private Document standardConfig;
@@ -54,6 +85,10 @@ public class ContentServiceImpl_updateContentStatusTest
     public void before()
         throws IOException, JDOMException
     {
+        fixture = new DomainFixture( hibernateTemplate );
+        factory = new DomainFactory( fixture );
+
+        fixture.initSystemData();
 
         StringBuffer standardConfigXml = new StringBuffer();
         standardConfigXml.append( "<config name=\"MyContentType\" version=\"1.0\">" );
@@ -77,23 +112,20 @@ public class ContentServiceImpl_updateContentStatusTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create(standardConfigXml.toString());
+        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() );
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        initSystemData();
-
-        createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
-        hibernateTemplate.save( createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
+        fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
+        hibernateTemplate.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         hibernateTemplate.save(
-            createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), standardConfig ) );
-        hibernateTemplate.save( createUnit( "MyUnit" ) );
-        hibernateTemplate.save( createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
+            factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), standardConfig ) );
+        hibernateTemplate.save( factory.createUnit( "MyUnit" ) );
+        hibernateTemplate.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
         hibernateTemplate.save(
-            createCategoryAccess( "MyCategory", findUserByName( "testuser" ).getUserGroup().getName(), "true", "true", "true", "true",
-                                  "true" ) );
+            factory.createCategoryAccess( "MyCategory", fixture.findUserByName( "testuser" ), "read, create, approve" ) );
         hibernateTemplate.flush();
         hibernateTemplate.clear();
 
@@ -103,17 +135,17 @@ public class ContentServiceImpl_updateContentStatusTest
     private ContentKey createContent( Integer status )
     {
 
-        UserEntity runningUser = findUserByName( "testuser" );
+        UserEntity runningUser = fixture.findUserByName( "testuser" );
 
         ContentEntity content = new ContentEntity();
-        content.setLanguage( findLanguageByCode( "en" ) );
-        content.setCategory( findCategoryByName( "MyCategory" ) );
-        content.setOwner( findUserByName( "testuser" ) );
+        content.setLanguage( fixture.findLanguageByCode( "en" ) );
+        content.setCategory( fixture.findCategoryByName( "MyCategory" ) );
+        content.setOwner( fixture.findUserByName( "testuser" ) );
         content.setPriority( 0 );
         content.setName( "testcontent" );
 
         ContentVersionEntity version = new ContentVersionEntity();
-        version.setModifiedBy( findUserByName( "testuser" ) );
+        version.setModifiedBy( fixture.findUserByName( "testuser" ) );
         version.setStatus( ContentStatus.get( status ) );
         version.setContent( content );
 
@@ -147,9 +179,9 @@ public class ContentServiceImpl_updateContentStatusTest
 
         ContentEntity content = new ContentEntity();
         content.setKey( contentKey );
-        content.setLanguage( findLanguageByCode( "en" ) );
-        content.setCategory( findCategoryByName( "MyCategory" ) );
-        content.setOwner( findUserByName( "testuser" ) );
+        content.setLanguage( fixture.findLanguageByCode( "en" ) );
+        content.setCategory( fixture.findCategoryByName( "MyCategory" ) );
+        content.setOwner( fixture.findUserByName( "testuser" ) );
 
         ContentVersionEntity version = new ContentVersionEntity();
         if ( versionKey != null )
@@ -169,7 +201,7 @@ public class ContentServiceImpl_updateContentStatusTest
             command = UpdateContentCommand.updateExistingVersion2( versionKey );
         }
 
-        command.setModifier( findUserByName( "testuser" ) );
+        command.setModifier( fixture.findUserByName( "testuser" ) );
         command.setUpdateAsMainVersion( asMainVersion );
 
         // Populate command with contentEntity data

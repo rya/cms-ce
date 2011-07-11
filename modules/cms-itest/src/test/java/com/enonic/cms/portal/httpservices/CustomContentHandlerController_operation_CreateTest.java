@@ -4,8 +4,36 @@
  */
 package com.enonic.cms.portal.httpservices;
 
-import com.enonic.cms.core.business.AbstractPersistContentTest;
-import com.enonic.cms.core.content.*;
+import java.rmi.RemoteException;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.jdom.Document;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.google.common.collect.Multimap;
+
+import com.enonic.esl.containers.ExtendedMap;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
@@ -19,44 +47,31 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
-import com.enonic.esl.containers.ExtendedMap;
-import com.google.common.collect.Multimap;
-import org.apache.commons.fileupload.FileItem;
-import org.jdom.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import java.rmi.RemoteException;
+import com.enonic.cms.domain.SiteKey;
 
 import static junit.framework.Assert.assertTrue;
 import static junitx.framework.Assert.assertFalse;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class CustomContentHandlerController_operation_CreateTest
-    extends AbstractPersistContentTest
 {
+    @Inject
+    protected HibernateTemplate hibernateTemplate;
+
+    @Inject
+    protected ContentService contentService;
+
     @Inject
     private SecurityService securityService;
 
@@ -92,6 +107,8 @@ public class CustomContentHandlerController_operation_CreateTest
         fixture = new DomainFixture( hibernateTemplate );
         factory = new DomainFactory( fixture );
 
+        fixture.initSystemData();
+
         customContentHandlerController = new CustomContentHandlerController();
         customContentHandlerController.setContentService( contentService );
         customContentHandlerController.setSecurityService( securityService );
@@ -103,9 +120,6 @@ public class CustomContentHandlerController_operation_CreateTest
         // just need a dummy of the SiteRedirectHelper 
         siteRedirectHelper = createMock( SiteRedirectHelper.class );
         customContentHandlerController.setSiteRedirectHelper( siteRedirectHelper );
-
-        // setup needed common data for each test
-        fixture.initSystemData();
 
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.createAndStoreNormalUserWithUserGroup( "testuser", "Test user", "testuserstore" );
@@ -135,14 +149,14 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // execise: create the content
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "categorykey", findCategoryByName( "PersonCategory" ).getKey().toString() );
+        formItems.putString( "categorykey", fixture.findCategoryByName( "PersonCategory" ).getKey().toString() );
         formItems.putString( "name", "Laverne Veronica Wyatt-Skriubakken" );
         customContentHandlerController.handlerCreate( request, response, session, formItems, null, siteKey_1 );
 
         fixture.flushAndClearHibernateSesssion();
 
         // verify
-        ContentEntity content = findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
+        ContentEntity content = fixture.findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
         assertNotNull( content );
         assertEquals( "laverne-veronica-wyatt-skriubakken", content.getName() );
     }
@@ -172,7 +186,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // execise: create the content
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "categorykey", findCategoryByName( "PersonCategory" ).getKey().toString() );
+        formItems.putString( "categorykey", fixture.findCategoryByName( "PersonCategory" ).getKey().toString() );
         formItems.putString( "name", "Laverne Veronica Wyatt-Skriubakken" );
         formItems.putString( "Phone[1].phone_label", "Mobile" );
         formItems.putString( "Phone[1].phone_number", "99999999" );
@@ -185,7 +199,7 @@ public class CustomContentHandlerController_operation_CreateTest
         fixture.flushAndClearHibernateSesssion();
 
         // verify
-        ContentEntity content = findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
+        ContentEntity content = fixture.findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
         assertNotNull( content );
         ContentVersionEntity version = content.getMainVersion();
         CustomContentData contentData = (CustomContentData) version.getContentData();
@@ -549,8 +563,7 @@ public class CustomContentHandlerController_operation_CreateTest
     private void verifyRedirectOk()
     {
         Mockito.verify( userServicesRedirectUrlResolver ).resolveRedirectUrlToPage( Mockito.any( HttpServletRequest.class ),
-                                                                                    Mockito.anyString(),
-                                                                                    Mockito.any( Multimap.class ) );
+                                                                                    Mockito.anyString(), Mockito.any( Multimap.class ) );
     }
 
     @Test
@@ -575,7 +588,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // execise: create the content
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "categorykey", findCategoryByName( "MyCategory4" ).getKey().toString() );
+        formItems.putString( "categorykey", fixture.findCategoryByName( "MyCategory4" ).getKey().toString() );
         formItems.putString( "title", "Title" );
         customContentHandlerController.handlerCreate( request, response, session, formItems, null, siteKey_1 );
 
@@ -583,11 +596,10 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // verify no error by checking that correct redirect was done (enough checking that right method was called)
         Mockito.verify( userServicesRedirectUrlResolver ).resolveRedirectUrlToPage( Mockito.any( HttpServletRequest.class ),
-                                                                                    Mockito.anyString(),
-                                                                                    Mockito.any( Multimap.class ) );
+                                                                                    Mockito.anyString(), Mockito.any( Multimap.class ) );
 
         // verify
-        ContentEntity content = fixture.findFirstContentByCategory( findCategoryByName( "MyCategory4" ) );
+        ContentEntity content = fixture.findFirstContentByCategory( fixture.findCategoryByName( "MyCategory4" ) );
         assertNotNull( content );
         ContentVersionEntity version = content.getMainVersion();
         CustomContentData contentData = (CustomContentData) version.getContentData();
@@ -661,7 +673,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
     private void createAndSaveContentTypeAndCategory( String contentTypeName, String categoryName, ContentTypeConfigBuilder ctyconf )
     {
-        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() );
         fixture.save(
             factory.createContentType( contentTypeName, ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

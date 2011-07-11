@@ -4,13 +4,10 @@
  */
 package com.enonic.cms.portal.image;
 
-import com.enonic.cms.portal.image.ImageRequestParser;
 import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
-
-import com.enonic.cms.portal.image.ImageServiceImpl;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,8 +18,6 @@ import com.enonic.cms.portal.image.ImageServiceImpl;
 public class ImageServiceImplTest
     extends TestCase
 {
-
-
     private ImageServiceImpl imageService;
 
     private ImageRequestParser imageRequestParser;
@@ -32,7 +27,6 @@ public class ImageServiceImplTest
     {
         imageService = new ImageServiceImpl();
         imageRequestParser = new ImageRequestParser();
-
     }
 
     @Test

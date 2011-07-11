@@ -12,7 +12,7 @@ import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 import com.enonic.cms.framework.xml.IllegalCharacterCleaner;
 
 import com.enonic.cms.api.client.model.content.BinaryInput;
-
+import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 
 
@@ -92,7 +92,6 @@ public class BinaryDataAndBinary
         {
             binaryDataEntity.setSize( binaryData.data.length );
         }
-
         MemoryBlobRecord blob = new MemoryBlobRecord( binaryData.data );
         binaryDataEntity.setBlobKey( blob.getKey().toString() );
 
@@ -121,7 +120,6 @@ public class BinaryDataAndBinary
             binaryData.setName( binaryDataEntry.getBinaryName() );
             byte[] data = binaryDataEntry.getBinary();
             binaryData.setSize( data.length );
-
             MemoryBlobRecord blob = new MemoryBlobRecord( data );
             binaryData.setBlobKey( blob.getKey().toString() );
 
@@ -146,6 +144,20 @@ public class BinaryDataAndBinary
         return convertFromNameAndData( binaryInput.getBinaryName(), binaryInput.getBinary() );
     }
 
+    public static BinaryDataAndBinary convertFromImageBinaryInput( final FileBinaryInput binaryInput, String label )
+    {
+        BinaryDataAndBinary binaryDataAndBinary = convertFromNameAndData( binaryInput.getBinaryName(), binaryInput.getBinary() );
+        binaryDataAndBinary.setLabel( label );
+        return binaryDataAndBinary;
+    }
+
+    public static BinaryDataAndBinary convertFromFileBinaryInput( final FileBinaryInput binaryInput )
+    {
+        BinaryDataAndBinary binaryDataAndBinary = convertFromNameAndData( binaryInput.getBinaryName(), binaryInput.getBinary() );
+        binaryDataAndBinary.setLabel( "source" );
+        return binaryDataAndBinary;
+    }
+
     public static BinaryDataAndBinary convertFromBinaryEntry( final BinaryDataEntry binaryEntry )
     {
         return convertFromNameAndData( binaryEntry.getBinaryName(), binaryEntry.getBinary() );
@@ -156,7 +168,6 @@ public class BinaryDataAndBinary
         final BinaryDataEntity binaryData = new BinaryDataEntity();
         binaryData.setName( xmlCleaner.cleanXml( name ) );
         binaryData.setSize( data.length );
-
         MemoryBlobRecord blob = new MemoryBlobRecord( data );
         binaryData.setBlobKey( blob.getKey().toString() );
 

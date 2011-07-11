@@ -2,9 +2,35 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.content;
+package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.business.AbstractPersistContentTest;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.inject.Inject;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
@@ -17,27 +43,14 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.itest.test.AssertTool;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -45,16 +58,36 @@ import static org.junit.Assert.assertNotNull;
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class ContentServiceImpl_relatedcontentTest
-    extends AbstractPersistContentTest
 {
+    @Inject
+    private HibernateTemplate hibernateTemplate;
+
+    @Inject
+    private ContentService contentService;
+
+    @Inject
+    private ContentDao contentDao;
+
+    @Inject
+    private ContentVersionDao contentVersionDao;
+
     private Element configEl;
 
     private Document config;
+
+    private DomainFactory factory;
+
+    private DomainFixture fixture;
+
 
     @Before
     public void before()
         throws IOException, JDOMException
     {
+        fixture = new DomainFixture( hibernateTemplate );
+        factory = new DomainFactory( fixture );
+
+        fixture.initSystemData();
 
         StringBuffer configXml = new StringBuffer();
         configXml.append( "<config name=\"MyContentType\" version=\"1.0\">" );
@@ -88,18 +121,16 @@ public class ContentServiceImpl_relatedcontentTest
         configXml.append( "     </form>" );
         configXml.append( "</config>" );
         configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
-        config = XMLDocumentFactory.create(configXml.toString());
+        config = XMLDocumentFactory.create( configXml.toString() );
 
-        initSystemData();
-
-        createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
-        hibernateTemplate.save( createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
-        hibernateTemplate.save( createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), config ) );
-        hibernateTemplate.save( createUnit( "MyUnit" ) );
-        hibernateTemplate.save( createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
+        fixture.createAndStoreNormalUserWithUserGroup( "testuser", "testuser fullname", "testuserstore" );
+        hibernateTemplate.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         hibernateTemplate.save(
-            createCategoryAccess( "MyCategory", findUserByName( "testuser" ).getUserGroup().getName(), "true", "true", "true", "true",
-                                  "true" ) );
+            factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), config ) );
+        hibernateTemplate.save( factory.createUnit( "MyUnit" ) );
+        hibernateTemplate.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
+        hibernateTemplate.save(
+            factory.createCategoryAccess( "MyCategory", fixture.findUserByName( "testuser" ), "read, create, approve" ) );
 
         hibernateTemplate.flush();
         hibernateTemplate.clear();
@@ -119,8 +150,8 @@ public class ContentServiceImpl_relatedcontentTest
         ContentKey relatedContentKey2 = storeSimpleContent( "rel2" );
         ContentKey relatedContentKey3 = storeSimpleContent( "rel3" );
 
-        ContentEntity content = createContent( "MyCategory", "en", "testuser", "0" );
-        ContentVersionEntity version = createContentVersion( "0", "testuser" );
+        ContentEntity content = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
+        ContentVersionEntity version = factory.createContentVersion( "0", "testuser" );
 
         ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, configEl );
         CustomContentData contentData = new CustomContentData( contentTypeConfig );
@@ -142,7 +173,7 @@ public class ContentServiceImpl_relatedcontentTest
 
         version.setContentData( contentData );
 
-        UserEntity runningUser = findUserByName( "testuser" );
+        UserEntity runningUser = fixture.findUserByName( "testuser" );
 
         CreateContentCommand createCommand = new CreateContentCommand();
         createCommand.setCreator( runningUser );
@@ -166,9 +197,9 @@ public class ContentServiceImpl_relatedcontentTest
         assertEquals( 3, persistedVersion.getRelatedChildren( true ).size() );
 
         Document contentDataXml = persistedVersion.getContentDataAsJDomDocument();
-        assertXPathEquals( "contentdata/myrelatedcontents/content/@key", contentDataXml,
-                           new String[]{relatedContentKey1.toString(), relatedContentKey2.toString()} );
-        assertXPathEquals( "contentdata/mysolerelatedcontent/@key", contentDataXml, relatedContentKey3.toString() );
+        AssertTool.assertXPathEquals( "contentdata/myrelatedcontents/content/@key", contentDataXml,
+                                      new String[]{relatedContentKey1.toString(), relatedContentKey2.toString()} );
+        AssertTool.assertXPathEquals( "contentdata/mysolerelatedcontent/@key", contentDataXml, relatedContentKey3.toString() );
     }
 
     @Test
@@ -180,8 +211,8 @@ public class ContentServiceImpl_relatedcontentTest
         ContentKey relatedContentKey4 = storeSimpleContent( "rel4" );
         ContentKey relatedContentKey5 = storeSimpleContent( "rel5" );
 
-        ContentEntity content = createContent( "MyCategory", "en", "testuser", "0" );
-        ContentVersionEntity version = createContentVersion( "0", "testuser" );
+        ContentEntity content = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
+        ContentVersionEntity version = factory.createContentVersion( "0", "testuser" );
 
         ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, configEl );
         CustomContentData contentData = new CustomContentData( contentTypeConfig );
@@ -202,7 +233,7 @@ public class ContentServiceImpl_relatedcontentTest
 
         version.setContentData( contentData );
 
-        UserEntity runningUser = findUserByName( "testuser" );
+        UserEntity runningUser = fixture.findUserByName( "testuser" );
 
         CreateContentCommand createContentCommand = new CreateContentCommand();
         createContentCommand.setCreator( runningUser );
@@ -226,9 +257,9 @@ public class ContentServiceImpl_relatedcontentTest
 
         assertEquals( 3, persistedVersion.getRelatedChildren( true ).size() );
 
-        ContentEntity changedContent = createContent( "MyCategory", "en", "testuser", "0" );
+        ContentEntity changedContent = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
         changedContent.setKey( contentKey );
-        ContentVersionEntity changedVersion = createContentVersion( "0", "testuser" );
+        ContentVersionEntity changedVersion = factory.createContentVersion( "0", "testuser" );
         changedVersion.setKey( persistedVersion.getKey() );
 
         CustomContentData changedCD = new CustomContentData( contentTypeConfig );
@@ -244,8 +275,7 @@ public class ContentServiceImpl_relatedcontentTest
 
         changedVersion.setContentData( changedCD );
 
-        UpdateContentCommand updateContentCommand = UpdateContentCommand.updateExistingVersion2(
-                persistedVersion.getKey() );
+        UpdateContentCommand updateContentCommand = UpdateContentCommand.updateExistingVersion2( persistedVersion.getKey() );
         updateContentCommand.setModifier( runningUser );
         updateContentCommand.setUpdateAsMainVersion( false );
 
@@ -262,9 +292,11 @@ public class ContentServiceImpl_relatedcontentTest
 
         Document contentDataXmlAfterUpdate = versionAfterUpdate.getContentDataAsJDomDocument();
 
-        assertXPathEquals( "/contentdata/mysolerelatedcontent/@key", contentDataXmlAfterUpdate, relatedContentKey4.toString() );
-        assertXPathEquals( "/contentdata/myrelatedcontents/content[1]/@key", contentDataXmlAfterUpdate, relatedContentKey3.toString() );
-        assertXPathEquals( "/contentdata/myrelatedcontents/content[2]/@key", contentDataXmlAfterUpdate, relatedContentKey5.toString() );
+        AssertTool.assertXPathEquals( "/contentdata/mysolerelatedcontent/@key", contentDataXmlAfterUpdate, relatedContentKey4.toString() );
+        AssertTool.assertXPathEquals( "/contentdata/myrelatedcontents/content[1]/@key", contentDataXmlAfterUpdate,
+                                      relatedContentKey3.toString() );
+        AssertTool.assertXPathEquals( "/contentdata/myrelatedcontents/content[2]/@key", contentDataXmlAfterUpdate,
+                                      relatedContentKey5.toString() );
 
         assertEquals( 3, versionAfterUpdate.getRelatedChildren( true ).size() );
     }
@@ -310,8 +342,8 @@ public class ContentServiceImpl_relatedcontentTest
     private ContentKey storeSimpleContent( String title )
     {
 
-        ContentEntity content = createContent( "MyCategory", "en", "testuser", "0" );
-        ContentVersionEntity version = createContentVersion( "0", "testuser" );
+        ContentEntity content = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
+        ContentVersionEntity version = factory.createContentVersion( "0", "testuser" );
 
         ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, createSimpleContentTypeConfig() );
 
@@ -322,7 +354,7 @@ public class ContentServiceImpl_relatedcontentTest
 
         version.setContentData( contentData );
 
-        UserEntity runningUser = findUserByName( "testuser" );
+        UserEntity runningUser = fixture.findUserByName( "testuser" );
 
         CreateContentCommand createContentCommand = new CreateContentCommand();
         createContentCommand.setCreator( runningUser );

@@ -17,8 +17,6 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
@@ -27,8 +25,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -36,9 +32,14 @@ import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupKeyComparator;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+
+import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.domain.SiteKey;
 
 public class ContentEntity
     implements Serializable
@@ -266,6 +267,18 @@ public class ContentEntity
     public List<ContentVersionEntity> getVersions()
     {
         return versions;
+    }
+
+    public ContentVersionEntity getVersion( ContentVersionKey contentVersionKey )
+    {
+        for ( ContentVersionEntity version : versions )
+        {
+            if ( version.getKey().equals( contentVersionKey ) )
+            {
+                return version;
+            }
+        }
+        return null;
     }
 
     public int getVersionCount()
@@ -742,17 +755,13 @@ public class ContentEntity
     public String getPathAsString()
     {
         String categoryPath = getCategory().getPathAsString();
+
         if ( categoryPath == null )
         {
             return null;
         }
 
-        ContentVersionEntity currentVersion = getMainVersion();
-        if ( null != currentVersion )
-        {
-            return categoryPath + "/" + currentVersion.getTitle();
-        }
-        return null;
+        return categoryPath + "/" + getName();
     }
 
     public void addOwnerAccessRight()

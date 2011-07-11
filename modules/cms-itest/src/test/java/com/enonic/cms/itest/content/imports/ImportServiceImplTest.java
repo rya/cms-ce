@@ -88,8 +88,7 @@ public class ImportServiceImplTest
     public void setUp()
         throws IOException
     {
-        personContentTypeXml = resourceToString( new ClassPathResource(
-                "com/enonic/cms/itest/content/imports/personContentType.xml" ) );
+        personContentTypeXml = resourceToString( new ClassPathResource( "com/enonic/cms/itest/content/imports/personContentType.xml" ) );
 
         fixture = new DomainFixture( hibernateTemplate );
         factory = new DomainFactory( fixture );
@@ -762,7 +761,7 @@ public class ImportServiceImplTest
             (CustomContentData) fixture.findFirstContentVersionByTitle( "Jørund Vier Skriubakken" ).getContentData();
         HtmlAreaDataEntry htmlAreaDataEntry = (HtmlAreaDataEntry) contentDataJrund.getEntry( "htmlarea" );
 
-        String importedHtmlAreaValueAsString = XMLDocumentFactory.asString( htmlAreaDataEntry.getValue() );
+        String importedHtmlAreaValueAsString = htmlAreaDataEntry.getValue();
         assertEquals( "<div>first root element</div><p>second root element</p>", importedHtmlAreaValueAsString );
     }
 
@@ -1355,8 +1354,7 @@ public class ImportServiceImplTest
 
         // setup: create draft for approved content
         UpdateContentCommand updateCommand =
-            UpdateContentCommand.storeNewVersionIfChanged(
-                    fixture.findContentByKey( contentKey_approved ).getMainVersion().getKey() );
+            UpdateContentCommand.storeNewVersionIfChanged( fixture.findContentByKey( contentKey_approved ).getMainVersion().getKey() );
         updateCommand.setContentKey( contentKey_approved );
         updateCommand.setUpdateStrategy( UpdateContentCommand.UpdateStrategy.MODIFY );
         updateCommand.setModifier( fixture.findUserByName( "testuser" ).getKey() );
@@ -1629,10 +1627,10 @@ public class ImportServiceImplTest
             ImportException importException = (ImportException) e;
 
             // timezone fix
-            int tz = TimeZone.getDefault().getOffset( new Date().getTime() )/(1000*60*60);
+            int tz = TimeZone.getDefault().getOffset( new Date().getTime() ) / ( 1000 * 60 * 60 );
             assertEquals(
-                "Given publishFrom (2012-08-01T00:00:00.000+0"+ tz +":00) bust be before given publishTo (2010-08-01T00:00:00.000+0"+ tz +":00)",
-                importException.getMessage() );
+                "Given publishFrom (2012-08-01T00:00:00.000+0" + tz + ":00) bust be before given publishTo (2010-08-01T00:00:00.000+0" +
+                    tz + ":00)", importException.getMessage() );
         }
     }
 

@@ -7,31 +7,21 @@ package com.enonic.cms.portal.mvc.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.portal.InvalidParameterValueException;
-import com.enonic.cms.portal.httpservices.UserServicesParameterResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
-import com.enonic.cms.core.security.AutoLoginService;
+import com.enonic.cms.portal.InvalidParameterValueException;
+import com.enonic.cms.portal.InvalidTicketException;
+import com.enonic.cms.portal.ParameterMissingException;
+import com.enonic.cms.portal.httpservices.UserServicesParameterResolver;
 import com.enonic.cms.portal.ticket.TicketValidator;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.portal.InvalidTicketException;
-import com.enonic.cms.portal.ParameterMissingException;
 
 public class UserServicesController
     extends AbstractSiteController
 {
-    protected AutoLoginService autoLoginService;
-
-    private SitePropertiesService sitePropertiesService;
-
-    public void setAutoLoginService( AutoLoginService value )
-    {
-        this.autoLoginService = value;
-    }
 
     /**
      * @inheritDoc
@@ -102,13 +92,13 @@ public class UserServicesController
         String op = UserServicesParameterResolver.resolveOperationFromSitePath( sitePath );
         SitePath pathToServlet = sitePath.createNewInSameSite( new Path( servletURL.toString() ), sitePath.getParams() );
         pathToServlet.addParam( "_op", op );
-        return redirectAndForwardHelper.getForwardModelAndView( request, pathToServlet );
+        return siteRedirectAndForwardHelper.getForwardModelAndView( request, pathToServlet );
     }
 
     private boolean ticketIsRequired( SitePath sitePath )
     {
         String handler = UserServicesParameterResolver.resolveHandlerFromSitePath( sitePath );
-        String operation = UserServicesParameterResolver.resolveOperationFromSitePath(sitePath);
+        String operation = UserServicesParameterResolver.resolveOperationFromSitePath( sitePath );
 
         if ( "user".equals( handler ) )
         {
@@ -140,11 +130,6 @@ public class UserServicesController
     private boolean ticketIsValid( HttpServletRequest request )
     {
         return TicketValidator.isValid( request );
-    }
-
-    public void setSitePropertiesService( SitePropertiesService service )
-    {
-        sitePropertiesService = service;
     }
 
 }

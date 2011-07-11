@@ -13,17 +13,17 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jdom.Document;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.ContentDataParser;
 import com.enonic.cms.core.content.contentdata.ContentDataXmlCreator;
@@ -413,73 +413,75 @@ public class ContentVersionEntity
         this.contentBinaryData.add( contentBinaryData );
     }
 
-    /**
-     * Finds and returns a single binary data element connected to this contentVersion. This method is a convenience method to get binary
-     * data, where it is known that there is only one binary data element for each content version, or that the binary data is distinguished
-     * by labels. Where there are more than one binary data element and they are not distinguished by labels, this method will return a
-     * random choice from among the elements, but in those situations, it is not recommended to use this method.
-     *
-     * @param label This value is used to distinguish between multiple binary data. If it is known that there is only one binary data for
-     *              the content, this value will not affect the result, and may be null. If there is more than one binary data, the first
-     *              found that match the label will be returned. If there are multiple binary data entities in the database with the same
-     *              label, it is coincidental which is returned.
-     * @return A single binary data element.
-     */
-    public BinaryDataEntity getSingleBinaryData( String label )
+    public BinaryDataEntity getBinaryData( final String label )
     {
-        return doGetSingleBinaryData( label );
+        ContentBinaryDataEntity contentBinaryData = getContentBinaryData( label );
+        if ( contentBinaryData == null )
+        {
+            return null;
+        }
+        return contentBinaryData.getBinaryData();
     }
 
-    private BinaryDataEntity doGetSingleBinaryData( String label )
+    public BinaryDataEntity getOneAndOnlyBinaryData()
+    {
+        ContentBinaryDataEntity cbd = getOneAndOnlyContentBinaryData();
+        if ( cbd == null )
+        {
+            return null;
+        }
+        return cbd.getBinaryData();
+    }
+
+    public ContentBinaryDataEntity getOneAndOnlyContentBinaryData()
     {
         Set<ContentBinaryDataEntity> contentBinaryDataSet = getContentBinaryData();
+        Preconditions.checkArgument( contentBinaryDataSet.size() < 2,
+                                     "Expected not more than one content binary for this contentVersion: " + getKey() );
 
-        if ( contentBinaryDataSet != null )
+        if ( contentBinaryDataSet.size() == 0 )
         {
-            if ( contentBinaryDataSet.size() == 1 )
+            return null;
+        }
+
+        return contentBinaryDataSet.iterator().next();
+    }
+
+    public ContentBinaryDataEntity getContentBinaryData( final String label )
+    {
+        Preconditions.checkNotNull( label, "Given label cannot be null" );
+
+        for ( ContentBinaryDataEntity contentBinaryData : getContentBinaryData() )
+        {
+            if ( label.equals( contentBinaryData.getLabel() ) )
             {
-                ContentBinaryDataEntity contentBinary = contentBinaryDataSet.iterator().next();
-                if ( contentBinary != null )
-                {
-                    return contentBinary.getBinaryData();
-                }
-            }
-            else if ( StringUtils.isNotEmpty( label ) )
-            {
-                for ( ContentBinaryDataEntity contentBinaryData : contentBinaryDataSet )
-                {
-                    if ( label.equals( contentBinaryData.getLabel() ) )
-                    {
-                        return contentBinaryData.getBinaryData();
-                    }
-                }
+                return contentBinaryData;
             }
         }
         return null;
     }
 
-    public BinaryDataEntity getSourceBinaryData()
+    public BinaryDataEntity getBinaryData( final BinaryDataKey binaryDataKey )
     {
-        return doGetSingleBinaryData( "source" );
+        ContentBinaryDataEntity contentBinaryData = getContentBinaryData( binaryDataKey );
+        if ( contentBinaryData == null )
+        {
+            return null;
+        }
+        return contentBinaryData.getBinaryData();
     }
 
-    public BinaryDataEntity getSingleBinaryDataFromKey( BinaryDataKey key )
+    public ContentBinaryDataEntity getContentBinaryData( final BinaryDataKey binaryDataKey )
     {
-        Set<ContentBinaryDataEntity> contentBinaryDataSet = getContentBinaryData();
+        Preconditions.checkNotNull( binaryDataKey, "Given binaryDataKey cannot be null" );
 
-        if ( contentBinaryDataSet != null )
+        for ( ContentBinaryDataEntity contentBinaryData : getContentBinaryData() )
         {
-            for ( ContentBinaryDataEntity contentBinaryData : contentBinaryDataSet )
+            if ( contentBinaryData.getBinaryData().getBinaryDataKey().equals( binaryDataKey ) )
             {
-                BinaryDataEntity binaryData = contentBinaryData.getBinaryData();
-
-                if ( key.equals( binaryData.getBinaryDataKey() ) )
-                {
-                    return binaryData;
-                }
+                return contentBinaryData;
             }
         }
-
         return null;
     }
 

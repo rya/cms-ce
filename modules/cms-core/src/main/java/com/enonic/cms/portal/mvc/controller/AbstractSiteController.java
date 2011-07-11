@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.portal.mvc.controller;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,25 +13,31 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.SitePathResolver;
+import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteRedirectAndForwardHelper;
+import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.structure.SiteService;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.SiteDao;
+import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;
 
 public abstract class AbstractSiteController
-        extends AbstractController
+    extends AbstractController
 {
 
     private static final Logger LOG = LoggerFactory.getLogger( AbstractSiteController.class );
@@ -38,7 +46,13 @@ public abstract class AbstractSiteController
 
     protected SiteDao siteDao;
 
-    protected SiteRedirectAndForwardHelper redirectAndForwardHelper;
+    protected ContentDao contentDao;
+
+    protected UserDao userDao;
+
+    protected GroupDao groupDao;
+
+    protected SiteRedirectAndForwardHelper siteRedirectAndForwardHelper;
 
     protected SitePathResolver sitePathResolver;
 
@@ -46,40 +60,17 @@ public abstract class AbstractSiteController
 
     protected SecurityService securityService;
 
-    public void setSiteService( SiteService value )
-    {
-        this.siteService = value;
-    }
+    protected TimeService timeService;
 
-    @Autowired
-    public void setSiteDao( SiteDao value )
-    {
-        this.siteDao = value;
-    }
+    protected PreviewService previewService;
 
-    public void setSiteRedirectAndForwardHelper( SiteRedirectAndForwardHelper value )
-    {
-        this.redirectAndForwardHelper = value;
-    }
+    protected AutoLoginService autoLoginService;
 
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
-    }
-
-    public void setSitePathResolver( SitePathResolver value )
-    {
-        this.sitePathResolver = value;
-    }
+    protected SitePropertiesService sitePropertiesService;
 
 
-    public void setSecurityService( SecurityService value )
-    {
-        this.securityService = value;
-    }
-
-    protected final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
-            throws Exception
+    public final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
+        throws Exception
     {
 
         // Get check and eventually set original sitePath
@@ -102,7 +93,7 @@ public abstract class AbstractSiteController
     {
         if ( modelAndView != null )
         {
-            LOG.debug( modelAndView.getViewName() );
+            LOG.trace( modelAndView.getViewName() );
         }
         return modelAndView;
     }
@@ -111,9 +102,8 @@ public abstract class AbstractSiteController
     /**
      * Process the site path and return a {@link org.springframework.web.servlet.ModelAndView}.
      */
-    protected abstract ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response,
-                                                           SitePath sitePath )
-            throws Exception;
+    protected abstract ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
+        throws Exception;
 
     protected void enableHttpCacheHeaders( HttpServletResponse response, SitePath sitePath, DateTime now, Integer siteCacheSettingsMaxAge,
                                            boolean anonymousAccess )
@@ -146,4 +136,82 @@ public abstract class AbstractSiteController
         return StringUtils.isNotBlank( timestamp );
     }
 
+    @Inject
+    public void setSiteService( SiteService value )
+    {
+        this.siteService = value;
+    }
+
+    @Inject
+    public void setSiteDao( SiteDao value )
+    {
+        this.siteDao = value;
+    }
+
+    @Inject
+    public void setPresentationService( PresentationService value )
+    {
+        this.presentationService = value;
+    }
+
+    @Inject
+    public void setSiteRedirectAndForwardHelper( SiteRedirectAndForwardHelper value )
+    {
+        this.siteRedirectAndForwardHelper = value;
+    }
+
+    @Inject
+    @Named("sitePathResolver")
+    public void setSitePathResolver( SitePathResolver value )
+    {
+        this.sitePathResolver = value;
+    }
+
+    @Inject
+    public void setSecurityService( SecurityService value )
+    {
+        this.securityService = value;
+    }
+
+    @Inject
+    public void setTimeService( TimeService timeService )
+    {
+        this.timeService = timeService;
+    }
+
+    @Inject
+    public void setPreviewService( PreviewService previewService )
+    {
+        this.previewService = previewService;
+    }
+
+    @Inject
+    public void setAutoLoginService( AutoLoginService autoLoginService )
+    {
+        this.autoLoginService = autoLoginService;
+    }
+
+    @Inject
+    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
+    {
+        this.sitePropertiesService = sitePropertiesService;
+    }
+
+    @Inject
+    public void setContentDao( ContentDao contentDao )
+    {
+        this.contentDao = contentDao;
+    }
+
+    @Inject
+    public void setGroupDao( GroupDao groupDao )
+    {
+        this.groupDao = groupDao;
+    }
+
+    @Inject
+    public void setUserDao( UserDao userDao )
+    {
+        this.userDao = userDao;
+    }
 }

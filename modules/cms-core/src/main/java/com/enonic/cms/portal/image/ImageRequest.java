@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.portal.image;
 
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionKey;
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserKey;
@@ -29,8 +29,6 @@ public final class ImageRequest
     private final ImageRequestParams params = new ImageRequestParams();
 
     private User requester;
-
-    private boolean serveOfflineContent = false;
 
     private String eTag;
 
@@ -68,18 +66,6 @@ public final class ImageRequest
         return this.binaryDataKey;
     }
 
-    public void setBinaryDataKey( String binaryDataKey )
-    {
-        try
-        {
-            setBinaryDataKey( new BinaryDataKey( binaryDataKey ) );
-        }
-        catch ( Exception e )
-        {
-            // Do nothing
-        }
-    }
-
     public void setBinaryDataKey( BinaryDataKey binaryDataKey )
     {
         this.binaryDataKey = binaryDataKey;
@@ -95,18 +81,6 @@ public final class ImageRequest
         this.contentKey = contentKey;
     }
 
-    public void setContentKey( String contentKey )
-    {
-        try
-        {
-            setContentKey( new ContentKey( contentKey ) );
-        }
-        catch ( Exception e )
-        {
-            // Do nothing
-        }
-    }
-
     public ContentVersionKey getContentVersionKey()
     {
         return this.contentVersionKey;
@@ -115,18 +89,6 @@ public final class ImageRequest
     public void setContentVersionKey( ContentVersionKey value )
     {
         this.contentVersionKey = value;
-    }
-
-    public void setContentVersionKey( String value )
-    {
-        try
-        {
-            setContentVersionKey( new ContentVersionKey( value ) );
-        }
-        catch ( Exception e )
-        {
-            // Do nothing
-        }
     }
 
     public String getLabel()
@@ -163,16 +125,6 @@ public final class ImageRequest
     public void setRequester( User requester )
     {
         this.requester = requester;
-    }
-
-    public boolean serveOfflineContent()
-    {
-        return serveOfflineContent;
-    }
-
-    public void setServeOfflineContent( boolean value )
-    {
-        this.serveOfflineContent = value;
     }
 
     public DateTime getRequestDateTime()

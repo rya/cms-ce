@@ -48,9 +48,6 @@ import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.nativelink.NativeLinkKey;
 
-/**
- * Created by rmy - Date: Nov 19, 2009
- */
 public class PostProcessInstructionExecutorImpl
     implements PostProcessInstructionExecutor
 {
@@ -354,20 +351,24 @@ public class PostProcessInstructionExecutorImpl
 
     private BinaryDataEntity findBinaryData( NativeLinkKey nativeKey, ContentEntity content )
     {
-        BinaryDataEntity binaryData = null;
+        BinaryDataEntity binaryData;
         if ( nativeKey instanceof AttachmentNativeLinkKeyWithBinaryKey )
         {
             AttachmentNativeLinkKeyWithBinaryKey binaryNativeLinkKey = (AttachmentNativeLinkKeyWithBinaryKey) nativeKey;
-            binaryData = content.getMainVersion().getSingleBinaryDataFromKey( binaryNativeLinkKey.getBinaryKey() );
+            binaryData = content.getMainVersion().getBinaryData( binaryNativeLinkKey.getBinaryKey() );
         }
         else if ( nativeKey instanceof AttachmentNativeLinkKeyWithLabel )
         {
             String label = ( (AttachmentNativeLinkKeyWithLabel) nativeKey ).getLabel();
-            binaryData = content.getMainVersion().getSingleBinaryData( label );
+            binaryData = content.getMainVersion().getBinaryData( label );
         }
         else
         {
-            binaryData = content.getMainVersion().getSourceBinaryData();
+            binaryData = content.getMainVersion().getBinaryData( "source" );
+            if ( binaryData == null )
+            {
+                binaryData = content.getMainVersion().getOneAndOnlyBinaryData();
+            }
         }
         return binaryData;
     }

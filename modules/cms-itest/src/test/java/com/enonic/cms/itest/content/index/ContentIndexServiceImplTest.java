@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.content.index;
+package com.enonic.cms.itest.content.index;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +23,16 @@ import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.AggregatedQuery;
+import com.enonic.cms.core.content.index.AggregatedResult;
+import com.enonic.cms.core.content.index.BigText;
+import com.enonic.cms.core.content.index.ContentDocument;
+import com.enonic.cms.core.content.index.ContentIndexFieldSet;
+import com.enonic.cms.core.content.index.ContentIndexQuery;
+import com.enonic.cms.core.content.index.ContentIndexServiceImpl;
+import com.enonic.cms.core.content.index.IndexValueQuery;
+import com.enonic.cms.core.content.index.IndexValueResultSet;
+import com.enonic.cms.core.content.index.UserDefinedField;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.ContentIndexDao;
@@ -1809,7 +1819,7 @@ public class ContentIndexServiceImplTest
         {
             if ( !list.contains( new ContentKey( contentKey ) ) )
             {
-                LOG.info( "" +  contentKey );
+                LOG.info( "" + contentKey );
             }
 
             assertTrue( "Unexpected ContentResultSet. ContentKey not found: " + contentKey, list.contains( new ContentKey( contentKey ) ) );

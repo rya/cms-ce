@@ -8,7 +8,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
-
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
@@ -19,7 +18,7 @@ public class FileContentdataResolver
     public ContentData resolveContentdata( FileContentDataInput fileContentDataInput )
     {
         Document xml = buildXml( fileContentDataInput );
-        return new LegacyFileContentData( xml, BinaryDataAndBinary.convertFromBinaryInput( fileContentDataInput.binary ) );
+        return new LegacyFileContentData( xml, BinaryDataAndBinary.convertFromFileBinaryInput( fileContentDataInput.binary ) );
     }
 
     private Document buildXml( FileContentDataInput input )

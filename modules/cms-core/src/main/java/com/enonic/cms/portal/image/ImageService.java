@@ -10,5 +10,5 @@ public interface ImageService
 
     public Long getImageTimestamp( ImageRequest req );
 
-    public boolean canAccess( ImageRequest req );
+    public boolean accessibleInPortal( ImageRequest req );
 }

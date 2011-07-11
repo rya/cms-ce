@@ -4,25 +4,12 @@
  */
 package com.enonic.cms.itest.client;
 
-import com.enonic.cms.api.client.model.CreateFileContentParams;
-import com.enonic.cms.api.client.model.content.ContentStatus;
-import com.enonic.cms.api.client.model.content.file.*;
-import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.itest.test.AssertTool;
+import java.io.IOException;
+import java.util.Date;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -35,13 +22,32 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.io.IOException;
-import java.util.Date;
-import java.util.Set;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import com.enonic.cms.api.client.model.CreateFileContentParams;
+import com.enonic.cms.api.client.model.content.ContentStatus;
+import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
+import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
+import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
+import com.enonic.cms.api.client.model.content.file.FileKeywordsInput;
+import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.itest.test.AssertTool;
+
+import static org.junit.Assert.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -74,7 +80,7 @@ public class InternalClientImpl_CreateFileContentTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create(contentTypeConfigXml.toString());
+        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() );
 
         hibernateTemplate.flush();
 
@@ -126,6 +132,7 @@ public class InternalClientImpl_CreateFileContentTest
 
         Set<ContentBinaryDataEntity> contentBinaryDatas = persistedVersion.getContentBinaryData();
         assertEquals( 1, contentBinaryDatas.size() );
+        assertEquals( "source", contentBinaryDatas.iterator().next().getLabel() );
 
         BinaryDataEntity binaryDataResolvedFromContentBinaryData = contentBinaryDatas.iterator().next().getBinaryData();
         assertEquals( "Dummy Name", binaryDataResolvedFromContentBinaryData.getName() );
