@@ -4,11 +4,12 @@ Ext.define('CMS.store.RegionStore', {
     model: 'CMS.model.RegionModel',
 
     //pageSize: 10,
-    autoLoad: true,
+    autoLoad: false,
 
     proxy: {
         type: 'ajax',
-        url: 'app/data/Regions.json',
+        url: 'data/misc/region/list',
+        //url: 'app/data/Regions.json',
         reader: {
             type: 'json',
             root: 'regions',
