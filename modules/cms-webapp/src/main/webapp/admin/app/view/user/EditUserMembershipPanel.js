@@ -9,9 +9,14 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
         columns: 1,
         defaultMargins: {top:10, right:10, bottom:10, left:10},
         padding: 10,
+        tableAttrs: {
+            style:{
+                width: '100%'
+            }
+        },
         tdAttrs: {
             style:{
-                padding: '10px'
+                padding: '5px 10px 0px 10px'
             }
         }
     },
@@ -22,6 +27,7 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
             {
                 xtype: 'combobox',
                 store: 'GroupStore',
+                itemId: 'groupSelector',
                 triggeredAction: 'all',
                 typeAhead: true,
                 mode: 'remote',
@@ -31,10 +37,11 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
                 fieldLabel: 'Group Search',
                 valueField: 'key',
                 displayField: 'name',
+                width: 400,
                 listConfig: {
                     getInnerTpl: function()
                     {
-                        return '{name} ({memberCount} members)';
+                        return '<div style="white-space: nowrap;">{name} ({memberCount} members)</div>';
                     },
                     action: 'selectGroup'
                 }

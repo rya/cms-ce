@@ -2,9 +2,11 @@ Ext.define( 'CMS.view.user.GroupItemField', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.groupItemField',
 
-    layout: 'hbox',
+    layout: {
+        type: 'hbox'
+    },
 
-    width: 300,
+    width: 400,
 
     initComponent: function()
     {
@@ -18,7 +20,8 @@ Ext.define( 'CMS.view.user.GroupItemField', {
             {
                 xtype: 'label',
                 text: this.title,
-                cls: 'group-item'
+                cls: 'group-item',
+                flex: 1
             },
             {
                 xtype: 'button',

@@ -400,7 +400,9 @@ Ext.define( 'CMS.controller.UserController', {
     selectGroup: function(field, value){
         var editUserMembershipPanel = this.getEditUserMembershipPanel();
         editUserMembershipPanel.addGroup(value.get('key'), value.get('name'));
+        var groupSelector = editUserMembershipPanel.down('#groupSelector');
         field.deselectAll();
+        groupSelector.clearValue();
     },
 
 
