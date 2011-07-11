@@ -28,6 +28,7 @@ Ext.define( 'CMS.view.user.EditUserMembershipPanel', {
                 minChars: 1,
                 forceSelection: true,
                 hideTrigger: true,
+                fieldLabel: 'Group Search',
                 valueField: 'key',
                 displayField: 'name',
                 listConfig: {
