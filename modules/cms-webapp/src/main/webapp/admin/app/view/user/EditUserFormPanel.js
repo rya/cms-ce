@@ -97,12 +97,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             type: 'autocomplete',
             fieldLabel: field.fieldlabel,
             fieldStore: callingCodeStore,
-            valueField: 'calling_code',
-            displayField: 'calling_code',
+            valueField: 'callingCode',
+            displayField: 'callingCode',
             displayConfig:{
                 getInnerTpl: function()
                 {
-                    return '{calling_code} ({english_name})';
+                    return '{callingCode} ({englishName})';
                 }
             }
         };
