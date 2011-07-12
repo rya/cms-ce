@@ -29,8 +29,6 @@ public interface PresentationService
 
     public boolean hasErrorPage( int menuKey );
 
-    public int getBinaryDataKey( int contentKey, String label );
-
     public boolean siteExists( SiteKey siteKey );
 
 

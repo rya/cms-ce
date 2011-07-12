@@ -42,11 +42,6 @@ public class PresentationServiceImpl
         return presentationEngine.getLoginPage( menuKey );
     }
 
-    public int getBinaryDataKey( int contentKey, String label )
-    {
-        return presentationEngine.getBinaryDataKey( contentKey, label );
-    }
-
     public String getPathString( int type, int key, boolean includeRoot )
     {
         return presentationEngine.getPathString( type, key, includeRoot );
