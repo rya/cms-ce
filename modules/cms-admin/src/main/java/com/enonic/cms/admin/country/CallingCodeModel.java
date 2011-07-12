@@ -1,11 +1,10 @@
 package com.enonic.cms.admin.country;
 
 /**
- * Created by IntelliJ IDEA.
- * User: vfiodarau
- * Date: 7/11/11
- * Time: 11:03 AM
- * To change this template use File | Settings | File Templates.
+ * Calling code model for CallingCodeResource
+ *
+ * @author Viktar Fiodarau.
+ * @see CallingCodeResource
  */
 public class CallingCodeModel
 {
