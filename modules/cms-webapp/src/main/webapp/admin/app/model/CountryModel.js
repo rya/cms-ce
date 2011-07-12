@@ -1,7 +1,14 @@
 Ext.define('CMS.model.CountryModel', {
     extend: 'Ext.data.Model',
 
+    idField: 'code',
+
     fields: [
-        'name'
+        'code',
+        'englishName',
+        'localName',
+        'regionsEnglishName',
+        'regionsLocalName',
+        'callingCode'
     ]
 });
