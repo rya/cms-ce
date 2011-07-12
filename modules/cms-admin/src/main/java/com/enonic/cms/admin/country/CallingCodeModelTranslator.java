@@ -5,7 +5,6 @@ import com.enonic.cms.core.country.Country;
 /**
  * Class for converting Country to CallingCodeModel
  *
- * @author Viktar Fiodarau
  * @see Country
  * @see CallingCodeModel
  */

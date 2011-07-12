@@ -3,7 +3,6 @@ package com.enonic.cms.admin.country;
 /**
  * Calling code model for CallingCodeResource
  *
- * @author Viktar Fiodarau.
  * @see CallingCodeResource
  */
 public class CallingCodeModel

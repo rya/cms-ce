@@ -19,8 +19,6 @@ import com.enonic.cms.core.country.CountryService;
 /**
  * Service for building and return list of calling codes,
  * filtering is performed according to query parameter
- *
- * @author Viktar Fiodarau
  */
 
 @Component

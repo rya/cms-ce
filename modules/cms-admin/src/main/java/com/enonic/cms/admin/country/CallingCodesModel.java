@@ -6,7 +6,6 @@ import java.util.List;
  * Class represents response for CallingCodeResource,
  * it then will be converted to JSON
  *
- * @author Viktar Fiodarau
  * @see CallingCodeResource
  */
 public class CallingCodesModel
