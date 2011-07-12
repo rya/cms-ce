@@ -9,7 +9,7 @@ import com.enonic.cms.core.country.Country;
  * @see Country
  * @see CallingCodeModel
  */
-public class CallingCodeModelHelper
+public class CallingCodeModelTranslator
 {
 
     static public CallingCodeModel toModel( Country country )

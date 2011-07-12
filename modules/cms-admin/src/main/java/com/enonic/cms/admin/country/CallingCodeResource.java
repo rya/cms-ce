@@ -41,7 +41,7 @@ public class CallingCodeResource
         {
             if ( c.getCallingCode().startsWith( req.getQuery() ) )
             {
-                list.add( CallingCodeModelHelper.toModel( c ) );
+                list.add( CallingCodeModelTranslator.toModel( c ) );
             }
         }
         CallingCodesModel codes = new CallingCodesModel();
