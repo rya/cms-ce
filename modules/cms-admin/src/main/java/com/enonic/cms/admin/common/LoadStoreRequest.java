@@ -5,18 +5,22 @@ import javax.ws.rs.QueryParam;
 
 public class LoadStoreRequest
 {
-    @DefaultValue("0") @QueryParam("start")
+    @DefaultValue("0")
+    @QueryParam("start")
     private int start;
 
-    @DefaultValue("10") @QueryParam("limit")
+    @DefaultValue("10")
+    @QueryParam("limit")
     private int limit;
 
     @QueryParam("sort")
     private String sort;
 
-    @DefaultValue("ASC") @QueryParam("dir")
+    @DefaultValue("ASC")
+    @QueryParam("dir")
     private String dir;
 
+    @DefaultValue("")
     @QueryParam("query")
     private String query;
 
@@ -25,7 +29,7 @@ public class LoadStoreRequest
         return this.start;
     }
 
-    public void setStart(final int start)
+    public void setStart( final int start )
     {
         this.start = start;
     }
@@ -35,7 +39,7 @@ public class LoadStoreRequest
         return this.limit;
     }
 
-    public void setLimit(final int limit)
+    public void setLimit( final int limit )
     {
         this.limit = limit;
     }
@@ -45,7 +49,7 @@ public class LoadStoreRequest
         return this.sort;
     }
 
-    public void setSort(final String sort)
+    public void setSort( final String sort )
     {
         this.sort = sort;
     }
@@ -55,11 +59,14 @@ public class LoadStoreRequest
         return this.dir;
     }
 
-    public void setSortDir(final String dir)
+    public void setSortDir( final String dir )
     {
-        if ("DESC".equalsIgnoreCase(dir)) {
+        if ( "DESC".equalsIgnoreCase( dir ) )
+        {
             this.dir = "DESC";
-        } else {
+        }
+        else
+        {
             this.dir = "ASC";
         }
     }
@@ -69,7 +76,7 @@ public class LoadStoreRequest
         return this.query;
     }
 
-    public void setQuery(final String query)
+    public void setQuery( final String query )
     {
         this.query = query;
     }
