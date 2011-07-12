@@ -9,30 +9,26 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import com.enonic.cms.portal.SiteNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.SiteContextManager;
 import com.enonic.cms.core.SitePropertiesService;
-import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.portal.SiteNotFoundException;
 import com.enonic.cms.portal.cache.SiteCachesService;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserEntity;
 
 public class SiteServiceImpl
-        implements SiteService
+    implements SiteService
 {
 
     private static final Logger LOG = LoggerFactory.getLogger( SiteServiceImpl.class );
-
-    @Inject
-    private PresentationService presentationService;
 
     private SiteCachesService siteCachesService;
 
@@ -42,7 +38,6 @@ public class SiteServiceImpl
 
     private List<SiteEventListener> siteEventListeners = new ArrayList<SiteEventListener>();
 
-    @Inject
     private SiteDao siteDao;
 
     @Inject
@@ -124,7 +119,8 @@ public class SiteServiceImpl
         initCache( siteContext );
 
         siteContext.setAccessLoggingEnabled( sitePropertiesService.getPropertyAsBoolean( "cms.site.logging.access", siteKey ) );
-        siteContext.setAuthenticationLoggingEnabled( sitePropertiesService.getPropertyAsBoolean( "cms.site.logging.authentication", siteKey ) );
+        siteContext.setAuthenticationLoggingEnabled(
+            sitePropertiesService.getPropertyAsBoolean( "cms.site.logging.authentication", siteKey ) );
 
         return siteContext;
     }
@@ -144,14 +140,14 @@ public class SiteServiceImpl
      */
     public boolean siteExists( SiteKey siteKey )
     {
-        return presentationService.siteExists( siteKey );
+        return siteDao.findByKey( siteKey.toInt() ) != null;
     }
 
     /**
      * @inheritDoc
      */
     public void checkSiteExist( SiteKey siteKey )
-            throws SiteNotFoundException
+        throws SiteNotFoundException
     {
         if ( !siteExists( siteKey ) )
         {
@@ -163,12 +159,12 @@ public class SiteServiceImpl
      * @inheritDoc
      */
     public SiteContext getSiteContext( SiteKey siteKey )
-            throws SiteNotFoundException
+        throws SiteNotFoundException
     {
 
         SiteContext siteContext = siteContextManager.getSiteContext( siteKey );
 
-        boolean siteExistsInDb = presentationService.siteExists( siteKey );
+        boolean siteExistsInDb = siteDao.findByKey( siteKey ) != null;
         boolean isRegistered = siteContext != null;
 
         if ( siteExistsInDb && isRegistered )
@@ -193,7 +189,6 @@ public class SiteServiceImpl
 
     public List<SiteEntity> getSitesToPublishTo( int contentTypeKey, User oldUser )
     {
-
         UserEntity user = userDao.findByKey( oldUser.getKey() );
         return siteDao.findByPublishPossible( contentTypeKey, user );
     }
@@ -201,11 +196,6 @@ public class SiteServiceImpl
     public List<SiteEntity> findAll()
     {
         return siteDao.findAll();
-    }
-
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
     }
 
     public void setSiteCachesService( SiteCachesService value )
@@ -223,13 +213,15 @@ public class SiteServiceImpl
         this.sitePropertiesService = value;
     }
 
-    public void setSiteDao( SiteDao value )
-    {
-        this.siteDao = value;
-    }
-
+    @Inject
     public void setUserDao( UserDao value )
     {
         this.userDao = value;
+    }
+
+    @Inject
+    public void setSiteDao( SiteDao siteDao )
+    {
+        this.siteDao = siteDao;
     }
 }

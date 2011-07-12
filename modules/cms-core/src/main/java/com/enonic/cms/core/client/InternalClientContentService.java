@@ -9,6 +9,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.jdom.Document;
+import org.jdom.Element;
+
+import com.enonic.esl.util.Base64Util;
+
+import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.time.TimeService;
+
 import com.enonic.cms.api.client.ClientException;
 import com.enonic.cms.api.client.model.AssignContentParams;
 import com.enonic.cms.api.client.model.ContentDataInputUpdateStrategy;
@@ -16,10 +24,13 @@ import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
+import com.enonic.cms.api.client.model.GetBinaryParams;
+import com.enonic.cms.api.client.model.GetContentBinaryParams;
 import com.enonic.cms.api.client.model.SnapshotContentParams;
 import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
+import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentLocation;
@@ -31,14 +42,17 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.CategoryService;
 import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
-import com.enonic.cms.core.resolver.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;
@@ -50,13 +64,19 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.resolver.CategoryAccessResolver;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserParser;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.portal.PrettyPathNameCreator;
 import com.enonic.cms.portal.cache.PageCacheService;
 import com.enonic.cms.portal.cache.SiteCachesService;
+import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
@@ -81,10 +101,22 @@ public class InternalClientContentService
     private ContentVersionDao contentVersionDao;
 
     @Inject
+    private ContentBinaryDataDao contentBinaryDataDao;
+
+    @Inject
+    private BinaryDataDao binaryDataDao;
+
+    @Inject
     private CategoryDao categoryDao;
 
     @Inject
     private GroupDao groupDao;
+
+    @Inject
+    private PreviewService previewService;
+
+    @Inject
+    private TimeService timeService;
 
     private SiteCachesService siteCachesService;
 
@@ -198,7 +230,7 @@ public class InternalClientContentService
         final CustomContentData contentdata = customContentResolver.resolveContentdata( params.contentData, contentType );
 
         command.setContentData( contentdata );
-        command.setContentName( PrettyPathNameCreator.generatePrettyPathName(contentdata.getTitle()) );
+        command.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
 
         final List<BinaryDataAndBinary> binaryDatas = BinaryDataAndBinary.convertFromBinaryInputs( params.contentData.getBinaryInputs() );
 
@@ -209,6 +241,82 @@ public class InternalClientContentService
         command.setCreator( securityService.getRunAsUser() );
 
         return contentService.createContent( command ).toInt();
+    }
+
+    public Document getBinary( GetBinaryParams params )
+        throws Exception
+    {
+        assertMinValue( "binaryKey", params.binaryKey, 0 );
+
+        final UserEntity runAsUser = securityService.getRunAsUser();
+
+        final BinaryDataKey binaryDataKey = new BinaryDataKey( params.binaryKey );
+        final BinaryDataEntity binaryData = binaryDataDao.findByKey( binaryDataKey );
+        if ( binaryData == null )
+        {
+            throw AttachmentNotFoundException.notFound( binaryDataKey );
+        }
+
+        final ContentBinaryDataEntity contentBinaryDataInMainVersion =
+            ContentBinaryDataEntity.resolveContentBinaryDataInMainVersion( contentBinaryDataDao.findAllByBinaryKey( binaryData.getKey() ) );
+        if ( contentBinaryDataInMainVersion == null )
+        {
+            throw AttachmentNotFoundException.notFound( binaryData.getBinaryDataKey() );
+        }
+
+        final ContentEntity content = contentBinaryDataInMainVersion.getContentVersion().getContent();
+        if ( content == null || content.isDeleted() )
+        {
+            throw AttachmentNotFoundException.notFound( binaryDataKey );
+        }
+        if ( !new ContentAccessResolver( groupDao ).hasReadContentAccess( runAsUser, content ) )
+        {
+            throw AttachmentNotFoundException.noAccess( content.getKey() );
+        }
+        checkContentIsOnline( content );
+
+        return createBinaryDocument( createBinaryData( contentBinaryDataInMainVersion ) );
+    }
+
+    public Document getContentBinary( GetContentBinaryParams params )
+        throws ClientException
+    {
+        assertMinValue( "contentKey", params.contentKey, 0 );
+
+        final UserEntity runAsUser = securityService.getRunAsUser();
+
+        final ContentKey contentKey = new ContentKey( params.contentKey );
+        final ContentEntity content = contentDao.findByKey( contentKey );
+        if ( content == null || content.isDeleted() )
+        {
+            throw AttachmentNotFoundException.notFound( contentKey );
+        }
+        if ( !new ContentAccessResolver( groupDao ).hasReadContentAccess( runAsUser, content ) )
+        {
+            throw AttachmentNotFoundException.noAccess( content.getKey() );
+        }
+        checkContentIsOnline( content );
+
+        ContentBinaryDataEntity contentBinaryData;
+        if ( params.label == null )
+        {
+            contentBinaryData = content.getMainVersion().getContentBinaryData( "source" );
+            if ( contentBinaryData == null )
+            {
+                contentBinaryData = content.getMainVersion().getOneAndOnlyContentBinaryData();
+            }
+        }
+        else
+        {
+            contentBinaryData = content.getMainVersion().getContentBinaryData( params.label );
+        }
+
+        if ( contentBinaryData == null )
+        {
+            throw AttachmentNotFoundException.notFound( contentKey );
+        }
+
+        return createBinaryDocument( createBinaryData( contentBinaryData ) );
     }
 
     public void assignContent( AssignContentParams params )
@@ -330,7 +438,7 @@ public class InternalClientContentService
 
         LegacyFileContentData contentdata = (LegacyFileContentData) fileContentResolver.resolveContentdata( params.fileContentData );
         List<BinaryDataAndBinary> binaryDataEntries = new ArrayList<BinaryDataAndBinary>();
-        binaryDataEntries.add( BinaryDataAndBinary.convertFromBinaryInput( params.fileContentData.binary ) );
+        binaryDataEntries.add( BinaryDataAndBinary.convertFromFileBinaryInput( params.fileContentData.binary ) );
 
         CreateContentCommand createCommand = new CreateContentCommand();
         createCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
@@ -510,7 +618,7 @@ public class InternalClientContentService
         if ( params.createNewVersion && params.contentData == null && params.updateStrategy == ContentDataInputUpdateStrategy.REPLACE_ALL )
         {
             throw new IllegalArgumentException( "contentData must be specified if you want to create new version when updateStrategy is " +
-                ContentDataInputUpdateStrategy.REPLACE_ALL );
+                                                    ContentDataInputUpdateStrategy.REPLACE_ALL );
         }
         if ( params.contentVersionKey != null && params.createNewVersion )
         {
@@ -574,6 +682,87 @@ public class InternalClientContentService
     {
         ContentEntity persistedContent = contentDao.findByKey( new ContentKey( contentKey ) );
         return persistedContent.getCategory().getContentType();
+    }
+
+    private void checkContentIsOnline( final ContentEntity content )
+    {
+        if ( previewService.isInPreview() )
+        {
+            PreviewContext previewContext = previewService.getPreviewContext();
+            if ( previewContext.isPreviewingContent() &&
+                previewContext.getContentPreviewContext().treatContentAsAvailableEvenIfOffline( content.getKey() ) )
+            {
+                // when in preview, the content doesn't need to be online
+                return;
+            }
+        }
+
+        if ( !content.isOnline( timeService.getNowAsDateTime() ) )
+        {
+            throw AttachmentNotFoundException.notFound( content.getKey() );
+        }
+    }
+
+    private BinaryData createBinaryData( ContentBinaryDataEntity contentBinaryData )
+    {
+        boolean anonAccess =
+            contentBinaryData.getContentVersion().getContent().hasAccessRightSet( securityService.getAnonymousUser().getUserGroup(),
+                                                                                  ContentAccessType.READ );
+
+        BinaryData binaryData = new BinaryData();
+        binaryData.key = contentBinaryData.getBinaryData().getKey();
+        binaryData.contentKey = contentBinaryData.getContentVersion().getContent().getKey().toInt();
+        binaryData.setSafeFileName( contentBinaryData.getBinaryData().getName() );
+        binaryData.timestamp = contentBinaryData.getBinaryData().getCreatedAt();
+        binaryData.anonymousAccess = anonAccess;
+
+        BlobRecord blob = this.binaryDataDao.getBlob( contentBinaryData.getBinaryData() );
+        binaryData.data = blob.getAsBytes();
+
+        return binaryData;
+    }
+
+    private void assertMinValue( String name, int value, int minValue )
+    {
+        if ( value < minValue )
+        {
+            throw new IllegalArgumentException( "Parameter [" + name + "] must be >= " + minValue );
+        }
+    }
+
+    private Document createBinaryDocument( BinaryData binaryData )
+    {
+        if ( binaryData == null )
+        {
+            return null;
+        }
+
+        Element binaryElem = new Element( "binary" );
+        Element fileNameElem = new Element( "filename" );
+        fileNameElem.setText( binaryData.fileName );
+        binaryElem.addContent( fileNameElem );
+
+        Element binaryKeyElem = new Element( "binarykey" );
+        binaryKeyElem.setText( String.valueOf( binaryData.key ) );
+        binaryElem.addContent( binaryKeyElem );
+
+        Element contentKeyElem = new Element( "contentkey" );
+        contentKeyElem.setText( String.valueOf( binaryData.contentKey ) );
+        binaryElem.addContent( contentKeyElem );
+
+        Element sizeElem = new Element( "size" );
+        sizeElem.setText( String.valueOf( binaryData.data.length ) );
+        binaryElem.addContent( sizeElem );
+
+        Element timestampElem = new Element( "timestamp" );
+        timestampElem.setText( binaryData.timestamp.toString() );
+        binaryElem.addContent( timestampElem );
+
+        Element dataElem = new Element( "data" );
+        dataElem.setText( Base64Util.encode( binaryData.data ) );
+        binaryElem.addContent( dataElem );
+
+        return new Document( binaryElem );
     }
 
     public void setSiteCachesService( SiteCachesService value )

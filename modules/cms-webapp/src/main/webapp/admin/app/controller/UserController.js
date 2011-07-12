@@ -2,9 +2,9 @@ Ext.define( 'CMS.controller.UserController', {
     extend: 'Ext.app.Controller',
 
     stores: ['UserStore', 'UserStoreConfigStore', 'CountryStore', 'CallingCodeStore', 'LanguageStore',
-        'RegionStore'],
+        'RegionStore', 'GroupStore'],
     models: ['UserModel', 'UserFieldModel', 'UserStoreConfigModel', 'CountryModel', 'CallingCodeModel',
-        'LanguageModel', 'RegionModel'],
+        'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
         'user.GridPanel',
         'user.DetailPanel',
@@ -17,7 +17,10 @@ Ext.define( 'CMS.controller.UserController', {
         'user.EditUserMembershipPanel',
         'user.EditUserPreferencesPanel',
         'user.EditUserPropertiesPanel',
-        'user.UserFormField'
+        'user.UserFormField',
+        'user.MembershipGridPanel',
+        'user.UserMembershipWindow',
+        'user.GroupItemField'
     ],
 
     refs: [
@@ -32,7 +35,10 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'userDeleteWindow', selector: 'userDeleteWindow', autoCreate: true, xtype: 'userDeleteWindow'},
         {ref: 'userChangePasswordWindow', selector: 'userChangePassword', autoCreate: true, xtype: 'userChangePasswordWindow'},
         {ref: 'userContextMenu', selector: 'userContextMenu', autoCreate: true, xtype: 'userContextMenu'},
-        {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'}
+        {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'},
+        {ref: 'userMembershipWindow', selector: 'userMembershipWindow', autoCreate: true, xtype: 'userMembershipWindow'},
+        {ref: 'editUserMembershipPanel', selector: 'editUserMembershipPanel', autoCreate: true, xtype: 'editUserMembershipPanel'},
+        {ref: 'membershipGridPanel', selector: 'membershipGridPanel'}
     ],
 
     init: function()
@@ -97,6 +103,21 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           'editUserPanel textfield[name=address_label]': {
                               keyup: this.updateTabTitle
+                          },
+                          '*[action=addGroup]': {
+                              click: this.showAddGroupWindow
+                          },
+                          '*[action=deleteGroup]': {
+                              click: this.deleteGroup
+                          },
+                          '*[action=selectGroups]': {
+                              click: this.selectGroup
+                          },
+                          '*[action=closeMembershipWindow]': {
+                              click: this.closeMembershipWindow
+                          },
+                          '*[action=selectGroup]': {
+                              select: this.selectGroup
                           }
                       } );
     },
@@ -348,6 +369,42 @@ Ext.define( 'CMS.controller.UserController', {
         }
 
     },
+
+    showAddGroupWindow: function(){
+        this.getUserMembershipWindow().doShow();
+    },
+
+    selectGroup: function(){
+        var membershipGridPanel = this.getMembershipGridPanel();
+        var selection = membershipGridPanel.getSelectionModel().getSelection();
+        var editUserMembershipPanel = this.getEditUserMembershipPanel();
+        Ext.each(selection, function(item, index){
+            editUserMembershipPanel.addGroup(item.get('key'), item.get('name'));
+        });
+        this.getUserMembershipWindow().hide();
+        membershipGridPanel.getSelectionModel().deselectAll();
+    },
+
+    deleteGroup: function(element, event){
+        var group = element.findParentByType('groupItemField');
+        this.getEditUserMembershipPanel().remove(group);
+    },
+
+    closeMembershipWindow: function(){
+        var membershipGridPanel = this.getMembershipGridPanel();
+        var selectionModel = membershipGridPanel.getSelectionModel()
+        selectionModel.deselectAll();
+        this.getUserMembershipWindow().hide();
+    },
+
+    selectGroup: function(field, value){
+        var editUserMembershipPanel = this.getEditUserMembershipPanel();
+        editUserMembershipPanel.addGroup(value.get('key'), value.get('name'));
+        var groupSelector = editUserMembershipPanel.down('#groupSelector');
+        field.deselectAll();
+        groupSelector.clearValue();
+    },
+
 
     // Dummy form
     createDummyUserForm: function( user )

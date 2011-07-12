@@ -12,17 +12,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-import com.enonic.cms.portal.ContentPath;
-import com.enonic.cms.portal.ReservedLocalPaths;
-import com.enonic.cms.portal.Ticket;
-import com.enonic.cms.portal.image.ImageRequest;
-import com.enonic.cms.portal.image.ImageRequestParser;
-import com.enonic.cms.portal.instruction.*;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
@@ -33,11 +22,36 @@ import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
 import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.captcha.CaptchaService;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.localization.LocalizationService;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
+import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.WindowKey;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
+import com.enonic.cms.core.structure.portlet.PortletKey;
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.Ticket;
+import com.enonic.cms.portal.image.ImageRequest;
+import com.enonic.cms.portal.image.ImageRequestParser;
 import com.enonic.cms.portal.image.ImageService;
+import com.enonic.cms.portal.instruction.CreateAttachmentUrlInstruction;
+import com.enonic.cms.portal.instruction.CreateContentUrlInstruction;
+import com.enonic.cms.portal.instruction.CreateImageUrlInstruction;
+import com.enonic.cms.portal.instruction.CreateResourceUrlInstruction;
+import com.enonic.cms.portal.instruction.PostProcessInstruction;
+import com.enonic.cms.portal.instruction.PostProcessInstructionSerializer;
+import com.enonic.cms.portal.instruction.RenderWindowInstruction;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -47,19 +61,6 @@ import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.portal.instruction.CreateContentUrlInstruction;
-import com.enonic.cms.portal.instruction.CreateResourceUrlInstruction;
-import com.enonic.cms.portal.instruction.PostProcessInstructionSerializer;
-import com.enonic.cms.portal.instruction.RenderWindowInstruction;
-import com.enonic.cms.core.resolver.ResolverContext;
-import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.page.WindowKey;
-import com.enonic.cms.core.structure.portlet.PortletEntity;
-import com.enonic.cms.core.structure.portlet.PortletKey;
 
 public class PortalFunctions
 {
@@ -665,7 +666,7 @@ public class PortalFunctions
         ImageRequest request = parser.parse( "_image/" + key, null, false );
         request.setRequester( securityService.getRunAsUser() );
         request.setRequestDateTime( new DateTime() );
-        return imageService.canAccess( request );
+        return imageService.accessibleInPortal( request );
     }
 
     private void addParamsToSitePath( String[] params, SitePath sitePath )

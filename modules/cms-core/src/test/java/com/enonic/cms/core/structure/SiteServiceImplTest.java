@@ -4,19 +4,20 @@
  */
 package com.enonic.cms.core.structure;
 
+import org.mockito.Mockito;
+
 import junit.framework.TestCase;
 
 import com.enonic.cms.core.MockSitePropertiesService;
 import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.SiteContextManager;
-import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.portal.SiteNotFoundException;
 import com.enonic.cms.portal.cache.SiteCachesService;
+import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.portal.SiteNotFoundException;
 
 import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 
 public class SiteServiceImplTest
@@ -27,15 +28,11 @@ public class SiteServiceImplTest
 
     private SiteContextManager siteContextManager = new SiteContextManager();
 
-    private PresentationService presentationService;
-
-    //private MockControl presentationServiceMC;
-
     private SiteCachesService siteCachesService;
 
-    //private MockControl siteCachesServiceMC;
-
     private MockSitePropertiesService sitePropertiesService;
+
+    private SiteDao siteDao;
 
     private final SiteKey siteKey = new SiteKey( 5 );
 
@@ -44,24 +41,24 @@ public class SiteServiceImplTest
     {
         super.setUp();
 
-        presentationService = createNiceMock( PresentationService.class );
         siteCachesService = createNiceMock( SiteCachesService.class );
         sitePropertiesService = new MockSitePropertiesService();
 
+        siteDao = Mockito.mock( SiteDao.class );
+
         siteService = new SiteServiceImpl();
+        siteService.setSiteDao( siteDao );
         siteService.setSiteContextManager( siteContextManager );
-        siteService.setPresentationService( presentationService );
         siteService.setSiteCachesService( siteCachesService );
         siteService.setSitePropertiesService( sitePropertiesService );
 
-        expect( presentationService.siteExists( siteKey ) ).andReturn( true ).anyTimes();
     }
 
     public void testGetSiteContext()
     {
-
-        replay( presentationService );
         replay( siteCachesService );
+
+        Mockito.when( siteDao.findByKey( siteKey ) ).thenReturn( createSite( siteKey, "MySite" ) );
 
         SiteContext siteContext = siteService.getSiteContext( siteKey );
 
@@ -75,8 +72,6 @@ public class SiteServiceImplTest
 
     public void testGetSiteContextWhenSiteNotExist()
     {
-
-        replay( presentationService );
         replay( siteCachesService );
 
         try
@@ -93,8 +88,6 @@ public class SiteServiceImplTest
 
     public void testGetSiteContextWhenSiteNotExistingAnymore()
     {
-
-        replay( presentationService );
         replay( siteCachesService );
 
         siteContextManager.registerSiteContext( new SiteContext( new SiteKey( 123 ) ) );
@@ -111,5 +104,13 @@ public class SiteServiceImplTest
         }
 
         assertNull( siteContextManager.getSiteContext( new SiteKey( 123 ) ) );
+    }
+
+    private SiteEntity createSite( SiteKey siteKey, String name )
+    {
+        SiteEntity site = new SiteEntity();
+        site.setKey( siteKey.toInt() );
+        site.setName( name );
+        return site;
     }
 }

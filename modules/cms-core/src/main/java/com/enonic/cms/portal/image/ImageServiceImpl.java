@@ -8,9 +8,6 @@ import java.awt.image.BufferedImage;
 
 import javax.inject.Inject;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.google.common.base.Preconditions;
@@ -18,17 +15,18 @@ import com.google.common.base.Preconditions;
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
+import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.util.ImageHelper;
 
-import com.enonic.cms.core.content.binary.BinaryService;
-import com.enonic.cms.core.resolver.BinaryAccessResolver;
-import com.enonic.cms.portal.image.cache.ImageCache;
-import com.enonic.cms.store.dao.BinaryDataDao;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.UserDao;
-
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.portal.image.cache.ImageCache;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.UserDao;
 
 public final class ImageServiceImpl
     implements ImageService
@@ -36,28 +34,34 @@ public final class ImageServiceImpl
     @Inject
     private ImageCache imageCache;
 
-    @Inject
-    private BinaryService binaryService;
-
     private final ImageProcessor processor;
 
-    @Inject
-    private BinaryAccessResolver binaryAccessResolver;
-
-    @Inject
-    private BinaryDataDao binaryDataDao;
-
-    @Inject
     private ContentDao contentDao;
 
-    @Inject
     private UserDao userDao;
 
+    private GroupDao groupDao;
+
     private BlobStore blobStore;
+
+    private TimeService timeService;
+
+    private PreviewService previewService;
 
     public ImageServiceImpl()
     {
         this.processor = new ImageProcessor();
+    }
+
+    public boolean accessibleInPortal( ImageRequest req )
+    {
+        ImageRequestAccessResolver imageRequestAccessResolver =
+            new ImageRequestAccessResolver( contentDao, new ContentAccessResolver( groupDao ) );
+        imageRequestAccessResolver.imageRequester( userDao.findByKey( req.getRequester().getKey() ) );
+        imageRequestAccessResolver.requireMainVersion();
+        imageRequestAccessResolver.requireOnlineNow( timeService.getNowAsDateTime(), previewService );
+        ImageRequestAccessResolver.Access access = imageRequestAccessResolver.isAccessible( req );
+        return access == ImageRequestAccessResolver.Access.OK;
     }
 
     public ImageResponse process( ImageRequest imageRequest )
@@ -97,14 +101,12 @@ public final class ImageServiceImpl
         return res;
     }
 
-    public Long getImageTimestamp( ImageRequest req )
+    public Long getImageTimestamp( final ImageRequest req )
     {
-
-        UserKey userKey = req.getUserKey();
-
+        final UserKey userKey = req.getUserKey();
         if ( userKey != null )
         {
-            UserEntity user = this.userDao.findByKey( userKey.toString() );
+            final UserEntity user = this.userDao.findByKey( userKey.toString() );
             if ( user != null )
             {
                 return user.getTimestamp().getMillis();
@@ -112,15 +114,7 @@ public final class ImageServiceImpl
             return null;
         }
 
-        BinaryDataKey binaryDataKey = resolveBinaryDataKey( req );
-
-        if ( binaryDataKey == null )
-        {
-            throw new ImageProcessorException( "Image not found", null );
-        }
-
-        BinaryDataEntity binaryData = binaryDataDao.findByKey( binaryDataKey );
-
+        final BinaryDataEntity binaryData = new BinaryDataForImageRequestResolver( contentDao ).resolveBinaryData( req );
         if ( binaryData == null )
         {
             throw new ImageProcessorException( "Image not found", null );
@@ -136,32 +130,13 @@ public final class ImageServiceImpl
             return getBlobKeyForUser( req.getUserKey() );
         }
 
-        BinaryDataKey binaryDataKey = resolveBinaryDataKey( req );
-        if ( binaryDataKey == null )
+        BinaryDataEntity binaryData = new BinaryDataForImageRequestResolver( contentDao ).resolveBinaryData( req );
+        if ( binaryData == null )
         {
             return null;
         }
-        req.setBinaryDataKey( binaryDataKey );
-
-        BinaryDataEntity entity = getBinaryDataEntity( req );
-        if ( entity == null )
-        {
-            return null;
-        }
-
-        if ( req.serveOfflineContent() && requestedContentDeleted( req ) )
-        {
-            return null;
-        }
-
-        boolean serveOnlyOnlineContent = !req.serveOfflineContent();
-
-        if ( serveOnlyOnlineContent && requestedNotContentOnline( req ) )
-        {
-            return null;
-        }
-
-        return entity.getBlobKey();
+        req.setBinaryDataKey( binaryData.getBinaryDataKey() );
+        return binaryData.getBlobKey();
     }
 
     private String getBlobKeyForUser( UserKey key )
@@ -179,37 +154,6 @@ public final class ImageServiceImpl
         }
 
         return DigestUtils.shaHex( photo );
-    }
-
-    private BinaryDataKey resolveBinaryDataKey( ImageRequest req )
-    {
-        BinaryDataKey binaryDataKey = req.getBinaryDataKey();
-
-        if ( binaryDataKey != null )
-        {
-            return binaryDataKey;
-        }
-
-        if ( ( req.getContentKey() != null ) && ( req.getLabel() != null ) )
-        {
-            return binaryService.resolveBinaryDataKey( req.getContentKey(), req.getLabel(), req.getContentVersionKey() );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private BinaryDataEntity getBinaryDataEntity( final ImageRequest imageRequest )
-    {
-        final BinaryDataEntity binaryData = binaryDataDao.findByKey( imageRequest.getBinaryDataKey() );
-        if ( binaryData == null )
-        {
-            return null;
-        }
-
-        final UserEntity requester = userDao.findByKey( imageRequest.getRequester().getKey() );
-        return binaryAccessResolver.hasReadAccess( binaryData, requester ) ? binaryData : null;
     }
 
     private byte[] fetchImage( ImageRequest req )
@@ -234,7 +178,6 @@ public final class ImageServiceImpl
         return binary.getAsBytes();
     }
 
-
     private ImageResponse doProcess( ImageRequest req )
         throws Exception
     {
@@ -244,53 +187,6 @@ public final class ImageServiceImpl
         ImageResponse imageResponse = processor.process( req, image );
         imageCache.put( req, imageResponse );
         return imageResponse;
-    }
-
-    private boolean requestedNotContentOnline( ImageRequest req )
-    {
-        ContentEntity content = contentDao.findByKey( req.getContentKey() );
-        return !content.isOnline( req.getRequestDateTime().toDate() );
-    }
-
-    private boolean requestedContentDeleted( ImageRequest req )
-    {
-        ContentEntity content = contentDao.findByKey( req.getContentKey() );
-        return content.isDeleted();
-    }
-
-    public void setImageCache( ImageCache imageCache )
-    {
-        this.imageCache = imageCache;
-    }
-
-    public void setBinaryService( BinaryService binaryService )
-    {
-        this.binaryService = binaryService;
-    }
-
-    public void setBinaryAccessResolver( BinaryAccessResolver binaryAccessResolver )
-    {
-        this.binaryAccessResolver = binaryAccessResolver;
-    }
-
-    public void setBinaryDataDao( BinaryDataDao binaryDataDao )
-    {
-        this.binaryDataDao = binaryDataDao;
-    }
-
-    public void setContentDao( ContentDao contentDao )
-    {
-        this.contentDao = contentDao;
-    }
-
-    public void setUserDao( UserDao userDao )
-    {
-        this.userDao = userDao;
-    }
-
-    public void setBlobStore( BlobStore blobStore )
-    {
-        this.blobStore = blobStore;
     }
 
     private String calculateETag( ImageRequest req )
@@ -305,8 +201,46 @@ public final class ImageServiceImpl
         return "image_" + DigestUtils.shaHex( str.toString() );
     }
 
-    public boolean canAccess( ImageRequest req )
+    @Inject
+    public void setImageCache( ImageCache imageCache )
     {
-        return getBlobKey( req ) != null;
+        this.imageCache = imageCache;
     }
+
+    @Inject
+    public void setContentDao( ContentDao contentDao )
+    {
+        this.contentDao = contentDao;
+    }
+
+    @Inject
+    public void setUserDao( UserDao userDao )
+    {
+        this.userDao = userDao;
+    }
+
+    @Inject
+    public void setBlobStore( BlobStore blobStore )
+    {
+        this.blobStore = blobStore;
+    }
+
+    @Inject
+    public void setTimeService( TimeService timeService )
+    {
+        this.timeService = timeService;
+    }
+
+    @Inject
+    public void setPreviewService( PreviewService previewService )
+    {
+        this.previewService = previewService;
+    }
+
+    @Inject
+    public void setGroupDao( GroupDao groupDao )
+    {
+        this.groupDao = groupDao;
+    }
+
 }

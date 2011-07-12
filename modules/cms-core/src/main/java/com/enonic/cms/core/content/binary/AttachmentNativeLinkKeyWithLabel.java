@@ -18,24 +18,9 @@ public class AttachmentNativeLinkKeyWithLabel
         this.label = label;
     }
 
-    public AttachmentNativeLinkKeyWithLabel()
-    {
-
-    }
-
     public String getLabel()
     {
         return label;
-    }
-
-    public void setLabel( String label )
-    {
-        if ( label == null || label.equals( "" ) )
-        {
-            return;
-        }
-
-        this.label = label;
     }
 
     public String asUrlRepresentation()

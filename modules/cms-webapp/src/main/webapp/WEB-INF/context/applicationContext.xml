@@ -58,7 +58,7 @@
 
     <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
         <property name="originalDataSource">
-          <jee:jndi-lookup jndi-name="java:comp/env/jdbc/cms"/>
+            <jee:jndi-lookup jndi-name="java:comp/env/jdbc/cms"/>
         </property>
     </bean>
 
@@ -218,8 +218,6 @@
     <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
     <!-- resolvers -->
-    <bean id="binaryAccessResolver" class="com.enonic.cms.core.resolver.BinaryAccessResolver"/>
-
     <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
     <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
@@ -308,7 +306,7 @@
     </bean>
 
     <bean id="isWindowEmptyFunction" class="com.enonic.cms.portal.rendering.portalfunctions.IsWindowEmptyFunction">
-      <property name="windowRendererFactory" ref="windowRendererFactory"/>
+        <property name="windowRendererFactory" ref="windowRendererFactory"/>
     </bean>
 
     <bean id="synchronizeUserStoreJobFactory"
@@ -337,8 +335,8 @@
     <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
 
     <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
-      <property name="timeService" ref="timeService"/>
-      <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="timeService" ref="timeService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
     </bean>
 
     <bean id="userServicesService"
@@ -357,19 +355,21 @@
 
     <bean id="resolverXMLCreator"
           class="com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator"/>
+
     <bean id="resolverInputCreator"
           class="com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator"/>
 
 
     <bean id="cookieOrSessionForcedResolverValueService"
           class="com.enonic.cms.core.resolver.ForceResolverValueServiceImpl"/>
+
     <bean id="sessionCachedResolverValueService"
           class="com.enonic.cms.core.resolver.CacheResolverValueServiceImpl"/>
 
     <!-- Device Class -->
     <bean id="deviceClassificationService"
           class="com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl">
-      <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
+        <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
     </bean>
 
     <bean id="deviceClassXsltScriptResolver"
@@ -379,16 +379,16 @@
     <bean id="localizeService" class="com.enonic.cms.core.localization.LocalizationServiceImpl"/>
     <bean id="localizationResourceBundleService"
           class="com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl">
-      <property name="propertiesCache">
-        <bean class="com.enonic.cms.framework.cache.CacheFacadeFactory">
-          <property name="cacheName" value="localization"/>
-        </bean>
-      </property>
+        <property name="propertiesCache">
+            <bean class="com.enonic.cms.framework.cache.CacheFacadeFactory">
+                <property name="cacheName" value="localization"/>
+            </bean>
+        </property>
     </bean>
 
     <bean id="localeResolverService"
           class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
-      <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
+        <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
     </bean>
 
     <bean id="localeXsltScriptResolver"
@@ -399,7 +399,7 @@
 
 
     <bean id="urlPathHelperManager" class="com.enonic.cms.core.UrlPathHelperManager">
-      <property name="sitePropertiesService" ref="sitePropertiesService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
     </bean>
 
     <bean id="userServicesRedirectHelper"
@@ -408,30 +408,30 @@
     <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 
     <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
-      <property name="host" value="${cms.mail.smtpHost}"/>
+        <property name="host" value="${cms.mail.smtpHost}"/>
     </bean>
 
     <bean id="sendMailService" class="com.enonic.cms.core.mail.SendMailServiceImpl">
-      <property name="fromMail" value="${cms.admin.email}"/>
+        <property name="fromMail" value="${cms.admin.email}"/>
     </bean>
 
     <bean id="loginService" class="com.enonic.cms.core.login.LoginServiceImpl">
-      <property name="autologinTimeoutInDays"
-                value="${com.enonic.vertical.presentation.autologinTimeout}"/>
+        <property name="autologinTimeoutInDays"
+                  value="${com.enonic.vertical.presentation.autologinTimeout}"/>
     </bean>
 
     <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl">
-      <property name="resource">
-        <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
-          <property name="requireResource" value="true"/>
-          <property name="resources">
-            <list>
-              <value>${cms.home}/config/countries.xml</value>
-              <value>classpath:com/enonic/cms/core/country/countries.xml</value>
-            </list>
-          </property>
-        </bean>
-      </property>
+        <property name="resource">
+            <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
+                <property name="requireResource" value="true"/>
+                <property name="resources">
+                    <list>
+                        <value>${cms.home}/config/countries.xml</value>
+                        <value>classpath:com/enonic/cms/core/country/countries.xml</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>

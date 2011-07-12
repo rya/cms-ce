@@ -41,9 +41,7 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.resolver.ContentAccessResolver;
-import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
@@ -94,7 +92,6 @@ public class RelatedContentFetcherForContentVersionTest
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
 
         //SecurityHolder.setUser( findUserByName( User.ANONYMOUS_UID ).getKey() );
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         fixture.flushAndClearHibernateSesssion();
@@ -106,7 +103,7 @@ public class RelatedContentFetcherForContentVersionTest
         ctyconf.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content", false,
                                         true );
         ctyconf.endBlock();
-        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() );
         fixture.save(
             factory.createContentType( "MyRelatingContent", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

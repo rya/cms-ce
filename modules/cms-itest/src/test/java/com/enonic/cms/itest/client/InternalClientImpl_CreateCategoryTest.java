@@ -25,7 +25,6 @@ import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
@@ -71,7 +70,6 @@ public class InternalClientImpl_CreateCategoryTest
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
         SecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
         SecurityHolder.setRunAsUser( fixture.findUserByName( "testuser" ).getKey() );
 

@@ -10,22 +10,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.user.StoreNewUserCommand;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.portal.SiteRedirectHelper;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,9 +26,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.containers.ExtendedMap;
 
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.portal.SiteRedirectHelper;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.Attribute;
@@ -54,8 +53,8 @@ import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 import static junit.framework.Assert.assertTrue;
-import static org.junit.Assert.*;
 import static org.easymock.classextension.EasyMock.createMock;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -108,9 +107,6 @@ public class UserHandlerControllerTest
 
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
-
-        SecurityHolder.setAnonUser( fixture.findUserByName( "anonymous" ).getKey() );
-
     }
 
     @After

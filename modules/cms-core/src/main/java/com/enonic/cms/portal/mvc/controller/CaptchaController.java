@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,19 +26,19 @@ import com.enonic.cms.core.captcha.CaptchaRepository;
  * The captcha image generator.
  */
 public class CaptchaController
-        extends AbstractController
+    extends AbstractController
 {
     CaptchaRepository captchaRepository;
 
     protected ModelAndView handleRequestInternal( HttpServletRequest req, HttpServletResponse resp )
-            throws Exception
+        throws Exception
     {
         generateImageOnResponse( req, resp );
         return null;
     }
 
     public void generateImageOnResponse( HttpServletRequest request, HttpServletResponse response )
-            throws IOException
+        throws IOException
     {
 
         try
@@ -83,6 +84,7 @@ public class CaptchaController
 
     }
 
+    @Inject
     public void setCaptchaRepository( CaptchaRepository captchaRepository )
     {
         this.captchaRepository = captchaRepository;

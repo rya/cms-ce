@@ -8,49 +8,49 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.portal.ReservedLocalPaths;
-import com.enonic.cms.portal.image.*;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.ResourceNotFoundException;
+import com.enonic.cms.portal.image.ImageProcessorException;
 import com.enonic.cms.portal.image.ImageRequest;
+import com.enonic.cms.portal.image.ImageRequestAccessResolver;
+import com.enonic.cms.portal.image.ImageRequestParser;
 import com.enonic.cms.portal.image.ImageResponse;
-import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.security.AutoLoginService;
-import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.portal.image.ImageService;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.portal.ResourceNotFoundException;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public final class ImageController
     extends AbstractSiteController
 {
     private ImageService imageService;
 
+    private boolean disableParamEncoding;
+
     private final ImageRequestParser requestParser = new ImageRequestParser();
 
-    private SecurityService securityService;
+    public void setDisableParamEncoding( boolean disableParamEncoding )
+    {
+        this.disableParamEncoding = disableParamEncoding;
+    }
 
-    private AutoLoginService autoLoginService;
-
-    private SitePropertiesService sitePropertiesService;
-
-    private PreviewService previewService;
-
-    protected ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
+    public ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
         throws Exception
     {
         try
@@ -95,22 +95,10 @@ public final class ImageController
             params.put( key, request.getParameter( key ) );
         }
 
-        final boolean encodeParams = !RenderTrace.isTraceOn();
+        final boolean encodeParams = !( disableParamEncoding || RenderTrace.isTraceOn() );
         final ImageRequest imageRequest = requestParser.parse( request.getPathInfo(), params, encodeParams );
 
-        boolean serveOfflineContent = false;
-        if ( previewService.isInPreview() )
-        {
-            PreviewContext previewContext = previewService.getPreviewContext();
-            if ( previewContext.isPreviewingContent() &&
-                previewContext.getContentPreviewContext().treatContentAsAvailableEvenIfOffline( imageRequest.getContentKey() ) )
-            {
-                serveOfflineContent = previewService.isInPreview();
-            }
-        }
-
         imageRequest.setRequester( securityService.getLoggedInPortalUser() );
-        imageRequest.setServeOfflineContent( serveOfflineContent );
         imageRequest.setRequestDateTime( new DateTime() );
         return imageRequest;
     }
@@ -119,10 +107,10 @@ public final class ImageController
         throws IOException
     {
         verifyValidMenuItemInPath( sitePath );
+        checkRequestAccess( imageRequest, sitePath );
 
         try
         {
-
             final ImageResponse imageResponse = imageService.process( imageRequest );
 
             if ( imageResponse.isImageNotFound() )
@@ -199,28 +187,25 @@ public final class ImageController
         }
     }
 
+    private void checkRequestAccess( final ImageRequest imageRequest, final SitePath sitePath )
+    {
+        final UserEntity loggedInPortalUser = securityService.getLoggedInPortalUserAsEntity();
+
+        ImageRequestAccessResolver accessResolver = new ImageRequestAccessResolver( contentDao, new ContentAccessResolver( groupDao ) );
+        accessResolver.imageRequester( loggedInPortalUser );
+        accessResolver.requireMainVersion();
+        accessResolver.requireOnlineNow( timeService.getNowAsDateTime(), previewService );
+        final ImageRequestAccessResolver.Access access = accessResolver.isAccessible( imageRequest );
+
+        if ( access != ImageRequestAccessResolver.Access.OK )
+        {
+            throw new ResourceNotFoundException( sitePath.getSiteKey(), sitePath.getLocalPath() );
+        }
+    }
+
+    @Inject
     public void setImageService( ImageService imageService )
     {
         this.imageService = imageService;
-    }
-
-    public void setSecurityService( SecurityService securityService )
-    {
-        this.securityService = securityService;
-    }
-
-    public void setAutoLoginService( AutoLoginService value )
-    {
-        this.autoLoginService = value;
-    }
-
-    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
-    {
-        this.sitePropertiesService = sitePropertiesService;
-    }
-
-    public void setPreviewService( PreviewService previewService )
-    {
-        this.previewService = previewService;
     }
 }

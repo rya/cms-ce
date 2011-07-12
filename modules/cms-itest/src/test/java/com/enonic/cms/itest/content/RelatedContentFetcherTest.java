@@ -35,7 +35,6 @@ import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.RelatedContentFetcher;
-import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
@@ -48,8 +47,7 @@ import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedParentContent;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
@@ -100,7 +98,6 @@ public class RelatedContentFetcherTest
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
 
         //SecurityHolder.setUser( findUserByName( User.ANONYMOUS_UID ).getKey() );
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         fixture.flushAndClearHibernateSesssion();
@@ -112,7 +109,7 @@ public class RelatedContentFetcherTest
         ctyconf.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content", false,
                                         true );
         ctyconf.endBlock();
-        Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() );
         fixture.save(
             factory.createContentType( "MyRelatingContent", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -743,7 +740,7 @@ public class RelatedContentFetcherTest
 
     private Set<ContentEntity> convertToSet( ContentEntity... contents )
     {
-        return new HashSet<ContentEntity>(Arrays.asList(contents));
+        return new HashSet<ContentEntity>( Arrays.asList( contents ) );
     }
 
     private List<RelatedChildContent> convertRelatedChildContentToList( Iterable<RelatedChildContent> iterable )

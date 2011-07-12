@@ -7,17 +7,12 @@ package com.enonic.cms.portal.mvc.controller;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.binary.*;
-import com.enonic.cms.portal.PathRequiresAuthenticationException;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.google.common.io.ByteStreams;
 
@@ -25,79 +20,67 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-import com.enonic.cms.core.SitePathResolver;
-import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
-import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.resource.ResourceService;
-import com.enonic.cms.core.security.AutoLoginService;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.structure.SiteService;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
+import com.enonic.cms.core.content.binary.AttachmentRequest;
+import com.enonic.cms.core.content.binary.AttachmentRequestResolver;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.BinaryService;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.resolver.ContentAccessResolver;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.portal.PathRequiresAuthenticationException;
+import com.enonic.cms.portal.ReservedLocalPaths;
 import com.enonic.cms.portal.livetrace.AttachmentRequestTrace;
 import com.enonic.cms.portal.livetrace.AttachmentRequestTracer;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.portal.livetrace.PortalRequestTracer;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.SiteDao;
-import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
-import com.enonic.cms.core.content.binary.AttachmentRequest;
-import com.enonic.cms.core.content.binary.AttachmentRequestResolver;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.portal.ReservedLocalPaths;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-
 
 public class AttachmentController
-    extends AbstractController
+    extends AbstractSiteController
 {
-
     private BinaryService binaryService;
-
-    private ContentDao contentDao;
-
-    private SiteService siteService;
-
-    private AutoLoginService autoLoginService;
-
-    private SitePathResolver sitePathResolver;
-
-    private SecurityService securityService;
 
     private AttachmentRequestResolver attachmentRequestResolver;
 
-    protected ResourceService resourceService;
-
-    protected SitePropertiesService sitePropertiesService;
-
-    private SiteDao siteDao;
-
-    private UserDao userDao;
-
     private LivePortalTraceService livePortalTraceService;
-
-    private PreviewService previewService;
 
     @PostConstruct
     public void afterPropertiesSet()
         throws Exception
     {
-
         attachmentRequestResolver = new AttachmentRequestResolver()
         {
-
             @Override
             protected BinaryDataKey getBinaryData( ContentEntity content, String label )
             {
-                BinaryDataEntity binaryData = content.getMainVersion().getSingleBinaryData( label );
+                BinaryDataEntity binaryData;
+                if ( label == null )
+                {
+                    binaryData = content.getMainVersion().getOneAndOnlyBinaryData();
+                }
+                else
+                {
+                    binaryData = content.getMainVersion().getBinaryData( label );
+                }
+
+                if ( "source".equals( label ) && binaryData == null )
+                {
+                    binaryData = content.getMainVersion().getOneAndOnlyBinaryData();
+                }
+
                 if ( binaryData != null )
                 {
                     return new BinaryDataKey( binaryData.getKey() );
@@ -114,7 +97,8 @@ public class AttachmentController
 
     }
 
-    protected final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
+    @Override
+    public final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
         throws Exception
     {
         PortalRequestTrace portalRequestTrace =
@@ -184,36 +168,22 @@ public class AttachmentController
         try
         {
             final AttachmentRequest attachmentRequest = attachmentRequestResolver.resolveBinaryDataKey( sitePath.getPathAndParams() );
-
             AttachmentRequestTracer.traceAttachmentRequest( attachmentRequestTrace, attachmentRequest );
 
             verifyValidMenuItemInPath( sitePath );
 
-            boolean downloadRequested = "true".equals( request.getParameter( "download" ) );
-            downloadRequested |= "true".equals( request.getParameter( "_download" ) );
+            boolean downloadRequested = resolveDownloadRequested( request );
 
-            final BinaryDataEntity binaryData;
+            final ContentEntity content = resolveContent( attachmentRequest, sitePath );
+            checkContentAccess( loggedInUser, content, downloadRequested, sitePath );
+            checkContentIsOnline( content, sitePath );
 
-            try
-            {
-                binaryData = binaryService.getBinaryDataForPortal( loggedInUser, attachmentRequest );
-            }
-            catch ( AttachmentNotFoundException e )
-            {
-                if ( loggedInUser.isAnonymous() && downloadRequested && e.reasonIsNoAccess() )
-                {
-                    throw new PathRequiresAuthenticationException( sitePath );
-                }
-                else
-                {
-                    throw e;
-                }
-            }
+            final ContentVersionEntity contentVersion = resolveContentVersion( content );
+            final ContentBinaryDataEntity contentBinaryData = resolveContentBinaryData( contentVersion, attachmentRequest, sitePath );
+            final BinaryDataEntity binaryData = contentBinaryData.getBinaryData();
 
             setHttpHeaders( request, response, sitePath, loggedInUser );
-
             putBinaryOnResponse( downloadRequested, response, binaryData );
-
             return null;
         }
         finally
@@ -243,7 +213,7 @@ public class AttachmentController
 
         if ( !pathAsString.contains( ReservedLocalPaths.PATH_ATTACHMENT.toString() ) )
         {
-            throw AttachmentNotFoundException.notFound(sitePath.getLocalPath().toString());
+            throw AttachmentNotFoundException.notFound( sitePath.getLocalPath().toString() );
         }
 
         int i = pathAsString.lastIndexOf( ReservedLocalPaths.PATH_ATTACHMENT.toString() );
@@ -307,12 +277,6 @@ public class AttachmentController
         HttpServletUtil.setCacheControl( response, cacheControlSettings );
     }
 
-    protected boolean hasTimestampParameter( SitePath sitePath )
-    {
-        String timestamp = sitePath.getParam( "_ts" );
-        return StringUtils.isNotBlank( timestamp );
-    }
-
     private void putBinaryOnResponse( boolean download, HttpServletResponse response, BinaryDataEntity binaryData )
         throws IOException
     {
@@ -331,66 +295,84 @@ public class AttachmentController
         return "true".equals( previewEnabled );
     }
 
+    private ContentEntity resolveContent( AttachmentRequest attachmentRequest, SitePath sitePath )
+    {
+        final ContentEntity content = contentDao.findByKey( attachmentRequest.getContentKey() );
+        if ( content == null || content.isDeleted() )
+        {
+            throw AttachmentNotFoundException.notFound( sitePath.getLocalPath().toString() );
+        }
+        return content;
+    }
+
+    private ContentVersionEntity resolveContentVersion( ContentEntity content )
+    {
+        return content.getMainVersion();
+    }
+
+    private ContentBinaryDataEntity resolveContentBinaryData( ContentVersionEntity contentVersion, AttachmentRequest attachmentRequest,
+                                                              SitePath sitePath )
+    {
+        final ContentBinaryDataEntity contentBinaryData = contentVersion.getContentBinaryData( attachmentRequest.getBinaryDataKey() );
+        if ( contentBinaryData == null )
+        {
+            throw AttachmentNotFoundException.notFound( sitePath.getLocalPath().toString() );
+        }
+        return contentBinaryData;
+    }
+
+    private boolean resolveDownloadRequested( HttpServletRequest request )
+    {
+        boolean downloadRequested = "true".equals( request.getParameter( "download" ) );
+        downloadRequested |= "true".equals( request.getParameter( "_download" ) );
+        return downloadRequested;
+    }
+
+    private void checkContentIsOnline( final ContentEntity content, final SitePath sitePath )
+    {
+        if ( previewService.isInPreview() )
+        {
+            PreviewContext previewContext = previewService.getPreviewContext();
+            if ( previewContext.isPreviewingContent() &&
+                previewContext.getContentPreviewContext().treatContentAsAvailableEvenIfOffline( content.getKey() ) )
+            {
+                // when in preview, the content doesn't need to be online
+                return;
+            }
+        }
+
+        if ( !content.isOnline( timeService.getNowAsDateTime() ) )
+        {
+            throw AttachmentNotFoundException.notFound( sitePath.getLocalPath().toString() );
+        }
+    }
+
+    private void checkContentAccess( final UserEntity loggedInUser, final ContentEntity content, final boolean downloadRequested,
+                                     final SitePath sitePath )
+    {
+        boolean noAccessToContent = !new ContentAccessResolver( groupDao ).hasReadContentAccess( loggedInUser, content );
+        if ( noAccessToContent )
+        {
+            if ( loggedInUser.isAnonymous() && downloadRequested )
+            {
+                throw new PathRequiresAuthenticationException( sitePath );
+            }
+            else
+            {
+                throw AttachmentNotFoundException.noAccess( sitePath.getLocalPath().toString() );
+            }
+        }
+    }
+
+    @Inject
     public void setBinaryService( BinaryService value )
     {
         this.binaryService = value;
     }
 
-    @Autowired
-    public void setContentDao( ContentDao dao )
-    {
-        contentDao = dao;
-    }
-
-    public void setSiteService( SiteService value )
-    {
-        this.siteService = value;
-    }
-
-    public void setSitePathResolver( SitePathResolver value )
-    {
-        this.sitePathResolver = value;
-    }
-
-    public void setAutoLoginService( AutoLoginService value )
-    {
-        this.autoLoginService = value;
-    }
-
-    public void setSecurityService( SecurityService value )
-    {
-        this.securityService = value;
-    }
-
-    public void setResourceService( ResourceService resourceService )
-    {
-        this.resourceService = resourceService;
-    }
-
-    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
-    {
-        this.sitePropertiesService = sitePropertiesService;
-    }
-
-    @Autowired
-    public void setSiteDao( SiteDao siteDao )
-    {
-        this.siteDao = siteDao;
-    }
-
-    @Autowired
-    public void setUserDao( UserDao userDao )
-    {
-        this.userDao = userDao;
-    }
-
+    @Inject
     public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
     {
         this.livePortalTraceService = livePortalTraceService;
-    }
-
-    public void setPreviewService( PreviewService previewService )
-    {
-        this.previewService = previewService;
     }
 }

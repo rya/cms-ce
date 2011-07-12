@@ -6,33 +6,31 @@ package com.enonic.cms.portal.mvc.controller;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.resource.ResourceKeyResolverForSiteLocalResources;
-import com.enonic.cms.portal.ReservedLocalPaths;
-import com.enonic.cms.portal.ResourceNotFoundException;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceKeyResolverForSiteLocalResources;
 import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.portal.ReservedLocalPaths;
+import com.enonic.cms.portal.ResourceNotFoundException;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.resource.ResourceFile;
 
 public class ResourceFileController
     extends AbstractSiteController
 {
     private ResourceService resourceService;
-
-    private SitePropertiesService sitePropertiesService;
 
     private static String LOCAL_PREFIX = ReservedLocalPaths.PATH_RESOURCE.toString();
 
@@ -112,14 +110,10 @@ public class ResourceFileController
     {
         final Path path = new Path( sitePath.getLocalPath().toString().replace( LOCAL_PREFIX, FORWARD_PREFIX ) );
         final SitePath forward = new SitePath( sitePath.getSiteKey(), path, sitePath.getParams() );
-        return redirectAndForwardHelper.getForwardModelAndView( request, forward );
+        return siteRedirectAndForwardHelper.getForwardModelAndView( request, forward );
     }
 
-    public void setSitePropertiesService( SitePropertiesService value )
-    {
-        this.sitePropertiesService = value;
-    }
-
+    @Inject
     public void setResourceService( ResourceService resourceService )
     {
         this.resourceService = resourceService;

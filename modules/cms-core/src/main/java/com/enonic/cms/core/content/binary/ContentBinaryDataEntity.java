@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.core.content.ContentVersionEntity;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import com.enonic.cms.core.content.ContentVersionEntity;
 
 public class ContentBinaryDataEntity
     implements Serializable
 {
 
-    @SuppressWarnings({"UnusedDeclaration"})
     private ContentBinaryDataKey key;
 
     private String label;
@@ -24,6 +24,16 @@ public class ContentBinaryDataEntity
     private ContentVersionEntity contentVersion;
 
     private BinaryDataEntity binaryData;
+
+    public ContentBinaryDataKey getKey()
+    {
+        return key;
+    }
+
+    public void setKey( ContentBinaryDataKey key )
+    {
+        this.key = key;
+    }
 
     public String getLabel()
     {
@@ -119,6 +129,40 @@ public class ContentBinaryDataEntity
         }
 
         return list;
+    }
+
+    public static ContentBinaryDataEntity resolveContentBinaryDataInMainVersion( final Collection<ContentBinaryDataEntity> collection )
+    {
+        for ( ContentBinaryDataEntity cbd : collection )
+        {
+            ContentVersionEntity contentVersion = cbd.getContentVersion();
+            if ( contentVersion != null )
+            {
+                if ( contentVersion.equals( contentVersion.getContent().getMainVersion() ) )
+                {
+                    return cbd;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public static boolean isAnyContentBinaryDataInMainVersion( final Collection<ContentBinaryDataEntity> collection )
+    {
+        for ( ContentBinaryDataEntity cbd : collection )
+        {
+            ContentVersionEntity contentVersion = cbd.getContentVersion();
+            if ( contentVersion != null )
+            {
+                if ( contentVersion.equals( contentVersion.getContent().getMainVersion() ) )
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
 
 }
