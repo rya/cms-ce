@@ -61,7 +61,8 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
         var form = {
             id: 'userChangePasswordForm',
             xtype: 'form',
-
+            method: 'POST',
+            url: 'data/user/changepassword',
             bodyStyle: 'padding: 10 30 30 10;',
 
             layout: {
@@ -83,9 +84,11 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
             items: [textAndPhotoPanel,
                 {
                     itemId: 'password1',
+                    name: 'pwd',
                     fieldLabel: 'New password'
                 }, {
                     itemId: 'password2',
+                    name: 'repeatpwd',
                     fieldLabel: 'Confirm password',
                     validator: function( value )
                     {
@@ -94,7 +97,6 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
                     }
                 }]
         };
-
 
         Ext.apply( this, {
             items: [form],
@@ -111,7 +113,6 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
                 }
             ]
         } );
-
 
         this.callParent( arguments );
     },
@@ -135,7 +136,15 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
         var form = Ext.getCmp( 'userChangePasswordForm' ).getForm();
         if ( form.isValid() )
         {
-            Ext.Msg.alert( 'Change Password', 'TODO' );
+            form.submit( {
+                             success: function( form, action )
+                             {
+                                 Ext.Msg.alert( 'Success', action.result.msg );
+                             },
+                             failure: function( form, action )
+                             {
+                                 Ext.Msg.alert( 'Failed', action.result.msg );
+                             }                } );
         }
     }
 
