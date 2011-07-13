@@ -37,10 +37,7 @@ public class CallingCodeResource
         List<CallingCodeModel> list = new ArrayList<CallingCodeModel>();
         for ( Country c : countryService.getCountries() )
         {
-            if ( c.getCallingCode().startsWith( req.getQuery() ) )
-            {
-                list.add( CallingCodeModelTranslator.toModel( c ) );
-            }
+            list.add( CallingCodeModelTranslator.toModel( c ) );
         }
         CallingCodesModel codes = new CallingCodesModel();
         codes.setCodes( list );
