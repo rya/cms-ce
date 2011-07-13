@@ -99,11 +99,10 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             fieldStore: callingCodeStore,
             valueField: 'callingCode',
             displayField: 'callingCode',
-            actionName: 'callingCodeBeforeQuery',
             displayConfig:{
                 getInnerTpl: function()
                 {
-                    return '+{callingCode} ({englishName})';
+                    return '{callingCode} ({englishName})';
                 }
             }
         };

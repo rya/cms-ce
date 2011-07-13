@@ -89,12 +89,13 @@ Ext.define( 'CMS.view.user.UserFormField', {
     {
         var autoCompleteConfig = {
             xtype: 'combobox',
+            enableKeyEvents: true,
             store: me.fieldStore,
             triggeredAction: 'all',
             typeAhead: true,
             queryMode: 'local',
-            minChars: 1,
-            forceSelection: true,
+            minChars: 0,
+            forceSelection: false,
             hideTrigger: true,
             valueField: me.valueField,
             displayField: me.displayField,

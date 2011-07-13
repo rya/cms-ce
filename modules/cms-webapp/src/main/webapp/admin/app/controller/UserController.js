@@ -121,9 +121,6 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           '*[action=selectGroup]': {
                               select: this.selectGroup
-                          },
-                          '*[action=callingCodeBeforeQuery]': {
-                              beforequery: this.callingCodeAutoCompleteHandler
                           }
                       } );
     },
@@ -421,16 +418,6 @@ Ext.define( 'CMS.controller.UserController', {
         field.deselectAll();
         groupSelector.clearValue();
     },
-
-    callingCodeAutoCompleteHandler: function(queryEvent, options){
-        if (queryEvent.query.indexOf('+') == 0){
-            queryEvent.query = queryEvent.query.substring(1);
-            return true;
-        }else{
-            return false;
-        }
-    },
-
 
     // Dummy form
     createDummyUserForm: function( user )
