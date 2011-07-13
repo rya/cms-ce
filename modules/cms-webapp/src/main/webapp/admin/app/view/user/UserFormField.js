@@ -18,7 +18,8 @@ Ext.define( 'CMS.view.user.UserFormField', {
         var fieldConfig = {
             disabled: this.readonly,
             name: this.fieldname,
-            itemId: this.fieldname
+            itemId: this.fieldname,
+            action: this.actionName
         };
         var builderFunction;
         if ( this.type )
@@ -91,7 +92,6 @@ Ext.define( 'CMS.view.user.UserFormField', {
             store: me.fieldStore,
             triggeredAction: 'all',
             typeAhead: true,
-            //mode: 'remote',
             queryMode: 'local',
             minChars: 1,
             forceSelection: true,
