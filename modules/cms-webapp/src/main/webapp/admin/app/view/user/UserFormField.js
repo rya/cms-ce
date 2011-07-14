@@ -18,7 +18,8 @@ Ext.define( 'CMS.view.user.UserFormField', {
         var fieldConfig = {
             disabled: this.readonly,
             name: this.fieldname,
-            itemId: this.fieldname
+            itemId: this.fieldname,
+            action: this.actionName
         };
         var builderFunction;
         if ( this.type )
@@ -88,12 +89,13 @@ Ext.define( 'CMS.view.user.UserFormField', {
     {
         var autoCompleteConfig = {
             xtype: 'combobox',
+            enableKeyEvents: true,
             store: me.fieldStore,
             triggeredAction: 'all',
             typeAhead: true,
-            mode: 'remote',
-            minChars: 1,
-            forceSelection: true,
+            queryMode: 'local',
+            minChars: 0,
+            forceSelection: false,
             hideTrigger: true,
             valueField: me.valueField,
             displayField: me.displayField,

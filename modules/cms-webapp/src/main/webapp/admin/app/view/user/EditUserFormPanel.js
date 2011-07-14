@@ -70,7 +70,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'homepage': this.createTextField
         };
         this.locationFieldSet = {
-            'timzone': this.createTextField,
+            'timezone': this.createComboBoxField,
             'locale': this.createComboBoxField,
             'country': this.createComboBoxField,
             'global_position': this.createTextField
@@ -97,12 +97,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             type: 'autocomplete',
             fieldLabel: field.fieldlabel,
             fieldStore: callingCodeStore,
-            valueField: 'calling_code',
-            displayField: 'calling_code',
+            valueField: 'callingCode',
+            displayField: 'callingCode',
             displayConfig:{
                 getInnerTpl: function()
                 {
-                    return '{calling_code} ({english_name})';
+                    return '{callingCode} ({englishName})';
                 }
             }
         };
@@ -114,11 +114,21 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         var fieldStore;
         var valueField;
         var displayField;
-        if ( field.fieldname == 'country' )
+        if ( field.fieldname == 'timezone' )
+        {
+            fieldStore = Ext.data.StoreManager.lookup( 'TimezoneStore' );
+            valueField = 'id';
+            displayField = 'name';
+        } else if ( field.fieldname == 'country' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'CountryStore' );
-            valueField = 'name';
-            displayField = 'name';
+            valueField = 'code';
+            displayField = 'englishName';
+        } else if ( field.fieldname == 'region' )
+        {
+            fieldStore = Ext.data.StoreManager.lookup( 'RegionStore' );
+            valueField = 'code';
+            displayField = 'englishName';
         } else if ( field.fieldname == 'locale' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'LanguageStore' );
@@ -232,8 +242,9 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 xtype: 'combobox',
                 store: countryStore,
                 fieldLabel: 'Country',
-                valueField: 'name',
-                displayField: 'name',
+                valueField: 'code',
+                displayField: 'englishName',
+                queryMode: 'remote',
                 name: 'address_country',
                 itemId: 'address_country',
                 disabled: field.readonly
@@ -241,8 +252,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             var regionField = {
                 xtype: 'combobox',
                 store: regionStore,
-                valueField: 'name',
-                displayField: 'name',
+                valueField: 'code',
+                displayField: 'englishName',
                 fieldLabel: 'Region',
                 name: 'address_region',
                 itemId: 'address_region',

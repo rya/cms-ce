@@ -56,6 +56,9 @@ Ext.define( 'CMS.controller.UserController', {
                           '*[action=toggleDisplayNameField]': {
                               click: this.toggleDisplayNameField
                           },
+                          'editUserPanel #address_country' : {
+                              select: this.countryChangeHandler
+                          },
                           'userGrid': {
                               selectionchange: this.updateDetailsPanel,
                               itemcontextmenu: this.popupMenu,
@@ -314,6 +317,17 @@ Ext.define( 'CMS.controller.UserController', {
         return this.getUserGrid().getSelectionModel().getSelection().length > 0;
     },
 
+    countryChangeHandler: function( field, newValue, oldValue, options ) {
+        var region = this.getEditUserPanel().down('#address_region');
+        if (region) {
+            region.clearValue();
+            region.store.load({params: {
+                countryCode: field.getValue()
+            }});
+        }
+        return true;
+    },
+
     textFieldHandleEnterKey: function( field, event )
     {
         var prefix = this.getEditUserPanel().down( '#prefix' )
@@ -404,7 +418,6 @@ Ext.define( 'CMS.controller.UserController', {
         field.deselectAll();
         groupSelector.clearValue();
     },
-
 
     // Dummy form
     createDummyUserForm: function( user )
