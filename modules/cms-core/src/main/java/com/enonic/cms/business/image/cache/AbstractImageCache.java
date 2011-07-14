@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.business.image.cache;
 
-import org.apache.commons.codec.digest.DigestUtils;
-
 import com.enonic.cms.business.image.ImageRequest;
 import com.enonic.cms.business.image.ImageResponse;
 
@@ -14,7 +12,7 @@ public abstract class AbstractImageCache
 {
     public final ImageResponse get( ImageRequest req )
     {
-        byte[] data = get( getCacheKey( req ) );
+        byte[] data = get( req.getCacheKey() );
         if ( data == null )
         {
             return null;
@@ -25,20 +23,10 @@ public abstract class AbstractImageCache
 
     public final void put( ImageRequest req, ImageResponse res )
     {
-        put( getCacheKey( req ), res.getData() );
+        put( req.getCacheKey(), res.getData() );
     }
 
     protected abstract byte[] get( String key );
 
     protected abstract void put( String key, byte[] data );
-
-    private String getCacheKey( ImageRequest req )
-    {
-        StringBuffer str = new StringBuffer();
-        str.append( req.getBlobKey() ).append( "-" );
-        str.append( req.getParams().getQuality() ).append( "-" );
-        str.append( req.getParams().getFilter() ).append( "-" );
-        str.append( req.getParams().getBackgroundColor() );
-        return DigestUtils.shaHex( str.toString() ) + "." + req.getFormat();
-    }
 }

@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.business.image;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.domain.content.ContentKey;
@@ -188,5 +189,15 @@ public final class ImageRequest
     public void setUserKey( UserKey userKey )
     {
         this.userKey = userKey;
+    }
+
+    public String getCacheKey()
+    {
+        StringBuffer str = new StringBuffer();
+        str.append( getBlobKey() ).append( "-" );
+        str.append( getParams().getQuality() ).append( "-" );
+        str.append( getParams().getFilter() ).append( "-" );
+        str.append( getParams().getBackgroundColor() );
+        return DigestUtils.shaHex( str.toString() ) + "." + getFormat();
     }
 }

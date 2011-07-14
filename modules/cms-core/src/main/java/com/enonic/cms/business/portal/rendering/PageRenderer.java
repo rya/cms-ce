@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.business.portal.rendering;
 
+import java.util.concurrent.locks.Lock;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -11,6 +13,7 @@ import org.joda.time.DateTime;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.framework.util.GenericConcurrencyLock;
 
 import com.enonic.cms.core.service.DataSourceService;
 
@@ -96,6 +99,8 @@ public class PageRenderer
 
     private PageRenderingTrace pageRenderingTrace;
 
+    private static GenericConcurrencyLock<PageCacheKey> concurrencyLock = GenericConcurrencyLock.create();
+
     private DataSourceService dataSourceService;
 
     protected PageRenderer( PageRendererContext pageRendererContext )
@@ -172,27 +177,37 @@ public class PageRenderer
 
         PageCacheKey pageCacheKey = resolvePageCacheKey();
 
-        CachedObject cachedPageHolder = pageCacheService.getCachedPage( pageCacheKey );
-        if ( cachedPageHolder != null )
+        final Lock locker = concurrencyLock.getLock( pageCacheKey );
+        try
         {
-            // Found the page in cache, return the clone to prevent further rendering of the cached object
-            RenderedPageResult cachedPageResult = (RenderedPageResult) cachedPageHolder.getObject();
-            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true );
-            return (RenderedPageResult) cachedPageResult.clone();
+            locker.lock();
+
+            CachedObject cachedPageHolder = pageCacheService.getCachedPage( pageCacheKey );
+            if ( cachedPageHolder != null )
+            {
+                // Found the page in cache, return the clone to prevent further rendering of the cached object
+                RenderedPageResult cachedPageResult = (RenderedPageResult) cachedPageHolder.getObject();
+                PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true );
+                return (RenderedPageResult) cachedPageResult.clone();
+            }
+
+            RenderedPageResult renderedPageResultToCache = renderPageTemplateExcludingPortlets( pageTemplate );
+            // Ensure to mark the result as retrieved from cache, before we put it in the cache
+            renderedPageResultToCache.setRetrievedFromCache( true );
+            CacheObjectSettings cacheSettings = CacheObjectSettings.createFrom( resolvedMenuItemCacheSettings );
+            CachedObject cachedPage = pageCacheService.cachePage( pageCacheKey, renderedPageResultToCache, cacheSettings );
+            renderedPageResultToCache.setExpirationTime( cachedPage.getExpirationTime() );
+
+            // Have to return another instance since we did not retrieve this result from cache
+            RenderedPageResult renderedPageResultToReturn = (RenderedPageResult) renderedPageResultToCache.clone();
+            renderedPageResultToReturn.setRetrievedFromCache( false );
+            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false );
+            return renderedPageResultToReturn;
         }
-
-        RenderedPageResult renderedPageResultToCache = renderPageTemplateExcludingPortlets( pageTemplate );
-        // Ensure to mark the result as retrieved from cache, before we put it in the cache
-        renderedPageResultToCache.setRetrievedFromCache( true );
-        CacheObjectSettings cacheSettings = CacheObjectSettings.createFrom( resolvedMenuItemCacheSettings );
-        CachedObject cachedPage = pageCacheService.cachePage( pageCacheKey, renderedPageResultToCache, cacheSettings );
-        renderedPageResultToCache.setExpirationTime( cachedPage.getExpirationTime() );
-
-        // Have to return another instance since we did not retrieve this result from cache
-        RenderedPageResult renderedPageResultToReturn = (RenderedPageResult) renderedPageResultToCache.clone();
-        renderedPageResultToReturn.setRetrievedFromCache( false );
-        PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false );
-        return renderedPageResultToReturn;
+        finally
+        {
+            locker.unlock();
+        }
     }
 
     private RenderedPageResult renderPageTemplateExcludingPortlets( PageTemplateEntity pageTemplate )
@@ -227,8 +242,7 @@ public class PageRenderer
         Document model;
         if ( dataSourceResult == null || dataSourceResult.getData() == null )
         {
-            String resultRootName = verticalProperties.getDatasourceDefaultResultRootElement();
-            model = new Document( new Element( resultRootName ) );
+            model = new Document( new Element( verticalProperties.getDatasourceDefaultResultRootElement() ) );
         }
         else
         {
