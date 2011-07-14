@@ -5,6 +5,8 @@ Ext.define( 'CMS.store.CallingCodeStore', {
 
     autoLoad: true,
 
+    remoteFilter: false,
+
     proxy: {
         type: 'ajax',
         url: 'data/misc/callingcodes/list',

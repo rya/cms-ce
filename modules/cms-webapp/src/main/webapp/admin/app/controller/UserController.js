@@ -419,7 +419,6 @@ Ext.define( 'CMS.controller.UserController', {
         groupSelector.clearValue();
     },
 
-
     // Dummy form
     createDummyUserForm: function( user )
     {

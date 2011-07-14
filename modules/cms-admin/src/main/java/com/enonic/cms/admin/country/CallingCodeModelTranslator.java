@@ -15,7 +15,7 @@ public class CallingCodeModelTranslator
     {
         CallingCodeModel callingCode = new CallingCodeModel();
         callingCode.setCountryCode( country.getCode().toString() );
-        callingCode.setCallingCode( country.getCallingCode() );
+        callingCode.setCallingCode( "+" + country.getCallingCode() );
         callingCode.setEnglishName( country.getEnglishName() );
         callingCode.setLocalName( country.getLocalName() );
 
