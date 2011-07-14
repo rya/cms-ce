@@ -4,10 +4,13 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import java.util.concurrent.locks.Lock;
+
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.enonic.cms.framework.util.GenericConcurrencyLock;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.SitePropertiesService;
@@ -65,7 +68,8 @@ public class WindowRenderer
 {
     private static final Logger LOG = LoggerFactory.getLogger( WindowRenderer.class );
 
-    private static final String DUMMY_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?><dummy/>";
+    private static
+    final String DUMMY_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?><dummy/>";
 
     private PageCacheService pageCacheService;
 
@@ -88,6 +92,8 @@ public class WindowRenderer
     private PostProcessInstructionExecutor postProcessInstructionExecutor;
 
     private LivePortalTraceService liveTraceService;
+
+    private static GenericConcurrencyLock<WindowCacheKey> concurrencyLock = GenericConcurrencyLock.create();
 
     private DataSourceService dataSourceService;
 
@@ -186,41 +192,51 @@ public class WindowRenderer
 
         try
         {
-            final WindowCacheKey cacheKey = resolveCacheKey( window, executor.getKey() );
-
             final boolean useCache = resolveUseCache( portletCacheSettings );
-            if ( useCache )
+            if ( !useCache )
             {
-                CachedObject cachedPortletHolder = pageCacheService.getCachedPortletWindow( cacheKey );
-                if ( cachedPortletHolder != null )
-                {
-                    RenderedWindowResult portletResult = (RenderedWindowResult) cachedPortletHolder.getObject();
-                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, true );
-                    return cloneAndExecutePostProcessInstructions( portletResult );
-                }
+                final RenderedWindowResult windowResult = doExecuteDatasourcesAndTransformView( window, executor );
+                WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, false );
+                return cloneAndExecutePostProcessInstructions( windowResult );
             }
 
-            RenderedWindowResult portletResult;
+            final WindowCacheKey cacheKey = resolveCacheKey( window, executor.getKey() );
+            final RenderedWindowResult windowResult;
 
+            final Lock locker = concurrencyLock.getLock( cacheKey );
             try
             {
-                PageRequestFactory.getPageRequest().setCurrentPortletKey( window.getPortlet().getPortletKey() );
-                portletResult = doRenderWindow( window, executor );
-                WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, false );
+                locker.lock();
+
+                // see if window result is in cache
+                final CachedObject cachedPortletHolder = pageCacheService.getCachedPortletWindow( cacheKey );
+                if ( cachedPortletHolder != null )
+                {
+                    windowResult = (RenderedWindowResult) cachedPortletHolder.getObject();
+                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, true );
+                }
+                else
+                {
+                    // window not in cache, need to render...
+                    windowResult = doExecuteDatasourcesAndTransformView( window, executor );
+                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, false );
+
+                    // register the rendered window in the cache
+                    if ( windowResult.isErrorFree() )
+                    {
+                        final CachedObject newCachedPortletHolder = pageCacheService.cachePortletWindow( cacheKey, windowResult,
+                                                                                                         CacheObjectSettings.createFrom(
+                                                                                                             portletCacheSettings ) );
+                        windowResult.setExpirationTimeInCache( newCachedPortletHolder.getExpirationTime() );
+                    }
+                }
             }
             finally
             {
-                PageRequestFactory.getPageRequest().setCurrentPortletKey( null );
+                locker.unlock();
             }
 
-            if ( useCache && portletResult.isErrorFree() )
-            {
-                CachedObject cachedPortletHolder =
-                    pageCacheService.cachePortletWindow( cacheKey, portletResult, CacheObjectSettings.createFrom( portletCacheSettings ) );
-                portletResult.setExpirationTimeInCache( cachedPortletHolder.getExpirationTime() );
-            }
-
-            return cloneAndExecutePostProcessInstructions( portletResult );
+            return cloneAndExecutePostProcessInstructions( windowResult );
         }
         finally
         {
@@ -276,11 +292,12 @@ public class WindowRenderer
         return siteURLResolver;
     }
 
-    private RenderedWindowResult doRenderWindow( final Window window, final UserEntity exectuor )
+    private RenderedWindowResult doExecuteDatasourcesAndTransformView( final Window window, final UserEntity exectuor )
     {
         RenderedWindowResult portletResult;
         try
         {
+            PageRequestFactory.getPageRequest().setCurrentPortletKey( window.getPortlet().getPortletKey() );
             Document document = getDataSourceResult( window, exectuor );
 
             ViewTransformationResult portletViewTransformation = renderWindowView( window, document );
@@ -312,6 +329,10 @@ public class WindowRenderer
             ErrorRenderPortletResult errorPortletResult = (ErrorRenderPortletResult) portletResult;
             errorPortletResult.setError( e );
             LOG.error( message, e );
+        }
+        finally
+        {
+            PageRequestFactory.getPageRequest().setCurrentPortletKey( null );
         }
 
         PagePortletTraceInfo portletTraceInfo = RenderTrace.getCurrentPageObjectTraceInfo();
