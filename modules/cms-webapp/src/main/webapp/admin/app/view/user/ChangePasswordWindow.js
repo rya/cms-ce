@@ -61,7 +61,8 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
         var form = {
             id: 'userChangePasswordForm',
             xtype: 'form',
-
+            method: 'POST',
+            url: 'data/user/changepassword',
             bodyStyle: 'padding: 10 30 30 10;',
 
             layout: {
@@ -73,8 +74,7 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
                 xtype: 'textfield',
                 inputType: 'password',
                 allowBlank: false,
-                minLength: 3,
-                maxLength: 64,
+                minLength: 1,
 
                 labelWidth: 110,
                 labelAlign: 'right'
@@ -82,11 +82,20 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
 
             items: [textAndPhotoPanel,
                 {
+                    xtype: 'hiddenfield',
+                    inputType: 'hidden',
+                    itemId: 'userKey',
+                    name: 'userKey'
+                },
+                {
                     itemId: 'password1',
+                    name: 'pwd',
                     fieldLabel: 'New password'
                 }, {
                     itemId: 'password2',
+                    name: 'repeatpwd',
                     fieldLabel: 'Confirm password',
+                    submitValue: false,
                     validator: function( value )
                     {
                         var password1 = this.previousSibling( '#password1' );
@@ -94,7 +103,6 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
                     }
                 }]
         };
-
 
         Ext.apply( this, {
             items: [form],
@@ -112,7 +120,6 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
             ]
         } );
 
-
         this.callParent( arguments );
     },
 
@@ -123,7 +130,7 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
         this.down( '#photo' ).setSrc( 'data/user/photo?key=' + data.key + '&thumb=false' );
         this.down( '#name' ).setText( data.displayName + ' (' + data.qualifiedName + ')' );
         this.down( '#email' ).autoEl = {tag: 'a', href: 'mailto:' + data.email, html: data.email};
-
+        this.down( '#userKey' ).setValue(data.key);
         this.show();
 
         this.down( '#password1' ).focus( '', 10 );
@@ -133,9 +140,19 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
     doChange: function( e )
     {
         var form = Ext.getCmp( 'userChangePasswordForm' ).getForm();
+        var window =  Ext.getCmp( 'userChangePasswordForm' ).up( 'userChangePasswordWindow' );
         if ( form.isValid() )
         {
-            Ext.Msg.alert( 'Change Password', 'TODO' );
+            form.submit( {
+                             success: function( form, action )
+                             {
+                                 window.close();
+                                 //Ext.Msg.alert( 'Success', action.result.msg );
+                             },
+                             failure: function( form, action )
+                             {
+                                 Ext.Msg.alert( 'Failed', action.result.errorMsg );
+                             }                } );
         }
     }
 
