@@ -38,6 +38,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     initComponent: function()
     {
+        var me = this;
         this.store = Ext.data.StoreManager.lookup( this.store );
         this.userFieldSet = {
             'username': this.createTextField,
@@ -81,7 +82,24 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'fax': this.createAutoCompleteField
         };
         this.addressFieldSet = {
-            'address': this.generateAddressFieldSet
+            'address': function(field)
+            {
+                var tabItem = me.generateAddressFieldSet(field);
+                return {
+                    sourceField: field,
+                    xtype: 'tabpanel',
+                    itemId: 'addressTabPanel',
+                    height: 280,
+                    width: 300,
+                    items: [tabItem],
+                    buttons: [
+                        {
+                            text: 'Add New Address',
+                            action: 'addNewTab'
+                        }
+                    ]
+                };
+            }
         };
         this.callParent( arguments );
         this.removeAll();
@@ -126,7 +144,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             displayField = 'englishName';
         } else if ( field.fieldname == 'region' )
         {
-            fieldStore = Ext.data.StoreManager.lookup( 'RegionStore' );
+            fieldStore = new CMS.store.RegionStore();
             valueField = 'code';
             displayField = 'englishName';
         } else if ( field.fieldname == 'locale' )
@@ -139,6 +157,9 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         return {
             xtype: 'userFormField',
             type: 'combo',
+            queryMode: 'local',
+            minChars: 1,
+            emptyText: 'Please select',
             fieldStore: fieldStore,
             valueField: valueField,
             displayField: displayField
@@ -231,20 +252,22 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         }
     },
 
-    generateAddressFieldSet: function ( field )
+    generateAddressFieldSet: function ( field , closable)
     {
         var countryField, regionField;
         if ( field.iso )
         {
             var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
-            var regionStore = Ext.data.StoreManager.lookup( 'RegionStore' );
+            var regionStore = new CMS.store.RegionStore();
             var countryField = {
                 xtype: 'combobox',
                 store: countryStore,
                 fieldLabel: 'Country',
                 valueField: 'code',
                 displayField: 'englishName',
-                queryMode: 'remote',
+                queryMode: 'local',
+                minChars: 1,
+                emptyText: 'Please select',
                 name: 'address_country',
                 itemId: 'address_country',
                 disabled: field.readonly
@@ -254,10 +277,13 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 store: regionStore,
                 valueField: 'code',
                 displayField: 'englishName',
+                queryMode: 'local',
+                minChars: 1,
+                emptyText: 'Please select',
                 fieldLabel: 'Region',
                 name: 'address_region',
                 itemId: 'address_region',
-                disabled: field.readonly
+                disabled: true
             };
         }
         else
@@ -320,24 +346,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 regionField
             ]
         };
-        var tabItem = {
+
+        return {
             title: '[no title]',
+            closable: closable || false,
             items: [fieldSetItem]
         };
-        var tabbedPanel = {
-            xtype: 'tabpanel',
-            itemId: 'addressTabPanel',
-            height: 280,
-            width: 300,
-            items: [tabItem],
-            buttons: [
-                {
-                    text: 'Add New Address',
-                    action: 'addNewTab'
-                }
-            ]
-        };
-        return tabbedPanel;
     }
 
 } );

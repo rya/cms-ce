@@ -75,7 +75,10 @@ Ext.define( 'CMS.view.user.UserFormField', {
                 xtype: 'combobox',
                 store: me.fieldStore,
                 valueField: me.valueField,
-                displayField: me.displayField
+                displayField: me.displayField,
+                queryMode: me.queryMode,
+                minChars: me.minChars,
+                emptyText: me.emptyText
             };
         }
         else
