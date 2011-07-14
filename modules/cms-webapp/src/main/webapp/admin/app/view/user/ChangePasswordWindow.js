@@ -75,7 +75,6 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
                 inputType: 'password',
                 allowBlank: false,
                 minLength: 1,
-                maxLength: 30,
 
                 labelWidth: 110,
                 labelAlign: 'right'
@@ -96,6 +95,7 @@ Ext.define( 'CMS.view.user.ChangePasswordWindow', {
                     itemId: 'password2',
                     name: 'repeatpwd',
                     fieldLabel: 'Confirm password',
+                    submitValue: false,
                     validator: function( value )
                     {
                         var password1 = this.previousSibling( '#password1' );
