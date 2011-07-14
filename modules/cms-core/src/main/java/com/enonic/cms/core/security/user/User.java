@@ -19,6 +19,10 @@ public interface User extends IAccordionPresentation
 
     public static final String ANONYMOUS_UID = "anonymous";
 
+    public static final int MAX_PASSWORD_LENGTH = 30;
+
+    public static final int MIN_PASSWORD_LENGTH = 1;
+
     String NAME_PROPERTY = "name";
 
     UserKey getKey();
