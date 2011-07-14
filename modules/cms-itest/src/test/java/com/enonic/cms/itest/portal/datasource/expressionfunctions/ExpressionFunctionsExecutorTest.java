@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.time.MockTimeService;
 
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
 import com.enonic.cms.portal.datasource.ExpressionFunctionsExecutor;
@@ -67,6 +68,9 @@ public class ExpressionFunctionsExecutorTest
 
         expressionContext = new ExpressionContext();
         expressionContext.setUser( defaultUser );
+        SiteEntity site = new SiteEntity();
+        site.setKey( 0 );
+        expressionContext.setSite( site );
 
         efFactory = new ExpressionFunctionsFactory();
         efFactory.setTimeService( timeService );
@@ -175,5 +179,12 @@ public class ExpressionFunctionsExecutorTest
 
         String evaluted = efExecutor.evaluate( "${periodHoursMinutes( -2, -5 )}" );
         assertEquals( "PT-2H-5M", evaluted );
+    }
+
+    @Test
+    public void testPortalSiteKey()
+            throws Exception {
+        String evaluted = efExecutor.evaluate("${portal.siteKey}");
+        assertEquals("0", evaluted);
     }
 }

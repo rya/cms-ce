@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.portal.datasource;
 
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.portal.PortalInstanceKey;
 import org.jdom.Element;
 import org.junit.Before;
@@ -58,7 +59,9 @@ public class DatasourceExecutorTest
         context.setHttpRequest( request );
         context.setLanguage( languageEntity );
         context.setPortalInstanceKey( portalInstanceKey );
-        context.setSite( context.getSite() );
+        SiteEntity site = new SiteEntity();
+        site.setKey( 0 );
+        context.setSite( site );
         context.setUser( userEntity );
     }
 
