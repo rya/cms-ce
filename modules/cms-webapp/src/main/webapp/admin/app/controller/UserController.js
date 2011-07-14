@@ -317,13 +317,21 @@ Ext.define( 'CMS.controller.UserController', {
         return this.getUserGrid().getSelectionModel().getSelection().length > 0;
     },
 
-    countryChangeHandler: function( field, newValue, oldValue, options ) {
-        var region = this.getEditUserPanel().down('#address_region');
-        if (region) {
+    countryChangeHandler: function( field, newValue, oldValue, options )
+    {
+        var region = field.up('fieldset').down( '#address_region' );
+        if ( region )
+        {
             region.clearValue();
-            region.store.load({params: {
-                countryCode: field.getValue()
-            }});
+            Ext.apply( region.store.proxy.extraParams, {
+                'countryCode': field.getValue()
+            } );
+            region.store.load( {
+                   callback: function(records, operation, success)
+                   {
+                        region.setDisabled(!records || records.length == 0);
+                   }
+               } );
         }
         return true;
     },
@@ -355,11 +363,7 @@ Ext.define( 'CMS.controller.UserController', {
     addNewTab: function()
     {
         var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
-        if ( tabPanel.items.length == 1 )
-        {
-            tabPanel.items.get( 0 ).closable = true;
-        }
-        var newTab = tabPanel.items.get( 0 ).cloneConfig( {closable: true, text: '[no title]'} );
+        var newTab = this.getEditUserFormPanel().generateAddressFieldSet(tabPanel.sourceField, true);
         newTab = tabPanel.add( newTab );
         tabPanel.setActiveTab(newTab);
     },
