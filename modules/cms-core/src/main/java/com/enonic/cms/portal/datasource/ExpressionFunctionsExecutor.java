@@ -22,8 +22,11 @@ import org.springframework.expression.TypedValue;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionContext;
 
 import com.enonic.cms.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
@@ -173,12 +176,26 @@ public final class ExpressionFunctionsExecutor
 
     private String createContentKey()
     {
-        if ( expressionContext.getContentFromRequest() == null )
+        if ( expressionContext.getContentFromRequest() != null)
+        {
+            return expressionContext.getContentFromRequest().getKey().toString();
+        }
+
+        MenuItemEntity menuItem = expressionContext.getMenuItem();
+
+        if ( menuItem == null || menuItem.getType() != MenuItemType.CONTENT )
         {
             return null;
         }
 
-        return expressionContext.getContentFromRequest().getKey().toString();
+        ContentEntity content = menuItem.getContent();
+
+        if (content == null)
+        {
+            return null;
+        }
+
+        return content.getKey().toString();
     }
 
     private Map<String, String> createUserMap()
