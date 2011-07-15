@@ -27,6 +27,7 @@ import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionF
 
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.domain.structure.SiteEntity;
 
 import static org.junit.Assert.*;
 
@@ -68,6 +69,9 @@ public class ExpressionFunctionsExecutorTest
 
         expressionContext = new ExpressionContext();
         expressionContext.setUser( defaultUser );
+        SiteEntity site = new SiteEntity();
+        site.setKey( 0 );
+        expressionContext.setSite( site );
 
         efFactory = new ExpressionFunctionsFactory();
         efFactory.setTimeService( timeService );
@@ -176,5 +180,12 @@ public class ExpressionFunctionsExecutorTest
 
         String evaluted = efExecutor.evaluate( "${periodHoursMinutes( -2, -5 )}" );
         assertEquals( "PT-2H-5M", evaluted );
+    }
+
+    @Test
+    public void testPortalSiteKey()
+            throws Exception {
+        String evaluted = efExecutor.evaluate("${portal.siteKey}");
+        assertEquals("0", evaluted);
     }
 }

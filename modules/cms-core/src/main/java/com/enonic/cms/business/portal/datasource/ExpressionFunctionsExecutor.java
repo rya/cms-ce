@@ -108,6 +108,7 @@ public final class ExpressionFunctionsExecutor
         portalMap.put( "locale", createLocale() );
         portalMap.put( "instanceKey", createPortalInstanceKey() );
         portalMap.put( "pageKey", createPageKey() );
+        portalMap.put( "siteKey", createSiteKey() );
         portalMap.put( "contentKey", createContentKey() );
         portalMap.put( "windowKey", createWindowKey() );
         portalMap.put( "isWindowInline", createIsWindowInline() );
@@ -165,6 +166,11 @@ public final class ExpressionFunctionsExecutor
             }
         }
         return null;
+    }
+
+    private String createSiteKey()
+    {
+        return expressionContext.getSite().getKey().toString();
     }
 
     private String createContentKey()

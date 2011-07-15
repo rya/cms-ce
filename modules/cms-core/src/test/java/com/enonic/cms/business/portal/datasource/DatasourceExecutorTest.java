@@ -24,6 +24,7 @@ import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserImpl;
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.domain.structure.SiteEntity;
 
 import static org.junit.Assert.*;
 
@@ -66,7 +67,9 @@ public class DatasourceExecutorTest
         context.setHttpRequest( request );
         context.setLanguage( languageEntity );
         context.setPortalInstanceKey( portalInstanceKey );
-        context.setSite( context.getSite() );
+        SiteEntity site = new SiteEntity();
+        site.setKey( 0 );
+        context.setSite( site );
         context.setUser( userEntity );
         context.setVerticalSession( null );
     }
