@@ -53,11 +53,16 @@ public class MenuItemServiceImpl
 
         MenuItemAccessResolver accessResolver = new MenuItemAccessResolver( groupDao );
 
-        if ( !accessResolver.hasAccess( remover, section, MenuItemAccessType.ADD )
-          && !accessResolver.hasAccess( remover, section, MenuItemAccessType.PUBLISH ) )
+        for ( ContentKey contentKey : command.getContentToRemove() )
         {
-            throw new MenuItemAccessException( "Cannot remove section content.", remover.getQualifiedName(), MenuItemAccessType.ADD,
-                                               command.getSection() );
+            MenuItemAccessType accessType = section.getSectionContent( contentKey ).isApproved() ?
+                    MenuItemAccessType.PUBLISH : MenuItemAccessType.ADD;
+
+            if ( !accessResolver.hasAccess( remover, section, accessType ) )
+            {
+                throw new MenuItemAccessException( "Cannot remove section content.", remover.getQualifiedName(),
+                                                   accessType, command.getSection() );
+            }
         }
 
         for ( ContentKey contentKey : command.getContentToRemove() )
