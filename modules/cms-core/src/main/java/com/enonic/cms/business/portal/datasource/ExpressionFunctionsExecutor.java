@@ -26,11 +26,14 @@ import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionF
 import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsStatic;
 
 import com.enonic.cms.domain.RequestParameters;
+import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.portal.VerticalSession;
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.domain.structure.menuitem.MenuItemType;
 
 public final class ExpressionFunctionsExecutor
 {
@@ -175,12 +178,26 @@ public final class ExpressionFunctionsExecutor
 
     private String createContentKey()
     {
-        if ( expressionContext.getContentFromRequest() == null )
+        if ( expressionContext.getContentFromRequest() != null)
+        {
+            return expressionContext.getContentFromRequest().getKey().toString();
+        }
+
+        MenuItemEntity menuItem = expressionContext.getMenuItem();
+
+        if ( menuItem == null || menuItem.getType() != MenuItemType.CONTENT )
         {
             return null;
         }
 
-        return expressionContext.getContentFromRequest().getKey().toString();
+        ContentEntity content = menuItem.getContent();
+
+        if (content == null)
+        {
+            return null;
+        }
+
+        return content.getKey().toString();
     }
 
     private Map<String, String> createUserMap()
