@@ -54,6 +54,7 @@ Ext.define( 'CMS.view.user.DeleteWindow', {
     doShow: function( model )
     {
         this.title = 'Delete User';
+        this.userKey = model.get('key');
         var name = this.child( '#line1' ).child( '#dName' );
         var photo = this.child( '#line1' ).child( '#photo' );
         name.text = model.data.displayName + ' (' + model.data.qualifiedName + ')';

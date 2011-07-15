@@ -69,8 +69,7 @@ public final class UsersResource
     {
 
         Map<String, Object> res = new HashMap<String, Object>();
-        if ( password.length() <= User.MAX_PASSWORD_LENGTH &&
-                password.length() >= User.MIN_PASSWORD_LENGTH )
+        if ( password.length() <= User.MAX_PASSWORD_LENGTH && password.length() >= User.MIN_PASSWORD_LENGTH )
         {
             LOG.info( "Password has been changed for user " + userKey );
             res.put( "success", true );
@@ -80,6 +79,16 @@ public final class UsersResource
             res.put( "success", false );
             res.put( "errorMsg", "Password is out of possible length" );
         }
+        return res;
+    }
+
+    @POST
+    @Path("delete")
+    public Map<String, Object> deleteUser( @FormParam("userKey") final String userKey )
+    {
+        Map<String, Object> res = new HashMap<String, Object>();
+        LOG.info( "User was deleted: " + userKey );
+        res.put( "success", true );
         return res;
     }
 

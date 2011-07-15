@@ -252,7 +252,7 @@ Ext.define( 'CMS.controller.UserController', {
         var textField = this.getFilterTextField();
 
         usersStore.clearFilter();
-        usersStore.load({params:{query: textField.getValue()}});
+        usersStore.load( {params:{query: textField.getValue()}} );
     },
 
     filterHandleEnterKey: function( field, event )
@@ -272,17 +272,34 @@ Ext.define( 'CMS.controller.UserController', {
 
     deleteUser: function()
     {
-        Ext.Msg.alert( 'Do Delete User', 'TODO' );
+        var deleteUserWindow = this.getUserDeleteWindow();
+        Ext.Ajax.request( {
+              url: 'data/user/delete',
+              method: 'POST',
+              params: {userKey: deleteUserWindow.userKey},
+              success: function( response, opts )
+              {
+                  deleteUserWindow.close();
+                  Ext.Msg.alert( 'Info', 'User was deleted' );
+              },
+              failure: function( response, opts )
+              {
+                  Ext.Msg.alert( 'Info', 'User wasn\'t deleted' );
+              }
+          } );
     },
 
-    showEditUserForm: function(el, e)
+    showEditUserForm: function( el, e )
     {
         var tabId, tabTitle, iconCls;
-        if (el.action == 'newUser'){
+        if ( el.action == 'newUser' )
+        {
             tabId = 'new-user';
             tabTitle = 'New User';
             iconCls = 'icon-user-add';
-        }else{
+        }
+        else
+        {
             var userDetail = this.getUserDetail();
             var currentUser = userDetail.getCurrentUser();
             tabId = currentUser.userStore + '-' + currentUser.name;
@@ -319,7 +336,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     countryChangeHandler: function( field, newValue, oldValue, options )
     {
-        var region = field.up('fieldset').down( '#address_region' );
+        var region = field.up( 'fieldset' ).down( '#address_region' );
         if ( region )
         {
             region.clearValue();
@@ -327,11 +344,11 @@ Ext.define( 'CMS.controller.UserController', {
                 'countryCode': field.getValue()
             } );
             region.store.load( {
-                   callback: function(records, operation, success)
-                   {
-                        region.setDisabled(!records || records.length == 0);
-                   }
-               } );
+                                   callback: function( records, operation, success )
+                                   {
+                                       region.setDisabled( !records || records.length == 0 );
+                                   }
+                               } );
         }
         return true;
     },
@@ -363,9 +380,9 @@ Ext.define( 'CMS.controller.UserController', {
     addNewTab: function()
     {
         var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
-        var newTab = this.getEditUserFormPanel().generateAddressFieldSet(tabPanel.sourceField, true);
+        var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
         newTab = tabPanel.add( newTab );
-        tabPanel.setActiveTab(newTab);
+        tabPanel.setActiveTab( newTab );
     },
 
     updateTabTitle: function ( field, event )
@@ -374,51 +391,61 @@ Ext.define( 'CMS.controller.UserController', {
         tabPanel.getActiveTab().setTitle( field.getValue() );
     },
 
-    toggleDisplayNameField: function (item, event){
+    toggleDisplayNameField: function ( item, event )
+    {
         var locked = 'icon-locked';
         var open = 'icon-unlocked';
         var displayNameField = this.getEditUserPanel().down( '#display_name' );
-        if (item.iconCls == locked){
-            item.setIconCls(open);
-            displayNameField.setDisabled(false);
-        }else{
-            item.setIconCls(locked);
-            displayNameField.setDisabled(true);
+        if ( item.iconCls == locked )
+        {
+            item.setIconCls( open );
+            displayNameField.setDisabled( false );
+        }
+        else
+        {
+            item.setIconCls( locked );
+            displayNameField.setDisabled( true );
         }
 
     },
 
-    showAddGroupWindow: function(){
+    showAddGroupWindow: function()
+    {
         this.getUserMembershipWindow().doShow();
     },
 
-    selectGroup: function(){
+    selectGroup: function()
+    {
         var membershipGridPanel = this.getMembershipGridPanel();
         var selection = membershipGridPanel.getSelectionModel().getSelection();
         var editUserMembershipPanel = this.getEditUserMembershipPanel();
-        Ext.each(selection, function(item, index){
-            editUserMembershipPanel.addGroup(item.get('key'), item.get('name'));
-        });
+        Ext.each( selection, function( item, index )
+        {
+            editUserMembershipPanel.addGroup( item.get( 'key' ), item.get( 'name' ) );
+        } );
         this.getUserMembershipWindow().hide();
         membershipGridPanel.getSelectionModel().deselectAll();
     },
 
-    deleteGroup: function(element, event){
-        var group = element.findParentByType('groupItemField');
-        this.getEditUserMembershipPanel().remove(group);
+    deleteGroup: function( element, event )
+    {
+        var group = element.findParentByType( 'groupItemField' );
+        this.getEditUserMembershipPanel().remove( group );
     },
 
-    closeMembershipWindow: function(){
+    closeMembershipWindow: function()
+    {
         var membershipGridPanel = this.getMembershipGridPanel();
         var selectionModel = membershipGridPanel.getSelectionModel()
         selectionModel.deselectAll();
         this.getUserMembershipWindow().hide();
     },
 
-    selectGroup: function(field, value){
+    selectGroup: function( field, value )
+    {
         var editUserMembershipPanel = this.getEditUserMembershipPanel();
-        editUserMembershipPanel.addGroup(value.get('key'), value.get('name'));
-        var groupSelector = editUserMembershipPanel.down('#groupSelector');
+        editUserMembershipPanel.addGroup( value.get( 'key' ), value.get( 'name' ) );
+        var groupSelector = editUserMembershipPanel.down( '#groupSelector' );
         field.deselectAll();
         groupSelector.clearValue();
     },
