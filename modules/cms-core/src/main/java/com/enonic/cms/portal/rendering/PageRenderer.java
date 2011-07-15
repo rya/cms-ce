@@ -4,11 +4,14 @@
  */
 package com.enonic.cms.portal.rendering;
 
+import java.util.concurrent.locks.Lock;
+
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.framework.util.GenericConcurrencyLock;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.SiteURLResolver;
@@ -91,9 +94,11 @@ public class PageRenderer
 
     private PageRenderingTrace pageRenderingTrace;
 
+    private static GenericConcurrencyLock<PageCacheKey> concurrencyLock = GenericConcurrencyLock.create();
+
     private DataSourceService dataSourceService;
 
-    protected PageRenderer( PageRendererContext pageRendererContext)
+    protected PageRenderer( PageRendererContext pageRendererContext )
     {
         this.context = pageRendererContext;
         this.invocationCache = new InvocationCache();
@@ -138,16 +143,16 @@ public class PageRenderer
         RenderedPageResult renderedPageResult = doRenderPageTemplate( pageTemplate );
 
         String renderedPageContentIncludingRenderedWindows =
-                executePostProcessInstructions( pageTemplate, renderedPageResult.getContent(), renderedPageResult.getOutputMethod() );
+            executePostProcessInstructions( pageTemplate, renderedPageResult.getContent(), renderedPageResult.getOutputMethod() );
 
         renderedPageContentIncludingRenderedWindows =
-                renderedPageContentIncludingRenderedWindows.replace( Ticket.getPlaceholder(), context.getTicketId() );
+            renderedPageContentIncludingRenderedWindows.replace( Ticket.getPlaceholder(), context.getTicketId() );
 
         renderedPageResult.setContent( renderedPageContentIncludingRenderedWindows );
 
         CacheSettings normalizedPageCacheSettings =
-                tightestCacheSettingsResolver.resolveTightestCacheSettingsForPage( context.getMenuItem(), context.getRegionsInPage(),
-                                                                                   pageTemplate );
+            tightestCacheSettingsResolver.resolveTightestCacheSettingsForPage( context.getMenuItem(), context.getRegionsInPage(),
+                                                                               pageTemplate );
         DateTime requestTime = context.getRequestTime();
         DateTime expirationTime = requestTime.plusSeconds( normalizedPageCacheSettings.getSpecifiedSecondsToLive() );
         renderedPageResult.setExpirationTime( expirationTime );
@@ -167,27 +172,37 @@ public class PageRenderer
 
         PageCacheKey pageCacheKey = resolvePageCacheKey();
 
-        CachedObject cachedPageHolder = pageCacheService.getCachedPage( pageCacheKey );
-        if ( cachedPageHolder != null )
+        final Lock locker = concurrencyLock.getLock( pageCacheKey );
+        try
         {
-            // Found the page in cache, return the clone to prevent further rendering of the cached object
-            RenderedPageResult cachedPageResult = (RenderedPageResult) cachedPageHolder.getObject();
-            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true );
-            return (RenderedPageResult) cachedPageResult.clone();
+            locker.lock();
+
+            CachedObject cachedPageHolder = pageCacheService.getCachedPage( pageCacheKey );
+            if ( cachedPageHolder != null )
+            {
+                // Found the page in cache, return the clone to prevent further rendering of the cached object
+                RenderedPageResult cachedPageResult = (RenderedPageResult) cachedPageHolder.getObject();
+                PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true );
+                return (RenderedPageResult) cachedPageResult.clone();
+            }
+
+            RenderedPageResult renderedPageResultToCache = renderPageTemplateExcludingPortlets( pageTemplate );
+            // Ensure to mark the result as retrieved from cache, before we put it in the cache
+            renderedPageResultToCache.setRetrievedFromCache( true );
+            CacheObjectSettings cacheSettings = CacheObjectSettings.createFrom( resolvedMenuItemCacheSettings );
+            CachedObject cachedPage = pageCacheService.cachePage( pageCacheKey, renderedPageResultToCache, cacheSettings );
+            renderedPageResultToCache.setExpirationTime( cachedPage.getExpirationTime() );
+
+            // Have to return another instance since we did not retrieve this result from cache
+            RenderedPageResult renderedPageResultToReturn = (RenderedPageResult) renderedPageResultToCache.clone();
+            renderedPageResultToReturn.setRetrievedFromCache( false );
+            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false );
+            return renderedPageResultToReturn;
         }
-
-        RenderedPageResult renderedPageResultToCache = renderPageTemplateExcludingPortlets( pageTemplate );
-        // Ensure to mark the result as retrieved from cache, before we put it in the cache
-        renderedPageResultToCache.setRetrievedFromCache( true );
-        CacheObjectSettings cacheSettings = CacheObjectSettings.createFrom( resolvedMenuItemCacheSettings );
-        CachedObject cachedPage = pageCacheService.cachePage( pageCacheKey, renderedPageResultToCache, cacheSettings );
-        renderedPageResultToCache.setExpirationTime( cachedPage.getExpirationTime() );
-
-        // Have to return another instance since we did not retrieve this result from cache
-        RenderedPageResult renderedPageResultToReturn = (RenderedPageResult) renderedPageResultToCache.clone();
-        renderedPageResultToReturn.setRetrievedFromCache( false );
-        PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false );
-        return renderedPageResultToReturn;
+        finally
+        {
+            locker.unlock();
+        }
     }
 
     private RenderedPageResult renderPageTemplateExcludingPortlets( PageTemplateEntity pageTemplate )
@@ -215,13 +230,14 @@ public class PageRenderer
             if ( transformationParams.notContains( templateParam.getName() ) )
             {
                 transformationParams.add(
-                        new TemplateParameterTransformationParameter( templateParam, TransformationParameterOrigin.PAGETEMPLATE ) );
+                    new TemplateParameterTransformationParameter( templateParam, TransformationParameterOrigin.PAGETEMPLATE ) );
             }
         }
 
-        document = ( document != null )
-                ? document
-                : new Document( new Element( verticalProperties.getDatasourceDefaultResultRootElement() ) );
+        if ( document == null )
+        {
+            document = new Document( new Element( verticalProperties.getDatasourceDefaultResultRootElement() ) );
+        }
 
         PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey();
 
@@ -252,9 +268,8 @@ public class PageRenderer
         if ( RenderTrace.isTraceOn() )
         {
             viewTransformationResult.setContent(
-                    TraceMarkerHelper.writePageMarker( RenderTrace.getCurrentRenderTraceInfo(),
-                                                       viewTransformationResult.getContent(),
-                                                       viewTransformationResult.getOutputMethod() ) );
+                TraceMarkerHelper.writePageMarker( RenderTrace.getCurrentRenderTraceInfo(), viewTransformationResult.getContent(),
+                                                   viewTransformationResult.getOutputMethod() ) );
         }
 
         RenderedPageResult renderedPageResult = new RenderedPageResult();
@@ -309,7 +324,7 @@ public class PageRenderer
         postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
 
         PostProcessInstructionProcessor postProcessInstructionProcessor =
-                new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
+            new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
 
         String evaluatePostProcessInstructions = postProcessInstructionProcessor.processInstructions( pageMarkup );
 
@@ -382,7 +397,7 @@ public class PageRenderer
         if ( context.getMenuItem() == null )
         {
             //rendering pagetemplate for newsletter - special case
-            portalInstanceKey = PortalInstanceKey.createSite(context.getSite().getKey());
+            portalInstanceKey = PortalInstanceKey.createSite( context.getSite().getKey() );
         }
         else
         {
@@ -540,6 +555,6 @@ public class PageRenderer
     public void setDataSourceService( DataSourceService dataSourceService )
     {
         this.dataSourceService = dataSourceService;
-}
+    }
 }
 

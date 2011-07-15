@@ -5,6 +5,7 @@
 package com.enonic.cms.portal.image;
 
 import java.awt.image.BufferedImage;
+import java.util.concurrent.locks.Lock;
 
 import javax.inject.Inject;
 
@@ -16,6 +17,7 @@ import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
 import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.framework.util.GenericConcurrencyLock;
 import com.enonic.cms.framework.util.ImageHelper;
 
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
@@ -47,6 +49,8 @@ public final class ImageServiceImpl
     private TimeService timeService;
 
     private PreviewService previewService;
+
+    private static GenericConcurrencyLock<String> concurrencyLock = GenericConcurrencyLock.create();
 
     public ImageServiceImpl()
     {
@@ -81,24 +85,36 @@ public final class ImageServiceImpl
         }
 
         imageRequest.setETag( eTag );
-        ImageResponse res = imageCache.get( imageRequest );
-        if ( res != null )
-        {
-            res.setETag( imageRequest.getETag() );
-            return res;
-        }
+
+        final Lock locker = concurrencyLock.getLock( imageRequest.getCacheKey() );
 
         try
         {
-            res = doProcess( imageRequest );
-            res.setETag( imageRequest.getETag() );
-        }
-        catch ( Exception e )
-        {
-            throw new ImageProcessorException( "Failed to process image: " + e.getMessage(), e );
-        }
+            locker.lock();
 
-        return res;
+            ImageResponse res = imageCache.get( imageRequest );
+            if ( res != null )
+            {
+                res.setETag( imageRequest.getETag() );
+                return res;
+            }
+
+            try
+            {
+                res = doProcess( imageRequest );
+                res.setETag( imageRequest.getETag() );
+            }
+            catch ( Exception e )
+            {
+                throw new ImageProcessorException( "Failed to process image: " + e.getMessage(), e );
+            }
+
+            return res;
+        }
+        finally
+        {
+            locker.unlock();
+        }
     }
 
     public Long getImageTimestamp( final ImageRequest req )
