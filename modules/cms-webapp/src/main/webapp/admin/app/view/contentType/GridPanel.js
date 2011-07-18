@@ -3,8 +3,7 @@ Ext.define( 'CMS.view.contentType.GridPanel', {
     alias : 'widget.contentTypeGrid',
 
     requires: [
-        'CMS.view.contentType.Toolbar',
-        'CMS.plugin.PageSizePlugin'
+        'CMS.view.contentType.Toolbar'
     ],
 
     layout: 'fit',
@@ -18,35 +17,25 @@ Ext.define( 'CMS.view.contentType.GridPanel', {
 
         this.columns = [
             {
-                text: 'No',
-                dataIndex: 'key',
-                sortable: true,
-                flex: 1
-            },
-            {
                 text: 'Name',
                 dataIndex: 'name',
                 sortable: true,
                 flex: 10
             },
             {
+                text: 'Content type no',
+                dataIndex: 'key',
+                sortable: true,
+                align: 'center'
+            },
+            {
                 text: 'Modified',
                 xtype: 'datecolumn',
                 dataIndex: 'timestamp',
                 format: 'Y-m-d h:m',
-                sortable: true,
-                flex: 2
+                sortable: true
             }
         ];
-
-        this.bbar = {
-            xtype: 'pagingtoolbar',
-            store: this.store,
-            displayInfo: true,
-            displayMsg: 'Displaying content types {0} - {1} of {2}',
-            emptyMsg: 'No content types to display',
-            plugins: ['pageSize']
-        };
 
         this.tbar = {
             xtype: 'contentTypeToolbar'
