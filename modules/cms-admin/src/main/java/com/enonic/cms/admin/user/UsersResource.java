@@ -52,6 +52,13 @@ public final class UsersResource
     }
 
     @GET
+    @Path("userinfo")
+    public UserModel getUserInfo( @QueryParam("key") final String key){
+        final UserEntity entity = findEntity( key );
+        return UserModelHelper.toUserInfoModel( entity );
+    }
+
+    @GET
     @Path("photo")
     @Produces("image/png")
     public byte[] getPhoto( @QueryParam("key") final String key,

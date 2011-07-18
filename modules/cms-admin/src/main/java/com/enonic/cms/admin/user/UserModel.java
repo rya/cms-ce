@@ -11,6 +11,17 @@ public final class UserModel
     private String displayName;
     private String userStore;
     private Date lastModified;
+    private UserInfoModel userInfo;
+
+    public UserInfoModel getUserInfo()
+    {
+        return userInfo;
+    }
+
+    public void setUserInfo( UserInfoModel userInfo )
+    {
+        this.userInfo = userInfo;
+    }
 
     public String getKey() {
         return key;
