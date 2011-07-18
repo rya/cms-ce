@@ -5,12 +5,12 @@ Ext.define('CMS.view.language.ContextMenu', {
     items: [
         {
             text: 'Edit Language',
-            icon: 'resources/images/pencil.png',
+            iconCls: 'icon-edit',
             action: 'editLanguage'
         },
         {
             text: 'Delete Language',
-            icon: 'resources/images/delete.png',
+            iconCls: 'icon-delete',
             action: 'deleteLanguage'
         }
     ]

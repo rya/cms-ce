@@ -153,7 +153,7 @@ img.photo {
 }
 
 .icon-delete-user {
-    background-image: url("../images/delete.png");
+    background-image: url("../images/user_delete.png");
 }
 
 .icon-change-password {
@@ -189,15 +189,31 @@ img.photo {
 }
 
 .icon-locked {
-    background: url("../images/icon_lock_closed.png");
+    background-image: url("../images/icon_lock_closed.png");
 }
 
 .icon-unlocked {
-    background: url("../images/icon_lock_open.png") no-repeat;
+    background-image: url("../images/icon_lock_open.png");
 }
 
 .icon-remote {
-    background: url("../images/icon_remote_10px.gif") no-repeat;
+    background-image: url("../images/icon_remote_10px.gif");
+}
+
+.icon-enonic {
+    background-image: url("../images/icon_enonic_logo.png");
+}
+
+.icon-edit {
+    background-image: url("../images/pencil.png");
+}
+
+.icon-delete {
+    background-image: url("../images/delete.png");
+}
+
+.icon-new {
+    background: url("../images/add.png") no-repeat;
 }
 
 /*-----  Dashboard  -----*/
@@ -227,9 +243,6 @@ img.photo {
     background: #fff;
 }
 
-.icon-delete {
-    background-image: url("../images/delete.png");
-}
 
 .group-item {
     font-size: 14px;
