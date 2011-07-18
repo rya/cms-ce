@@ -5,12 +5,12 @@ Ext.define('CMS.view.contentHandler.ContextMenu', {
     items: [
         {
             text: 'Edit Content Handler',
-            icon: 'resources/images/pencil.png',
+            iconCls: 'icon-edit',
             action: 'editContentHandler'
         },
         {
             text: 'Delete Content Handler',
-            icon: 'resources/images/delete.png',
+            iconCls: 'icon-delete',
             action: 'deleteContentHandler'
         }
     ]

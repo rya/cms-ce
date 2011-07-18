@@ -5,12 +5,12 @@ Ext.define('CMS.view.contentType.ContextMenu', {
     items: [
         {
             text: 'Edit Content Type',
-            icon: 'resources/images/pencil.png',
+            iconCls: 'icon-edit',
             action: 'editContentType'
         },
         {
             text: 'Delete Content Type',
-            icon: 'resources/images/delete.png',
+            iconCls: 'icon-delete',
             action: 'deleteContentType'
         }
     ]

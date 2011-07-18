@@ -27,19 +27,19 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     id: 0,
                     text: 'Dashboard',
                     appUrl: 'dashboard.html',
-                    icon: 'resources/images/house.png'
+                    iconCls: 'icon-dashboard'
                 },
                 {
                     id: 10,
                     text: 'Accounts',
                     appUrl: 'accounts.html',
-                    icon: 'resources/images/group.png'
+                    iconCls: 'icon-accounts'
                 },
                 {
                     id: 20,
                     text: 'CMS',
                     appUrl: 'cms.html',
-                    icon: 'resources/images/enonic-logo16x16.png'
+                    iconCls: 'icon-enonic'
                 },
                 {
                     text: 'Applications',
@@ -47,20 +47,17 @@ Ext.define('CMS.view.launcher.Toolbar', {
                         {
                             id: 30,
                             text: 'Flatskjerm',
-                            appUrl: '',
-                            icon: ''
+                            appUrl: ''
                         },
                         {
                             id: 40,
                             text: 'SkiFree',
-                            appUrl: '',
-                            icon: ''
+                            appUrl: ''
                         },
                         {
                             id: 50,
                             text: 'Sporingsapplikasjon',
-                            appUrl: '',
-                            icon: ''
+                            appUrl: ''
                         }
                     ]
                 },
@@ -68,13 +65,13 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     id: 60,
                     text: 'Reports',
                     appUrl: '',
-                    icon: 'resources/images/report.png'
+                    iconCls: 'icon-report'
                 },
                 {
                     id: 70,
                     text: 'System',
                     appUrl: 'properties.html',
-                    icon: 'resources/images/cog.png'
+                    iconCls: 'icon-system'
                 }
             ]
         },
