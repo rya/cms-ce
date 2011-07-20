@@ -67,7 +67,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'gender': this.createTextField,
             'title': this.createTextField,
             'description': this.createTextField,
-            'html_e_mail': this.createTextField,
+            'html_email': this.createTextField,
             'homepage': this.createTextField
         };
         this.locationFieldSet = {

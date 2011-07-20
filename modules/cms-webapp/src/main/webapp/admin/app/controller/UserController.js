@@ -305,6 +305,13 @@ Ext.define( 'CMS.controller.UserController', {
             tabId = currentUser.userStore + '-' + currentUser.name;
             tabTitle = currentUser.displayName + ' (' + currentUser.qualifiedName + ')';
             iconCls = 'icon-edit-user';
+            Ext.Ajax.request({
+                url: 'data/user/userinfo',
+                params: {key: currentUser.key},
+                success: function(response){
+                    var jsonObj = Ext.JSON.decode(response.responseText);
+                }
+            });
         }
 
         this.getTabPanel().addTab( {

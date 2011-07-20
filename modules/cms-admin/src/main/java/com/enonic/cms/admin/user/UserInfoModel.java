@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 /**
  * Created by IntelliJ IDEA.
  * User: vfiodarau
@@ -15,9 +17,12 @@ import java.util.TimeZone;
  */
 public class UserInfoModel
 {
+
     private String firstName;
 
+
     private String lastName;
+
 
     private String middleName;
 
@@ -61,6 +66,7 @@ public class UserInfoModel
 
     private List<AddressModel> addresses = new ArrayList<AddressModel>(  );
 
+        @JsonProperty("first_name")
     public String getFirstName()
     {
         return firstName;
@@ -71,6 +77,7 @@ public class UserInfoModel
         this.firstName = firstName;
     }
 
+        @JsonProperty("last_name")
     public String getLastName()
     {
         return lastName;
@@ -81,6 +88,7 @@ public class UserInfoModel
         this.lastName = lastName;
     }
 
+        @JsonProperty("middle_name")
     public String getMiddleName()
     {
         return middleName;
@@ -131,6 +139,7 @@ public class UserInfoModel
         this.initials = initials;
     }
 
+    @JsonProperty("global_position")
     public String getGlobalPosition()
     {
         return globalPosition;
@@ -141,6 +150,7 @@ public class UserInfoModel
         this.globalPosition = globalPosition;
     }
 
+    @JsonProperty("html_email")
     public Boolean getHtmlEmail()
     {
         return htmlEmail;
@@ -161,6 +171,7 @@ public class UserInfoModel
         this.locale = locale;
     }
 
+    @JsonProperty("nick_name")
     public String getNickName()
     {
         return nickName;
@@ -171,6 +182,7 @@ public class UserInfoModel
         this.nickName = nickName;
     }
 
+    @JsonProperty("personal_id")
     public String getPersonalId()
     {
         return personalId;
@@ -181,6 +193,7 @@ public class UserInfoModel
         this.personalId = personalId;
     }
 
+    @JsonProperty("member_id")
     public String getMemberId()
     {
         return memberId;
@@ -231,6 +244,7 @@ public class UserInfoModel
         this.title = title;
     }
 
+    @JsonProperty("home_page")
     public String getHomePage()
     {
         return homePage;
@@ -271,6 +285,7 @@ public class UserInfoModel
         this.fax = fax;
     }
 
+    @JsonProperty("timezone")
     public TimeZone getTimeZone()
     {
         return timeZone;

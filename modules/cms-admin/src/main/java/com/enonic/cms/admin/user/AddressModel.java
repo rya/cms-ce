@@ -1,5 +1,8 @@
 package com.enonic.cms.admin.user;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 /**
  * Created by IntelliJ IDEA.
  * User: vfiodarau
@@ -45,6 +48,7 @@ public class AddressModel
         this.street = street;
     }
 
+    @JsonProperty("postal_address")
     public String getPostalAddress()
     {
         return postalAddress;
@@ -55,6 +59,7 @@ public class AddressModel
         this.postalAddress = postalAddress;
     }
 
+    @JsonProperty("postal_code")
     public String getPostalCode()
     {
         return postalCode;
@@ -85,6 +90,7 @@ public class AddressModel
         this.country = country;
     }
 
+    @JsonProperty("iso_region")
     public String getIsoRegion()
     {
         return isoRegion;
@@ -95,6 +101,7 @@ public class AddressModel
         this.isoRegion = isoRegion;
     }
 
+    @JsonProperty("iso_country")
     public String getIsoCountry()
     {
         return isoCountry;
