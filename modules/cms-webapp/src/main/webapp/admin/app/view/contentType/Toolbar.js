@@ -5,7 +5,7 @@ Ext.define('CMS.view.contentType.Toolbar', {
     items: [
         {
             text: 'New',
-            icon: 'resources/images/add.png',
+            iconCls: 'icon-new',
             action: 'newContentType'
         }
     ],

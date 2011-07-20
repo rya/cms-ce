@@ -185,68 +185,146 @@ public class MenuItemServiceImplTest
         assertEquals( politicsKey2, testDetailResult2.getContent().getKey() );
     }
 
-    private enum Access
+
+    private enum RemoveAccess
     {
         ALLOWED,
         DENIED
     }
 
-    @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read()
+    private enum SectionStatus
     {
-        checkUserPermissionForRemoveContentFromSection( "read", Access.DENIED );
+        NOT_APPROVED,
+        APPROVED
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_update()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, update", Access.DENIED );
+        checkUserPermissionForRemoveContentFromSection( "read", SectionStatus.APPROVED, RemoveAccess.DENIED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_create()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_update_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, create", Access.DENIED );
+        checkUserPermissionForRemoveContentFromSection( "read, update", SectionStatus.APPROVED, RemoveAccess.DENIED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_create_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, delete", Access.DENIED );
+        checkUserPermissionForRemoveContentFromSection( "read, create", SectionStatus.APPROVED, RemoveAccess.DENIED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete_publish()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, delete, publish", Access.ALLOWED );
+        checkUserPermissionForRemoveContentFromSection( "read, delete", SectionStatus.APPROVED, RemoveAccess.DENIED );
+    }
+
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add", SectionStatus.APPROVED, RemoveAccess.DENIED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_add()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_delete_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, add", Access.ALLOWED );
+        checkUserPermissionForRemoveContentFromSection( "read, add, delete", SectionStatus.APPROVED, RemoveAccess.DENIED );
+    }
+
+
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete_publish_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, delete, publish", SectionStatus.APPROVED, RemoveAccess.ALLOWED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_delete()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, add, delete", Access.ALLOWED );
+        checkUserPermissionForRemoveContentFromSection( "read, add, publish", SectionStatus.APPROVED, RemoveAccess.ALLOWED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish_delete_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, add, publish", Access.ALLOWED );
+        checkUserPermissionForRemoveContentFromSection( "read, add, publish, delete", SectionStatus.APPROVED, RemoveAccess.ALLOWED );
+    }
+
+
+
+
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read", SectionStatus.NOT_APPROVED, RemoveAccess.DENIED );
     }
 
     @Test
-    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish_delete()
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_update_NOT_APPROVED()
     {
-        checkUserPermissionForRemoveContentFromSection( "read, add, publish, delete", Access.ALLOWED );
+        checkUserPermissionForRemoveContentFromSection( "read, update", SectionStatus.NOT_APPROVED, RemoveAccess.DENIED );
     }
 
-    private void checkUserPermissionForRemoveContentFromSection( String permissions, Access expecting )
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_create_NOT_APPROVED()
     {
+        checkUserPermissionForRemoveContentFromSection( "read, create", SectionStatus.NOT_APPROVED, RemoveAccess.DENIED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, delete", SectionStatus.NOT_APPROVED, RemoveAccess.DENIED );
+    }
+
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add", SectionStatus.NOT_APPROVED, RemoveAccess.ALLOWED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_delete_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add, delete", SectionStatus.NOT_APPROVED, RemoveAccess.ALLOWED );
+    }
+
+
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_delete_publish_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, delete, publish", SectionStatus.NOT_APPROVED, RemoveAccess.DENIED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add, publish", SectionStatus.NOT_APPROVED, RemoveAccess.ALLOWED );
+    }
+
+    @Test
+    public void testRemoveContentFromSection_checkRemoverPermissions_read_add_publish_delete_NOT_APPROVED()
+    {
+        checkUserPermissionForRemoveContentFromSection( "read, add, publish, delete", SectionStatus.NOT_APPROVED, RemoveAccess.ALLOWED );
+    }
+
+
+
+
+
+
+
+    private void checkUserPermissionForRemoveContentFromSection( String permissions, SectionStatus sectionStatus, RemoveAccess expecting )
+    {
+        boolean isSectionApproved = sectionStatus == SectionStatus.APPROVED;
         String userName = "usr";
 
         GroupEntity userGroup = factory.createGroupInUserstore( userName + "_group", GroupType.USERSTORE_GROUP, "testuserstore" );
@@ -271,7 +349,7 @@ public class MenuItemServiceImplTest
         fixture.save( contentEntity);
         ContentKey contentKey = contentEntity.getKey();
 
-        SectionContentEntity sectionContentEntity = factory.createContentSection( "Opinion", 40, contentKey, true, 1 );
+        SectionContentEntity sectionContentEntity = factory.createContentSection( "Opinion", 40, contentKey, isSectionApproved, 1 );
         fixture.save( sectionContentEntity );
         fixture.flushAndClearHibernateSesssion();
 
@@ -287,19 +365,20 @@ public class MenuItemServiceImplTest
         {
             menuItemService.removeContentFromSection( removeContentFromSectionCommand );
 
-            if (expecting == Access.DENIED )
+            if (expecting == RemoveAccess.DENIED )
             {
                 fail( "The removeContentFromSection method should throw a MenuItemAccessException in this case." );
             }
         }
         catch ( MenuItemAccessException e )
         {
-            if (expecting == Access.ALLOWED )
+            if (expecting == RemoveAccess.ALLOWED )
             {
                 fail( "The removeContentFromSection method should remove item in this case." );
             }
         }
     }
+
 
 
     @Test
