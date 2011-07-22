@@ -39,7 +39,7 @@ public class PortletErrorMessageMarkupCreator
         str.append( " text-align: left" );
         str.append( "\"" );
         str.append( ">" );
-        str.append( "<strong>" ).append( message ).append( "</strong>" );
+        str.append( "<strong>" ).append( HtmlEncoder.encode( message ) ).append( "</strong>" );
 
         if ( exception instanceof PortletXsltViewTransformationException )
         {
@@ -68,13 +68,13 @@ public class PortletErrorMessageMarkupCreator
             for ( TransformerException tranfomerException : xsltErros.getFatalErrors() )
             {
                 str.append( "<li>" );
-                str.append( tranfomerException.getMessageAndLocation() );
+                str.append( HtmlEncoder.encode( tranfomerException.getMessageAndLocation() ) );
                 str.append( "</li>" );
             }
             for ( TransformerException tranfomerException : xsltErros.getErrors() )
             {
                 str.append( "<li>" );
-                str.append( tranfomerException.getMessageAndLocation() );
+                str.append( HtmlEncoder.encode( tranfomerException.getMessageAndLocation() ) );
                 str.append( "</li>" );
             }
             str.append( "</ul>" );
