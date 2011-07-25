@@ -69,7 +69,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
     createComboConfig: function( fieldConfig, me )
     {
         var comboConfig;
-        if ( me.fieldStore.getTotalCount() > 0 )
+        if ( me.fieldStore && me.fieldStore.getTotalCount() > 0 )
         {
             comboConfig = {
                 xtype: 'combobox',

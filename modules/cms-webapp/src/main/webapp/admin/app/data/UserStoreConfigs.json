@@ -1,7 +1,7 @@
 {
     "userStoreConfigs": [
         {
-            "userfields": [
+            "userFields": [
                 {
                     "fieldname": "username",
                     "fieldlabel": "Username",

@@ -14,14 +14,26 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         bodyPadding: 10
     },
 
-    items: [
+
+
+    modal: true,
+
+    layout: {
+        type: 'border'
+    },
+
+    initComponent: function()
+    {
+
+        this.items = [
         {
             xtype: 'tabpanel',
             region: 'center',
             items: [
                 {
                     xtype: 'editUserFormPanel',
-                    autoScroll: true
+                    autoScroll: true,
+                    currentUser: this.currentUser
                 },
                 {
                     xtype: 'editUserPropertiesPanel'
@@ -37,16 +49,6 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
 
     ],
 
-
-
-    modal: true,
-
-    layout: {
-        type: 'border'
-    },
-
-    initComponent: function()
-    {
         this.callParent( arguments );
     }
 
