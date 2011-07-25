@@ -12,6 +12,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     title: 'User',
     modal: true,
 
+    userFields: [],
+
     layout: {
         type: 'table',
         columns: 2,
@@ -104,6 +106,23 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         this.callParent( arguments );
         this.removeAll();
         this.generateForm();
+        if (this.userFields){
+            for (key in this.userFields){
+                if (key != 'userInfo'){
+                    this.setItemValue(key, this.userFields[key]);
+                }
+            }
+            for (key in this.userFields.userInfo){
+                if (key != 'addresses'){
+                    this.setItemValue(key, this.userFields.userInfo[key]);
+                }
+            }
+            if (this.userFields.userInfo){
+                for (address in this.userFields.userInfo.addresses){
+
+                }
+            }
+        }
         this.show();
     },
 
@@ -352,6 +371,13 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             closable: closable || false,
             items: [fieldSetItem]
         };
+    },
+
+    setItemValue: function(itemId, value){
+        var field = this.down('#' + itemId);
+        if (field){
+            field.setValue(value);
+        }
     }
 
 } );

@@ -13,29 +13,30 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     defaults: {
         bodyPadding: 10
     },
-
-    items: [
-        {
-            xtype: 'tabpanel',
-            region: 'center',
-            items: [
-                {
-                    xtype: 'editUserFormPanel',
-                    autoScroll: true
-                },
-                {
-                    xtype: 'editUserPropertiesPanel'
-                },
-                {
-                    xtype: 'editUserMembershipPanel'
-                },
-                {
-                    xtype: 'editUserPreferencesPanel'
-                }
-            ]
-        }
-
-    ],
+    items: [],
+    currentUser: '',
+//    items: [
+//        {
+//            xtype: 'tabpanel',
+//            region: 'center',
+//            items: [
+//                {
+//                    xtype: 'editUserFormPanel',
+//                    autoScroll: true
+//                },
+//                {
+//                    xtype: 'editUserPropertiesPanel'
+//                },
+//                {
+//                    xtype: 'editUserMembershipPanel'
+//                },
+//                {
+//                    xtype: 'editUserPreferencesPanel'
+//                }
+//            ]
+//        }
+//
+//    ],
 
 
 
@@ -47,7 +48,35 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
 
     initComponent: function()
     {
+        var me = this;
+        var editUserFormPanel = {
+            xtype: 'editUserFormPanel',
+            userFields: [],
+            autoScroll: true
+        };
+        var tabPanel = {
+            xtype: 'tabpanel',
+            region: 'center',
+            items: [
+                editUserFormPanel,
+                {
+                    xtype: 'editUserPropertiesPanel'
+                },
+                {
+                    xtype: 'editUserMembershipPanel'
+                },
+                {
+                    xtype: 'editUserPreferencesPanel'
+                }
+            ]
+        };
+        if ( this.userFields != null )
+        {
+            editUserFormPanel.userFields = this.userFields;
+        }
+        me.items = [ tabPanel ];
         this.callParent( arguments );
+
     }
 
 } );

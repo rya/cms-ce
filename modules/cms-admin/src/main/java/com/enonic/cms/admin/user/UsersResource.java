@@ -51,9 +51,9 @@ public final class UsersResource
         return UserModelHelper.toModel( entity );
     }
 
-    @GET
+    @POST
     @Path("userinfo")
-    public UserModel getUserInfo( @QueryParam("key") final String key){
+    public UserModel getUserInfo( @FormParam("key") final String key){
         final UserEntity entity = findEntity( key );
         return UserModelHelper.toUserInfoModel( entity );
     }

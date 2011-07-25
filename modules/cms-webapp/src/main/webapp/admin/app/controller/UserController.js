@@ -291,33 +291,13 @@ Ext.define( 'CMS.controller.UserController', {
 
     showEditUserForm: function( el, e )
     {
-        var tabId, tabTitle, iconCls;
+        var tabId, tabTitle, iconCls, currentUser;
         if ( el.action == 'newUser' )
         {
-            tabId = 'new-user';
-            tabTitle = 'New User';
-            iconCls = 'icon-user-add';
-        }
-        else
-        {
-            var userDetail = this.getUserDetail();
-            var currentUser = userDetail.getCurrentUser();
-            tabId = currentUser.userStore + '-' + currentUser.name;
-            tabTitle = currentUser.displayName + ' (' + currentUser.qualifiedName + ')';
-            iconCls = 'icon-edit-user';
-            Ext.Ajax.request({
-                url: 'data/user/userinfo',
-                params: {key: currentUser.key},
-                success: function(response){
-                    var jsonObj = Ext.JSON.decode(response.responseText);
-                }
-            });
-        }
-
-        this.getTabPanel().addTab( {
-               id: tabId,
-               title: tabTitle,
-               iconCls: iconCls,
+            var tab = {
+               id: 'new-user',
+               title: 'New User',
+               iconCls: 'icon-user-add',
                closable: true,
                autoScroll: true,
                items: [
@@ -325,7 +305,37 @@ Ext.define( 'CMS.controller.UserController', {
                        xtype: 'editUserPanel'
                    }
                ]
-           } );
+            }
+            this.getTabPanel().addTab(tab);
+        }
+        else
+        {
+            var userDetail = this.getUserDetail();
+            var tabPane = this.getTabPanel();
+            currentUser = userDetail.getCurrentUser();
+            Ext.Ajax.request( {
+                url: 'data/user/userinfo',
+                params: {key: currentUser.key},
+                success: function( response ){
+                    var jsonObj = Ext.JSON.decode( response.responseText );
+                    var tab = {
+                        id: currentUser.userStore + '-' + currentUser.name,
+                        title: currentUser.displayName + ' (' + currentUser.qualifiedName + ')',
+                        iconCls: 'icon-edit-user',
+                        closable: true,
+                        autoScroll: true,
+                        items: [
+                            {
+                                xtype: 'editUserPanel',
+                                userFields: jsonObj
+                            }
+                        ]
+                    };
+                    tabPane.addTab(tab);
+                  }
+            });
+
+        }
     },
 
     setDetailsToolbarDisabled: function()

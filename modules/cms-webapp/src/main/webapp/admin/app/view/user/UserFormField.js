@@ -19,7 +19,8 @@ Ext.define( 'CMS.view.user.UserFormField', {
             disabled: this.readonly,
             name: this.fieldname,
             itemId: this.fieldname,
-            action: this.actionName
+            action: this.actionName,
+            value: this.fieldValue
         };
         var builderFunction;
         if ( this.type )

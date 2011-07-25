@@ -12,13 +12,14 @@ public final class UserModel
 {
     private String key;
 
-
+    @JsonProperty("username")
     private String name;
 
     private String email;
 
     private String qualifiedName;
 
+    @JsonProperty("display_name")
     private String displayName;
 
     private String userStore;
@@ -28,7 +29,7 @@ public final class UserModel
 
     private UserInfoModel userInfo;
 
-    @JsonProperty("user_info")
+    @JsonProperty("userInfo")
     public UserInfoModel getUserInfo()
     {
         return userInfo;
@@ -85,7 +86,6 @@ public final class UserModel
         return key;
     }
 
-    @JsonProperty("username")
     public String getName()
     {
         return name;
@@ -101,7 +101,6 @@ public final class UserModel
         return qualifiedName;
     }
 
-    @JsonProperty("display_name")
     public String getDisplayName()
     {
         return displayName;
