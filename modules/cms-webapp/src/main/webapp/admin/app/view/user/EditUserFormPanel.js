@@ -1,7 +1,6 @@
 Ext.define( 'CMS.view.user.EditUserFormPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.editUserFormPanel',
-    store: 'UserStoreConfigStore',
 
     defaults: {
         bodyPadding: 10
@@ -23,6 +22,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             }
         }
     },
+    currentUser: undefined,
+    defaultUserStoreName: 'default',
 
     buttons: [
         {
@@ -36,45 +37,66 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         }
     ],
 
+    listeners: {
+        afterrender: function( me )
+        {
+            me.el.mask( "Loading..." );
+            Ext.Ajax.request( {
+                url: 'data/userstore/detail',
+                method: 'GET',
+                params: {
+                    name: me.currentUser ? me.currentUser.userStore : me.defaultUserStoreName
+                },
+                success: function( response )
+                {
+                    var obj = Ext.decode( response.responseText, true );
+                    if ( obj && obj.userFields )
+                    {
+                        me.generateForm( obj );
+                    }
+                    me.el.unmask();
+                }
+            } );
+        }
+    },
+
     initComponent: function()
     {
-        var me = this;
-        this.store = Ext.data.StoreManager.lookup( this.store );
         this.userFieldSet = {
             'username': this.createTextField,
             'password': this.createPasswordField,
-            'repeat_password': this.createPasswordField,
+            'repeat-password': this.createPasswordField,
             'email': this.createTextField
         };
         this.nameFieldSet = {
-            'display_name': this.createTextField,
+            'display-name': this.createTextField,
             'prefix': this.createTextField,
-            'first_name': this.createTextField,
-            'middle_name': this.createTextField,
-            'last_name': this.createTextField,
+            'first-name': this.createTextField,
+            'middle-name': this.createTextField,
+            'last-name': this.createTextField,
             'suffix': this.createTextField,
             'initials': this.createTextField,
-            'nick_name': this.createTextField
+            'nick-name': this.createTextField
         };
         this.photoFieldSet = {
             'photo': this.createPhotoField
         };
         this.detailsFieldSet = {
-            'personal_id': this.createTextField,
-            'member_id': this.createTextField,
+            'personal-id': this.createTextField,
+            'member-id': this.createTextField,
             'organization': this.createTextField,
             'birthday': this.createDateField,
             'gender': this.createTextField,
             'title': this.createTextField,
             'description': this.createTextField,
-            'html_e_mail': this.createTextField,
+            'html-email': this.createTextField,
             'homepage': this.createTextField
         };
         this.locationFieldSet = {
             'timezone': this.createComboBoxField,
             'locale': this.createComboBoxField,
             'country': this.createComboBoxField,
-            'global_position': this.createTextField
+            'global-position': this.createTextField
         };
         this.communicationFieldSet = {
             'phone': this.createAutoCompleteField,
@@ -103,7 +125,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         };
         this.callParent( arguments );
         this.removeAll();
-        this.generateForm();
         this.show();
     },
 
@@ -198,9 +219,43 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         };
     },
 
-    generateForm: function()
+    generateForm: function(storeConfig)
     {
-        var storeConfig = this.store.first();
+        if ( storeConfig && storeConfig.userFields )
+        {
+            var permanentFields = [
+                {
+                    label: 'Username',
+                    type: 'username',
+                    required: true,
+                    remote: false,
+                    readonly: false
+                },
+                {
+                    label: 'Password',
+                    type: 'password',
+                    required: true,
+                    remote: false,
+                    readonly: false
+                },
+                {
+                    label: 'Repeat password',
+                    type: 'repeat-password',
+                    required: true,
+                    remote: false,
+                    readonly: false
+                },
+                {
+                    label: 'E-mail',
+                    type: 'email',
+                    required: true,
+                    remote: false,
+                    readonly: false
+                }
+            ];
+            Ext.apply( storeConfig.userFields, permanentFields );
+        }
+
         this.add( this.generateFieldSet( 'User', this.userFieldSet, storeConfig ) );
         this.add( this.generateFieldSet( 'Name', this.nameFieldSet, storeConfig ) );
         this.add( this.generateFieldSet( 'Photo', this.photoFieldSet, storeConfig ) );
@@ -221,20 +276,20 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             title: title
         };
         var fieldItems = [];
-        Ext.Array.each( storeConfig.raw.userfields, function ( item )
+        Ext.Array.each( storeConfig.userFields, function ( item )
         {
-            if ( fieldSet[item.fieldname] )
+            if ( fieldSet[item.type] )
             {
                 var baseConfig = {
-                    fieldLabel: item.fieldlabel,
-                    fieldname: item.fieldname,
-                    required: item.required,
-                    remote: item.remote,
-                    readonly: item.readonly
+                    fieldLabel: item.label || item.type,
+                    fieldname: item.type,
+                    required: item.required || false,
+                    remote: item.remote || false,
+                    readonly: item.readOnly || false
                 };
-                var createFunc = fieldSet[item.fieldname];
+                var createFunc = fieldSet[item.type];
                 var newField = createFunc( item );
-                newField = Ext.apply(newField, baseConfig);
+                newField = Ext.apply( newField, baseConfig );
                 Ext.Array.include( fieldItems, newField )
             }
         }, this );

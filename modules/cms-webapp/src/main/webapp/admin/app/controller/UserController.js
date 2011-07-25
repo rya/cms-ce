@@ -291,7 +291,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     showEditUserForm: function( el, e )
     {
-        var tabId, tabTitle, iconCls;
+        var tabId, tabTitle, iconCls, currentUser;
         if ( el.action == 'newUser' )
         {
             tabId = 'new-user';
@@ -301,7 +301,7 @@ Ext.define( 'CMS.controller.UserController', {
         else
         {
             var userDetail = this.getUserDetail();
-            var currentUser = userDetail.getCurrentUser();
+            currentUser = userDetail.getCurrentUser();
             tabId = currentUser.userStore + '-' + currentUser.name;
             tabTitle = currentUser.displayName + ' (' + currentUser.qualifiedName + ')';
             iconCls = 'icon-edit-user';
@@ -315,7 +315,8 @@ Ext.define( 'CMS.controller.UserController', {
                autoScroll: true,
                items: [
                    {
-                       xtype: 'editUserPanel'
+                       xtype: 'editUserPanel',
+                       currentUser: currentUser
                    }
                ]
            } );

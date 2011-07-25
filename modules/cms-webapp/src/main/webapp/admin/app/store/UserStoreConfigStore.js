@@ -4,12 +4,12 @@ Ext.define('CMS.store.UserStoreConfigStore', {
     model: 'CMS.model.UserStoreConfigModel',
 
     pageSize: 10,
-    autoLoad: true,
+    autoLoad: false,
     remoteSort: true,
 
     proxy: {
         type: 'ajax',
-        url: 'app/data/UserStoreConfigs.json',
+        url: 'data/userstore/list',
         simpleSortMode: true,
         reader: {
             type: 'json',
