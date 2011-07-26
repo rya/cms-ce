@@ -151,6 +151,11 @@
       <column name="coa_bUpdate"/>
       <column name="coa_bDelete"/>
     </index>
+    <index name="idx_coa_4">
+      <column name="coa_bRead"/>
+      <column name="coa_grp_hKey"/>
+      <column name="coa_con_lKey"/>
+    </index>
   </table>
   <table name="tContent" elementname="content" parentname="contents">
     <column name="con_lKey" primaryKey="true" required="true" type="INTEGER" xpath="@key"/>
@@ -939,6 +944,12 @@
     </index>
     <index name="idx_sco2_6">
       <column name="sco_mei_lkey"/>
+    </index>
+    <index name="idx_sco2_7">
+      <column name="sco_bApproved"/>
+      <column name="sco_mei_lKey"/>
+      <column name="sco_con_lKey"/>
+      <column name="sco_lOrder"/>
     </index>
   </table>
   <table name="tUnit" elementname="unit" parentname="units">
