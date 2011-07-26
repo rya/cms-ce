@@ -39,7 +39,8 @@ Ext.define( 'CMS.view.user.UserFormField', {
             var lockButton = {
                 xtype: 'button',
                 iconCls: 'icon-locked',
-                action: 'toggleDisplayNameField'
+                action: 'toggleDisplayNameField',
+                currentUser: this.currentUser
             };
             Ext.Array.include( this.items, [fieldConfig, lockButton] );
         }

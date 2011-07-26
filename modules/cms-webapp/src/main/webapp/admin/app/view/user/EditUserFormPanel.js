@@ -123,7 +123,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                         buttons: [
                             {
                                 text: 'Add New Address',
-                                action: 'addNewTab'
+                                action: 'addNewTab',
+                                currentUser: me.currentUser
                             }
                         ]
                     };
@@ -177,22 +178,22 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         var fieldStore;
         var valueField;
         var displayField;
-        if ( field.fieldname == 'timezone' )
+        if ( field.type == 'timezone' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'TimezoneStore' );
             valueField = 'id';
             displayField = 'name';
-        } else if ( field.fieldname == 'country' )
+        } else if ( field.type == 'country' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'CountryStore' );
             valueField = 'code';
             displayField = 'englishName';
-        } else if ( field.fieldname == 'region' )
+        } else if ( field.type == 'region' )
         {
             fieldStore = new CMS.store.RegionStore();
             valueField = 'code';
             displayField = 'englishName';
-        } else if ( field.fieldname == 'locale' )
+        } else if ( field.type == 'locale' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'LanguageStore' );
             valueField = 'languageCode';
@@ -327,7 +328,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     required: item.required || false,
                     remote: item.remote || false,
                     readonly: item.readOnly || false,
-                    fieldValue: fieldValue
+                    fieldValue: fieldValue,
+                    currentUser: me.currentUser
                 };
                 var createFunc = fieldSet[item.type];
                 var newField = createFunc( item );

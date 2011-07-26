@@ -38,7 +38,8 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'userTabMenu', selector: 'userTabMenu', autoCreate: true, xtype: 'userTabMenu'},
         {ref: 'userMembershipWindow', selector: 'userMembershipWindow', autoCreate: true, xtype: 'userMembershipWindow'},
         {ref: 'editUserMembershipPanel', selector: 'editUserMembershipPanel', autoCreate: true, xtype: 'editUserMembershipPanel'},
-        {ref: 'membershipGridPanel', selector: 'membershipGridPanel'}
+        {ref: 'membershipGridPanel', selector: 'membershipGridPanel'},
+        {ref: 'cmsTabPanel', selector: 'cmsTabPanel', xtype: 'cmsTabPanel'}
     ],
 
     init: function()
@@ -56,7 +57,7 @@ Ext.define( 'CMS.controller.UserController', {
                           '*[action=toggleDisplayNameField]': {
                               click: this.toggleDisplayNameField
                           },
-                          'editUserPanel #address_country' : {
+                          'editUserPanel #iso-country' : {
                               select: this.countryChangeHandler
                           },
                           'userGrid': {
@@ -355,7 +356,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     countryChangeHandler: function( field, newValue, oldValue, options )
     {
-        var region = field.up( 'fieldset' ).down( '#address_region' );
+        var region = field.up( 'fieldset' ).down( '#iso-region' );
         if ( region )
         {
             region.clearValue();
@@ -396,9 +397,11 @@ Ext.define( 'CMS.controller.UserController', {
         return this.getUserGrid().getSelectionModel().selected.get( 0 );
     },
 
-    addNewTab: function()
+    addNewTab: function(button, event)
     {
-        var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
+        var tabId = button.currentUser != null ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
+        var tabPanel = this.getCmsTabPanel().down( '#' + tabId).down( '#addressTabPanel' );
+        //var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
         var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
         newTab = tabPanel.add( newTab );
         tabPanel.setActiveTab( newTab );
@@ -410,19 +413,20 @@ Ext.define( 'CMS.controller.UserController', {
         tabPanel.getActiveTab().setTitle( field.getValue() );
     },
 
-    toggleDisplayNameField: function ( item, event )
+    toggleDisplayNameField: function ( button, event )
     {
+        var tabId = button.currentUser != null ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
         var locked = 'icon-locked';
         var open = 'icon-unlocked';
-        var displayNameField = this.getEditUserPanel().down( '#display_name' );
-        if ( item.iconCls == locked )
+        var displayNameField = this.getCmsTabPanel().down( '#' + tabId).down( '#display-name' );
+        if ( button.iconCls == locked )
         {
-            item.setIconCls( open );
+            button.setIconCls( open );
             displayNameField.setDisabled( false );
         }
         else
         {
-            item.setIconCls( locked );
+            button.setIconCls( locked );
             displayNameField.setDisabled( true );
         }
 

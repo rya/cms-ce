@@ -15,28 +15,6 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     },
     items: [],
     currentUser: '',
-//    items: [
-//        {
-//            xtype: 'tabpanel',
-//            region: 'center',
-//            items: [
-//                {
-//                    xtype: 'editUserFormPanel',
-//                    autoScroll: true
-//                },
-//                {
-//                    xtype: 'editUserPropertiesPanel'
-//                },
-//                {
-//                    xtype: 'editUserMembershipPanel'
-//                },
-//                {
-//                    xtype: 'editUserPreferencesPanel'
-//                }
-//            ]
-//        }
-//
-//    ],
 
 
 
@@ -52,7 +30,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         var editUserFormPanel = {
             xtype: 'editUserFormPanel',
             userFields: [],
-            autoScroll: true
+            autoScroll: true,
+            currentUser: me.currentUser
         };
         var tabPanel = {
             xtype: 'tabpanel',
