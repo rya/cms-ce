@@ -328,7 +328,8 @@ Ext.define( 'CMS.controller.UserController', {
                         items: [
                             {
                                 xtype: 'editUserPanel',
-                                userFields: jsonObj
+                                userFields: jsonObj,
+                                currentUser: currentUser
                             }
                         ]
                     };
