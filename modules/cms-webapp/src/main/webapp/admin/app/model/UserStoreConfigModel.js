@@ -1,7 +1,14 @@
-Ext.define('CMS.model.UserStoreConfigModel', {
+Ext.define('CMS.model.UserstoreConfigModel', {
     extend: 'Ext.data.Model',
 
-    fields: [ {name: 'id', type: 'int'} ],
+    fields: [
+        'key',
+        'name',
+        {name: 'defaultStore', type: 'int'},
+        'connectorName',
+        'configXML',
+        {name: 'deleted', type: 'boolean'}
+    ],
 
     idProperty: 'id'
 });

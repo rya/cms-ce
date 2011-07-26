@@ -1,0 +1,64 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <script type="text/javascript" src="ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="app/configuration.js"></script>
+
+    <script type="text/javascript">
+
+        Ext.application({
+            name: 'CMS',
+            appFolder: 'app',
+
+            controllers: [
+                'UserstoreController'
+            ],
+
+            requires: [
+                'CMS.common.TabPanel',
+                'CMS.view.userstore.ShowPanel',
+                'CMS.view.userstore.NavigationPanel'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    layout: 'border',
+                    padding: 5,
+
+                    items: [
+                        {
+                            region: 'center',
+                            xtype: 'cmsTabPanel',
+                            items: [ {
+                                    id: 'tab-browse',
+                                    title: 'Browse',
+                                    closable: false,
+                                    xtype: 'panel',
+                                    layout: 'border',
+                                    items: [
+                                        {
+                                            region: 'west',
+                                            width: 225,
+                                            xtype: 'userstoreNavigation'
+                                        },
+                                        {
+                                            region: 'center',
+                                            xtype: 'userstoreShow'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>

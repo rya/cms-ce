@@ -216,6 +216,10 @@ img.photo {
     background: url("../images/add.png") no-repeat;
 }
 
+.icon-refresh {
+    background: url("../images/arrow_refresh.png") no-repeat;
+}
+
 /*-----  Dashboard  -----*/
 
 .dashboard .dashboard-body {

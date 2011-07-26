@@ -1,0 +1,109 @@
+Ext.define('CMS.view.userstore.NavigationPanel', {
+    extend: 'Ext.panel.Panel',
+    alias: 'widget.userstoreNavigation',
+    cls: 'facet-navigation',
+
+    title: 'Navigation',
+    split: true,
+    collapsible: true,
+
+    facetType: {
+        listeners : {
+           change: function(field, newVal, oldVal) {
+               var boxLabelEl = field.boxLabelEl;
+               if (field.checked) {
+                   boxLabelEl.addCls('facet-selected');
+               } else {
+                   boxLabelEl.removeCls('facet-selected');
+               }
+           },
+           scope: this.el
+        }
+    },
+
+    facetUserstore: {
+        listeners : {
+           render: function() {
+              Ext.fly(this.el).on('click', function(e, t) {
+                  Ext.select('.facet-single-select-item').each(function(el) {
+                      if (el.dom == t) {
+                          el.addCls('facet-selected');
+                      } else {
+                          el.removeCls('facet-selected');
+                      }
+                  }, this);
+              });
+           },
+           scope: this.el
+        }
+    },
+
+    initComponent: function() {
+        var search = {
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+
+            items: [{
+                xtype: 'textfield',
+                enableKeyEvents: true,
+                bubbleEvents: ['specialkey'],
+                id: 'filter',
+                name: 'filter',
+                flex: 1
+            },{
+                xtype: 'button',
+                iconCls: 'icon-find',
+                action: 'search',
+                margins: '0 0 0 5'
+            }]
+        };
+
+
+        var filter = {
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            border: true,
+            bodyPadding: 10,
+
+            defaults: {
+                margins: '0 0 0 0'
+            },
+
+            items: [search, {
+                xtype: 'label',
+                text: 'Type',
+                cls: 'facet-header'
+            }, {
+                xtype: 'checkbox',
+                boxLabel: 'Users (917)',
+                cls: 'facet-multi-select-item',
+                listeners: this.facetType.listeners
+            }, {
+                xtype: 'checkbox',
+                boxLabel: 'Groups (5)',
+                cls: 'facet-multi-select-item',
+                listeners: this.facetType.listeners
+            }, {
+                xtype: 'label',
+                text: 'Userstore',
+                cls: 'facet-header'
+            }, {
+                xtype: 'label',
+                text: 'default (922)',
+                cls: 'facet-single-select-item',
+                listeners: this.facetUserstore.listeners
+            }, {
+                xtype: 'label',
+                text: 'global (124)',
+                cls: 'facet-single-select-item',
+                listeners: this.facetUserstore.listeners
+            }]
+        };
+
+ 		Ext.apply(this, filter);
+
+        this.callParent(arguments);
+    }
+});

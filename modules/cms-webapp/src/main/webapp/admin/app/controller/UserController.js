@@ -1,9 +1,9 @@
 Ext.define( 'CMS.controller.UserController', {
     extend: 'Ext.app.Controller',
 
-    stores: ['UserStore', 'UserStoreConfigStore', 'CountryStore', 'CallingCodeStore', 'LanguageStore',
+    stores: ['UserStore', 'UserstoreConfigStore', 'CountryStore', 'CallingCodeStore', 'LanguageStore',
         'RegionStore', 'GroupStore'],
-    models: ['UserModel', 'UserFieldModel', 'UserStoreConfigModel', 'CountryModel', 'CallingCodeModel',
+    models: ['UserModel', 'UserFieldModel', 'UserstoreConfigModel', 'CountryModel', 'CallingCodeModel',
         'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
         'user.GridPanel',
