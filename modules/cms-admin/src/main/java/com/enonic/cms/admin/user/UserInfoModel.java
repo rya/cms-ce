@@ -66,7 +66,7 @@ public class UserInfoModel
 
     private List<AddressModel> addresses = new ArrayList<AddressModel>(  );
 
-        @JsonProperty("first_name")
+        @JsonProperty("first-name")
     public String getFirstName()
     {
         return firstName;
@@ -77,7 +77,7 @@ public class UserInfoModel
         this.firstName = firstName;
     }
 
-        @JsonProperty("last_name")
+        @JsonProperty("last-name")
     public String getLastName()
     {
         return lastName;
@@ -88,7 +88,7 @@ public class UserInfoModel
         this.lastName = lastName;
     }
 
-        @JsonProperty("middle_name")
+        @JsonProperty("middle-name")
     public String getMiddleName()
     {
         return middleName;
@@ -139,7 +139,7 @@ public class UserInfoModel
         this.initials = initials;
     }
 
-    @JsonProperty("global_position")
+    @JsonProperty("global-position")
     public String getGlobalPosition()
     {
         return globalPosition;
@@ -150,7 +150,7 @@ public class UserInfoModel
         this.globalPosition = globalPosition;
     }
 
-    @JsonProperty("html_email")
+    @JsonProperty("html-email")
     public Boolean getHtmlEmail()
     {
         return htmlEmail;
@@ -171,7 +171,7 @@ public class UserInfoModel
         this.locale = locale;
     }
 
-    @JsonProperty("nick_name")
+    @JsonProperty("nick-name")
     public String getNickName()
     {
         return nickName;
@@ -182,7 +182,7 @@ public class UserInfoModel
         this.nickName = nickName;
     }
 
-    @JsonProperty("personal_id")
+    @JsonProperty("personal-id")
     public String getPersonalId()
     {
         return personalId;
@@ -193,7 +193,7 @@ public class UserInfoModel
         this.personalId = personalId;
     }
 
-    @JsonProperty("member_id")
+    @JsonProperty("member-id")
     public String getMemberId()
     {
         return memberId;
@@ -244,7 +244,7 @@ public class UserInfoModel
         this.title = title;
     }
 
-    @JsonProperty("home_page")
+    @JsonProperty("home-page")
     public String getHomePage()
     {
         return homePage;

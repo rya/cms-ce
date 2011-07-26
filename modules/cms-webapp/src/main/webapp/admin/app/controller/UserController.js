@@ -302,7 +302,8 @@ Ext.define( 'CMS.controller.UserController', {
                autoScroll: true,
                items: [
                    {
-                       xtype: 'editUserPanel'
+                       xtype: 'editUserPanel',
+                       currentUser: currentUser
                    }
                ]
             }

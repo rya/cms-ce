@@ -19,7 +19,7 @@ public final class UserModel
 
     private String qualifiedName;
 
-    @JsonProperty("display_name")
+    @JsonProperty("display-name")
     private String displayName;
 
     private String userStore;

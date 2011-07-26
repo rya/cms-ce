@@ -48,7 +48,7 @@ public class AddressModel
         this.street = street;
     }
 
-    @JsonProperty("postal_address")
+    @JsonProperty("postal-address")
     public String getPostalAddress()
     {
         return postalAddress;
@@ -59,7 +59,7 @@ public class AddressModel
         this.postalAddress = postalAddress;
     }
 
-    @JsonProperty("postal_code")
+    @JsonProperty("postal-code")
     public String getPostalCode()
     {
         return postalCode;
@@ -90,7 +90,7 @@ public class AddressModel
         this.country = country;
     }
 
-    @JsonProperty("iso_region")
+    @JsonProperty("iso-region")
     public String getIsoRegion()
     {
         return isoRegion;
@@ -101,7 +101,7 @@ public class AddressModel
         this.isoRegion = isoRegion;
     }
 
-    @JsonProperty("iso_country")
+    @JsonProperty("iso-country")
     public String getIsoCountry()
     {
         return isoCountry;

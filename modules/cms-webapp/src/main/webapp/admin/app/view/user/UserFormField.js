@@ -33,7 +33,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
         }
         fieldConfig = builderFunction( fieldConfig, this );
 
-        if ( this.fieldname == 'display_name' )
+        if ( this.fieldname == 'display-name' )
         {
             fieldConfig.disabled = true;
             var lockButton = {
@@ -70,7 +70,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
     createComboConfig: function( fieldConfig, me )
     {
         var comboConfig;
-        if ( me.fieldStore.getTotalCount() > 0 )
+        if ( me.fieldStore && me.fieldStore.getTotalCount() > 0 )
         {
             comboConfig = {
                 xtype: 'combobox',
