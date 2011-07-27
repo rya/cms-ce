@@ -1,6 +1,8 @@
 Ext.define('CMS.model.UserstoreConfigModel', {
     extend: 'Ext.data.Model',
 
+    idProperty: 'id',
+
     fields: [
         'key',
         'name',
@@ -8,7 +10,5 @@ Ext.define('CMS.model.UserstoreConfigModel', {
         'connectorName',
         'configXML',
         {name: 'deleted', type: 'boolean'}
-    ],
-
-    idProperty: 'id'
+    ]
 });
