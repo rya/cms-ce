@@ -28,14 +28,14 @@
         if (window.addEventListener)
         {
             window.addEventListener('click', function() {
-                window.parent.CMS.common.MainToolbar.hideMenus();
+                window.parent.CMS.common.Common.hideMenus();
             }, false);
 
         }
         else if (window.attachEvent) // IE
         {
             window.attachEvent('onclick', function() {
-                window.parent.CMS.common.MainToolbar.hideMenus();
+                window.parent.CMS.common.Common.hideMenus();
             });
 
         }
