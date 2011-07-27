@@ -1,6 +1,5 @@
 Ext.define('CMS.store.UserstoreConfigStore', {
     extend: 'Ext.data.Store',
-
     model: 'CMS.model.UserstoreConfigModel',
 
     pageSize: 10,
