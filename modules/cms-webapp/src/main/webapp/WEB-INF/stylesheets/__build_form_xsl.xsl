@@ -1247,10 +1247,34 @@
 
     <xsl:for-each select="/config/form/block">
       <xsl:variable name="groupname" select="concat('group', position())"/>
+      <xsl:variable name="grouphelpelem" select="help"/>
+
       <fieldset>
         <legend>
           <xsl:value-of select="@name"/>
+
+          <xsl:if test="$grouphelpelem">
+            <a title="Click to view"
+                 style="margin: 0 2px; vertical-align: bottom"
+                 onclick="showHideHelp(this, '{$groupname}')"
+                 class="hand"
+                 name="{$groupname}_helplink"
+                 id="{$groupname}_helplink">
+              <img id="{$groupname}_helpicon" style="vertical-align: bottom;" src="images/icon_help_compact.gif"/>
+            </a>
+          </xsl:if>
         </legend>
+
+        <xsl:if test="$grouphelpelem">
+          <x:call-template name="displayhelp">
+            <x:with-param name="fieldname">
+              <xsl:value-of select="$groupname"/>
+            </x:with-param>
+            <x:with-param name="helpelement">
+              <xsl:copy-of select="$grouphelpelem"/>
+            </x:with-param>
+          </x:call-template>
+        </xsl:if>
 
         <!-- div id="{concat($groupname,'_div')}" style="display:none">This block has been folded. Click <a href="javascript:;" onclick="blockFold('{$groupname}')">here</a> to unfold.</div-->
 
