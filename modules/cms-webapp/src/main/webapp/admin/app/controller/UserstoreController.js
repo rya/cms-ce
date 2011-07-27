@@ -10,8 +10,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
     views: [
         'userstore.ContextMenu',
         'userstore.GridPanel',
-        'userstore.DetailPanel',
-        'userstore.NavigationPanel'
+        'userstore.DetailPanel'
     ],
 
     refs: [
