@@ -2,9 +2,12 @@ package com.enonic.cms.admin.user;
 
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.domain.user.Gender;
 import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.Address;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public final class UserModelHelper
@@ -44,7 +47,11 @@ public final class UserModelHelper
         UserModel userModel = toModel( entity );
         UserInfoModel userInfoModel = new UserInfoModel();
         UserInfo userInfo = entity.getUserInfo();
-        userInfoModel.setBirthday( userInfo.getBirthday() );
+        String birthday = null;
+        if (userInfo.getBirthday() != null){
+            birthday = new SimpleDateFormat("yyyy-MM-dd").format( userInfo.getBirthday() );
+        }
+        userInfoModel.setBirthday( birthday );
         userInfoModel.setCountry( userInfo.getCountry() );
         userInfoModel.setDescription( userInfo.getDescription() );
         userInfoModel.setFax( userInfo.getFax() );
@@ -65,6 +72,8 @@ public final class UserModelHelper
         userInfoModel.setSuffix( userInfo.getSuffix() );
         userInfoModel.setTimeZone( userInfo.getTimeZone() );
         userInfoModel.setTitle( userInfo.getTitle() );
+        userInfoModel.setGender( userInfo.getGender() );
+        userInfoModel.setOrganization( userInfo.getOrganization() );
         for (Address address : userInfo.getAddresses()){
             userInfoModel.getAddresses().add(toAddressModel( address ));
         }

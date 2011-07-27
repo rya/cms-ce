@@ -8,6 +8,8 @@ import java.util.TimeZone;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.enonic.cms.domain.user.Gender;
+
 /**
  * Created by IntelliJ IDEA.
  * User: vfiodarau
@@ -26,7 +28,7 @@ public class UserInfoModel
 
     private String middleName;
 
-    private Date birthday;
+    private String birthday;
 
     private String country;
 
@@ -64,9 +66,11 @@ public class UserInfoModel
 
     private TimeZone timeZone;
 
-    private List<AddressModel> addresses = new ArrayList<AddressModel>(  );
+    private Gender gender;
 
-        @JsonProperty("first-name")
+    private List<AddressModel> addresses = new ArrayList<AddressModel>();
+
+    @JsonProperty("first-name")
     public String getFirstName()
     {
         return firstName;
@@ -77,7 +81,7 @@ public class UserInfoModel
         this.firstName = firstName;
     }
 
-        @JsonProperty("last-name")
+    @JsonProperty("last-name")
     public String getLastName()
     {
         return lastName;
@@ -88,7 +92,7 @@ public class UserInfoModel
         this.lastName = lastName;
     }
 
-        @JsonProperty("middle-name")
+    @JsonProperty("middle-name")
     public String getMiddleName()
     {
         return middleName;
@@ -99,12 +103,12 @@ public class UserInfoModel
         this.middleName = middleName;
     }
 
-    public Date getBirthday()
+    public String getBirthday()
     {
         return birthday;
     }
 
-    public void setBirthday( Date birthday )
+    public void setBirthday( String birthday )
     {
         this.birthday = birthday;
     }
@@ -204,6 +208,7 @@ public class UserInfoModel
         this.memberId = memberId;
     }
 
+    @JsonProperty("organization")
     public String getOrganization()
     {
         return organization;
@@ -304,5 +309,15 @@ public class UserInfoModel
     public void setAddresses( List<AddressModel> addresses )
     {
         this.addresses = addresses;
+    }
+
+    public Gender getGender()
+    {
+        return gender;
+    }
+
+    public void setGender( Gender gender )
+    {
+        this.gender = gender;
     }
 }

@@ -90,7 +90,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'gender': this.createTextField,
             'title': this.createTextField,
             'description': this.createTextField,
-            'html-email': this.createTextField,
+            'html-email': this.createCheckBoxField,
             'homepage': this.createTextField
         };
         this.locationFieldSet = {
@@ -218,6 +218,14 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             xtype: 'userFormField',
             type: 'text'
         };
+    },
+
+    createCheckBoxField: function ( field )
+    {
+        return {
+            xtype: 'userFormField',
+            type: 'boolean'
+        }
     },
 
     createPasswordField: function( field )
@@ -353,6 +361,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     generateAddressFieldSet: function ( field , closable, values)
     {
+        var me = this;
         if (values == null){
             values = [];
         }
@@ -375,7 +384,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 value: values['iso-country'],
                 disabled: field.readonly
             };
-            var regionField = {
+            var regionField = new Ext.form.field.ComboBox({
                 xtype: 'combobox',
                 store: regionStore,
                 valueField: 'code',
@@ -387,8 +396,18 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 name: 'iso-region',
                 itemId: 'iso-region',
                 value: values['iso-region'],
-                disabled: true
-            };
+                disabled: values['iso-region'] == null ? true : false
+            });
+            if (values['iso-country'] && values['iso-region']){
+                Ext.apply( regionStore.proxy.extraParams, {
+                    'countryCode': values['iso-country']
+                } );
+                regionStore.load({
+                    callback: function(){
+                        regionField.setValue(values['iso-region']);
+                    }
+                });
+            }
         }
         else
         {

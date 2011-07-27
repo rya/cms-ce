@@ -12,7 +12,8 @@ Ext.define( 'CMS.view.user.UserFormField', {
             'combo': this.createComboConfig,
             'autocomplete': this.createAutoCompleteConfig,
             'password': this.createPasswordConfig,
-            'text': this.createTextConfig
+            'text': this.createTextConfig,
+            'boolean': this.createCheckBoxConfig
         };
         this.items = [];
         var fieldConfig = {
@@ -62,8 +63,16 @@ Ext.define( 'CMS.view.user.UserFormField', {
         this.callParent( arguments );
     },
 
+    createCheckBoxConfig: function( fieldConfig){
+        var checkBoxConfig = {xtype: 'checkbox',
+        checked: fieldConfig.value};
+        return Ext.apply(fieldConfig, checkBoxConfig);
+    },
+
     createDateConfig: function( fieldConfig )
     {
+        var date = Ext.Date.parse(fieldConfig.value, 'Y-m-d');
+        fieldConfig.value = date;
         var dateConfig = {xtype: 'datefield'};
         return Ext.apply(fieldConfig, dateConfig);
     },
