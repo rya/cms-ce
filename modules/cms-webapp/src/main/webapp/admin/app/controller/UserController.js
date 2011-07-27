@@ -292,7 +292,6 @@ Ext.define( 'CMS.controller.UserController', {
 
     showEditUserForm: function( el, e )
     {
-        var tabId, tabTitle, iconCls, currentUser;
         if ( el.action == 'newUser' )
         {
             var tab = {
@@ -303,8 +302,7 @@ Ext.define( 'CMS.controller.UserController', {
                autoScroll: true,
                items: [
                    {
-                       xtype: 'editUserPanel',
-                       currentUser: currentUser
+                       xtype: 'editUserPanel'
                    }
                ]
             }
@@ -314,7 +312,7 @@ Ext.define( 'CMS.controller.UserController', {
         {
             var userDetail = this.getUserDetail();
             var tabPane = this.getTabPanel();
-            currentUser = userDetail.getCurrentUser();
+            var currentUser = userDetail.getCurrentUser();
             Ext.Ajax.request( {
                 url: 'data/user/userinfo',
                 params: {key: currentUser.key},

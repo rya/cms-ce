@@ -1,7 +1,6 @@
 package com.enonic.cms.admin.user;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -10,13 +9,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.enonic.cms.domain.user.Gender;
 
-/**
- * Created by IntelliJ IDEA.
- * User: vfiodarau
- * Date: 7/18/11
- * Time: 2:42 PM
- * To change this template use File | Settings | File Templates.
- */
 public class UserInfoModel
 {
 

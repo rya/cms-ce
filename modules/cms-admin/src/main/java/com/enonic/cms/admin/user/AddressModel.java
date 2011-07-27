@@ -1,15 +1,7 @@
 package com.enonic.cms.admin.user;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-/**
- * Created by IntelliJ IDEA.
- * User: vfiodarau
- * Date: 7/18/11
- * Time: 2:41 PM
- * To change this template use File | Settings | File Templates.
- */
 public class AddressModel
 {
     private String label;
