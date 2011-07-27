@@ -50,7 +50,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 success: function( response )
                 {
                     var obj = Ext.decode( response.responseText, true );
-                    if ( obj && obj.userFields )
+                    if ( obj )
                     {
                         me.generateForm( obj );
                     }
@@ -62,6 +62,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     initComponent: function()
     {
+        var me = this;
         this.userFieldSet = {
             'username': this.createTextField,
             'password': this.createPasswordField,
@@ -89,7 +90,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'gender': this.createTextField,
             'title': this.createTextField,
             'description': this.createTextField,
-            'html-email': this.createTextField,
+            'html-email': this.createCheckBoxField,
             'homepage': this.createTextField
         };
         this.locationFieldSet = {
@@ -106,25 +107,49 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         this.addressFieldSet = {
             'address': function(field)
             {
-                var tabItem = me.generateAddressFieldSet(field);
-                return {
-                    sourceField: field,
-                    xtype: 'tabpanel',
-                    itemId: 'addressTabPanel',
-                    height: 280,
-                    width: 300,
-                    items: [tabItem],
-                    buttons: [
-                        {
-                            text: 'Add New Address',
-                            action: 'addNewTab'
-                        }
-                    ]
-                };
+                if (me.userFields && me.userFields.userInfo && me.userFields.userInfo.addresses){
+                    var addresses = me.userFields.userInfo.addresses;
+                    var tabs = [];
+                    for (index in addresses){
+                        Ext.Array.include(tabs, me.generateAddressFieldSet(field, true, addresses[index]));
+                    }
+                    return {
+                        sourceField: field,
+                        xtype: 'tabpanel',
+                        itemId: 'addressTabPanel',
+                        height: 280,
+                        width: 300,
+                        items: tabs,
+                        buttons: [
+                            {
+                                text: 'Add New Address',
+                                action: 'addNewTab',
+                                currentUser: me.currentUser
+                            }
+                        ]
+                    };
+                }else{
+                    var tabItem = me.generateAddressFieldSet(field);
+                    return {
+                        sourceField: field,
+                        xtype: 'tabpanel',
+                        itemId: 'addressTabPanel',
+                        height: 280,
+                        width: 300,
+                        items: [tabItem],
+                        buttons: [
+                            {
+                                text: 'Add New Address',
+                                action: 'addNewTab'
+                            }
+                        ]
+                    };
+                }
             }
         };
         this.callParent( arguments );
         this.removeAll();
+
         this.show();
     },
 
@@ -153,22 +178,22 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         var fieldStore;
         var valueField;
         var displayField;
-        if ( field.fieldname == 'timezone' )
+        if ( field.type == 'timezone' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'TimezoneStore' );
             valueField = 'id';
             displayField = 'name';
-        } else if ( field.fieldname == 'country' )
+        } else if ( field.type == 'country' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'CountryStore' );
             valueField = 'code';
             displayField = 'englishName';
-        } else if ( field.fieldname == 'region' )
+        } else if ( field.type == 'region' )
         {
             fieldStore = new CMS.store.RegionStore();
             valueField = 'code';
             displayField = 'englishName';
-        } else if ( field.fieldname == 'locale' )
+        } else if ( field.type == 'locale' )
         {
             fieldStore = Ext.data.StoreManager.lookup( 'LanguageStore' );
             valueField = 'languageCode';
@@ -193,6 +218,14 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             xtype: 'userFormField',
             type: 'text'
         };
+    },
+
+    createCheckBoxField: function ( field )
+    {
+        return {
+            xtype: 'userFormField',
+            type: 'boolean'
+        }
     },
 
     createPasswordField: function( field )
@@ -221,52 +254,62 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     generateForm: function(storeConfig)
     {
+        var fields = [
+            {
+                label: 'Username',
+                type: 'username',
+                required: true,
+                remote: false,
+                readonly: false
+            },
+            {
+                label: 'Password',
+                type: 'password',
+                required: true,
+                remote: false,
+                readonly: false
+            },
+            {
+                label: 'Repeat password',
+                type: 'repeat-password',
+                required: true,
+                remote: false,
+                readonly: false
+            },
+            {
+                label: 'E-mail',
+                type: 'email',
+                required: true,
+                remote: false,
+                readonly: false
+            },
+            {
+                label: 'Display name',
+                type: 'display-name',
+                required: true,
+                remote: false,
+                readonly: false
+            }
+        ];
         if ( storeConfig && storeConfig.userFields )
         {
-            var permanentFields = [
-                {
-                    label: 'Username',
-                    type: 'username',
-                    required: true,
-                    remote: false,
-                    readonly: false
-                },
-                {
-                    label: 'Password',
-                    type: 'password',
-                    required: true,
-                    remote: false,
-                    readonly: false
-                },
-                {
-                    label: 'Repeat password',
-                    type: 'repeat-password',
-                    required: true,
-                    remote: false,
-                    readonly: false
-                },
-                {
-                    label: 'E-mail',
-                    type: 'email',
-                    required: true,
-                    remote: false,
-                    readonly: false
-                }
-            ];
-            Ext.apply( storeConfig.userFields, permanentFields );
+
+            fields = Ext.Array.merge( fields, Ext.Array.toArray(storeConfig.userFields) );
+            this.add( this.generateFieldSet( 'User', this.userFieldSet, fields ) );
+            this.add( this.generateFieldSet( 'Name', this.nameFieldSet, fields ) );
+            this.add( this.generateFieldSet( 'Photo', this.photoFieldSet, fields ) );
+            this.add( this.generateFieldSet( 'Personal Information', this.detailsFieldSet, fields ) );
+            this.add( this.generateFieldSet( 'Location', this.locationFieldSet, fields ) );
+            this.add( this.generateFieldSet( 'Communication', this.communicationFieldSet, fields ) );
+            this.add( this.generateFieldSet( 'Address', this.addressFieldSet, fields ) );
         }
 
-        this.add( this.generateFieldSet( 'User', this.userFieldSet, storeConfig ) );
-        this.add( this.generateFieldSet( 'Name', this.nameFieldSet, storeConfig ) );
-        this.add( this.generateFieldSet( 'Photo', this.photoFieldSet, storeConfig ) );
-        this.add( this.generateFieldSet( 'Personal Information', this.detailsFieldSet, storeConfig ) );
-        this.add( this.generateFieldSet( 'Location', this.locationFieldSet, storeConfig ) );
-        this.add( this.generateFieldSet( 'Communication', this.communicationFieldSet, storeConfig ) );
-        this.add( this.generateFieldSet( 'Address', this.addressFieldSet, storeConfig ) );
+
     },
 
     generateFieldSet: function( title, fieldSet, storeConfig )
     {
+        var me = this;
         var fieldSetItem = {
             width: 300,
             defaults: {
@@ -276,16 +319,25 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             title: title
         };
         var fieldItems = [];
-        Ext.Array.each( storeConfig.userFields, function ( item )
+        Ext.Array.each( storeConfig, function ( item )
         {
             if ( fieldSet[item.type] )
             {
+                var fieldValue;
+                if (me.userFields){
+                    fieldValue = me.userFields[item.type];
+                    if ((fieldValue == null) && (me.userFields.userInfo != null)){
+                        fieldValue = me.userFields.userInfo[item.type];
+                    }
+                }
                 var baseConfig = {
                     fieldLabel: item.label || item.type,
                     fieldname: item.type,
                     required: item.required || false,
                     remote: item.remote || false,
-                    readonly: item.readOnly || false
+                    readonly: item.readOnly || false,
+                    fieldValue: fieldValue,
+                    currentUser: me.currentUser
                 };
                 var createFunc = fieldSet[item.type];
                 var newField = createFunc( item );
@@ -307,8 +359,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         }
     },
 
-    generateAddressFieldSet: function ( field , closable)
+    generateAddressFieldSet: function ( field , closable, values)
     {
+        var me = this;
+        if (values == null){
+            values = [];
+        }
         var countryField, regionField;
         if ( field.iso )
         {
@@ -323,11 +379,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 queryMode: 'local',
                 minChars: 1,
                 emptyText: 'Please select',
-                name: 'address_country',
-                itemId: 'address_country',
+                name: 'iso-country',
+                itemId: 'iso-country',
+                value: values['iso-country'],
                 disabled: field.readonly
             };
-            var regionField = {
+            var regionField = new Ext.form.field.ComboBox({
                 xtype: 'combobox',
                 store: regionStore,
                 valueField: 'code',
@@ -336,10 +393,21 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 minChars: 1,
                 emptyText: 'Please select',
                 fieldLabel: 'Region',
-                name: 'address_region',
-                itemId: 'address_region',
-                disabled: true
-            };
+                name: 'iso-region',
+                itemId: 'iso-region',
+                value: values['iso-region'],
+                disabled: values['iso-region'] == null ? true : false
+            });
+            if (values['iso-country'] && values['iso-region']){
+                Ext.apply( regionStore.proxy.extraParams, {
+                    'countryCode': values['iso-country']
+                } );
+                regionStore.load({
+                    callback: function(){
+                        regionField.setValue(values['iso-region']);
+                    }
+                });
+            }
         }
         else
         {
@@ -348,6 +416,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 fieldLabel: 'Country',
                 name: 'address_country',
                 itemId: 'address_country',
+                value: values['country'],
                 disabled: field.readonly
             };
             var regionField = {
@@ -355,6 +424,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 fieldLabel: 'Region',
                 name: 'address_region',
                 itemId: 'address_region',
+                value: values['region'],
                 disabled: field.readonly
             };
         }
@@ -373,6 +443,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     name: 'address_label',
                     itemId: 'address_label',
                     enableKeyEvents: true,
+                    value: values['label'],
                     bubbleEvents: ['keyup'],
                     disabled: field.readonly
                 },
@@ -381,6 +452,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     fieldLabel: 'Street',
                     name: 'address_street',
                     itemId: 'address_street',
+                    value: values['street'],
                     disabled: field.readonly
                 },
                 {
@@ -388,6 +460,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     fieldLabel: 'Postal Code',
                     name: 'address_postal_code',
                     itemId: 'address_postal_code',
+                    value: values['postal-code'],
                     disabled: field.readonly
                 },
                 {
@@ -395,6 +468,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     fieldLabel: 'Postal Address',
                     name: 'address_postal_address',
                     itemId: 'address_postal_address',
+                    value: values['postal-address'],
                     disabled: field.readonly
                 },
                 countryField,
@@ -403,10 +477,17 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         };
 
         return {
-            title: '[no title]',
+            title: values['label'] == null ? '[no title]' : values['label'],
             closable: closable || false,
             items: [fieldSetItem]
         };
+    },
+
+    setItemValue: function(itemId, value){
+        var field = this.down('#' + itemId);
+        if (field){
+            field.setValue(value);
+        }
     }
 
 } );
