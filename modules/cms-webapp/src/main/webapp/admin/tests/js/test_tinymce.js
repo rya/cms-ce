@@ -19,13 +19,16 @@ function clickElement(elem)
 
 test( 'internal links plug-in', function()
 {
-    expect( 3 );
+    expect( 4 );
 
     editor.setContent( '<img src="_image/247?_size=regular&_format=jpg&_filter=scalewidth(234)" alt="Salta" title="Salta" />' );
     equals(editor.getContent(), '<p><img title="Salta" src="image://247?_size=regular&amp;_format=jpg" alt="Salta" /></p>');
 
     editor.setContent( '<img src="image://247?_size=regular&_format=jpg" alt="Fjell - Salta" />' );
     equals(editor.getContent(), '<p><img src="image://247?_size=regular&amp;_format=jpg" alt="Fjell - Salta" /></p>');
+
+    editor.execCommand('mceInsertContent', false, '<img src="image://8?_size=custom&_format=png&_filter=scalewidth(187)" alt="Fjell - Salta" />' );
+    equals(editor.getContent(), '<p><img src="image://8?_size=custom&amp;_format=png&amp;_filter=scalewidth(187)" alt="Fjell - Salta" /></p>', 'Should fail in 4.6.0-20110727.124816 / Firefox because of an issue in TinyMCE 3.4.2 where mceInsertContent url encodes the src value when using Firefox');
 
     editor.setContent( '<img src="_attachment/64177" alt="Fjell - Salta" />' );
     equals(editor.getContent(), '<p><img src="attachment://64177" alt="Fjell - Salta" /></p>');
