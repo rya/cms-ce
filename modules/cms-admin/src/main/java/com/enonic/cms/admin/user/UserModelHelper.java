@@ -1,14 +1,12 @@
 package com.enonic.cms.admin.user;
 
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.user.Gender;
-import com.enonic.cms.domain.user.UserInfo;
-import com.enonic.cms.domain.user.Address;
-
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
+import com.enonic.cms.core.security.user.UserEntity;
+
+import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.domain.user.Address;
+import com.enonic.cms.domain.user.UserInfo;
 
 public final class UserModelHelper
 {
