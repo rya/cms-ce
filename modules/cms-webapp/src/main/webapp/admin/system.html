@@ -1,0 +1,70 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <script type="text/javascript" src="ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="app/configuration.js"></script>
+
+    <script type="text/javascript">
+
+    Ext.Loader.setConfig({
+        enabled: true,
+        disableCaching: false
+    });
+
+        Ext.application({
+            name: 'CMS',
+            appFolder: 'app',
+
+            controllers: [
+                'SystemController'
+            ],
+
+            requires: [
+                'CMS.common.TabPanel',
+                'CMS.view.system.NavigationPanel'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    layout: 'border',
+                    padding: 5,
+
+                    items: [
+                        {
+                            region: 'center',
+                            xtype: 'cmsTabPanel',
+                            items: [ {
+                                    id: 'tab-browse',
+                                    title: 'Browse',
+                                    closable: false,
+                                    xtype: 'panel',
+                                    layout: 'border',
+                                    items: [
+                                        {
+                                            region: 'west',
+                                            width: 225,
+                                            xtype: 'systemNavigation'
+                                        },
+                                        {
+                                            id: 'system-center',
+                                            region: 'center',
+                                            bodyCls: 'system-center-inner',
+                                            html: '<iframe id="system-iframe" src="blank.html"><!-- --></iframe>'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>

@@ -70,7 +70,7 @@ Ext.define('CMS.view.launcher.Toolbar', {
                 {
                     id: 70,
                     text: 'System',
-                    appUrl: 'properties.html',
+                    appUrl: 'system.html',
                     iconCls: 'icon-system'
                 }
             ]
