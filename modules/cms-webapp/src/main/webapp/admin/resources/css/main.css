@@ -5,7 +5,10 @@
 /* ----- Launcher ----- */
 
 #launcher-toolbar {
-    border: none !important;
+    border-top: none;
+    border-right: none;
+    border-bottom: 1px solid #99BCE8;
+    border-left: none;
     height: 34px;
     background: #dbeeff;
     background: -moz-linear-gradient(top, #dbeeff 0%, #bbd2f0 100%);

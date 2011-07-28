@@ -6,7 +6,7 @@ Ext.define('CMS.view.launcher.Toolbar', {
 
     items: [
         {
-            xtype: 'tbspacer', width: 10
+            xtype: 'tbspacer', width: 5
         },
         {
             xtype: 'component',
@@ -16,7 +16,11 @@ Ext.define('CMS.view.launcher.Toolbar', {
             }
         },
         {
-            xtype: 'tbspacer', width: 15
+            xtype: 'tbspacer', width: 5
+        },
+        '-',
+        {
+            xtype: 'tbspacer', width: 5
         },
         {
             id: 'launcher-start-button',
