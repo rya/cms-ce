@@ -8,6 +8,7 @@ Ext.define('CMS.view.launcher.Toolbar', {
         {
             xtype: 'tbspacer', width: 5
         },
+        // Logo
         {
             xtype: 'component',
             id: 'launcher-logo',
@@ -22,6 +23,7 @@ Ext.define('CMS.view.launcher.Toolbar', {
         {
             xtype: 'tbspacer', width: 5
         },
+        // Start button
         {
             id: 'launcher-start-button',
             xtype: 'button',
@@ -31,19 +33,18 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     id: 0,
                     text: 'Dashboard',
                     appUrl: 'dashboard.html',
-                    iconCls: 'icon-dashboard'
+                    icon: 'resources/images/house.png'
                 },
                 {
                     id: 10,
                     text: 'Accounts',
                     appUrl: 'accounts.html',
-                    iconCls: 'icon-accounts'
+                    icon: 'resources/images/group.png'
                 },
                 {
                     id: 20,
                     text: 'CMS',
-                    appUrl: 'cms.html',
-                    iconCls: 'icon-enonic'
+                    appUrl: 'cms.html'
                 },
                 {
                     text: 'Applications',
@@ -69,17 +70,18 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     id: 60,
                     text: 'Reports',
                     appUrl: '',
-                    iconCls: 'icon-report'
+                    icon: 'resources/images/report.png'
                 },
                 {
                     id: 70,
                     text: 'System',
                     appUrl: 'system.html',
-                    iconCls: 'icon-system'
+                    icon: 'resources/images/cog.png'
                 }
             ]
         },
         '->',
+        // Logged in user
         {
             id: 'launcher-logged-in-user-button',
             xtype: 'button',
@@ -103,19 +105,20 @@ Ext.define('CMS.view.launcher.Toolbar', {
             ]
         },
         '-',
+        // Settings
         {
             id: 'launcher-settings-button',
             xtype: 'button',
             iconCls: 'icon-settings',
             menu: [
                 {
-                    text: 'Settings'
+                    text: 'Setting 1'
                 },
                 {
-                    text: 'For'
+                    text: 'Setting 2'
                 },
                 {
-                    text: 'Selected App'
+                    text: 'Setting 3'
                 }
             ]
         }

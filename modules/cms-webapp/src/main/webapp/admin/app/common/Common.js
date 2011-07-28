@@ -1,6 +1,6 @@
 Ext.define('CMS.common.Common', {
      statics: {
-         hideMenus: function() {
+         hideLauncherMenus: function() {
              var componentQuery = Ext.ComponentQuery;
              var toolbarMenuButtons = componentQuery.query('launcherToolbar button[menu]');
              var menu = null;
