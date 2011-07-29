@@ -10,13 +10,16 @@ Ext.define( 'CMS.controller.UserstoreController', {
     views: [
         'userstore.ContextMenu',
         'userstore.GridPanel',
-        'userstore.DetailPanel'
+        'userstore.DetailPanel',
+        'userstore.UserstoreFormPanel'
     ],
 
     refs: [
         {ref: 'tabPanel', selector: 'cmsTabPanel'},
         {ref: 'userstoreDetail', selector: 'userstoreDetail'},
         {ref: 'userstoreGrid', selector: 'userstoreGrid'},
+        {ref: 'userstoreShow', selector: 'userstoreShow'},
+        {ref: 'userstoreForm', selector: 'userstoreForm'},
         {ref: 'userstoreContextMenu', selector: 'userstoreContextMenu', autoCreate: true, xtype: 'userstoreContextMenu'}
     ],
 
@@ -24,10 +27,14 @@ Ext.define( 'CMS.controller.UserstoreController', {
     {
         this.control( {
                           '*[action=newUserstore]': {
-                              click: this.notImplementedAction
+                              click: function() {
+                                this.createUserstoreTab( true );
+                              }
                           },
                           '*[action=editUserstore]': {
-                              click: this.notImplementedAction
+                              click: function() {
+                                  this.createUserstoreTab( false );
+                              }
                           },
                           '*[action=deleteUserstore]': {
                               click: this.notImplementedAction
@@ -35,11 +42,83 @@ Ext.define( 'CMS.controller.UserstoreController', {
                           '*[action=syncUserstore]': {
                               click: this.notImplementedAction
                           },
+                          '*[action=saveUserstore]': {
+                              click: this.notImplementedAction
+                          },
+                          '*[action=cancelUserstore]': {
+                              click: this.notImplementedAction
+                          },
                           'userstoreGrid': {
                               selectionchange: this.updateDetailsPanel,
                               itemcontextmenu: this.popupMenu
+                          },
+                          'userstoreForm textfield': {
+                              keyup: function( field, evt, opts ) {
+                                  var form = field.up('userstoreForm');
+                                  var newVals = form.userstore || { data: {} };
+                                  newVals.data[field.name] = field.getValue();
+                                  form.setUserstore( newVals );
+                                  var tab = field.up('userstoreFormPanel');
+                                  tab.setTitle( newVals.data.name );
+                              }
                           }
                       } );
+    },
+
+    createUserstoreTab: function( forceNew ) {
+
+        // remember that userstores is executed inside
+        // an iframe in system app which hosts tabs
+        var parent = window.parent;
+        if ( parent ) {
+            var tabs = parent.Ext.getCmp('systemTabPanelID');
+            if ( tabs ) {
+
+                var selection = this.getUserstoreGrid().getSelectionModel().getSelection();
+                var userstore;
+
+                if ( !forceNew && selection && selection.length > 0 ) {
+                    userstore = selection[0];
+                    var showPanel = this.getUserstoreShow();
+
+                    showPanel.el.mask( "Loading..." );
+                    Ext.Ajax.request( {
+                        url: 'data/userstore/config',
+                        method: 'GET',
+                        params: {
+                            name: userstore.data.name
+                        },
+                        success: function( response )
+                        {
+                            var obj = Ext.decode( response.responseText, true );
+                            // add missing fields for now
+                            Ext.apply( obj, {
+                                userCount: 231,
+                                userPolicy: 'User Policy',
+                                groupCount: 12,
+                                groupPolicy: 'Group Policy',
+                                lastModified: '2001-07-04 12:08:56',
+                                plugin: 'Plugin Name',
+                                connectorName: 'Connector name'
+                            });
+                            showPanel.el.unmask();
+                            tabs.addTab( {
+                                xtype: 'userstoreFormPanel',
+                                id: 'tab-userstore-' + userstore.id,
+                                title: userstore.data.name,
+                                userstore: {
+                                    data: obj
+                                }
+                            } );
+                        }
+                    } );
+                } else {
+                    tabs.addTab( {
+                        xtype: 'userstoreFormPanel'
+                    } );
+                }
+            }
+        }
     },
 
     notImplementedAction: function ( btn, evt, opts ) {
