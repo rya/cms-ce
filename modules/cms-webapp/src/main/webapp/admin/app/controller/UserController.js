@@ -186,34 +186,12 @@ Ext.define( 'CMS.controller.UserController', {
                                    } );
     },
 
-    createNewUserTab: function()
-    {
-        this.getTabPanel().addTab( {
-                                       title: 'New User',
-                                       items: this.createDummyUserForm(),
-                                       iconCls: 'icon-user-add'
-                                   } );
-    },
-
     createNewGroupTab: function()
     {
         this.getTabPanel().addTab( {
                                        title: 'New Group',
                                        html: 'New Group Form',
                                        iconCls: 'icon-group-add'
-                                   } );
-    },
-
-    createEditUserTab: function()
-    {
-        var selectedGridItem = this.getSelectedGridItem();
-        var user = selectedGridItem.data;
-
-        this.getTabPanel().addTab( {
-                                       id: 'tab-user-' + user.key,
-                                       title: user.displayName + ' (' + user.qualifiedName + ')',
-                                       items: this.createDummyUserForm( user ),
-                                       iconCls: 'icon-edit-user'
                                    } );
     },
 
@@ -469,150 +447,6 @@ Ext.define( 'CMS.controller.UserController', {
         var groupSelector = editUserMembershipPanel.down( '#groupSelector' );
         field.deselectAll();
         groupSelector.clearValue();
-    },
-
-    // Dummy form
-    createDummyUserForm: function( user )
-    {
-
-        return Ext.create( 'Ext.form.Panel', {
-            bodyStyle:'padding:15px',
-            fieldDefaults: {
-                labelAlign: 'top',
-                msgTarget: 'side'
-            },
-
-            defaults: {
-                anchor: '100%'
-            },
-
-            items: [
-                {
-                    layout:'column',
-                    border:false,
-                    items:[
-                        {
-                            columnWidth:.5,
-                            border:false,
-                            layout: 'anchor',
-                            defaultType: 'textfield',
-                            items: [
-                                {
-                                    fieldLabel: 'First Name',
-                                    name: 'first',
-                                    value: user ? user.name : '',
-                                    anchor:'95%'
-                                },
-                                {
-                                    fieldLabel: 'Company',
-                                    name: 'company',
-                                    anchor:'95%'
-                                }
-                            ]
-                        },
-                        {
-                            columnWidth:.5,
-                            border:false,
-                            layout: 'anchor',
-                            defaultType: 'textfield',
-                            items: [
-                                {
-                                    fieldLabel: 'Last Name',
-                                    name: 'last',
-                                    anchor:'95%'
-                                },
-                                {
-                                    fieldLabel: 'Email',
-                                    name: 'email',
-                                    vtype:'email',
-                                    anchor:'95%'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    xtype:'tabpanel',
-                    plain:true,
-                    activeTab: 0,
-                    height:235,
-                    defaults:{bodyStyle:'padding:10px'},
-                    items:[
-                        {
-                            title:'Personal Details',
-                            defaults: {width: 230},
-                            defaultType: 'textfield',
-
-                            items: [
-                                {
-                                    fieldLabel: 'First Name',
-                                    name: 'first',
-                                    allowBlank:false
-                                },
-                                {
-                                    fieldLabel: 'Last Name',
-                                    name: 'last'
-                                },
-                                {
-                                    fieldLabel: 'Company',
-                                    name: 'company'
-                                },
-                                {
-                                    fieldLabel: 'Email',
-                                    name: 'email',
-                                    vtype:'email'
-                                }
-                            ]
-                        },
-                        {
-                            title:'Phone Numbers',
-                            defaults: {width: 230},
-                            defaultType: 'textfield',
-
-                            items: [
-                                {
-                                    fieldLabel: 'Home',
-                                    name: 'home',
-                                    value: '(888) 555-1212'
-                                },
-                                {
-                                    fieldLabel: 'Business',
-                                    name: 'business'
-                                },
-                                {
-                                    fieldLabel: 'Mobile',
-                                    name: 'mobile'
-                                },
-                                {
-                                    fieldLabel: 'Fax',
-                                    name: 'fax'
-                                }
-                            ]
-                        },
-                        {
-                            cls: 'x-plain',
-                            title: 'Biography',
-                            layout: 'fit',
-                            items: {
-                                xtype: 'htmleditor',
-                                name: 'bio2',
-                                fieldLabel: 'Biography'
-                            }
-                        }
-                    ]
-                }
-            ],
-
-            buttons: [
-                {
-                    text: 'Save'
-                },
-                {
-                    text: 'Cancel'
-                }
-            ]
-        } );
-
     }
 
 } );
