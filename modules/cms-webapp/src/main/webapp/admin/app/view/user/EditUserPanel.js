@@ -13,6 +13,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     defaults: {
         bodyPadding: 10
     },
+    items: [],
+    currentUser: '',
 
 
 
@@ -24,17 +26,18 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
 
     initComponent: function()
     {
-
-        this.items = [
-        {
+        var me = this;
+        var editUserFormPanel = {
+            xtype: 'editUserFormPanel',
+            userFields: [],
+            autoScroll: true,
+            currentUser: me.currentUser
+        };
+        var tabPanel = {
             xtype: 'tabpanel',
             region: 'center',
             items: [
-                {
-                    xtype: 'editUserFormPanel',
-                    autoScroll: true,
-                    currentUser: this.currentUser
-                },
+                editUserFormPanel,
                 {
                     xtype: 'editUserPropertiesPanel'
                 },
@@ -45,11 +48,14 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
                     xtype: 'editUserPreferencesPanel'
                 }
             ]
+        };
+        if ( this.userFields != null )
+        {
+            editUserFormPanel.userFields = this.userFields;
         }
-
-    ],
-
+        me.items = [ tabPanel ];
         this.callParent( arguments );
+
     }
 
 } );

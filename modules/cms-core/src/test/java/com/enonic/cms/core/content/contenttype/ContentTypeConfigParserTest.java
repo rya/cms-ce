@@ -32,9 +32,11 @@ public class ContentTypeConfigParserTest
         configXml.append( "     <form>" );
         configXml.append( "         <title name=\"test_title\"/>" );
         configXml.append( "         <block name=\"TestBlock1\">" );
+        configXml.append( "         <help>This is some help text that should be ignored.  Only used in XSL</help>");
         configXml.append( "             <input name=\"test_title\" required=\"true\" type=\"text\">" );
         configXml.append( "                 <display>Title</display>" );
         configXml.append( "                 <xpath>contentdata/test/title</xpath>" );
+        configXml.append( "                 <help>This is just some help text that should be ignored.</help>");
         configXml.append( "             </input>" );
         configXml.append( "         </block>" );
         configXml.append( "     </form>" );

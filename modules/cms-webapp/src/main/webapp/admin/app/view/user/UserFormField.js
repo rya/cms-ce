@@ -12,14 +12,16 @@ Ext.define( 'CMS.view.user.UserFormField', {
             'combo': this.createComboConfig,
             'autocomplete': this.createAutoCompleteConfig,
             'password': this.createPasswordConfig,
-            'text': this.createTextConfig
+            'text': this.createTextConfig,
+            'boolean': this.createCheckBoxConfig
         };
         this.items = [];
         var fieldConfig = {
             disabled: this.readonly,
             name: this.fieldname,
             itemId: this.fieldname,
-            action: this.actionName
+            action: this.actionName,
+            value: this.fieldValue
         };
         var builderFunction;
         if ( this.type )
@@ -32,13 +34,14 @@ Ext.define( 'CMS.view.user.UserFormField', {
         }
         fieldConfig = builderFunction( fieldConfig, this );
 
-        if ( this.fieldname == 'display_name' )
+        if ( this.fieldname == 'display-name' )
         {
             fieldConfig.disabled = true;
             var lockButton = {
                 xtype: 'button',
                 iconCls: 'icon-locked',
-                action: 'toggleDisplayNameField'
+                action: 'toggleDisplayNameField',
+                currentUser: this.currentUser
             };
             Ext.Array.include( this.items, [fieldConfig, lockButton] );
         }
@@ -60,8 +63,16 @@ Ext.define( 'CMS.view.user.UserFormField', {
         this.callParent( arguments );
     },
 
+    createCheckBoxConfig: function( fieldConfig){
+        var checkBoxConfig = {xtype: 'checkbox',
+        checked: fieldConfig.value};
+        return Ext.apply(fieldConfig, checkBoxConfig);
+    },
+
     createDateConfig: function( fieldConfig )
     {
+        var date = Ext.Date.parse(fieldConfig.value, 'Y-m-d');
+        fieldConfig.value = date;
         var dateConfig = {xtype: 'datefield'};
         return Ext.apply(fieldConfig, dateConfig);
     },

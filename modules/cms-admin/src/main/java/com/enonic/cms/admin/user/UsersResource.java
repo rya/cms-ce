@@ -51,6 +51,13 @@ public final class UsersResource
         return UserModelHelper.toModel( entity );
     }
 
+    @POST
+    @Path("userinfo")
+    public UserModel getUserInfo( @FormParam("key") final String key){
+        final UserEntity entity = findEntity( key );
+        return UserModelHelper.toUserInfoModel( entity );
+    }
+
     @GET
     @Path("photo")
     @Produces("image/png")
