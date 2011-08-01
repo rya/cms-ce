@@ -214,7 +214,8 @@ img.photo {
 }
 
 .icon-delete {
-    background-image: url("../images/delete.png");
+    /*background-image: url("../images/delete.png");*/
+    background-image: url("../images/bin.png");
 }
 
 .icon-new {
@@ -225,6 +226,13 @@ img.photo {
     background: url("../images/arrow_refresh.png") no-repeat;
 }
 
+.icon-save {
+    background: url("../images/accept.png") no-repeat;
+}
+
+.icon-cancel {
+    background: url("../images/cancel.png") no-repeat;
+}
 /*-----  Dashboard  -----*/
 
 .dashboard .dashboard-body {
@@ -258,4 +266,20 @@ img.photo {
     font-weight: 200;
     margin: 5;
     vertical-align: middle;
+}
+
+
+/*------    Userstore   ---------*/
+
+.userstore-info .thumbnail {
+    float: left;
+    margin-right: 10px;
+}
+
+.userstore-info .x-panel-body {
+    border-width: 0px !important;
+}
+
+.userstore-info .x-toolbar {
+    border-width: 1px !important;
 }

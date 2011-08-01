@@ -53,16 +53,32 @@ Ext.define( 'CMS.controller.UserstoreController', {
                               itemcontextmenu: this.popupMenu
                           },
                           'userstoreForm textfield': {
-                              keyup: function( field, evt, opts ) {
-                                  var form = field.up('userstoreForm');
-                                  var newVals = form.userstore || { data: {} };
-                                  newVals.data[field.name] = field.getValue();
-                                  form.setUserstore( newVals );
-                                  var tab = field.up('userstoreFormPanel');
-                                  tab.setTitle( newVals.data.name );
-                              }
+                              keyup: this.handleUserstoreChange
+                          },
+                          'userstoreForm combobox': {
+                              change: this.handleConnectorCahnge
                           }
                       } );
+    },
+
+    handleConnectorCahnge: function( field, newValue, oldValue, options ) {
+        var form = field.up( 'userstoreForm' );
+        var newVals = form.userstore || { data: {} };
+        var record = field.store.findRecord( field.valueField, newValue );
+        if ( record ) {
+            newVals.data[ field.name ] = record.data[ field.displayField ];
+            form.updateUserstoreHeader( newVals );
+        }
+    },
+
+    handleUserstoreChange: function( field, evt, opts )
+    {
+        var form = field.up( 'userstoreForm' );
+        var newVals = form.userstore || { data: {} };
+        newVals.data[field.name] = field.getValue();
+        form.updateUserstoreHeader( newVals );
+        var tab = field.up( 'userstoreFormPanel' );
+        tab.setTitle( newVals.data.name );
     },
 
     createUserstoreTab: function( forceNew ) {

@@ -11,13 +11,11 @@ public final class UserStoreConfigModel
 
     private String name;
 
-    private int defaultStore;
+    private boolean defaultStore;
 
     private String connectorName;
 
     private String configXML;
-
-    private boolean deleted;
 
     private List<UserStoreConfigFieldModel> userFields;
 
@@ -25,7 +23,6 @@ public final class UserStoreConfigModel
     public UserStoreConfigModel()
     {
         userFields = new ArrayList<UserStoreConfigFieldModel>();
-        deleted = false;
     }
 
 
@@ -49,12 +46,12 @@ public final class UserStoreConfigModel
         this.name = name;
     }
 
-    public int getDefaultStore()
+    public boolean getDefaultStore()
     {
         return defaultStore;
     }
 
-    public void setDefaultStore( Integer defaultStore )
+    public void setDefaultStore( boolean defaultStore )
     {
         this.defaultStore = defaultStore;
     }
@@ -77,16 +74,6 @@ public final class UserStoreConfigModel
     public void setConfigXML( String configXML )
     {
         this.configXML = configXML;
-    }
-
-    public boolean isDeleted()
-    {
-        return deleted;
-    }
-
-    public void setDeleted( boolean deleted )
-    {
-        this.deleted = deleted;
     }
 
     public List<UserStoreConfigFieldModel> getUserFields()
