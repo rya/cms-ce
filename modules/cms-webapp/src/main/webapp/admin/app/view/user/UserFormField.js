@@ -36,7 +36,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
 
         if ( this.fieldname == 'display-name' )
         {
-            fieldConfig.disabled = true;
+            fieldConfig.readOnly = true;
             var lockButton = {
                 xtype: 'button',
                 iconCls: 'icon-locked',

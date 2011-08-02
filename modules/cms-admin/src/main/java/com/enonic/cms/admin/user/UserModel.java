@@ -1,25 +1,51 @@
 package com.enonic.cms.admin.user;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonValue;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 @JsonAutoDetect
 public final class UserModel
 {
+    public final static String USER_NAME = "username";
+
+    public final static String EMAIL = "email";
+
+    public final static String KEY = "key";
+
+    public final static String DISPLAY_NAME = "display-name";
+
+    public final static String USER_INFO = "userInfo";
+
     private String key;
 
-    @JsonProperty("username")
+    @JsonCreator
+    public UserModel( @JsonProperty(USER_NAME) String name, @JsonProperty(EMAIL) String email,
+                      @JsonProperty(KEY) String key, @JsonProperty(DISPLAY_NAME) String displayName,
+                      @JsonProperty(USER_INFO) Map<String, Object> userInfo )
+    {
+        this.name = name;
+        this.email = email;
+        this.key = key;
+        this.displayName = displayName;
+        this.userInfo = new UserInfoModel( userInfo );
+    }
+
+    public UserModel()
+    {
+    }
+
+    @JsonProperty(USER_NAME)
     private String name;
 
     private String email;
 
     private String qualifiedName;
 
-    @JsonProperty("display-name")
+    @JsonProperty(DISPLAY_NAME)
     private String displayName;
 
     private String userStore;
@@ -29,7 +55,7 @@ public final class UserModel
 
     private UserInfoModel userInfo;
 
-    @JsonProperty("userInfo")
+    @JsonProperty(USER_INFO)
     public UserInfoModel getUserInfo()
     {
         return userInfo;

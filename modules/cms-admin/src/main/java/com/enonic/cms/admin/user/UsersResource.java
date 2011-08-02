@@ -3,22 +3,28 @@ package com.enonic.cms.admin.user;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserEntity;
-
-import com.enonic.cms.domain.EntityPageList;
-
-import com.enonic.cms.store.dao.UserDao;
-
-import com.sun.jersey.api.NotFoundException;
-import com.sun.jersey.api.core.InjectParam;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import com.sun.jersey.api.NotFoundException;
+import com.sun.jersey.api.core.InjectParam;
+
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.UserDao;
+
+import com.enonic.cms.domain.EntityPageList;
 
 @Component
 @Path("/admin/data/user")
@@ -40,7 +46,7 @@ public final class UsersResource
     {
         final EntityPageList<UserEntity> list =
                 this.userDao.findAll( req.getStart(), req.getLimit(), req.buildHqlQuery(), req.buildHqlOrder() );
-        return UserModelHelper.toModel( list );
+        return UserModelTranslator.toModel( list );
     }
 
     @GET
@@ -48,14 +54,15 @@ public final class UsersResource
     public UserModel getUser( @QueryParam("key") final String key )
     {
         final UserEntity entity = findEntity( key );
-        return UserModelHelper.toModel( entity );
+        return UserModelTranslator.toModel( entity );
     }
 
     @POST
     @Path("userinfo")
-    public UserModel getUserInfo( @FormParam("key") final String key){
+    public UserModel getUserInfo( @FormParam("key") final String key )
+    {
         final UserEntity entity = findEntity( key );
-        return UserModelHelper.toUserInfoModel( entity );
+        return UserModelTranslator.toUserInfoModel( entity );
     }
 
     @GET
@@ -95,6 +102,17 @@ public final class UsersResource
     {
         Map<String, Object> res = new HashMap<String, Object>();
         LOG.info( "User was deleted: " + userKey );
+        res.put( "success", true );
+        return res;
+    }
+
+    @POST
+    @Path("update")
+    @Consumes("application/json")
+    public Map<String, Object> saveUser( UserModel userData )
+    {
+
+        Map<String, Object> res = new HashMap<String, Object>();
         res.put( "success", true );
         return res;
     }

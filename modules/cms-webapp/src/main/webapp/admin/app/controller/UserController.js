@@ -51,6 +51,9 @@ Ext.define( 'CMS.controller.UserController', {
                           '*[action=newUser]': {
                               click: this.showEditUserForm
                           },
+                          '*[action=saveUser]': {
+                              click: this.saveUser
+                          },
                           '*[action=newGroup]': {
                               click: this.createNewGroupTab
                           },
@@ -398,12 +401,12 @@ Ext.define( 'CMS.controller.UserController', {
         if ( button.iconCls == locked )
         {
             button.setIconCls( open );
-            displayNameField.setDisabled( false );
+            displayNameField.setReadOnly( false );
         }
         else
         {
             button.setIconCls( locked );
-            displayNameField.setDisabled( true );
+            displayNameField.setReadOnly( true );
         }
 
     },
@@ -447,6 +450,40 @@ Ext.define( 'CMS.controller.UserController', {
         var groupSelector = editUserMembershipPanel.down( '#groupSelector' );
         field.deselectAll();
         groupSelector.clearValue();
+    },
+
+    saveUser: function(button){
+        var editUserForm = button.up('editUserFormPanel');
+        var formValues = editUserForm.getValues();
+        var userData = {
+            username: formValues['username'],
+            'display-name': formValues['display-name'],
+            email: formValues['email'],
+            key: editUserForm.userFields.key,
+            userInfo: formValues
+        }
+        var tabPanel = editUserForm.down('#addressTabPanel');
+        var tabs = tabPanel.query('form');
+        var addresses = [];
+        for (index in tabs){
+            var address = tabs[index].getValues();
+            Ext.Array.include(addresses, address);
+        }
+        userData.userInfo.addresses = addresses;
+
+        Ext.Ajax.request({
+              url: 'data/user/update',
+              method: 'POST',
+              jsonData: userData,
+              success: function( response, opts )
+              {
+                  alert('success');
+              },
+              failure: function( response, opts )
+              {
+                  alert('failure');
+              }
+        });
     }
 
 } );

@@ -8,7 +8,7 @@ import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.user.Address;
 import com.enonic.cms.domain.user.UserInfo;
 
-public final class UserModelHelper
+public final class UserModelTranslator
 {
     public static UserModel toModel(final UserEntity entity)
     {
@@ -56,7 +56,7 @@ public final class UserModelHelper
         userInfoModel.setFirstName( userInfo.getFirstName() );
         userInfoModel.setGlobalPosition( userInfo.getGlobalPosition() );
         userInfoModel.setHomePage( userInfo.getHomePage() );
-        userInfoModel.setHtmlEmail( userInfo.getHtmlEmail() );
+        userInfoModel.setHtmlEmail( userInfo.getHtmlEmail().toString() );
         userInfoModel.setInitials( userInfo.getInitials() );
         userInfoModel.setLastName( userInfo.getLastName() );
         userInfoModel.setLocale( userInfo.getLocale() );
@@ -68,9 +68,9 @@ public final class UserModelHelper
         userInfoModel.setPhone( userInfo.getPhone() );
         userInfoModel.setPrefix( userInfo.getPrefix() );
         userInfoModel.setSuffix( userInfo.getSuffix() );
-        userInfoModel.setTimeZone( userInfo.getTimeZone() );
+        userInfoModel.setTimeZone( userInfo.getTimeZone().toString() );
         userInfoModel.setTitle( userInfo.getTitle() );
-        userInfoModel.setGender( userInfo.getGender() );
+        userInfoModel.setGender( userInfo.getGender().toString() );
         userInfoModel.setOrganization( userInfo.getOrganization() );
         for (Address address : userInfo.getAddresses()){
             userInfoModel.getAddresses().add(toAddressModel( address ));
@@ -90,5 +90,10 @@ public final class UserModelHelper
         addressModel.setPostalCode( address.getPostalCode() );
         addressModel.setStreet( address.getStreet() );
         return addressModel;
+    }
+
+    public static UserEntity toEntity(final UserModel userModel){
+
+        return null;
     }
 }

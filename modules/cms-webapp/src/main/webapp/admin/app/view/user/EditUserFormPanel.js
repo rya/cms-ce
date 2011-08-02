@@ -1,5 +1,5 @@
 Ext.define( 'CMS.view.user.EditUserFormPanel', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.form.Panel',
     alias: 'widget.editUserFormPanel',
 
     defaults: {
@@ -33,7 +33,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         },
         {
             text: 'Save',
-            action: 'deleteUser'
+            action: 'saveUser'
         }
     ],
 
@@ -149,7 +149,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         };
         this.callParent( arguments );
         this.removeAll();
-
         this.show();
     },
 
@@ -477,6 +476,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         };
 
         return {
+            xtype: 'form',
             title: values['label'] == null ? '[no title]' : values['label'],
             closable: closable || false,
             items: [fieldSetItem]
