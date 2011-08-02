@@ -40,13 +40,16 @@ public final class UsersResource
     @Autowired
     private UserPhotoService photoService;
 
+    @Autowired
+    private UserModelTranslator userModelTranslator;
+
     @GET
     @Path("list")
     public UsersModel getAll( @InjectParam final UserLoadRequest req )
     {
         final EntityPageList<UserEntity> list =
                 this.userDao.findAll( req.getStart(), req.getLimit(), req.buildHqlQuery(), req.buildHqlOrder() );
-        return UserModelTranslator.toModel( list );
+        return userModelTranslator.toModel( list );
     }
 
     @GET
@@ -54,7 +57,7 @@ public final class UsersResource
     public UserModel getUser( @QueryParam("key") final String key )
     {
         final UserEntity entity = findEntity( key );
-        return UserModelTranslator.toModel( entity );
+        return userModelTranslator.toModel( entity );
     }
 
     @POST
@@ -62,7 +65,7 @@ public final class UsersResource
     public UserModel getUserInfo( @FormParam("key") final String key )
     {
         final UserEntity entity = findEntity( key );
-        return UserModelTranslator.toUserInfoModel( entity );
+        return userModelTranslator.toUserInfoModel( entity );
     }
 
     @GET
@@ -111,7 +114,7 @@ public final class UsersResource
     @Consumes("application/json")
     public Map<String, Object> saveUser( UserModel userData )
     {
-
+        userModelTranslator.toEntity( userData );
         Map<String, Object> res = new HashMap<String, Object>();
         res.put( "success", true );
         return res;

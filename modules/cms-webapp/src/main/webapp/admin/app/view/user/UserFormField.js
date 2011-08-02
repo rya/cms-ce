@@ -73,7 +73,10 @@ Ext.define( 'CMS.view.user.UserFormField', {
     {
         var date = Ext.Date.parse(fieldConfig.value, 'Y-m-d');
         fieldConfig.value = date;
-        var dateConfig = {xtype: 'datefield'};
+        var dateConfig = {
+            xtype: 'datefield',
+            format: 'Y-m-d'
+        };
         return Ext.apply(fieldConfig, dateConfig);
     },
 

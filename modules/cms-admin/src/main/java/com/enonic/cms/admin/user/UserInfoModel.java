@@ -2,7 +2,6 @@ package com.enonic.cms.admin.user;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -69,6 +68,7 @@ public class UserInfoModel
         this.timeZone = userData.get(TIMEZONE) != null ? userData.get(TIMEZONE).toString() : null;
         this.gender = userData.get(GENDER) != null ? userData.get(GENDER).toString() : null;
         this.title = userData.get(TITLE) != null ? userData.get(TITLE).toString() : null;
+        this.locale = userData.get(LOCALE) != null ? userData.get(LOCALE).toString() : null;
         if (userData.get(ADDRESSES) != null){
             List<Map<String, Object>> addressesData = (List<Map<String, Object>>) userData.get(ADDRESSES);
             this.addresses = new ArrayList<AddressModel>(  );
@@ -99,7 +99,7 @@ public class UserInfoModel
 
     private String htmlEmail;
 
-    private Locale locale;
+    private String locale;
 
     private String nickName;
 
@@ -224,12 +224,12 @@ public class UserInfoModel
         this.htmlEmail = htmlEmail;
     }
 
-    public Locale getLocale()
+    public String getLocale()
     {
         return locale;
     }
 
-    public void setLocale( Locale locale )
+    public void setLocale( String locale )
     {
         this.locale = locale;
     }
