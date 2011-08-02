@@ -15,7 +15,7 @@ Ext.define('CMS.controller.LauncherController', {
             '*[id=launcher-logo]': {
                 render: this.onLogoRendered
             },
-            '*[id=launcher-start-button] menu > menuitem': {
+            '*[id=launcher-start-button] menu > menuitem[appUrl != ""]': {
                 click: this.loadApp
             }
         });
@@ -40,7 +40,7 @@ Ext.define('CMS.controller.LauncherController', {
             item.appUrl = 'blank.html'
         }
 
-        if (item.icon === '') {
+        if (!item.icon || item.icon === '') {
             item.icon = Ext.BLANK_IMAGE_URL
         }
 
@@ -85,8 +85,8 @@ Ext.define('CMS.controller.LauncherController', {
             modal: true,
             resizable: false,
             title: 'About',
-            width: 400,
-            height: 200
+            width: 550,
+            height: 300
         }).show();
     }
 

@@ -1,10 +1,9 @@
-Ext.define('CMS.store.UserStoreConfigStore', {
+Ext.define('CMS.store.UserstoreConfigStore', {
     extend: 'Ext.data.Store',
-
-    model: 'CMS.model.UserStoreConfigModel',
+    model: 'CMS.model.UserstoreConfigModel',
 
     pageSize: 10,
-    autoLoad: false,
+    autoLoad: true,
     remoteSort: true,
 
     proxy: {
