@@ -454,36 +454,43 @@ Ext.define( 'CMS.controller.UserController', {
 
     saveUser: function(button){
         var editUserForm = button.up('editUserFormPanel');
-        var formValues = editUserForm.getValues();
-        var userData = {
-            username: formValues['username'],
-            'display-name': formValues['display-name'],
-            email: formValues['email'],
-            key: editUserForm.userFields.key,
-            userInfo: formValues
-        }
-        var tabPanel = editUserForm.down('#addressTabPanel');
-        var tabs = tabPanel.query('form');
-        var addresses = [];
-        for (index in tabs){
-            var address = tabs[index].getValues();
-            Ext.Array.include(addresses, address);
-        }
-        userData.userInfo.addresses = addresses;
+        if (editUserForm.getForm().isValid()){
+            var formValues = editUserForm.getValues();
+            var userData = {
+                username: formValues['username'],
+                'display-name': formValues['display-name'],
+                email: formValues['email'],
+                key: editUserForm.userFields.key,
+                userInfo: formValues
+            }
+            var tabPanel = editUserForm.down('#addressTabPanel');
+            var tabs = tabPanel.query('form');
+            var addresses = [];
+            for (index in tabs){
+                var address = tabs[index].getValues();
+                Ext.Array.include(addresses, address);
+            }
+            userData.userInfo.addresses = addresses;
 
-        Ext.Ajax.request({
-              url: 'data/user/update',
-              method: 'POST',
-              jsonData: userData,
-              success: function( response, opts )
-              {
-                  alert('success');
-              },
-              failure: function( response, opts )
-              {
-                  alert('failure');
-              }
-        });
+            Ext.Ajax.request({
+                  url: 'data/user/update',
+                  method: 'POST',
+                  jsonData: userData,
+                  success: function( response, opts )
+                  {
+                      var serverResponse = Ext.JSON.decode(response.responseText);
+                      if (!serverResponse.success){
+                          alert(serverResponse.error);
+                      }
+                  },
+                  failure: function( response, opts )
+                  {
+                      alert('failure');
+                  }
+            });
+        }else{
+            alert("Some required fields are missing");
+        }
     }
 
 } );

@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,9 +115,19 @@ public final class UsersResource
     @Consumes("application/json")
     public Map<String, Object> saveUser( UserModel userData )
     {
-        userModelTranslator.toEntity( userData );
+        boolean isValid =
+                StringUtils.isNotBlank( userData.getDisplayName() ) && StringUtils.isNotBlank( userData.getName() ) &&
+                        StringUtils.isNotBlank( userData.getEmail() );
         Map<String, Object> res = new HashMap<String, Object>();
-        res.put( "success", true );
+        if ( isValid )
+        {
+            userModelTranslator.toEntity( userData );
+
+            res.put( "success", true );
+        }else{
+            res.put("success", false);
+            res.put("error", "Validation was failed");
+        }
         return res;
     }
 

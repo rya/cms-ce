@@ -18,6 +18,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
         this.items = [];
         var fieldConfig = {
             disabled: this.readonly,
+            allowBlank: !this.required,
             name: this.fieldname,
             itemId: this.fieldname,
             action: this.actionName,
