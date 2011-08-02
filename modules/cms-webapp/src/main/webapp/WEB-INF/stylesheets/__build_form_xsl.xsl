@@ -3804,6 +3804,8 @@
                 <x:value-of select="/contents/content/@key"/>
                 <x:text>/binary/</x:text>
                 <x:value-of select="$binarykey"/>
+                <x:text>?_version=</x:text>
+                <x:value-of select="/contents/content/@versionkey"/>
               </x:attribute>
               <x:value-of select="$binaryelem/@filename"/>
             </a>

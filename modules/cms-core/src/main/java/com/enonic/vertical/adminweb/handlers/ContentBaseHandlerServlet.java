@@ -1125,9 +1125,7 @@ public class ContentBaseHandlerServlet
                 String searchType = formItems.getString( "searchtype" );
                 if ( "simple".equals( searchType ) )
                 {
-                    reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).simpleReport( user,
-                                                                                                                      formItems,
-                                                                                                                      cat );
+                    reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).simpleReport( user, formItems, cat);
                 }
                 else
                 {
@@ -1295,7 +1293,10 @@ public class ContentBaseHandlerServlet
 
         if ( ( !createContent && versionKey == -1 ) || ( createContent && versionKey != -1 ) )
         {
-            VerticalAdminLogger.error( this.getClass(), 0, "Parameter error!", null, null );
+            Object [] msgData = new Object[2];
+            msgData[0] = "ContentKey = " + contentKey;
+            msgData[1] = "VersionKey = " + versionKey;
+            VerticalAdminLogger.error( this.getClass(), 0, "Parameter error!", msgData, null );
         }
 
         handlerForm( request, response, session, admin, formItems, user, createContent, unitKey, categoryKey,
@@ -1322,8 +1323,6 @@ public class ContentBaseHandlerServlet
                 !contentAccessResolver.hasReadContentAccess( securityService.getUser( oldUser ), selectedVersion.getContent() ) )
         {
             throw new IllegalArgumentException( "No read access to content with key: " + contentKey );
-//            formItems.put( "feedback", "10" );
-//            redirectToReferer( request, response, formItems);
         }
 
         //should not be able to view deleted content
@@ -1373,7 +1372,17 @@ public class ContentBaseHandlerServlet
 
         if ( !createContent && memberOfResolver.hasDeveloperPowers( oldUser.getKey() ) )
         {
-            appendContentSource( doc, selectedVersion );
+            ContentVersionEntity includeSourceContentVerision;
+            if (populateContentDataFromVersion != null)
+            {
+                includeSourceContentVerision =
+                        contentVersionDao.findByKey(new ContentVersionKey(populateContentDataFromVersion));
+            }
+            else
+            {
+                includeSourceContentVerision = selectedVersion;
+            }
+            appendContentSource( doc, includeSourceContentVerision );
         }
 
         // Feedback
@@ -1443,9 +1452,6 @@ public class ContentBaseHandlerServlet
 
         if ( contentKey != -1 )
         {
-            // String xmlData = admin.getContentVersion( user, versionKey );
-            // System.out.println( "old xmlData: \n" + xmlData );
-
             CategoryAccessResolver categoryAccessResolver = new CategoryAccessResolver( groupDao );
             ContentAccessResolver contentAccessResolver = new ContentAccessResolver( groupDao );
 
@@ -1462,10 +1468,21 @@ public class ContentBaseHandlerServlet
 
             ContentVersionEntity version = contentVersionDao.findByKey( new ContentVersionKey( versionKey ) );
 
+            ContentVersionEntity versionToPopulateContentDataFrom;
+            if (populateContentDataFromVersion != null && !populateContentDataFromVersion.equals(versionKey))
+            {
+                versionToPopulateContentDataFrom = contentVersionDao.findByKey(new ContentVersionKey(populateContentDataFromVersion));
+            }
+            else
+            {
+                versionToPopulateContentDataFrom = version;
+            }
+
             UserEntity runningUser = securityService.getUser( user );
 
-            RelatedChildrenContentQuery relatedChildrenContentQuery = new RelatedChildrenContentQuery( timeService.getNowAsDateTime().toDate() );
-            relatedChildrenContentQuery.setContentVersion( version );
+            RelatedChildrenContentQuery relatedChildrenContentQuery =
+                new RelatedChildrenContentQuery( timeService.getNowAsDateTime().toDate() );
+            relatedChildrenContentQuery.setContentVersion( versionToPopulateContentDataFrom );
             relatedChildrenContentQuery.setChildrenLevel( 1 );
             relatedChildrenContentQuery.setIncludeOffline();
             /*
@@ -1475,23 +1492,30 @@ public class ContentBaseHandlerServlet
 
             RelatedContentResultSet relatedContents = contentService.queryRelatedContent( relatedChildrenContentQuery );
             XMLDocument contentsDocAsXMLDocument = contentXMLCreator.createContentsDocument( runningUser, version, relatedContents );
-            if ( populateContentDataFromVersion != null )
+            if ( populateContentDataFromVersion != null && !populateContentDataFromVersion.equals(versionKey) )
             {
-                // replace only the contentdata xml element with the one from the version to populate from
-                ContentVersionEntity versionToPopulateContentDataFrom = contentVersionDao.findByKey( new ContentVersionKey( populateContentDataFromVersion ) );
-
+                // Fetching the content-XML without related content.  This XML is only used to get the elements from
+                // the version to populate from, and replacing them in the draft version which is being edited.
                 org.jdom.Document contentsDocAsJdomDocument = contentsDocAsXMLDocument.getAsJDOMDocument();
                 org.jdom.Document contentXmlFromVersionToPopulateFrom =
-                        contentXMLCreator.createContentsDocument( runningUser, versionToPopulateContentDataFrom,
-                                                                  relatedContents ).getAsJDOMDocument();
+                        contentXMLCreator.createContentsDocument( runningUser, versionToPopulateContentDataFrom, null).getAsJDOMDocument();
 
                 org.jdom.Element contentElInOriginal = contentsDocAsJdomDocument.getRootElement().getChild( "content" );
-                org.jdom.Element contentdataElInVersionToPopulateFrom = contentXmlFromVersionToPopulateFrom.getRootElement().getChild( "content" ).getChild(
-                        "contentdata" );
+
+                // Replace <contentdata>
+                org.jdom.Element contentdataElInVersionToPopulateFrom =
+                        contentXmlFromVersionToPopulateFrom.getRootElement().getChild( "content" ).getChild( "contentdata" );
                 contentElInOriginal.removeChild( "contentdata" );
                 contentElInOriginal.addContent( contentdataElInVersionToPopulateFrom.detach() );
 
+                // Replace <binaries>
+                org.jdom.Element binariesElInVersionToPopulateFrom =
+                    contentXmlFromVersionToPopulateFrom.getRootElement().getChild( "content" ).getChild( "binaries" );
+                contentElInOriginal.removeChild( "binaries" );
+                contentElInOriginal.addContent( binariesElInVersionToPopulateFrom.detach() );
+
                 asW3cDoc = XMLDocumentFactory.create( contentsDocAsJdomDocument ).getAsDOMDocument();
+
             }
             else
             {
