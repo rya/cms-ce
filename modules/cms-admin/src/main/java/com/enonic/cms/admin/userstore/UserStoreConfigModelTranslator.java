@@ -19,9 +19,8 @@ public final class UserStoreConfigModelTranslator
         {
             model.setKey( entity.getKey().toString() );
             model.setName( entity.getName() );
-            model.setDefaultStore( entity.getDefaultStore() );
+            model.setDefaultStore( entity.getDefaultStore() > 0 );
             model.setConnectorName( entity.getConnectorName() );
-            model.setDeleted( entity.getDeleted() != null && entity.getDeleted() > 0 );
 
             UserStoreConfig config = entity.getConfig();
             if ( config != null )
@@ -43,9 +42,8 @@ public final class UserStoreConfigModelTranslator
         {
             model.setKey( entity.getKey().toString() );
             model.setName( entity.getName() );
-            model.setDefaultStore( entity.getDefaultStore() );
+            model.setDefaultStore( entity.getDefaultStore() > 0 );
             model.setConnectorName( entity.getConnectorName() );
-            model.setDeleted( entity.getDeleted() != null && entity.getDeleted() > 0 );
             model.setConfigXML( JDOMUtil.serialize( entity.getConfigAsXMLDocument(), 2, true ) );
         }
         return model;

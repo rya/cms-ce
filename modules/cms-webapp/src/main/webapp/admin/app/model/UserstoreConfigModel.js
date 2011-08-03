@@ -6,9 +6,9 @@ Ext.define('CMS.model.UserstoreConfigModel', {
     fields: [
         'key',
         'name',
-        {name: 'defaultStore', type: 'int'},
+        {name: 'defaultStore', type: 'boolean', defaultValue: false },
         'connectorName',
         'configXML',
-        {name: 'deleted', type: 'boolean'}
+        {name: 'lastModified', type: 'date', defaultValue: new Date() }
     ]
 });

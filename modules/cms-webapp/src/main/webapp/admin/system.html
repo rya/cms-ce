@@ -18,7 +18,8 @@
             appFolder: 'app',
 
             controllers: [
-                'SystemController'
+                'SystemController',
+                'UserstoreController'
             ],
 
             requires: [
@@ -35,6 +36,7 @@
                         {
                             region: 'center',
                             xtype: 'cmsTabPanel',
+                            id: 'systemTabPanelID',
                             items: [ {
                                     id: 'tab-browse',
                                     title: 'Browse',
