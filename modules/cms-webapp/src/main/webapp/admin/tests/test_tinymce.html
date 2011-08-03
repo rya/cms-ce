@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>XHTML Editor Functionality Tests</title>
+<meta name="generator" content="TextMate http://macromates.com/">
+<meta name="author" content="Thomas Andersen">
+<!-- Date: 2010-07-06 -->
+
+<link rel="stylesheet" href="./js/qunit/qunit.css" type="text/css"/>
+
+<script type="text/javascript" src="http://www.google.com/jsapi">//</script>
+<script type="text/javascript">
+    google.load( "jquery", "1.3" );
+</script>
+<script type="text/javascript" src="./js/qunit/qunit.js">//</script>
+
+<script type="text/javascript" src="./js/test_tinymce.js">//</script>
+
+<script type="text/javascript" src="../tinymce/jscripts/cms/Util.js">//</script>
+<script type="text/javascript" src="../tinymce/jscripts/cms/Editor.js">//</script>
+<script type="text/javascript" src="../tinymce/jscripts/tiny_mce/tiny_mce_src.js">//</script>
+<script type="text/javascript">
+
+var editor;
+var editor_id_7536901397125503 = new Editor('id_7536901397125503');
+var cmsutil = new CMSUtil();
+var langCode = cmsutil.getLanguageCode();
+
+// ***********************************************************************************************
+// *** Typical htmlarea/@type="document" setup
+// ***********************************************************************************************
+
+var editor_settings_id_7536901397125503 = {
+    document_base_url : getBaseUrl(),
+
+    accessToHtmlSource : true,
+
+    init_instance_callback : function( ed )
+    {
+        editor = ed;
+    },
+
+    skin: 'cms',
+    plugins : "internallinkplugin,cmsenhancements,cmslink,cmsimage,media,table,save,searchreplace,cmscontextmenu,paste,directionality,nonbreaking,xhtmlxtras,advlink,fullscreen,safari,advlist,autolink",
+    mode : 'textareas',
+    language : langCode,
+    theme : 'advanced',
+    initial_width : '600',
+
+    theme_advanced_statusbar_location : 'bottom',
+    theme_advanced_layout_manager : 'RowLayout',
+    theme_advanced_containers : 'row1,row2,row3,mceEditor,mceElementPath',
+
+    theme_advanced_container_row1 : 'cut,copy,paste,pastetext,pasteword,|,search,replace,|,undo,redo,|,hr,charmap,|,blockquote,abbr,acronym,cite,ins,del,|,attribs',
+    theme_advanced_container_row2 : 'cmslink,unlink,anchor,|,cmsimage,|,media,|,tablecontrols',
+    theme_advanced_container_row3 : 'formatselect,bold,italic,strikethrough,|,removeformat,|,justifyleft,justifycenter,justifyright,justifyfull,|,bullist,numlist,outdent,indent,|,sup,sub,|,forecolor,backcolor',
+    theme_advanced_container_mceEditor : 'mceEditor',
+    theme_advanced_container_mceElementPath : 'mceElementpath',
+    theme_advanced_container_row1_align : 'left',
+    theme_advanced_container_row2_align : 'left',
+    theme_advanced_container_row3_align : 'left',
+    content_css : 'http://localhost:8080/admin/tinymce/jscripts/tiny_mce/themes/advanced/skins/cms/content.css',
+    class_filter : function(cls) {
+        if (/^editor-(p-center|p-block|image-left|image-right)$/.test(cls))
+            return false;
+        return cls;
+    },
+    convert_urls : false,
+    gecko_spellcheck : true,
+    inlinepopups_skin : 'cms',
+    cms_menu_key : '',
+    auto_reset_designmode : true,
+    extended_valid_elements : 'style[type|media|title],script[type|src|charset],iframe[align<bottom?left?middle?right?top|class|frameborder|height|id|longdesc|marginheight|marginwidth|name|scrolling<auto?no?yes|src|style|title|width]',
+    theme_advanced_blockformats : 'p,h1,h2,h3',
+    paste_use_dialog : true,
+    paste_auto_cleanup_on_paste : true,
+    paste_convert_middot_lists : true,
+    paste_strip_class_attributes : 'all',
+    fix_list_elements : true,
+    fix_table_elements : true,
+    fix_nesting : true,
+    fix_content_duplication : true,
+    theme_advanced_source_editor_width : 780,
+    theme_advanced_source_editor_height : 520,
+    setup : function(ed) {}
+}
+</script>
+
+</head>
+<body>
+<h1 id="qunit-header">CMS XHTML Editor Functionality Tests</h1>
+
+<h2 id="qunit-banner"></h2>
+
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<textarea style="width:600px;height:500px" cols="80" rows="7" class="editor-textarea editor_settings_id_7536901397125503" id="id_7536901397125503"
+          name="text"></textarea>
+
+<div>
+    <a href="javascript:alert(tinymce.EditorManager.get('id_7536901397125503').getContent({format : 'raw'}));">[getRawContents]</a>
+    <a href="javascript:alert(tinymce.EditorManager.get('id_7536901397125503').getContent());">[getContents]</a>
+</div>
+
+<script type="text/javascript">
+    editor_id_7536901397125503.create( editor_settings_id_7536901397125503 );
+</script>
+
+</body>
+</html>
