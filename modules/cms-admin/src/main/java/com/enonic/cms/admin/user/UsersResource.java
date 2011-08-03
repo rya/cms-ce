@@ -121,8 +121,8 @@ public final class UsersResource
         Map<String, Object> res = new HashMap<String, Object>();
         if ( isValid )
         {
-            userModelTranslator.toEntity( userData );
-
+            UserEntity userEntity = userModelTranslator.toEntity( userData );
+            userDao.store( userEntity );
             res.put( "success", true );
         }
         else

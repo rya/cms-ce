@@ -8,6 +8,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.BooleanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,7 @@ import com.enonic.cms.domain.user.UserInfo;
 @Component
 public final class UserModelTranslator
 {
+    private static final Logger LOG = LoggerFactory.getLogger( UsersResource.class );
 
     @Autowired
     private UserDao userDao;
@@ -166,7 +169,7 @@ public final class UserModelTranslator
             }
             catch ( ParseException e )
             {
-                System.out.println( "Can't parse date string: " + userInfoModel.getBirthday() );
+                LOG.error( "Can't parse date string: " + userInfoModel.getBirthday() );
             }
         }
         if ( userInfoModel.getCountry() != null )
