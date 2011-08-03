@@ -25,54 +25,73 @@ public class UserInfoModel
     public static final String GLOBAL_POSITION = "global-position";
 
     public static final String LOCALE = "locale";
+
     public static final String NICK_NAME = "nick-name";
+
     public static final String PERSONAL_ID = "personal-id";
+
     public static final String ORGANIZATION = "organization";
+
     public static final String PREFIX = "prefix";
+
     public static final String SUFFIX = "suffix";
+
     public static final String TITLE = "title";
+
     public static final String HOME_PAGE = "home-page";
+
     public static final String MOBILE = "mobile";
+
     public static final String PHONE = "phone";
+
     public static final String FAX = "fax";
+
     public static final String TIMEZONE = "timezone";
+
     public static final String GENDER = "gender";
+
     public static final String ADDRESSES = "addresses";
+
     public static final String MEMBER_ID = "member-id";
+
     public static final String HTML_EMAIL = "html-email";
 
 
+    public UserInfoModel()
+    {
+    }
 
-    public UserInfoModel(){}
-
-    public UserInfoModel(Map<String, Object> userData){
-        this.firstName = userData.get(FIRST_NAME) != null ? userData.get(FIRST_NAME).toString() : null;
-        this.lastName = userData.get(LAST_NAME) != null ? userData.get(LAST_NAME).toString() : null;
-        this.middleName = userData.get(MIDDLE_NAME) != null ? userData.get(MIDDLE_NAME).toString() : null;
-        this.birthday = userData.get(BIRTHDAY) != null ? userData.get(BIRTHDAY).toString() : null;
-        this.country = userData.get(COUNTRY) != null ? userData.get(COUNTRY).toString() : null;
-        this.description = userData.get(DESCRIPTION) != null ? userData.get(DESCRIPTION).toString() : null;
-        this.fax = userData.get(FAX) != null ? userData.get(FAX).toString() : null;
-        this.globalPosition = userData.get(GLOBAL_POSITION) != null ? userData.get(GLOBAL_POSITION).toString() : null;
-        this.homePage = userData.get(HOME_PAGE) != null ? userData.get(HOME_PAGE).toString() : null;
-        this.initials = userData.get(INITIALS) != null ? userData.get(INITIALS).toString() : null;
-        this.memberId = userData.get(MEMBER_ID) != null ? userData.get(MEMBER_ID).toString() : null;
-        this.mobile = userData.get(MOBILE) != null ? userData.get(MOBILE).toString() : null;
-        this.nickName = userData.get(NICK_NAME) != null ? userData.get(NICK_NAME).toString() : null;
-        this.organization = userData.get(ORGANIZATION) != null ? userData.get(ORGANIZATION).toString() : null;
-        this.personalId = userData.get(PERSONAL_ID) != null ? userData.get(PERSONAL_ID).toString() : null;
-        this.phone = userData.get(PHONE) != null ? userData.get(PHONE).toString() : null;
-        this.prefix = userData.get(PREFIX) != null ? userData.get(PREFIX).toString() : null;
-        this.suffix = userData.get(SUFFIX) != null ? userData.get(SUFFIX).toString() : null;
-        this.title = userData.get(TITLE) != null ? userData.get(TITLE).toString() : null;
-        this.timeZone = userData.get(TIMEZONE) != null ? userData.get(TIMEZONE).toString() : null;
-        this.gender = userData.get(GENDER) != null ? userData.get(GENDER).toString() : null;
-        this.title = userData.get(TITLE) != null ? userData.get(TITLE).toString() : null;
-        this.locale = userData.get(LOCALE) != null ? userData.get(LOCALE).toString() : null;
-        if (userData.get(ADDRESSES) != null){
-            List<Map<String, Object>> addressesData = (List<Map<String, Object>>) userData.get(ADDRESSES);
-            this.addresses = new ArrayList<AddressModel>(  );
-            for (Map<String, Object> address : addressesData){
+    public UserInfoModel( Map<String, Object> userData )
+    {
+        this.firstName = getUserField( userData, FIRST_NAME );
+        this.lastName = getUserField( userData, LAST_NAME );
+        this.middleName = getUserField( userData, MIDDLE_NAME );
+        this.birthday = getUserField( userData, BIRTHDAY );
+        this.country = getUserField( userData, COUNTRY );
+        this.description = getUserField( userData, DESCRIPTION );
+        this.fax = getUserField( userData, FAX );
+        this.globalPosition = getUserField( userData, GLOBAL_POSITION );
+        this.homePage = getUserField( userData, HOME_PAGE );
+        this.initials = getUserField( userData, INITIALS );
+        this.memberId = getUserField( userData, MEMBER_ID );
+        this.mobile = getUserField( userData, MOBILE );
+        this.nickName = getUserField( userData, NICK_NAME );
+        this.organization = getUserField( userData, ORGANIZATION );
+        this.personalId = getUserField( userData, PERSONAL_ID );
+        this.phone = getUserField( userData, PHONE );
+        this.prefix = getUserField( userData, PREFIX );
+        this.suffix = getUserField( userData, SUFFIX );
+        this.title = getUserField( userData, TITLE );
+        this.timeZone = getUserField( userData, TIMEZONE );
+        this.gender = getUserField( userData, GENDER );
+        this.title = getUserField( userData, TITLE );
+        this.locale = getUserField( userData, LOCALE );
+        if ( userData.get( ADDRESSES ) != null )
+        {
+            List<Map<String, Object>> addressesData = (List<Map<String, Object>>) userData.get( ADDRESSES );
+            this.addresses = new ArrayList<AddressModel>();
+            for ( Map<String, Object> address : addressesData )
+            {
                 this.addresses.add( new AddressModel( address ) );
             }
 
@@ -378,5 +397,10 @@ public class UserInfoModel
     public void setGender( String gender )
     {
         this.gender = gender;
+    }
+
+    public String getUserField( Map<String, Object> userData, String fieldName )
+    {
+        return userData.get( fieldName ) != null ? userData.get( fieldName ).toString() : null;
     }
 }

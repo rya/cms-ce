@@ -65,8 +65,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         var me = this;
         this.userFieldSet = {
             'username': this.createTextField,
-            'password': this.createPasswordField,
-            'repeat-password': this.createPasswordField,
             'email': this.createTextField
         };
         this.nameFieldSet = {
@@ -87,7 +85,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'member-id': this.createTextField,
             'organization': this.createTextField,
             'birthday': this.createDateField,
-            'gender': this.createTextField,
+            'gender': this.createComboBoxField,
             'title': this.createTextField,
             'description': this.createTextField,
             'html-email': this.createCheckBoxField,
@@ -197,6 +195,16 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             fieldStore = Ext.data.StoreManager.lookup( 'LanguageStore' );
             valueField = 'languageCode';
             displayField = 'description';
+        } else if ( field.type == 'gender' )
+        {
+            fieldStore = new Ext.data.Store({
+                fields: ['label', 'value'],
+                data: [
+                    {label: 'Male', value: 'MALE'},
+                    {label: 'Female', value: 'FEMALE'}
+                ]});
+            valueField = 'value';
+            displayField = 'label';
         }
 
         return {
@@ -225,14 +233,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             xtype: 'userFormField',
             type: 'boolean'
         }
-    },
-
-    createPasswordField: function( field )
-    {
-        return {
-            xtype: 'userFormField',
-            type: 'password'
-        };
     },
 
     createPhotoField: function( field )

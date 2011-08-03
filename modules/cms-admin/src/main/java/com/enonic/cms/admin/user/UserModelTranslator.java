@@ -78,10 +78,16 @@ public final class UserModelTranslator
         userInfoModel.setFirstName( userInfo.getFirstName() );
         userInfoModel.setGlobalPosition( userInfo.getGlobalPosition() );
         userInfoModel.setHomePage( userInfo.getHomePage() );
-        userInfoModel.setHtmlEmail( userInfo.getHtmlEmail().toString() );
+        if ( userInfo.getHtmlEmail() != null )
+        {
+            userInfoModel.setHtmlEmail( userInfo.getHtmlEmail().toString() );
+        }
         userInfoModel.setInitials( userInfo.getInitials() );
         userInfoModel.setLastName( userInfo.getLastName() );
-        userInfoModel.setLocale( userInfo.getLocale().toString() );
+        if ( userInfo.getLocale() != null )
+        {
+            userInfoModel.setLocale( userInfo.getLocale().toString() );
+        }
         userInfoModel.setMemberId( userInfo.getMemberId() );
         userInfoModel.setMiddleName( userInfo.getMiddleName() );
         userInfoModel.setMobile( userInfo.getMobile() );
@@ -90,9 +96,15 @@ public final class UserModelTranslator
         userInfoModel.setPhone( userInfo.getPhone() );
         userInfoModel.setPrefix( userInfo.getPrefix() );
         userInfoModel.setSuffix( userInfo.getSuffix() );
-        userInfoModel.setTimeZone( userInfo.getTimeZone().toString() );
+        if ( userInfo.getTimeZone() != null )
+        {
+            userInfoModel.setTimeZone( userInfo.getTimeZone().toString() );
+        }
         userInfoModel.setTitle( userInfo.getTitle() );
-        userInfoModel.setGender( userInfo.getGender().toString() );
+        if ( userInfo.getGender() != null )
+        {
+            userInfoModel.setGender( userInfo.getGender().toString() );
+        }
         userInfoModel.setOrganization( userInfo.getOrganization() );
         for ( Address address : userInfo.getAddresses() )
         {
@@ -118,114 +130,146 @@ public final class UserModelTranslator
 
     public UserEntity toEntity( final UserModel userModel )
     {
-        UserEntity userEntity = new UserEntity(  );
-        if (userModel.getKey() != null){
+        UserEntity userEntity = new UserEntity();
+        if ( userModel.getKey() != null )
+        {
             userEntity = userDao.findByKey( userModel.getKey() );
         }
-        if (userModel.getName() != null){
+        if ( userModel.getName() != null )
+        {
             userEntity.setName( userModel.getName() );
         }
-        if (userModel.getDisplayName() != null){
+        if ( userModel.getDisplayName() != null )
+        {
             userEntity.setDisplayName( userModel.getDisplayName() );
         }
-        if (userModel.getEmail() != null){
+        if ( userModel.getEmail() != null )
+        {
             userEntity.setEmail( userModel.getEmail() );
         }
-        if (userModel.getUserInfo() != null){
+        if ( userModel.getUserInfo() != null )
+        {
             updateUserInfo( userEntity, userModel );
         }
         return userEntity;
     }
 
-    private void updateUserInfo(UserEntity userEntity, UserModel userModel){
+    private void updateUserInfo( UserEntity userEntity, UserModel userModel )
+    {
         UserInfo userInfo = userEntity.getUserInfo();
         UserInfoModel userInfoModel = userModel.getUserInfo();
-        if (userInfoModel.getBirthday() != null){
+        if ( userInfoModel.getBirthday() != null )
+        {
             try
             {
                 userInfo.setBirthday( new SimpleDateFormat( "yyyy-MM-dd" ).parse( userInfoModel.getBirthday() ) );
             }
             catch ( ParseException e )
             {
-                System.out.println( "Can't parse date string: " + userInfoModel.getBirthday()  );
+                System.out.println( "Can't parse date string: " + userInfoModel.getBirthday() );
             }
         }
-        if (userInfoModel.getCountry() != null){
+        if ( userInfoModel.getCountry() != null )
+        {
             userInfo.setCountry( userInfoModel.getCountry() );
         }
-        if (userInfoModel.getDescription() != null){
+        if ( userInfoModel.getDescription() != null )
+        {
             userInfo.setDescription( userInfoModel.getDescription() );
         }
-        if (userInfoModel.getFax() != null){
+        if ( userInfoModel.getFax() != null )
+        {
             userInfo.setFax( userInfoModel.getFax() );
         }
-        if (userInfoModel.getFirstName() != null){
+        if ( userInfoModel.getFirstName() != null )
+        {
             userInfo.setFirstName( userInfoModel.getFirstName() );
         }
-        if (userInfoModel.getGender() != null){
-            userInfo.setGender( Gender.valueOf(userInfoModel.getGender()) );
+        if ( userInfoModel.getGender() != null )
+        {
+            userInfo.setGender( Gender.valueOf( userInfoModel.getGender() ) );
         }
-        if (userInfoModel.getGlobalPosition() != null){
+        if ( userInfoModel.getGlobalPosition() != null )
+        {
             userInfo.setGlobalPosition( userInfoModel.getGlobalPosition() );
         }
-        if (userInfoModel.getHomePage() != null){
+        if ( userInfoModel.getHomePage() != null )
+        {
             userInfo.setHomePage( userInfoModel.getHomePage() );
         }
-        if (userInfoModel.getHtmlEmail() != null){
+        if ( userInfoModel.getHtmlEmail() != null )
+        {
             userInfo.setHtmlEmail( BooleanUtils.toBoolean( userInfoModel.getHtmlEmail() ) );
         }
-        if (userInfoModel.getInitials() != null){
+        if ( userInfoModel.getInitials() != null )
+        {
             userInfo.setInitials( userInfoModel.getInitials() );
         }
-        if (userInfoModel.getLastName() != null){
+        if ( userInfoModel.getLastName() != null )
+        {
             userInfo.setLastName( userInfoModel.getLastName() );
         }
-        if (userInfoModel.getLocale() != null){
-            userInfo.setLocale( new Locale(userInfoModel.getLocale()) );
+        if ( userInfoModel.getLocale() != null )
+        {
+            userInfo.setLocale( new Locale( userInfoModel.getLocale() ) );
         }
-        if (userInfoModel.getMemberId() != null){
+        if ( userInfoModel.getMemberId() != null )
+        {
             userInfo.setMemberId( userInfoModel.getMemberId() );
         }
-        if (userInfoModel.getMiddleName() != null){
+        if ( userInfoModel.getMiddleName() != null )
+        {
             userInfo.setMiddleName( userInfoModel.getMiddleName() );
         }
-        if (userInfoModel.getMobile() != null){
+        if ( userInfoModel.getMobile() != null )
+        {
             userInfo.setMobile( userInfoModel.getMobile() );
         }
-        if (userInfoModel.getNickName() != null){
+        if ( userInfoModel.getNickName() != null )
+        {
             userInfo.setNickName( userInfoModel.getNickName() );
         }
-        if (userInfoModel.getOrganization() != null){
+        if ( userInfoModel.getOrganization() != null )
+        {
             userInfo.setOrganization( userInfoModel.getOrganization() );
         }
-        if (userInfoModel.getPersonalId() != null){
+        if ( userInfoModel.getPersonalId() != null )
+        {
             userInfo.setPersonalId( userInfoModel.getPersonalId() );
         }
-        if (userInfoModel.getPhone() != null){
+        if ( userInfoModel.getPhone() != null )
+        {
             userInfo.setPhone( userInfoModel.getPhone() );
         }
-        if (userInfoModel.getPrefix() != null){
+        if ( userInfoModel.getPrefix() != null )
+        {
             userInfo.setPrefix( userInfoModel.getPrefix() );
         }
-        if (userInfoModel.getSuffix() != null){
+        if ( userInfoModel.getSuffix() != null )
+        {
             userInfo.setSuffix( userInfoModel.getSuffix() );
         }
-        if (userInfoModel.getTimeZone() != null){
+        if ( userInfoModel.getTimeZone() != null )
+        {
             userInfo.setTimezone( TimeZone.getTimeZone( userInfoModel.getTimeZone() ) );
         }
-        if (userInfoModel.getTitle() != null){
+        if ( userInfoModel.getTitle() != null )
+        {
             userInfo.setTitle( userInfoModel.getTitle() );
         }
-        if (userInfoModel.getAddresses() != null){
-            List<Address> addresses = new ArrayList<Address>(  );
-            for (AddressModel addressModel : userInfoModel.getAddresses()){
+        if ( userInfoModel.getAddresses() != null )
+        {
+            List<Address> addresses = new ArrayList<Address>();
+            for ( AddressModel addressModel : userInfoModel.getAddresses() )
+            {
                 addresses.add( toAddress( addressModel ) );
             }
         }
         userEntity.updateUserInfo( userInfo );
     }
 
-    private Address toAddress(AddressModel addressModel){
+    private Address toAddress( AddressModel addressModel )
+    {
         Address address = new Address();
         address.setCountry( addressModel.getCountry() );
         address.setIsoCountry( addressModel.getIsoCountry() );

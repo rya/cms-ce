@@ -96,19 +96,19 @@ Ext.define( 'CMS.controller.UserController', {
                           'editUserPanel textfield[name=prefix]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=first_name]': {
+                          'editUserPanel textfield[name=first-name]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=middle_name]': {
+                          'editUserPanel textfield[name=middle-name]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=last_name]': {
+                          'editUserPanel textfield[name=last-name]': {
                               keyup: this.textFieldHandleEnterKey
                           },
                           'editUserPanel textfield[name=suffix]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=address_label]': {
+                          'editUserPanel textfield[name=address-label]': {
                               keyup: this.updateTabTitle
                           },
                           '*[action=addGroup]': {
@@ -354,17 +354,18 @@ Ext.define( 'CMS.controller.UserController', {
 
     textFieldHandleEnterKey: function( field, event )
     {
-        var prefix = this.getEditUserPanel().down( '#prefix' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#prefix' ).getValue() ) : '';
-        var firstName = this.getEditUserPanel().down( '#first_name' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#first_name' ).getValue() ) : '';
-        var middleName = this.getEditUserPanel().down( '#middle_name' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#middle_name' ).getValue() ) : '';
-        var lastName = this.getEditUserPanel().down( '#last_name' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#last_name' ).getValue() ) : '';
-        var suffix = this.getEditUserPanel().down( '#suffix' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#suffix' ).getValue() ) : '';
-        var displayName = this.getEditUserPanel().down( '#display_name' );
+        var formPanel = field.up('editUserFormPanel');
+        var prefix = formPanel.down( '#prefix' )
+                ? Ext.String.trim( formPanel.down( '#prefix' ).getValue() ) : '';
+        var firstName = formPanel.down( '#first-name' )
+                ? Ext.String.trim( formPanel.down( '#first-name' ).getValue() ) : '';
+        var middleName = formPanel.down( '#middle-name' )
+                ? Ext.String.trim( formPanel.down( '#middle-name' ).getValue() ) : '';
+        var lastName = formPanel.down( '#last-name' )
+                ? Ext.String.trim( formPanel.down( '#last-name' ).getValue() ) : '';
+        var suffix = formPanel.down( '#suffix' )
+                ? Ext.String.trim( formPanel.down( '#suffix' ).getValue() ) : '';
+        var displayName = formPanel.down( '#display-name' );
         if ( displayName )
         {
             displayName.setValue( prefix + ' ' + firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix );
@@ -378,7 +379,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     addNewTab: function(button, event)
     {
-        var tabId = button.currentUser != null ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
+        var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
         var tabPanel = this.getCmsTabPanel().down( '#' + tabId).down( '#addressTabPanel' );
         //var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
         var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
@@ -394,7 +395,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     toggleDisplayNameField: function ( button, event )
     {
-        var tabId = button.currentUser != null ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
+        var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
         var locked = 'icon-locked';
         var open = 'icon-unlocked';
         var displayNameField = this.getCmsTabPanel().down( '#' + tabId).down( '#display-name' );
@@ -480,16 +481,18 @@ Ext.define( 'CMS.controller.UserController', {
                   {
                       var serverResponse = Ext.JSON.decode(response.responseText);
                       if (!serverResponse.success){
-                          alert(serverResponse.error);
+                          Ext.Msg.alert('Error', serverResponse.error);
+                      }else{
+                          Ext.Msg.alert('Info', 'User was updated');
                       }
                   },
                   failure: function( response, opts )
                   {
-                      alert('failure');
+                      Ext.Msg.alert('Error', 'Internal server error was occured');
                   }
             });
         }else{
-            alert("Some required fields are missing");
+            Ext.Msg.alert('Error', 'Some required fields are missing');
         }
     }
 

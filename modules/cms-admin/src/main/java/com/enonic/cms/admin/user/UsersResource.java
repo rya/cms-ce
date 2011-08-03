@@ -124,9 +124,11 @@ public final class UsersResource
             userModelTranslator.toEntity( userData );
 
             res.put( "success", true );
-        }else{
-            res.put("success", false);
-            res.put("error", "Validation was failed");
+        }
+        else
+        {
+            res.put( "success", false );
+            res.put( "error", "Validation was failed" );
         }
         return res;
     }
