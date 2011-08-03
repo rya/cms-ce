@@ -20,17 +20,21 @@ public final class UserModel
 
     public final static String USER_INFO = "userInfo";
 
+    public final static String USERSTORE = "userStore";
+
     private String key;
 
     @JsonCreator
     public UserModel( @JsonProperty(USER_NAME) String name, @JsonProperty(EMAIL) String email,
                       @JsonProperty(KEY) String key, @JsonProperty(DISPLAY_NAME) String displayName,
+                      @JsonProperty(USERSTORE) String userStore,
                       @JsonProperty(USER_INFO) Map<String, Object> userInfo )
     {
         this.name = name;
         this.email = email;
         this.key = key;
         this.displayName = displayName;
+        this.userStore = userStore;
         this.userInfo = new UserInfoModel( userInfo );
     }
 

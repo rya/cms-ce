@@ -413,16 +413,16 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             var countryField = {
                 xtype: 'textfield',
                 fieldLabel: 'Country',
-                name: 'address_country',
-                itemId: 'address_country',
+                name: 'country',
+                itemId: 'address-country',
                 value: values['country'],
                 disabled: field.readonly
             };
             var regionField = {
                 xtype: 'textfield',
                 fieldLabel: 'Region',
-                name: 'address_region',
-                itemId: 'address_region',
+                name: 'region',
+                itemId: 'address-region',
                 value: values['region'],
                 disabled: field.readonly
             };
@@ -439,8 +439,8 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Label',
-                    name: 'address_label',
-                    itemId: 'address_label',
+                    name: 'label',
+                    itemId: 'address-label',
                     enableKeyEvents: true,
                     value: values['label'],
                     bubbleEvents: ['keyup'],
@@ -449,24 +449,24 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Street',
-                    name: 'address_street',
-                    itemId: 'address_street',
+                    name: 'street',
+                    itemId: 'address-street',
                     value: values['street'],
                     disabled: field.readonly
                 },
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Postal Code',
-                    name: 'address_postal_code',
-                    itemId: 'address_postal_code',
+                    name: 'postal-code',
+                    itemId: 'address-postal-code',
                     value: values['postal-code'],
                     disabled: field.readonly
                 },
                 {
                     xtype: 'textfield',
                     fieldLabel: 'Postal Address',
-                    name: 'address_postal_address',
-                    itemId: 'address_postal_address',
+                    name: 'postal-address',
+                    itemId: 'address-postal-address',
                     value: values['postal-address'],
                     disabled: field.readonly
                 },

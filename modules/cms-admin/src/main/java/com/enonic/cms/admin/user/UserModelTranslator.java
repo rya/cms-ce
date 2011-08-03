@@ -13,8 +13,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.user.Address;
@@ -28,6 +35,12 @@ public final class UserModelTranslator
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserStoreDao userStoreDao;
+
+    @Autowired
+    protected SecurityService securityService;
 
     public UserModel toModel( final UserEntity entity )
     {
@@ -131,36 +144,9 @@ public final class UserModelTranslator
         return addressModel;
     }
 
-    public UserEntity toEntity( final UserModel userModel )
+    private UserInfo toUserInfo( UserInfoModel userInfoModel )
     {
-        UserEntity userEntity = new UserEntity();
-        if ( userModel.getKey() != null )
-        {
-            userEntity = userDao.findByKey( userModel.getKey() );
-        }
-        if ( userModel.getName() != null )
-        {
-            userEntity.setName( userModel.getName() );
-        }
-        if ( userModel.getDisplayName() != null )
-        {
-            userEntity.setDisplayName( userModel.getDisplayName() );
-        }
-        if ( userModel.getEmail() != null )
-        {
-            userEntity.setEmail( userModel.getEmail() );
-        }
-        if ( userModel.getUserInfo() != null )
-        {
-            updateUserInfo( userEntity, userModel );
-        }
-        return userEntity;
-    }
-
-    private void updateUserInfo( UserEntity userEntity, UserModel userModel )
-    {
-        UserInfo userInfo = userEntity.getUserInfo();
-        UserInfoModel userInfoModel = userModel.getUserInfo();
+        UserInfo userInfo = new UserInfo();
         if ( userInfoModel.getBirthday() != null )
         {
             try
@@ -267,8 +253,9 @@ public final class UserModelTranslator
             {
                 addresses.add( toAddress( addressModel ) );
             }
+            userInfo.setAddresses( (Address[]) addresses.toArray( new Address[addresses.size()] ) );
         }
-        userEntity.updateUserInfo( userInfo );
+        return userInfo;
     }
 
     private Address toAddress( AddressModel addressModel )
@@ -285,5 +272,44 @@ public final class UserModelTranslator
         return address;
     }
 
+    public StoreNewUserCommand toNewUserCommand( UserModel userModel )
+    {
+        StoreNewUserCommand command = new StoreNewUserCommand();
+        UserInfo userInfo = toUserInfo( userModel.getUserInfo() );
+        UserStoreEntity userStore = userStoreDao.findByName( userModel.getUserStore() );
+        if ( userStore == null )
+        {
+            userStore = userStoreDao.findDefaultUserStore();
+        }
+        command.setUserInfo( userInfo );
+        command.setDisplayName( userModel.getDisplayName() );
+        command.setEmail( userModel.getEmail() );
+        command.setPassword( "11111" );
+        command.setUserStoreKey( userStore.getKey() );
+        command.setAllowAnyUserAccess( true );
+        command.setStorer( securityService.getLoggedInPortalUser().getKey() );
+        return command;
+    }
 
+    public UpdateUserCommand toUpdateUserCommand( UserModel userModel )
+    {
+        UserStoreEntity userStore = userStoreDao.findByName( userModel.getUserStore() );
+        if ( userStore == null )
+        {
+            userStore = userStoreDao.findDefaultUserStore();
+        }
+        UserSpecification userSpecification = new UserSpecification();
+        userSpecification.setDeletedStateNotDeleted();
+        userSpecification.setName( userModel.getName() );
+        userSpecification.setUserStoreKey( userStore.getKey() );
+        UpdateUserCommand command = new UpdateUserCommand( new UserKey( userModel.getKey() ), userSpecification );
+        UserInfo userInfo = toUserInfo( userModel.getUserInfo() );
+        command.setEmail( userModel.getEmail() );
+        command.setDisplayName( userModel.getDisplayName() );
+        command.setUserInfo( userInfo );
+        command.setAllowUpdateSelf( true );
+        command.setUpdateOpenGroupsOnly( true );
+        command.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_ALL );
+        return command;
+    }
 }

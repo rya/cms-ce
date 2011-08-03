@@ -21,8 +21,11 @@ import org.springframework.stereotype.Component;
 import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.api.core.InjectParam;
 
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.EntityPageList;
@@ -37,6 +40,9 @@ public final class UsersResource
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserStoreService userStoreService;
 
     @Autowired
     private UserPhotoService photoService;
@@ -121,8 +127,13 @@ public final class UsersResource
         Map<String, Object> res = new HashMap<String, Object>();
         if ( isValid )
         {
-            UserEntity userEntity = userModelTranslator.toEntity( userData );
-            userDao.store( userEntity );
+            if (userData.getKey() == null){
+                StoreNewUserCommand command = userModelTranslator.toNewUserCommand( userData );
+                userStoreService.storeNewUser( command );
+            }else{
+                UpdateUserCommand command = userModelTranslator.toUpdateUserCommand( userData );
+                userStoreService.updateUser( command );
+            }
             res.put( "success", true );
         }
         else

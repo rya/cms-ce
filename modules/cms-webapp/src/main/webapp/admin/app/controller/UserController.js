@@ -108,7 +108,7 @@ Ext.define( 'CMS.controller.UserController', {
                           'editUserPanel textfield[name=suffix]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=address-label]': {
+                          'editUserPanel textfield[name=label]': {
                               keyup: this.updateTabTitle
                           },
                           '*[action=addGroup]': {
@@ -389,7 +389,8 @@ Ext.define( 'CMS.controller.UserController', {
 
     updateTabTitle: function ( field, event )
     {
-        var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
+        var formPanel = field.up('editUserFormPanel');
+        var tabPanel = formPanel.down( '#addressTabPanel' );
         tabPanel.getActiveTab().setTitle( field.getValue() );
     },
 
@@ -462,6 +463,8 @@ Ext.define( 'CMS.controller.UserController', {
                 'display-name': formValues['display-name'],
                 email: formValues['email'],
                 key: editUserForm.userFields.key,
+                userStore: editUserForm.userFields.userStore ?
+                        editUserForm.userFields.userStore : editUserForm.defaultUserStoreName,
                 userInfo: formValues
             }
             var tabPanel = editUserForm.down('#addressTabPanel');
