@@ -13,9 +13,7 @@ import com.enonic.vertical.userservices.UserServicesParameterResolver;
 
 import com.enonic.cms.server.service.portal.ticket.TicketValidator;
 
-import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.security.AutoLoginService;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
@@ -26,15 +24,6 @@ import com.enonic.cms.domain.portal.ParameterMissingException;
 public class UserServicesController
     extends AbstractSiteController
 {
-    protected AutoLoginService autoLoginService;
-
-    private SitePropertiesService sitePropertiesService;
-
-    public void setAutoLoginService( AutoLoginService value )
-    {
-        this.autoLoginService = value;
-    }
-
     /**
      * @inheritDoc
      */
@@ -124,7 +113,7 @@ public class UserServicesController
         String op = UserServicesParameterResolver.resolveOperationFromSitePath( sitePath );
         SitePath pathToServlet = sitePath.createNewInSameSite( new Path( servletURL.toString() ), sitePath.getParams() );
         pathToServlet.addParam( "_op", op );
-        return redirectAndForwardHelper.getForwardModelAndView( request, pathToServlet );
+        return siteRedirectAndForwardHelper.getForwardModelAndView( request, pathToServlet );
     }
 
     private boolean ticketIsRequired( SitePath sitePath )
@@ -162,11 +151,6 @@ public class UserServicesController
     private boolean ticketIsValid( HttpServletRequest request )
     {
         return TicketValidator.isValid( request );
-    }
-
-    public void setSitePropertiesService( SitePropertiesService service )
-    {
-        sitePropertiesService = service;
     }
 
 }

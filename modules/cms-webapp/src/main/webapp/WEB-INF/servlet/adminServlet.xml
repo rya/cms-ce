@@ -440,7 +440,7 @@
 
   <bean id="adminAttachmentController" class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
     <property name="securityService" ref="securityService"/>
-    <property name="binaryService" ref="binaryService"/>
+    <property name="binaryDataDao" ref="binaryDataDao"/>
     <property name="contentDao" ref="contentDao"/>
     <property name="groupDao" ref="groupDao"/>
     <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>

@@ -18,8 +18,6 @@
 
   <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
 
-  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
-
   <bean id="contentStorer" class="com.enonic.cms.business.core.content.ContentStorer"/>
 
   <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">

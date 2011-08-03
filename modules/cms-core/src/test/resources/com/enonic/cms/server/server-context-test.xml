@@ -113,8 +113,6 @@
 
   <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
 
-  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
-
   <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">
     <property name="contentStorer">
       <bean class="com.enonic.cms.business.core.content.ContentStorer"/>

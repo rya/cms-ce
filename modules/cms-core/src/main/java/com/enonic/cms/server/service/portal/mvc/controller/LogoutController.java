@@ -24,7 +24,7 @@ public class LogoutController
         SitePath userServicesPath = new SitePath( sitePath.getSiteKey(), ReservedLocalPaths.PATH_USERSERVICES, sitePath.getParams() );
         userServicesPath.addParam( "_handler", "user" );
         userServicesPath.addParam( "_op", "logout" );
-        return redirectAndForwardHelper.getForwardModelAndView( request, userServicesPath );
+        return siteRedirectAndForwardHelper.getForwardModelAndView( request, userServicesPath );
     }
 
 }

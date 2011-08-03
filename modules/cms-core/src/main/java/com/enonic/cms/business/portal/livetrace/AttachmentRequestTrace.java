@@ -16,33 +16,17 @@ public class AttachmentRequestTrace
 {
     private PortalRequestTrace portalRequestTrace;
 
-    private BlobFetchingTrace blobFetchingTrace;
-
     private Duration duration = new Duration();
 
     private ContentKey contentKey;
 
     private BinaryDataKey binaryDataKey;
 
+    private Long sizeInBytes;
 
     AttachmentRequestTrace( PortalRequestTrace portalRequestTrace )
     {
         this.portalRequestTrace = portalRequestTrace;
-    }
-
-    public boolean hasBlobFetchingTrace()
-    {
-        return blobFetchingTrace != null;
-    }
-
-    public BlobFetchingTrace getBlobFetchingTrace()
-    {
-        return blobFetchingTrace;
-    }
-
-    void setBlobFetchingTrace( BlobFetchingTrace blobFetchingTrace )
-    {
-        this.blobFetchingTrace = blobFetchingTrace;
     }
 
     void setStartTime( DateTime start )
@@ -88,5 +72,15 @@ public class AttachmentRequestTrace
     public void setBinaryDataKey( BinaryDataKey binaryDataKey )
     {
         this.binaryDataKey = binaryDataKey;
+    }
+
+    public Long getSizeInBytes()
+    {
+        return sizeInBytes;
+}
+
+    void setSizeInBytes( Long sizeInBytes )
+    {
+        this.sizeInBytes = sizeInBytes;
     }
 }

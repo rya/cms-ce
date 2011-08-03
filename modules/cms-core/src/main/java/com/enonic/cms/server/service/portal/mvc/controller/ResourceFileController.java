@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.core.resource.ResourceService;
 
@@ -31,8 +30,6 @@ public class ResourceFileController
     extends AbstractSiteController
 {
     private ResourceService resourceService;
-
-    private SitePropertiesService sitePropertiesService;
 
     private static String LOCAL_PREFIX = ReservedLocalPaths.PATH_RESOURCE.toString();
 
@@ -112,12 +109,7 @@ public class ResourceFileController
     {
         final Path path = new Path( sitePath.getLocalPath().toString().replace( LOCAL_PREFIX, FORWARD_PREFIX ) );
         final SitePath forward = new SitePath( sitePath.getSiteKey(), path, sitePath.getParams() );
-        return redirectAndForwardHelper.getForwardModelAndView( request, forward );
-    }
-
-    public void setSitePropertiesService( SitePropertiesService value )
-    {
-        this.sitePropertiesService = value;
+        return siteRedirectAndForwardHelper.getForwardModelAndView( request, forward );
     }
 
     public void setResourceService( ResourceService resourceService )

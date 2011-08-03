@@ -12,12 +12,16 @@
     <html>
     <head>
     <title>Live Portal Trace</title>
-    <script type="text/javascript" src="javascript/jquery-1.4.2.min.js">//</script>
-    <script type="text/javascript" src="javascript/jquery.crypt.js">//</script>
+    <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.base64.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery-ui-1.8.14.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.14.css"/>
     <script type="text/javascript">
 
         var reloadCurrentRequestsIntervalId = 0;
-        var reloadLongestRequestsIntervalId = 0;
+        var reloadLongestPageRequestsIntervalId = 0;
+        var reloadLongestAttachmentRequestsIntervalId = 0;
+        var reloadLongestImageRequestsIntervalId = 0;
         var loadNewPastRequestsIntervalId = 0;
 
         var lastHistoryNumber = -1;
@@ -25,7 +29,9 @@
         function stopAutomaticUpdate()
         {
             clearInterval( reloadCurrentRequestsIntervalId );
-            clearInterval( reloadLongestRequestsIntervalId );
+            clearInterval( reloadLongestPageRequestsIntervalId );
+            clearInterval( reloadLongestAttachmentRequestsIntervalId );
+            clearInterval( reloadLongestImageRequestsIntervalId );
             clearInterval( loadNewPastRequestsIntervalId );
 
             document.getElementById( "stop-auto-update" ).disabled = true;
@@ -38,6 +44,7 @@
             startAutomaticUpdateOfCurrent();
             startAutomaticUpdateOfLongestPageRequests();
             startAutomaticUpdateOfLongestAttachmentRequests();
+            startAutomaticUpdateOfLongestImageRequests();
             startAutomaticUpdateOfHistory();
 
             document.getElementById( "stop-auto-update" ).disabled = false;
@@ -55,7 +62,7 @@
 
         function startAutomaticUpdateOfLongestPageRequests()
         {
-            reloadLongestRequestsIntervalId = setInterval( function()
+            reloadLongestPageRequestsIntervalId = setInterval( function()
             {
                 reloadLongestPortalPageRequests()
             }, 10000 );
@@ -63,9 +70,17 @@
 
         function startAutomaticUpdateOfLongestAttachmentRequests()
         {
-            reloadLongestRequestsIntervalId = setInterval( function()
+            reloadLongestAttachmentRequestsIntervalId = setInterval( function()
             {
                 reloadLongestPortalAttachmentRequests()
+            }, 10000 );
+        }
+
+        function startAutomaticUpdateOfLongestImageRequests()
+        {
+            reloadLongestImageRequestsIntervalId = setInterval( function()
+            {
+                reloadLongestPortalImageRequests()
             }, 10000 );
         }
 
@@ -97,6 +112,11 @@
             $( "#window-longest-attachmentrequests" ).load( "liveportaltrace?window=longestattachmentrequests" );
         }
 
+        function reloadLongestPortalImageRequests()
+        {
+            $( "#window-longest-imagerequests" ).load( "liveportaltrace?window=longestimagerequests" );
+        }
+
         function setLastHistoryNumber( number )
         {
             lastHistoryNumber = number;
@@ -126,7 +146,7 @@
                     var portalRequestTrace = pastPortalRequestTrace.portalRequestTrace;
 
                     var tr = document.createElement( "tr" );
-                    tr.mydata = $().crypt( { method:"b64dec", source: portalRequestTrace.detailHtml } );
+                    tr.mydata = $.base64.decode( portalRequestTrace.detailHtml );
                     tr.onclick = function()
                     {
                         showPortalRequestTraceDetail( this.mydata );
@@ -150,8 +170,8 @@
                     tr.appendChild( td2 );
 
                     var td3 = document.createElement( "td" );
-                    var siteNameDecoded = $().crypt( { method:"b64dec", source: portalRequestTrace.siteName } );
-                    var siteLocalUrlDecoded = $().crypt( { method:"b64dec", source: portalRequestTrace.siteLocalUrl } );
+                    var siteNameDecoded = $.base64.decode( portalRequestTrace.siteName );
+                    var siteLocalUrlDecoded = $.base64.decode( portalRequestTrace.siteLocalUrl );
                     td3.innerHTML = siteNameDecoded + " : " + siteLocalUrlDecoded;
                     tr.appendChild( td3 );
 
@@ -191,14 +211,21 @@
             font-size: 22pt;
         }
 
+        h2 {
+            font-size: 18px;
+            font-weight: normal;
+        }
+
         body {
             font-size: 12pt;
+            font-family: Verdana,Arial,sans-serif;
         }
 
         .listBox {
             padding: 8px;
             margin: 10px;
-            border: 1px dotted #000000;
+            border: 1px solid #A0A0A0;
+            border-radius: 4px;
             background-color: #FFFFFF;
             overflow: auto;
             font-family: monospace;
@@ -220,7 +247,8 @@
 
         #portalRequestTraceDetail-window {
             background-color: #d3d3d3;
-            border: 2px solid gray;
+            border: 2px solid #A0A0A0;
+            border-radius: 4px;
             padding: 5px;
             position: fixed;
             width: 50%;
@@ -260,36 +288,56 @@
         Start automatic update
     </button>
 
-    <!-- Current -->
-    <h2>
-        Current portal requests
-        <button onclick="javascript: reloadCurrentPortalRequests()">Refresh</button>
-    </h2>
+    <br/>
+    <br/>
+
+    <div id="tabs">
+
+        <ul>
+            <li><a href="#tabs-1">Current requests</a></li>
+            <li><a href="#tabs-2">Longest page requests</a></li>
+            <li><a href="#tabs-3">Longest attachment requests</a></li>
+            <li><a href="#tabs-4">Longest image requests</a></li>
+        </ul>
+
+        <!-- Current portal requests -->
+        <div id="tabs-1">
+            <button id="reloadCurrentPortalRequests" onclick="javascript: reloadCurrentPortalRequests()">Refresh</button>
 
     <div class="listBox" style="height: 200px" id="window-current">
         Please wait...
     </div>
+        </div>
 
 
-    <!-- Longest -->
-    <h2>
-        Longest portal page requests
-        <button onclick="javascript: reloadLongestPortalPageRequests()">Refresh</button>
-    </h2>
+        <!-- Longest portal page requests -->
+        <div id="tabs-2">
+            <button id="reloadLongestPortalPageRequests" onclick="javascript: reloadLongestPortalPageRequests()">Refresh</button>
 
     <div class="listBox" style="height: 200px" id="window-longest-pagerequests">
         Please wait...
     </div>
+        </div>
 
-    <h2>
-        Longest portal attachment requests
-        <button onclick="javascript: reloadLongestPortalAttachmentRequests()">Refresh</button>
-    </h2>
+        <!-- Longest portal attachment requests -->
+        <div id="tabs-3">
+            <button id="reloadLongestPortalAttachmentRequests" onclick="javascript: reloadLongestPortalAttachmentRequests()">Refresh</button>
 
     <div class="listBox" style="height: 200px" id="window-longest-attachmentrequests">
         Please wait...
     </div>
+        </div>
 
+        <!-- Longest portal image requests -->
+        <div id="tabs-4">
+            <button id="reloadLongestPortalImageRequests" onclick="javascript: reloadLongestPortalImageRequests()">Refresh</button>
+
+            <div class="listBox" style="height: 200px" id="window-longest-imagerequests">
+                Please wait...
+            </div>
+        </div>
+
+    </div>
 
     <!-- History -->
     <h2>History of portal requests
@@ -321,17 +369,26 @@
 
                 </div>
             </div>
+        </div>
+    </div>
 
-            <script type="text/javascript">
 
-                reloadCurrentPortalRequests();
-                reloadLongestPortalPageRequests();
-                reloadLongestPortalAttachmentRequests();
-                loadNewPastPortalRequestTraces();
+    <script type="text/javascript">
 
-                startAutomaticUpdate();
+        $(function() {
+            $( "#tabs" ).tabs();
+        });
 
-            </script>
+        reloadCurrentPortalRequests();
+        reloadLongestPortalPageRequests();
+        reloadLongestPortalAttachmentRequests();
+        reloadLongestPortalImageRequests();
+        loadNewPastPortalRequestTraces();
+
+        startAutomaticUpdate();
+
+    </script>
+
     </body>
     </html>
 [/#if]

@@ -65,6 +65,10 @@
         <td>${portalRequestTrace.requestNumber!}</td>
     </tr>
     <tr>
+        <td>Duration</td>
+        <td>[@printDuration duration=portalRequestTrace.duration/]</td>
+    </tr>
+    <tr>
         <td>URL</td>
         <td>${portalRequestTrace.url!}</td>
     </tr>
@@ -79,10 +83,6 @@
     <tr>
         <td>Requester</td>
         <td>${portalRequestTrace.requester!}</td>
-    </tr>
-    <tr>
-        <td>Duration</td>
-        <td>[@printDuration duration=portalRequestTrace.duration/]</td>
     </tr>
     <tr>
         <td>Type</td>
@@ -111,6 +111,8 @@
 
         [#if portalRequestTrace.hasAttachmentRequsetTrace() == true]
         [@printAttachentRequestTraceDetailRows attachmentRequestTrace=portalRequestTrace.attachmentRequestTrace/]
+        [#elseif portalRequestTrace.hasImageRequestTrace() == true]
+            [@printImageRequestTraceDetailRows imageRequestTrace=portalRequestTrace.imageRequestTrace/]
             [#elseif portalRequestTrace.hasPageRenderingTrace() == true]
             [@printPageRenderingTraceDetailRows pageRenderingTrace=portalRequestTrace.pageRenderingTrace/]
         [/#if]
@@ -144,12 +146,12 @@
     <td colspan='2'>
         <table style='margin-left: 10px'>
             <tr>
-                <td style='padding-right: 10px'>Renderer</td>
-                <td>${windowRenderingTrace.renderer!}</td>
-            </tr>
-            <tr>
                 <td style='padding-right: 10px'>Used cached result</td>
                 <td>${windowRenderingTrace.usedCachedResult?string}</td>
+            </tr>
+            <tr>
+                <td style='padding-right: 10px'>Renderer</td>
+                <td>${windowRenderingTrace.renderer!}</td>
             </tr>
         </table>
     </td>
@@ -165,12 +167,12 @@
     <td>[@printDuration duration=pageRenderingTrace.duration/]</td>
 </tr>
 <tr>
-    <td>Renderer:</td>
-    <td>${pageRenderingTrace.renderer!}</td>
-</tr>
-<tr>
     <td>Used cached result:</td>
     <td>${pageRenderingTrace.usedCachedResult?string}</td>
+</tr>
+<tr>
+    <td>Renderer:</td>
+    <td>${pageRenderingTrace.renderer!}</td>
 </tr>
     [#if pageRenderingTrace.hasWindowRenderingTraces() == true]
     <tr>
@@ -195,6 +197,14 @@
     <th colspan="2">Attachment request:</th>
 </tr>
 <tr>
+    <td>Duration</td>
+    <td>[@printDuration duration=attachmentRequestTrace.duration/]</td>
+</tr>
+<tr>
+    <td>Size (bytes)</td>
+    <td>${attachmentRequestTrace.sizeInBytes!}</td>
+</tr>
+<tr>
     <td>Content key</td>
     <td>${attachmentRequestTrace.contentKey!}</td>
 </tr>
@@ -202,20 +212,48 @@
     <td>Binary key</td>
     <td>${attachmentRequestTrace.binaryDataKey!}</td>
 </tr>
+[/#macro]
+
+[#macro printImageRequestTraceDetailRows imageRequestTrace]
+<tr>
+    <th colspan="2">Image request:</th>
+</tr>
 <tr>
     <td>Duration</td>
-    <td>[@printDuration duration=attachmentRequestTrace.duration/]</td>
+    <td>[@printDuration duration=imageRequestTrace.duration/]</td>
 </tr>
-    [#if attachmentRequestTrace.hasBlobFetchingTrace() == true]
     <tr>
+    <td>Used cached result</td>
+    <td>${imageRequestTrace.usedCachedResult!?string}</td>
+</tr>
+<tr>
         <td>Size (bytes)</td>
-        <td>${attachmentRequestTrace.blobFetchingTrace.sizeInBytes!}</td>
+    <td>${imageRequestTrace.sizeInBytes!}</td>
     </tr>
-        [#else]
         <tr>
-            <td colspan="2">No blob fetched (yet?)</td>
+    <td>Content key</td>
+    <td>${imageRequestTrace.contentKey!}</td>
         </tr>
-    [/#if]
+<tr>
+    <td>Label</td>
+    <td>${imageRequestTrace.label!}</td>
+</tr>
+<tr>
+    <td>Format</td>
+    <td>${imageRequestTrace.imageParamFormat!}</td>
+</tr>
+<tr>
+    <td>Quality</td>
+    <td>${imageRequestTrace.imageParamQuality!}</td>
+</tr>
+<tr>
+    <td>Filter</td>
+    <td>${imageRequestTrace.imageParamFilter!}</td>
+</tr>
+<tr>
+    <td>Background color</td>
+    <td>${imageRequestTrace.imageParamBackgroundColor!}</td>
+</tr>
 [/#macro]
 
 [#macro printDuration duration]

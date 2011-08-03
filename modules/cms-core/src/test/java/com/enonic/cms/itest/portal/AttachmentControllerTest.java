@@ -179,7 +179,6 @@ public class AttachmentControllerTest
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
             assertTrue( e instanceof AttachmentRequestException );
             AttachmentRequestException attachmentRequestException = (AttachmentRequestException) e;
             assertEquals( "Failed to serve attachment request [/" + attachmentRequestPath + "] on site " + site1.getKey() +
@@ -255,7 +254,6 @@ public class AttachmentControllerTest
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
             assertTrue( e instanceof AttachmentRequestException );
             AttachmentRequestException attachmentRequestException = (AttachmentRequestException) e;
             assertEquals( "Failed to serve attachment request [/" + attachmentRequestPath + "] on site " + site1.getKey() +

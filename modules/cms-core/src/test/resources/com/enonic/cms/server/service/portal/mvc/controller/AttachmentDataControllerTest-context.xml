@@ -15,12 +15,5 @@
     <property name="contentDao" ref="contentDao"/>
     <property name="securityService" ref="securityService"/>
   </bean>
-  <!--
-    <property name="binaryService" ref="binaryService"/>
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="siteService" ref="siteService"/>
-    <property name="autoLoginService" ref="autoLoginService"/>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-  -->
 
 </beans>

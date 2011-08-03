@@ -21,13 +21,13 @@ public interface LivePortalTraceService
 
     AttachmentRequestTrace startAttachmentRequestTracing( PortalRequestTrace portalRequestTrace );
 
-    BlobFetchingTrace startBlobFetchTracing( AttachmentRequestTrace attachmentRequestTrace );
+    ImageRequestTrace startImageRequestTracing( PortalRequestTrace portalRequestTrace );
 
     PortalRequestTrace getCurrentPortalRequestTrace();
 
     AttachmentRequestTrace getCurrentAttachmentRequestTrace();
 
-    BlobFetchingTrace getCurrentBlobFetchingTrace();
+    ImageRequestTrace getCurrentImageRequestTrace();
 
     void stopTracing( PortalRequestTrace livePortalRequestTrace );
 
@@ -37,7 +37,7 @@ public interface LivePortalTraceService
 
     void stopTracing( AttachmentRequestTrace attachmentRequestTrace );
 
-    void stopTracing( BlobFetchingTrace blobFetchingTrace );
+    void stopTracing( ImageRequestTrace imageRequestTrace );
 
     List<PortalRequestTrace> getCurrentPortalRequestTraces();
 
@@ -48,4 +48,6 @@ public interface LivePortalTraceService
     List<PortalRequestTrace> getLongestTimePortalPageRequestTraces();
 
     List<PortalRequestTrace> getLongestTimePortalAttachmentRequestTraces();
+
+    List<PortalRequestTrace> getLongestTimePortalImageRequestTraces();
 }

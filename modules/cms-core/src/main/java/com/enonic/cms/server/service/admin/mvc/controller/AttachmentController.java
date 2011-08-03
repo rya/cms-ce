@@ -24,11 +24,11 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
+import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.binary.BinaryService;
 import com.enonic.cms.business.core.security.SecurityService;
 
 import com.enonic.cms.domain.Path;
@@ -52,7 +52,7 @@ public class AttachmentController
 {
     private static final Logger LOG = LoggerFactory.getLogger( AttachmentController.class );
 
-    private BinaryService binaryService;
+    private BinaryDataDao binaryDataDao;
 
     private ContentDao contentDao;
 
@@ -106,7 +106,6 @@ public class AttachmentController
     public final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
         throws Exception
     {
-
         final UserEntity loggedInUser = securityService.getLoggedInAdminConsoleUserAsEntity();
 
         try
@@ -124,7 +123,14 @@ public class AttachmentController
             boolean download = "true".equals( request.getParameter( "download" ) );
             download |= "true".equals( request.getParameter( "_download" ) );
 
-            putBinaryOnResponse( download, response, binaryData );
+            final BlobRecord blob = binaryDataDao.getBlob( binaryData.getBinaryDataKey() );
+
+            if ( blob == null )
+            {
+                throw AttachmentNotFoundException.notFound( binaryData.getBinaryDataKey() );
+            }
+
+            putBinaryOnResponse( download, response, binaryData, blob );
             return null;
         }
         catch ( InvalidBinaryPathException e )
@@ -151,10 +157,9 @@ public class AttachmentController
         return new PathAndParams( path, requestParameters );
     }
 
-    private void putBinaryOnResponse( boolean download, HttpServletResponse response, BinaryDataEntity binaryData )
+    private void putBinaryOnResponse( boolean download, HttpServletResponse response, BinaryDataEntity binaryData, BlobRecord blob )
         throws IOException
     {
-        final BlobRecord blob = this.binaryService.fetchBinary( binaryData.getBinaryDataKey() );
         HttpServletUtil.setContentDisposition( response, download, binaryData.getName() );
 
         response.setContentType( HttpServletUtil.resolveMimeType( getServletContext(), binaryData.getName() ) );
@@ -208,9 +213,9 @@ public class AttachmentController
         }
     }
 
-    public void setBinaryService( BinaryService value )
+    public void setBinaryDataDao( BinaryDataDao binaryDataDao )
     {
-        this.binaryService = value;
+        this.binaryDataDao = binaryDataDao;
     }
 
     public void setContentDao( ContentDao dao )

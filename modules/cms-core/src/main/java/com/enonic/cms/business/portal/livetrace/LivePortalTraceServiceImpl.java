@@ -43,11 +43,13 @@ public class LivePortalTraceServiceImpl
 
     private LongestPortalRequests longestPortalAttachmentRequests;
 
+    private LongestPortalRequests longestPortalImageRequests;
+
     private final static ThreadLocal<PortalRequestTrace> PORTAL_REQUEST_TRACE_THREAD_LOCAL = new ThreadLocal<PortalRequestTrace>();
 
     private final static ThreadLocal<AttachmentRequestTrace> ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL = new ThreadLocal<AttachmentRequestTrace>();
 
-    private final static ThreadLocal<BlobFetchingTrace> BLOB_FETCHING_TRACE_THREAD_LOCAL = new ThreadLocal<BlobFetchingTrace>();
+    private final static ThreadLocal<ImageRequestTrace> IMAGE_REQUEST_TRACE_THREAD_LOCAL = new ThreadLocal<ImageRequestTrace>();
 
     @PostConstruct
     public void init()
@@ -59,6 +61,7 @@ public class LivePortalTraceServiceImpl
 
             longestPortalPageRequests = new LongestPortalRequests( longestSize );
             longestPortalAttachmentRequests = new LongestPortalRequests( longestSize );
+            longestPortalImageRequests = new LongestPortalRequests( longestSize );
             historyOfPortalRequests = new HistoryOfPortalRequests( historySize );
         }
         else
@@ -84,7 +87,6 @@ public class LivePortalTraceServiceImpl
 
         PORTAL_REQUEST_TRACE_THREAD_LOCAL.set( portalRequestTrace );
         ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL.set( null );
-        BLOB_FETCHING_TRACE_THREAD_LOCAL.set( null );
         return portalRequestTrace;
     }
 
@@ -105,6 +107,10 @@ public class LivePortalTraceServiceImpl
         else if ( portalRequestTrace.hasAttachmentRequsetTrace() )
         {
             longestPortalAttachmentRequests.add( portalRequestTrace );
+        }
+        else if ( portalRequestTrace.hasImageRequestTrace() )
+        {
+            longestPortalImageRequests.add( portalRequestTrace );
         }
 
         PORTAL_REQUEST_TRACE_THREAD_LOCAL.set( null );
@@ -169,6 +175,18 @@ public class LivePortalTraceServiceImpl
         return newTrace;
     }
 
+    public ImageRequestTrace startImageRequestTracing( PortalRequestTrace portalRequestTrace )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( portalRequestTrace );
+
+        ImageRequestTrace newTrace = new ImageRequestTrace( portalRequestTrace );
+        newTrace.setStartTime( timeService.getNowAsDateTime() );
+        portalRequestTrace.setImageRequestTrace( newTrace );
+        IMAGE_REQUEST_TRACE_THREAD_LOCAL.set( newTrace );
+        return newTrace;
+    }
+
     public void stopTracing( AttachmentRequestTrace attachmentRequestTrace )
     {
         checkEnabled();
@@ -177,24 +195,12 @@ public class LivePortalTraceServiceImpl
         attachmentRequestTrace.setStopTime( timeService.getNowAsDateTime() );
     }
 
-    public BlobFetchingTrace startBlobFetchTracing( AttachmentRequestTrace attachmentRequestTrace )
+    public void stopTracing( ImageRequestTrace imageRequestTrace )
     {
         checkEnabled();
-        Preconditions.checkNotNull( attachmentRequestTrace );
+        Preconditions.checkNotNull( imageRequestTrace );
 
-        BlobFetchingTrace newTrace = new BlobFetchingTrace( attachmentRequestTrace );
-        newTrace.setStartTime( timeService.getNowAsDateTime() );
-        attachmentRequestTrace.setBlobFetchingTrace( newTrace );
-        BLOB_FETCHING_TRACE_THREAD_LOCAL.set( newTrace );
-        return newTrace;
-    }
-
-    public void stopTracing( BlobFetchingTrace blobFetchingTrace )
-    {
-        checkEnabled();
-        Preconditions.checkNotNull( blobFetchingTrace );
-
-        blobFetchingTrace.setStopTime( timeService.getNowAsDateTime() );
+        imageRequestTrace.setStopTime( timeService.getNowAsDateTime() );
     }
 
     public List<PortalRequestTrace> getCurrentPortalRequestTraces()
@@ -216,6 +222,13 @@ public class LivePortalTraceServiceImpl
         checkEnabled();
 
         return longestPortalAttachmentRequests.getList();
+    }
+
+    public List<PortalRequestTrace> getLongestTimePortalImageRequestTraces()
+    {
+        checkEnabled();
+
+        return longestPortalImageRequests.getList();
     }
 
     public List<PastPortalRequestTrace> getHistoryOfPortalRequests()
@@ -242,9 +255,9 @@ public class LivePortalTraceServiceImpl
         return ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL.get();
     }
 
-    public BlobFetchingTrace getCurrentBlobFetchingTrace()
+    public ImageRequestTrace getCurrentImageRequestTrace()
     {
-        return BLOB_FETCHING_TRACE_THREAD_LOCAL.get();
+        return IMAGE_REQUEST_TRACE_THREAD_LOCAL.get();
     }
 
     private void checkEnabled()

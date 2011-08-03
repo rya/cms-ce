@@ -41,4 +41,12 @@ public class AttachmentRequestTracer
             trace.setBinaryDataKey( attachmentRequest.getBinaryDataKey() );
         }
     }
+
+    public static void traceSize( AttachmentRequestTrace trace, Long sizeInBytes )
+    {
+        if ( trace != null && sizeInBytes != null )
+        {
+            trace.setSizeInBytes( sizeInBytes );
+        }
+    }
 }

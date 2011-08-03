@@ -15,23 +15,12 @@ public final class ImageResponse
 
     private final String format;
 
-    private String eTag;
-
     private boolean imageNotFound = false;
-
-    private boolean imageNotModified = false;
 
     public static ImageResponse notFound()
     {
         ImageResponse response = new ImageResponse();
         response.imageNotFound = true;
-        return response;
-    }
-
-    public static ImageResponse notModified()
-    {
-        ImageResponse response = new ImageResponse();
-        response.imageNotModified = true;
         return response;
     }
 
@@ -50,26 +39,11 @@ public final class ImageResponse
         return imageNotFound;
     }
 
-    public boolean isImageNotModified()
-    {
-        return imageNotModified;
-    }
-
     public ImageResponse( String name, byte[] data, String format )
     {
         this.name = name;
         this.data = data;
         this.format = format;
-    }
-
-    public String getETag()
-    {
-        return eTag;
-    }
-
-    public void setETag( String eTag )
-    {
-        this.eTag = eTag;
     }
 
     public String getMimeType()

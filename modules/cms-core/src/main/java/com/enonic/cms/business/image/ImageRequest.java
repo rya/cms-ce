@@ -31,8 +31,6 @@ public final class ImageRequest
 
     private User requester;
 
-    private String eTag;
-
     private String blobKey;
 
     private UserKey userKey;
@@ -138,37 +136,9 @@ public final class ImageRequest
         this.requestDateTime = requestDateTime;
     }
 
-    public String getLocation()
-    {
-        StringBuffer str = new StringBuffer();
-        str.append( this.contentKey );
-
-        if ( this.binaryDataKey != null )
-        {
-            str.append( "/binary/" ).append( this.binaryDataKey );
-        }
-        else if ( this.label != null )
-        {
-            str.append( "/label/" ).append( this.label );
-        }
-
-        str.append( "." ).append( getFormat() );
-        return str.toString();
-    }
-
     public ImageRequestParams getParams()
     {
         return this.params;
-    }
-
-    public String getETag()
-    {
-        return eTag;
-    }
-
-    public void setETag( String eTag )
-    {
-        this.eTag = eTag;
     }
 
     public String getBlobKey()

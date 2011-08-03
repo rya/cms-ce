@@ -18,7 +18,7 @@
 
 
     <bean id="attachmentController" class="com.enonic.cms.server.service.portal.mvc.controller.AttachmentController">
-        <property name="binaryService" ref="binaryService"/>
+        <property name="binaryDataDao" ref="binaryDataDao"/>
         <property name="contentDao" ref="contentDao"/>
         <property name="sitePathResolver" ref="sitePathResolver"/>
         <property name="siteService" ref="siteService"/>

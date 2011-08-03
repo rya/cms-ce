@@ -59,6 +59,13 @@ public final class LivePortalTraceController
             model.put( "longestTraces", longestTimePortalRequestTraces );
             return new ModelAndView( "livePortalTraceWindow_longest", model );
         }
+        else if ( "longestimagerequests".equals( window ) )
+        {
+            List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalImageRequestTraces();
+            HashMap<String, Object> model = new HashMap<String, Object>();
+            model.put( "longestTraces", longestTimePortalRequestTraces );
+            return new ModelAndView( "livePortalTraceWindow_longest", model );
+        }
         else if ( history != null )
         {
             String recordsSinceIdStr = req.getParameter( "records-since-id" );

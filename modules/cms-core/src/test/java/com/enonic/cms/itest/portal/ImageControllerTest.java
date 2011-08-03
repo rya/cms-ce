@@ -35,20 +35,11 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.portal.mvc.controller.ImageController;
 import com.enonic.cms.server.service.portal.mvc.controller.ImageRequestException;
 import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationContextLoader;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.SitePathResolver;
-import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.client.InternalClientContentService;
-import com.enonic.cms.business.core.security.AutoLoginService;
 import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.structure.SiteService;
-import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.preview.ContentPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
@@ -87,38 +78,12 @@ public class ImageControllerTest
     protected DomainFixture fixture;
 
     @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private AutoLoginService autoLoginService;
-
-    @Autowired
-    private ContentDao contentDao;
-
-    @Autowired
-    private SiteDao siteDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
     private InternalClientContentService internalClientContentService;
-
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private SitePropertiesService sitePropertiesService;
-
-    @Autowired
-    private SiteService siteService;
-
-    @Autowired
-    private SitePathResolver sitePathResolver;
 
     private PreviewService previewService;
 
-    private ImageController imageController = new ImageController();
+    @Autowired
+    private ImageController imageController;
 
     private MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
 
@@ -139,17 +104,6 @@ public class ImageControllerTest
         httpServletRequest.setCharacterEncoding( "UTF-8" );
         ServletRequestAccessor.setRequest( httpServletRequest );
         loginUserInPortal( fixture.findUserByName( "testuser" ).getKey() );
-
-        imageController.setSecurityService( securityService );
-        imageController.setAutoLoginService( autoLoginService );
-        imageController.setContentDao( contentDao );
-        imageController.setGroupDao( groupDao );
-        imageController.setSiteDao( siteDao );
-        imageController.setImageService( imageService );
-        imageController.setDisableParamEncoding( true );
-        imageController.setSitePathResolver( sitePathResolver );
-        imageController.setSitePropertiesService( sitePropertiesService );
-        imageController.setSiteService( siteService );
 
         previewService = Mockito.mock( PreviewService.class );
         Mockito.when( previewService.isInPreview() ).thenReturn( false );

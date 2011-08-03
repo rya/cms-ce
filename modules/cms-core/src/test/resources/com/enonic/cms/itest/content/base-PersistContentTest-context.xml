@@ -19,8 +19,6 @@
 
   <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
 
-  <bean id="binaryService" class="com.enonic.cms.business.core.content.binary.BinaryServiceImpl"/>
-
   <bean id="categoryService" class="com.enonic.cms.business.core.content.category.CategoryServiceImpl">
     <property name="timeService" ref="timeService"/>
     <property name="keyService" ref="keyService"/>

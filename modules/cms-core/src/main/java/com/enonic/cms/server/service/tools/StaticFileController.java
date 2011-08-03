@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-@RequestMapping(value = "/tools/javascript/{path}")
+@RequestMapping(value = {"/tools/javascript/**", "/tools/css/**"})
 public final class StaticFileController
     extends AbstractToolController
 {

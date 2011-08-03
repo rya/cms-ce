@@ -48,7 +48,6 @@ import com.enonic.cms.upgrade.UpgradeService;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.core.content.ContentParserService;
 import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.binary.BinaryService;
 import com.enonic.cms.business.core.content.imports.ImportJobFactory;
 import com.enonic.cms.business.core.content.imports.ImportService;
 import com.enonic.cms.business.core.resource.ResourceService;
@@ -122,9 +121,6 @@ public abstract class AbstractAdminwebServlet
     // Services:
 
     protected AdminService adminService;
-
-    @Autowired
-    protected BinaryService binaryService;
 
     protected ContentService contentService;
 

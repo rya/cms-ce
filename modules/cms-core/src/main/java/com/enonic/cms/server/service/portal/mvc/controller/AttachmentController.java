@@ -16,27 +16,20 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.common.io.ByteStreams;
 
 import com.enonic.cms.framework.blob.BlobRecord;
-import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.BinaryDataDao;
 
-import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.binary.BinaryService;
-import com.enonic.cms.business.core.security.AutoLoginService;
 import com.enonic.cms.business.portal.livetrace.AttachmentRequestTrace;
 import com.enonic.cms.business.portal.livetrace.AttachmentRequestTracer;
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.business.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.business.preview.PreviewContext;
-import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
@@ -59,25 +52,11 @@ public class AttachmentController
     extends AbstractSiteController
     implements InitializingBean
 {
-    private BinaryService binaryService;
-
-    private ContentDao contentDao;
-
-    private GroupDao groupDao;
-
-    private AutoLoginService autoLoginService;
+    private BinaryDataDao binaryDataDao;
 
     private AttachmentRequestResolver attachmentRequestResolver;
 
-    protected SitePropertiesService sitePropertiesService;
-
-    private UserDao userDao;
-
     private LivePortalTraceService livePortalTraceService;
-
-    private PreviewService previewService;
-
-    private TimeService timeService;
 
     public void afterPropertiesSet()
         throws Exception
@@ -204,7 +183,14 @@ public class AttachmentController
             final BinaryDataEntity binaryData = contentBinaryData.getBinaryData();
 
             setHttpHeaders( request, response, sitePath, loggedInUser );
-            putBinaryOnResponse( downloadRequested, response, binaryData );
+
+            final BlobRecord blob = binaryDataDao.getBlob( binaryData.getBinaryDataKey() );
+            if ( blob == null )
+            {
+                throw AttachmentNotFoundException.notFound( sitePath.getLocalPath().toString() );
+            }
+
+            putBinaryOnResponse( downloadRequested, response, binaryData, blob, attachmentRequestTrace );
             return null;
         }
         finally
@@ -298,10 +284,11 @@ public class AttachmentController
         HttpServletUtil.setCacheControl( response, cacheControlSettings );
     }
 
-    private void putBinaryOnResponse( boolean download, HttpServletResponse response, BinaryDataEntity binaryData )
+    private void putBinaryOnResponse( boolean download, HttpServletResponse response, BinaryDataEntity binaryData, final BlobRecord blob,
+                                      final AttachmentRequestTrace trace )
         throws IOException
     {
-        final BlobRecord blob = this.binaryService.fetchBinary( binaryData.getBinaryDataKey() );
+        AttachmentRequestTracer.traceSize( trace, blob.getLength() );
         HttpServletUtil.setContentDisposition( response, download, binaryData.getName() );
 
         response.setContentType( HttpServletUtil.resolveMimeType( getServletContext(), binaryData.getName() ) );
@@ -385,48 +372,13 @@ public class AttachmentController
         }
     }
 
-    public void setBinaryService( BinaryService value )
+    public void setBinaryDataDao( BinaryDataDao binaryDataDao )
     {
-        this.binaryService = value;
-    }
-
-    public void setContentDao( ContentDao dao )
-    {
-        contentDao = dao;
-    }
-
-    public void setAutoLoginService( AutoLoginService value )
-    {
-        this.autoLoginService = value;
-    }
-
-    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
-    {
-        this.sitePropertiesService = sitePropertiesService;
-    }
-
-    public void setUserDao( UserDao userDao )
-    {
-        this.userDao = userDao;
+        this.binaryDataDao = binaryDataDao;
     }
 
     public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
     {
         this.livePortalTraceService = livePortalTraceService;
-    }
-
-    public void setPreviewService( PreviewService previewService )
-    {
-        this.previewService = previewService;
-    }
-
-    public void setGroupDao( GroupDao groupDao )
-    {
-        this.groupDao = groupDao;
-    }
-
-    public void setTimeService( TimeService timeService )
-    {
-        this.timeService = timeService;
     }
 }

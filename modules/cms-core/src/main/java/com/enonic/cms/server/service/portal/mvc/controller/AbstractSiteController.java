@@ -14,16 +14,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.SiteDao;
+import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.SitePathResolver;
+import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
+import com.enonic.cms.business.core.security.AutoLoginService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.structure.SiteService;
+import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;
@@ -38,7 +45,13 @@ public abstract class AbstractSiteController
 
     protected SiteDao siteDao;
 
-    protected SiteRedirectAndForwardHelper redirectAndForwardHelper;
+    protected ContentDao contentDao;
+
+    protected UserDao userDao;
+
+    protected GroupDao groupDao;
+
+    protected SiteRedirectAndForwardHelper siteRedirectAndForwardHelper;
 
     protected SitePathResolver sitePathResolver;
 
@@ -46,35 +59,14 @@ public abstract class AbstractSiteController
 
     protected SecurityService securityService;
 
-    public void setSiteService( SiteService value )
-    {
-        this.siteService = value;
-    }
+    protected TimeService timeService;
 
-    public void setSiteDao( SiteDao value )
-    {
-        this.siteDao = value;
-    }
+    protected PreviewService previewService;
 
-    public void setSiteRedirectAndForwardHelper( SiteRedirectAndForwardHelper value )
-    {
-        this.redirectAndForwardHelper = value;
-    }
+    protected AutoLoginService autoLoginService;
 
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
-    }
+    protected SitePropertiesService sitePropertiesService;
 
-    public void setSitePathResolver( SitePathResolver value )
-    {
-        this.sitePathResolver = value;
-    }
-
-    public void setSecurityService( SecurityService value )
-    {
-        this.securityService = value;
-    }
 
     public final ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response )
         throws Exception
@@ -143,4 +135,68 @@ public abstract class AbstractSiteController
         return StringUtils.isNotBlank( timestamp );
     }
 
+    public void setSiteService( SiteService value )
+    {
+        this.siteService = value;
+    }
+
+    public void setSiteDao( SiteDao value )
+    {
+        this.siteDao = value;
+    }
+
+    public void setPresentationService( PresentationService value )
+    {
+        this.presentationService = value;
+    }
+
+    public void setSiteRedirectAndForwardHelper( SiteRedirectAndForwardHelper value )
+    {
+        this.siteRedirectAndForwardHelper = value;
+    }
+
+    public void setSitePathResolver( SitePathResolver value )
+    {
+        this.sitePathResolver = value;
+    }
+
+    public void setSecurityService( SecurityService value )
+    {
+        this.securityService = value;
+    }
+
+    public void setTimeService( TimeService timeService )
+    {
+        this.timeService = timeService;
+    }
+
+    public void setPreviewService( PreviewService previewService )
+    {
+        this.previewService = previewService;
+    }
+
+    public void setAutoLoginService( AutoLoginService autoLoginService )
+    {
+        this.autoLoginService = autoLoginService;
+    }
+
+    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
+    {
+        this.sitePropertiesService = sitePropertiesService;
+    }
+
+    public void setContentDao( ContentDao contentDao )
+    {
+        this.contentDao = contentDao;
+    }
+
+    public void setGroupDao( GroupDao groupDao )
+    {
+        this.groupDao = groupDao;
+    }
+
+    public void setUserDao( UserDao userDao )
+    {
+        this.userDao = userDao;
+    }
 }

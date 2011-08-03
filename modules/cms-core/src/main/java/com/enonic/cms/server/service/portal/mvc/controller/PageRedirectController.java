@@ -37,7 +37,7 @@ public class PageRedirectController
         {
             // site/x/[...]/page shall show the front page
             SitePath indexPageSitePath = new SitePath( sitePath.getSiteKey(), Path.ROOT, sitePath.getParams() );
-            return redirectAndForwardHelper.getForwardModelAndView( httpRequest, indexPageSitePath );
+            return siteRedirectAndForwardHelper.getForwardModelAndView( httpRequest, indexPageSitePath );
         }
 
         MenuItemKey menuItemKey = new MenuItemKey( id );

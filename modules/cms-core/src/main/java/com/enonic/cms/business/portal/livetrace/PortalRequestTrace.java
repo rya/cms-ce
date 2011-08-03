@@ -55,6 +55,8 @@ public class PortalRequestTrace
 
     private AttachmentRequestTrace attachmentRequestTrace;
 
+    private ImageRequestTrace imageRequestTrace;
+
     PortalRequestTrace( long requestNumber, String url )
     {
         this.requestNumber = requestNumber;
@@ -101,6 +103,10 @@ public class PortalRequestTrace
         {
             return "A";
         }
+        else if ( imageRequestTrace != null )
+        {
+            return "I";
+        }
         else
         {
             return "?";
@@ -120,6 +126,10 @@ public class PortalRequestTrace
         else if ( attachmentRequestTrace != null )
         {
             return "Attachment";
+        }
+        else if ( imageRequestTrace != null )
+        {
+            return "Image";
         }
         else
         {
@@ -287,6 +297,21 @@ public class PortalRequestTrace
     void setAttachmentRequestTrace( AttachmentRequestTrace attachmentRequestTrace )
     {
         this.attachmentRequestTrace = attachmentRequestTrace;
+    }
+
+    public boolean hasImageRequestTrace()
+    {
+        return imageRequestTrace != null;
+    }
+
+    public ImageRequestTrace getImageRequestTrace()
+    {
+        return imageRequestTrace;
+    }
+
+    void setImageRequestTrace( ImageRequestTrace imageRequestTrace )
+    {
+        this.imageRequestTrace = imageRequestTrace;
     }
 
     @Override
