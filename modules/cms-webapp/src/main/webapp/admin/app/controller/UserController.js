@@ -51,6 +51,9 @@ Ext.define( 'CMS.controller.UserController', {
                           '*[action=newUser]': {
                               click: this.showEditUserForm
                           },
+                          '*[action=saveUser]': {
+                              click: this.saveUser
+                          },
                           '*[action=newGroup]': {
                               click: this.createNewGroupTab
                           },
@@ -93,19 +96,19 @@ Ext.define( 'CMS.controller.UserController', {
                           'editUserPanel textfield[name=prefix]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=first_name]': {
+                          'editUserPanel textfield[name=first-name]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=middle_name]': {
+                          'editUserPanel textfield[name=middle-name]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=last_name]': {
+                          'editUserPanel textfield[name=last-name]': {
                               keyup: this.textFieldHandleEnterKey
                           },
                           'editUserPanel textfield[name=suffix]': {
                               keyup: this.textFieldHandleEnterKey
                           },
-                          'editUserPanel textfield[name=address_label]': {
+                          'editUserPanel textfield[name=label]': {
                               keyup: this.updateTabTitle
                           },
                           '*[action=addGroup]': {
@@ -186,34 +189,12 @@ Ext.define( 'CMS.controller.UserController', {
                                    } );
     },
 
-    createNewUserTab: function()
-    {
-        this.getTabPanel().addTab( {
-                                       title: 'New User',
-                                       items: this.createDummyUserForm(),
-                                       iconCls: 'icon-user-add'
-                                   } );
-    },
-
     createNewGroupTab: function()
     {
         this.getTabPanel().addTab( {
                                        title: 'New Group',
                                        html: 'New Group Form',
                                        iconCls: 'icon-group-add'
-                                   } );
-    },
-
-    createEditUserTab: function()
-    {
-        var selectedGridItem = this.getSelectedGridItem();
-        var user = selectedGridItem.data;
-
-        this.getTabPanel().addTab( {
-                                       id: 'tab-user-' + user.key,
-                                       title: user.displayName + ' (' + user.qualifiedName + ')',
-                                       items: this.createDummyUserForm( user ),
-                                       iconCls: 'icon-edit-user'
                                    } );
     },
 
@@ -373,17 +354,18 @@ Ext.define( 'CMS.controller.UserController', {
 
     textFieldHandleEnterKey: function( field, event )
     {
-        var prefix = this.getEditUserPanel().down( '#prefix' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#prefix' ).getValue() ) : '';
-        var firstName = this.getEditUserPanel().down( '#first_name' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#first_name' ).getValue() ) : '';
-        var middleName = this.getEditUserPanel().down( '#middle_name' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#middle_name' ).getValue() ) : '';
-        var lastName = this.getEditUserPanel().down( '#last_name' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#last_name' ).getValue() ) : '';
-        var suffix = this.getEditUserPanel().down( '#suffix' )
-                ? Ext.String.trim( this.getEditUserPanel().down( '#suffix' ).getValue() ) : '';
-        var displayName = this.getEditUserPanel().down( '#display_name' );
+        var formPanel = field.up('editUserFormPanel');
+        var prefix = formPanel.down( '#prefix' )
+                ? Ext.String.trim( formPanel.down( '#prefix' ).getValue() ) : '';
+        var firstName = formPanel.down( '#first-name' )
+                ? Ext.String.trim( formPanel.down( '#first-name' ).getValue() ) : '';
+        var middleName = formPanel.down( '#middle-name' )
+                ? Ext.String.trim( formPanel.down( '#middle-name' ).getValue() ) : '';
+        var lastName = formPanel.down( '#last-name' )
+                ? Ext.String.trim( formPanel.down( '#last-name' ).getValue() ) : '';
+        var suffix = formPanel.down( '#suffix' )
+                ? Ext.String.trim( formPanel.down( '#suffix' ).getValue() ) : '';
+        var displayName = formPanel.down( '#display-name' );
         if ( displayName )
         {
             displayName.setValue( prefix + ' ' + firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix );
@@ -397,7 +379,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     addNewTab: function(button, event)
     {
-        var tabId = button.currentUser != null ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
+        var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
         var tabPanel = this.getCmsTabPanel().down( '#' + tabId).down( '#addressTabPanel' );
         //var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
         var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
@@ -407,25 +389,26 @@ Ext.define( 'CMS.controller.UserController', {
 
     updateTabTitle: function ( field, event )
     {
-        var tabPanel = this.getEditUserPanel().down( '#addressTabPanel' );
+        var formPanel = field.up('editUserFormPanel');
+        var tabPanel = formPanel.down( '#addressTabPanel' );
         tabPanel.getActiveTab().setTitle( field.getValue() );
     },
 
     toggleDisplayNameField: function ( button, event )
     {
-        var tabId = button.currentUser != null ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
+        var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
         var locked = 'icon-locked';
         var open = 'icon-unlocked';
         var displayNameField = this.getCmsTabPanel().down( '#' + tabId).down( '#display-name' );
         if ( button.iconCls == locked )
         {
             button.setIconCls( open );
-            displayNameField.setDisabled( false );
+            displayNameField.setReadOnly( false );
         }
         else
         {
             button.setIconCls( locked );
-            displayNameField.setDisabled( true );
+            displayNameField.setReadOnly( true );
         }
 
     },
@@ -471,148 +454,49 @@ Ext.define( 'CMS.controller.UserController', {
         groupSelector.clearValue();
     },
 
-    // Dummy form
-    createDummyUserForm: function( user )
-    {
+    saveUser: function(button){
+        var editUserForm = button.up('editUserFormPanel');
+        if (editUserForm.getForm().isValid()){
+            var formValues = editUserForm.getValues();
+            var userData = {
+                username: formValues['username'],
+                'display-name': formValues['display-name'],
+                email: formValues['email'],
+                key: editUserForm.userFields.key,
+                userStore: editUserForm.userFields.userStore ?
+                        editUserForm.userFields.userStore : editUserForm.defaultUserStoreName,
+                userInfo: formValues
+            }
+            var tabPanel = editUserForm.down('#addressTabPanel');
+            var tabs = tabPanel.query('form');
+            var addresses = [];
+            for (index in tabs){
+                var address = tabs[index].getValues();
+                Ext.Array.include(addresses, address);
+            }
+            userData.userInfo.addresses = addresses;
 
-        return Ext.create( 'Ext.form.Panel', {
-            bodyStyle:'padding:15px',
-            fieldDefaults: {
-                labelAlign: 'top',
-                msgTarget: 'side'
-            },
-
-            defaults: {
-                anchor: '100%'
-            },
-
-            items: [
-                {
-                    layout:'column',
-                    border:false,
-                    items:[
-                        {
-                            columnWidth:.5,
-                            border:false,
-                            layout: 'anchor',
-                            defaultType: 'textfield',
-                            items: [
-                                {
-                                    fieldLabel: 'First Name',
-                                    name: 'first',
-                                    value: user ? user.name : '',
-                                    anchor:'95%'
-                                },
-                                {
-                                    fieldLabel: 'Company',
-                                    name: 'company',
-                                    anchor:'95%'
-                                }
-                            ]
-                        },
-                        {
-                            columnWidth:.5,
-                            border:false,
-                            layout: 'anchor',
-                            defaultType: 'textfield',
-                            items: [
-                                {
-                                    fieldLabel: 'Last Name',
-                                    name: 'last',
-                                    anchor:'95%'
-                                },
-                                {
-                                    fieldLabel: 'Email',
-                                    name: 'email',
-                                    vtype:'email',
-                                    anchor:'95%'
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    xtype:'tabpanel',
-                    plain:true,
-                    activeTab: 0,
-                    height:235,
-                    defaults:{bodyStyle:'padding:10px'},
-                    items:[
-                        {
-                            title:'Personal Details',
-                            defaults: {width: 230},
-                            defaultType: 'textfield',
-
-                            items: [
-                                {
-                                    fieldLabel: 'First Name',
-                                    name: 'first',
-                                    allowBlank:false
-                                },
-                                {
-                                    fieldLabel: 'Last Name',
-                                    name: 'last'
-                                },
-                                {
-                                    fieldLabel: 'Company',
-                                    name: 'company'
-                                },
-                                {
-                                    fieldLabel: 'Email',
-                                    name: 'email',
-                                    vtype:'email'
-                                }
-                            ]
-                        },
-                        {
-                            title:'Phone Numbers',
-                            defaults: {width: 230},
-                            defaultType: 'textfield',
-
-                            items: [
-                                {
-                                    fieldLabel: 'Home',
-                                    name: 'home',
-                                    value: '(888) 555-1212'
-                                },
-                                {
-                                    fieldLabel: 'Business',
-                                    name: 'business'
-                                },
-                                {
-                                    fieldLabel: 'Mobile',
-                                    name: 'mobile'
-                                },
-                                {
-                                    fieldLabel: 'Fax',
-                                    name: 'fax'
-                                }
-                            ]
-                        },
-                        {
-                            cls: 'x-plain',
-                            title: 'Biography',
-                            layout: 'fit',
-                            items: {
-                                xtype: 'htmleditor',
-                                name: 'bio2',
-                                fieldLabel: 'Biography'
-                            }
-                        }
-                    ]
-                }
-            ],
-
-            buttons: [
-                {
-                    text: 'Save'
-                },
-                {
-                    text: 'Cancel'
-                }
-            ]
-        } );
-
+            Ext.Ajax.request({
+                  url: 'data/user/update',
+                  method: 'POST',
+                  jsonData: userData,
+                  success: function( response, opts )
+                  {
+                      var serverResponse = Ext.JSON.decode(response.responseText);
+                      if (!serverResponse.success){
+                          Ext.Msg.alert('Error', serverResponse.error);
+                      }else{
+                          Ext.Msg.alert('Info', 'User was updated');
+                      }
+                  },
+                  failure: function( response, opts )
+                  {
+                      Ext.Msg.alert('Error', 'Internal server error was occured');
+                  }
+            });
+        }else{
+            Ext.Msg.alert('Error', 'Some required fields are missing');
+        }
     }
 
 } );

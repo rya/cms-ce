@@ -3,22 +3,32 @@ package com.enonic.cms.admin.user;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserEntity;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
-import com.enonic.cms.domain.EntityPageList;
-
-import com.enonic.cms.store.dao.UserDao;
-
-import com.sun.jersey.api.NotFoundException;
-import com.sun.jersey.api.core.InjectParam;
-
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import com.sun.jersey.api.NotFoundException;
+import com.sun.jersey.api.core.InjectParam;
+
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.store.dao.UserDao;
+
+import com.enonic.cms.domain.EntityPageList;
 
 @Component
 @Path("/admin/data/user")
@@ -32,7 +42,13 @@ public final class UsersResource
     private UserDao userDao;
 
     @Autowired
+    private UserStoreService userStoreService;
+
+    @Autowired
     private UserPhotoService photoService;
+
+    @Autowired
+    private UserModelTranslator userModelTranslator;
 
     @GET
     @Path("list")
@@ -40,7 +56,7 @@ public final class UsersResource
     {
         final EntityPageList<UserEntity> list =
                 this.userDao.findAll( req.getStart(), req.getLimit(), req.buildHqlQuery(), req.buildHqlOrder() );
-        return UserModelHelper.toModel( list );
+        return userModelTranslator.toModel( list );
     }
 
     @GET
@@ -48,14 +64,15 @@ public final class UsersResource
     public UserModel getUser( @QueryParam("key") final String key )
     {
         final UserEntity entity = findEntity( key );
-        return UserModelHelper.toModel( entity );
+        return userModelTranslator.toModel( entity );
     }
 
     @POST
     @Path("userinfo")
-    public UserModel getUserInfo( @FormParam("key") final String key){
+    public UserModel getUserInfo( @FormParam("key") final String key )
+    {
         final UserEntity entity = findEntity( key );
-        return UserModelHelper.toUserInfoModel( entity );
+        return userModelTranslator.toUserInfoModel( entity );
     }
 
     @GET
@@ -96,6 +113,34 @@ public final class UsersResource
         Map<String, Object> res = new HashMap<String, Object>();
         LOG.info( "User was deleted: " + userKey );
         res.put( "success", true );
+        return res;
+    }
+
+    @POST
+    @Path("update")
+    @Consumes("application/json")
+    public Map<String, Object> saveUser( UserModel userData )
+    {
+        boolean isValid =
+                StringUtils.isNotBlank( userData.getDisplayName() ) && StringUtils.isNotBlank( userData.getName() ) &&
+                        StringUtils.isNotBlank( userData.getEmail() );
+        Map<String, Object> res = new HashMap<String, Object>();
+        if ( isValid )
+        {
+            if (userData.getKey() == null){
+                StoreNewUserCommand command = userModelTranslator.toNewUserCommand( userData );
+                userStoreService.storeNewUser( command );
+            }else{
+                UpdateUserCommand command = userModelTranslator.toUpdateUserCommand( userData );
+                userStoreService.updateUser( command );
+            }
+            res.put( "success", true );
+        }
+        else
+        {
+            res.put( "success", false );
+            res.put( "error", "Validation was failed" );
+        }
         return res;
     }
 

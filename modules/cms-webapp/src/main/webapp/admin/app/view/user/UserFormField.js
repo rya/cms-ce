@@ -18,6 +18,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
         this.items = [];
         var fieldConfig = {
             disabled: this.readonly,
+            allowBlank: !this.required,
             name: this.fieldname,
             itemId: this.fieldname,
             action: this.actionName,
@@ -36,7 +37,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
 
         if ( this.fieldname == 'display-name' )
         {
-            fieldConfig.disabled = true;
+            fieldConfig.readOnly = true;
             var lockButton = {
                 xtype: 'button',
                 iconCls: 'icon-locked',
@@ -73,7 +74,10 @@ Ext.define( 'CMS.view.user.UserFormField', {
     {
         var date = Ext.Date.parse(fieldConfig.value, 'Y-m-d');
         fieldConfig.value = date;
-        var dateConfig = {xtype: 'datefield'};
+        var dateConfig = {
+            xtype: 'datefield',
+            format: 'Y-m-d'
+        };
         return Ext.apply(fieldConfig, dateConfig);
     },
 

@@ -1,9 +1,27 @@
 package com.enonic.cms.admin.user;
 
+import java.util.Map;
+
 import org.codehaus.jackson.annotate.JsonProperty;
 
 public class AddressModel
 {
+    public static final String LABEL = "label";
+
+    public static final String STREET = "street";
+
+    public static final String POSTAL_ADDRESS = "postal-address";
+
+    public static final String POSTAL_CODE = "postal-code";
+
+    public static final String REGION = "region";
+
+    public static final String COUNTRY = "country";
+
+    public static final String ISO_REGION = "iso-region";
+
+    public static final String ISO_COUNTRY = "iso-country";
+
     private String label;
 
     private String street;
@@ -19,6 +37,22 @@ public class AddressModel
     private String isoRegion;
 
     private String isoCountry;
+
+    public AddressModel()
+    {
+    }
+
+    public AddressModel( Map<String, Object> addressData )
+    {
+        this.label = getAddressField( addressData, LABEL );
+        this.street = getAddressField( addressData, STREET );
+        this.postalAddress = getAddressField( addressData, POSTAL_ADDRESS );
+        this.postalCode = getAddressField( addressData, POSTAL_CODE );
+        this.region = getAddressField( addressData, REGION );
+        this.country = getAddressField( addressData, COUNTRY );
+        this.isoCountry = getAddressField( addressData, ISO_COUNTRY );
+        this.isoRegion = getAddressField( addressData, ISO_REGION );
+    }
 
     public String getLabel()
     {
@@ -40,7 +74,7 @@ public class AddressModel
         this.street = street;
     }
 
-    @JsonProperty("postal-address")
+    @JsonProperty(POSTAL_ADDRESS)
     public String getPostalAddress()
     {
         return postalAddress;
@@ -51,7 +85,7 @@ public class AddressModel
         this.postalAddress = postalAddress;
     }
 
-    @JsonProperty("postal-code")
+    @JsonProperty(POSTAL_CODE)
     public String getPostalCode()
     {
         return postalCode;
@@ -82,7 +116,7 @@ public class AddressModel
         this.country = country;
     }
 
-    @JsonProperty("iso-region")
+    @JsonProperty(ISO_REGION)
     public String getIsoRegion()
     {
         return isoRegion;
@@ -93,7 +127,7 @@ public class AddressModel
         this.isoRegion = isoRegion;
     }
 
-    @JsonProperty("iso-country")
+    @JsonProperty(ISO_COUNTRY)
     public String getIsoCountry()
     {
         return isoCountry;
@@ -102,5 +136,10 @@ public class AddressModel
     public void setIsoCountry( String isoCountry )
     {
         this.isoCountry = isoCountry;
+    }
+
+    public String getAddressField( Map<String, Object> addressData, String fieldName )
+    {
+        return addressData.get( fieldName ) != null ? addressData.get( fieldName ).toString() : null;
     }
 }

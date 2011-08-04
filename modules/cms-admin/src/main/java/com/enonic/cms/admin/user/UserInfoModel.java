@@ -2,15 +2,101 @@ package com.enonic.cms.admin.user;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.enonic.cms.domain.user.Gender;
-
 public class UserInfoModel
 {
+    public static final String FIRST_NAME = "first-name";
+
+    public static final String LAST_NAME = "last-name";
+
+    public static final String MIDDLE_NAME = "middle-name";
+
+    public static final String BIRTHDAY = "birthday";
+
+    public static final String COUNTRY = "country";
+
+    public static final String DESCRIPTION = "description";
+
+    public static final String INITIALS = "initials";
+
+    public static final String GLOBAL_POSITION = "global-position";
+
+    public static final String LOCALE = "locale";
+
+    public static final String NICK_NAME = "nick-name";
+
+    public static final String PERSONAL_ID = "personal-id";
+
+    public static final String ORGANIZATION = "organization";
+
+    public static final String PREFIX = "prefix";
+
+    public static final String SUFFIX = "suffix";
+
+    public static final String TITLE = "title";
+
+    public static final String HOME_PAGE = "home-page";
+
+    public static final String MOBILE = "mobile";
+
+    public static final String PHONE = "phone";
+
+    public static final String FAX = "fax";
+
+    public static final String TIMEZONE = "timezone";
+
+    public static final String GENDER = "gender";
+
+    public static final String ADDRESSES = "addresses";
+
+    public static final String MEMBER_ID = "member-id";
+
+    public static final String HTML_EMAIL = "html-email";
+
+
+    public UserInfoModel()
+    {
+    }
+
+    public UserInfoModel( Map<String, Object> userData )
+    {
+        this.firstName = getUserField( userData, FIRST_NAME );
+        this.lastName = getUserField( userData, LAST_NAME );
+        this.middleName = getUserField( userData, MIDDLE_NAME );
+        this.birthday = getUserField( userData, BIRTHDAY );
+        this.country = getUserField( userData, COUNTRY );
+        this.description = getUserField( userData, DESCRIPTION );
+        this.fax = getUserField( userData, FAX );
+        this.globalPosition = getUserField( userData, GLOBAL_POSITION );
+        this.homePage = getUserField( userData, HOME_PAGE );
+        this.initials = getUserField( userData, INITIALS );
+        this.memberId = getUserField( userData, MEMBER_ID );
+        this.mobile = getUserField( userData, MOBILE );
+        this.nickName = getUserField( userData, NICK_NAME );
+        this.organization = getUserField( userData, ORGANIZATION );
+        this.personalId = getUserField( userData, PERSONAL_ID );
+        this.phone = getUserField( userData, PHONE );
+        this.prefix = getUserField( userData, PREFIX );
+        this.suffix = getUserField( userData, SUFFIX );
+        this.title = getUserField( userData, TITLE );
+        this.timeZone = getUserField( userData, TIMEZONE );
+        this.gender = getUserField( userData, GENDER );
+        this.title = getUserField( userData, TITLE );
+        this.locale = getUserField( userData, LOCALE );
+        if ( userData.get( ADDRESSES ) != null )
+        {
+            List<Map<String, Object>> addressesData = (List<Map<String, Object>>) userData.get( ADDRESSES );
+            this.addresses = new ArrayList<AddressModel>();
+            for ( Map<String, Object> address : addressesData )
+            {
+                this.addresses.add( new AddressModel( address ) );
+            }
+
+        }
+    }
 
     private String firstName;
 
@@ -30,9 +116,9 @@ public class UserInfoModel
 
     private String globalPosition;
 
-    private Boolean htmlEmail;
+    private String htmlEmail;
 
-    private Locale locale;
+    private String locale;
 
     private String nickName;
 
@@ -56,13 +142,13 @@ public class UserInfoModel
 
     private String fax;
 
-    private TimeZone timeZone;
+    private String timeZone;
 
-    private Gender gender;
+    private String gender;
 
     private List<AddressModel> addresses = new ArrayList<AddressModel>();
 
-    @JsonProperty("first-name")
+    @JsonProperty(FIRST_NAME)
     public String getFirstName()
     {
         return firstName;
@@ -73,7 +159,7 @@ public class UserInfoModel
         this.firstName = firstName;
     }
 
-    @JsonProperty("last-name")
+    @JsonProperty(LAST_NAME)
     public String getLastName()
     {
         return lastName;
@@ -84,7 +170,7 @@ public class UserInfoModel
         this.lastName = lastName;
     }
 
-    @JsonProperty("middle-name")
+    @JsonProperty(MIDDLE_NAME)
     public String getMiddleName()
     {
         return middleName;
@@ -135,7 +221,7 @@ public class UserInfoModel
         this.initials = initials;
     }
 
-    @JsonProperty("global-position")
+    @JsonProperty(GLOBAL_POSITION)
     public String getGlobalPosition()
     {
         return globalPosition;
@@ -146,23 +232,23 @@ public class UserInfoModel
         this.globalPosition = globalPosition;
     }
 
-    @JsonProperty("html-email")
-    public Boolean getHtmlEmail()
+    @JsonProperty(HTML_EMAIL)
+    public String getHtmlEmail()
     {
         return htmlEmail;
     }
 
-    public void setHtmlEmail( Boolean htmlEmail )
+    public void setHtmlEmail( String htmlEmail )
     {
         this.htmlEmail = htmlEmail;
     }
 
-    public Locale getLocale()
+    public String getLocale()
     {
         return locale;
     }
 
-    public void setLocale( Locale locale )
+    public void setLocale( String locale )
     {
         this.locale = locale;
     }
@@ -283,12 +369,12 @@ public class UserInfoModel
     }
 
     @JsonProperty("timezone")
-    public TimeZone getTimeZone()
+    public String getTimeZone()
     {
         return timeZone;
     }
 
-    public void setTimeZone( TimeZone timeZone )
+    public void setTimeZone( String timeZone )
     {
         this.timeZone = timeZone;
     }
@@ -303,13 +389,18 @@ public class UserInfoModel
         this.addresses = addresses;
     }
 
-    public Gender getGender()
+    public String getGender()
     {
         return gender;
     }
 
-    public void setGender( Gender gender )
+    public void setGender( String gender )
     {
         this.gender = gender;
+    }
+
+    public String getUserField( Map<String, Object> userData, String fieldName )
+    {
+        return userData.get( fieldName ) != null ? userData.get( fieldName ).toString() : null;
     }
 }
