@@ -47,7 +47,7 @@ public class ContentBySectionQuery
         {
             if ( !( sections.size() == 1 && sections.iterator().next().isOrderedSection() ) )
             {
-                this.setOrderBy( "@publishfrom DESC" );
+                this.setOrderBy( "@timestamp DESC" );
             }
         }
 

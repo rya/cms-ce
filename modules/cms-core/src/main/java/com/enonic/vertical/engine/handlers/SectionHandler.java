@@ -1424,9 +1424,11 @@ public class SectionHandler
             sql.append( " = 1" );
         }
 
+        String orderDirection = " ASC ";
         if ( orderBy == null )
         {
-            orderBy = contentView.cov_sTitle.getName();
+            orderBy = contentView.cov_dteTimestamp.getName();
+            orderDirection = " DESC ";
         }
 
         sql.append( " ORDER BY " );
@@ -1443,6 +1445,7 @@ public class SectionHandler
         }
 
         sql.append( orderBy );
+        sql.append( orderDirection );
 
         Connection con = null;
         PreparedStatement prepStmt = null;
