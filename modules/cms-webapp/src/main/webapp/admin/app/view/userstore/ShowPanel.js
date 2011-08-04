@@ -15,6 +15,7 @@ Ext.define('CMS.view.userstore.ShowPanel', {
         this.items = [
             {
                 region: 'center',
+                id: 'userstoreGridID',
                 xtype: 'userstoreGrid',
                 flex: 2
             },
