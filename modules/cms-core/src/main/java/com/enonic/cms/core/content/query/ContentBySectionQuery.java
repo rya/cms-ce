@@ -6,11 +6,11 @@ package com.enonic.cms.core.content.query;
 
 import java.util.Collection;
 
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.content.index.ContentIndexQuery;
 import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
+import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 public class ContentBySectionQuery
     extends AbstractContentQuery
@@ -47,7 +47,7 @@ public class ContentBySectionQuery
         {
             if ( !( sections.size() == 1 && sections.iterator().next().isOrderedSection() ) )
             {
-                this.setOrderBy( "@publishfrom DESC" );
+                this.setOrderBy( "@timestamp DESC" );
             }
         }
 
