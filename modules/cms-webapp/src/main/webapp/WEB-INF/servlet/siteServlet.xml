@@ -54,6 +54,10 @@
         <property name="securityService" ref="securityService"/>
     </bean>
 
+    <bean id="httpInterceptorInterceptor" class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
+        <property name="pluginManager" ref="extensionManager"/>
+    </bean>
+
     <!-- default handler mapping -->
     <bean id="defaultHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
@@ -100,6 +104,7 @@
             <list>
                 <ref bean="autoLoginInterceptor"/>
                 <ref bean="basicAuthInterceptor"/>
+                <ref bean="httpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
@@ -141,6 +146,7 @@
             <list>
                 <ref bean="autoLoginInterceptor"/>
                 <ref bean="basicAuthInterceptor"/>
+                <ref bean="httpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
