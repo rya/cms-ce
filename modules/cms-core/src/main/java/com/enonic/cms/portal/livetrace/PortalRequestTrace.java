@@ -6,11 +6,12 @@ package com.enonic.cms.portal.livetrace;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.structure.SiteEntity;
+
 import com.enonic.cms.domain.PathAndParamsToStringBuilder;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.security.user.QualifiedUsername;
-import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Oct 6, 2010
@@ -54,6 +55,8 @@ public class PortalRequestTrace
     private WindowRenderingTrace windowRenderingTrace;
 
     private AttachmentRequestTrace attachmentRequestTrace;
+
+    private ImageRequestTrace imageRequestTrace;
 
     PortalRequestTrace( long requestNumber, String url )
     {
@@ -101,6 +104,10 @@ public class PortalRequestTrace
         {
             return "A";
         }
+        else if ( imageRequestTrace != null )
+        {
+            return "I";
+        }
         else
         {
             return "?";
@@ -120,6 +127,10 @@ public class PortalRequestTrace
         else if ( attachmentRequestTrace != null )
         {
             return "Attachment";
+        }
+        else if ( imageRequestTrace != null )
+        {
+            return "Image";
         }
         else
         {
@@ -287,6 +298,21 @@ public class PortalRequestTrace
     void setAttachmentRequestTrace( AttachmentRequestTrace attachmentRequestTrace )
     {
         this.attachmentRequestTrace = attachmentRequestTrace;
+    }
+
+    public boolean hasImageRequestTrace()
+    {
+        return imageRequestTrace != null;
+    }
+
+    public ImageRequestTrace getImageRequestTrace()
+    {
+        return imageRequestTrace;
+    }
+
+    void setImageRequestTrace( ImageRequestTrace imageRequestTrace )
+    {
+        this.imageRequestTrace = imageRequestTrace;
     }
 
     @Override
