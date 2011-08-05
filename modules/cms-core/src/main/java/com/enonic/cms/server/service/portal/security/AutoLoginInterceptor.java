@@ -6,12 +6,10 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
 import com.enonic.cms.server.service.servlet.OriginalPathResolver;
-import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.core.plugin.ExtensionManager;
@@ -32,9 +30,6 @@ public final class AutoLoginInterceptor
     private SecurityService securityService;
 
     private OriginalPathResolver originalPathResolver = new OriginalPathResolver();
-
-    @Autowired
-    private UserDao userDao;
 
     public void setPluginManager( ExtensionManager pluginManager )
     {
