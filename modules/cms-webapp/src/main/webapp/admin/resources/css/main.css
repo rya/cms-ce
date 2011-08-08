@@ -215,7 +215,7 @@ img.photo {
 
 .icon-delete {
     /*background-image: url("../images/delete.png");*/
-    background-image: url("../images/bin.png");
+    background-image: url("../images/cross.png");
 }
 
 .icon-new {
@@ -282,4 +282,16 @@ img.photo {
 
 .userstore-info .x-toolbar {
     border-width: 1px !important;
+}
+
+
+/*------    Cache   ---------*/
+
+.cache-info h1 {
+    margin: 0;
+}
+.cache-info h1 span {
+    font-size: 13px;
+    font-style: normal;
+    margin-left: 10px;
 }

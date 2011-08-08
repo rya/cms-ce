@@ -2,54 +2,54 @@
     "total": 5,
     "systemCaches": [
         {
-            "key": "images",
-            "implementation": "name1",
-            "timeToLive": 100,
-            "maxMemElements": 1000,
-            "maxDiskElements": 1000,
-            "objectCount": 123,
-            "cacheHits": 4938,
-            "cacheMisses": 1348
+            "key": 1,
+            "node": "images",
+            "name": "name1",
+            "count": 723,
+            "size": 1423,
+            "hits": 398,
+            "misses": 3448,
+            "timeToLive": 400
         },
         {
-            "key": "pages",
-            "implementation": "name2",
-            "timeToLive": 100,
-            "maxMemElements": 1000,
-            "maxDiskElements": 1000,
-            "objectCount": 124,
-            "cacheHits": 4391,
-            "cacheMisses": 348
+            "key": 2,
+            "node": "pages",
+            "name": "name2",
+            "count": 2123,
+            "size": 3723,
+            "hits": 938,
+            "misses": 138,
+            "timeToLive": 1050
         },
         {
-            "key": "smthing",
-            "implementation": "name3",
-            "timeToLive": 100,
-            "maxMemElements": 1000,
-            "maxDiskElements": 1000,
-            "objectCount": 417,
-            "cacheHits": 1238,
-            "cacheMisses": 18349
+            "key": 3,
+            "node": "smthng",
+            "name": "name3",
+            "count": 323,
+            "size": 923,
+            "hits": 938,
+            "misses": 8134,
+            "timeToLive": 1008
         },
         {
-            "key": "cache1",
-            "implementation": "name4",
-            "timeToLive": 100,
-            "maxMemElements": 1000,
-            "maxDiskElements": 1000,
-            "objectCount": 1234,
-            "cacheHits": 48912,
-            "cacheMisses": 3892
+            "key": 4,
+            "node": "cache",
+            "name": "name4",
+            "count": 123,
+            "size": 523,
+            "hits": 438,
+            "misses": 348,
+            "timeToLive": 4100
         },
         {
-            "key": "cache2",
-            "implementation": "name5",
-            "timeToLive": 100,
-            "maxMemElements": 1000,
-            "maxDiskElements": 1000,
-            "objectCount": 1233,
-            "cacheHits": 1248,
-            "cacheMisses": 7187
+            "key": 5,
+            "node": "cache",
+            "name": "name5",
+            "count": 41763,
+            "size": 73423,
+            "hits": 44938,
+            "misses": 14348,
+            "timeToLive": 5500
         }
     ]
 }
