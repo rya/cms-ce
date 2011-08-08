@@ -63,13 +63,14 @@ public final class UsersResource
     @Path("detail")
     public UserModel getUser( @QueryParam("key") final String key )
     {
+        LOG.info( "Get user detail!" );
         final UserEntity entity = findEntity( key );
         return userModelTranslator.toModel( entity );
     }
 
-    @POST
+    @GET
     @Path("userinfo")
-    public UserModel getUserInfo( @FormParam("key") final String key )
+    public UserModel getUserInfo( @QueryParam("key") final String key )
     {
         final UserEntity entity = findEntity( key );
         return userModelTranslator.toUserInfoModel( entity );

@@ -1,5 +1,5 @@
 Ext.define( 'CMS.view.user.EditUserFormPanel', {
-    extend: 'Ext.form.Panel',
+    extend: 'Ext.panel.Panel',
     alias: 'widget.editUserFormPanel',
 
     defaults: {
@@ -9,16 +9,21 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     autoScroll: true,
 
     title: 'User',
-    modal: true,
+    measureWidth: true,
 
     layout: {
         type: 'table',
-        columns: 2,
+        columns: 1,
         defaultMargins: {top:10, right:10, bottom:10, left:10},
         padding: 10,
         tdAttrs: {
             style:{
                 padding: '10px'
+            }
+        },
+        tableAttrs: {
+            style:{
+                width: '100%'
             }
         }
     },
@@ -68,7 +73,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
             'email': this.createTextField
         };
         this.nameFieldSet = {
-            'display-name': this.createTextField,
             'prefix': this.createTextField,
             'first-name': this.createTextField,
             'middle-name': this.createTextField,
@@ -114,6 +118,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     return {
                         sourceField: field,
                         xtype: 'tabpanel',
+                        width: '100%',
                         itemId: 'addressTabPanel',
                         height: 280,
                         width: 300,
@@ -131,6 +136,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     return {
                         sourceField: field,
                         xtype: 'tabpanel',
+                        width: '100%',
                         itemId: 'addressTabPanel',
                         height: 280,
                         width: 300,
@@ -310,11 +316,11 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     {
         var me = this;
         var fieldSetItem = {
-            width: 300,
             defaults: {
                 bodyPadding: 10
             },
             xtype: 'fieldset',
+            measureWidth: true,
             title: title
         };
         var fieldItems = [];

@@ -2,7 +2,11 @@ Ext.define( 'CMS.view.user.UserFormField', {
     extend: 'Ext.form.FieldContainer',
     alias: 'widget.userFormField',
 
-    layout: 'hbox',
+    layout: {
+        type: 'hbox'
+    },
+
+    height: '100%',
 
     initComponent: function()
     {
@@ -17,6 +21,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
         };
         this.items = [];
         var fieldConfig = {
+            flex: 1,
             disabled: this.readonly,
             allowBlank: !this.required,
             name: this.fieldname,
@@ -34,10 +39,11 @@ Ext.define( 'CMS.view.user.UserFormField', {
             builderFunction = this.fieldConfigBuilders.text;
         }
         fieldConfig = builderFunction( fieldConfig, this );
-
         if ( this.fieldname == 'display-name' )
         {
             fieldConfig.readOnly = true;
+            fieldConfig.readOnlyCls = 'display-name-readonly';
+            fieldConfig.height = 40;
             var lockButton = {
                 xtype: 'button',
                 iconCls: 'icon-locked',
@@ -50,7 +56,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
         {
             Ext.Array.include( this.items, fieldConfig );
         }
-        if ( this.required )
+        if ( this.required && (this.fieldLabel != undefined))
         {
             this.fieldLabel =
                     this.fieldLabel + "<span style=\"color:red;\" ext:qtip=\"This field is required\">*</span>";
