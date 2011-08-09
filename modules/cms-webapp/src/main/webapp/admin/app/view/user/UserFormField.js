@@ -123,7 +123,8 @@ Ext.define( 'CMS.view.user.UserFormField', {
             hideTrigger: true,
             valueField: me.valueField,
             displayField: me.displayField,
-            listConfig: me.displayConfig
+            listConfig: me.displayConfig,
+            action: 'initValue'
         };
         return Ext.apply(fieldConfig, autoCompleteConfig);
     },

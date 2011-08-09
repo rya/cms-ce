@@ -130,6 +130,9 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           '*[action=closeUserForm]': {
                               click: this.closeUserForm
+                          },
+                          '*[action=initValue]': {
+                              added: this.initValue
                           }
                       } );
     },
@@ -510,6 +513,12 @@ Ext.define( 'CMS.controller.UserController', {
     closeUserForm: function(button){
         var tabPane = this.getTabPanel();
         tabPane.getActiveTab().close();
+    },
+
+    initValue: function(field){
+        var formField = field.up('userFormField');
+        field.valueNotFoundText = formField.fieldValue;
+        field.setValue(formField.fieldValue);
     }
 
 } );

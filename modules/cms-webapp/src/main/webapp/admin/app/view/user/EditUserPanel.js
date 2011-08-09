@@ -56,6 +56,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
                     xtype: 'image',
                     cls: 'thumbnail',
                     region: 'west',
+                    width: 73,
+                    height: 73,
                     flex: 0.065,
                     src: 'data/user/photo?key=' + me.currentUser.key
                 },
