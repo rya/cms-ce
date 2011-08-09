@@ -8,7 +8,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     autoScroll: true,
 
-    title: 'User',
     measureWidth: true,
 
     layout: {
@@ -29,18 +28,6 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     },
     currentUser: undefined,
     defaultUserStoreName: 'default',
-
-    buttons: [
-        {
-            text: 'Cancel',
-            scope: this,
-            handler: this.close
-        },
-        {
-            text: 'Save',
-            action: 'saveUser'
-        }
-    ],
 
     listeners: {
         afterrender: function( me )
@@ -68,6 +55,36 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     initComponent: function()
     {
         var me = this;
+        this.dockedItems = [
+        {
+            dock: 'top',
+            xtype: 'toolbar',
+            border: false,
+            padding: 5,
+            items: [
+                {
+                    text: 'Save',
+                    iconCls: 'icon-save',
+                    action: 'saveUser'
+                },
+                {
+                    text: 'Cancel',
+                    scope: this,
+                    handler: this.close
+                },
+                '->',
+                {
+                    text: 'Delete',
+                    iconCls: 'icon-delete-user',
+                    action: 'deleteUser'
+                },
+                {
+                    text: 'Change Password',
+                    iconCls: 'icon-change-password',
+                    action: 'changePassword'
+                }
+            ]
+        }];
         this.userFieldSet = {
             'username': this.createTextField,
             'email': this.createTextField
