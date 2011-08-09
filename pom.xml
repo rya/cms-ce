@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.enonic.pom</groupId>
         <artifactId>base</artifactId>
-        <version>3</version>
+        <version>4</version>
     </parent>
 
     <groupId>com.enonic.cms</groupId>
@@ -479,7 +479,7 @@
     <repositories>
         <repository>
             <id>enonic.repo</id>
-            <url>http://repo.enonic.com/artifactory/repo</url>
+            <url>http://repo.enonic.com/maven</url>
         </repository>
     </repositories>
 

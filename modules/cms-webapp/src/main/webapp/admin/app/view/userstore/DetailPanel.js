@@ -15,7 +15,6 @@ Ext.define('CMS.view.userstore.DetailPanel', {
                 '<dt>Key</dt><dd>{key}</dd>',
                 '<dt>Default Store</dt><dd>{defaultStore}</dd>',
                 '<dt>Connector Name</dt><dd>{connectorName}</dd>',
-                '<dt>Deleted</dt><dd>{deleted}</dd>',
                 '</dl>',
                 '</div>'
         );

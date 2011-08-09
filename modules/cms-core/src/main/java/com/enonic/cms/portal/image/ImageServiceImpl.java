@@ -10,6 +10,7 @@ import java.util.concurrent.locks.Lock;
 import javax.inject.Inject;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Preconditions;
 
@@ -26,6 +27,9 @@ import com.enonic.cms.core.resolver.ContentAccessResolver;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.portal.image.cache.ImageCache;
+import com.enonic.cms.portal.livetrace.ImageRequestTrace;
+import com.enonic.cms.portal.livetrace.ImageRequestTracer;
+import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
@@ -50,6 +54,9 @@ public final class ImageServiceImpl
 
     private PreviewService previewService;
 
+    @Autowired
+    private LivePortalTraceService livePortalTraceService;
+
     private static GenericConcurrencyLock<String> concurrencyLock = GenericConcurrencyLock.create();
 
     public ImageServiceImpl()
@@ -70,7 +77,10 @@ public final class ImageServiceImpl
 
     public ImageResponse process( ImageRequest imageRequest )
     {
-        Preconditions.checkNotNull( imageRequest );
+        Preconditions.checkNotNull( imageRequest, "imageRequest cannot be null" );
+
+        final ImageRequestTrace imageRequestTrace = livePortalTraceService.getCurrentImageRequestTrace();
+
         String blobKey = getBlobKey( imageRequest );
         if ( blobKey == null )
         {
@@ -78,13 +88,6 @@ public final class ImageServiceImpl
         }
 
         imageRequest.setBlobKey( blobKey );
-        String eTag = calculateETag( imageRequest );
-        if ( eTag.equals( imageRequest.getETag() ) )
-        {
-            return ImageResponse.notModified();
-        }
-
-        imageRequest.setETag( eTag );
 
         final Lock locker = concurrencyLock.getLock( imageRequest.getCacheKey() );
 
@@ -95,21 +98,22 @@ public final class ImageServiceImpl
             ImageResponse res = imageCache.get( imageRequest );
             if ( res != null )
             {
-                res.setETag( imageRequest.getETag() );
+                ImageRequestTracer.traceImageResponse( imageRequestTrace, res );
+                ImageRequestTracer.traceUsedCachedResult( imageRequestTrace, true );
                 return res;
             }
 
             try
             {
                 res = doProcess( imageRequest );
-                res.setETag( imageRequest.getETag() );
+                ImageRequestTracer.traceImageResponse( imageRequestTrace, res );
+                ImageRequestTracer.traceUsedCachedResult( imageRequestTrace, false );
+                return res;
             }
             catch ( Exception e )
             {
                 throw new ImageProcessorException( "Failed to process image: " + e.getMessage(), e );
             }
-
-            return res;
         }
         finally
         {
@@ -205,19 +209,6 @@ public final class ImageServiceImpl
         return imageResponse;
     }
 
-    private String calculateETag( ImageRequest req )
-    {
-        StringBuffer str = new StringBuffer();
-        str.append( req.getBinaryDataKey() ).append( "-" );
-        str.append( req.getParams().getQuality() ).append( "-" );
-        str.append( req.getParams().getFilter() ).append( "-" );
-        str.append( req.getParams().getBackgroundColor() ).append( "-" );
-        str.append( req.getFormat() ).append( "-" );
-        str.append( req.getBlobKey() );
-        return "image_" + DigestUtils.shaHex( str.toString() );
-    }
-
-    @Inject
     public void setImageCache( ImageCache imageCache )
     {
         this.imageCache = imageCache;

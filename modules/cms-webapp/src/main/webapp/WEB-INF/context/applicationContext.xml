@@ -190,8 +190,6 @@
     </bean>
 
     <!-- services -->
-    <bean id="binaryService" class="com.enonic.cms.core.content.binary.BinaryServiceImpl"/>
-
     <bean id="calendarService" class="com.enonic.cms.core.calendar.CalendarService"/>
 
     <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
