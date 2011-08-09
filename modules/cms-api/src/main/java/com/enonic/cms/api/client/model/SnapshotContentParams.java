@@ -12,7 +12,10 @@ package com.enonic.cms.api.client.model;
  * Time: 4:49:10 PM
  */
 public class SnapshotContentParams
+    extends AbstractParams
 {
+    private static final long serialVersionUID = -5753543969892262043L;
+
     public int contentKey;
 
     public String snapshotComment;
