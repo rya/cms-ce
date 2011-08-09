@@ -4,6 +4,10 @@
  */
 package com.enonic.cms.itest;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.enonic.vertical.engine.VerticalKeyException;
 
 import com.enonic.cms.core.service.KeyService;
@@ -14,20 +18,28 @@ import com.enonic.cms.core.service.KeyService;
 public class MockKeyService
     implements KeyService
 {
-    private int nextKey = 0;
+
+    private static Map<String, AtomicInteger> nextKeyByTableName = new HashMap<String, AtomicInteger>();
 
     public int generateNextKeySafe( String tableName )
         throws VerticalKeyException
     {
-        int keyToReturn = nextKey;
-        nextKey++;
-        return keyToReturn;
+        synchronized ( nextKeyByTableName )
+        {
+            AtomicInteger nextKey = nextKeyByTableName.get( tableName.toLowerCase() );
+            if ( nextKey == null )
+            {
+                nextKey = new AtomicInteger( 0 );
+                nextKeyByTableName.put( tableName.toLowerCase(), nextKey );
+            }
+            return nextKey.getAndIncrement();
+        }
     }
 
     public void updateKey( String tableName, String pkColumnName, int minimumValue )
         throws VerticalKeyException
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     public boolean keyExists( String tableName, int key )

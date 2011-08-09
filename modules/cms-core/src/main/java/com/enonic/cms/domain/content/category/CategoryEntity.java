@@ -42,7 +42,7 @@ public class CategoryEntity
 
     private Date timestamp;
 
-    private int deleted;
+    private Integer deleted;
 
     private UserEntity owner;
 
@@ -113,7 +113,7 @@ public class CategoryEntity
         return timestamp;
     }
 
-    public int getDeleted()
+    public Integer getDeleted()
     {
         return deleted;
     }

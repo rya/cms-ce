@@ -226,6 +226,7 @@ public abstract class AbstractPersistContentTest
         unit.setKey( ++lastUsedId );
         unit.setName( name );
         unit.setLanguage( findLanguageByCode( languageCode ) );
+        unit.setDeleted( false );
         return unit;
     }
 

@@ -6,6 +6,7 @@ package com.enonic.cms.domain.content;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -24,13 +25,13 @@ public class UnitEntity
 
     private Date timestamp;
 
-    private int deleted;
+    private Integer deleted;
 
     private UnitEntity parent;
 
     private LanguageEntity language;
 
-    private Set<ContentTypeEntity> contentTypes;
+    private Set<ContentTypeEntity> contentTypes = new LinkedHashSet<ContentTypeEntity>();
 
     public int getKey()
     {
@@ -67,9 +68,19 @@ public class UnitEntity
         return language;
     }
 
+    public void addContentType( ContentTypeEntity contentType )
+    {
+        contentTypes.add( contentType );
+    }
+
     public Set<ContentTypeEntity> getContentTypes()
     {
         return contentTypes;
+    }
+
+    public void removeContentTypes()
+    {
+        contentTypes.clear();
     }
 
     public void setKey( int key )

@@ -48,6 +48,7 @@ import com.enonic.cms.upgrade.UpgradeService;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.core.content.ContentParserService;
 import com.enonic.cms.business.core.content.ContentService;
+import com.enonic.cms.business.core.content.category.CategoryService;
 import com.enonic.cms.business.core.content.imports.ImportJobFactory;
 import com.enonic.cms.business.core.content.imports.ImportService;
 import com.enonic.cms.business.core.resource.ResourceService;
@@ -155,6 +156,9 @@ public abstract class AbstractAdminwebServlet
     protected ResourceService resourceService;
 
     protected SecurityService securityService;
+
+    @Autowired
+    protected CategoryService categoryService;
 
     @Autowired
     protected SendMailService sendMailService;

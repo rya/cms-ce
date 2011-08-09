@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +12,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.jdom.JDOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,17 +22,11 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.filters.Filter;
 
-import com.enonic.cms.framework.util.JDOMUtil;
-
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
 
 public class UnitHandler
     extends BaseHandler
@@ -64,13 +55,9 @@ public class UnitHandler
         "UPDATE tUnit" + " SET uni_lan_lKey=?" + ",uni_sName=?" + ",uni_sDescription=?" + ",uni_lSuperKey=?" + ",uni_dteTimestamp=" +
             "@currentTimestamp@" + " WHERE uni_lKey=?";
 
-    private final static String UNI_DELETE = "UPDATE tUnit SET uni_bDeleted = ?";
-
     private final static String UNI_WHERE_CLAUSE = " uni_lKey=?";
 
     private final static String UNI_DEFAULT_ORDER_BY = "name ASC";
-
-    private final static String WHERE = " WHERE ";
 
     private static final Map<String, String> orderByMap;
 
@@ -501,63 +488,6 @@ public class UnitHandler
     public String getUnits()
     {
         return getUnits( null );
-    }
-
-    public void removeUnit( int unitKey )
-        throws VerticalRemoveException
-    {
-
-        try
-        {
-            String unit = getUnit( unitKey );
-            String categoryKey = JDOMUtil.evaluateSingleXPathValueAsString( "/units/unit/@categorykey", JDOMUtil.parseDocument( unit ) );
-            CategoryEntity categoryEntity = categoryDao.findByKey( new CategoryKey( Integer.valueOf( categoryKey ) ) );
-
-            List<ContentKey> contentKeys = contentDao.findContentKeysByCategory( categoryEntity );
-
-            if ( categoryEntity.hasChildren() || contentKeys.size() > 0 )
-            {
-                throw new VerticalRemoveException(
-                    "Unable to remove unit with key " + unitKey + " : Category " + categoryEntity.getName() + " (" +
-                        categoryEntity.getKey().toString() + ") contains sub-categories and/or content" );
-            }
-        }
-        catch ( JDOMException e )
-        {
-            throw new VerticalRemoveException( e );
-        }
-        catch ( IOException e )
-        {
-            throw new VerticalRemoveException( e );
-        }
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        getCommonHandler().cascadeDelete( db.tUnit, unitKey );
-
-        try
-        {
-            StringBuffer sql = new StringBuffer( UNI_DELETE );
-            sql.append( WHERE );
-            sql.append( UNI_WHERE_CLAUSE );
-
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setBoolean( 1, true );
-            preparedStmt.setInt( 2, unitKey );
-            preparedStmt.executeUpdate();
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to remove unit: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
     }
 
     public void updateUnit( String xmlData )

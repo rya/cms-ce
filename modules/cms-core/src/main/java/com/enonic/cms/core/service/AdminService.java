@@ -68,9 +68,6 @@ public interface AdminService
 
     public String getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory );
 
-    public void removeCategory( User user, int categoryKey )
-        throws VerticalSecurityException, VerticalRemoveException;
-
     public void updateCategory( User user, String xmlData )
         throws VerticalSecurityException, VerticalUpdateException;
 
@@ -220,9 +217,6 @@ public interface AdminService
         throws VerticalRemoveException, VerticalSecurityException;
 
     public void removePageTemplate( int pageTemplateKey )
-        throws VerticalSecurityException, VerticalRemoveException;
-
-    public void removeUnit( User user, int unitKey )
         throws VerticalSecurityException, VerticalRemoveException;
 
     public void updateContentObject( String xmlData )

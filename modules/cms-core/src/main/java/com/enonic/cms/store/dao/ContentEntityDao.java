@@ -164,13 +164,17 @@ public class ContentEntityDao
         return findByNamedQuery( ContentKey.class, "ContentEntity.findContentKeysByCategoryKey", new String[]{"categoryKey"},
                                  new Object[]{category.getKey()} );
     }
-    
-    @Override
+
     public boolean checkNameExists( CategoryEntity category, String name )
     {
-        return 0L != findSingleByNamedQuery( Long.class, "ContentEntity.countContentInCategoryByName",
-                                                          new String[]{"categoryKey", "name"},
-                                                          new Object[]{category.getKey(), name} );
+        return 0L != findSingleByNamedQuery( Long.class, "ContentEntity.countContentInCategoryByName", new String[]{"categoryKey", "name"},
+                                             new Object[]{category.getKey(), name} );
+    }
+
+    public long countContentByCategory( CategoryEntity category )
+    {
+        return findSingleByNamedQuery( Long.class, "ContentEntity.countContentByCategory", new String[]{"categoryKey"},
+                                       new Object[]{category.getKey()} );
     }
 
     public int getNumberOfRelatedParentsByKey( List<ContentKey> contentKeys )

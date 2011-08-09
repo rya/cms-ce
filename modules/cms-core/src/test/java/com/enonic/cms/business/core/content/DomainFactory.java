@@ -169,6 +169,7 @@ public class DomainFactory
         unit.setKey( tableKeyGeneratorFixture.nextKey2() );
         unit.setName( name );
         unit.setLanguage( fixture.findLanguageByCode( languageCode ) );
+        unit.setDeleted( false );
         return unit;
     }
 

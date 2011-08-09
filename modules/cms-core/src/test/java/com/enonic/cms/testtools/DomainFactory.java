@@ -13,6 +13,8 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 import com.enonic.cms.framework.xml.XMLBytes;
 
+import com.enonic.cms.itest.MockKeyService;
+
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.content.ContentAccessEntity;
@@ -60,7 +62,7 @@ import com.enonic.cms.domain.user.field.UserFieldType;
  */
 public class DomainFactory
 {
-    private TableKeyGeneratorFixture tableKeyGeneratorFixture = new TableKeyGeneratorFixture();
+    private MockKeyService mockKeyService = new MockKeyService();
 
     private DomainFixture fixture;
 
@@ -73,7 +75,7 @@ public class DomainFactory
     public LanguageEntity createLanguage( String code )
     {
         LanguageEntity language = new LanguageEntity();
-        language.setKey( new LanguageKey( tableKeyGeneratorFixture.nextKey2() ) );
+        language.setKey( new LanguageKey( mockKeyService.generateNextKeySafe( "TLANGUAGE" ) ) );
         language.setCode( code );
         language.setTimestamp( new Date() );
         return language;
@@ -82,7 +84,7 @@ public class DomainFactory
     public UserStoreEntity createUserStore( String name )
     {
         UserStoreEntity userStore = new UserStoreEntity();
-        userStore.setKey( new UserStoreKey( tableKeyGeneratorFixture.nextKey2() ) );
+        userStore.setKey( new UserStoreKey( mockKeyService.generateNextKeySafe( "TDOMAIN" ) ) );
         userStore.setName( name );
         userStore.setDeleted( false );
         return userStore;
@@ -91,7 +93,7 @@ public class DomainFactory
     public UserStoreEntity createUserStore( String name, String connectorName, boolean isDefault )
     {
         UserStoreEntity userStore = new UserStoreEntity();
-        userStore.setKey( new UserStoreKey( tableKeyGeneratorFixture.nextKey2() ) );
+        userStore.setKey( new UserStoreKey( mockKeyService.generateNextKeySafe( "TDOMAIN" ) ) );
         userStore.setName( name );
         userStore.setDeleted( false );
         userStore.setConnectorName( connectorName );
@@ -159,7 +161,7 @@ public class DomainFactory
     public GroupEntity createGroupInUserstore( String name, GroupType groupType, String userstoreName )
     {
         GroupEntity group = new GroupEntity();
-        group.setKey( new GroupKey( Integer.toString( tableKeyGeneratorFixture.nextKey2() ) ) );
+        group.setKey( new GroupKey( Integer.toString( mockKeyService.generateNextKeySafe( "TGROUP" ) ) ) );
         group.setName( name );
         group.setSyncValue( "sync_" + name );
         group.setDeleted( 0 );
@@ -174,7 +176,7 @@ public class DomainFactory
     {
         ContentHandlerName contentHandlerName = ContentHandlerName.parse( handlerClassName );
         ContentHandlerEntity contentHandler = new ContentHandlerEntity();
-        contentHandler.setKey( new ContentHandlerKey( tableKeyGeneratorFixture.nextKey2() ) );
+        contentHandler.setKey( new ContentHandlerKey( mockKeyService.generateNextKeySafe( "TCONTENTHANDLER" ) ) );
         contentHandler.setName( name );
         contentHandler.setClassName( contentHandlerName.getHandlerClassShortName() );
         contentHandler.setTimestamp( new Date() );
@@ -189,7 +191,7 @@ public class DomainFactory
     public ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
-        contenType.setKey( tableKeyGeneratorFixture.nextKey2() );
+        contenType.setKey( mockKeyService.generateNextKeySafe( "TCONTENTTYPE" ) );
         contenType.setName( name );
         contenType.setHandler( fixture.findContentHandlerByClassName( contentHandlerClassName ) );
         contenType.setTimestamp( new Date() );
@@ -205,9 +207,10 @@ public class DomainFactory
     public UnitEntity createUnit( String name, String languageCode )
     {
         UnitEntity unit = new UnitEntity();
-        unit.setKey( tableKeyGeneratorFixture.nextKey2() );
+        unit.setKey( mockKeyService.generateNextKeySafe( "TUNIT" ) );
         unit.setName( name );
         unit.setLanguage( fixture.findLanguageByCode( languageCode ) );
+        unit.setDeleted( false );
         return unit;
     }
 
@@ -220,7 +223,7 @@ public class DomainFactory
                                           boolean autoApprove )
     {
         CategoryEntity category = new CategoryEntity();
-        category.setKey( new CategoryKey( tableKeyGeneratorFixture.nextKey2() ) );
+        category.setKey( new CategoryKey( mockKeyService.generateNextKeySafe( "TCATEGORY" ) ) );
         category.setName( name );
         if ( contentTypeName != null )
         {
@@ -350,7 +353,7 @@ public class DomainFactory
     public SiteEntity createSite( String name, Date timestamp, Document xmlData, String language )
     {
         SiteEntity site = new SiteEntity();
-        site.setKey( tableKeyGeneratorFixture.nextKey2() );
+        site.setKey( mockKeyService.generateNextKeySafe( "TMENU" ) );
         site.setName( name );
         site.setTimestamp( timestamp );
         site.setXmlData( xmlData );
@@ -363,7 +366,7 @@ public class DomainFactory
                                                  boolean isOrderedSection, Date timestamp, boolean isHidden, Document xmlData )
     {
         MenuItemEntity menuItem = new MenuItemEntity();
-        menuItem.setKey( tableKeyGeneratorFixture.nextKey2() );
+        menuItem.setKey( mockKeyService.generateNextKeySafe( "TMENUITEM" ) );
         menuItem.setName( name );
         menuItem.setMenuName( menuName );
         menuItem.setDisplayName( displayName );
@@ -390,7 +393,7 @@ public class DomainFactory
                                               String parentName, Integer parentOrder, Date timestamp, boolean isHidden, Document xmlData )
     {
         MenuItemEntity menuItem = new MenuItemEntity();
-        menuItem.setKey( tableKeyGeneratorFixture.nextKey2() );
+        menuItem.setKey( mockKeyService.generateNextKeySafe( "TMENUITEM" ) );
         menuItem.setName( name );
         menuItem.setOrder( order );
         menuItem.setMenuName( menuName );
@@ -415,7 +418,7 @@ public class DomainFactory
     public PageTemplateEntity createSectionPagePageTemplate( String name, String site, Date timestamp )
     {
         PageTemplateEntity pageTemplate = new PageTemplateEntity();
-        pageTemplate.setKey( tableKeyGeneratorFixture.nextKey2() );
+        pageTemplate.setKey( mockKeyService.generateNextKeySafe( "TPAGETEMPLATE" ) );
         pageTemplate.setName( name );
         pageTemplate.setSite( fixture.findSiteByName( site ) );
         pageTemplate.setType( PageTemplateType.SECTIONPAGE );
@@ -430,7 +433,7 @@ public class DomainFactory
         MenuItemEntity menuItem = fixture.findMenuItemByName( menuItemName, menuItemOrder );
 
         SectionContentEntity sectionContent = new SectionContentEntity();
-        sectionContent.setKey( new SectionContentKey( tableKeyGeneratorFixture.nextKey2() ) );
+        sectionContent.setKey( new SectionContentKey( mockKeyService.generateNextKeySafe( "TSECTIONCONTENT2" ) ) );
         sectionContent.setTimestamp( new Date() );
         sectionContent.setOrder( order );
         sectionContent.setApproved( approved );
@@ -443,7 +446,7 @@ public class DomainFactory
     public ContentBinaryDataEntity createContentBinaryData( String label, BinaryDataEntity binaryData, ContentVersionEntity contentVersion )
     {
         ContentBinaryDataEntity contentBinaryData = new ContentBinaryDataEntity();
-        contentBinaryData.setKey( new ContentBinaryDataKey( tableKeyGeneratorFixture.nextKey2() ) );
+        contentBinaryData.setKey( new ContentBinaryDataKey( mockKeyService.generateNextKeySafe( "TCONTENTBINARYDATA" ) ) );
         contentBinaryData.setLabel( label );
         contentBinaryData.setContentVersion( contentVersion );
         contentBinaryData.setBinaryData( binaryData );

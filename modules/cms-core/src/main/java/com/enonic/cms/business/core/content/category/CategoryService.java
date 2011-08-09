@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.business.core.content.category;
 
+import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
+
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
 
@@ -13,4 +15,6 @@ import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
 public interface CategoryService
 {
     public CategoryKey storeNewCategory( StoreNewCategoryCommand command );
+
+    void deleteCategory( DeleteCategoryCommand command );
 }

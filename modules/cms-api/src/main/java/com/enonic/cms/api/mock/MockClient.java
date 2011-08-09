@@ -17,6 +17,7 @@ import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
 import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
@@ -374,6 +375,12 @@ public class MockClient
     }
 
     public void clearPageCacheForContent( Integer[] contentKeys )
+        throws ClientException
+    {
+
+    }
+
+    public void deleteCategory( DeleteCategoryParams params )
         throws ClientException
     {
 

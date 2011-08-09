@@ -4,14 +4,12 @@
  */
 package com.enonic.vertical.engine;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.jdom.JDOMException;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +19,6 @@ import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.adminweb.VerticalAdminException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.criteria.Criteria;
 import com.enonic.vertical.engine.filters.Filter;
@@ -42,7 +39,6 @@ import com.enonic.vertical.engine.handlers.SystemHandler;
 import com.enonic.vertical.engine.handlers.UnitHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -674,23 +670,6 @@ public final class AdminEngine
         }
     }
 
-    public void removeCategory( User user, int categoryKey )
-        throws VerticalSecurityException, VerticalRemoveException
-    {
-
-        if ( !isEnterpriseAdmin( user ) )
-        {
-            CategoryKey superCategoryKey = categoryHandler.getParentCategoryKey( CategoryKey.parse( categoryKey ) );
-            if ( !securityHandler.validateCategoryRemove( user, superCategoryKey ) )
-            {
-                String message = "User does not have access rights to remove the category.";
-                VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
-            }
-        }
-        categoryHandler.removeCategory( null, CategoryKey.parse( categoryKey ) );
-    }
-
-
     public void removeContentObject( int contentObjectKey )
         throws VerticalSecurityException, VerticalRemoveException
     {
@@ -726,28 +705,6 @@ public final class AdminEngine
         throws VerticalSecurityException, VerticalRemoveException
     {
         pageTemplateHandler.removePageTemplate( pageTemplateKey );
-    }
-
-    public void removeUnit( User user, int unitKey )
-        throws VerticalRemoveException, VerticalSecurityException
-    {
-
-        try
-        {
-            String unitXml = getUnit( unitKey );
-            unitHandler.removeUnit( unitKey );
-            String categoryKey = JDOMUtil.evaluateSingleXPathValueAsString( "/units/unit/@categorykey", JDOMUtil.parseDocument( unitXml ) );
-            removeCategory( user, Integer.valueOf( categoryKey ) );
-        }
-        catch ( IOException e )
-        {
-            throw new VerticalAdminException( e );
-        }
-        catch ( JDOMException e )
-        {
-            throw new VerticalAdminException( e );
-        }
-
     }
 
     public void updateCategory( User user, String xmlData )

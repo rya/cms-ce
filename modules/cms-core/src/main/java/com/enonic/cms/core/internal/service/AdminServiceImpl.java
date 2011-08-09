@@ -142,12 +142,6 @@ public class AdminServiceImpl
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void removeCategory( User user, int categoryKey )
-    {
-        adminEngine.removeCategory( user, categoryKey );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateCategory( User user, String xmlData )
     {
         adminEngine.updateCategory( user, xmlData );
@@ -506,13 +500,6 @@ public class AdminServiceImpl
         throws VerticalSecurityException, VerticalRemoveException
     {
         adminEngine.removePageTemplate( pageTemplateKey );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void removeUnit( User user, int unitKey )
-        throws VerticalSecurityException, VerticalRemoveException
-    {
-        adminEngine.removeUnit( user, unitKey );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

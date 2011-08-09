@@ -88,6 +88,16 @@ public class CategoryAccessResolver
         return false;
     }
 
+    public boolean hasDeleteCategoryAccess( UserEntity user, CategoryEntity category )
+    {
+        if ( doHasAccess( user, category, CategoryAccessType.ADMINISTRATE ) )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean hasAdminBrowseCategoryAccess( UserEntity user, CategoryEntity category )
     {
         if ( doHasAccess( user, category, CategoryAccessType.ADMIN_BROWSE ) )

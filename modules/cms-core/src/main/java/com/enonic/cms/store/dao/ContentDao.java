@@ -41,4 +41,6 @@ public interface ContentDao
     int findCountBySpecification( ContentSpecification specification );
 
     boolean checkNameExists( CategoryEntity category, String name );
+
+    long countContentByCategory( CategoryEntity category );
 }

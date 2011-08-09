@@ -13,15 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.api.util.Preconditions;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
+import com.enonic.cms.business.core.content.ContentStorer;
+import com.enonic.cms.business.core.content.ContentTitleValidator;
 import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
+import com.enonic.cms.business.log.LogService;
 
+import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.category.CategoryAccessEntity;
 import com.enonic.cms.domain.content.category.CategoryAccessException;
 import com.enonic.cms.domain.content.category.CategoryAccessKey;
@@ -30,8 +37,12 @@ import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.domain.log.LogType;
+import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
+import com.enonic.cms.domain.log.Table;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.domain.security.user.UserKey;
 
 /**
  * Mar 9, 2010
@@ -39,6 +50,7 @@ import com.enonic.cms.domain.security.user.UserEntity;
 public class CategoryServiceImpl
     implements CategoryService
 {
+    private static final int TIMEOUT_24HOURS = 86400;
 
     @Autowired
     private MemberOfResolver memberOfResolver;
@@ -53,11 +65,20 @@ public class CategoryServiceImpl
     private CategoryDao categoryDao;
 
     @Autowired
+    private ContentDao contentDao;
+
+    @Autowired
     private ContentTypeDao contentTypeDao;
 
     private TimeService timeService;
 
     private KeyService keyService;
+
+    @Autowired
+    private ContentStorer contentStorer;
+
+    @Autowired
+    private LogService logService;
 
     /**
      * This method is currently only used by the Client API.
@@ -130,6 +151,61 @@ public class CategoryServiceImpl
         categoryDao.storeNew( category );
 
         return category.getKey();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = TIMEOUT_24HOURS)
+    public void deleteCategory( final DeleteCategoryCommand command )
+    {
+        try
+        {
+            doDeleteCategory( command );
+        }
+        catch ( RuntimeException e )
+        {
+            throw new DeleteCategoryException( e );
+        }
+    }
+
+    private void doDeleteCategory( final DeleteCategoryCommand command )
+    {
+        Preconditions.checkNotNull( command.getDeleter(), "deleter must be specified" );
+        Preconditions.checkNotNull( command.getCategoryKey(), "categoryKey must be specified" );
+
+        final UserEntity deleter = userDao.findByKey( command.getDeleter() );
+        Preconditions.checkNotNull( deleter, "Given deleter does not exist, userKey:" + command.getDeleter() );
+
+        final CategoryEntity categoryToDelete = categoryDao.findByKey( command.getCategoryKey() );
+        Preconditions.checkNotNull( categoryToDelete, "Given category does not exist, categoryKey:" + command.getCategoryKey() );
+
+        DeleteCategoryCommandProcessor processor =
+            new DeleteCategoryCommandProcessor( deleter, groupDao, contentDao, categoryDao, contentStorer, command );
+        processor.deleteCategory( categoryToDelete );
+
+        for ( ContentEntity deletedContent : processor.getDeletedContent() )
+        {
+            logEvent( deleter.getKey(), deletedContent, LogType.ENTITY_REMOVED );
+        }
+    }
+
+    private void logEvent( UserKey actor, ContentEntity content, LogType type )
+    {
+        String title = content.getMainVersion().getTitle();
+        String titleKey = " (" + content.getKey().toInt() + ")";
+        if ( title.length() + titleKey.length() > ContentTitleValidator.CONTENT_TITLE_MAX_LENGTH )
+        {
+            title = title.substring( 0, ContentTitleValidator.CONTENT_TITLE_MAX_LENGTH - titleKey.length() );
+        }
+        title = title + titleKey;
+        StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
+        command.setUser( actor );
+        command.setTableKeyValue( content.getKey().toInt() );
+        command.setTableKey( Table.CONTENT );
+        command.setType( type );
+        command.setTitle( title );
+        command.setPath( content.getPathAsString() );
+        command.setXmlData( content.getMainVersion().getContentDataAsJDomDocument() );
+
+        logService.storeNew( command );
     }
 
     public void setTimeService( TimeService timeService )

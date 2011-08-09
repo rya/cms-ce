@@ -35,6 +35,7 @@ import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
 import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
@@ -94,7 +95,9 @@ import com.enonic.cms.business.core.content.GetContentResult;
 import com.enonic.cms.business.core.content.GetContentXmlCreator;
 import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.business.core.content.access.ContentAccessResolver;
+import com.enonic.cms.business.core.content.category.CategoryService;
 import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.business.core.content.command.ImportContentCommand;
 import com.enonic.cms.business.core.content.imports.ImportJob;
 import com.enonic.cms.business.core.content.imports.ImportJobFactory;
@@ -191,6 +194,9 @@ public final class InternalClientImpl
     private UserStoreService userStoreService;
 
     private ContentService contentService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private ImportJobFactory importJobFactory;
@@ -1971,6 +1977,32 @@ public final class InternalClientImpl
                     new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContent( content );
                 }
             }
+        }
+        catch ( Exception e )
+        {
+            throw handleException( e );
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void deleteCategory( DeleteCategoryParams params )
+        throws ClientException
+    {
+        try
+        {
+            if ( params.key == null )
+            {
+                throw new IllegalArgumentException( "key must be specified" );
+            }
+
+            UserEntity deleter = securityService.getRunAsUser();
+
+            DeleteCategoryCommand command = new DeleteCategoryCommand();
+            command.setDeleter( deleter.getKey() );
+            command.setCategoryKey( new CategoryKey( params.key ) );
+            command.setIncludeContent( params.includeContent );
+            command.setRecursive( params.recursive );
+            categoryService.deleteCategory( command );
         }
         catch ( Exception e )
         {

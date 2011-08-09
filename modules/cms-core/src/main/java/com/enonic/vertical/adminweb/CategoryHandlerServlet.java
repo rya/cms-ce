@@ -38,6 +38,8 @@ import com.enonic.cms.framework.xml.XMLException;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
+import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
+
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.resource.ResourceFile;
@@ -244,7 +246,14 @@ final public class CategoryHandlerServlet
         {
             superCategoryKey = admin.getSuperCategoryKey( key );
             User user = securityService.getLoggedInAdminConsoleUser();
-            admin.removeCategory( user, key );
+
+            DeleteCategoryCommand command = new DeleteCategoryCommand();
+            command.setDeleter( user.getKey() );
+            command.setCategoryKey( new CategoryKey( key ) );
+            command.setIncludeContent( false );
+            command.setRecursive( false );
+
+            categoryService.deleteCategory( command );
         }
 
         if ( hasSubCategories )
@@ -873,16 +882,15 @@ final public class CategoryHandlerServlet
             String searchType = formItems.getString( "searchtype" );
             if ( "simple".equals( searchType ) )
             {
-                reportXML =
-                    new SearchUtility( userDao, groupDao, securityService, contentService ).simpleReport( user, formItems, cat );
+                reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).simpleReport( user, formItems, cat );
             }
             else
             {
                 String[] contentTypeStringArray = formItems.getStringArray( "contenttypestring" );
                 int[] contentTypes = resolveContentTypes( contentTypeStringArray );
                 StringBuffer contentTypesString = createContentTypesString( contentTypes );
-                reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).advancedReport( user, formItems,
-                                                                                                                    contentTypes );
+                reportXML =
+                    new SearchUtility( userDao, groupDao, securityService, contentService ).advancedReport( user, formItems, contentTypes );
             }
             Document reportDoc = XMLTool.domparse( reportXML );
             Element contentsElem = reportDoc.getDocumentElement();
@@ -892,11 +900,8 @@ final public class CategoryHandlerServlet
             verticaldataElem.appendChild( contentsElem );
             DOMSource reportSource = new DOMSource( reportDoc );
 
-            new XsltProcessorHelper()
-                    .stylesheet( xslSource, getStylesheetURIResolver( admin ) )
-                    .params( parameters )
-                    .input( reportSource )
-                    .process(response);
+            new XsltProcessorHelper().stylesheet( xslSource, getStylesheetURIResolver( admin ) ).params( parameters ).input(
+                reportSource ).process( response );
         }
         else
         {

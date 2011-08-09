@@ -14,6 +14,8 @@ import com.enonic.cms.domain.security.group.GroupKey;
 public interface CategoryDao
     extends EntityDao<CategoryEntity>
 {
+    void deleteCategory( CategoryEntity category );
+
     CategoryEntity findByKey( CategoryKey key );
 
     List<CategoryEntity> findRootCategories();
@@ -21,4 +23,6 @@ public interface CategoryDao
     List<CategoryEntity> findRootCategories( List<GroupKey> groupKeys );
 
     EntityPageList<CategoryEntity> findAll( int index, int count );
+
+    long countChildrenByCategory( CategoryEntity category );
 }

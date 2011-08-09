@@ -15,6 +15,7 @@ import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
 import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
@@ -181,6 +182,9 @@ public interface Client
         throws ClientException;
 
     public void deleteContent( DeleteContentParams params )
+        throws ClientException;
+
+    public void deleteCategory( DeleteCategoryParams params )
         throws ClientException;
 
     public int createFileContent( CreateFileContentParams params )

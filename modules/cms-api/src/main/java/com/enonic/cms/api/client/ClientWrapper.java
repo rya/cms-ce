@@ -15,6 +15,7 @@ import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
 import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
@@ -226,6 +227,12 @@ public abstract class ClientWrapper
     {
 
         this.delegate.deleteContent( params );
+    }
+
+    public void deleteCategory( DeleteCategoryParams params )
+    {
+
+        this.delegate.deleteCategory( params );
     }
 
     public int createFileContent( CreateFileContentParams params )

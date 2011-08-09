@@ -32,6 +32,7 @@ import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
 
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
@@ -553,7 +554,14 @@ public class ArchiveHandlerServlet
 
         User user = securityService.getLoggedInAdminConsoleUser();
 
-        admin.removeUnit( user, key );
+        CategoryKey categoryKey = new CategoryKey( formItems.getInt( "cat" ) );
+
+        DeleteCategoryCommand command = new DeleteCategoryCommand();
+        command.setDeleter( user.getKey() );
+        command.setCategoryKey( categoryKey );
+        command.setIncludeContent( false );
+        command.setRecursive( false );
+        categoryService.deleteCategory( command );
 
         MultiValueMap queryParams = new MultiValueMap();
         queryParams.put( "page", formItems.get( "page" ) );
