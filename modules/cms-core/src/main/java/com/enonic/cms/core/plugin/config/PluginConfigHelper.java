@@ -125,17 +125,7 @@ final class PluginConfigHelper
 
         for ( String key : source.keySet() )
         {
-            String value = source.get( key );
-
-            try
-            {
-                value = substitutor.replace( value );
-            }
-            catch ( IllegalStateException e )
-            {
-                // Do nothing
-            }
-
+            final String value = substitutor.replace( source.get( key ) );
             target.put( key, value );
         }
 

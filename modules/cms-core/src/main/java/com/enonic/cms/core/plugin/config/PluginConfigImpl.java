@@ -4,9 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-
 import com.enonic.cms.api.plugin.PluginConfig;
-import com.enonic.cms.api.plugin.PluginException;
 
 final class PluginConfigImpl
     implements PluginConfig
@@ -47,14 +45,7 @@ final class PluginConfigImpl
             return defValue;
         }
 
-        try
-        {
-            return Boolean.parseBoolean( key );
-        }
-        catch ( Exception e )
-        {
-            throw convertError( value, "boolean" );
-        }
+        return "true".equals(value) ? Boolean.TRUE : Boolean.FALSE;
     }
 
     public Integer getInteger( final String key )
@@ -72,11 +63,11 @@ final class PluginConfigImpl
 
         try
         {
-            return Integer.parseInt( key );
+            return Integer.parseInt( value );
         }
-        catch ( Exception e )
+        catch ( final Exception e )
         {
-            throw convertError( value, "integer" );
+            return defValue;
         }
     }
 
@@ -95,11 +86,11 @@ final class PluginConfigImpl
 
         try
         {
-            return Long.parseLong( key );
+            return Long.parseLong( value );
         }
-        catch ( Exception e )
+        catch ( final Exception e )
         {
-            throw convertError( value, "long" );
+            return defValue;
         }
     }
 
@@ -118,11 +109,11 @@ final class PluginConfigImpl
 
         try
         {
-            return Float.parseFloat( key );
+            return Float.parseFloat( value );
         }
-        catch ( Exception e )
+        catch ( final Exception e )
         {
-            throw convertError( value, "float" );
+            return defValue;
         }
     }
 
@@ -141,17 +132,12 @@ final class PluginConfigImpl
 
         try
         {
-            return Double.parseDouble( key );
+            return Double.parseDouble( value );
         }
-        catch ( Exception e )
+        catch ( final Exception e )
         {
-            throw convertError( value, "double" );
+            return defValue;
         }
-    }
-
-    private PluginException convertError( final String fromValue, final String toType )
-    {
-        return new PluginException( "Failed to convert string [{0}] to {1}", fromValue, toType );
     }
 
     public int size()
