@@ -22,8 +22,6 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         type: 'border'
     },
 
-    height: 800,
-
     initComponent: function()
     {
         var me = this;

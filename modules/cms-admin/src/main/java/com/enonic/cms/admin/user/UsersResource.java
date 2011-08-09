@@ -59,14 +59,14 @@ public final class UsersResource
         return userModelTranslator.toModel( list );
     }
 
-    @GET
-    @Path("detail")
-    public UserModel getUser( @QueryParam("key") final String key )
-    {
-        LOG.info( "Get user detail!" );
-        final UserEntity entity = findEntity( key );
-        return userModelTranslator.toModel( entity );
-    }
+//    @GET
+//    @Path("detail")
+//    public UserModel getUser( @QueryParam("key") final String key )
+//    {
+//        LOG.info( "Get user detail!" );
+//        final UserEntity entity = findEntity( key );
+//        return userModelTranslator.toModel( entity );
+//    }
 
     @GET
     @Path("userinfo")

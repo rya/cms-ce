@@ -69,8 +69,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 },
                 {
                     text: 'Cancel',
-                    scope: this,
-                    handler: this.close
+                    action: 'closeUserForm'
                 },
                 '->',
                 {

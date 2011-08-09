@@ -127,6 +127,9 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           '*[action=selectGroup]': {
                               select: this.selectGroup
+                          },
+                          '*[action=closeUserForm]': {
+                              click: this.closeUserForm
                           }
                       } );
     },
@@ -304,6 +307,7 @@ Ext.define( 'CMS.controller.UserController', {
                     var jsonObj = Ext.JSON.decode( response.responseText );
                     var tab = {
                         id: currentUser.userStore + '-' + currentUser.name,
+                        layout: 'border',
                         title: currentUser.displayName + ' (' + currentUser.qualifiedName + ')',
                         iconCls: 'icon-edit-user',
                         closable: true,
@@ -311,6 +315,7 @@ Ext.define( 'CMS.controller.UserController', {
                         items: [
                             {
                                 xtype: 'editUserPanel',
+                                region: 'center',
                                 userFields: jsonObj,
                                 currentUser: currentUser
                             }
@@ -500,6 +505,11 @@ Ext.define( 'CMS.controller.UserController', {
         }else{
             Ext.Msg.alert('Error', 'Some required fields are missing');
         }
+    },
+
+    closeUserForm: function(button){
+        var tabPane = this.getTabPanel();
+        tabPane.getActiveTab().close();
     }
 
 } );
