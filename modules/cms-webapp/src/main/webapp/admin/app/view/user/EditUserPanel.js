@@ -43,6 +43,9 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
             layout: {
                 type: 'border'
             },
+            bodyStyle: {
+                background: 'lightGrey'
+            },
             region: 'north',
             measureWidth: true,
             measureHeight: true,
@@ -64,6 +67,9 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
                 {
                     layout: 'border',
                     region: 'center',
+                    bodyStyle: {
+                        background: 'lightGrey'
+                    },
                     flex: 1,
                     items: [
                         {

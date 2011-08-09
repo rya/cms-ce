@@ -39,10 +39,16 @@ Ext.define( 'CMS.view.user.UserFormField', {
             builderFunction = this.fieldConfigBuilders.text;
         }
         fieldConfig = builderFunction( fieldConfig, this );
+        if ( this.remote )
+        {
+            var remoteIcon = {xtype: 'image', src: 'resources/images/icon_remote_10px.gif'};
+            Ext.Array.include( this.items, remoteIcon );
+        }
         if ( this.fieldname == 'display-name' )
         {
             fieldConfig.readOnly = true;
             fieldConfig.readOnlyCls = 'display-name-readonly';
+            fieldConfig.cls = 'display-name';
             fieldConfig.height = 40;
             var lockButton = {
                 xtype: 'button',
@@ -61,11 +67,7 @@ Ext.define( 'CMS.view.user.UserFormField', {
             this.fieldLabel =
                     this.fieldLabel + "<span style=\"color:red;\" ext:qtip=\"This field is required\">*</span>";
         }
-        if ( this.remote )
-        {
-            var remoteIcon = {xtype: 'image', src: 'resources/images/icon_remote_10px.gif'};
-            Ext.Array.include( this.items, remoteIcon );
-        }
+
 
         this.callParent( arguments );
     },
