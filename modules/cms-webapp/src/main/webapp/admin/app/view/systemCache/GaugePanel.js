@@ -41,13 +41,13 @@ Ext.define( 'CMS.view.systemCache.GaugePanel', {
                 }
             ]
         };
-
+        var me = this;
         this.tools = [{
             type:'refresh',
             tooltip: 'Refresh form Data',
                 // hidden:true,
                 handler: function( event, toolEl, panel ){
-                    panel.updateData();
+                    me.updateData();
                 }
             }
         ],
@@ -57,7 +57,8 @@ Ext.define( 'CMS.view.systemCache.GaugePanel', {
     },
 
     updateData: function( data ) {
-        this.gaugeStore.loadData( data );
+        if ( data )
+            this.gaugeStore.loadData( data );
     }
 
 } );
