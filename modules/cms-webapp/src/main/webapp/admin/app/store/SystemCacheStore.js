@@ -5,7 +5,8 @@ Ext.define( 'CMS.store.SystemCacheStore', {
 
     pageSize: 10,
     autoLoad: true,
-    remoteSort: true,
+    remoteSort: false,
+    groupField: 'node',
 
     proxy: {
         type: 'ajax',

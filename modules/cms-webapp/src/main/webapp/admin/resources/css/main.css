@@ -214,8 +214,8 @@ img.photo {
 }
 
 .icon-delete {
-/*background-image: url("../images/delete.png");*/
-    background-image: url("../images/bin.png");
+    /*background-image: url("../images/delete.png");*/
+    background-image: url("../images/cross.png");
 }
 
 .icon-new {
@@ -261,12 +261,14 @@ img.photo {
     background: #fff;
 }
 
+
 .group-item {
     font-size: 14px;
     font-weight: 200;
     margin: 5;
     vertical-align: middle;
 }
+
 
 /*------    Userstore   ---------*/
 
@@ -297,4 +299,15 @@ img.photo {
 .x-form-display-field {
     padding-left: 5px;
     padding-top: 3px;
+}
+
+/*------    Cache   ---------*/
+
+.cache-info h1 {
+    margin: 0;
+}
+.cache-info h1 span {
+    font-size: 13px;
+    font-style: normal;
+    margin-left: 10px;
 }

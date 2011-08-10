@@ -3,7 +3,8 @@ Ext.define('CMS.view.systemCache.ShowPanel', {
     alias : 'widget.systemCacheShow',
 
     requires: [
-        'CMS.view.systemCache.CacheListPanel'
+        'CMS.view.systemCache.GridPanel',
+        'CMS.view.systemCache.DetailPanel'
     ],
 
     layout: 'border',
@@ -13,7 +14,12 @@ Ext.define('CMS.view.systemCache.ShowPanel', {
         this.items = [
             {
                 region: 'center',
-                xtype: 'cacheListPanel',
+                xtype: 'systemCacheGrid',
+                flex: 1
+            },
+            {
+                region: 'south',
+                xtype: 'systemCacheDetail',
                 flex: 2
             }
         ];
