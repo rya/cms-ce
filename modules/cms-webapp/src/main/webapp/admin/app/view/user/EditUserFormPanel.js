@@ -1,5 +1,5 @@
 Ext.define( 'CMS.view.user.EditUserFormPanel', {
-    extend: 'Ext.form.Panel',
+    extend: 'Ext.panel.Panel',
     alias: 'widget.editUserFormPanel',
 
     defaults: {
@@ -8,34 +8,32 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     autoScroll: true,
 
-    title: 'User',
-    modal: true,
+    measureWidth: true,
+
+    border: 0,
+
+    style: {
+        overflow: 'hidden'
+    },
 
     layout: {
         type: 'table',
-        columns: 2,
+        columns: 1,
         defaultMargins: {top:10, right:10, bottom:10, left:10},
         padding: 10,
         tdAttrs: {
             style:{
                 padding: '10px'
             }
+        },
+        tableAttrs: {
+            style:{
+                width: '98%'
+            }
         }
     },
     currentUser: undefined,
     defaultUserStoreName: 'default',
-
-    buttons: [
-        {
-            text: 'Cancel',
-            scope: this,
-            handler: this.close
-        },
-        {
-            text: 'Save',
-            action: 'saveUser'
-        }
-    ],
 
     listeners: {
         afterrender: function( me )
@@ -63,12 +61,40 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     initComponent: function()
     {
         var me = this;
+        this.dockedItems = [
+        {
+            dock: 'top',
+            xtype: 'toolbar',
+            border: false,
+            padding: 5,
+            items: [
+                {
+                    text: 'Save',
+                    iconCls: 'icon-save',
+                    action: 'saveUser'
+                },
+                {
+                    text: 'Cancel',
+                    action: 'closeUserForm'
+                },
+                '->',
+                {
+                    text: 'Delete',
+                    iconCls: 'icon-delete-user',
+                    action: 'deleteUser'
+                },
+                {
+                    text: 'Change Password',
+                    iconCls: 'icon-change-password',
+                    action: 'changePassword'
+                }
+            ]
+        }];
         this.userFieldSet = {
             'username': this.createTextField,
             'email': this.createTextField
         };
         this.nameFieldSet = {
-            'display-name': this.createTextField,
             'prefix': this.createTextField,
             'first-name': this.createTextField,
             'middle-name': this.createTextField,
@@ -114,6 +140,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     return {
                         sourceField: field,
                         xtype: 'tabpanel',
+                        width: '100%',
                         itemId: 'addressTabPanel',
                         height: 280,
                         width: 300,
@@ -131,6 +158,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     return {
                         sourceField: field,
                         xtype: 'tabpanel',
+                        width: '100%',
                         itemId: 'addressTabPanel',
                         height: 280,
                         width: 300,
@@ -310,11 +338,11 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
     {
         var me = this;
         var fieldSetItem = {
-            width: 300,
             defaults: {
                 bodyPadding: 10
             },
             xtype: 'fieldset',
+            measureWidth: true,
             title: title
         };
         var fieldItems = [];
