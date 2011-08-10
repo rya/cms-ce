@@ -10,6 +10,12 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     measureWidth: true,
 
+    border: 0,
+
+    style: {
+        overflow: 'hidden'
+    },
+
     layout: {
         type: 'table',
         columns: 1,
@@ -22,7 +28,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         },
         tableAttrs: {
             style:{
-                width: '100%'
+                width: '98%'
             }
         }
     },

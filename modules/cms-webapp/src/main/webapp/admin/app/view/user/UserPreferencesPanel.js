@@ -6,7 +6,6 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
     width: 230,
     layout: 'accordion',
     activeItem: 1,
-    style: 'margin: 0px 0px 7px 10px;',
     height: 600,
     layoutConfig:
     {

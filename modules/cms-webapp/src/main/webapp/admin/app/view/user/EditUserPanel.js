@@ -14,9 +14,9 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
     items: [],
     currentUser: '',
 
-
-
-    modal: true,
+    bodyStyle: {
+        background: 'white'
+    },
 
     layout: {
         type: 'border'
@@ -29,6 +29,7 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
             xtype: 'editUserFormPanel',
             region: 'center',
             userFields: [],
+            margin: 5,
             autoScroll: true,
             currentUser: me.currentUser,
             flex: 1
@@ -36,7 +37,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         var prefPanel = {
             xtype: 'userPreferencesPanel',
             region: 'east',
-            flex: 0.25
+            margin: 5,
+            flex: 0.2
         };
         var shortDescPanel = {
             xtype: 'panel',
@@ -48,20 +50,16 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
             },
             region: 'north',
             measureWidth: true,
-            measureHeight: true,
-            flex: 0.1,
-            defaults: {
-                bodyPadding: 5
-            },
+            height: 100,
+            margin: 5,
 
             items: [
                 {
                     xtype: 'image',
                     cls: 'thumbnail',
                     region: 'west',
-                    width: 73,
-                    height: 73,
-                    flex: 0.065,
+                    width: 100,
+                    height: 100,
                     src: 'data/user/photo?key=' + me.currentUser.key
                 },
                 {
