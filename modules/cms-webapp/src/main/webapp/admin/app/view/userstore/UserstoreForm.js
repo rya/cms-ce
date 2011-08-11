@@ -68,13 +68,14 @@ Ext.define( 'CMS.view.userstore.UserstoreForm', {
                         xtype: 'combo',
                         fieldLabel: 'Connector',
                         name: 'connectorName',
+                        triggerAction: 'all',
                         queryMode: 'local',
-                        valueField: 'key',
+                        typeAhead: true,
+                        valueField: 'name',
                         displayField: 'name',
-                        store : [[ "local", "Standard (local)" ],
-                                [ "remote1", "Remote 1" ],
-                                [ "remote2", "Remote 2" ]],
-                        allowBlank: false
+                        store : 'UserstoreConnectorStore',
+                        allowBlank: false,
+                        forceSelection: true
                     }
                     ,{
                         xtype: 'checkbox',
