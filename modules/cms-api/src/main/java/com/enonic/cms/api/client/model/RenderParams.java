@@ -9,7 +9,7 @@ package com.enonic.cms.api.client.model;
 public abstract class RenderParams
     extends AbstractParams
 {
-
+    private static final long serialVersionUID = 7323236588271895974L;
 
     /**
      * Where there are templates for multiple devices, this value is used to determine which profile that should be rendered.

@@ -26,8 +26,6 @@ import com.google.common.io.ByteStreams;
 
 import com.enonic.cms.framework.time.MockTimeService;
 
-import com.enonic.cms.core.SitePathResolver;
-import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.client.InternalClientContentService;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentEntity;
@@ -41,24 +39,17 @@ import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.preview.ContentPreviewContext;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.itest.DomainFactory;
 import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.portal.image.ImageService;
 import com.enonic.cms.portal.mvc.controller.ImageController;
 import com.enonic.cms.portal.mvc.controller.ImageRequestException;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.SiteDao;
 
 import static org.junit.Assert.*;
 
@@ -79,38 +70,12 @@ public class ImageControllerTest
     protected DomainFixture fixture;
 
     @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private AutoLoginService autoLoginService;
-
-    @Autowired
-    private ContentDao contentDao;
-
-    @Autowired
-    private SiteDao siteDao;
-
-    @Autowired
-    private GroupDao groupDao;
-
-    @Autowired
     private InternalClientContentService internalClientContentService;
-
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private SitePropertiesService sitePropertiesService;
-
-    @Autowired
-    private SiteService siteService;
-
-    @Autowired
-    private SitePathResolver sitePathResolver;
 
     private PreviewService previewService;
 
-    private ImageController imageController = new ImageController();
+    @Autowired
+    private ImageController imageController;
 
     private MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
 
@@ -131,17 +96,6 @@ public class ImageControllerTest
         httpServletRequest.setCharacterEncoding( "UTF-8" );
         ServletRequestAccessor.setRequest( httpServletRequest );
         loginUserInPortal( fixture.findUserByName( "testuser" ).getKey() );
-
-        imageController.setSecurityService( securityService );
-        imageController.setAutoLoginService( autoLoginService );
-        imageController.setContentDao( contentDao );
-        imageController.setGroupDao( groupDao );
-        imageController.setSiteDao( siteDao );
-        imageController.setImageService( imageService );
-        imageController.setDisableParamEncoding( true );
-        imageController.setSitePathResolver( sitePathResolver );
-        imageController.setSitePropertiesService( sitePropertiesService );
-        imageController.setSiteService( siteService );
 
         previewService = Mockito.mock( PreviewService.class );
         Mockito.when( previewService.isInPreview() ).thenReturn( false );
@@ -322,6 +276,7 @@ public class ImageControllerTest
         }
         catch ( Exception e )
         {
+            e.printStackTrace();
             assertTrue( e instanceof ImageRequestException );
             ImageRequestException imageRequestException = (ImageRequestException) e;
             assertTrue( imageRequestException.getMessage().contains( "Resource '/_image/" + contentKey + ".jpg' not found" ) );

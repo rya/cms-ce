@@ -13,8 +13,6 @@
 
     <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
-    <bean id="binaryService" class="com.enonic.cms.core.content.binary.BinaryServiceImpl"/>
-
     <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
         <property name="timeService" ref="timeService"/>
     </bean>
@@ -260,7 +258,6 @@
     </bean>
 
     <bean id="attachmentController" class="com.enonic.cms.portal.mvc.controller.AttachmentController" parent="abstractSiteController">
-        <property name="binaryService" ref="binaryService"/>
         <property name="sitePathResolver" ref="sitePathResolver"/>
         <property name="siteService" ref="siteService"/>
         <property name="autoLoginService" ref="autoLoginService"/>
@@ -268,6 +265,19 @@
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
         <property name="previewService" ref="previewService"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <bean id="imageController" class="com.enonic.cms.portal.mvc.controller.ImageController">
+        <property name="autoLoginService" ref="autoLoginService"/>
+        <property name="disableParamEncoding" value="true"/>
+        <property name="imageService" ref="imageService"/>
+        <property name="livePortalTraceService" ref="livePortalTraceService"/>
+        <property name="previewService" ref="previewService"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="timeService" ref="timeService"/>
     </bean>
 

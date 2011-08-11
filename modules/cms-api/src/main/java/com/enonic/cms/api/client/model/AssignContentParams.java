@@ -11,7 +11,10 @@ import java.util.Date;
  * Jun 10, 2010
  */
 public class AssignContentParams
+    extends AbstractParams
 {
+    private static final long serialVersionUID = -748825321990935557L;
+
     /**
      * The key of the content to set assignment on.
      */

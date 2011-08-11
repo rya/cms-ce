@@ -19,7 +19,6 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.SitePropertyNames;
 import com.enonic.cms.core.resolver.ContentAccessResolver;
-import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
@@ -31,8 +30,14 @@ import com.enonic.cms.portal.image.ImageRequestAccessResolver;
 import com.enonic.cms.portal.image.ImageRequestParser;
 import com.enonic.cms.portal.image.ImageResponse;
 import com.enonic.cms.portal.image.ImageService;
+import com.enonic.cms.portal.livetrace.ImageRequestTrace;
+import com.enonic.cms.portal.livetrace.ImageRequestTracer;
+import com.enonic.cms.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.portal.livetrace.PortalRequestTrace;
+import com.enonic.cms.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
+import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
 
@@ -45,18 +50,22 @@ public final class ImageController
 
     private final ImageRequestParser requestParser = new ImageRequestParser();
 
-    public void setDisableParamEncoding( boolean disableParamEncoding )
-    {
-        this.disableParamEncoding = disableParamEncoding;
-    }
+    private LivePortalTraceService livePortalTraceService;
 
     public ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
         throws Exception
     {
+        PortalRequestTrace portalRequestTrace =
+            PortalRequestTracer.startTracing( (String) request.getAttribute( Attribute.ORIGINAL_URL ), livePortalTraceService );
+
         try
         {
+            PortalRequestTracer.traceMode( portalRequestTrace, previewService );
+            PortalRequestTracer.traceHttpRequest( portalRequestTrace, request );
+            PortalRequestTracer.traceRequestedSitePath( portalRequestTrace, sitePath );
+            PortalRequestTracer.traceRequestedSite( portalRequestTrace, siteDao.findByKey( sitePath.getSiteKey() ) );
 
-            User loggedInUser = securityService.getLoggedInPortalUser();
+            UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();
             if ( loggedInUser.isAnonymous() )
             {
                 if ( sitePropertiesService.getPropertyAsBoolean( SitePropertyNames.AUTOLOGIN_HTTP_REMOTE_USER_ENABLED,
@@ -70,17 +79,33 @@ public final class ImageController
                 if ( sitePropertiesService.getPropertyAsBoolean( SitePropertyNames.AUTOLOGIN_REMEMBER_ME_COOKIE_ENABLED,
                                                                  sitePath.getSiteKey() ) )
                 {
-                    autoLoginService.autologinWithCookie( sitePath.getSiteKey(), request, response );
+                    loggedInUser = autoLoginService.autologinWithCookie( sitePath.getSiteKey(), request, response );
                 }
             }
 
+            PortalRequestTracer.traceRequester( portalRequestTrace, loggedInUser );
+
             ImageRequest imageRequest = createImageRequest( request );
-            process( imageRequest, response, sitePath );
+
+            final ImageRequestTrace imageRequestTrace = ImageRequestTracer.startTracing( livePortalTraceService );
+            try
+            {
+                ImageRequestTracer.traceImageRequest( imageRequestTrace, imageRequest );
+                process( imageRequest, response, sitePath, imageRequestTrace );
+            }
+            finally
+            {
+                ImageRequestTracer.stopTracing( imageRequestTrace, livePortalTraceService );
+            }
             return null;
         }
         catch ( Exception e )
         {
             throw new ImageRequestException( sitePath, request.getHeader( "referer" ), e );
+        }
+        finally
+        {
+            PortalRequestTracer.stopTracing( portalRequestTrace, livePortalTraceService );
         }
     }
 
@@ -103,7 +128,8 @@ public final class ImageController
         return imageRequest;
     }
 
-    private void process( final ImageRequest imageRequest, final HttpServletResponse response, final SitePath sitePath )
+    private void process( final ImageRequest imageRequest, final HttpServletResponse response, final SitePath sitePath,
+                          final ImageRequestTrace imageRequestTrace )
         throws IOException
     {
         verifyValidMenuItemInPath( sitePath );
@@ -123,6 +149,7 @@ public final class ImageController
 
             response.setContentType( imageResponse.getMimeType() );
             response.setContentLength( imageResponse.getSize() );
+            ImageRequestTracer.traceSize( imageRequestTrace, (long) imageResponse.getSize() );
 
             HttpServletUtil.setContentDisposition( response, false, imageResponse.getName() );
             HttpServletUtil.copyNoCloseOut( imageResponse.getDataAsStream(), response.getOutputStream() );
@@ -203,9 +230,20 @@ public final class ImageController
         }
     }
 
+    public void setDisableParamEncoding( boolean disableParamEncoding )
+    {
+        this.disableParamEncoding = disableParamEncoding;
+    }
+
     @Inject
     public void setImageService( ImageService imageService )
     {
         this.imageService = imageService;
+    }
+
+    @Inject
+    public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
+    {
+        this.livePortalTraceService = livePortalTraceService;
     }
 }
