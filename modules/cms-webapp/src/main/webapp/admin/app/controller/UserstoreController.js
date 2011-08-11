@@ -2,10 +2,12 @@ Ext.define( 'CMS.controller.UserstoreController', {
     extend: 'Ext.app.Controller',
 
     stores: [
-        'UserstoreConfigStore'
+        'UserstoreConfigStore',
+        'UserstoreConnectorStore'
     ],
     models: [
-        'UserstoreConfigModel'
+        'UserstoreConfigModel',
+        'UserstoreConnectorModel'
     ],
     views: [
         'userstore.ContextMenu',

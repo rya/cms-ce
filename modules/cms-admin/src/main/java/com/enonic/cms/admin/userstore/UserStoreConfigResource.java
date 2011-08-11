@@ -29,11 +29,13 @@ import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
 import com.enonic.cms.core.security.userstore.UpdateUserStoreCommand;
+import com.enonic.cms.core.security.userstore.UserStoreConnectorManager;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 
 
 @Component
@@ -46,6 +48,9 @@ public final class UserStoreConfigResource
 
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    UserStoreConnectorManager userStoreConnectorManager;
 
 
     @GET
@@ -120,6 +125,15 @@ public final class UserStoreConfigResource
         }
         out.put( "success", true );
         return out;
+    }
+
+
+    @GET
+    @Path("connectors")
+    public UserStoreConnectorsModel getConnectors( @InjectParam final LoadStoreRequest req ) {
+        Map<String, UserStoreConnectorConfig> map
+                = userStoreConnectorManager.getUserStoreConnectorConfigs();
+        return UserStoreConfigModelTranslator.toModel( map );
     }
 
 
