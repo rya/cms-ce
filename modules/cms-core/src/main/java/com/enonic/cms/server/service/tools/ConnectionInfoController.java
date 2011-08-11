@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.store.support.ConnectionTraceInfo;
@@ -22,7 +21,6 @@ import com.enonic.cms.store.support.TraceableDataSource;
 /**
  * This class implements the connection info controller.
  */
-@RequestMapping(value = "/tools/connectioninfo")
 public final class ConnectionInfoController
     extends AbstractToolController
 {

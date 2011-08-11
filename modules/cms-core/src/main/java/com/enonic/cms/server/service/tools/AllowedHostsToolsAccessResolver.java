@@ -6,6 +6,7 @@ package com.enonic.cms.server.service.tools;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -19,13 +20,15 @@ import org.springframework.stereotype.Component;
  * This class implements the standard tools access resolver.
  */
 @Component
-public final class StandardToolsAccessResolver
+public final class AllowedHostsToolsAccessResolver
     implements ToolsAccessResolver, InitializingBean
 {
     /**
      * Wildcard.
      */
     private final static String WILDCARD = "*";
+
+    private final static List<String> DEFAULT_ACCESSES = Arrays.asList( "localhost", "127.0.0.1" );
 
     /**
      * Allowed hosts.
@@ -69,7 +72,7 @@ public final class StandardToolsAccessResolver
         }
         else
         {
-            this.allowedHostSet.add( WILDCARD );
+            this.allowedHostSet.addAll( DEFAULT_ACCESSES );
         }
     }
 

@@ -1,7 +1,3 @@
-/*
- * Copyright 2000-2011 Enonic AS
- * http://www.enonic.com/license
- */
 package com.enonic.cms.server.service.tools;
 
 import java.sql.Connection;
@@ -19,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
 import com.enonic.cms.framework.jdbc.dialect.SqlServerDialect;
@@ -31,11 +26,13 @@ import com.enonic.cms.store.support.ConnectionFactory;
 import com.enonic.cms.upgrade.UpgradeService;
 
 /**
- * Controller for displaying the welcome page, the root page for an installation, listing all sites, plugins, etcs, and linking to DAV,
- * Admin pages, and other information pages.
+ * Created by IntelliJ IDEA.
+ * User: rmh
+ * Date: 8/1/11
+ * Time: 9:00 AM
  */
-public final class WelcomeController
-    extends AbstractController
+public final class ToolsController
+    extends AbstractToolController
 {
     private UpgradeService upgradeService;
 
@@ -143,7 +140,7 @@ public final class WelcomeController
         }
     }
 
-    protected ModelAndView handleRequestInternal( HttpServletRequest req, HttpServletResponse res )
+    protected ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
         throws Exception
     {
         final boolean modelUpgradeNeeded = this.upgradeService.needsUpgrade();
@@ -164,11 +161,13 @@ public final class WelcomeController
         model.put( "softwareUpgradeNeeded", softwareUpgradeNeeded );
         model.put( "upgradeFrom", this.upgradeService.getCurrentModelNumber() );
         model.put( "upgradeTo", this.upgradeService.getTargetModelNumber() );
+        model.put( "toolsRestricted", !this.toolsAccessResolver.hasAccess( req ) );
+        model.put( "toolsRestrictedError", this.toolsAccessResolver.getErrorMessage( req ) );
         model.put( "additionalMessages", createAdditionalMessages( upgradeNeeded ) );
-        return new ModelAndView( "welcomePage", model );
+        return new ModelAndView( "toolsPage", model );
     }
 
-    private String createBaseUrl( HttpServletRequest req )
+    protected String createBaseUrl( HttpServletRequest req )
     {
         StringBuffer str = new StringBuffer();
         str.append( req.getScheme() ).append( "://" ).append( req.getServerName() );
@@ -186,4 +185,6 @@ public final class WelcomeController
 
         return str.toString();
     }
+
+
 }

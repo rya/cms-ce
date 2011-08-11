@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
@@ -25,7 +24,6 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 /**
  * This class implements the properties info controller.
  */
-@RequestMapping(value = "/tools/properties")
 public final class PropertiesInfoController
     extends AbstractToolController
 {

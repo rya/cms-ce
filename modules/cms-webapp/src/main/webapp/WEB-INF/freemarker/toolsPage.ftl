@@ -42,6 +42,7 @@
     </style>
 </head>
 <body>
+
 <h1>Welcome to ${versionTitleVersion}</h1>
 
 [#if modelUpgradeNeeded == true]
@@ -98,8 +99,24 @@ ${message.value}
     </ul>
 </div>
 
+[#list additionalMessages as message]
+<div class="infoBoxWarning">
+    <b>${message.key}</b>
+    <br/>
+${message.value}
+</div>
+[/#list]
+
 <div class="infoBox">
-<a href="${baseUrl}/tools">Tools</a>
+<b>Tools</b>
+    <ul>
+        <li><a href="${baseUrl}/tools/properties">Configuration Properties</a></li>
+        <li><a href="${baseUrl}/tools/upgrade">Upgrade Tool</a></li>
+        <li><a href="${baseUrl}/tools/reindexcontent">Reindex Content Tool</a></li>
+        <li><a href="${baseUrl}/tools/connectioninfo">Connection Information</a></li>
+        <li><a href="${baseUrl}/tools/liveportaltrace">Live Portal Trace</a></li>
+        <li><a href="${baseUrl}/tools/plugininfo">Plugin Information</a></li>
+    </ul>
 </div>
 </body>
 </html>

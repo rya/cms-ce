@@ -7,7 +7,6 @@ package com.enonic.cms.server.service.tools;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -18,33 +17,12 @@ public abstract class AbstractToolController
     implements Controller
 {
     /**
-     * Access resolver.
-     */
-    private ToolsAccessResolver toolsAccessResolver;
-
-    /**
-     * Set access resolver.
-     */
-    @Autowired
-    public void setToolsAccessResolver( ToolsAccessResolver toolsAccessResolver )
-    {
-        this.toolsAccessResolver = toolsAccessResolver;
-    }
-
-    /**
      * Handle the request.
      */
     public final ModelAndView handleRequest( HttpServletRequest req, HttpServletResponse res )
         throws Exception
     {
-        if ( hasAccess( req ) )
-        {
-            return doHandleRequest( req, res );
-        }
-        else
-        {
-            return handleErrorPage( req, res );
-        }
+        return doHandleRequest( req, res );
     }
 
     /**
@@ -53,23 +31,6 @@ public abstract class AbstractToolController
     protected abstract ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
         throws Exception;
 
-    /**
-     * Check if access.
-     */
-    private boolean hasAccess( HttpServletRequest req )
-    {
-        return ( this.toolsAccessResolver == null ) || this.toolsAccessResolver.hasAccess( req );
-    }
-
-    /**
-     * Show the error page.
-     */
-    private ModelAndView handleErrorPage( HttpServletRequest req, HttpServletResponse res )
-        throws Exception
-    {
-        res.sendError( HttpServletResponse.SC_FORBIDDEN, this.toolsAccessResolver.getErrorMessage( req ) );
-        return null;
-    }
 
     /**
      * Return the base path.
