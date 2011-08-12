@@ -311,3 +311,7 @@ img.photo {
     font-style: normal;
     margin-left: 10px;
 }
+
+.item-name {
+    cursor: pointer;
+}
