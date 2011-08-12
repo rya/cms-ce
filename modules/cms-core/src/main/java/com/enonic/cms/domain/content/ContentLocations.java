@@ -53,6 +53,11 @@ public class ContentLocations
         return allLocations.size();
     }
 
+    public boolean hasMenuItemAsLocation( final MenuItemEntity menuItem )
+    {
+        return allLocations.containsKey( menuItem.getMenuItemKey() );
+    }
+
     public void addDirectMenuItemLocation( final MenuItemEntity menuItem )
     {
         Assert.notNull( menuItem );

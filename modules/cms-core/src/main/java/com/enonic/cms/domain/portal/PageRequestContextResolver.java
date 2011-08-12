@@ -33,7 +33,7 @@ public class PageRequestContextResolver
 {
     private ContentDao contentDao;
 
-    private static final int CONTENT_ON_ROOT_ELEMENTS = 2;
+    private static final int CONTENT_ON_ROOT_PATH_ELEMENTS = 2;
 
     public PageRequestContextResolver( ContentDao contentDao )
     {
@@ -118,30 +118,47 @@ public class PageRequestContextResolver
             return;
         }
 
+        // For old style content paths, serve content if exists no matter what path
+        if ( contentPath.isOldStyleContentPath() )
+        {
+            context.setRequestedMenuItem( resolveContentHome( site, content ) );
+            context.setResolvedContentPath( contentPath );
+            return;
+        }
+
         Path requestedMenuItemPath = contentPath.getPathToMenuItem();
 
         MenuItemEntity requestedMenuItem = site.resolveMenuItemByPath( requestedMenuItemPath );
 
-        // Requested menu item path is not found, check if it was an old style path and resolve new path for future redirect
         if ( requestedMenuItem == null )
         {
-            if ( contentPath.isOldStyleContentPath() )
-            {
-                requestedMenuItem = resolveContentHome( site, content );
-            }
+            return;
         }
+
+        ContentLocations contentLocations = getContentLocations( site, content );
+
+        // prevent explisit content paths outside locations of content
+        if ( !contentLocations.hasMenuItemAsLocation( requestedMenuItem ) )
+            {
+            return;
+            }
 
         context.setRequestedMenuItem( requestedMenuItem );
         context.setResolvedContentPath( contentPath );
     }
 
-    private MenuItemEntity resolveContentHome( SiteEntity site, ContentEntity content )
+    private ContentLocations getContentLocations( SiteEntity site, ContentEntity content )
     {
         ContentLocationSpecification contentLocationSpecification = new ContentLocationSpecification();
+
         contentLocationSpecification.setSiteKey( site.getKey() );
         contentLocationSpecification.setIncludeInactiveLocationsInSection( false );
+        return content.getLocations( contentLocationSpecification );
+    }
 
-        ContentLocations contentLocations = content.getLocations( contentLocationSpecification );
+    private MenuItemEntity resolveContentHome( SiteEntity site, ContentEntity content )
+    {
+        ContentLocations contentLocations = getContentLocations( site, content );
 
         ContentLocation homeLocation = contentLocations.getHomeLocation( site.getKey() );
 
@@ -187,7 +204,7 @@ public class PageRequestContextResolver
     private boolean pathMatchesPermaLinkPattern( Path pathToMenuItem )
     {
         // Pattern for content on root: /<key>/<title>
-        final boolean correctNumberOfElements = pathToMenuItem.numberOfElements() == CONTENT_ON_ROOT_ELEMENTS;
+        final boolean correctNumberOfElements = pathToMenuItem.numberOfElements() == CONTENT_ON_ROOT_PATH_ELEMENTS;
 
         if ( !correctNumberOfElements )
         {

@@ -56,9 +56,9 @@ public class ContentRequestProcessor
         result.setContentFromRequest( contentFromRequest );
 
         final ContentPath contentPath = sitePath.getContentPath();
-        final boolean oldStyleContentPathToRedirect = contentPath.isOldStyleContentPath();
+        final boolean oldStyleContentPathToBeRedirected = contentPath.isOldStyleContentPath();
 
-        if ( oldStyleContentPathToRedirect )
+        if ( oldStyleContentPathToBeRedirected )
         {
             return setRedirectForOldStyleContentPaths( result, sitePath, contentFromRequest );
         }
