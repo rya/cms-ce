@@ -369,7 +369,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                 var createFunc = fieldSet[item.type];
                 var newField = createFunc( item );
                 newField = Ext.apply( newField, baseConfig );
-                Ext.Array.include( fieldItems, newField )
+                Ext.Array.include( fieldItems, newField );
             }
         }, this );
         if ( title == 'Address' )

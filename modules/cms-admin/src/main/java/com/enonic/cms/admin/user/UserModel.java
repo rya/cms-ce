@@ -1,6 +1,7 @@
 package com.enonic.cms.admin.user;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -27,8 +28,7 @@ public final class UserModel
     @JsonCreator
     public UserModel( @JsonProperty(USER_NAME) String name, @JsonProperty(EMAIL) String email,
                       @JsonProperty(KEY) String key, @JsonProperty(DISPLAY_NAME) String displayName,
-                      @JsonProperty(USERSTORE) String userStore,
-                      @JsonProperty(USER_INFO) Map<String, Object> userInfo )
+                      @JsonProperty(USERSTORE) String userStore, @JsonProperty(USER_INFO) Map<String, Object> userInfo )
     {
         this.name = name;
         this.email = email;
@@ -58,6 +58,42 @@ public final class UserModel
 
 
     private UserInfoModel userInfo;
+
+    private String lastLogged;
+
+    private List<Map<String, String>> groups;
+
+    public List<Map<String, String>> getGroups()
+    {
+        return groups;
+    }
+
+    public void setGroups( List<Map<String, String>> groups )
+    {
+        this.groups = groups;
+    }
+
+    public String getLastLogged()
+    {
+        return lastLogged;
+    }
+
+    public void setLastLogged( String lastLogged )
+    {
+        this.lastLogged = lastLogged;
+    }
+
+    public String getCreated()
+    {
+        return created;
+    }
+
+    public void setCreated( String created )
+    {
+        this.created = created;
+    }
+
+    private String created;
 
     @JsonProperty(USER_INFO)
     public UserInfoModel getUserInfo()

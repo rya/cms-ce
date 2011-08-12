@@ -3,8 +3,10 @@ package com.enonic.cms.admin.user;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -51,7 +54,18 @@ public final class UserModelTranslator
         model.setQualifiedName( entity.getQualifiedName().toString() );
         model.setDisplayName( entity.getDisplayName() );
         model.setLastModified( entity.getLastModified() );
-
+        //TODO: not implemented
+        model.setLastLogged( "01-01-2001" );
+        //TODO: not implemented
+        model.setCreated( "13-09-1998" );
+        List<Map<String, String>> groups = new ArrayList<Map<String, String>>(  );
+        for ( GroupEntity group : entity.getAllMembershipsGroups()){
+            Map <String, String> groupMap = new HashMap<String, String>();
+            groupMap.put( "name", group.getDisplayName() );
+            groupMap.put( "key", group.getGroupKey().toString() );
+            groups.add( groupMap );
+        }
+        model.setGroups( groups );
         if ( entity.getUserStore() != null )
         {
             model.setUserStore( entity.getUserStore().getName() );
