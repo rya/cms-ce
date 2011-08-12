@@ -132,6 +132,10 @@ Ext.define('CMS.view.systemCache.DetailPanel', {
         return this.cache;
     },
 
+    clearDetail: function() {
+        this.updateDetail( this.__proto__.cache );
+    },
+
     updateDetail: function( cache ) {
         if( cache ) {
             // sets the new record as current cache
