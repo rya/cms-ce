@@ -17,10 +17,10 @@ Ext.define('CMS.view.systemCache.DetailPanel', {
     cache: {
         data: {
             timeToLive: '-',
-            count: 0,
-            size: '-',
-            hits: 0,
-            misses: 0
+            objectCount: 0,
+            diskCapacity: '-',
+            cacheHits: 0,
+            cacheMisses: 0
         }
     },
 
@@ -61,7 +61,7 @@ Ext.define('CMS.view.systemCache.DetailPanel', {
                 styleHtmlContent: true,
                 tpl: new Ext.XTemplate(
                     '<div class="cache-info">',
-                    '<h1>{name} <span><tpl if="address != null">({address})</tpl></span></h1>',
+                    '<h1>{name} <span><tpl if="implementationName != null">({implementationName})</tpl></span></h1>',
                     '</div>'
                 )
             },
@@ -81,7 +81,7 @@ Ext.define('CMS.view.systemCache.DetailPanel', {
                             },
                             {
                                 xtype: 'displayfield',
-                                name: 'size',
+                                name: 'memoryCapacity',
                                 fieldLabel: 'Size'
                             }
                         ]
@@ -133,22 +133,47 @@ Ext.define('CMS.view.systemCache.DetailPanel', {
     },
 
     updateDetail: function( cache ) {
-        if( cache )
+        if( cache ) {
+            // sets the new record as current cache
             this.setCache( cache );
 
-        var data = this.cache ? this.cache.data : {} ;
-        this.getComponent('cacheDetailHeader').update( data );
-        this.getComponent('cacheDetailFieldset').getForm().setValues( data );
+            var data = this.cache ? this.cache.data : {} ;
+            this.getComponent('cacheDetailHeader').update( data );
+            this.getComponent('cacheDetailFieldset').getForm().setValues( data );
 
-        var gauges = this.getComponent('cacheDetailGauges');
-        gauges.getComponent('usageGauge').updateData( [{
-            name: 'usageGauge',
-            data: Math.floor( data.count * 100 / data.size ) || 0
-        }] );
-        gauges.getComponent('hitGauge').updateData( [{
-            name: 'hitGauge',
-            data: Math.floor( data.hits * 100 / (data.hits + data.misses) ) || 0
-        }] );
+            var count = data.objectCount || 0;
+            var size = data.memoryCapacity || 0;
+            var hits = data.cacheHits || 0;
+            var total = hits + ( data.cacheMisses || 0 );
+
+            var gauges = this.getComponent('cacheDetailGauges');
+            gauges.getComponent('usageGauge').updateData( [{
+                name: 'usageGauge',
+                data: ( size > 0 ? Math.floor( count * 100 / size ) : 0 )
+            }] );
+            gauges.getComponent('hitGauge').updateData( [{
+                name: 'hitGauge',
+                data: ( total > 0 ? Math.floor( hits * 100 / total ) : 0 )
+            }] );
+
+        } else if ( this.cache.data.name ) {
+            // loads the current cache updates from server
+            var me = this;
+            Ext.Ajax.request( {
+                  url: 'data/system/cache',
+                  method: 'GET',
+                  params: { name: this.cache.data.name },
+                  success: function( response, opts )
+                  {
+                      var cache = Ext.decode(response.responseText);
+                      me.updateDetail( { data: cache } );
+                  },
+                  failure: function( response, opts )
+                  {
+                      Ext.Msg.alert( 'Warning', 'Cache wasn\'t updated.' );
+                  }
+            } );
+        }
     }
 
 });
