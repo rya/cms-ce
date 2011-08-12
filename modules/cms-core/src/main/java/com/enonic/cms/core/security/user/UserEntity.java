@@ -340,10 +340,7 @@ public class UserEntity
 
         if ( getUserGroup() != null )
         {
-            Set<GroupEntity> groups = new HashSet<GroupEntity>(  );
-            groups.addAll( getUserGroup().getAllMemberships() );
-            groups.add( getUserGroup() );
-            return groups;
+            return getUserGroup().getAllMemberships();
         }
         else
         {

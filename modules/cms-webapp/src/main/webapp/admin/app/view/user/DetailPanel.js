@@ -109,29 +109,7 @@ Ext.define('CMS.view.user.DetailPanel', {
                 }
             },
             items: items};
-        var detailsPanel = {
-            xtype: 'panel',
-            title: 'Details',
-            autoScroll: true,
-            layout: {
-                type: 'table',
-                columns: 1,
-                tableAttrs:{
-                    style: {
-                        width: '97%'
-                    }
-                },
-                tdAttrs: {
-                    style:{
-                        padding: '10px'
-                    }
-                }
-            },
-            padding: 5,
-            flex: 0.3,
-            region: 'east',
-            items: [
-                {
+        var infoFieldSet = {
                     xtype: 'fieldset',
                     title: 'Info',
                     items: [
@@ -145,28 +123,31 @@ Ext.define('CMS.view.user.DetailPanel', {
                             fieldLabel: 'Created',
                             value: user.created
                         }]
-                },
-                {
-                    xtype: 'fieldset',
-                    title: 'Groups',
-                    items: [
-                        {
-                            xtype: 'displayfield',
-                            style: {
-                                background: 'lightGrey',
-                                border: 1
-                            },
-                            value: 'Very long group name'
-                        },
-                        {
-                            xtype: 'displayfield',
-                            style: {
-                                background: 'lightGrey',
-                                border: 1
-                            },
-                            value: 'group name'
-                        }]
-                }]
+                };
+        var groupFieldSet = this.generateGroupsFieldSet(user);
+        var detailsPanelItems = [];
+        if (groupFieldSet != null){
+            detailsPanelItems = [infoFieldSet, groupFieldSet];
+        }else{
+            detailsPanelItems = [infoFieldSet];
+        }
+        var detailsPanel = {
+            xtype: 'panel',
+            title: 'Details',
+            autoScroll: true,
+            layout: {
+                type: 'table',
+                columns: 1,
+                tdAttrs: {
+                    style:{
+                        padding: '10px'
+                    }
+                }
+            },
+            padding: 5,
+            flex: 0.35,
+            region: 'east',
+            items: detailsPanelItems
         };
         var pane = {
             xtype: 'panel',
@@ -207,6 +188,31 @@ Ext.define('CMS.view.user.DetailPanel', {
         }
 
     },
+
+    generateGroupsFieldSet: function (userData){
+        var groupFields = [];
+        Ext.Array.each(userData.groups, function(group){
+            var groupField = {
+                    xtype: 'button',
+                    text: group.name,
+                    iconCls: 'icon-group',
+                    cls: 'group-display',
+                    margin: 5
+                };
+            Ext.Array.include(groupFields, groupField);
+        });
+        if (groupFields.length > 0){
+            var groupFieldSet = {
+                xtype: 'fieldset',
+                title: 'Groups',
+                items: groupFields
+            };
+            return groupFieldSet;
+        }else{
+            return null;
+        }
+    },
+
 
     setCurrentUser: function(user){
         this.currentUser = user;
