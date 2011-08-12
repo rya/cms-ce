@@ -6,27 +6,28 @@ package com.enonic.cms.portal.processor;
 
 import java.util.Map;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.portal.*;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.common.base.Preconditions;
 
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.portal.ContentNameMismatchException;
+import com.enonic.cms.portal.ContentNotFoundException;
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.PageRequestType;
+import com.enonic.cms.portal.PageTemplateNotFoundException;
+import com.enonic.cms.portal.PathToContentResolver;
 import com.enonic.cms.portal.rendering.PageTemplateResolver;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageResolver;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.portal.ContentNameMismatchException;
-import com.enonic.cms.portal.ContentPath;
-import com.enonic.cms.portal.PageRequestType;
-import com.enonic.cms.portal.PathToContentResolver;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Sep 28, 2009
@@ -53,9 +54,9 @@ public class ContentRequestProcessor
         result.setContentFromRequest( contentFromRequest );
 
         final ContentPath contentPath = sitePath.getContentPath();
-        final boolean oldStyleContentPathToRedirect = contentPath.isOldStyleContentPath();
+        final boolean oldStyleContentPathToBeRedirected = contentPath.isOldStyleContentPath();
 
-        if ( oldStyleContentPathToRedirect )
+        if ( oldStyleContentPathToBeRedirected )
         {
             return setRedirectForOldStyleContentPaths( result, sitePath, contentFromRequest );
         }

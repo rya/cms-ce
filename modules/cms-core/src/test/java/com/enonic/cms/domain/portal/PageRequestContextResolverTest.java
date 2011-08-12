@@ -6,26 +6,27 @@ package com.enonic.cms.domain.portal;
 
 import java.util.HashSet;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.portal.ContentPath;
-import com.enonic.cms.portal.PageRequestContext;
-import com.enonic.cms.portal.PageRequestContextResolver;
-import com.enonic.cms.portal.PageRequestType;
 import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
+import com.enonic.cms.portal.ContentPath;
+import com.enonic.cms.portal.PageRequestContext;
+import com.enonic.cms.portal.PageRequestContextResolver;
+import com.enonic.cms.portal.PageRequestType;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -51,6 +52,8 @@ public class PageRequestContextResolverTest
     {
         site = mock( SiteEntity.class );
         contentDao = mock( ContentDao.class );
+
+        when( site.getKey() ).thenReturn( new SiteKey( 0 ) );
     }
 
 
@@ -102,7 +105,8 @@ public class PageRequestContextResolverTest
         sitePath.setContentPath( contentPath );
 
         SectionContentEntity sectionContent = createSectionContent( contentKey, "contentName" );
-        MenuItemEntity menuItem = new MenuItemEntity();
+        MenuItemEntity menuItem = createMenuItem( "menuItem", site );
+
         addSectionContentToMenuItem( menuItem, sectionContent );
 
         injectContentIntoContentDao( contentKey, "contentName" );
@@ -112,10 +116,15 @@ public class PageRequestContextResolverTest
         PageRequestContext resolvedContext = pageRequestContextResolver.resolvePageRequestContext( site, sitePath );
 
         ContentPath resolvedContentPath = resolvedContext.getContentPath();
-        assertNotNull( resolvedContentPath );
-        assertEquals( "123", resolvedContentPath.getContentKey().toString() );
-        assertNotNull( resolvedContext.getRequestedMenuItem() );
-        assertTrue( resolvedContext.getPageRequestType().equals( PageRequestType.CONTENT ) );
+        assertNull( resolvedContentPath );
+    }
+
+    private MenuItemEntity createMenuItem( String menuItemName, SiteEntity site )
+    {
+        MenuItemEntity menuItem = new MenuItemEntity();
+        menuItem.setName( "menuItemName" );
+        menuItem.setSite( site );
+        return menuItem;
     }
 
     @Test
@@ -123,18 +132,48 @@ public class PageRequestContextResolverTest
     {
         SitePath sitePath = new SitePath( siteKey, "/test/path/contentName--123" );
 
-        injectMenuItemToSiteEntityResolver( "/test/path", new MenuItemEntity() );
-        injectContentIntoContentDao( new ContentKey( 123 ), "contentName" );
+        final ContentKey contentKey = new ContentKey( 123 );
+        ContentEntity content = createContent( contentKey, "contentName" );
+
+        MenuItemEntity menuItem = new MenuItemEntity();
+        menuItem.setSite( site );
+
+        content.addDirectMenuItemPlacement( menuItem );
+        content.addContentHome( createContentHome( site, menuItem ) );
+
+        injectContentIntoContentDao( content );
+        injectMenuItemToSiteEntityResolver( "/test", createMenuItem( "test", site ) );
+        injectMenuItemToSiteEntityResolver( "/test/path", menuItem );
 
         PageRequestContextResolver pageRequestContextResolver = new PageRequestContextResolver( contentDao );
         PageRequestContext resolvedContext = pageRequestContextResolver.resolvePageRequestContext( site, sitePath );
 
         ContentPath resolvedContentPath = resolvedContext.getContentPath();
-        assertNotNull( resolvedContentPath );
+        assertNotNull( "Content path should not be null", resolvedContentPath );
         assertEquals( "123", resolvedContentPath.getContentKey().toString() );
         assertNotNull( resolvedContext.getRequestedMenuItem() );
         assertTrue( resolvedContext.getPageRequestType().equals( PageRequestType.CONTENT ) );
     }
+
+    @Test
+    public void testContentRequest_with_content_key_not_published_to_section()
+    {
+        SitePath sitePath = new SitePath( siteKey, "/test/path/contentName--123" );
+
+        final ContentKey contentKey = new ContentKey( 123 );
+        MenuItemEntity menuItem = new MenuItemEntity();
+
+        injectContentIntoContentDao( contentKey, "contentName" );
+        injectMenuItemToSiteEntityResolver( "/test/path", menuItem );
+
+        PageRequestContextResolver pageRequestContextResolver = new PageRequestContextResolver( contentDao );
+        PageRequestContext resolvedContext = pageRequestContextResolver.resolvePageRequestContext( site, sitePath );
+
+        ContentPath resolvedContentPath = resolvedContext.getContentPath();
+        assertNull( "Content path should be null", resolvedContentPath );
+        assertTrue( resolvedContext.getPageRequestType().equals( PageRequestType.CONTENT ) );
+    }
+
 
     @Test
     public void testContentRequest_content_in_section()
@@ -275,18 +314,55 @@ public class PageRequestContextResolverTest
         assertNull( resolvedContentPath );
     }
 
+    @Test
+    public void testContentRequest_old_style_content_path()
+    {
+        ContentKey contentKey = new ContentKey( "123" );
+
+        ContentEntity content = createContent( contentKey, "contentName" );
+
+        SiteEntity site = new SiteEntity();
+        site.setKey( 1 );
+        site.setName( "mySite" );
+
+        MenuItemEntity menuItem = new MenuItemEntity();
+        menuItem.setName( "test" );
+        menuItem.setSite( site );
+
+        content.addContentHome( createContentHome( site, menuItem ) );
+
+        SitePath sitePath = new SitePath( siteKey, "/test/path/contentName." + contentKey.toString() + ".cms" );
+
+        injectContentIntoContentDao( content );
+
+        PageRequestContextResolver pageRequestContextResolver = new PageRequestContextResolver( contentDao );
+        PageRequestContext resolvedContext = pageRequestContextResolver.resolvePageRequestContext( site, sitePath );
+
+        ContentPath resolvedContentPath = resolvedContext.getContentPath();
+        assertNotNull( "Content path should not be null", resolvedContentPath );
+        assertEquals( "123", resolvedContentPath.getContentKey().toString() );
+        assertEquals( menuItem, resolvedContext.getRequestedMenuItem() );
+        assertTrue( resolvedContext.getPageRequestType().equals( PageRequestType.CONTENT ) );
+    }
+
     private SectionContentEntity createSectionContent( ContentKey contentKey, String contentName )
     {
 
-        ContentEntity content = new ContentEntity();
-        content.setKey( contentKey );
-        content.setName( contentName );
+        ContentEntity content = createContent( contentKey, contentName );
 
         SectionContentEntity sectionContent = new SectionContentEntity();
         sectionContent.setKey( new SectionContentKey( contentKey.toString() ) );
         sectionContent.setContent( content );
 
         return sectionContent;
+    }
+
+    private ContentEntity createContent( ContentKey contentKey, String contentName )
+    {
+        ContentEntity content = new ContentEntity();
+        content.setKey( contentKey );
+        content.setName( contentName );
+        return content;
     }
 
     private void addSectionContentToMenuItem( MenuItemEntity menuItem, SectionContentEntity sectionContent )
@@ -299,6 +375,11 @@ public class PageRequestContextResolverTest
         menuItem.getSectionContents().add( sectionContent );
     }
 
+    private void injectFirstMenuItem( MenuItemEntity firstMenuItem )
+    {
+        when( site.getFirstMenuItem() ).thenReturn( firstMenuItem );
+    }
+
     private void injectRootPageOnSite( MenuItemEntity rootMenuItem )
     {
         when( site.getFrontPage() ).thenReturn( rootMenuItem );
@@ -309,14 +390,26 @@ public class PageRequestContextResolverTest
         when( site.resolveMenuItemByPath( new Path( localPath ) ) ).thenReturn( menuItem );
     }
 
+    private void injectContentIntoContentDao( ContentEntity content )
+    {
+        when( contentDao.findByKey( content.getKey() ) ).thenReturn( content );
+    }
+
     private void injectContentIntoContentDao( ContentKey contentKey, String contentName )
     {
-        ContentEntity content = new ContentEntity();
-        content.setKey( contentKey );
-        content.setName( contentName );
+        ContentEntity content = createContent( contentKey, contentName );
 
         when( contentDao.findByKey( contentKey ) ).thenReturn( content );
 
     }
+
+    private ContentHomeEntity createContentHome( SiteEntity site, MenuItemEntity menuItem )
+    {
+        ContentHomeEntity contentHome = new ContentHomeEntity();
+        contentHome.setSite( site );
+        contentHome.setMenuItem( menuItem );
+        return contentHome;
+    }
+
 
 }

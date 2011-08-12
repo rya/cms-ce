@@ -11,14 +11,15 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import org.springframework.util.Assert;
 
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+
+import com.enonic.cms.domain.SiteKey;
 
 /**
  * Oct 28, 2009
@@ -51,6 +52,11 @@ public class ContentLocations
     public int numberOfLocations()
     {
         return allLocations.size();
+    }
+
+    public boolean hasMenuItemAsLocation( final MenuItemEntity menuItem )
+    {
+        return allLocations.containsKey( menuItem.getMenuItemKey() );
     }
 
     public void addDirectMenuItemLocation( final MenuItemEntity menuItem )
