@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
@@ -63,24 +62,16 @@ public final class DataSourceFactory
     }
 
     /**
-     * <code>postProcessBeanFactory</code> sets transactions timeouts to default value when PostgreSQL database is used
-     *
-     * <p>also decorate datasource to return proxied Statement that will ignore setQueryTimeout calls
-     *
+     * <p>Decorate datasource to return proxied Statement that will ignore setQueryTimeout calls
+     * <p/>
      * <p>Reason: PostgreSQL JDBC driver versions 8.3, 8.4, 9.0 do not implement <code>setQueryTimeout(int)</code> method
      */
-    @Override
     public void postProcessBeanFactory( ConfigurableListableBeanFactory beanFactory )
-            throws BeansException
+        throws BeansException
     {
-        if ( dialectResolver.resolveDialect() instanceof PostgreSqlDialect ) {
-            // set timeout value for unspecified timeout in @Transactional annotation to JDBC default value
-            BeanDefinition transactionManager = beanFactory.getBeanDefinition( "transactionManager" );
-            // remove defaultTimeout that is specified in dataSourceContext.xml .
-            transactionManager.getPropertyValues().removePropertyValue( "defaultTimeout" );
-
-            LOG.info( "decorating database connection for ignoring setQueryTimeout calls" );
-
+        if ( dialectResolver.resolveDialect() instanceof PostgreSqlDialect )
+        {
+            LOG.info( "Decorating database connection for ignoring setQueryTimeout calls" );
             this.dataSource = new DecoratedDataSource( this.dataSource, new QueryTimeoutConnectionDecorator() );
         }
     }
