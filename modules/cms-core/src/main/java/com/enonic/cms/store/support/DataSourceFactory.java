@@ -31,8 +31,6 @@ public class DataSourceFactory
 
     private DataSource dataSource;
 
-    private boolean decorateQueryTimeout;
-
     public void setOriginalDataSource( DataSource originalDataSource )
     {
         this.originalDataSource = originalDataSource;
@@ -59,7 +57,7 @@ public class DataSourceFactory
             JdbcUtils.closeConnection( connection );
         }
 
-        decorateQueryTimeout = dialect != null && dialect instanceof PostgreSQLDialect;
+        boolean decorateQueryTimeout = dialect != null && dialect instanceof PostgreSQLDialect;
 
         if ( decorateQueryTimeout )
         {
