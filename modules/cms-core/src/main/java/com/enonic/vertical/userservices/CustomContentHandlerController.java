@@ -364,6 +364,14 @@ public class CustomContentHandlerController
         }
 
         ContentEntity persistedContent = contentDao.findByKey( new ContentKey( contentKey ) );
+
+        if ( persistedContent == null || persistedContent.isDeleted() )
+        {
+            String message = "Content with key " + contentKey + " not found";
+            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            throw new UserServicesException( ERR_OPERATION_HANDLER );
+        }
+
         ContentVersionEntity persistedVersion = persistedContent.getMainVersion();
 
         UpdateContentCommand updateContentCommand = UpdateContentCommand.storeNewVersionEvenIfUnchanged( persistedVersion.getKey() );

@@ -269,4 +269,44 @@ public class ContentServiceImpl_updateContentTest
         }
     }
 
+    @Test
+    public void testUpdateDeletedContent()
+    {
+        UserEntity testUser = fixture.findUserByName( "testuser" );
+
+        CreateContentCommand createCommand = createCreateContentCommand( ContentStatus.DRAFT.getKey(), testUser );
+        ContentKey contentKey = contentService.createContent( createCommand );
+        fixture.flushAndClearHibernateSesssion();
+
+        ContentEntity persistedContent = contentDao.findByKey( contentKey );
+
+        contentService.deleteContent( fixture.findUserByName( "testuser" ), persistedContent );
+        fixture.flushAndClearHibernateSesssion();
+
+        persistedContent = contentDao.findByKey( contentKey );
+        assertTrue( persistedContent.isDeleted() );
+
+        UpdateContentCommand command =
+            createUpdateContentCommand( contentKey, persistedContent.getDraftVersion().getKey(), ContentStatus.DRAFT.getKey(), false,
+                                        false );
+
+        String newName = "content-updated";
+        command.setContentName( newName );
+
+        try
+        {
+            contentService.updateContent( command );
+            fail( "Expected exception" );
+}
+        catch ( AssertionError e )
+        {
+            throw e;
+        }
+        catch ( Throwable e )
+        {
+            assertTrue( e instanceof UpdateContentException );
+            assertTrue( e.getMessage().toLowerCase().contains( "deleted" ) );
+        }
+    }
+
 }

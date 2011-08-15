@@ -891,6 +891,15 @@ public class ContentStorer
         {
             throw new ContentNotFoundException( contentKey );
         }
+
+
+
+        if ( content.isDeleted() )
+        {
+            throw new ContentNotFoundException( contentKey, content.getMainVersion() != null ? content.getMainVersion().getTitle() : "",
+                                                "Content is deleted" );
+        }
+
         return content;
     }
 
@@ -904,6 +913,11 @@ public class ContentStorer
         UserEntity user = userDao.findByKey( userKey );
 
         if ( user == null )
+        {
+            throw new UserNotFoundException( userKey );
+        }
+
+        if ( user.isDeleted() )
         {
             throw new UserNotFoundException( userKey );
         }
