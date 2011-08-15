@@ -29,7 +29,7 @@ Ext.define( 'CMS.controller.UserController', {
         {ref: 'tabPanel', selector: 'cmsTabPanel'},
         {ref: 'userStore', selector: 'UserStore'},
         {ref: 'userGrid', selector: 'userGrid'},
-        {ref: 'userDetail', selector: 'userDetail'},
+        {ref: 'userDetail', selector: 'userDetail', autoCreate: false, xtype: 'userDetail'},
         {ref: 'userFilter', selector: 'userFilter'},
         {ref: 'filterTextField', selector: 'userFilter textfield[name=filter]'},
         {ref: 'editUserFormPanel', selector: 'editUserPanel editUserFormPanel', autoCreate: true, xtype: 'editUserFormPanel'},
@@ -178,23 +178,23 @@ Ext.define( 'CMS.controller.UserController', {
     createBrowseTab: function( component, options )
     {
         this.getTabPanel().addTab( {
-                                       id: 'tab-browse',
-                                       title: 'Browse',
-                                       closable: false,
-                                       xtype: 'panel',
-                                       layout: 'border',
-                                       items: [
-                                           {
-                                               region: 'west',
-                                               width: 225,
-                                               xtype: 'userFilter'
-                                           },
-                                           {
-                                               region: 'center',
-                                               xtype: 'userShow'
-                                           }
-                                       ]
-                                   } );
+           id: 'tab-browse',
+           title: 'Browse',
+           closable: false,
+           xtype: 'panel',
+           layout: 'border',
+           items: [
+               {
+                   region: 'west',
+                   width: 225,
+                   xtype: 'userFilter'
+               },
+               {
+                   region: 'center',
+                   xtype: 'userShow'
+               }
+           ]
+        } );
     },
 
     createNewGroupTab: function()
@@ -226,10 +226,20 @@ Ext.define( 'CMS.controller.UserController', {
         var user = selected[0];
         var userDetail = this.getUserDetail();
 
+
         if ( user )
         {
-            userDetail.update( user.data );
-            userDetail.setCurrentUser( user.data );
+            Ext.Ajax.request( {
+                url: 'data/user/userinfo',
+                method: 'GET',
+                params: {key: user.get('key')},
+                success: function( response ){
+                    var jsonObj = Ext.JSON.decode( response.responseText );
+                    userDetail.updateDetails( jsonObj );
+                    userDetail.setCurrentUser( user.data );
+                  }
+            });
+
         }
 
         userDetail.setTitle( selected.length + " user selected" );

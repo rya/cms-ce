@@ -153,6 +153,10 @@ img.photo {
     background-image: url("../images/group_add.png");
 }
 
+.icon-group {
+    background-image: url("../images/group.png");
+}
+
 .icon-edit-user {
     background-image: url("../images/user_edit.png");
 }
@@ -299,6 +303,15 @@ img.photo {
 .x-form-display-field {
     padding-left: 5px;
     padding-top: 3px;
+}
+
+.group-display{
+    background: #d3d3d3;
+    cursor: auto !important;
+}
+
+.group-display button{
+    cursor: auto !important;
 }
 
 /*------    Cache   ---------*/
