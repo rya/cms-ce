@@ -64,15 +64,15 @@ public class CustomContentHandlerController
 
     @RequestMapping(value = "/modify", method = RequestMethod.GET)
     public void modify( HttpServletRequest request, HttpServletResponse response )
-            throws Exception
+        throws Exception
     {
         handleRequest( request, response );
     }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
-        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException,
-        InstantiationException, ParseException
+        throws VerticalUserServicesException, IOException, ClassNotFoundException, IllegalAccessException, InstantiationException,
+        ParseException
     {
         if ( operation.equals( "modify" ) )
         {
@@ -355,7 +355,7 @@ public class CustomContentHandlerController
         CustomContentDataFormParser customContentParser = new CustomContentDataFormParser( contentType.getContentTypeConfig(), formItems );
         ContentData contentData = customContentParser.parseContentData();
         createContentCommand.setContentData( contentData );
-        createContentCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName(contentData.getTitle()) );
+        createContentCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentData.getTitle() ) );
 
         return createContentCommand;
     }
@@ -376,6 +376,14 @@ public class CustomContentHandlerController
         }
 
         ContentEntity persistedContent = contentDao.findByKey( new ContentKey( contentKey ) );
+
+        if ( persistedContent == null || persistedContent.isDeleted() )
+        {
+            String message = "Content with key " + contentKey + " not found";
+            LOG.warn( StringUtil.expandString( message, null, null ) );
+            throw new UserServicesException( ERR_OPERATION_HANDLER );
+        }
+
         ContentVersionEntity persistedVersion = persistedContent.getMainVersion();
 
         UpdateContentCommand updateContentCommand = UpdateContentCommand.storeNewVersionEvenIfUnchanged( persistedVersion.getKey() );
