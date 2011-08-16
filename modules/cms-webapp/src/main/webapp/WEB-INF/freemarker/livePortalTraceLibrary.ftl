@@ -39,7 +39,7 @@
     ${portalRequestTrace.type}
     </td>
     <td>
-    ${portalRequestTrace.siteName!} : ${portalRequestTrace.siteLocalUrl!}
+    ${portalRequestTrace.siteName!} : ${portalRequestTrace.siteLocalUrl!?html}
     </td>
     <td>
     ${portalRequestTrace.duration.startTimeAsDate!?datetime}
@@ -70,7 +70,7 @@
     </tr>
     <tr>
         <td>URL</td>
-        <td>${portalRequestTrace.url!}</td>
+        <td>${portalRequestTrace.url!?html}</td>
     </tr>
     <tr>
         <td>Site</td>
@@ -78,7 +78,7 @@
     </tr>
     <tr>
         <td>Site local URL</td>
-        <td>${portalRequestTrace.siteLocalUrl!}</td>
+        <td>${portalRequestTrace.siteLocalUrl!?html}</td>
     </tr>
     <tr>
         <td>Requester</td>

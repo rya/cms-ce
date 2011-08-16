@@ -6,6 +6,8 @@ package com.enonic.cms.business.portal.livetrace;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.framework.util.UrlPathDecoder;
+
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewService;
 
@@ -23,7 +25,8 @@ public class PortalRequestTracer
     {
         if ( livePortalTraceService.tracingEnabled() )
         {
-            return livePortalTraceService.startPortalRequestTracing( originalUrl );
+            String originalUrlDecoded = UrlPathDecoder.decode( originalUrl );
+            return livePortalTraceService.startPortalRequestTracing( originalUrlDecoded );
         }
         else
         {
