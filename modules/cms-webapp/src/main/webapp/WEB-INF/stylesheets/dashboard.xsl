@@ -54,52 +54,7 @@
         <script type="text/javascript" src="javascript/admin.js">//</script>
         <script type="text/javascript" language="JavaScript" src="dwr/interface/AjaxService.js"/>
         <script type="text/javascript" language="JavaScript" src="dwr/engine.js"/>
-        <script type="text/javascript" language="JavaScript">
-
-          // ---------------------------------------------------------------------------------------------------
-
-          /*
-          Method: removeContent
-          */
-
-          function removeContent(contentKey, page, cat) {
-            var toBeRemoved = [];
-            toBeRemoved.push(contentKey);
-
-            AjaxService.isContentInUse(toBeRemoved, {
-              callback:function(bInUse) {
-                doRemoveContent(bInUse, contentKey, page, cat);
-              }
-            });
-
-            return false;
-          }
-
-          // ---------------------------------------------------------------------------------------------------
-
-          /*
-          Method: doRemoveContent
-          */
-
-          function doRemoveContent(bInUse, contentKey, page, cat) {
-            var alertMsg;
-
-            if(bInUse)
-            {
-              alertMsg = '%alertDeleteContentWithParents%';
-            }
-            else
-            {
-              alertMsg = '%msgConfirmRemoveSelected%';
-            }
-
-            if (confirm(alertMsg))
-            {
-              deleteOperationUrl = 'adminpage?page=' + page + '&amp;op=remove&amp;key=' + contentKey + '&amp;cat=' + cat + '&amp;selectedunitkey=1';
-              document.location.href = deleteOperationUrl;
-            }
-          }
-        </script>
+        <script type="text/javascript" language="JavaScript" src="javascript/dashboard.js"/>
       </head>
       <body>
 
@@ -297,6 +252,7 @@
               <xsl:call-template name="tablecolumnheader">
                 <xsl:with-param name="caption" select="'%fldTitle%'"/>
                 <xsl:with-param name="sortable" select="'false'"/>
+                <xsl:with-param name="width" select="'60%'"/>
               </xsl:call-template>
 
               <xsl:call-template name="tablecolumnheader">
@@ -568,7 +524,7 @@
             <xsl:with-param name="mouseoverclass">tablerowpainter_mouseoverrow</xsl:with-param>
           </xsl:call-template>
 
-          <td title="{$tooltip}" class="{$css-td-class}" style="{concat('width:', $icon-column-width, 'px')}">
+          <td title="{$tooltip}" class="{$css-td-class}" style="{concat('width:', $icon-column-width, 'px')}" valign="top">
             <xsl:call-template name="addJSEvent">
               <xsl:with-param name="node" select="$content"/>
             </xsl:call-template>
@@ -582,7 +538,7 @@
             </xsl:call-template>
           </td>
 
-          <td title="{$tooltip}" class="{$css-td-class}">
+          <td title="{$tooltip}" class="{$css-td-class}" valign="top">
             <xsl:call-template name="addJSEvent">
               <xsl:with-param name="node" select="$content"/>
             </xsl:call-template>
@@ -646,7 +602,7 @@
           <!-- here are the rows for assignedto-->
           <xsl:if test="$type = 'assignedto'">
 
-            <td title="{$tooltip}" class="{$css-td-class}">
+            <td title="{$tooltip}" class="{$css-td-class}" valign="top">
               <xsl:call-template name="addJSEvent">
                 <xsl:with-param name="node" select="$content"/>
               </xsl:call-template>
@@ -667,8 +623,18 @@
               </xsl:variable>
 
               <xsl:if test="assignment-description != ''">
-                <div style="margin-bottom: 4px">
-                  <xsl:value-of select="assignment-description"/>
+                <div style="margin-bottom: 4px" onmouseover="showFullAssignmentDescription({@key}, true)" onmouseout="showFullAssignmentDescription({@key}, false)">
+                    <div>
+                        <div id="assignment-description-short-{@key}">
+                            <xsl:value-of select="substring(assignment-description,1, 100)"/>
+                            <xsl:if test="string-length(assignment-description) &gt; 100">
+                                <xsl:text>...</xsl:text>
+                            </xsl:if>
+                        </div>
+                        <div id="assignment-description-long-{@key}" style="display:none;">
+                            <xsl:value-of select="assignment-description"/>
+                        </div>
+                    </div>
                 </div>
               </xsl:if>
               
@@ -687,14 +653,14 @@
               </table>
             </td>
 
-            <td align="center" title="{$tooltip}" class="{$css-td-class}">
+            <td align="center" title="{$tooltip}" class="{$css-td-class}" valign="top">
               <xsl:call-template name="addJSEvent">
                 <xsl:with-param name="node" select="$content"/>
               </xsl:call-template>
               <xsl:call-template name="publishstatus"/>
             </td>
 
-            <td title="{$tooltip}">
+            <td title="{$tooltip}" valign="top">
               <xsl:call-template name="addJSEvent">
                 <xsl:with-param name="key" select="$content"/>
               </xsl:call-template>
@@ -725,7 +691,7 @@
 
           <xsl:if test="$type != 'lastmodified' and $type != 'assignedto'">
 
-            <td align="center" title="{$tooltip}" class="{$css-td-class}">
+            <td align="center" title="{$tooltip}" class="{$css-td-class}" valign="top">
               <xsl:call-template name="addJSEvent">
                 <xsl:with-param name="node" select="$content"/>
               </xsl:call-template>
