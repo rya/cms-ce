@@ -6,14 +6,14 @@ Ext.define( 'CMS.store.SystemCacheStore', {
     pageSize: 10,
     autoLoad: true,
     remoteSort: false,
-    groupField: 'node',
+    groupField: 'name',
 
     proxy: {
         type: 'ajax',
-        url: 'app/data/SystemCaches.json',
+        url: 'data/system/cache/list',
         reader: {
             type: 'json',
-            root: 'systemCaches',
+            root: 'caches',
             totalProperty : 'total'
         }
     }

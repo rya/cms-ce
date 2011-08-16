@@ -2,13 +2,15 @@ Ext.define('CMS.model.SystemCacheModel', {
     extend: 'Ext.data.Model',
 
     fields: [
-        'key', 'node', 'name',
-        {name: 'count', type: 'int'},
-        {name: 'size', type: 'int'},
-        {name: 'hits', type: 'int'},
-        {name: 'misses', type: 'int'},
-        {name: 'timeToLive', type: 'int'}
+        'name',
+        {name: 'memoryCapacity', type: 'int'},
+        {name: 'diskCapacity', type: 'int'},
+        {name: 'diskOverflow', type: 'boolean', defaultValue: false},
+        {name: 'timeToLive', type: 'int'},
+        {name: 'objectCount', type: 'int'},
+        {name: 'cacheHits', type: 'int'},
+        {name: 'cacheMisses', type: 'int'}
     ],
 
-    idProperty: 'key'
+    idProperty: 'name'
 });

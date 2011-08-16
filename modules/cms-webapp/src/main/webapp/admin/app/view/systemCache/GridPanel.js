@@ -17,39 +17,34 @@ Ext.define( 'CMS.view.systemCache.GridPanel', {
     {
         this.columns = [
             {
-                text: 'Node',
-                dataIndex: 'node',
+                text: 'Name',
+                dataIndex: 'name',
                 sortable: true,
                 flex:1
             },
             {
-                text: 'Name',
-                dataIndex: 'name',
-                sortable: true
-            },
-            {
                 text: 'Count',
-                dataIndex: 'count',
+                dataIndex: 'objectCount',
                 xtype: 'numbercolumn',
                 format:'0,000',
                 sortable: true
             },
             {
                 text: 'Size',
-                dataIndex: 'size',
+                dataIndex: 'memoryCapacity',
                 xtype: 'numbercolumn',
                 format:'0,000',
                 sortable: true
             },
             {
                 text: 'Hits',
-                dataIndex: 'hits',
+                dataIndex: 'cacheHits',
                 xtype: 'numbercolumn',
                 sortable: true
             },
             {
                 text: 'Misses',
-                dataIndex: 'misses',
+                dataIndex: 'cacheMisses',
                 xtype: 'numbercolumn',
                 sortable: true
             },
