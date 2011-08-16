@@ -14,3 +14,41 @@ function showFullAssignmentDescription( contentKey, showFull )
         descriptionShort.style.display = 'block';
     }
 }
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+function removeContent( contentKey, page, cat )
+{
+    var toBeRemoved = [];
+    toBeRemoved.push( contentKey );
+
+    AjaxService.isContentInUse( toBeRemoved, {
+        callback:function( bInUse )
+        {
+            doRemoveContent( bInUse, contentKey, page, cat );
+        }
+    } );
+
+    return false;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
+function doRemoveContent( bInUse, contentKey, page, cat )
+{
+    var alertMsg;
+
+    if ( bInUse )
+    {
+        alertMsg = '%alertDeleteContentWithParents%';
+    }
+    else
+    {
+        alertMsg = '%msgConfirmRemoveSelected%';
+    }
+
+    if ( confirm( alertMsg ) )
+    {
+        document.location.href = 'adminpage?page=' + page + '&op=remove&key=' + contentKey + '&cat=' + cat + '&selectedunitkey=1';
+    }
+}
