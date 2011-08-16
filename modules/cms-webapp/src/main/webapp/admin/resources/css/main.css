@@ -163,6 +163,7 @@ img.photo {
 
 .icon-delete-user {
     background-image: url("../images/user_delete.png");
+    background-position: center;
 }
 
 .icon-change-password {
@@ -298,6 +299,11 @@ img.photo {
     font-size: 35px;
     text-align: left;
     background: none;
+}
+
+.display-name div {
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .x-form-display-field {
