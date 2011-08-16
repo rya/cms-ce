@@ -50,22 +50,33 @@
     border: 0
 }
 
-.launcher-logged-in-user-panel {
-    /*box-shadow: 0 0 5px 5px #000;*/
+
+/* ----- Logged in user panel -----*/
+
+.logged-in-user-panel {
+    box-shadow: 5px 5px 5px #ccc;
 }
 
-.launcher-logged-in-user-panel ul {
-    list-style-type: disc;
-    padding:20px;
-}
-
-.launcher-logged-in-user-panel ul li {
-    list-style: disc;
-}
-
-.launcher-logged-in-user-panel-body {
+.logged-in-user-panel-body {
     padding: 10px;
 }
+
+.logged-in-user-panel-left {
+    float: left;
+    margin-right: 15px;
+}
+
+.logged-in-user-panel-left img {
+}
+
+.logged-in-user-panel-right h1 {
+    font-size: 18px !important;
+}
+
+.logged-in-user-panel-right {
+    float: left;
+}
+
 /* ----- Accounts -----*/
 
 img.thumbnail {

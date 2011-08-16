@@ -98,7 +98,8 @@ Ext.define('CMS.view.launcher.Toolbar', {
         // Logged in user
         {
             //id: 'launcher-logged-in-user-button',
-            xtype: 'loggedInUserButton'
+            xtype: 'loggedInUserButton',
+            text: 'Joe Doe'
         },
         '-',
         // Settings

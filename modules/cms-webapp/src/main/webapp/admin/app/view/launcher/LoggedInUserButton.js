@@ -37,14 +37,36 @@ Ext.define('CMS.view.launcher.LoggedInUserButton', {
             width: 420,
             height: 180,
             floating: true,
-            html: '<p>TODO: Create layout template</p><ul><li>Photo</li><li>Display Name</li><li>Qualified Name</li><li>E-mail</li><li><a href="">Account</a></li><li><a href="">Change Password</a></li><li><a href="index.html">Log Out</a></li></ul>',
-            cls: 'launcher-logged-in-user-panel',
-            bodyCls: 'launcher-logged-in-user-panel-body',
+            //html: '<p>TODO: Create layout template</p><ul><li>Photo</li><li>Display Name</li><li>Qualified Name</li><li>E-mail</li><li><a href="">Account</a></li><li><a href="">Change Password</a></li><li><a href="index.html">Log Out</a></li></ul>',
+            cls: 'logged-in-user-panel',
+            bodyCls: 'logged-in-user-panel-body',
             renderTo: Ext.getBody()
         });
         self.panel.hide();
 
+        var user = {
+            uid: 'abcdef012345',
+            displayName: 'Joe Doe',
+            qualifiedName: 'local\\joe',
+            email: 'joe@doe.com'
+        };
+
+        this.createTemplate().overwrite(this.panel.body, user);  // pass the root node of the data object
+
         self.updatePanelPosition();
+    },
+
+    createTemplate: function() {
+
+        return new Ext.XTemplate(
+                '<div class="logged-in-user-panel-left"><img src="resources/images/x-user.png"/></div>',
+                '<div class="logged-in-user-panel-right">',
+                '<h1>{displayName}</h1>',
+                '<p>{qualifiedName}</p>',
+                '<p>{email}</p>',
+                '</div>'
+
+                );
     },
 
     updatePanelPosition: function(component, x, y, options) {
