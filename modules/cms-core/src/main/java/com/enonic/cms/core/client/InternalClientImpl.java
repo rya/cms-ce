@@ -37,6 +37,7 @@ import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
+import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
@@ -87,6 +88,8 @@ import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryService;
+import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
@@ -184,6 +187,9 @@ public final class InternalClientImpl
 
     @Inject
     private ContentService contentService;
+
+    @Inject
+    private CategoryService categoryService;
 
     @Inject
     private ImportJobFactory importJobFactory;
@@ -1930,6 +1936,31 @@ public final class InternalClientImpl
                     new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContent( content );
                 }
             }
+        }
+        catch ( Exception e )
+        {
+            throw handleException( e );
+        }
+    }
+
+    public void deleteCategory( DeleteCategoryParams params )
+        throws ClientException
+    {
+        try
+        {
+            if ( params.key == null )
+            {
+                throw new IllegalArgumentException( "key must be specified" );
+            }
+
+            UserEntity deleter = securityService.getRunAsUser();
+
+            DeleteCategoryCommand command = new DeleteCategoryCommand();
+            command.setDeleter( deleter.getKey() );
+            command.setCategoryKey( new CategoryKey( params.key ) );
+            command.setIncludeContent( params.includeContent );
+            command.setRecursive( params.recursive );
+            categoryService.deleteCategory( command );
         }
         catch ( Exception e )
         {

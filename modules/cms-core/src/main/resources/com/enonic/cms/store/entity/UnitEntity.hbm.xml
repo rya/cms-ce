@@ -1,42 +1,42 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.core.content.UnitEntity" table="TUNIT" mutable="false">
-    <cache usage="nonstrict-read-write"/>
-    <id name="key" type="int">
-      <column name="UNI_LKEY"/>
-      <generator class="assigned"/>
-    </id>
-    <property name="deleted" type="int">
-      <column name="UNI_BDELETED" not-null="true"/>
-    </property>
-    <property name="description" type="string">
-      <column name="UNI_SDESCRIPTION" length="256"/>
-    </property>
-    <property name="name" type="string">
-      <column name="UNI_SNAME" length="32" not-null="true"/>
-    </property>
-    <property name="timestamp" type="timestamp">
-      <column name="UNI_DTETIMESTAMP"/>
-    </property>
-    <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
-      <column name="UNI_LAN_LKEY"/>
-    </many-to-one>
-    <many-to-one name="parent" class="com.enonic.cms.core.content.UnitEntity" fetch="select">
-      <column name="UNI_LSUPERKEY"/>
-    </many-to-one>
-    <set name="contentTypes" inverse="false" table="TUNITCONTENTTYPE">
-      <cache usage="nonstrict-read-write"/>
-      <key>
-        <column name="UCT_UNI_LKEY" not-null="true"/>
-      </key>
-      <many-to-many class="com.enonic.cms.core.content.contenttype.ContentTypeEntity">
-        <column name="UCT_CTY_LKEY" not-null="true"/>
-      </many-to-many>
-    </set>
-  </class>
-  <query name="UnitEntity.getAll" cacheable="true" read-only="true">
-    from UnitEntity
-  </query>
+    <class name="com.enonic.cms.core.content.UnitEntity" table="TUNIT" mutable="true">
+        <cache usage="nonstrict-read-write"/>
+        <id name="key" type="int">
+            <column name="UNI_LKEY"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="deleted" type="int">
+            <column name="UNI_BDELETED" not-null="true"/>
+        </property>
+        <property name="description" type="string">
+            <column name="UNI_SDESCRIPTION" length="256"/>
+        </property>
+        <property name="name" type="string">
+            <column name="UNI_SNAME" length="32" not-null="true"/>
+        </property>
+        <property name="timestamp" type="timestamp">
+            <column name="UNI_DTETIMESTAMP"/>
+        </property>
+        <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
+            <column name="UNI_LAN_LKEY"/>
+        </many-to-one>
+        <many-to-one name="parent" class="com.enonic.cms.core.content.UnitEntity" fetch="select">
+            <column name="UNI_LSUPERKEY"/>
+        </many-to-one>
+        <set name="contentTypes" inverse="false" table="TUNITCONTENTTYPE" cascade="all">
+            <cache usage="nonstrict-read-write"/>
+            <key>
+                <column name="UCT_UNI_LKEY" not-null="true"/>
+            </key>
+            <many-to-many class="com.enonic.cms.core.content.contenttype.ContentTypeEntity">
+                <column name="UCT_CTY_LKEY" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+    <query name="UnitEntity.getAll" cacheable="true" read-only="true">
+        from UnitEntity
+    </query>
 </hibernate-mapping>

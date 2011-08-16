@@ -4,15 +4,13 @@
  */
 package com.enonic.cms.core.resolver;
 
-import com.enonic.cms.core.resolver.AbstractAccessResolver;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.store.dao.GroupDao;
-
 import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.GroupDao;
 
 
 public class CategoryAccessResolver
@@ -78,6 +76,16 @@ public class CategoryAccessResolver
     }
 
     public boolean hasAdministrateCategoryAccess( UserEntity user, CategoryEntity category )
+    {
+        if ( doHasAccess( user, category, CategoryAccessType.ADMINISTRATE ) )
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean hasDeleteCategoryAccess( UserEntity user, CategoryEntity category )
     {
         if ( doHasAccess( user, category, CategoryAccessType.ADMINISTRATE ) )
         {

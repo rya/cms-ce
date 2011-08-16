@@ -152,7 +152,6 @@ public class InternalClientImpl_CreateCategoryTest
         params.parentCategoryKey = myTopCategory.getKey().toInt();
         params.name = "Auto approve true";
         params.contentTypeKey = fixture.findContentTypeByName( "MyContentType" ).getKey();
-        ;
         params.autoApprove = true;
 
         // exercise
@@ -163,6 +162,30 @@ public class InternalClientImpl_CreateCategoryTest
         CategoryEntity createdCategory = fixture.findCategoryByKey( new CategoryKey( categoryKey ) );
         assertEquals( "Auto approve true", createdCategory.getName() );
         assertEquals( true, createdCategory.getAutoMakeAvailableAsBoolean() );
+    }
+
+    @Test
+    public void create_category_then_create_sub_category()
+    {
+        // exercise
+        CreateCategoryParams params = new CreateCategoryParams();
+        params.parentCategoryKey = fixture.findCategoryByName( "My top category" ).getKey().toInt();
+        params.name = "My category";
+        params.contentTypeKey = null;
+        internalClient.createCategory( params );
+
+        params.parentCategoryKey = fixture.findCategoryByName( "My category" ).getKey().toInt();
+        params.name = "My sub category";
+        params.contentTypeKey = null;
+        internalClient.createCategory( params );
+
+        // verify
+        assertNotNull( fixture.findCategoryByName( "My sub category" ) );
+        assertEquals( "My category", fixture.findCategoryByName( "My sub category" ).getParent().getName() );
+        assertNotNull( fixture.findCategoryByName( "My category" ) );
+        assertEquals( "My category", fixture.findCategoryByName( "My category" ).getName() );
+        assertEquals( 1, fixture.findCategoryByName( "My top category" ).getChildren().size() );
+        assertEquals( 1, fixture.findCategoryByName( "My category" ).getChildren().size() );
     }
 
 

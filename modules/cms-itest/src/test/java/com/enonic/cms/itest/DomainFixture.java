@@ -268,6 +268,16 @@ public class DomainFixture
         return list.get( 0 );
     }
 
+    public ContentEntity findContentByName( String name )
+    {
+        List<ContentEntity> list = typecastList( ContentEntity.class, hibernateTemplate.find( "from ContentEntity where name = ?", name ) );
+        if ( list.isEmpty() )
+        {
+            return null;
+        }
+        return list.get( 0 );
+    }
+
     public List<ContentVersionEntity> findContentVersionsByContent( ContentKey key )
     {
         return typecastList( ContentVersionEntity.class,

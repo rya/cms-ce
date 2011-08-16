@@ -1,149 +1,155 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.core.content.ContentEntity" table="TCONTENT" mutable="true">
-    <cache usage="nonstrict-read-write"/>
-    <id name="key" column="CON_LKEY" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
-      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
-        <param name="table">TCONTENT</param>
-        <param name="idClassName">com.enonic.cms.core.content.ContentKey</param>
-      </generator>
-    </id>
-    <property name="createdAt" type="timestamp">
-      <column name="CON_DTECREATED" not-null="true"/>
-    </property>
-    <property name="timestamp" type="timestamp">
-      <column name="CON_DTETIMESTAMP"/>
-    </property>
-    <property name="deleted" type="int">
-      <column name="CON_BDELETED" not-null="true"/>
-    </property>
-    <property name="name" type="string">
-      <column name="CON_SNAME" length="256"/>
-    </property>
-    <property name="priority" type="int">
-      <column name="CON_LPRIORITY" not-null="true"/>
-    </property>
-    <property name="availableFrom" type="timestamp">
-      <column name="CON_DTEPUBLISHFROM"/>
-    </property>
-    <property name="availableTo" type="timestamp">
-      <column name="CON_DTEPUBLISHTO"/>
-    </property>
-    <many-to-one name="category" class="com.enonic.cms.core.content.category.CategoryEntity" fetch="select">
-      <column name="CON_CAT_LKEY" not-null="true"/>
-    </many-to-one>
-    <many-to-one name="mainVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
-      <column name="CON_COV_LKEY"/>
-    </many-to-one>
-    <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
-      <column name="CON_LAN_LKEY" not-null="true"/>
-    </many-to-one>
-    <many-to-one name="source" class="com.enonic.cms.core.content.ContentEntity" fetch="select">
-      <column name="CON_LSOURCEKEY"/>
-    </many-to-one>
-    <many-to-one name="owner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
-      <column name="CON_USR_HOWNER" length="40" not-null="true"/>
-    </many-to-one>
-    <many-to-one name="assignee" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
-      <column name="CON_USR_HASSIGNEE" length="40" not-null="false"/>
-    </many-to-one>
-    <many-to-one name="assigner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
-      <column name="CON_USR_HASSIGNER" length="40" not-null="false"/>
-    </many-to-one>
-    <property name="assignmentDueDate" type="timestamp">
-      <column name="CON_DTEDUEDATE"/>
-    </property>
-    <property name="assignmentDescription" type="string">
-      <column name="CON_SASSIGNMENTDESCRIPTION" length="1024"/>
-    </property>
-    <many-to-one name="draftVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
-      <column name="CON_COV_LDRAFT"/>
-    </many-to-one>
-    <map name="contentHomes" inverse="true" sort="natural">
-      <cache usage="nonstrict-read-write"/>
-      <key column="CHO_CON_LKEY"/>
-      <map-key type="integer" column="CHO_MEN_LKEY"/>
-      <one-to-many class="com.enonic.cms.core.structure.menuitem.ContentHomeEntity"/>
-    </map>
-    <bag name="versions" inverse="true" order-by="COV_DTECREATED">
-      <cache usage="nonstrict-read-write"/>
-      <key column="COV_CON_LKEY" not-null="true"/>
-      <one-to-many class="com.enonic.cms.core.content.ContentVersionEntity"/>
-    </bag>
-    <set name="sectionContents" inverse="true">
-      <cache usage="nonstrict-read-write"/>
-      <key column="SCO_CON_LKEY"/>
-      <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
-    </set>
-    <set name="directMenuItemPlacements" inverse="true" table="TMENUITEMCONTENT"
-         sort="com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy">
-      <cache usage="nonstrict-read-write"/>
-      <key>
-        <column name="MIC_CON_LKEY" not-null="true"/>
-      </key>
-      <many-to-many class="com.enonic.cms.core.structure.menuitem.MenuItemEntity">
-        <column name="MIC_MEI_LKEY" not-null="true"/>
-      </many-to-many>
-    </set>
-    <map name="contentAccessRights" inverse="true" sort="com.enonic.cms.core.security.group.GroupKeyComparator" mutable="true"
-         cascade="all-delete-orphan">
-      <cache usage="nonstrict-read-write"/>
-      <key column="COA_CON_LKEY"/>
-      <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="COA_GRP_HKEY"/>
-      <one-to-many class="com.enonic.cms.core.content.ContentAccessEntity"/>
-    </map>
-    <set name="relatedParents" table="TRELATEDCONTENT">
-      <cache usage="nonstrict-read-write"/>
-      <key column="RCO_CON_LCHILD" not-null="true"/>
-      <many-to-many class="com.enonic.cms.core.content.ContentVersionEntity">
-        <column name="RCO_CON_LPARENT" not-null="true"/>
-      </many-to-many>
-    </set>
+    <class name="com.enonic.cms.core.content.ContentEntity" table="TCONTENT" mutable="true">
+        <cache usage="nonstrict-read-write"/>
+        <id name="key" column="CON_LKEY" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
+            <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+                <param name="table">TCONTENT</param>
+                <param name="idClassName">com.enonic.cms.core.content.ContentKey</param>
+            </generator>
+        </id>
+        <property name="createdAt" type="timestamp">
+            <column name="CON_DTECREATED" not-null="true"/>
+        </property>
+        <property name="timestamp" type="timestamp">
+            <column name="CON_DTETIMESTAMP"/>
+        </property>
+        <property name="deleted" type="int">
+            <column name="CON_BDELETED" not-null="true"/>
+        </property>
+        <property name="name" type="string">
+            <column name="CON_SNAME" length="256"/>
+        </property>
+        <property name="priority" type="int">
+            <column name="CON_LPRIORITY" not-null="true"/>
+        </property>
+        <property name="availableFrom" type="timestamp">
+            <column name="CON_DTEPUBLISHFROM"/>
+        </property>
+        <property name="availableTo" type="timestamp">
+            <column name="CON_DTEPUBLISHTO"/>
+        </property>
+        <many-to-one name="category" class="com.enonic.cms.core.content.category.CategoryEntity" fetch="select">
+            <column name="CON_CAT_LKEY" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="mainVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
+            <column name="CON_COV_LKEY"/>
+        </many-to-one>
+        <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
+            <column name="CON_LAN_LKEY" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="source" class="com.enonic.cms.core.content.ContentEntity" fetch="select">
+            <column name="CON_LSOURCEKEY"/>
+        </many-to-one>
+        <many-to-one name="owner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
+            <column name="CON_USR_HOWNER" length="40" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="assignee" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
+            <column name="CON_USR_HASSIGNEE" length="40" not-null="false"/>
+        </many-to-one>
+        <many-to-one name="assigner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
+            <column name="CON_USR_HASSIGNER" length="40" not-null="false"/>
+        </many-to-one>
+        <property name="assignmentDueDate" type="timestamp">
+            <column name="CON_DTEDUEDATE"/>
+        </property>
+        <property name="assignmentDescription" type="string">
+            <column name="CON_SASSIGNMENTDESCRIPTION" length="1024"/>
+        </property>
+        <many-to-one name="draftVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
+            <column name="CON_COV_LDRAFT"/>
+        </many-to-one>
+        <map name="contentHomes" inverse="true" sort="natural">
+            <cache usage="nonstrict-read-write"/>
+            <key column="CHO_CON_LKEY"/>
+            <map-key type="integer" column="CHO_MEN_LKEY"/>
+            <one-to-many class="com.enonic.cms.core.structure.menuitem.ContentHomeEntity"/>
+        </map>
+        <bag name="versions" inverse="true" order-by="COV_DTECREATED">
+            <cache usage="nonstrict-read-write"/>
+            <key column="COV_CON_LKEY" not-null="true"/>
+            <one-to-many class="com.enonic.cms.core.content.ContentVersionEntity"/>
+        </bag>
+        <set name="sectionContents" inverse="true">
+            <cache usage="nonstrict-read-write"/>
+            <key column="SCO_CON_LKEY"/>
+            <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
+        </set>
+        <set name="directMenuItemPlacements" inverse="true" table="TMENUITEMCONTENT"
+             sort="com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy">
+            <cache usage="nonstrict-read-write"/>
+            <key>
+                <column name="MIC_CON_LKEY" not-null="true"/>
+            </key>
+            <many-to-many class="com.enonic.cms.core.structure.menuitem.MenuItemEntity">
+                <column name="MIC_MEI_LKEY" not-null="true"/>
+            </many-to-many>
+        </set>
+        <map name="contentAccessRights" inverse="true" sort="com.enonic.cms.core.security.group.GroupKeyComparator" mutable="true"
+             cascade="all-delete-orphan">
+            <cache usage="nonstrict-read-write"/>
+            <key column="COA_CON_LKEY"/>
+            <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="COA_GRP_HKEY"/>
+            <one-to-many class="com.enonic.cms.core.content.ContentAccessEntity"/>
+        </map>
+        <set name="relatedParents" table="TRELATEDCONTENT">
+            <cache usage="nonstrict-read-write"/>
+            <key column="RCO_CON_LCHILD" not-null="true"/>
+            <many-to-many class="com.enonic.cms.core.content.ContentVersionEntity">
+                <column name="RCO_CON_LPARENT" not-null="true"/>
+            </many-to-many>
+        </set>
 
-  </class>
+    </class>
 
-  <query name="ContentEntity.deleteByKey" cacheable="false">
+    <query name="ContentEntity.deleteByKey" cacheable="false">
 
-    update ContentEntity set deleted = 1
-    where key = :key
+        update ContentEntity set deleted = 1
+        where key = :key
 
-  </query>
+    </query>
 
-  <query name="ContentEntity.findAll" cacheable="false">
-    select c.key
-    from ContentEntity c
-  </query>
+    <query name="ContentEntity.findAll" cacheable="false">
+        select c.key
+        from ContentEntity c
+    </query>
 
-  <query name="ContentEntity.findAllExcludingDeleted" cacheable="false">
-    select c.key
-    from ContentEntity c
-    where c.deleted = 0
-  </query>
+    <query name="ContentEntity.findAllExcludingDeleted" cacheable="false">
+        select c.key
+        from ContentEntity c
+        where c.deleted = 0
+    </query>
 
-  <query name="ContentEntity.totalCountAll" cacheable="false">
-    select count(c.key)
-    from ContentEntity c
-  </query>
+    <query name="ContentEntity.totalCountAll" cacheable="false">
+        select count(c.key)
+        from ContentEntity c
+    </query>
 
-  <query name="ContentEntity.totalCountExcludingDeleted" cacheable="false">
-    select count(c.key)
-    from ContentEntity c
-    where c.deleted = 0
-  </query>
+    <query name="ContentEntity.totalCountExcludingDeleted" cacheable="false">
+        select count(c.key)
+        from ContentEntity c
+        where c.deleted = 0
+    </query>
 
-  <query name="ContentEntity.findContentKeysByContentTypeKey" cacheable="false">
-    select c.key
-    from ContentEntity c
-    where c.category.contentType.key = :contentTypeKey
-  </query>
+    <query name="ContentEntity.findContentKeysByContentTypeKey" cacheable="false">
+        select c.key
+        from ContentEntity c
+        where c.category.contentType.key = :contentTypeKey
+    </query>
 
-  <query name="ContentEntity.findContentKeysByCategoryKey" cacheable="false">
-    select c.key
-    from ContentEntity c
-    where c.category.key = :categoryKey
-    and c.deleted = 0
-  </query>
+    <query name="ContentEntity.findContentKeysByCategoryKey" cacheable="false">
+        select c.key
+        from ContentEntity c
+        where c.category.key = :categoryKey
+        and c.deleted = 0
+    </query>
 
+    <query name="ContentEntity.countContentByCategory" cacheable="false">
+        select count(c)
+        from ContentEntity c
+        where c.category.key = :categoryKey
+        and c.deleted = 0
+    </query>
 </hibernate-mapping>

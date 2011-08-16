@@ -8,12 +8,15 @@ import java.util.List;
 
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.security.group.GroupKey;
+
+import com.enonic.cms.domain.EntityPageList;
 
 public interface CategoryDao
     extends EntityDao<CategoryEntity>
 {
+    void deleteCategory( CategoryEntity category );
+
     CategoryEntity findByKey( CategoryKey key );
 
     List<CategoryEntity> findRootCategories();
@@ -21,4 +24,6 @@ public interface CategoryDao
     List<CategoryEntity> findRootCategories( List<GroupKey> groupKeys );
 
     EntityPageList<CategoryEntity> findAll( int index, int count );
+
+    long countChildrenByCategory( CategoryEntity category );
 }
