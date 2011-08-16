@@ -277,7 +277,7 @@ public class InternalClientImpl_DeleteCategoryTest
         params.recursive = true;
         internalClient.deleteCategory( params );
 
-        hibernateTemplate.flush();
+        fixture.flushAndClearHibernateSesssion();
 
         assertEquals( 0, fixture.findCategoryByName( "World" ).getChildren().size() );
         assertEquals( true, fixture.findCategoryByName( "Europe" ).isDeleted() );

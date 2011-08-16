@@ -1984,7 +1984,6 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void deleteCategory( DeleteCategoryParams params )
         throws ClientException
     {
