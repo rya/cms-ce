@@ -36,7 +36,8 @@ Ext.define( 'CMS.controller.SystemCacheController', {
         Ext.Msg.confirm("Warning", "All cache will be erased. Are you sure ?", function( btn ) {
             if ( "yes" == btn ) {
                 //TODO clear cache
-                me.getShow().doLayout();
+                me.getGrid().getStore().load();
+                me.getDetail().clearDetail();
             }
         })
     },
@@ -46,7 +47,8 @@ Ext.define( 'CMS.controller.SystemCacheController', {
         Ext.Msg.confirm("Warning", "All statistics will be erased. Are you sure ?", function( btn ) {
             if ( "yes" == btn ) {
                 //TODO clear stats
-                me.getShow().doLayout();
+                me.getGrid().getStore().load();
+                me.getDetail().clearDetail();
             }
         })
     },

@@ -4,24 +4,10 @@
  */
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.DomainFactory;
-import com.enonic.cms.itest.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
+import java.io.IOException;
+import java.util.Date;
+
+import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
@@ -37,10 +23,32 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentNameValidator;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.UpdateContentException;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.DomainFactory;
+import com.enonic.cms.itest.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.junit.Assert.*;
 
@@ -261,6 +269,46 @@ public class ContentServiceImpl_updateContentTest
         {
             assertTrue( e instanceof UpdateContentException );
             assertTrue( e.getMessage().toLowerCase().contains( "too long" ) );
+        }
+    }
+
+    @Test
+    public void testUpdateDeletedContent()
+    {
+        UserEntity testUser = fixture.findUserByName( "testuser" );
+
+        CreateContentCommand createCommand = createCreateContentCommand( ContentStatus.DRAFT.getKey(), testUser );
+        ContentKey contentKey = contentService.createContent( createCommand );
+        fixture.flushAndClearHibernateSesssion();
+
+        ContentEntity persistedContent = contentDao.findByKey( contentKey );
+
+        contentService.deleteContent( fixture.findUserByName( "testuser" ), persistedContent );
+        fixture.flushAndClearHibernateSesssion();
+
+        persistedContent = contentDao.findByKey( contentKey );
+        assertTrue( persistedContent.isDeleted() );
+
+        UpdateContentCommand command =
+            createUpdateContentCommand( contentKey, persistedContent.getDraftVersion().getKey(), ContentStatus.DRAFT.getKey(), false,
+                                        false );
+
+        String newName = "content-updated";
+        command.setContentName( newName );
+
+        try
+        {
+            contentService.updateContent( command );
+            fail( "Expected exception" );
+}
+        catch ( AssertionError e )
+        {
+            throw e;
+        }
+        catch ( Throwable e )
+        {
+            assertTrue( e instanceof UpdateContentException );
+            assertTrue( e.getMessage().toLowerCase().contains( "deleted" ) );
         }
     }
 

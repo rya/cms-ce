@@ -13,12 +13,8 @@ import org.hibernate.dialect.PostgreSQLDialect;
 import org.hibernate.dialect.resolver.DialectFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.jdbc.support.JdbcUtils;
 
 import com.enonic.cms.store.support.decorators.DecoratedConnection;
@@ -27,7 +23,7 @@ import com.enonic.cms.store.support.decorators.DecoratedPreparedStatement;
 import com.enonic.cms.store.support.decorators.DecoratedStatement;
 
 public class DataSourceFactory
-        implements FactoryBean, InitializingBean, BeanFactoryPostProcessor
+    implements FactoryBean, InitializingBean
 {
     private final static Logger LOG = LoggerFactory.getLogger( DataSourceFactory.class );
 
@@ -35,15 +31,13 @@ public class DataSourceFactory
 
     private DataSource dataSource;
 
-    private boolean decorateQueryTimeout;
-
     public void setOriginalDataSource( DataSource originalDataSource )
     {
         this.originalDataSource = originalDataSource;
     }
 
     public void afterPropertiesSet()
-            throws Exception
+        throws Exception
     {
         Dialect dialect = null;
         Connection connection = null;
@@ -63,7 +57,7 @@ public class DataSourceFactory
             JdbcUtils.closeConnection( connection );
         }
 
-        decorateQueryTimeout = dialect != null && dialect instanceof PostgreSQLDialect;
+        boolean decorateQueryTimeout = dialect != null && dialect instanceof PostgreSQLDialect;
 
         if ( decorateQueryTimeout )
         {
@@ -78,7 +72,7 @@ public class DataSourceFactory
     }
 
     public Object getObject()
-            throws Exception
+        throws Exception
     {
         return dataSource;
     }
@@ -93,20 +87,8 @@ public class DataSourceFactory
         return true;
     }
 
-    public void postProcessBeanFactory( ConfigurableListableBeanFactory beanFactory )
-            throws BeansException
-    {
-        if ( decorateQueryTimeout )
-        {
-            // set timeout value for unspecified timeout in @Transactional annotation to JDBC default value
-            BeanDefinition transactionManager = beanFactory.getBeanDefinition( "transactionManager" );
-            // remove defaultTimeout that is specified in applicationContext.xml .
-            transactionManager.getPropertyValues().removePropertyValue( "defaultTimeout" );
-        }
-    }
-
     private static class QueryTimeoutDecoratedDataSource
-            extends DecoratedDataSource
+        extends DecoratedDataSource
     {
         private QueryTimeoutDecoratedDataSource( DataSource dataSource )
         {
@@ -115,7 +97,7 @@ public class DataSourceFactory
 
         @Override
         public Connection getConnection()
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedConnection( super.getConnection() );
         }
@@ -123,7 +105,7 @@ public class DataSourceFactory
 
 
     private static class QueryTimeoutDecoratedConnection
-            extends DecoratedConnection
+        extends DecoratedConnection
     {
         public QueryTimeoutDecoratedConnection( Connection connection )
         {
@@ -132,67 +114,64 @@ public class DataSourceFactory
 
         @Override
         public Statement createStatement()
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedStatement( super.createStatement() );
         }
 
         @Override
         public PreparedStatement prepareStatement( String sql )
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedPreparedStatement( super.prepareStatement( sql ) );
         }
 
         @Override
         public Statement createStatement( int resultSetType, int resultSetConcurrency )
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedStatement( super.createStatement( resultSetType, resultSetConcurrency ) );
         }
 
         @Override
         public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency )
-                throws SQLException
+            throws SQLException
         {
-            return new QueryTimeoutDecoratedPreparedStatement(
-                    super.prepareStatement( sql, resultSetType, resultSetConcurrency ) );
+            return new QueryTimeoutDecoratedPreparedStatement( super.prepareStatement( sql, resultSetType, resultSetConcurrency ) );
         }
 
         @Override
         public Statement createStatement( int resultSetType, int resultSetConcurrency, int resultSetHoldability )
-                throws SQLException
+            throws SQLException
         {
-            return new QueryTimeoutDecoratedStatement(
-                    super.createStatement( resultSetType, resultSetConcurrency, resultSetHoldability ) );
+            return new QueryTimeoutDecoratedStatement( super.createStatement( resultSetType, resultSetConcurrency, resultSetHoldability ) );
         }
 
         @Override
-        public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency,
-                                                   int resultSetHoldability )
-                throws SQLException
+        public PreparedStatement prepareStatement( String sql, int resultSetType, int resultSetConcurrency, int resultSetHoldability )
+            throws SQLException
         {
             return new QueryTimeoutDecoratedPreparedStatement(
-                    super.prepareStatement( sql, resultSetType, resultSetConcurrency, resultSetHoldability ) );
+                super.prepareStatement( sql, resultSetType, resultSetConcurrency, resultSetHoldability ) );
         }
 
         @Override
         public PreparedStatement prepareStatement( String sql, int autoGeneratedKeys )
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedPreparedStatement( super.prepareStatement( sql, autoGeneratedKeys ) );
         }
 
         @Override
         public PreparedStatement prepareStatement( String sql, int[] columnIndexes )
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedPreparedStatement( super.prepareStatement( sql, columnIndexes ) );
         }
 
         @Override
         public PreparedStatement prepareStatement( String sql, String[] columnNames )
-                throws SQLException
+            throws SQLException
         {
             return new QueryTimeoutDecoratedPreparedStatement( super.prepareStatement( sql, columnNames ) );
         }
@@ -200,7 +179,7 @@ public class DataSourceFactory
 
 
     private static class QueryTimeoutDecoratedStatement
-            extends DecoratedStatement
+        extends DecoratedStatement
     {
         public QueryTimeoutDecoratedStatement( Statement statement )
         {
@@ -209,14 +188,14 @@ public class DataSourceFactory
 
         @Override
         public void setQueryTimeout( int seconds )
-                throws SQLException
+            throws SQLException
         {
             // ignore
         }
     }
 
     private static class QueryTimeoutDecoratedPreparedStatement
-            extends DecoratedPreparedStatement
+        extends DecoratedPreparedStatement
     {
         private QueryTimeoutDecoratedPreparedStatement( PreparedStatement statement )
         {
@@ -225,7 +204,7 @@ public class DataSourceFactory
 
         @Override
         public void setQueryTimeout( int seconds )
-                throws SQLException
+            throws SQLException
         {
             // ignore
         }

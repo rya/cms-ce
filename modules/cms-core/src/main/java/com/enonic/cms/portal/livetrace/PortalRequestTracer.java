@@ -6,13 +6,15 @@ package com.enonic.cms.portal.livetrace;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.framework.util.UrlPathDecoder;
+
 import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.portal.PortalResponse;
 import com.enonic.cms.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.portal.PortalResponse;
-import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Nov 25, 2010
@@ -23,7 +25,8 @@ public class PortalRequestTracer
     {
         if ( livePortalTraceService.tracingEnabled() )
         {
-            return livePortalTraceService.startPortalRequestTracing( originalUrl );
+            String originalUrlDecoded = UrlPathDecoder.decode( originalUrl );
+            return livePortalTraceService.startPortalRequestTracing( originalUrlDecoded );
         }
         else
         {
