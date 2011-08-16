@@ -4,8 +4,6 @@ public final class CacheModel
 {
     private String name;
 
-    private String implementationName;
-
     private int memoryCapacity;
 
     private int diskCapacity;
@@ -29,16 +27,6 @@ public final class CacheModel
     public void setName( String name )
     {
         this.name = name;
-    }
-
-    public String getImplementationName()
-    {
-        return implementationName;
-    }
-
-    public void setImplementationName( String implementationName )
-    {
-        this.implementationName = implementationName;
     }
 
     public int getMemoryCapacity()

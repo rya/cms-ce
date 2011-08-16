@@ -3,7 +3,6 @@ Ext.define('CMS.model.SystemCacheModel', {
 
     fields: [
         'name',
-        'implementationName',
         {name: 'memoryCapacity', type: 'int'},
         {name: 'diskCapacity', type: 'int'},
         {name: 'diskOverflow', type: 'boolean', defaultValue: false},

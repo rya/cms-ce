@@ -18,7 +18,7 @@ import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.CacheManager;
 
 @Component
-@Path("/admin/data/system")
+@Path("/admin/data/system/cache")
 @Produces("application/json")
 public final class CacheResource
 {
@@ -26,7 +26,7 @@ public final class CacheResource
     private CacheManager cacheManager;
 
     @GET
-    @Path("caches")
+    @Path("list")
     public CachesModel getAll( @Context HttpServletRequest request )
     {
         List<CacheFacade> list = new ArrayList<CacheFacade>();
@@ -34,15 +34,15 @@ public final class CacheResource
         {
             list.add( cacheManager.getCache( cacheName ) );
         }
-        return CacheModelTranslator.toModel( list, request );
+        return CacheModelTranslator.toModel( list );
     }
 
     @GET
-    @Path("cache")
+    @Path("info")
     public CacheModel getCache( @QueryParam("name") @DefaultValue("") final String name,
                                 @Context HttpServletRequest request )
     {
-        return CacheModelTranslator.toModel( cacheManager.getCache( name ), request );
+        return CacheModelTranslator.toModel( cacheManager.getCache( name ) );
     }
 
 }

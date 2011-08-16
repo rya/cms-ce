@@ -8,14 +8,12 @@ import com.enonic.cms.framework.cache.CacheFacade;
 
 public final class CacheModelTranslator
 {
-    public static CacheModel toModel( final CacheFacade entity, HttpServletRequest req )
+    public static CacheModel toModel( final CacheFacade entity )
     {
-        String node = req.getServerName() + ": " + req.getServerPort();
         final CacheModel model = new CacheModel();
         if ( entity != null )
         {
             model.setName( entity.getName() );
-            model.setImplementationName( node );
             model.setMemoryCapacity( entity.getMemoryCapacity() );
             model.setDiskCapacity( entity.getDiskCapacity() );
             model.setDiskOverflow( entity.getDiskOverflow() );
@@ -27,14 +25,14 @@ public final class CacheModelTranslator
         return model;
     }
 
-    public static CachesModel toModel( final Collection<CacheFacade> list, HttpServletRequest req )
+    public static CachesModel toModel( final Collection<CacheFacade> list )
     {
         final CachesModel model = new CachesModel();
         model.setTotal( list.size() );
 
         for ( final CacheFacade entity : list )
         {
-            model.addCache( toModel( entity, req ) );
+            model.addCache( toModel( entity ) );
         }
 
         return model;

@@ -164,7 +164,7 @@ Ext.define('CMS.view.systemCache.DetailPanel', {
             // loads the current cache updates from server
             var me = this;
             Ext.Ajax.request( {
-                  url: 'data/system/cache',
+                  url: 'data/system/cache/info',
                   method: 'GET',
                   params: { name: this.cache.data.name },
                   success: function( response, opts )

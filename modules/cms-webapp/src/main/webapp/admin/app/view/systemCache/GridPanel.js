@@ -17,15 +17,10 @@ Ext.define( 'CMS.view.systemCache.GridPanel', {
     {
         this.columns = [
             {
-                text: 'Node',
-                dataIndex: 'implementationName',
-                sortable: true,
-                flex:1
-            },
-            {
                 text: 'Name',
                 dataIndex: 'name',
-                sortable: true
+                sortable: true,
+                flex:1
             },
             {
                 text: 'Count',
