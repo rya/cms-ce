@@ -64,6 +64,11 @@ Ext.define('CMS.view.launcher.LoggedInUserButton', {
                 '<h1>{displayName}</h1>',
                 '<p>{qualifiedName}</p>',
                 '<p>{email}</p>',
+                '<p>&nbsp;</p>',
+                '<p>Edit</p>',
+                '<p>Change Password</p>',
+                '<p>&nbsp;</p>',
+                '<p><a href="index.html">Log Out</a></p>',
                 '</div>'
 
                 );
