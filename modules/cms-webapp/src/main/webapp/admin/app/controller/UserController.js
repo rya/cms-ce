@@ -248,6 +248,7 @@ Ext.define( 'CMS.controller.UserController', {
             this.setDetailsToolbarDisabled();
         }else{
             userDetail.generateMultipleSelection(selected);
+            this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }
     },
@@ -357,7 +358,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     gridHasSelection: function()
     {
-        return this.getUserGrid().getSelectionModel().getSelection().length > 0;
+        return this.getUserGrid().getSelectionModel().getSelection().length == 1;
     },
 
     countryChangeHandler: function( field, newValue, oldValue, options )
