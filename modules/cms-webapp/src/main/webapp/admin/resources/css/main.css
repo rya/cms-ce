@@ -352,6 +352,10 @@ img.photo {
     margin-left: 10px;
 }
 
+.palette-item {
+    background-color: #CCC;
+}
+
 .item-icon {
     cursor: move;
     background: url("../images/chart_curve.png") no-repeat ;
