@@ -359,7 +359,7 @@ img.photo {
 }
 
 .item-icon {
-    cursor: pointer;
+    cursor: move;
     background: url("../images/chart_curve.png") no-repeat ;
     padding-left: 20px;
     height: 20px;
