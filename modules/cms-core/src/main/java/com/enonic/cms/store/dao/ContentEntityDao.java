@@ -8,23 +8,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.category.CategoryEntity;
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentSpecification;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.RelatedContentEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedParentContent;
-import org.springframework.stereotype.Repository;
+
+import com.enonic.cms.domain.EntityPageList;
 
 @Repository
 public class ContentEntityDao
@@ -165,6 +166,12 @@ public class ContentEntityDao
     {
         return findByNamedQuery( ContentKey.class, "ContentEntity.findContentKeysByCategoryKey", new String[]{"categoryKey"},
                                  new Object[]{category.getKey()} );
+    }
+
+    public long countContentByCategory( CategoryEntity category )
+    {
+        return findSingleByNamedQuery( Long.class, "ContentEntity.countContentByCategory", new String[]{"categoryKey"},
+                                       new Object[]{category.getKey()} );
     }
 
     public int getNumberOfRelatedParentsByKey( List<ContentKey> contentKeys )

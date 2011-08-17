@@ -28,7 +28,8 @@
         </dependency>
     </dependencies>
 
-    <build>
+    <!-- Disable distro build for now. -->
+    <!--build>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -48,7 +49,7 @@
                 </executions>
             </plugin>
         </plugins>
-    </build>
+    </build-->
 
 </project>
         

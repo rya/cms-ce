@@ -14,19 +14,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.UnitEntity;
-import com.enonic.cms.core.security.group.GroupEntity;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.UnitEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;
+
+import com.enonic.cms.domain.LanguageEntity;
 
 public class CategoryEntity
     implements Serializable
@@ -42,7 +43,7 @@ public class CategoryEntity
 
     private Date timestamp;
 
-    private int deleted;
+    private Integer deleted;
 
     private UserEntity owner;
 
@@ -113,7 +114,7 @@ public class CategoryEntity
         return timestamp;
     }
 
-    public int getDeleted()
+    public Integer getDeleted()
     {
         return deleted;
     }

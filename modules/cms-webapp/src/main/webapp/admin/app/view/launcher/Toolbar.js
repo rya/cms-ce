@@ -1,6 +1,8 @@
 Ext.define('CMS.view.launcher.Toolbar', {
     extend: 'Ext.toolbar.Toolbar',
 
+    requires: ['CMS.view.launcher.LoggedInUserButton'],
+
     alias: 'widget.launcherToolbar',
     id: 'launcher-toolbar',
 
@@ -95,26 +97,9 @@ Ext.define('CMS.view.launcher.Toolbar', {
         '->',
         // Logged in user
         {
-            id: 'launcher-logged-in-user-button',
-            xtype: 'button',
-            text: 'John Doe',
-            menu: [
-                {
-                    text: 'Profile'
-                },
-                {
-                    text: 'Change Password',
-                    iconCls: 'icon-change-password'
-                },
-                '-',
-                {
-                    text: 'Log out',
-                    iconCls: 'icon-log-out',
-                    handler: function() {
-                        document.location.href = 'index.html';
-                    }
-                }
-            ]
+            //id: 'launcher-logged-in-user-button',
+            xtype: 'loggedInUserButton',
+            text: 'Joe Doe'
         },
         '-',
         // Settings

@@ -1,92 +1,98 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
-  <class name="com.enonic.cms.core.content.category.CategoryEntity" table="TCATEGORY" mutable="true">
-    <cache usage="nonstrict-read-write"/>
-    <id name="key" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
-      <column name="CAT_LKEY"/>
-      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
-        <param name="table">TCATEGORY</param>
-        <param name="idClassName">com.enonic.cms.core.content.category.CategoryKey</param>
-      </generator>
-    </id>
-    <property name="created" type="timestamp">
-      <column name="CAT_DTECREATED" not-null="true"/>
-    </property>
-    <property name="deleted" type="int">
-      <column name="CAT_BDELETED" not-null="true"/>
-    </property>
-    <property name="description" type="string">
-      <column name="CAT_SDESCRIPTION" length="1024"/>
-    </property>
-    <property name="name" type="string">
-      <column name="CAT_SNAME" length="256" not-null="true"/>
-    </property>
-    <property name="timestamp" type="timestamp">
-      <column name="CAT_DTETIMESTAMP" not-null="true"/>
-    </property>
-    <many-to-one name="contentType" class="com.enonic.cms.core.content.contenttype.ContentTypeEntity" fetch="select">
-      <column name="CAT_CTY_LKEY"/>
-    </many-to-one>
-    <many-to-one name="modifier" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
-      <column name="CAT_USR_HMODIFIER" length="40" not-null="true"/>
-    </many-to-one>
-    <many-to-one name="owner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
-      <column name="CAT_USR_HOWNER" length="40" not-null="true"/>
-    </many-to-one>
-    <many-to-one name="parent" class="com.enonic.cms.core.content.category.CategoryEntity" fetch="select">
-      <column name="CAT_CAT_LSUPER"/>
-    </many-to-one>
-    <many-to-one name="unit" class="com.enonic.cms.core.content.UnitEntity" fetch="select">
-      <column name="CAT_UNI_LKEY" not-null="true"/>
-    </many-to-one>
-    <bag name="children" inverse="true" order-by="CAT_SNAME" where="CAT_BDELETED = 0" subselect="ordered by CAT_SNAME">
-      <cache usage="nonstrict-read-write"/>
-      <key>
-        <column name="CAT_CAT_LSUPER"/>
-      </key>
-      <one-to-many class="com.enonic.cms.core.content.category.CategoryEntity"/>
-    </bag>
-    <map name="accessRights" inverse="true" cascade="all">
-      <cache usage="nonstrict-read-write"/>
-      <key column="CAR_CAT_LKEY"/>
-      <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="CAR_GRP_HKEY"/>
-      <one-to-many class="com.enonic.cms.core.content.category.CategoryAccessEntity"/>
-    </map>
-    <set name="contents" inverse="true" order-by="CON_CAT_LKEY">
-      <cache usage="nonstrict-read-write"/>
-      <key>
-        <column name="CON_CAT_LKEY"/>
-      </key>
-      <one-to-many class="com.enonic.cms.core.content.ContentEntity"/>
-    </set>
-    <property name="autoMakeAvailable" type="int">
-      <column name="CAT_BAUTOAPPROVE" not-null="true"/>
-    </property>
-  </class>
-  <query name="CategoryEntity.findAllRootCategories" cacheable="true" read-only="true">
-    from CategoryEntity x
-    where x.parent is null
-    and x.deleted = 0
-    and x.unit.deleted = 0
-    order by x.name
-  </query>
-  <query name="CategoryEntity.findRootCategories" cacheable="true" read-only="true">
-    select c
-    from CategoryEntity c
-    where c.parent is null
-    and c.deleted = 0
-    and c.unit.deleted = 0
-    and exists (
-    select ca.key.categoryKey
-    from CategoryAccessEntity ca
-    where ca.adminBrowseAccess = 1
-    and ca.key.groupKey IN ( :groupKeys )
-    and ca.key.categoryKey IN (
-    select c2.key
-    from CategoryEntity c2
-    where c2.unit.key = c.unit.key))
-    order by c.name
-  </query>
+    <class name="com.enonic.cms.core.content.category.CategoryEntity" table="TCATEGORY" mutable="true">
+        <cache usage="nonstrict-read-write"/>
+        <id name="key" type="com.enonic.cms.store.hibernate.type.CategoryKeyUserType">
+            <column name="CAT_LKEY"/>
+            <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+                <param name="table">TCATEGORY</param>
+                <param name="idClassName">com.enonic.cms.core.content.category.CategoryKey</param>
+            </generator>
+        </id>
+        <property name="created" type="timestamp">
+            <column name="CAT_DTECREATED" not-null="true"/>
+        </property>
+        <property name="deleted" type="int">
+            <column name="CAT_BDELETED" not-null="true"/>
+        </property>
+        <property name="description" type="string">
+            <column name="CAT_SDESCRIPTION" length="1024"/>
+        </property>
+        <property name="name" type="string">
+            <column name="CAT_SNAME" length="256" not-null="true"/>
+        </property>
+        <property name="timestamp" type="timestamp">
+            <column name="CAT_DTETIMESTAMP" not-null="true"/>
+        </property>
+        <many-to-one name="contentType" class="com.enonic.cms.core.content.contenttype.ContentTypeEntity" fetch="select">
+            <column name="CAT_CTY_LKEY"/>
+        </many-to-one>
+        <many-to-one name="modifier" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
+            <column name="CAT_USR_HMODIFIER" length="40" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="owner" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
+            <column name="CAT_USR_HOWNER" length="40" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="parent" class="com.enonic.cms.core.content.category.CategoryEntity" fetch="select">
+            <column name="CAT_CAT_LSUPER"/>
+        </many-to-one>
+        <many-to-one name="unit" class="com.enonic.cms.core.content.UnitEntity" fetch="select">
+            <column name="CAT_UNI_LKEY" not-null="true"/>
+        </many-to-one>
+        <bag name="children" inverse="false" order-by="CAT_SNAME" where="CAT_BDELETED = 0" subselect="ordered by CAT_SNAME">
+            <cache usage="nonstrict-read-write"/>
+            <key>
+                <column name="CAT_CAT_LSUPER"/>
+            </key>
+            <one-to-many class="com.enonic.cms.core.content.category.CategoryEntity"/>
+        </bag>
+        <map name="accessRights" inverse="true" cascade="all">
+            <cache usage="nonstrict-read-write"/>
+            <key column="CAR_CAT_LKEY"/>
+            <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="CAR_GRP_HKEY"/>
+            <one-to-many class="com.enonic.cms.core.content.category.CategoryAccessEntity"/>
+        </map>
+        <set name="contents" inverse="true" order-by="CON_CAT_LKEY">
+            <cache usage="nonstrict-read-write"/>
+            <key>
+                <column name="CON_CAT_LKEY"/>
+            </key>
+            <one-to-many class="com.enonic.cms.core.content.ContentEntity"/>
+        </set>
+        <property name="autoMakeAvailable" type="int">
+            <column name="CAT_BAUTOAPPROVE" not-null="true"/>
+        </property>
+    </class>
+    <query name="CategoryEntity.findAllRootCategories" cacheable="true" read-only="true">
+        from CategoryEntity x
+        where x.parent is null
+        and x.deleted = 0
+        and x.unit.deleted = 0
+        order by x.name
+    </query>
+    <query name="CategoryEntity.findRootCategories" cacheable="true" read-only="true">
+        select c
+        from CategoryEntity c
+        where c.parent is null
+        and c.deleted = 0
+        and c.unit.deleted = 0
+        and exists (
+        select ca.key.categoryKey
+        from CategoryAccessEntity ca
+        where ca.adminBrowseAccess = 1
+        and ca.key.groupKey IN ( :groupKeys )
+        and ca.key.categoryKey IN (
+        select c2.key
+        from CategoryEntity c2
+        where c2.unit.key = c.unit.key))
+        order by c.name
+    </query>
+    <query name="CategoryEntity.countChildrenByCategoryKey" cacheable="false">
+        select count(c)
+        from CategoryEntity c
+        where c.parent.key = :categoryKey
+        and c.deleted = 0
+    </query>
 </hibernate-mapping>

@@ -3,6 +3,8 @@ Ext.define('CMS.common.Common', {
          hideLauncherMenus: function() {
              var componentQuery = Ext.ComponentQuery;
              var toolbarMenuButtons = componentQuery.query('launcherToolbar button[menu]');
+             var loggedInUserButton = componentQuery.query('launcherToolbar loggedInUserButton')[0];
+
              var menu = null;
              for (var i = 0; i < toolbarMenuButtons.length; i++) {
                  menu = toolbarMenuButtons[i].menu;
@@ -10,6 +12,8 @@ Ext.define('CMS.common.Common', {
                     menu.hide();
                  }
              }
+
+             loggedInUserButton.toggle(false);
          }
 
      },

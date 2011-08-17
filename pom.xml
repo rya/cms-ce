@@ -34,7 +34,9 @@
 
     <modules>
         <module>modules/cms-api</module>
+        <module>modules/cms-spi</module>
         <module>modules/cms-core</module>
+        <module>modules/cms-portal</module>
         <module>modules/cms-admin</module>
         <module>modules/cms-itest</module>
         <module>modules/cms-webapp</module>
