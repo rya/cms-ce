@@ -10,61 +10,38 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
     layoutConfig:
     {
         autoWidth: false
-    }
-    ,
-    items: [
-        {
-            xtype: 'form',
-            title: 'Groups',
-            items: [
-                {
-                    xtype: 'panel',
-                    border: false,
-                    items: [
-                        {
-                            xtype: 'textfield',
-                            style: 'margin-bottom: 10px'
-                        }
-                    ]
-                },
-                {
-                    xtype: 'container',
-                    height: 100,
-                    style: 'overflow:hidden;',
-                    items: [
-                        {
-                            xtype: 'button',
-                            text: 'Laaaaaaaaaaaaaang gruppe  x',
-                            style: 'float:left;margin-right:5px;margin-bottom:5px;'
-                        },
-                        {
-                            xtype: 'button',
-                            text: 'Group Name  x',
-                            style: 'float:left;margin-right:5px;margin-bottom:5px;'
-                        },
-                        {
-                            xtype: 'button',
-                            text: 'Enonic  x',
-                            style: 'float:left;margin-right:5px;margin-bottom:5px;'
-                        },
-                        {
-                            xtype: 'button',
-                            text: 'David Gruppen x',
-                            style: 'float:left;margin-right:5px;margin-bottom:5px;'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
+    },
+
+    initComponent: function()
+    {
+        var groupsPanel = {
             xtype: 'panel',
-            title: 'Preferences',
-            border: false
-        },
-        {
-            xtype: 'panel',
-            title: 'Log',
-            border: false
+            title: 'Groups'
+        };
+        this.callParent( arguments );
+    },
+
+    generateGroupsFieldSet: function (userData){
+        var groupFields = [];
+        Ext.Array.each(userData.groups, function(group){
+            var groupField = {
+                    xtype: 'button',
+                    text: group.name,
+                    iconCls: 'icon-group',
+                    cls: 'group-display',
+                    margin: 5
+                };
+            Ext.Array.include(groupFields, groupField);
+        });
+        if (groupFields.length > 0){
+            var groupFieldSet = {
+                xtype: 'panel',
+                layout: 'column',
+                items: groupFields
+            };
+            return groupFieldSet;
+        }else{
+            return null;
         }
-    ]
+    }
 } )
