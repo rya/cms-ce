@@ -352,6 +352,10 @@ img.photo {
     margin-left: 10px;
 }
 
-.item-name {
+.item-icon {
     cursor: pointer;
+    background: url("../images/chart_curve.png") no-repeat ;
+    padding-left: 20px;
+    height: 20px;
 }
+
