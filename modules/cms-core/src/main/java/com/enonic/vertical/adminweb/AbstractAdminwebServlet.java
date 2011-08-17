@@ -5,15 +5,15 @@
 package com.enonic.vertical.adminweb;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Enumeration;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.containers.ExtendedMap;
@@ -21,7 +21,6 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.URL;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
-import com.enonic.vertical.utilities.VSSpringUtility;
 
 import com.enonic.cms.framework.time.TimeService;
 
@@ -69,11 +68,15 @@ import com.enonic.cms.business.preview.PreviewService;
 import com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.business.resolver.locale.LocaleResolverService;
 import com.enonic.cms.business.timezone.TimeZoneService;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
 public abstract class AbstractAdminwebServlet
-    extends HttpServlet
+    extends HttpServlet implements Controller, ServletContextAware, InitializingBean, DisposableBean
 {
 
+    @Autowired
     protected VerticalProperties verticalProperties;
 
     // Daos:
@@ -81,8 +84,10 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected CategoryDao categoryDao;
 
+    @Autowired
     protected ContentDao contentDao;
 
+    @Autowired
     protected ContentIndexDao contentIndexDao;
 
     @Autowired
@@ -117,12 +122,15 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected UserDao userDao;
 
+    @Autowired
     protected UserStoreDao userStoreDao;
 
     // Services:
 
+    @Autowired
     protected AdminService adminService;
 
+    @Autowired
     protected ContentService contentService;
 
     @Autowired
@@ -137,6 +145,7 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected ImportService importService;
 
+    @Autowired
     protected KeyService keyService;
 
     @Autowired
@@ -151,10 +160,13 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected MenuItemService menuItemService;
 
+    @Autowired
     protected PresentationService presentation;
 
+    @Autowired
     protected ResourceService resourceService;
 
+    @Autowired
     protected SecurityService securityService;
 
     @Autowired
@@ -163,11 +175,13 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected SendMailService sendMailService;
 
+    @Autowired
     protected SiteService siteService;
 
     @Autowired
     protected SiteCachesService siteCachesService;
 
+    @Autowired
     protected SitePropertiesService sitePropertiesService;
 
     @Autowired
@@ -189,6 +203,7 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected ImportJobFactory importJobFactory;
 
+    @Autowired
     protected PageRendererFactory pageRendererFactory;
 
     @Autowired
@@ -202,7 +217,52 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected MemberOfResolver memberOfResolver;
 
+    @Autowired
     protected ResourceAccessResolver resourceAccessResolver;
+
+    private ServletContext servletContext;
+
+    public final ServletContext getServletContext()
+    {
+        return this.servletContext;
+    }
+
+    public final void setServletContext(final ServletContext servletContext)
+    {
+        this.servletContext = servletContext;
+    }
+
+    public final ModelAndView handleRequest(final HttpServletRequest request, final HttpServletResponse response)
+        throws Exception
+    {
+        service(request, response);
+		return null;
+	}
+
+    public final void afterPropertiesSet()
+        throws Exception
+    {
+        final String servletName = getClass().getSimpleName();
+
+        init(new ServletConfig()
+        {
+            public String getServletName() {
+                return servletName;
+            }
+
+            public ServletContext getServletContext() {
+                return servletContext;
+            }
+
+            public String getInitParameter(final String name) {
+                return null;
+            }
+
+            public Enumeration getInitParameterNames() {
+                return Collections.enumeration(Collections.EMPTY_LIST);
+            }
+        });
+    }
 
     public void init( ServletConfig servletConfig )
         throws ServletException
@@ -211,91 +271,6 @@ public abstract class AbstractAdminwebServlet
 
         final ServletContext context = getServletContext();
         AdminStore.initialize( context, "/WEB-INF/stylesheets" );
-
-        VSSpringUtility.autoWireObject( this, servletConfig.getServletContext() );
-    }
-
-    public void setSitePropertiesService( SitePropertiesService value )
-    {
-        this.sitePropertiesService = value;
-    }
-
-    @Autowired
-    public void setContentDao( ContentDao contentDao )
-    {
-        this.contentDao = contentDao;
-    }
-
-    @Autowired
-    public void setContentIndexDao( ContentIndexDao contentIndexDao )
-    {
-        this.contentIndexDao = contentIndexDao;
-    }
-
-    @Autowired
-    public void setLanguageDao( LanguageDao languageDao )
-    {
-        this.languageDao = languageDao;
-    }
-
-    public void setVerticalProperties( VerticalProperties value )
-    {
-        this.verticalProperties = value;
-    }
-
-    public void setAdminService( AdminService value )
-    {
-        this.adminService = value;
-    }
-
-    public void setKeyService( KeyService value )
-    {
-        this.keyService = value;
-    }
-
-    public void setResourceAccessResolver( ResourceAccessResolver resourceAccessResolver )
-    {
-        this.resourceAccessResolver = resourceAccessResolver;
-    }
-
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentation = value;
-    }
-
-    public void setSiteService( SiteService value )
-    {
-        this.siteService = value;
-    }
-
-    public void setContentService( ContentService value )
-    {
-        this.contentService = value;
-    }
-
-    public void setResourceService( ResourceService value )
-    {
-        this.resourceService = value;
-    }
-
-    public void setUpgradeService( UpgradeService value )
-    {
-        this.upgradeService = value;
-    }
-
-    public void setPageRendererFactory( PageRendererFactory value )
-    {
-        this.pageRendererFactory = value;
-    }
-
-    public void setSecurityService( SecurityService value )
-    {
-        this.securityService = value;
-    }
-
-    public void setUserStoreDao( UserStoreDao userStoreDao )
-    {
-        this.userStoreDao = userStoreDao;
     }
 
     protected AdminService lookupAdminBean()

@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
   <!-- Create the view resolver. -->
   <bean id="adminFreemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
     <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
@@ -196,245 +200,50 @@
       Adminweb Servlet Wrapping Controllers
   -->
 
-  <bean id="adminLogInServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.AdminLogInServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.AdminLogInServlet"/>
-  </bean>
-
-  <bean id="adminFrontPageServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.AdminFrontPageServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.AdminFrontPageServlet"/>
-  </bean>
-
-  <bean id="adminPageWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.AdminPage"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.AdminPage"/>
-  </bean>
-
-  <bean id="binaryDataServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.BinaryDataServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.BinaryDataServlet"/>
-  </bean>
-
-  <bean id="archiveHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ArchiveHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ArchiveHandlerServlet"/>
-  </bean>
-  <bean id="categoryHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.CategoryHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.CategoryHandlerServlet"/>
-  </bean>
-  <bean id="contentHandlerHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"/>
-  </bean>
-  <bean id="contentObjectHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ContentObjectHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ContentObjectHandlerServlet"/>
-  </bean>
-  <bean id="contentTypeHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ContentTypeHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ContentTypeHandlerServlet"/>
-  </bean>
-  <bean id="userStoreHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.UserStoreHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.UserStoreHandlerServlet"/>
-  </bean>
-  <bean id="editorHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.EditorHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.EditorHandlerServlet"/>
-  </bean>
-  <bean id="errorPageServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ErrorPageServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ErrorPageServlet"/>
-  </bean>
-  <bean id="framesetServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.FramesetServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.FramesetServlet"/>
-  </bean>
-  <bean id="groupHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.GroupHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.GroupHandlerServlet"/>
-  </bean>
-  <bean id="contentArticle3HandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"/>
-  </bean>
-  <bean id="contentBaseHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"/>
-  </bean>
-  <bean id="contentCatalogHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentCatalogHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentCatalogHandlerServlet"/>
-  </bean>
-  <bean id="contentDiscussionHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentDiscussionHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentDiscussionHandlerServlet"/>
-  </bean>
-  <bean id="languageHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.LanguageHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.LanguageHandlerServlet"/>
-  </bean>
-  <bean id="logHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.LogHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.LogHandlerServlet"/>
-  </bean>
-  <bean id="mainMenuServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.MainMenuServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.MainMenuServlet"/>
-  </bean>
-  <bean id="menuHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.MenuHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.MenuHandlerServlet"/>
-  </bean>
-  <bean id="myPageServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.MyPageServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.MyPageServlet"/>
-  </bean>
-  <bean id="navigatorServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.NavigatorServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.NavigatorServlet"/>
-  </bean>
-  <bean id="pageTemplateHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.PageTemplateHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.PageTemplateHandlerServlet"/>
-  </bean>
-  <bean id="presentationLayerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.PresentationLayerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.PresentationLayerServlet"/>
-  </bean>
-  <bean id="resourceDataServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ResourceDataServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ResourceDataServlet"/>
-  </bean>
-  <bean id="resourceHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.ResourceHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.ResourceHandlerServlet"/>
-  </bean>
-  <bean id="sectionHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.SectionHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.SectionHandlerServlet"/>
-  </bean>
-  <bean id="splashServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.SplashServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.SplashServlet"/>
-  </bean>
-  <bean id="systemHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.SystemHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.SystemHandlerServlet"/>
-  </bean>
-  <bean id="userHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.UserHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.UserHandlerServlet"/>
-  </bean>
-
-  <!--
-      Content handler servlets - Servlet wrapping controllers
-  -->
-  <bean id="contentDocumentHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"/>
-  </bean>
-
-  <bean id="contentEnhancedImageHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"/>
-  </bean>
-
-  <bean id="contentFileHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"/>
-  </bean>
-
-  <bean id="contentFormHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
-  </bean>
-
-  <bean id="contentLeadsHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentLeadsHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentLeadsHandlerServlet"/>
-  </bean>
-
-  <bean id="contentNewsletterHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
-  </bean>
-
-  <bean id="contentOrderHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentOrderHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentOrderHandlerServlet"/>
-  </bean>
-
-  <bean id="contentPersonHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"/>
-  </bean>
-
-  <bean id="contentPollHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"/>
-  </bean>
-
-  <bean id="contentProductHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"/>
-  </bean>
-
-  <bean id="pagelinkHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"/>
-  </bean>
-
-  <bean id="simpleContentHandlerServletWrapper"
-        class="org.springframework.web.servlet.mvc.ServletWrappingController">
-    <property name="servletClass" value="com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"/>
-    <property name="servletName" value="com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"/>
-  </bean>
+  <bean id="adminLogInServletWrapper" class="com.enonic.vertical.adminweb.AdminLogInServlet"/>
+  <bean id="adminFrontPageServletWrapper" class="com.enonic.vertical.adminweb.AdminFrontPageServlet"/>
+  <bean id="adminPageWrapper" class="com.enonic.vertical.adminweb.AdminPage"/>
+  <bean id="binaryDataServletWrapper" class="com.enonic.vertical.adminweb.BinaryDataServlet"/>
+  <bean id="archiveHandlerServletWrapper" class="com.enonic.vertical.adminweb.ArchiveHandlerServlet"/>
+  <bean id="categoryHandlerServletWrapper" class="com.enonic.vertical.adminweb.CategoryHandlerServlet"/>
+  <bean id="contentHandlerHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"/>
+  <bean id="contentObjectHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentObjectHandlerServlet"/>
+  <bean id="contentTypeHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentTypeHandlerServlet"/>
+  <bean id="userStoreHandlerServletWrapper" class="com.enonic.vertical.adminweb.UserStoreHandlerServlet"/>
+  <bean id="editorHandlerServletWrapper" class="com.enonic.vertical.adminweb.EditorHandlerServlet"/>
+  <bean id="errorPageServletWrapper" class="com.enonic.vertical.adminweb.ErrorPageServlet"/>
+  <bean id="framesetServletWrapper" class="com.enonic.vertical.adminweb.FramesetServlet"/>
+  <bean id="groupHandlerServletWrapper" class="com.enonic.vertical.adminweb.GroupHandlerServlet"/>
+  <bean id="contentArticle3HandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"/>
+  <bean id="contentBaseHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"/>
+  <bean id="contentCatalogHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentCatalogHandlerServlet"/>
+  <bean id="contentDiscussionHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentDiscussionHandlerServlet"/>
+  <bean id="languageHandlerServletWrapper" class="com.enonic.vertical.adminweb.LanguageHandlerServlet"/>
+  <bean id="logHandlerServletWrapper" class="com.enonic.vertical.adminweb.LogHandlerServlet"/>
+  <bean id="mainMenuServletWrapper" class="com.enonic.vertical.adminweb.MainMenuServlet"/>
+  <bean id="menuHandlerServletWrapper" class="com.enonic.vertical.adminweb.MenuHandlerServlet"/>
+  <bean id="myPageServletWrapper" class="com.enonic.vertical.adminweb.MyPageServlet"/>
+  <bean id="navigatorServletWrapper" class="com.enonic.vertical.adminweb.NavigatorServlet"/>
+  <bean id="pageTemplateHandlerServletWrapper" class="com.enonic.vertical.adminweb.PageTemplateHandlerServlet"/>
+  <bean id="presentationLayerServletWrapper" class="com.enonic.vertical.adminweb.PresentationLayerServlet"/>
+  <bean id="resourceDataServletWrapper" class="com.enonic.vertical.adminweb.ResourceDataServlet"/>
+  <bean id="resourceHandlerServletWrapper" class="com.enonic.vertical.adminweb.ResourceHandlerServlet"/>
+  <bean id="sectionHandlerServletWrapper" class="com.enonic.vertical.adminweb.SectionHandlerServlet"/>
+  <bean id="splashServletWrapper" class="com.enonic.vertical.adminweb.SplashServlet"/>
+  <bean id="systemHandlerServletWrapper" class="com.enonic.vertical.adminweb.SystemHandlerServlet"/>
+  <bean id="userHandlerServletWrapper" class="com.enonic.vertical.adminweb.UserHandlerServlet"/>
+  <bean id="contentDocumentHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"/>
+  <bean id="contentEnhancedImageHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"/>
+  <bean id="contentFileHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"/>
+  <bean id="contentFormHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
+  <bean id="contentLeadsHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentLeadsHandlerServlet"/>
+  <bean id="contentNewsletterHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
+  <bean id="contentOrderHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentOrderHandlerServlet"/>
+  <bean id="contentPersonHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"/>
+  <bean id="contentPollHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"/>
+  <bean id="contentProductHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"/>
+  <bean id="pagelinkHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"/>
+  <bean id="simpleContentHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"/>
 
   <bean id="adminImageController" class="com.enonic.cms.server.service.admin.mvc.controller.ImageController">
     <property name="imageService" ref="imageService"/>

@@ -4,17 +4,17 @@
  */
 package com.enonic.vertical.adminweb;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,7 +25,7 @@ import com.enonic.vertical.utilities.ThrowableUtil;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 public class ErrorPageServlet
-    extends HttpServlet
+    implements Controller
 {
 
     public static interface Error
@@ -122,18 +122,11 @@ public class ErrorPageServlet
         }
     }
 
-    /**
-     * Process incoming HTTP GET requests
-     *
-     * @param request  Object that encapsulates the request to the servlet
-     * @param response Object that encapsulates the response from the servlet
-     */
-    public void doGet( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+        throws Exception
     {
-
         performTask( request, response );
-
+        return null;
     }
 
     /**
