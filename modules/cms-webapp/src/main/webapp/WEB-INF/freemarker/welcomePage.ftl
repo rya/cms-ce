@@ -64,12 +64,6 @@
 
     </ul>
 </div>
-<div class="infoBox">
-    <b>RPC endpoints</b>
-    <ul>
-        <li>Java - ${baseUrl}rpc/bin</li>
-    </ul>
-</div>
 
 </body>
 </html>
