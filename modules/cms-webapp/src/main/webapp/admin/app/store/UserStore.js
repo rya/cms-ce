@@ -3,7 +3,7 @@ Ext.define('CMS.store.UserStore', {
 
     model: 'CMS.model.UserModel',
 
-    pageSize: 10,
+    pageSize: 100,
     autoLoad: true,
     remoteSort: true,
 

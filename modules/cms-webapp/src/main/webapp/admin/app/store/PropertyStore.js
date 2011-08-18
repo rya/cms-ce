@@ -3,7 +3,7 @@ Ext.define('CMS.store.PropertyStore', {
 
     model: 'CMS.model.PropertyModel',
 
-    pageSize: 10,
+    pageSize: 100,
     autoLoad: true,
 
     proxy: {

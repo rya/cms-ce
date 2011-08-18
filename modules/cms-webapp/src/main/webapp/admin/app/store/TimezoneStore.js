@@ -3,7 +3,7 @@ Ext.define('CMS.store.TimezoneStore', {
 
     model: 'CMS.model.TimezoneModel',
 
-    //pageSize: 10,
+    //pageSize: 100,
     autoLoad: true,
 
     proxy: {

@@ -3,7 +3,7 @@ Ext.define( 'CMS.store.SystemCacheStore', {
 
     model: 'CMS.model.SystemCacheModel',
 
-    pageSize: 10,
+    pageSize: 100,
     autoLoad: true,
     remoteSort: false,
     groupField: 'name',

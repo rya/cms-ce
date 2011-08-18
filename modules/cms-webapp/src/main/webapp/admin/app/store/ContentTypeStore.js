@@ -3,7 +3,7 @@ Ext.define( 'CMS.store.ContentTypeStore', {
 
     model: 'CMS.model.ContentTypeModel',
 
-    pageSize: 10,
+    pageSize: 100,
     autoLoad: true,
     remoteSort: true,
 
