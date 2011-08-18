@@ -15,8 +15,9 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
+import org.jdom.JDOMException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -26,9 +27,11 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.framework.cache.CacheManager;
+import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.api.Version;
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.server.service.tools.DataSourceInfoResolver;
 
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
@@ -40,20 +43,16 @@ import com.enonic.cms.domain.security.user.User;
 public class SystemHandlerServlet
     extends AdminHandlerBaseServlet
 {
-
+    @Autowired
     private CacheManager cacheManager;
 
+    @Autowired
     private SiteCachesService siteCachesService;
 
-    public void setCacheFacadeManager( CacheManager value )
-    {
-        this.cacheManager = value;
-    }
+    @Autowired
+    private DataSourceInfoResolver datasourceInfoResolver;
 
-    public void setSiteCachesService( SiteCachesService value )
-    {
-        this.siteCachesService = value;
-    }
+    private Properties configurationProperties;
 
     public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                ExtendedMap formItems, String operation )
@@ -93,13 +92,14 @@ public class SystemHandlerServlet
 
         User user = securityService.getLoggedInAdminConsoleUser();
         Source xslSource = AdminStore.getStylesheet( session, "system_page.xsl" );
-        Document doc = XMLTool.createDocument( "vertical" );
 
         String mode = formItems.getString( "mode" );
 
+        Document doc = XMLTool.createDocument( "vertical" );
+        Element root = doc.getDocumentElement();
+
         try
         {
-            Element root = doc.getDocumentElement();
             if ( mode.equals( "system" ) )
             {
                 root.appendChild( buildJavaInfo( doc ) );
@@ -109,10 +109,13 @@ public class SystemHandlerServlet
             }
             else if ( mode.equals( "java_properties" ) )
             {
-                root.appendChild( buildSystemProperties( doc ) );
+                XMLTool.mergeDocuments( doc, createPropertiesInfoDocument(), true );
+
             }
             else if ( mode.equals( "system_cache" ) )
             {
+                doc = XMLTool.createDocument( "vertical" );
+
                 XMLTool.mergeDocuments( doc, cacheManager.getInfoAsXml().getAsDOMDocument(), true );
             }
 
@@ -140,6 +143,25 @@ public class SystemHandlerServlet
         {
             VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
         }
+    }
+
+    private Document createPropertiesInfoDocument()
+    {
+        PropertiesInfoModelFactory propertiesInfoModelFactory =
+            new PropertiesInfoModelFactory( datasourceInfoResolver, configurationProperties );
+        PropertiesInfoModel infoModel = propertiesInfoModelFactory.createSystemPropertiesModel();
+
+        final Document doc;
+        try
+        {
+            doc = JDOMUtil.toW3CDocument( infoModel.toXML() );
+        }
+        catch ( JDOMException e )
+        {
+            throw new VerticalAdminException( "Failed to create system-properties document" );
+        }
+
+        return doc;
     }
 
     /**
@@ -205,33 +227,6 @@ public class SystemHandlerServlet
     }
 
     /**
-     * Append system property informations.
-     */
-    private Element buildSystemProperties( Document doc )
-    {
-        Element root = doc.createElement( "systemProperties" );
-        Properties props = System.getProperties();
-
-        for ( Object key : props.keySet() )
-        {
-            root.appendChild( buildSystemProperty( doc, (String) key, props.getProperty( (String) key ) ) );
-        }
-
-        return root;
-    }
-
-    /**
-     * Append system property informations.
-     */
-    private Element buildSystemProperty( Document doc, String name, String value )
-    {
-        Element root = doc.createElement( "systemProperty" );
-        root.setAttribute( "name", name );
-        root.setAttribute( "value", value );
-        return root;
-    }
-
-    /**
      * Find java version.
      */
     private String findJavaVersion()
@@ -274,4 +269,25 @@ public class SystemHandlerServlet
         referer.setParameter( "selectedcachename", formItems.getString( "selectedcachename", formItems.getString( "cacheName", "" ) ) );
         redirectClientToURL( referer, response );
     }
+
+    public void setCacheFacadeManager( CacheManager value )
+    {
+        this.cacheManager = value;
+    }
+
+    public void setSiteCachesService( SiteCachesService value )
+    {
+        this.siteCachesService = value;
+    }
+
+    public void setDatasourceInfoResolver( DataSourceInfoResolver datasourceInfoResolver )
+    {
+        this.datasourceInfoResolver = datasourceInfoResolver;
+    }
+
+    public void setConfigurationProperties( Properties configurationProperties )
+    {
+        this.configurationProperties = configurationProperties;
+    }
+
 }

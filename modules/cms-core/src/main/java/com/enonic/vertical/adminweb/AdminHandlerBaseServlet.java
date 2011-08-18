@@ -48,9 +48,9 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
-import com.enonic.cms.core.xslt.XsltProcessorException;
 
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 import com.enonic.cms.domain.content.UnitEntity;
@@ -698,7 +698,7 @@ public abstract class AdminHandlerBaseServlet
      * @param request  Object that encapsulates the request to the servlet
      * @param response Object that encapsulates the response from the servlet
      */
-    private void performTask( HttpServletRequest request, HttpServletResponse response )
+    protected void performTask( HttpServletRequest request, HttpServletResponse response )
     {
         HttpSession session;
         session = request.getSession( false );

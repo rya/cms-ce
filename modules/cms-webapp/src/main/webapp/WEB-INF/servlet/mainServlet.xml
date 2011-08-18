@@ -52,14 +52,7 @@
         <property name="alwaysUseFullPath" value="true"/>
         <property name="mappings">
             <props>
-                <prop key="/tools">toolsController</prop>
-                <prop key="/tools/properties">propertiesInfoController</prop>
-                <prop key="/tools/upgrade">upgradeController</prop>
-                <prop key="/tools/plugininfo">pluginInfoController</prop>
-                <prop key="/tools/connectioninfo">connectionInfoController</prop>
-                <prop key="/tools/reindexcontent">reindexContentToolController</prop>
-                <prop key="/tools/liveportaltrace">livePortalTraceController</prop>
-                <prop key="/tools/plugininfo">pluginInfoController</prop>
+                <prop key="/upgrade">upgradeController</prop>
                 <prop key="/tools/javascript/**">staticFileController</prop>
                 <prop key="/tools/css/**">staticFileController</prop>
             </props>
@@ -71,21 +64,14 @@
         </property>
     </bean>
 
+
     <bean id="toolsAuthenticationInterceptor" class="com.enonic.cms.server.service.tools.ToolsAuthenticationInterceptor"/>
 
     <bean id="welcomeController" class="com.enonic.cms.server.service.tools.WelcomeController"/>
-    <bean id="toolsController" class="com.enonic.cms.server.service.tools.ToolsController"/>
-    <bean id="propertiesInfoController" class="com.enonic.cms.server.service.tools.PropertiesInfoController">
-        <property name="properties" ref="loadedVerticalProperties"/>
-    </bean>
     <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController"/>
-    <bean id="reindexContentToolController" class="com.enonic.cms.server.service.tools.ReindexContentToolController"/>
-    <bean id="connectionInfoController" class="com.enonic.cms.server.service.tools.ConnectionInfoController"/>
-    <bean id="livePortalTraceController" class="com.enonic.cms.server.service.tools.LivePortalTraceController"/>
+
     <bean id="staticFileController" class="com.enonic.cms.server.service.tools.StaticFileController"/>
-    <bean id="pluginInfoController" class="com.enonic.cms.server.service.tools.PluginInfoController"/>
 
     <bean class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
-
 
 </beans>

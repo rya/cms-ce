@@ -3,70 +3,73 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <import resource="classpath:businessPortalFunctions-context.xml"/>
-  <import resource="classpath:businessPortalDatasource-context.xml"/>
+    <import resource="classpath:businessPortalFunctions-context.xml"/>
+    <import resource="classpath:businessPortalDatasource-context.xml"/>
 
-  <bean id="portalRequestService" class="com.enonic.cms.business.portal.PortalRequestServiceImpl">
-    <property name="pageRendererFactory" ref="pageRendererFactory"/>
-    <property name="windowRendererFactory" ref="windowRendererFactory"/>
-    <property name="dataSourceService" ref="dataSourceService"/>
-    <property name="languageDao" ref="languageDao"/>
-    <property name="portalAccessService" ref="portalAccessService"/>
-    <property name="userDao" ref="userDao"/>
-    <property name="portletDao" ref="portletDao"/>
-    <property name="siteDao" ref="siteDao"/>
-    <property name="pageRequestProcessorFactory" ref="pageRequestProcessorFactory"/>
-    <property name="contentDao" ref="contentDao"/>
-    <property name="livePortalTraceService" ref="livePortalTraceService"/>
+    <bean id="portalRequestService" class="com.enonic.cms.business.portal.PortalRequestServiceImpl">
+        <property name="pageRendererFactory" ref="pageRendererFactory"/>
+        <property name="windowRendererFactory" ref="windowRendererFactory"/>
+        <property name="dataSourceService" ref="dataSourceService"/>
+        <property name="languageDao" ref="languageDao"/>
+        <property name="portalAccessService" ref="portalAccessService"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="portletDao" ref="portletDao"/>
+        <property name="siteDao" ref="siteDao"/>
+        <property name="pageRequestProcessorFactory" ref="pageRequestProcessorFactory"/>
+        <property name="contentDao" ref="contentDao"/>
+        <property name="livePortalTraceService" ref="livePortalTraceService"/>
 
-  </bean>
+    </bean>
 
-  <bean id="livePortalTraceService" class="com.enonic.cms.business.portal.livetrace.LivePortalTraceServiceImpl">
-    <property name="enabled" value="${cms.livePortalTrace.enabled}"/>
-    <property name="longestSize" value="${cms.livePortalTrace.longest.size}"/>
-    <property name="historySize" value="${cms.livePortalTrace.history.size}"/>
-  </bean>
-  
-  <bean id="pageRequestProcessorFactory" class="com.enonic.cms.business.portal.processor.PageRequestProcessorFactory"/>
+    <bean id="livePortalTraceService" class="com.enonic.cms.business.portal.livetrace.LivePortalTraceServiceImpl">
+        <property name="enabled" value="${cms.livePortalTrace.enabled}"/>
+        <property name="longestSize" value="${cms.livePortalTrace.longest.size}"/>
+        <property name="historySize" value="${cms.livePortalTrace.history.size}"/>
+    </bean>
 
-  <bean id="portalAccessService" class="com.enonic.cms.business.portal.PortalAccessService"/>
+    <bean id="pageRequestProcessorFactory" class="com.enonic.cms.business.portal.processor.PageRequestProcessorFactory"/>
 
-  <bean id="portletXsltViewTransformer" class="com.enonic.cms.business.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
+    <bean id="portalAccessService" class="com.enonic.cms.business.portal.PortalAccessService"/>
 
-  <bean id="pageTemplateXsltViewTransformer"
-        class="com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
+    <bean id="portletXsltViewTransformer" class="com.enonic.cms.business.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
 
-  <bean id="portalSystemFunctionsService" class="com.enonic.cms.business.portal.rendering.systemfunctions.PortalSystemFunctionsServiceImpl">
-    <property name="windowRendererFactory" ref="windowRendererFactory"/>
-  </bean>
+    <bean id="pageTemplateXsltViewTransformer"
+          class="com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
-  <bean id="loginPagePathResolverService" class="com.enonic.cms.business.portal.support.LoginPagePathResolverServiceImpl">
-    <property name="presentationService" ref="presentationService"/>
-  </bean>
+    <bean id="portalSystemFunctionsService"
+          class="com.enonic.cms.business.portal.rendering.systemfunctions.PortalSystemFunctionsServiceImpl">
+        <property name="windowRendererFactory" ref="windowRendererFactory"/>
+    </bean>
 
-  <bean id="siteRedirectHelper" class="com.enonic.cms.business.portal.SiteRedirectHelper">
-    <property name="sitePathResolver" ref="sitePathResolver"/>
-    <property name="siteURLResolver" ref="siteURLResolver"/>
-  </bean>
+    <bean id="loginPagePathResolverService" class="com.enonic.cms.business.portal.support.LoginPagePathResolverServiceImpl">
+        <property name="presentationService" ref="presentationService"/>
+    </bean>
 
-  <bean id="pageRendererFactory" class="com.enonic.cms.business.portal.rendering.PageRendererFactory"/>
+    <bean id="siteRedirectHelper" class="com.enonic.cms.business.portal.SiteRedirectHelper">
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="siteURLResolver" ref="siteURLResolver"/>
+    </bean>
 
-  <bean id="windowRendererFactory" class="com.enonic.cms.business.portal.rendering.WindowRendererFactory"/>
+    <bean id="pageRendererFactory" class="com.enonic.cms.business.portal.rendering.PageRendererFactory"/>
 
-  <bean id="datasourcesContextXmlCreator" class="com.enonic.cms.business.portal.datasource.context.DatasourcesContextXmlCreator"/>
+    <bean id="windowRendererFactory" class="com.enonic.cms.business.portal.rendering.WindowRendererFactory"/>
 
-  <bean id="postProcessInstructionExecutor" class="com.enonic.cms.business.portal.instruction.PostProcessInstructionExecutorImpl"/>
+    <bean id="datasourcesContextXmlCreator" class="com.enonic.cms.business.portal.datasource.context.DatasourcesContextXmlCreator"/>
 
-  <bean id="siteCachesService" class="com.enonic.cms.business.portal.cache.SiteCachesServiceImpl">
-    <property name="pageCacheServiceFactory">
-      <bean class="com.enonic.cms.business.portal.cache.PageCacheServiceFactory">
-        <property name="cacheManager" ref="cacheFacadeManager"/>
+    <bean id="postProcessInstructionExecutor" class="com.enonic.cms.business.portal.instruction.PostProcessInstructionExecutorImpl"/>
+
+    <bean id="datasourceInfoResolver" class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+
+    <bean id="siteCachesService" class="com.enonic.cms.business.portal.cache.SiteCachesServiceImpl">
+        <property name="pageCacheServiceFactory">
+            <bean class="com.enonic.cms.business.portal.cache.PageCacheServiceFactory">
+                <property name="cacheManager" ref="cacheFacadeManager"/>
+                <property name="sitePropertiesService" ref="sitePropertiesService"/>
+            </bean>
+        </property>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
-      </bean>
-    </property>
-    <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    <property name="cacheManager" ref="cacheFacadeManager"/>
-  </bean>
+        <property name="cacheManager" ref="cacheFacadeManager"/>
+    </bean>
 
 
 </beans>

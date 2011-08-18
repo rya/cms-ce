@@ -11,8 +11,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.business.tools.ReindexContentToolService;
 
@@ -26,21 +26,29 @@ public class ReindexContentToolController
 
     private Boolean reindexingInProgress = Boolean.FALSE;
 
-    protected ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
-        throws Exception
+    @Override
+    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res,ExtendedMap formItems )
     {
         if ( req.getParameter( "reindex" ) != null )
         {
             startReindexAllContentTypes();
-            redirectToSelf( req, res );
+            try
+            {
+                redirectClientToReferer( req, res );
+                // redirectToSelf( req, res );
+            }
+            catch ( Exception e )
+            {
+                //TODO : FIX, what happend in tools
+            }
         }
 
         HashMap<String, Object> model = new HashMap<String, Object>();
         model.put( "reindexInProgress", reindexingInProgress );
         model.put( "reindexLog", logEntries );
-        model.put( "baseUrl", createBaseUrl( req ) );
+        model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
 
-        return new ModelAndView( "reindexContentPage", model );
+        process( res, model, "reindexContentPage" );
     }
 
     private synchronized void startReindexAllContentTypes()
@@ -72,7 +80,6 @@ public class ReindexContentToolController
         reindexThread.start();
     }
 
-    @Autowired
     public void setReindexContentToolService( ReindexContentToolService value )
     {
         this.reindexContentToolService = value;

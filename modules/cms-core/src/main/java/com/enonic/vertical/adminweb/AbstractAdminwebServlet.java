@@ -8,13 +8,20 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
 
-import javax.servlet.*;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
@@ -68,12 +75,10 @@ import com.enonic.cms.business.preview.PreviewService;
 import com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.business.resolver.locale.LocaleResolverService;
 import com.enonic.cms.business.timezone.TimeZoneService;
-import org.springframework.web.context.ServletContextAware;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
 
 public abstract class AbstractAdminwebServlet
-    extends HttpServlet implements Controller, ServletContextAware, InitializingBean, DisposableBean
+    extends HttpServlet
+    implements Controller, ServletContextAware, InitializingBean, DisposableBean
 {
 
     @Autowired
@@ -227,41 +232,45 @@ public abstract class AbstractAdminwebServlet
         return this.servletContext;
     }
 
-    public final void setServletContext(final ServletContext servletContext)
+    public final void setServletContext( final ServletContext servletContext )
     {
         this.servletContext = servletContext;
     }
 
-    public final ModelAndView handleRequest(final HttpServletRequest request, final HttpServletResponse response)
+    public ModelAndView handleRequest( final HttpServletRequest request, final HttpServletResponse response )
         throws Exception
     {
-        service(request, response);
-		return null;
-	}
+        service( request, response );
+        return null;
+    }
 
-    public final void afterPropertiesSet()
+    public void afterPropertiesSet()
         throws Exception
     {
         final String servletName = getClass().getSimpleName();
 
-        init(new ServletConfig()
+        init( new ServletConfig()
         {
-            public String getServletName() {
+            public String getServletName()
+            {
                 return servletName;
             }
 
-            public ServletContext getServletContext() {
+            public ServletContext getServletContext()
+            {
                 return servletContext;
             }
 
-            public String getInitParameter(final String name) {
+            public String getInitParameter( final String name )
+            {
                 return null;
             }
 
-            public Enumeration getInitParameterNames() {
-                return Collections.enumeration(Collections.EMPTY_LIST);
+            public Enumeration getInitParameterNames()
+            {
+                return Collections.enumeration( Collections.EMPTY_LIST );
             }
-        });
+        } );
     }
 
     public void init( ServletConfig servletConfig )

@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.enonic.esl.containers.ExtendedMap;
+
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 /**
@@ -27,6 +29,12 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 public final class PropertiesInfoController
     extends AbstractToolController
 {
+
+    @Override
+    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     private Properties properties;
 

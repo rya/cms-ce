@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Plugin Information</title>
-    <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
     <script type="text/javascript">
 
         var lastKey = 0;

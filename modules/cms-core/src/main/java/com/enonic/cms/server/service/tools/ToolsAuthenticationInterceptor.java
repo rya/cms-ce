@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -22,21 +21,23 @@ public final class ToolsAuthenticationInterceptor
 
     private static final String WWW_AUTHENTICATE_HEADER = "WWW-Authenticate";
 
-    private static final String WWW_AUTHENTICATE_VALUE = "Basic";
+    private static final String WWW_AUTHENTICATE_TYPE = "Basic";
+
+    private static final String REALM_ENONIC_CMS_UPGRADE_ENTERPRISE_ADMINISTRATOR_LOGIN =
+        "Realm=\"Enonic CMS Upgrade - Enterprise Administrator login\"";
+
+    private static final String WWW_AUTHENTICATE_VALUE =
+        WWW_AUTHENTICATE_TYPE + " " + REALM_ENONIC_CMS_UPGRADE_ENTERPRISE_ADMINISTRATOR_LOGIN;
+
 
     private static final String WWW_AUTHORIZATION_HEADER = "Authorization";
 
     private String entrerpriseAdminPassword;
 
-    private ToolsAccessResolver toolsAccessResolver;
 
     public boolean preHandle( HttpServletRequest req, HttpServletResponse res, Object o )
         throws Exception
     {
-        if ( toolsAccessResolver.hasAccess( req ) )
-        {
-            return super.preHandle( req, res, o );
-        }
 
         return authenticateByBasicAuthentication( req, res, o );
     }
@@ -66,6 +67,7 @@ public final class ToolsAuthenticationInterceptor
     private String[] getAuthCredentials( HttpServletRequest req )
     {
         String auth = req.getHeader( WWW_AUTHORIZATION_HEADER );
+
         if ( auth == null )
         {
             return null;
@@ -77,7 +79,7 @@ public final class ToolsAuthenticationInterceptor
             return null;
         }
 
-        if ( !WWW_AUTHENTICATE_VALUE.equalsIgnoreCase( tmp[0] ) )
+        if ( !WWW_AUTHENTICATE_TYPE.equalsIgnoreCase( tmp[0] ) )
         {
             return null;
         }
@@ -118,12 +120,4 @@ public final class ToolsAuthenticationInterceptor
         this.entrerpriseAdminPassword = password;
     }
 
-    /**
-     * Set access resolver.
-     */
-    @Autowired
-    public void setToolsAccessResolver( ToolsAccessResolver toolsAccessResolver )
-    {
-        this.toolsAccessResolver = toolsAccessResolver;
-    }
 }

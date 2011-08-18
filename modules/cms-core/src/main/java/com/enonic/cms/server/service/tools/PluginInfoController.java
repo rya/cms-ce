@@ -6,7 +6,8 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.servlet.ModelAndView;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.net.URL;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.ExtensionManager;
@@ -16,14 +17,13 @@ import com.enonic.cms.core.plugin.Plugin;
 public final class PluginInfoController
     extends AbstractToolController
 {
-    protected ModelAndView doHandleRequest( final HttpServletRequest req, final HttpServletResponse res )
-        throws Exception
+    protected void doHandleRequest( final HttpServletRequest req, final HttpServletResponse res, ExtendedMap formItems )
     {
-        final Long updateKey = getLongParam( req, "update" );
+        final String updateKey = formItems.getString( "update", null );
 
         if ( updateKey != null )
         {
-            return doUpdatePlugin( updateKey, req, res );
+            doUpdatePlugin( new Long( updateKey ), req, res );
         }
 
         final ExtensionManager extensionManager = ExtensionManagerAccessor.getExtensionManager();
@@ -37,11 +37,10 @@ public final class PluginInfoController
         model.put( "textExtractorExtensions", toWrappers( extensionManager.getAllTextExtractorPlugins() ) );
         model.put( "pluginHandles", toPluginWrappers( extensionManager.getPluginRegistry().getPlugins() ) );
 
-        return new ModelAndView( "pluginInfoPage", model );
+        process( res, model, "pluginInfoPage.ftl" );
     }
 
-    private ModelAndView doUpdatePlugin( final long pluginKey, final HttpServletRequest req, final HttpServletResponse res )
-        throws Exception
+    private void doUpdatePlugin( final long pluginKey, final HttpServletRequest req, final HttpServletResponse res )
     {
         final Plugin plugin = ExtensionManagerAccessor.getExtensionManager().getPluginRegistry().getPluginByKey( pluginKey );
         if ( plugin != null )
@@ -49,8 +48,16 @@ public final class PluginInfoController
             plugin.update();
         }
 
-        res.sendRedirect( req.getHeader( "Referer" ) );
-        return null;
+        try
+        {
+            URL referer = new URL( req.getHeader( "referer" ) );
+            redirectClientToURL( referer, res );
+        }
+        catch ( Exception e )
+        {
+            //TODO: FIX
+        }
+
     }
 
     private Collection<ExtensionWrapper> toWrappers( final Collection<? extends Extension> list )

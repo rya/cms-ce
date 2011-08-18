@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.enonic.esl.containers.ExtendedMap;
+
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
 import com.enonic.cms.framework.jdbc.dialect.SqlServerDialect;
 
@@ -34,9 +36,14 @@ import com.enonic.cms.upgrade.UpgradeService;
 public final class ToolsController
     extends AbstractToolController
 {
-    private UpgradeService upgradeService;
 
-    private ToolsAccessResolver toolsAccessResolver;
+    @Override
+    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private UpgradeService upgradeService;
 
     private Dialect dialect;
 
@@ -46,12 +53,6 @@ public final class ToolsController
     public void setUpgradeService( final UpgradeService upgradeService )
     {
         this.upgradeService = upgradeService;
-    }
-
-    @Autowired
-    public void setToolsAccessResolver( final ToolsAccessResolver toolsAccessResolver )
-    {
-        this.toolsAccessResolver = toolsAccessResolver;
     }
 
     @Autowired
@@ -161,8 +162,6 @@ public final class ToolsController
         model.put( "softwareUpgradeNeeded", softwareUpgradeNeeded );
         model.put( "upgradeFrom", this.upgradeService.getCurrentModelNumber() );
         model.put( "upgradeTo", this.upgradeService.getTargetModelNumber() );
-        model.put( "toolsRestricted", !this.toolsAccessResolver.hasAccess( req ) );
-        model.put( "toolsRestrictedError", this.toolsAccessResolver.getErrorMessage( req ) );
         model.put( "additionalMessages", createAdditionalMessages( upgradeNeeded ) );
         return new ModelAndView( "toolsPage", model );
     }

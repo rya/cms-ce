@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.ModelAndView;
+
+import com.enonic.esl.containers.ExtendedMap;
 
 import com.enonic.cms.store.support.ConnectionTraceInfo;
 import com.enonic.cms.store.support.TraceableDataSource;
@@ -25,12 +26,6 @@ public final class ConnectionInfoController
     extends AbstractToolController
 {
     private DataSource dataSource;
-
-    @Autowired
-    public void setDataSource( DataSource value )
-    {
-        this.dataSource = value;
-    }
 
     private boolean isTraceEnabled()
     {
@@ -65,15 +60,19 @@ public final class ConnectionInfoController
         return list;
     }
 
-    /**
-     * Handle the request.
-     */
-    protected ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
-        throws Exception
+    @Override
+    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
     {
         HashMap<String, Object> model = new HashMap<String, Object>();
         model.put( "enabled", isTraceEnabled() ? 1 : 0 );
         model.put( "connlist", getConnectionList() );
-        return new ModelAndView( "connectionInfoPage", model );
+        process( res, model, "connectionInfoPage" );
     }
+
+    @Autowired
+    public void setDataSource( DataSource value )
+    {
+        this.dataSource = value;
+    }
+
 }

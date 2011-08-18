@@ -8,16 +8,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.framework.util.HttpServletUtil;
+import com.enonic.esl.containers.ExtendedMap;
 
 public final class StaticFileController
     extends AbstractToolController
 {
+
+
     private ResourceLoader resourceLoader;
+
+    @Override
+    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
+    {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     @Autowired
     public void setResourceLoader(final ResourceLoader resourceLoader)
@@ -25,15 +31,15 @@ public final class StaticFileController
         this.resourceLoader = resourceLoader;
     }
 
-    @Override
-    protected ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
-        throws Exception
-    {
-        String resourcePath = resolveResourcePath( req );
-        Resource resource = resourceLoader.getResource( resourcePath );
-        HttpServletUtil.copyNoCloseOut( resource.getInputStream(), res.getOutputStream() );
-        return null;
-    }
+  //  @Override
+  //  protected ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
+  //      throws Exception
+  //  {
+  //      String resourcePath = resolveResourcePath( req );
+  //      Resource resource = resourceLoader.getResource( resourcePath );
+  //      HttpServletUtil.copyNoCloseOut( resource.getInputStream(), res.getOutputStream() );
+  //      return null;
+  //  }
 
     private String resolveResourcePath( HttpServletRequest req )
     {

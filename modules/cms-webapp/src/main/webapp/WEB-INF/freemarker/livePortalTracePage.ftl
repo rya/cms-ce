@@ -12,10 +12,10 @@
     <html>
     <head>
     <title>Live Portal Trace</title>
-    <script type="text/javascript" src="javascript/jquery-1.6.2.min.js"></script>
-    <script type="text/javascript" src="javascript/jquery.base64.min.js"></script>
-    <script type="text/javascript" src="javascript/jquery-ui-1.8.14.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.14.css"/>
+    <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="javascript/lib/jquery/crypt/jquery.base64.min.js"></script>
+    <script type="text/javascript" src="javascript/lib/jquery/jquery-ui-1.8.14.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/tools/jquery-ui-1.8.14.css"/>
     <script type="text/javascript">
 
         var reloadCurrentRequestsIntervalId = 0;
@@ -23,6 +23,9 @@
         var reloadLongestAttachmentRequestsIntervalId = 0;
         var reloadLongestImageRequestsIntervalId = 0;
         var loadNewPastRequestsIntervalId = 0;
+
+        var servletBaseUrl = "servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController?page=914&op=custom";
+
 
         var lastHistoryNumber = -1;
 
@@ -99,22 +102,22 @@
 
         function reloadCurrentPortalRequests()
         {
-            $( "#window-current" ).load( "liveportaltrace?window=current" );
+            $( "#window-current" ).load( servletBaseUrl + "&window=current" );
         }
 
         function reloadLongestPortalPageRequests()
         {
-            $( "#window-longest-pagerequests" ).load( "liveportaltrace?window=longestpagerequests" );
+            $( "#window-longest-pagerequests" ).load( servletBaseUrl + "&window=longestpagerequests" );
         }
 
         function reloadLongestPortalAttachmentRequests()
         {
-            $( "#window-longest-attachmentrequests" ).load( "liveportaltrace?window=longestattachmentrequests" );
+            $( "#window-longest-attachmentrequests" ).load( servletBaseUrl + "&window=longestattachmentrequests" );
         }
 
         function reloadLongestPortalImageRequests()
         {
-            $( "#window-longest-imagerequests" ).load( "liveportaltrace?window=longestimagerequests" );
+            $( "#window-longest-imagerequests" ).load( servletBaseUrl + "&window=longestimagerequests" );
         }
 
         function setLastHistoryNumber( number )
@@ -125,7 +128,7 @@
         function loadNewPastPortalRequestTraces()
         {
 
-            var url = 'liveportaltrace?history&records-since-id=' + lastHistoryNumber;
+            var url = servletBaseUrl + '&history=true&records-since-id=' + lastHistoryNumber;
 
             $.getJSON( url, function( jsonObj )
             {

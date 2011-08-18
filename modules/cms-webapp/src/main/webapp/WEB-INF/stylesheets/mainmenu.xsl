@@ -220,7 +220,7 @@
                 <a href="adminpage?page=10&amp;op=page&amp;mode=java_properties" target="mainFrame">
                   <img src="images/page_java.gif" border="0"/>
                   <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
-                  <xsl:text>%mnuJavaProperties%</xsl:text>
+                  <xsl:text>%mnuProperties%</xsl:text>
                 </a>
               </td>
             </tr>
@@ -276,6 +276,42 @@
                   <img src="images/icon_logs.gif" border="0"/>
                   <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuEventLog%</xsl:text>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td width="16">
+                <img src="javascript/images/T.png" border="0"/>
+              </td>
+              <td>
+                <a href="adminpage?page=910&amp;op=blabla" target="mainFrame">
+                  <img src="images/icon_system.gif" border="0"/>
+                  <img src="im  ages/shim.gif" width="3" height="1" class="shim" border="0"/>
+                  <xsl:text>%mnuPluginInfo%</xsl:text>
+                </a>
+              </td>
+            </tr>
+              <tr>
+              <td width="16">
+                <img src="javascript/images/T.png" border="0"/>
+              </td>
+              <td>
+                <a href="adminpage?page=912&amp;op=livePortalTrace" target="mainFrame">
+                  <img src="images/icon_system.gif" border="0"/>
+                  <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
+                  <xsl:text>%mnuLivePortalTrace%</xsl:text>
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td width="16">
+                <img src="javascript/images/T.png" border="0"/>
+              </td>
+              <td>
+                <a href="adminpage?page=914&amp;op=blabla" target="mainFrame">
+                  <img src="images/icon_system.gif" border="0"/>
+                  <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
+                  <xsl:text>%mnuConnectionInfo%</xsl:text>
                 </a>
               </td>
             </tr>

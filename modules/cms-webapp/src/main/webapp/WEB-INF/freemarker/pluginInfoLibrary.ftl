@@ -26,7 +26,7 @@
     [/#if] -
     <a href="javascript: showDetails(${plugin.key})">details</a>
     [#if plugin.framework == false]
-        | <a href="?update=${plugin.key}">update</a>
+        | <a href="servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController?op=custom&update=${plugin.key}">update</a>
     [/#if]
     <ul>
         <li>${plugin.id} ${plugin.version} deployed ${plugin.timestamp}</li>

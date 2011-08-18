@@ -49,7 +49,7 @@
     <b>Upgrade Needed!</b>
     <br/>
     Database upgrade from model <b>${upgradeFrom}</b> to model <b>${upgradeTo}</b> is needed. Admin or site will not
-    work correctly if not upgraded. Go to <a href="${baseUrl}/tools/upgrade">tools/upgrade</a> to upgrade.
+    work correctly if not upgraded. Go to <a href="${baseUrl}/upgrade">upgrade</a> to upgrade.
 </div>
 [/#if]
 [#if softwareUpgradeNeeded == true]
@@ -99,7 +99,7 @@ ${message.value}
 </div>
 
 <div class="infoBox">
-<a href="${baseUrl}/tools">Tools</a>
+<a href="${baseUrl}/upgrade">Upgrade</a>
 </div>
 </body>
 </html>

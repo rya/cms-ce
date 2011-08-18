@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
 
 import com.enonic.vertical.VerticalProperties;
 
@@ -25,9 +26,9 @@ import com.enonic.cms.upgrade.log.UpgradeLogEntry;
  * This class manages the upgrade.
  */
 public final class UpgradeController
-    extends AbstractToolController
-    implements InitializingBean
+    implements InitializingBean, Controller
 {
+
     /**
      * Upgrade service.
      */
@@ -147,5 +148,46 @@ public final class UpgradeController
         return str.toString();
     }
 
+    /**
+     * Handle the request.
+     */
+    public final ModelAndView handleRequest( HttpServletRequest req, HttpServletResponse res )
+        throws Exception
+    {
+        return doHandleRequest( req, res );
+    }
 
+    /**
+     * Return the base path.
+     */
+    protected String createBaseUrl( HttpServletRequest req )
+    {
+        StringBuffer str = new StringBuffer();
+        str.append( req.getScheme() ).append( "://" ).append( req.getServerName() );
+
+        if ( req.getServerPort() != 80 )
+        {
+            str.append( ":" ).append( req.getServerPort() );
+        }
+
+        str.append( req.getContextPath() );
+        return str.toString();
+    }
+
+    /**
+     * Redirect to self.
+     */
+    protected void redirectToSelf( HttpServletRequest req, HttpServletResponse res )
+        throws Exception
+    {
+        String url = req.getRequestURL().toString();
+        int index = url.indexOf( "?" );
+
+        if ( index > -1 )
+        {
+            url = url.substring( 0, index );
+        }
+
+        res.sendRedirect( url );
+    }
 }
