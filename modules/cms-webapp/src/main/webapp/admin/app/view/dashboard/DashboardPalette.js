@@ -16,7 +16,6 @@ Ext.define('CMS.view.dashboard.DashboardPalette', {
 
     layout:'accordion',
     defaults: {
-        bodyStyle: 'padding:2px; background-color: #CCC;'
     },
     layoutConfig: {
         titleCollapse: false,
