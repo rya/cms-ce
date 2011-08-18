@@ -9,13 +9,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import com.enonic.esl.net.URL;
 import com.enonic.esl.net.URLUtil;
@@ -25,7 +23,7 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 public class SplashServlet
-    extends HttpServlet
+    extends AdminHandlerBaseServlet
 {
 
     public void doGet( HttpServletRequest request, HttpServletResponse response )
@@ -41,7 +39,6 @@ public class SplashServlet
     }
 
     protected void performTask( HttpServletRequest request, HttpServletResponse response )
-        throws IOException
     {
         VerticalProperties properties = VerticalProperties.getVerticalProperties();
         String encoding = properties.getUrlCharacterEncoding();
@@ -74,10 +71,6 @@ public class SplashServlet
         final Source xslSource = AdminStore.getStylesheet( session, "waitsplash.xsl" );
         final Source input = new DOMSource( XMLTool.createDocument( "dummy" ) );
 
-        new XsltProcessorHelper()
-                .stylesheet( xslSource, null )
-                .input( input )
-                .param( "redirect", redirect )
-                .process(response);
+        new XsltProcessorHelper().stylesheet( xslSource, null ).input( input ).param( "redirect", redirect ).process( response );
     }
 }
