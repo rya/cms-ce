@@ -51,30 +51,33 @@
 }
 
 
-/* ----- Logged in user panel -----*/
+/* ----- Logged in user popup -----*/
 
-.logged-in-user-panel {
+.logged-in-user-popup {
+    background-color: #fff;
+    padding: 10px;
     box-shadow: 5px 5px 5px #ccc;
 }
 
-.logged-in-user-panel-body {
-    padding: 10px;
-}
-
-.logged-in-user-panel-left {
+.logged-in-user-popup-left {
     float: left;
     margin-right: 15px;
 }
 
-.logged-in-user-panel-left img {
+.logged-in-user-popup-right {
+    float: left;
+    width: 243px;
 }
 
-.logged-in-user-panel-right h1 {
+.logged-in-user-popup-left img {
+     border-radius: 4px;
+}
+
+.logged-in-user-popup-right h1 {
     font-size: 18px !important;
 }
 
-.logged-in-user-panel-right {
-    float: left;
+.logged-in-user-popup-log-out {
 }
 
 /* ----- Accounts -----*/
@@ -190,6 +193,7 @@ img.photo {
 
 .icon-delete-user {
     background-image: url("../images/user_delete.png");
+    background-position: center;
 }
 
 .icon-change-password {
@@ -327,6 +331,11 @@ img.photo {
     background: none;
 }
 
+.display-name div {
+    font-weight: bold;
+    font-size: 20px;
+}
+
 .x-form-display-field {
     padding-left: 5px;
     padding-top: 3px;
@@ -352,6 +361,15 @@ img.photo {
     margin-left: 10px;
 }
 
-.item-name {
-    cursor: pointer;
+.palette-item {
+    background-color: #f0f0f0;
+    padding: 5px;
 }
+
+.item-icon {
+    cursor: move;
+    background: url("../images/chart_curve.png") no-repeat ;
+    padding-left: 20px;
+    height: 20px;
+}
+

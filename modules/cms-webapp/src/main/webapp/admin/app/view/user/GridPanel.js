@@ -6,6 +6,7 @@ Ext.define( 'CMS.view.user.GridPanel', {
         'CMS.plugin.PageSizePlugin'
     ],
     layout: 'fit',
+    multiSelect: true,
     loadMask: true,
     columnLines: true,
     frame: false,

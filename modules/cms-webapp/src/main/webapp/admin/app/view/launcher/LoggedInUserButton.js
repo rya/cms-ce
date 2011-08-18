@@ -11,7 +11,7 @@ Ext.define('CMS.view.launcher.LoggedInUserButton', {
 
         Ext.applyIf(config.listeners, {
             move: {scope:this, fn:function(component, x, y, options) {
-                this.updatePanelPosition(component, x, y, options);
+                this.updatePopupPosition(component, x, y, options);
             }}
         });
 
@@ -23,27 +23,14 @@ Ext.define('CMS.view.launcher.LoggedInUserButton', {
         // Can we use 'this' here instead of CMS.view ..?
         CMS.view.launcher.LoggedInUserButton.superclass.onRender.apply(this, arguments);
 
-        this.createPanel();
+        this.createPopup();
     },
 
     toggleHandler: function(button, state) {
-        state ? this.panel.show() : this.panel.hide();
+        state ? this.popup.show() : this.popup.hide();
     },
 
-    createPanel: function() {
-        var self = this;
-
-        self.panel = new Ext.panel.Panel({
-            width: 420,
-            height: 180,
-            floating: true,
-            //html: '<p>TODO: Create layout template</p><ul><li>Photo</li><li>Display Name</li><li>Qualified Name</li><li>E-mail</li><li><a href="">Account</a></li><li><a href="">Change Password</a></li><li><a href="index.html">Log Out</a></li></ul>',
-            cls: 'logged-in-user-panel',
-            bodyCls: 'logged-in-user-panel-body',
-            renderTo: Ext.getBody()
-        });
-        self.panel.hide();
-
+    createPopup: function() {
         var user = {
             uid: 'abcdef012345',
             displayName: 'Joe Doe',
@@ -51,34 +38,40 @@ Ext.define('CMS.view.launcher.LoggedInUserButton', {
             email: 'joe@doe.com'
         };
 
-        this.createTemplate().overwrite(this.panel.body, user);  // pass the root node of the data object
+        this.popup = Ext.create('Ext.Component', {
+            width: 380,
+            floating: true,
+            cls: 'x-panel-default-framed x-panel-default-framed logged-in-user-popup',
+            bodyCls: 'logged-in-user-popup-body',
+            renderTo: Ext.getBody()
+        });
+        this.popup.hide();
 
-        self.updatePanelPosition();
+        this.createPopupTemplate().overwrite(this.popup.getEl(), user);
+        this.updatePopupPosition();
     },
 
-    createTemplate: function() {
-
+    createPopupTemplate: function() {
         return new Ext.XTemplate(
-                '<div class="logged-in-user-panel-left"><img src="resources/images/x-user.png"/></div>',
-                '<div class="logged-in-user-panel-right">',
+                '<div class="logged-in-user-popup-left"><img src="resources/images/x-user.png"/></div>',
+                '<div class="logged-in-user-popup-right">',
                 '<h1>{displayName}</h1>',
                 '<p>{qualifiedName}</p>',
                 '<p>{email}</p>',
                 '<p>&nbsp;</p>',
-                '<p>Edit</p>',
+                '<p>Edit Account</p>',
                 '<p>Change Password</p>',
                 '<p>&nbsp;</p>',
-                '<p><a href="index.html">Log Out</a></p>',
+                '<p class="logged-in-user-popup-log-out"><a href="index.html">Log Out</a></p>',
                 '</div>'
-
                 );
     },
 
-    updatePanelPosition: function(component, x, y, options) {
+    updatePopupPosition: function(component, x, y, options) {
         var buttonArea = this.getEl().getPageBox();
-        var panelX = buttonArea.right - this.panel.width;
-        var panelY = buttonArea.bottom;
-        this.panel.setPosition(panelX, panelY);
+        var popupX = buttonArea.right - this.popup.width;
+        var popupY = buttonArea.bottom;
+        this.popup.setPosition(popupX, popupY);
     }
 
 });
