@@ -23,10 +23,11 @@
     
   <xsl:param name="create"/>
   <xsl:param name="contenttypekey"/>
-  <xsl:param name="modulename"/>
   <xsl:param name="user_fullname"/>
   <xsl:param name="user_email"/>
   <xsl:param name="user_userstorekey"/>
+  <xsl:param name="subop"/>
+    <xsl:param name="editlockedversionmode"/>
 
   <xsl:variable name="enableform" select="true()"/>
 
