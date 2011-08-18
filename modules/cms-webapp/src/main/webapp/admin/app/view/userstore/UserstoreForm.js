@@ -10,20 +10,22 @@ Ext.define( 'CMS.view.userstore.UserstoreForm', {
 
     items: [
             {
+
                 xtype: 'panel',
                 cls: 'userstore-info',
                 styleHtmlContent: true,
                 itemId: 'headerPanel',
+                // TODO: Create an Ext component.
                 tpl: new Ext.XTemplate(
-                    '<img src="data/user/photo?key={0}&thumb=true" class="thumbnail">',
+                    //'<img src="data/user/photo?key={0}&thumb=true" class="thumbnail">',
                     '<div class="userstore-info">',
-                    '<h2 style="margin: 0;">{name}</h2>',
+                    '<h1>{name}</h1>',
                     '<em>{connectorName}</em>',
                     '</div>'
                 ),
                 border: false,
-                bodyPadding: 10,
-                height: 100,
+                bodyPadding: '0 0 10 0',
+                height: 90,
                 bbar: [
                     {
                         text: 'Save',
