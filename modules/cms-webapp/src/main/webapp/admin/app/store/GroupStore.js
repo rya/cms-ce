@@ -3,7 +3,7 @@ Ext.define('CMS.store.GroupStore', {
 
     model: 'CMS.model.GroupModel',
 
-    //pageSize: 10,
+    //pageSize: 100,
     autoLoad: true,
 
     proxy: {

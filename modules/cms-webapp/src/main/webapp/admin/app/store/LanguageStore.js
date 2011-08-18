@@ -3,7 +3,7 @@ Ext.define('CMS.store.LanguageStore', {
 
     model: 'CMS.model.LanguageModel',
 
-    pageSize: 10,
+    pageSize: 100,
     autoLoad: true,
 
     sorters: [

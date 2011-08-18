@@ -22,7 +22,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.MembershipGridPanel',
         'user.UserMembershipWindow',
         'user.GroupItemField',
-        'user.UserPreferencesPanel'
+        'user.UserPreferencesPanel',
+        'user.MultipleDetailPanel'
     ],
 
     refs: [
@@ -223,27 +224,33 @@ Ext.define( 'CMS.controller.UserController', {
 
     updateDetailsPanel: function( selModel, selected )
     {
-        var user = selected[0];
         var userDetail = this.getUserDetail();
+        if (selected.length == 1){
+            var user = selected[0];
 
 
-        if ( user )
-        {
-            Ext.Ajax.request( {
-                url: 'data/user/userinfo',
-                method: 'GET',
-                params: {key: user.get('key')},
-                success: function( response ){
-                    var jsonObj = Ext.JSON.decode( response.responseText );
-                    userDetail.updateDetails( jsonObj );
-                    userDetail.setCurrentUser( user.data );
-                  }
-            });
+            if ( user )
+            {
+                Ext.Ajax.request( {
+                    url: 'data/user/userinfo',
+                    method: 'GET',
+                    params: {key: user.get('key')},
+                    success: function( response ){
+                        var jsonObj = Ext.JSON.decode( response.responseText );
+                        userDetail.updateDetails( jsonObj );
+                        userDetail.setCurrentUser( user.data );
+                      }
+                });
 
+            }
+
+            userDetail.setTitle( selected.length + " user selected" );
+            this.setDetailsToolbarDisabled();
+        }else{
+            userDetail.generateMultipleSelection(selected);
+            this.setDetailsToolbarDisabled();
+            userDetail.setTitle( selected.length + " user selected" );
         }
-
-        userDetail.setTitle( selected.length + " user selected" );
-        this.setDetailsToolbarDisabled();
     },
 
     searchFilter: function()
@@ -351,7 +358,7 @@ Ext.define( 'CMS.controller.UserController', {
 
     gridHasSelection: function()
     {
-        return this.getUserGrid().getSelectionModel().getSelection().length > 0;
+        return this.getUserGrid().getSelectionModel().getSelection().length == 1;
     },
 
     countryChangeHandler: function( field, newValue, oldValue, options )
