@@ -2,6 +2,17 @@
     border: none !important;
 }
 
+/* ----- Overrides ext-all.css ----- */
+body,
+.x-body,
+.x-panel-body,
+.x-form-item,
+.x-form-item-label,
+.x-form-display-field {
+    font: 11px tahoma,arial,verdana,sans-serif;
+}
+
+
 /* ----- Launcher ----- */
 
 #launcher-toolbar {
