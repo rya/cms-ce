@@ -23,7 +23,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.UserMembershipWindow',
         'user.GroupItemField',
         'user.UserPreferencesPanel',
-        'user.MultipleDetailPanel'
+        'user.UserDetailButton',
+        'user.UserShortDetailButton'
     ],
 
     refs: [
@@ -247,7 +248,11 @@ Ext.define( 'CMS.controller.UserController', {
             userDetail.setTitle( selected.length + " user selected" );
             this.setDetailsToolbarDisabled();
         }else{
-            userDetail.generateMultipleSelection(selected);
+            var shortInfo = false;
+            if (selected.length > 10){
+                shortInfo = true;
+            }
+            userDetail.generateMultipleSelection(selected, shortInfo);
             this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }
