@@ -1,25 +1,30 @@
+/* Generic */
 .cms-selected-item-box {
     float: left;
     display: inline-block;
 }
 
+.cms-selected-item-box .left {
+    float: left;
+}
+
+.cms-selected-item-box .center {
+    float: left;
+}
+
+.cms-selected-item-box .right {
+    float: left;
+}
+
+
+/* Large */
 .cms-selected-item-box.large {
     padding: 7px;
     margin: 0 5px 5px 0;
 }
 
-.cms-selected-item-box.small {
-    padding: 5px;
-    margin: 0 3px 3px 0;
-}
-
-.cms-selected-item-box .left {
-    float: left;
+.cms-selected-item-box.large .left {
     margin-right: 16px;
-}
-
-.cms-selected-item-box.small .left {
-    margin-right: 12px;
 }
 
 .cms-selected-item-box.large .left img {
@@ -27,22 +32,48 @@
     height: 40px;
 }
 
+.cms-selected-item-box.large .center {
+    margin-right: 16px;
+}
+
+.cms-selected-item-box.large .center h2 {
+    margin: 3px 0 0 0;
+    font-size: 16px;
+}
+
+.cms-selected-item-box.large .center p {
+    margin: 0;
+}
+
+.cms-selected-item-box.large .right {
+    margin: 12px 6px 0 0;
+}
+
+.cms-selected-item-box.large .right a {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: transparent url(../../resources/images/cross.png) no-repeat;
+}
+
+
+/* Small */
+.cms-selected-item-box.small {
+    padding: 5px;
+    margin: 0 3px 3px 0;
+}
+
+.cms-selected-item-box.small .left {
+    margin-right: 12px;
+}
+
 .cms-selected-item-box.small .left img {
     width: 20px;
     height: 20px;
 }
 
-.cms-selected-item-box .center {
-    float: left;
+.cms-selected-item-box.small .center {
     margin-right: 16px;
-}
-
-.cms-selected-item-box .center h2 {
-    margin: 3px 0 0 0;
-}
-
-.cms-selected-item-box.large .center h2 {
-    font-size: 16px;
 }
 
 .cms-selected-item-box.small .center h2 {
@@ -51,22 +82,17 @@
     margin: 3px 0 0 0;
 }
 
-.cms-selected-item-box .center p {
+.cms-selected-item-box.small .center p {
     margin: 0;
-}
-
-.cms-selected-item-box .right {
-    float: left;
-}
-
-.cms-selected-item-box.large .right {
-    margin: 12px 6px 0 0;
 }
 
 .cms-selected-item-box.small .right {
     margin: 6px 3px 0 0;
 }
 
-.cms-selected-item-box.small .right img {
+.cms-selected-item-box.small .right a {
     width: 8px;
+    height: 8px;
+    display: block;
+    background: transparent url(../../resources/images/cross-sm.png) no-repeat;
 }
