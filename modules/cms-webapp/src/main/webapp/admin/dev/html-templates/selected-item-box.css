@@ -1,6 +1,5 @@
 .cms-selected-item-box {
     float: left;
-    background-color: #fff;
     display: inline-block;
 }
 
@@ -61,14 +60,11 @@
 }
 
 .cms-selected-item-box.large .right {
-    margin: 12px 0;
+    margin: 12px 6px 0 0;
 }
 
 .cms-selected-item-box.small .right {
-    margin: 6px 0;
-}
-
-.cms-selected-item-box .right a {
+    margin: 6px 3px 0 0;
 }
 
 .cms-selected-item-box.small .right img {

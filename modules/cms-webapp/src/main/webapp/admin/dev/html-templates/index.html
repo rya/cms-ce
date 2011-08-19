@@ -1,10 +1,11 @@
 <html>
 <head>
-    <title>Enonic CMS Admin</title>
+    <title>HTML Templates</title>
     <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="wizard-navigation.css">
     <link rel="stylesheet" type="text/css" href="edit-form-header.css">
-    <link rel="stylesheet" type="text/css" href="logged-in-user-button.css">
+    <link rel="stylesheet" type="text/css" href="selected-item-box.css">
 
     <style type="text/css">
         body {
@@ -16,7 +17,7 @@
         }
 
         h2.header {
-            font: 14px Arial;
+            font: 16px Arial;
             margin: 1.7em 0 .5em 0;
         }
 
@@ -37,10 +38,29 @@
 
 </head>
 <body>
-    <h1 class="header clearfix">Templates</h1>
+    <h1 class="header clearfix">HTML Templates</h1>
+
+    <h2 class="header">Wizard Navigation</h2>
+
+    <!-- Template START -->
+    <div class="cms-wizard-navigation clearfix">
+        <div class="step">Step 1</div>
+        <div class="arrow">></div>
+        <div class="current step">Step 2</div>
+        <div class="arrow">></div>
+        <div class="step">Step 3</div>
+        <div class="arrow">></div>
+        <div class="step">Step 4</div>
+
+    </div>
+    <!-- Template END -->
+
+
+    <p class="clearfix"></p>
     <h2 class="header clearfix">Edit Form Header</h2>
 
-    <!-- Template -->
+
+    <!-- Template START -->
     <div class="cms-edit-form-header clearfix">
         <div class="left">
             <img alt="User" src="../../resources/images/x-user.png"/>
@@ -50,14 +70,15 @@
             <p>userstore\mer</p>
         </div>
     </div>
-    <!-- Template -->
+    <!-- Template END -->
 
 
     <p class="clearfix"></p>
     <h2 class="header">Selected Item Box Large</h2>
 
-    <!-- Template -->
-    <div class="cms-selected-item-box large x-panel-default-framed clearfix">
+
+    <!-- Template START -->
+    <div class="cms-selected-item-box large x-btn-default-large clearfix">
         <div class="cms-selected-item-box left">
             <img alt="User" src="../../resources/images/x-user.png"/>
         </div>
@@ -71,13 +92,15 @@
             </a>
         </div>
     </div>
-    <!-- Template -->
+    <!-- Template END -->
+
 
     <p class="clearfix"></p>
     <h2 class="header">Selected Item Box Small</h2>
 
-    <!-- Template -->
-    <div class="cms-selected-item-box small x-panel-default-framed clearfix">
+
+    <!-- Template START -->
+    <div class="cms-selected-item-box small x-btn-default-small clearfix">
         <div class="cms-selected-item-box left">
             <img alt="User" src="../../resources/images/x-user.png"/>
         </div>
@@ -90,7 +113,7 @@
             </a>
         </div>
     </div>
-    <!-- Template -->
+    <!-- Template END -->
 
 </body>
 </html>
