@@ -8,10 +8,10 @@ Ext.define('CMS.store.GroupStore', {
 
     proxy: {
         type: 'ajax',
-        url: 'app/data/Groups.json',
+        url: 'data/account/grouplist',
         reader: {
             type: 'json',
-            root: 'groups',
+            root: 'accounts',
             totalProperty : 'total'
         }
     }

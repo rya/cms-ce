@@ -1,5 +1,6 @@
 package com.enonic.cms.admin.account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -34,6 +35,17 @@ public final class AccountResource
     public AccountsModel getUsersAndGroups()
     {
         final List<UserEntity> userList = this.userDao.findAll( false );
+
+        final List<GroupEntity> groupList = this.groupDao.findAll( false );
+
+        return AccountModelHelper.toModel( userList, groupList );
+    }
+
+    @GET
+    @Path("grouplist")
+    public AccountsModel getGroups()
+    {
+        final List<UserEntity> userList = new ArrayList<UserEntity>(  );
 
         final List<GroupEntity> groupList = this.groupDao.findAll( false );
 
