@@ -18,7 +18,7 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
                 itemId: 'groupSelector',
                 triggeredAction: 'all',
                 typeAhead: true,
-                mode: 'remote',
+                queryMode: 'local',
                 minChars: 1,
                 forceSelection: true,
                 hideTrigger: true,
@@ -49,13 +49,17 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
     generateGroupPanel: function (userData){
         var groupFields = [];
         Ext.Array.each(userData.groups, function(group){
+//            var groupField = {
+//                    xtype: 'button',
+//                    text: group.name,
+//                    iconCls: 'icon-group',
+//                    cls: 'group-display',
+//                    margin: 5
+//                };
             var groupField = {
-                    xtype: 'button',
-                    text: group.name,
-                    iconCls: 'icon-group',
-                    cls: 'group-display',
-                    margin: 5
-                };
+                xtype: 'groupDetailButton',
+                value: group.name
+            };
             Ext.Array.include(groupFields, groupField);
         });
         var groupPanel = {

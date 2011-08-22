@@ -3,7 +3,7 @@ Ext.define('CMS.store.GroupStore', {
 
     model: 'CMS.model.GroupModel',
 
-    //pageSize: 100,
+    remoteFilter: false,
     autoLoad: true,
 
     proxy: {
@@ -11,8 +11,7 @@ Ext.define('CMS.store.GroupStore', {
         url: 'data/account/grouplist',
         reader: {
             type: 'json',
-            root: 'accounts',
-            totalProperty : 'total'
+            root: 'accounts'
         }
     }
 });

@@ -24,7 +24,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.GroupItemField',
         'user.UserPreferencesPanel',
         'user.UserDetailButton',
-        'user.UserShortDetailButton'
+        'user.UserShortDetailButton',
+        'user.GroupDetailButton'
     ],
 
     refs: [

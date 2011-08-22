@@ -51,4 +51,8 @@ public final class AccountResource
 
         return AccountModelHelper.toModel( userList, groupList );
     }
+
+//    private List<GroupEntity> getGroups(){
+//        GroupSpecification spec = new GroupSpecification();
+//    }
 }
