@@ -1,0 +1,18 @@
+.cms-wizard-navigation {
+    background-color: #eee;
+    padding: 10px;
+}
+
+.cms-wizard-navigation .step {
+    float: left;
+    margin-right: 20px;
+}
+
+.cms-wizard-navigation .current {
+    font-weight: bold;
+}
+
+.cms-wizard-navigation .arrow {
+    float: left;
+    margin-right: 20px;
+}

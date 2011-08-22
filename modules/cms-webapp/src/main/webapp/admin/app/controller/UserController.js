@@ -89,6 +89,9 @@ Ext.define( 'CMS.controller.UserController', {
                           '*[action=addNewTab]': {
                               click: this.addNewTab
                           },
+                          '*[action=deselectItem]': {
+                              click: this.deselectItem
+                          },
                           '*[action=edit]': {
                               click: this.showEditUserForm
                           },
@@ -542,6 +545,15 @@ Ext.define( 'CMS.controller.UserController', {
         var formField = field.up('userFormField');
         field.valueNotFoundText = formField.fieldValue;
         field.setValue(formField.fieldValue);
+    },
+
+    deselectItem: function(button){
+        var selModel = this.getUserGrid().getSelectionModel();
+        var userInfoPanel = button.up('userDetailButton');
+        if (userInfoPanel == null){
+            userInfoPanel = button.up('userShortDetailButton');
+        }
+        selModel.deselect(userInfoPanel.getUser());
     }
 
 } );

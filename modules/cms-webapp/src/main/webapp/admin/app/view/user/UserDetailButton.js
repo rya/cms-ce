@@ -75,11 +75,16 @@ Ext.define('CMS.view.user.UserDetailButton', {
             margin: {left: 10, right: 5, bottom: 15, top: 15},
             items: [{
                 xtype: 'button',
-                iconCls: 'icon-delete'
+                iconCls: 'icon-delete',
+                action: 'deselectItem'
             }]
         };
         this.items = [imagePane, namePane, buttonPane];
         this.callParent(arguments);
+    },
+
+    getUser: function(){
+        return this.userData;
     }
 
 
