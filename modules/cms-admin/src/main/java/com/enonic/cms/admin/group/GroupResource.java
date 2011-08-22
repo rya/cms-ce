@@ -3,10 +3,10 @@ package com.enonic.cms.admin.group;
 import java.util.List;
 
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,9 +31,9 @@ public final class GroupResource
 
     @POST
     @Path("join")
-    public void join( @QueryParam("key") @DefaultValue("") final String key,
-                      @QueryParam("isUser") @DefaultValue("false") final boolean isUser,
-                      @QueryParam("join") final List<String> join )
+    public void join( @FormParam("key") @DefaultValue("") final String key,
+                      @FormParam("isUser") @DefaultValue("false") final boolean isUser,
+                      @FormParam("join") final List<String> join )
     {
 
         GroupEntity groupToAddTo = null;
@@ -67,9 +67,9 @@ public final class GroupResource
 
     @POST
     @Path("leave")
-    public void leave( @QueryParam("key") @DefaultValue("") final String key,
-                       @QueryParam("isUser") @DefaultValue("false") final boolean isUser,
-                       @QueryParam("leave") final List<String> leave )
+    public void leave( @FormParam("key") @DefaultValue("") final String key,
+                       @FormParam("isUser") @DefaultValue("false") final boolean isUser,
+                       @FormParam("leave") final List<String> leave )
     {
 
         GroupEntity groupToRemoveFrom = null;
@@ -97,6 +97,18 @@ public final class GroupResource
                     groupToRemove.removeMembership( groupToRemoveFrom );
                 }
             }
+        }
+    }
+
+
+    @POST
+    @Path("delete")
+    public void delete( @FormParam("key") @DefaultValue("") final String key )
+    {
+        GroupEntity group = groupDao.find( key );
+        if ( group != null )
+        {
+            groupDao.delete( group );
         }
     }
 
