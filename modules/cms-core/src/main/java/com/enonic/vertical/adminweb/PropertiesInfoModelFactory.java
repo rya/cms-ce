@@ -34,6 +34,12 @@ public class PropertiesInfoModelFactory
     {
         this.dataSourceInfoResolver = dataSourceInfoResolver;
         this.configurationProperties = configurationProperties;
+
+        if ( homeDir == null )
+        {
+            homeDir = new File( System.getProperty( "cms.home" ) );
+        }
+
     }
 
     public PropertiesInfoModel createSystemPropertiesModel()
@@ -43,11 +49,11 @@ public class PropertiesInfoModelFactory
 
         try
         {
-            // model.setHomeDirPath( getHomeDirPath() );
-            // model.setConfigDirPath( getConfigDirPath() );
+            infoModel.setConfigFilesProperties( createConfigFileProperties() );
             infoModel.setSystemProperties( System.getProperties() );
             infoModel.setDatasourceProperties( this.dataSourceInfoResolver.getInfo( false ) );
             infoModel.setConfigurationProperties( stripPasswords( this.configurationProperties ) );
+            infoModel.setConfigFiles( getConfigFiles() );
         }
         catch ( Exception e )
         {
@@ -55,6 +61,16 @@ public class PropertiesInfoModelFactory
         }
 
         return infoModel;
+    }
+
+    private Properties createConfigFileProperties()
+    {
+        Properties configFilesProperties = new Properties();
+
+        configFilesProperties.setProperty( "Home", getHomeDirPath() );
+        configFilesProperties.setProperty( "Config", getConfigDirPath() );
+
+        return configFilesProperties;
     }
 
     private String getHomeDirPath()
@@ -69,14 +85,20 @@ public class PropertiesInfoModelFactory
 
 
     private String getConfigDirPath()
-        throws Exception
     {
-        for ( File file : homeDir.listFiles() )
+        try
         {
-            if ( file.getName().equals( "config" ) )
+            for ( File file : homeDir.listFiles() )
             {
-                return file.getPath();
+                if ( file.getName().equals( "config" ) )
+                {
+                    return file.getPath();
+                }
             }
+        }
+        catch ( Exception e )
+        {
+            throw new VerticalAdminException( "Config directory not found: ", e );
         }
 
         return "Config directory not found";
@@ -112,16 +134,24 @@ public class PropertiesInfoModelFactory
     }
 
     private List<String> getConfigFiles()
-        throws Exception
     {
-        ArrayList<String> files = new ArrayList<String>();
-        for ( File children : getConfigDir().listFiles() )
+
+        ArrayList<String> files = null;
+        try
         {
-            String name = children.getName();
-            if ( name.endsWith( ".xml" ) || ( name.endsWith( ".properties" ) ) )
+            files = new ArrayList<String>();
+            for ( File children : getConfigDir().listFiles() )
             {
-                files.add( name );
+                String name = children.getName();
+                if ( name.endsWith( ".xml" ) || ( name.endsWith( ".properties" ) ) )
+                {
+                    files.add( name );
+                }
             }
+        }
+        catch ( Exception e )
+        {
+            throw new VerticalAdminException( "Could not list config-files", e );
         }
 
         return files;

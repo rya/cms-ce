@@ -198,6 +198,7 @@ public abstract class AbstractAdminwebServlet
     @Autowired
     protected TimeZoneService timeZoneService;
 
+    @Autowired
     protected UpgradeService upgradeService;
 
     @Autowired

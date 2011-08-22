@@ -1113,6 +1113,8 @@
 %systemProperties%|Java Egenskaper|Java Properties|Java egenskaber|Java-egenskaper
 %datasourceProperties%|Datakilde Egenskaper|Datasource Properties| |
 %configurationProperties%|Konfigurasjon egenskaper|Configuration properties| |
+%configFilesProperties%|Konfigurasjons-filer|Configuration files| |
+%configDirectories%|Konfigurasjonsmapper|Configuration folders| |
 %value%|Verdi|Value|Værdi|Värde
 %lblAny%|--Hvilken som helst--|--Any--|--Hvilken som helst--|--Vilken som helst--
 %enabled%|Slått på|Enabled|Aktiveret|Aktiverad

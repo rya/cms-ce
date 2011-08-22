@@ -1,5 +1,6 @@
 package com.enonic.vertical.adminweb;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.jdom.Document;
@@ -50,23 +51,28 @@ public class PropertiesInfoModel
 
     private Properties configurationProperties;
 
+    private Properties configFilesProperties;
+
+    private List<String> configFiles;
+
     private static final String ROOT_XML_NAME = "model";
+
 
     public Document toXML()
     {
         PropertiesXmlCreator xmlCreator = new PropertiesXmlCreator();
 
-        Element modelEl = new org.jdom.Element( ROOT_XML_NAME );
+        Element modelEl = new Element( ROOT_XML_NAME );
 
         Document doc = new Document( modelEl );
-        modelEl.addContent( xmlCreator.createPropertiesElement( "systemProperties", "systemProperty", systemProperties ) );
-        modelEl.addContent( xmlCreator.createPropertiesElement( "datasourceProperties", "datasourceProperty", datasourceProperties ) );
-        modelEl.addContent(
-            xmlCreator.createPropertiesElement( "configurationProperties", "configurationProperty", configurationProperties ) );
+        modelEl.addContent( xmlCreator.createElement( "configFilesProperties", "configFilesProperty", configFilesProperties ) );
+        modelEl.addContent( xmlCreator.createElement( "systemProperties", "systemProperty", systemProperties ) );
+        modelEl.addContent( xmlCreator.createElement( "datasourceProperties", "datasourceProperty", datasourceProperties ) );
+        modelEl.addContent( xmlCreator.createElement( "configurationProperties", "configurationProperty", configurationProperties ) );
+        modelEl.addContent( xmlCreator.createNonValueElement( "configFiles", "configFile", configFiles ) );
 
         return doc;
     }
-
 
     public void setHomeDirPath( String homeDirPath )
     {
@@ -91,5 +97,15 @@ public class PropertiesInfoModel
     public void setConfigurationProperties( Properties configurationProperties )
     {
         this.configurationProperties = configurationProperties;
+    }
+
+    public void setConfigFilesProperties( Properties configFilesProperties )
+    {
+        this.configFilesProperties = configFilesProperties;
+    }
+
+    public void setConfigFiles( List<String> configFiles )
+    {
+        this.configFiles = configFiles;
     }
 }

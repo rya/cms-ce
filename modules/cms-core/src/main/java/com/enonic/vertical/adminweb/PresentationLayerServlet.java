@@ -18,6 +18,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -52,6 +53,7 @@ public final class PresentationLayerServlet
 
     private static final String LOCALRESOLVER_FORMITEM = "localeresolver";
 
+    @Autowired
     public void setSiteCachesService( SiteCachesService value )
     {
         this.siteCachesService = value;
