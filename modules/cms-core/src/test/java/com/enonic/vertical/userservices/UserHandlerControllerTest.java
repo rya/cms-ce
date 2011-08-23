@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.containers.ExtendedMap;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
@@ -51,7 +52,6 @@ import com.enonic.cms.domain.security.userstore.StoreNewUserStoreCommand;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 import static junit.framework.Assert.assertEquals;

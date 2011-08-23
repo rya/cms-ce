@@ -10,9 +10,10 @@ import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.user.Address;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserField;
 import com.enonic.cms.domain.user.field.UserFieldHelper;
 import com.enonic.cms.domain.user.field.UserFieldMap;

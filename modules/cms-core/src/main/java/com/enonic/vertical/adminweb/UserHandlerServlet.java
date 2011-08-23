@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -50,13 +49,14 @@ import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
-
-import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.store.dao.GroupQuery;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
@@ -94,7 +94,6 @@ import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
 import com.enonic.cms.domain.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;
 import com.enonic.cms.domain.user.field.UserFieldType;

@@ -7,6 +7,9 @@ package com.enonic.cms.domain.user;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 public class UserInfoTest
 {
     @Test

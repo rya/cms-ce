@@ -6,10 +6,11 @@ package com.enonic.cms.domain.security.user;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.user.UserInfo;
 
 /**
  * Jul 11, 2009
