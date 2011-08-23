@@ -9,7 +9,7 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.enonic.cms.domain.user.Address;
+import com.enonic.cms.api.client.model.user.Address;
 
 public class UserFieldTypeTest
 {

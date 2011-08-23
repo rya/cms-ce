@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.core.security.user;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
-import com.enonic.cms.domain.user.UserInfo;
 
 /**
  * Jun 18, 2009

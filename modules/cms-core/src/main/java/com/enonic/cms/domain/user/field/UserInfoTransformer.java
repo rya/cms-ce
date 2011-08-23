@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.enonic.cms.domain.user.Address;
-import com.enonic.cms.domain.user.Gender;
-import com.enonic.cms.domain.user.UserInfo;
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.Gender;
+import com.enonic.cms.api.client.model.user.UserInfo;
 
 public final class UserInfoTransformer
 {

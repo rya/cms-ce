@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.AccordionSearchCriteria;
@@ -33,9 +35,6 @@ import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
 import com.enonic.cms.itest.test.Assertions;
-
-import com.enonic.cms.domain.user.Address;
-import com.enonic.cms.domain.user.UserInfo;
 
 import static org.junit.Assert.*;
 

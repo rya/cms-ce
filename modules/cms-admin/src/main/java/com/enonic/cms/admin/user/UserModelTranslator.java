@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.Gender;
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
@@ -27,9 +30,6 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.user.Address;
-import com.enonic.cms.domain.user.Gender;
-import com.enonic.cms.domain.user.UserInfo;
 
 @Component
 public final class UserModelTranslator

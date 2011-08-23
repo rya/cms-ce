@@ -37,6 +37,7 @@ import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
+import com.enonic.cms.api.client.model.CreateUserParams;
 import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
@@ -136,9 +137,12 @@ import com.enonic.cms.core.security.group.GroupXmlCreator;
 import com.enonic.cms.core.security.group.QualifiedGroupname;
 import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
 import com.enonic.cms.core.security.group.StoreNewGroupCommand;
+import com.enonic.cms.core.security.user.DisplayNameResolver;
 import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
@@ -799,6 +803,66 @@ public final class InternalClientImpl
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public String createUser( CreateUserParams params )
+    {
+        try
+        {
+            if ( StringUtils.isBlank( params.userstore ) )
+            {
+                throw new IllegalArgumentException( "userstore cannot be blank" );
+            }
+            if ( StringUtils.isBlank( params.username ) )
+            {
+                throw new IllegalArgumentException( "username cannot be blank" );
+            }
+            if ( StringUtils.isBlank( params.email ) )
+            {
+                throw new IllegalArgumentException( "email cannot be blank" );
+            }
+            if ( params.password == null )
+            {
+                throw new IllegalArgumentException( "password cannot be null" );
+            }
+            if ( params.userInfo == null )
+            {
+                throw new IllegalArgumentException( "userInfo cannot be null" );
+            }
+
+            UserEntity storer = securityService.getRunAsUser();
+            UserStoreEntity userStore = userStoreParser.parseUserStore( params.userstore );
+
+            StoreNewUserCommand storeNewUserCommand = new StoreNewUserCommand();
+            storeNewUserCommand.setUsername( params.username );
+            storeNewUserCommand.setEmail( params.email );
+            if ( params.displayName != null )
+            {
+                storeNewUserCommand.setDisplayName( params.displayName );
+            }
+            else
+            {
+                new DisplayNameResolver( userStore.getConfig() ).resolveDisplayName( params.username, params.displayName, params.userInfo );
+            }
+            storeNewUserCommand.setPassword( params.password );
+            storeNewUserCommand.setUserInfo( params.userInfo );
+
+            storeNewUserCommand.setType( UserType.NORMAL );
+            storeNewUserCommand.setUserStoreKey( userStore.getKey() );
+            storeNewUserCommand.setStorer( storer.getKey() );
+            storeNewUserCommand.setAllowAnyUserAccess( false );
+
+            return userStoreService.storeNewUser( storeNewUserCommand ).toString();
+        }
+        catch ( ClientException e )
+        {
+            throw e;
+        }
+        catch ( Exception e )
+        {
+            throw handleException( e );
+        }
+    }
+
     /**
      * @inheritDoc
      */
@@ -1424,8 +1488,8 @@ public final class InternalClientImpl
         try
         {
             assertMinValue( "menuItemKey", params.menuItemKey, 0 );
-            return this.dataSourceService.getMenuBranch( createDataSourceContext(), params.menuItemKey, params.includeTopLevel,
-                                                         params.startLevel, params.levels );
+            return this.dataSourceService.getMenuBranch( createDataSourceContext(), params.menuItemKey,
+                                                         params.includeTopLevel, params.startLevel, params.levels );
         }
         catch ( Exception e )
         {
@@ -1455,7 +1519,8 @@ public final class InternalClientImpl
         try
         {
             assertMinValue( "menuItemKey", params.menuItemKey, 0 );
-            return this.dataSourceService.getMenuItem( createDataSourceContext(), params.menuItemKey, params.withParents, params.details );
+            return this.dataSourceService.getMenuItem( createDataSourceContext(), params.menuItemKey,
+                                                       params.withParents, params.details );
         }
         catch ( Exception e )
         {
@@ -1470,7 +1535,8 @@ public final class InternalClientImpl
         try
         {
             assertMinValue( "menuItemKey", params.menuItemKey, 0 );
-            return this.dataSourceService.getSubMenu( createDataSourceContext(), params.menuItemKey, params.tagItem, params.levels, false );
+            return this.dataSourceService.getSubMenu( createDataSourceContext(), params.menuItemKey, params.tagItem,
+                                                      params.levels, false );
         }
         catch ( Exception e )
         {

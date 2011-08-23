@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import junit.framework.Assert;
 
-import com.enonic.cms.domain.user.Address;
+import com.enonic.cms.api.client.model.user.Address;
 
 public class AddressTransformerTest
 {
