@@ -4,12 +4,16 @@ import java.util.List;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.sun.jersey.api.NotFoundException;
 
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -110,6 +114,31 @@ public final class GroupResource
         {
             groupDao.delete( group );
         }
+    }
+
+    @GET
+    @Path("detail")
+    public GroupModel getGroupDetails(@QueryParam("key") final String key)
+    {
+        final GroupEntity entity = findEntity( key );
+
+        return GroupModelHelper.toAModel( entity );
+    }
+
+    private GroupEntity findEntity( final String key )
+    {
+        if ( key == null )
+        {
+            throw new NotFoundException();
+        }
+
+        final GroupEntity entity = this.groupDao.find( key );
+        if ( entity == null )
+        {
+            throw new NotFoundException();
+        }
+
+        return entity;
     }
 
 }
