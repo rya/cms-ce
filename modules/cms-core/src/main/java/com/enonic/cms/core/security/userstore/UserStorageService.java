@@ -13,6 +13,7 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
@@ -31,8 +32,6 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemAccessDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.domain.user.UserInfo;
 
 /**
  * Jun 24, 2009
