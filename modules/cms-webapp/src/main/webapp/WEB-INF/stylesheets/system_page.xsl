@@ -103,7 +103,7 @@
             </script>
 
             <fieldset>
-                <legend>&nbsp;%blockVertical%&nbsp;</legend>
+                <legend>&nbsp;%blockCms%&nbsp;</legend>
                 <table class="formtable">
                     <tr>
                         <td class="form_labelcolumn">
