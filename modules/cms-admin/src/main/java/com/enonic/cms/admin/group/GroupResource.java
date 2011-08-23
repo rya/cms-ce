@@ -17,7 +17,7 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
 @Component
-@Path("/admin/group")
+@Path("/admin/data/group")
 @Produces("application/json")
 public final class GroupResource
 {
