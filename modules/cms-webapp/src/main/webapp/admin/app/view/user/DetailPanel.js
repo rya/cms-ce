@@ -190,6 +190,7 @@ Ext.define('CMS.view.user.DetailPanel', {
         if (groupFields.length > 0){
             var groupFieldSet = {
                 xtype: 'fieldset',
+                width: 300,
                 title: 'Groups',
                 items: groupFields
             };
