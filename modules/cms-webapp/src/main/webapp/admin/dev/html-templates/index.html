@@ -43,16 +43,12 @@
     <h2 class="header">Wizard Navigation</h2>
 
     <!-- Template START -->
-    <div class="cms-wizard-navigation clearfix">
-        <div class="step">Step 1</div>
-        <div class="arrow">></div>
-        <div class="current step">Step 2</div>
-        <div class="arrow">></div>
-        <div class="step">Step 3</div>
-        <div class="arrow">></div>
-        <div class="step">Step 4</div>
-
-    </div>
+    <ol class="cms-wizard-navigation clearfix">
+        <li><a href="#">First Step<span class="arrow"></span></a></li>
+        <li><a href="#">Previous Step<span class="arrow"></span></a></li>
+        <li><a href="#" class="current">Current Step<span class="arrow"></span></a></li>
+        <li><a href="#">Next Step<span class="arrow"></span></a></li>
+    </ol>
     <!-- Template END -->
 
 
@@ -66,7 +62,7 @@
             <img alt="User" src="../../resources/images/x-user.png"/>
         </div>
         <div class="right">
-            <h1>{Title goes here}</h1>
+            <h1>{Title goes here}</h1><a href="javascript:;" class="edit-button"></a>
             <p>{Description goes here}</p>
         </div>
     </div>
