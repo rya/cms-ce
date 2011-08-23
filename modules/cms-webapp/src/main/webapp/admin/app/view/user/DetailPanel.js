@@ -6,11 +6,6 @@ Ext.define('CMS.view.user.DetailPanel', {
     split: true,
     autoScroll: true,
 
-    measureHeight: true,
-    measureWidth: true,
-
-    layout: 'fit',
-
     initComponent: function() {
 
         this.items = [
@@ -54,34 +49,33 @@ Ext.define('CMS.view.user.DetailPanel', {
         var userFieldSet = this.generateFieldSet('User', userFields, user);
         var nameFieldSet = this.generateFieldSet('Name', nameFields, user);
         var photoPanel = {
-                    xtype: 'panel',
-                    measureWidth: true,
-                    layout: {
-                        type: 'hbox',
-                        align: 'stretchmax'
-                    },
-                    items: [
-                        {
-                            xtype: 'image',
-                            border: 1,
-                            src: 'data/user/photo?key=' + user.key + '&thumb=true'
-                        },
-                        {
-                            layout: 'vbox',
-                            border: 0,
-                            flex: 1,
-                            items: [
-                                {
-                                    xtype: 'displayfield',
-                                    value: user['display-name']
-                                },
-                                {
-                                    xtype: 'displayfield',
-                                    value: user['qualifiedName']
-                                }]
-                        }]};
-        var items = [];
-        Ext.Array.include(items, photoPanel);
+            xtype: 'panel',
+            border: false,
+            autoScroll: false,
+            autoHeight: true,
+            layout: {
+                type: 'table',
+                columns: 2
+            },
+            items: [
+                {
+                    rowspan: 2,
+                    xtype: 'image',
+                    border: 1,
+                    src: 'data/user/photo?key=' + user.key + '&thumb=true'
+                },
+                {
+                    xtype: 'displayfield',
+                    value: user['display-name']
+                },
+                {
+                    xtype: 'displayfield',
+                    value: user['qualifiedName']
+                }
+            ]
+        };
+        var items = [photoPanel];
+
         if (userFieldSet != null){
             Ext.Array.include(items, userFieldSet);
         }
@@ -90,69 +84,61 @@ Ext.define('CMS.view.user.DetailPanel', {
         }
         var userInfoPane = {
             xtype: 'panel',
-            region: 'center',
-            autoScroll: true,
+            border: false,
             flex: 1,
-            padding: 5,
+            autoScroll: false,
+            autoHeight: true,
             layout: {
-                type: 'table',
-                columns: 1,
-                tableAttrs:{
-                    style: {
-                        width: '97%'
-                    }
-                },
-                tdAttrs: {
-                    style:{
-                        padding: '10px'
-                    }
-                }
+                type: 'anchor',
+                defaultAnchor: '100%'
             },
-            items: items};
+            items: items
+        };
         var infoFieldSet = {
-                    xtype: 'fieldset',
-                    title: 'Info',
-                    items: [
-                        {
-                            xtype: 'displayfield',
-                            fieldLabel: 'Last logged in',
-                            value: user.lastLogged
-                        },
-                        {
-                            xtype: 'displayfield',
-                            fieldLabel: 'Created',
-                            value: user.created
-                        }]
-                };
+            xtype: 'fieldset',
+            width: 300,
+            title: 'Info',
+            items: [
+                {
+                    xtype: 'displayfield',
+                    fieldLabel: 'Last logged in',
+                    value: user.lastLogged
+                },
+                {
+                    xtype: 'displayfield',
+                    fieldLabel: 'Created',
+                    value: user.created
+                }
+            ]
+        };
         var groupFieldSet = this.generateGroupsFieldSet(user);
-        var detailsPanelItems = [];
+        var detailsPanelItems = [infoFieldSet];
         if (groupFieldSet != null){
-            detailsPanelItems = [infoFieldSet, groupFieldSet];
-        }else{
-            detailsPanelItems = [infoFieldSet];
+            Ext.Array.include( detailsPanelItems, groupFieldSet );
         }
         var detailsPanel = {
             xtype: 'panel',
             title: 'Details',
-            autoScroll: true,
+            autoScroll: false,
+            autoHeight: true,
+            margins: '0 0 0 10',
+            bodyPadding: '0 10',
             layout: {
-                type: 'table',
-                columns: 1,
-                tdAttrs: {
-                    style:{
-                        padding: '10px'
-                    }
-                }
+                type: 'anchor',
+                defaultAnchor: '100%'
             },
-            padding: 5,
-            flex: 0.35,
-            region: 'east',
             items: detailsPanelItems
         };
         var pane = {
             xtype: 'panel',
-            layout: 'border',
-            autoScroll: true,
+            border: false,
+            layout: {
+                type: 'hbox',
+                shrinkToFit: false,
+                align: 'top',
+                padding: 10
+            },
+            autoHeight: true,
             items: [userInfoPane, detailsPanel]
         };
         this.removeAll();
