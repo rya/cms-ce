@@ -35,6 +35,7 @@
         <module>modules/cms-api</module>
         <module>modules/cms-core</module>
         <module>modules/cms-webapp</module>
+        <module>modules/cms-launcher</module>
         <module>modules/cms-distro</module>
     </modules>
 
