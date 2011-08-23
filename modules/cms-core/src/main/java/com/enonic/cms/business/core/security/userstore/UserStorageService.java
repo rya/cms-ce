@@ -13,6 +13,7 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.store.dao.CategoryAccessDao;
 import com.enonic.cms.store.dao.ContentAccessDao;
 import com.enonic.cms.store.dao.DefaultSiteAccessDao;
@@ -34,7 +35,6 @@ import com.enonic.cms.domain.security.user.UserSpecification;
 import com.enonic.cms.domain.security.user.UserType;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.user.UserInfo;
 
 /**
  * Jun 24, 2009

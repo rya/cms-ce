@@ -9,6 +9,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.business.core.security.userstore.connector.EmailAlreadyExistsException;
 import com.enonic.cms.business.core.security.userstore.connector.NameAlreadyExistsException;
 
@@ -19,7 +21,6 @@ import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserSpecification;
 import com.enonic.cms.domain.security.user.UserType;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
 import com.enonic.cms.domain.user.remote.RemoteUser;

@@ -15,6 +15,7 @@ import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
 import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.CreateUserParams;
 import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
@@ -216,6 +217,11 @@ public abstract class ClientWrapper
         return delegate.createCategory( params );
     }
 
+    public String createUser( CreateUserParams params )
+            throws ClientException
+    {
+        return delegate.createUser( params );
+    }
 
     public int updateContent( UpdateContentParams params )
     {

@@ -6,8 +6,9 @@ package com.enonic.cms.domain.security.user;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.user.UserInfo;
 
 /**
  * Created by rmy - Date: Sep 18, 2009

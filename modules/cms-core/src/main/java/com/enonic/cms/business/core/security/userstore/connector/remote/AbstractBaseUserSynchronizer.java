@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
@@ -31,7 +32,6 @@ import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
 import com.enonic.cms.domain.user.remote.RemoteGroup;

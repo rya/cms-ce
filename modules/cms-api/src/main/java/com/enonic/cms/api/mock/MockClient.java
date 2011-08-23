@@ -17,6 +17,7 @@ import com.enonic.cms.api.client.model.CreateContentParams;
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.CreateGroupParams;
 import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.CreateUserParams;
 import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
@@ -172,6 +173,11 @@ public class MockClient
     public int createContent( CreateContentParams params )
     {
         return 0;
+    }
+
+    public String createUser( CreateUserParams params )
+    {
+        return null;
     }
 
     public int createCategory( CreateCategoryParams params )

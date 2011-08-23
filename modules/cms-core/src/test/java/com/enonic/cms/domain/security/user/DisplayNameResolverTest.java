@@ -10,9 +10,10 @@ import org.mockito.Mockito;
 
 import junit.framework.Assert;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 public class DisplayNameResolverTest

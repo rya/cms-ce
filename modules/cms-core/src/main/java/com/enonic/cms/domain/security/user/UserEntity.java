@@ -21,12 +21,13 @@ import com.google.common.collect.Maps;
 
 import com.enonic.cms.framework.CmsToStringStyler;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;

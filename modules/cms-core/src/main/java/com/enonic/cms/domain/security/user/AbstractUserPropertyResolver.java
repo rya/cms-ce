@@ -4,8 +4,9 @@
  */
 package com.enonic.cms.domain.security.user;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 /**

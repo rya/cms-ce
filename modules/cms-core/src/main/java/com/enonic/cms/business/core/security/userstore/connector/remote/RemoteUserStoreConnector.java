@@ -15,6 +15,8 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+
 import com.enonic.cms.business.core.security.userstore.UserStoreConnectorPolicyBrokenException;
 import com.enonic.cms.business.core.security.userstore.connector.AbstractBaseUserStoreConnector;
 import com.enonic.cms.business.core.security.userstore.connector.GroupAlreadyExistsException;
@@ -46,7 +48,6 @@ import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
 import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserField;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;

@@ -37,6 +37,7 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.store.dao.UserDao;
 
@@ -84,7 +85,6 @@ import com.enonic.cms.domain.security.userstore.UserStoreAccessException;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;
 import com.enonic.cms.domain.user.field.UserInfoTransformer;
