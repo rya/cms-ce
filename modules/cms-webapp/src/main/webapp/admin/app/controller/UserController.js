@@ -15,11 +15,9 @@ Ext.define( 'CMS.controller.UserController', {
         'user.EditUserPanel',
         'user.NewUserPanel',
         'user.EditUserFormPanel',
-        'user.EditUserMembershipPanel',
         'user.EditUserPreferencesPanel',
         'user.EditUserPropertiesPanel',
         'user.UserFormField',
-        'user.MembershipGridPanel',
         'user.UserMembershipWindow',
         'user.GroupItemField',
         'user.UserPreferencesPanel',
@@ -125,14 +123,11 @@ Ext.define( 'CMS.controller.UserController', {
                           '*[action=deleteGroup]': {
                               click: this.deleteGroup
                           },
-                          '*[action=selectGroups]': {
-                              click: this.selectGroup
+                          '*[action=selectGroup]': {
+                              select: this.selectGroup
                           },
                           '*[action=closeMembershipWindow]': {
                               click: this.closeMembershipWindow
-                          },
-                          '*[action=selectGroup]': {
-                              select: this.selectGroup
                           },
                           '*[action=closeUserForm]': {
                               click: this.closeUserForm
@@ -455,23 +450,24 @@ Ext.define( 'CMS.controller.UserController', {
         this.getUserMembershipWindow().doShow();
     },
 
-    selectGroup: function()
+    selectGroup: function(field, value, options)
     {
-        var membershipGridPanel = this.getMembershipGridPanel();
-        var selection = membershipGridPanel.getSelectionModel().getSelection();
-        var editUserMembershipPanel = this.getEditUserMembershipPanel();
-        Ext.each( selection, function( item, index )
-        {
-            editUserMembershipPanel.addGroup( item.get( 'key' ), item.get( 'name' ) );
-        } );
-        this.getUserMembershipWindow().hide();
-        membershipGridPanel.getSelectionModel().deselectAll();
+        var userPrefPanel = field.up('userPreferencesPanel');
+        var groupPanel = userPrefPanel.down('#groupPanel');
+        var stringValue = value[0].get('name');
+        var groupButton = {
+                xtype: 'groupDetailButton',
+                value: stringValue
+        };
+        groupPanel.add(groupButton);
+        field.setValue('');
     },
 
     deleteGroup: function( element, event )
     {
-        var group = element.findParentByType( 'groupItemField' );
-        this.getEditUserMembershipPanel().remove( group );
+        var groupItem = element.up('groupDetailButton');
+        var groupPanel = element.up('#groupPanel');
+        groupPanel.remove(groupItem);
     },
 
     closeMembershipWindow: function()
@@ -480,15 +476,6 @@ Ext.define( 'CMS.controller.UserController', {
         var selectionModel = membershipGridPanel.getSelectionModel()
         selectionModel.deselectAll();
         this.getUserMembershipWindow().hide();
-    },
-
-    selectGroup: function( field, value )
-    {
-        var editUserMembershipPanel = this.getEditUserMembershipPanel();
-        editUserMembershipPanel.addGroup( value.get( 'key' ), value.get( 'name' ) );
-        var groupSelector = editUserMembershipPanel.down( '#groupSelector' );
-        field.deselectAll();
-        groupSelector.clearValue();
     },
 
     saveUser: function(button){

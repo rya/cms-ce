@@ -15,7 +15,6 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
         var groupSearch = {
                 xtype: 'combobox',
                 store: 'GroupStore',
-                itemId: 'groupSelector',
                 triggeredAction: 'all',
                 typeAhead: true,
                 queryMode: 'local',
@@ -24,12 +23,12 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
                 hideTrigger: true,
                 valueField: 'key',
                 displayField: 'name',
+                action: 'selectGroup',
                 listConfig: {
                     getInnerTpl: function()
                     {
                         return '<div style="white-space: nowrap;">{name} ({userStore})</div>';
-                    },
-                    action: 'selectGroup'
+                    }
                 }
             };
         var groupsPanel = {
@@ -49,13 +48,6 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
     generateGroupPanel: function (userData){
         var groupFields = [];
         Ext.Array.each(userData.groups, function(group){
-//            var groupField = {
-//                    xtype: 'button',
-//                    text: group.name,
-//                    iconCls: 'icon-group',
-//                    cls: 'group-display',
-//                    margin: 5
-//                };
             var groupField = {
                 xtype: 'groupDetailButton',
                 value: group.name
@@ -64,6 +56,7 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
         });
         var groupPanel = {
             xtype: 'panel',
+            itemId: 'groupPanel',
             layout: 'column',
             flex: 1
         };

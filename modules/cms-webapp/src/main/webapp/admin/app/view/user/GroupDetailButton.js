@@ -52,6 +52,7 @@ Ext.define('CMS.view.user.GroupDetailButton', {
                 style: {
                     background: 'lightGrey'
                 },
+                action: 'deleteGroup',
                 iconCls: 'icon-delete'
             }]
         };
