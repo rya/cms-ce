@@ -19,11 +19,11 @@ import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.Gender;
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.domain.user.Address;
-import com.enonic.cms.domain.user.Gender;
-import com.enonic.cms.domain.user.UserInfo;
 
 import static org.junit.Assert.*;
 

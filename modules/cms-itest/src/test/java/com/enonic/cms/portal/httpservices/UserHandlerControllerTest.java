@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.containers.ExtendedMap;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -49,7 +50,6 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 import static junit.framework.Assert.assertTrue;

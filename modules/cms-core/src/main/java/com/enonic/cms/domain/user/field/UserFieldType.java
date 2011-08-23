@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.enonic.cms.domain.user.Address;
-import com.enonic.cms.domain.user.Gender;
+import com.enonic.cms.api.client.model.user.Address;
+import com.enonic.cms.api.client.model.user.Gender;
 
 public enum UserFieldType
 {
