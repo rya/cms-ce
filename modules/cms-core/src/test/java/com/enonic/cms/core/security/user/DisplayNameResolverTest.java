@@ -4,15 +4,16 @@
  */
 package com.enonic.cms.core.security.user;
 
-import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import junit.framework.Assert;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.user.UserInfo;
+import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
+
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 public class DisplayNameResolverTest
