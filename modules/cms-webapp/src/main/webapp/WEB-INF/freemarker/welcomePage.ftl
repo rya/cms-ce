@@ -97,6 +97,12 @@ ${message.value}
         <li>Java - ${baseUrl}/rpc/bin</li>
     </ul>
 </div>
+<div class="infoBox">
+    <b>Documentation</b>
+    <ul>
+        <li><a href="http://www.enonic.com/docs">Enonic CMS Documentation</li>
+    </ul>
+</div>
 
 </body>
 </html>
