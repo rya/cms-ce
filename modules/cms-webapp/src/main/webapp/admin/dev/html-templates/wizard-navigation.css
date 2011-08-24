@@ -1,0 +1,50 @@
+.cms-wizard-navigation {
+    background-color: #eee;
+    margin: 0;
+    padding: 0;
+    height: 48px;
+    list-style-type:none;
+    font: 11px/48px Tahoma; /* line-height MUST be the same as height */
+}
+
+.cms-wizard-navigation li {
+    float: left; /*ie6/7 needs this */
+}
+
+.cms-wizard-navigation a {
+    float: left;
+    position:relative;
+    padding: 0 20px 0 10px;
+    color: #333;
+    text-decoration: none;
+    outline: none;
+}
+
+.cms-wizard-navigation a.current {
+    font-weight: bold;
+    color: #000;
+}
+
+.cms-wizard-navigation a.odd {
+    background: #e9e9e9;
+}
+
+.cms-wizard-navigation span {
+    position: absolute;
+    display: block;
+    line-height: 0;
+    height: 0;
+    width: 0;
+    right: 0;
+    top: 0;
+    border-top: 25px solid #fff;
+    border-right: none;
+    border-bottom: 23px solid #fff;
+    border-left: 14px solid #eee;
+}
+
+.cms-wizard-navigation a.odd span {
+    border-left: 10px solid #fff;
+    border-top: 15px solid #eee;
+    border-bottom: 15px solid #eee;
+}

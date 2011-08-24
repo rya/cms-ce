@@ -1,0 +1,36 @@
+.cms-edit-form-header {
+    background-color: #eee;
+    padding: 10px;
+}
+
+.cms-edit-form-header .left {
+    float: left;
+    margin-right: 20px;
+}
+
+.cms-edit-form-header .left img {
+    width: 40px;
+}
+
+.cms-edit-form-header .right {
+    float: left;
+}
+
+.cms-edit-form-header .right h1 {
+    font-size: 18px;
+    float: left;
+}
+
+.cms-edit-form-header .edit-button {
+    display: block;
+    margin: 5px 0 0 5px;
+    background: TRANSPARENT url(../../resources/images/pencil.png) no-repeat;
+    float: left;
+    width: 16px;
+    height: 16px;
+}
+
+.cms-edit-form-header .right p {
+    margin: 5px 0 0 0;
+}
+

@@ -23,7 +23,8 @@ Ext.define( 'CMS.controller.UserController', {
         'user.UserMembershipWindow',
         'user.GroupItemField',
         'user.UserPreferencesPanel',
-        'user.MultipleDetailPanel'
+        'user.UserDetailButton',
+        'user.UserShortDetailButton'
     ],
 
     refs: [
@@ -86,6 +87,9 @@ Ext.define( 'CMS.controller.UserController', {
                           },
                           '*[action=addNewTab]': {
                               click: this.addNewTab
+                          },
+                          '*[action=deselectItem]': {
+                              click: this.deselectItem
                           },
                           '*[action=edit]': {
                               click: this.showEditUserForm
@@ -247,7 +251,11 @@ Ext.define( 'CMS.controller.UserController', {
             userDetail.setTitle( selected.length + " user selected" );
             this.setDetailsToolbarDisabled();
         }else{
-            userDetail.generateMultipleSelection(selected);
+            var shortInfo = false;
+            if (selected.length > 10){
+                shortInfo = true;
+            }
+            userDetail.generateMultipleSelection(selected, shortInfo);
             this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }
@@ -536,6 +544,15 @@ Ext.define( 'CMS.controller.UserController', {
         var formField = field.up('userFormField');
         field.valueNotFoundText = formField.fieldValue;
         field.setValue(formField.fieldValue);
+    },
+
+    deselectItem: function(button){
+        var selModel = this.getUserGrid().getSelectionModel();
+        var userInfoPanel = button.up('userDetailButton');
+        if (userInfoPanel == null){
+            userInfoPanel = button.up('userShortDetailButton');
+        }
+        selModel.deselect(userInfoPanel.getUser());
     }
 
 } );

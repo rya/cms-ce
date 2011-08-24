@@ -11,6 +11,7 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.InvalidCredentialsException;
 import com.enonic.cms.core.security.group.DeleteGroupCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -42,7 +43,6 @@ import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnecto
 import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
 import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 
-import com.enonic.cms.domain.user.UserInfo;
 import com.enonic.cms.domain.user.field.UserField;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldType;

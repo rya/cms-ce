@@ -10,13 +10,13 @@
         if (window.addEventListener)
         {
             window.addEventListener('load', function() {
-                window.parent.appLoadMask.hide();
+                cms_getParentWindow().appLoadMask.hide();
             }, false);
         }
         else if (window.attachEvent) // IE
         {
             window.attachEvent('onload', function() {
-                window.parent.appLoadMask.hide();
+                cms_getParentWindow().appLoadMask.hide();
             });
         }
     }
@@ -26,13 +26,13 @@
         if (window.addEventListener)
         {
             window.addEventListener('click', function() {
-                window.parent.CMS.common.Common.hideLauncherMenus();
+                cms_getParentWindow().CMS.common.Common.hideLauncherMenus();
             }, false);
         }
         else if (window.attachEvent) // IE
         {
             window.attachEvent('onclick', function() {
-                window.parent.CMS.common.Common.hideLauncherMenus();
+                cms_getParentWindow().CMS.common.Common.hideLauncherMenus();
             });
 
         }
@@ -40,7 +40,11 @@
 
     function cms_launcherExist()
     {
-        return window.parent.frames.length > 0;
+        return cms_getParentWindow().frames.length > 0;
+    }
+
+    function cms_getParentWindow() {
+        return window.parent.parent || window.parent;
     }
 
     if ( cms_launcherExist() ) {
