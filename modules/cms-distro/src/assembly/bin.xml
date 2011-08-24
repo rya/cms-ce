@@ -6,10 +6,9 @@
     <formats>
         <format>zip</format>
     </formats>
-    <baseDirectory>enonic-cms-ce-${project.version}</baseDirectory>
     <fileSets>
         <fileSet>
-            <directory>src</directory>
+            <directory>src/resources</directory>
             <outputDirectory>/</outputDirectory>
         </fileSet>
         <fileSet>
