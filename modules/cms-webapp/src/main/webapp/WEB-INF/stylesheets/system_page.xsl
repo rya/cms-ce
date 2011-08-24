@@ -320,62 +320,6 @@
             </fieldset>
         </div>
 
-        <div class="tab-page" id="tab-page-5">
-            <span class="tab">%configDirectories%</span>
-
-            <script type="text/javascript" language="JavaScript">
-                tabPane1.addTabPage( document.getElementById( "tab-page-5" ) );
-            </script>
-
-            <fieldset>
-                <legend>&nbsp;%configDirectories%&nbsp;</legend>
-                <table class="formtable">
-                    <tr>
-                        <td nowrap="true">
-                            <b>%name%</b>
-                        </td>
-                        <td width="100%">
-                            <b>%value%</b>
-                        </td>
-                    </tr>
-                    <xsl:for-each select="/vertical/model/configFilesProperties/configFilesProperty">
-                        <xsl:sort select="@name"/>
-                        <tr>
-                            <td nowrap="true"><xsl:value-of select="@name"/>&nbsp;&nbsp;
-                            </td>
-                            <td>
-                                <xsl:value-of select="@value"/>
-                            </td>
-                        </tr>
-                    </xsl:for-each>
-                </table>
-                <br/>
-            </fieldset>
-        </div>
-
-        <div class="tab-page" id="tab-page-6">
-                    <span class="tab">%configFilesProperties%</span>
-
-                    <script type="text/javascript" language="JavaScript">
-                        tabPane1.addTabPage( document.getElementById( "tab-page-6" ) );
-                    </script>
-
-                    <fieldset>
-                        <legend>&nbsp;%configFilesProperties%&nbsp;</legend>
-
-                        <table class="formtable">
-                            <xsl:for-each select="/vertical/model/configFiles/configFile">
-                                <xsl:sort select="@name"/>
-                                <tr>
-                                    <td nowrap="true"><xsl:value-of select="@name"/></td>
-                                </tr>
-                            </xsl:for-each>
-                        </table>
-                    </fieldset>
-                </div>
-
-
-
     </xsl:template>
 
     <xsl:template name="system-cache-panel">

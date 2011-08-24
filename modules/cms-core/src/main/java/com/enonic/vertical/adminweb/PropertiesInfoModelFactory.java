@@ -1,12 +1,13 @@
 package com.enonic.vertical.adminweb;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.lang.StringUtils;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Maps;
 
 import com.enonic.cms.server.service.tools.DataSourceInfoResolver;
 
@@ -23,12 +24,6 @@ public class PropertiesInfoModelFactory
     private DataSourceInfoResolver dataSourceInfoResolver;
 
     private Properties configurationProperties;
-
-    @Value("${cms.home}")
-    public void setHomeDir( File homeDir )
-    {
-        this.homeDir = homeDir;
-    }
 
     public PropertiesInfoModelFactory( DataSourceInfoResolver dataSourceInfoResolver, Properties configurationProperties )
     {
@@ -49,11 +44,9 @@ public class PropertiesInfoModelFactory
 
         try
         {
-            infoModel.setConfigFilesProperties( createConfigFileProperties() );
             infoModel.setSystemProperties( System.getProperties() );
             infoModel.setDatasourceProperties( this.dataSourceInfoResolver.getInfo( false ) );
-            infoModel.setConfigurationProperties( stripPasswords( this.configurationProperties ) );
-            infoModel.setConfigFiles( getConfigFiles() );
+            infoModel.setConfigurationProperties( getConfigurationProperties() );
         }
         catch ( Exception e )
         {
@@ -63,99 +56,27 @@ public class PropertiesInfoModelFactory
         return infoModel;
     }
 
-    private Properties createConfigFileProperties()
+    private Map<Object, Object> getConfigurationProperties()
     {
-        Properties configFilesProperties = new Properties();
+        final Properties strippedConfiguration = stripPasswords( this.configurationProperties );
 
-        configFilesProperties.setProperty( "Home", getHomeDirPath() );
-        configFilesProperties.setProperty( "Config", getConfigDirPath() );
-
-        return configFilesProperties;
-    }
-
-    private String getHomeDirPath()
-    {
-        if ( homeDir.exists() )
+        final Map<Object, Object> filteredPropertiesMap = Maps.filterKeys( strippedConfiguration, new Predicate<Object>()
         {
-            return homeDir.getPath();
-        }
-
-        return "Home directory not found";
-    }
-
-
-    private String getConfigDirPath()
-    {
-        try
-        {
-            for ( File file : homeDir.listFiles() )
+            public boolean apply( Object o )
             {
-                if ( file.getName().equals( "config" ) )
+                String key = (String) o;
+                if ( StringUtils.startsWith( key, "cms." ) )
                 {
-                    return file.getPath();
+                    return true;
                 }
-            }
-        }
-        catch ( Exception e )
-        {
-            throw new VerticalAdminException( "Config directory not found: ", e );
-        }
 
-        return "Config directory not found";
+                return false;
+            }
+        } );
+
+        return filteredPropertiesMap;
     }
 
-
-    private File getConfigDir()
-        throws Exception
-    {
-        for ( File file : homeDir.listFiles() )
-        {
-            if ( file.getName().equals( "config" ) )
-            {
-                return file;
-            }
-        }
-
-        throw new IllegalStateException( "Config directory not found" );
-    }
-
-    private File getConfigFile( String name )
-        throws Exception
-    {
-        for ( File file : getConfigDir().listFiles() )
-        {
-            if ( file.getName().equals( name ) )
-            {
-                return file;
-            }
-        }
-
-        throw new IllegalStateException( "Config file [" + name + "] not found" );
-    }
-
-    private List<String> getConfigFiles()
-    {
-
-        ArrayList<String> files = null;
-        try
-        {
-            files = new ArrayList<String>();
-            for ( File children : getConfigDir().listFiles() )
-            {
-                String name = children.getName();
-                if ( name.endsWith( ".xml" ) || ( name.endsWith( ".properties" ) ) )
-                {
-                    files.add( name );
-                }
-            }
-        }
-        catch ( Exception e )
-        {
-            throw new VerticalAdminException( "Could not list config-files", e );
-        }
-
-        return files;
-    }
 
     private Properties stripPasswords( Properties secretProperties )
     {
