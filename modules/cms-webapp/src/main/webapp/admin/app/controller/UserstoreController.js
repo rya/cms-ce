@@ -13,7 +13,8 @@ Ext.define( 'CMS.controller.UserstoreController', {
         'userstore.ContextMenu',
         'userstore.GridPanel',
         'userstore.DetailPanel',
-        'userstore.UserstoreFormPanel'
+        'userstore.UserstoreFormPanel',
+        'userstore.SyncWindow'
     ],
 
     refs: [
@@ -42,7 +43,10 @@ Ext.define( 'CMS.controller.UserstoreController', {
                               click: this.notImplementedAction
                           },
                           '*[action=syncUserstore]': {
-                              click: this.notImplementedAction
+                              click: this.syncUserstore
+                          },
+                          '*[action=stopSyncUserstore]': {
+                              click: this.stopSyncUserstore
                           },
                           '*[action=saveUserstore]': {
                               click: this.saveUserstore
@@ -67,6 +71,41 @@ Ext.define( 'CMS.controller.UserstoreController', {
                               tabchange: this.checkUserstoreDirty
                           }
                       } );
+    },
+
+    syncUserstore: function( btn, evt, opts ) {
+        Ext.Msg.confirm( "Warning", "Synchronizing may take some time. Do you want to proceed ?", function( answer ) {
+            if ( "yes" == answer ) {
+                var data = {
+                    step: [ 1, 3, 'Users' ],
+                    progress: 0.3,
+                    count: [12, 146]
+                };
+                var tab = btn.up('userstoreFormPanel');
+                if ( !tab.syncWindow ) {
+                    tab.syncWindow = Ext.createByAlias( 'widget.userstoreSyncWindow', {
+                        renderTo: tab.el,
+                        userstoreTab: tab,
+                        closable: false
+                    } );
+                }
+                tab.el.mask();
+                tab.syncWindow.updateData( data ).show();
+                // add currently syncing userstore to array
+                var tabs = this.getTabs();
+                if ( !tabs.userstoreSync ) tabs.userstoreSync = [];
+                tabs.userstoreSync.push( tab.userstore );
+            }
+        }, this);
+    },
+
+    stopSyncUserstore: function( btn, evt, opts ) {
+        var win = btn.up('window');
+        if ( win.isVisible() ) win.hide();
+        var tab = win.userstoreTab;
+        tab.el.unmask();
+        var tabs = this.getTabs();
+        Ext.Array.remove( tabs.userstoreSync, tab.userstore );
     },
 
     handleDefaultChange: function( field, newValue, oldValue, options )
@@ -188,16 +227,21 @@ Ext.define( 'CMS.controller.UserstoreController', {
 
     checkUserstoreDirty: function( tabPanel, newCard, oldCard, options )
     {
-        if( newCard.id == 'tab-browse' && tabPanel.userstoreDirty ) {
+        if( newCard.id == 'tab-browse' ) {
             var iframe = this.getIframe();
             if ( iframe ) {
-                var grid = iframe.Ext.getCmp('userstoreGridID');
-                if ( grid ) {
-                    grid.getStore().load({
-                        callback: function(records, operation, success) {
-                            tabPanel.userstoreDirty = false;
-                        }
-                    });
+                if ( tabPanel.userstoreDirty ) {
+                    var grid = iframe.Ext.getCmp('userstoreGridID');
+                    if ( grid ) {
+                        grid.getStore().load({
+                            callback: function(records, operation, success) {
+                                tabPanel.userstoreDirty = false;
+                            }
+                        });
+                    }
+                }
+                if ( !Ext.isEmpty( tabPanel.userstoreSync ) ) {
+                    alert( tabPanel.userstoreSync.length + ' sync(s) in progress' );
                 }
             }
         }

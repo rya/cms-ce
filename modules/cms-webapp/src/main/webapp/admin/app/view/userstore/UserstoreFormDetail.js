@@ -7,6 +7,8 @@ Ext.define( 'CMS.view.userstore.UserstoreFormDetail', {
         bodyPadding: 10
     },
 
+    localConnectorName: 'local',
+
     items: [
         {
             title: 'Detail',
@@ -63,7 +65,31 @@ Ext.define( 'CMS.view.userstore.UserstoreFormDetail', {
         },
         {
             title: 'Synchronize',
-            html: 'panel 2'
+            itemId: 'syncPanel',
+            items: [
+                {
+                    xtype: 'fieldset',
+                    title: 'Options',
+                    items: [
+                        {
+                            xtype: 'radiogroup',
+                            columns: 1,
+                            name: 'syncType',
+                            vertical: true,
+                            items: [
+                                { boxLabel: 'Users And Groups', inputValue: 'ug' },
+                                { boxLabel: 'Users Only', inputValue: 'u' },
+                                { boxLabel: 'Groups Only', inputValue: 'g', checked: true }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    xtype: 'button',
+                    text: 'Synchronize',
+                    action: 'syncUserstore'
+                }
+            ]
         }
     ],
 
@@ -71,14 +97,21 @@ Ext.define( 'CMS.view.userstore.UserstoreFormDetail', {
 
         this.callParent( arguments );
 
-        if ( this.userstore ) {
-            this.setUserstore( this.userstore )
-        }
+        this.setUserstore( this.userstore )
     },
 
     setUserstore: function ( u ) {
-        this.userstore = u;
-        this.getForm().setValues( u.data );
+        this.userstore = u || { data: {} };
+        this.getForm().setValues( this.userstore.data );
+
+        if ( Ext.isEmpty( this.userstore.data.key )
+            || this.userstore.data.connectorName == this.localConnectorName ) {
+            this.setSyncDisabled( true );
+        }
+    },
+
+    setSyncDisabled: function( flag ) {
+        this.child('#syncPanel').setDisabled( flag );
     }
 
 });
