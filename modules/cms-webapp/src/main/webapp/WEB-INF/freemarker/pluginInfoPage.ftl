@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Plugin Information</title>
+      <link type="text/css" rel="stylesheet" href="css/admin.css"/>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
     <script type="text/javascript">
 
@@ -24,19 +25,12 @@
     </script>
 
     <style type="text/css">
-        h1 {
-            font-size: 22pt;
-        }
-
-        body {
-            font-size: 12pt;
-        }
 
         .infoBox {
             padding: 8px;
             margin: 10px;
             border: 1px dotted #000000;
-            background-color: #FFFFFF;
+            background-color:#EEEEEE;
         }
 
         pre {
@@ -58,29 +52,11 @@
             right: 10px;
             display: none
         }
-
-        a:link {
-            color: blue;
-            text-decoration: none;
-        }
-
-        a:visited {
-            color: blue; 
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: blue;
-            text-decoration: underline;
-        }
-
-        a:active {
-            color: red;
-        }
     </style>
+
 </head>
 <body>
-    <h1>Plugin Information</h1>
+    <h1>Admin / Plugin Information</h1>
 
 <div class="infoBox">
     <b>Registered Plugins</b>
