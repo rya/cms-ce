@@ -98,8 +98,5 @@ ${message.value}
     </ul>
 </div>
 
-<div class="infoBox">
-<a href="${baseUrl}/upgrade">Upgrade</a>
-</div>
 </body>
 </html>

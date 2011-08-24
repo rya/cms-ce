@@ -306,8 +306,4 @@
         <property name="properties" ref="loadedVerticalProperties"/>
     </bean>
 
-    <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController"/>
-
-    <bean id="staticFileController" class="com.enonic.cms.server.service.tools.StaticFileController"/>
-
 </beans>

@@ -11,8 +11,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
@@ -28,6 +30,13 @@ import com.enonic.cms.upgrade.log.UpgradeLogEntry;
 public final class UpgradeController
     implements InitializingBean, Controller
 {
+
+    private static final String AUTHENTICATED_SESSION_KEY = "authenticatedUpgrade";
+
+    private static final String AUTHENTICATION_FAILED_KEY = "authenticationFailed";
+
+    private String entrerpriseAdminPassword;
+
 
     /**
      * Upgrade service.
@@ -62,13 +71,18 @@ public final class UpgradeController
     protected ModelAndView doHandleRequest( HttpServletRequest req, HttpServletResponse res )
         throws Exception
     {
-        if ( req.getParameter( "upgradeStep" ) != null )
+        boolean authenticated = doAuthenticate( req );
+
+        final boolean doUpgradeStep = req.getParameter( "upgradeStep" ) != null;
+        final boolean doUpgradeAll = req.getParameter( "upgradeAll" ) != null;
+
+        if ( doUpgradeStep && authenticated )
         {
             this.upgradeProcessTask.startUpgrade( false );
             redirectToSelf( req, res );
             return null;
         }
-        else if ( req.getParameter( "upgradeAll" ) != null )
+        else if ( doUpgradeAll && authenticated )
         {
             this.upgradeProcessTask.startUpgrade( true );
             redirectToSelf( req, res );
@@ -76,6 +90,16 @@ public final class UpgradeController
         }
 
         HashMap<String, Object> model = new HashMap<String, Object>();
+
+        if ( !authenticated && ( doUpgradeAll || doUpgradeStep ) )
+        {
+            model.put( AUTHENTICATION_FAILED_KEY, true );
+        }
+        else
+        {
+            model.put( AUTHENTICATION_FAILED_KEY, false );
+        }
+
         model.put( "needsOldUpgrade", this.upgradeService.needsOldUpgradeSystem() );
         model.put( "requiredVersion", VerticalProperties.REQUIRED_40X_VERSION );
         model.put( "upgradeNeeded", this.upgradeService.needsUpgrade() );
@@ -85,6 +109,7 @@ public final class UpgradeController
         model.put( "upgradeFrom", this.upgradeService.getCurrentModelNumber() );
         model.put( "upgradeTo", this.upgradeService.getTargetModelNumber() );
         model.put( "baseUrl", createBaseUrl( req ) );
+        model.put( "authenticated", authenticated );
 
         if ( !this.upgradeProcessTask.isInProgress() && !this.upgradeService.needsUpgrade() )
         {
@@ -92,6 +117,31 @@ public final class UpgradeController
         }
 
         return new ModelAndView( "upgradePage", model );
+    }
+
+    private boolean isAuthenticatedSession( HttpServletRequest req )
+    {
+        return req.getSession().getAttribute( AUTHENTICATED_SESSION_KEY ) != null;
+
+    }
+
+    private boolean doAuthenticate( HttpServletRequest req )
+        throws Exception
+    {
+        if ( isAuthenticatedSession( req ) )
+        {
+            return true;
+        }
+
+        String adminPassword = req.getParameter( "adminPassword" );
+
+        if ( StringUtils.equals( adminPassword, entrerpriseAdminPassword ) )
+        {
+            req.getSession().setAttribute( AUTHENTICATED_SESSION_KEY, "true" );
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -190,4 +240,11 @@ public final class UpgradeController
 
         res.sendRedirect( url );
     }
+
+    @Value("${cms.admin.password}")
+    public void setEntrerpriseAdminPassword( String password )
+    {
+        this.entrerpriseAdminPassword = password;
+    }
+
 }
