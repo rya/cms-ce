@@ -121,7 +121,7 @@ Ext.define( 'CMS.controller.UserController', {
                               click: this.showAddGroupWindow
                           },
                           '*[action=deleteGroup]': {
-                              click: this.deleteGroup
+                              click: this.leaveGroup
                           },
                           '*[action=selectGroup]': {
                               select: this.selectGroup
@@ -463,11 +463,24 @@ Ext.define( 'CMS.controller.UserController', {
         field.setValue('');
     },
 
-    deleteGroup: function( element, event )
+    leaveGroup: function( element, event )
     {
         var groupItem = element.up('groupDetailButton');
         var groupPanel = element.up('#groupPanel');
-        groupPanel.remove(groupItem);
+        var userPanel = element.up('editUserPanel');
+        Ext.Ajax.request( {
+              url: 'data/group/leave',
+              method: 'POST',
+              params: {key: userPanel.currentUser.key, isUser: true, leave: [groupItem.key]},
+              success: function( response, opts )
+              {
+                  groupPanel.remove(groupItem);
+              },
+              failure: function( response, opts )
+              {
+                  Ext.Msg.alert( 'Info', 'Group wasn\'t removed' );
+              }
+          } );
     },
 
     closeMembershipWindow: function()

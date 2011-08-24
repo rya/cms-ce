@@ -50,7 +50,8 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
         Ext.Array.each(userData.groups, function(group){
             var groupField = {
                 xtype: 'groupDetailButton',
-                value: group.name
+                value: group.name,
+                key: group.key
             };
             Ext.Array.include(groupFields, groupField);
         });
