@@ -45,14 +45,16 @@ Ext.define( 'CMS.view.user.GridPanel', {
             xtype: 'toolbar',
             items: [
                 {
-                    text: 'New User',
+                    xtype: 'splitbutton',
+                    text: 'New',
+                    action: 'newUser',
                     iconCls: 'icon-user-add',
-                    action: 'newUser'
-                },
-                {
-                    text: 'New Group',
-                    iconCls: 'icon-group-add',
-                    action: 'newGroup'
+                    menu: new Ext.menu.Menu({
+                        items: [
+                            {text: 'User',  iconCls: 'icon-user-add', action: 'newUser'},
+                            {text: 'Group', iconCls: 'icon-group-add', action: 'newGroup'}
+                        ]
+                    })
                 }
             ]
         };
