@@ -105,7 +105,8 @@ Ext.define( 'CMS.view.userstore.UserstoreFormDetail', {
         this.getForm().setValues( this.userstore.data );
 
         if ( Ext.isEmpty( this.userstore.data.key )
-            || this.userstore.data.connectorName == this.localConnectorName ) {
+                || Ext.isEmpty( this.userstore.data.connectorName )
+                || this.userstore.data.connectorName == this.localConnectorName ) {
             this.setSyncDisabled( true );
         }
     },

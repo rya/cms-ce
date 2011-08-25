@@ -42,9 +42,9 @@ Ext.define('CMS.view.userstore.SyncWindow', {
 
 
     initComponent: function() {
-        this.callParent(arguments);
-        this.updateData( this.userstore );
+        this.callParent( arguments );
     },
+
 
     updateData: function( data ) {
         if ( data ) {

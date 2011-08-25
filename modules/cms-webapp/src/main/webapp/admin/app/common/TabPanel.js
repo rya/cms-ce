@@ -30,6 +30,7 @@ Ext.define( 'CMS.common.TabPanel', {
         }
 
         this.setActiveTab( tab );
+        return tab;
     },
 
     getTabById: function( id )
