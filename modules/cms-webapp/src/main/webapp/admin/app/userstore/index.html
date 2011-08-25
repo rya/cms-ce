@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <script type="text/javascript" src="../../ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="../../app/configuration.js"></script>
+
+    <script type="text/javascript">
+
+        Ext.Loader.setConfig({
+            paths: {
+                'CMS' : 'resources/js',
+                'Shared' : '../../shared/resources/js'
+            }
+        });
+
+        Ext.application({
+            name: 'CMS',
+            appFolder: 'resources/js',
+
+            controllers: [
+                'UserstoreController'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    layout: 'border',
+                    padding: 5,
+
+                    items: [
+                        {
+                            region: 'center',
+                            xtype: 'userstoreShow'
+                        }
+                    ]
+                });
+            }
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>
