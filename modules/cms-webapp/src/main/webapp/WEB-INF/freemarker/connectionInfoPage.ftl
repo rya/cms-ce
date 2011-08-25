@@ -2,20 +2,14 @@
 <html>
 <head>
     <title>Connection Information</title>
+         <link type="text/css" rel="stylesheet" href="css/admin.css"/>
     <style type="text/css">
-        h1 {
-            font-size: 22pt;
-        }
-
-        body {
-            font-size: 12pt;
-        }
 
         .infoBox {
             padding: 8px;
             margin: 10px;
             border: 1px dotted #000000;
-            background-color: #FFFFFF;
+            background-color: #EEEEEE;
         }
 
         pre {
