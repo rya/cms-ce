@@ -958,6 +958,7 @@
 %btnRemove%|Fjern|Remove|Fjern|Ta bort
 %btnOpenInIce%|Åpne i ICE|Open in ICE|Åbn i ICE|Öppna i ICE
 %btnOpenInIceTooltip%|Åpne i In Context Editing|Open in In Context Editing|Åbn i In Context Editing|Öppna i In Context Editing
+%btnReindexAll%|Reindekser alt innhold|Reindex all content| |
 %blockUploadZip%|Last opp zip|Upload zip|Upload zip|Packa upp zip-fil
 %blockZipFile%|Zipfil|Zip file|Zip-fil|Zip-fil
 %blockImages%|Bilder|Images|Billeder|Bilder

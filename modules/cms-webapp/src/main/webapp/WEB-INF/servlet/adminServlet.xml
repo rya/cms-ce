@@ -171,6 +171,8 @@
                        value-ref="livePortalTraceController"/>
                 <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ConnectionInfoController"
                        value-ref="connectionInfoController"/>
+                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController"
+                       value-ref="reindexContentToolController"/>
             </map>
         </property>
     </bean>
@@ -199,6 +201,10 @@
     </bean>
 
     <bean id="connectionInfoController" class="com.enonic.cms.server.service.tools.ConnectionInfoController"
+          parent="abstractToolController"/>
+
+
+    <bean id="reindexContentToolController" class="com.enonic.cms.server.service.tools.ReindexContentToolController"
           parent="abstractToolController"/>
 
 

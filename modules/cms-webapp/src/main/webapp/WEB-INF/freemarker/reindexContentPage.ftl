@@ -2,20 +2,18 @@
 <html>
 <head>
     <title>Reindex Content Tool</title>
+    <link type="text/css" rel="stylesheet" href="css/admin.css"/>
     <style type="text/css">
-        h1 {
-            font-size: 22pt;
-        }
-
-        body {
-            font-size: 12pt;
-        }
 
         .infoBox {
             padding: 8px;
             margin: 10px;
             border: 1px dotted #000000;
-            background-color: #FFFFFF;
+            background-color: #EEEEEE;
+        }
+
+        .monospace {
+            font-family: 'Courier New';
         }
 
         .buttonbar {
@@ -68,33 +66,30 @@
 
         function startReindex(){
             if (confirm("Are you sure you want to start the reindexing of all content?")) {
-                location.href = "?reindex=true";
+                location.href = "servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController?op=custom&reindex=true";
             }
         }
     //-->
     </script>    
 </head>
 <body onload="jumpToLast()">
-    <h1>Reindex Content Tool</h1>
+    <h1>Admin / <a href="${baseUrl}/adminpage?page=1050&op=browse">Content handler</a> / Reindex all content</h1>
     <div class="infoBox">
     [#if reindexInProgress == true]
         Reindexing in progress. Please wait for it to finish.    
     [#else]
         <span class="buttonbar">
-            <input type="button" name="startReindex" value="Start" onclick="startReindex()"/>
+            <input type="button" class="button_text" name="startReindex" value="Start" onclick="startReindex()"/>
         </span>
         <p>
-            Reindexing of all content might take a long time, possibly affecting your live sites. Reindexing per content type is available in the administration interface.
-        </p>
-        <p>
-            Go back to <a href="${baseUrl}">info page</a>.
+            <strong>Reindexing of all content might take a long time, possibly affecting your live sites.</strong>
         </p>
     [/#if]
     </div>
     [#if reindexLog?size > 0]
-    <div class="infoBox">
+    <div class="infoBox" >
         <b>${reindexInProgress?string("Log Messages", "Last Log Messages")}</b>
-        <div class="messages">
+        <div class="messages monospace">
             [#list reindexLog as entry]
                 ${entry}<br/>
             [/#list]

@@ -60,8 +60,18 @@
                                     <xsl:text>&amp;op=form</xsl:text>
                                 </xsl:with-param>
                             </xsl:call-template>
+                                  <xsl:text>&nbsp;</xsl:text>
+                             <xsl:call-template name="button">
+                                <xsl:with-param name="type" select="'link'" />
+                                <xsl:with-param name="caption" select="'%btnReindexAll%'" />
+                                <xsl:with-param name="href">
+                                    <xsl:text>adminpage?page=916</xsl:text>
+                                    <xsl:text>&amp;op=regenerateindexall</xsl:text>
+                                </xsl:with-param>
+                            </xsl:call-template>
                         </td>
                     </tr>
+
                     <tr>
                         <td class="browse_buttonrow_datarows_seperator"><img src="images/1x1.gif"/></td>
                     </tr>
