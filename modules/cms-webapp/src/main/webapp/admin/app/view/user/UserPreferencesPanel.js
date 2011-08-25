@@ -4,10 +4,6 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
 
     xtype: 'panel',
     layout: 'accordion',
-    layoutConfig:
-    {
-        autoWidth: true
-    },
 
     initComponent: function()
     {
@@ -47,6 +43,7 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
 
     generateGroupPanel: function (userData){
         var groupFields = [];
+        var groupKeys = [];
         Ext.Array.each(userData.groups, function(group){
             var groupField = {
                 xtype: 'groupDetailButton',
@@ -54,12 +51,22 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
                 key: group.key
             };
             Ext.Array.include(groupFields, groupField);
+            Ext.Array.include(groupKeys, group.key);
         });
         var groupPanel = {
             xtype: 'panel',
             itemId: 'groupPanel',
+            groupKeys: groupKeys,
             layout: 'column',
-            flex: 1
+            flex: 1,
+            removeItem: function(item){
+                this.remove(item);
+                Ext.Array.remove(this.groupKeys, item.key);
+            },
+            addItem: function(item){
+                this.add(item);
+                Ext.Array.include(this.groupKeys, item.key);
+            }
         };
         if (groupFields.length > 0){
             groupPanel.items = groupFields;

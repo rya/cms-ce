@@ -454,12 +454,30 @@ Ext.define( 'CMS.controller.UserController', {
     {
         var userPrefPanel = field.up('userPreferencesPanel');
         var groupPanel = userPrefPanel.down('#groupPanel');
-        var stringValue = value[0].get('name');
-        var groupButton = {
+        var userPanel = field.up('editUserPanel');
+        var groupItem = {
                 xtype: 'groupDetailButton',
-                value: stringValue
+                value: value[0].get('name'),
+                key: value[0].get('key')
         };
-        groupPanel.add(groupButton);
+        var isContain = Ext.Array.contains(groupPanel.groupKeys, value[0].get('key'));
+        if (!isContain){
+            Ext.Ajax.request( {
+                  url: 'data/group/join',
+                  method: 'POST',
+                  params: {key: userPanel.currentUser.key, isUser: true, join: [groupItem.key]},
+                  success: function( response, opts )
+                  {
+                      groupPanel.add(groupItem);
+                  },
+                  failure: function( response, opts )
+                  {
+                      Ext.Msg.alert( 'Info', 'Group wasn\'t added' );
+                  }
+              } );
+        }else{
+            Ext.Msg.alert( 'Info', 'Group was already added' );
+        }
         field.setValue('');
     },
 
@@ -474,7 +492,7 @@ Ext.define( 'CMS.controller.UserController', {
               params: {key: userPanel.currentUser.key, isUser: true, leave: [groupItem.key]},
               success: function( response, opts )
               {
-                  groupPanel.remove(groupItem);
+                  groupPanel.removeItem(groupItem);
               },
               failure: function( response, opts )
               {
