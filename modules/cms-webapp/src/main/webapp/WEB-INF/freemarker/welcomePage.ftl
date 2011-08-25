@@ -2,17 +2,46 @@
 <html>
 <head>
     <title>Welcome</title>
+    <link type="text/css" rel="stylesheet" href="admin/css/admin.css"/>
     <style type="text/css">
-        h1 {
-            font-size: 22pt;
+
+        body, td, th, input, select, textarea {
+            font-family: Arial, Tahoma, Verdana, sans-serif;
+            font-size: 13px;
         }
 
-        h2 {
-            font-size: 12pt;
+        body
+        {
+            background-color: #fff;
+        }
+
+        h1 {
+            font-size: 22px;
+            color: white;
+            font-size: 22px;
+            margin-top: 0;
+            padding-left: 10px;
+            padding-top: 27px;
         }
 
         body {
-            font-size: 12pt;
+            padding-left: 10px;
+        * padding-left : 0; /* IE hack! See frameset for spacing */
+            padding-right: 15px;
+            padding-bottom: 15px;
+            padding-top: 8px;
+        }
+
+        .top {
+        border: 0;
+        margin: 9px;
+        padding: 0;
+        color: #fff;
+        background-color: #3a3a3a;
+        background-image: url( admin/images/logo-screen.gif);
+        background-repeat: no-repeat;
+        background-position: 98% 50%;
+        height: 70px;
         }
 
         .detailPart table {
@@ -42,7 +71,9 @@
     </style>
 </head>
 <body>
+<div class="top">
 <h1>Welcome to ${versionTitleVersion}</h1>
+</div>
 
 [#if modelUpgradeNeeded == true]
 <div class="infoBoxError">
