@@ -13,9 +13,9 @@
         }
 
         pre {
-            font-size: 10pt;
             border-left: 1px #000000 dotted;
             padding: 10px;
+            text-style: Courier New;
         }
     </style>
 </head>
