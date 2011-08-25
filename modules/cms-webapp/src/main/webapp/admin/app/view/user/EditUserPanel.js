@@ -37,6 +37,7 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         var prefPanel = {
             xtype: 'userPreferencesPanel',
             region: 'east',
+            userFields: me.userFields,
             margin: 5,
             flex: 0.2
         };

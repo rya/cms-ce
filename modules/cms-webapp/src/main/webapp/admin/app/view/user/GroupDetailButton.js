@@ -1,6 +1,6 @@
-Ext.define('CMS.view.user.UserShortDetailButton', {
+Ext.define('CMS.view.user.GroupDetailButton', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.userShortDetailButton',
+    alias: 'widget.groupDetailButton',
 
     layout: 'column',
     margin: 5,
@@ -19,15 +19,14 @@ Ext.define('CMS.view.user.UserShortDetailButton', {
                     style: {
                         background: 'lightGrey'
                     },
-                    src: 'resources/images/user_add.png',
-                    padding: 5
+                    padding: 2,
+                    src: 'resources/images/group.png'
                 }]
         };
         var displayNamePane = {
             xtype: 'panel',
             border: 0,
             layout: 'fit',
-            margin: 5,
             bodyStyle: {
                 background: 'lightGrey'
             },
@@ -37,7 +36,7 @@ Ext.define('CMS.view.user.UserShortDetailButton', {
                     style: {
                         background: 'lightGrey'
                     },
-                    value: this.userData.get('displayName')
+                    value: this.value
                 }
             ]
         };
@@ -47,19 +46,18 @@ Ext.define('CMS.view.user.UserShortDetailButton', {
             bodyStyle: {
                 background: 'lightGrey'
             },
-            margin: {left: 5, right: 0, bottom: 5, top: 5},
+            margin: {left: 2, right: 0, bottom: 0, top: 0},
             items: [{
                 xtype: 'button',
-                iconCls: 'icon-delete',
-                action: 'deselectItem'
+                style: {
+                    background: 'lightGrey'
+                },
+                action: 'deleteGroup',
+                iconCls: 'icon-delete'
             }]
         };
         this.items = [iconPane, displayNamePane, buttonPane];
         this.callParent(arguments);
-    },
-
-    getUser: function(){
-        return this.userData;
     }
 
 
