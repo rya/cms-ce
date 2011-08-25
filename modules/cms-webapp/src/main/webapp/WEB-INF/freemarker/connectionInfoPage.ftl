@@ -15,7 +15,7 @@
         pre {
             border-left: 1px #000000 dotted;
             padding: 10px;
-            text-style: Courier New;
+            font-family: Courier New;
         }
     </style>
 </head>
