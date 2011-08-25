@@ -5,7 +5,7 @@
 
 .cms-edit-form-header .left {
     float: left;
-    margin-right: 20px;
+    margin-right: 16px;
 }
 
 .cms-edit-form-header .left img {
@@ -23,12 +23,19 @@
 
 .cms-edit-form-header .edit-button {
     display: block;
-    margin: 5px 0 0 5px;
-    background: TRANSPARENT url(../../resources/images/pencil.png) no-repeat;
+    margin: 2px 0 0 5px;
+    padding: 3px;
+    border: 1px solid TRANSPARENT;
+    background: TRANSPARENT url(../../resources/images/pencil.png) 3px 3px no-repeat;
     float: left;
     width: 16px;
     height: 16px;
 }
+
+.cms-edit-form-header .edit-button:hover {
+    border-color: #c0c0c0;
+}
+
 
 .cms-edit-form-header .right p {
     margin: 5px 0 0 0;
