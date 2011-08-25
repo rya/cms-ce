@@ -255,7 +255,11 @@ Ext.define( 'CMS.controller.UserController', {
             if (selected.length > 10){
                 shortInfo = true;
             }
-            userDetail.generateMultipleSelection(selected, shortInfo);
+            var selectedUsers = [];
+            Ext.Array.each(selected, function(user){
+                Ext.Array.include(selectedUsers, user.data);
+            });
+            userDetail.generateMultipleSelection(selectedUsers, shortInfo);
             this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }

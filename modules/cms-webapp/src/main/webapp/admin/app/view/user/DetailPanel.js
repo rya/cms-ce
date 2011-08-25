@@ -5,6 +5,7 @@ Ext.define('CMS.view.user.DetailPanel', {
     title: 'Details',
     split: true,
     autoScroll: true,
+    layout: 'fit',
 
     initComponent: function() {
 
@@ -202,18 +203,40 @@ Ext.define('CMS.view.user.DetailPanel', {
 
     generateMultipleSelection: function(userArray, shortInfo){
         var me = this;
-        var userPaneArray = [];
-        Ext.Array.each(userArray, function(user){
-            Ext.Array.include(userPaneArray, me.generateUserButton(user, shortInfo));
-        });
+//        var userPaneArray = [];
+//        Ext.Array.each(userArray, function(user){
+//            Ext.Array.include(userPaneArray, me.generateUserButton(user, shortInfo));
+//        });
+//        var panel = {
+//            xtype: 'panel',
+//            itemId: 'userContainer',
+//            layout: 'column',
+//            measureWidth: true,
+//            autoScroll: true,
+//            items: userPaneArray
+//        };
+//        me.removeAll();
+//        me.add(panel);
+        var tpl = Ext.Template('<tpl for="users">' +
+                                       '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
+                                       '<div class="left">' +
+                                       '<img alt="User" src="data/user/photo?key={key}&thumb=true"/>' +
+                                       '</div>' +
+                                       '<div class="center">' +
+                                       '<h2>{displayName}</h2>' +
+                                       '<p>{userStore}/{name}</p>' +
+                                       '</div>' +
+                                       '<div class="right">' +
+                                       ' <a href=""></a>' +
+                                       '</div>' +
+                                       '</div>' +
+                                       '</tpl>');
         var panel = {
             xtype: 'panel',
-            itemId: 'userContainer',
-            layout: 'column',
-            measureWidth: true,
-            autoScroll: true,
-            items: userPaneArray
-        };
+            styleHtmlContent: true,
+            data: {users: userArray},
+            tpl: tpl
+        }
         me.removeAll();
         me.add(panel);
     },
