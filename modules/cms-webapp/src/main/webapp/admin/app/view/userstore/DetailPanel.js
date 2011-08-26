@@ -15,20 +15,30 @@ Ext.define('CMS.view.userstore.DetailPanel', {
         padding: 5,
         items: [
             {
+                itemId: 'editBtn',
                 text: 'Edit Userstore',
                 iconCls: 'icon-edit',
                 action: 'editUserstore'
             },
             {
+                itemId: 'delBtn',
                 text: 'Delete Userstore',
                 iconCls: 'icon-delete',
                 action: 'deleteUserstore'
             },
             '-',
             {
+                itemId: 'syncBtn',
                 text: 'Synchronize',
                 iconCls: 'icon-refresh',
                 action: 'syncUserstore'
+            },
+            {
+                itemId: 'stopBtn',
+                text: "Stop synchronize",
+                iconCls: 'icon-refresh',
+                action: 'stopSyncUserstore',
+                hidden: true
             }
         ]
     },
@@ -91,10 +101,34 @@ Ext.define('CMS.view.userstore.DetailPanel', {
     },
 
     updateSync: function( data ) {
-        if ( data ) {
+        if ( data && this.currentUserstore
+                && data.key == this.currentUserstore.data.key ) {
             this.down( '#step' ).update( data.step );
             this.down( '#progress' ).updateProgress( data.progress );
             this.down( '#count' ).update( data.count );
+        }
+    },
+
+    setActiveView: function( view ) {
+        var edit = this.down('#editBtn');
+        var del = this.down('#delBtn');
+        var sync = this.down('#syncBtn');
+        var stop = this.down('#stopBtn');
+        switch ( view ) {
+            case 'sync':
+                this.getLayout().setActiveItem( 'syncView' );
+                edit.setDisabled( true );
+                del.setDisabled( true );
+                sync.setVisible( false );
+                stop.setVisible( true );
+            break;
+            default:
+                this.getLayout().setActiveItem( 'defaultView' );
+                edit.setDisabled( false );
+                del.setDisabled( false );
+                sync.setVisible( true );
+                stop.setVisible( false );
+            break;
         }
     }
 
