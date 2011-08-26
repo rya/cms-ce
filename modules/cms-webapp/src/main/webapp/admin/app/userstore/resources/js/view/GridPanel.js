@@ -62,7 +62,7 @@ Ext.define( 'CMS.view.GridPanel', {
     nameRenderer: function( value, p, record )
     {
         return Ext.String.format(
-                '<h2 style="margin: 0;">{0}</h2><em>{1}</em>',
+                '<strong>{0}</strong><br/><span>{1}</span>',
                 value,
                 record.data.name
                 );
