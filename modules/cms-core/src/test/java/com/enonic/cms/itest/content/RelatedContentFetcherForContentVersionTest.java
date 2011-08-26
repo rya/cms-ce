@@ -282,6 +282,77 @@ public class RelatedContentFetcherForContentVersionTest
         assertRelatedContent( expectedRelatedContentKeys, resultSet.getContentKeys() );
     }
 
+    @Test
+    public void including_visited_returns_all_when_true_but_not_when_false()
+    {
+        // setup content to update
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Main content 1", null );
+        ContentKey content_1 = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Main content 2", null );
+        ContentKey content_2 = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Related Content A", null );
+        ContentKey content_A = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Related Content B", null );
+        ContentKey content_B = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForMyRelatingContent( "Related Content C", null );
+        ContentKey content_C = contentService.createContent( createCommand );
+
+        UpdateContentCommand updateCommand =
+            setupDefaultUpdateContentCommandForMyRelatingContent( content_1, "Relating content 1 to A and B", content_A, content_B );
+        contentService.updateContent( updateCommand );
+
+        updateCommand =
+            setupDefaultUpdateContentCommandForMyRelatingContent( content_2, "Relating content 2 to A and C", content_A, content_C );
+        contentService.updateContent( updateCommand );
+        RelatedContentFetcherForContentVersion relatedContentFetcher =
+            new RelatedContentFetcherForContentVersion( contentDao, contentAccessResolver );
+        relatedContentFetcher.setRunningUser( fixture.findUserByName( "testuser" ) );
+        relatedContentFetcher.setAvailableCheckDate( new Date() );
+        relatedContentFetcher.setMaxChildrenLevel( Integer.MAX_VALUE );
+        relatedContentFetcher.setIncludeOfflineContent( true );
+
+        // First attempt.  Regular retrieval: A and B are related to 1.
+        List<ContentVersionEntity> versions = new ArrayList<ContentVersionEntity>();
+        versions.add( fixture.findContentByKey( content_1 ).getMainVersion() );
+        RelatedContentResultSet resultSet = relatedContentFetcher.fetch( versions );
+
+        List<ContentKey> expectedRelatedContentKeys = new ArrayList<ContentKey>();
+        expectedRelatedContentKeys.add( content_A );
+        expectedRelatedContentKeys.add( content_B );
+        assertRelatedContent( expectedRelatedContentKeys, resultSet.getContentKeys() );
+
+        // Second attempt.  Regular retrieval: Only C that has not been retrieved before is related to 2.
+        versions = new ArrayList<ContentVersionEntity>();
+        versions.add( fixture.findContentByKey( content_2 ).getMainVersion() );
+        resultSet = relatedContentFetcher.fetch( versions );
+
+        expectedRelatedContentKeys = new ArrayList<ContentKey>();
+        expectedRelatedContentKeys.add( content_C );
+        assertRelatedContent( expectedRelatedContentKeys, resultSet.getContentKeys() );
+
+        // Third attempt.  Regular retrieval: All related items have been retrieved before.  Empty result.
+        versions = new ArrayList<ContentVersionEntity>();
+        versions.add( fixture.findContentByKey( content_1 ).getMainVersion() );
+        resultSet = relatedContentFetcher.fetch( versions );
+
+        expectedRelatedContentKeys = new ArrayList<ContentKey>();
+        assertRelatedContent( expectedRelatedContentKeys, resultSet.getContentKeys() );
+
+        // Fourth attempt.  RequireAll retrieval: A and C are related to 2.
+        versions = new ArrayList<ContentVersionEntity>();
+        versions.add( fixture.findContentByKey( content_2 ).getMainVersion() );
+        resultSet = relatedContentFetcher.fetch( versions, true );
+
+        expectedRelatedContentKeys = new ArrayList<ContentKey>();
+        expectedRelatedContentKeys.add( content_A );
+        expectedRelatedContentKeys.add( content_C );
+        assertRelatedContent( expectedRelatedContentKeys, resultSet.getContentKeys() );
+
+    }
 
     private CreateContentCommand setupDefaultCreateContentCommandForMyRelatingContent( String title, ContentKey contentToRelateTo )
     {
