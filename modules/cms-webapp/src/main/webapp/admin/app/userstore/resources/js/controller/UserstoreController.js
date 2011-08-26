@@ -56,7 +56,8 @@ Ext.define( 'CMS.controller.UserstoreController', {
             },
             'userstoreGrid': {
                 selectionchange: this.updateDetailsPanel,
-                itemcontextmenu: this.popupMenu
+                itemcontextmenu: this.popupMenu,
+                itemdblclick: this.createUserstoreTab
             },
             'userstoreForm #defaultCheckbox': {
                 change: this.handleDefaultChange
