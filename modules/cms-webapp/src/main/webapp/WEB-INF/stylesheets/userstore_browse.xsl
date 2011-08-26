@@ -171,6 +171,7 @@
                               <xsl:with-param name="key" select="@key"/>
                               <xsl:with-param name="includecopy" select="'false'"/>
                               <xsl:with-param name="includeparams" select="'&amp;fromsystem=true'"/>
+                              <xsl:with-param name="includeedit" select="$enterpriseadmin"/>
                               <xsl:with-param name="enabledelete" select="$enableDelete"/>
                               <xsl:with-param name="JSdeleteCallback" select="'waitsplash();'"/>
                             </xsl:call-template>
