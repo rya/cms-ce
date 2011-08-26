@@ -1,4 +1,4 @@
-Ext.define( 'CMS.controller.UserstoreController', {
+Ext.define( 'CMS.controller.ShowPanelController', {
     extend: 'Ext.app.Controller',
 
     stores: [
@@ -210,6 +210,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
 
     checkUserstoreDirty: function( tabPanel, newCard, oldCard, options )
     {
+        /*
         if( newCard.id == 'tab-browse' && tabPanel.userstoreDirty ) {
             var iframe = this.getIframe();
             if ( iframe ) {
@@ -223,6 +224,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
                 }
             }
         }
+        */
     },
 
     notImplementedAction: function ( btn, evt, opts )
