@@ -33,15 +33,15 @@
         }
 
         .top {
-        border: 0;
-        margin: 9px;
-        padding: 0;
-        color: #fff;
-        background-color: #3a3a3a;
-        background-image: url( admin/images/logo-screen.gif);
-        background-repeat: no-repeat;
-        background-position: 98% 50%;
-        height: 70px;
+            border: 0;
+            margin: 9px;
+            padding: 0;
+            color: #fff;
+            background-color: #3a3a3a;
+            background-image: url( admin/images/logo-screen.gif);
+            background-repeat: no-repeat;
+            background-position: 98% 50%;
+            height: 70px;
         }
 
         .detailPart table {

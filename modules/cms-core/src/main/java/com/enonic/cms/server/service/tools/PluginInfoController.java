@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.URL;
+import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.ExtensionManager;
@@ -29,6 +30,7 @@ public final class PluginInfoController
         final ExtensionManager extensionManager = ExtensionManagerAccessor.getExtensionManager();
         final HashMap<String, Object> model = new HashMap<String, Object>();
 
+        model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
         model.put( "functionLibraryExtensions", toWrappers( extensionManager.getAllFunctionLibraries() ) );
         model.put( "autoLoginExtensions", toWrappers( extensionManager.getAllHttpAutoLoginPlugins() ) );
         model.put( "httpInterceptors", toWrappers( extensionManager.getAllHttpInterceptors() ) );

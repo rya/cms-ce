@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.livetrace.PastPortalRequestTrace;
@@ -32,31 +33,31 @@ public final class LivePortalTraceController
         String window = formItems.getString( "window", "" );
         String history = formItems.getString( "history", null );
 
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
+
         if ( "current".equals( window ) )
         {
             List<PortalRequestTrace> currentPortalRequestTraces = livePortalTraceService.getCurrentPortalRequestTraces();
-            HashMap<String, Object> model = new HashMap<String, Object>();
+
             model.put( "currentTraces", currentPortalRequestTraces );
             process( res, model, "livePortalTraceWindow_current" );
         }
         else if ( "longestpagerequests".equals( window ) )
         {
             List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalPageRequestTraces();
-            HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "longestTraces", longestTimePortalRequestTraces );
             process( res, model, "livePortalTraceWindow_longest" );
         }
         else if ( "longestattachmentrequests".equals( window ) )
         {
             List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalAttachmentRequestTraces();
-            HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "longestTraces", longestTimePortalRequestTraces );
             process( res, model, "livePortalTraceWindow_longest" );
         }
         else if ( "longestimagerequests".equals( window ) )
         {
             List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalImageRequestTraces();
-            HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "longestTraces", longestTimePortalRequestTraces );
             process( res, model, "livePortalTraceWindow_longest" );
         }
@@ -66,7 +67,6 @@ public final class LivePortalTraceController
             Long recordsSinceId = Long.valueOf( recordsSinceIdStr );
 
             List<PastPortalRequestTrace> pastPortalRequestTraces = livePortalTraceService.getHistorySince( recordsSinceId );
-            HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "pastPortalRequestTraces", pastPortalRequestTraces );
 
             Long lastHistoryRecordNumber = recordsSinceId;
@@ -81,7 +81,6 @@ public final class LivePortalTraceController
         }
         else
         {
-            HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "livePortalTraceEnabled", isLivePortalTraceEnabled() ? 1 : 0 );
             process( res, model, "livePortalTracePage" );
         }

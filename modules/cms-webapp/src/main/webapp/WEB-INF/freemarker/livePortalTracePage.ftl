@@ -11,7 +11,7 @@
     [#else]
     <html>
     <head>
-    <title>Admin / Live Portal Trace</title>
+    <title>Admin / Live Portal Trace </title>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="javascript/lib/jquery/crypt/jquery.base64.min.js"></script>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-ui-1.8.14.min.js"></script>
@@ -222,7 +222,10 @@
             border-radius: 4px;
             background-color: #eeeeee;
             overflow: auto;
-            font-family: monospace;
+        }
+
+        .listBox td {
+            font-family: Monospace;
         }
 
         .listBox th {
@@ -251,7 +254,8 @@
             overflow-x: auto;
             top: 10px;
             right: 10px;
-            display: none
+            display: none;
+            z-index: 999;
         }
 
         #portalRequestTraceDetail-table {
@@ -272,7 +276,7 @@
     </style>
     </head>
     <body>
-    <h1>Admin / Live Portal Trace</h1>
+    <h1>Admin / <a href="${baseUrl}/adminpage?page=912&op=liveportaltrace">Live Portal Trace</a></h1>
 
     <button class="button_text" id="stop-auto-update" onclick="stopAutomaticUpdate()">
         Stop automatic update

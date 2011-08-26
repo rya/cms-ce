@@ -2,7 +2,7 @@
 [#import "pluginInfoLibrary.ftl" as lib/]
 <html>
 <head>
-    <title>Plugin Information</title>
+    <title>Plugin info</title>
       <link type="text/css" rel="stylesheet" href="css/admin.css"/>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
     <script type="text/javascript">
@@ -50,19 +50,20 @@
             overflow-x: auto;
             top: 10px;
             right: 10px;
-            display: none
+            display: none;
+            z-index: 999;
         }
     </style>
 
 </head>
 <body>
-    <h1>Admin / Plugin Information</h1>
+    <h1>Admin / <a href="${baseUrl}/adminpage?page=910&op=plugininfo">Plugin info</a></h1>
 
 <div class="infoBox">
     <b>Registered Plugins</b>
 
     <ul>
-    	[#list pluginHandles as plugin]
+    	[#list pluginHandles as plugin ]
             [@lib.pluginInfoRowWithDetails plugin=plugin/]
 		[/#list]
     </ul>

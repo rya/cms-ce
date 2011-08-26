@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <h1>Connection Information</h1>
+    <h1> <h1>Admin / <a href="${baseUrl}/adminpage?page=914&op=connectioninfo">Connection info</a></h1>
     [#if enabled == 0]
         <div class="infoBox">
             <b style="color: #FF0000">&nbsp;Connection information collection is not enabled!&nbsp;</b>
