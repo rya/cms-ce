@@ -26,7 +26,7 @@ Ext.define( 'CMS.view.UserstoreFormPanel', {
                     {
                         // TODO: Create an Ext component.
                         xtype: 'image',
-                        src: 'resources/images/app-icon-userstores.png',
+                        src: 'resources/images/app-icon.png',
                         width: 150
                     }
                 ]

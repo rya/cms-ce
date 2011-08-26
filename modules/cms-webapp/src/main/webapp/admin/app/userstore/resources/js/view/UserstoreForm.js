@@ -108,7 +108,7 @@ Ext.define( 'CMS.view.UserstoreForm', {
 
         Ext.apply(this.initialConfig, {
             method: "POST",
-            url: 'data/userstore/config'
+            url: '/admin/data/userstore/config'
         });
 
         if ( !this.userstore ) {

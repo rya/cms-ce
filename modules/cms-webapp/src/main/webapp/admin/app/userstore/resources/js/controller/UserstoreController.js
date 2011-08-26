@@ -18,7 +18,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
     ],
 
     refs: [
-        {ref: 'tabPanel', selector: 'cmsTabPanel'},
+        {ref: 'cmsTabPanel', selector: 'cmsTabPanel'},
         {ref: 'userstoreDetail', selector: 'userstoreDetail'},
         {ref: 'userstoreGrid', selector: 'userstoreGrid'},
         {ref: 'userstoreShow', selector: 'userstoreShow'},
@@ -28,47 +28,66 @@ Ext.define( 'CMS.controller.UserstoreController', {
 
     init: function()
     {
-
         this.control( {
-                          '*[action=newUserstore]': {
-                              click: function() {
-                                this.createUserstoreTab( true );
-                              }
-                          },
-                          '*[action=editUserstore]': {
-                              click: function() {
-                                  this.createUserstoreTab( false );
-                              }
-                          },
-                          '*[action=deleteUserstore]': {
-                              click: this.notImplementedAction
-                          },
-                          '*[action=syncUserstore]': {
-                              click: this.notImplementedAction
-                          },
-                          '*[action=saveUserstore]': {
-                              click: this.saveUserstore
-                          },
-                          '*[action=cancelUserstore]': {
-                              click: this.closeUserstoreTab
-                          },
-                          'userstoreGrid': {
-                              selectionchange: this.updateDetailsPanel,
-                              itemcontextmenu: this.popupMenu
-                          },
-                          'userstoreForm #defaultCheckbox': {
-                              change: this.handleDefaultChange
-                          },
-                          'userstoreForm textfield[name=name]': {
-                              keyup: this.handleUserstoreChange
-                          },
-                          'userstoreForm combobox[name=connectorName]': {
-                              change: this.handleConnectorChange
-                          },
-                          'cmsTabPanel': {
-                              tabchange: this.checkUserstoreDirty
-                          }
-                      } );
+            'viewport': {
+                afterrender: this.createBrowseTab
+            },
+            '*[action=newUserstore]': {
+                click: function() {
+                    this.createUserstoreTab( true );
+                }
+            },
+            '*[action=editUserstore]': {
+                click: function() {
+                    this.createUserstoreTab( false );
+                }
+            },
+            '*[action=deleteUserstore]': {
+                click: this.notImplementedAction
+            },
+            '*[action=syncUserstore]': {
+                click: this.notImplementedAction
+            },
+            '*[action=saveUserstore]': {
+                click: this.saveUserstore
+            },
+            '*[action=cancelUserstore]': {
+                click: this.closeUserstoreTab
+            },
+            'userstoreGrid': {
+                selectionchange: this.updateDetailsPanel,
+                itemcontextmenu: this.popupMenu
+            },
+            'userstoreForm #defaultCheckbox': {
+                change: this.handleDefaultChange
+            },
+            'userstoreForm textfield[name=name]': {
+                keyup: this.handleUserstoreChange
+            },
+            'userstoreForm combobox[name=connectorName]': {
+                change: this.handleConnectorChange
+            },
+            'cmsTabPanel': {
+                tabchange: this.checkUserstoreDirty
+            }
+        } );
+    },
+
+    createBrowseTab: function( component, options )
+    {
+        this.getCmsTabPanel().addTab( {
+           id: 'tab-browse',
+           title: 'Browse',
+           closable: false,
+           xtype: 'panel',
+           layout: 'border',
+           items: [
+               {
+                   region: 'center',
+                   xtype: 'userstoreShow'
+               }
+           ]
+        } );
     },
 
     handleDefaultChange: function( field, newValue, oldValue, options )
@@ -121,7 +140,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
 
                 showPanel.el.mask( "Loading..." );
                 Ext.Ajax.request( {
-                    url: 'data/userstore/config',
+                    url: '/admin/data/userstore/config',
                     method: 'GET',
                     params: {
                         name: userstore.data.name
@@ -234,7 +253,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
 
     getTabs: function() {
         // returns tabs if executed in the system scope
-        var tabs = this.getTabPanel();
+        var tabs = this.getCmsTabPanel();
         // returns tabs if executed inside the iframe of the system app
         if ( tabs == null && window.parent )
         {
