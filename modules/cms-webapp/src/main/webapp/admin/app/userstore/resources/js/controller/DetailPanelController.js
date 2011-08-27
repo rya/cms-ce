@@ -14,32 +14,54 @@ Ext.define( 'CMS.controller.DetailPanelController', {
     ],
 
     refs: [
-        {ref: 'userstoreDetail', selector: 'userstoreDetail'}
+        {ref: 'detailPanel', selector: 'userstoreDetail'}
     ],
 
     init: function()
     {
         this.application.on({
-            updateDetailsPanel: this.updateDetailsPanel,
+            updateDetailsPanel: this.updatePanel,
             scope: this
         });
 
-        this.control( {
+        this.control({
+
+            'userstoreDetail': {
+                render: function () {
+                    this.setButtonsDisabled(true);
+                }
+            },
+
+            'userstoreDetail button[action=editUserstore]': {
+                click: function(item, e, eOpts) {
+                    var userstore = this.getDetailPanel().getCurrentUserstore();
+                    this.application.fireEvent( 'editUserstore', userstore, false);
+                }
+            }
+
         });
     },
 
-    updateDetailsPanel: function( selected )
+    updatePanel: function( selected )
     {
         var userstore = selected[0];
-        var userstoreDetail = this.getUserstoreDetail();
+        var detailPanel = this.getDetailPanel();
 
         if ( userstore )
         {
-            userstoreDetail.update( userstore.data );
-            userstoreDetail.setCurrentUserstore( userstore.data );
+            detailPanel.update( userstore.data );
+            detailPanel.setCurrentUserstore( userstore.data );
         }
 
-        userstoreDetail.setTitle( selected.length + " userstore selected" );
+        detailPanel.setTitle( selected.length + " userstore selected" );
+
+        this.setButtonsDisabled(false);
+
+    },
+
+    setButtonsDisabled: function(disable) {
+        Ext.ComponentQuery.query( 'userstoreDetail button[action=editUserstore]' )[0].setDisabled( disable );
+        Ext.ComponentQuery.query( 'userstoreDetail button[action=deleteUserstore]' )[0].setDisabled( disable );
     }
 
 } );

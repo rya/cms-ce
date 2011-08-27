@@ -1,4 +1,4 @@
-Ext.define( 'CMS.controller.ShowPanelController', {
+Ext.define( 'CMS.controller.MainPanelController', {
     extend: 'Ext.app.Controller',
 
     stores: [
@@ -9,28 +9,41 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         'UserstoreConfigModel',
         'UserstoreConnectorModel'
     ],
+
     views: [
-        'ShowPanel',
+        'Shared.CmsTabPanel',
+        'MainPanel',
         'UserstoreFormPanel'
     ],
 
     refs: [
         {ref: 'cmsTabPanel', selector: 'cmsTabPanel'},
-        {ref: 'userstoreShow', selector: 'userstoreShow'},
+        {ref: 'mainPanel', selector: 'mainPanel'},
         {ref: 'userstoreForm', selector: 'userstoreForm'},
-        {ref: 'userstoreContextMenu', selector: 'userstoreContextMenu', autoCreate: true, xtype: 'userstoreContextMenu'}
     ],
 
     init: function()
     {
+        // Add events to application scope.
         this.application.on({
-            createUserstoreTab: this.createUserstoreTab,
-            scope: this
+            createUserstoreTab: {
+                fn: this.createUserstoreTab,
+                scope: this
+            },
+            newUserstore: {
+                fn: this.createUserstoreTab,
+                scope: this
+
+            },
+            editUserstore: {
+                fn: this.createUserstoreTab,
+                scope: this
+            }
         });
 
         this.control( {
             'viewport': {
-                afterrender: this.createBrowseTab
+                afterrender: this.addBrowseTab
             }
             /*
             '*[action=newUserstore]': {
@@ -71,7 +84,7 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         } );
     },
 
-    createBrowseTab: function( component, options )
+    addBrowseTab: function( component, options )
     {
         this.getCmsTabPanel().addTab( {
            id: 'tab-browse',
@@ -82,66 +95,28 @@ Ext.define( 'CMS.controller.ShowPanelController', {
            items: [
                {
                    region: 'center',
-                   xtype: 'userstoreShow'
+                   xtype: 'mainPanel'
                }
            ]
         } );
     },
 
-    handleDefaultChange: function( field, newValue, oldValue, options )
-    {
-        if ( newValue )
-        {
-            Ext.Msg.confirm( "Important", "Do you really want to set this userstore default ?", function( button )
-            {
-                if ( "no" == button )
-                {
-                    field.setValue( oldValue );
-                }
-            } );
-        }
-    },
-
-    handleConnectorChange: function( field, newValue, oldValue, options )
-    {
-        var form = field.up( 'userstoreForm' );
-        var newVals = form.userstore || { data: {} };
-        var record = field.store.findRecord( field.valueField, newValue );
-        if ( record )
-        {
-            newVals.data[ field.name ] = record.data[ field.displayField ];
-            form.updateUserstoreHeader( newVals );
-        }
-    },
-
-    handleUserstoreChange: function( field, evt, opts )
-    {
-        var form = field.up( 'userstoreForm' );
-        var newVals = form.userstore || { data: {} };
-        newVals.data[field.name] = field.getValue();
-        form.updateUserstoreHeader( newVals );
-        var tab = field.up( 'userstoreFormPanel' );
-        tab.setTitle( newVals.data.name );
-    },
-
-    createUserstoreTab: function( forceNew )
+    createUserstoreTab: function( userstore, forceNew )
     {
         var tabs = this.getTabs();
         if ( tabs )
         {
-            var selection = this.getUserstoreGrid().getSelectionModel().getSelection();
-            var userstore;
+            if ( !forceNew && userstore ) {
 
-            if ( !forceNew && selection && selection.length > 0 ) {
-                userstore = selection[0];
-                var showPanel = this.getUserstoreShow();
+                var showPanel = this.getMainPanel();
 
                 showPanel.el.mask( "Loading..." );
+
                 Ext.Ajax.request( {
                     url: '/admin/data/userstore/config',
                     method: 'GET',
                     params: {
-                        name: userstore.data.name
+                        name: userstore.name
                     },
                     success: function( response )
                     {
@@ -158,8 +133,8 @@ Ext.define( 'CMS.controller.ShowPanelController', {
                         showPanel.el.unmask();
                         tabs.addTab( {
                             xtype: 'userstoreFormPanel',
-                            id: 'tab-userstore-' + userstore.data.key,
-                            title: userstore.data.name,
+                            id: 'tab-userstore-' + userstore.key,
+                            title: userstore.name,
                             userstore: {
                                 data: obj
                             }

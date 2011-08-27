@@ -10,7 +10,7 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         'UserstoreConnectorModel'
     ],
     views: [
-        'ShowPanel',
+        'MainPanel',
         'ContextMenu',
         'GridPanel',
         'DetailPanel',
@@ -74,23 +74,6 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         } );
     },
 
-    createBrowseTab: function( component, options )
-    {
-        this.getCmsTabPanel().addTab( {
-           id: 'tab-browse',
-           title: 'Browse',
-           closable: false,
-           xtype: 'panel',
-           layout: 'border',
-           items: [
-               {
-                   region: 'center',
-                   xtype: 'userstoreShow'
-               }
-           ]
-        } );
-    },
-
     handleDefaultChange: function( field, newValue, oldValue, options )
     {
         if ( newValue )
@@ -127,55 +110,6 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         tab.setTitle( newVals.data.name );
     },
 
-    createUserstoreTab: function( forceNew )
-    {
-        var tabs = this.getTabs();
-        if ( tabs )
-        {
-            var selection = this.getUserstoreGrid().getSelectionModel().getSelection();
-            var userstore;
-
-            if ( !forceNew && selection && selection.length > 0 ) {
-                userstore = selection[0];
-                var showPanel = this.getUserstoreShow();
-
-                showPanel.el.mask( "Loading..." );
-                Ext.Ajax.request( {
-                    url: '/admin/data/userstore/config',
-                    method: 'GET',
-                    params: {
-                        name: userstore.data.name
-                    },
-                    success: function( response )
-                    {
-                        var obj = Ext.decode( response.responseText, true );
-                        // add missing fields for now
-                        Ext.apply( obj, {
-                            userCount: 231,
-                            userPolicy: 'User Policy',
-                            groupCount: 12,
-                            groupPolicy: 'Group Policy',
-                            lastModified: '2001-07-04 12:08:56',
-                            plugin: 'Plugin Name'
-                        });
-                        showPanel.el.unmask();
-                        tabs.addTab( {
-                            xtype: 'userstoreFormPanel',
-                            id: 'tab-userstore-' + userstore.data.key,
-                            title: userstore.data.name,
-                            userstore: {
-                                data: obj
-                            }
-                        } );
-                    }
-                } );
-            } else {
-                tabs.addTab( {
-                    xtype: 'userstoreFormPanel'
-                } );
-            }
-        }
-    },
 
     closeUserstoreTab: function( btn, evt, opts )
     {

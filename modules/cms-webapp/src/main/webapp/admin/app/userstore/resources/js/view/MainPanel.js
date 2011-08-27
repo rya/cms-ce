@@ -1,6 +1,6 @@
-Ext.define('CMS.view.ShowPanel', {
+Ext.define('CMS.view.MainPanel', {
     extend: 'Ext.panel.Panel',
-    alias : 'widget.userstoreShow',
+    alias : 'widget.mainPanel',
 
     layout: 'border',
     border: false,
