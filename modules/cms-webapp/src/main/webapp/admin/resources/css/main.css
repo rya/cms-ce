@@ -18,6 +18,10 @@ body,
     margin: 0
 }
 
+.cms-emphasis {
+    font-style: italic;
+}
+
 /* ----- Launcher ----- */
 
 #launcher-toolbar {
@@ -109,6 +113,12 @@ img.photo {
 }
 
 /* ----- Accounts Grid -----*/
+.cms-grid-title {
+    font-weight: bold;
+}
+
+.cms-grid-description {
+}
 
 .x-grid-cell img.thumbnail {
     float: left;

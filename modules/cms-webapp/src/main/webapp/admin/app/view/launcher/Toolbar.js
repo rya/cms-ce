@@ -41,51 +41,56 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     },
                     '-',
                     {
-                        id: 10,
+                        id: 100,
                         text: 'Accounts',
                         appUrl: 'accounts.html',
                         icon: 'resources/images/group.png'
                     },
                     {
-                        id: 20,
+                        id: 200,
                         text: 'Content',
                         appUrl: 'blank.html',
                         icon: 'resources/images/folder_database.png'
                     },
                     {
-                        id: 30,
+                        id: 300,
                         text: 'Sites',
                         appUrl: 'blank.html',
                         icon: 'resources/images/world.png'
                     },
                     {
-                        id: 40,
+                        id: 400,
+                        text: 'Userstores',
+                        appUrl: 'app/userstore/index.html'
+                    },
+                    {
+                        id: 500,
                         text: 'Direct Marketing',
                         appUrl: 'blank.html',
                         icon: 'resources/images/chart_curve.png'
                     },
                     {
-                        id: 50,
+                        id: 600,
                         text: 'Reports',
                         appUrl: 'blank.html',
                         icon: 'resources/images/report.png'
                     },
                     '-',
                     {
-                        id: 60,
+                        id: 700,
                         text: 'Repository',
                         appUrl: 'blank.html',
                         icon: 'resources/images/database.png'
                     },
                     {
-                        id: 70,
+                        id: 800,
                         text: 'System',
                         appUrl: 'system.html',
                         icon: 'resources/images/cog.png'
                     },
                     '-',
                     {
-                        id: 80,
+                        id: 900,
                         text: 'Live Portal Trace',
                         appUrl: 'blank.html',
                         icon: 'resources/images/utilities-system-monitor.png'

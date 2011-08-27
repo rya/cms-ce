@@ -10,7 +10,7 @@ Ext.define( 'CMS.view.GridPanel', {
     columnLines: true,
     frame: false,
     store: 'UserstoreConfigStore',
-    styleHtmlContent: true,
+    //styleHtmlContent: true,
 
     initComponent: function()
     {
@@ -62,7 +62,7 @@ Ext.define( 'CMS.view.GridPanel', {
     nameRenderer: function( value, p, record )
     {
         return Ext.String.format(
-                '<strong>{0}</strong><br/><span>{1}</span>',
+                '<div class="cms-grid-title">{0}</div><div class="cms-grid-description">{1}</div>',
                 value,
                 record.data.name
                 );

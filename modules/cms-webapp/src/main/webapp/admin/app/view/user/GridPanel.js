@@ -11,7 +11,6 @@ Ext.define( 'CMS.view.user.GridPanel', {
     columnLines: true,
     frame: false,
     store: 'UserStore',
-    styleHtmlContent: true,
 
     initComponent: function()
     {
@@ -82,7 +81,9 @@ Ext.define( 'CMS.view.user.GridPanel', {
     nameRenderer: function( value, p, record )
     {
         return Ext.String.format(
-                '<img src="data/user/photo?key={0}&thumb=true" class="thumbnail"><strong>{1}</strong><br><em>{2}</em> in user store {3}',
+                '<div style="float:left"><img src="data/user/photo?key={0}&thumb=true" class="thumbnail"></div>' +
+                        '<div style="float:left"><div class="cms-grid-title">{1}</div>' +
+                        '<div class="cms-grid-description"><span class="cms-emphasis">{2}</span> in user store {3}</div>',
                 record.data.key,
                 value,
                 record.data.name,
