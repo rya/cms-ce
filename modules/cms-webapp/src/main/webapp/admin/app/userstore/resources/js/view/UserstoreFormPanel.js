@@ -1,10 +1,10 @@
-Ext.define( 'CMS.view.UserstoreFormPanel', {
+Ext.define( 'App.view.UserstoreFormPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userstoreFormPanel',
 
     requires: [
-        'CMS.view.UserstoreForm',
-        'CMS.view.UserstoreFormDetail'
+        'App.view.UserstoreForm',
+        'App.view.UserstoreFormDetail'
     ],
 
     title: 'New Userstore',

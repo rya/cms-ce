@@ -1,4 +1,4 @@
-Ext.define('CMS.model.UserstoreConnectorModel', {
+Ext.define('App.model.UserstoreConnectorModel', {
     extend: 'Ext.data.Model',
 
     idProperty: 'name',

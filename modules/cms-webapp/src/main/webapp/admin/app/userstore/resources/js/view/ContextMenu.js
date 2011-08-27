@@ -1,4 +1,4 @@
-Ext.define('CMS.view.ContextMenu', {
+Ext.define('App.view.ContextMenu', {
     extend: 'Ext.menu.Menu',
     alias: 'widget.userstoreContextMenu',
 

@@ -1,4 +1,4 @@
-Ext.define( 'CMS.view.UserstoreForm', {
+Ext.define( 'App.view.UserstoreForm', {
     extend: 'Ext.form.Panel',
     alias: 'widget.userstoreForm',
 

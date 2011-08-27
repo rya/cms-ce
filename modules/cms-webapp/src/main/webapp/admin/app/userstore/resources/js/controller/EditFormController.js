@@ -1,4 +1,4 @@
-Ext.define( 'CMS.controller.EditFormController', {
+Ext.define( 'App.controller.EditFormController', {
     extend: 'Ext.app.Controller',
 
     stores: [

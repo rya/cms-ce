@@ -1,4 +1,4 @@
-Ext.define( 'CMS.view.GridPanel', {
+Ext.define( 'App.view.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userstoreGrid',
 

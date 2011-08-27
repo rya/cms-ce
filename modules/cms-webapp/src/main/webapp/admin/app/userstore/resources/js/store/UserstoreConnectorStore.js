@@ -1,6 +1,6 @@
-Ext.define('CMS.store.UserstoreConnectorStore', {
+Ext.define('App.store.UserstoreConnectorStore', {
     extend: 'Ext.data.Store',
-    model: 'CMS.model.UserstoreConnectorModel',
+    model: 'App.model.UserstoreConnectorModel',
 
     autoLoad: true,
 

@@ -1,4 +1,4 @@
-Ext.define('CMS.view.MainPanel', {
+Ext.define('App.view.MainPanel', {
     extend: 'Ext.panel.Panel',
     alias : 'widget.mainPanel',
 

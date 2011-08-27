@@ -1,4 +1,4 @@
-Ext.define( 'CMS.controller.MainPanelController', {
+Ext.define( 'App.controller.MainPanelController', {
     extend: 'Ext.app.Controller',
 
     stores: [
@@ -47,42 +47,6 @@ Ext.define( 'CMS.controller.MainPanelController', {
             'viewport': {
                 afterrender: this.addBrowseTab
             }
-            /*
-            '*[action=newUserstore]': {
-                click: function() {
-                    this.createUserstoreTab( true );
-                }
-            },
-            '*[action=editUserstore]': {
-                click: function() {
-                    this.createUserstoreTab( false );
-                }
-            },
-            '*[action=deleteUserstore]': {
-                click: this.notImplementedAction
-            },
-            '*[action=syncUserstore]': {
-                click: this.notImplementedAction
-            },
-            '*[action=saveUserstore]': {
-                click: this.saveUserstore
-            },
-            '*[action=cancelUserstore]': {
-                click: this.closeUserstoreTab
-            },
-            'userstoreForm #defaultCheckbox': {
-                change: this.handleDefaultChange
-            },
-            'userstoreForm textfield[name=name]': {
-                keyup: this.handleUserstoreChange
-            },
-            'userstoreForm combobox[name=connectorName]': {
-                change: this.handleConnectorChange
-            },
-            'cmsTabPanel': {
-                tabchange: this.checkUserstoreDirty
-            }
-            */
         } );
     },
 

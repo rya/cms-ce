@@ -1,4 +1,4 @@
-Ext.define( 'CMS.controller.GridPanelController', {
+Ext.define( 'App.controller.GridPanelController', {
     extend: 'Ext.app.Controller',
 
     stores: [
