@@ -12,14 +12,12 @@ Ext.define( 'CMS.controller.MainPanelController', {
 
     views: [
         'Shared.CmsTabPanel',
-        'MainPanel',
-        'UserstoreFormPanel'
+        'MainPanel'
     ],
 
     refs: [
         {ref: 'cmsTabPanel', selector: 'cmsTabPanel'},
-        {ref: 'mainPanel', selector: 'mainPanel'},
-        {ref: 'userstoreForm', selector: 'userstoreForm'},
+        {ref: 'mainPanel', selector: 'mainPanel'}
     ],
 
     init: function()
@@ -37,6 +35,10 @@ Ext.define( 'CMS.controller.MainPanelController', {
             },
             editUserstore: {
                 fn: this.createUserstoreTab,
+                scope: this
+            },
+            closeUserstoreTab: {
+                fn: this.closeUserstoreTab,
                 scope: this
             }
         });
@@ -149,76 +151,16 @@ Ext.define( 'CMS.controller.MainPanelController', {
         }
     },
 
-    closeUserstoreTab: function( btn, evt, opts )
+    closeUserstoreTab: function( button, e, eOpts )
     {
         var tabs = this.getTabs();
         if ( tabs )
         {
-            var tab = btn.up( 'userstoreFormPanel' );
+            var tab = button.up( 'userstoreFormPanel' );
             tabs.remove( tab, true );
         }
     },
 
-    saveUserstore: function()
-    {
-        var form = this.getUserstoreForm().getForm();
-        var tabs = this.getTabs();
-        if ( form.isValid() )
-        {
-            form.submit( {
-                 success: function( form, action )
-                 {
-                     Ext.Msg.alert( 'Success', action.result.msg  || 'Userstore has been saved.' );
-                     tabs.userstoreDirty = true;
-                 },
-                 failure: function( form, action )
-                 {
-                     Ext.Msg.alert( 'Error',
-                                    action.result.msg  || 'Userstore has not been saved.' );
-                 }
-             } );
-        }
-    },
-
-    checkUserstoreDirty: function( tabPanel, newCard, oldCard, options )
-    {
-        /*
-        if( newCard.id == 'tab-browse' && tabPanel.userstoreDirty ) {
-            var iframe = this.getIframe();
-            if ( iframe ) {
-                var grid = iframe.Ext.getCmp('userstoreGridID');
-                if ( grid ) {
-                    grid.getStore().load({
-                        callback: function(records, operation, success) {
-                            tabPanel.userstoreDirty = false;
-                        }
-                    });
-                }
-            }
-        }
-        */
-    },
-
-    notImplementedAction: function ( btn, evt, opts )
-    {
-        Ext.Msg.alert( "Not implemented", btn.action + " is not implemented yet." );
-    },
-
-    /*
-    updateDetailsPanel: function( selModel, selected )
-    {
-        var userstore = selected[0];
-        var userstoreDetail = this.getUserstoreDetail();
-
-        if ( userstore )
-        {
-            userstoreDetail.update( userstore.data );
-            userstoreDetail.setCurrentUserstore( userstore.data );
-        }
-
-        userstoreDetail.setTitle( selected.length + " userstore selected" );
-    },
-    */
 
     getTabs: function() {
         // returns tabs if executed in the system scope
@@ -229,11 +171,6 @@ Ext.define( 'CMS.controller.MainPanelController', {
             tabs = window.parent.Ext.getCmp( 'systemTabPanelID' );
         }
         return tabs;
-    },
-
-    getIframe: function() {
-        var el = Ext.get('system-iframe');
-        return el ? el.dom.contentWindow : null;
     }
 
 } );

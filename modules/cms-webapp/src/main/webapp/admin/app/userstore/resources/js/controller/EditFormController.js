@@ -1,4 +1,4 @@
-Ext.define( 'CMS.controller.ShowPanelController', {
+Ext.define( 'CMS.controller.EditFormController', {
     extend: 'Ext.app.Controller',
 
     stores: [
@@ -10,54 +10,23 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         'UserstoreConnectorModel'
     ],
     views: [
-        'MainPanel',
-        'ContextMenu',
-        'GridPanel',
-        'DetailPanel',
         'UserstoreFormPanel'
     ],
 
     refs: [
-        {ref: 'cmsTabPanel', selector: 'cmsTabPanel'},
-        {ref: 'userstoreDetail', selector: 'userstoreDetail'},
-        {ref: 'userstoreGrid', selector: 'userstoreGrid'},
-        {ref: 'userstoreShow', selector: 'userstoreShow'},
-        {ref: 'userstoreForm', selector: 'userstoreForm'},
-        {ref: 'userstoreContextMenu', selector: 'userstoreContextMenu', autoCreate: true, xtype: 'userstoreContextMenu'}
+        {ref: 'userstoreForm', selector: 'userstoreForm'}
     ],
 
     init: function()
     {
         this.control( {
-            'viewport': {
-                afterrender: this.createBrowseTab
-            },
-            '*[action=newUserstore]': {
-                click: function() {
-                    this.createUserstoreTab( true );
-                }
-            },
-            '*[action=editUserstore]': {
-                click: function() {
-                    this.createUserstoreTab( false );
-                }
-            },
-            '*[action=deleteUserstore]': {
-                click: this.notImplementedAction
-            },
-            '*[action=syncUserstore]': {
-                click: this.notImplementedAction
-            },
-            '*[action=saveUserstore]': {
+            'userstoreForm button[action=saveUserstore]': {
                 click: this.saveUserstore
             },
-            '*[action=cancelUserstore]': {
-                click: this.closeUserstoreTab
-            },
-            'userstoreGrid': {
-                selectionchange: this.updateDetailsPanel,
-                itemcontextmenu: this.popupMenu,
-                itemdblclick: this.createUserstoreTab
+            'userstoreForm button[action=cancelUserstore]': {
+                click: function(button, e, eOpts) {
+                    this.application.fireEvent('closeUserstoreTab', button, e, eOpts)
+                }
             },
             'userstoreForm #defaultCheckbox': {
                 change: this.handleDefaultChange
@@ -67,9 +36,6 @@ Ext.define( 'CMS.controller.ShowPanelController', {
             },
             'userstoreForm combobox[name=connectorName]': {
                 change: this.handleConnectorChange
-            },
-            'cmsTabPanel': {
-                tabchange: this.checkUserstoreDirty
             }
         } );
     },
@@ -110,98 +76,25 @@ Ext.define( 'CMS.controller.ShowPanelController', {
         tab.setTitle( newVals.data.name );
     },
 
-
-    closeUserstoreTab: function( btn, evt, opts )
-    {
-        var tabs = this.getTabs();
-        if ( tabs )
-        {
-            var tab = btn.up( 'userstoreFormPanel' );
-            tabs.remove( tab, true );
-        }
-    },
-
     saveUserstore: function()
     {
         var form = this.getUserstoreForm().getForm();
-        var tabs = this.getTabs();
         if ( form.isValid() )
         {
             form.submit( {
-                 success: function( form, action )
-                 {
+                 success: function( form, action ) {
                      Ext.Msg.alert( 'Success', action.result.msg  || 'Userstore has been saved.' );
-                     tabs.userstoreDirty = true;
                  },
-                 failure: function( form, action )
-                 {
-                     Ext.Msg.alert( 'Error',
-                                    action.result.msg  || 'Userstore has not been saved.' );
+                 failure: function( form, action ) {
+                     Ext.Msg.alert( 'Error', action.result.msg  || 'Userstore has not been saved.' );
                  }
              } );
         }
     },
 
-    checkUserstoreDirty: function( tabPanel, newCard, oldCard, options )
-    {
-        /*
-        if( newCard.id == 'tab-browse' && tabPanel.userstoreDirty ) {
-            var iframe = this.getIframe();
-            if ( iframe ) {
-                var grid = iframe.Ext.getCmp('userstoreGridID');
-                if ( grid ) {
-                    grid.getStore().load({
-                        callback: function(records, operation, success) {
-                            tabPanel.userstoreDirty = false;
-                        }
-                    });
-                }
-            }
-        }
-        */
-    },
-
     notImplementedAction: function ( btn, evt, opts )
     {
         Ext.Msg.alert( "Not implemented", btn.action + " is not implemented yet." );
-    },
-
-    updateDetailsPanel: function( selModel, selected )
-    {
-        var userstore = selected[0];
-        var userstoreDetail = this.getUserstoreDetail();
-
-        if ( userstore )
-        {
-            userstoreDetail.update( userstore.data );
-            userstoreDetail.setCurrentUserstore( userstore.data );
-        }
-
-        userstoreDetail.setTitle( selected.length + " userstore selected" );
-    },
-
-    popupMenu: function( view, rec, node, index, e )
-    {
-        e.stopEvent();
-        this.getUserstoreContextMenu().showAt( e.getXY() );
-        return false;
-    },
-
-
-    getTabs: function() {
-        // returns tabs if executed in the system scope
-        var tabs = this.getCmsTabPanel();
-        // returns tabs if executed inside the iframe of the system app
-        if ( tabs == null && window.parent )
-        {
-            tabs = window.parent.Ext.getCmp( 'systemTabPanelID' );
-        }
-        return tabs;
-    },
-
-    getIframe: function() {
-        var el = Ext.get('system-iframe');
-        return el ? el.dom.contentWindow : null;
     }
 
 } );
