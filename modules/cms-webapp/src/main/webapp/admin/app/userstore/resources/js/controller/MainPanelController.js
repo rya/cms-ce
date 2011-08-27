@@ -11,7 +11,7 @@ Ext.define( 'App.controller.MainPanelController', {
     ],
 
     views: [
-        'Shared.CmsTabPanel',
+        'Common.CmsTabPanel',
         'MainPanel'
     ],
 

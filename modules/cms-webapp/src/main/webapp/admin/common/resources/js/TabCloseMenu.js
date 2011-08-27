@@ -8,7 +8,7 @@
  * @param {Object} config The configuration options
  * @ptype tabclosemenu
  */
-Ext.define('Shared.TabCloseMenu', {
+Ext.define('Common.TabCloseMenu', {
     alias: 'plugin.tabCloseMenu',
 
     mixins: {

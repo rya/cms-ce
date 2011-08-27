@@ -1,7 +1,7 @@
 /**
 * Ext.ux.grid.PageSize
 */
-Ext.define('Shared.PageSizePlugin', {
+Ext.define('Common.PageSizePlugin', {
     extend      : 'Ext.form.field.ComboBox',
     alias       : 'plugin.pageSize',
     editable    : false,

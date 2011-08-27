@@ -1,7 +1,7 @@
-Ext.define( 'Shared.CmsTabPanel', {
+Ext.define( 'Common.CmsTabPanel', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.cmsTabPanel',
-    requires: ['Shared.TabCloseMenu'],
+    requires: ['Common.TabCloseMenu'],
     defaults: { closable: true },
     plugins: ['tabCloseMenu'],
 
