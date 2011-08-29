@@ -14,7 +14,7 @@ import junit.framework.Assert;
 
 import com.enonic.esl.containers.ExtendedMap;
 
-import com.enonic.cms.domain.user.Gender;
+import com.enonic.cms.api.client.model.user.Gender;
 
 public class UserFieldTransformerTest
 {

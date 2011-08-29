@@ -2,6 +2,26 @@
     border: none !important;
 }
 
+/* ----- Overrides ext-all.css ----- */
+
+body,
+.x-body,
+.x-panel-body,
+.x-form-item,
+.x-form-item-label,
+.x-form-display-field {
+    font: 11px tahoma,arial,verdana,sans-serif;
+}
+
+.x-html h1 {
+    font-size: 2.5em;
+    margin: 0
+}
+
+.cms-emphasis {
+    font-style: italic;
+}
+
 /* ----- Launcher ----- */
 
 #launcher-toolbar {
@@ -93,6 +113,12 @@ img.photo {
 }
 
 /* ----- Accounts Grid -----*/
+.cms-grid-title {
+    font-weight: bold;
+}
+
+.cms-grid-description {
+}
 
 .x-grid-cell img.thumbnail {
     float: left;
@@ -363,7 +389,8 @@ img.photo {
 
 .palette-item {
     background-color: #f0f0f0;
-    padding: 5px;
+    padding: 3px;
+    margin:1px;
 }
 
 .item-icon {

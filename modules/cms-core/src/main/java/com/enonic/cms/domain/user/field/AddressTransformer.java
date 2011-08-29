@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-import com.enonic.cms.domain.user.Address;
+import com.enonic.cms.api.client.model.user.Address;
 
 public final class AddressTransformer
 {

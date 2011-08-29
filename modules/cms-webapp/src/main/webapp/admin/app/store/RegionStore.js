@@ -3,7 +3,7 @@ Ext.define('CMS.store.RegionStore', {
 
     model: 'CMS.model.RegionModel',
 
-    //pageSize: 10,
+    //pageSize: 100,
     autoLoad: false,
 
     proxy: {
