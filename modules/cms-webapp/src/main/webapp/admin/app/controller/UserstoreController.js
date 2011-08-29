@@ -69,7 +69,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
                               change: this.handleConnectorChange
                           },
                           'cmsTabPanel': {
-                              tabchange: this.checkUserstoreDirty
+                              tabchange: this.handleUserstoreTabchange
                           },
                           'userstoreFormPanel': {
                               show: {
@@ -80,19 +80,19 @@ Ext.define( 'CMS.controller.UserstoreController', {
                       } );
     },
 
-    syncUserstore: function( btn, evt, opts ) {
+    syncUserstore: function( btn, evt, opts )
+    {
         Ext.Msg.confirm( "Warning", "Synchronizing may take some time. Do you want to proceed ?", function( answer ) {
             if ( "yes" == answer ) {
                 var tabs = this.getTabs();
                 var tab = btn.up('userstoreFormPanel');
                 var detail = btn.up('userstoreDetail');
                 var userstore = tab ? tab.userstore : detail.getCurrentUserstore();
-                if ( tab ) {
+                if ( !detail ) {
                     var iframe = this.getIframe();
                     if ( iframe ) {
                         detail = iframe.Ext.getCmp('userstoreDetailID');
                     }
-                    this.showSyncWindow( tab, true );
                 }
 
                 var task = {
@@ -105,30 +105,39 @@ Ext.define( 'CMS.controller.UserstoreController', {
                             progress: rand,
                             count: [ Math.round( rand * 146 ), 146]
                         };
-                        if ( tab )
-                            tab.syncWindow.updateData( data );
-                        if ( detail ) {
-                            detail.updateSync( data );
+                        if ( this.tab && this.tab.syncWindow )
+                            this.tab.syncWindow.updateData( data );
+                        if ( this.detail ) {
+                            this.detail.updateSync( data );
                         }
                     },
-                    interval: 1000
+                    interval: 1000,
+                    tab: tab,
+                    detail: detail
                 };
                 Ext.TaskManager.start( task );
 
-                if ( !tabs.userstoreSync ) tabs.userstoreSync = [];
-                tabs.userstoreSync.push( {
+                var sync = {
                     key: userstore.data.key,
                     userstore: userstore,
                     task: task
-                } );
+                };
 
-                this.updateDetailsView( detail );
+                if ( !tabs.userstoreSync ) tabs.userstoreSync = [];
+                tabs.userstoreSync.push( sync );
+
+                if ( tab ) {
+                    this.updateSyncWindow( tab, sync );
+                } else if (detail) {
+                    this.updateDetailsView( detail );
+                }
             }
         }, this);
     },
 
-    showSyncWindow: function( tab, show ) {
-        if ( show ) {
+    updateSyncWindow: function( tab, sync )
+    {
+        if ( sync ) {
             if ( !tab.syncWindow ) {
                 tab.syncWindow = Ext.createByAlias( 'widget.userstoreSyncWindow', {
                     renderTo: tab.el.dom,
@@ -136,6 +145,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
                     closable: false
                 } );
             }
+            if ( sync.task ) sync.task.tab = tab;
             if ( !tab.el.isMasked() )tab.el.mask();
             if ( !tab.syncWindow.isVisible() ) tab.syncWindow.show();
         } else if ( tab.syncWindow ) {
@@ -144,14 +154,13 @@ Ext.define( 'CMS.controller.UserstoreController', {
         }
     },
 
-
-    stopSyncUserstore: function( btn, evt, opts ) {
+    stopSyncUserstore: function( btn, evt, opts )
+    {
         var win = btn.up( 'window' );
         var detail = btn.up('userstoreDetail');
         var tabs = this.getTabs();
         var userstore = win ? win.parentTab.userstore : detail.getCurrentUserstore();
 
-        // stop current tabs sync
         Ext.each( tabs.userstoreSync, function( sync ) {
             if ( sync.key == userstore.data.key ) {
                 Ext.TaskManager.stop( sync.task );
@@ -161,27 +170,24 @@ Ext.define( 'CMS.controller.UserstoreController', {
         });
 
         if ( win ) {
-            win.close();
-            win.parentTab.el.unmask();
-
+            this.updateSyncWindow( win.parentTab, false );
         } else if ( detail ) {
             this.updateDetailsView( detail );
         }
     },
 
-
-    checkUserstoreSync: function( tab ) {
+    checkUserstoreSync: function( tab )
+    {
         var tabs = this.getTabs();
-        var isSyncing = false;
+        var s;
         Ext.each( tabs.userstoreSync, function( sync ) {
             if ( sync.key == tab.userstore.data.key ) {
-                isSyncing = true;
+                s = sync;
                 return false;
             }
         });
-        this.showSyncWindow( tab, isSyncing );
+        this.updateSyncWindow( tab, s );
     },
-
 
     handleDefaultChange: function( field, newValue, oldValue, options )
     {
@@ -300,25 +306,28 @@ Ext.define( 'CMS.controller.UserstoreController', {
         }
     },
 
-    checkUserstoreDirty: function( tabPanel, newCard, oldCard, options )
-    {
-        if( newCard.id == 'tab-browse' ) {
+    handleUserstoreTabchange: function ( tabs, newCard, oldCard, opts) {
+        if ( 'tab-browse' == newCard.getId() ) {
             var iframe = this.getIframe();
             if ( iframe ) {
-                if ( tabPanel.userstoreDirty ) {
-                    var grid = iframe.Ext.getCmp('userstoreGridID');
-                    if ( grid ) {
-                        grid.getStore().load({
-                            callback: function(records, operation, success) {
-                                tabPanel.userstoreDirty = false;
-                            }
-                        });
-                    }
-                }
-                var detail = iframe.Ext.getCmp('userstoreDetailID');
-                if ( detail )
+                var grid = iframe.Ext.getCmp( 'userstoreGridID' );
+                if (grid)
+                    this.updateGridView( grid, tabs );
+                var detail = iframe.Ext.getCmp( 'userstoreDetailID' );
+                if (detail)
                     this.updateDetailsView( detail );
             }
+        }
+    },
+
+    updateGridView: function( grid, tabs )
+    {
+        if ( tabs.userstoreDirty ) {
+            grid.getStore().load({
+                callback: function(records, operation, success) {
+                    tabs.userstoreDirty = false;
+                }
+            });
         }
     },
 
