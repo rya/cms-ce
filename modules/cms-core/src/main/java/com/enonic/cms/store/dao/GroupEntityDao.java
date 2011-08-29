@@ -357,6 +357,38 @@ public class GroupEntityDao
     }
 
     @SuppressWarnings({"unchecked"})
+    public List<GroupEntity> findByCriteria( final String nameExpression, final String orderBy,
+                                             final boolean orderAscending, final MatchMode matchMode )
+    {
+
+        return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()
+        {
+
+            public Object doInHibernate( Session session )
+                    throws HibernateException, SQLException
+            {
+
+                Criteria criteria = session.createCriteria( GroupEntity.class ).setCacheable( true );
+                criteria.add( Restrictions.eq( "deleted", 0 ) );
+
+                if ( !StringUtils.isEmpty( nameExpression ) )
+                {
+                    criteria.add( Restrictions.ilike( "name", nameExpression, matchMode ) );
+
+                }
+
+                if ( orderBy != null )
+                {
+                    Order sortOrder = ( orderAscending ) ? Order.asc( orderBy ) : Order.desc( orderBy );
+                    criteria.addOrder( sortOrder.ignoreCase() );
+                }
+
+                return criteria.list();
+            }
+        } );
+    }
+
+    @SuppressWarnings({"unchecked"})
     public List<GroupEntity> findByCriteria( final AccordionSearchCriteria acriteria )
     {
         return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()

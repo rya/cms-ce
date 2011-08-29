@@ -13,7 +13,7 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
                 store: 'GroupStore',
                 triggeredAction: 'all',
                 typeAhead: true,
-                queryMode: 'local',
+                queryMode: 'remote',
                 minChars: 1,
                 forceSelection: true,
                 hideTrigger: true,
