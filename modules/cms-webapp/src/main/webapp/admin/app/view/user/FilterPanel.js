@@ -73,6 +73,11 @@ Ext.define('CMS.view.user.FilterPanel', {
 
             items: [search, {
                 xtype: 'label',
+                text: '1025 Total',
+                cls: 'filter-total'
+
+            }, {
+                xtype: 'label',
                 text: 'Type',
                 cls: 'facet-header'
             }, {

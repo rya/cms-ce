@@ -172,6 +172,10 @@ img.photo {
     font-size: 11px !important;
 }
 
+.filter-total {
+    text-align: right;
+}
+
 .facet-header {
     font-weight: bold;
     margin: 0 0 4px 0

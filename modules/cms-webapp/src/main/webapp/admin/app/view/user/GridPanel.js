@@ -3,8 +3,9 @@ Ext.define( 'CMS.view.user.GridPanel', {
     alias : 'widget.userGrid',
 
     requires: [
-        'CMS.plugin.PageSizePlugin'
+        'CMS.plugin.SlidingPager'
     ],
+
     layout: 'fit',
     multiSelect: true,
     loadMask: true,
@@ -44,7 +45,10 @@ Ext.define( 'CMS.view.user.GridPanel', {
         ];
 
         this.tbar = {
-            xtype: 'toolbar',
+            xtype: 'pagingtoolbar',
+            store: this.store,
+            plugins: ['slidingPager'],
+            prependButtons: true,
             items: [
                 {
                     xtype: 'splitbutton',
@@ -57,17 +61,9 @@ Ext.define( 'CMS.view.user.GridPanel', {
                             {text: 'Group', iconCls: 'icon-group-add', action: 'newGroup'}
                         ]
                     })
-                }
+                },
+                '->'
             ]
-        };
-
-        this.bbar = {
-            xtype: 'pagingtoolbar',
-            store: this.store,
-            displayInfo: true,
-            displayMsg: 'Displaying users {0} - {1} of {2}',
-            emptyMsg: 'No users to display',
-            plugins: ['pageSize']
         };
 
         this.viewConfig = {
