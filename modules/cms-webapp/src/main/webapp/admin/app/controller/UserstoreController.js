@@ -88,12 +88,6 @@ Ext.define( 'CMS.controller.UserstoreController', {
                 var tab = btn.up('userstoreFormPanel');
                 var detail = btn.up('userstoreDetail');
                 var userstore = tab ? tab.userstore : detail.getCurrentUserstore();
-                if ( !detail ) {
-                    var iframe = this.getIframe();
-                    if ( iframe ) {
-                        detail = iframe.Ext.getCmp('userstoreDetailID');
-                    }
-                }
 
                 var task = {
                     run: function() {
@@ -342,6 +336,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
         Ext.each( tabs.userstoreSync, function( sync ) {
             if ( sync.key == detail.currentUserstore.data.key ) {
                 isSyncing = true;
+                if ( sync.task ) sync.task.detail = detail;
                 return false;
             }
         });
