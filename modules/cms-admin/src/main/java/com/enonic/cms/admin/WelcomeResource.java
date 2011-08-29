@@ -5,7 +5,7 @@
 package com.enonic.cms.admin;
 
 import com.enonic.cms.api.Version;
-import com.enonic.cms.core.jaxrs.freemarker.FreemarkerModel;
+import com.enonic.cms.core.jaxrs.freemarker.FreeMarkerModel;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +44,11 @@ public final class WelcomeResource
     }
 
     @GET
-    public FreemarkerModel handleGet(final @Context UriInfo info)
+    public FreeMarkerModel handleGet(final @Context UriInfo info)
     {
         final String baseUrl = info.getBaseUri().toString();
 
-        return FreemarkerModel.create("welcomePage.ftl")
+        return FreeMarkerModel.create("welcomePage.ftl")
                 .put("versionTitle", Version.getTitle())
                 .put( "versionTitleVersion", Version.getTitleAndVersion() )
                 .put( "baseUrl", baseUrl )

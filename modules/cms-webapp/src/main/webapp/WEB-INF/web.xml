@@ -111,19 +111,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>admin</servlet-name>
-        <servlet-class>com.enonic.cms.admin.AdminServlet</servlet-class>
-        <!--load-on-startup>1</load-on-startup-->
-    </servlet>
-
-    <servlet>
-        <servlet-name>portal</servlet-name>
-        <servlet-class>com.enonic.cms.portal.PortalServlet</servlet-class>
+        <servlet-name>main</servlet-name>
+        <servlet-class>com.enonic.cms.core.jaxrs.SpringRestServlet</servlet-class>
         <!--load-on-startup>1</load-on-startup-->
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>admin</servlet-name>
+        <servlet-name>main</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 

@@ -9,7 +9,7 @@ Ext.define('CMS.view.user.UserShortDetailButton', {
     },
 
     initComponent: function(){
-            var iconPane = {
+        var iconPane = {
             xtype: 'panel',
             layout: 'fit',
             border: 0,
