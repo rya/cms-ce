@@ -64,4 +64,4 @@ Ext.define( 'App.controller.DetailPanelController', {
         Ext.ComponentQuery.query( 'userstoreDetail button[action=deleteUserstore]' )[0].setDisabled( disable );
     }
 
-} );
+});

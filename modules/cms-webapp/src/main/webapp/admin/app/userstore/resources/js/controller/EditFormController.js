@@ -19,7 +19,7 @@ Ext.define( 'App.controller.EditFormController', {
 
     init: function()
     {
-        this.control( {
+        this.control({
             'userstoreForm button[action=saveUserstore]': {
                 click: this.saveUserstore
             },

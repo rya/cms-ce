@@ -29,7 +29,7 @@ Ext.define( 'App.controller.GridPanelController', {
                 },
 
                 itemdblclick: function(view, record, item, index, e, eOpts) {
-                    this.application.fireEvent( 'createUserstoreTab', record.data, false);
+                    this.application.fireEvent( 'editUserstore', record.data, false);
                 },
 
                 itemcontextmenu: this.showContextMenu
@@ -37,7 +37,7 @@ Ext.define( 'App.controller.GridPanelController', {
 
             'userstoreGrid button[action=newUserstore]': {
                 click: function(button, e, eOpts) {
-                    this.application.fireEvent( 'createUserstoreTab', null, true);
+                    this.application.fireEvent( 'editUserstore', null, true);
                 }
             },
 

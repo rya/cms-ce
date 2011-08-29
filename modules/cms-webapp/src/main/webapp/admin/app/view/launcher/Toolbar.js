@@ -61,7 +61,8 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     {
                         id: 400,
                         text: 'Userstores',
-                        appUrl: 'app/userstore/index.html'
+                        appUrl: 'app/userstore/index.html',
+                        icon: 'resources/images/address-book-blue-icon.png'
                     },
                     {
                         id: 500,

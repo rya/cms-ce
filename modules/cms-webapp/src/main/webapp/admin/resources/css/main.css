@@ -340,10 +340,14 @@ img.photo {
 
 .cms-dashboard-palette-item {
     cursor: move;
-    background-color: #f0f0f0;
+    background-color: #fafafa;
     padding: 4px;
     margin: 2px;
     clear: both;
+}
+
+.cms-dashboard-palette-item:hover {
+    background-color: #f0f0f0;
 }
 
 .cms-dashboard-palette-item .item-icon {

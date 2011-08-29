@@ -24,10 +24,6 @@ Ext.define( 'App.controller.MainPanelController', {
     {
         // Add events to application scope.
         this.application.on({
-            createUserstoreTab: {
-                fn: this.createUserstoreTab,
-                scope: this
-            },
             newUserstore: {
                 fn: this.createUserstoreTab,
                 scope: this
