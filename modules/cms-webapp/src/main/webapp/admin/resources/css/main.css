@@ -2,6 +2,15 @@
     border: none !important;
 }
 
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
 /* ----- Overrides ext-all.css ----- */
 
 body,
@@ -322,16 +331,33 @@ img.photo {
     background: #fff;
 }
 
-
 .group-item {
     font-size: 14px;
     font-weight: 200;
-    margin: 5;
+    margin: 5px;
     vertical-align: middle;
 }
 
+.cms-dashboard-palette-item {
+    cursor: move;
+    background-color: #f0f0f0;
+    padding: 4px;
+    margin: 2px;
+    clear: both;
+}
 
-/*------    Userstore   ---------*/
+.cms-dashboard-palette-item .item-icon {
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+.cms-dashboard-palette-item .item-text {
+    float: left;
+}
+
+/*------ Userstore ---------*/
 
 .userstore-info .thumbnail {
     float: left;
@@ -339,7 +365,7 @@ img.photo {
 }
 
 .userstore-info .x-panel-body {
-    border-width: 0px !important;
+    border-width: 0 !important;
 }
 
 .userstore-info .x-toolbar {
@@ -376,7 +402,7 @@ img.photo {
     cursor: auto !important;
 }
 
-/*------    Cache   ---------*/
+/*------ Cache ---------*/
 
 .cache-info h1 {
     margin: 0;
@@ -387,18 +413,6 @@ img.photo {
     margin-left: 10px;
 }
 
-.palette-item {
-    background-color: #f0f0f0;
-    padding: 3px;
-    margin:1px;
-}
-
-.item-icon {
-    cursor: move;
-    background: url("../images/chart_curve.png") no-repeat ;
-    padding-left: 20px;
-    height: 20px;
-}
 
 /*------------------------------------------- */
 
