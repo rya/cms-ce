@@ -229,29 +229,33 @@ Ext.define( 'CMS.controller.UserController', {
             var user = selected[0];
 
 
-            if ( user )
-            {
-                Ext.Ajax.request( {
-                    url: 'data/user/userinfo',
-                    method: 'GET',
-                    params: {key: user.get('key')},
-                    success: function( response ){
-                        var jsonObj = Ext.JSON.decode( response.responseText );
-                        userDetail.updateDetails( jsonObj );
-                        userDetail.setCurrentUser( user.data );
-                      }
-                });
-
-            }
+//            if ( user )
+//            {
+//                Ext.Ajax.request( {
+//                    url: 'data/user/userinfo',
+//                    method: 'GET',
+//                    params: {key: user.get('key')},
+//                    success: function( response ){
+//                        var jsonObj = Ext.JSON.decode( response.responseText );
+//                        userDetail.updateDetails( jsonObj );
+//                        userDetail.setCurrentUser( user.data );
+//                      }
+//                });
+//
+//            }
 
             userDetail.setTitle( selected.length + " user selected" );
             this.setDetailsToolbarDisabled();
         }else{
-            var shortInfo = false;
+            var detailed = true;
             if (selected.length > 10){
-                shortInfo = true;
+                detailed = false;
             }
-            userDetail.generateMultipleSelection(selected, shortInfo);
+            var selectedUsers = [];
+            Ext.Array.each(selected, function(user){
+                Ext.Array.include(selectedUsers, user.data);
+            });
+            userDetail.showMultipleSelection(selectedUsers, detailed);
             this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }

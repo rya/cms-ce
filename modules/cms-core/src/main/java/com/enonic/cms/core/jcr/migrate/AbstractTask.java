@@ -1,10 +1,12 @@
 package com.enonic.cms.core.jcr.migrate;
 
-import com.enonic.cms.core.jdbc.JdbcDynaResult;
+import java.text.MessageFormat;
+
 import org.apache.commons.lang.time.StopWatch;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import java.text.MessageFormat;
+
+import com.enonic.cms.core.jdbc.JdbcDynaResult;
 
 public abstract class AbstractTask
 {
