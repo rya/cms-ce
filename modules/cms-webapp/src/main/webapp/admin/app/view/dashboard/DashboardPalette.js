@@ -64,11 +64,12 @@ Ext.define('CMS.view.dashboard.DashboardPalette', {
 
         var generalItem = Ext.create("Ext.view.View", {
             tpl: '<tpl for=".">' +
-                '<div class="palette-item">' +
-                    '<div class="item-icon">{title}</div>' +
-                '</div>' +
-             '</tpl>',
-            itemSelector: 'div.palette-item',
+                    '<div class="cms-dashboard-palette-item clearfix">' +
+                    '<img class="item-icon" src="resources/images/icon_enonic_logo.png"/>' +
+                    '<div class="item-text">{title}</div>' +
+                    '</div>' +
+                    '</tpl>',
+            itemSelector: 'div.cms-dashboard-palette-item',
             singleSelect: true,
             store: generalStore,
             listeners: {
@@ -79,11 +80,12 @@ Ext.define('CMS.view.dashboard.DashboardPalette', {
         });
         var reportsItem = Ext.create("Ext.view.View", {
             tpl: '<tpl for=".">' +
-                '<div class="palette-item">' +
-                    '<div class="item-icon">{title}</div>' +
-                '</div>' +
-             '</tpl>',
-            itemSelector: 'div.palette-item',
+                    '<div class="cms-dashboard-palette-item clearfix">' +
+                    '<img class="item-icon" src="resources/images/chart_curve.png"/>' +
+                    '<div class="item-text">{title}</div>' +
+                    '</div>' +
+                    '</tpl>',
+            itemSelector: 'div.cms-dashboard-palette-item',
             singleSelect: true,
             store: reportsStore,
             listeners: {
@@ -94,11 +96,12 @@ Ext.define('CMS.view.dashboard.DashboardPalette', {
         });
         var systemItem = Ext.create("Ext.view.View", {
             tpl: '<tpl for=".">' +
-                '<div class="palette-item">' +
-                    '<div class="item-icon">{title}</div>' +
-                '</div>' +
-             '</tpl>',
-            itemSelector: 'div.palette-item',
+                    '<div class="cms-dashboard-palette-item clearfix">' +
+                    '<img class="item-icon" src="resources/images/cog.png"/>' +
+                    '<div class="item-text">{title}</div>' +
+                    '</div>' +
+                    '</tpl>',
+            itemSelector: 'div.cms-dashboard-palette-item',
             singleSelect: true,
             store: systemStore,
             listeners: {
