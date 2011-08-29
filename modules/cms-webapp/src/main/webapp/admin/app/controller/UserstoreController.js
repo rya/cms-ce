@@ -93,16 +93,16 @@ Ext.define( 'CMS.controller.UserstoreController', {
                     run: function() {
                         //TODO get real data
                         var rand = Math.random();
-                        var data = {
+                        this.lastData = {
                             key: userstore.data.key,
                             step: [ 1, 3, 'Users' ],
                             progress: rand,
                             count: [ Math.round( rand * 146 ), 146]
                         };
                         if ( this.tab && this.tab.syncWindow )
-                            this.tab.syncWindow.updateData( data );
+                            this.tab.syncWindow.updateData( this.lastData );
                         if ( this.detail ) {
-                            this.detail.updateSync( data );
+                            this.detail.updateSync( this.lastData );
                         }
                     },
                     interval: 1000,
@@ -139,7 +139,10 @@ Ext.define( 'CMS.controller.UserstoreController', {
                     closable: false
                 } );
             }
-            if ( sync.task ) sync.task.tab = tab;
+            if ( sync.task ) {
+                sync.task.tab = tab;
+                tab.syncWindow.updateData( sync.task.lastData );
+            }
             if ( !tab.el.isMasked() )tab.el.mask();
             if ( !tab.syncWindow.isVisible() ) tab.syncWindow.show();
         } else if ( tab.syncWindow ) {
@@ -330,13 +333,17 @@ Ext.define( 'CMS.controller.UserstoreController', {
         Ext.Msg.alert( "Not implemented", btn.action + " is not implemented yet." );
     },
 
-    updateDetailsView: function( detail ) {
+    updateDetailsView: function( detail )
+    {
         var tabs = this.getTabs();
         var isSyncing = false;
         Ext.each( tabs.userstoreSync, function( sync ) {
-            if ( sync.key == detail.currentUserstore.data.key ) {
+            if ( sync.key == detail.getCurrentUserstore().data.key ) {
                 isSyncing = true;
-                if ( sync.task ) sync.task.detail = detail;
+                if ( sync.task ) {
+                    sync.task.detail = detail;
+                    detail.updateSync( sync.task.lastData );
+                }
                 return false;
             }
         });
