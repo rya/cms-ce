@@ -3,45 +3,76 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
     alias: 'widget.userPreferencesPanel',
 
     xtype: 'panel',
-    width: 230,
     layout: 'accordion',
-    activeItem: 1,
-    height: 600,
-    layoutConfig:
-    {
-        autoWidth: false
-    },
 
     initComponent: function()
     {
+        var groupPanel = this.generateGroupPanel(this.userFields);
+        var groupSearch = {
+                xtype: 'combobox',
+                store: 'GroupStore',
+                triggeredAction: 'all',
+                typeAhead: true,
+                queryMode: 'local',
+                minChars: 1,
+                forceSelection: true,
+                hideTrigger: true,
+                valueField: 'key',
+                displayField: 'name',
+                action: 'selectGroup',
+                listConfig: {
+                    getInnerTpl: function()
+                    {
+                        return '<div style="white-space: nowrap;">{name} ({userStore})</div>';
+                    }
+                }
+            };
         var groupsPanel = {
             xtype: 'panel',
-            title: 'Groups'
+            layout: {
+                type: 'vbox',
+                align: 'stretchmax'
+            },
+            title: 'Groups',
+            items: [groupSearch, groupPanel]
         };
+
+        this.items = [groupsPanel];
         this.callParent( arguments );
     },
 
-    generateGroupsFieldSet: function (userData){
+    generateGroupPanel: function (userData){
         var groupFields = [];
+        var groupKeys = [];
         Ext.Array.each(userData.groups, function(group){
             var groupField = {
-                    xtype: 'button',
-                    text: group.name,
-                    iconCls: 'icon-group',
-                    cls: 'group-display',
-                    margin: 5
-                };
-            Ext.Array.include(groupFields, groupField);
-        });
-        if (groupFields.length > 0){
-            var groupFieldSet = {
-                xtype: 'panel',
-                layout: 'column',
-                items: groupFields
+                xtype: 'groupDetailButton',
+                value: group.name,
+                key: group.key
             };
-            return groupFieldSet;
+            Ext.Array.include(groupFields, groupField);
+            Ext.Array.include(groupKeys, group.key);
+        });
+        var groupPanel = {
+            xtype: 'panel',
+            itemId: 'groupPanel',
+            groupKeys: groupKeys,
+            layout: 'column',
+            flex: 1,
+            removeItem: function(item){
+                this.remove(item);
+                Ext.Array.remove(this.groupKeys, item.key);
+            },
+            addItem: function(item){
+                this.add(item);
+                Ext.Array.include(this.groupKeys, item.key);
+            }
+        };
+        if (groupFields.length > 0){
+            groupPanel.items = groupFields;
+            return groupPanel;
         }else{
-            return null;
+            return groupPanel;
         }
     }
 } )

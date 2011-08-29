@@ -1,10 +1,10 @@
-Ext.define( 'CMS.view.userstore.UserstoreFormPanel', {
+Ext.define( 'App.view.UserstoreFormPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userstoreFormPanel',
 
     requires: [
-        'CMS.view.userstore.UserstoreForm',
-        'CMS.view.userstore.UserstoreFormDetail'
+        'App.view.UserstoreForm',
+        'App.view.UserstoreFormDetail'
     ],
 
     title: 'New Userstore',
@@ -26,7 +26,7 @@ Ext.define( 'CMS.view.userstore.UserstoreFormPanel', {
                     {
                         // TODO: Create an Ext component.
                         xtype: 'image',
-                        src: 'resources/images/app-icon-userstores.png',
+                        src: 'resources/images/app-icon.png',
                         width: 150
                     }
                 ]

@@ -239,7 +239,7 @@ public class GroupEntity
     {
         if ( qualifiedName == null )
         {
-            if ( isGlobal() )
+            if ( isGlobal() || (getUserStore() == null) )
             {
                 qualifiedName = new QualifiedGroupname( true, null, getName() );
             }

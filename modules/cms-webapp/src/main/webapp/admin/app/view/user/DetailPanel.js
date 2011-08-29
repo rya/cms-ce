@@ -5,14 +5,11 @@ Ext.define('CMS.view.user.DetailPanel', {
     title: 'Details',
     split: true,
     autoScroll: true,
-    layout: 'fit',
+    layout: 'card',
+    collapsible: true,
 
     initComponent: function() {
 
-        this.items = [
-            {
-                region: 'center'
-            }];
         this.dockedItems = [
             {
                 dock: 'top',
@@ -39,8 +36,29 @@ Ext.define('CMS.view.user.DetailPanel', {
                 ]
             }
         ];
-
+        var largeBoxesPanel = this.createLargeBoxSelection();
+        var smallBoxesPanel = this.createSmallBoxSelection();
+        var detailsPanel = this.updateDetails({});
+        this.items = [detailsPanel, largeBoxesPanel, smallBoxesPanel];
         this.callParent(arguments);
+    },
+
+    showMultipleSelection: function(data, detailed){
+        var activeItem;
+        if (detailed){
+            activeItem = this.down('#largeBoxPanel');
+            this.getLayout().setActiveItem('largeBoxPanel');
+        }else{
+            activeItem = this.down('#smallBoxPanel');
+            this.getLayout().setActiveItem('smallBoxPanel');
+        }
+        activeItem.update({users: data});
+    },
+
+    showSingleSelection: function(data){
+        var activeItem = this.down('#detailsPanel');
+        this.getLayout().setActiveItem('detailsPanel');
+        activeItem.update(data);
     },
 
     updateDetails: function(user){
@@ -132,6 +150,7 @@ Ext.define('CMS.view.user.DetailPanel', {
         };
         var pane = {
             xtype: 'panel',
+            itemId: 'detailsPanel',
             border: false,
             layout: {
                 type: 'hbox',
@@ -142,8 +161,7 @@ Ext.define('CMS.view.user.DetailPanel', {
             autoHeight: true,
             items: [userInfoPane, detailsPanel]
         };
-        this.removeAll();
-        this.add(pane);
+        return pane;
     },
 
     generateFieldSet: function(title, fields, userData){
@@ -201,44 +219,43 @@ Ext.define('CMS.view.user.DetailPanel', {
         }
     },
 
-    generateMultipleSelection: function(userArray, shortInfo){
-        var me = this;
-//        var userPaneArray = [];
-//        Ext.Array.each(userArray, function(user){
-//            Ext.Array.include(userPaneArray, me.generateUserButton(user, shortInfo));
-//        });
-//        var panel = {
-//            xtype: 'panel',
-//            itemId: 'userContainer',
-//            layout: 'column',
-//            measureWidth: true,
-//            autoScroll: true,
-//            items: userPaneArray
-//        };
-//        me.removeAll();
-//        me.add(panel);
+    createLargeBoxSelection: function(){
         var tpl = Ext.Template('<tpl for="users">' +
-                                       '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
-                                       '<div class="left">' +
-                                       '<img alt="User" src="data/user/photo?key={key}&thumb=true"/>' +
-                                       '</div>' +
-                                       '<div class="center">' +
-                                       '<h2>{displayName}</h2>' +
-                                       '<p>{userStore}/{name}</p>' +
-                                       '</div>' +
-                                       '<div class="right">' +
-                                       ' <a href=""></a>' +
-                                       '</div>' +
-                                       '</div>' +
-                                       '</tpl>');
+           '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
+           '<div class="left">' +
+           '<img alt="User" src="data/user/photo?key={key}&thumb=true"/></div>' +
+           '<div class="center">' +
+           '<h2>{displayName}</h2>' +
+           '<p>{userStore}/{name}</p></div>' +
+           '<div class="right">' +
+           ' <a href=""></a></div></div>' +
+           '</tpl>');
         var panel = {
             xtype: 'panel',
+            itemId: 'largeBoxPanel',
             styleHtmlContent: true,
-            data: {users: userArray},
             tpl: tpl
         }
-        me.removeAll();
-        me.add(panel);
+        return panel;
+    },
+
+    createSmallBoxSelection: function(){
+        var tpl = Ext.Template('<tpl for="users">' +
+            '<div class="cms-selected-item-box small x-btn-default-small clearfix">' +
+            '<div class="cms-selected-item-box left">' +
+            '<img alt="User" src="data/user/photo?key={key}&thumb=true"/></div>' +
+            '<div class="cms-selected-item-box center">' +
+            '<h2>{displayName}</h2></div>' +
+            '<div class="cms-selected-item-box right">' +
+            '<a href="javascript;"></a></div></div>'+
+            '</tpl>');
+        var panel = {
+            xtype: 'panel',
+            itemId: 'smallBoxPanel',
+            styleHtmlContent: true,
+            tpl: tpl
+        }
+        return panel;
     },
 
     generateUserButton: function(userData, shortInfo){
