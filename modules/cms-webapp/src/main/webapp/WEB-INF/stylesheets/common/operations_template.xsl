@@ -111,101 +111,101 @@
                         </xsl:call-template>
                     </td>
 
-                    <xsl:if test="$includecopy='true' and not(//content)">
-                        <td align="center" class="operationscell">
+                </xsl:if>
+                <xsl:if test="$includecopy='true' and not(//content)">
+                    <td align="center" class="operationscell">
 
-                            <xsl:variable name="copy_condition">
-                                <xsl:choose>
-                                    <xsl:when test="$copywarning and $copycondition = ''">
-                                        <xsl:text>confirm('%alertCopy%')</xsl:text>
-                                    </xsl:when>
-                                    <xsl:when test="$copywarning and $copycondition != ''">
-                                        <xsl:value-of select="$copycondition"/>
-                                    </xsl:when>
-                                </xsl:choose>
-                            </xsl:variable>
+                        <xsl:variable name="copy_condition">
+                            <xsl:choose>
+                                <xsl:when test="$copywarning and $copycondition = ''">
+                                    <xsl:text>confirm('%alertCopy%')</xsl:text>
+                                </xsl:when>
+                                <xsl:when test="$copywarning and $copycondition != ''">
+                                    <xsl:value-of select="$copycondition"/>
+                                </xsl:when>
+                            </xsl:choose>
+                        </xsl:variable>
 
-                            <xsl:variable name="copy_href">
-                                <xsl:choose>
-                                    <xsl:when test="$copyhref != ''">
-                                        <xsl:value-of select="$copyhref"/>
-                                    </xsl:when>
-                                    <xsl:otherwise>
-                                        <xsl:text>adminpage?page=</xsl:text>
-                                        <xsl:value-of select="$page"/>
-                                        <xsl:text>&amp;op=copy&amp;key=</xsl:text><xsl:value-of select="$key"/>
-                                        <xsl:if test="$cat != ''">
-                                            <xsl:text>&amp;cat=</xsl:text>
-                                            <xsl:value-of select="$cat"/>
-                                        </xsl:if>
-                                        <xsl:if test="$selectedunitkey != ''">
-                                            <xsl:text>&amp;selectedunitkey=</xsl:text>
-                                            <xsl:value-of select="$selectedunitkey"/>
-                                        </xsl:if>
-                                        <xsl:if test="$menukey != ''">
-                                            <xsl:text>&amp;menukey=</xsl:text>
-                                            <xsl:value-of select="$menukey"/>
-                                        </xsl:if>
-                                    </xsl:otherwise>
-                                </xsl:choose>
-                            </xsl:variable>
-
-                            <xsl:call-template name="button">
-                                <xsl:with-param name="style" select="'flat'"/>
-                                <xsl:with-param name="type" select="'link'"/>
-                                <xsl:with-param name="id">
-                                    <xsl:text>copy</xsl:text><xsl:value-of select="$key"/>
-                                </xsl:with-param>
-                                <xsl:with-param name="image" select="'images/icon_copy.gif'"/>
-                                <xsl:with-param name="disabled" select="string($enablecopy = 'false')"/>
-                                <xsl:with-param name="tooltip" select="'%altContentCopy%'"/>
-                                <xsl:with-param name="href" select="$copy_href"/>
-                                <xsl:with-param name="condition" select="$copy_condition"/>
-                            </xsl:call-template>
-
-                        </td>
-                    </xsl:if>
-
-                    <xsl:if test="$includedelete = 'true'">
-                        <td align="center" class="operationscell">
-                            <xsl:variable name="deletedisabled">
-                                <xsl:choose>
-                                    <xsl:when test="$enabledelete = 'true'">false</xsl:when>
-                                    <xsl:otherwise>true</xsl:otherwise>
-                                </xsl:choose>
-                            </xsl:variable>
-                            <xsl:variable name="deletetooltip">
-                                <xsl:choose>
-                                    <xsl:when test="$deletedisabled = 'true'">%altCannotDelete%</xsl:when>
-                                    <xsl:otherwise>%altContentDelete%</xsl:otherwise>
-                                </xsl:choose>
-                            </xsl:variable>
-                            <xsl:call-template name="button">
-                                <xsl:with-param name="style" select="'flat'"/>
-                                <xsl:with-param name="type" select="'link'"/>
-                                <xsl:with-param name="image" select="'images/icon_delete.gif'"/>
-                                <xsl:with-param name="disabled" select="$deletedisabled"/>
-                                <xsl:with-param name="tooltip" select="$deletetooltip"/>
-                                <xsl:with-param name="href">
+                        <xsl:variable name="copy_href">
+                            <xsl:choose>
+                                <xsl:when test="$copyhref != ''">
+                                    <xsl:value-of select="$copyhref"/>
+                                </xsl:when>
+                                <xsl:otherwise>
                                     <xsl:text>adminpage?page=</xsl:text>
                                     <xsl:value-of select="$page"/>
-                                    <xsl:text>&amp;op=remove&amp;key=</xsl:text><xsl:value-of select="$key"/>
-                                    <xsl:text>&amp;cat=</xsl:text>
-                                    <xsl:value-of select="$cat"/>
-                                    <xsl:text>&amp;selectedunitkey=</xsl:text>
-                                    <xsl:value-of select="$selectedunitkey"/>
-                                </xsl:with-param>
-                                <xsl:with-param name="condition">
-                                    <xsl:text>confirm('%alertDelete%')</xsl:text>
-                                </xsl:with-param>
-                                <xsl:with-param name="onclick">
-                                  <xsl:value-of select="$JSdeleteCallback"/>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                        </td>
-                    </xsl:if>
+                                    <xsl:text>&amp;op=copy&amp;key=</xsl:text><xsl:value-of select="$key"/>
+                                    <xsl:if test="$cat != ''">
+                                        <xsl:text>&amp;cat=</xsl:text>
+                                        <xsl:value-of select="$cat"/>
+                                    </xsl:if>
+                                    <xsl:if test="$selectedunitkey != ''">
+                                        <xsl:text>&amp;selectedunitkey=</xsl:text>
+                                        <xsl:value-of select="$selectedunitkey"/>
+                                    </xsl:if>
+                                    <xsl:if test="$menukey != ''">
+                                        <xsl:text>&amp;menukey=</xsl:text>
+                                        <xsl:value-of select="$menukey"/>
+                                    </xsl:if>
+                                </xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:variable>
 
+                        <xsl:call-template name="button">
+                            <xsl:with-param name="style" select="'flat'"/>
+                            <xsl:with-param name="type" select="'link'"/>
+                            <xsl:with-param name="id">
+                                <xsl:text>copy</xsl:text><xsl:value-of select="$key"/>
+                            </xsl:with-param>
+                            <xsl:with-param name="image" select="'images/icon_copy.gif'"/>
+                            <xsl:with-param name="disabled" select="string($enablecopy = 'false')"/>
+                            <xsl:with-param name="tooltip" select="'%altContentCopy%'"/>
+                            <xsl:with-param name="href" select="$copy_href"/>
+                            <xsl:with-param name="condition" select="$copy_condition"/>
+                        </xsl:call-template>
+
+                    </td>
                 </xsl:if>
+
+                <xsl:if test="$includedelete = 'true'">
+                    <td align="center" class="operationscell">
+                        <xsl:variable name="deletedisabled">
+                            <xsl:choose>
+                                <xsl:when test="$enabledelete = 'true'">false</xsl:when>
+                                <xsl:otherwise>true</xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:variable>
+                        <xsl:variable name="deletetooltip">
+                            <xsl:choose>
+                                <xsl:when test="$deletedisabled = 'true'">%altCannotDelete%</xsl:when>
+                                <xsl:otherwise>%altContentDelete%</xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:variable>
+                        <xsl:call-template name="button">
+                            <xsl:with-param name="style" select="'flat'"/>
+                            <xsl:with-param name="type" select="'link'"/>
+                            <xsl:with-param name="image" select="'images/icon_delete.gif'"/>
+                            <xsl:with-param name="disabled" select="$deletedisabled"/>
+                            <xsl:with-param name="tooltip" select="$deletetooltip"/>
+                            <xsl:with-param name="href">
+                                <xsl:text>adminpage?page=</xsl:text>
+                                <xsl:value-of select="$page"/>
+                                <xsl:text>&amp;op=remove&amp;key=</xsl:text><xsl:value-of select="$key"/>
+                                <xsl:text>&amp;cat=</xsl:text>
+                                <xsl:value-of select="$cat"/>
+                                <xsl:text>&amp;selectedunitkey=</xsl:text>
+                                <xsl:value-of select="$selectedunitkey"/>
+                            </xsl:with-param>
+                            <xsl:with-param name="condition">
+                                <xsl:text>confirm('%alertDelete%')</xsl:text>
+                            </xsl:with-param>
+                            <xsl:with-param name="onclick">
+                                <xsl:value-of select="$JSdeleteCallback"/>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </td>
+                </xsl:if>
+
             </tr>
         </table>
 
