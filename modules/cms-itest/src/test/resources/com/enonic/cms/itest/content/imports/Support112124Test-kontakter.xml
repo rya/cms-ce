@@ -1,0 +1,6 @@
+<kontakter antall="4" dato="Wed May 18 09:41:07 CEST 2011">
+<kontakt id="test1" telefon="21094642" mobil="" epost="biblioteket@ssb.no" initialer="" endret="2011-05-18 09:37:52.595">Bibliotek og Informasjonssenteret</kontakt>
+<kontakt id="test2" telefon="" mobil="" epost="iau@ssb.no" initialer="iau" endret="2011-05-18 09:37:52.672">Ingen Mann</kontakt>
+<kontakt id="test3" telefon="" mobil="" epost="ebs@ssb.no" initialer="ebs" endret="2011-05-18 09:37:52.689">Ell Emelle</kontakt>
+<kontakt id="test4" telefon="" mobil="" epost="ien@ssb.no" initialer="ien" endret="2011-05-18 09:37:52.705">Inte Nett</kontakt>
+</kontakter>

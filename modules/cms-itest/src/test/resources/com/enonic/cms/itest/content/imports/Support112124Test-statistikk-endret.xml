@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<statistikk id='1' defaultLang='nb' endret='2011-05-18 09:37:56.454'>
+  <navn>
+    <navn xml:lang='no' kortform=''>Veitrafikkulykker</navn>
+  </navn>
+  <kortnavn id='1'>vtu</kortnavn>
+  <status kode='A' />
+  <kontakter>
+    <kontakt id='test4' />
+    <kontakt id='test3' />
+    <kontakt id='test2' />
+  </kontakter>
+</statistikk>
