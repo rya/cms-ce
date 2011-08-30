@@ -1,16 +1,16 @@
 package com.enonic.cms.core.jdbc;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.mockito.Mockito;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 
-import javax.sql.RowSet;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Set;
+import static org.junit.Assert.*;
 
 public class JdbcDynaResultTest
 {

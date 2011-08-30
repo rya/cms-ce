@@ -1,12 +1,13 @@
 package com.enonic.cms.core.jdbc;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class JdbcDynaRowTest
 {

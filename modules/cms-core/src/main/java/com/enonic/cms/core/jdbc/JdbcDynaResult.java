@@ -1,13 +1,15 @@
 package com.enonic.cms.core.jdbc;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 
 public final class JdbcDynaResult
     implements Iterator<JdbcDynaRow>, Iterable<JdbcDynaRow>
