@@ -313,7 +313,7 @@ public class CustomContentDataTest
         ctyBuilder.addInput( "myGroupEntryRequiredField2", "text", "my-group-entry-field-2", "myGroupEntryRequiredField2", false );
         ctyBuilder.endBlock();
 
-        Element configEl = JDOMUtil.parseDocument( ctyBuilder.toString() ).getRootElement();
+        Element configEl = JDOMUtil.parseDocument( ctyBuilder.toString() ).getRootElement().getChild( "config" );
         ContentTypeConfig config = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, configEl );
 
         CustomContentData contentData = new CustomContentData( config );

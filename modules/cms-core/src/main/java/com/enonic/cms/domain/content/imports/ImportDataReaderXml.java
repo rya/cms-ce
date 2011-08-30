@@ -1,7 +1,3 @@
-/*
- * Copyright 2000-2011 Enonic AS
- * http://www.enonic.com/license
- */
 package com.enonic.cms.domain.content.imports;
 
 import java.io.InputStream;
@@ -10,6 +6,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -42,8 +39,9 @@ import com.enonic.cms.domain.content.imports.sourcevalueholders.BinarySourceValu
 import com.enonic.cms.domain.content.imports.sourcevalueholders.StringArraySourceValue;
 import com.enonic.cms.domain.content.imports.sourcevalueholders.StringSourceValue;
 
+// TODO: improve implementation: read as we go
 public class ImportDataReaderXml
-    extends AbstractImportDataReader
+        extends AbstractImportDataReader
 {
     private final List<ImportDataEntry> entries = new ArrayList<ImportDataEntry>();
 
@@ -103,7 +101,7 @@ public class ImportDataReaderXml
     }
 
     private void readData( final InputStream data )
-        throws Exception
+            throws Exception
     {
         final List<NodeInfo> baseNodes = getBaseNodes( data );
 
@@ -123,7 +121,7 @@ public class ImportDataReaderXml
     }
 
     private List<NodeInfo> getBaseNodes( final InputStream data )
-        throws Exception
+            throws Exception
     {
 
         final XMLDocument tep = XMLDocumentFactory.create( new InputStreamReader( data, "UTF-8" ) );
@@ -138,7 +136,7 @@ public class ImportDataReaderXml
     }
 
     private List<NodeInfo> getBaseNodes( final NodeInfo nodeInfo, final String xpath )
-        throws Exception
+            throws Exception
     {
         final XPathExpression exprBase = getXPathExpression( nodeInfo, xpath );
         final List resultBase = exprBase.evaluate( nodeInfo );
@@ -155,14 +153,14 @@ public class ImportDataReaderXml
     }
 
     private void addMappings( final NodeInfo nodeInfo, final ImportDataEntry entry )
-        throws Exception
+            throws Exception
     {
         addMappings( nodeInfo, entry, config.getMappings(), null );
     }
 
-    private void addMappings( final NodeInfo nodeInfo, final ImportDataEntry entry, final List<CtyImportMappingConfig> mapings,
-                              final String base )
-        throws Exception
+    private void addMappings( final NodeInfo nodeInfo, final ImportDataEntry entry,
+                              final List<CtyImportMappingConfig> mapings, final String base )
+            throws Exception
     {
         for ( final CtyImportMappingConfig mapping : mapings )
         {
@@ -175,7 +173,7 @@ public class ImportDataReaderXml
     }
 
     private void addMetadataMappings( final NodeInfo nodeInfo, final ImportDataEntry entry )
-        throws Exception
+            throws Exception
     {
         for ( final CtyImportMappingConfig metadataMapping : config.getMetadataMappings() )
         {
@@ -188,7 +186,7 @@ public class ImportDataReaderXml
     }
 
     private void addBlocks( final NodeInfo nodeInfo, final ImportDataEntry entry )
-        throws Exception
+            throws Exception
     {
         for ( final CtyImportBlockConfig block : config.getBlocks() )
         {
@@ -208,8 +206,9 @@ public class ImportDataReaderXml
         }
     }
 
-    private AbstractSourceValue getSourceValue( final NodeInfo nodeInfo, final CtyImportMappingConfig mapping, final String base )
-        throws Exception
+    private AbstractSourceValue getSourceValue( final NodeInfo nodeInfo, final CtyImportMappingConfig mapping,
+                                                final String base )
+            throws Exception
     {
         AbstractSourceValue value = null;
         final String xpath = getXpathValue( base, mapping.getSource() );
@@ -239,7 +238,7 @@ public class ImportDataReaderXml
         }
         else if ( !mapping.isMetaDataMapping() && mapping.isMultiple() )
         {
-            final Set<String> stringsValue = getStringValues( nodeInfo, xpath );
+            final LinkedHashSet<String> stringsValue = getStringValues( nodeInfo, xpath );
             if ( stringsValue != null )
             {
                 value = new StringArraySourceValue( stringsValue );
@@ -256,7 +255,8 @@ public class ImportDataReaderXml
 
         if ( value != null && mapping.hasAdditionalSource() )
         {
-            value.setAdditionalValue( getStringValue( nodeInfo, getXpathValue( base, mapping.getAdditionalSource() ) ) );
+            value.setAdditionalValue(
+                    getStringValue( nodeInfo, getXpathValue( base, mapping.getAdditionalSource() ) ) );
         }
         return value;
     }
@@ -278,7 +278,7 @@ public class ImportDataReaderXml
     }
 
     private byte[] getBinaryValue( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException, DecoderException
+            throws XPathException, DecoderException
     {
         String base64String = getStringValue( nodeInfo, xpath );
         if ( base64String == null )
@@ -289,7 +289,7 @@ public class ImportDataReaderXml
     }
 
     private String getStringValue( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException
+            throws XPathException
     {
         final XPathExpression expr = getXPathExpression( nodeInfo, xpath );
         final Object o = expr.evaluateSingle( nodeInfo );
@@ -297,7 +297,7 @@ public class ImportDataReaderXml
     }
 
     private String getHtmlValue( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException
+            throws XPathException
     {
         final XPathExpression expr = getXPathExpression( nodeInfo, xpath + "/node()" );
         final List<Object> nodes = expr.evaluate( nodeInfo );
@@ -305,20 +305,20 @@ public class ImportDataReaderXml
     }
 
     private String getXmlValue( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException
+            throws XPathException
     {
         final XPathExpression expr = getXPathExpression( nodeInfo, xpath + "/descendant::*" );
         final Object o = expr.evaluateSingle( nodeInfo );
         return getXmlValue( o );
     }
 
-    private Set<String> getStringValues( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException
+    private LinkedHashSet<String> getStringValues( final NodeInfo nodeInfo, final String xpath )
+            throws XPathException
     {
         final XPathExpression expr = getXPathExpression( nodeInfo, xpath );
         final List<Object> os = expr.evaluate( nodeInfo );
 
-        final Set<String> values = new HashSet<String>();
+        final LinkedHashSet<String> values = new LinkedHashSet<String>();
         for ( Object o : os )
         {
             values.add( getStringValue( o ) );
@@ -327,7 +327,7 @@ public class ImportDataReaderXml
     }
 
     private XPathExpression getXPathExpression( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException
+            throws XPathException
     {
         final NamespaceResolver resolver = new CombinedNamespaceResolver( getNamespaceResolvers( nodeInfo ) );
         this.evaluator.setNamespaceResolver( resolver );
@@ -350,7 +350,7 @@ public class ImportDataReaderXml
     }
 
     private String getHtmlValue( final List<Object> nodes )
-        throws XPathException
+            throws XPathException
     {
         StringBuffer xhtml = new StringBuffer();
         for ( Object node : nodes )
@@ -361,13 +361,13 @@ public class ImportDataReaderXml
     }
 
     private String getXmlValue( final Object o )
-        throws XPathException
+            throws XPathException
     {
         return serialize( o, "xml", false );
     }
 
     private String serialize( final Object o, final String method, final boolean includeProlog )
-        throws XPathException
+            throws XPathException
     {
         if ( o instanceof NodeInfo )
         {
@@ -385,8 +385,9 @@ public class ImportDataReaderXml
             {
                 props.setProperty( "omit-xml-declaration", "no" );
             }
-            final Receiver serializer =
-                config.getSerializerFactory().getReceiver( new StreamResult( sw ), config.makePipelineConfiguration(), props );
+            final Receiver serializer = config.getSerializerFactory().getReceiver( new StreamResult( sw ),
+                                                                                   config.makePipelineConfiguration(),
+                                                                                   props );
             nodeInfo.copy( serializer, NodeInfo.ALL_NAMESPACES, true, 0 );
             return sw.toString();
         }
@@ -417,7 +418,7 @@ public class ImportDataReaderXml
     }
 
     private class CombinedNamespaceResolver
-        implements NamespaceResolver
+            implements NamespaceResolver
     {
         final private Set<NamespaceResolver> resolvers;
 
