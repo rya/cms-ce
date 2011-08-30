@@ -14,11 +14,6 @@ Ext.define( 'App.controller.GridPanelController', {
         'GridPanel'
     ],
 
-    refs: [
-        {ref: 'grid', selector: 'userstoreGrid'},
-        {ref: 'contextMenu', selector: 'userstoreContextMenu', autoCreate: true, xtype: 'userstoreContextMenu'}
-    ],
-
     init: function()
     {
         // Add listeners to GUI controls.
@@ -55,6 +50,14 @@ Ext.define( 'App.controller.GridPanelController', {
         e.stopEvent();
         this.getContextMenu().showAt( e.getXY() );
         return false;
+    },
+
+    getGrid: function() {
+        return Ext.getCmp('userstoreGrid');
+    },
+
+    getContextMenu: function() {
+        return Ext.getCmp('userstoreContextMenu');
     }
 
 } );

@@ -13,10 +13,6 @@ Ext.define( 'App.controller.DetailPanelController', {
         'DetailPanel'
     ],
 
-    refs: [
-        {ref: 'detailPanel', selector: 'userstoreDetail'}
-    ],
-
     init: function()
     {
         this.application.on({
@@ -62,6 +58,10 @@ Ext.define( 'App.controller.DetailPanelController', {
     setButtonsDisabled: function(disable) {
         Ext.ComponentQuery.query( 'userstoreDetail button[action=editUserstore]' )[0].setDisabled( disable );
         Ext.ComponentQuery.query( 'userstoreDetail button[action=deleteUserstore]' )[0].setDisabled( disable );
+    },
+
+    getDetailPanel: function() {
+        return Ext.getCmp('userstoreDetail');
     }
 
 });

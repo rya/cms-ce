@@ -13,10 +13,6 @@ Ext.define( 'App.controller.EditFormController', {
         'UserstoreFormPanel'
     ],
 
-    refs: [
-        {ref: 'userstoreForm', selector: 'userstoreForm'}
-    ],
-
     init: function()
     {
         this.control({
@@ -95,6 +91,10 @@ Ext.define( 'App.controller.EditFormController', {
     notImplementedAction: function ( btn, evt, opts )
     {
         Ext.Msg.alert( "Not implemented", btn.action + " is not implemented yet." );
+    },
+
+    getUserstoreForm: function() {
+        return Ext.getCmp('userstoreForm');
     }
 
 } );
