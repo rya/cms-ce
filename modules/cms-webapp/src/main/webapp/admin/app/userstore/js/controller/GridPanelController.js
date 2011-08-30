@@ -16,6 +16,8 @@ Ext.define( 'App.controller.GridPanelController', {
 
     init: function()
     {
+        Ext.create('widget.userstoreContextMenu');
+
         // Add listeners to GUI controls.
         this.control({
             'userstoreGrid': {
@@ -53,11 +55,11 @@ Ext.define( 'App.controller.GridPanelController', {
     },
 
     getGrid: function() {
-        return Ext.getCmp('userstoreGrid');
+        return Ext.ComponentQuery.query('userstoreGrid')[0];
     },
 
     getContextMenu: function() {
-        return Ext.getCmp('userstoreContextMenu');
+        return Ext.ComponentQuery.query('userstoreContextMenu')[0];
     }
 
 } );

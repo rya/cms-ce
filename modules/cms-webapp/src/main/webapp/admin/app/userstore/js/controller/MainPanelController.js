@@ -129,11 +129,12 @@ Ext.define( 'App.controller.MainPanelController', {
     },
 
     getMainPanel: function() {
-        return Ext.getCmp('mainPanel');
+        return Ext.ComponentQuery.query('mainPanel')[0];
+
     },
 
     getCmsTabPanel: function() {
-        return Ext.getCmp('cmsTabPanel');
+        return Ext.ComponentQuery.query('cmsTabPanel')[0];
     }
 
 } );

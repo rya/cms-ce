@@ -94,7 +94,7 @@ Ext.define( 'App.controller.EditFormController', {
     },
 
     getUserstoreForm: function() {
-        return Ext.getCmp('userstoreForm');
+        return Ext.ComponentQuery.query('userstoreForm')[0];
     }
 
 } );

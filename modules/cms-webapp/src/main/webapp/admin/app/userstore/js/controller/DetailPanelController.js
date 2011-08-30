@@ -61,7 +61,7 @@ Ext.define( 'App.controller.DetailPanelController', {
     },
 
     getDetailPanel: function() {
-        return Ext.getCmp('userstoreDetail');
+        return Ext.ComponentQuery.query('userstoreDetail')[0];
     }
 
 });
