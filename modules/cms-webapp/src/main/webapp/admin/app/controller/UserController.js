@@ -237,7 +237,7 @@ Ext.define( 'CMS.controller.UserController', {
                     params: {key: user.get('key')},
                     success: function( response ){
                         var jsonObj = Ext.JSON.decode( response.responseText );
-                        userDetail.updateDetails( jsonObj );
+                        userDetail.showSingleSelection( jsonObj );
                         userDetail.setCurrentUser( user.data );
                       }
                 });
@@ -247,15 +247,15 @@ Ext.define( 'CMS.controller.UserController', {
             userDetail.setTitle( selected.length + " user selected" );
             this.setDetailsToolbarDisabled();
         }else{
-            var shortInfo = false;
+            var detailed = true;
             if (selected.length > 10){
-                shortInfo = true;
+                detailed = false;
             }
             var selectedUsers = [];
             Ext.Array.each(selected, function(user){
                 Ext.Array.include(selectedUsers, user.data);
             });
-            userDetail.generateMultipleSelection(selectedUsers, shortInfo);
+            userDetail.showMultipleSelection(selectedUsers, detailed);
             this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }

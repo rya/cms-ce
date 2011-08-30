@@ -10,6 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import org.hibernate.criterion.MatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -119,12 +120,19 @@ public final class GroupResource
     }
 
     @GET
+    @Path( "list" )
+    public List<GroupModel> getGroups(@QueryParam("query") String query){
+        List<GroupEntity> groups = groupDao.findByCriteria( query, null, true, MatchMode.START );
+        return GroupModelHelper.toListModel( groups );
+    }
+
+    @GET
     @Path("detail")
     public GroupModel getGroupDetails(@QueryParam("key") final String key)
     {
         final GroupEntity entity = findEntity( key );
 
-        return GroupModelHelper.toAModel( entity );
+        return GroupModelHelper.toModel( entity );
     }
 
     private GroupEntity findEntity( final String key )

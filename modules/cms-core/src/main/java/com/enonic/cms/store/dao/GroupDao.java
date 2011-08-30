@@ -7,6 +7,8 @@ package com.enonic.cms.store.dao;
 import java.util.Collection;
 import java.util.List;
 
+import org.hibernate.criterion.MatchMode;
+
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
@@ -59,6 +61,8 @@ public interface GroupDao
     GroupEntity findGlobalGroupByName( String name, boolean includeDeleted );
 
     List<GroupEntity> findByCriteria( String nameExpression, String orderBy, boolean orderAscending );
+
+    List<GroupEntity> findByCriteria( String nameExpression, String orderBy, boolean orderAscending, MatchMode matchMode );
 
     List<GroupEntity> findByCriteria( AccordionSearchCriteria criteria );
 
