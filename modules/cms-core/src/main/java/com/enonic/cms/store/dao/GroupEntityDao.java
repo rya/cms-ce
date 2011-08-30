@@ -329,6 +329,14 @@ public class GroupEntityDao
                                              final boolean orderAscending )
     {
 
+        return findByCriteria( nameExpression, orderBy, orderAscending, MatchMode.ANYWHERE );
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public List<GroupEntity> findByCriteria( final String nameExpression, final String orderBy,
+                                             final boolean orderAscending, final MatchMode matchMode )
+    {
+
         return (List<GroupEntity>) getHibernateTemplate().execute( new HibernateCallback()
         {
 
@@ -341,7 +349,7 @@ public class GroupEntityDao
 
                 if ( !StringUtils.isEmpty( nameExpression ) )
                 {
-                    criteria.add( Restrictions.ilike( "name", nameExpression, MatchMode.ANYWHERE ) );
+                    criteria.add( Restrictions.ilike( "name", nameExpression, matchMode ) );
 
                 }
 

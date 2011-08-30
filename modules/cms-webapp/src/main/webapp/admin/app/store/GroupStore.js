@@ -3,12 +3,12 @@ Ext.define('CMS.store.GroupStore', {
 
     model: 'CMS.model.GroupModel',
 
-    remoteFilter: false,
-    autoLoad: true,
+    remoteFilter: true,
+    //autoLoad: true,
 
     proxy: {
         type: 'ajax',
-        url: 'data/account/grouplist',
+        url: 'data/group/list',
         reader: {
             type: 'json',
             root: 'accounts'
