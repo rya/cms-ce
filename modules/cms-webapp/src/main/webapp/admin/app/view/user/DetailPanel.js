@@ -6,6 +6,7 @@ Ext.define('CMS.view.user.DetailPanel', {
     split: true,
     autoScroll: true,
     layout: 'fit',
+    collapsible: true,
 
     initComponent: function() {
 
