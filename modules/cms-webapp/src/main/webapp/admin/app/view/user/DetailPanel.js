@@ -138,61 +138,6 @@ Ext.define('CMS.view.user.DetailPanel', {
         return panel;
     },
 
-    generateFieldSet: function(title, fields, userData){
-        var displayFields = [];
-        Ext.Array.each(fields, function(field){
-            var fieldValue = userData[field];
-            if ((fieldValue == null) && (userData.userInfo != null) ){
-                fieldValue = userData.userInfo[field];
-            }
-            if (fieldValue != null){
-                var displayField = {
-                    xtype: 'displayfield',
-                    fieldLabel: field,
-                    value: fieldValue
-                };
-                Ext.Array.include( displayFields, displayField );
-            }
-
-        });
-        if (displayFields.length > 0){
-            var fieldSet = {
-                xtype: 'fieldset',
-                title: title,
-                items: displayFields
-            };
-            return fieldSet;
-        }else{
-            return null;
-        }
-
-    },
-
-    generateGroupsFieldSet: function (userData){
-        var groupFields = [];
-        Ext.Array.each(userData.groups, function(group){
-            var groupField = {
-                    xtype: 'button',
-                    text: group.name,
-                    iconCls: 'icon-group',
-                    cls: 'group-display',
-                    margin: 5
-                };
-            Ext.Array.include(groupFields, groupField);
-        });
-        if (groupFields.length > 0){
-            var groupFieldSet = {
-                xtype: 'fieldset',
-                width: 300,
-                title: 'Groups',
-                items: groupFields
-            };
-            return groupFieldSet;
-        }else{
-            return null;
-        }
-    },
-
     createLargeBoxSelection: function(){
         var tpl = Ext.Template('<tpl for="users">' +
            '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
@@ -208,6 +153,9 @@ Ext.define('CMS.view.user.DetailPanel', {
             xtype: 'panel',
             itemId: 'largeBoxPanel',
             styleHtmlContent: true,
+            autoScroll: true,
+            padding: 10,
+            border: 0,
             tpl: tpl
         }
         return panel;
@@ -217,7 +165,7 @@ Ext.define('CMS.view.user.DetailPanel', {
         var tpl = Ext.Template('<tpl for="users">' +
             '<div class="cms-selected-item-box small x-btn-default-small clearfix">' +
             '<div class="cms-selected-item-box left">' +
-            '<img alt="User" src="data/user/photo?key={key}&thumb=true"/></div>' +
+            '<img alt="User" src="resources/images/user_add.png"/></div>' +
             '<div class="cms-selected-item-box center">' +
             '<h2>{displayName}</h2></div>' +
             '<div class="cms-selected-item-box right">' +
@@ -227,6 +175,9 @@ Ext.define('CMS.view.user.DetailPanel', {
             xtype: 'panel',
             itemId: 'smallBoxPanel',
             styleHtmlContent: true,
+            autoScroll: true,
+            padding: 10,
+            border: 0,
             tpl: tpl
         }
         return panel;
