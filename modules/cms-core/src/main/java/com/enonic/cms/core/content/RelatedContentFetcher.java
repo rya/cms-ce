@@ -43,16 +43,30 @@ public class RelatedContentFetcher
     public RelatedContentResultSet fetch( final ContentEntity content )
     {
         this.contentResultSet = new ContentResultSetNonLazy( content );
-        return doFetch();
+        return doFetch( false );
+    }
+
+    /**
+     * Retrieves both parent and children of the given content, depending on the parentLevel and childrenLevel configuration of this class.
+     *
+     * @param content        The initial content to get related content for.
+     * @param includeVisited If <code>true</code> all content will be retrieved.  If <code>false</code>, content that have already been
+     *                       fetched with this fetcher in a previous call, will not be included in the result set
+     * @return A complete result set of related content
+     */
+    public RelatedContentResultSet fetch( final ContentEntity content, boolean includeVisited )
+    {
+        this.contentResultSet = new ContentResultSetNonLazy( content );
+        return doFetch( includeVisited );
     }
 
     public RelatedContentResultSet fetch( final ContentResultSet contentResultSet )
     {
         this.contentResultSet = contentResultSet;
-        return doFetch();
+        return doFetch( false );
     }
 
-    private RelatedContentResultSet doFetch()
+    private RelatedContentResultSet doFetch( boolean includeVisited )
     {
         relatedContentResultSet = new RelatedContentResultSetImpl();
 
@@ -63,7 +77,7 @@ public class RelatedContentFetcher
                 doFindRelatedChildren( gatherMainVersionsFromContent( contentResultSet.getContents() ) );
             if ( rootRelatedChildren.size() > 0 )
             {
-                doAddAndFetchChildren( rootRelatedChildren, maxChildrenLevel );
+                doAddAndFetchChildren( rootRelatedChildren, maxChildrenLevel, includeVisited );
                 for ( RelatedChildContent rootRelatedChild : rootRelatedChildren )
                 {
                     if ( isAddableToRootRelated( rootRelatedChild ) )
@@ -80,7 +94,7 @@ public class RelatedContentFetcher
             Collection<RelatedParentContent> rootRelatedParents = doFindRelatedParents( contentResultSet.getKeys() );
             if ( rootRelatedParents.size() > 0 )
             {
-                doAddAndFetchParents( rootRelatedParents, maxParentLevel );
+                doAddAndFetchParents( rootRelatedParents, maxParentLevel, includeVisited );
                 for ( RelatedParentContent rootRelatedParent : rootRelatedParents )
                 {
                     if ( isAddableToRootRelated( rootRelatedParent ) )
@@ -94,7 +108,7 @@ public class RelatedContentFetcher
         return relatedContentResultSet;
     }
 
-    private List<RelatedParentContent> doAddAndFetchParents( final Collection<RelatedParentContent> parentsToAdd, final int level )
+    private List<RelatedParentContent> doAddAndFetchParents( final Collection<RelatedParentContent> parentsToAdd, final int level, final boolean includeVisited )
     {
         final int nextLevel = level - 1;
 
@@ -103,7 +117,7 @@ public class RelatedContentFetcher
 
         for ( RelatedParentContent relatedToAdd : parentsToAdd )
         {
-            if ( isAddable( relatedToAdd ) )
+            if ( isAddable( relatedToAdd, includeVisited ) )
             {
                 addedRelatedContent.add( relatedToAdd );
                 addedContent.add( relatedToAdd.getContent() );
@@ -125,7 +139,7 @@ public class RelatedContentFetcher
                 doFindRelatedChildren( gatherMainVersionsFromContent( addedContent ) );
             if ( nextLevelChildren.size() > 0 )
             {
-                doAddAndFetchChildren( nextLevelChildren, maxParentChildrenLevel );
+                doAddAndFetchChildren( nextLevelChildren, maxParentChildrenLevel, includeVisited );
             }
         }
 
@@ -136,7 +150,7 @@ public class RelatedContentFetcher
             final Collection<RelatedParentContent> nextLevelParents = doFindRelatedParents( gatherContentKeysFromContent( addedContent ) );
             if ( nextLevelParents.size() > 0 )
             {
-                doAddAndFetchParents( nextLevelParents, nextLevel );
+                doAddAndFetchParents( nextLevelParents, nextLevel, includeVisited );
             }
         }
 
@@ -150,7 +164,7 @@ public class RelatedContentFetcher
     }
 
     @Override
-    protected boolean isAddable( final RelatedContent relatedToAdd )
+    protected boolean isAddable( final RelatedContent relatedToAdd, boolean includeVisited )
     {
         final boolean contentIsAllreadyVisited;
         if ( relatedToAdd instanceof RelatedParentContent )
@@ -164,7 +178,7 @@ public class RelatedContentFetcher
 
         final boolean availableCheckOK = includeOfflineContent() || isAvailable( relatedToAdd );
 
-        return availableCheckOK && !contentIsAllreadyVisited;
+        return availableCheckOK && ( includeVisited || !contentIsAllreadyVisited );
     }
 
     private Collection<RelatedParentContent> doFindRelatedParents( List<ContentKey> contentKeys )
