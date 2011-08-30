@@ -1,32 +1,28 @@
-/*
- * Copyright 2000-2011 Enonic AS
- * http://www.enonic.com/license
- */
 package com.enonic.cms.domain.content.imports.sourcevalueholders;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class StringArraySourceValue
-    extends AbstractSourceValue
+        extends AbstractSourceValue
 {
-    final private Set<String> values;
+    final private LinkedHashSet<String> values;
 
     public StringArraySourceValue()
     {
-        this.values = new HashSet<String>();
+        this.values = new LinkedHashSet<String>();
     }
 
     public StringArraySourceValue( String[] values )
     {
-        this.values = new HashSet<String>();
+        this.values = new LinkedHashSet<String>();
         for ( String value : values )
         {
             this.values.add( value );
         }
     }
 
-    public StringArraySourceValue( Set<String> values )
+    public StringArraySourceValue( LinkedHashSet<String> values )
     {
         this.values = values;
     }
