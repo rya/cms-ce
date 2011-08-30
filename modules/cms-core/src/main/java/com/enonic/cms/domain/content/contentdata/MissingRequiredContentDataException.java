@@ -18,6 +18,17 @@ public class MissingRequiredContentDataException
         this.inputName = inputName;
     }
 
+    public static MissingRequiredContentDataException missingTitleDataEntryValue( final DataEntryConfig dataEntryConfig )
+    {
+        String inputName = dataEntryConfig.getName();
+
+        MissingRequiredContentDataException e =
+            new MissingRequiredContentDataException( "Missing data for required title input (missing value in data entry): " + inputName,
+                                                     inputName );
+        e.inputName = inputName;
+        return e;
+    }
+
     public static MissingRequiredContentDataException missingDataEntry( final DataEntryConfig dataEntryConfig )
     {
         String inputName = dataEntryConfig.getName();

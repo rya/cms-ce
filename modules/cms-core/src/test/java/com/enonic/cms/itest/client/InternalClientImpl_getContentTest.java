@@ -121,10 +121,8 @@ public class InternalClientImpl_getContentTest
         ContentTypeConfigBuilder ctyconf = new ContentTypeConfigBuilder( "Person", "name" );
         ctyconf.startBlock( "Person" );
         ctyconf.addInput( "name", "text", "contentdata/name", "Name", true );
-        ctyconf.addRelatedContentInput( "my-relatedcontent", "relatedcontent", "contentdata/my-relatedcontent", "My relatedcontent", false,
-                                        false );
-        ctyconf.addRelatedContentInput( "my-relatedcontents", "relatedcontent", "contentdata/my-relatedcontents", "My relatedcontents",
-                                        false, true );
+        ctyconf.addRelatedContentInput( "my-relatedcontent", "contentdata/my-relatedcontent", "My relatedcontent", false, false );
+        ctyconf.addRelatedContentInput( "my-relatedcontents", "contentdata/my-relatedcontents", "My relatedcontents", false, true );
         ctyconf.endBlock();
         personConfigAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
 
@@ -140,8 +138,7 @@ public class InternalClientImpl_getContentTest
         ContentTypeConfigBuilder ctyconfMyRelated = new ContentTypeConfigBuilder( "MyRelatedType", "title" );
         ctyconfMyRelated.startBlock( "General" );
         ctyconfMyRelated.addInput( "title", "text", "contentdata/title", "Title", true );
-        ctyconfMyRelated.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content",
-                                                 false, true );
+        ctyconfMyRelated.addRelatedContentInput( "myRelatedContent", "contentdata/myRelatedContent", "My related content", false, true );
         ctyconfMyRelated.endBlock();
         XMLBytes myRelatedconfigAsXmlBytes = XMLDocumentFactory.create( ctyconfMyRelated.toString() ).getAsBytes();
 
