@@ -78,12 +78,12 @@ public class ContentTypeConfigBuilder
         currentBlock.append( "</input>" );
     }
 
-    public void addRelatedContentInput( String name, String type, String xpath, String display, boolean required, boolean multiple,
+    public void addRelatedContentInput( String name, String xpath, String display, boolean required, boolean multiple,
                                         String... restrictedToContentTypes )
     {
         currentBlock.append( "\n" );
         currentBlock.append( "<input name=\"" ).append( name ).append( "\"" ).append( "\n" );
-        currentBlock.append( " type=\"" ).append( type ).append( "\"" );
+        currentBlock.append( " type=\"relatedcontent\"" );
         currentBlock.append( " required=\"" ).append( Boolean.toString( required ) ).append( "\"" );
         currentBlock.append( " multiple=\"" ).append( Boolean.toString( multiple ) ).append( "\"" );
         currentBlock.append( ">" ).append( "\n" );
