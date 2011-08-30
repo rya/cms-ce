@@ -165,6 +165,27 @@ img.photo {
 .detail-info dl dd {
 }
 
+.detail-panel-container {
+    width: 100%;
+}
+
+.detail-left-panel {
+    float: left;
+    width: 67%;
+    margin: 10px;
+}
+
+.detail-right-panel {
+    margin-left: 68%;
+    padding: 10px;
+    width: 31%;
+}
+
+.detail-right-panel-div {
+    left: 0;
+    padding: 0 10px;
+}
+
 /* ----- Accounts Filter Panel ----- */
 
 .facet-navigation,

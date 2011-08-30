@@ -229,20 +229,20 @@ Ext.define( 'CMS.controller.UserController', {
             var user = selected[0];
 
 
-//            if ( user )
-//            {
-//                Ext.Ajax.request( {
-//                    url: 'data/user/userinfo',
-//                    method: 'GET',
-//                    params: {key: user.get('key')},
-//                    success: function( response ){
-//                        var jsonObj = Ext.JSON.decode( response.responseText );
-//                        userDetail.updateDetails( jsonObj );
-//                        userDetail.setCurrentUser( user.data );
-//                      }
-//                });
-//
-//            }
+            if ( user )
+            {
+                Ext.Ajax.request( {
+                    url: 'data/user/userinfo',
+                    method: 'GET',
+                    params: {key: user.get('key')},
+                    success: function( response ){
+                        var jsonObj = Ext.JSON.decode( response.responseText );
+                        userDetail.showSingleSelection( jsonObj );
+                        userDetail.setCurrentUser( user.data );
+                      }
+                });
+
+            }
 
             userDetail.setTitle( selected.length + " user selected" );
             this.setDetailsToolbarDisabled();
