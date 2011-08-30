@@ -14,6 +14,8 @@ import org.joda.time.DateTime;
 public class DateUtil
 {
 
+    private static DateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
+
     private static DateFormat dateFormatWithTime = new SimpleDateFormat( "dd.MM.yyyy HH:mm" );
 
     private static DateFormat dateFormatWithTimeSeconds = new SimpleDateFormat( "dd.MM.yyyy HH:mm:ss" );
@@ -37,6 +39,11 @@ public class DateUtil
         {
             return dateFormatWithTime.parse( date );
         }
+    }
+
+    public static String formatDate( Date date )
+    {
+        return dateFormat.format( date );
     }
 
     public static Date parseISODate( String date )

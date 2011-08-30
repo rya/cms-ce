@@ -6,16 +6,27 @@ package com.enonic.cms.core.content.contentdata.custom.stringbased;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.base.Preconditions;
+
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
+import com.enonic.cms.core.content.contentdata.custom.TitleDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 
 public class TextDataEntry
     extends AbstractStringBasedInputDataEntry
+    implements TitleDataEntry
 {
     public TextDataEntry( DataEntryConfig config, String value )
     {
         super( config, DataEntryType.TEXT, value );
+    }
+
+    @Override
+    public String getValueAsTitle()
+    {
+        Preconditions.checkNotNull( getValue() );
+        return getValue();
     }
 
     protected void customValidate()

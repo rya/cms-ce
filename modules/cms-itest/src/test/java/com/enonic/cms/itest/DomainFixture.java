@@ -306,6 +306,21 @@ public class DomainFixture
         return (ContentVersionEntity) findFirstByExample( example );
     }
 
+    public ContentVersionEntity findMainContentVersionByTitle( String title )
+    {
+        ContentVersionEntity example = new ContentVersionEntity();
+        example.setTitle( title );
+        List<ContentVersionEntity> list = typecastList( ContentVersionEntity.class, findByExample( example ) );
+        for ( ContentVersionEntity version : list )
+        {
+            if ( version.isMainVersion() )
+            {
+                return version;
+            }
+        }
+        return null;
+    }
+
     public ContentVersionEntity findContentVersionByTitle( int index, String title )
     {
         ContentVersionEntity example = new ContentVersionEntity();
