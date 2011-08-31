@@ -21,6 +21,7 @@ Ext.define('CMS.view.userstore.ShowPanel', {
             },
             {
                 region: 'south',
+                id: 'userstoreDetailID',
                 xtype: 'userstoreDetail',
                 flex: 1
             }
