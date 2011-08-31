@@ -8,7 +8,7 @@ import org.springframework.web.context.ServletContextAware;
 import javax.servlet.ServletContext;
 
 @Component
-public final class FreemarkerConfig
+public final class FreeMarkerConfig
     extends Configuration implements ServletContextAware
 {
     public void setServletContext(final ServletContext context)

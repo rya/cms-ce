@@ -1,0 +1,51 @@
+<contenttype>
+  <config>
+    <form>
+      <title name="statistikknavn"/>
+      <block name="Basisinformasjon (fra statistikkregisteret)">
+        <input name="kortnavn" readonly="true" required="true" type="text">
+          <display>Kortnavn</display>
+          <xpath>contentdata/kortnavn</xpath>
+          <help>Gå til <a href="http://www.ssb.no">statistikkregisteret</a> for å endre dette feltet.</help>
+        </input>
+        <input name="statistikknavn" readonly="true" required="true" type="text">
+          <display>Statistikknavn</display>
+          <xpath>contentdata/statistikknavn</xpath>
+          <help>Gå til <a href="http://www.ssb.no">statistikkregisteret</a> for å endre dette feltet.</help>
+        </input>
+      </block>
+      <block name="Kontakter">
+        <input name="kontakter" type="relatedcontent">
+          <display>Kontakter</display>
+          <xpath>contentdata/kontakter</xpath>
+          <contenttype name="kontaktCty"/>
+          <help>Endring av kontaktpersoner skal gjøres i statistikkregisteret</help>
+        </input>
+      </block>
+      <block name="Systeminformasjon (fra statistikkregisteret)">
+        <input name="statistikk_id" readonly="true" required="false" type="text">
+          <display>Intern id i statistikkregisteret</display>
+          <xpath>contentdata/statistikk_id</xpath>
+        </input>
+        <input name="timestamp" readonly="true" required="false" type="text">
+          <display>Timestamp</display>
+          <xpath>contentdata/timestamp</xpath>
+        </input>
+      </block>
+    </form>
+    <imports>
+      <import base="/statistikk" mode="xml" name="SRImport" status="2" sync="statistikk_id">
+        <mapping dest="statistikk_id" src="@id"/>
+        <mapping dest="timestamp" src="@endret"/>
+        <mapping dest="@publishfrom" format="yyyy-MM-dd HH:mm:ss" src="@publishfrom"/>
+        <mapping dest="statistikknavn" src="navn/navn[@xml:lang = 'no']"/>
+        <mapping dest="kortnavn" src="kortnavn"/>
+        <mapping dest="kontakter" relatedcontenttype="kontaktCty" relatedfield="kontakt_id" src="kontakter/kontakt/@id"/>
+      </import>
+    </imports>
+  </config>
+  <indexparameters>
+    <index xpath="contentdata/kortnavn"/>
+    <index xpath="contentdata/statistikk_id"/>
+  </indexparameters>
+</contenttype>

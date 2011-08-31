@@ -2,6 +2,15 @@
     border: none !important;
 }
 
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
 /* ----- Overrides ext-all.css ----- */
 
 body,
@@ -16,6 +25,10 @@ body,
 .x-html h1 {
     font-size: 2.5em;
     margin: 0
+}
+
+.cms-emphasis {
+    font-style: italic;
 }
 
 /* ----- Launcher ----- */
@@ -109,6 +122,12 @@ img.photo {
 }
 
 /* ----- Accounts Grid -----*/
+.cms-grid-title {
+    font-weight: bold;
+}
+
+.cms-grid-description {
+}
 
 .x-grid-cell img.thumbnail {
     float: left;
@@ -146,11 +165,36 @@ img.photo {
 .detail-info dl dd {
 }
 
+.detail-panel-container {
+    width: 100%;
+}
+
+.detail-left-panel {
+    float: left;
+    width: 67%;
+    margin: 10px;
+}
+
+.detail-right-panel {
+    margin-left: 68%;
+    padding: 10px;
+    width: 31%;
+}
+
+.detail-right-panel-div {
+    left: 0;
+    padding: 0 10px;
+}
+
 /* ----- Accounts Filter Panel ----- */
 
 .facet-navigation,
 .facet-navigation .x-form-item {
     font-size: 11px !important;
+}
+
+.filter-total {
+    text-align: right;
 }
 
 .facet-header {
@@ -312,16 +356,37 @@ img.photo {
     background: #fff;
 }
 
-
 .group-item {
     font-size: 14px;
     font-weight: 200;
-    margin: 5;
+    margin: 5px;
     vertical-align: middle;
 }
 
+.cms-dashboard-palette-item {
+    cursor: move;
+    background-color: #fafafa;
+    padding: 4px;
+    margin: 2px;
+    clear: both;
+}
 
-/*------    Userstore   ---------*/
+.cms-dashboard-palette-item:hover {
+    background-color: #f0f0f0;
+}
+
+.cms-dashboard-palette-item .item-icon {
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+}
+
+.cms-dashboard-palette-item .item-text {
+    float: left;
+}
+
+/*------ Userstore ---------*/
 
 .userstore-info .thumbnail {
     float: left;
@@ -329,7 +394,7 @@ img.photo {
 }
 
 .userstore-info .x-panel-body {
-    border-width: 0px !important;
+    border-width: 0 !important;
 }
 
 .userstore-info .x-toolbar {
@@ -366,7 +431,7 @@ img.photo {
     cursor: auto !important;
 }
 
-/*------    Cache   ---------*/
+/*------ Cache ---------*/
 
 .cache-info h1 {
     margin: 0;
@@ -377,16 +442,104 @@ img.photo {
     margin-left: 10px;
 }
 
-.palette-item {
-    background-color: #f0f0f0;
-    padding: 3px;
-    margin:1px;
+
+/*------------------------------------------- */
+
+/* Generic */
+.cms-selected-item-box {
+    float: left;
+    display: inline-block;
 }
 
-.item-icon {
-    cursor: move;
-    background: url("../images/chart_curve.png") no-repeat ;
-    padding-left: 20px;
+.cms-selected-item-box .left {
+    float: left;
+}
+
+.cms-selected-item-box .center {
+    float: left;
+}
+
+.cms-selected-item-box .right {
+    float: left;
+}
+
+
+/* Large */
+.cms-selected-item-box.large {
+    padding: 7px;
+    margin: 0 5px 5px 0;
+}
+
+.cms-selected-item-box.large .left {
+    margin-right: 16px;
+}
+
+.cms-selected-item-box.large .left img {
+    width: 40px;
+    height: 40px;
+}
+
+.cms-selected-item-box.large .center {
+    margin-right: 16px;
+}
+
+.cms-selected-item-box.large .center h2 {
+    margin: 2px 0 0 0;
+    font-size: 16px;
+}
+
+.cms-selected-item-box.large .center p {
+    margin: 0;
+}
+
+.cms-selected-item-box.large .right {
+    margin: 12px 6px 0 0;
+}
+
+.cms-selected-item-box.large .right a {
+    width: 16px;
+    height: 16px;
+    display: block;
+    background: transparent url(../../resources/images/cross.png) no-repeat;
+}
+
+
+/* Small */
+.cms-selected-item-box.small {
+    padding: 5px;
+    margin: 0 3px 3px 0;
+}
+
+.cms-selected-item-box.small .left {
+    margin-right: 12px;
+}
+
+.cms-selected-item-box.small .left img {
+    width: 20px;
     height: 20px;
 }
 
+.cms-selected-item-box.small .center {
+    margin-right: 16px;
+}
+
+.cms-selected-item-box.small .center h2 {
+    font-size: 11px;
+    font-weight: normal;
+    margin: 2px 0 0 0;
+}
+
+.cms-selected-item-box.small .center p {
+    margin: 0;
+}
+
+.cms-selected-item-box.small .right {
+    margin: 6px 3px 0 0;
+}
+
+.cms-selected-item-box.small .right a {
+    width: 8px;
+    height: 8px;
+    display: block;
+    background: transparent url(../../resources/images/cross-sm.png) no-repeat;
+}

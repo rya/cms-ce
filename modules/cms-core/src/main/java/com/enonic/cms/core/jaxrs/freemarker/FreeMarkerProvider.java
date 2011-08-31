@@ -5,7 +5,6 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -18,15 +17,14 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 @Provider
-@Produces("text/html")
 @Component
-public final class FreemarkerProvider
-    implements MessageBodyWriter<FreemarkerModel>
+public final class FreeMarkerProvider
+    implements MessageBodyWriter<FreeMarkerModel>
 {
-    private final FreemarkerConfig config;
+    private final FreeMarkerConfig config;
 
     @Autowired
-    public FreemarkerProvider(final FreemarkerConfig config)
+    public FreeMarkerProvider(final FreeMarkerConfig config)
     {
         this.config = config;
     }
@@ -34,16 +32,16 @@ public final class FreemarkerProvider
     public boolean isWriteable(final Class<?> type, final Type genericType, final Annotation[] annotations,
                                final MediaType mediaType)
     {
-        return FreemarkerModel.class.isAssignableFrom(type);
+        return FreeMarkerModel.class.isAssignableFrom(type);
     }
 
-    public long getSize(final FreemarkerModel object, final Class<?> type, final Type genericType,
+    public long getSize(final FreeMarkerModel object, final Class<?> type, final Type genericType,
                         final Annotation[] annotations, final MediaType mediaType)
     {
         return -1;
     }
 
-    public void writeTo(final FreemarkerModel object, final Class<?> type, final Type genericType,
+    public void writeTo(final FreeMarkerModel object, final Class<?> type, final Type genericType,
                         final Annotation[] annotations, final MediaType mediaType,
                         final MultivaluedMap<String, Object> headers, final OutputStream out)
         throws IOException, WebApplicationException

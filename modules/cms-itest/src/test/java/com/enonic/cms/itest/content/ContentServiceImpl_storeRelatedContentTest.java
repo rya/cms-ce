@@ -103,10 +103,8 @@ public class ContentServiceImpl_storeRelatedContentTest
         ContentTypeConfigBuilder ctyconf = new ContentTypeConfigBuilder( "MyRelatedTypes", "title" );
         ctyconf.startBlock( "MyRelatedTypes" );
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
-        ctyconf.addRelatedContentInput( "mySingleRelatedToBeUnmodified", "relatedcontent", "contentdata/mySingleRelatedToBeUnmodified",
-                                        "My related1", false, false );
-        ctyconf.addRelatedContentInput( "mySingleRelatedToBeModified", "relatedcontent", "contentdata/mySingleRelatedToBeModified",
-                                        "My related2", false, false );
+        ctyconf.addRelatedContentInput( "mySingleRelatedToBeUnmodified", "contentdata/mySingleRelatedToBeUnmodified", "My related1", false, false );
+        ctyconf.addRelatedContentInput( "mySingleRelatedToBeModified", "contentdata/mySingleRelatedToBeModified", "My related2", false, false );
         ctyconf.endBlock();
         Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() );
         fixture.save(

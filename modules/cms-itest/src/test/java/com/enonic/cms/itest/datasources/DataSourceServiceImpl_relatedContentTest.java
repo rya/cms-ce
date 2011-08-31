@@ -99,8 +99,7 @@ public class DataSourceServiceImpl_relatedContentTest
         ContentTypeConfigBuilder ctyconf = new ContentTypeConfigBuilder( "MyContent", "title" );
         ctyconf.startBlock( "MyContent" );
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
-        ctyconf.addRelatedContentInput( "myRelatedContent", "relatedcontent", "contentdata/myRelatedContent", "My related content", false,
-                                        true );
+        ctyconf.addRelatedContentInput( "myRelatedContent", "contentdata/myRelatedContent", "My related content", false, true );
         ctyconf.endBlock();
         Document configAsXmlBytes = XMLDocumentFactory.create(ctyconf.toString());
 
