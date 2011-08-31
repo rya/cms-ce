@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.support.JdbcUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -39,8 +40,6 @@ public final class WelcomeController
 {
     private UpgradeService upgradeService;
 
-    private ToolsAccessResolver toolsAccessResolver;
-
     private Dialect dialect;
 
     private ConnectionFactory connectionFactory;
@@ -49,12 +48,6 @@ public final class WelcomeController
     public void setUpgradeService( final UpgradeService upgradeService )
     {
         this.upgradeService = upgradeService;
-    }
-
-    @Autowired
-    public void setToolsAccessResolver( final ToolsAccessResolver toolsAccessResolver )
-    {
-        this.toolsAccessResolver = toolsAccessResolver;
     }
 
     @Autowired
