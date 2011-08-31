@@ -87,7 +87,8 @@ Ext.define( 'CMS.controller.UserstoreController', {
                 var tabs = this.getTabs();
                 var tab = btn.up('userstoreFormPanel');
                 var detail = btn.up('userstoreDetail');
-                var selection = this.getUserstoreGrid().getSelectionModel().getSelection();
+                var grid = this.getUserstoreGrid();
+                var selection = grid ? grid.getSelectionModel().getSelection() : undefined;
                 var userstore;
                 if ( tab ) {
                     userstore = tab.userstore;
