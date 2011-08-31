@@ -84,6 +84,16 @@ Ext.define('CMS.view.launcher.Toolbar', {
                         icon: 'resources/images/address-book-blue-icon.png'
                     },
                     {
+                        id: 500,
+                        text: "Content Types",
+                        appUrl: "contentTypes.html"
+                    },
+                    {
+                        id: 600,
+                        text:"Cache",
+                        appUrl:"systemCaches.html"
+                    },
+                    {
                         id: 800,
                         text: 'System',
                         appUrl: 'system.html',
