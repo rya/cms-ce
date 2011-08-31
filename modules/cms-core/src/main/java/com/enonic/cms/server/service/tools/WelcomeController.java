@@ -4,25 +4,16 @@
  */
 package com.enonic.cms.server.service.tools;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
-import com.enonic.cms.framework.jdbc.dialect.SqlServerDialect;
 
 import com.enonic.cms.api.Version;
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
@@ -39,8 +30,6 @@ public final class WelcomeController
 {
     private UpgradeService upgradeService;
 
-    private ToolsAccessResolver toolsAccessResolver;
-
     private Dialect dialect;
 
     private ConnectionFactory connectionFactory;
@@ -49,12 +38,6 @@ public final class WelcomeController
     public void setUpgradeService( final UpgradeService upgradeService )
     {
         this.upgradeService = upgradeService;
-    }
-
-    @Autowired
-    public void setToolsAccessResolver( final ToolsAccessResolver toolsAccessResolver )
-    {
-        this.toolsAccessResolver = toolsAccessResolver;
     }
 
     @Autowired
@@ -86,63 +69,6 @@ public final class WelcomeController
         return siteMap;
     }
 
-    private Set<Map.Entry<String, String>> createAdditionalMessages( boolean upgradeNeeded )
-    {
-        final Map<String, String> msgList = new HashMap<String, String>();
-        if ( upgradeNeeded )
-        {
-            checkUseOfDataTypeWhenRunningMSSQLServer( msgList );
-        }
-        return msgList.entrySet();
-    }
-
-    private void checkUseOfDataTypeWhenRunningMSSQLServer( final Map<String, String> msgList )
-    {
-        try
-        {
-            if ( dialect instanceof SqlServerDialect && !currentDatabaseUseNvarcharDataType() )
-            {
-                StringBuilder builder = new StringBuilder();
-                builder.append(
-                    "If varchar is used instead of nvarchar you will not be able to use unicode characters throughout Enonic CMS. " );
-                builder.append(
-                    "Note that due to the different java versions and/or jdbc driver type versions this information might not be accurate. " );
-                builder.append( "Please verify that the appropriate datatype is used. " );
-                builder.append(
-                    "To convert from varchar to nvarchar you may use the dbtool to do a backup/restore. Please consult the documentation." );
-
-                msgList.put( "MSSql Server Warning", builder.toString() );
-            }
-        }
-        catch ( SQLException ex )
-        {
-            msgList.put( "MSSql Server Warning!", "Could not determine use of varchar/nvarchar" );
-        }
-    }
-
-    private boolean currentDatabaseUseNvarcharDataType()
-        throws SQLException
-    {
-        Statement stmt = null;
-        ResultSet result = null;
-        Connection connection = null;
-
-        try
-        {
-            connection = connectionFactory.getConnection( true );
-            stmt = connection.createStatement();
-            result = stmt.executeQuery( "select mve_sKey from tModelVersion" );
-            final ResultSetMetaData metaData = result.getMetaData();
-            return metaData.getColumnType( 1 ) == -9; // NVARCHAR
-        }
-        finally
-        {
-            JdbcUtils.closeResultSet( result );
-            JdbcUtils.closeStatement( stmt );
-            JdbcUtils.closeConnection( connection );
-        }
-    }
-
     protected ModelAndView handleRequestInternal( HttpServletRequest req, HttpServletResponse res )
         throws Exception
     {
@@ -164,7 +90,6 @@ public final class WelcomeController
         model.put( "softwareUpgradeNeeded", softwareUpgradeNeeded );
         model.put( "upgradeFrom", this.upgradeService.getCurrentModelNumber() );
         model.put( "upgradeTo", this.upgradeService.getTargetModelNumber() );
-        model.put( "additionalMessages", createAdditionalMessages( upgradeNeeded ) );
         return new ModelAndView( "welcomePage", model );
     }
 

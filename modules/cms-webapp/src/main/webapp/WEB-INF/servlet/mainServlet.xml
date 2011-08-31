@@ -53,8 +53,7 @@
         <property name="mappings">
             <props>
                 <prop key="/upgrade">upgradeController</prop>
-                <prop key="/tools/javascript/**">staticFileController</prop>
-                <prop key="/tools/css/**">staticFileController</prop>
+                <prop key="/resources/**">staticFileController</prop>
             </props>
         </property>
         <property name="interceptors">
