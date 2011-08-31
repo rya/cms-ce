@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title>${versionTitleVersion} - Boot Page</title>
+    <title>Enonic CMS - Boot Page</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="resources/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="resources/favicon.ico"/>
     <link rel="stylesheet" href="resources/style.css" type="text/css"/>
 </head>
 
@@ -20,7 +20,8 @@
         <li><a title="Community" href="http://www.enonic.com/en/community" target="_blank">Community</a></li>
         <li><a title="Documentation" href="http://www.enonic.com/en/docs" target="_blank">Documentation</a></li>
         <li><a title="Support" href="http://www.enonic.com/en/support" target="_blank">Support</a></li>
-        <li><a title="Contact us" class=" last" href="http://www.enonic.com/en/contact-us" target="_blank">Contact us</a></li>
+        <li><a title="Contact us" class=" last" href="http://www.enonic.com/en/contact-us" target="_blank">Contact
+            us</a></li>
     </ul>
 </nav>
 
@@ -60,7 +61,7 @@
         </section>
 
         <section id="welcome">
-            <h1>Welcome to ${versionTitleVersion}</h1>
+            <h1>Welcome to Enonic CMS</h1>
 
             <p>
                 Access this installation by choosing <strong>Admin Console</strong> above, or one of the
@@ -120,23 +121,24 @@
             <h2>Sites</h2>
             <ul>
 
-[#if upgradeNeeded == false]
-        [#list sites?keys?sort as key]
-            <li>
-                <h3>${key}</h3>
-                <div>
-                    <a href="${baseUrl}/site/${sites[key]}/">
-                        ${baseUrl}/site/${sites[key]}/
-                    </a>
-                </div>
-            </li>
-        [/#list]
-[/#if]
-[#if upgradeNeeded == true]
+            [#if upgradeNeeded == false]
+                [#list sites?keys?sort as key]
+                    <li>
+                        <h3>${key}</h3>
+
+                        <div>
+                            <a href="${baseUrl}/site/${sites[key]}/">
+                            ${baseUrl}/site/${sites[key]}/
+                            </a>
+                        </div>
+                    </li>
+                [/#list]
+            [/#if]
+            [#if upgradeNeeded == true]
                 <li>
                     <h3>N/A</h3>
                 </li>
-[/#if]
+            [/#if]
             </ul>
         </div>
     </aside>
@@ -166,12 +168,5 @@ TODO: Add upgrade info boxes
     work correctly if not upgraded.
 </div>
 [/#if]
-[#list additionalMessages as message]
-<div class="infoBoxWarning">
-    <b>${message.key}</b>
-    <br/>
-${message.value}
-</div>
-[/#list]
 -->
 
