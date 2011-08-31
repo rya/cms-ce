@@ -155,7 +155,7 @@ ul.menu a, ul.menu div {
 #steps {
     border: 1px solid #ccc;
     border-radius: 15px;
-    padding: 15px 20px;
+    padding: 15px 25px;
 }
 
 .step {
@@ -170,11 +170,11 @@ ul.menu a, ul.menu div {
 .step .number {
     font-size: 3.0em;
     font-weight: bold;
-    margin-right: 20px;
+    margin-right: 25px;
 }
 
 .step .description {
-    width: 503px;
+    width: 488px;
 }
 
 #sites {
