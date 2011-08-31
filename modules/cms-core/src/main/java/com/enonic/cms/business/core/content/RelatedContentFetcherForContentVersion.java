@@ -19,9 +19,7 @@ import com.enonic.cms.domain.content.resultset.RelatedContent;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
 
-/**
- * Jun 11, 2009
- */
+
 public class RelatedContentFetcherForContentVersion
     extends AbstractRelatedContentFetcher
 {
@@ -35,10 +33,15 @@ public class RelatedContentFetcherForContentVersion
 
     public RelatedContentResultSet fetch( final Collection<ContentVersionEntity> versions )
     {
-        return doFetch( versions );
+        return doFetch( versions, false );
     }
 
-    private RelatedContentResultSet doFetch( Collection<ContentVersionEntity> versions )
+    public RelatedContentResultSet fetch( final Collection<ContentVersionEntity> versions, final boolean includeVisited )
+    {
+        return doFetch( versions, includeVisited );
+    }
+
+    private RelatedContentResultSet doFetch( Collection<ContentVersionEntity> versions, final boolean includeVisited )
     {
         Assert.notNull( versions, "versions cannot be null" );
 
@@ -51,7 +54,7 @@ public class RelatedContentFetcherForContentVersion
             Collection<RelatedChildContent> rootRelatedChildren = doFindRelatedChildren( versions );
             if ( versions.size() > 0 )
             {
-                doAddAndFetchChildren( rootRelatedChildren, maxChildrenLevel );
+                doAddAndFetchChildren( rootRelatedChildren, maxChildrenLevel, includeVisited );
                 for ( RelatedChildContent rootRelatedChild : rootRelatedChildren )
                 {
                     if ( isAddableToRootRelated( rootRelatedChild ) )
@@ -72,7 +75,7 @@ public class RelatedContentFetcherForContentVersion
     }
 
     @Override
-    protected boolean isAddable( final RelatedContent relatedToAdd )
+    protected boolean isAddable( final RelatedContent relatedToAdd, final boolean includeVisited )
     {
         final ContentEntity content = relatedToAdd.getContent();
         final boolean contentIsAllreadyVisited = visitedChildRelatedContent.contains( relatedToAdd.getContent().getKey() );
@@ -80,7 +83,7 @@ public class RelatedContentFetcherForContentVersion
         final boolean contentVersionIsInOriginallyRequestedContentVersionSet =
             originallyRequestedContentVersions.contains( content.getMainVersion() );
 
-        return ( includeOfflineContent() || isAvailable( relatedToAdd ) ) && !contentIsAllreadyVisited &&
+        return ( includeOfflineContent() || isAvailable( relatedToAdd ) ) && ( includeVisited || !contentIsAllreadyVisited ) &&
             !contentVersionIsInOriginallyRequestedContentVersionSet;
     }
 }

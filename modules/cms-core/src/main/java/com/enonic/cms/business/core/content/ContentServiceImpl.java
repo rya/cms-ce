@@ -425,7 +425,7 @@ public class ContentServiceImpl
         fetcher.setMaxChildrenLevel( spec.getChildrenLevel() );
         fetcher.setIncludeOfflineContent( !spec.isOnline() );
 
-        return fetcher.fetch( spec.getContentVersions() );
+        return fetcher.fetch( spec.getContentVersions(), false );
     }
 
     public RelatedContentResultSet getRelatedContentRequiresAll( UserEntity user, int relation, ContentResultSet contents )
@@ -446,7 +446,7 @@ public class ContentServiceImpl
 
         for ( int i = 1; i < contents.getLength(); i++ )
         {
-            final RelatedContentResultSet otherRelatedContent = relatedContentFetcher.fetch( contents.getContent( i ) );
+            final RelatedContentResultSet otherRelatedContent = relatedContentFetcher.fetch( contents.getContent( i ), true );
             relatedContentIntersectionSet.retainAll( otherRelatedContent.getContentKeys() );
 
             if ( relatedContentIntersectionSet.size() == 0 )

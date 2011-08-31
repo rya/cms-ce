@@ -38,7 +38,7 @@
               </a>
               <xsl:text>&nbsp;/&nbsp;</xsl:text>
               <a href="adminpage?page={$page}&amp;op=page&amp;mode={$mode}">
-                <xsl:text>%headJavaProperties%</xsl:text>
+                <xsl:text>%headProperties%</xsl:text>
               </a>
             </xsl:when>
             <xsl:when test="$mode = 'system_cache'">

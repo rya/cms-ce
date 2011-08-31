@@ -18,8 +18,34 @@
             background-color: #FFFFFF;
         }
 
+        .passwordbox strong {
+            display:block;
+            font-size: 10pt;
+        }
+
+        .disabledbox strong {
+            font-size: 10pt;
+            display:block;
+            background:#ddd;
+            color:green;
+        }
+
+        .authenticationFailed {
+            font-size: 10px;
+            color: red;
+            margin-top:5px;
+        }
+
         .buttonbar {
+
+        }
+
+        .container {
             float: right;
+            padding:10px;
+            border:1px solid #eee;
+            background:#ddd;
+            width:320px;
         }
 
         .messages {
@@ -67,10 +93,18 @@
 
         function startUpgrade(all){
             if (confirm("Are you sure you want to start the upgrade?")) {
+
+                var password = document.getElementById('adminPasswordField').value;
+                var passwordParam = "";
+
+                if (password!=null) {
+                    passwordParam = "&adminPassword=" + password;
+                }
+
                 if (all) {
-                    location.href = "?upgradeAll=true";
+                    location.href = "?upgradeAll=true" + passwordParam;
                 } else {
-                    location.href = "?upgradeStep=true";
+                    location.href = "?upgradeStep=true" + passwordParam;
                 }
             }
         }
@@ -80,16 +114,34 @@
 <body onload="jumpToLast()">
     <h1>Database Upgrade Tool</h1>
     <div class="infoBox">
+
     [#if needsOldUpgrade == true]
-        Cannot upgrade your system. Please upgrade to latest 4.0.x version first
+        Cannot upgrade your system. Please upgrade to latest 4.5.x version first
         (${requiredVersion}).
     [#elseif upgradeInProgress == true]
         Upgrade in progress. Please wait for the upgrade to finish.
     [#elseif upgradeNeeded == true]
-        <span class="buttonbar">
-            <input type="button" name="upgradeStep" value="Upgrade Step" onclick="startUpgrade(false)"/>
-            <input type="button" name="upgradeAll" value="Upgrade All" onclick="startUpgrade(true)"/>
-        </span>
+        <div class="container">
+             [#if authenticated]
+              <div class="disabledbox">
+                <strong>Authenticated</strong><br/>
+                &nbsp;<br>
+              </div>
+             [#else]
+              <div class="passwordbox">
+                <strong>Enterprise Administrator password:</strong>
+                <input type="password" id="adminPasswordField" name="adminPasswordField"/>
+              </div>
+             [/#if]
+            <div class="buttonbar">
+                <input type="button" name="upgradeStep" value="Upgrade Step" onclick="startUpgrade(false)"/>
+                <input type="button" name="upgradeAll" value="Upgrade All" onclick="startUpgrade(true)"/>
+            </div>
+              [#if authenticationFailed == true]
+                     <div class="authenticationFailed">Authentication needed, please fill in Enterprise Administrator password</div>
+              [/#if]
+        </div>
+
         Upgrade from model <b>${upgradeFrom}</b> to model <b>${upgradeTo}</b>. Do the following steps:
         <ul>
             <li>Backup the database before proceeding.</li>

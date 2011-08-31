@@ -28,13 +28,13 @@ public class PropertiesXmlCreator
     }
 
 
-    public Element createElement( String elementName, String childName, Map<String, String> properties )
+    public Element createElement( String elementName, String childName, Map<Object, Object> properties )
     {
         Element el = new Element( elementName );
 
-        for ( String key : properties.keySet() )
+        for ( Object key : properties.keySet() )
         {
-            el.addContent( createElement( childName, key, properties.get( key ) ) );
+            el.addContent( createElement( childName, (String) key, (String) properties.get( key ) ) );
         }
 
         return el;

@@ -58,14 +58,9 @@
             </props>
         </property>
         <property name="interceptors">
-            <list>
-                <ref bean="toolsAuthenticationInterceptor"/>
-            </list>
+            <list/>
         </property>
     </bean>
-
-
-    <bean id="toolsAuthenticationInterceptor" class="com.enonic.cms.server.service.tools.ToolsAuthenticationInterceptor"/>
 
     <bean id="welcomeController" class="com.enonic.cms.server.service.tools.WelcomeController"/>
     <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController"/>

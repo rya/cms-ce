@@ -2,7 +2,8 @@
 [#import "pluginInfoLibrary.ftl" as lib/]
 <html>
 <head>
-    <title>Plugin Information</title>
+    <title>Plugin info</title>
+      <link type="text/css" rel="stylesheet" href="css/admin.css"/>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
     <script type="text/javascript">
 
@@ -24,19 +25,12 @@
     </script>
 
     <style type="text/css">
-        h1 {
-            font-size: 22pt;
-        }
-
-        body {
-            font-size: 12pt;
-        }
 
         .infoBox {
             padding: 8px;
             margin: 10px;
             border: 1px dotted #000000;
-            background-color: #FFFFFF;
+            background-color:#EEEEEE;
         }
 
         pre {
@@ -56,37 +50,20 @@
             overflow-x: auto;
             top: 10px;
             right: 10px;
-            display: none
-        }
-
-        a:link {
-            color: blue;
-            text-decoration: none;
-        }
-
-        a:visited {
-            color: blue; 
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: blue;
-            text-decoration: underline;
-        }
-
-        a:active {
-            color: red;
+            display: none;
+            z-index: 999;
         }
     </style>
+
 </head>
 <body>
-    <h1>Plugin Information</h1>
+    <h1>Admin / <a href="${baseUrl}/adminpage?page=910&op=plugininfo">Plugin info</a></h1>
 
 <div class="infoBox">
     <b>Registered Plugins</b>
 
     <ul>
-    	[#list pluginHandles as plugin]
+    	[#list pluginHandles as plugin ]
             [@lib.pluginInfoRowWithDetails plugin=plugin/]
 		[/#list]
     </ul>

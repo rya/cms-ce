@@ -101,7 +101,7 @@
           </tr>
         </table>
 
-        <xsl:if test="$userstoreadmin = 'true'">
+        <xsl:if test="$enterpriseadmin = 'true'">
           <xsl:call-template name="button">
             <xsl:with-param name="type" select="'button'"/>
             <xsl:with-param name="caption" select="'%cmdEdit%'"/>
@@ -109,9 +109,11 @@
               <xsl:text>javascript:document.cmdEditForm.submit();</xsl:text>
             </xsl:with-param>
           </xsl:call-template>
+        </xsl:if>
 
           <!-- BEGIN: Menu Button -->
 
+        <xsl:if test="$userstoreadmin = 'true'">
           <xsl:if test="$synchronizeUsers = 'true' or $synchronizeGroups = 'true'">
             <ul id="synchronize-menu-button" title="%synchronize%..." class="cms-menu-button">
               <xsl:if test="$synchronizeUsers = 'true' and $synchronizeGroups = 'true'">

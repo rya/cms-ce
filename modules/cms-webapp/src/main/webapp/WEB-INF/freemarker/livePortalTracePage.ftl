@@ -4,18 +4,23 @@
 <html>
 <body>
 <h1>
-    Live Portal Trace is not enabled!
+    Admin / Live Portal Trace is not enabled!
 </h1>
 </body>
 </html>
     [#else]
     <html>
     <head>
-    <title>Live Portal Trace</title>
+    <title>Admin / Live Portal Trace </title>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-1.6.2.min.js"></script>
     <script type="text/javascript" src="javascript/lib/jquery/crypt/jquery.base64.min.js"></script>
     <script type="text/javascript" src="javascript/lib/jquery/jquery-ui-1.8.14.min.js"></script>
+    <script type="text/javascript" src="javascript/tabpane.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="css/admin.css"/>
+    <link type="text/css" rel="StyleSheet" href="javascript/tab.webfx.css"/>
     <link rel="stylesheet" type="text/css" href="css/tools/jquery-ui-1.8.14.css"/>
+
     <script type="text/javascript">
 
         var reloadCurrentRequestsIntervalId = 0;
@@ -210,28 +215,17 @@
 
     </script>
     <style type="text/css">
-        h1 {
-            font-size: 22pt;
-        }
-
-        h2 {
-            font-size: 18px;
-            font-weight: normal;
-        }
-
-        body {
-            font-size: 12pt;
-            font-family: Verdana,Arial,sans-serif;
-        }
-
         .listBox {
             padding: 8px;
             margin: 10px;
             border: 1px solid #A0A0A0;
             border-radius: 4px;
-            background-color: #FFFFFF;
+            background-color: #eeeeee;
             overflow: auto;
-            font-family: monospace;
+        }
+
+        .listBox td {
+            font-family: Monospace;
         }
 
         .listBox th {
@@ -260,7 +254,8 @@
             overflow-x: auto;
             top: 10px;
             right: 10px;
-            display: none
+            display: none;
+            z-index: 999;
         }
 
         #portalRequestTraceDetail-table {
@@ -281,70 +276,104 @@
     </style>
     </head>
     <body>
-    <h1>Live Portal Trace</h1>
+    <h1>Admin / <a href="${baseUrl}/adminpage?page=912&op=liveportaltrace">Live Portal Trace</a></h1>
 
-    <button id="stop-auto-update" onclick="stopAutomaticUpdate()">
+    <button class="button_text" id="stop-auto-update" onclick="stopAutomaticUpdate()">
         Stop automatic update
     </button>
 
-    <button id="start-auto-update" onclick="startAutomaticUpdate()" disabled="true">
+    <button class="button_text" id="start-auto-update" onclick="startAutomaticUpdate()" disabled="true">
         Start automatic update
     </button>
 
     <br/>
     <br/>
 
-    <div id="tabs">
 
-        <ul>
-            <li><a href="#tabs-1">Current requests</a></li>
-            <li><a href="#tabs-2">Longest page requests</a></li>
-            <li><a href="#tabs-3">Longest attachment requests</a></li>
-            <li><a href="#tabs-4">Longest image requests</a></li>
-        </ul>
+    <div class="tab-pane" id="tab-main">
+
+        <script type="text/javascript" language="JavaScript">
+            var tabPane1 = new WebFXTabPane( document.getElementById( "tab-main" ), true);
+        </script>
+
 
         <!-- Current portal requests -->
-        <div id="tabs-1">
-            <button id="reloadCurrentPortalRequests" onclick="javascript: reloadCurrentPortalRequests()">Refresh</button>
 
-    <div class="listBox" style="height: 200px" id="window-current">
-        Please wait...
-    </div>
+        <div class="tab-page" id="tab-page-1">
+            <span class="tab">Current requests</span>
+
+            <script type="text/javascript" language="JavaScript">
+                tabPane1.addTabPage( document.getElementById( "tab-page-1" ) );
+            </script>
+
+            <button class="button_text" id="reloadCurrentPortalRequests" onclick="javascript: reloadCurrentPortalRequests()">Refresh</button>
+
+            <div class="listBox" style="height: 200px" id="window-current">
+                Please wait...
+            </div>
+
         </div>
 
 
-        <!-- Longest portal page requests -->
-        <div id="tabs-2">
-            <button id="reloadLongestPortalPageRequests" onclick="javascript: reloadLongestPortalPageRequests()">Refresh</button>
+        <!-- Longest page requests -->
 
-    <div class="listBox" style="height: 200px" id="window-longest-pagerequests">
-        Please wait...
-    </div>
+        <div class="tab-page" id="tab-page-2">
+            <span class="tab">Longest page requests</span>
+
+            <script type="text/javascript" language="JavaScript">
+                tabPane1.addTabPage( document.getElementById( "tab-page-2" ) );
+            </script>
+
+            <button class="button_text" id="reloadLongestPortalPageRequests" onclick="javascript: reloadLongestPortalPageRequests()">Refresh</button>
+
+            <div class="listBox" style="height: 200px" id="window-longest-pagerequests">
+                Please wait...
+            </div>
         </div>
 
-        <!-- Longest portal attachment requests -->
-        <div id="tabs-3">
-            <button id="reloadLongestPortalAttachmentRequests" onclick="javascript: reloadLongestPortalAttachmentRequests()">Refresh</button>
+        <!-- Longest attachment requests -->
 
-    <div class="listBox" style="height: 200px" id="window-longest-attachmentrequests">
-        Please wait...
-    </div>
+        <div class="tab-page" id="tab-page-3">
+            <span class="tab">Longest attachment requests</span>
+
+            <script type="text/javascript" language="JavaScript">
+                tabPane1.addTabPage( document.getElementById( "tab-page-3" ) );
+            </script>
+
+            <button  class="button_text" id="reloadLongestPortalAttachmentRequests" onclick="javascript: reloadLongestPortalAttachmentRequests()">Refresh</button>
+
+            <div class="listBox" style="height: 200px" id="window-longest-attachmentrequests">
+                Please wait...
+            </div>
         </div>
 
-        <!-- Longest portal image requests -->
-        <div id="tabs-4">
-            <button id="reloadLongestPortalImageRequests" onclick="javascript: reloadLongestPortalImageRequests()">Refresh</button>
+
+        <!-- Longest image requests -->
+
+        <div class="tab-page" id="tab-page-4">
+            <span class="tab">Longest image requests</span>
+
+            <script type="text/javascript" language="JavaScript">
+                tabPane1.addTabPage( document.getElementById( "tab-page-4" ) );
+            </script>
+
+            <button class="button_text" id="reloadLongestPortalImageRequests" onclick="javascript: reloadLongestPortalImageRequests()">Refresh</button>
 
             <div class="listBox" style="height: 200px" id="window-longest-imagerequests">
                 Please wait...
             </div>
         </div>
 
+
+        <script type="text/javascript" language="JavaScript">
+            setupAllTabs();
+        </script>
+
     </div>
 
     <!-- History -->
     <h2>History of portal requests
-        <button id="fetch-recent-history" onclick="javascript: loadNewPastPortalRequestTraces()" disabled="true">Fetch recent</button>
+        <button class="button_text" id="fetch-recent-history" onclick="javascript: loadNewPastPortalRequestTraces()" disabled="true">Fetch recent</button>
     </h2>
 
     <div class="listBox" style="height: 500px">
@@ -377,11 +406,6 @@
 
 
     <script type="text/javascript">
-
-        $(function() {
-            $( "#tabs" ).tabs();
-        });
-
         reloadCurrentPortalRequests();
         reloadLongestPortalPageRequests();
         reloadLongestPortalAttachmentRequests();

@@ -39,6 +39,11 @@ public final class DecoratedDataSource
         this.decorator = decorator;
     }
 
+    public DataSource getWrappedDataSource()
+    {
+        return this.dataSource;
+    }
+
     /**
      * Return a connection from data source.
      */

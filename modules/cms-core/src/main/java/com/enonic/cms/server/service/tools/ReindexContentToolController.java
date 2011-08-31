@@ -11,7 +11,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.esl.net.URL;
 import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.business.tools.ReindexContentToolService;
@@ -20,6 +23,7 @@ public class ReindexContentToolController
     extends AbstractToolController
 {
 
+    @Autowired
     private ReindexContentToolService reindexContentToolService;
 
     private List<String> logEntries = new ArrayList<String>();
@@ -27,15 +31,16 @@ public class ReindexContentToolController
     private Boolean reindexingInProgress = Boolean.FALSE;
 
     @Override
-    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res,ExtendedMap formItems )
+    protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
     {
         if ( req.getParameter( "reindex" ) != null )
         {
             startReindexAllContentTypes();
+
             try
             {
-                redirectClientToReferer( req, res );
-                // redirectToSelf( req, res );
+                URL referer = new URL( req.getHeader( "referer" ) );
+                redirectClientToURL( referer, res );
             }
             catch ( Exception e )
             {

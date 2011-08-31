@@ -15,8 +15,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.store.support.ConnectionTraceInfo;
+import com.enonic.cms.store.support.DecoratedDataSource;
 import com.enonic.cms.store.support.TraceableDataSource;
 
 /**
@@ -37,6 +39,18 @@ public final class ConnectionInfoController
         if ( this.dataSource instanceof TraceableDataSource )
         {
             return (TraceableDataSource) this.dataSource;
+        }
+        else if ( this.dataSource instanceof DecoratedDataSource )
+        {
+            DataSource ds = ( (DecoratedDataSource) this.dataSource ).getWrappedDataSource();
+            if ( ds instanceof TraceableDataSource )
+            {
+                return (TraceableDataSource) ds;
+            }
+            else
+            {
+                return null;
+            }
         }
         else
         {
@@ -66,6 +80,7 @@ public final class ConnectionInfoController
         HashMap<String, Object> model = new HashMap<String, Object>();
         model.put( "enabled", isTraceEnabled() ? 1 : 0 );
         model.put( "connlist", getConnectionList() );
+        model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
         process( res, model, "connectionInfoPage" );
     }
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.enonic.cms.domain.content.contentdata.ContentData;
 import com.enonic.cms.domain.content.contentdata.InvalidContentDataException;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.domain.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.domain.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfig;
 
@@ -38,13 +38,13 @@ public class CustomContentData
         return titleInputName;
     }
 
-    public DataEntry getTitleDataEntry()
+    public TitleDataEntry getTitleDataEntry()
     {
         if ( titleInputName == null )
         {
             return null;
         }
-        return entryMap.get( titleInputName );
+        return (TitleDataEntry) entryMap.get( titleInputName );
     }
 
     public List<DataEntry> getNonGroupDataEntries()
@@ -143,12 +143,17 @@ public class CustomContentData
 
     public String getTitle()
     {
-        TextDataEntry titleDataEntry = (TextDataEntry) getTitleDataEntry();
+        TitleDataEntry titleDataEntry = getTitleDataEntry();
         if ( titleDataEntry == null )
         {
             throw new TitleDataEntryNotFoundException( getTitleInputName() );
         }
-        return titleDataEntry.getValue();
+
+        if ( !titleDataEntry.hasValue() )
+        {
+            throw MissingRequiredContentDataException.missingTitleDataEntryValue( getInputConfig( titleDataEntry.getName() ) );
+        }
+        return titleDataEntry.getValueAsTitle();
     }
 
     @Override

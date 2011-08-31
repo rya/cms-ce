@@ -218,7 +218,7 @@
               </td>
               <td width="16">
                 <a href="adminpage?page=10&amp;op=page&amp;mode=java_properties" target="mainFrame">
-                  <img src="images/page_java.gif" border="0"/>
+                  <img src="images/document-properties.png" border="0"/>
                   <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuProperties%</xsl:text>
                 </a>
@@ -284,8 +284,8 @@
                 <img src="javascript/images/T.png" border="0"/>
               </td>
               <td>
-                <a href="adminpage?page=910&amp;op=blabla" target="mainFrame">
-                  <img src="images/icon_system.gif" border="0"/>
+                <a href="adminpage?page=910&amp;op=pluginInfo" target="mainFrame">
+                  <img src="images/icon_plugins.png" border="0"/>
                   <img src="im  ages/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuPluginInfo%</xsl:text>
                 </a>
@@ -296,8 +296,8 @@
                 <img src="javascript/images/T.png" border="0"/>
               </td>
               <td>
-                <a href="adminpage?page=912&amp;op=livePortalTrace" target="mainFrame">
-                  <img src="images/icon_system.gif" border="0"/>
+                <a href="adminpage?page=912&amp;op=liveportaltrace" target="mainFrame">
+                  <img src="images/utilities-system-monitor.png" border="0"/>
                   <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuLivePortalTrace%</xsl:text>
                 </a>
@@ -308,8 +308,8 @@
                 <img src="javascript/images/T.png" border="0"/>
               </td>
               <td>
-                <a href="adminpage?page=914&amp;op=blabla" target="mainFrame">
-                  <img src="images/icon_system.gif" border="0"/>
+                <a href="adminpage?page=914&amp;op=connecioninfo" target="mainFrame">
+                  <img src="images/database-lightning-icon.png" border="0"/>
                   <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuConnectionInfo%</xsl:text>
                 </a>

@@ -27,9 +27,7 @@ import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
 import com.enonic.cms.domain.content.resultset.RelatedParentContent;
 import com.enonic.cms.domain.security.user.UserEntity;
 
-/**
- * Jun 11, 2009
- */
+
 public abstract class AbstractRelatedContentFetcher
 {
     protected ContentDao contentDao;
@@ -116,7 +114,7 @@ public abstract class AbstractRelatedContentFetcher
         return contentDao.findRelatedChildrenByKeys( versionKeys );
     }
 
-    protected List<RelatedChildContent> doAddAndFetchChildren( final Collection<RelatedChildContent> children, final int level )
+    protected List<RelatedChildContent> doAddAndFetchChildren( final Collection<RelatedChildContent> children, final int level, boolean includeVisited )
     {
         final int nextLevel = level - 1;
         final boolean atLastLevel = nextLevel == 0;
@@ -126,7 +124,7 @@ public abstract class AbstractRelatedContentFetcher
 
         for ( RelatedChildContent relatedToAdd : children )
         {
-            if ( isAddable( relatedToAdd ) )
+            if ( isAddable( relatedToAdd, includeVisited ) )
             {
                 addedRelatedContent.add( relatedToAdd );
                 addedContent.add( relatedToAdd.getContent() );
@@ -148,14 +146,14 @@ public abstract class AbstractRelatedContentFetcher
                 doFindRelatedChildren( gatherMainVersionsFromContent( addedContent ) );
             if ( nextLevelChildren.size() > 0 )
             {
-                doAddAndFetchChildren( nextLevelChildren, nextLevel );
+                doAddAndFetchChildren( nextLevelChildren, nextLevel, includeVisited );
             }
         }
 
         return addedRelatedContent;
     }
 
-    protected abstract boolean isAddable( RelatedContent relatedToAdd );
+    protected abstract boolean isAddable( RelatedContent relatedToAdd, boolean includeVisited );
 
     protected abstract boolean isAddableToRootRelated( RelatedContent relatedToAdd );
 
