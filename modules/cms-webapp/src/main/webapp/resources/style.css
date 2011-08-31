@@ -13,7 +13,7 @@ body {
     font-family: arial,helvetica,sans-serif;
     font-size: 75%;
     color: #222;
-    line-height: 1.4;
+    line-height: 1.5;
     background: #141414 url("images/bodybg.gif") repeat-x center bottom fixed;
 }
 
@@ -31,7 +31,7 @@ h1 {
 }
 
 h2 {
-    font-size: 1.6em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
@@ -40,11 +40,11 @@ h2 {
 }
 
 h3 {
-    font-size: 1.2em;
+    font-size: 1.1em;
     font-weight: bold;
 }
 
-header, nav, footer, #content-outer {
+#logo, nav, footer, #content-outer {
     width: 950px;
     margin: 0 auto;
     position: relative;
@@ -72,7 +72,7 @@ footer {
     color: #fff;
 }
 
-header {
+#logo {
     height: 75px;
     padding-top: 20px;
 }
@@ -122,49 +122,44 @@ ul.menu a, ul.menu div {
     text-decoration: none;
 }
 
-#tools {
-    margin-bottom: 1.5em;
+#management-components {
+    margin-bottom: 25px;
 }
 
-#tools .icon-admin {
+#management-components .icon-admin {
     margin-right: 10px;
 }
 
-#tools .icon-webdav {
+#management-components .icon-webdav {
     margin-right: 10px;
 }
 
-.box {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #eee;
-}
-
-.tools {
+.component {
     width: 278px;
-
+}
+.component div {
 }
 
-.tools.admin {
+.component.admin {
     margin-right: 25px;
 }
 
-.tools h3 {
-    margin-top: 12px;
+.component h3 {
+    margin-top: 15px;
 }
 
 #welcome {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
 }
 
 #steps {
     border: 1px solid #ccc;
     border-radius: 15px;
-    padding: 10px 20px;
+    padding: 15px 20px;
 }
 
 .step {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .step.last {
@@ -195,6 +190,12 @@ ul.menu a, ul.menu div {
     padding-left: 40px;
     background: url("images/icon-site.png") no-repeat 0 2px TRANSPARENT;
     margin-bottom: 10px;
+}
+
+.box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #eee;
 }
 
 /* ---- Utils ----- */
