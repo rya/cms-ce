@@ -74,12 +74,11 @@ Ext.define( 'CMS.view.userstore.UserstoreFormDetail', {
                         {
                             xtype: 'radiogroup',
                             columns: 1,
-                            name: 'syncType',
                             vertical: true,
                             items: [
-                                { boxLabel: 'Users And Groups', inputValue: 'ug' },
-                                { boxLabel: 'Users Only', inputValue: 'u' },
-                                { boxLabel: 'Groups Only', inputValue: 'g', checked: true }
+                                { boxLabel: 'Users And Groups', name: 'syncType', inputValue: 'ug' },
+                                { boxLabel: 'Users Only', name: 'syncType', inputValue: 'u' },
+                                { boxLabel: 'Groups Only', name: 'syncType', inputValue: 'g', checked: true }
                             ]
                         }
                     ]

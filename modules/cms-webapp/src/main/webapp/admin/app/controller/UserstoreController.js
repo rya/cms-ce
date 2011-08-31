@@ -87,7 +87,16 @@ Ext.define( 'CMS.controller.UserstoreController', {
                 var tabs = this.getTabs();
                 var tab = btn.up('userstoreFormPanel');
                 var detail = btn.up('userstoreDetail');
-                var userstore = tab ? tab.userstore : detail.getCurrentUserstore();
+                var selection = this.getUserstoreGrid().getSelectionModel().getSelection();
+                var userstore;
+                if ( tab ) {
+                    userstore = tab.userstore;
+                } else if ( detail ) {
+                    userstore = detail.getCurrentUserstore();
+                } else if ( selection && selection.length > 0 ) {
+                    detail = this.getUserstoreDetail();
+                    userstore = selection[0];
+                }
 
                 var task = {
                     run: function() {
@@ -367,6 +376,7 @@ Ext.define( 'CMS.controller.UserstoreController', {
     popupMenu: function( view, rec, node, index, e )
     {
         e.stopEvent();
+        this.getUserstoreGrid().getSelectionModel().select( rec );
         this.getUserstoreContextMenu().showAt( e.getXY() );
         return false;
     },
