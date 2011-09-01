@@ -5,14 +5,14 @@
     <meta charset="utf-8"/>
     <title>Enonic CMS - Boot Page</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="resources/favicon.ico"/>
-    <link rel="stylesheet" href="resources/style.css" type="text/css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="${baseUrl}/resources/favicon.ico"/>
+    <link rel="stylesheet" href="${baseUrl}/resources/style.css" type="text/css"/>
 </head>
 
 <body id="main">
 
 <header id="logo">
-    <img alt="Enonic-logo" id="logo-screen" src="resources/images/logo-screen.gif" title="Enonic">
+    <img alt="Enonic-logo" id="logo-screen" src="${baseUrl}/resources/images/logo-screen.gif" title="Enonic">
 </header>
 <nav>
     <ul class="menu horizontal main clearfix">
@@ -31,7 +31,7 @@
             <div class="component box admin left clearfix">
                 <div class="icon-admin left">
                     <a href="${baseUrl}/admin">
-                        <img src="resources/images/icon-admin.png" alt="Admin"/>
+                        <img src="${baseUrl}/resources/images/icon-admin.png" alt="Admin"/>
                     </a>
                 </div>
                 <div class="left">
@@ -48,7 +48,7 @@
             <div class="component box left clearfix">
                 <div class="icon-webdav left">
                     <a href="${baseUrl}/dav">
-                        <img src="resources/images/icon-webdav.png" alt="WebDAV"/>
+                        <img src="${baseUrl}/resources/images/icon-webdav.png" alt="WebDAV"/>
                     </a>
                 </div>
                 <div class="left">
@@ -168,10 +168,10 @@
     </section>
     <section id="social" class="right">
         <a href="http://www.enonic.com/en/rss" target="_blank">
-            <img src="resources/images/icon-rss-large.png" alt="RSS"/>
+            <img src="${baseUrl}/resources/images/icon-rss-large.png" alt="RSS"/>
         </a>
         <a href="http://twitter.com/#!/enonic_cms" target="_blank">
-            <img src="resources/images/icon-twitter-large.png" alt="Enonic on Twitter"/>
+            <img src="${baseUrl}/resources/images/icon-twitter-large.png" alt="Enonic on Twitter"/>
         </a>
     </section>
 </footer>
