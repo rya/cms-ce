@@ -39,7 +39,7 @@ h2 {
 }
 
 h3 {
-    font-size: 1.1em;
+    font-size: 1.3em;
     font-weight: bold;
 }
 
@@ -109,7 +109,7 @@ h3 {
 }
 
 #management-components .component h3 {
-    margin-top: 12px;
+    margin-top: 10px;
 }
 
 #welcome {
@@ -123,17 +123,17 @@ h3 {
 }
 
 .step {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .step .number {
-    font-size: 3.0em;
+    font-size: 3.5em;
     font-weight: bold;
-    margin-right: 25px;
+    margin-right: 30px;
 }
 
 .step .description {
-    width: 488px;
+    width: 490px;
     overflow: hidden;
 }
 
@@ -159,7 +159,7 @@ h3 {
 
 #sites ul li {
     padding-left: 40px;
-    background: url("images/icon-site.png") no-repeat 0 2px TRANSPARENT;
+    background: url("images/icon-site.png") no-repeat 0 7px TRANSPARENT;
     margin-bottom: 10px;
 }
 

@@ -54,12 +54,16 @@
         </div>
     [/#if]
 
+    [#assign adminUrl = baseUrl + '/admin' ]
+    [#assign webDavUrl = baseUrl + '/dav']
+    [#assign componentsUrlMaxLength = 32]
+
+
     <div id="content" class="clearfix">
         <div id="management-components" class="clearfix">
-            [#assign url = baseUrl + '/admin' ]
-            <div class="component box admin left clearfix" title="${url}" onclick="navigateTo('${url}')">
+            <div class="component box admin left clearfix" title="${adminUrl}" onclick="navigateTo('${adminUrl}')">
                 <div class="icon-admin left">
-                    <a href="${baseUrl}/admin">
+                    <a href="${adminUrl}">
                         <img src="${baseUrl}/resources/images/icon-admin.png" alt="Admin"/>
                     </a>
                 </div>
@@ -67,15 +71,14 @@
                     <h3>Admin Console</h3>
 
                     <div>
-                        <a href="${url}" title="${url}">${elipsis(url, 34)}</a>
+                        <a href="${adminUrl}" title="${adminUrl}">${elipsis(adminUrl, componentsUrlMaxLength)}</a>
                     </div>
                 </div>
             </div>
 
-            [#assign url = baseUrl + '/dav']
-            <div class="component box left clearfix" title="${url}" onclick="navigateTo('${url}')">
+            <div class="component box left clearfix" title="${webDavUrl}" onclick="navigateTo('${webDavUrl}')">
                 <div class="icon-webdav left">
-                    <a href="${baseUrl}/dav">
+                    <a href="${webDavUrl}">
                         <img src="${baseUrl}/resources/images/icon-webdav.png" alt="WebDAV"/>
                     </a>
                 </div>
@@ -83,7 +86,7 @@
                     <h3>WebDAV</h3>
 
                     <div>
-                        <a href="${url}" title="${url}">${elipsis(url, 80)}</a>
+                        <a href="${webDavUrl}" title="${webDavUrl}">${elipsis(webDavUrl, componentsUrlMaxLength)}</a>
                     </div>
                 </div>
             </div>
@@ -173,7 +176,7 @@
 
                         <div>
                             <a href="${url}">
-                                ${url}
+                                ${elipsis(url, 38)}
                             </a>
                         </div>
                     </li>
@@ -193,6 +196,7 @@
     <div id="license" class="left">
         ${versionTitleVersion} - Licensed under AGPL 3.0
     </div>
+    <q></q>
     <div id="social" class="right">
         <a href="http://www.enonic.com/en/rss" rel="external">
             <img src="${baseUrl}/resources/images/icon-rss-large.png" alt="RSS"/>
