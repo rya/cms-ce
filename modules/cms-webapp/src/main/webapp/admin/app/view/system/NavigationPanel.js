@@ -24,9 +24,7 @@ Ext.define('CMS.view.system.NavigationPanel', {
         return [
             {text:"About", leaf: true, appUrl:"about.html"},
             {text:"Properties", leaf: true, appUrl:"properties.html"},
-            {text:"Cache", leaf: true, appUrl:"systemCaches.html"},
             {text:"Userstores", leaf: true, appUrl:"userstores.html"},
-            {text:"Content Types", leaf: true, appUrl:"contentTypes.html"},
             {text:"Languages", leaf: true, appUrl:"languages.html"},
             {text:"Countries", leaf: true, appUrl:"blank.html"},
             {text:"Time Zones", leaf: true, appUrl:"blank.html"},
