@@ -86,12 +86,14 @@ Ext.define('CMS.view.launcher.Toolbar', {
                     {
                         id: 500,
                         text: "Content Types",
-                        appUrl: "contentTypes.html"
+                        appUrl: "contentTypes.html",
+                        icon: 'resources/images/page_world.png'
                     },
                     {
                         id: 600,
                         text:"Cache",
-                        appUrl:"systemCaches.html"
+                        appUrl:"systemCaches.html",
+                        icon: 'resources/images/drive_web.png'
                     },
                     {
                         id: 800,
