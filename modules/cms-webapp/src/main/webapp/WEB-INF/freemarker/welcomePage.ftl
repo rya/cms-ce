@@ -1,4 +1,13 @@
 [#ftl]
+
+[#function elipsis text len]
+    [#if (text?length <= len-1)]
+        [#return text]
+    [/#if]
+
+    [#return text?substring(0, len) + '...']
+[/#function]
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -28,38 +37,56 @@
 </div>
 
 <div id="content-outer" class="clearfix">
+    [#if modelUpgradeNeeded == true]
+        <div class="error">
+            <b>Upgrade Needed!</b>
+            <br/>
+            Database upgrade from model <b>${upgradeFrom}</b> to model <b>${upgradeTo}</b> is needed. Admin or site will not
+            work correctly if not upgraded. Go to <a href="${baseUrl}/upgrade">upgrade</a> to upgrade.
+        </div>
+    [/#if]
+    [#if softwareUpgradeNeeded == true]
+        <div class="error">
+            <b>Software Upgrade Needed!</b>
+            <br/>
+            Database model is newer than software allows. Please upgrade the software. Admin or site will not
+            work correctly if not upgraded.
+        </div>
+    [/#if]
+
     <div id="content" class="clearfix">
         <div id="management-components" class="clearfix">
-            <div class="component box admin left clearfix">
+            [#assign url = baseUrl + '/admin' ]
+            <div class="component box admin left clearfix" title="${url}" onclick="navigateTo('${url}')">
                 <div class="icon-admin left">
                     <a href="${baseUrl}/admin">
                         <img src="${baseUrl}/resources/images/icon-admin.png" alt="Admin"/>
                     </a>
                 </div>
-                <div class="left">
+                <div class="info left">
                     <h3>Admin Console</h3>
 
                     <div>
-                        <a href="${baseUrl}/admin">${baseUrl}/admin</a>
+                        <a href="${url}" title="${url}">${elipsis(url, 34)}</a>
                     </div>
                 </div>
             </div>
 
-            <div class="component box left clearfix">
+            [#assign url = baseUrl + '/dav']
+            <div class="component box left clearfix" title="${url}" onclick="navigateTo('${url}')">
                 <div class="icon-webdav left">
                     <a href="${baseUrl}/dav">
                         <img src="${baseUrl}/resources/images/icon-webdav.png" alt="WebDAV"/>
                     </a>
                 </div>
-                <div class="left">
+                <div class="info left">
                     <h3>WebDAV</h3>
 
                     <div>
-                        <a href="${baseUrl}/dav">${baseUrl}/dav</a>
+                        <a href="${url}" title="${url}">${elipsis(url, 80)}</a>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div id="welcome">
@@ -80,10 +107,16 @@
 
                     <p>
                         Dig in to documentation for Editors, Administrators, Developers and Operators.<br/>
-                        We also recommend developers to check out our tutorials.<br/>
-                        <a href="http://enonic.com/docs" rel="external">- http://enonic.com/docs</a><br/>
-                        <a href="http://enonic.com/tutorials" rel="external">- http://enonic.com/tutorials</a>
+                        We also recommend developers to check out our tutorials.
                     </p>
+                    <ul>
+                        <li>
+                            <a href="http://enonic.com/docs" rel="external">http://enonic.com/docs</a><br/>
+                        </li>
+                        <li>
+                            <a href="http://enonic.com/tutorials" rel="external">http://enonic.com/tutorials</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="step clearfix">
@@ -96,9 +129,13 @@
                         building
                         new
                         sites
-                        quickly.<br/>
-                        <a href="http://github.com/enonic/cms-packages" rel="external">- http://github.com/enonic/cms-packages</a>
+                        quickly.
                     </p>
+                    <ul>
+                        <li>
+                            <a href="http://github.com/enonic/cms-packages" rel="external">http://github.com/enonic/cms-packages</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="step last clearfix">
@@ -110,10 +147,15 @@
                         Join the Enonic Community for Updates, Forum and Tutorials. Get help,
                         <br/>Discuss and share. All out
                         code is also available on GitHub - you are welcome with your contributions.<br/>
-
-                        <a href="http://enonic.com/community" rel="external">- http://enonic.com/community</a><br/>
-                        <a href="http://github.com/enonic" rel="external">- http://github.com/enonic</a>
                     </p>
+                    <ul>
+                        <li>
+                            <a href="http://enonic.com/community" rel="external">http://enonic.com/community</a><br/>
+                        </li>
+                        <li>
+                            <a href="http://github.com/enonic" rel="external">http://github.com/enonic</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -125,12 +167,13 @@
 
             [#if upgradeNeeded == false]
                 [#list sites?keys?sort as key]
-                    <li>
+                    [#assign url = baseUrl + '/site/' + sites[key] + '/']
+                    <li onclick="navigateTo('${url}')" title="${url}">
                         <h3>${key}</h3>
 
                         <div>
-                            <a href="${baseUrl}/site/${sites[key]}/">
-                            ${baseUrl}/site/${sites[key]}/
+                            <a href="${url}">
+                                ${url}
                             </a>
                         </div>
                     </li>
@@ -164,25 +207,3 @@
 
 </body>
 </html>
-
-<!--
-TODO: Add upgrade info boxes
-
-[#if modelUpgradeNeeded == true]
-<div class="infoBoxError">
-    <b>Upgrade Needed!</b>
-    <br/>
-    Database upgrade from model <b>${upgradeFrom}</b> to model <b>${upgradeTo}</b> is needed. Admin or site will not
-    work correctly if not upgraded. Go to <a href="${baseUrl}/upgrade">upgrade</a> to upgrade.
-</div>
-[/#if]
-[#if softwareUpgradeNeeded == true]
-<div class="infoBoxError">
-    <b>Software Upgrade Needed!</b>
-    <br/>
-    Database model is newer than software allows. Please upgrade the software. Admin or site will not
-    work correctly if not upgraded.
-</div>
-[/#if]
--->
-

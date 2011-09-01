@@ -12,4 +12,9 @@ function postProcessAnchorElements()
     }
 }
 
+function navigateTo( url )
+{
+    document.location.href = url;
+}
+
 window.onload = postProcessAnchorElements;

@@ -27,7 +27,6 @@ h1 {
     font-weight: bold;
     line-height: 1;
     margin-bottom: 0.4em;
-
 }
 
 h2 {
@@ -82,6 +81,100 @@ h3 {
     height: 53px;
 }
 
+#management-components {
+    margin-bottom: 20px;
+}
+
+#management-components .icon-admin {
+    margin-right: 10px;
+}
+
+#management-components .icon-webdav {
+    margin-right: 10px;
+}
+
+#management-components .component {
+    width: 278px;
+    height: 64px;
+    cursor: pointer;
+}
+
+#management-components .component .info {
+    width: 183px;
+    overflow: hidden;
+}
+
+#management-components .component.admin {
+    margin-right: 25px;
+}
+
+#management-components .component h3 {
+    margin-top: 12px;
+}
+
+#welcome {
+    margin-bottom: 10px;
+}
+
+#steps {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 10px 20px;
+}
+
+.step {
+    margin-bottom: 15px;
+}
+
+.step .number {
+    font-size: 3.0em;
+    font-weight: bold;
+    margin-right: 25px;
+}
+
+.step .description {
+    width: 488px;
+    overflow: hidden;
+}
+
+#steps ul {
+    list-style: disc;
+}
+
+#steps ul li {
+    margin-left: 15px;
+}
+
+#sites {
+    padding: 15px 20px;
+}
+
+#sites ul {
+    list-style: none;
+}
+
+#sites ul li {
+    cursor: pointer;
+}
+
+#sites ul li {
+    padding-left: 40px;
+    background: url("images/icon-site.png") no-repeat 0 2px TRANSPARENT;
+    margin-bottom: 10px;
+}
+
+.box {
+    border: 1px solid #D7D7D7;
+    background: #f5f6f5;
+    background: -moz-linear-gradient(top, #f5f6f5 0%, #fff 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f5f6f5), color-stop(100%,#fff));
+    background: -webkit-linear-gradient(top, #f5f6f5 0%,#fff 100%);
+    background: -o-linear-gradient(top, #f5f6f5 0%,#fff 100%);
+    background: -ms-linear-gradient(top, #f5f6f5 0%,#fff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f5', endColorstr='#ffffff',GradientType=0 );
+    background: linear-gradient(top, #f5f6f5 0%,#fff 100%);
+}
+
 ul.menu.main {
     background: url("images/menubg.gif") repeat-x scroll 0 0 #1557B3;
 }
@@ -122,80 +215,11 @@ ul.menu a, ul.menu div {
     text-decoration: none;
 }
 
-#management-components {
-    margin-bottom: 25px;
-}
-
-#management-components .icon-admin {
-    margin-right: 10px;
-}
-
-#management-components .icon-webdav {
-    margin-right: 10px;
-}
-
-.component {
-    width: 278px;
-}
-.component div {
-}
-
-.component.admin {
-    margin-right: 25px;
-}
-
-.component h3 {
-    margin-top: 15px;
-}
-
-#welcome {
-    margin-bottom: 25px;
-}
-
-#steps {
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    padding: 15px 25px;
-}
-
-.step {
-    margin-bottom: 15px;
-}
-
-.step.last {
-    margin-bottom: 0;
-
-}
-
-.step .number {
-    font-size: 3.0em;
-    font-weight: bold;
-    margin-right: 25px;
-}
-
-.step .description {
-    width: 488px;
-    overflow: hidden;
-}
-
-#sites {
-    padding: 15px 20px;
-}
-
-
-#sites ul {
-    list-style: none;
-}
-
-#sites ul li {
-    padding-left: 40px;
-    background: url("images/icon-site.png") no-repeat 0 2px TRANSPARENT;
-    margin-bottom: 10px;
-}
-
-.box {
-    background: url("images/framegradient.gif") repeat-x scroll left top #FFFFFF;
-    border: 1px solid #D7D7D7;
+.error {
+    margin-bottom: 20px;
+    border: 1px dotted #000000;
+    padding: 10px;
+    background-color: #FFA0A0;
 }
 
 /* ---- Utils ----- */
