@@ -175,6 +175,7 @@ ul.menu a, ul.menu div {
 
 .step .description {
     width: 488px;
+    overflow: hidden;
 }
 
 #sites {
@@ -193,9 +194,8 @@ ul.menu a, ul.menu div {
 }
 
 .box {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #eee;
+    background: url("images/framegradient.gif") repeat-x scroll left top #FFFFFF;
+    border: 1px solid #D7D7D7;
 }
 
 /* ---- Utils ----- */
