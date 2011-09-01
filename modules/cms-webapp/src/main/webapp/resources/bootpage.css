@@ -23,7 +23,7 @@ a {
 }
 
 h1 {
-    font-size: 2.3em;
+    font-size: 2.5em;
     font-weight: bold;
     line-height: 1;
     margin-bottom: 0.4em;
@@ -101,7 +101,11 @@ h3 {
 
 #management-components .component .info {
     width: 183px;
+}
+
+#management-components .component .info div {
     overflow: hidden;
+    height: 20px;
 }
 
 #management-components .component.admin {
@@ -143,6 +147,11 @@ h3 {
 
 #steps ul li {
     margin-left: 15px;
+}
+
+#steps ul li div {
+    overflow: hidden;
+    height: 20px;
 }
 
 #sites {
