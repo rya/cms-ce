@@ -76,6 +76,7 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/servlet/mainServlet.xml</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet>
@@ -89,6 +90,7 @@
             <param-name>upgradeCheck</param-name>
             <param-value>true</param-value>
         </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
@@ -102,11 +104,13 @@
             <param-name>upgradeCheck</param-name>
             <param-value>true</param-value>
         </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
         <servlet-name>dav</servlet-name>
         <servlet-class>com.enonic.cms.server.service.webdav.SimpleDavServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
@@ -116,6 +120,7 @@
             <param-name>debug</param-name>
             <param-value>false</param-value>
         </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet-mapping>
