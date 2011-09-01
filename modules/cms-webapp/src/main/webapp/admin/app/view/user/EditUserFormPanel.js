@@ -139,11 +139,10 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     }
                     return {
                         sourceField: field,
-                        xtype: 'tabpanel',
+                        xtype: 'fieldset',
                         width: '100%',
+                        title: 'Address',
                         itemId: 'addressTabPanel',
-                        height: 280,
-                        width: 300,
                         items: tabs,
                         buttons: [
                             {
@@ -157,11 +156,10 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     var tabItem = me.generateAddressFieldSet(field);
                     return {
                         sourceField: field,
-                        xtype: 'tabpanel',
+                        xtype: 'fieldset',
                         width: '100%',
+                        title: 'Address',
                         itemId: 'addressTabPanel',
-                        height: 280,
-                        width: 300,
                         items: [tabItem],
                         buttons: [
                             {
