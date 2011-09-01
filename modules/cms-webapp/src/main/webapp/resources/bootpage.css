@@ -1,4 +1,4 @@
-html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, section, article, aside, footer {
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
     margin: 0;
     padding: 0;
     border: 0;
@@ -44,7 +44,7 @@ h3 {
     font-weight: bold;
 }
 
-#logo, nav, footer, #content-outer {
+#logo, #nav, #footer, #content-outer {
     width: 950px;
     margin: 0 auto;
     position: relative;
@@ -62,12 +62,12 @@ h3 {
     float: left;
 }
 
-aside {
+#east {
     width: 287px;
     float: left;
 }
 
-footer {
+#footer {
     margin-top: 10px;
     color: #fff;
 }
