@@ -39,7 +39,7 @@
 <div id="content-outer" class="clearfix">
     [#if modelUpgradeNeeded == true]
         <div class="error">
-            <b>Upgrade Needed!</b>
+            <strong>Upgrade Needed!</strong>
             <br/>
             Database upgrade from model <b>${upgradeFrom}</b> to model <b>${upgradeTo}</b> is needed. Admin or site will not
             work correctly if not upgraded. Go to <a href="${baseUrl}/upgrade">upgrade</a> to upgrade.
@@ -47,7 +47,7 @@
     [/#if]
     [#if softwareUpgradeNeeded == true]
         <div class="error">
-            <b>Software Upgrade Needed!</b>
+            <strong>Software Upgrade Needed!</strong>
             <br/>
             Database model is newer than software allows. Please upgrade the software. Admin or site will not
             work correctly if not upgraded.
