@@ -9,7 +9,7 @@ Ext.define('App.store.UserStore', {
 
     proxy: {
         type: 'ajax',
-        url: '/admin/data/user/list',
+        url: '../admin/data/user/list',
         simpleSortMode: true,
         reader: {
             type: 'json',

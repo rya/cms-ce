@@ -14,6 +14,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,10 +41,14 @@ import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.imports.ImportException;
 import com.enonic.cms.core.content.imports.ImportJob;
@@ -156,6 +161,505 @@ public class ImportServiceImplTest
         assertEquals( ContentStatus.DRAFT, fixture.findFirstContentVersionByTitle( "Jørund Vier Skriubakken" ).getStatus() );
         assertEquals( ContentStatus.DRAFT, fixture.findFirstContentVersionByTitle( "Ane Skriubakken" ).getStatus() );
 
+    }
+
+    @Test
+    public void order_of_related_contents_is_of_same_order_as_in_import_source_when_source_is_csv()
+        throws UnsupportedEncodingException
+    {
+        ContentTypeConfig contentTypeConfig = fixture.findCategoryByName( "Persons" ).getContentType().getContentTypeConfig();
+
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        CustomContentData contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "1" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Father" ) );
+        createCommand.setContentData( contentData );
+        ContentKey fatherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "2" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Mother" ) );
+        createCommand.setContentData( contentData );
+        ContentKey motherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "3" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Daughter" ) );
+        createCommand.setContentData( contentData );
+        ContentKey daughterContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "4" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Grand daughter" ) );
+        createCommand.setContentData( contentData );
+        contentService.createContent( createCommand );
+
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import name='test-related-content' status='2' sync='person-no' mode='csv'>";
+        importsConfig += "  <mapping src='1' dest='person-no'/>";
+        importsConfig += "  <mapping src='2' dest='name'/>";
+        importsConfig +=
+            "  <mapping dest='related_persons' separator='|' relatedcontenttype='PersonCty' relatedfield='person-no' src='3'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "4;Grand daughter;1|3|2";
+
+        // exercise
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        // verify: one content updated
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 0, result.getInserted().size() );
+        assertEquals( 1, result.getUpdated().size() );
+
+        // verify: related content keys are in same order as in import source
+        CustomContentData grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        RelatedContentsDataEntry related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        Object[] actualKeys =
+            related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        ContentKey[] expectedKeys = {fatherContentKey, daughterContentKey, motherContentKey};
+        assertArrayEquals( expectedKeys, actualKeys );
+    }
+
+    @Test
+    public void order_of_related_contents_is_of_same_order_as_in_import_source_when_source_is_csv_and_values_are_content_keys()
+        throws UnsupportedEncodingException
+    {
+        ContentTypeConfig contentTypeConfig = fixture.findCategoryByName( "Persons" ).getContentType().getContentTypeConfig();
+
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        CustomContentData contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "1" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Father" ) );
+        createCommand.setContentData( contentData );
+        ContentKey fatherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "2" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Mother" ) );
+        createCommand.setContentData( contentData );
+        ContentKey motherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "3" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Daughter" ) );
+        createCommand.setContentData( contentData );
+        ContentKey daughterContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "4" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Grand daughter" ) );
+        createCommand.setContentData( contentData );
+        contentService.createContent( createCommand );
+
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import name='test-related-content' status='2' sync='person-no' mode='csv'>";
+        importsConfig += "  <mapping src='1' dest='person-no'/>";
+        importsConfig += "  <mapping src='2' dest='name'/>";
+        importsConfig += "  <mapping dest='related_persons' separator='|' src='3'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "4;Grand daughter;" + fatherContentKey + "|" + daughterContentKey + "|" + motherContentKey;
+
+        // exercise
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        // verify: one content updated
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 0, result.getInserted().size() );
+        assertEquals( 1, result.getUpdated().size() );
+
+        // verify: related content keys are in same order as in import source
+        CustomContentData grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        RelatedContentsDataEntry related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        Object[] actualKeys =
+            related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        ContentKey[] expectedKeys = {fatherContentKey, daughterContentKey, motherContentKey};
+        assertArrayEquals( expectedKeys, actualKeys );
+    }
+
+    @Test
+    public void order_of_related_contents_of_type_date_is_of_same_order_as_in_import_source_when_source_is_csv()
+        throws UnsupportedEncodingException
+    {
+        // setup content type
+        ContentTypeConfigBuilder dateCtyConfig = new ContentTypeConfigBuilder( "Date", "date" );
+        dateCtyConfig.startBlock( "Date" );
+        dateCtyConfig.addInput( "date", "date", "contentdata/date", "Date", true );
+        dateCtyConfig.endBlock();
+        dateCtyConfig.addIndexParameter( "date" );
+        Document configAsXmlBytes = XMLDocumentFactory.create( dateCtyConfig.toString() );
+        fixture.save( factory.createContentType( "DateCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
+        fixture.save( factory.createUnit( "DatesUnit" ) );
+        fixture.save( factory.createCategory( "Dates", "DateCty", "DatesUnit", "testuser", "testuser" ) );
+        fixture.save( factory.createCategoryAccessForUser( "Dates", "testuser", "read, create, approve" ) );
+
+        fixture.flushAndClearHibernateSesssion();
+
+        ContentTypeConfig dateCtyCfg = fixture.findContentTypeByName( "DateCty" ).getContentTypeConfig();
+
+        CreateContentCommand createCommand = setupDefaultCreateContentCommand( "Dates", ContentStatus.APPROVED );
+        CustomContentData contentData = new CustomContentData( dateCtyCfg );
+        contentData.add( new DateDataEntry( dateCtyCfg.getInputConfig( "date" ), new DateMidnight( 2000, 1, 1 ).toDate() ) );
+        createCommand.setContentData( contentData );
+        ContentKey date2000ContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommand( "Dates", ContentStatus.APPROVED );
+        contentData = new CustomContentData( dateCtyCfg );
+        contentData.add( new DateDataEntry( dateCtyCfg.getInputConfig( "date" ), new DateMidnight( 2005, 1, 1 ).toDate() ) );
+        createCommand.setContentData( contentData );
+        ContentKey date2005ContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommand( "Dates", ContentStatus.APPROVED );
+        contentData = new CustomContentData( dateCtyCfg );
+        contentData.add( new DateDataEntry( dateCtyCfg.getInputConfig( "date" ), new DateMidnight( 2010, 1, 1 ).toDate() ) );
+        createCommand.setContentData( contentData );
+        ContentKey date2010ContentKey = contentService.createContent( createCommand );
+
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import name='test-related-content' status='2' sync='person-no' mode='csv'>";
+        importsConfig += "  <mapping src='1' dest='person-no'/>";
+        importsConfig += "  <mapping src='2' dest='name'/>";
+        importsConfig += "  <mapping dest='related_dates' separator='|' relatedcontenttype='DateCty' relatedfield='date' src='3'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "4;Grand daughter;2005-01-01|2010-01-01|2000-01-01";
+
+        // exercise
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        // verify: one content updated
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 1, result.getInserted().size() );
+        assertEquals( 0, result.getUpdated().size() );
+
+        // verify: related content keys are in same order as in import source
+        CustomContentData grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        RelatedContentsDataEntry related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_dates" );
+        Object[] actualKeys =
+            related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        ContentKey[] expectedKeys = {date2005ContentKey, date2010ContentKey, date2000ContentKey};
+        assertArrayEquals( expectedKeys, actualKeys );
+    }
+
+    @Test
+    public void order_of_related_contents_is_of_same_order_as_in_import_source_when_source_is_xml()
+        throws UnsupportedEncodingException
+    {
+        ContentTypeConfig contentTypeConfig = fixture.findCategoryByName( "Persons" ).getContentType().getContentTypeConfig();
+
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        CustomContentData contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "1" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Father" ) );
+        createCommand.setContentData( contentData );
+        ContentKey fatherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "2" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Mother" ) );
+        createCommand.setContentData( contentData );
+        ContentKey motherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "3" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Daughter" ) );
+        createCommand.setContentData( contentData );
+        ContentKey daughterContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "4" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Grand daughter" ) );
+        createCommand.setContentData( contentData );
+        contentService.createContent( createCommand );
+
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import base='/persons/person' mode='xml' name='test-related-content' status='2' sync='person-no'>";
+        importsConfig += "  <mapping src='@id' dest='person-no'/>";
+        importsConfig += "  <mapping src='name' dest='name'/>";
+        importsConfig +=
+            "  <mapping dest='related_persons' relatedcontenttype='PersonCty' relatedfield='person-no' src='related-persons/related-person/@id'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "<persons>";
+        importData += "  <person id='4'>";
+        importData += "     <name>Grand daughter</name>";
+        importData += "     <related-persons>";
+        importData += "         <related-person id='1'/>";
+        importData += "         <related-person id='3'/>";
+        importData += "         <related-person id='2'/>";
+        importData += "     </related-persons>";
+        importData += "  </person>";
+        importData += "</persons>";
+
+        // exercise
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        // verify: one content updated
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 0, result.getInserted().size() );
+        assertEquals( 1, result.getUpdated().size() );
+
+        // verify: related content keys are in same order as in import source
+        CustomContentData grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        RelatedContentsDataEntry related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        Object[] actualKeys =
+            related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        ContentKey[] expectedKeys = {fatherContentKey, daughterContentKey, motherContentKey};
+        assertArrayEquals( expectedKeys, actualKeys );
+    }
+
+    @Test
+    public void order_of_related_contents_is_changed_to_same_order_as_in_import_source()
+        throws UnsupportedEncodingException
+    {
+        ContentTypeConfig contentTypeConfig = fixture.findCategoryByName( "Persons" ).getContentType().getContentTypeConfig();
+
+        CreateContentCommand createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        CustomContentData contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "1" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Father" ) );
+        createCommand.setContentData( contentData );
+        ContentKey fatherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "2" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Mother" ) );
+        createCommand.setContentData( contentData );
+        ContentKey motherContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "3" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Daughter" ) );
+        createCommand.setContentData( contentData );
+        ContentKey daughterContentKey = contentService.createContent( createCommand );
+
+        createCommand = setupDefaultCreateContentCommandForPersons( ContentStatus.APPROVED );
+        contentData = new CustomContentData( contentTypeConfig );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "person-no" ), "4" ) );
+        contentData.add( new TextDataEntry( contentTypeConfig.getInputConfig( "name" ), "Grand daughter" ) );
+        RelatedContentsDataEntry relatedPersonsDataEntry =
+            new RelatedContentsDataEntry( contentTypeConfig.getInputConfig( "related_persons" ) );
+        relatedPersonsDataEntry.add(
+            new RelatedContentDataEntry( contentTypeConfig.getInputConfig( "related_persons" ), fatherContentKey ) );
+        relatedPersonsDataEntry.add(
+            new RelatedContentDataEntry( contentTypeConfig.getInputConfig( "related_persons" ), daughterContentKey ) );
+        relatedPersonsDataEntry.add(
+            new RelatedContentDataEntry( contentTypeConfig.getInputConfig( "related_persons" ), motherContentKey ) );
+        contentData.add( relatedPersonsDataEntry );
+        createCommand.setContentData( contentData );
+        contentService.createContent( createCommand );
+
+        // verify setup: related content keys must be in inserted order
+        CustomContentData grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        RelatedContentsDataEntry related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        Object[] actualKeys =
+            related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        ContentKey[] expectedKeys = {fatherContentKey, daughterContentKey, motherContentKey};
+        assertArrayEquals( expectedKeys, actualKeys );
+
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import base='/persons/person' mode='xml' name='test-related-content' status='2' sync='person-no'>";
+        importsConfig += "  <mapping src='@id' dest='person-no'/>";
+        importsConfig += "  <mapping src='name' dest='name'/>";
+        importsConfig +=
+            "  <mapping dest='related_persons' relatedcontenttype='PersonCty' relatedfield='person-no' src='related-persons/related-person/@id'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "<persons>";
+        importData += "  <person id='4'>";
+        importData += "     <name>Grand daughter</name>";
+        importData += "     <related-persons>";
+        importData += "         <related-person id='3'/>";
+        importData += "         <related-person id='2'/>";
+        importData += "         <related-person id='1'/>";
+        importData += "     </related-persons>";
+        importData += "  </person>";
+        importData += "</persons>";
+
+        // exercise
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        // verify: one content updated
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 0, result.getInserted().size() );
+        assertEquals( 1, result.getUpdated().size() );
+
+        // verify: related content keys are in same order as in import source
+        grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        actualKeys = related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        expectedKeys = new ContentKey[]{daughterContentKey, motherContentKey, fatherContentKey};
+        assertArrayEquals( expectedKeys, actualKeys );
+    }
+
+    @Test
+    public void order_of_related_contents_is_not_changed_when_imported_twice_with_same_order()
+        throws UnsupportedEncodingException
+    {
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import base='/persons/person' mode='xml' name='test-related-content' status='2' sync='person-no'>";
+        importsConfig += "  <mapping src='@id' dest='person-no'/>";
+        importsConfig += "  <mapping src='name' dest='name'/>";
+        importsConfig +=
+            "  <mapping dest='related_persons' relatedcontenttype='PersonCty' relatedfield='person-no' src='related-persons/related-person/@id'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "<persons>";
+        importData += "  <person id='1'>";
+        importData += "     <name>Father</name>";
+        importData += "  </person>";
+        importData += "  <person id='2'>";
+        importData += "     <name>Mother</name>";
+        importData += "  </person>";
+        importData += "  <person id='3'>";
+        importData += "     <name>Daughter</name>";
+        importData += "  </person>";
+        importData += "  <person id='4'>";
+        importData += "     <name>Grand daughter</name>";
+        importData += "     <related-persons>";
+        importData += "         <related-person id='2'/>";
+        importData += "         <related-person id='3'/>";
+        importData += "         <related-person id='1'/>";
+        importData += "     </related-persons>";
+        importData += "  </person>";
+        importData += "</persons>";
+
+        // setup: first import
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        // verify setup: content inserted
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 4, result.getInserted().size() );
+        assertEquals( 0, result.getUpdated().size() );
+
+        ContentKey fatherContentKey = fixture.findMainContentVersionByTitle( "Father" ).getContent().getKey();
+        ContentKey motherContentKey = fixture.findMainContentVersionByTitle( "Mother" ).getContent().getKey();
+        ContentKey daughterContentKey = fixture.findMainContentVersionByTitle( "Daughter" ).getContent().getKey();
+
+        // verify setup: related content keys are in same order as in import source
+        CustomContentData grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        RelatedContentsDataEntry related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        ContentKey[] expectedKeys = new ContentKey[]{motherContentKey, daughterContentKey, fatherContentKey};
+        ContentKey[] actualKeys =
+            related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        assertArrayEquals( expectedKeys, actualKeys );
+
+        // exercise: second import
+        command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        job = importJobFactory.createImportJob( command );
+        result = job.start();
+
+        // verify: content skipped
+        assertEquals( 4, result.getSkipped().size() );
+        assertEquals( 0, result.getInserted().size() );
+        assertEquals( 0, result.getUpdated().size() );
+
+        // verify: related content keys are in same order as in import source
+        grandDaughterCCD = (CustomContentData) fixture.findMainContentVersionByTitle( "Grand daughter" ).getContentData();
+        related_persons = (RelatedContentsDataEntry) grandDaughterCCD.getEntry( "related_persons" );
+        actualKeys = related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
+        assertArrayEquals( expectedKeys, actualKeys );
     }
 
     @Test
@@ -1642,9 +2146,14 @@ public class ImportServiceImplTest
 
     private CreateContentCommand setupDefaultCreateContentCommandForPersons( ContentStatus contentStatus )
     {
+        return setupDefaultCreateContentCommand( "Persons", contentStatus );
+    }
+
+    private CreateContentCommand setupDefaultCreateContentCommand( String categoryName, ContentStatus contentStatus )
+    {
         CreateContentCommand createCommand = new CreateContentCommand();
         createCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
-        createCommand.setCategory( fixture.findCategoryByName( "Persons" ).getKey() );
+        createCommand.setCategory( fixture.findCategoryByName( categoryName ).getKey() );
         createCommand.setCreator( fixture.findUserByName( "testuser" ).getKey() );
         createCommand.setPriority( 0 );
         createCommand.setLanguage( fixture.findLanguageByCode( "en" ) );

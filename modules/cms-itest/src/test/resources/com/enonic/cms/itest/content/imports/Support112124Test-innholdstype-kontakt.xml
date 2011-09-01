@@ -1,0 +1,56 @@
+<contenttype>
+  <config>
+    <form>
+      <title name="navn"/>
+      <block name="Kontakt">
+        <input name="initialer" readonly="true" required="false" type="text">
+          <display>Initialer</display>
+          <xpath>contentdata/initialer</xpath>
+        </input>
+        <input name="navn" readonly="true" required="true" type="text">
+          <display>Navn</display>
+          <xpath>contentdata/navn</xpath>
+        </input>
+        <input name="epost" readonly="true" required="true" type="text">
+          <display>E-post</display>
+          <xpath>contentdata/epost</xpath>
+        </input>
+        <input name="telefon" readonly="true" required="false" type="text">
+          <display>Telefon</display>
+          <xpath>contentdata/telefon</xpath>
+        </input>
+        <input name="mobil" readonly="true" required="false" type="text">
+          <display>Mobil</display>
+          <xpath>contentdata/mobil</xpath>
+        </input>
+        <input name="kontakt_id" readonly="true" required="true" type="text">
+          <display>Id</display>
+          <xpath>contentdata/kontakt_id</xpath>
+        </input>
+      </block>
+    </form>
+    <imports>
+      <import base="/kontakter/kontakt" mode="xml" name="SRKontaktListeImport" status="2" sync="kontakt_id">
+        <mapping dest="kontakt_id" src="@id"/>
+        <mapping dest="navn" src="."/>
+        <mapping dest="initialer" src="@initialer"/>
+        <mapping dest="epost" src="@epost"/>
+        <mapping dest="telefon" src="@telefon"/>
+        <mapping dest="mobil" src="@mobil"/>
+        <mapping dest="@publishfrom" format="yyyy-MM-dd HH:mm:ss" src="@endret"/>
+      </import>
+    </imports>
+  </config>
+  <browse>
+    <column title="Navn">
+      <title/>
+    </column>
+    <column title="E-post">
+      <xpath>contentdata/epost</xpath>
+    </column>
+  </browse>
+  <indexparameters>
+    <index name="navn" xpath="contentdata/navn"/>
+    <index name="kontakt_id" xpath="data/kontakt_id"/>
+  </indexparameters>
+</contenttype>

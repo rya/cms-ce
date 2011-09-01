@@ -15,11 +15,6 @@ Ext.define( 'App.controller.MainPanelController', {
         'MainPanel'
     ],
 
-    refs: [
-        {ref: 'cmsTabPanel', selector: 'cmsTabPanel'},
-        {ref: 'mainPanel', selector: 'mainPanel'}
-    ],
-
     init: function()
     {
         // Add events to application scope.
@@ -131,6 +126,15 @@ Ext.define( 'App.controller.MainPanelController', {
             tabs = window.parent.Ext.getCmp( 'systemTabPanelID' );
         }
         return tabs;
+    },
+
+    getMainPanel: function() {
+        return Ext.ComponentQuery.query('mainPanel')[0];
+
+    },
+
+    getCmsTabPanel: function() {
+        return Ext.ComponentQuery.query('cmsTabPanel')[0];
     }
 
 } );

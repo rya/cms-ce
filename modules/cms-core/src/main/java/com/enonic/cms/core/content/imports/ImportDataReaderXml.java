@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -237,7 +238,7 @@ public class ImportDataReaderXml
         }
         else if ( !mapping.isMetaDataMapping() && mapping.isMultiple() )
         {
-            final Set<String> stringsValue = getStringValues( nodeInfo, xpath );
+            final LinkedHashSet<String> stringsValue = getStringValues( nodeInfo, xpath );
             if ( stringsValue != null )
             {
                 value = new StringArraySourceValue( stringsValue );
@@ -310,13 +311,13 @@ public class ImportDataReaderXml
         return getXmlValue( o );
     }
 
-    private Set<String> getStringValues( final NodeInfo nodeInfo, final String xpath )
-        throws XPathException
+    private LinkedHashSet<String> getStringValues( final NodeInfo nodeInfo, final String xpath )
+            throws XPathException
     {
         final XPathExpression expr = getXPathExpression( nodeInfo, xpath );
         final List<Object> os = expr.evaluate( nodeInfo );
 
-        final Set<String> values = new HashSet<String>();
+        final LinkedHashSet<String> values = new LinkedHashSet<String>();
         for ( Object o : os )
         {
             values.add( getStringValue( o ) );

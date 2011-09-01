@@ -4,6 +4,9 @@
  */
 package com.enonic.cms.core.content.contenttype;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * Nov 17, 2009
  */
@@ -20,6 +23,8 @@ public class ContentTypeConfigBuilder
     private String currentBlockName;
 
     private String currentGroupXPath;
+
+    private Map<String, String> indexParams = new LinkedHashMap<String, String>();
 
     public ContentTypeConfigBuilder( String name, String titleInputName )
     {
@@ -78,12 +83,12 @@ public class ContentTypeConfigBuilder
         currentBlock.append( "</input>" );
     }
 
-    public void addRelatedContentInput( String name, String type, String xpath, String display, boolean required, boolean multiple,
+    public void addRelatedContentInput( String name, String xpath, String display, boolean required, boolean multiple,
                                         String... restrictedToContentTypes )
     {
         currentBlock.append( "\n" );
         currentBlock.append( "<input name=\"" ).append( name ).append( "\"" ).append( "\n" );
-        currentBlock.append( " type=\"" ).append( type ).append( "\"" );
+        currentBlock.append( " type=\"relatedcontent\"" );
         currentBlock.append( " required=\"" ).append( Boolean.toString( required ) ).append( "\"" );
         currentBlock.append( " multiple=\"" ).append( Boolean.toString( multiple ) ).append( "\"" );
         currentBlock.append( ">" ).append( "\n" );
@@ -99,11 +104,23 @@ public class ContentTypeConfigBuilder
         currentBlock.append( "</input>" );
     }
 
+    public void addIndexParameter( String name )
+    {
+        indexParams.put( name, "contentdata/" + name );
+    }
+
+    public void addIndexParameter( String name, String xpath )
+    {
+        indexParams.put( name, xpath );
+    }
+
     public String toString()
     {
         StringBuffer s = new StringBuffer();
+        s.append( "<moduledata>" );
 
-        String configStart = "<config name=\"" + name + "\"";
+        String configStart = "";
+        configStart += "<config name=\"" + name + "\"";
         configStart += " version=\"1.0\">\n";
         configStart += "<form>\n";
         configStart += "<title name=\"" + titleInputName + "\"/>\n";
@@ -111,8 +128,15 @@ public class ContentTypeConfigBuilder
 
         s.append( allBlocks );
 
-        s.append( "\n</form>\n</config>" );
+        s.append( "\n</form>\n</config>\n" );
 
+        s.append( "<indexparameters>\n" );
+        for ( Map.Entry<String, String> indexParamEntry : indexParams.entrySet() )
+        {
+            s.append( "<index name=\"" + indexParamEntry.getKey() + "\" xpath=\"" + indexParamEntry.getValue() + "\"/>\n" );
+        }
+        s.append( "</indexparameters>\n" );
+        s.append( "</moduledata>" );
         return s.toString();
     }
 }

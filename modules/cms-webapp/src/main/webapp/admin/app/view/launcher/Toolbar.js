@@ -59,12 +59,6 @@ Ext.define('CMS.view.launcher.Toolbar', {
                         icon: 'resources/images/world.png'
                     },
                     {
-                        id: 400,
-                        text: 'Userstores',
-                        appUrl: 'app/userstore/index.html',
-                        icon: 'resources/images/address-book-blue-icon.png'
-                    },
-                    {
                         id: 500,
                         text: 'Direct Marketing',
                         appUrl: 'blank.html',
@@ -82,6 +76,12 @@ Ext.define('CMS.view.launcher.Toolbar', {
                         text: 'Repository',
                         appUrl: 'blank.html',
                         icon: 'resources/images/database.png'
+                    },
+                    {
+                        id: 400,
+                        text: 'Userstores',
+                        appUrl: 'app-userstore.html',
+                        icon: 'resources/images/address-book-blue-icon.png'
                     },
                     {
                         id: 800,
