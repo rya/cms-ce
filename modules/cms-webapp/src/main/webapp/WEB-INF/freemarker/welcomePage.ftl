@@ -196,7 +196,6 @@
     <div id="license" class="left">
         ${versionTitleVersion} - Licensed under AGPL 3.0
     </div>
-    <q></q>
     <div id="social" class="right">
         <a href="http://www.enonic.com/en/rss" rel="external">
             <img src="${baseUrl}/resources/images/icon-rss-large.png" alt="RSS"/>
