@@ -1009,7 +1009,7 @@ public abstract class AdminHandlerBaseServlet
     {
         final HttpSession session = request.getSession();
         final String languageCode = (String) session.getAttribute( "languageCode" );
-        final Source xslSource = AdminStore.getStylesheet( languageCode, xslPath );
+        final Source xslSource = AdminStore.getStylesheet( languageCode, xslPath, false );
 
         transformXML( request, response, doc, xslSource, parameters );
     }

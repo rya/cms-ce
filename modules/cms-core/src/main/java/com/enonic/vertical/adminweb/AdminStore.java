@@ -4,10 +4,9 @@
  */
 package com.enonic.vertical.adminweb;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 
@@ -16,12 +15,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
-import javax.xml.transform.stream.StreamSource;
-
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.context.support.ServletContextResourceLoader;
 
 import com.enonic.esl.io.TranslationReader;
 
@@ -38,12 +31,12 @@ public final class AdminStore
     /**
      * Stylesheet base.
      */
-    private static String BASE_PATH;
+    private final static String STYLESHEET_PATH =  "/WEB-INF/stylesheets";
 
     /**
      * Resource loader.
      */
-    private static ResourceLoader RESOURCE_LOADER;
+    private static ServletContext SERVLET_CONTEXT;
 
     private final static class StylesheetURIResolver
         implements URIResolver
@@ -71,40 +64,28 @@ public final class AdminStore
     /**
      * Initialize the store.
      */
-    public static void initialize( ServletContext context, String basePath )
+    public static void initialize( ServletContext context )
     {
-        if (BASE_PATH == null) {
-            BASE_PATH = basePath;
-            RESOURCE_LOADER = new ServletContextResourceLoader( context );
-        }
+        SERVLET_CONTEXT = context;
     }
 
     private static URL findResource( String path, boolean absolute )
-        throws IOException
+        throws Exception
     {
-        if ( !absolute )
-        {
-            Resource resource = RESOURCE_LOADER.getResource( BASE_PATH + "/" + path );
-            return resource.getURL();
-        }
-        else
-        {
-            return new URL( path );
+        if (absolute) {
+            return new URI(path).normalize().toURL();
+        } else {
+            final String normalized = new URI(STYLESHEET_PATH + "/" + path).normalize().toString();
+            return SERVLET_CONTEXT.getResource(normalized);
         }
     }
 
     private static Reader openStream( URL url, String languageCode )
-        throws IOException
+        throws Exception
     {
-        InputStream in = url.openStream();
         AdminConsoleTranslationService languageMap = AdminConsoleTranslationService.getInstance();
         Map translationMap = languageMap.getTranslationMap( languageCode );
-        return new TranslationReader( translationMap, new InputStreamReader( in, "UTF-8" ) );
-    }
-
-    public static Source getStylesheet( String languageCode, String path )
-    {
-        return getStylesheet( languageCode, path, false );
+        return new TranslationReader( translationMap, new InputStreamReader( url.openStream(), "UTF-8" ) );
     }
 
     public static Source getStylesheet( String languageCode, String path, boolean absolute )
@@ -131,7 +112,7 @@ public final class AdminStore
     public static Source getStylesheet( HttpSession session, String path )
     {
         String languageCode = (String) session.getAttribute( "languageCode" );
-        return getStylesheet( languageCode, path );
+        return getStylesheet( languageCode, path, false );
     }
 
     public static Reader getXML( String languageCode, String name )

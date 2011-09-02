@@ -280,7 +280,7 @@ public abstract class AbstractAdminwebServlet
         super.init( servletConfig );
 
         final ServletContext context = getServletContext();
-        AdminStore.initialize( context, "/WEB-INF/stylesheets" );
+        AdminStore.initialize( context );
     }
 
     protected AdminService lookupAdminBean()
