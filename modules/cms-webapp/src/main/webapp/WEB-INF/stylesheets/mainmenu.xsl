@@ -309,7 +309,7 @@
               </td>
               <td>
                 <a href="adminpage?page=914&amp;op=connecioninfo" target="mainFrame">
-                  <img src="images/database-lightning-icon.png" border="0"/>
+                  <img src="images/icon_connectioninfo.png" border="0"/>
                   <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuConnectionInfo%</xsl:text>
                 </a>
