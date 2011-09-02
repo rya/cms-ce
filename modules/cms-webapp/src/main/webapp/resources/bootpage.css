@@ -50,19 +50,19 @@ h3 {
 }
 
 #content-outer {
-    width: 898px;
-    padding: 25px;
+    width: 909px;
+    padding: 20px;
     background-color: #fff;
 }
 
 #content {
     width: 586px;
-    margin-right: 25px;
+    margin-right: 50px;
     float: left;
 }
 
 #east {
-    width: 287px;
+    width: 273px;
     float: left;
 }
 
@@ -82,7 +82,7 @@ h3 {
 }
 
 #management-components {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 #management-components .icon-admin {
@@ -94,7 +94,7 @@ h3 {
 }
 
 #management-components .component {
-    width: 278px;
+    width: 281px;
     height: 64px;
     cursor: pointer;
 }
@@ -109,7 +109,7 @@ h3 {
 }
 
 #management-components .component.admin {
-    margin-right: 25px;
+    margin-right: 20px;
 }
 
 #management-components .component h3 {
@@ -117,7 +117,7 @@ h3 {
 }
 
 #welcome {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 #steps {
