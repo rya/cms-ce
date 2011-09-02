@@ -56,7 +56,7 @@
 
     [#assign adminUrl = baseUrl + '/admin' ]
     [#assign webDavUrl = baseUrl + '/dav']
-    [#assign componentsUrlMaxLength = 32]
+    [#assign componentsUrlMaxLength = 30]
 
 
     <div id="content" class="clearfix">
@@ -176,7 +176,7 @@
 
                         <div>
                             <a href="${url}">
-                                ${elipsis(url, 38)}
+                                ${elipsis(url, 34)}
                             </a>
                         </div>
                     </li>
