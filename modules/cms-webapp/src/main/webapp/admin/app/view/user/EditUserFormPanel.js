@@ -131,12 +131,19 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
         this.addressFieldSet = {
             'address': function(field)
             {
+                var button = {
+                    xtype: 'button',
+                    text: 'Add New Address',
+                    action: 'addNewTab',
+                    currentUser: me.currentUser
+                };
                 if (me.userFields && me.userFields.userInfo && me.userFields.userInfo.addresses){
                     var addresses = me.userFields.userInfo.addresses;
                     var tabs = [];
                     for (index in addresses){
                         Ext.Array.include(tabs, me.generateAddressFieldSet(field, true, addresses[index]));
                     }
+                    Ext.Array.include(tabs, button);
                     return {
                         sourceField: field,
                         xtype: 'fieldset',
@@ -160,7 +167,7 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                         width: '100%',
                         title: 'Address',
                         itemId: 'addressTabPanel',
-                        items: [tabItem],
+                        items: [tabItem, button],
                         buttons: [
                             {
                                 text: 'Add New Address',
@@ -503,9 +510,53 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
         return {
             xtype: 'form',
+            draggable: true,
+            layout: 'anchor',
             title: values['label'] == null ? '[no title]' : values['label'],
             closable: closable || false,
-            items: [fieldSetItem]
+            bodyPadding: 10,
+            defaults: {
+                anchor: '100%'
+            },
+            padding: 10,
+            items: [
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Label',
+                    name: 'label',
+                    itemId: 'address-label',
+                    enableKeyEvents: true,
+                    value: values['label'],
+                    bubbleEvents: ['keyup'],
+                    disabled: field.readonly
+                },
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Street',
+                    name: 'street',
+                    itemId: 'address-street',
+                    value: values['street'],
+                    disabled: field.readonly
+                },
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Postal Code',
+                    name: 'postal-code',
+                    itemId: 'address-postal-code',
+                    value: values['postal-code'],
+                    disabled: field.readonly
+                },
+                {
+                    xtype: 'textfield',
+                    fieldLabel: 'Postal Address',
+                    name: 'postal-address',
+                    itemId: 'address-postal-address',
+                    value: values['postal-address'],
+                    disabled: field.readonly
+                },
+                countryField,
+                regionField
+            ]
         };
     },
 

@@ -417,17 +417,15 @@ Ext.define( 'CMS.controller.UserController', {
     addNewTab: function(button, event)
     {
         var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name : 'new-user';
-        var tabPanel = this.getCmsTabPanel().down( '#' + tabId).down( '#addressTabPanel' );
-        var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
-        newTab = tabPanel.add( newTab );
-        tabPanel.setActiveTab( newTab );
+        var addressPanel = this.getCmsTabPanel().down( '#' + tabId).down( '#addressTabPanel' );
+        var newAddress = this.getEditUserFormPanel().generateAddressFieldSet( addressPanel.sourceField, true );
+        newAddress = addressPanel.insert(0, newAddress );
     },
 
     updateTabTitle: function ( field, event )
     {
-        var formPanel = field.up('editUserFormPanel');
-        var tabPanel = formPanel.down( '#addressTabPanel' );
-        tabPanel.getActiveTab().setTitle( field.getValue() );
+        var formPanel = field.up('form');
+        formPanel.setTitle( field.getValue() );
     },
 
     toggleDisplayNameField: function ( button, event )
