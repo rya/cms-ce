@@ -23,7 +23,9 @@
 <body id="main">
 
 <div id="logo">
-    <img alt="Enonic-logo" id="logo-screen" src="${baseUrl}/resources/images/logo-screen.gif" title="Enonic"/>
+    <a href="http://www.enonic.com" rel="external">
+        <img alt="Enonic-logo" id="logo-screen" src="${baseUrl}/resources/images/logo-screen.gif" title="Enonic"/>
+    </a>
 </div>
 <div id="nav">
     <ul class="menu horizontal main clearfix">
@@ -189,7 +191,7 @@
 
 <div class="clearfix" id="footer">
     <div id="license" class="left">
-        ${versionTitleVersion} - Licensed under AGPL 3.0
+        ${versionTitleVersion} - Licensed under <a href="http://www.gnu.org/licenses/agpl.html" rel="external">AGPL 3.0</a>
     </div>
     <div id="social" class="right">
         <a href="http://www.enonic.com/en/rss" rel="external">

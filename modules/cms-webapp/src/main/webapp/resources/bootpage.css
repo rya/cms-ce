@@ -68,7 +68,15 @@ h3,
 
 #footer {
     margin-top: 10px;
+    color: #9D9D9D;
+}
+
+#footer a {
     color: #fff;
+}
+
+#footer a:hover {
+    text-decoration: underline;
 }
 
 #logo {
