@@ -462,8 +462,8 @@ img.photo {
 
 /* Large */
 .cms-selected-item-box.large {
-    padding: 7px;
-    margin: 0 5px 5px 0;
+    padding: 5px;
+    margin: 0 10px 10px 0;
 }
 
 .cms-selected-item-box.large .left {
@@ -502,8 +502,8 @@ img.photo {
 
 /* Small */
 .cms-selected-item-box.small {
-    padding: 5px;
-    margin: 0 3px 3px 0;
+    padding: 3px;
+    margin: 0 10px 10px 0;
 }
 
 .cms-selected-item-box.small .left {
