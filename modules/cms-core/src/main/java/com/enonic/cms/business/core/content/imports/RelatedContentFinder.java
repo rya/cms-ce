@@ -4,21 +4,7 @@
  */
 package com.enonic.cms.business.core.content.imports;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Lists;
-
-import com.enonic.cms.store.dao.ContentTypeDao;
-
 import com.enonic.cms.business.core.content.index.ContentIndexService;
-
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.ContentVersionEntity;
@@ -39,6 +25,12 @@ import com.enonic.cms.domain.content.index.ContentIndexQuery;
 import com.enonic.cms.domain.content.index.config.IndexDefinition;
 import com.enonic.cms.domain.content.index.config.IndexDefinitionBuilder;
 import com.enonic.cms.domain.content.resultset.ContentResultSet;
+import com.enonic.cms.store.dao.ContentTypeDao;
+import com.google.common.collect.Lists;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class RelatedContentFinder
 {
@@ -118,10 +110,14 @@ public class RelatedContentFinder
             Integer order1 = orderMask.indexOf( value1 );
             Integer order2 = orderMask.indexOf( value2 );
 
-            if ( order1 == null || order2 == null )
+            order1 = order1 == -1 ? Integer.MAX_VALUE : order1;
+            order2 = order2 == -1 ? Integer.MAX_VALUE : order2;
+
+            if ( order1.equals( order2 ) )
             {
-                return -1;
+                return 0;
             }
+
             return order1 > order2 ? 1 : -1;
         }
 
