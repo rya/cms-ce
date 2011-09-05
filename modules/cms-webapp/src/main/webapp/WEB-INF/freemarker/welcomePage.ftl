@@ -58,38 +58,33 @@
     [#assign webDavUrl = baseUrl + '/dav']
     [#assign componentsUrlMaxLength = 30]
 
-
     <div id="content" class="clearfix">
         <div id="management-components" class="clearfix">
-            <div class="component box admin left clearfix" title="${adminUrl}" onclick="navigateTo('${adminUrl}')">
-                <div class="icon-admin left">
-                    <a href="${adminUrl}">
-                        <img src="${baseUrl}/resources/images/icon-admin.png" alt="Admin"/>
-                    </a>
-                </div>
-                <div class="info left">
-                    <h3>Admin Console</h3>
+            <a class="component box admin left" title="${adminUrl}" href="${adminUrl}">
+                <span class="icon-admin left">
+                    <img src="${baseUrl}/resources/images/icon-admin.png" alt="Admin"/>
+                </span>
+                <span class="info left">
+                    <span class="name">Admin Console</span>
 
-                    <div>
-                        <a href="${adminUrl}" title="${adminUrl}">${elipsis(adminUrl, componentsUrlMaxLength)}</a>
-                    </div>
-                </div>
-            </div>
+                    <span>
+                        ${elipsis(adminUrl, componentsUrlMaxLength)}
+                    </span>
+                </span>
+            </a>
 
-            <div class="component box left clearfix" title="${webDavUrl}" onclick="navigateTo('${webDavUrl}')">
-                <div class="icon-webdav left">
-                    <a href="${webDavUrl}">
-                        <img src="${baseUrl}/resources/images/icon-webdav.png" alt="WebDAV"/>
-                    </a>
-                </div>
-                <div class="info left">
-                    <h3>WebDAV</h3>
+            <a class="component box left" title="${webDavUrl}" href="${webDavUrl}">
+                <span class="icon-webdav left">
+                    <img src="${baseUrl}/resources/images/icon-webdav.png" alt="WebDAV"/>
+                </span>
+                <span class="info left">
+                    <span class="name">WebDAV</span>
 
-                    <div>
-                        <a href="${webDavUrl}" title="${webDavUrl}">${elipsis(webDavUrl, componentsUrlMaxLength)}</a>
-                    </div>
-                </div>
-            </div>
+                    <span>
+                        ${elipsis(webDavUrl, componentsUrlMaxLength)}
+                    </span>
+                </span>
+            </a>
         </div>
 
         <div id="welcome">
@@ -171,14 +166,14 @@
             [#if upgradeNeeded == false]
                 [#list sites?keys?sort as key]
                     [#assign url = baseUrl + '/site/' + sites[key] + '/']
-                    <li onclick="navigateTo('${url}')" title="${url}">
-                        <h3>${key}</h3>
+                    <li>
+                        <a href="${url}" title="${url}">
+                            <span class="name">${key}</span>
 
-                        <div>
-                            <a href="${url}">
+                            <span>
                                 ${elipsis(url, 34)}
-                            </a>
-                        </div>
+                            </span>
+                        </a>
                     </li>
                 [/#list]
             [/#if]

@@ -37,8 +37,10 @@ h2 {
     margin-bottom: 0.25em;
 }
 
-h3 {
+h3,
+.name {
     font-size: 1.3em;
+    color: #332F2D;
 }
 
 #logo, #nav, #footer, #content-outer {
@@ -92,9 +94,14 @@ h3 {
 }
 
 #management-components .component {
+    display: block;
     width: 281px;
     height: 64px;
     cursor: pointer;
+}
+
+#management-components .component span{
+    display: inline-block;
 }
 
 #management-components .component .info {
@@ -110,7 +117,7 @@ h3 {
     margin-right: 20px;
 }
 
-#management-components .component h3 {
+#management-components .component .name {
     margin-top: 10px;
 }
 
@@ -170,6 +177,15 @@ h3 {
     margin-bottom: 10px;
 }
 
+#sites ul li a {
+    display: block;
+}
+
+#sites ul li a span {
+    display: inline-block;
+}
+
+
 .box {
     border: 1px solid #D7D7D7;
     background: #f5f6f5;
@@ -183,7 +199,7 @@ h3 {
 }
 
 ul.menu.main {
-    background: url("images/menubg.gif") repeat-x scroll 0 0 #1557B3;
+    background: #1557b3 url('images/menubg.gif') repeat-x;
 }
 
 ul.menu, ul.menu ul {
