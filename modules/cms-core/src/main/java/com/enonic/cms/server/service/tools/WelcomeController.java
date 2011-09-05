@@ -13,12 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
-import com.enonic.cms.framework.jdbc.dialect.Dialect;
-
 import com.enonic.cms.api.Version;
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.store.support.ConnectionFactory;
 import com.enonic.cms.upgrade.UpgradeService;
 
 /**
@@ -30,26 +27,10 @@ public final class WelcomeController
 {
     private UpgradeService upgradeService;
 
-    private Dialect dialect;
-
-    private ConnectionFactory connectionFactory;
-
     @Autowired
     public void setUpgradeService( final UpgradeService upgradeService )
     {
         this.upgradeService = upgradeService;
-    }
-
-    @Autowired
-    public void setDialect( final Dialect dialect )
-    {
-        this.dialect = dialect;
-    }
-
-    @Autowired
-    public void setConnectionFactory( final ConnectionFactory connectionFactory )
-    {
-        this.connectionFactory = connectionFactory;
     }
 
     private Map<String, Integer> createSiteMap()

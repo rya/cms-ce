@@ -6,12 +6,6 @@
 
     <context:annotation-config/>
 
-    <!-- Placeholder configurer. -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-        <property name="properties" ref="loadedVerticalProperties"/>
-    </bean>
-
     <!-- Create the view resolver. -->
     <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
