@@ -43,8 +43,6 @@
         </property>
     </bean>
 
-    <bean class="com.enonic.cms.server.service.tools.WelcomeController"/>
-
     <bean id="welcomeController" class="com.enonic.cms.server.service.tools.WelcomeController"/>
     <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController"/>
 
