@@ -41,6 +41,19 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
             margin: 5,
             flex: 0.2
         };
+        var headerPanelTpl = Ext.Template('<div class="cms-edit-form-header clearfix">' +
+            '<div class="left">' +
+            '<img alt="User" src="data/user/photo?key={key}"/></div>' +
+            '<div class="right">' +
+            '<h1>{displayName}</h1><a href="javascript:;" class="edit-button"></a>' +
+            '<p>{qualifiedName}</p></div></div>');
+        var headerPanel = {
+            xtype: 'panel',
+            tpl: headerPanelTpl,
+            region: 'north',
+            styleHtmlContent: true,
+            data: me.currentUser
+        };
         var shortDescPanel = {
             xtype: 'panel',
             layout: {
@@ -94,7 +107,7 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         {
             editUserFormPanel.userFields = this.userFields;
         }
-        me.items = [ editUserFormPanel, prefPanel, shortDescPanel ];
+        me.items = [ editUserFormPanel, prefPanel, headerPanel ];
         this.callParent( arguments );
 
     }
