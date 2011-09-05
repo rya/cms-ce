@@ -193,10 +193,6 @@ img.photo {
     font-size: 11px !important;
 }
 
-.filter-total {
-    text-align: right;
-}
-
 .facet-header {
     font-weight: bold;
     margin: 0 0 4px 0
@@ -583,8 +579,10 @@ img.photo {
     border-color: #c0c0c0;
 }
 
-
 .cms-edit-form-header .right p {
     margin: 5px 0 0 0;
 }
 
+.sliding-pager-text {
+    font-weight: bold !important;
+}
