@@ -30,42 +30,26 @@
         <property name="exposeSpringMacroHelpers" value="true"/>
     </bean>
 
-    <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
-    <bean class="com.enonic.cms.server.service.tools.AllowedHostsToolsAccessResolver"/>
-
-
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="order" value="1"/>
         <property name="alwaysUseFullPath" value="true"/>
         <property name="mappings">
             <props>
                 <prop key="/">welcomeController</prop>
+                <prop key="/upgrade">upgradeController</prop>
+                <prop key="/resources/**">staticFileController</prop>
+                <prop key="/rpc/bin">binRpcController</prop>
             </props>
         </property>
     </bean>
 
     <bean class="com.enonic.cms.server.service.tools.WelcomeController"/>
 
-    <!-- tool handler mappings -->
-    <bean id="toolsHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="2"/>
-        <property name="alwaysUseFullPath" value="true"/>
-        <property name="mappings">
-            <props>
-                <prop key="/upgrade">upgradeController</prop>
-                <prop key="/resources/**">staticFileController</prop>
-            </props>
-        </property>
-        <property name="interceptors">
-            <list/>
-        </property>
-    </bean>
-
     <bean id="welcomeController" class="com.enonic.cms.server.service.tools.WelcomeController"/>
     <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController"/>
 
     <bean id="staticFileController" class="com.enonic.cms.server.service.tools.StaticFileController"/>
 
-    <bean class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
+    <bean id="binRpcController" class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
 
 </beans>
