@@ -306,10 +306,6 @@
         <property name="securityService" ref="securityService"/>
     </bean>
 
-    <bean id="toolsController" class="com.enonic.cms.server.service.tools.ToolsController"/>
-
-    <bean id="propertiesInfoController" class="com.enonic.cms.server.service.tools.PropertiesInfoController">
-        <property name="properties" ref="loadedVerticalProperties"/>
-    </bean>
+    <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
 
 </beans>

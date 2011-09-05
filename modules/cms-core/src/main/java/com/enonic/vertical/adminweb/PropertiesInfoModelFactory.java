@@ -1,6 +1,5 @@
 package com.enonic.vertical.adminweb;
 
-import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
@@ -11,16 +10,8 @@ import com.google.common.collect.Maps;
 
 import com.enonic.cms.server.service.tools.DataSourceInfoResolver;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: 8/17/11
- * Time: 8:32 AM
- */
 public class PropertiesInfoModelFactory
 {
-    private File homeDir;
-
     private DataSourceInfoResolver dataSourceInfoResolver;
 
     private Properties configurationProperties;
@@ -29,12 +20,6 @@ public class PropertiesInfoModelFactory
     {
         this.dataSourceInfoResolver = dataSourceInfoResolver;
         this.configurationProperties = configurationProperties;
-
-        if ( homeDir == null )
-        {
-            homeDir = new File( System.getProperty( "cms.home" ) );
-        }
-
     }
 
     public PropertiesInfoModel createSystemPropertiesModel()
