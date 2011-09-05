@@ -35,10 +35,10 @@ Ext.define('CMS.plugin.SlidingPager', {
     },
 
     init : function(pbar){
-        var idx = pbar.items.indexOf(pbar.child("#inputItem")),
+        var indexOfPagingNumberField = pbar.items.indexOf(pbar.child("#inputItem")),
             slider;
 
-        Ext.each(pbar.items.getRange(idx - 2, idx + 2), function(c){
+        Ext.each(pbar.items.getRange(indexOfPagingNumberField - 2, indexOfPagingNumberField + 2), function(c){
             c.hide();
         });
 
@@ -57,13 +57,33 @@ Ext.define('CMS.plugin.SlidingPager', {
             }
         });
 
-        pbar.insert(idx + 1, slider);
+        var total = Ext.create('Ext.toolbar.TextItem', {
+            cls: 'sliding-pager-text'
+        });
+
+        var displayInfo = Ext.create('Ext.toolbar.TextItem', {
+            cls: 'sliding-pager-text'
+        });
+
+        function getIndexOfPagingFirstButton() {
+            return pbar.items.indexOf(pbar.child("#first"));
+        }
+
+        pbar.insert(getIndexOfPagingFirstButton() - 1, total);
+        pbar.insert(getIndexOfPagingFirstButton(), displayInfo);
+        pbar.insert(getIndexOfPagingFirstButton() + 2, slider);
 
         pbar.on({
-            change: function(pb, data){
-                slider.setMaxValue(data.pageCount);
-                slider.setValue(data.currentPage);
+            change: function(paging, pageData) {
+                // TODO: Configuration for internationalization.
+                if (pageData.total) {
+                    total.setText(pageData.total + ' Total');
+                    displayInfo.setText('Displaying ' + pageData.fromRecord + '-' + pageData.toRecord);
+                }
+                slider.setMaxValue(pageData.pageCount);
+                slider.setValue(pageData.currentPage);
             }
+
         });
     }
 });
