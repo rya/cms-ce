@@ -98,13 +98,13 @@ public class RelatedContentFinderTest
         List<String> orderMask = new LinkedList<String>();
         orderMask.add( "wrong" );
         orderMask.add( "wrong" );
-        orderMask.add( "test2" );
         orderMask.add( "test3" );
+        orderMask.add( "test2" );
         orderMask.add( "test6" );
 
         List<ContentKey> actualResult = relatedContentFinder.getOrderedKeys( resSet, orderMask, null );
 
-        assertListEquals( new String[]{"200", "400", "300", "100", "500"}, actualResult );
+        assertListEquals( new String[]{"100", "300", "500", "200", "400"}, actualResult );
     }
 
     private static void appendContentEntity( List<ContentEntity> contents, String id, final String contentKey )
