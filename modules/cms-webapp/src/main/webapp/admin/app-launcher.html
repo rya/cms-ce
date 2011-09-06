@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <script type="text/javascript" src="ext/ext-all.js"></script>
+    <script type="text/javascript" src="app/common/Common.js"></script>
+    <script type="text/javascript">
+
+        Ext.Loader.setConfig({
+            enabled: true,
+            paths: {
+                'App' : 'app/launcher/js',
+                'Common' : 'common/js'
+            }
+        });
+
+        Ext.application({
+            name: 'App',
+            appFolder: 'app/launcher/js',
+
+            controllers: [
+                'LauncherController'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    id: 'launcher-viewport',
+                    layout: 'border',
+                    padding: 0,
+
+                    items: [
+                        {
+                            id: 'launcher-toolbar',
+                            region: 'north',
+                            xtype: 'launcherToolbar'
+                        },
+                        {
+                            id: 'launcher-center',
+                            region: 'center',
+                            bodyCls: 'launcher-center-inner',
+                            html: '<iframe id="launcher-iframe" src="#"><!-- --></iframe>'
+                        }
+                    ]
+                });
+            }
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>
