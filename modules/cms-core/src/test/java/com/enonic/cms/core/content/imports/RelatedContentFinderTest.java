@@ -1,14 +1,5 @@
 package com.enonic.cms.core.content.imports;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import junit.framework.Assert;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
@@ -25,6 +16,13 @@ import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.store.dao.ContentTypeDao;
+import junit.framework.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.easymock.EasyMock.createMock;
 
@@ -61,6 +59,52 @@ public class RelatedContentFinderTest
         List<ContentKey> actualResult = relatedContentFinder.getOrderedKeys( resSet, orderMask, null );
 
         assertListEquals( new String[]{"100", "300", "200"}, actualResult );
+    }
+
+    @Test
+    public void testGetUnorderedKeysKeepEnterOrder()
+    {
+        List<ContentEntity> contents = new ArrayList<ContentEntity>();
+
+        appendContentEntity( contents, "300", "test2" );
+        appendContentEntity( contents, "100", "test3" );
+        appendContentEntity( contents, "200", "test4" );
+
+        ContentResultSet resSet = new ContentResultSetNonLazy( contents, 0, 10 );
+
+        List<String> orderMask = new LinkedList<String>();
+        orderMask.add( "test22" );
+        orderMask.add( "test44" );
+        orderMask.add( "test33" );
+
+        List<ContentKey> actualResult = relatedContentFinder.getOrderedKeys( resSet, orderMask, null );
+
+        assertListEquals( new String[]{"300", "100", "200"}, actualResult );
+    }
+
+    @Test
+    public void testGetUnorderedKeysSomeKeyMatch()
+    {
+        List<ContentEntity> contents = new ArrayList<ContentEntity>();
+
+        appendContentEntity( contents, "300", "test2" );
+        appendContentEntity( contents, "100", "test3" );
+        appendContentEntity( contents, "200", "test4" );
+        appendContentEntity( contents, "400", "test5" );
+        appendContentEntity( contents, "500", "test6" );
+
+        ContentResultSet resSet = new ContentResultSetNonLazy( contents, 0, 10 );
+
+        List<String> orderMask = new LinkedList<String>();
+        orderMask.add( "wrong" );
+        orderMask.add( "wrong" );
+        orderMask.add( "test3" );
+        orderMask.add( "test2" );
+        orderMask.add( "test6" );
+
+        List<ContentKey> actualResult = relatedContentFinder.getOrderedKeys( resSet, orderMask, null );
+
+        assertListEquals( new String[]{"100", "300", "500", "200", "400"}, actualResult );
     }
 
     private static void appendContentEntity( List<ContentEntity> contents, String id, final String contentKey )
