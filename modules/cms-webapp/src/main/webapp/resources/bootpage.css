@@ -57,18 +57,30 @@ h3,
 
 #content {
     width: 586px;
-    margin-right: 50px;
+    margin-right: 20px;
     float: left;
 }
 
 #east {
-    width: 273px;
+    width: 303px;
     float: left;
 }
 
 #footer {
     margin-top: 10px;
+    color: #9D9D9D;
+}
+
+#footer #license {
+    padding-left: 3px;
+}
+
+#footer a {
     color: #fff;
+}
+
+#footer a:hover {
+    text-decoration: underline;
 }
 
 #logo {
@@ -90,7 +102,7 @@ h3,
 }
 
 #management-components .icon-webdav {
-    margin-right: 10px;
+    margin:  8px 10px 8px 10px;
 }
 
 #management-components .component {
@@ -160,7 +172,7 @@ h3,
 }
 
 #sites {
-    padding: 15px 20px;
+    padding: 15px 10px;
 }
 
 #sites ul {
@@ -173,7 +185,7 @@ h3,
 
 #sites ul li {
     padding-left: 40px;
-    background: url("images/icon-site.png") no-repeat 0 7px TRANSPARENT;
+    background: url("images/applications-internet.png") no-repeat 0 7px TRANSPARENT;
     margin-bottom: 10px;
 }
 
@@ -199,12 +211,13 @@ h3,
 }
 
 ul.menu.main {
-    background: #1557b3 url('images/menubg.gif') repeat-x;
+    /*background: #1557b3 url('images/menubg.gif') repeat-x;*/
+    float: right;
 }
 
 ul.menu, ul.menu ul {
     list-style-type: none;
-    margin: 0;
+    margin-top: 10px;
 }
 
 ul.menu.horizontal li {
@@ -224,13 +237,11 @@ ul.menu.main a.first, ul.menu.main div.first {
 
 ul.menu.main a, ul.menu.main div {
     color: #fff; /*B2C9E9*/
-    font-weight: bold;
     margin: 6px 0 0 0;
     overflow: hidden;
-    padding: 3px 16px 6px 12px;
+    padding: 3px 10px 3px;
     text-align: center;
     white-space: nowrap;
-    background: url("images/icon-link.png") no-repeat scroll right 5px TRANSPARENT
 }
 
 ul.menu a, ul.menu div {

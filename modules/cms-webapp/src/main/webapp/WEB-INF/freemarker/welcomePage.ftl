@@ -23,17 +23,17 @@
 <body id="main">
 
 <div id="logo">
-    <img alt="Enonic-logo" id="logo-screen" src="${baseUrl}/resources/images/logo-screen.gif" title="Enonic"/>
-</div>
-<div id="nav">
-    <ul class="menu horizontal main clearfix">
-        <li><a title="Welcome" class="first path" href="#">Welcome</a></li>
+    <a href="http://www.enonic.com" rel="external">
+        <img alt="Enonic-logo" id="logo-screen" src="${baseUrl}/resources/images/logo-screen.gif" title="Enonic"/>
+    </a>
+
+    <ul class="menu horizontal main">
         <li><a title="Community" href="http://www.enonic.com/en/community" rel="external">Community</a></li>
         <li><a title="Documentation" href="http://www.enonic.com/en/docs" rel="external">Documentation</a></li>
         <li><a title="Support" href="http://www.enonic.com/en/support" rel="external">Support</a></li>
-        <li><a title="Contact us" class=" last" href="http://www.enonic.com/en/contact-us" rel="external">Contact
-            us</a></li>
+        <li><a title="Contact us" class=" last" href="http://www.enonic.com/en/contact-us" rel="external">Contact Enonic</a></li>
     </ul>
+
 </div>
 
 <div id="content-outer" class="clearfix">
@@ -75,7 +75,7 @@
 
             <a class="component box left" title="${webDavUrl}" href="${webDavUrl}">
                 <span class="icon-webdav left">
-                    <img src="${baseUrl}/resources/images/icon-webdav.png" alt="WebDAV"/>
+                    <img src="${baseUrl}/resources/images/folder-remote.png" alt="WebDAV"/>
                 </span>
                 <span class="info left">
                     <span class="name">WebDAV</span>
@@ -169,9 +169,9 @@
                     <li>
                         <a href="${url}" title="${url}">
                             <span class="name">${key}</span>
-
+                            <br/>
                             <span>
-                                ${elipsis(url, 34)}
+                                ${elipsis(url, 40)}
                             </span>
                         </a>
                     </li>
@@ -189,7 +189,7 @@
 
 <div class="clearfix" id="footer">
     <div id="license" class="left">
-        ${versionTitleVersion} - Licensed under AGPL 3.0
+        ${versionTitleVersion} - Licensed under <a href="http://www.gnu.org/licenses/agpl.html" rel="external">AGPL 3.0</a>
     </div>
     <div id="social" class="right">
         <a href="http://www.enonic.com/en/rss" rel="external">
