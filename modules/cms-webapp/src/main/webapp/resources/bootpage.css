@@ -71,6 +71,10 @@ h3,
     color: #9D9D9D;
 }
 
+#footer #license {
+    padding-left: 3px;
+}
+
 #footer a {
     color: #fff;
 }
@@ -233,10 +237,9 @@ ul.menu.main a.first, ul.menu.main div.first {
 
 ul.menu.main a, ul.menu.main div {
     color: #fff; /*B2C9E9*/
-    font-weight: bold;
     margin: 6px 0 0 0;
     overflow: hidden;
-    padding: 3px 16px 6px 12px;
+    padding: 3px 10px 3px;
     text-align: center;
     white-space: nowrap;
 }

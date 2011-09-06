@@ -171,7 +171,7 @@
                             <span class="name">${key}</span>
                             <br/>
                             <span>
-                                ${elipsis(url, 34)}
+                                ${elipsis(url, 40)}
                             </span>
                         </a>
                     </li>
