@@ -1252,11 +1252,14 @@ public class UserHandlerServlet
 
                 Document reportDoc;
 
+                UserXmlCreator userXmlCreator = new UserXmlCreator();
+                userXmlCreator.setIncludeUserFields( true );
+                userXmlCreator.wrappUserFieldsInBlockElement( false );
+
                 String selection = formItems.getString( "selection" );
                 if ( "all".equals( selection ) )
                 {
                     List<UserEntity> users = securityService.findUsersByQuery( userStoreKey, null, null, true );
-                    UserXmlCreator userXmlCreator = new UserXmlCreator();
                     org.jdom.Document usersDoc = userXmlCreator.createUsersDocument( users, false, false );
                     reportDoc = XMLDocumentFactory.create( usersDoc ).getAsDOMDocument();
                 }
@@ -1302,7 +1305,6 @@ public class UserHandlerServlet
                         }
                     }
 
-                    UserXmlCreator userXmlCreator = new UserXmlCreator();
                     org.jdom.Document usersDoc = userXmlCreator.createUsersDocument( new ArrayList<UserEntity>( users ), false, false );
                     reportDoc = XMLDocumentFactory.create( usersDoc ).getAsDOMDocument();
 
