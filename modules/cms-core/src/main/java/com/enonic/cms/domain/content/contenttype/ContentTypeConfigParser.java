@@ -11,6 +11,7 @@ import org.jdom.Element;
 
 import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfigType;
 
 public class ContentTypeConfigParser
 {
@@ -58,12 +59,13 @@ public class ContentTypeConfigParser
         {
             throw new InvalidContentTypeConfigException( "Title element not found, expected as child to the form element." );
         }
-        form.setTitleInputName( titleEl.getAttributeValue( "name" ) );
+        final String titleInputName = titleEl.getAttributeValue( "name" );
+        form.setTitleInputName( titleInputName );
         List<Element> blockEls = formEl.getChildren( "block" );
         int blockPosition = 1;
         for ( Element blockEl : blockEls )
         {
-            form.addBlock( parseBlock( form, blockEl, blockPosition++ ) );
+            form.addBlock( parseBlock( form, blockEl, blockPosition++, titleInputName ) );
         }
 
         if ( form.getTitleInput() == null )
@@ -81,7 +83,7 @@ public class ContentTypeConfigParser
         return form;
     }
 
-    private CtySetConfig parseBlock( final CtyFormConfig form, final Element blockEl, int blockPosition )
+    private CtySetConfig parseBlock( final CtyFormConfig form, final Element blockEl, int blockPosition, String titleField )
     {
         String blockName = parseBlockName( blockEl, blockPosition );
         CtySetConfig block = new CtySetConfig( form, blockName, blockEl.getAttributeValue( "group" ) );
@@ -92,6 +94,17 @@ public class ContentTypeConfigParser
         {
             InputConfigParser inputConfigParser = new InputConfigParser( inputConfigPosition++ );
             DataEntryConfig inputConfig = inputConfigParser.parserInputConfigElement( inputEl );
+            if ( inputConfig.getName().equals( titleField ) )
+            {
+                DataEntryConfigType type = inputConfig.getType();
+                if ( !( type.equals( DataEntryConfigType.URL ) || type.equals( DataEntryConfigType.DATE ) ||
+                    type.equals( DataEntryConfigType.TEXT ) || type.equals( DataEntryConfigType.RADIOBUTTON ) ||
+                    type.equals( DataEntryConfigType.DROPDOWN ) ) )
+                {
+                    throw new InvalidContentTypeConfigException(
+                        "Illegal datatype for title. The title element must be of type text, url, date, radiobutton or dropdown." );
+                }
+            }
             block.addInput( inputConfig );
         }
         return block;

@@ -18,7 +18,7 @@ public class SelectorDataEntry
 {
     public SelectorDataEntry( DataEntryConfig config, String value )
     {
-        super( config, DataEntryType.SELECTOR, value );
+        super( config, DataEntryType.SELECTOR, stripNewLinesAndFormFeedsAndTabs( value ) );
     }
 
     public String getValueAsTitle()

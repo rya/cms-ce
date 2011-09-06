@@ -19,7 +19,7 @@ public class TextDataEntry
 {
     public TextDataEntry( DataEntryConfig config, String value )
     {
-        super( config, DataEntryType.TEXT, value );
+        super( config, DataEntryType.TEXT, stripNewLinesAndFormFeedsAndTabs( value ) );
     }
 
     public String getValueAsTitle()

@@ -7,9 +7,7 @@ package com.enonic.cms.domain.content.contenttype;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * Nov 17, 2009
- */
+
 public class ContentTypeConfigBuilder
 {
     private StringBuffer allBlocks = new StringBuffer();
@@ -101,6 +99,45 @@ public class ContentTypeConfigBuilder
                 currentBlock.append( "<contenttype name=\"" ).append( contentTypeName ).append( "\"/>" );
             }
         }
+        currentBlock.append( "</input>" );
+    }
+
+    /**
+     * Adds a dropdown input configuration to the content type XML.
+     *
+     * @param name     The variable name of the input.
+     * @param xpath    The placement of the input in the contenttype XML.
+     * @param display  The human readable title of the input.
+     * @param required <code>true</code> if this input should be a required field.
+     * @param options  A string of key value pairs, where the key should come first.  The method will throw an
+     *                 <code>IllegalArgumentException</code> if this parameter does not conatin an even number of entries.
+     */
+    public void addDropDownInput( String name, String xpath, String display, boolean required, String... options )
+    {
+        if ( options.length < 2 )
+        {
+            throw new IllegalArgumentException( "The options list must contain at least one key value pair" );
+        }
+        if ( options.length % 2 != 0 )
+        {
+            throw new IllegalArgumentException( "The options list must be divisible by 2" );
+        }
+        currentBlock.append( "\n" );
+        currentBlock.append( "<input name=\"" ).append( name ).append( "\" type=\"dropdown\"" );
+        if ( required )
+        {
+            currentBlock.append( " required=\"true\"" );
+        }
+        currentBlock.append( ">" ).append( "\n" );
+        currentBlock.append( "  <display>" ).append( display ).append( "</display>\n" );
+        currentBlock.append( "  <xpath>" ).append( xpath ).append( "</xpath>\n" );
+        currentBlock.append( "  <options>\n" );
+        for ( int i = 0; i < options.length; i += 2 )
+        {
+            currentBlock.append( "    <option value=\"" ).append( options[i] ).append( "\">" );
+            currentBlock.append( options[i + 1] ).append( "</option>" );
+        }
+        currentBlock.append( "  </options>\n" );
         currentBlock.append( "</input>" );
     }
 

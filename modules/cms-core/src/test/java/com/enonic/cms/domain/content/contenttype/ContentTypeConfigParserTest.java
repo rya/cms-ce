@@ -14,7 +14,9 @@ import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.AbstractBaseDataEntryConfig;
+import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfigType;
+import com.enonic.cms.domain.content.contenttype.dataentryconfig.DateDataEntryConfig;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
 
@@ -288,4 +290,66 @@ public class ContentTypeConfigParserTest
             assertEquals( "Missing name attribute for contenttype element in input config 'myRelated' in position: 1", e.getMessage() );
         }
     }
+
+    @Test
+    public void testParseConfigWithTitleAsDate()
+        throws IOException, JDOMException
+    {
+        StringBuffer configXml = new StringBuffer();
+        configXml.append( "<config name=\"MyContentType\" version=\"1.0\">" );
+        configXml.append( "     <form>" );
+        configXml.append( "         <title name=\"dateField\"/>" );
+        configXml.append( "         <block name=\"TestBlock\">" );
+        configXml.append( "             <input name=\"dateField\" required=\"true\" type=\"date\">" );
+        configXml.append( "                 <display>DateField</display>" );
+        configXml.append( "                 <xpath>contentdata/datefield</xpath>" );
+        configXml.append( "             </input>" );
+        configXml.append( "         </block>" );
+        configXml.append( "     </form>" );
+        configXml.append( "</config>" );
+        Element configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
+
+        ContentTypeConfig config = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, configEl );
+
+        DataEntryConfig dataEntryConfig = config.getInputConfig( "dateField" );
+        DataEntryConfig titleInput = config.getForm().getTitleInput();
+
+        assertEquals( DataEntryConfigType.DATE, dataEntryConfig.getType() );
+        assertEquals( DataEntryConfigType.DATE, titleInput.getType() );
+        assertEquals( titleInput, dataEntryConfig );
+        assertTrue( titleInput instanceof DateDataEntryConfig );
+    }
+
+    @Test
+    public void testParseConfigWithIllegalDataTypeForTitle()
+        throws IOException, JDOMException
+    {
+        StringBuffer configXml = new StringBuffer();
+        configXml.append( "<config name=\"MyContentType\" version=\"1.0\">" );
+        configXml.append( "     <form>" );
+        configXml.append( "         <title name=\"textAreaField\"/>" );
+        configXml.append( "         <block name=\"TestBlock\">" );
+        configXml.append( "             <input name=\"textAreaField\" required=\"true\" type=\"textarea\">" );
+        configXml.append( "                 <display>TextAreaField</display>" );
+        configXml.append( "                 <xpath>contentdata/textareafield</xpath>" );
+        configXml.append( "             </input>" );
+        configXml.append( "         </block>" );
+        configXml.append( "     </form>" );
+        configXml.append( "</config>" );
+        Element configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
+
+        try
+        {
+            ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, configEl );
+            fail( "This config is not legal and should have thrown an exception because the title field is of type textarea." );
+        }
+        catch ( Throwable e )
+        {
+            assertNotNull( e );
+            assertTrue( e instanceof InvalidContentTypeConfigException );
+            assertEquals( "Illegal datatype for title. The title element must be of type text, url, date, radiobutton or dropdown.",
+                          e.getMessage() );
+        }
+    }
+
 }
