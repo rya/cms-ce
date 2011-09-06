@@ -22,13 +22,16 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git:git://github.com/enonic/cms-ce</connection>
+    </scm>
+
     <properties>
         <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
-        
+
         <spring.version>3.0.5.RELEASE</spring.version>
         <slf4j.version>1.6.1</slf4j.version>
-        
     </properties>
 
     <modules>
