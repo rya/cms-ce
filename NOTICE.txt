@@ -124,3 +124,7 @@ Code Mirror
 QUnit
   MIT License
   http://jquery.org/license
+
+Boot Page Icons
+  GNU GPL v2
+  http://www.silvestre.com.ar/?p=115
