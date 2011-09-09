@@ -219,6 +219,9 @@ public final class MenuHandler
     final static private String MENU_ITEM_URL_UPDATE =
         "UPDATE " + MENU_ITEM_TABLE + " SET mei_sURL = ?, mei_burlopennewwin = ? WHERE mei_lKey = ?";
 
+    final static private String MENU_ITEM_SHORTCUT_UPDATE =
+            "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = ( SELECT mei_lKey FROM " + MENU_ITEM_TABLE + " WHERE mei_men_lKey = ? AND mei_sName = ? ), mei_bShortcutForward = ? WHERE mei_lKey = ?";
+
     final static private String MENU_ITEMS_BY_CONTENTOBJECT = "SELECT mei_lKey, mei_pag_lKey FROM tMenuItem WHERE mei_pag_lKey in " +
         "(SELECT pco_pag_lKey FROM tPageConObj WHERE pco_cob_lKey = ?)";
 
@@ -1305,7 +1308,7 @@ public final class MenuHandler
 
                 case 7:
                     // shortcut
-                    createOrOverrideShortcut( menuItemElement, menuItemKey );
+                    createOrOverrideShortcut( menuItemElement, menuItemKey, siteKey );
                     break;
 
                 default:
@@ -1509,25 +1512,25 @@ public final class MenuHandler
         getSectionHandler().createSection( menuItemKey.toInt(), ordered, contentTypes );
     }
 
-    private void createOrOverrideShortcut( Element shortcutDestinationMenuItem, MenuItemKey shortcutMenuItem )
-        throws VerticalCreateException
+    private void createOrOverrideShortcut( Element shortcutDestinationMenuItem, MenuItemKey shortcutMenuItem, SiteKey menuKey )
+            throws VerticalCreateException
     {
         Element shortcutElem = XMLTool.getElement( shortcutDestinationMenuItem, "shortcut" );
-        int shortcut = Integer.parseInt( shortcutElem.getAttribute( "key" ) );
+        String name = shortcutElem.getAttribute( "name" );
         boolean forward = Boolean.valueOf( shortcutElem.getAttribute( "forward" ) );
-        StringBuffer sql =
-            XDG.generateUpdateSQL( db.tMenuItem, new Column[]{db.tMenuItem.mei_mei_lShortcut, db.tMenuItem.mei_bShortcutForward},
-                                   new Column[]{db.tMenuItem.mei_lKey}, null );
+
         Connection con = null;
-        PreparedStatement prepStmt = null;
+        PreparedStatement preparedStmt = null;
         try
         {
             con = getConnection();
-            prepStmt = con.prepareStatement( sql.toString() );
-            prepStmt.setInt( 1, shortcut );
-            prepStmt.setBoolean( 2, forward );
-            prepStmt.setInt( 3, shortcutMenuItem.toInt() );
-            prepStmt.executeUpdate();
+
+            preparedStmt = con.prepareStatement( MENU_ITEM_SHORTCUT_UPDATE );
+            preparedStmt.setInt( 1, menuKey.toInt() );
+            preparedStmt.setString( 2, name );
+            preparedStmt.setBoolean( 3, forward );
+            preparedStmt.setInt( 4, shortcutMenuItem.toInt() );
+            preparedStmt.executeUpdate();
         }
         catch ( SQLException sqle )
         {
@@ -1537,7 +1540,7 @@ public final class MenuHandler
         finally
         {
             close( con );
-            close( prepStmt );
+            close( preparedStmt );
         }
     }
 
@@ -3060,7 +3063,7 @@ public final class MenuHandler
                             break;
 
                         case 7: // Shortcut:
-                            createOrOverrideShortcut( menuitem_elem, key );
+                            createOrOverrideShortcut( menuitem_elem, key, siteKey );
                             break;
                     }
                 }
