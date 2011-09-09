@@ -11,6 +11,10 @@
     height: 0;
 }
 
+.cms-emphasis {
+    font-style: italic;
+}
+
 /* ----- Overrides ext-all.css ----- */
 
 body,
@@ -21,14 +25,14 @@ body,
 .x-form-display-field {
     font: 11px tahoma,arial,verdana,sans-serif;
 }
+.x-toolbar .sliding-pager-text.x-toolbar-text {
+    color: #04408C !important;
+    font-weight: bold;
+}
 
 .x-html h1 {
     font-size: 2.5em;
     margin: 0
-}
-
-.cms-emphasis {
-    font-style: italic;
 }
 
 /* ----- Launcher ----- */
@@ -305,24 +309,23 @@ img.photo {
 }
 
 .icon-delete {
-    /*background-image: url("../images/delete.png");*/
     background-image: url("../images/cross.png");
 }
 
 .icon-new {
-    background: url("../images/add.png") no-repeat;
+    background: url("../images/add.png");
 }
 
 .icon-refresh {
-    background: url("../images/arrow_refresh.png") no-repeat;
+    background: url("../images/arrow_refresh.png");
 }
 
 .icon-save {
-    background: url("../images/accept.png") no-repeat;
+    background: url("../images/accept.png");
 }
 
 .icon-cancel {
-    background: url("../images/cancel.png") no-repeat;
+    background: url("../images/cancel.png");
 }
 
 /*-----  Dashboard  -----*/
@@ -581,8 +584,4 @@ img.photo {
 
 .cms-edit-form-header .right p {
     margin: 5px 0 0 0;
-}
-
-.sliding-pager-text {
-    font-weight: bold !important;
 }

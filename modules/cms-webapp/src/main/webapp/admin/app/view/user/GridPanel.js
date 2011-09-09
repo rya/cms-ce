@@ -48,22 +48,7 @@ Ext.define( 'CMS.view.user.GridPanel', {
             xtype: 'pagingtoolbar',
             store: this.store,
             plugins: ['slidingPager'],
-            prependButtons: true,
-            items: [
-                {
-                    xtype: 'splitbutton',
-                    text: 'New',
-                    action: 'newUser',
-                    iconCls: 'icon-user-add',
-                    menu: new Ext.menu.Menu({
-                        items: [
-                            {text: 'User',  iconCls: 'icon-user-add', action: 'newUser'},
-                            {text: 'Group', iconCls: 'icon-group-add', action: 'newGroup'}
-                        ]
-                    })
-                },
-                '->'
-            ]
+            prependButtons: true
         };
 
         this.viewConfig = {

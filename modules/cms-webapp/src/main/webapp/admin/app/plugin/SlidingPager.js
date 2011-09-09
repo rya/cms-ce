@@ -61,17 +61,20 @@ Ext.define('CMS.plugin.SlidingPager', {
             cls: 'sliding-pager-text'
         });
 
+        var tbFill = Ext.create('Ext.toolbar.Fill', {});
+
         var displayInfo = Ext.create('Ext.toolbar.TextItem', {
             cls: 'sliding-pager-text'
         });
 
-        function getIndexOfPagingFirstButton() {
+        function getIndexOfPBarFirstButton() {
             return pbar.items.indexOf(pbar.child("#first"));
         }
 
-        pbar.insert(getIndexOfPagingFirstButton() - 1, total);
-        pbar.insert(getIndexOfPagingFirstButton(), displayInfo);
-        pbar.insert(getIndexOfPagingFirstButton() + 2, slider);
+        pbar.insert(getIndexOfPBarFirstButton(), total);
+        pbar.insert(getIndexOfPBarFirstButton(), tbFill);
+        pbar.insert(getIndexOfPBarFirstButton(), displayInfo);
+        pbar.insert(getIndexOfPBarFirstButton() + 2, slider);
 
         pbar.on({
             change: function(paging, pageData) {

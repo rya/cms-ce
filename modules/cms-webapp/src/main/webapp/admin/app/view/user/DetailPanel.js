@@ -9,33 +9,6 @@ Ext.define('CMS.view.user.DetailPanel', {
     collapsible: true,
 
     initComponent: function() {
-
-        this.dockedItems = [
-            {
-                dock: 'top',
-                xtype: 'toolbar',
-                border: false,
-                padding: 5,
-                items: [
-                    {
-                        text: 'Edit User',
-                        iconCls: 'icon-edit-user',
-                        action: 'edit'
-                    },
-                    {
-                        text: 'Delete User',
-                        iconCls: 'icon-delete-user',
-                        action: 'showDeleteWindow'
-                    },
-                    '-',
-                    {
-                        text: 'Change Password',
-                        iconCls: 'icon-change-password',
-                        action: 'changePassword'
-                    }
-                ]
-            }
-        ];
         var largeBoxesPanel = this.createLargeBoxSelection();
         var smallBoxesPanel = this.createSmallBoxSelection();
         var detailsPanel = this.createSingleBoxSelection();
