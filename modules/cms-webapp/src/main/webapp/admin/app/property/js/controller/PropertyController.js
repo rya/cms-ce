@@ -5,4 +5,4 @@ Ext.define('App.controller.PropertyController', {
     models: ['PropertyModel'],
     views: ['GridPanel']
 
-})
+});

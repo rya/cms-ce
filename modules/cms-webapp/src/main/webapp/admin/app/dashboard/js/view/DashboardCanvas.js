@@ -20,7 +20,6 @@ Ext.define( "App.view.DashboardCanvas", {
     autoScroll: true,
 
     initComponent: function () {
-        var a = this;
         this.callParent();
         this.addEvents({
             validatedrop: true,
