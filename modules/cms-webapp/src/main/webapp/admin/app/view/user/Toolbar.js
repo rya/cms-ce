@@ -21,7 +21,7 @@ Ext.define('CMS.view.user.Toolbar', {
                         xtype: 'splitbutton',
                         text: ' &nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp; ',
                         action: 'newUser',
-                        iconCls: 'icon-user-add-32',
+                        iconCls: 'cms-empty',
                         cls: 'x-btn-as-arrow',
                         menu: new Ext.menu.Menu({
                             items: [
@@ -41,13 +41,13 @@ Ext.define('CMS.view.user.Toolbar', {
                     {
                         text: 'Edit',
                         action: 'edit',
-                        iconCls: 'icon-edit-user',
+                        iconCls: 'cms-empty',
                         disableOnMultipleSelection: true
                     },
                     {
                         text: 'Delete',
                         action: 'showDeleteWindow',
-                        iconCls: 'icon-delete-user'
+                        iconCls: 'cms-empty'
                     }
                 ]
             },
@@ -59,7 +59,7 @@ Ext.define('CMS.view.user.Toolbar', {
                     {
                         text: 'Change Password',
                         action: 'changePassword',
-                        iconCls: 'icon-change-password',
+                        iconCls: 'cms-empty',
                         disableOnMultipleSelection: true
                     }
                 ]
