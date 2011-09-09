@@ -723,7 +723,8 @@ public class ContentStorer
             ContentEntity relatedChild = contentDao.findByKey( relatedChildKey );
             if ( relatedChild == null )
             {
-                throw new IllegalArgumentException( "Did expect to find related child in storage, contentKey: " + relatedChildKey );
+                // can happen when related child have been marked as deleted and then totally wiped from db with vacuum tool
+                continue;
             }
 
             if ( !persistedVersionWithUpdatedContentData.hasRelatedChild( relatedChild ) )
@@ -875,8 +876,6 @@ public class ContentStorer
         {
             throw new ContentNotFoundException( contentKey );
         }
-
-
 
         if ( content.isDeleted() )
         {
