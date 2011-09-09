@@ -41,13 +41,13 @@ Ext.define('CMS.view.user.Toolbar', {
                     {
                         text: 'Edit',
                         action: 'edit',
-                        iconCls: 'cms-empty',
+                        iconCls: 'icon-edit-user',
                         disableOnMultipleSelection: true
                     },
                     {
                         text: 'Delete',
                         action: 'showDeleteWindow',
-                        iconCls: 'cms-empty'
+                        iconCls: 'icon-delete-user'
                     }
                 ]
             },
@@ -59,7 +59,7 @@ Ext.define('CMS.view.user.Toolbar', {
                     {
                         text: 'Change Password',
                         action: 'changePassword',
-                        iconCls: 'cms-empty',
+                        iconCls: 'icon-change-password',
                         disableOnMultipleSelection: true
                     }
                 ]
