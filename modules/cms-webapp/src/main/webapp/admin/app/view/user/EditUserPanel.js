@@ -22,6 +22,8 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         type: 'border'
     },
 
+    border: 0,
+
     initComponent: function()
     {
         var me = this;
@@ -50,6 +52,7 @@ Ext.define( 'CMS.view.user.EditUserPanel', {
         var headerPanel = {
             xtype: 'panel',
             tpl: headerPanelTpl,
+            border: 0,
             region: 'north',
             styleHtmlContent: true,
             data: me.currentUser
