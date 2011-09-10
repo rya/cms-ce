@@ -465,7 +465,7 @@ img.photo {
 
 /* Large */
 .cms-selected-item-box.large {
-    padding: 5px;
+    padding: 3px;
     margin: 0 10px 10px 0;
 }
 
@@ -505,7 +505,7 @@ img.photo {
 
 /* Small */
 .cms-selected-item-box.small {
-    padding: 3px;
+    padding: 2px;
     margin: 0 10px 10px 0;
 }
 

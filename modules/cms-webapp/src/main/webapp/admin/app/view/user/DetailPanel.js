@@ -110,12 +110,15 @@ Ext.define('CMS.view.user.DetailPanel', {
                     }
 
                 } );
+
         var panel = {
             xtype: 'panel',
             itemId: 'singleDetailsPanel',
             styleHtmlContent: true,
+            border: 0,
             tpl: tpl
-        }
+        };
+
         return panel;
     },
 
@@ -130,6 +133,7 @@ Ext.define('CMS.view.user.DetailPanel', {
            '<div class="right">' +
            ' <a id="{key}" class="remove-selection" href="javascript:;"></a></div></div>' +
            '</tpl>');
+
         var panel = {
             xtype: 'panel',
             itemId: 'largeBoxPanel',
@@ -145,7 +149,8 @@ Ext.define('CMS.view.user.DetailPanel', {
             padding: 10,
             border: 0,
             tpl: tpl
-        }
+        };
+
         return panel;
     },
 
@@ -159,6 +164,7 @@ Ext.define('CMS.view.user.DetailPanel', {
             '<div class="cms-selected-item-box right">' +
             '<a id="{key}" class="remove-selection" href="javascript:;"></a></div></div>'+
             '</tpl>');
+
         var panel = {
             xtype: 'panel',
             itemId: 'smallBoxPanel',
@@ -174,7 +180,8 @@ Ext.define('CMS.view.user.DetailPanel', {
             padding: 10,
             border: 0,
             tpl: tpl
-        }
+        };
+
         return panel;
     },
 
