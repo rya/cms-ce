@@ -192,20 +192,15 @@ img.photo {
 
 /* ----- Accounts Filter Panel ----- */
 
-.facet-navigation,
-.facet-navigation .x-form-item {
-    font-size: 11px !important;
-}
-
 .facet-header {
     font-weight: bold;
-    margin: 0 0 4px 0
+    margin: 5px 0
 }
 
 .facet-single-select-item,
 .facet-multi-select-item {
     color: #000;
-    margin: 0 0 -2px 20px;
+    margin: 0 0 -2px 15px;
 }
 
 .facet-single-select-item {
