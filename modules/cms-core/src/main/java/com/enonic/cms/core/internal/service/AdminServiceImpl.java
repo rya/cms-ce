@@ -51,6 +51,8 @@ public class AdminServiceImpl
     implements AdminService
 {
 
+    private static final int TIMEOUT_24HOURS = 86400;
+
     public void setAdminEngine( AdminEngine value )
     {
         adminEngine = value;
@@ -488,7 +490,7 @@ public class AdminServiceImpl
         adminEngine.removeLanguage( languageKey );
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = TIMEOUT_24HOURS)
     public void removeMenu( User user, int key )
         throws VerticalRemoveException, VerticalSecurityException
     {
