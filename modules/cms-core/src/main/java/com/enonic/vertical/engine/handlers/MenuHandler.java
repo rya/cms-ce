@@ -216,6 +216,8 @@ public final class MenuHandler
 //	final static private String MENU_ITEM_SELECT_NAME_BY_KEY =
 //		"SELECT mei_sName FROM " + MENU_ITEM_TABLE + " WHERE mei_lKey = ?";
 
+    final static private String REMOVE_ALL_SHORTCUT_REFERENCES_IN_MENU = "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = NULL WHERE mei_men_lKey = ?";
+
     final static private String MENU_ITEM_URL_UPDATE =
         "UPDATE " + MENU_ITEM_TABLE + " SET mei_sURL = ?, mei_burlopennewwin = ? WHERE mei_lKey = ?";
 
@@ -2145,6 +2147,12 @@ public final class MenuHandler
             preparedStmt.close();
 
             int[] pageKeys = getPageHandler().getPageKeysByMenu( con, key );
+
+            // remove shortcut references of menuitems:
+            preparedStmt = con.prepareStatement( REMOVE_ALL_SHORTCUT_REFERENCES_IN_MENU );
+            preparedStmt.setInt( 1, key );
+            preparedStmt.executeUpdate();
+            preparedStmt.close();
 
             // remove the menuitems:
             ArrayList<Integer> menuItemKeys = getMenuItemKeys( key, -1 );
