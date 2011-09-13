@@ -36,7 +36,7 @@ Ext.define('App.view.Toolbar', {
                     {
                         id: 0,
                         text: 'Dashboard',
-                        appUrl: 'dashboard.html',
+                        appUrl: 'app-dashboard.html',
                         icon: 'app/launcher/images/house.png'
                     },
                     '-',
@@ -86,19 +86,19 @@ Ext.define('App.view.Toolbar', {
                     {
                         id: 500,
                         text: "Content Types",
-                        appUrl: "contentTypes.html",
+                        appUrl: "app-contentType.html",
                         icon: 'app/launcher/images/page_world.png'
                     },
                     {
                         id: 600,
                         text:"Cache",
-                        appUrl:"systemCaches.html",
+                        appUrl:"app-systemCache.html",
                         icon: 'app/launcher/images/drive_web.png'
                     },
                     {
                         id: 800,
                         text: 'System',
-                        appUrl: 'system.html',
+                        appUrl: 'app-system.html',
                         icon: 'app/launcher/images/cog.png'
                     },
                     '-',

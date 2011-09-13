@@ -23,9 +23,8 @@ Ext.define('App.view.NavigationPanel', {
     getChildren: function() {
         return [
             {text:"About", leaf: true, appUrl:"about.html"},
-            {text:"Properties", leaf: true, appUrl:"properties.html"},
-            {text:"Userstores", leaf: true, appUrl:"userstores.html"},
-            {text:"Languages", leaf: true, appUrl:"languages.html"},
+            {text:"Properties", leaf: true, appUrl:"app-property.html"},
+            {text:"Languages", leaf: true, appUrl:"app-language.html"},
             {text:"Countries", leaf: true, appUrl:"blank.html"},
             {text:"Time Zones", leaf: true, appUrl:"blank.html"},
             {text:"Sites", leaf: true, appUrl:"blank.html"},
