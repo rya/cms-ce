@@ -26,6 +26,10 @@ public class PageRenderingTrace
 
     private List<WindowRenderingTrace> windowRenderingTraces = new ArrayList<WindowRenderingTrace>();
 
+    private List<DatasourceExecutionTrace> datasourceExecutionTraceList = new ArrayList<DatasourceExecutionTrace>();
+
+    private InstructionPostProcessingTrace instructionPostProcessingTrace;
+
     PageRenderingTrace( PortalRequestTrace portalRequestTrace )
     {
         this.portalRequestTrace = portalRequestTrace;
@@ -85,5 +89,35 @@ public class PageRenderingTrace
     public List<WindowRenderingTrace> getWindowRenderingTraces()
     {
         return windowRenderingTraces;
+    }
+
+    public void addDatasourceExecutionTrace( DatasourceExecutionTrace trace )
+    {
+        datasourceExecutionTraceList.add( trace );
+    }
+
+    public boolean hasDatasourceExecutionTraces()
+    {
+        return !datasourceExecutionTraceList.isEmpty();
+    }
+
+    public List<DatasourceExecutionTrace> getDatasourceExecutionTraces()
+    {
+        return datasourceExecutionTraceList;
+    }
+
+    public boolean hasInstructionPostProcessingTrace()
+    {
+        return instructionPostProcessingTrace != null;
+    }
+
+    public InstructionPostProcessingTrace getInstructionPostProcessingTrace()
+    {
+        return instructionPostProcessingTrace;
+    }
+
+    void setInstructionPostProcessingTrace( InstructionPostProcessingTrace instructionPostProcessingTrace )
+    {
+        this.instructionPostProcessingTrace = instructionPostProcessingTrace;
     }
 }

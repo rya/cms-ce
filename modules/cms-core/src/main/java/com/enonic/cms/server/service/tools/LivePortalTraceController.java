@@ -29,60 +29,86 @@ public final class LivePortalTraceController
     @Override
     protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
     {
-
-        String window = formItems.getString( "window", "" );
-        String history = formItems.getString( "history", null );
-
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
-
-        if ( "current".equals( window ) )
+        if ( "POST".equalsIgnoreCase( req.getMethod() ) )
         {
-            List<PortalRequestTrace> currentPortalRequestTraces = livePortalTraceService.getCurrentPortalRequestTraces();
+            final String command = req.getParameter( "command" );
 
-            model.put( "currentTraces", currentPortalRequestTraces );
-            process( res, model, "livePortalTraceWindow_current" );
-        }
-        else if ( "longestpagerequests".equals( window ) )
-        {
-            List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalPageRequestTraces();
-            model.put( "longestTraces", longestTimePortalRequestTraces );
-            process( res, model, "livePortalTraceWindow_longest" );
-        }
-        else if ( "longestattachmentrequests".equals( window ) )
-        {
-            List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalAttachmentRequestTraces();
-            model.put( "longestTraces", longestTimePortalRequestTraces );
-            process( res, model, "livePortalTraceWindow_longest" );
-        }
-        else if ( "longestimagerequests".equals( window ) )
-        {
-            List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalImageRequestTraces();
-            model.put( "longestTraces", longestTimePortalRequestTraces );
-            process( res, model, "livePortalTraceWindow_longest" );
-        }
-        else if ( history != null )
-        {
-            String recordsSinceIdStr = req.getParameter( "records-since-id" );
-            Long recordsSinceId = Long.valueOf( recordsSinceIdStr );
-
-            List<PastPortalRequestTrace> pastPortalRequestTraces = livePortalTraceService.getHistorySince( recordsSinceId );
-            model.put( "pastPortalRequestTraces", pastPortalRequestTraces );
-
-            Long lastHistoryRecordNumber = recordsSinceId;
-            if ( pastPortalRequestTraces.size() > 0 )
+            if ( "clear-longestpagerequests".equals( command ) )
             {
-                lastHistoryRecordNumber = pastPortalRequestTraces.get( 0 ).getHistoryRecordNumber();
+                livePortalTraceService.clearLongestPageRequestsTraces();
             }
-            model.put( "lastHistoryRecordNumber", lastHistoryRecordNumber );
+            else if ( "clear-longestattachmentrequests".equals( command ) )
+            {
+                livePortalTraceService.clearLongestAttachmentRequestTraces();
+            }
+            else if ( "clear-longestimagerequests".equals( command ) )
+            {
+                livePortalTraceService.clearLongestImageRequestTraces();
+            }
 
-            res.setHeader( "Content-Type", "application/json" );
-            process( res, model, "livePortalTrace_history_trace" );
+            res.setStatus( HttpServletResponse.SC_NO_CONTENT );
         }
         else
         {
-            model.put( "livePortalTraceEnabled", isLivePortalTraceEnabled() ? 1 : 0 );
-            process( res, model, "livePortalTracePage" );
+            String window = formItems.getString( "window", "" );
+            String history = formItems.getString( "history", null );
+
+            HashMap<String, Object> model = new HashMap<String, Object>();
+            model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
+
+            if ( "current".equals( window ) )
+            {
+                List<PortalRequestTrace> currentPortalRequestTraces = livePortalTraceService.getCurrentPortalRequestTraces();
+                model.put( "currentTraces", currentPortalRequestTraces );
+                process( res, model, "livePortalTraceWindow_current" );
+                res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
+            }
+            else if ( "longestpagerequests".equals( window ) )
+            {
+                List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalPageRequestTraces();
+                model.put( "longestTraces", longestTimePortalRequestTraces );
+                process( res, model, "livePortalTraceWindow_longest" );
+                res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
+            }
+            else if ( "longestattachmentrequests".equals( window ) )
+            {
+                List<PortalRequestTrace> longestTimePortalRequestTraces =
+                    livePortalTraceService.getLongestTimePortalAttachmentRequestTraces();
+                model.put( "longestTraces", longestTimePortalRequestTraces );
+                process( res, model, "livePortalTraceWindow_longest" );
+                res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
+            }
+            else if ( "longestimagerequests".equals( window ) )
+            {
+                List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalImageRequestTraces();
+                model.put( "longestTraces", longestTimePortalRequestTraces );
+                process( res, model, "livePortalTraceWindow_longest" );
+                res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
+            }
+            else if ( history != null )
+            {
+                String recordsSinceIdStr = req.getParameter( "records-since-id" );
+                Long recordsSinceId = Long.valueOf( recordsSinceIdStr );
+
+                List<PastPortalRequestTrace> pastPortalRequestTraces = livePortalTraceService.getHistorySince( recordsSinceId );
+                model.put( "pastPortalRequestTraces", pastPortalRequestTraces );
+
+                Long lastHistoryRecordNumber = recordsSinceId;
+                if ( pastPortalRequestTraces.size() > 0 )
+                {
+                    lastHistoryRecordNumber = pastPortalRequestTraces.get( 0 ).getHistoryRecordNumber();
+                }
+                model.put( "lastHistoryRecordNumber", lastHistoryRecordNumber );
+
+                res.setHeader( "Content-Type", "application/json" );
+                process( res, model, "livePortalTrace_history_trace" );
+            }
+            else
+            {
+                model.put( "livePortalTraceEnabled", isLivePortalTraceEnabled() ? 1 : 0 );
+                process( res, model, "livePortalTracePage" );
+                res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
+            }
         }
     }
 

@@ -35,16 +35,16 @@
     <td valign="top">
     ${portalRequestTrace.requestNumber}
     </td>
-    <td>
+    <td class="type-column">
     ${portalRequestTrace.type}
     </td>
     <td>
     ${portalRequestTrace.siteName!} : ${portalRequestTrace.siteLocalUrl!?html}
     </td>
-    <td>
+    <td class="startTime-column">
     ${portalRequestTrace.duration.startTimeAsDate!?datetime}
     </td>
-    <td align="right" valign="top">
+    <td class="duration-column">
     ${portalRequestTrace.duration.executionTimeAsHRFormat!}
         [#if portalRequestTrace.duration.hasEnded() == false]
             ?
@@ -55,10 +55,10 @@
 
 [#macro printPortalRequestTraceDetailRows portalRequestTrace]
 [#-- Using single quotes instead of double to make this html safe to pass as a string in json --]
-<table id='portalRequestTraceDetail-table' cellspacing='5'>
+<table id="portalRequestTraceDetail-table" cellspacing="5">
     <tbody>
     <tr>
-        <th colspan='2'>Portal request trace:</th>
+        <th colspan="2">Portal request trace:</th>
     </tr>
     <tr>
         <td>Request number</td>
@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td>Duration</td>
-        <td>[@printDuration duration=portalRequestTrace.duration/]</td>
+        <td>[@printDurationWidthStartEnd duration=portalRequestTrace.duration/]</td>
     </tr>
     <tr>
         <td>URL</td>
@@ -111,19 +111,19 @@
 
         [#if portalRequestTrace.hasAttachmentRequsetTrace() == true]
         [@printAttachentRequestTraceDetailRows attachmentRequestTrace=portalRequestTrace.attachmentRequestTrace/]
-        [#elseif portalRequestTrace.hasImageRequestTrace() == true]
+            [#elseif portalRequestTrace.hasImageRequestTrace() == true]
             [@printImageRequestTraceDetailRows imageRequestTrace=portalRequestTrace.imageRequestTrace/]
             [#elseif portalRequestTrace.hasPageRenderingTrace() == true]
             [@printPageRenderingTraceDetailRows pageRenderingTrace=portalRequestTrace.pageRenderingTrace/]
         [/#if]
         [#if portalRequestTrace.hasWindowRenderingTrace() == true]
         <tr>
-            <th colspan='2'>Window rendering trace:</th>
+            <th colspan="2">Window rendering trace:</th>
         </tr>
         <tr>
-            <td colspan='2'>
+            <td colspan="2" class="noBorderBottom">
                 <table>
-                [@portalWindowRendringTraceDetails windowRenderingTrace=portalRequestTrace.windowRenderingTrace/]
+                [@portalWindowRendringTraceDetails windowRenderingTrace=portalRequestTrace.windowRenderingTrace index=0/]
                 </table>
             </td>
         </tr>
@@ -134,28 +134,71 @@
 
 
 
-[#macro portalWindowRendringTraceDetails windowRenderingTrace]
+[#macro portalWindowRendringTraceDetails windowRenderingTrace, index]
 <tr>
-    <th colspan="2">${windowRenderingTrace.portletName}</th>
+    <td>
+        <a href="javascript: void(0);" onclick="toggleWindowRenderingTrace(${index});">
+            <strong>${windowRenderingTrace.portletName}</strong>
+        </a>
+    </td>
+    <td>
+    [@printDuration duration=windowRenderingTrace.duration/]
+    </td>
 </tr>
-<tr>
-    <td>Duration</strong></td>
-    <td>[@printDuration duration=windowRenderingTrace.duration/]</td>
-</tr>
-<tr>
-    <td colspan='2'>
-        <table style='margin-left: 10px'>
+<tr id="window-rendering-trace-${index}" style="display: none">
+    <td colspan="2" class="noBorderBottom">
+        <table class="tableIndent">
             <tr>
-                <td style='padding-right: 10px'>Used cached result</td>
+                <td>Used cached result</td>
                 <td>${windowRenderingTrace.usedCachedResult?string}</td>
             </tr>
             <tr>
-                <td style='padding-right: 10px'>Renderer</td>
+                <td>Renderer</td>
                 <td>${windowRenderingTrace.renderer!}</td>
             </tr>
+            [#if !windowRenderingTrace.usedCachedResult]
+                <tr>
+                    <th colspan="2">
+                        Datasource executions:
+                        [#if windowRenderingTrace.hasDatasourceExecutionTraces() == false]
+                            none
+                        [/#if]
+                    </th>
+                </tr>
+                [#list windowRenderingTrace.datasourceExecutionTraces as datasourceExecutionTrace]
+                    [#assign datasourceExecutionTraceId = (index*1000) + datasourceExecutionTrace_index]
+                    <tr>
+                        <td>
+                            <a href="javascript: void(0);" onclick="toggleDatasourceExecutionTrace(${datasourceExecutionTraceId});">
+                            ${datasourceExecutionTrace.methodName!}
+                            </a>
+                        </td>
+                        <td>
+                        [@printDuration duration=datasourceExecutionTrace.duration/]
+                        </td>
+                    </tr>
+                [@datasourceExecutionTraceDetails datasourceExecutionTrace=datasourceExecutionTrace id=datasourceExecutionTraceId/]
+                [/#list]
+            [/#if]
+            [#if windowRenderingTrace.hasInstructionPostProcessingTrace() == true]
+                <tr>
+                    <th colspan="2">
+                        Instruction post processing:
+                    </th>
+                </tr>
+                <tr>
+
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                        [@instructionPostProcessingTraceDetails instructionPostProcessingTrace=windowRenderingTrace.instructionPostProcessingTrace/]
+                        </table>
+                    </td>
+                </tr>
+            [/#if]
         </table>
     </td>
 </tr>
+
 [/#macro]
 
 [#macro printPageRenderingTraceDetailRows pageRenderingTrace]
@@ -174,22 +217,99 @@
     <td>Renderer:</td>
     <td>${pageRenderingTrace.renderer!}</td>
 </tr>
+    [#if !pageRenderingTrace.usedCachedResult]
+    <tr>
+        <th colspan="2">
+            Datasource executions:
+            [#if pageRenderingTrace.hasDatasourceExecutionTraces() == false]
+                none
+            [/#if]
+        </th>
+    </tr>
+        [#list pageRenderingTrace.datasourceExecutionTraces as datasourceExecutionTrace]
+            [#assign datasourceExecutionTraceId = (1000000) + datasourceExecutionTrace_index]
+        <tr>
+            <td>
+                <a href="javascript: void(0);" onclick="toggleDatasourceExecutionTrace(${datasourceExecutionTraceId});">
+                ${datasourceExecutionTrace.methodName!}
+                </a>
+            </td>
+            <td>
+            [@printDuration duration=datasourceExecutionTrace.duration/]
+            </td>
+        </tr>
+        [@datasourceExecutionTraceDetails datasourceExecutionTrace=datasourceExecutionTrace id=datasourceExecutionTraceId/]
+        [/#list]
+    [/#if]
     [#if pageRenderingTrace.hasWindowRenderingTraces() == true]
     <tr>
-        <th colspan='2'>Window rendering traces:</th>
+        <th colspan="2">Window rendering traces:</th>
+    </tr>
+        [#list pageRenderingTrace.windowRenderingTraces as windowTrace]
+        [@portalWindowRendringTraceDetails windowRenderingTrace=windowTrace index=windowTrace_index/]
+        [/#list]
+    [/#if]
+    [#if pageRenderingTrace.hasInstructionPostProcessingTrace() == true]
+    <tr>
+        <th colspan="2">
+            Instruction post processing:
+        </th>
     </tr>
     <tr>
-        <td colspan='2'>
-
-            <table style='margin-left: 50px'>
-
-                [#list pageRenderingTrace.windowRenderingTraces as windowTrace]
-                            [@portalWindowRendringTraceDetails windowRenderingTrace=windowTrace/]
-                        [/#list]
+        <td colspan="2" class="noBorderBottom">
+            <table class="tableIndent">
+            [@instructionPostProcessingTraceDetails instructionPostProcessingTrace=pageRenderingTrace.instructionPostProcessingTrace/]
             </table>
         </td>
     </tr>
     [/#if]
+[/#macro]
+
+
+
+[#macro datasourceExecutionTraceDetails datasourceExecutionTrace id]
+<tr id="datasource-execution-trace-${id}" style="display: none;">
+    <td colspan="2" class="noBorderBottom">
+        <table class="tableIndent">
+            <tr>
+                <td>Executed</td>
+                <td>${datasourceExecutionTrace.executed?string("Yes", "No")}</td>
+            </tr>
+            <tr>
+                <td>Runnable condition</td>
+                <td>${datasourceExecutionTrace.runnableCondition!?html}</td>
+            </tr>
+            [#if datasourceExecutionTrace.executed == true]
+                <tr>
+                    <td>Used cached result (request scoped)</td>
+                    <td>${datasourceExecutionTrace.cacheUsed?string("Yes", "No")}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Parameters:</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                            [#list datasourceExecutionTrace.datasourceMethodArguments as argument]
+                                <tr>
+                                    <td>${argument.name!?html}</td>
+                                    <td>${argument.value!?html}</td>
+                                </tr>
+                            [/#list]
+                        </table>
+                    </td>
+                </tr>
+            [/#if]
+        </table>
+    </td>
+</tr>
+[/#macro]
+
+[#macro instructionPostProcessingTraceDetails instructionPostProcessingTrace]
+<tr>
+    <td>Duration</td>
+    <td>[@printDuration duration=instructionPostProcessingTrace.duration/]</td>
+</tr>
 [/#macro]
 
 [#macro printAttachentRequestTraceDetailRows attachmentRequestTrace]
@@ -222,18 +342,18 @@
     <td>Duration</td>
     <td>[@printDuration duration=imageRequestTrace.duration/]</td>
 </tr>
-    <tr>
+<tr>
     <td>Used cached result</td>
     <td>${imageRequestTrace.usedCachedResult!?string}</td>
 </tr>
 <tr>
-        <td>Size (bytes)</td>
+    <td>Size (bytes)</td>
     <td>${imageRequestTrace.sizeInBytes!}</td>
-    </tr>
-        <tr>
+</tr>
+<tr>
     <td>Content key</td>
     <td>${imageRequestTrace.contentKey!}</td>
-        </tr>
+</tr>
 <tr>
     <td>Label</td>
     <td>${imageRequestTrace.label!}</td>
@@ -257,6 +377,16 @@
 [/#macro]
 
 [#macro printDuration duration]
+    [#if duration.hasStarted() == false]
+
+        [#elseif duration.hasEnded() == true]
+        ${duration.executionTimeAsHRFormat!}
+        [#else]
+        ${duration.executionTimeAsHRFormat!}
+    [/#if]
+[/#macro]
+
+[#macro printDurationWidthStartEnd duration]
     [#if duration.hasStarted() == false]
 
         [#elseif duration.hasEnded() == true]

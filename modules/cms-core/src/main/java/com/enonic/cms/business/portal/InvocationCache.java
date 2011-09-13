@@ -8,6 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import com.enonic.cms.business.portal.livetrace.DatasourceExecutionTracer;
+import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
+
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 
 /**
@@ -19,9 +22,17 @@ public final class InvocationCache
 
     private final HashMap<String, Object> cache;
 
+    private final LivePortalTraceService livePortalTraceService;
+
     public InvocationCache() // Object target )
     {
+        this( null );
+    }
+
+    public InvocationCache( LivePortalTraceService livePortalTraceService )
+    {
         this.cache = new HashMap<String, Object>();
+        this.livePortalTraceService = livePortalTraceService;
     }
 
     private void appendSignature( StringBuffer str, Method method )
@@ -67,6 +78,10 @@ public final class InvocationCache
             {
                 result = invokeReal( targetObject, method, args );
                 this.cache.put( key, result );
+            }
+            else
+            {
+                DatasourceExecutionTracer.traceIsCacheUsed( true, livePortalTraceService );
             }
         }
         else

@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.rendering.PageRendererContext;
 import com.enonic.cms.business.portal.rendering.WindowRenderer;
 import com.enonic.cms.business.portal.rendering.WindowRendererContext;
@@ -43,7 +42,7 @@ public class IsWindowEmptyFunction
             windowRenderContext.setEncodeURIs( pageRendererContext.isEncodeURIs() );
             windowRenderContext.setForceNoCacheUsage( pageRendererContext.forceNoCacheUsage() );
             windowRenderContext.setHttpRequest( pageRendererContext.getHttpRequest() );
-            windowRenderContext.setInvocationCache( new InvocationCache() );
+            windowRenderContext.setInvocationCache( previousPortalFunctionContext.getInvocationCache() );
             windowRenderContext.setLanguage( pageRendererContext.getLanguage() );
             windowRenderContext.setLocale( pageRendererContext.getLocale() );
             windowRenderContext.setMenuItem( pageRendererContext.getMenuItem() );

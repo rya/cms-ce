@@ -16,6 +16,9 @@ import com.enonic.cms.business.portal.datasource.context.DatasourcesContextXmlCr
 import com.enonic.cms.business.portal.datasource.methodcall.MethodCall;
 import com.enonic.cms.business.portal.datasource.methodcall.MethodCallFactory;
 import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
+import com.enonic.cms.business.portal.livetrace.DatasourceExecutionTrace;
+import com.enonic.cms.business.portal.livetrace.DatasourceExecutionTracer;
+import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.portal.ShoppingCart;
@@ -32,6 +35,9 @@ public class DatasourceExecutor
 
     private DatasourcesContextXmlCreator datasourcesContextXmlCreator;
 
+    private LivePortalTraceService livePortalTraceService;
+
+    private DatasourceExecutionTrace trace;
 
     public DatasourceExecutor( DatasourceExecutorContext datasourceExecutorContext )
     {
@@ -61,11 +67,25 @@ public class DatasourceExecutor
         // execute data sources
         for ( Datasource datasource : datasources.getDatasourceElements() )
         {
-            if ( isRunnableByCondition( datasource ) )
+            trace =
+                DatasourceExecutionTracer.startTracing( context.getDatasourcesType(), datasource.getMethodName(), livePortalTraceService );
+            try
             {
-                Document datasourceResultDocument = executeMethodCall( datasource );
-                verticaldataEl.addContent( datasourceResultDocument.getRootElement().detach() );
+                DatasourceExecutionTracer.traceRunnableCondition( trace, datasource.getCondition() );
+
+                boolean runnableByCondition = isRunnableByCondition( datasource );
+                DatasourceExecutionTracer.traceIsExecuted( trace, runnableByCondition );
+                if ( runnableByCondition )
+                {
+                    Document datasourceResultDocument = executeMethodCall( datasource );
+                    verticaldataEl.addContent( datasourceResultDocument.getRootElement().detach() );
+                }
             }
+            finally
+            {
+                DatasourceExecutionTracer.stopTracing( trace, livePortalTraceService );
+            }
+
         }
 
         dataSourceResult.setData( XMLDocumentFactory.create( resultDoc ) );
@@ -143,6 +163,9 @@ public class DatasourceExecutor
     private Document executeMethodCall( Datasource datasource )
     {
         MethodCall methodCall = MethodCallFactory.create( context, datasource );
+
+        DatasourceExecutionTracer.traceMethodCall( methodCall, trace );
+
         return executeMethodCall( datasource, methodCall );
     }
 
@@ -215,4 +238,8 @@ public class DatasourceExecutor
         this.datasourcesContextXmlCreator = datasourcesContextXmlCreator;
     }
 
+    public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
+    {
+        this.livePortalTraceService = livePortalTraceService;
+    }
 }

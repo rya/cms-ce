@@ -18,6 +18,7 @@
         <property name="freemarkerSettings">
             <props>
                 <prop key="number_format">0.######</prop>
+                <prop key="default_encoding">UTF-8</prop>
             </props>
         </property>
     </bean>

@@ -77,7 +77,7 @@ public class AttachmentRequestTrace
     public Long getSizeInBytes()
     {
         return sizeInBytes;
-}
+    }
 
     void setSizeInBytes( Long sizeInBytes )
     {

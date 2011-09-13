@@ -7,6 +7,7 @@ package com.enonic.cms.business.portal.rendering.portalfunctions;
 import java.util.Locale;
 
 import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.rendering.PageRendererContext;
 
 import com.enonic.cms.domain.SitePath;
@@ -40,6 +41,8 @@ public class PortalFunctionsContext
     private SiteURLResolver siteURLResolver;
 
     private PageRendererContext pageRendererContext;
+
+    private InvocationCache invocationCache;
 
     public Locale getLocale()
     {
@@ -149,5 +152,15 @@ public class PortalFunctionsContext
     public void setSitePath( SitePath sitePath )
     {
         this.sitePath = sitePath;
+    }
+
+    public InvocationCache getInvocationCache()
+    {
+        return invocationCache;
+    }
+
+    public void setInvocationCache( InvocationCache invocationCache )
+    {
+        this.invocationCache = invocationCache;
     }
 }

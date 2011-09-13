@@ -4,6 +4,9 @@
  */
 package com.enonic.cms.business.portal.livetrace;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import com.enonic.cms.domain.security.user.QualifiedUsername;
@@ -24,6 +27,10 @@ public class WindowRenderingTrace
     private QualifiedUsername renderer;
 
     private boolean usedCachedResult = false;
+
+    private List<DatasourceExecutionTrace> datasourceExecutionTraceList = new ArrayList<DatasourceExecutionTrace>();
+
+    private InstructionPostProcessingTrace instructionPostProcessingTrace;
 
     WindowRenderingTrace( PortalRequestTrace portalRequestTrace )
     {
@@ -79,5 +86,35 @@ public class WindowRenderingTrace
     public void setUsedCachedResult( boolean value )
     {
         this.usedCachedResult = value;
+    }
+
+    public void addDatasourceExecutionTrace( DatasourceExecutionTrace trace )
+    {
+        this.datasourceExecutionTraceList.add( trace );
+    }
+
+    public boolean hasDatasourceExecutionTraces()
+    {
+        return !datasourceExecutionTraceList.isEmpty();
+    }
+
+    public List<DatasourceExecutionTrace> getDatasourceExecutionTraces()
+    {
+        return datasourceExecutionTraceList;
+    }
+
+    public boolean hasInstructionPostProcessingTrace()
+    {
+        return instructionPostProcessingTrace != null;
+    }
+
+    public InstructionPostProcessingTrace getInstructionPostProcessingTrace()
+    {
+        return instructionPostProcessingTrace;
+    }
+
+    void setInstructionPostProcessingTrace( InstructionPostProcessingTrace instructionPostProcessingTrace )
+    {
+        this.instructionPostProcessingTrace = instructionPostProcessingTrace;
     }
 }

@@ -42,4 +42,9 @@ public class LongestPortalRequests
             list.remove( list.last() );
         }
     }
+
+    public synchronized void clear()
+    {
+        list.clear();
+    }
 }

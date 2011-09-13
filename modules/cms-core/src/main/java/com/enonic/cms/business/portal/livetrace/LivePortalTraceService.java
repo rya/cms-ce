@@ -19,13 +19,21 @@ public interface LivePortalTraceService
 
     WindowRenderingTrace startWindowRenderTracing( PortalRequestTrace portalRequestTrace );
 
+    DatasourceExecutionTrace startPageTemplateDatasourceExecutionTracing( String datasourceMethodName );
+
+    DatasourceExecutionTrace startPortletDatasourceExecutionTracing( String datasourceMethodName );
+
+    InstructionPostProcessingTrace startInstructionPostProcessingTracingForWindow();
+
+    InstructionPostProcessingTrace startInstructionPostProcessingTracingForPage();
+
     AttachmentRequestTrace startAttachmentRequestTracing( PortalRequestTrace portalRequestTrace );
 
     ImageRequestTrace startImageRequestTracing( PortalRequestTrace portalRequestTrace );
 
     PortalRequestTrace getCurrentPortalRequestTrace();
 
-    AttachmentRequestTrace getCurrentAttachmentRequestTrace();
+    DatasourceExecutionTrace getCurrentDatasourceExecutionTrace();
 
     ImageRequestTrace getCurrentImageRequestTrace();
 
@@ -35,13 +43,15 @@ public interface LivePortalTraceService
 
     void stopTracing( WindowRenderingTrace windowRenderingTrace );
 
+    void stopTracing( DatasourceExecutionTrace datasourceExecutionTrace );
+
     void stopTracing( AttachmentRequestTrace attachmentRequestTrace );
 
     void stopTracing( ImageRequestTrace imageRequestTrace );
 
-    List<PortalRequestTrace> getCurrentPortalRequestTraces();
+    void stopTracing( InstructionPostProcessingTrace trace );
 
-    List<PastPortalRequestTrace> getHistoryOfPortalRequests();
+    List<PortalRequestTrace> getCurrentPortalRequestTraces();
 
     List<PastPortalRequestTrace> getHistorySince( long historyNumber );
 
@@ -50,4 +60,10 @@ public interface LivePortalTraceService
     List<PortalRequestTrace> getLongestTimePortalAttachmentRequestTraces();
 
     List<PortalRequestTrace> getLongestTimePortalImageRequestTraces();
+
+    void clearLongestPageRequestsTraces();
+
+    void clearLongestAttachmentRequestTraces();
+
+    void clearLongestImageRequestTraces();
 }

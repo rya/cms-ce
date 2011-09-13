@@ -72,7 +72,7 @@ public class PageRendererFactory
 
     public PageRenderer createPageRenderer( PageRendererContext pageRendererContext )
     {
-        PageRenderer pageRenderer = new PageRenderer( pageRendererContext );
+        PageRenderer pageRenderer = new PageRenderer( pageRendererContext, livePortalTraceService );
 
         pageRenderer.setDataSourceExecutorFactory( datasourceExecutorFactory );
         pageRenderer.setPageTemplateXsltViewTransformer( pageTemplateXsltViewTransformer );
@@ -84,7 +84,6 @@ public class PageRendererFactory
         pageRenderer.setTightestCacheSettingsResolver( tightestCacheSettingsResolver );
         pageRenderer.setTimeService( timeService );
         pageRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
-        pageRenderer.setLivePortalTraceService( livePortalTraceService );
         pageRenderer.setDataSourceService( dataSourceService );
 
         return pageRenderer;
