@@ -1,6 +1,8 @@
 package com.enonic.cms.core.jcr;
 
-import com.google.common.io.Files;
+import java.io.File;
+import java.net.URI;
+
 import org.apache.jackrabbit.api.JackrabbitRepository;
 import org.apache.jackrabbit.core.RepositoryImpl;
 import org.apache.jackrabbit.core.config.RepositoryConfig;
@@ -8,28 +10,28 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import javax.jcr.Repository;
-import java.io.File;
-import java.net.URI;
 
-@Component
+import com.google.common.io.Files;
+
+import com.enonic.cms.core.jcr.wrapper.JcrRepository;
+import com.enonic.cms.core.jcr.wrapper.JcrWrappers;
+
 public final class JcrRepositoryFactory
-    implements FactoryBean<Repository>, InitializingBean, DisposableBean
+    implements FactoryBean<JcrRepository>, InitializingBean, DisposableBean
 {
     private final static String REPOSITORY_CONFIG = "/META-INF/jackrabbit/repository.xml";
 
     private JackrabbitRepository repository;
     private File homeDir;
 
-    public Repository getObject()
+    public JcrRepository getObject()
     {
-        return this.repository;
+        return JcrWrappers.wrap( this.repository );
     }
 
     public Class<?> getObjectType()
     {
-        return Repository.class;
+        return JcrRepository.class;
     }
 
     public boolean isSingleton()

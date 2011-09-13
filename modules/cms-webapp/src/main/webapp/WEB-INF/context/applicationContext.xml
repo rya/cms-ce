@@ -13,9 +13,26 @@
     <context:component-scan base-package="com.enonic.cms.store.dao"/>
     <context:component-scan base-package="com.enonic.cms.core.jaxrs"/>
     <context:component-scan base-package="com.enonic.cms.admin"/>
+    <context:component-scan base-package="com.enonic.cms.tools"/>
+    <context:component-scan base-package="com.enonic.cms.core.jcr"/>
 
-    <!-- Enable if jcr is needed. -->
-    <!-- context:component-scan base-package="com.enonic.cms.core.jcr"/-->
+    <bean id="repository" class="com.enonic.cms.core.jcr.JcrRepositoryFactory">
+      <property name="homeDir" value="${cms.home}/jackrabbit"/>
+    </bean>
+
+    <bean id="jcrRepositoryInitializer" class="com.enonic.cms.core.jcr.migrate.RepositoryBootstrap">
+      <property name="repository" ref="repository"/>
+      <property name="compactNodeDefinitionFile">
+        <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
+          <property name="requireResource" value="true"/>
+          <property name="resources">
+            <list>
+              <value>classpath:com/enonic/cms/core/jcr/cmstypes.cnd</value>
+            </list>
+          </property>
+        </bean>
+      </property>
+    </bean>
 
     <bean id="loadedVerticalProperties" class="com.enonic.cms.core.boot.BootPropertiesFactoryBean"/>
 

@@ -42,6 +42,7 @@ public abstract class AbstractTask
     protected final void logStart(final String message, final Object... args)
     {
         logInfo(message, args);
+        this.stopWatch.reset();
         this.stopWatch.start();
     }
 
