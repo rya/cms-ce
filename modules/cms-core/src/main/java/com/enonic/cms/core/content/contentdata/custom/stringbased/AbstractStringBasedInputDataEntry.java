@@ -91,4 +91,13 @@ public abstract class AbstractStringBasedInputDataEntry
         }
 
     }
+
+    static String stripNewLinesAndFormFeedsAndTabs( String s )
+    {
+        if ( s == null )
+        {
+            return null;
+        }
+        return s.replaceAll( "\n", "" ).replaceAll( "\r", "" ).replaceAll( "\f", "" ).replaceAll( "\t", "" );
+    }
 }

@@ -5,6 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
+
 public final class JdbcDynaRow
 {
     private final static DateFormat DATE_FORMAT =
@@ -48,7 +51,7 @@ public final class JdbcDynaRow
     {
         final Long value = getLong(name);
         return value != null ? value : defValue;
-    }    
+    }
 
     public Boolean getBoolean(final String name)
     {
@@ -70,7 +73,7 @@ public final class JdbcDynaRow
     {
         final Date value = getDate(name);
         return value != null ? value : defValue;
-    }    
+    }
 
     public byte[] getBytes(final String name)
     {
@@ -82,14 +85,15 @@ public final class JdbcDynaRow
         final byte[] value = getBytes(name);
         return value != null ? value : defValue;
     }
-    
+
     public Object getObject(final String name)
     {
-        if (!this.data.containsKey(name)) {
+        String nameKey = (name == null) ? null : name.toLowerCase();
+        if (!this.data.containsKey(nameKey)) {
             throw new IllegalArgumentException("Column [" + name + "] does not exist");
         }
 
-        return this.data.get(name);
+        return this.data.get(nameKey);
     }
 
     public Object getObject(final String name, final Object defValue)
@@ -160,6 +164,16 @@ public final class JdbcDynaRow
             return null;
         } else if (value instanceof byte[]) {
             return (byte[])value;
+        } else if (value instanceof SerialBlob) {
+            SerialBlob blob = (SerialBlob) value;
+            try
+            {
+                return blob.getBytes( 1, (int) blob.length() );
+            }
+            catch ( SerialException e )
+            {
+                throw new IllegalArgumentException( "Cannot convert [" + value.getClass().getName() + "] to bytes", e );
+            }
         } else {
             throw new IllegalArgumentException("Cannot convert [" + value.getClass().getName() + "] to bytes");
         }

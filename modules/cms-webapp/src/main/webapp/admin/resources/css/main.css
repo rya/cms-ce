@@ -11,6 +11,10 @@
     height: 0;
 }
 
+.cms-emphasis {
+    font-style: italic;
+}
+
 /* ----- Overrides ext-all.css ----- */
 
 body,
@@ -21,14 +25,14 @@ body,
 .x-form-display-field {
     font: 11px tahoma,arial,verdana,sans-serif;
 }
+.x-toolbar .sliding-pager-text.x-toolbar-text {
+    color: #04408C !important;
+    font-weight: bold;
+}
 
 .x-html h1 {
     font-size: 2.5em;
     margin: 0
-}
-
-.cms-emphasis {
-    font-style: italic;
 }
 
 /* ----- Launcher ----- */
@@ -188,24 +192,15 @@ img.photo {
 
 /* ----- Accounts Filter Panel ----- */
 
-.facet-navigation,
-.facet-navigation .x-form-item {
-    font-size: 11px !important;
-}
-
-.filter-total {
-    text-align: right;
-}
-
 .facet-header {
     font-weight: bold;
-    margin: 0 0 4px 0
+    margin: 5px 0
 }
 
 .facet-single-select-item,
 .facet-multi-select-item {
     color: #000;
-    margin: 0 0 -2px 20px;
+    margin: 0 0 -2px 15px;
 }
 
 .facet-single-select-item {
@@ -309,24 +304,23 @@ img.photo {
 }
 
 .icon-delete {
-    /*background-image: url("../images/delete.png");*/
     background-image: url("../images/cross.png");
 }
 
 .icon-new {
-    background: url("../images/add.png") no-repeat;
+    background: url("../images/add.png");
 }
 
 .icon-refresh {
-    background: url("../images/arrow_refresh.png") no-repeat;
+    background: url("../images/arrow_refresh.png");
 }
 
 .icon-save {
-    background: url("../images/accept.png") no-repeat;
+    background: url("../images/accept.png");
 }
 
 .icon-cancel {
-    background: url("../images/cancel.png") no-repeat;
+    background: url("../images/cancel.png");
 }
 
 /*-----  Dashboard  -----*/
@@ -466,8 +460,8 @@ img.photo {
 
 /* Large */
 .cms-selected-item-box.large {
-    padding: 7px;
-    margin: 0 5px 5px 0;
+    padding: 3px;
+    margin: 0 10px 10px 0;
 }
 
 .cms-selected-item-box.large .left {
@@ -506,8 +500,8 @@ img.photo {
 
 /* Small */
 .cms-selected-item-box.small {
-    padding: 5px;
-    margin: 0 3px 3px 0;
+    padding: 2px;
+    margin: 0 10px 10px 0;
 }
 
 .cms-selected-item-box.small .left {
@@ -542,4 +536,47 @@ img.photo {
     height: 8px;
     display: block;
     background: transparent url(../../resources/images/cross-sm.png) no-repeat;
+}
+
+/* Edit Form Header */
+.cms-edit-form-header {
+    background-color: #eee;
+    padding: 10px;
+}
+
+.cms-edit-form-header .left {
+    float: left;
+    margin-right: 16px;
+}
+
+.cms-edit-form-header .left img {
+    width: 40px;
+}
+
+.cms-edit-form-header .right {
+    float: left;
+}
+
+.cms-edit-form-header .right h1 {
+    font-size: 18px;
+    float: left;
+}
+
+.cms-edit-form-header .edit-button {
+    display: block;
+    margin: 2px 0 0 5px;
+    padding: 3px;
+    border: 1px solid TRANSPARENT;
+    background: TRANSPARENT url(../../resources/images/pencil.png) no-repeat;
+    float: left;
+    width: 16px;
+    height: 16px;
+}
+
+.cms-edit-form-header .edit-button:hover {
+    border-color: #c0c0c0;
+}
+
+.cms-edit-form-header .right p {
+    margin: 5px 0 0 0;
 }

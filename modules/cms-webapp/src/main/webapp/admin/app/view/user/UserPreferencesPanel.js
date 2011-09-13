@@ -27,12 +27,14 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
                     }
                 }
             };
+
         var groupsPanel = {
             xtype: 'panel',
             layout: {
                 type: 'vbox',
                 align: 'stretchmax'
             },
+            border: 0,
             title: 'Groups',
             items: [groupSearch, groupPanel]
         };
@@ -58,6 +60,7 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
             itemId: 'groupPanel',
             groupKeys: groupKeys,
             layout: 'column',
+            border: 0,
             flex: 1,
             removeItem: function(item){
                 this.remove(item);
@@ -75,4 +78,4 @@ Ext.define( 'CMS.view.user.UserPreferencesPanel', {
             return groupPanel;
         }
     }
-} )
+});

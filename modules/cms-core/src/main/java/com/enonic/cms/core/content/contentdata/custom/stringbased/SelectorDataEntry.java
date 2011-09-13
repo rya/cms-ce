@@ -18,10 +18,9 @@ public class SelectorDataEntry
 {
     public SelectorDataEntry( DataEntryConfig config, String value )
     {
-        super( config, DataEntryType.SELECTOR, value );
+        super( config, DataEntryType.SELECTOR, stripNewLinesAndFormFeedsAndTabs( value ) );
     }
 
-    @Override
     public String getValueAsTitle()
     {
         Preconditions.checkNotNull( getValue() );

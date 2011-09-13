@@ -6,6 +6,7 @@ Ext.define( 'CMS.controller.UserController', {
     models: ['UserModel', 'UserFieldModel', 'UserstoreConfigModel', 'CountryModel', 'CallingCodeModel',
         'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
+        'user.Toolbar',
         'user.GridPanel',
         'user.DetailPanel',
         'user.FilterPanel',
@@ -186,6 +187,12 @@ Ext.define( 'CMS.controller.UserController', {
            closable: false,
            xtype: 'panel',
            layout: 'border',
+           dockedItems: [
+               {
+                   xtype: 'accountsToolbar',
+                   dock: 'top'
+               }
+           ],
            items: [
                {
                    region: 'west',
@@ -360,15 +367,30 @@ Ext.define( 'CMS.controller.UserController', {
 
     setDetailsToolbarDisabled: function()
     {
-        var disable = !this.gridHasSelection();
-        Ext.ComponentQuery.query( '*[action=edit]' )[0].setDisabled( disable );
-        Ext.ComponentQuery.query( '*[action=showDeleteWindow]' )[0].setDisabled( disable );
-        Ext.ComponentQuery.query( '*[action=changePassword]' )[0].setDisabled( disable );
+        var buttons = [], button;
+        buttons.push( Ext.ComponentQuery.query( '*[action=edit]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( '*[action=showDeleteWindow]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( '*[action=changePassword]' )[0] );
+
+        var selectionCount = this.getGridSelectionCount();
+        var multipleSelection = selectionCount > 1;
+        var disable = selectionCount === 0;
+
+        for ( var i = 0; i < buttons.length; i++ )
+        {
+            button = buttons[i];
+            button.setDisabled(disable);
+
+            if ( multipleSelection && button.disableOnMultipleSelection === true )
+            {
+                button.setDisabled(true);
+            }
+        }
     },
 
-    gridHasSelection: function()
+    getGridSelectionCount: function()
     {
-        return this.getUserGrid().getSelectionModel().getSelection().length == 1;
+        return this.getUserGrid().getSelectionModel().getSelection().length;
     },
 
     countryChangeHandler: function( field, newValue, oldValue, options )

@@ -5,8 +5,13 @@ import javax.jcr.RepositoryException;
 public final class JcrException
     extends RuntimeException
 {
-    public static JcrException wrap(final RepositoryException e)
+    private JcrException( final RepositoryException e )
     {
-        return null;
+        super( e );
+    }
+
+    public static JcrException wrap( final RepositoryException e )
+    {
+        return new JcrException( e );
     }
 }

@@ -80,7 +80,7 @@ public final class JdbcDynaResult
     {
         final Map<String, Object> data = Maps.newHashMap();
         for (int i = 0; i < this.columnNames.length; i++) {
-            data.put(this.columnNames[i], this.rowSet.getObject(i + 1));
+            data.put(this.columnNames[i].toLowerCase(), this.rowSet.getObject(i + 1));
         }
 
         return new JdbcDynaRow(data);

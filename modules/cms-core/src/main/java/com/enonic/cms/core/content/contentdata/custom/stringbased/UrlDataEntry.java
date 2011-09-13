@@ -19,10 +19,9 @@ public class UrlDataEntry
 {
     public UrlDataEntry( DataEntryConfig config, String value )
     {
-        super( config, DataEntryType.URL, value );
+        super( config, DataEntryType.URL, stripNewLinesAndFormFeedsAndTabs( value ) );
     }
 
-    @Override
     public String getValueAsTitle()
     {
         Preconditions.checkNotNull( getValue() );

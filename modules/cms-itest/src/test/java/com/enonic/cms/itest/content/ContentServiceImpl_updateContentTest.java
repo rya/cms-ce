@@ -300,7 +300,7 @@ public class ContentServiceImpl_updateContentTest
         {
             contentService.updateContent( command );
             fail( "Expected exception" );
-}
+        }
         catch ( AssertionError e )
         {
             throw e;

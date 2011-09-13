@@ -21,8 +21,8 @@ Ext.define( 'App.controller.GridPanelController', {
         // Add listeners to GUI controls.
         this.control({
             'userstoreGrid': {
-                selectionchange: function(view, selections, eOpts) {
-                    this.application.fireEvent('updateDetailsPanel', selections )
+                selectionchange: function(selectionModel, selected, eOpts) {
+                    this.application.fireEvent('updateDetailsPanel', selected )
                 },
 
                 itemdblclick: function(view, record, item, index, e, eOpts) {

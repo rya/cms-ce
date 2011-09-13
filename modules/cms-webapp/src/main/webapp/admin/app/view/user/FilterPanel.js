@@ -7,57 +7,28 @@ Ext.define('CMS.view.user.FilterPanel', {
     split: true,
     collapsible: true,
 
-    facetType: {
-        listeners : {
-           change: function(field, newVal, oldVal) {
-               var boxLabelEl = field.boxLabelEl;
-               if (field.checked) {
-                   boxLabelEl.addCls('facet-selected');
-               } else {
-                   boxLabelEl.removeCls('facet-selected');
-               }
-           },
-           scope: this.el
-        }
-    },
-
-    facetUserstore: {
-        listeners : {
-           render: function() {
-              Ext.fly(this.el).on('click', function(e, t) {
-                  Ext.select('.facet-single-select-item').each(function(el) {
-                      if (el.dom == t) {
-                          el.addCls('facet-selected');
-                      } else {
-                          el.removeCls('facet-selected');
-                      }
-                  }, this);
-              });
-           },
-           scope: this.el
-        }
-    },
-
     initComponent: function() {
         var search = {
             xtype: 'fieldcontainer',
             layout: 'hbox',
 
-            items: [{
-                xtype: 'textfield',
-                enableKeyEvents: true,
-                bubbleEvents: ['specialkey'],
-                id: 'filter',
-                name: 'filter',
-                flex: 1
-            },{
-                xtype: 'button',
-                iconCls: 'icon-find',
-                action: 'search',
-                margins: '0 0 0 5'
-            }]
+            items: [
+                {
+                    xtype: 'textfield',
+                    enableKeyEvents: true,
+                    bubbleEvents: ['specialkey'],
+                    id: 'filter',
+                    name: 'filter',
+                    flex: 1
+                },
+                {
+                    xtype: 'button',
+                    iconCls: 'icon-find',
+                    action: 'search',
+                    margins: '0 0 0 5'
+                }
+            ]
         };
-
 
         var filter = {
             layout: {
@@ -71,40 +42,49 @@ Ext.define('CMS.view.user.FilterPanel', {
                 margins: '0 0 0 0'
             },
 
-            items: [search, {
-                xtype: 'label',
-                text: '1025 Total',
-                cls: 'filter-total'
+            items: [
+                search,
+                {
+                    xtype: 'label',
+                    text: 'Type',
+                    cls: 'facet-header'
+                },
+                {
+                    xtype: 'checkbox',
+                    boxLabel: 'Users (917)',
+                    cls: 'facet-multi-select-item',
+                    checkedCls: 'x-form-cb-checked facet-selected'
+                },
+                {
+                    xtype: 'checkbox',
+                    boxLabel: 'Groups (5)',
+                    cls: 'facet-multi-select-item',
+                    checkedCls: 'x-form-cb-checked facet-selected'
+                },
+                {
+                    xtype: 'label',
+                    text: 'Userstore',
+                    cls: 'facet-header'
+                },
+                {
+                    xtype: 'radiogroup',
+                    columns: 1,
+                    vertical: true,
 
-            }, {
-                xtype: 'label',
-                text: 'Type',
-                cls: 'facet-header'
-            }, {
-                xtype: 'checkbox',
-                boxLabel: 'Users (917)',
-                cls: 'facet-multi-select-item',
-                listeners: this.facetType.listeners
-            }, {
-                xtype: 'checkbox',
-                boxLabel: 'Groups (5)',
-                cls: 'facet-multi-select-item',
-                listeners: this.facetType.listeners
-            }, {
-                xtype: 'label',
-                text: 'Userstore',
-                cls: 'facet-header'
-            }, {
-                xtype: 'label',
-                text: 'default (922)',
-                cls: 'facet-single-select-item',
-                listeners: this.facetUserstore.listeners
-            }, {
-                xtype: 'label',
-                text: 'global (124)',
-                cls: 'facet-single-select-item',
-                listeners: this.facetUserstore.listeners
-            }]
+                    defaults: {
+                        name: 'userstore',
+                        cls: 'facet-single-select-item',
+                        checkedCls: 'x-form-cb-checked facet-selected',
+                        width: 170
+                    },
+
+                    items: [
+                        { boxLabel: 'default (922)', inputValue: '1', checked: true },
+                        { boxLabel: 'global (124)', inputValue: '2'},
+                        { boxLabel: 'department 5 (748)', inputValue: '3'}
+                    ]
+                }
+            ]
         };
 
  		Ext.apply(this, filter);

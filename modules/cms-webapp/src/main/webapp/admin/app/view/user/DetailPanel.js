@@ -5,43 +5,23 @@ Ext.define('CMS.view.user.DetailPanel', {
     title: 'Details',
     split: true,
     autoScroll: true,
-    layout: 'fit',
     layout: 'card',
     collapsible: true,
 
     initComponent: function() {
-
-        this.dockedItems = [
-            {
-                dock: 'top',
-                xtype: 'toolbar',
-                border: false,
-                padding: 5,
-                items: [
-                    {
-                        text: 'Edit User',
-                        iconCls: 'icon-edit-user',
-                        action: 'edit'
-                    },
-                    {
-                        text: 'Delete User',
-                        iconCls: 'icon-delete-user',
-                        action: 'showDeleteWindow'
-                    },
-                    '-',
-                    {
-                        text: 'Change Password',
-                        iconCls: 'icon-change-password',
-                        action: 'changePassword'
-                    }
-                ]
-            }
-        ];
         var largeBoxesPanel = this.createLargeBoxSelection();
         var smallBoxesPanel = this.createSmallBoxSelection();
         var detailsPanel = this.createSingleBoxSelection();
         this.items = [detailsPanel, largeBoxesPanel, smallBoxesPanel];
         this.callParent(arguments);
+//        this.down('#largeBoxPanel').on('click', function(e, t){
+//            //e.stopEvent();
+//            alert('link clicked');
+//        }, this, {/*target: 'a.remove-selection'*/});
+//        this.down('#smallBoxPanel').on('click', function(e, t){
+//            e.stopEvent();
+//            alert('link clicked');
+//        }, null, {target: 'a.remove-selection'});
     },
 
     showMultipleSelection: function(data, detailed){
@@ -130,12 +110,15 @@ Ext.define('CMS.view.user.DetailPanel', {
                     }
 
                 } );
+
         var panel = {
             xtype: 'panel',
             itemId: 'singleDetailsPanel',
             styleHtmlContent: true,
+            border: 0,
             tpl: tpl
-        }
+        };
+
         return panel;
     },
 
@@ -148,17 +131,26 @@ Ext.define('CMS.view.user.DetailPanel', {
            '<h2>{displayName}</h2>' +
            '<p>{userStore}/{name}</p></div>' +
            '<div class="right">' +
-           ' <a href=""></a></div></div>' +
+           ' <a id="{key}" class="remove-selection" href="javascript:;"></a></div></div>' +
            '</tpl>');
+
         var panel = {
             xtype: 'panel',
             itemId: 'largeBoxPanel',
             styleHtmlContent: true,
             autoScroll: true,
+            listeners: {
+                click: {
+                    element: 'body',
+                    fn: this.deselectItem,
+                    scope: this
+                }
+            },
             padding: 10,
             border: 0,
             tpl: tpl
-        }
+        };
+
         return panel;
     },
 
@@ -170,18 +162,41 @@ Ext.define('CMS.view.user.DetailPanel', {
             '<div class="cms-selected-item-box center">' +
             '<h2>{displayName}</h2></div>' +
             '<div class="cms-selected-item-box right">' +
-            '<a href="javascript;"></a></div></div>'+
+            '<a id="{key}" class="remove-selection" href="javascript:;"></a></div></div>'+
             '</tpl>');
+
         var panel = {
             xtype: 'panel',
             itemId: 'smallBoxPanel',
             styleHtmlContent: true,
+            listeners: {
+                click: {
+                    element: 'body',
+                    fn: this.deselectItem,
+                    scope: this
+                }
+            },
             autoScroll: true,
             padding: 10,
             border: 0,
             tpl: tpl
-        }
+        };
+
         return panel;
+    },
+
+    deselectItem: function(e, t){
+        var className = t.attributes.getNamedItem('class').nodeValue;
+        if (className == 'remove-selection'){
+            var key = t.attributes.getNamedItem('id').nodeValue;
+            var userGridSelModel = this.up('cmsTabPanel').down('userGrid').getSelectionModel();
+            var selection = userGridSelModel.getSelection();
+            Ext.each(selection, function(item){
+                if (item.get('key') == key){
+                    userGridSelModel.deselect(item);
+                }
+            });
+        }
     },
 
     generateUserButton: function(userData, shortInfo){
