@@ -530,6 +530,10 @@
             <id>enonic.repo</id>
             <url>http://repo.enonic.com/maven</url>
         </repository>
+        <repository>
+            <id>se-jcr-repo</id>
+            <url>https://src.springframework.org/svn/se-jcr/repo/</url>
+        </repository>
     </repositories>
 
 </project>
