@@ -25,19 +25,7 @@ Ext.define( 'CMS.view.user.AddressContainer', {
         });
         Ext.Array.include(this.items, button);
         this.callParent( arguments );
-        this.on("drop", this.doLayout, this);
-    },
-
-    initEvents: function () {
-        this.callParent();
-        this.dd = Ext.create("CMS.view.user.AddressDropTarget", this, this.dropConfig)
-    },
-
-    beforeDestroy: function () {
-        if (this.dd) {
-            this.dd.unreg()
-        }
-        this.callParent();
+        var containerDDTarget = new Ext.dd.DDTarget(this.itemId, 'address');
     }
 
 })
