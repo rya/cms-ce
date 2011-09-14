@@ -5,7 +5,9 @@
 package com.enonic.vertical;
 
 import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
+
 import com.enonic.cms.framework.util.PropertiesUtil;
 
 /**
@@ -158,9 +160,13 @@ public final class VerticalProperties
         return getProperty( "cms.enonic.vertical.presentation.dataSource.getUrl.userAgent" );
     }
 
-
     public String getDatasourceDefaultResultRootElement()
     {
         return getProperty( "cms.datasource.defaultResultRootElement" );
+    }
+
+    public boolean doShowDetailedErrorInformation()
+    {
+        return !"false".equals( getProperty( "cms.error.page.detailInformation", "true" ) );
     }
 }

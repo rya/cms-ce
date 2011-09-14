@@ -50,7 +50,7 @@ public class ImageRequestAccessResolver
         this.contentDao = contentDao;
         this.contentAccessResolver = contentAccessResolver;
     }
-
+                                  
     public ImageRequestAccessResolver imageRequester( UserEntity requester )
     {
         this.imageRequester = requester;

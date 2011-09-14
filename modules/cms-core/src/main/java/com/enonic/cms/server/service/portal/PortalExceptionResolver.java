@@ -49,7 +49,7 @@ import com.enonic.cms.domain.portal.ResourceNotFoundException;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 public class PortalExceptionResolver
-        implements HandlerExceptionResolver
+    implements HandlerExceptionResolver
 {
 
     private static final String ATTRIBUTE_ALREADY_PROCESSING_EXCEPTION = "ALREADY_PROCESSING_EXCEPTION";
@@ -96,9 +96,8 @@ public class PortalExceptionResolver
     {
 
         final Throwable causingExeption;
-        if ( isExceptionAnyOfThose( outerException,
-                                    new Class[]{DefaultRequestException.class, AttachmentRequestException.class,
-                                            ImageRequestException.class} ) )
+        if ( isExceptionAnyOfThose( outerException, new Class[]{DefaultRequestException.class, AttachmentRequestException.class,
+            ImageRequestException.class} ) )
         {
             // Have to unwrap these exceptions to get the causing exception
             causingExeption = outerException.getCause();
@@ -133,7 +132,8 @@ public class PortalExceptionResolver
         if ( isExceptionAnyOfThose( causingException, new Class[]{ResourceNotFoundException.class} ) )
         {
             ResourceNotFoundException resourceNotFoundException = (ResourceNotFoundException) causingException;
-            boolean ignore = resourceNotFoundException.endsWithIgnoreCase( "favicon.ico" ) || resourceNotFoundException.endsWithIgnoreCase( "robots.txt" );
+            boolean ignore = resourceNotFoundException.endsWithIgnoreCase( "favicon.ico" ) ||
+                resourceNotFoundException.endsWithIgnoreCase( "robots.txt" );
             if ( ignore )
             {
                 // skipping logging
@@ -147,9 +147,12 @@ public class PortalExceptionResolver
             return;
         }
 
-        final boolean outerExceptionIsPortalRequestException = isExceptionAnyOfThose( outerException, new Class[]{
-                DefaultRequestException.class, AttachmentRequestException.class, ImageRequestException.class} );
-        final boolean innerExceptionIsQuietException = isExceptionAnyOfThose( causingException, new Class[]{StacktraceLoggingUnrequired.class} );
+        final boolean outerExceptionIsPortalRequestException = isExceptionAnyOfThose( outerException,
+                                                                                      new Class[]{DefaultRequestException.class,
+                                                                                          AttachmentRequestException.class,
+                                                                                          ImageRequestException.class} );
+        final boolean innerExceptionIsQuietException =
+            isExceptionAnyOfThose( causingException, new Class[]{StacktraceLoggingUnrequired.class} );
 
         if ( outerExceptionIsPortalRequestException && innerExceptionIsQuietException )
         {
@@ -191,8 +194,7 @@ public class PortalExceptionResolver
         StringBuffer s = new StringBuffer();
         s.append( "Request information:\n" );
         s.append( " - cms.originalURL: " ).append( request.getAttribute( Attribute.ORIGINAL_URL ) ).append( "\n" );
-        s.append( " - cms.originalSitePath: " ).append( request.getAttribute( Attribute.ORIGINAL_SITEPATH ) ).append(
-                "\n" );
+        s.append( " - cms.originalSitePath: " ).append( request.getAttribute( Attribute.ORIGINAL_SITEPATH ) ).append( "\n" );
         s.append( " - http.queryString: " ).append( request.getQueryString() ).append( "\n" );
         s.append( " - http.requestURI: " ).append( request.getRequestURI() ).append( "\n" );
         s.append( " - http.remoteAddress: " ).append( request.getRemoteAddr() ).append( "\n" );
@@ -217,8 +219,8 @@ public class PortalExceptionResolver
             {
                 ContentNameMismatchException contentNameMismatchException = (ContentNameMismatchException) exception;
 
-                return new ContentNameMismatchClientError( HttpServletResponse.SC_NOT_FOUND, exception.getMessage(),
-                                                           exception, contentNameMismatchException.getContentKey(),
+                return new ContentNameMismatchClientError( HttpServletResponse.SC_NOT_FOUND, exception.getMessage(), exception,
+                                                           contentNameMismatchException.getContentKey(),
                                                            contentNameMismatchException.getRequestedContentName() );
             }
 
@@ -241,7 +243,8 @@ public class PortalExceptionResolver
     private ModelAndView handleExceptions( HttpServletRequest request, Throwable exception, AbstractBaseError error )
     {
 
-        if ( isExceptionAnyOfThose( exception, new Class[]{InvalidKeyException.class} ) && ( (InvalidKeyException) exception ).forClass( SiteKey.class ) )
+        if ( isExceptionAnyOfThose( exception, new Class[]{InvalidKeyException.class} ) &&
+            ( (InvalidKeyException) exception ).forClass( SiteKey.class ) )
         {
             return getExceptionPage( request, error );
         }
@@ -307,6 +310,25 @@ public class PortalExceptionResolver
     }
 
     private ModelAndView getExceptionPage( HttpServletRequest request, AbstractBaseError e )
+    {
+        if ( VerticalProperties.getVerticalProperties().doShowDetailedErrorInformation() )
+        {
+            return createFullExceptionPage( request, e );
+        }
+
+        return createMinimalExceptionPage( request, e );
+    }
+
+    private ModelAndView createMinimalExceptionPage( HttpServletRequest request, AbstractBaseError e )
+    {
+        Map<String, Object> model = new HashMap<String, Object>();
+        SiteErrorDetails siteErrorDetails = new SiteErrorDetails( request, e.getCause(), e.getStatusCode() );
+        model.put( "details", siteErrorDetails );
+
+        return new ModelAndView( "errorPageMinimal", model );
+    }
+
+    private ModelAndView createFullExceptionPage( HttpServletRequest request, AbstractBaseError e )
     {
         Map<String, Object> model = new HashMap<String, Object>();
         model.put( "details", new SiteErrorDetails( request, e.getCause(), e.getStatusCode() ) );
