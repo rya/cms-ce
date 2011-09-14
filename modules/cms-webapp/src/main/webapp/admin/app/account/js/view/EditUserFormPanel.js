@@ -215,7 +215,7 @@ Ext.define( 'App.view.EditUserFormPanel', {
             displayField = 'englishName';
         } else if ( field.type == 'region' )
         {
-            fieldStore = new CMS.store.RegionStore();
+            fieldStore = new App.store.RegionStore();
             valueField = 'code';
             displayField = 'englishName';
         } else if ( field.type == 'locale' )
@@ -396,7 +396,7 @@ Ext.define( 'App.view.EditUserFormPanel', {
         if ( field.iso )
         {
             var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
-            var regionStore = new CMS.store.RegionStore();
+            var regionStore = new App.store.RegionStore();
             var countryField = {
                 xtype: 'combobox',
                 store: countryStore,

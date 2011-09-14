@@ -37,6 +37,8 @@ import com.enonic.cms.portal.datasource.DatasourcesType;
 import com.enonic.cms.portal.instruction.PostProcessInstructionContext;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
 import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
+import com.enonic.cms.portal.livetrace.InstructionPostProcessingTrace;
+import com.enonic.cms.portal.livetrace.InstructionPostProcessingTracer;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.portal.livetrace.PageRenderingTrace;
 import com.enonic.cms.portal.livetrace.PageRenderingTracer;
@@ -98,10 +100,11 @@ public class PageRenderer
 
     private DataSourceService dataSourceService;
 
-    protected PageRenderer( PageRendererContext pageRendererContext )
+    protected PageRenderer( PageRendererContext pageRendererContext, LivePortalTraceService livePortalTraceService )
     {
         this.context = pageRendererContext;
-        this.invocationCache = new InvocationCache();
+        this.invocationCache = new InvocationCache( livePortalTraceService );
+        this.livePortalTraceService = livePortalTraceService;
     }
 
     public RenderedPageResult renderPage( PageTemplateEntity pageTemplate )
@@ -242,6 +245,7 @@ public class PageRenderer
         PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey();
 
         PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
+        portalFunctionsContext.setInvocationCache( invocationCache );
         portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );
         portalFunctionsContext.setSite( context.getSite() );
@@ -311,24 +315,32 @@ public class PageRenderer
         windowRenderContext.setSitePath( context.getSitePath() );
         windowRenderContext.setOriginalUrl( context.getOriginalUrl() );
 
-        PostProcessInstructionContext postProcessInstructionContext = new PostProcessInstructionContext();
-        postProcessInstructionContext.setSite( context.getSite() );
-        postProcessInstructionContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
-        postProcessInstructionContext.setPreviewContext( context.getPreviewContext() );
-        postProcessInstructionContext.setWindowRendererContext( windowRenderContext );
-        postProcessInstructionContext.setHttpRequest( context.getHttpRequest() );
-        postProcessInstructionContext.setInContextOfWindow( false );
-        postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( siteURLResolver );
+        final InstructionPostProcessingTrace instructionPostProcessingTrace =
+            InstructionPostProcessingTracer.startTracingForPage( livePortalTraceService );
+        try
+        {
+            PostProcessInstructionContext postProcessInstructionContext = new PostProcessInstructionContext();
+            postProcessInstructionContext.setSite( context.getSite() );
+            postProcessInstructionContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
+            postProcessInstructionContext.setPreviewContext( context.getPreviewContext() );
+            postProcessInstructionContext.setWindowRendererContext( windowRenderContext );
+            postProcessInstructionContext.setHttpRequest( context.getHttpRequest() );
+            postProcessInstructionContext.setInContextOfWindow( false );
+            postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( siteURLResolver );
 
-        postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( createSiteURLResolver( true ) );
-        postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
+            postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( createSiteURLResolver( true ) );
+            postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
 
-        PostProcessInstructionProcessor postProcessInstructionProcessor =
-            new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
+            PostProcessInstructionProcessor postProcessInstructionProcessor =
+                new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
 
-        String evaluatePostProcessInstructions = postProcessInstructionProcessor.processInstructions( pageMarkup );
+            return postProcessInstructionProcessor.processInstructions( pageMarkup );
 
-        return evaluatePostProcessInstructions;
+        }
+        finally
+        {
+            InstructionPostProcessingTracer.stopTracing( instructionPostProcessingTrace, livePortalTraceService );
+        }
     }
 
     private SiteURLResolver createSiteURLResolver( boolean escapeHtmlParameterAmps )
@@ -545,11 +557,6 @@ public class PageRenderer
     public void setPostProcessInstructionExecutor( PostProcessInstructionExecutor postProcessInstructionExecutor )
     {
         this.postProcessInstructionExecutor = postProcessInstructionExecutor;
-    }
-
-    public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
-    {
-        this.livePortalTraceService = livePortalTraceService;
     }
 
     public void setDataSourceService( DataSourceService dataSourceService )
