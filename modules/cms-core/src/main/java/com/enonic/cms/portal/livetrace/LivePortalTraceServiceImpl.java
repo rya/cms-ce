@@ -47,8 +47,12 @@ public class LivePortalTraceServiceImpl
 
     private final static ThreadLocal<PortalRequestTrace> PORTAL_REQUEST_TRACE_THREAD_LOCAL = new ThreadLocal<PortalRequestTrace>();
 
-    private final static ThreadLocal<AttachmentRequestTrace> ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL =
-        new ThreadLocal<AttachmentRequestTrace>();
+    private final static ThreadLocal<PageRenderingTrace> PAGE_RENDERING_TRACE_THREAD_LOCAL = new ThreadLocal<PageRenderingTrace>();
+
+    private final static ThreadLocal<DatasourceExecutionTrace> DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL =
+        new ThreadLocal<DatasourceExecutionTrace>();
+
+    private final static ThreadLocal<WindowRenderingTrace> WINDOW_RENDERING_TRACE_THREAD_LOCAL = new ThreadLocal<WindowRenderingTrace>();
 
     private final static ThreadLocal<ImageRequestTrace> IMAGE_REQUEST_TRACE_THREAD_LOCAL = new ThreadLocal<ImageRequestTrace>();
 
@@ -86,7 +90,9 @@ public class LivePortalTraceServiceImpl
         portalRequestTrace.setStartTime( timeService.getNowAsDateTime() );
 
         PORTAL_REQUEST_TRACE_THREAD_LOCAL.set( portalRequestTrace );
-        ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL.set( null );
+        PAGE_RENDERING_TRACE_THREAD_LOCAL.set( null );
+        WINDOW_RENDERING_TRACE_THREAD_LOCAL.set( null );
+        DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.set( null );
         return portalRequestTrace;
     }
 
@@ -124,6 +130,9 @@ public class LivePortalTraceServiceImpl
         PageRenderingTrace pageRenderTrace = new PageRenderingTrace( portalRequestTrace );
         pageRenderTrace.setStartTime( timeService.getNowAsDateTime() );
         portalRequestTrace.setPageRenderingTrace( pageRenderTrace );
+
+        PAGE_RENDERING_TRACE_THREAD_LOCAL.set( pageRenderTrace );
+
         return pageRenderTrace;
     }
 
@@ -133,6 +142,8 @@ public class LivePortalTraceServiceImpl
         Preconditions.checkNotNull( pageRenderTrace );
 
         pageRenderTrace.setStopTime( timeService.getNowAsDateTime() );
+
+        PAGE_RENDERING_TRACE_THREAD_LOCAL.set( null );
     }
 
     public WindowRenderingTrace startWindowRenderTracing( PortalRequestTrace portalRequestTrace )
@@ -152,7 +163,79 @@ public class LivePortalTraceServiceImpl
             portalRequestTrace.setWindowRenderingTrace( windowRenderingTrace );
         }
         windowRenderingTrace.setStartTime( timeService.getNowAsDateTime() );
+
+        WINDOW_RENDERING_TRACE_THREAD_LOCAL.set( windowRenderingTrace );
+
         return windowRenderingTrace;
+    }
+
+    public DatasourceExecutionTrace startPageTemplateDatasourceExecutionTracing( String datasourceMethodName )
+    {
+        checkEnabled();
+
+        PageRenderingTrace pageRenderingTrace = PAGE_RENDERING_TRACE_THREAD_LOCAL.get();
+        if ( pageRenderingTrace == null )
+        {
+            return null;
+        }
+
+        DatasourceExecutionTrace datasourceExecutionTrace = new DatasourceExecutionTrace( datasourceMethodName );
+        datasourceExecutionTrace.setStartTime( timeService.getNowAsDateTime() );
+
+        pageRenderingTrace.addDatasourceExecutionTrace( datasourceExecutionTrace );
+
+        DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.set( datasourceExecutionTrace );
+
+        return datasourceExecutionTrace;
+    }
+
+    public DatasourceExecutionTrace startPortletDatasourceExecutionTracing( String datasourceMethodName )
+    {
+        checkEnabled();
+        WindowRenderingTrace windowRenderingTrace = WINDOW_RENDERING_TRACE_THREAD_LOCAL.get();
+        if ( windowRenderingTrace == null )
+        {
+            return null;
+        }
+
+        DatasourceExecutionTrace datasourceExecutionTrace = new DatasourceExecutionTrace( datasourceMethodName );
+        datasourceExecutionTrace.setStartTime( timeService.getNowAsDateTime() );
+
+        windowRenderingTrace.addDatasourceExecutionTrace( datasourceExecutionTrace );
+
+        DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.set( datasourceExecutionTrace );
+
+        return datasourceExecutionTrace;
+    }
+
+    public InstructionPostProcessingTrace startInstructionPostProcessingTracingForWindow()
+    {
+        checkEnabled();
+        WindowRenderingTrace windowRenderingTrace = WINDOW_RENDERING_TRACE_THREAD_LOCAL.get();
+        if ( windowRenderingTrace == null )
+        {
+            return null;
+        }
+
+        InstructionPostProcessingTrace instructionPostProcessingTrace = new InstructionPostProcessingTrace();
+        instructionPostProcessingTrace.setStartTime( timeService.getNowAsDateTime() );
+        windowRenderingTrace.setInstructionPostProcessingTrace( instructionPostProcessingTrace );
+        return instructionPostProcessingTrace;
+    }
+
+    public InstructionPostProcessingTrace startInstructionPostProcessingTracingForPage()
+    {
+        checkEnabled();
+        PageRenderingTrace pageRenderingTrace = PAGE_RENDERING_TRACE_THREAD_LOCAL.get();
+        if ( pageRenderingTrace == null )
+        {
+            return null;
+        }
+
+        InstructionPostProcessingTrace instructionPostProcessingTrace = new InstructionPostProcessingTrace();
+        instructionPostProcessingTrace.setStartTime( timeService.getNowAsDateTime() );
+        pageRenderingTrace.setInstructionPostProcessingTrace( instructionPostProcessingTrace );
+        return instructionPostProcessingTrace;
     }
 
     public void stopTracing( WindowRenderingTrace windowRenderingTrace )
@@ -161,6 +244,8 @@ public class LivePortalTraceServiceImpl
         Preconditions.checkNotNull( windowRenderingTrace );
 
         windowRenderingTrace.setStopTime( timeService.getNowAsDateTime() );
+
+        WINDOW_RENDERING_TRACE_THREAD_LOCAL.set( null );
     }
 
     public AttachmentRequestTrace startAttachmentRequestTracing( PortalRequestTrace portalRequestTrace )
@@ -171,7 +256,6 @@ public class LivePortalTraceServiceImpl
         AttachmentRequestTrace newTrace = new AttachmentRequestTrace( portalRequestTrace );
         newTrace.setStartTime( timeService.getNowAsDateTime() );
         portalRequestTrace.setAttachmentRequestTrace( newTrace );
-        ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL.set( newTrace );
         return newTrace;
     }
 
@@ -193,6 +277,24 @@ public class LivePortalTraceServiceImpl
         Preconditions.checkNotNull( attachmentRequestTrace );
 
         attachmentRequestTrace.setStopTime( timeService.getNowAsDateTime() );
+    }
+
+    public void stopTracing( DatasourceExecutionTrace datasourceExecutionTrace )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( datasourceExecutionTrace );
+
+        datasourceExecutionTrace.setStopTime( timeService.getNowAsDateTime() );
+
+        DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.set( null );
+    }
+
+    public void stopTracing( InstructionPostProcessingTrace instructionPostProcessingTrace )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( instructionPostProcessingTrace );
+
+        instructionPostProcessingTrace.setStopTime( timeService.getNowAsDateTime() );
     }
 
     public void stopTracing( ImageRequestTrace imageRequestTrace )
@@ -231,13 +333,6 @@ public class LivePortalTraceServiceImpl
         return longestPortalImageRequests.getList();
     }
 
-    public List<PastPortalRequestTrace> getHistoryOfPortalRequests()
-    {
-        checkEnabled();
-
-        return historyOfPortalRequests.getList();
-    }
-
     public List<PastPortalRequestTrace> getHistorySince( long historyRecordNumber )
     {
         checkEnabled();
@@ -250,14 +345,29 @@ public class LivePortalTraceServiceImpl
         return PORTAL_REQUEST_TRACE_THREAD_LOCAL.get();
     }
 
-    public AttachmentRequestTrace getCurrentAttachmentRequestTrace()
+    public DatasourceExecutionTrace getCurrentDatasourceExecutionTrace()
     {
-        return ATTACHMENT_REQUEST_TRACE_THREAD_LOCAL.get();
+        return DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.get();
     }
 
     public ImageRequestTrace getCurrentImageRequestTrace()
     {
         return IMAGE_REQUEST_TRACE_THREAD_LOCAL.get();
+    }
+
+    public void clearLongestPageRequestsTraces()
+    {
+        longestPortalPageRequests.clear();
+    }
+
+    public void clearLongestAttachmentRequestTraces()
+    {
+        longestPortalAttachmentRequests.clear();
+    }
+
+    public void clearLongestImageRequestTraces()
+    {
+        longestPortalImageRequests.clear();
     }
 
     private void checkEnabled()

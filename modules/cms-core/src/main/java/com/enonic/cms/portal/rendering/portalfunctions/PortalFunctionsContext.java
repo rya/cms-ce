@@ -7,12 +7,13 @@ package com.enonic.cms.portal.rendering.portalfunctions;
 import java.util.Locale;
 
 import com.enonic.cms.core.SiteURLResolver;
-
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.PortalInstanceKey;
 import com.enonic.cms.portal.rendering.PageRendererContext;
+
+import com.enonic.cms.domain.SitePath;
 
 /**
  * May 7, 2009
@@ -22,6 +23,8 @@ public class PortalFunctionsContext
     private boolean encodeImageUrlParams;
 
     private Locale locale;
+
+    private SitePath sitePath;
 
     private SitePath originalSitePath;
 
@@ -39,7 +42,7 @@ public class PortalFunctionsContext
 
     private PageRendererContext pageRendererContext;
 
-    private SitePath sitePath;
+    private InvocationCache invocationCache;
 
     public Locale getLocale()
     {
@@ -131,16 +134,6 @@ public class PortalFunctionsContext
         this.encodeImageUrlParams = encodeImageUrlParams;
     }
 
-    public void setSitePath( SitePath sitePath )
-    {
-        this.sitePath = sitePath;
-    }
-
-    public SitePath getSitePath()
-    {
-        return sitePath;
-    }
-
     public PageRendererContext getPageRendererContext()
     {
         return pageRendererContext;
@@ -149,5 +142,25 @@ public class PortalFunctionsContext
     public void setPageRendererContext( PageRendererContext pageRendererContext )
     {
         this.pageRendererContext = pageRendererContext;
+    }
+
+    public SitePath getSitePath()
+    {
+        return sitePath;
+    }
+
+    public void setSitePath( SitePath sitePath )
+    {
+        this.sitePath = sitePath;
+    }
+
+    public InvocationCache getInvocationCache()
+    {
+        return invocationCache;
+    }
+
+    public void setInvocationCache( InvocationCache invocationCache )
+    {
+        this.invocationCache = invocationCache;
     }
 }

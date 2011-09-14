@@ -39,6 +39,8 @@ import com.enonic.cms.portal.datasource.DatasourcesType;
 import com.enonic.cms.portal.instruction.PostProcessInstructionContext;
 import com.enonic.cms.portal.instruction.PostProcessInstructionExecutor;
 import com.enonic.cms.portal.instruction.PostProcessInstructionProcessor;
+import com.enonic.cms.portal.livetrace.InstructionPostProcessingTrace;
+import com.enonic.cms.portal.livetrace.InstructionPostProcessingTracer;
 import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.portal.livetrace.WindowRenderingTrace;
 import com.enonic.cms.portal.livetrace.WindowRenderingTracer;
@@ -259,22 +261,30 @@ public class WindowRenderer
 
     private String executePostProcessInstructions( String pageMarkup, String outputMode )
     {
-        PostProcessInstructionContext postProcessInstructionContext = new PostProcessInstructionContext();
-        postProcessInstructionContext.setSite( context.getSite() );
-        postProcessInstructionContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
-        postProcessInstructionContext.setHttpRequest( context.getHttpRequest() );
-        postProcessInstructionContext.setPreviewContext( context.getPreviewContext() );
-        postProcessInstructionContext.setInContextOfWindow( true );
+        final InstructionPostProcessingTrace instructionPostProcessingTrace =
+            InstructionPostProcessingTracer.startTracingForWindow( liveTraceService );
+        try
+        {
+            PostProcessInstructionContext postProcessInstructionContext = new PostProcessInstructionContext();
+            postProcessInstructionContext.setSite( context.getSite() );
+            postProcessInstructionContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
+            postProcessInstructionContext.setHttpRequest( context.getHttpRequest() );
+            postProcessInstructionContext.setPreviewContext( context.getPreviewContext() );
+            postProcessInstructionContext.setInContextOfWindow( true );
 
-        postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( createSiteURLResolver( true ) );
-        postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
+            postProcessInstructionContext.setSiteURLResolverEnableHtmlEscaping( createSiteURLResolver( true ) );
+            postProcessInstructionContext.setSiteURLResolverDisableHtmlEscaping( createSiteURLResolver( false ) );
 
-        PostProcessInstructionProcessor postProcessInstructionProcessor =
-            new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
+            PostProcessInstructionProcessor postProcessInstructionProcessor =
+                new PostProcessInstructionProcessor( postProcessInstructionContext, postProcessInstructionExecutor );
 
-        String evaluatePostProcessInstructions = postProcessInstructionProcessor.processInstructions( pageMarkup );
+            return postProcessInstructionProcessor.processInstructions( pageMarkup );
 
-        return evaluatePostProcessInstructions;
+        }
+        finally
+        {
+            InstructionPostProcessingTracer.stopTracing( instructionPostProcessingTrace, liveTraceService );
+        }
     }
 
 
@@ -368,6 +378,7 @@ public class WindowRenderer
         PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey( window );
 
         PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
+        portalFunctionsContext.setInvocationCache( context.getInvocationCache() );
         portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );
         portalFunctionsContext.setSite( context.getSite() );
@@ -420,6 +431,7 @@ public class WindowRenderer
 
         PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
         portalFunctionsContext.setEncodeURIs( context.isEncodeURIs() );
+        portalFunctionsContext.setInvocationCache( context.getInvocationCache() );
         portalFunctionsContext.setLocale( context.getLocale() );
         portalFunctionsContext.setMenuItem( context.getMenuItem() );
         portalFunctionsContext.setSitePath( context.getSitePath() );
