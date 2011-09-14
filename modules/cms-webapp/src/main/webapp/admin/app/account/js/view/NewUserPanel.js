@@ -2,12 +2,6 @@ Ext.define( 'App.view.NewUserPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.newUserPanel',
 
-    requires: [
-        'App.view.EditUserPropertiesPanel',
-        'App.view.EditUserPreferencesPanel',
-        'App.view.EditUserMembershipPanel'
-    ],
-
     autoScroll: true,
 
     defaults: {
@@ -37,16 +31,15 @@ Ext.define( 'App.view.NewUserPanel', {
             xtype: 'tabpanel',
             region: 'center',
             items: [
-                //editUserFormPanel,
-                {
-                    xtype: 'editUserPropertiesPanel'
-                },
-                {
-                    xtype: 'editUserMembershipPanel'
-                },
-                {
-                    xtype: 'editUserPreferencesPanel'
-                }
+//                {
+//                    xtype: 'editUserPropertiesPanel'
+//                },
+//                {
+//                    xtype: 'editUserMembershipPanel'
+//                },
+//                {
+//                    xtype: 'editUserPreferencesPanel'
+//                }
             ]
         };
         if ( this.userFields != null )

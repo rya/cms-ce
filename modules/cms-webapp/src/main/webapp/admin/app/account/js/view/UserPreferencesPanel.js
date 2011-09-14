@@ -2,7 +2,6 @@ Ext.define( 'App.view.UserPreferencesPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userPreferencesPanel',
 
-    xtype: 'panel',
     layout: 'accordion',
 
     initComponent: function()

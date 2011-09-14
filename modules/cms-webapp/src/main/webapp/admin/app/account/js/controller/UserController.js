@@ -7,6 +7,7 @@ Ext.define( 'App.controller.UserController', {
         'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
         'GridPanel',
+        'ShowPanel',
         'DetailPanel',
         'FilterPanel',
         'DeleteWindow',
@@ -15,14 +16,9 @@ Ext.define( 'App.controller.UserController', {
         'EditUserPanel',
         'NewUserPanel',
         'EditUserFormPanel',
-        'EditUserPreferencesPanel',
-        'EditUserPropertiesPanel',
         'UserFormField',
-        'UserMembershipWindow',
         'GroupItemField',
         'UserPreferencesPanel',
-        'UserDetailButton',
-        'UserShortDetailButton',
         'GroupDetailButton'
     ],
 
@@ -33,7 +29,7 @@ Ext.define( 'App.controller.UserController', {
         Ext.create('widget.userContextMenu');
 
         this.control( {
-                          'viewport': {
+                          'cmsTabPanel': {
                               afterrender: this.createBrowseTab
                           },
                           '*[action=newUser]': {
@@ -164,23 +160,23 @@ Ext.define( 'App.controller.UserController', {
     createBrowseTab: function( component, options )
     {
         this.getCmsTabPanel().addTab( {
-                                       id: 'tab-browse',
-                                       title: 'Browse',
-                                       closable: false,
-                                       xtype: 'panel',
-                                       layout: 'border',
-                                       items: [
-                                           {
-                                               region: 'west',
-                                               width: 225,
-                                               xtype: 'userFilter'
-                                           },
-                                           {
-                                               region: 'center',
-                                               xtype: 'userShow'
-                                           }
-                                       ]
-                                   } );
+           id: 'tab-browse',
+           title: 'Browse',
+           closable: false,
+           xtype: 'panel',
+           layout: 'border',
+           items: [
+               {
+                   region: 'west',
+                   width: 225,
+                   xtype: 'userFilter'
+               },
+               {
+                   region: 'center',
+                   xtype: 'userShow'
+               }
+           ]
+        } );
     },
 
     createNewGroupTab: function()
@@ -499,14 +495,6 @@ Ext.define( 'App.controller.UserController', {
                           } );
     },
 
-    closeMembershipWindow: function()
-    {
-        var membershipGridPanel = this.getMembershipGridPanel();
-        var selectionModel = membershipGridPanel.getSelectionModel()
-        selectionModel.deselectAll();
-        this.getUserMembershipWindow().hide();
-    },
-
     saveUser: function( button )
     {
         var editUserForm = button.up( 'editUserPanel' );
@@ -622,16 +610,6 @@ Ext.define( 'App.controller.UserController', {
     getUserContextMenu: function()
     {
         return Ext.ComponentQuery.query( 'userContextMenu' )[0];
-    },
-
-    getUserMembershipWindow: function()
-    {
-        return Ext.ComponentQuery.query( 'userMembershipWindow' )[0];
-    },
-
-    getMembershipGridPanel: function()
-    {
-        return Ext.ComponentQuery.query( 'membershipGridPanel' )[0];
     }
 
 } );

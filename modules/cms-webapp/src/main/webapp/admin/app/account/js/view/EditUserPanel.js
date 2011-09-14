@@ -2,12 +2,6 @@ Ext.define( 'App.view.EditUserPanel', {
     extend: 'Ext.form.Panel',
     alias: 'widget.editUserPanel',
 
-    requires: [
-        'App.view.EditUserPropertiesPanel',
-        'App.view.EditUserPreferencesPanel',
-        'App.view.EditUserMembershipPanel',
-        'App.view.UserPreferencesPanel'
-    ],
 
     autoScroll: true,
 

@@ -2,10 +2,6 @@ Ext.define('App.view.ShowPanel', {
     extend: 'Ext.panel.Panel',
     alias : 'widget.userShow',
 
-    requires: [
-        'App.view.GridPanel',
-        'App.view.DetailPanel'
-    ],
 
     layout: 'border',
     border: false,

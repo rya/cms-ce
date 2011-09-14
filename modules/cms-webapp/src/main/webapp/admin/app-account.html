@@ -3,7 +3,7 @@
     <title>Enonic CMS Admin</title>
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
-    <script type="text/javascript" src="ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="ext/ext-all-debug-4.0.6.js"></script>
     <script type="text/javascript" src="app/configuration.js"></script>
 
     <script type="text/javascript">
@@ -13,7 +13,8 @@
             paths: {
                 'App' : 'app/account/js',
                 'Common' : 'common/js'
-            }
+            },
+            disableCaching: false
         });
 
         Ext.application({
@@ -25,9 +26,9 @@
             ],
 
             requires: [
-                'Common.TabPanel',
-                'App.view.ShowPanel',
-                'App.view.FilterPanel'
+                'Common.TabPanel'//,
+//                'App.view.ShowPanel',
+//                'App.view.FilterPanel'
             ],
 
             launch: function() {
