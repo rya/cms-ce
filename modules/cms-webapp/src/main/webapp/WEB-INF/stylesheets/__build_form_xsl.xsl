@@ -1765,6 +1765,10 @@
     <xsl:variable name="min-occurrence" select="0" />
     <xsl:variable name="max-occurrence" select="1" />
 
+    <x:variable name="readonly">
+      <xsl:value-of select="$input/@readonly"/>
+    </x:variable>
+
     <x:variable name="select-content-button-onclick">
       <x:text>javascript:OpenContentPopup(</x:text>
       <x:value-of select="$selectedunitkey"/>
@@ -1935,6 +1939,10 @@
 
     <xsl:variable name="min-occurrence" select="0" />
     <xsl:variable name="max-occurrence" select="-1" />
+
+    <x:variable name="readonly">
+      <xsl:value-of select="$input/@readonly"/>
+    </x:variable>
 
     <x:variable name="add-content-button-onclick">
       <x:text>javascript:OpenContentPopup(</x:text>
