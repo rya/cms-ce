@@ -120,6 +120,11 @@ Ext.define( 'App.view.AddressPanel', {
                 regionField
             ];
         this.callParent( arguments );
+    },
+
+    initDraggable: function()
+    {
+        this.dd = Ext.create('App.view.AddressDragSource', this );
     }
 
 

@@ -15,6 +15,7 @@ Ext.define( 'App.view.AddressDragSource', {
 
     onInitDrag : function(x, y){
         this.proxy.update(this.dragData.ddel.cloneNode(true));
+//        this.proxy.update(this.panel.cloneNode(true));
         this.onStartDrag(x, y);
         return true;
     },
