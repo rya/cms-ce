@@ -93,3 +93,14 @@ jQuery Cryptography Plug-in
   MIT License
   http://www.opensource.org/licenses/mit-license.php
 
+FamFamFam
+  Creative Commons Attribution
+  http://creativecommons.org/licenses/by/3.0/
+
+Fugue Icons
+  Creative Commons Attribution
+  http://creativecommons.org/licenses/by/3.0/
+
+Small Icons
+  Creative Commons Attribution
+  http://creativecommons.org/licenses/by/3.0/
