@@ -30,6 +30,8 @@ Ext.define('App.view.Toolbar', {
             id: 'launcher-start-button',
             xtype: 'button',
             text: 'Dashboard',
+            icon: Ext.BLANK_IMAGE_URL,
+
             menu: {
                 minWidth: 160,
                 items:[
