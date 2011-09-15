@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 
 import com.enonic.cms.portal.datasource.DataSourceContext;
+import com.enonic.cms.portal.livetrace.DatasourceExecutionTracer;
+import com.enonic.cms.portal.livetrace.LivePortalTraceService;
 
 /**
  * Keeps track of all executed methods and the result returned.  If a method is invoked with the same parameters, the same result is
@@ -19,9 +21,17 @@ public final class InvocationCache
 
     private final HashMap<String, Object> cache;
 
+    private final LivePortalTraceService livePortalTraceService;
+
     public InvocationCache()
     {
+        this( null );
+    }
+
+    public InvocationCache( LivePortalTraceService livePortalTraceService )
+    {
         this.cache = new HashMap<String, Object>();
+        this.livePortalTraceService = livePortalTraceService;
     }
 
     private void appendSignature( StringBuffer str, Method method )
@@ -68,6 +78,10 @@ public final class InvocationCache
                 result = invokeReal( targetObject, method, args );
                 this.cache.put( key, result );
             }
+            else
+            {
+                DatasourceExecutionTracer.traceIsCacheUsed( true, livePortalTraceService );
+            }
         }
         else
         {
@@ -108,7 +122,7 @@ public final class InvocationCache
 
                 appendArguments( str, (int[]) args[i] );
             }
-            else if ( ( args[i] instanceof DataSourceContext) )
+            else if ( ( args[i] instanceof DataSourceContext ) )
             {
                 // skip data source context, not necessary as long as it contains the same values for every datasource
             }

@@ -311,13 +311,13 @@ class JcrNodeWrapper
     @Override
     public void setProperty( String name, Object value )
     {
-        if ( ( name == null ) || ( value == null ) )
-        {
-            throw new NullPointerException();
-        }
         try
         {
-            if ( value instanceof String )
+            if ( value == null )
+            {
+                node.setProperty( name, (Value) null );
+            }
+            else if ( value instanceof String )
             {
                 node.setProperty( name, (String) value );
             }

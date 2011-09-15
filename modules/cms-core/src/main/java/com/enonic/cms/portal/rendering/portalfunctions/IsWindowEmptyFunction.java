@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.structure.page.WindowKey;
-import com.enonic.cms.portal.InvocationCache;
 import com.enonic.cms.portal.rendering.PageRendererContext;
 import com.enonic.cms.portal.rendering.RenderedWindowResult;
 import com.enonic.cms.portal.rendering.WindowRenderer;
@@ -43,7 +42,7 @@ public class IsWindowEmptyFunction
             windowRenderContext.setEncodeURIs( pageRendererContext.isEncodeURIs() );
             windowRenderContext.setForceNoCacheUsage( pageRendererContext.forceNoCacheUsage() );
             windowRenderContext.setHttpRequest( pageRendererContext.getHttpRequest() );
-            windowRenderContext.setInvocationCache( new InvocationCache() );
+            windowRenderContext.setInvocationCache( previousPortalFunctionContext.getInvocationCache() );
             windowRenderContext.setLanguage( pageRendererContext.getLanguage() );
             windowRenderContext.setLocale( pageRendererContext.getLocale() );
             windowRenderContext.setMenuItem( pageRendererContext.getMenuItem() );
@@ -62,7 +61,7 @@ public class IsWindowEmptyFunction
 
             String windowContent = renderWindow( windowKey, params, windowRenderContext );
 
-            return ( StringUtils.isBlank( windowContent ) );
+            return StringUtils.isBlank( windowContent );
         }
         finally
         {
