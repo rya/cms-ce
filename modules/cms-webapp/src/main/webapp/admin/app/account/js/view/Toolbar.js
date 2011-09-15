@@ -21,7 +21,7 @@ Ext.define('App.view.Toolbar', {
                         xtype: 'splitbutton',
                         text: ' &nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp; ',
                         action: 'newUser',
-                        iconCls: 'cms-empty',
+                        iconCls: 'icon-add-24',
                         cls: 'x-btn-as-arrow',
                         menu: new Ext.menu.Menu({
                             items: [
@@ -39,15 +39,15 @@ Ext.define('App.view.Toolbar', {
                 defaults: buttonDefaults,
                 items: [
                     {
-                        text: 'Edit',
+                        text: '&nbsp;&nbsp;Edit&nbsp;&nbsp;',
                         action: 'edit',
-                        iconCls: 'icon-edit-user',
+                        iconCls: 'icon-edit-user-24',
                         disableOnMultipleSelection: true
                     },
                     {
                         text: 'Delete',
                         action: 'showDeleteWindow',
-                        iconCls: 'icon-delete-user'
+                        iconCls: 'icon-delete-user-24'
                     }
                 ]
             },
@@ -59,7 +59,7 @@ Ext.define('App.view.Toolbar', {
                     {
                         text: 'Change Password',
                         action: 'changePassword',
-                        iconCls: 'icon-change-password',
+                        iconCls: 'icon-change-password-24',
                         disableOnMultipleSelection: true
                     }
                 ]

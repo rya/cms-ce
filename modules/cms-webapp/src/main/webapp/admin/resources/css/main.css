@@ -234,6 +234,10 @@ img.photo {
     background-image: url("../images/user_add.png");
 }
 
+.icon-add-24 {
+    background-image: url("../images/add-24.png");
+}
+
 .icon-group-add {
     background-image: url("../images/group_add.png");
 }
@@ -246,13 +250,25 @@ img.photo {
     background-image: url("../images/user_edit.png");
 }
 
+.icon-edit-user-24 {
+    background-image: url("../images/edit-24.png");
+}
+
 .icon-delete-user {
     background-image: url("../images/user_delete.png");
     background-position: center;
 }
 
+.icon-delete-user-24 {
+    background-image: url("../images/delete-24.png");
+}
+
 .icon-change-password {
     background-image: url("../images/key.png");
+}
+
+.icon-change-password-24 {
+    background-image: url("../images/key-24.png");
 }
 
 .icon-find {
