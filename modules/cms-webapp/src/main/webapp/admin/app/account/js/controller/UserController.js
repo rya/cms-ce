@@ -352,14 +352,13 @@ Ext.define( 'App.controller.UserController', {
     setDetailsToolbarDisabled: function()
     {
         var buttons = [], button;
-        buttons.push( Ext.ComponentQuery.query( '*[action=edit]' )[0] );
-        buttons.push( Ext.ComponentQuery.query( '*[action=showDeleteWindow]' )[0] );
-        buttons.push( Ext.ComponentQuery.query( '*[action=changePassword]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=edit]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=showDeleteWindow]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=changePassword]' )[0] );
 
         var selectionCount = this.getGridSelectionCount();
         var multipleSelection = selectionCount > 1;
         var disable = selectionCount === 0;
-
         for ( var i = 0; i < buttons.length; i++ )
         {
             button = buttons[i];
