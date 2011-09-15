@@ -1,4 +1,4 @@
-Ext.define("CMS.view.user.AddressDropTarget", {
+Ext.define("App.view.AddressDropTarget", {
     extend: "Ext.dd.DropTarget",
 
      requires: [
@@ -15,7 +15,7 @@ Ext.define("CMS.view.user.AddressDropTarget", {
     constructor: function (a, b) {
         this.portal = a;
         Ext.dd.ScrollManager.register(a.body);
-        CMS.view.user.AddressDropTarget.superclass.constructor.call(this, a.body, b);
+        App.view.AddressDropTarget.superclass.constructor.call(this, a.body, b);
         a.body.ddScrollConfig = this.ddScrollConfig
     },
 //    createEvent: function (a, f, d, b, h, g) {

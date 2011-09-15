@@ -1,4 +1,4 @@
-Ext.define( 'CMS.view.user.AddressContainer', {
+Ext.define( 'App.view.AddressContainer', {
     extend: 'Ext.form.FieldSet',
     alias: 'widget.addressContainer',
 
@@ -6,7 +6,7 @@ Ext.define( 'CMS.view.user.AddressContainer', {
     title: 'Address',
 
     requires: [
-        "CMS.view.user.AddressDropTarget"
+        "App.view.AddressDropTarget"
     ],
 
     initComponent: function() {
@@ -29,7 +29,7 @@ Ext.define( 'CMS.view.user.AddressContainer', {
 
     initEvents: function () {
         this.callParent();
-        this.dd = new CMS.view.user.AddressDropTarget(this, this.dropConfig)
+        this.dd = new App.view.AddressDropTarget(this, this.dropConfig)
     }
 
 })
