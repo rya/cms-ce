@@ -6,6 +6,7 @@ Ext.define( 'App.controller.UserController', {
     models: ['UserModel', 'UserFieldModel', 'UserstoreConfigModel', 'CountryModel', 'CallingCodeModel',
         'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
+        'Toolbar',
         'GridPanel',
         'ShowPanel',
         'DetailPanel',
@@ -165,6 +166,11 @@ Ext.define( 'App.controller.UserController', {
            closable: false,
            xtype: 'panel',
            layout: 'border',
+           dockedItems: [
+               {
+                   xtype: 'accountsToolbar',
+                   dock: 'top'
+               }],
            items: [
                {
                    region: 'west',
