@@ -35,10 +35,10 @@ Ext.define('Common.SlidingPager', {
     },
 
     init : function(pbar){
-        var idx = pbar.items.indexOf(pbar.child("#inputItem")),
+        var indexOfPagingNumberField = pbar.items.indexOf(pbar.child("#inputItem")),
             slider;
 
-        Ext.each(pbar.items.getRange(idx - 2, idx + 2), function(c){
+        Ext.each(pbar.items.getRange(indexOfPagingNumberField - 2, indexOfPagingNumberField + 2), function(c){
             c.hide();
         });
 
@@ -57,13 +57,36 @@ Ext.define('Common.SlidingPager', {
             }
         });
 
-        pbar.insert(idx + 1, slider);
+        var total = Ext.create('Ext.toolbar.TextItem', {
+            cls: 'sliding-pager-text'
+        });
+
+        var tbFill = Ext.create('Ext.toolbar.Fill', {});
+
+        var displayInfo = Ext.create('Ext.toolbar.TextItem', {
+            cls: 'sliding-pager-text'
+        });
+
+        function getIndexOfPBarFirstButton() {
+            return pbar.items.indexOf(pbar.child("#first"));
+        }
+
+        pbar.insert(getIndexOfPBarFirstButton(), total);
+        pbar.insert(getIndexOfPBarFirstButton(), tbFill);
+        pbar.insert(getIndexOfPBarFirstButton(), displayInfo);
+        pbar.insert(getIndexOfPBarFirstButton() + 2, slider);
 
         pbar.on({
-            change: function(pb, data){
-                slider.setMaxValue(data.pageCount);
-                slider.setValue(data.currentPage);
+            change: function(paging, pageData) {
+                // TODO: Configuration for internationalization.
+                if (pageData.total) {
+                    total.setText(pageData.total + ' Total');
+                    displayInfo.setText('Displaying ' + pageData.fromRecord + '-' + pageData.toRecord);
+                }
+                slider.setMaxValue(pageData.pageCount);
+                slider.setValue(pageData.currentPage);
             }
+
         });
     }
 });
