@@ -2,6 +2,10 @@ Ext.define( 'App.view.AddressPanel', {
     extend: 'Ext.form.Panel',
     alias: 'widget.addressPanel',
 
+    requires:[
+        'App.view.AddressDragSource'
+    ],
+
     xtype: 'form',
     draggable: true,
     layout: 'anchor',
@@ -124,7 +128,7 @@ Ext.define( 'App.view.AddressPanel', {
 
     initDraggable: function()
     {
-        this.dd = Ext.create('App.view.AddressDragSource', this );
+        this.dd = new App.view.AddressDragSource( this );
     }
 
 

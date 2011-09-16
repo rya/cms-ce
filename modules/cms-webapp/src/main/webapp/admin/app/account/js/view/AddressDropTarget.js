@@ -1,5 +1,5 @@
-Ext.define("App.view.AddressDropTarget", {
-    extend: "Ext.dd.DropTarget",
+Ext.define( 'App.view.AddressDropTarget', {
+    extend: 'Ext.dd.DropTarget',
 
      requires: [
         'Ext.panel.Proxy'
@@ -37,7 +37,6 @@ Ext.define("App.view.AddressDropTarget", {
     },
 
     notifyOver: function (source, event, data) {
-        var x = u;
     }//,
 //    notifyOut: function () {
 //        delete this.grid
