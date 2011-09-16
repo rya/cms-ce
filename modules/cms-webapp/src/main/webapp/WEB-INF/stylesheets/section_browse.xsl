@@ -549,6 +549,7 @@
                         <xsl:with-param name="page" select="$page"/>
                         <xsl:with-param name="unitkey" select="@unitkey"/>
                         <xsl:with-param name="menukey" select="$menukey"/>
+                        <xsl:with-param name="sitekey" select="$menukey"/>
                         <xsl:with-param name="previewmenukey" select="$menukey"/>
                         <xsl:with-param name="contentpage" select="(@contenttypekey + 999)"/>
                         <xsl:with-param name="cat" select="@categorykey"/>
@@ -562,6 +563,7 @@
                         <xsl:with-param name="ordered" select="$ordered"/>
                         <xsl:with-param name="reordered" select="$reordered"/>
                         <xsl:with-param name="state" select="@state"/>
+                        <xsl:with-param name="contenttypekey" select="@contenttypekey"/>
                       </xsl:call-template>
                     </td>
                   </tr>

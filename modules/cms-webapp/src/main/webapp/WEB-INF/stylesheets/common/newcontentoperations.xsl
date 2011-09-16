@@ -94,7 +94,9 @@
               <xsl:with-param name="style" select="'flat'"/>
               <xsl:with-param name="type" select="'link'"/>
               <xsl:with-param name="image" select="'images/icon_preview.gif'"/>
+              <xsl:with-param name="disabled" select="not(/data/pagetemplates/pagetemplate/contenttypes/contenttype[@key = $contenttypekey])"/>
               <xsl:with-param name="tooltip" select="'%altContentPreview%'"/>
+              <xsl:with-param name="tooltip-for-disabled" select="'%altContentPreviewNotAvailable%'"/>
               <xsl:with-param name="href">
                 <xsl:text>adminpage?page=</xsl:text><xsl:value-of select="$page"/>
                 <xsl:text>&amp;op=preview&amp;subop=frameset&amp;contentkey=</xsl:text>

@@ -14,6 +14,7 @@
     	<xsl:param name="key"/>
     	<xsl:param name="versionkey"/>
     	<xsl:param name="menukey"/>
+        <xsl:param name="sitekey"/>
     	<xsl:param name="previewmenukey"/>
     	<xsl:param name="previewmenuitemkey"/>
     	<xsl:param name="menuitemkey"/>
@@ -31,6 +32,7 @@
     	<xsl:param name="reordered" select="'false'"/>
     	<xsl:param name="toplevel" select="''"/>
     	<xsl:param name="state"/>
+    	<xsl:param name="contenttypekey"/>
 
       <table border="0" cellpadding="0" cellspacing="0">
         <tr>
@@ -42,11 +44,8 @@
             <xsl:with-param name="type" select="'link'"/>
             <xsl:with-param name="image" select="'images/icon_preview.gif'"/>
             <xsl:with-param name="tooltip" select="'%altContentPreview%'"/>
-            <!--xsl:with-param name="disabled" select="string(not($previewmenuitemkey))"/-->
-            <!--
-            <xsl:with-param name="disabled" select="true()"/>
-            -->
-            <xsl:with-param name="disabled" select="string(not($menuitemkey))"/>
+            <xsl:with-param name="tooltip-for-disabled" select="'%altContentPreviewNotAvailable%'"/>
+            <xsl:with-param name="disabled" select="string(not($menuitemkey)) and not(/*/pagetemplates/pagetemplate/contenttypes/contenttype[@key = $contenttypekey])"/>
             <xsl:with-param name="href">
               <xsl:text>adminpage?page=950</xsl:text>
               <xsl:text>&amp;op=preview&amp;contentkey=</xsl:text>
@@ -194,6 +193,10 @@
               <xsl:text>&amp;op=form&amp;key=</xsl:text><xsl:value-of select="$key"/>
               <xsl:text>&amp;cat=</xsl:text>
               <xsl:value-of select="$cat"/>
+              <xsl:if test="$sitekey">
+                <xsl:text>&amp;sitekey=</xsl:text>
+                <xsl:value-of select="$sitekey"/>
+              </xsl:if>
               <xsl:text>&amp;selectedunitkey=</xsl:text>
               <xsl:value-of select="$unitkey"/>
               <xsl:text>&amp;logread=true</xsl:text>
