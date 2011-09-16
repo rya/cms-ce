@@ -21,7 +21,7 @@ Ext.define( 'App.controller.UserController', {
         'GroupItemField',
         'UserPreferencesPanel',
         'AddressPanel',
-        'AddressContainer'
+        'AddressContainer',
         'GroupDetailButton'
     ],
 
@@ -426,9 +426,10 @@ Ext.define( 'App.controller.UserController', {
         var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name
                 : 'new-user';
         var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressTabPanel' );
+        var itemsCount = tabPanel.query('addressPanel').length;
+        alert(itemsCount);
         var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
-        newTab = tabPanel.add( newTab );
-        tabPanel.setActiveTab( newTab );
+        newTab = tabPanel.insert( itemsCount , newTab );
     },
 
     updateTabTitle: function ( field, event )

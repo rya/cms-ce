@@ -3,7 +3,8 @@ Ext.define( 'App.view.AddressDragSource', {
 
     constructor : function( panel, cfg )
     {
-        this.panel = panel;
+        this.contentPanel = panel;
+        this.panelParent = panel.up('addressContainer');
         this.dragData = {panel: panel};
 
         this.callParent( [panel.el, cfg] );
@@ -14,14 +15,14 @@ Ext.define( 'App.view.AddressDragSource', {
     },
 
     onInitDrag : function(x, y){
-        this.proxy.update(Ext.clone(this.panel).el.dom);
+        this.proxy.update(Ext.clone(this.contentPanel).el.dom);
         this.onStartDrag(x, y);
         return true;
     },
 
     getDragData: function( e )
     {
-        var sourceEl = e.getTarget( this.panel.itemSelector, 10 );
+        var sourceEl = e.getTarget( this.contentPanel.itemSelector, 10 );
         if ( sourceEl )
         {
             var d = sourceEl.cloneNode( true );
@@ -30,7 +31,7 @@ Ext.define( 'App.view.AddressDragSource', {
                 ddel: d,
                 sourceEl: sourceEl,
                 repairXY: Ext.fly( sourceEl ).getXY(),
-                draggedRecord: this.panel.getRecord( sourceEl )
+                draggedRecord: this.contentPanel.getRecord( sourceEl )
             }
         }
     },
