@@ -6,7 +6,9 @@ Ext.define( 'App.controller.UserController', {
     models: ['UserModel', 'UserFieldModel', 'UserstoreConfigModel', 'CountryModel', 'CallingCodeModel',
         'LanguageModel', 'RegionModel', 'GroupModel'],
     views: [
+        'Toolbar',
         'GridPanel',
+        'ShowPanel',
         'DetailPanel',
         'FilterPanel',
         'DeleteWindow',
@@ -15,17 +17,12 @@ Ext.define( 'App.controller.UserController', {
         'EditUserPanel',
         'NewUserPanel',
         'EditUserFormPanel',
-        'EditUserPreferencesPanel',
-        'EditUserPropertiesPanel',
         'UserFormField',
-        'UserMembershipWindow',
         'GroupItemField',
         'UserPreferencesPanel',
-        'UserDetailButton',
-        'UserShortDetailButton',
-        'GroupDetailButton',
         'AddressPanel',
         'AddressContainer'
+        'GroupDetailButton'
     ],
 
     init: function()
@@ -35,7 +32,7 @@ Ext.define( 'App.controller.UserController', {
         Ext.create('widget.userContextMenu');
 
         this.control( {
-                          'viewport': {
+                          'cmsTabPanel': {
                               afterrender: this.createBrowseTab
                           },
                           '*[action=newUser]': {
@@ -166,23 +163,28 @@ Ext.define( 'App.controller.UserController', {
     createBrowseTab: function( component, options )
     {
         this.getCmsTabPanel().addTab( {
-                                       id: 'tab-browse',
-                                       title: 'Browse',
-                                       closable: false,
-                                       xtype: 'panel',
-                                       layout: 'border',
-                                       items: [
-                                           {
-                                               region: 'west',
-                                               width: 225,
-                                               xtype: 'userFilter'
-                                           },
-                                           {
-                                               region: 'center',
-                                               xtype: 'userShow'
-                                           }
-                                       ]
-                                   } );
+           id: 'tab-browse',
+           title: 'Browse',
+           closable: false,
+           xtype: 'panel',
+           layout: 'border',
+           dockedItems: [
+               {
+                   xtype: 'accountsToolbar',
+                   dock: 'top'
+               }],
+           items: [
+               {
+                   region: 'west',
+                   width: 225,
+                   xtype: 'userFilter'
+               },
+               {
+                   region: 'center',
+                   xtype: 'userShow'
+               }
+           ]
+        } );
     },
 
     createNewGroupTab: function()
@@ -351,15 +353,29 @@ Ext.define( 'App.controller.UserController', {
 
     setDetailsToolbarDisabled: function()
     {
-        var disable = !this.gridHasSelection();
-        Ext.ComponentQuery.query( '*[action=edit]' )[0].setDisabled( disable );
-        Ext.ComponentQuery.query( '*[action=showDeleteWindow]' )[0].setDisabled( disable );
-        Ext.ComponentQuery.query( '*[action=changePassword]' )[0].setDisabled( disable );
+        var buttons = [], button;
+        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=edit]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=showDeleteWindow]' )[0] );
+        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=changePassword]' )[0] );
+
+        var selectionCount = this.getGridSelectionCount();
+        var multipleSelection = selectionCount > 1;
+        var disable = selectionCount === 0;
+        for ( var i = 0; i < buttons.length; i++ )
+        {
+            button = buttons[i];
+            button.setDisabled(disable);
+
+            if ( multipleSelection && button.disableOnMultipleSelection === true )
+            {
+                button.setDisabled(true);
+            }
+        }
     },
 
-    gridHasSelection: function()
+    getGridSelectionCount: function()
     {
-        return this.getUserGrid().getSelectionModel().getSelection().length == 1;
+        return this.getUserGrid().getSelectionModel().getSelection().length;
     },
 
     countryChangeHandler: function( field, newValue, oldValue, options )
@@ -501,14 +517,6 @@ Ext.define( 'App.controller.UserController', {
                           } );
     },
 
-    closeMembershipWindow: function()
-    {
-        var membershipGridPanel = this.getMembershipGridPanel();
-        var selectionModel = membershipGridPanel.getSelectionModel()
-        selectionModel.deselectAll();
-        this.getUserMembershipWindow().hide();
-    },
-
     saveUser: function( button )
     {
         var editUserForm = button.up( 'editUserPanel' );
@@ -624,16 +632,6 @@ Ext.define( 'App.controller.UserController', {
     getUserContextMenu: function()
     {
         return Ext.ComponentQuery.query( 'userContextMenu' )[0];
-    },
-
-    getUserMembershipWindow: function()
-    {
-        return Ext.ComponentQuery.query( 'userMembershipWindow' )[0];
-    },
-
-    getMembershipGridPanel: function()
-    {
-        return Ext.ComponentQuery.query( 'membershipGridPanel' )[0];
     }
 
 } );

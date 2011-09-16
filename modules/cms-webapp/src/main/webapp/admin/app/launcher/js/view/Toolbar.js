@@ -30,6 +30,8 @@ Ext.define('App.view.Toolbar', {
             id: 'launcher-start-button',
             xtype: 'button',
             text: 'Dashboard',
+            icon: Ext.BLANK_IMAGE_URL,
+
             menu: {
                 minWidth: 160,
                 items:[
@@ -43,7 +45,7 @@ Ext.define('App.view.Toolbar', {
                     {
                         id: 100,
                         text: 'Accounts',
-                        appUrl: 'accounts.html',
+                        appUrl: 'app-account.html',
                         icon: 'app/launcher/images/group.png'
                     },
                     {

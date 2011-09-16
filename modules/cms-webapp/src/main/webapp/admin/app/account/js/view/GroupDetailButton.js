@@ -13,6 +13,9 @@ Ext.define('App.view.GroupDetailButton', {
             xtype: 'panel',
             layout: 'fit',
             border: 0,
+            bodyStyle: {
+                background: 'lightGrey'
+            },
             items: [
                 {
                     xtype: 'image',
