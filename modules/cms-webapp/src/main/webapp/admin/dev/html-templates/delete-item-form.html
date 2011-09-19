@@ -1,38 +1,106 @@
 <html>
 <head>
-    <title>HTML Templates</title>
+    <title>HTML Templates - Delete Item Form</title>
     <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
     <link rel="stylesheet" type="text/css" href="css/generic.css">
     <link rel="stylesheet" type="text/css" href="css/generic-user-info.css">
     <link rel="stylesheet" type="text/css" href="css/delete-item-form.css">
+
+    <script type="text/javascript" src="../../ext/ext-all.js"></script>
+
+    <script>
+        Ext.onReady( function() {
+
+            // One
+
+            var tpl1 = document.getElementById('tpl1').innerHTML;
+            var win1 = Ext.create('Ext.window.Window', {
+                title: 'Delete User',
+                width: 350,
+                height: 132,
+                layout: 'fit',
+                plain: true,
+                items: {
+                    xtype: 'form',
+                    url: 'ost/digest.html',
+                    border: false,
+                    bodyPadding: 10,
+                    html: new Ext.XTemplate(tpl1).apply({displayName: 'Morten Eriksen', qualifiedName: 'enonic\\mer', email: 'mer@enonic.com'})
+                },
+                buttons: [
+                    {
+                        text: 'Cancel'
+                    },
+                    {
+                        text: 'Delete User'
+                    }
+                ]
+            });
+            win1.show();
+
+            // Many
+
+            var tpl2 = document.getElementById('tpl2').innerHTML;
+            var win2 = Ext.create('Ext.window.Window', {
+                title: 'Delete',
+                width: 340,
+                height: 50,
+                layout: 'fit',
+                plain: true,
+                items: {
+                    xtype: 'form',
+                    url: 'ost/digest.html',
+                    border: false,
+                    bodyPadding: 10,
+                    html: new Ext.XTemplate(tpl2).apply({displayName: 'Morten Eriksen', qualifiedName: 'enonic\\mer', email: 'mer@enonic.com'})
+                },
+                buttons: [
+                    {
+                        text: 'Cancel'
+                    },
+                    {
+                        text: 'Delete'
+                    }
+                ]
+            });
+
+            win2.show();
+        });
+    </script>
 </head>
 <body>
 <h2 class="header">Delete Confirmation Message (1)</h2>
 
-<!-- Template START -->
-<div class="cms-delete-user-confirmation-message">
-    <div class="cms-user-info clearfix" style="margin-bottom:10px">
-        <div class="cms-user-photo cms-left">
-            <img alt="User" src="../../resources/images/x-user.png"/>
-        </div>
-        <div class="cms-left">
-            {Display name}<br/>
-            ({Qualified name})<br/>
-            {<a href="mailto:">name@domain.com</a>}
+<div id="tpl1">
+
+    <!-- Template START -->
+    <div class="cms-delete-user-confirmation-message">
+        <div class="cms-user-info clearfix" style="margin-bottom:10px">
+            <div class="cms-user-photo cms-left">
+                <img alt="User" src="../../resources/images/x-user.png"/>
+            </div>
+            <div class="cms-left">
+                {displayName}<br/>
+                ({qualifiedName})<br/>
+                <a href="{email}:">{email}</a>
+            </div>
         </div>
     </div>
+    <!-- Template END -->
 
 </div>
-<!-- Template END -->
+
 
 <h2 class="header">Delete Confirmation Message (&gt; 1)</h2>
 
-<!-- Template START -->
-<div class="cms-delete-user-confirmation-message">
-    Delete 5 {items}?
+<div id="tpl2">
+    <!-- Template START -->
+    <div class="cms-delete-user-confirmation-message">
+        Are you sure you want to delete the selected 500 items?
+    </div>
+    <!-- Template END -->
 </div>
-<!-- Template END -->
 
 
 </body>
