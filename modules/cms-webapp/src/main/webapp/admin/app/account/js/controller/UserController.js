@@ -29,6 +29,9 @@ Ext.define( 'App.controller.UserController', {
         Ext.create('widget.userChangePasswordWindow');
         Ext.create('widget.userContextMenu');
 
+        var userStore = this.getStore('UserStore');
+        userStore.guaranteeRange( 0, userStore.pageSize - 1 );
+
         this.control( {
                           'cmsTabPanel': {
                               afterrender: this.createBrowseTab

@@ -2,16 +2,15 @@ Ext.define( 'App.view.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
-    requires: [
-        'Common.SlidingPager'
-    ],
-
     layout: 'fit',
     multiSelect: true,
     loadMask: true,
     columnLines: true,
     frame: false,
     store: 'UserStore',
+
+    verticalScrollerType: 'paginggridscroller',
+    invalidateScrollerOnRefresh: false,
 
     initComponent: function()
     {
@@ -45,10 +44,12 @@ Ext.define( 'App.view.GridPanel', {
         ];
 
         this.tbar = {
-            xtype: 'pagingtoolbar',
-            store: this.store,
-            plugins: ['slidingPager'],
-            prependButtons: true
+            xtype: 'toolbar',
+            items: [
+                {
+                    text: 'Accounts'
+                }
+            ]
         };
 
         this.viewConfig = {
