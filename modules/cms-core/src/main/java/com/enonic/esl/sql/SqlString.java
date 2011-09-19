@@ -6,17 +6,6 @@ package com.enonic.esl.sql;
 
 public abstract class SqlString
 {
-
-    /**
-     * Generate the SQL string.
-     *
-     * @return String
-     */
-    public final String generateSQL()
-    {
-        return generateSQL( false );
-    }
-
     /**
      * Generate the SQL string. If linefeed is turned on a nice output format is used.
      *

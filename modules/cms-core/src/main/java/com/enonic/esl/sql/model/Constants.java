@@ -4,8 +4,6 @@
  */
 package com.enonic.esl.sql.model;
 
-import java.sql.Types;
-
 import com.enonic.esl.sql.model.datatypes.BigIntType;
 import com.enonic.esl.sql.model.datatypes.BinaryType;
 import com.enonic.esl.sql.model.datatypes.BooleanType;
@@ -20,7 +18,6 @@ import com.enonic.esl.sql.model.datatypes.ShortXMLType;
 import com.enonic.esl.sql.model.datatypes.TimestampType;
 import com.enonic.esl.sql.model.datatypes.VarcharType;
 import com.enonic.esl.sql.model.datatypes.XMLType;
-
 
 public class Constants
 {
@@ -53,10 +50,6 @@ public class Constants
     public static final int OPERATION_INSERT = 0;
 
     public static final int OPERATION_UPDATE = 1;
-
-    public static final int OPERATION_SELECT = 2;
-
-    public static final int OPERATION_REMOVE = 3;
 
     // Prevent instantiation
     private Constants()
@@ -120,111 +113,6 @@ public class Constants
 
         //throw new RuntimeException();
         System.err.println( "Constants.getType(String): Unknown column type: " + typeStr );
-        return null;
-    }
-
-    public static DataType guessType( String typeStr, int sqlType )
-    {
-        typeStr = typeStr.toLowerCase();
-
-        String temp = typeStr.substring( typeStr.lastIndexOf( "_" ) + 1 );
-
-        if ( temp.equals( "sschema" ) )
-        {
-            return Constants.COLUMN_SHORTXML;
-        }
-        else if ( temp.equals( "ssyncvalue" ) )
-        {
-            return Constants.COLUMN_VARCHAR;
-        }
-        else if ( typeStr.equals( "chl_dtetimestamp" ) || typeStr.equals( "chb_dtetimestamp" ) )
-        {
-            return Constants.COLUMN_TIMESTAMP;
-        }
-
-        if ( temp.startsWith( "l" ) )
-        {
-            return Constants.COLUMN_INTEGER;
-        }
-        else if ( temp.startsWith( "sxml" ) )
-        {
-            return Constants.COLUMN_XML;
-        }
-        else if ( temp.startsWith( "s" ) )
-        {
-            if ( sqlType == Types.CHAR )
-            {
-                return Constants.COLUMN_CHAR;
-            }
-            else
-            {
-                return Constants.COLUMN_VARCHAR;
-            }
-        }
-        else if ( temp.startsWith( "dtetimestamp" ) )
-        {
-            return Constants.COLUMN_CURRENT_TIMESTAMP;
-        }
-        else if ( temp.startsWith( "dtecreated" ) )
-        {
-            return Constants.COLUMN_CREATED_TIMESTAMP;
-        }
-        else if ( temp.startsWith( "dte" ) )
-        {
-            return Constants.COLUMN_TIMESTAMP;
-        }
-        else if ( temp.startsWith( "blob" ) )
-        {
-            return Constants.COLUMN_BINARY;
-        }
-        else if ( temp.startsWith( "d" ) )
-        {
-            return Constants.COLUMN_FLOAT;
-        }
-        else if ( temp.startsWith( "xml" ) )
-        {
-            if ( sqlType == Types.VARCHAR )
-            {
-                return Constants.COLUMN_SHORTXML;
-            }
-            else
-            {
-                return Constants.COLUMN_XML;
-            }
-        }
-        else if ( temp.startsWith( "cdata" ) )
-        {
-            return Constants.COLUMN_CDATA;
-        }
-        else if ( temp.startsWith( "b" ) )
-        {
-            return Constants.COLUMN_BOOLEAN;
-        }
-        else if ( temp.startsWith( "h" ) )
-        {
-            return Constants.COLUMN_CHAR;
-        }
-
-        // Dirty hack... These column names does not follow our convention
-        else if ( temp.startsWith( "mbdata" ) )
-        {
-            return Constants.COLUMN_XML;
-        }
-        else if ( temp.startsWith( "firstpage" ) )
-        {
-            return Constants.COLUMN_INTEGER;
-        }
-        else if ( temp.startsWith( "errorpage" ) )
-        {
-            return Constants.COLUMN_INTEGER;
-        }
-        else if ( temp.startsWith( "xsldata" ) )
-        {
-            return Constants.COLUMN_XML;
-        }
-
-        //throw new RuntimeException();
-        System.err.println( "guessType(String): Unknown column type: " + typeStr );
         return null;
     }
 }
