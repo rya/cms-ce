@@ -8,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -41,8 +40,6 @@ import com.enonic.vertical.engine.handlers.UserHandler;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.core.calendar.CalendarService;
@@ -90,13 +87,7 @@ public class PresentationEngine
     private UserHandler userHandler;
 
     @Autowired
-    private ContentDao contentDao;
-
-    @Autowired
     private SiteDao siteDao;
-
-    @Autowired
-    private MenuItemDao menuItemDao;
 
     public void afterPropertiesSet()
         throws Exception
@@ -178,51 +169,6 @@ public class PresentationEngine
     public XMLDocument getFormattedDate( int offset, String dateformat, String language, String country )
     {
         return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
-    }
-
-    public Document getFusionBotQuery( String fusionBotUrl, String query, int siteNum, int page )
-    {
-        final String MESSAGE_00 = "Failed to query FusionBot search engine";
-
-        Document doc;
-        try
-        {
-            StringBuffer urlStr = new StringBuffer( fusionBotUrl );
-            urlStr.append( "?keys=" );
-            StringBuffer sb = new StringBuffer( query.replace( ' ', '+' ) );
-            for ( int i = 0; i < sb.length(); i++ )
-            {
-                char c = sb.charAt( i );
-                if ( c == '<' )
-                {
-                    sb.replace( i, i + 1, "&#x3c;" );
-                    i += 5;
-                }
-            }
-            urlStr.append( sb.toString() );
-            urlStr.append( "&sitenbr=" );
-            urlStr.append( siteNum );
-            urlStr.append( "&ct=0&xml=1&pos=" );
-            urlStr.append( page );
-
-            URL url = new URL( urlStr.toString() );
-            URLConnection urlConn = url.openConnection();
-            InputStream in = urlConn.getInputStream();
-
-            doc = XMLTool.domparse( in );
-        }
-        catch ( Exception e )
-        {
-            VerticalEngineLogger.error( getClass(), 0, MESSAGE_00, e );
-            doc = null;
-        }
-
-        if ( doc == null )
-        {
-            doc = XMLTool.createDocument( "noresult" );
-        }
-
-        return doc;
     }
 
     private Document getURL( String address, String encoding, int timeoutMs )
@@ -369,143 +315,6 @@ public class PresentationEngine
     {
         return categoryHandler.getSuperCategoryNames( CategoryKey.parse( categoryKey ), withContentCount, includeCategory );
     }
-
-    public Document getSearchBloxQuery( String searchBloxURL, String query, int collectionId, int page, String sort )
-    {
-        com.enonic.esl.net.URL sbURL = new com.enonic.esl.net.URL( searchBloxURL );
-        sbURL.setParameter( "query", query );
-        sbURL.setParameter( "col", collectionId );
-        sbURL.setParameter( "page", page );
-        sbURL.setParameter( "xsl", "xml" );
-        if ( sort != null )
-        {
-            sbURL.setParameter( "sort", sort );
-        }
-
-        return getSearchBloxQueryInternal( sbURL );
-    }
-
-    public Document getSearchBloxQuery( String searchBloxURL, String queryAll, String queryExactPhrase, String queryLeastOneWord,
-                                        String queryWithoutTheWords, String language, String contentType, int startDate, String occurance,
-                                        int collectionId, int page, int pageSize, String sort )
-    {
-        com.enonic.esl.net.URL sbURL = new com.enonic.esl.net.URL( searchBloxURL );
-        sbURL.setParameter( "st", "adv" );
-
-        if ( queryAll != null )
-        {
-            sbURL.setParameter( "q_all", queryAll );
-        }
-        else
-        {
-            sbURL.setParameter( "q_all", "" );
-        }
-
-        if ( queryExactPhrase != null )
-        {
-            sbURL.setParameter( "q_phr", queryExactPhrase );
-        }
-        else
-        {
-            sbURL.setParameter( "q_phr", "" );
-        }
-
-        if ( queryLeastOneWord != null )
-        {
-            sbURL.setParameter( "q_low", queryLeastOneWord );
-        }
-        else
-        {
-            sbURL.setParameter( "q_low", "" );
-        }
-
-        if ( queryWithoutTheWords != null )
-        {
-            sbURL.setParameter( "q_not", queryWithoutTheWords );
-        }
-        else
-        {
-            sbURL.setParameter( "q_not", "" );
-        }
-
-        if ( language != null )
-        {
-            sbURL.setParameter( "language", language );
-        }
-
-        if ( contentType != null )
-        {
-            sbURL.setParameter( "contenttype", contentType );
-        }
-
-        if ( startDate > 0 )
-        {
-            sbURL.setParameter( "startdate", startDate );
-        }
-        else
-        {
-            sbURL.setParameter( "startdate", 0 );
-        }
-
-        if ( occurance != null )
-        {
-            sbURL.setParameter( "oc", occurance );
-        }
-
-        sbURL.setParameter( "col", collectionId );
-        sbURL.setParameter( "page", page );
-
-        if ( pageSize > 0 )
-        {
-            sbURL.setParameter( "pagesize", pageSize );
-        }
-        sbURL.setParameter( "xsl", "xml" );
-
-        if ( sort != null )
-        {
-            sbURL.setParameter( "sort", sort );
-        }
-
-        return getSearchBloxQueryInternal( sbURL );
-    }
-
-    private Document getSearchBloxQueryInternal( com.enonic.esl.net.URL sbURL )
-    {
-        Document doc;
-        try
-        {
-            URL url = new URL( sbURL.toString() );
-            URLConnection urlConn = url.openConnection();
-            InputStream in = urlConn.getInputStream();
-            doc = XMLTool.domparse( in );
-        }
-        catch ( MalformedURLException mue )
-        {
-            String message = "Invalid url: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, mue );
-            doc = null;
-        }
-        catch ( IOException ioe )
-        {
-            String message = "Failed to query SearchBlox search engine: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, ioe );
-            doc = null;
-        }
-        catch ( RuntimeException re )
-        {
-            String message = "Failed to query SearchBlox search engine: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, re );
-            doc = null;
-        }
-
-        if ( doc == null )
-        {
-            doc = XMLTool.createDocument( "noresult" );
-        }
-
-        return doc;
-    }
-
 
     public Document getCategories( User user, int key, int levels, boolean topLevel, boolean details, boolean catCount,
                                    boolean contentCount )

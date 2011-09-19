@@ -501,14 +501,6 @@ public final class DataSourceServiceImpl
     }
 
     /**
-     * Reserved for special use.
-     */
-    public XMLDocument getFusionBotQuery( DataSourceContext context, String fusionBotUrl, String query, int siteNum, int page )
-    {
-        return XMLDocumentFactory.create( presentationEngine.getFusionBotQuery( fusionBotUrl, query, siteNum, page ) );
-    }
-
-    /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
@@ -1150,23 +1142,6 @@ public final class DataSourceServiceImpl
         return XMLDocumentFactory.create(
                 presentationEngine.getCategories( context.getUser(), key, levels, topLevel, details, catCount,
                                                   contentCount ) );
-    }
-
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String query, int collectionId, int page,
-                                           String sort )
-    {
-        return XMLDocumentFactory.create( presentationEngine.getSearchBloxQuery( searchBloxURL, query, collectionId, page, sort ) );
-    }
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String queryAll, String queryExactPhrase,
-                                           String queryLeastOneWord, String queryWithoutTheWords, String language, String contentType,
-                                           int startDate, String occurance, int collectionId, int page, int pageSize,
-                                           String sort )
-    {
-        return XMLDocumentFactory.create(
-                presentationEngine.getSearchBloxQuery( searchBloxURL, queryAll, queryExactPhrase, queryLeastOneWord,
-                                                       queryWithoutTheWords, language, contentType, startDate, occurance, collectionId, page, pageSize, sort ) );
     }
 
     @SuppressWarnings({"UnusedDeclaration"})

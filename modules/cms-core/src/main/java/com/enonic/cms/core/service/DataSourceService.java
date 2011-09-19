@@ -5,7 +5,6 @@
 package com.enonic.cms.core.service;
 
 import com.enonic.cms.framework.xml.XMLDocument;
-
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 
 /**
@@ -311,12 +310,6 @@ public interface DataSourceService
      * @return date xml
      */
     public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language, String country );
-
-    /*
-     * Reserved for special use.
-     */
-
-    public XMLDocument getFusionBotQuery( DataSourceContext context, String fusionBotUrl, String query, int siteNum, int page );
 
     /**
      * Returns a menu tree. If levels is 0, entire menu are return. If levels is non-negative number, that number of tree levels are
@@ -774,14 +767,6 @@ public interface DataSourceService
      */
     public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details, boolean catCount,
                                       boolean contentCount );
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String query, int collectionId, int page,
-                                           String sort );
-
-    public XMLDocument getSearchBloxQuery( DataSourceContext context, String searchBloxURL, String queryAll, String queryExactPhrase,
-                                           String queryLeastOneWord, String queryWithoutTheWords, String language, String contentType,
-                                           int startDate, String occurance, int collectionId, int page, int pageSize, String sort );
-
 
     /**
      * Get page content with the possibility to include relative contents.
