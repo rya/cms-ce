@@ -23,7 +23,6 @@ import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.MenuElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 import com.enonic.vertical.engine.processors.UserElementProcessor;
-import com.enonic.vertical.event.ContentHandlerListener;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 
@@ -37,7 +36,7 @@ import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
 public final class LogHandler
     extends BaseHandler
-    implements ContentHandlerListener, MenuHandlerListener
+    implements MenuHandlerListener
 {
 
     /**

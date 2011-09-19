@@ -12,7 +12,7 @@ import com.enonic.vertical.engine.VerticalUpdateException;
 
 
 public class VerticalEventMulticaster
-    implements ContentHandlerListener, MenuHandlerListener, VerticalEventListener
+    implements MenuHandlerListener, VerticalEventListener
 {
 
     protected LinkedHashSet<VerticalEventListener> listenerSet = new LinkedHashSet<VerticalEventListener>();

@@ -49,7 +49,6 @@ import com.enonic.vertical.engine.processors.ContentTypeProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 import com.enonic.vertical.engine.processors.VersionKeyContentMapProcessor;
-import com.enonic.vertical.event.ContentHandlerListener;
 import com.enonic.vertical.event.VerticalEventMulticaster;
 
 import com.enonic.cms.framework.util.TIntArrayList;
@@ -188,12 +187,6 @@ public final class ContentHandler
         }
         return doc;
     }
-
-    public synchronized void addListener( ContentHandlerListener chl )
-    {
-        multicaster.add( chl );
-    }
-
 
     public boolean contentExists( CategoryKey categoryKey, String contentTitle )
     {

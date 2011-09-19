@@ -35,7 +35,6 @@ import com.enonic.vertical.engine.dbmodel.SectionView;
 import com.enonic.vertical.engine.processors.AttributeElementProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
-import com.enonic.vertical.event.ContentHandlerListener;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -49,7 +48,6 @@ import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
 
 public class SectionHandler
     extends BaseHandler
-    implements ContentHandlerListener
 {
 
     private class FilteredAttributeElementProcessor

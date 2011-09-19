@@ -140,8 +140,6 @@ public final class AdminEngine
     private void init()
     {
         // event listeners
-        contentHandler.addListener( logHandler );
-        contentHandler.addListener( sectionHandler );
         menuHandler.addListener( logHandler );
     }
 
