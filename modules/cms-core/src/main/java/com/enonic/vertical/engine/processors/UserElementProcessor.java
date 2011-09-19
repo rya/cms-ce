@@ -29,9 +29,6 @@ public class UserElementProcessor
         this.db = db;
     }
 
-    /**
-     * @see com.enonic.vertical.engine.base.ElementProcessor#process(org.w3c.dom.Element)
-     */
     public void process( Element elem )
     {
         String userKey = elem.getAttribute( "userkey" );

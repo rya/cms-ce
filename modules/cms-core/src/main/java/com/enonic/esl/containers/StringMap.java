@@ -19,25 +19,6 @@ public class StringMap
     private boolean caseSensitive;
 
     /**
-     * @param initialCapacity
-     * @param loadFactor
-     */
-    public StringMap( int initialCapacity, float loadFactor, boolean caseSensitive )
-    {
-        internalMap = new HashMap<String, Object>( initialCapacity, loadFactor );
-        this.caseSensitive = caseSensitive;
-    }
-
-    /**
-     * @param initialCapacity
-     */
-    public StringMap( int initialCapacity, boolean caseSensitive )
-    {
-        internalMap = new HashMap<String, Object>( initialCapacity );
-        this.caseSensitive = caseSensitive;
-    }
-
-    /**
      *
      */
     public StringMap( boolean caseSensitive )

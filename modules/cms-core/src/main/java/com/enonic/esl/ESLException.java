@@ -25,12 +25,4 @@ public final class ESLException
     {
         super( message, cause );
     }
-
-    /**
-     * Construct the exception.
-     */
-    public ESLException( Throwable cause )
-    {
-        super( cause.getMessage(), cause );
-    }
 }

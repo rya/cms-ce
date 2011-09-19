@@ -7,21 +7,8 @@ package com.enonic.esl.containers;
 public class OnlyStringKeysSupported
     extends RuntimeException
 {
-
-    /**
-     * @param s
-     */
     public OnlyStringKeysSupported( Object key )
     {
         super( key + "(" + key.getClass() + ")" );
-    }
-
-    /**
-     *
-     *
-     */
-    public OnlyStringKeysSupported()
-    {
-        super();
     }
 }

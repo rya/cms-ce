@@ -219,45 +219,17 @@ public class VerticalEngineLogger
     }
 
     public static void fatalEngine( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalEngineRuntimeException
     {
-
-        try
-        {
-            fatal( clazz, msgKey, message, msgData, throwable, VerticalEngineRuntimeException.class );
-        }
-        catch ( VerticalRuntimeException vre )
-        {
-            throw (VerticalEngineRuntimeException) vre;
-        }
+        fatal( clazz, msgKey, message, msgData, throwable, VerticalRuntimeException.class );
     }
 
     public static void fatalEngine( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalEngineRuntimeException
     {
-
-        try
-        {
-            fatal( clazz, msgKey, message, msgData, throwable, VerticalEngineRuntimeException.class );
-        }
-        catch ( VerticalRuntimeException vre )
-        {
-            throw (VerticalEngineRuntimeException) vre;
-        }
+        fatal( clazz, msgKey, message, msgData, throwable, VerticalRuntimeException.class );
     }
 
     public static void fatalEngine( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalEngineRuntimeException
     {
-
-        try
-        {
-            fatal( clazz, msgKey, message, throwable, VerticalEngineRuntimeException.class );
-        }
-        catch ( VerticalRuntimeException vre )
-        {
-            throw (VerticalEngineRuntimeException) vre;
-        }
+        fatal( clazz, msgKey, message, throwable, VerticalRuntimeException.class );
     }
-
 }

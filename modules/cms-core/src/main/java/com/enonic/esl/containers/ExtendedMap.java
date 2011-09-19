@@ -5,7 +5,6 @@
 package com.enonic.esl.containers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -244,78 +243,6 @@ public class ExtendedMap
         }
     }
 
-    public byte getByte( Object key )
-    {
-        try
-        {
-            return (Byte) get( key );
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a byte." );
-        }
-    }
-
-    public byte getByte( Object key, byte defaultValue )
-    {
-        try
-        {
-            if ( containsKey( key ) )
-            {
-                return (Byte) get( key );
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a byte." );
-        }
-    }
-
-    public Object putByte( Object key, byte value )
-    {
-        return put( key, new Byte( value ) );
-    }
-
-    public short getShort( Object key )
-    {
-        try
-        {
-            return (Short) get( key );
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a short." );
-        }
-    }
-
-    public short getShort( Object key, short defaultValue )
-    {
-        try
-        {
-            if ( containsKey( key ) )
-            {
-                return (Short) get( key );
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a short." );
-        }
-    }
-
-    public Object putShort( Object key, short value )
-    {
-        return put( key, new Short( value ) );
-    }
-
     public int getInt( Object key )
     {
         try
@@ -355,150 +282,6 @@ public class ExtendedMap
     public Object put( Object key, int value )
     {
         return put( key, new Integer( value ) );
-    }
-
-    public long getLong( Object key )
-    {
-        try
-        {
-            return (Long) get( key );
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a long." );
-        }
-    }
-
-    public long getLong( Object key, long defaultValue )
-    {
-        try
-        {
-            if ( containsKey( key ) )
-            {
-                return (Long) get( key );
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a long." );
-        }
-    }
-
-    public Object putLong( Object key, long value )
-    {
-        return put( key, value );
-    }
-
-    public float getFloat( Object key )
-    {
-        try
-        {
-            return (Float) get( key );
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a float." );
-        }
-    }
-
-    public float getFloat( Object key, float defaultValue )
-    {
-        try
-        {
-            if ( containsKey( key ) )
-            {
-                return (Float) get( key );
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a float." );
-        }
-    }
-
-    public Object putFloat( Object key, float value )
-    {
-        return put( key, value );
-    }
-
-    public double getDouble( Object key )
-    {
-        try
-        {
-            return (Double) get( key );
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a double." );
-        }
-    }
-
-    public double getDouble( Object key, double defaultValue )
-    {
-        try
-        {
-            if ( containsKey( key ) )
-            {
-                return (Double) get( key );
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a double." );
-        }
-    }
-
-    public Object putDouble( Object key, double value )
-    {
-        return put( key, value );
-    }
-
-    public char getChar( Object key )
-    {
-        try
-        {
-            return (Character) get( key );
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a char." );
-        }
-    }
-
-    public char getChar( Object key, char defaultValue )
-    {
-        try
-        {
-            if ( containsKey( key ) )
-            {
-                return (Character) get( key );
-            }
-            else
-            {
-                return defaultValue;
-            }
-        }
-        catch ( ClassCastException cce )
-        {
-            throw new IllegalArgumentException( "Value with key [" + key + "] is not a char." );
-        }
-    }
-
-    public Object putChar( Object key, char value )
-    {
-        return put( key, new Character( value ) );
     }
 
     public FileItem getFileItem( Object key )
@@ -574,36 +357,6 @@ public class ExtendedMap
     public Object put( Object key, boolean value )
     {
         return put( key, ( value ? Boolean.TRUE : Boolean.FALSE ) );
-    }
-
-    /**
-     * Verify that the map contains a collection of keys.
-     */
-    public boolean containsKeys( Collection coll, boolean allowNull )
-    {
-        boolean result = true;
-
-        Iterator iter = coll.iterator();
-        while ( iter.hasNext() )
-        {
-            Object key = iter.next();
-
-            if ( !containsKey( key ) )
-            {
-                result = false;
-            }
-            else if ( !allowNull && get( key ) == null )
-            {
-                result = false;
-            }
-
-            if ( !result )
-            {
-                break;
-            }
-        }
-
-        return result;
     }
 
     /**

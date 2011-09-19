@@ -40,8 +40,6 @@ public class XDG
 
     public static final String OPERATOR_EQUAL = " = ";
 
-    public static final String OPERATOR_NOT_EQUAL = " <> ";
-
     public static final String OPERATOR_GREATER = " > ";
 
     public static final String OPERATOR_GREATER_OR_EQUAL = " >= ";
@@ -50,13 +48,9 @@ public class XDG
 
     public static final String OPERATOR_LESS_OR_EQUAL = " <= ";
 
-    public static final String OPERATOR_ISNULL = " IS NULL";
-
     public static final String OPERATOR_LIKE = " LIKE ";
 
     public static final String OPERATOR_RANGE = " RANGE ";
-
-    public static final String JOINTYPE_LEFT_JOIN = " LEFT JOIN ";
 
     public static final String JOINTYPE_JOIN = " JOIN ";
 
@@ -79,33 +73,6 @@ public class XDG
         sql.append( column );
         sql.append( " = " );
         sql.append( foreignColumn );
-        return sql;
-    }
-
-    public static StringBuffer appendJoinSQL( StringBuffer sql, Column[] columns, Table foreignTable, Column[] foreignColumns,
-                                              String joinType )
-    {
-        if ( sql == null )
-        {
-            sql = new StringBuffer( joinType );
-        }
-        else
-        {
-            sql.append( joinType );
-        }
-
-        appendTable( sql, foreignTable );
-        sql.append( " ON " );
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            if ( i > 0 )
-            {
-                sql.append( " AND " );
-            }
-            sql.append( columns[i] );
-            sql.append( " = " );
-            sql.append( foreignColumns[i] );
-        }
         return sql;
     }
 
@@ -395,16 +362,6 @@ public class XDG
         {
             sql.append( "*" );
         }
-        return sql;
-    }
-
-    public static StringBuffer generateFKJoinSQL( Table table, ForeignKeyColumn fkColumn, Column[] selectColumns, Column[] whereColumns )
-    {
-
-        StringBuffer sql = generateSelectSQL( table, selectColumns, false, null );
-        appendJoinSQL( sql, fkColumn );
-        generateWhereSQL( sql, whereColumns );
-
         return sql;
     }
 

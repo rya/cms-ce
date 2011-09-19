@@ -63,25 +63,6 @@ public final class Base64Util
     }
 
     /**
-     * Calculates the size.
-     */
-    public static long calcEncodedLength( long dataLength )
-    {
-        long encLen = dataLength * 4 / 3;
-        encLen += ( encLen + 4 ) % 4;
-        return encLen;
-    }
-
-    /**
-     * Pessimistically guesses the size.
-     */
-    public static long guessDecodedLength( long encLength )
-    {
-        long decLen = encLength * 3 / 4;
-        return decLen + 3;
-    }
-
-    /**
      * Outputs base64 representation of the specified stream data to a <code>Writer</code>.
      */
     public static void encode( InputStream in, Writer writer )

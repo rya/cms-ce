@@ -25,9 +25,6 @@ public class MenuElementProcessor
         this.db = db;
     }
 
-    /**
-     * @see com.enonic.vertical.engine.base.ElementProcessor#process(org.w3c.dom.Element)
-     */
     public void process( Element elem )
     {
         String intStr = elem.getAttribute( "menukey" );

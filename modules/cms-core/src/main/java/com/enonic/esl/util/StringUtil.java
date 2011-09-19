@@ -90,16 +90,6 @@ public final class StringUtil
         return true;
     }
 
-    public static String expandString( String baseString, Object[] objects )
-    {
-        return expandString( baseString, objects, null );
-    }
-
-    public static String expandString( String baseString, int[] values )
-    {
-        return expandString( baseString, values, null );
-    }
-
     public static String expandString( String baseString, Object[] objects, Throwable throwable )
     {
 
@@ -128,49 +118,6 @@ public final class StringUtil
                     string.replace( index, index + 1 + String.valueOf( i ).length(), "null" );
                 }
 
-            }
-        }
-
-        // replace "%t" with the throwable's message
-        if ( throwable != null )
-        {
-            int index = string.toString().indexOf( "%t" );
-            if ( index >= 0 )
-            {
-                String msg = throwable.getMessage();
-                if ( msg != null )
-                {
-                    string.replace( index, index + 2, msg );
-                }
-                else
-                {
-                    string.replace( index, index + 2, "null" );
-                }
-            }
-        }
-
-        return string.toString();
-    }
-
-    public static String expandString( String baseString, int[] values, Throwable throwable )
-    {
-
-        StringBuffer string = new StringBuffer( baseString );
-        if ( values != null )
-        {
-            for ( int i = values.length - 1; i >= 0; i-- )
-            {
-                String indexStr = "%" + String.valueOf( i );
-                int index = baseString.indexOf( indexStr );
-
-                // skip loop if the index string was not found in the base string:
-                if ( index == -1 )
-                {
-                    continue;
-                }
-
-                // replace the index string with the value:
-                string.replace( index, index + 1 + String.valueOf( i ).length(), String.valueOf( values[i] ) );
             }
         }
 
@@ -366,82 +313,6 @@ public final class StringUtil
         return string.toString();
     }
 
-    public static String readerToString( Reader reader )
-    {
-        StringBuffer newString = new StringBuffer();
-
-        BufferedReader breader = new BufferedReader( reader );
-
-        try
-        {
-            int c;
-            while ( ( c = breader.read() ) != -1 )
-            {
-                newString.append( (char) c );
-            }
-        }
-        catch ( IOException ioe )
-        {
-            System.err.println( "[StringUtil:Error] I/O error reading from Reader." );
-            ioe.printStackTrace();
-        }
-
-        return newString.toString();
-    }
-
-    public static String[] inputStreamToStringArray( InputStream is, String enc )
-        throws IOException
-    {
-        ArrayList<String> strings = new ArrayList<String>();
-        BufferedReader reader = new BufferedReader( new InputStreamReader( is, enc ) );
-
-        String line;
-        while ( ( line = reader.readLine() ) != null )
-        {
-            strings.add( line );
-        }
-
-        String[] stringArray = new String[strings.size()];
-        for ( int i = 0; i < stringArray.length; i++ )
-        {
-            stringArray[i] = strings.get( i );
-        }
-
-        return stringArray;
-    }
-
-    public static String inputStreamToString( InputStream is, String enc )
-        throws IOException
-    {
-
-        StringBuffer newString = new StringBuffer();
-        BufferedReader reader = new BufferedReader( new InputStreamReader( is, enc ) );
-
-        String line;
-        while ( ( line = reader.readLine() ) != null )
-        {
-            newString.append( line );
-        }
-
-        return newString.toString();
-    }
-
-    static public String mergeStrings( String[] values, String delimiter )
-    {
-        if ( values == null || values.length == 0 )
-        {
-            return null;
-        }
-
-        StringBuffer merged = new StringBuffer( values[0] );
-        for ( int i = 1; i < values.length; i++ )
-        {
-            merged.append( delimiter );
-            merged.append( values[i] );
-        }
-        return merged.toString();
-    }
-
     static public String mergeInts( int[] values, String delimiter )
     {
         if ( values == null || values.length == 0 )
@@ -493,18 +364,6 @@ public final class StringUtil
         }
 
         return result.toArray( new String[0] );
-    }
-
-    /**
-     * Strip HTML from a text, and return the result. In its current form, it replaces everything between &lt; and &gt; with an empty
-     * string. This is not very reliable, and should preferably be improved.
-     *
-     * @param text The string that the HTML should be removed from.
-     * @return Returns the resulting string.
-     */
-    static public String stripHTML( String text )
-    {
-        return text.replaceAll( "<.*?>", "" );
     }
 
     static public String stripControlChars( String text )
@@ -574,20 +433,6 @@ public final class StringUtil
         return sb.toString();
     }
 
-    public static String replaceString( String text, String what, String with )
-    {
-
-        int startPos = text.indexOf( what );
-        if ( startPos == -1 )
-        {
-            return text;
-        }
-
-        StringBuffer newText = new StringBuffer( text );
-        replaceString( newText, what, with, startPos );
-        return newText.toString();
-    }
-
     public static String replaceAll( String text, String what, String with )
     {
         int startPos = text.indexOf( what );
@@ -638,74 +483,6 @@ public final class StringUtil
         text.replace( startPos, ( startPos + what.length() ), with );
     }
 
-    public static String[] tokenize( String str )
-    {
-        StreamTokenizer tokenizer = new StreamTokenizer( new StringReader( str ) );
-
-        ArrayList<String> tokens = new ArrayList<String>();
-
-        try
-        {
-            while ( tokenizer.nextToken() != StreamTokenizer.TT_EOF )
-            {
-                if ( tokenizer.ttype == StreamTokenizer.TT_NUMBER )
-                {
-                    tokens.add( String.valueOf( tokenizer.nval ) );
-                }
-                else
-                {
-                    tokens.add( tokenizer.sval );
-                }
-            }
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
-
-        return tokens.toArray( new String[0] );
-    }
-
-    public static String truncate( String str, int maxByteCount )
-    {
-        int byteCount = 0;
-        int charCount = 0;
-        char[] chars = str.toCharArray();
-        for ( int i = 0; byteCount < maxByteCount && i < chars.length; i++ )
-        {
-            int c = (int) chars[i];
-            if ( c <= 0x7F )
-            {
-                // 0000 - 007F
-                byteCount++;
-                charCount++;
-            }
-            else if ( c <= 0x7FF )
-            {
-                // 0080 - 07FF
-                byteCount += 2;
-                if ( byteCount <= maxByteCount )
-                {
-                    charCount++;
-                }
-            }
-            else if ( c <= 0xFFFF )
-            {
-                // 0800 - FFFF
-                byteCount += 3;
-                if ( byteCount <= maxByteCount )
-                {
-                    charCount++;
-                }
-            }
-            else
-            {
-                throw new IllegalStateException( "Unknown character" );
-            }
-        }
-        return str.substring( 0, charCount );
-    }
-
     public static String upperCaseWord( String string, String word, boolean firstAlso )
     {
         int pos = -1;
@@ -724,19 +501,6 @@ public final class StringUtil
             string =
                 string.substring( 0, pos ).concat( string.substring( pos, pos + 1 ).toUpperCase() ).concat( string.substring( pos + 1 ) );
             pos = string.indexOf( word, pos );
-        }
-        return string;
-    }
-
-    public static String upperCaseWordAfter( String string, String word )
-    {
-        int wordLength = word.length();
-        int pos = string.indexOf( word );
-        while ( pos > -1 && ( pos + wordLength < string.length() ) )
-        {
-            String upperCasedChar = string.substring( pos + wordLength, pos + wordLength + 1 ).toUpperCase();
-            string = string.substring( 0, pos + wordLength ).concat( upperCasedChar ).concat( string.substring( pos + wordLength + 1 ) );
-            pos = string.indexOf( word, pos + wordLength );
         }
         return string;
     }
@@ -805,25 +569,6 @@ public final class StringUtil
         bytes[7] = (byte) ( value & 0xFF );
 
         return toHex( bytes );
-    }
-
-    public static String[] removeDuplicates( String[] strings )
-    {
-        ArrayList<String> tmp = new ArrayList<String>();
-        for ( int i = 0; i < strings.length; i++ )
-        {
-            if ( !tmp.contains( strings[i] ) )
-            {
-                tmp.add( strings[i] );
-            }
-        }
-
-        String[] newStrings = new String[tmp.size()];
-        for ( int i = 0; i < newStrings.length; i++ )
-        {
-            newStrings[i] = tmp.get( i );
-        }
-        return newStrings;
     }
 
     public static String getXMLSafeString( String input )
