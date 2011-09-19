@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title>HTML Templates</title>
+    <link rel="stylesheet" type="text/css" href="../../ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/generic.css">
+    <link rel="stylesheet" type="text/css" href="css/generic-user-info.css">
+    <link rel="stylesheet" type="text/css" href="css/delete-item-form.css">
+</head>
+<body>
+<h2 class="header">Delete Confirmation Message (1)</h2>
+
+<!-- Template START -->
+<div class="cms-delete-user-confirmation-message">
+    <div class="cms-user-info clearfix" style="margin-bottom:10px">
+        <div class="cms-user-photo cms-left">
+            <img alt="User" src="../../resources/images/x-user.png"/>
+        </div>
+        <div class="cms-left">
+            {Display name}<br/>
+            ({Qualified name})<br/>
+            {<a href="mailto:">name@domain.com</a>}
+        </div>
+    </div>
+
+</div>
+<!-- Template END -->
+
+<h2 class="header">Delete Confirmation Message (&gt; 1)</h2>
+
+<!-- Template START -->
+<div class="cms-delete-user-confirmation-message">
+    Delete 5 {items}?
+</div>
+<!-- Template END -->
+
+
+</body>
+</html>
