@@ -43,15 +43,6 @@ Ext.define( 'App.view.GridPanel', {
             }
         ];
 
-        this.tbar = {
-            xtype: 'toolbar',
-            items: [
-                {
-                    text: 'Accounts'
-                }
-            ]
-        };
-
         this.viewConfig = {
             trackOver : true,
             stripeRows: true
