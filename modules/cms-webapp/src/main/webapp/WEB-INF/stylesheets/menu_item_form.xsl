@@ -17,7 +17,7 @@
     <xsl:include href="common/generic_parameters.xsl"/>
     <xsl:include href="common/genericheader.xsl"/>
     <xsl:include href="common/textfield.xsl"/>
-	  <xsl:include href="common/textarea.xsl"/>
+	<xsl:include href="common/textarea.xsl"/>
     <xsl:include href="common/accessrights.xsl"/>
     <xsl:include href="common/button.xsl"/>
     <xsl:include href="common/searchfield.xsl"/>
@@ -49,29 +49,21 @@
     <xsl:param name="menu-name" select="''"/>
     <xsl:param name="displayname" select="''"/>
     <xsl:param name="description" select="''"/>
-	  <xsl:param name="keywords" select="''"/>
+	<xsl:param name="keywords" select="''"/>
     <xsl:param name="document" select="''"/>
     <xsl:param name="noauth" select="'notset'"/>
     <xsl:param name="catkey" select="'none'"/>
     <xsl:param name="catname" select="'none'"/>
     <xsl:param name="selectedtabpageid" select="'none'"/>
-	  <xsl:param name="contenttitle"/>
+	<xsl:param name="contenttitle"/>
     <xsl:param name="forward_shortcut" select="'false'"/>
     <xsl:param name="contenttypestring" select="''"/>
-    <xsl:param name="expertcontributor"/>
-  <xsl:param name="developer"/>
 
-  <xsl:param name="accessToHtmlSource">
-    <xsl:choose>
-      <xsl:when test="$expertcontributor = 'true' or $developer = 'true'">
-        <xsl:value-of select="true()"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="false()"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:param>
-  <xsl:param name="defaultRunAsUser"/>
+    <xsl:param name="defaultRunAsUser"/>
+
+    <xsl:param name="developer"/>
+    <xsl:param name="expertcontributor"/>
+    <xsl:param name="accessToHtmlSource" select="$expertcontributor = 'true' or $developer = 'true'"/>
 
   <xsl:variable name="displayname-help-element">
     <help>%hlpMenuItemDisplayName%</help>
@@ -93,7 +85,6 @@
 
   <xsl:variable name="menu" select="//menu[@key = $menukey]"/>
   <xsl:variable name="menuitem" select="//menuitem[@key = $key]"/>
-
   <xsl:variable name="parentmenuitem" select="//menuitem[@key = $insertbelow]"/>
 
   <xsl:variable name="contentobjectselector_multi_size" select="25"/>
@@ -126,9 +117,6 @@
       <xsl:when test="$menuitem">
         <xsl:value-of select="not($menuitem/accessrights/userright) or $menuitem/accessrights/userright/@administrate = 'true'"/>
       </xsl:when>
-      <!--xsl:when test="$parentmenuitem">
-                <xsl:value-of select="not($parentmenuitem/accessrights/userright) or $parentmenuitem/accessrights/userright/@administrate = 'true'"/>
-            </xsl:when-->
             <xsl:otherwise>
                 <xsl:value-of select="not(/menus/accessrights/userright) or /menus/accessrights/userright/@administrate = 'true'"/>
             </xsl:otherwise>
@@ -182,24 +170,13 @@
         </xsl:choose>
     </xsl:variable>
 
-    <xsl:variable name="selpagetemplatekey2">
-        <xsl:choose>
-            <xsl:when test="$selpagetemplatekey!=''"><xsl:value-of select="$selpagetemplatekey"/></xsl:when>
-            <xsl:when test="$menuitem[1]/page/@pagetemplatekey"><xsl:value-of select="$menuitem[1]/page/@pagetemplatekey"/></xsl:when>
-            <xsl:when test="$insertbelow = 'undefined'">
-                <xsl:value-of select="'-1'"/>
-            </xsl:when>
-            <xsl:otherwise>-2</xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-
-    <xsl:variable name="pagetemplatetype" select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type"/>
+    <xsl:variable name="pagetemplatetype" select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type"/>
 
     <xsl:variable name="sectionmode" select="( ($pagetemplatetype = 'sectionpage' or $pagetemplatetype= 'newsletter') and $selected_type != 'externalurl' and $selected_type != 'shortcut' and $selected_type != 'label' and $selected_type != 'section') or $selected_type = 'section'"/>
 
     <xsl:variable name="create">
         <xsl:choose>
-            <xsl:when test="boolean($menuitem[1]/page)">0</xsl:when>
+            <xsl:when test="boolean($menuitem/page)">0</xsl:when>
             <xsl:otherwise>1</xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
@@ -207,12 +184,6 @@
     <xsl:variable name="hideContentKey" select="$forward_data or (not($forward_data) and not($menuitem/@contentkey))"/>
 
     <xsl:template match="/">
-
-    	<xsl:variable name="temp">
-			<xsl:copy-of select="$menu"/>
-			<xsl:copy-of select="$menuitem"/>
-		</xsl:variable>
-
         <html>
             <head>
                 <link href="css/admin.css" rel="stylesheet" type="text/css"/>
@@ -313,7 +284,7 @@
                         keepPane = false;
                       }
 
-                      document.getElementById('formAdmin').setAttribute("action", <xsl:text>"adminpage?op=form&amp;forward_data=true&amp;selectedtabpageid=" + selectedPage + "&amp;page="+ "</xsl:text><xsl:value-of select="$page"/><xsl:text>&amp;selpagetemplatekey=</xsl:text><xsl:value-of select="$selpagetemplatekey2"/><xsl:text>");</xsl:text>
+                      document.getElementById('formAdmin').setAttribute("action", <xsl:text>"adminpage?op=form&amp;forward_data=true&amp;selectedtabpageid=" + selectedPage + "&amp;page="+ "</xsl:text><xsl:value-of select="$page"/><xsl:text>&amp;selpagetemplatekey=</xsl:text><xsl:value-of select="$selpagetemplatekey"/><xsl:text>");</xsl:text>
                       document.forms['formAdmin'].submit();
                     }
 
@@ -338,10 +309,6 @@
                       {
                         document.getElementById('formAdmin').setAttribute("action", <xsl:text>"adminpage?op=form&amp;forward_data=true&amp;selpagetemplatekey=" + templateKey</xsl:text>);
                       }
-
-                      <xsl:if test="$type = 'content' and not($selpagetemplatekey2 = -2)">
-                      var f = document.forms['formAdmin'];
-                      </xsl:if>
 
                       document.forms['formAdmin'].submit();
                     }
@@ -593,8 +560,6 @@
                 }
               </xsl:if>
 
-              var f = document.forms[formName];
-
               var valid = checkAll(formName, validatedFields, tabPane);
 
               if ( !valid )
@@ -719,8 +684,8 @@
 
               <xsl:text>var g_parentKey = </xsl:text>
               <xsl:choose>
-                <xsl:when test="//menuitem[@key = $key]/@parent != ''">
-                  <xsl:value-of select="//menuitem[@key = $key]/@parent"/>
+                <xsl:when test="$menuitem/@parent != ''">
+                  <xsl:value-of select="$menuitem/@parent"/>
                 </xsl:when>
                 <xsl:otherwise>
                   <xsl:text>-1</xsl:text>
@@ -729,20 +694,6 @@
               <xsl:text>;</xsl:text>
 
               menuitem_checkIfMenuItemNameExistsAndSubmit(document.getElementById('name'), <xsl:value-of select="$menu-item-key"/>, <xsl:value-of select="$parent-menu-item-key"/>, tabPane);
-
-              /*
-              var buttons = new Array("save", "cancel", "preview");
-              disableTextButtons(buttons);
-
-              // hack: the cancel button is actually a button inside a link
-              var button = document.getElementById("cancel2");
-              if (button != null)
-              {
-                button.href = '#';
-              }
-
-              f.submit();
-              */
             }
 
             function validateMenuItemName( nameElement )
@@ -763,19 +714,19 @@
 
             function setType(){
             <xsl:choose>
-                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'document' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'document' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                     document.getElementById('type').value = 'content';
                 </xsl:when>
-                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'page' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'page' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                     document.getElementById('type').value = 'page';
                 </xsl:when>
-                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'content' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'content' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                     document.getElementById('type').value = 'content';
                 </xsl:when>
-                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'sectionpage' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'sectionpage' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                     document.getElementById('type').value = 'sectionpage';
                 </xsl:when>
-                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'form' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'form' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                     document.getElementById('type').value = 'form';
 
                     <!--validatedFields[2] = new Array("%fldStoreResponses%", "viewcategory_key", validateRequired);-->
@@ -896,7 +847,7 @@
                       </a>
                       <xsl:if test="number($insertbelow) &gt; -1">
                         <xsl:call-template name="generateheader">
-                          <xsl:with-param name="menuitem" select="//menuitem[@key = $insertbelow]"/>
+                          <xsl:with-param name="menuitem" select="$parentmenuitem"/>
                         </xsl:call-template>
                       </xsl:if>
                       <xsl:text>&nbsp;</xsl:text>
@@ -918,7 +869,7 @@
                       </a>
 
                       <xsl:call-template name="generateheader">
-                        <xsl:with-param name="menuitem" select="//menuitem[@key = $insertbelow]"/>
+                        <xsl:with-param name="menuitem" select="$parentmenuitem"/>
                       </xsl:call-template>
                       <xsl:text>&nbsp;</xsl:text>
                       <span id="titlename">
@@ -930,7 +881,7 @@
                             <xsl:value-of select="$name"/>
                           </xsl:when>
                           <xsl:otherwise>
-                            <xsl:value-of select="concat('/ ', $menuitem[1]/name)"/>
+                            <xsl:value-of select="concat('/ ', $menuitem/name)"/>
                           </xsl:otherwise>
                         </xsl:choose>
                       </span>
@@ -939,13 +890,14 @@
                   </xsl:otherwise>
                 </xsl:choose>
 
+
                 <input type="hidden" name="unitkey" value="{$selectedunitkey}"/>
                 <input type="hidden" name="docindex" value="0"/>
                 <input type="hidden" name="selecteddomainkey" value="{$selecteddomainkey}"/>
                 <input type="hidden" name="selectedunitkey" value="{$selectedunitkey}"/>
-                <input type="hidden" name="pagetemplatekey" value="{$selpagetemplatekey2}"/>
+                <input type="hidden" name="pagetemplatekey" value="{$selpagetemplatekey}"/>
                 <input type="hidden" name="pagetemplatetype"
-                       value="{/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type}"/>
+                       value="{/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type}"/>
                 <input type="hidden" name="menukey" value="{$menukey}"/>
                 <input type="hidden" name="page" value="{$page}"/>
                 <input type="hidden" name="reload" value="true"/>
@@ -1040,7 +992,7 @@
                                           <xsl:value-of select="$displayname"/>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                          <xsl:value-of select="$menuitem[1]/displayname"/>
+                                          <xsl:value-of select="$menuitem/displayname"/>
                                         </xsl:otherwise>
                                       </xsl:choose>
                                     </xsl:with-param>
@@ -1061,7 +1013,7 @@
                                           <xsl:value-of select="$menu-name"/>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                          <xsl:value-of select="$menuitem[1]/menu-name"/>
+                                          <xsl:value-of select="$menuitem/menu-name"/>
                                         </xsl:otherwise>
                                       </xsl:choose>
                                     </xsl:with-param>
@@ -1083,7 +1035,7 @@
                                             </xsl:attribute>
                                           </xsl:if>
                                         </xsl:when>
-                                        <xsl:when test="$menuitem[1]/@visible = 'yes'">
+                                        <xsl:when test="$menuitem/@visible = 'yes'">
                                           <xsl:attribute name="checked">
                                             <xsl:text>checked</xsl:text>
                                           </xsl:attribute>
@@ -1096,7 +1048,7 @@
                               </table>
 
                               <!-- why not merge these two tests?? -->
-                              <xsl:variable name="thispagetemplatetype" select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type"/>
+                              <xsl:variable name="thispagetemplatetype" select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type"/>
 
                               <xsl:if test="( $thispagetemplatetype = 'document' or $thispagetemplatetype = 'newsletter' ) and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                                 <xsl:call-template name="content_form">
@@ -1113,7 +1065,7 @@
                             </fieldset>
 
                             <!-- content selector -->
-                            <xsl:if test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'content' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                            <xsl:if test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'content' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
 
 
 
@@ -1143,7 +1095,7 @@
                                       <xsl:with-param name="name" select="'_selected_content'"/>
                                       <xsl:with-param name="index" select="'0'"/>
                                       <xsl:with-param name="contenttypekeys"
-                                                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/contenttypes/contenttype/@key"/>
+                                                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/contenttypes/contenttype/@key"/>
                                     </xsl:call-template>
 
                                     <input type="hidden" name="contentkey" id="contentkey"/>
@@ -1194,8 +1146,8 @@
                                     <xsl:call-template name="searchfield">
                                       <xsl:with-param name="name" select="'shortcut'"/>
                                       <xsl:with-param name="label" select="'%fldShortcut%:'"/>
-                                      <xsl:with-param name="selectedkey" select="$menuitem[1]/shortcut/@key"/>
-                                      <xsl:with-param name="selectnode" select="$menuitem[1]/shortcut/@name"/>
+                                      <xsl:with-param name="selectedkey" select="$menuitem/shortcut/@key"/>
+                                      <xsl:with-param name="selectnode" select="$menuitem/shortcut/@name"/>
                                       <xsl:with-param name="size" select="'40'"/>
                                       <xsl:with-param name="maxlength" select="'255'"/>
                                       <xsl:with-param name="buttonfunction" select="$function"/>
@@ -1216,7 +1168,7 @@
                                               </xsl:attribute>
                                             </xsl:if>
                                           </xsl:when>
-                                          <xsl:when test="not($menuitem[1]/shortcut/@forward = 'true')">
+                                          <xsl:when test="not($menuitem/shortcut/@forward = 'true')">
                                             <xsl:attribute name="checked">
                                               <xsl:text>checked</xsl:text>
                                             </xsl:attribute>
@@ -1236,7 +1188,7 @@
                                   <xsl:call-template name="sectionfield">
                                     <xsl:with-param name="sectionelem" select="$menuitem/section"/>
                                     <xsl:with-param name="selectedcontenttypes"
-                                                    select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/contenttypes/contenttype"/>
+                                                    select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/contenttypes/contenttype"/>
                                     <xsl:with-param name="disabled" select="true()"/>
                                   </xsl:call-template>
                                 </xsl:when>
@@ -1248,7 +1200,7 @@
                               </xsl:choose>
                             </xsl:if>
 
-                            <xsl:if test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'form' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
+                            <xsl:if test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'form' and $selected_type != 'externalurl' and $selected_type != 'label' and $selected_type != 'section' and $selected_type != 'shortcut'">
                               <xsl:call-template name="formbuilder">
                                 <xsl:with-param name="menuitem" select="$menuitem"/>
                               </xsl:call-template>
@@ -1298,7 +1250,7 @@
                                           <xsl:value-of select="$description"/>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                          <xsl:value-of select="$menuitem[1]/description"/>
+                                          <xsl:value-of select="$menuitem/description"/>
                                         </xsl:otherwise>
                                       </xsl:choose>
                                     </xsl:variable>
@@ -1317,7 +1269,7 @@
                                           <xsl:value-of select="$keywords"/>
                                         </xsl:when>
                                         <xsl:otherwise>
-                                          <xsl:value-of select="$menuitem[1]/keywords"/>
+                                          <xsl:value-of select="$menuitem/keywords"/>
                                         </xsl:otherwise>
                                       </xsl:choose>
                                     </xsl:variable>
@@ -1481,7 +1433,7 @@
                                     <xsl:variable name="keep_anonymous">
                                       <xsl:choose>
                                         <xsl:when
-                                                test="$menu/@loginpage = $menuitem/@key or $menu/@errorpage = $menuitem/@key">
+                                                test="$menu/loginpage/@key = $menuitem/@key or $menu/errorpage/@key = $menuitem/@key">
                                           <xsl:value-of select="'true'"/>
                                         </xsl:when>
                                         <xsl:otherwise>
@@ -1588,17 +1540,6 @@
                 </xsl:if>
               </form>
 
-              <script type="text/javascript" language="JavaScript">
-                <xsl:if test="$selpagetemplatekey2 = -2 and ($type = 'content' or $type = 'page')">
-                  <xsl:variable name="temp">
-                    <xsl:call-template name="find_parent_framework">
-                      <xsl:with-param name="menuitem" select="$menuitem"/>
-                    </xsl:call-template>
-                  </xsl:variable>
-                  reloadPageWithPageFramework(<xsl:value-of select="$temp"/>, false);
-                </xsl:if>
-              </script>
-
               <script type="text/javascript">
                 if ( typeof removeWaitsplash === 'function' )
                 {
@@ -1615,22 +1556,13 @@
 
     <input type="hidden" name="pagekey">
       <xsl:attribute name="value">
-        <xsl:value-of select="$menuitem[1]/page/@key"/>
+        <xsl:value-of select="$menuitem/page/@key"/>
       </xsl:attribute>
     </input>
 
-    <xsl:choose>
-      <xsl:when test="$menuitem[1]/page/@pagetemplatekey !='' and $selpagetemplatekey2 = ''">
         <xsl:call-template name="pageform">
-          <xsl:with-param name="chosenpagetemplatekey" select="$menuitem[1]/page/@pagetemplatekey"/>
+      <xsl:with-param name="chosenpagetemplatekey" select="$selpagetemplatekey"/>
         </xsl:call-template>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:call-template name="pageform">
-          <xsl:with-param name="chosenpagetemplatekey" select="$selpagetemplatekey2"/>
-        </xsl:call-template>
-      </xsl:otherwise>
-    </xsl:choose>
 
   </xsl:template>
 
@@ -1831,7 +1763,7 @@
                             </xsl:attribute>
                           </input>
                           <xsl:for-each
-                                  select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/contentobjects/contentobject[parametername = $currentparametername]">
+                                  select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/contentobjects/contentobject[parametername = $currentparametername]">
                             <input type="hidden">
                               <xsl:attribute name="name">
                                 <xsl:value-of select="$objectname"/>
@@ -1852,7 +1784,7 @@
                         </td>
                       </tr>
                       <xsl:for-each
-                              select="$menuitem[1]/page/contentobjects/contentobject[parametername=$currentparametername]">
+                              select="$menuitem/page/contentobjects/contentobject[parametername=$currentparametername]">
                         <xsl:sort select="order"/>
                         <tr>
                           <xsl:call-template name="contentobjectselector_multi">
@@ -1867,7 +1799,7 @@
                         </tr>
                       </xsl:for-each>
 
-                      <xsl:if test="not($menuitem[1]/page/contentobjects/contentobject[parametername=$currentparametername])">
+                      <xsl:if test="not($menuitem/page/contentobjects/contentobject[parametername=$currentparametername])">
                         <tr>
                           <xsl:call-template name="contentobjectselector_multi">
                             <xsl:with-param name="name" select="$currentparametername"/>
@@ -1897,11 +1829,11 @@
                   <table border="0" cellspacing="0" cellpadding="1" class="mei-region-portlets">
                     <tbody>
                       <tr>
-                        <xsl:if test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/contentobjects/contentobject[parametername = $currentparametername]">
+                        <xsl:if test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/contentobjects/contentobject[parametername = $currentparametername]">
                           <td nowrap="nowrap" colspan="2">
                             <span style="font-style: italic">
                               <xsl:value-of
-                                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/contentobjects/contentobject[parametername = $currentparametername]/name"/>
+                                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/contentobjects/contentobject[parametername = $currentparametername]/name"/>
                             </span>
                             (standard)
                           </td>
@@ -1912,7 +1844,7 @@
                             </xsl:attribute>
                             <xsl:attribute name="value">
                               <xsl:value-of
-                                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/contentobjects/contentobject[parametername = $currentparametername]/@conobjkey"/>
+                                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/contentobjects/contentobject[parametername = $currentparametername]/@conobjkey"/>
                             </xsl:attribute>
                           </input>
                         </xsl:if>
@@ -1922,14 +1854,14 @@
                           <xsl:call-template name="contentobjectselector">
                             <xsl:with-param name="name" select="$currentparametername"/>
                             <xsl:with-param name="selectedkey"
-                                            select="$menuitem[1]/page/contentobjects/contentobject[parametername=$currentparametername]/@conobjkey"/>
+                                            select="$menuitem/page/contentobjects/contentobject[parametername=$currentparametername]/@conobjkey"/>
                             <xsl:with-param name="selectnode"
-                                            select="$menuitem[1]/page/contentobjects/contentobject[parametername=$currentparametername]/name"/>
+                                            select="$menuitem/page/contentobjects/contentobject[parametername=$currentparametername]/name"/>
                             <xsl:with-param name="size" select="$contentobjectselector_multi_size"/>
                             <xsl:with-param name="maxlength" select="'50'"/>
                             <xsl:with-param name="colspan" select="'1'"/>
                             <xsl:with-param name="objdoc"
-                                            select="$menuitem[1]/page/contentobjects/contentobject[parametername=$currentparametername]/contentobjectdata/datasources/@objectdocument"/>
+                                            select="$menuitem/page/contentobjects/contentobject[parametername=$currentparametername]/contentobjectdata/datasources/@objectdocument"/>
                           </xsl:call-template>
                         </td>
                       </tr>
@@ -1969,27 +1901,21 @@
             </xsl:when>
             <xsl:when test="$create = 1">
               <xsl:copy-of
-                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/pagetemplatedata/document"/>
+                      select="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/pagetemplatedata/document"/>
             </xsl:when>
-            <xsl:when test="$menuitem[1]/document/@mode = 'xhtml'">
-              <xsl:copy-of select="$menuitem[1]/document"/>
+            <xsl:when test="$menuitem/document/@mode = 'xhtml'">
+              <xsl:copy-of select="$menuitem/document"/>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:value-of select="$menuitem[1]/document"/>
+              <xsl:value-of select="$menuitem/document"/>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
 
         <xsl:variable name="template">
-          <xsl:choose>
-            <xsl:when test="$menuitem[1]/page/@pagetemplatekey!='' and $selpagetemplatekey2 = ''">
-              <xsl:value-of select="$menuitem[1]/page/@pagetemplatekey"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="$selpagetemplatekey2"/>
-            </xsl:otherwise>
-          </xsl:choose>
+           <xsl:value-of select="$selpagetemplatekey"/>
         </xsl:variable>
+
         <xsl:variable name="css">
           <xsl:choose>
             <xsl:when test="/menus/pagetemplates/pagetemplate[@key = $template]/css/@stylesheetkey">
@@ -2006,7 +1932,7 @@
           <xsl:variable name="editor_height">
             <xsl:choose>
               <xsl:when
-                      test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey2]/@type = 'form' and $selected_type != 'externalurl' and $selected_type != 'label'">
+                      test="/menus/pagetemplates/pagetemplate[@key = $selpagetemplatekey]/@type = 'form' and $selected_type != 'externalurl' and $selected_type != 'label'">
                 <xsl:text>300</xsl:text>
               </xsl:when>
               <xsl:otherwise>
@@ -2042,7 +1968,7 @@
             <xsl:value-of select="$name"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="$menuitem[1]/name"/>
+            <xsl:value-of select="$menuitem/name"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
@@ -2164,9 +2090,9 @@
         <tbody id="parambody">
 
           <xsl:choose>
-            <xsl:when test="boolean($menuitem[1]/parameters)
-                    and count($menuitem[1]/parameters/parameter[@name != $excludeparam]) &gt; 0">
-              <xsl:for-each select="$menuitem[1]/parameters/parameter[@name != $excludeparam]">
+            <xsl:when test="boolean($menuitem/parameters)
+                    and count($menuitem/parameters/parameter[@name != $excludeparam]) &gt; 0">
+              <xsl:for-each select="$menuitem/parameters/parameter[@name != $excludeparam]">
                 <tr>
                   <td>
                     <xsl:text>%fldName%:&nbsp;</xsl:text>
@@ -2300,17 +2226,17 @@
         %fldURL%:<span class="requiredfield">*</span>
       </td>
       <td>
-        <input type="text" name="url" value="{$menuitem[1]/url}" size="30"/>
+        <input type="text" name="url" value="{$menuitem/url}" size="30"/>
         &nbsp;
         <select name="newwindow">
           <option value="no">
-            <xsl:if test="boolean($menuitem[1]/url[@newwindow = 'no'])">
+            <xsl:if test="boolean($menuitem/url[@newwindow = 'no'])">
               <xsl:attribute name="selected">selected</xsl:attribute>
             </xsl:if>
             %optURLOpenSameWindow%
           </option>
           <option value="yes">
-            <xsl:if test="boolean($menuitem[1]/url[@newwindow = 'yes'])">
+            <xsl:if test="boolean($menuitem/url[@newwindow = 'yes'])">
               <xsl:attribute name="selected">selected</xsl:attribute>
             </xsl:if>
             %optURLOpenNewWindow%
@@ -2340,7 +2266,7 @@
         %fldFile%:
       </td>
       <td>
-        <input type="text" name="url" value="{$menuitem[1]/url}" size="30"/>
+        <input type="text" name="url" value="{$menuitem/url}" size="30"/>
         <!--input type="button" class="button" value="..." onclick="javascript:OpenSelectorWindow(1029, 200, 300);"/-->
         <xsl:call-template name="button">
           <xsl:with-param name="type" select="'button'"/>
@@ -2353,13 +2279,13 @@
         &nbsp;
         <select name="newwindow">
           <option value="no">
-            <xsl:if test="boolean($menuitem[1]/url[@newwindow = 'no'])">
+            <xsl:if test="boolean($menuitem/url[@newwindow = 'no'])">
               <xsl:attribute name="selected">selected</xsl:attribute>
             </xsl:if>
             %optURLOpenSameWindow%
           </option>
           <option value="yes">
-            <xsl:if test="boolean($menuitem[1]/url[@newwindow = 'yes'])">
+            <xsl:if test="boolean($menuitem/url[@newwindow = 'yes'])">
               <xsl:attribute name="selected">selected</xsl:attribute>
             </xsl:if>
             %optURLOpenNewWindow%
@@ -2390,15 +2316,16 @@
       <xsl:for-each select="/menus/pagetemplates/pagetemplate">
         <xsl:sort select="name"/>
         <option value="{@key}">
-          <xsl:if test="$selpagetemplatekey2 = @key and $type != 'label' and $type != 'externalurl' and $type != 'none' and $type != 'section'">
+          <xsl:if test="$selpagetemplatekey = @key and $type != 'label' and $type != 'externalurl' and $type != 'none' and $type != 'section'">
             <xsl:attribute name="selected">selected</xsl:attribute>
           </xsl:if>
           %menuItemTypePage% (<xsl:value-of select="name"/>)
         </option>
       </xsl:for-each>
 
-      <xsl:if test="string($menu/@allowsection) = 'true' or $menuitem/@type = 'section'">
+      <xsl:if test="$menu/menudata/pagetypes/allow[@type = 'section'] or $menuitem/@type = 'section'">
         <option name="section" value="section">
+
           <xsl:if test="$type = 'section'">
             <xsl:attribute name="selected">
               <xsl:text>selected</xsl:text>
@@ -2408,7 +2335,7 @@
         </option>
       </xsl:if>
 
-      <xsl:if test="string($menu/@allowlabel) = 'true'  or $menuitem/@type = 'label'">
+      <xsl:if test="$menu/menudata/pagetypes/allow[@type = 'label'] or $menuitem/@type = 'label'">
         <option name="content" value="label">
           <xsl:if test="$type = 'label'">
             <xsl:attribute name="selected">
@@ -2419,7 +2346,7 @@
         </option>
       </xsl:if>
 
-      <xsl:if test="string($menu/@allowurl) = 'true'  or $menuitem/@type = 'url'">
+      <xsl:if test="$menu/menudata/pagetypes/allow[@type = 'url'] or $menuitem/@type = 'url'">
         <option name="url" value="url">
           <xsl:if test="$type = 'externalurl'">
             <xsl:attribute name="selected">
@@ -2430,7 +2357,6 @@
         </option>
       </xsl:if>
 
-      <xsl:if test="/menus/menu/menudata/pagetypes/allow[@type = 'shortcut'] or not(/menus/menu/menudata/pagetypes) or $menuitem/@type = 'shortcut'">
         <option name="shortcut" value="shortcut">
           <xsl:if test="$type = 'shortcut'">
             <xsl:attribute name="selected">
@@ -2439,7 +2365,6 @@
           </xsl:if>
           <xsl:text>%optPageTypeShortcut%</xsl:text>
         </option>
-      </xsl:if>
 
     </select>
   </xsl:template>
@@ -3008,14 +2933,7 @@
           <td width="120" class="form_labelcolumn" valign="top" nowrap="nowrap" >%blockConfirmation%:</td>
           <td colspan="2">
             <xsl:variable name="template">
-              <xsl:choose>
-                <xsl:when test="$menuitem[1]/page/@pagetemplatekey!='' and $selpagetemplatekey2 = ''">
-                  <xsl:value-of select="$menuitem[1]/page/@pagetemplatekey"/>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="$selpagetemplatekey2"/>
-                </xsl:otherwise>
-              </xsl:choose>
+                <xsl:value-of select="$selpagetemplatekey"/>
             </xsl:variable>
 
             <xsl:variable name="css">
@@ -3046,54 +2964,21 @@
 
   </xsl:template>
 
-  <xsl:template name="find_parent_framework">
-    <xsl:param name="menuitem"/>
-
-    <xsl:choose>
-      <xsl:when test="not(boolean($menuitem)) and boolean($insertbelow)">
-        <xsl:call-template name="find_parent_framework">
-          <xsl:with-param name="menuitem" select="//menuitem[@key = $insertbelow][1]"/>
-        </xsl:call-template>
-      </xsl:when>
-      <xsl:when test="boolean($menuitem/page)">
-        <xsl:value-of select="$menuitem/page/@pagetemplatekey"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:choose>
-          <xsl:when test="$menuitem/parent::node()">
-            -1
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:call-template name="find_parent_framework">
-              <xsl:with-param name="menuitem" select="$menuitem/parent::node()"/>
-            </xsl:call-template>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template name="generateheader">
     <xsl:param name="menuitem"/>
-    <xsl:if test="boolean($menuitem/parent::node())">
+
+    <xsl:if test="boolean($menuitem/@parent)">
       <xsl:call-template name="generateheader">
-        <xsl:with-param name="menuitem" select="$menuitem/parent::node()"/>
+        <xsl:with-param name="menuitem" select="//menuitem[@key = $menuitem/@parent]"/>
       </xsl:call-template>
     </xsl:if>
-    <xsl:if test="$menuitem/self::menuitem">
-      <xsl:if test="not($menuitem/name)">
+
+    <xsl:if test="$key != $menuitem/@key">
         <xsl:text> / </xsl:text>
         <a href="adminpage?op=browse&amp;page={$page}&amp;parentmi={$menuitem/@key}&amp;selectedunitkey={$selectedunitkey}&amp;menukey={$menukey}">
-          <xsl:choose>
-            <xsl:when test="$menuitem/name">
               <xsl:value-of select="$menuitem/name"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="$menuitem/@name"/>
-            </xsl:otherwise>
-          </xsl:choose>
         </a>
       </xsl:if>
-    </xsl:if>
+
   </xsl:template>
 </xsl:stylesheet>

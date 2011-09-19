@@ -4614,15 +4614,6 @@ public final class MenuHandler
                 if ( !result.wasNull() )
                 {
                     Document menuDataDoc = XMLTool.domparse( is );
-
-                    boolean allowUrl = XMLTool.selectNode( menuDataDoc.getDocumentElement(), "pagetypes/allow[@type = 'url']" ) != null;
-                    boolean allowLabel = XMLTool.selectNode( menuDataDoc.getDocumentElement(), "pagetypes/allow[@type = 'label']" ) != null;
-                    boolean allowSection =
-                        XMLTool.selectNode( menuDataDoc.getDocumentElement(), "pagetypes/allow[@type = 'section']" ) != null;
-                    elem.setAttribute( "allowurl", String.valueOf( allowUrl ) );
-                    elem.setAttribute( "allowlabel", String.valueOf( allowLabel ) );
-                    elem.setAttribute( "allowsection", String.valueOf( allowSection ) );
-
                     Element defaultCSSElem = XMLTool.getElement( menuDataDoc.getDocumentElement(), "defaultcss" );
                     if ( defaultCSSElem != null )
                     {
