@@ -9,74 +9,76 @@
 
     <script type="text/javascript" src="../../ext/ext-all.js"></script>
 
-    <script>
-        Ext.onReady( function() {
+    <script type="text/javascript">
 
-            // One
+        // One
 
+        function showDeleteOne()
+        {
             var tpl1 = document.getElementById('tpl1').innerHTML;
             var win1 = Ext.create('Ext.window.Window', {
                 title: 'Delete User',
                 width: 350,
-                height: 132,
                 layout: 'fit',
                 plain: true,
-                items: {
-                    xtype: 'form',
-                    url: 'ost/digest.html',
-                    border: false,
-                    bodyPadding: 10,
-                    html: new Ext.XTemplate(tpl1).apply({displayName: 'Morten Eriksen', qualifiedName: 'enonic\\mer', email: 'mer@enonic.com'})
-                },
+                modal: true,
+                border: false,
+                html: new Ext.XTemplate(tpl1).apply({displayName: 'Morten Eriksen', qualifiedName: 'enonic\\mer', email: 'mer@enonic.com'}),
                 buttons: [
                     {
-                        text: 'Cancel'
+                        text: 'Cancel',
+                        handler: function() {
+                            this.up('window').close();
+                        }
                     },
                     {
                         text: 'Delete User'
                     }
                 ]
-            });
-            win1.show();
+            }).show();
 
-            // Many
+        }
 
+
+
+        // Many
+
+        function showDeleteMany()
+        {
             var tpl2 = document.getElementById('tpl2').innerHTML;
             var win2 = Ext.create('Ext.window.Window', {
-                title: 'Delete',
+                title: 'Delete Items?',
                 width: 340,
-                height: 50,
                 layout: 'fit',
                 plain: true,
-                items: {
-                    xtype: 'form',
-                    url: 'ost/digest.html',
-                    border: false,
-                    bodyPadding: 10,
-                    html: new Ext.XTemplate(tpl2).apply({displayName: 'Morten Eriksen', qualifiedName: 'enonic\\mer', email: 'mer@enonic.com'})
-                },
+                border: false,
+                modal: true,
+                html: new Ext.XTemplate(tpl2).apply({displayName: 'Morten Eriksen', qualifiedName: 'enonic\\mer', email: 'mer@enonic.com'}),
                 buttons: [
                     {
-                        text: 'Cancel'
+                        text: 'Cancel',
+                        handler: function() {
+                            this.up('window').close();
+                        }
                     },
                     {
                         text: 'Delete'
                     }
                 ]
-            });
+            }).show();
+        }
 
-            win2.show();
-        });
     </script>
 </head>
 <body>
+
 <h2 class="header">Delete Confirmation Message (1)</h2>
 
 <div id="tpl1">
 
     <!-- Template START -->
     <div class="cms-delete-user-confirmation-message">
-        <div class="cms-user-info clearfix" style="margin-bottom:10px">
+        <div class="cms-user-info clearfix">
             <div class="cms-user-photo cms-left">
                 <img alt="User" src="../../resources/images/x-user.png"/>
             </div>
@@ -91,17 +93,30 @@
 
 </div>
 
+<p class="clearfix" style="margin-top: 10px">
+    <input type="button" onclick="showDeleteOne();" value="Show in Window"/>
+</p>
 
 <h2 class="header">Delete Confirmation Message (&gt; 1)</h2>
 
-<div id="tpl2">
+<div id="tpl2" class="clearfix">
+
     <!-- Template START -->
     <div class="cms-delete-user-confirmation-message">
-        Are you sure you want to delete the selected 500 items?
+        <div class="cms-question cms-left" style="margin-right: 10px">
+        </div>
+        <div class="cms-left" style="margin-top:5px">
+            Are you sure you want to delete the selected 500 items?
+        </div>
     </div>
     <!-- Template END -->
+
 </div>
 
+
+<p class="clearfix" style="margin-top: 10px">
+    <input type="button" onclick="showDeleteMany();" value="Show in Window"/>
+</p>
 
 </body>
 </html>
