@@ -9,6 +9,9 @@ Ext.define( 'App.view.GridPanel', {
     frame: false,
     store: 'UserStore',
 
+    verticalScrollerType: 'paginggridscroller',
+    invalidateScrollerOnRefresh: false,
+
     initComponent: function()
     {
         this.selModel = Ext.create('Ext.selection.CheckboxModel');
