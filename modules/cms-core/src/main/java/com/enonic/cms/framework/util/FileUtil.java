@@ -14,11 +14,6 @@ public class FileUtil
 
     private final static String DEFAULT_TMP_SUFFIX = ".tmp";
 
-    public static File createTempDir( String prefix, String suffix )
-    {
-        return createTempDir( prefix, suffix, true );
-    }
-
     public static File createTempDir( String prefix, String suffix, boolean deleteOnExit )
     {
         if ( prefix == null )

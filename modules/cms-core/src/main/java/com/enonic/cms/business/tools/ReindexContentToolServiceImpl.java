@@ -20,7 +20,6 @@ import com.enonic.esl.sql.model.Database;
 import com.enonic.esl.sql.model.DatabaseSchemaTool;
 import com.enonic.esl.sql.model.Table;
 
-import com.enonic.cms.framework.jdbc.DatabaseTool;
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
 
 import com.enonic.cms.store.DatabaseAccessor;
@@ -146,7 +145,7 @@ public class ReindexContentToolServiceImpl
     {
 
         logEntries.add( "Removing table '" + TCONTENTINDEX + "' ..." );
-        executeStatement( conn, DatabaseTool.generateDropTable( TCONTENTINDEX ) );
+        executeStatement( conn, "DROP TABLE " + TCONTENTINDEX );
         conn.commit();
 
         Table table = this.database.getTable( TCONTENTINDEX );
