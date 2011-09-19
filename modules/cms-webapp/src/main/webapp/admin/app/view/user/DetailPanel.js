@@ -88,7 +88,7 @@ Ext.define('CMS.view.user.DetailPanel', {
                 '<fieldset class="x-fieldset x-fieldset-default">',
                 '<legend class="x-fieldset-header x-fieldset-header-default">',
                 '<div class="t">Groups</div><div class=""></div>', '</legend>',
-                '<div class="x-fieldset-body"><div class="x-btn group-display x-btn-default-small x-icon-text-left x-btn-icon-text-left x-btn-default-small-icon-text-left">',
+                '<div class="x-fieldset-body"><div class="x-btn cms-group-display x-btn-default-small x-icon-text-left x-btn-icon-text-left x-btn-default-small-icon-text-left">',
                 '<tpl for="groups">',
                 '<em>',
                 '<button autocomplete="off" role="button" hidefocus="true" type="button">',

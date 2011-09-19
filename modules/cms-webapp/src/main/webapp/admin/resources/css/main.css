@@ -86,36 +86,36 @@ body,
 
 /* ----- Logged in user popup -----*/
 
-.logged-in-user-popup {
+.cms-logged-in-user-popup {
     background-color: #fff;
     padding: 10px;
     box-shadow: 5px 5px 5px #ccc;
 }
 
-.logged-in-user-popup-left {
+.cms-logged-in-user-popup-left {
     float: left;
     margin-right: 15px;
 }
 
-.logged-in-user-popup-right {
+.cms-logged-in-user-popup-right {
     float: left;
     width: 243px;
 }
 
-.logged-in-user-popup-left img {
+.cms-logged-in-user-popup-left img {
      border-radius: 4px;
 }
 
-.logged-in-user-popup-right h1 {
+.cms-logged-in-user-popup-right h1 {
     font-size: 18px !important;
 }
 
-.logged-in-user-popup-log-out {
+.cms-logged-in-user-popup-log-out {
 }
 
 /* ----- Accounts -----*/
 
-img.thumbnail {
+img.cms-thumbnail {
     width: 40px;
     height: 40px;
 }
@@ -133,7 +133,7 @@ img.photo {
 .cms-grid-description {
 }
 
-.x-grid-cell img.thumbnail {
+.x-grid-cell img.cms-thumbnail {
     float: left;
     margin-right: 6px
 }
@@ -398,31 +398,31 @@ img.photo {
 
 /*------ Userstore ---------*/
 
-.userstore-info .thumbnail {
+.cms-userstore-info .cms-thumbnail {
     float: left;
     margin-right: 10px;
 }
 
-.userstore-info .x-panel-body {
+.cms-userstore-info .x-panel-body {
     border-width: 0 !important;
 }
 
-.userstore-info .x-toolbar {
+.cms-userstore-info .x-toolbar {
     border-width: 1px !important;
 }
 
-.display-name-readonly input {
+.cms-display-name-readonly input {
     font-weight: bold;
 }
 
-.display-name input {
+.cms-display-name input {
     border: none;
     font-size: 35px;
     text-align: left;
     background: none;
 }
 
-.display-name div {
+.cms-display-name div {
     font-weight: bold;
     font-size: 20px;
 }
@@ -432,22 +432,22 @@ img.photo {
     padding-top: 3px;
 }
 
-.group-display{
+.cms-group-display {
     background: #d3d3d3;
     margin-bottom: 3px;
     cursor: auto !important;
 }
 
-.group-display button{
+.cms-group-display button{
     cursor: auto !important;
 }
 
 /*------ Cache ---------*/
 
-.cache-info h1 {
+.cms-cache-info h1 {
     margin: 0;
 }
-.cache-info h1 span {
+.cms-cache-info h1 span {
     font-size: 13px;
     font-style: normal;
     margin-left: 10px;
@@ -473,7 +473,6 @@ img.photo {
 .cms-selected-item-box .right {
     float: left;
 }
-
 
 /* Large */
 .cms-selected-item-box.large {

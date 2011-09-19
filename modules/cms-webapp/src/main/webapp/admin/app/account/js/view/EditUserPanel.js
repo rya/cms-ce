@@ -51,7 +51,7 @@ Ext.define( 'App.view.EditUserPanel', {
             items: [
                 {
                     xtype: 'image',
-                    cls: 'thumbnail',
+                    cls: 'cms-thumbnail',
                     region: 'west',
                     width: 100,
                     height: 100,
