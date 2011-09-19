@@ -434,6 +434,7 @@ img.photo {
 
 .group-display{
     background: #d3d3d3;
+    margin-bottom: 3px;
     cursor: auto !important;
 }
 
