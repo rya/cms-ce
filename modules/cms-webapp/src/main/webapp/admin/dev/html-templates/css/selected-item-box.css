@@ -56,12 +56,12 @@
 }
 
 .cms-selected-item-box.large .right a {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     display: block;
     border: 1px solid TRANSPARENT;
     padding: 3px;
-    background: transparent url(../../resources/images/cross.png) 3px 3px no-repeat;
+    background: transparent url(../../../resources/images/cross.png) 3px 3px no-repeat;
 }
 
 
@@ -100,10 +100,10 @@
 }
 
 .cms-selected-item-box.small .right a {
-    width: 8px;
-    height: 8px;
+    width: 14px;
+    height: 14px;
     display: block;
     border: 1px solid TRANSPARENT;
     padding: 2px;
-    background: transparent url(../../resources/images/cross-sm.png) 2px 2px no-repeat;
+    background: transparent url(../../../resources/images/cross-sm.png) 2px 2px no-repeat;
 }
