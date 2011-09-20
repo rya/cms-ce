@@ -72,56 +72,64 @@ Ext.define('App.view.Toolbar', {
                         appUrl: 'blank.html',
                         icon: 'app/launcher/images/report.png'
                     },
+
                     '-',
-                    {
-                        id: 700,
-                        text: 'Repository',
-                        appUrl: 'blank.html',
-                        icon: 'app/launcher/images/database.png'
-                    },
-                    {
-                        id: 400,
-                        text: 'Userstores',
-                        appUrl: 'app-userstore.html',
-                        icon: 'app/launcher/images/address-book-blue-icon.png'
-                    },
-                    {
-                        id: 500,
-                        text: "Content Types",
-                        appUrl: "app-contentType.html",
-                        icon: 'app/launcher/images/page_world.png'
-                    },
-                    {
-                        id: 600,
-                        text:"Cache",
-                        appUrl:"app-systemCache.html",
-                        icon: 'app/launcher/images/drive_web.png'
-                    },
+
                     {
                         id: 800,
                         text: 'System',
                         appUrl: 'app-system.html',
-                        icon: 'app/launcher/images/cog.png'
-                    },
-                    '-',
-                    {
-                        id: 900,
-                        text: 'Live Portal Trace',
-                        appUrl: 'blank.html',
-                        icon: 'app/launcher/images/utilities-system-monitor.png'
+                        icon: 'app/launcher/images/cog.png',
+                        menu: {
+                            items: [
+                                {
+                                    id: 600,
+                                    text:"Cache",
+                                    appUrl:"app-systemCache.html",
+                                    icon: 'app/launcher/images/drive_web.png'
+                                },
+                                {
+                                    id: 500,
+                                    text: "Content Types",
+                                    appUrl: "app-contentType.html",
+                                    icon: 'app/launcher/images/page_world.png'
+                                },
+                                {
+                                    id: 900,
+                                    text: 'Live Portal Trace',
+                                    appUrl: 'blank.html',
+                                    icon: 'app/launcher/images/utilities-system-monitor.png'
+                                },
+                                {
+                                    id: 700,
+                                    text: 'Repository',
+                                    appUrl: 'blank.html',
+                                    icon: 'app/launcher/images/database.png'
+                                },
+                                {
+                                    id: 400,
+                                    text: 'Userstores',
+                                    appUrl: 'app-userstore.html',
+                                    icon: 'app/launcher/images/address-book-blue-icon.png'
+                                }
+                            ]
+                        }
                     }
                 ]
             }
-
         },
+
         '->',
+
         // Logged in user
         {
             //id: 'launcher-logged-in-user-button',
             xtype: 'loggedInUserButton',
             text: 'Joe Doe'
         },
+
         '-',
+
         // Settings
         {
             id: 'launcher-settings-button',
