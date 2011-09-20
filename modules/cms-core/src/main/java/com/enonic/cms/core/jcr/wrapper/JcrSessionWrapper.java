@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.wrapper;
 
 import javax.jcr.RepositoryException;
@@ -6,7 +10,7 @@ import javax.jcr.Session;
 class JcrSessionWrapper
     implements JcrSession
 {
-    private Session session;
+    private final Session session;
 
     JcrSessionWrapper( Session session )
     {

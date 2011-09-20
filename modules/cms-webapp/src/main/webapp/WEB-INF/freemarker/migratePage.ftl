@@ -11,16 +11,8 @@
             font-size: 22pt;
         }
 
-        h2 {
-            font-size: 12pt;
-        }
-
         body {
             font-size: 12pt;
-        }
-
-        .detailPart table {
-            font-size: 8pt;
         }
 
         .infoBox {
@@ -30,22 +22,43 @@
             background-color: #FFFFFF;
         }
 
-        .infoBoxError {
-            padding: 8px;
-            margin: 10px;
-            border: 1px dotted #000000;
-            background-color: #FFA0A0;
+
+        .messages {
+            overflow : auto;
+            height: 600px;
+            width: 100%;
+            margin-top: 10px;
         }
 
-        .infoBoxWarning {
-            padding: 8px;
-            margin: 10px;
-            border: 1px dotted #000000;
-            background-color: #FFFFCC;
+        .logentry {
+            margin-left: 10px;
+        }
+
+        .level-info {
+            color: #808080;
+        }
+
+        .level-error {
+            color: #FF0000;
+        }
+
+        .level-warning {
+            color: #808000;
+        }
+
+        .stacktrace {
+            font-size: 10pt;
+            border-left: medium solid #808080;
+            margin-left: 20px;
+            color: #808080;
+        }
+
+        .traceelem {
+            margin-left: 4px;
         }
     </style>
     [#if migrationInProgress == true]
-    <meta http-equiv="refresh" content="5;url=migration" />
+    <meta http-equiv="refresh" content="2;url=migration#last" />
     [/#if]
     <script type="text/javascript">
     <!--
@@ -75,6 +88,24 @@
         [/#if]
     </ul>
 </div>
+
+[#if log?size > 0]
+<div class="infoBox">
+    <b>Log Messages</b>
+    <div class="messages">
+        [#list log as entry]
+            <div [#if entry.level == 'INFO']class="level-info"[/#if][#if entry.level == 'WARN']class="level-warning"[/#if][#if entry.level == 'ERROR']class="level-error"[/#if]>
+            ${entry}
+            [#if entry.cause??]
+                <pre class="detailPart">${entry.getStacktrace()}</pre>
+            [/#if]
+            </div>
+        [/#list]
+        <a name="last"/>
+    </div>
+</div>
+[/#if]
+
 
 </body>
 </html>
