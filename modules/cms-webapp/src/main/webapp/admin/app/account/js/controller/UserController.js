@@ -27,8 +27,6 @@ Ext.define( 'App.controller.UserController', {
 
     init: function()
     {
-        Ext.create('widget.userDeleteWindow');
-        Ext.create('widget.userChangePasswordWindow');
         Ext.create('widget.userContextMenu');
 
         var userStore = this.getStore('UserStore');
@@ -206,11 +204,13 @@ Ext.define( 'App.controller.UserController', {
 
     showDeleteUserWindow: function()
     {
+        Ext.create('widget.userDeleteWindow');
         this.getUserDeleteWindow().doShow( this.getSelectedGridItem() );
     },
 
     showChangePasswordWindow: function()
     {
+        Ext.create('widget.userChangePasswordWindow');
         this.getUserChangePasswordWindow().doShow( this.getSelectedGridItem() );
     },
 
