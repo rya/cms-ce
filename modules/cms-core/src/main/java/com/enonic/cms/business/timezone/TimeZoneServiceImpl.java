@@ -10,34 +10,32 @@ import java.util.List;
 import java.util.Set;
 
 import org.joda.time.DateTimeZone;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Sep 8, 2009
  */
 public class TimeZoneServiceImpl
-    implements TimeZoneService, InitializingBean
+    implements TimeZoneService
 {
 
-    private List<DateTimeZone> timeZones = new ArrayList<DateTimeZone>();
+    private final List<DateTimeZone> timeZones = new ArrayList<DateTimeZone>();
 
     @SuppressWarnings({"unchecked"})
-    public void afterPropertiesSet()
-        throws Exception
+    public TimeZoneServiceImpl()
     {
         Set<String> ids = DateTimeZone.getAvailableIDs();
-        timeZones.add( DateTimeZone.UTC );
-        for ( String id : ids )
+        this.timeZones.add( DateTimeZone.UTC );
+        for ( final String id : ids )
         {
             if ( !id.equals( "UTC" ) )
             {
-                timeZones.add( DateTimeZone.forID( id ) );
+                this.timeZones.add( DateTimeZone.forID( id ) );
             }
         }
     }
 
     public List<DateTimeZone> getTimeZones()
     {
-        return Collections.unmodifiableList( timeZones );
+        return Collections.unmodifiableList( this.timeZones );
     }
 }
