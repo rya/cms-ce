@@ -12,38 +12,38 @@ Ext.define( 'App.view.AddressDropTarget', {
         increment: 200
     },
 
-    constructor: function (a, b) {
-        this.portal = a;
-        Ext.dd.ScrollManager.register(a.body);
-        App.view.AddressDropTarget.superclass.constructor.call(this, a.body, b);
-        a.body.ddScrollConfig = this.ddScrollConfig
+    constructor: function (el, config) {
+        this.portal = el;
+        Ext.dd.ScrollManager.register(el.body);
+        App.view.AddressDropTarget.superclass.constructor.call(this, el.body, config);
+        el.body.ddScrollConfig = this.ddScrollConfig
     },
-    createEvent: function (a, f, d, b, h, g) {
+    createEvent: function (source, event, data, colIndex, column, pos) {
         return {
             portal: this.portal,
-            panel: d.panel,
-            columnIndex: b,
-            column: h,
-            position: g,
-            data: d,
-            source: a,
-            rawEvent: f,
+            panel: data.panel,
+            columnIndex: colIndex,
+            column: column,
+            position: pos,
+            data: data,
+            source: source,
+            rawEvent: event,
             status: this.dropAllowed
         }
     },
-    notifyOver: function (u, t, v) {
-        var d = t.getXY(),
-            a = this.portal,
-            p = u.proxy;
+    notifyOver: function (source, event, data) {
+        var pos = event.getXY(),
+            container = this.portal,
+            proxy = source.proxy;
         if (!this.grid) {
             this.grid = this.getGrid()
         }
-        var b = a.body.dom.clientWidth;
+        var contWidth = container.body.dom.clientWidth;
         if (!this.lastCW) {
-            this.lastCW = b
+            this.lastCW = contWidth
         } else {
-            if (this.lastCW != b) {
-                this.lastCW = b;
+            if (this.lastCW != contWidth) {
+                this.lastCW = contWidth;
                 this.grid = this.getGrid()
             }
         }
@@ -54,7 +54,7 @@ Ext.define( 'App.view.AddressDropTarget', {
             m = false;
         for (q; o < q; o++) {
             c = n[o].x + n[o].w;
-            if (d[0] < c) {
+            if (pos[0] < c) {
                 m = true;
                 break
             }
@@ -65,49 +65,50 @@ Ext.define( 'App.view.AddressDropTarget', {
         var i, g = 0,
             r = 0,
             l = false,
-            k = a.items.getAt(o),
-            s = a.items,
+            firstItem = container.items.getAt(o),
+            contItems = container.items,
             j = false;
-        q = s.length;
+        q = contItems.length;
         for (q; g < q; g++) {
-            i = s.get(g);
+            i = contItems.get(g);
             r = i.el.getHeight();
             if (r === 0) {
                 j = true
             } else {
-                if ((i.el.getY() + (r / 2)) > d[1]) {
+                if ((i.el.getY() + (r / 2)) > pos[1]) {
                     l = true;
                     break
                 }
             }
         }
-        g = (l && i ? g : k.getCount()) + (j ? -1 : 0);
-        var f = this.createEvent(u, t, v, o, k, g);
-        if (a.fireEvent("validatedrop", f) !== false && a.fireEvent("beforedragover", f) !== false) {
-            if (!v.draggedRecord) {
-                p.getProxy().setWidth("auto");
+        g = (l && i ? g : firstItem.getCount()) + (j ? -1 : 0);
+        var newEvent = this.createEvent(source, event, data, o, firstItem, g);
+        if (container.fireEvent("validatedrop", newEvent) !== false &&
+                container.fireEvent("beforedragover", newEvent) !== false) {
+            if (!data.draggedRecord) {
+                proxy.getProxy().setWidth("auto");
                 if (i) {
-                    p.moveProxy(i.el.dom.parentNode, l ? i.el.dom : null)
+                    proxy.moveProxy(i.el.dom.parentNode, l ? i.el.dom : null)
                 } else {
-                    p.moveProxy(k.el.dom, null)
+                    proxy.moveProxy(firstItem.el.dom, null)
                 }
             }
             this.lastPos = {
-                c: k,
+                c: firstItem,
                 col: o,
                 p: j || (l && i) ? g : false
             };
-            this.scrollPos = a.body.getScroll();
-            a.fireEvent("dragover", f);
-            return f.status
+            this.scrollPos = container.body.getScroll();
+            container.fireEvent("dragover", newEvent);
+            return newEvent.status
         } else {
-            return f.status
+            return newEvent.status
         }
     },
     notifyOut: function () {
         delete this.grid
     },
-    notifyDrop: function (l, h, g) {
+    notifyDrop: function (source, event, data) {
         delete this.grid;
         if (!this.lastPos) {
             return
@@ -115,19 +116,19 @@ Ext.define( 'App.view.AddressDropTarget', {
         var j = this.portal,
             f = this.lastPos.col,
             k = this.lastPos.p,
-            a = l.panel,
-            b = this.createEvent(l, h, g, f, j, k !== false ? k : j.items.getCount());
+            a = source.panel,
+            b = this.createEvent(source, event, data, f, j, k !== false ? k : j.items.getCount());
         if (this.portal.fireEvent("validatedrop", b) !== false && this.portal.fireEvent("beforedrop", b) !== false) {
-            if (!g.draggedRecord) {
+            if (!data.draggedRecord) {
                 a.el.dom.style.display = "";
                 if (k !== false) {
                     j.insert(k, a)
                 } else {
                     j.add(a)
                 }
-                l.proxy.hide();
+                source.proxy.hide();
             } else {
-                var dashlet = Ext.create(g.draggedRecord.data.xtype, {
+                var dashlet = Ext.create(data.draggedRecord.data.xtype, {
                     title: g.draggedRecord.data.title,
                     html: g.draggedRecord.data.body
                 });

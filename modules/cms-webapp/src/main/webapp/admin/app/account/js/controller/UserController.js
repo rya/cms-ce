@@ -436,7 +436,7 @@ Ext.define( 'App.controller.UserController', {
     updateTabTitle: function ( field, event )
     {
         var addressPanel = field.up( 'addressPanel' );
-        addressPanel.setTitle( 'label: ' + field.getValue() );
+        addressPanel.setTitle( field.getValue() );
     },
 
     toggleDisplayNameField: function ( button, event )

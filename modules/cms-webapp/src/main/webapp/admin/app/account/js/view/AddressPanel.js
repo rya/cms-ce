@@ -19,7 +19,6 @@ Ext.define( 'App.view.AddressPanel', {
             this.values = [];
         }
         this.title = this.values['label'] == null ? '[no title]' : this.values['label'];
-        this.title = 'label: ' + this.title;
         var countryField, regionField;
         if ( this.iso )
         {
