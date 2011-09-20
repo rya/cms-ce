@@ -80,7 +80,7 @@ Ext.define( 'App.controller.UserController', {
                               click: this.showChangePasswordWindow
                           },
                           'userDetail': {
-                              render: this.setDetailsToolbarDisabled
+                              render: this.initDetailToolbar
                           },
                           'editUserPanel textfield[name=prefix]': {
                               keyup: this.textFieldHandleEnterKey
@@ -129,20 +129,6 @@ Ext.define( 'App.controller.UserController', {
     newGroup: function()
     {
         Ext.Msg.alert( 'New Group', 'TODO' );
-    },
-
-    updateInfo: function( selModel, selected )
-    {
-        var user = selected[0];
-        var userDetail = this.getUserDetail();
-
-        if ( user )
-        {
-            userDetail.update( user.data );
-        }
-
-        userDetail.setTitle( selected.length + " user selected" );
-        this.setDetailsToolbarDisabled();
     },
 
     selectUser: function( view )
@@ -215,31 +201,20 @@ Ext.define( 'App.controller.UserController', {
     updateDetailsPanel: function( selModel, selected )
     {
         var userDetail = this.getUserDetail();
-        if ( selected.length == 1 )
+
+        if ( selected.length == 0 )
         {
-            var user = selected[0];
-
-            if ( user )
-            {
-                Ext.Ajax.request( {
-                                      url: 'data/user/userinfo',
-                                      method: 'GET',
-                                      params: {key: user.get( 'key' )},
-                                      success: function( response )
-                                      {
-                                          var jsonObj = Ext.JSON.decode( response.responseText );
-                                          userDetail.showSingleSelection( jsonObj );
-                                          userDetail.setCurrentUser( user.data );
-                                      }
-                                  } );
-
-            }
-
+            userDetail.showNonSelection();
             userDetail.setTitle( selected.length + " user selected" );
-            this.setDetailsToolbarDisabled();
         }
         else
         {
+            var user = selected[0];
+            if ( user )
+            {
+                userDetail.setCurrentUser( user.data );
+            }
+
             var detailed = true;
             if ( selected.length > 10 )
             {
@@ -251,7 +226,6 @@ Ext.define( 'App.controller.UserController', {
                 Ext.Array.include( selectedUsers, user.data );
             } );
             userDetail.showMultipleSelection( selectedUsers, detailed );
-            this.setDetailsToolbarDisabled();
             userDetail.setTitle( selected.length + " user selected" );
         }
     },
@@ -352,26 +326,9 @@ Ext.define( 'App.controller.UserController', {
         }
     },
 
-    setDetailsToolbarDisabled: function()
-    {
-        var buttons = [], button;
-        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=edit]' )[0] );
-        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=showDeleteWindow]' )[0] );
-        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=changePassword]' )[0] );
-
-        var selectionCount = this.getGridSelectionCount();
-        var multipleSelection = selectionCount > 1;
-        var disable = selectionCount === 0;
-        for ( var i = 0; i < buttons.length; i++ )
-        {
-            button = buttons[i];
-            button.setDisabled(disable);
-
-            if ( multipleSelection && button.disableOnMultipleSelection === true )
-            {
-                button.setDisabled(true);
-            }
-        }
+    initDetailToolbar: function() {
+        var userDetail = this.getUserDetail();
+        userDetail.showNonSelection();
     },
 
     getGridSelectionCount: function()
