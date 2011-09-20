@@ -33,6 +33,7 @@ warProjects = subprojects.findAll { project ->
 
 configure(javaProjects) {
 	apply plugin: 'java'
+    apply from: "$rootDir/scripts/java.gradle"
 	
 	configurations {
 	 	all*.exclude group: 'xml-apis'
