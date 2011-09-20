@@ -234,9 +234,6 @@ Ext.define( 'App.controller.UserController', {
                                   } );
 
             }
-
-            userDetail.setTitle( selected.length + " user selected" );
-            this.setDetailsToolbarDisabled();
         }
         else
         {
@@ -251,9 +248,23 @@ Ext.define( 'App.controller.UserController', {
                 Ext.Array.include( selectedUsers, user.data );
             } );
             userDetail.showMultipleSelection( selectedUsers, detailed );
-            this.setDetailsToolbarDisabled();
-            userDetail.setTitle( selected.length + " user selected" );
         }
+
+        var header = selected.length + " user(s) selected";
+        if ( selected.length > 0 )
+            header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
+
+        userDetail.setTitle( header );
+
+        var a = userDetail.header.el.down( 'a.clearSelection' );
+        if ( a ) {
+            a.on( "click", this.clearSelection, this );
+        }
+        this.setDetailsToolbarDisabled();
+    },
+
+    clearSelection: function() {
+        this.getUserGrid().getSelectionModel().deselectAll();
     },
 
     searchFilter: function()
