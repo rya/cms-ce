@@ -44,3 +44,9 @@ ul li {
 .cms-right {
     float: right;
 }
+
+.cms-question {
+    width: 32px;
+    height: 32px;
+    background: TRANSPARENT url("../../../ext/resources/themes/images/default/shared/icon-question.gif") no-repeat;
+}

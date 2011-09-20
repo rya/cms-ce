@@ -47,8 +47,8 @@ Ext.define( 'App.view.UserFormField', {
         if ( this.fieldname == 'display-name' )
         {
             fieldConfig.readOnly = true;
-            fieldConfig.readOnlyCls = 'display-name-readonly';
-            fieldConfig.cls = 'display-name';
+            fieldConfig.readOnlyCls = 'cms-display-name-readonly';
+            fieldConfig.cls = 'cms-display-name';
             fieldConfig.height = 40;
             var lockButton = {
                 xtype: 'button',

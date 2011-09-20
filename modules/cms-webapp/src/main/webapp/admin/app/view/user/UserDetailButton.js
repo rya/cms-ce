@@ -23,7 +23,7 @@ Ext.define('CMS.view.user.UserDetailButton', {
                     style: {
                         background: 'lightGrey'
                     },
-                    cls: 'display-name',
+                    cls: 'cms-display-name',
                     value: this.userData.get('displayName')
                 }
             ]

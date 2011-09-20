@@ -12,13 +12,12 @@ Ext.define( 'App.view.UserstoreForm', {
             {
 
                 xtype: 'panel',
-                cls: 'userstore-info',
+                cls: 'cms-userstore-info',
                 styleHtmlContent: true,
                 itemId: 'headerPanel',
                 // TODO: Create an Ext component.
                 tpl: new Ext.XTemplate(
-                    //'<img src="data/user/photo?key={0}&thumb=true" class="thumbnail">',
-                    '<div class="userstore-info">',
+                    '<div class="cms-userstore-info">',
                     '<h1>{name}</h1>',
                     '<em>{connectorName}</em>',
                     '</div>'

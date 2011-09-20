@@ -41,8 +41,8 @@ Ext.define('App.view.LoggedInUserButton', {
         this.popup = Ext.create('Ext.Component', {
             width: 380,
             floating: true,
-            cls: 'x-panel-default-framed x-panel-default-framed logged-in-user-popup',
-            bodyCls: 'logged-in-user-popup-body',
+            cls: 'x-panel-default-framed x-panel-default-framed cms-logged-in-user-popup',
+            bodyCls: 'cms-logged-in-user-popup-body',
             renderTo: Ext.getBody()
         });
         this.popup.hide();
@@ -53,8 +53,8 @@ Ext.define('App.view.LoggedInUserButton', {
 
     createPopupTemplate: function() {
         return new Ext.XTemplate(
-                '<div class="logged-in-user-popup-left"><img src="resources/images/x-user.png"/></div>',
-                '<div class="logged-in-user-popup-right">',
+                '<div class="cms-logged-in-user-popup-left"><img src="resources/images/x-user.png"/></div>',
+                '<div class="cms-logged-in-user-popup-right">',
                 '<h1>{displayName}</h1>',
                 '<p>{qualifiedName}</p>',
                 '<p>{email}</p>',
@@ -62,7 +62,7 @@ Ext.define('App.view.LoggedInUserButton', {
                 '<p>Edit Account</p>',
                 '<p>Change Password</p>',
                 '<p>&nbsp;</p>',
-                '<p class="logged-in-user-popup-log-out"><a href="index.html">Log Out</a></p>',
+                '<p class="cms-logged-in-user-popup-log-out"><a href="index.html">Log Out</a></p>',
                 '</div>'
                 );
     },

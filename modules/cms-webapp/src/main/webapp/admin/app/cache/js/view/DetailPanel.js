@@ -60,7 +60,7 @@ Ext.define('App.view.DetailPanel', {
                 anchor: '100%',
                 styleHtmlContent: true,
                 tpl: new Ext.XTemplate(
-                    '<div class="cache-info">',
+                    '<div class="cms-cache-info">',
                     '<h1>{name} <span><tpl if="implementationName != null">({implementationName})</tpl></span></h1>',
                     '</div>'
                 )
