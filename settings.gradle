@@ -1,0 +1,13 @@
+
+include ':cms-api'
+include ':cms-core'
+include ':cms-webapp'
+
+rootProject.name = 'cms'
+
+rootProject.children.each {project ->
+	String fileBaseName = project.name
+    String projectDirName = "modules/$fileBaseName"
+    project.projectDir = new File(settingsDir, projectDirName)
+    assert project.projectDir.isDirectory()
+}
