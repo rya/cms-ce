@@ -1,7 +1,8 @@
 
 include ':cms-api'
 include ':cms-core'
-include ':cms-webapp'
+// include ':cms-webapp'
+// include ':cms-itest'
 
 rootProject.name = 'cms'
 
@@ -9,5 +10,7 @@ rootProject.children.each {project ->
 	String fileBaseName = project.name
     String projectDirName = "modules/$fileBaseName"
     project.projectDir = new File(settingsDir, projectDirName)
+    project.buildFileName = 'build.gradle'
     assert project.projectDir.isDirectory()
+    assert project.buildFile.isFile()
 }

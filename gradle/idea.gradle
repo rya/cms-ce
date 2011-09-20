@@ -1,0 +1,32 @@
+
+apply plugin: 'idea'
+
+idea {
+    pathVariables 'GRADLE_HOME': gradle.gradleUserHomeDir
+
+    module {
+        downloadJavadoc = false
+        downloadSources = true
+    }
+}
+
+if (rootProject == project) {
+    idea {
+        project {
+            jdkName = '1.6'
+            languageLevel = '1.6'
+
+            ipr {
+                withXml {
+                    def node = it.asNode()
+
+                    // Use git
+                    def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+                    vcsConfig.mapping[0].'@vcs' = 'Git'
+                }
+            }
+        }
+    }
+}
+
+

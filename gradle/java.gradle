@@ -1,0 +1,16 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+		
+tasks.withType(Compile) {
+	options.fork(memoryMaximumSize: '1024m')
+	options.encoding = 'UTF-8'
+}
+
+test {
+	maxHeapSize = '1024m'
+	forkEvery = 10
+	systemProperties['java.awt.headless'] = 'true'
+}

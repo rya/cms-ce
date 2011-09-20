@@ -1,0 +1,30 @@
+
+dependencies {
+    compile 'org.jdom:jdom:1.1.1'
+    compile "javax.servlet:servlet-api:${versions.servlet}"
+    runtime('jaxen:jaxen:1.1.1') {
+        transitive = false
+        optional = true
+    }
+}
+
+jar {
+    manifest {
+        attributes('Main-Class' : 'com.enonic.cms.api.Version')
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar, dependsOn: compileJava) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+artifacts {
+    publish javadocJar
+    publish sourcesJar
+}
