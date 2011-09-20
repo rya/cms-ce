@@ -383,7 +383,7 @@ Ext.define( 'App.controller.UserController', {
 
     countryChangeHandler: function( field, newValue, oldValue, options )
     {
-        var region = field.up( 'fieldset' ).down( '#iso-region' );
+        var region = field.up( 'addressPanel' ).down( '#iso-region' );
         if ( region )
         {
             region.clearValue();
