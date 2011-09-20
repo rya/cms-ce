@@ -8,44 +8,41 @@ import java.io.IOException;
 import java.util.Locale;
 
 import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.XMLTestCase;
+import org.custommonkey.xmlunit.XMLAssert;
 import org.jdom.Document;
 import org.jdom.output.XMLOutputter;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+import static org.junit.Assert.*;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
 public class LocaleXmlCreatorTest
-    extends XMLTestCase
 {
-
-    @Autowired
     private LocaleService localeService;
 
-    LocaleXmlCreator localeXmlCreator = new LocaleXmlCreator();
+    private LocaleXmlCreator localeXmlCreator;
+
+    @Before
+    public void setUp()
+    {
+        this.localeService = new LocaleServiceImpl();
+        this.localeXmlCreator = new LocaleXmlCreator();
+    }
 
     @Test
     public void createDocument()
     {
         Locale[] locales = localeService.getLocales();
-        assertNotNull( locales );
+        assertNotNull(locales);
 
         Document localesDoc = localeXmlCreator.createLocalesDocument( locales );
         assertNotNull( localesDoc );
-
     }
 
     @Test
     public void createSingleLocaleDocument()
         throws SAXException, IOException
     {
-
         Locale.setDefault( Locale.ENGLISH );
         Locale locale = new Locale( "NO", "NO", "NB" );
 
@@ -58,7 +55,8 @@ public class LocaleXmlCreatorTest
 
         XMLOutputter outputter = new XMLOutputter();
         Diff myDiff = new Diff( controlXml, outputter.outputString( localeDoc ) );
-        assertXMLEqual( myDiff, true );
+
+        XMLAssert.assertXMLEqual( myDiff, true );
 
     }
 
@@ -82,7 +80,7 @@ public class LocaleXmlCreatorTest
 
         XMLOutputter outputter = new XMLOutputter();
         Diff myDiff = new Diff( controlXml, outputter.outputString( localeDoc ) );
-        assertXMLEqual( myDiff, true );
+        XMLAssert.assertXMLEqual( myDiff, true );
 
     }
 
@@ -107,7 +105,7 @@ public class LocaleXmlCreatorTest
 
         XMLOutputter outputter = new XMLOutputter();
         Diff myDiff = new Diff( controlXml, outputter.outputString( localeDoc ) );
-        assertXMLEqual( myDiff, true );
+        XMLAssert.assertXMLEqual( myDiff, true );
 
     }
 

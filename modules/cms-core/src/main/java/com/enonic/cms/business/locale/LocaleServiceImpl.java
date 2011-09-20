@@ -7,28 +7,25 @@ package com.enonic.cms.business.locale;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.springframework.beans.factory.InitializingBean;
-
 public class LocaleServiceImpl
-    implements LocaleService, InitializingBean
+    implements LocaleService
 {
     private final ArrayList<Locale> locales = new ArrayList<Locale>();
 
-    public Locale[] getLocales()
+    public LocaleServiceImpl()
     {
-        return this.locales.toArray( new Locale[this.locales.size()] );
-    }
-
-    public void afterPropertiesSet()
-        throws Exception
-    {
-        for ( Locale locale : Locale.getAvailableLocales() )
+        for ( final Locale locale : Locale.getAvailableLocales() )
         {
-            String country = locale.getCountry();
+            final String country = locale.getCountry();
             if ( country != null && !country.equals( "" ) )
             {
                 this.locales.add( locale );
             }
         }
+    }
+
+    public Locale[] getLocales()
+    {
+        return this.locales.toArray( new Locale[this.locales.size()] );
     }
 }
