@@ -6,6 +6,7 @@ package com.enonic.cms.business.timezone;
 
 import java.util.Collection;
 
+import com.google.common.base.Preconditions;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -26,11 +27,8 @@ public class TimeZoneXmlCreator
 
     public Document createTimeZonesDocument( final Collection<DateTimeZone> timeZones )
     {
-        if ( timeZones == null )
-        {
-            throw new IllegalArgumentException( "timeZones cannot be null" );
-        }
-
+        Preconditions.checkNotNull(timeZones, "timeZones cannot be null" );
+ 
         Element timeZonesEl = new Element( "time-zones" );
         for ( DateTimeZone timeZone : timeZones )
         {
