@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.business.SpecialCharacterTestStrings;
 import com.enonic.cms.business.resolver.BaseResolverTest;
 import com.enonic.cms.business.resolver.ScriptResolverService;
 
@@ -45,7 +44,7 @@ public class DeviceClassResolverServiceImplTest
 
     private static final String RESOLVED_DEVICE_NAME = "resolvedDeviceName";
 
-    private static final String NASTY_COOKIE_VALUE = SpecialCharacterTestStrings.NORWEGIAN;
+    private static final String NASTY_COOKIE_VALUE = "\u00c6\u00d8\u00c5\u00e6\u00f8\u00e5";
 
     private static final Calendar CALENDER_INSTANSE = Calendar.getInstance();
 

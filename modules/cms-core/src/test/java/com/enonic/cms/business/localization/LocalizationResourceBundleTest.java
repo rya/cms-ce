@@ -7,11 +7,7 @@ package com.enonic.cms.business.localization;
 import java.util.Properties;
 
 import org.junit.Test;
-
-import com.enonic.cms.business.SpecialCharacterTestStrings;
-
 import com.enonic.cms.domain.localization.LocalizationResourceBundle;
-
 import static org.junit.Assert.*;
 
 /**
@@ -19,12 +15,13 @@ import static org.junit.Assert.*;
  */
 public class LocalizationResourceBundleTest
 {
+    private static final String NORWEGIAN = "\u00c6\u00d8\u00c5\u00e6\u00f8\u00e5";
 
     @Test
     public void testNorwegianCharacters()
     {
         LocalizationResourceBundle resourceBundle = LocalizationTestUtils.create_US_NO_DEFAULT_resourceBundle();
-        assertEquals( SpecialCharacterTestStrings.NORWEGIAN, resourceBundle.getLocalizedPhrase( "norsketegn" ) );
+        assertEquals( NORWEGIAN, resourceBundle.getLocalizedPhrase( "norsketegn" ) );
     }
 
     @Test
