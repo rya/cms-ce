@@ -135,20 +135,20 @@ Ext.define( 'App.view.EditUserFormPanel', {
                     var addresses = me.userFields.userInfo.addresses;
                     var tabs = [];
                     for (index in addresses){
-                        Ext.Array.include(tabs, me.generateAddressFieldSet(field, true, addresses[index]));
+                        Ext.Array.include(tabs, me.generateAddressPanel(field, true, addresses[index]));
                     }
                     return {
                         sourceField: field,
                         xtype: 'addressContainer',
-                        itemId: 'addressTabPanel',
+                        itemId: 'addressContainer',
                         items: tabs
                     };
                 }else{
-                    var tabItem = me.generateAddressFieldSet(field);
+                    var tabItem = me.generateAddressPanel(field);
                     return {
                         sourceField: field,
                         xtype: 'addressContainer',
-                        itemId: 'addressTabPanel',
+                        itemId: 'addressContainer',
                         items: [tabItem]
                     };
                 }
@@ -367,9 +367,9 @@ Ext.define( 'App.view.EditUserFormPanel', {
         }
     },
 
-    generateAddressFieldSet: function ( field , closable, values)
+    generateAddressPanel: function ( field , closable, values)
     {
-        var fieldSetItem = {
+        var addressPanel = {
             xtype: 'addressPanel',
             values: values,
             closable: closable || false,
@@ -377,7 +377,7 @@ Ext.define( 'App.view.EditUserFormPanel', {
             iso: field.iso
 
         };
-        return fieldSetItem;
+        return addressPanel;
     },
 
     setItemValue: function(itemId, value){

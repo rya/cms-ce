@@ -428,18 +428,15 @@ Ext.define( 'App.controller.UserController', {
     {
         var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name
                 : 'new-user';
-        var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressTabPanel' );
-        var itemsCount = tabPanel.query('addressPanel').length;
-        alert(itemsCount);
-        var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
-        newTab = tabPanel.insert( itemsCount , newTab );
+        var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressContainer' );
+        var newTab = this.getEditUserFormPanel().generateAddressPanel( tabPanel.sourceField, true );
+        newTab = tabPanel.insert( 0 , newTab );
     },
 
     updateTabTitle: function ( field, event )
     {
-        var formPanel = field.up( 'editUserFormPanel' );
-        var tabPanel = formPanel.down( '#addressTabPanel' );
-        tabPanel.getActiveTab().setTitle( field.getValue() );
+        var addressPanel = field.up( 'addressPanel' );
+        addressPanel.setTitle( 'label: ' + field.getValue() );
     },
 
     toggleDisplayNameField: function ( button, event )
@@ -536,7 +533,7 @@ Ext.define( 'App.controller.UserController', {
                         : editUserForm.defaultUserStoreName,
                 userInfo: formValues
             }
-            var tabPanel = editUserForm.down( '#addressTabPanel' );
+            var tabPanel = editUserForm.down( '#addressContainer' );
             var tabs = tabPanel.query( 'form' );
             var addresses = [];
             for ( index in tabs )

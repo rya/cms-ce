@@ -2,10 +2,6 @@ Ext.define( 'App.view.AddressPanel', {
     extend: 'Ext.form.Panel',
     alias: 'widget.addressPanel',
 
-    requires:[
-        'App.view.AddressDragSource'
-    ],
-
     xtype: 'form',
     draggable: true,
     layout: 'anchor',
@@ -14,6 +10,8 @@ Ext.define( 'App.view.AddressPanel', {
         anchor: '100%'
     },
 
+    closeAction: 'hide',
+
     padding: 10,
 
     initComponent: function() {
@@ -21,7 +19,7 @@ Ext.define( 'App.view.AddressPanel', {
             this.values = [];
         }
         this.title = this.values['label'] == null ? '[no title]' : this.values['label'];
-        this.itemId = this.title;
+        this.title = 'label: ' + this.title;
         var countryField, regionField;
         if ( this.iso )
         {
@@ -123,14 +121,13 @@ Ext.define( 'App.view.AddressPanel', {
                 countryField,
                 regionField
             ];
+        this.listeners = {
+            beforeclose: {
+                fn: function(panel, opts){
+                    panel.setDisabled(true);
+                }
+            }
+        };
         this.callParent( arguments );
-    },
-
-    initDraggable: function()
-    {
-        this.dd = new App.view.AddressDragSource( this );
     }
-
-
-
 })
