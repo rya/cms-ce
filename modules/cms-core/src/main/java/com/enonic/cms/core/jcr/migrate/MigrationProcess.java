@@ -6,12 +6,9 @@ package com.enonic.cms.core.jcr.migrate;
 
 import java.util.concurrent.Callable;
 
-import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.time.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -20,7 +17,8 @@ import org.springframework.stereotype.Component;
 public class MigrationProcess
     implements Callable<Boolean>
 {
-    private static final Logger LOG = LoggerFactory.getLogger( MigrationProcess.class );
+
+    private Log log;
 
     private RepositoryBootstrap repositoryBootstrap;
 
@@ -40,14 +38,15 @@ public class MigrationProcess
     {
     }
 
-    @PostConstruct
-    private void init()
+    private void executeTasks()
     {
-        userStoreTask.setTemplate( new JdbcTemplate( dataSource ) );
-        groupTask.setTemplate( new JdbcTemplate( dataSource ) );
-        userTask.setTemplate( new JdbcTemplate( dataSource ) );
-        userFieldsTask.setTemplate( new JdbcTemplate( dataSource ) );
-        groupMembershipTask.setTemplate( new JdbcTemplate( dataSource ) );
+        AbstractTask[] tasks = new AbstractTask[]{userStoreTask, userTask, groupTask, userFieldsTask, groupMembershipTask};
+        for ( AbstractTask task : tasks )
+        {
+            task.setTemplate( new JdbcTemplate( dataSource ) );
+            task.setLog( log );
+            task.execute();
+        }
     }
 
     @Override
@@ -59,25 +58,18 @@ public class MigrationProcess
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
 
+            repositoryBootstrap.setLog( log );
             repositoryBootstrap.initializeRepository();
 
-            userStoreTask.execute();
+            executeTasks();
 
-            userTask.execute();
-
-            groupTask.execute();
-
-            userFieldsTask.execute();
-
-            groupMembershipTask.execute();
-
-            LOG.info( "JCR migration completed. Total time " + stopWatch.toString());
+            log.logInfo( "JCR migration completed. Total time " + stopWatch.toString() );
 
             return true;
         }
         catch ( Exception e )
         {
-            LOG.error( "JCR migration failed", e );
+            log.logError( "JCR migration failed", e );
             return false;
         }
     }
@@ -122,5 +114,10 @@ public class MigrationProcess
     public void setGroupMembershipTask( GroupMembershipTask groupMembershipTask )
     {
         this.groupMembershipTask = groupMembershipTask;
+    }
+
+    public void setLog( Log log )
+    {
+        this.log = log;
     }
 }

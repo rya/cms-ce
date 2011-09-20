@@ -1,13 +1,16 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.wrapper;
 
-import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 
 class JcrNodeIteratorWrapper
     implements JcrNodeIterator
 {
 
-    private NodeIterator nodeIterator;
+    private final NodeIterator nodeIterator;
 
     JcrNodeIteratorWrapper( NodeIterator nodeIterator )
     {
@@ -47,7 +50,7 @@ class JcrNodeIteratorWrapper
     @Override
     public JcrNode next()
     {
-        return JcrWrappers.wrap( (Node) nodeIterator.next() );
+        return nextNode();
     }
 
     @Override

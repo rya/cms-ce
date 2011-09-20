@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.migrate;
 
 import java.io.IOException;
@@ -14,8 +18,6 @@ import javax.jcr.nodetype.NodeType;
 
 import org.apache.jackrabbit.JcrConstants;
 import org.apache.jackrabbit.commons.cnd.CndImporter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 import com.enonic.cms.core.jcr.wrapper.JcrNode;
@@ -27,8 +29,6 @@ import static com.enonic.cms.core.jcr.JcrCmsConstants.*;
 
 public class RepositoryBootstrap
 {
-    private static final Logger LOG = LoggerFactory.getLogger( RepositoryBootstrap.class );
-
     private JcrRepository repository;
 
     private Resource compactNodeDefinitionFile;
@@ -36,10 +36,12 @@ public class RepositoryBootstrap
     private static final String[] SYSTEM_ROLES =
         new String[]{"ea", "developer", "administrator", "contributor", "expert", "everyone", "authenticated"};
 
+    private Log log;
+
     public void initializeRepository()
         throws RepositoryException, IOException
     {
-        LOG.info( "Initializing JCR repository..." );
+        log.logInfo( "Initializing JCR repository..." );
 
         JcrSession session = null;
         try
@@ -57,7 +59,7 @@ public class RepositoryBootstrap
         {
             repository.logout( session );
         }
-        LOG.info( "JCR repository initialized" );
+        log.logInfo( "JCR repository initialized" );
     }
 
     private void createTreeStructure( JcrSession jcrSession )
@@ -94,12 +96,12 @@ public class RepositoryBootstrap
             NodeType[] nodeTypes = CndImporter.registerNodeTypes( fileReader, JcrWrappers.unwrap( jcrSession ) );
             for ( NodeType nt : nodeTypes )
             {
-                LOG.info( "Registered node type: " + nt.getName() );
+                log.logInfo( "Registered node type: " + nt.getName() );
             }
         }
         catch ( Exception e )
         {
-            LOG.error( e.getMessage(), e );
+            log.logError( e.getMessage(), e );
         }
     }
 
@@ -121,14 +123,14 @@ public class RepositoryBootstrap
         if ( !registeredPrefixes.contains( prefix ) )
         {
             reg.registerNamespace( prefix, uri );
-            LOG.info( "JCR namespace registered " + prefix + ":" + uri );
+            log.logInfo( "JCR namespace registered " + prefix + ":" + uri );
         }
         else
         {
             String registeredUri = reg.getURI( prefix );
             if ( !uri.equals( registeredUri ) )
             {
-                LOG.warn( "Namespace prefix is already registered with a different URI: " + prefix + ":" + registeredUri );
+                log.logError( "Namespace prefix is already registered with a different URI: " + prefix + ":" + registeredUri );
             }
         }
     }
@@ -141,5 +143,10 @@ public class RepositoryBootstrap
     public void setRepository( JcrRepository repository )
     {
         this.repository = repository;
+    }
+
+    public void setLog( Log log )
+    {
+        this.log = log;
     }
 }

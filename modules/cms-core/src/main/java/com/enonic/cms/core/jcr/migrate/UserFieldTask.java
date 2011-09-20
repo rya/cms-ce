@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.migrate;
 
 import java.util.Locale;
@@ -68,17 +72,12 @@ public final class UserFieldTask
     {
         String addressId = StringUtils.substringBetween( fieldName, UserFieldType.ADDRESS.getName() + "[", "]" );
         String addressField = StringUtils.substringAfter( fieldName, "." );
-        if ( !userNode.hasNode( "addresses" ) )
+        String addressNodeName = "address" + addressId;
+        if ( !userNode.hasNode( addressNodeName ) )
         {
-            userNode.addNode( "addresses", JcrConstants.NT_UNSTRUCTURED );
+            userNode.addNode( addressNodeName, JcrConstants.NT_UNSTRUCTURED );
         }
-        JcrNode addressesNode = userNode.getNode( "addresses" );
-
-        if ( !addressesNode.hasNode( addressId ) )
-        {
-            addressesNode.addNode( addressId, JcrConstants.NT_UNSTRUCTURED );
-        }
-        JcrNode addressNode = addressesNode.getNode( addressId );
+        JcrNode addressNode = userNode.getNode( addressNodeName );
         addressNode.setProperty( addressField, fieldValue );
     }
 

@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.migrate;
 
 import org.apache.jackrabbit.JcrConstants;
@@ -10,6 +14,7 @@ import com.enonic.cms.core.jcr.wrapper.JcrNodeIterator;
 import com.enonic.cms.core.jcr.wrapper.JcrRepository;
 import com.enonic.cms.core.jcr.wrapper.JcrSession;
 import com.enonic.cms.core.jdbc.JdbcDynaRow;
+import com.enonic.cms.core.security.group.GroupType;
 
 @Component
 public final class GroupMembershipTask
@@ -36,14 +41,18 @@ public final class GroupMembershipTask
             session = jcrRepository.login();
 
             JcrNode parentGroupNode = getGroupNode( groupKey, session );
-            JcrNode memberGroupNode = getGroupNode( groupMemberKey, session );
-            if ( ( parentGroupNode != null ) && ( memberGroupNode != null ) )
-            {
-                this.logInfo( "Importing group membership: {0} , {1}", parentGroupNode.getName(), memberGroupNode.getName() );
+            JcrNode memberPrincipalNode = getGroupNode( groupMemberKey, session );
+            GroupType memberGroupType = getGroupType(memberPrincipalNode);
+            if (memberGroupType == GroupType.USER ) {
+                memberPrincipalNode = getUserNodeByGroupKey( groupMemberKey, session );
+            }
 
-                JcrNode membersNode = parentGroupNode.getChild( "members" );
-                JcrNode memberNode = membersNode.addNode( "member", JcrConstants.NT_UNSTRUCTURED );
-                memberNode.setPropertyReference( "ref", memberGroupNode, true );
+            if ( ( parentGroupNode != null ) && ( memberPrincipalNode != null ) )
+            {
+                this.logInfo( "Importing group membership: {0} <= {1} ({2})", parentGroupNode.getName(), memberPrincipalNode.getName() , memberGroupType.getName());
+
+                JcrNode memberNode = parentGroupNode.addNode( "member", JcrConstants.NT_UNSTRUCTURED );
+                memberNode.setPropertyReference( "principal", memberPrincipalNode, true );
             }
 
             session.save();
@@ -52,6 +61,18 @@ public final class GroupMembershipTask
         {
             jcrRepository.logout( session );
         }
+    }
+
+        private JcrNode getUserNodeByGroupKey( String groupkey, JcrSession session )
+    {
+        String sql = "SELECT * " + "FROM [" + JcrCmsConstants.USER_NODE_TYPE + "] " + "WHERE groupKey = $groupkey ";
+
+        JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "groupkey", groupkey ).execute();
+        if ( nodes.hasNext() )
+        {
+            return nodes.nextNode();
+        }
+        return null;
     }
 
     private JcrNode getGroupNode( String key, JcrSession session )
@@ -64,5 +85,11 @@ public final class GroupMembershipTask
             return nodes.nextNode();
         }
         return null;
+    }
+
+    private GroupType getGroupType( JcrNode groupNode )
+    {
+        Long typeVal = groupNode.getLongProperty( "type" );
+        return GroupType.get( typeVal.intValue() );
     }
 }

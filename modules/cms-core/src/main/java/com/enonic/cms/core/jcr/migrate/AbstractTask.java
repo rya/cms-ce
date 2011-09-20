@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.migrate;
 
 import java.text.MessageFormat;
@@ -12,6 +16,7 @@ public abstract class AbstractTask
 {
     private final StopWatch stopWatch;
     private JdbcTemplate template;
+    private Log log;
 
     public AbstractTask()
     {
@@ -36,7 +41,26 @@ public abstract class AbstractTask
 
     protected final void logInfo(final String message, final Object... args)
     {
-        System.out.println(MessageFormat.format(message, args));
+        if ( log == null )
+        {
+            System.out.println( MessageFormat.format( message, args ) );
+        }
+        else
+        {
+            log.logInfo( MessageFormat.format( message, args ) );
+        }
+    }
+
+    protected final void logWarning(final String message, final Object... args)
+    {
+        if ( log == null )
+        {
+            System.err.println( MessageFormat.format( message, args ) );
+        }
+        else
+        {
+            log.logWarning( MessageFormat.format( message, args ) );
+        }
     }
 
     protected final void logStart(final String message, final Object... args)
@@ -53,4 +77,9 @@ public abstract class AbstractTask
     }
 
     public abstract void execute();
+
+    public void setLog( Log log )
+    {
+        this.log = log;
+    }
 }

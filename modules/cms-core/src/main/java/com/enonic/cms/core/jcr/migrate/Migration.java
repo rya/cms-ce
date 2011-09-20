@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.jcr.migrate;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,20 +12,31 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Migration
 {
-    private static final Logger LOG = LoggerFactory.getLogger( Migration.class );
+    private final Log log;
 
     private Future<Boolean> futureResult;
 
     @Autowired
     private MigrationProcess migrationProcess;
+
+    Migration()
+    {
+        log = new MigrationLog();
+    }
+
+    @PostConstruct
+    private void init()
+    {
+        migrationProcess.setLog( log );
+    }
 
     public boolean isInProgress()
     {
@@ -38,7 +50,8 @@ public class Migration
             return;
         }
 
-        LOG.info( "Starting migration" );
+        log.clear();
+        log.logInfo( "Starting migration..." );
         ExecutorService executor = Executors.newSingleThreadExecutor();
         futureResult = executor.submit( migrationProcess );
     }
@@ -67,4 +80,8 @@ public class Migration
         }
     }
 
+    public List<LogEntry> getLogEntries()
+    {
+        return log.getEntries();
+    }
 }
