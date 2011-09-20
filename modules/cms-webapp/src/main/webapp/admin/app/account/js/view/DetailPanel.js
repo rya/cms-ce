@@ -45,7 +45,7 @@ Ext.define('App.view.DetailPanel', {
     createNonSelection: function(){
         var tpl = new Ext.XTemplate(
                 '<div style="padding-left:10px;">',
-                '<h3>No one user selected</h3>',
+                'No user selected',
                 '</div>'
                 );
         var panel = {
