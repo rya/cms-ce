@@ -5,8 +5,8 @@
 package com.enonic.cms.business.locale;
 
 import java.util.Locale;
-import java.util.MissingResourceException;
 
+import com.google.common.base.Preconditions;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -15,10 +15,7 @@ public class LocaleXmlCreator
 
     public Document createLocalesDocument( final Locale[] locales )
     {
-        if ( locales == null )
-        {
-            throw new IllegalArgumentException( "locales cannot be null" );
-        }
+        Preconditions.checkNotNull(locales, "locales cannot be null" );
 
         Element localesEl = new Element( "locales" );
         for ( Locale locale : locales )
@@ -30,10 +27,7 @@ public class LocaleXmlCreator
 
     public Document createLocalesDocument( final Locale locale )
     {
-        if ( locale == null )
-        {
-            throw new IllegalArgumentException( "locale cannot be null" );
-        }
+        Preconditions.checkNotNull(locale, "locale cannot be null" );
 
         Element localesEl = new Element( "locales" );
         localesEl.addContent( doCreateLocaleElement( locale, null ) );
@@ -42,10 +36,7 @@ public class LocaleXmlCreator
 
     public Document createLocaleDocument( final Locale locale, Locale inLocale )
     {
-        if ( locale == null )
-        {
-            throw new IllegalArgumentException( "locale cannot be null" );
-        }
+        Preconditions.checkNotNull(locale, "locale cannot be null" );
 
         Element localesEl = new Element( "locales" );
         localesEl.addContent( doCreateLocaleElement( locale, inLocale ) );
@@ -61,15 +52,8 @@ public class LocaleXmlCreator
         localeEl.addContent( new Element( "display-language" ).setText( asEmptyIfNull( locale.getDisplayLanguage() ) ) );
         localeEl.addContent( new Element( "display-name" ).setText( asEmptyIfNull( locale.getDisplayName() ) ) );
         localeEl.addContent( new Element( "display-variant" ).setText( asEmptyIfNull( locale.getDisplayVariant() ) ) );
-        try
-        {
-            localeEl.addContent( new Element( "iso3country" ).setText( asEmptyIfNull( locale.getISO3Country() ) ) );
-            localeEl.addContent( new Element( "iso3language" ).setText( asEmptyIfNull( locale.getISO3Language() ) ) );
-        }
-        catch ( MissingResourceException e )
-        {
-            //do nothing
-        }
+        localeEl.addContent( new Element( "iso3country" ).setText( asEmptyIfNull( locale.getISO3Country() ) ) );
+        localeEl.addContent( new Element( "iso3language" ).setText( asEmptyIfNull( locale.getISO3Language() ) ) );
         localeEl.addContent( new Element( "language" ).setText( asEmptyIfNull( locale.getLanguage() ) ) );
         localeEl.addContent( new Element( "variant" ).setText( asEmptyIfNull( locale.getVariant() ) ) );
 
