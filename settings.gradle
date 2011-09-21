@@ -1,7 +1,7 @@
 
 include ':cms-api'
 include ':cms-core'
-// include ':cms-webapp'
+include ':cms-webapp'
 // include ':cms-itest'
 
 rootProject.name = 'cms'
