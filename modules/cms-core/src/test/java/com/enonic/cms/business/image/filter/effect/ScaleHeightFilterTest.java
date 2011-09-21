@@ -34,6 +34,6 @@ public class ScaleHeightFilterTest
     private BufferedImage scale( int size )
     {
         ImageFilter filter = new ScaleHeightFilter( size );
-        return filter.filter( getSource() );
+        return filter.filter( getOpaque() );
     }
 }

@@ -34,6 +34,6 @@ public class ScaleSquareFilterTest
     private BufferedImage scale( int size )
     {
         ImageFilter filter = new ScaleSquareFilter( size );
-        return filter.filter( getSource() );
+        return filter.filter( getOpaque() );
     }
 }
