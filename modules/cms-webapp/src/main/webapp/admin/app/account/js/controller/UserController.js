@@ -102,9 +102,6 @@ Ext.define( 'App.controller.UserController', {
                           'editUserPanel textfield[name=label]': {
                               keyup: this.updateTabTitle
                           },
-                          '*[action=addGroup]': {
-                              click: this.showAddGroupWindow
-                          },
                           '*[action=deleteGroup]': {
                               click: this.leaveGroup
                           },
@@ -290,7 +287,7 @@ Ext.define( 'App.controller.UserController', {
                         xtype: 'newUserPanel'
                     }
                 ]
-            }
+            };
             this.getCmsTabPanel().addTab( tab );
         }
         else
@@ -416,11 +413,6 @@ Ext.define( 'App.controller.UserController', {
 
     },
 
-    showAddGroupWindow: function()
-    {
-        this.getUserMembershipWindow().doShow();
-    },
-
     selectGroup: function( field, value, options )
     {
         var userPrefPanel = field.up( 'userPreferencesPanel' );
@@ -489,11 +481,11 @@ Ext.define( 'App.controller.UserController', {
                 userStore: editUserForm.userFields.userStore ? editUserForm.userFields.userStore
                         : editUserForm.defaultUserStoreName,
                 userInfo: formValues
-            }
+            };
             var tabPanel = editUserForm.down( '#addressContainer' );
             var tabs = tabPanel.query( 'form' );
             var addresses = [];
-            for ( index in tabs )
+            for ( var index in tabs )
             {
                 var address = tabs[index].getValues();
                 Ext.Array.include( addresses, address );
