@@ -8,7 +8,7 @@ Ext.define( 'App.controller.SystemController', {
     init: function()
     {
         this.control({
-            'cmsTabPanel': {
+            'viewport': {
                 afterrender: this.selectDefaultApplication
             },
             'systemNavigation': {
