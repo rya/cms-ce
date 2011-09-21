@@ -32,11 +32,23 @@
         <xsl:param name="useOnClick" select="'true'" />
         <xsl:param name="hidden" select="'false'"/>
         <xsl:param name="disabled" select="'false'"/>
+        <xsl:param name="tooltip-for-disabled" select="''"/>
         <xsl:param name="style" select="'raised'"/>
         <xsl:param name="referer"/>
 
         <!-- The user can supply a condition, this must be true for the onclick event to be fired -->
         <xsl:param name="condition" select="''"/>
+
+        <xsl:variable name="tooltip_1">
+            <xsl:choose>
+                <xsl:when test="$disabled = 'true' and $tooltip-for-disabled != ''">
+                    <xsl:value-of select="$tooltip-for-disabled"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$tooltip"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
 
         <xsl:choose>
             <xsl:when test="$type = 'link'">
@@ -44,7 +56,7 @@
                     <xsl:with-param name="type" select="$type"/>
                     <xsl:with-param name="id" select="$id"/>
                     <xsl:with-param name="name" select="$name"/>
-                    <xsl:with-param name="tooltip" select="$tooltip"/>
+                    <xsl:with-param name="tooltip" select="$tooltip_1"/>
                     <xsl:with-param name="caption" select="$caption"/>
                     <xsl:with-param name="text-alignment" select="$text-alignment"/>
                     <xsl:with-param name="image" select="$image"/>
@@ -63,7 +75,7 @@
                     <xsl:with-param name="type" select="$type"/>
                     <xsl:with-param name="id" select="$id"/>
                     <xsl:with-param name="name" select="$name"/>
-                    <xsl:with-param name="tooltip" select="$tooltip"/>
+                    <xsl:with-param name="tooltip" select="$tooltip_1"/>
                     <xsl:with-param name="caption" select="$caption"/>
                     <xsl:with-param name="text-alignment" select="$text-alignment"/>
                     <xsl:with-param name="image" select="$image"/>

@@ -113,6 +113,7 @@
 %altContentMoveDown%|Flytt ned|Move down|Flyt ned|Flytta ned
 %altCannotRemoveSection%|Kan ikke slette seksjonen fordi den ikke er tom|Cannot delete the section because it is not empty|Kan ikke slette sektionen fordi den ikke er tom|Kan inte radera sektionen eftersom den inte är tom
 %altContentPreview%|Forhåndsvis|Preview|Forhåndsvis|Förhandsgranska
+%altContentPreviewNotAvailable%|MISSING|Preview is not available|MISSING|MISSING
 %mnuGroups%|Grupper|Groups|Grupper|Grupper
 %blockPosition%|Posisjon|Position|Position|Position
 %blockRegion%|Region|Region|Region|Region

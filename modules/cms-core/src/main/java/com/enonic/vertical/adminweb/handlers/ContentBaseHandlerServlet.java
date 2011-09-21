@@ -1403,6 +1403,16 @@ public class ContentBaseHandlerServlet
         ExtendedMap parameters = new ExtendedMap();
         addCustomData( session, oldUser, admin, doc, contentKey, contentTypeKey, formItems, parameters );
 
+        int siteKey = formItems.getInt( "sitekey", -1 );
+        if ( siteKey == -1)
+        {
+            addUserSitesToDocument( admin, doc, executor );
+        }
+        else
+        {
+            addSiteToDocument( admin, doc, siteKey );
+        }
+
         addCommonParameters( admin, oldUser, request, parameters, unitKey, -1 );
 
         addDefaultParameters( admin, request, parameters, contentKey, unitKey, categoryKey, contentTypeKey, formItems );
@@ -2369,8 +2379,7 @@ public class ContentBaseHandlerServlet
 
         if ( siteKey >= 0 )
         {
-            int[] excludeTypeKeys = {1, 2, 3, 4, 6};
-            String pageTemplateXML = admin.getPageTemplatesByMenu( siteKey, excludeTypeKeys );
+            String pageTemplateXML = admin.getPageTemplatesByMenu( siteKey, EXCLUDED_TYPE_KEYS_IN_PREVIEW );
             Document ptDoc = XMLTool.domparse( pageTemplateXML );
             XMLTool.mergeDocuments( doc, ptDoc, true );
 
@@ -2950,6 +2959,8 @@ public class ContentBaseHandlerServlet
         {
             parameters.put( "reload", formItems.getString( "reload" ) );
         }
+
+        addUserSitesToDocument( admin, verticalDoc, user );
 
         transformXML( request, response, verticalDoc, "content_list.xsl", parameters );
     }

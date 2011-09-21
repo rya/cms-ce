@@ -1418,8 +1418,8 @@ public class SectionHandlerServlet
                 {
                     menuKeys[i] = Integer.parseInt( menuElems[i].getAttribute( "key" ) );
 
-                    int[] excludeTypeKeys = {1, 2, 3, 4, 6};
-                    Document doc = XMLTool.domparse( admin.getPageTemplatesByMenu( menuKeys[i], excludeTypeKeys ) );
+                    Document doc = XMLTool.domparse( admin.getPageTemplatesByMenu( menuKeys[i],
+                                                                                   EXCLUDED_TYPE_KEYS_IN_PREVIEW ) );
                     wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
                 }
 
@@ -2497,6 +2497,7 @@ public class SectionHandlerServlet
         else
         {
             doc = getSectionDocument( admin, user, index, count, sectionKey, menuKey, menuItemKey );
+            addSiteToDocument( admin, doc, menuKey );
             session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
         }
 
