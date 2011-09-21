@@ -4,7 +4,6 @@ dependencies {
     compile "javax.servlet:servlet-api:${versions.servlet}"
     runtime('jaxen:jaxen:1.1.1') {
         transitive = false
-        optional = true
     }
 }
 

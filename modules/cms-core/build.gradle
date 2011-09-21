@@ -52,6 +52,5 @@ dependencies {
 	testCompile 'org.easymock:easymockclassextension:2.2.1'
 	testCompile 'org.mockito:mockito-all:1.8.5'
 	testCompile 'xmlunit:xmlunit:1.2'
-	testRuntime 'com.h2database:h2:1.3.151'
 }
 

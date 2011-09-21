@@ -1,32 +1,23 @@
 
 apply plugin: 'idea'
 
-idea {
-    pathVariables 'GRADLE_HOME': gradle.gradleUserHomeDir
+ideaModule {
+    downloadJavadoc = false
+    downloadSources = true
 
-    module {
-        downloadJavadoc = false
-        downloadSources = true
-    }
+    variables = ['GRADLE_HOME': gradle.gradleUserHomeDir]
 }
 
 if (rootProject == project) {
-    idea {
-        project {
-            jdkName = '1.6'
-            languageLevel = '1.6'
+    ideaProject {
+        javaVersion = '1.6'
 
-            ipr {
-                withXml {
-                    def node = it.asNode()
+        withXml {
+            def node = it.asNode()
 
-                    // Use git
-                    def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
-                    vcsConfig.mapping[0].'@vcs' = 'Git'
-                }
-            }
+            // Use git
+            def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+            vcsConfig.mapping[0].'@vcs' = 'Git'
         }
     }
 }
-
-
