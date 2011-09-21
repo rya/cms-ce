@@ -50,7 +50,12 @@ public final class UserFieldTask
             String fieldName = row.getString( "usf_name" );
             String fieldValue = row.getString( "usf_value" );
 
-            JcrNode userNode = getUserStoreNode( userKey, session );
+            JcrNode userNode = getUserNode( userKey, session );
+            if (userNode == null) {
+                this.logWarning( "Could not find user with key {0}. Skipping user field.", userKey );
+                return;
+            }
+            
             if ( isAddressField( fieldName ) )
             {
                 addAddressField(userNode, fieldName, fieldValue);
@@ -119,7 +124,7 @@ public final class UserFieldTask
         return value;
     }
 
-    private JcrNode getUserStoreNode( String userKey, JcrSession session )
+    private JcrNode getUserNode( String userKey, JcrSession session )
     {
         String sql = "SELECT * FROM [" + JcrCmsConstants.USER_NODE_TYPE + "] WHERE key = $key ";
 
