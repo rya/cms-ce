@@ -20,6 +20,8 @@ Ext.define( 'App.controller.UserController', {
         'UserFormField',
         'GroupItemField',
         'UserPreferencesPanel',
+        'AddressPanel',
+        'AddressContainer',
         'GroupDetailButton'
     ],
 
@@ -338,7 +340,7 @@ Ext.define( 'App.controller.UserController', {
 
     countryChangeHandler: function( field, newValue, oldValue, options )
     {
-        var region = field.up( 'fieldset' ).down( '#iso-region' );
+        var region = field.up( 'addressPanel' ).down( '#iso-region' );
         if ( region )
         {
             region.clearValue();
@@ -383,17 +385,15 @@ Ext.define( 'App.controller.UserController', {
     {
         var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name
                 : 'new-user';
-        var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressTabPanel' );
-        var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
-        newTab = tabPanel.add( newTab );
-        tabPanel.setActiveTab( newTab );
+        var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressContainer' );
+        var newTab = this.getEditUserFormPanel().generateAddressPanel( tabPanel.sourceField, true );
+        newTab = tabPanel.insert( 0 , newTab );
     },
 
     updateTabTitle: function ( field, event )
     {
-        var formPanel = field.up( 'editUserFormPanel' );
-        var tabPanel = formPanel.down( '#addressTabPanel' );
-        tabPanel.getActiveTab().setTitle( field.getValue() );
+        var addressPanel = field.up( 'addressPanel' );
+        addressPanel.setTitle( field.getValue() );
     },
 
     toggleDisplayNameField: function ( button, event )
@@ -490,7 +490,7 @@ Ext.define( 'App.controller.UserController', {
                         : editUserForm.defaultUserStoreName,
                 userInfo: formValues
             }
-            var tabPanel = editUserForm.down( '#addressTabPanel' );
+            var tabPanel = editUserForm.down( '#addressContainer' );
             var tabs = tabPanel.query( 'form' );
             var addresses = [];
             for ( index in tabs )
