@@ -2451,7 +2451,9 @@ public class MenuHandlerServlet
         int menuKey = formItems.getInt( "menukey" );
 
         User user = securityService.getLoggedInAdminConsoleUser();
-        String menuXML = admin.getAdminMenu( user, menuKey );
+
+        Document doc1 = XMLTool.createDocument( "menus" );
+        MenuItemKey menuItemParent = null;
 
         boolean forwardData = formItems.getBoolean( "forward_data", false );
         boolean create;
@@ -2471,6 +2473,10 @@ public class MenuHandlerServlet
             {
                 create = false;
                 menuItemXML = admin.getMenuItem( user, Integer.parseInt( key ), false, true );
+
+                menuItemParent = new MenuItemKey( Integer.parseInt( key ) );
+
+                XMLTool.mergeDocuments( doc1, XMLTool.domparse( menuItemXML ), true );
             }
             else
             {
@@ -2480,6 +2486,11 @@ public class MenuHandlerServlet
                 {
                     defaultAccessRightXML =
                             admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true );
+
+                    menuItemParent = new MenuItemKey( Integer.parseInt( insertBelow ) );
+
+                    String insertBelowMenuXML = admin.getMenuItem( user, Integer.parseInt( insertBelow ), false, true );
+                    XMLTool.mergeDocuments( doc1, XMLTool.domparse( insertBelowMenuXML ), true );
                 }
                 else
                 {
@@ -2487,25 +2498,21 @@ public class MenuHandlerServlet
                 }
             }
 
-            int[] excludeTypeKeys = null; // before we excluded page-tempales of type newsletter, but not anymore.
-            pageTemplatesXML = admin.getPageTemplatesByMenu( menuKey, excludeTypeKeys );
+            MenuBrowseModelFactory menuBrowseModelFactory =
+                new MenuBrowseModelFactory( securityService, siteDao, menuItemDao, sitePropertiesService );
+            SiteKey siteKey = new SiteKey( menuKey );
+            UserEntity userEntity = securityService.getUser( user );
+            MenuItemFormModel model = menuBrowseModelFactory.createMenuItemFormModel( userEntity, siteKey, menuItemParent );
+            XMLTool.mergeDocuments( doc1, model.toXML().getAsDOMDocument(), false );
 
-            Document doc1 = XMLTool.domparse( menuXML );
-            Element menuElem = XMLTool.selectElement( doc1.getDocumentElement(), "//menu[@key = '" + menuKey + "']" );
+            int[] excludeTypeKeys = null; // before we excluded page-templates of type newsletter, but not anymore.
+            pageTemplatesXML = admin.getPageTemplatesByMenu( menuKey, excludeTypeKeys );
 
             int pageTemplateKey = formItems.getInt( "selpagetemplatekey", -1 );
             if ( pageTemplateKey < 0 && create )
             {
-                // selpagetemplatekey has not been set... set it to parent or default
-                // pagetemplatekey (if appliccable)
-                int insertBelow = -1;
-                if ( formItems.containsKey( "insertbelow" )
-                    /* && formItems.get("insertbelow") instanceof Integer */ )
-                {
-                    insertBelow = formItems.getInt( "insertbelow" );
-                }
-
-                pageTemplateKey = findParentPagetemplateKey( doc1, insertBelow );
+                // selpagetemplatekey has not been set. set it to parent or default pagetemplatekey ( if applicable )
+                pageTemplateKey = model.findParentPageTemplateKey();
                 formItems.putInt( "selpagetemplatekey", pageTemplateKey );
             }
 
@@ -2520,10 +2527,11 @@ public class MenuHandlerServlet
             }
             else
             {
-                String tmp = menuElem.getAttribute( "defaultpagetemplate" );
-                if ( tmp != null && tmp.length() > 0 )
+                SiteEntity site = siteDao.findByKey( menuKey );
+                PageTemplateEntity pageTemplate = site.getPageTemplate();
+                if ( pageTemplate != null )
                 {
-                    pageTemplateKey = Integer.parseInt( tmp );
+                    pageTemplateKey = pageTemplate.getKey();
                     pageTemplateParamsXML = admin.getPageTemplParams( pageTemplateKey );
                 }
             }
@@ -2549,9 +2557,7 @@ public class MenuHandlerServlet
                         Element oldElem = (Element) XMLTool.selectNode( doc1.getDocumentElement(), xpath );
                         if ( oldElem != null )
                         {
-                            Element menuitemsElem = (Element) oldElem.getParentNode();
                             menuitemElem = (Element) doc1.importNode( tmpElem, true );
-                            menuitemsElem.replaceChild( menuitemElem, oldElem );
                         }
                     }
                 }
@@ -2934,51 +2940,6 @@ public class MenuHandlerServlet
         queryParams.put( "move_to_parent", formItems.getString( "move_to_parent", "" ) );
 
         redirectClientToAdminPath( "adminpage", queryParams, request, response );
-    }
-
-    private int findParentPagetemplateKey( Document doc, int parentKey )
-            throws TransformerException
-    {
-        int pagetemplatekey = -1;
-
-        if ( parentKey != -1 )
-        {
-            Element rootNode = doc.getDocumentElement();
-            Element currentElement = (Element) XMLTool.selectNode( rootNode, "//menuitem[@key = " + parentKey + "]" );
-
-            while ( currentElement != null && currentElement.getTagName().equals( "menuitem" ) )
-            {
-                String tmp = XMLTool.getElementText( currentElement, "page/@pagetemplatekey" );
-                if ( tmp != null )
-                {
-                    pagetemplatekey = Integer.parseInt( tmp );
-                    break;
-                }
-
-                currentElement = (Element) XMLTool.selectNode( currentElement, "../../menuitem" );
-            }
-
-            if ( pagetemplatekey == -1 )
-            {
-                String tmp = XMLTool.getElementText( doc, "/menus/menu/defaultpagetemplate/@pagetemplatekey" );
-                if ( tmp != null )
-                {
-                    pagetemplatekey = Integer.parseInt( tmp );
-                }
-            }
-        }
-
-        // attempt to set it to default pagetemplate
-        if ( pagetemplatekey == -1 )
-        {
-            String tmp = XMLTool.getElementText( doc, "/menus/menu/defaultpagetemplate/@pagetemplatekey" );
-            if ( tmp != null )
-            {
-                pagetemplatekey = Integer.parseInt( tmp );
-            }
-        }
-
-        return pagetemplatekey;
     }
 
     private void handlerFormBuilder( HttpServletResponse response, HttpSession session, ExtendedMap formItems )

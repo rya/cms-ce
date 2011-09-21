@@ -84,6 +84,29 @@ public class MenuBrowseModelFactory
         return model;
     }
 
+    public MenuItemFormModel createMenuItemFormModel( UserEntity user, SiteKey siteKey,
+                                                      MenuItemKey selectedMenuItemKey )
+    {
+        MenuItemFormModel model = new MenuItemFormModel();
+
+        SiteEntity site = siteDao.findByKey( siteKey );
+        model.setSite( site );
+        model.setSiteProperties( sitePropertiesService.getSiteProperties( site.getKey() ) );
+
+        DefaultSiteAccessRightAccumulator defaultSiteAccessRightAccumulator = new DefaultSiteAccessRightAccumulator( securityService );
+        DefaultSiteAccumulatedAccessRights userRightsForSite = defaultSiteAccessRightAccumulator.getAccessRightsAccumulated(
+                site, user );
+        model.setUserRightsForSite( userRightsForSite );
+
+        if ( selectedMenuItemKey != null )
+        {
+            MenuItemEntity selectedMenuItem = menuItemDao.findByKey( selectedMenuItemKey.toInt() );
+            model.setSelectedMenuItemPath( selectedMenuItem.getMenuItemPath() );
+        }
+
+        return model;
+    }
+
     public MenuBrowseContentModel createContentModel( final UserEntity user, final SiteKey siteKey, final MenuItemKey selectedMenuItemKey )
     {
         final MenuBrowseContentModel model = new MenuBrowseContentModel();
