@@ -42,6 +42,11 @@ public final class GroupMembershipTask
 
             JcrNode parentGroupNode = getGroupNode( groupKey, session );
             JcrNode memberPrincipalNode = getGroupNode( groupMemberKey, session );
+            if ( memberPrincipalNode == null )
+            {
+                this.logWarning( "Could not find group with key {0}. Skipping group member.", groupMemberKey );
+                return;
+            }
             GroupType memberGroupType = getGroupType(memberPrincipalNode);
             if (memberGroupType == GroupType.USER ) {
                 memberPrincipalNode = getUserNodeByGroupKey( groupMemberKey, session );
@@ -90,6 +95,13 @@ public final class GroupMembershipTask
     private GroupType getGroupType( JcrNode groupNode )
     {
         Long typeVal = groupNode.getLongProperty( "type" );
-        return GroupType.get( typeVal.intValue() );
+        if ( typeVal == null )
+        {
+            return GroupType.ANONYMOUS;
+        }
+        else
+        {
+            return GroupType.get( typeVal.intValue() );
+        }
     }
 }
