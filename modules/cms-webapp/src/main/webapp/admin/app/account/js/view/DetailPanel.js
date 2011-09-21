@@ -2,7 +2,6 @@ Ext.define('App.view.DetailPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userDetail',
 
-    title: 'Details',
     split: true,
     autoScroll: true,
     layout: 'card',
@@ -14,14 +13,6 @@ Ext.define('App.view.DetailPanel', {
         var nonSelectedPanel = this.createNonSelection();
         this.items = [nonSelectedPanel, largeBoxesPanel, smallBoxesPanel];
         this.callParent(arguments);
-//        this.down('#largeBoxPanel').on('click', function(e, t){
-//            //e.stopEvent();
-//            alert('link clicked');
-//        }, this, {/*target: 'a.remove-selection'*/});
-//        this.down('#smallBoxPanel').on('click', function(e, t){
-//            e.stopEvent();
-//            alert('link clicked');
-//        }, null, {target: 'a.remove-selection'});
     },
 
     showMultipleSelection: function(data, detailed){
@@ -156,6 +147,17 @@ Ext.define('App.view.DetailPanel', {
 
     getCurrentUser: function(){
         return this.currentUser;
+    },
+
+    updateTitle: function(selModel){
+        this.selModel = selModel;
+        this.setTitle(selModel.selected.length + " user(s) selected (<a href='#' class='selectAll'>select all</a>)")
+        var a = this.header.el.down( 'a.selectAll' );
+        a.on( "click", this.selectAll, this );
+    },
+
+    selectAll: function(){
+        this.selModel.selectAll();
     }
 
 });

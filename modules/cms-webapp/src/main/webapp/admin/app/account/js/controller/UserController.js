@@ -172,6 +172,8 @@ Ext.define( 'App.controller.UserController', {
                }
            ]
         } );
+        var userDetail = this.getUserDetail();
+        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
     },
 
     createNewGroupTab: function()
@@ -207,7 +209,6 @@ Ext.define( 'App.controller.UserController', {
         if ( selected.length == 0 )
         {
             userDetail.showNonSelection();
-            userDetail.setTitle( selected.length + " user selected" );
         }
         else
         {
@@ -228,8 +229,8 @@ Ext.define( 'App.controller.UserController', {
                 Ext.Array.include( selectedUsers, user.data );
             } );
             userDetail.showMultipleSelection( selectedUsers, detailed );
-            userDetail.setTitle( selected.length + " user selected" );
         }
+        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
     },
 
     searchFilter: function()
