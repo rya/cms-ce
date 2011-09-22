@@ -48,6 +48,7 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
@@ -82,7 +83,6 @@ import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.domain.resolver.ResolverContext;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.DefaultSiteAccumulatedAccessRights;

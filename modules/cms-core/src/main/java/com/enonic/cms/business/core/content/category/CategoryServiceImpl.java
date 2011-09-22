@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.api.util.Preconditions;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -26,7 +28,7 @@ import com.enonic.cms.business.core.content.ContentTitleValidator;
 import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
-import com.enonic.cms.business.log.LogService;
+import com.enonic.cms.core.log.LogService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.category.CategoryAccessEntity;
@@ -37,9 +39,8 @@ import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.log.LogType;
-import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
-import com.enonic.cms.domain.log.Table;
+import com.enonic.cms.core.log.LogType;
+
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserKey;

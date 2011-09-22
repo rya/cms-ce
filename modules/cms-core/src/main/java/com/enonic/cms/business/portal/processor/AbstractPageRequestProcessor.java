@@ -10,19 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
 
+import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.PageTemplateDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 
 import com.enonic.cms.business.portal.rendering.RegionsResolver;
-import com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverService;
-import com.enonic.cms.business.resolver.locale.LocaleResolverService;
+import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
-import com.enonic.cms.domain.resolver.ResolverContext;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;

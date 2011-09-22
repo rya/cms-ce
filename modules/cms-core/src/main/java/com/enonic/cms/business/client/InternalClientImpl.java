@@ -73,6 +73,13 @@ import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
 import com.enonic.cms.api.client.model.preference.Preference;
+import com.enonic.cms.core.preference.PreferenceEntity;
+import com.enonic.cms.core.preference.PreferenceKey;
+import com.enonic.cms.core.preference.PreferenceScope;
+import com.enonic.cms.core.preference.PreferenceScopeKey;
+import com.enonic.cms.core.preference.PreferenceScopeType;
+import com.enonic.cms.core.preference.PreferenceService;
+import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.KeyService;
@@ -102,7 +109,6 @@ import com.enonic.cms.business.core.content.category.command.DeleteCategoryComma
 import com.enonic.cms.business.core.content.command.ImportContentCommand;
 import com.enonic.cms.business.core.content.imports.ImportJob;
 import com.enonic.cms.business.core.content.imports.ImportJobFactory;
-import com.enonic.cms.business.core.preferences.PreferenceService;
 import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.UserParser;
@@ -134,13 +140,9 @@ import com.enonic.cms.domain.content.resultset.ContentResultSet;
 import com.enonic.cms.domain.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceScope;
-import com.enonic.cms.domain.preference.PreferenceScopeKey;
-import com.enonic.cms.domain.preference.PreferenceScopeResolver;
-import com.enonic.cms.domain.preference.PreferenceScopeType;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
+
+import com.enonic.cms.core.preference.PreferenceScopeResolver;
+
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.resource.ResourceXmlCreator;
@@ -1947,7 +1949,8 @@ public final class InternalClientImpl
         try
         {
             PreferenceKey preferenceKey =
-                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
+                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse(
+                        params.scope.getType().toString() ),
                                    params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
 
             PreferenceEntity preference = new PreferenceEntity();

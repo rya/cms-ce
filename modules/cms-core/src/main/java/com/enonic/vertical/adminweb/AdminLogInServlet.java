@@ -28,6 +28,7 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.api.Version;
+import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
@@ -35,7 +36,6 @@ import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.core.security.PasswordGenerator;
 
 import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
-import com.enonic.cms.domain.log.LogType;
 import com.enonic.cms.domain.security.InvalidCredentialsException;
 import com.enonic.cms.domain.security.user.QualifiedUsername;
 import com.enonic.cms.domain.security.user.User;

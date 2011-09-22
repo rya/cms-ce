@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.directwebremoting.servlet.DwrServlet;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.business.vhost.VirtualHostHelper;
+import com.enonic.cms.core.vhost.VirtualHostHelper;
 
 /**
  * This class implements a servlet that wraps around dwr. It fixes a path problem that is seen when certain virtual hosts are used.

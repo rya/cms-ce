@@ -31,6 +31,7 @@ import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.core.service.PresentationService;
@@ -65,16 +66,16 @@ import com.enonic.cms.business.core.security.userstore.UserStoreService;
 import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
 import com.enonic.cms.business.core.structure.SiteService;
 import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
-import com.enonic.cms.business.country.CountryService;
-import com.enonic.cms.business.locale.LocaleService;
-import com.enonic.cms.business.log.LogService;
+import com.enonic.cms.core.country.CountryService;
+import com.enonic.cms.core.locale.LocaleService;
+
 import com.enonic.cms.business.mail.SendMailService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.portal.rendering.PageRendererFactory;
 import com.enonic.cms.business.preview.PreviewService;
-import com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverService;
-import com.enonic.cms.business.resolver.locale.LocaleResolverService;
-import com.enonic.cms.business.timezone.TimeZoneService;
+import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
+import com.enonic.cms.core.resolver.locale.LocaleResolverService;
+import com.enonic.cms.core.timezone.TimeZoneService;
 
 public abstract class AbstractAdminwebServlet
     extends HttpServlet

@@ -6,6 +6,7 @@ package com.enonic.cms.core.internal.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.service.PresentationService;
@@ -20,7 +21,6 @@ import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.business.core.content.ContentParserService;
 import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.preferences.PreferenceService;
 import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.userstore.UserStoreService;

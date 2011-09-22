@@ -7,8 +7,8 @@ package com.enonic.cms.domain.content.index;
 import java.util.List;
 import java.util.Map;
 
-import com.enonic.cms.domain.log.LogEntryEntity;
-import com.enonic.cms.domain.log.LogEntryKey;
+import com.enonic.cms.core.log.LogEntryEntity;
+import com.enonic.cms.core.log.LogEntryKey;
 
 /**
  * This interface defines the content entity fetcher.

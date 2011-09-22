@@ -11,7 +11,7 @@ import java.sql.Types;
 
 import org.hibernate.HibernateException;
 
-import com.enonic.cms.domain.preference.PreferenceKey;
+import com.enonic.cms.core.preference.PreferenceKey;
 
 
 public class PreferenceKeyUserType

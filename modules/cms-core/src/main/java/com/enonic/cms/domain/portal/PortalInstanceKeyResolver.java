@@ -10,9 +10,9 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 import com.enonic.cms.domain.structure.portlet.PortletKey;
 
-import static com.enonic.cms.domain.preference.PreferenceScopeType.PAGE;
-import static com.enonic.cms.domain.preference.PreferenceScopeType.SITE;
-import static com.enonic.cms.domain.preference.PreferenceScopeType.WINDOW;
+import static com.enonic.cms.core.preference.PreferenceScopeType.PAGE;
+import static com.enonic.cms.core.preference.PreferenceScopeType.SITE;
+import static com.enonic.cms.core.preference.PreferenceScopeType.WINDOW;
 
 public class PortalInstanceKeyResolver
 {

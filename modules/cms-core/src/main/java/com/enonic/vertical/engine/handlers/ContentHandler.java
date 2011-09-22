@@ -1260,7 +1260,7 @@ public final class ContentHandler
     {
 
         LogHandler logHandler = getLogHandler();
-        int readCount = logHandler.getReadCount( com.enonic.cms.domain.log.Table.CONTENT.asInteger(), contentKey );
+        int readCount = logHandler.getReadCount( com.enonic.cms.core.log.Table.CONTENT.asInteger(), contentKey );
         Element elem = XMLTool.createElement( contentElem.getOwnerDocument(), contentElem, "logentries" );
         if ( readCount > 0 )
         {

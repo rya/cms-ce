@@ -6,9 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
+import com.enonic.cms.core.preference.PreferenceEntity;
+import com.enonic.cms.core.preference.PreferenceKey;
+import com.enonic.cms.core.preference.PreferenceSpecification;
 
 
 public interface PreferenceDao

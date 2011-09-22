@@ -51,7 +51,10 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.country.Country;
+import com.enonic.cms.core.locale.LocaleXmlCreator;
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
@@ -62,12 +65,10 @@ import com.enonic.cms.store.dao.GroupQuery;
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.core.security.PasswordGenerator;
-import com.enonic.cms.business.locale.LocaleXmlCreator;
-import com.enonic.cms.business.timezone.TimeZoneXmlCreator;
 
 import com.enonic.cms.domain.AbstractPagedXmlCreator;
-import com.enonic.cms.domain.country.Country;
-import com.enonic.cms.domain.country.CountryXmlCreator;
+
+import com.enonic.cms.core.country.CountryXmlCreator;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.ObjectClassesXmlCreator;

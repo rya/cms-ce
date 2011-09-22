@@ -55,7 +55,7 @@ import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 import com.enonic.cms.domain.content.UnitEntity;
 import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.log.LogType;
+import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;

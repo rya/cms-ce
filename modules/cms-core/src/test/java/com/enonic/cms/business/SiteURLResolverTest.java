@@ -116,7 +116,7 @@ public class SiteURLResolverTest
     public void testGetPathUrlWithVHOSTSet()
     {
 
-        request.setAttribute( "com.enonic.cms.business.vhost.BASE_PATH", "" );
+        request.setAttribute( "com.enonic.cms.core.vhost.BASE_PATH", "" );
 
         String path;
 

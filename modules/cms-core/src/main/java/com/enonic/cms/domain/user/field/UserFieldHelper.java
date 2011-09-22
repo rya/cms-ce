@@ -13,7 +13,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.api.client.model.user.Gender;
 
-import com.enonic.cms.domain.resolver.locale.LocaleParser;
+import com.enonic.cms.core.resolver.locale.LocaleParser;
 
 public final class UserFieldHelper
 {
