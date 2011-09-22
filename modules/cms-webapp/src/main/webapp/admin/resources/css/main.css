@@ -341,6 +341,22 @@ img.photo {
     background: url("../images/cancel.png");
 }
 
+.icon-btn-arrow-left-24 {
+    background: url("../images/arrow-left-24.png");
+}
+
+.icon-btn-arrow-right-24 {
+    background: url("../images/arrow-right-24.png");
+}
+
+.icon-btn-tick-24 {
+    background: url("../images/tick-24.png");
+}
+
+.icon-btn-save-24 {
+    background: url("../images/disk-24.png");
+}
+
 /*-----  Dashboard  -----*/
 
 .dashboard .dashboard-body {

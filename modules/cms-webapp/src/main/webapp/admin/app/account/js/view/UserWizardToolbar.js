@@ -8,7 +8,8 @@ Ext.define('App.view.UserWizardToolbar', {
 
         var buttonDefaults = {
             scale: 'medium',
-            iconAlign: 'top'
+            iconAlign: 'top',
+            minWidth: 64
         };
 
         this.items = [
@@ -18,7 +19,8 @@ Ext.define('App.view.UserWizardToolbar', {
                 defaults: buttonDefaults,
                 items: [
                     {
-                        text: 'Save'
+                        text: 'Save',
+                        iconCls: 'icon-btn-save-24'
                     }
                 ]
             },
@@ -29,13 +31,16 @@ Ext.define('App.view.UserWizardToolbar', {
                 defaults: buttonDefaults,
                 items: [
                     {
-                        text: 'Previous'
+                        text: 'Previous',
+                        iconCls: 'icon-btn-arrow-left-24'
                     },
                     {
-                        text: 'Next'
+                        text: 'Next',
+                        iconCls: 'icon-btn-arrow-right-24'
                     },
                     {
-                        text: 'Finish'
+                        text: 'Finish',
+                        iconCls: 'icon-btn-tick-24'
                     }
                 ]
             }
