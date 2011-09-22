@@ -12,17 +12,24 @@ import org.junit.Before;
 
 public abstract class BaseImageFilterTest
 {
-    private BufferedImage source;
+    private BufferedImage opaque;
+    private BufferedImage transparent;
 
     @Before
     public final void setUp()
-        throws Exception
+            throws Exception
     {
-        this.source = ImageIO.read( getClass().getResourceAsStream( "source.jpg" ) );
+        this.opaque = ImageIO.read( getClass().getResourceAsStream( "source.jpg" ) );
+        this.transparent = ImageIO.read( getClass().getResourceAsStream( "transparent.png" ) );
     }
 
-    protected final BufferedImage getSource()
+    protected final BufferedImage getOpaque()
     {
-        return this.source;
+        return this.opaque;
+    }
+
+    protected final BufferedImage getTransparent()
+    {
+        return this.transparent;
     }
 }

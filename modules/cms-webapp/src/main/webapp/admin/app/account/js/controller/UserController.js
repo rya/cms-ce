@@ -20,6 +20,8 @@ Ext.define( 'App.controller.UserController', {
         'UserFormField',
         'GroupItemField',
         'UserPreferencesPanel',
+        'AddressPanel',
+        'AddressContainer',
         'GroupDetailButton'
     ],
 
@@ -27,8 +29,11 @@ Ext.define( 'App.controller.UserController', {
     {
         Ext.create('widget.userContextMenu');
 
+        var me = this;
         var userStore = this.getStore('UserStore');
         userStore.guaranteeRange( 0, userStore.pageSize - 1 );
+
+        userStore.on('load', me.updateGridTitle, this);
 
         this.control( {
                           'cmsTabPanel': {
@@ -52,7 +57,8 @@ Ext.define( 'App.controller.UserController', {
                           'userGrid': {
                               selectionchange: this.updateDetailsPanel,
                               itemcontextmenu: this.popupMenu,
-                              itemdblclick: this.showEditUserForm
+                              itemdblclick: this.showEditUserForm,
+                              afterrender: this.postRenderGridPanel
                           },
                           'userFilter': {
                               specialkey: this.filterHandleEnterKey,
@@ -80,7 +86,7 @@ Ext.define( 'App.controller.UserController', {
                               click: this.showChangePasswordWindow
                           },
                           'userDetail': {
-                              render: this.setDetailsToolbarDisabled
+                              render: this.initDetailToolbar
                           },
                           'editUserPanel textfield[name=prefix]': {
                               keyup: this.textFieldHandleEnterKey
@@ -131,20 +137,6 @@ Ext.define( 'App.controller.UserController', {
         Ext.Msg.alert( 'New Group', 'TODO' );
     },
 
-    updateInfo: function( selModel, selected )
-    {
-        var user = selected[0];
-        var userDetail = this.getUserDetail();
-
-        if ( user )
-        {
-            userDetail.update( user.data );
-        }
-
-        userDetail.setTitle( selected.length + " user selected" );
-        this.setDetailsToolbarDisabled();
-    },
-
     selectUser: function( view )
     {
         var first = this.getUserStoreStore().getAt( 0 );
@@ -184,6 +176,8 @@ Ext.define( 'App.controller.UserController', {
                }
            ]
         } );
+        var userDetail = this.getUserDetail();
+        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
     },
 
     createNewGroupTab: function()
@@ -215,28 +209,19 @@ Ext.define( 'App.controller.UserController', {
     updateDetailsPanel: function( selModel, selected )
     {
         var userDetail = this.getUserDetail();
-        if ( selected.length == 1 )
+
+        if ( selected.length == 0 )
         {
-            var user = selected[0];
-
-            if ( user )
-            {
-                Ext.Ajax.request( {
-                                      url: 'data/user/userinfo',
-                                      method: 'GET',
-                                      params: {key: user.get( 'key' )},
-                                      success: function( response )
-                                      {
-                                          var jsonObj = Ext.JSON.decode( response.responseText );
-                                          userDetail.showSingleSelection( jsonObj );
-                                          userDetail.setCurrentUser( user.data );
-                                      }
-                                  } );
-
-            }
+            userDetail.showNonSelection();
         }
         else
         {
+            var user = selected[0];
+            if ( user )
+            {
+                userDetail.setCurrentUser( user.data );
+            }
+
             var detailed = true;
             if ( selected.length > 10 )
             {
@@ -249,22 +234,7 @@ Ext.define( 'App.controller.UserController', {
             } );
             userDetail.showMultipleSelection( selectedUsers, detailed );
         }
-
-        var header = selected.length + " user(s) selected";
-        if ( selected.length > 0 )
-            header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
-
-        userDetail.setTitle( header );
-
-        var a = userDetail.header.el.down( 'a.clearSelection' );
-        if ( a ) {
-            a.on( "click", this.clearSelection, this );
-        }
-        this.setDetailsToolbarDisabled();
-    },
-
-    clearSelection: function() {
-        this.getUserGrid().getSelectionModel().deselectAll();
+        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
     },
 
     searchFilter: function()
@@ -363,26 +333,9 @@ Ext.define( 'App.controller.UserController', {
         }
     },
 
-    setDetailsToolbarDisabled: function()
-    {
-        var buttons = [], button;
-        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=edit]' )[0] );
-        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=showDeleteWindow]' )[0] );
-        buttons.push( Ext.ComponentQuery.query( 'accountsToolbar button[action=changePassword]' )[0] );
-
-        var selectionCount = this.getGridSelectionCount();
-        var multipleSelection = selectionCount > 1;
-        var disable = selectionCount === 0;
-        for ( var i = 0; i < buttons.length; i++ )
-        {
-            button = buttons[i];
-            button.setDisabled(disable);
-
-            if ( multipleSelection && button.disableOnMultipleSelection === true )
-            {
-                button.setDisabled(true);
-            }
-        }
+    initDetailToolbar: function() {
+        var userDetail = this.getUserDetail();
+        userDetail.showNonSelection();
     },
 
     getGridSelectionCount: function()
@@ -392,7 +345,7 @@ Ext.define( 'App.controller.UserController', {
 
     countryChangeHandler: function( field, newValue, oldValue, options )
     {
-        var region = field.up( 'fieldset' ).down( '#iso-region' );
+        var region = field.up( 'addressPanel' ).down( '#iso-region' );
         if ( region )
         {
             region.clearValue();
@@ -437,17 +390,15 @@ Ext.define( 'App.controller.UserController', {
     {
         var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name
                 : 'new-user';
-        var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressTabPanel' );
-        var newTab = this.getEditUserFormPanel().generateAddressFieldSet( tabPanel.sourceField, true );
-        newTab = tabPanel.add( newTab );
-        tabPanel.setActiveTab( newTab );
+        var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressContainer' );
+        var newTab = this.getEditUserFormPanel().generateAddressPanel( tabPanel.sourceField, true );
+        newTab = tabPanel.insert( 0 , newTab );
     },
 
     updateTabTitle: function ( field, event )
     {
-        var formPanel = field.up( 'editUserFormPanel' );
-        var tabPanel = formPanel.down( '#addressTabPanel' );
-        tabPanel.getActiveTab().setTitle( field.getValue() );
+        var addressPanel = field.up( 'addressPanel' );
+        addressPanel.setTitle( field.getValue() );
     },
 
     toggleDisplayNameField: function ( button, event )
@@ -544,7 +495,7 @@ Ext.define( 'App.controller.UserController', {
                         : editUserForm.defaultUserStoreName,
                 userInfo: formValues
             }
-            var tabPanel = editUserForm.down( '#addressTabPanel' );
+            var tabPanel = editUserForm.down( '#addressContainer' );
             var tabs = tabPanel.query( 'form' );
             var addresses = [];
             for ( index in tabs )
@@ -604,6 +555,19 @@ Ext.define( 'App.controller.UserController', {
             userInfoPanel = button.up( 'userShortDetailButton' );
         }
         selModel.deselect( userInfoPanel.getUser() );
+    },
+
+    postRenderGridPanel: function() {
+        Ext.get('account-grid-select-all').on('click', this.selectAll, this)
+    },
+
+    updateGridTitle: function() {
+        var totalCount = this.getStore('UserStore').getTotalCount();
+        Ext.DomQuery.select('#account-grid-total-count')[0].innerHTML = totalCount;
+    },
+
+    selectAll: function() {
+        this.getUserGrid().getSelectionModel().selectAll();
     },
 
     getCmsTabPanel: function()

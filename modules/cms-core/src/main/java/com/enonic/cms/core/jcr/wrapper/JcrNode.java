@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.wrapper;
 
 import java.util.Set;
@@ -28,9 +32,13 @@ public interface JcrNode
 
     public Object getProperty( String name );
 
+    public int getPropertyType( String name );
+
     public String getStringProperty( String name );
 
     public String getBooleanProperty( String name );
+
+    public Long getLongProperty( String name );
 
     public JcrBinary getBinaryProperty( String name );
 

@@ -139,36 +139,17 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
                     }
                     return {
                         sourceField: field,
-                        xtype: 'tabpanel',
-                        width: '100%',
+                        xtype: 'addressContainer',
                         itemId: 'addressTabPanel',
-                        height: 280,
-                        width: 300,
-                        items: tabs,
-                        buttons: [
-                            {
-                                text: 'Add New Address',
-                                action: 'addNewTab',
-                                currentUser: me.currentUser
-                            }
-                        ]
+                        items: tabs
                     };
                 }else{
                     var tabItem = me.generateAddressFieldSet(field);
                     return {
                         sourceField: field,
-                        xtype: 'tabpanel',
-                        width: '100%',
+                        xtype: 'addressContainer',
                         itemId: 'addressTabPanel',
-                        height: 280,
-                        width: 300,
-                        items: [tabItem],
-                        buttons: [
-                            {
-                                text: 'Add New Address',
-                                action: 'addNewTab'
-                            }
-                        ]
+                        items: [tabItem]
                     };
                 }
             }
@@ -388,127 +369,15 @@ Ext.define( 'CMS.view.user.EditUserFormPanel', {
 
     generateAddressFieldSet: function ( field , closable, values)
     {
-        var me = this;
-        if (values == null){
-            values = [];
-        }
-        var countryField, regionField;
-        if ( field.iso )
-        {
-            var countryStore = Ext.data.StoreManager.lookup( 'CountryStore' );
-            var regionStore = new CMS.store.RegionStore();
-            var countryField = {
-                xtype: 'combobox',
-                store: countryStore,
-                fieldLabel: 'Country',
-                valueField: 'code',
-                displayField: 'englishName',
-                queryMode: 'local',
-                minChars: 1,
-                emptyText: 'Please select',
-                name: 'iso-country',
-                itemId: 'iso-country',
-                value: values['iso-country'],
-                disabled: field.readonly
-            };
-            var regionField = new Ext.form.field.ComboBox({
-                xtype: 'combobox',
-                store: regionStore,
-                valueField: 'code',
-                displayField: 'englishName',
-                queryMode: 'local',
-                minChars: 1,
-                emptyText: 'Please select',
-                fieldLabel: 'Region',
-                name: 'iso-region',
-                itemId: 'iso-region',
-                value: values['iso-region'],
-                disabled: values['iso-region'] == null ? true : false
-            });
-            if (values['iso-country'] && values['iso-region']){
-                Ext.apply( regionStore.proxy.extraParams, {
-                    'countryCode': values['iso-country']
-                } );
-                regionStore.load({
-                    callback: function(){
-                        regionField.setValue(values['iso-region']);
-                    }
-                });
-            }
-        }
-        else
-        {
-            var countryField = {
-                xtype: 'textfield',
-                fieldLabel: 'Country',
-                name: 'country',
-                itemId: 'address-country',
-                value: values['country'],
-                disabled: field.readonly
-            };
-            var regionField = {
-                xtype: 'textfield',
-                fieldLabel: 'Region',
-                name: 'region',
-                itemId: 'address-region',
-                value: values['region'],
-                disabled: field.readonly
-            };
-        }
         var fieldSetItem = {
-            measureWidth: true,
-            measureHeight: true,
-            defaults: {
-                bodyPadding: 10
-            },
-            xtype: 'fieldset',
-            title: 'Address',
-            items: [
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Label',
-                    name: 'label',
-                    itemId: 'address-label',
-                    enableKeyEvents: true,
-                    value: values['label'],
-                    bubbleEvents: ['keyup'],
-                    disabled: field.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Street',
-                    name: 'street',
-                    itemId: 'address-street',
-                    value: values['street'],
-                    disabled: field.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Postal Code',
-                    name: 'postal-code',
-                    itemId: 'address-postal-code',
-                    value: values['postal-code'],
-                    disabled: field.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Postal Address',
-                    name: 'postal-address',
-                    itemId: 'address-postal-address',
-                    value: values['postal-address'],
-                    disabled: field.readonly
-                },
-                countryField,
-                regionField
-            ]
-        };
-
-        return {
-            xtype: 'form',
-            title: values['label'] == null ? '[no title]' : values['label'],
+            xtype: 'addressPanel',
+            values: values,
             closable: closable || false,
-            items: [fieldSetItem]
+            readonly: field.readonly,
+            iso: field.iso
+
         };
+        return fieldSetItem;
     },
 
     setItemValue: function(itemId, value){

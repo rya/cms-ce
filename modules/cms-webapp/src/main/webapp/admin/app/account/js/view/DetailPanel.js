@@ -1,8 +1,6 @@
 Ext.define('App.view.DetailPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userDetail',
-
-    title: 'Details',
     split: true,
     autoScroll: true,
     layout: 'card',
@@ -11,17 +9,9 @@ Ext.define('App.view.DetailPanel', {
     initComponent: function() {
         var largeBoxesPanel = this.createLargeBoxSelection();
         var smallBoxesPanel = this.createSmallBoxSelection();
-        var detailsPanel = this.createSingleBoxSelection();
-        this.items = [detailsPanel, largeBoxesPanel, smallBoxesPanel];
+        var nonSelectedPanel = this.createNonSelection();
+        this.items = [nonSelectedPanel, largeBoxesPanel, smallBoxesPanel];
         this.callParent(arguments);
-//        this.down('#largeBoxPanel').on('click', function(e, t){
-//            //e.stopEvent();
-//            alert('link clicked');
-//        }, this, {/*target: 'a.remove-selection'*/});
-//        this.down('#smallBoxPanel').on('click', function(e, t){
-//            e.stopEvent();
-//            alert('link clicked');
-//        }, null, {target: 'a.remove-selection'});
     },
 
     showMultipleSelection: function(data, detailed){
@@ -36,86 +26,21 @@ Ext.define('App.view.DetailPanel', {
         activeItem.update({users: data});
     },
 
-    showSingleSelection: function(data){
-        var activeItem = this.down('#singleDetailsPanel');
-        this.getLayout().setActiveItem('singleDetailsPanel');
+    showNonSelection: function(data){
+        var activeItem = this.down('#nonSelectedPanel');
+        this.getLayout().setActiveItem('nonSelectedPanel');
         activeItem.update(data);
     },
 
-    createSingleBoxSelection: function(){
+    createNonSelection: function(){
         var tpl = new Ext.XTemplate(
-                '<div class="detail-panel-container">',
-                '<div id="" class="detail-left-panel"><div class=""><div class="">',
-                '<table cellspacing="0">', '<tr><td colspan="1" rowspan="2">',
-                '<img src="data/user/photo?key={key}&thumb=true" class="x-component x-component-default">',
-                '</td>', '<td colspan="1" rowspan="1">',
-                '<div class=""><div class=" "><div class="x-form-display-field">{name}</div></div>',
-                '<div style="display:none" class=""></div><div class="x-clear"></div></div>',
-                '</td></tr>', '<tr><td colspan="1" rowspan="1" class=" "><div>',
-                '<div class=" "><div class="x-form-display-field">{qualifiedName}</div>',
-                '</div><div style="display:none" class=""></div><div class=""></div></div>',
-                '</td></tr>', '</table>', '</div>',
-                '<fieldset class="x-fieldset x-fieldset-default">',
-                '<legend class="x-fieldset-header x-fieldset-header-default">',
-                '<div class="x-component x-fieldset-header-text x-component-default">User</div><div class="x-clear"></div>',
-                '</legend>',
-                '<div class="x-fieldset-body"><div class="x-field x-form-item x-field-default">',
-                '<label class="x-form-item-label x-form-item-label-left">username:</label>',
-                '<div class="x-form-item-body "><div class="x-form-display-field">{name}</div></div>',
-                '<div style="display:none" class="x-form-error-msg"></div><div class="x-clear"></div></div>',
-                '<tpl if="this.hasEmail(email)">',
-                '<div class="x-field x-form-item x-field-default"><label class="x-form-item-label x-form-item-label-left">email:</label>',
-                '<div class="x-form-item-body "><div class="x-form-display-field">{email}</div></div><div style="display:none" class="x-form-error-msg"></div>',
-                '</tpl>',
-                '<div class="x-clear"></div></div><div class="x-clear"></div></div>',
-                '</fieldset>', '<div class="x-clear"></div></div></div>',
-                '<div id="" class="detail-right-panel">',
-                '<div class="x-panel-header x-panel-header-default">',
-                '<span class="x-panel-header-text x-panel-header-text-default">Details</span></div>',
-                '<div class="x-panel-body x-panel-body-default detail-right-panel-div">',
-                '<fieldset class="x-fieldset x-fieldset-default">',
-                '<legend class="x-fieldset-header x-fieldset-header-default">',
-                '<div class="">Info</div><div class=""></div>', '</legend>',
-                '<div class=""><div class="x-field x-form-item">',
-                '<label class="x-form-item-label x-form-item-label-left">Last logged in:</label>',
-                '<div class=" "><div class="x-form-display-field">{lastModified}</div></div>',
-                '<div style="display:none" class="x-form-error-msg"></div><div class="x-clear"></div></div>',
-                '<div class="x-field x-form-item"><label class="x-form-item-label x-form-item-label-left">Created:</label>',
-                '<div class="x-form-item-body "><div class="x-form-display-field">{created}</div></div>',
-                '<div style="display:none" class="x-form-error-msg"></div><div class="x-clear"><!-- --></div></div><div class="x-clear"></div></div>',
-                '</fieldset>',
-                '<tpl if="this.hasGroups(groups)">',
-                '<fieldset class="x-fieldset">',
-                '<legend class="x-fieldset-header x-fieldset-header-default">',
-                '<div class="t">Groups</div><div class=""></div>', '</legend>',
-                '<tpl for="groups">',
-                '<div class="x-fieldset-body"><div class="x-btn cms-group-display x-btn-default-small x-icon-text-left x-btn-icon-text-left x-btn-default-small-icon-text-left">',
-                '<em>',
-                '<button autocomplete="off" role="button" hidefocus="true" type="button">',
-                '<span class="x-btn-inner">{name}</span>',
-                '<span class="x-btn-icon icon-group"></span>', '</button>', '</em>',
-                '</div>',
-                '</tpl>',
-                '<div class="x-clear"></div> </div>', '</fieldset>',
-                '</tpl>',
-                '<div class="x-clear"></div></div></div></div></div>',
-
-                {
-                    hasGroups: function( groups )
-                    {
-                        return groups.length > 0;
-                    },
-                    hasEmail: function( email )
-                    {
-                        return email != null;
-                    }
-
-                } );
-
+                '<div>No user selected</div>'
+                );
         var panel = {
             xtype: 'panel',
-            itemId: 'singleDetailsPanel',
+            itemId: 'nonSelectedPanel',
             styleHtmlContent: true,
+            padding : 10,
             border: 0,
             tpl: tpl
         };
@@ -220,6 +145,29 @@ Ext.define('App.view.DetailPanel', {
 
     getCurrentUser: function(){
         return this.currentUser;
+    },
+
+    updateTitle: function(selModel){
+        this.selModel = selModel;
+
+        var count = selModel.selected.length;
+        var header = count + " user(s) selected";
+        if ( count > 0 ) {
+            header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
+        }
+        this.setTitle( header );
+
+        var clearSel = this.header.el.down( 'a.clearSelection' );
+        if ( clearSel ) {
+            clearSel.on( "click", function() {
+                this.selModel.deselectAll();
+            }, this );
+        }
+
+    },
+
+    selectAll: function(){
+        this.selModel.selectAll();
     }
 
 });

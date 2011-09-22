@@ -73,11 +73,12 @@ public class PortalRenderResponseServer
         }
         else
         {
-            return servePageResponse( request, response, httpResponse, httpRequest );
+            servePageResponse( request, response, httpResponse, httpRequest );
+            return null;
         }
     }
 
-    private ModelAndView servePageResponse( PortalRequest request, PortalResponse response, HttpServletResponse httpResponse,
+    private void servePageResponse( PortalRequest request, PortalResponse response, HttpServletResponse httpResponse,
                                             HttpServletRequest httpRequest )
         throws IOException
     {
@@ -107,38 +108,34 @@ public class PortalRenderResponseServer
         String content = response.getContent();
         response.setContent( content );
 
+        boolean isHeadRequest = "HEAD".compareToIgnoreCase( httpRequest.getMethod() ) == 0;
+        boolean writeContent = !isHeadRequest;
         boolean handleEtagLogic = cacheHeadersEnabled && !forceNoCache;
-        if ( handleEtagLogic )
+
+        if ( handleEtagLogic && !StringUtils.isEmpty( content ) ) // resolveEtag does not like empty strings
         {
             // Handling etag logic if cache headers are enabled
-            if ( StringUtils.isEmpty( content ) )
+            final String etagFromContent = resolveEtag( content );
+
+            HttpServletUtil.setEtag( httpResponse, etagFromContent );
+
+            if ( !isContentModified( httpRequest, etagFromContent ) )
             {
-                httpResponse.setContentType( response.getHttpContentType() );
-                writeContent( httpResponse, response.getContentAsBytes() );
-            }
-            else
-            {
-                final String etagFromContent = resolveEtag( content );
-                final boolean contentIsModified = isContentModified( httpRequest, etagFromContent );
-                if ( contentIsModified )
-                {
-                    HttpServletUtil.setEtag( httpResponse, etagFromContent );
-                    httpResponse.setContentType( response.getHttpContentType() );
-                    writeContent( httpResponse, response.getContentAsBytes() );
-                }
-                else
-                {
-                    httpResponse.setStatus( HttpServletResponse.SC_NOT_MODIFIED );
-                }
+                httpResponse.setStatus( HttpServletResponse.SC_NOT_MODIFIED );
+                writeContent = false;
             }
         }
-        else
+
+        if ( isHeadRequest )
+        {
+            httpResponse.setContentLength( response.getContentAsBytes().length );
+        }
+
+        if ( writeContent )
         {
             httpResponse.setContentType( response.getHttpContentType() );
             writeContent( httpResponse, response.getContentAsBytes() );
         }
-
-        return null;
     }
 
     private String resolveEtag( String content )

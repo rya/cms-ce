@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.wrapper;
 
 import java.util.ArrayList;
@@ -19,7 +23,7 @@ import org.apache.jackrabbit.value.BinaryValue;
 class JcrNodeWrapper
     implements JcrNode
 {
-    private Node node;
+    private final Node node;
 
     JcrNodeWrapper( Node node )
     {
@@ -177,6 +181,19 @@ class JcrNodeWrapper
         }
     }
 
+    public int getPropertyType( String name )
+    {
+        try
+        {
+            Property property = node.getProperty( name );
+            return property.getType();
+        }
+        catch ( RepositoryException e )
+        {
+            throw JcrException.wrap( e );
+        }
+    }
+
     @Override
     public Object getProperty( String name )
     {
@@ -300,6 +317,17 @@ class JcrNodeWrapper
     public String getBooleanProperty( String name )
     {
         throw new UnsupportedOperationException( "Not implemented" );
+    }
+
+    @Override
+    public Long getLongProperty( String name )
+    {
+        Object value = getProperty( name );
+        if ( !( value instanceof Long ) )
+        {
+            throw new IllegalArgumentException();
+        }
+        return (Long) value;
     }
 
     @Override

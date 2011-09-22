@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,8 +20,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,8 +37,6 @@ import com.enonic.cms.core.jcr.wrapper.JcrWrappers;
 @Component
 public final class MigrationResource
 {
-    private static final Logger LOG = LoggerFactory.getLogger( MigrationResource.class );
-
     @Autowired
     private Migration migration;
 
@@ -57,30 +54,31 @@ public final class MigrationResource
             migration.start();
         }
 
-        return FreeMarkerModel.create( "migratePage.ftl" )
-            .put( "versionTitle", Version.getTitle() )
-            .put( "versionTitleVersion", Version.getTitleAndVersion() )
-            .put( "migrationInProgress", migration.isInProgress() )
-            .put( "migrationOk", migration.isSuccessful() )
-            .put( "baseUrl", baseUrl );
+        return FreeMarkerModel.create( "migratePage.ftl" ).
+            put( "versionTitle", Version.getTitle() ).
+            put( "versionTitleVersion", Version.getTitleAndVersion() ).
+            put( "migrationInProgress", migration.isInProgress() ).
+            put( "migrationOk", migration.isSuccessful() ).
+            put( "log", migration.getLogEntries() ).
+            put( "baseUrl", baseUrl );
     }
 
     @GET
     @Path("jcrtree")
-    public FreeMarkerModel jcrTreeView( final @Context UriInfo info )
+    public FreeMarkerModel jcrTreeViewPage( final @Context UriInfo info )
     {
         final String baseUrl = info.getBaseUri().toString();
 
-        return FreeMarkerModel.create( "jcrPage.ftl" )
-            .put( "versionTitle", Version.getTitle() )
-            .put( "versionTitleVersion", Version.getTitleAndVersion() )
-            .put( "baseUrl", baseUrl );
+        return FreeMarkerModel.create( "jcrPage.ftl" ).
+            put( "versionTitle", Version.getTitle() ).
+            put( "versionTitleVersion", Version.getTitleAndVersion() ).
+            put( "baseUrl", baseUrl );
     }
 
     @GET
     @Produces(MediaType.TEXT_XML)
     @Path("jcrxml")
-    public String jcrTree()
+    public String jcrTreeAsXml()
     {
         JcrSession session = null;
         try
@@ -97,7 +95,7 @@ public final class MigrationResource
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("jcrjson")
-    public Map<String, Object> jcrTreeJson(final @QueryParam("path") String path )
+    public Map<String, Object> jcrTreeAsJson( final @QueryParam("path") String path )
     {
         JcrSession session = null;
         try
@@ -126,11 +124,11 @@ public final class MigrationResource
 
     private void buildJsonTree( JcrNode node, Map<String, Object> nodeJson )
     {
-        nodeJson.put( "name", node.getName() );
-        nodeJson.put( "path", node.getPath() );
+        nodeJson.put( "_name", node.getName() );
+        nodeJson.put( "_path", node.getPath() );
         try
         {
-            nodeJson.put( "type", JcrWrappers.unwrap( node ).getDefinition().getDefaultPrimaryTypeName() );
+            nodeJson.put( "_type", JcrWrappers.unwrap( node ).getDefinition().getDefaultPrimaryTypeName() );
         }
         catch ( RepositoryException e )
         {
@@ -139,7 +137,7 @@ public final class MigrationResource
 
         if ( node.hasProperties() )
         {
-            Map<String, Object> properties = new HashMap<String, Object>();
+            List<Map<String, Object>> properties = new ArrayList<Map<String, Object>>();
             for ( String propName : node.getPropertyNames() )
             {
                 Object propValue = node.getProperty( propName );
@@ -147,13 +145,21 @@ public final class MigrationResource
                 {
                     propValue = ( (JcrNode) propValue ).getPath();
                 }
-                properties.put( propName, propValue );
+                Map<String, Object> property = new HashMap<String, Object>();
+                property.put( "name", propName );
+                property.put( "value", propValue );
+                property.put( "type", getPropertyTypeName(node, propName) );
+                properties.add( property );
             }
-            nodeJson.put( "properties", properties );
+            nodeJson.put( "_properties", properties );
+        }
+        else
+        {
+            nodeJson.put( "leaf", true );
         }
 
         List<Map<String, Object>> childrenList = new ArrayList<Map<String, Object>>();
-        nodeJson.put( "children", childrenList );
+        nodeJson.put( "_children", childrenList );
 
         JcrNodeIterator children = node.getChildren();
         while ( children.hasNext() )
@@ -163,6 +169,12 @@ public final class MigrationResource
             buildJsonTree( child, childJson );
             childrenList.add( childJson );
         }
+    }
+
+    private String getPropertyTypeName( JcrNode node, String propertyName )
+    {
+        int type = node.getPropertyType( propertyName );
+        return PropertyType.nameFromValue( type );
     }
 
 }

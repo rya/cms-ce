@@ -1,3 +1,7 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.wrapper;
 
 import javax.jcr.NodeIterator;
@@ -10,11 +14,11 @@ import javax.jcr.query.QueryResult;
 class JcrQueryWrapper
     implements JcrQuery
 {
-    private JcrSession session;
+    private final JcrSession session;
 
-    private String statement;
+    private final String statement;
 
-    private Query query;
+    private final Query query;
 
     private ValueFactory valueFactory;
 

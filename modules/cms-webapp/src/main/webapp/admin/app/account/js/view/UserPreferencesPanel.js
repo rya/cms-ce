@@ -57,6 +57,7 @@ Ext.define( 'App.view.UserPreferencesPanel', {
             itemId: 'groupPanel',
             groupKeys: groupKeys,
             layout: 'column',
+            border: 0,
             flex: 1,
             removeItem: function(item){
                 this.remove(item);

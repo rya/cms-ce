@@ -1,6 +1,9 @@
+/*
+ * Copyright 2000-2011 Enonic AS
+ * http://www.enonic.com/license
+ */
 package com.enonic.cms.core.jcr.migrate;
 
-import org.apache.jackrabbit.JcrConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +30,8 @@ public final class GroupTask
     @Override
     protected void importRow( final JdbcDynaRow row )
     {
-        this.logInfo( "Importing group: {0}", row.getString( "grp_sname" ) );
+        String groupName = row.getString( "GRP_SNAME" );
+        this.logInfo( "Importing group: {0}", groupName );
 
         Integer userStoreKey = row.getInteger( "grp_dom_lkey" );
 
@@ -47,8 +51,14 @@ public final class GroupTask
                 userstoreNode = getUserStoreNode( userStoreKey, session );
             }
 
+            if ( userstoreNode == null )
+            {
+                logWarning( "Could not find userstore with key: " + userStoreKey + ". Skipping import of group " + groupName );
+                return;
+            }
+
             String groupKey = row.getString( "GRP_HKEY" );
-            String groupName = row.getString( "GRP_SNAME" );
+
             String groupDescr = row.getString( "GRP_SDESCRIPTION" );
             Integer groupRestricted = row.getInteger( "GRP_BRESTRICTED" );
             String groupSync = row.getString( "GRP_SSYNCVALUE" );
@@ -65,8 +75,6 @@ public final class GroupTask
             groupNode.setProperty( "syncValue", groupSync );
             groupNode.setProperty( "type", groupType );
             groupNode.setProperty( "restricted", groupRestricted );
-
-            groupNode.addNode( "members", JcrConstants.NT_UNSTRUCTURED );
 
             session.save();
         }
