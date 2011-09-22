@@ -254,6 +254,7 @@ public abstract class ClientWrapper
     }
 
     public int createImageContent( CreateImageContentParams params )
+        throws ClientException
     {
         return this.delegate.createImageContent( params );
     }

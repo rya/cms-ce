@@ -8,9 +8,11 @@ import com.enonic.cms.api.client.model.content.AbstractInput;
 import com.enonic.cms.api.client.model.content.InputType;
 
 public class ImageKeywordsInput
-        extends AbstractInput
-        implements Serializable
+    extends AbstractInput
+    implements Serializable
 {
+
+    private static final long serialVersionUID = -6488093693982787096L;
 
     private List<String> keywords = new ArrayList<String>();
 
@@ -28,5 +30,11 @@ public class ImageKeywordsInput
     public List<String> getKeywords()
     {
         return keywords;
+    }
+
+
+    public boolean isEmpty()
+    {
+        return keywords.isEmpty();
     }
 }

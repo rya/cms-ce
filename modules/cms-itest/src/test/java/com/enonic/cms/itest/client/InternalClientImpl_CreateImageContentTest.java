@@ -1,15 +1,18 @@
 package com.enonic.cms.itest.client;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -45,8 +48,7 @@ import com.enonic.cms.domain.content.contentdata.legacy.LegacyImageContentData;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserType;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration()
@@ -64,7 +66,9 @@ public class InternalClientImpl_CreateImageContentTest
     @Autowired
     private InternalClient internalClient;
 
-    private byte[] dummyBinary = new byte[]{1, 2, 3};
+    private byte[] dummyBinary =
+        new byte[]{66, 77, 58, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0, 40, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0, 4, 0, 0, 0,
+            -60, 14, 0, 0, -60, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -22, -18, -23, 0};
 
     private XMLBytes contentTypeConfig;
 
@@ -85,35 +89,24 @@ public class InternalClientImpl_CreateImageContentTest
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
-
     }
+
 
     @Test
     public void testCreateImageContent()
+        throws Exception
     {
-        fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
-        fixture.save( factory.createContentHandler( "File content", ContentHandlerName.IMAGE.getHandlerClassShortName() ) );
-        fixture.save( factory.createContentType( "MyContentType", ContentHandlerName.IMAGE.getHandlerClassShortName(), contentTypeConfig ) );
-        fixture.save( factory.createUnit( "MyUnit", "en" ) );
-        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
-        fixture.save( factory.createCategoryAccessForUser( "MyCategory", "testuser", "read,create" ) );
-        fixture.flushAndClearHibernateSesssion();
+        setUpContentAndCategory();
 
-        UserEntity runningUser = fixture.findUserByName( "testuser" );
-        SecurityHolder.setRunAsUser( runningUser.getKey() );
-
-        ImageContentDataInput imageContentData = new ImageContentDataInput();
-        imageContentData.binary = new ImageBinaryInput( dummyBinary, "Dummy Name" );
-        imageContentData.description = new ImageDescriptionInput( "Dummy description." );
-        imageContentData.keywords = new ImageKeywordsInput().addKeyword( "keyword1" ).addKeyword( "keyword2" );
-        imageContentData.name = new ImageNameInput( "test binary" );
+        setRunningUser();
 
         CreateImageContentParams params = new CreateImageContentParams();
         params.categoryKey = fixture.findCategoryByName( "MyCategory" ).getKey().toInt();
         params.publishFrom = new Date();
         params.publishTo = null;
         params.status = ContentStatus.STATUS_DRAFT;
-        params.contentData = imageContentData;
+        params.contentData = createImageContentData( "200" );
+
         int contentKey = internalClient.createImageContent( params );
 
         fixture.flushAndClearHibernateSesssion();
@@ -129,6 +122,7 @@ public class InternalClientImpl_CreateImageContentTest
 
         Set<ContentBinaryDataEntity> contentBinaryDatas = persistedVersion.getContentBinaryData();
         assertEquals( 1, contentBinaryDatas.size() );
+        assertEquals( "source", contentBinaryDatas.iterator().next().getLabel() );
 
         BinaryDataEntity binaryDataResolvedFromContentBinaryData = contentBinaryDatas.iterator().next().getBinaryData();
         assertEquals( "Dummy Name", binaryDataResolvedFromContentBinaryData.getName() );
@@ -139,12 +133,65 @@ public class InternalClientImpl_CreateImageContentTest
         Document contentDataXml = contentData.getContentDataXml();
         AssertTool.assertSingleXPathValueEquals( "/contentdata/name", contentDataXml, "test binary" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/description", contentDataXml, "Dummy description." );
-        AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "keyword1" );
-        AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "keyword2" );
-        AssertTool.assertSingleXPathValueEquals( "/contentdata/filesize", contentDataXml, String.valueOf( dummyBinary.length ) );
-        AssertTool.assertSingleXPathValueEquals( "/contentdata/binarydata/@key", contentDataXml,
-                                                 binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords", contentDataXml, "keyword1 keyword2" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/sourceimage/binarydata/@key", contentDataXml,
                                                  binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/sourceimage/@width", contentDataXml, "200" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/sourceimage/@height", contentDataXml, "200" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/images/@border", contentDataXml, "no" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/images/image/@rotation", contentDataXml, "none" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/images/image/@type", contentDataXml, "original" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/images/image/width", contentDataXml, "200" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/images/image/height", contentDataXml, "200" );
+        AssertTool.assertSingleXPathValueEquals( "/contentdata/images/image/binarydata/@key", contentDataXml,
+                                                 binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
     }
+
+    private void setRunningUser()
+    {
+        UserEntity runningUser = fixture.findUserByName( "testuser" );
+        SecurityHolder.setRunAsUser( runningUser.getKey() );
+    }
+
+    private void setUpContentAndCategory()
+    {
+        fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
+        fixture.save( factory.createContentHandler( "File content", ContentHandlerName.IMAGE.getHandlerClassShortName() ) );
+        fixture.save(
+            factory.createContentType( "MyContentType", ContentHandlerName.IMAGE.getHandlerClassShortName(), contentTypeConfig ) );
+        fixture.save( factory.createUnit( "MyUnit", "en" ) );
+        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
+        fixture.save( factory.createCategoryAccessForUser( "MyCategory", "testuser", "read,create" ) );
+        fixture.flushAndClearHibernateSesssion();
+    }
+
+    private ImageContentDataInput createImageContentData( String fileName )
+        throws Exception
+    {
+        ImageContentDataInput imageContentData = new ImageContentDataInput();
+
+        imageContentData.binary = new ImageBinaryInput( loadImageFile( fileName ), "Dummy Name" );
+
+        imageContentData.description = new ImageDescriptionInput( "Dummy description." );
+
+        imageContentData.keywords = new ImageKeywordsInput().addKeyword( "keyword1" ).addKeyword( "keyword2" );
+        imageContentData.name = new ImageNameInput( "test binary" );
+
+        return imageContentData;
+    }
+
+
+    private String createFileName( String fileName )
+    {
+        return InternalClientImpl_CreateImageContentTest.class.getName().replace( ".", "/" ) + "-" + fileName + "px.jpg";
+    }
+
+    private byte[] loadImageFile( String fileName )
+        throws IOException
+    {
+        ClassPathResource resource = new ClassPathResource( createFileName( fileName ) );
+        InputStream in = resource.getInputStream();
+        return IOUtils.toByteArray( in );
+    }
+
 }

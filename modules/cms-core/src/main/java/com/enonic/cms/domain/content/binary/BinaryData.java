@@ -4,10 +4,13 @@
  */
 package com.enonic.cms.domain.content.binary;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
 import com.enonic.esl.util.StringUtil;
+
+import com.enonic.cms.api.client.model.content.image.ImageContentDataInput;
 
 import com.enonic.cms.domain.content.ContentVersionEntity;
 
@@ -21,6 +24,8 @@ public class BinaryData
 {
 
     public static final String LABEL_FILE = "file";
+
+    private static final long serialVersionUID = -2286685939812284906L;
 
     public int key = -1;
 
@@ -91,5 +96,20 @@ public class BinaryData
         }
 
         return entity;
+    }
+
+    public static BinaryData createBinaryDataFromStream( final ByteArrayOutputStream stream, final String fileName )
+    {
+        return createBinaryDataFromStream( stream, fileName, null, null );
+    }
+
+    public static BinaryData createBinaryDataFromStream( final ByteArrayOutputStream stream, final String fileName, final String label,
+                                                         final ImageContentDataInput contentData )
+    {
+        final BinaryData binaryData = new BinaryData();
+        binaryData.fileName = contentData == null ? fileName : contentData.binary.getBinaryName();
+        binaryData.data = contentData == null ? stream.toByteArray() : contentData.binary.getBinary();
+        binaryData.label = label;
+        return binaryData;
     }
 }

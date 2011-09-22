@@ -5,9 +5,10 @@ import java.io.Serializable;
 import com.enonic.cms.api.client.model.content.BinaryInput;
 
 public class ImageBinaryInput
-        extends BinaryInput
-        implements Serializable
+    extends BinaryInput
+    implements Serializable
 {
+    private static final long serialVersionUID = 3058662266193737320L;
 
     public ImageBinaryInput( int existingBinaryKey )
     {

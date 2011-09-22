@@ -5,29 +5,25 @@
 package com.enonic.vertical.adminweb.handlers.xmlbuilders;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.fileupload.FileItem;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.util.ImageUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
 import com.enonic.vertical.adminweb.VerticalAdminException;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
-import com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet;
-import com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet;
-
-import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.core.service.AdminService;
+
+import com.enonic.cms.business.core.content.image.ContentImageUtil;
+import com.enonic.cms.business.core.content.image.ImageUtil;
 
 import com.enonic.cms.domain.content.binary.BinaryData;
 import com.enonic.cms.domain.security.user.User;
@@ -150,17 +146,6 @@ public class ContentEnhancedImageXMLBuilder
         }
     }
 
-    private static class SizeData
-    {
-        int[] maxSizes;
-
-        int[] fixedWidths;
-
-        String customType = null;
-
-        int customValue = -1;
-    }
-
     public void applyImageData( ExtendedMap formItems )
     {
 
@@ -238,7 +223,7 @@ public class ContentEnhancedImageXMLBuilder
                 String rotate = formItems.getString( "rotate", "none" );
                 if ( !"none".equals( rotate ) )
                 {
-                    image.data = rotateImage( rotate, image.data, getEncodeType( type ) );
+                    image.data = rotateImage( rotate, image.data, ContentImageUtil.getEncodeType( type ) );
                 }
 
                 String filenameWithoutExtension = image.fileName.substring( 0, idx );
@@ -254,7 +239,8 @@ public class ContentEnhancedImageXMLBuilder
                 }
 
                 // scale all images
-                binaryList = scaleAndAddImages( formItems, admin, origImage, getEncodeType( type ), filenameWithoutExtension );
+                binaryList =
+                    scaleAndAddImages( formItems, admin, origImage, ContentImageUtil.getEncodeType( type ), filenameWithoutExtension );
 
                 // add source image
                 binaryList.add( image );
@@ -279,36 +265,21 @@ public class ContentEnhancedImageXMLBuilder
         }
     }
 
-    private String getEncodeType( String type )
-    {
-        String encodeType;
-
-        if ( "png".equals( type ) || "gif".equals( type ) )
-        {
-            encodeType = "png";
-        }
-        else
-        {
-            encodeType = "jpeg";
-        }
-        return encodeType;
-    }
-
     private byte[] rotateImage( String rotate, byte[] image, String encodeType )
         throws IOException
     {
         BufferedImage bufferedImage = ImageUtil.readImage( image );
         if ( "90left".equals( rotate ) )
         {
-            bufferedImage = ImageUtil.rotateImage270( bufferedImage, getBufferedImageType( encodeType ) );
+            bufferedImage = ImageUtil.rotateImage270( bufferedImage, ContentImageUtil.getBufferedImageType( encodeType ) );
         }
         else if ( "90right".equals( rotate ) )
         {
-            bufferedImage = ImageUtil.rotateImage90( bufferedImage, getBufferedImageType( encodeType ) );
+            bufferedImage = ImageUtil.rotateImage90( bufferedImage, ContentImageUtil.getBufferedImageType( encodeType ) );
         }
         else if ( "180".equals( rotate ) )
         {
-            bufferedImage = ImageUtil.rotateImage180( bufferedImage, getBufferedImageType( encodeType ) );
+            bufferedImage = ImageUtil.rotateImage180( bufferedImage, ContentImageUtil.getBufferedImageType( encodeType ) );
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -316,272 +287,33 @@ public class ContentEnhancedImageXMLBuilder
         return baos.toByteArray();
     }
 
-
-    public SizeData getImageSizeConfiguration( AdminService admin, int contentTypeKey )
-        throws VerticalAdminException
-    {
-
-        SizeData sd = new SizeData();
-        TIntArrayList fixedWidths = new TIntArrayList();
-        TIntArrayList maxSizes = new TIntArrayList();
-
-        // Is it configured in the contenttype configuration?
-        Document doc = XMLTool.domparse( admin.getContentTypeModuleData( contentTypeKey ) );
-        Element rootElement = doc.getDocumentElement();
-        Element sizesElement;
-        sizesElement = (Element) XMLTool.selectNode( rootElement, "/moduledata/config/sizes" );
-        VerticalAdminLogger.debug( ContentEnhancedImageHandlerServlet.class, 10, doc );
-        if ( sizesElement == null )
-        {
-            doc = XMLTool.domparse( admin.getContentHandlerByContentType( contentTypeKey ) );
-            rootElement = doc.getDocumentElement();
-
-            VerticalAdminLogger.debug( ContentEnhancedImageHandlerServlet.class, 10, doc );
-        }
-
-        NodeList nodeList = XMLTool.selectNodes( rootElement, "//config/sizes/size" );
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Element tmpElement = (Element)nodeList.item( i );
-            if ( "max".equals( tmpElement.getAttribute( "type" ) ) )
-            {
-                maxSizes.add( Integer.parseInt( tmpElement.getAttribute( "value" ) ) );
-            }
-            else if ( "width".equals( tmpElement.getAttribute( "type" ) ) )
-            {
-                fixedWidths.add( Integer.parseInt( tmpElement.getAttribute( "value" ) ) );
-            }
-        }
-
-        Element defaultCustomElement = (Element) XMLTool.selectNode( rootElement, "//config/sizes/defaultcustom" );
-        if ( defaultCustomElement != null )
-        {
-            sd.customType = defaultCustomElement.getAttribute( "type" );
-            sd.customValue = Integer.parseInt( defaultCustomElement.getAttribute( "value" ) );
-        }
-
-//        // check for valid sizes:
-//        if ( sd.customType == null || sd.customValue == -1 )
-//        {
-//            VerticalAdminLogger.errorAdmin( ContentEnhancedImageHandlerServlet.class, 30,
-//                                            "No default custom size configured. Image upload aborted.", null );
-//        }
-
-        sd.fixedWidths = fixedWidths.toArray();
-        sd.maxSizes = maxSizes.toArray();
-
-        return sd;
-    }
-
-    public ArrayList<BinaryData> scaleAndAddImages( ExtendedMap formItems, AdminService admin, BufferedImage origImage, String encodeType,
-                                                    String originalFilenameWithoutExtension )
+    private ArrayList<BinaryData> scaleAndAddImages( ExtendedMap formItems, AdminService admin, BufferedImage origImage, String encodeType,
+                                                     String originalFilenameWithoutExtension )
         throws VerticalAdminException, IOException
     {
-
-        int contentTypeKey = ContentBaseHandlerServlet.getContentTypeKey( formItems );
-
-        // Get image size configuration:
-        SizeData sd = getImageSizeConfiguration( admin, contentTypeKey );
-
-        int index = 0;
         ArrayList<BinaryData> binaryData = new ArrayList<BinaryData>();
 
-        HashMap<String, String> scaled = new HashMap<String, String>();
+        binaryData.add( getOriginalImage( origImage, encodeType, originalFilenameWithoutExtension ) );
 
-        // Original image:
-        BufferedImage tmpImage = origImage;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageUtil.writeImage( tmpImage, encodeType, baos );
-        final String originalfileFilename = resolveFilenameForScaledImage( originalFilenameWithoutExtension, tmpImage, encodeType );
-        binaryData.add( AdminHandlerBaseServlet.createBinaryDataFromStream( baos, originalfileFilename ) );
-        formItems.put( "originalbinarydatakey", "%" + String.valueOf( index ) );
-        index++;
+        formItems.put( "originalbinarydatakey", "%0" );
 
-        if ( sd.customType != null )
-        {
-            int[] customSize = generateCustomSize( origImage, sd );
-            BufferedImage customImage = ImageUtil.scaleImage( origImage, customSize[0], customSize[1], getBufferedImageType( encodeType ) );
-            formItems.put( "customwidth", String.valueOf( customSize[0] ) );
-            formItems.put( "customheight", String.valueOf( customSize[1] ) );
-            scaled.put( String.valueOf( customSize[0] ) + "x" + String.valueOf( customSize[1] ), "" );
-            baos = new ByteArrayOutputStream();
-            ImageUtil.writeImage( customImage, encodeType, baos );
-            final String customsizedfileFilename =
-                resolveFilenameForScaledImage( originalFilenameWithoutExtension, customImage, encodeType );
-            binaryData.add( AdminHandlerBaseServlet.createBinaryDataFromStream( baos, customsizedfileFilename ) );
-            formItems.put( "custombinarydatakey", "%" + String.valueOf( index ) );
-            index++;
-        }
-        // Other images:
-        ArrayList<String[]> scaledImages = new ArrayList<String[]>();
-        formItems.put( "otherimages", scaledImages );
-
-        // Scale one image down to 800xN:
-        BufferedImage preScaledImage = origImage;
-        if ( origImage.getWidth() > 800 )
-        {
-            preScaledImage =
-                ImageUtil.scaleImage( origImage, 800, (int) Math.round( ( 800.0 / origImage.getWidth() ) * origImage.getHeight() ),
-                                      getBufferedImageType( encodeType ) );
-        }
-
-        // - fixed width:
-        for ( int i = 0; i < sd.fixedWidths.length; i++ )
-        {
-            int newWidth = sd.fixedWidths[i];
-
-            // skip if new width is larger or equal to original:
-            if ( newWidth >= origImage.getWidth() )
-            {
-                continue;
-            }
-
-            double ratio = (double) newWidth / (double) preScaledImage.getWidth();
-            int newHeight = (int) Math.max( 1.0, Math.round( ratio * preScaledImage.getHeight() ) );
-            if ( scaled.get( String.valueOf( newWidth ) + "x" + String.valueOf( newHeight ) ) == null )
-            {
-                tmpImage = ImageUtil.scaleImage( preScaledImage, newWidth, newHeight, getBufferedImageType( encodeType ) );
-
-                baos = new ByteArrayOutputStream();
-                ImageUtil.writeImage( tmpImage, encodeType, baos );
-                final String filename = resolveFilenameForScaledImage( originalFilenameWithoutExtension, tmpImage, encodeType );
-                binaryData.add( AdminHandlerBaseServlet.createBinaryDataFromStream( baos, filename ) );
-                scaledImages.add( new String[]{"%" + String.valueOf( index ), String.valueOf( newWidth ), String.valueOf( newHeight )} );
-                index++;
-
-                scaled.put( String.valueOf( newWidth ) + "x" + String.valueOf( newHeight ), "" );
-            }
-        }
-
-        // max both width and height:
-        for ( int i = 0; i < sd.maxSizes.length; i++ )
-        {
-            double maxSize = sd.maxSizes[i];
-            double oldWidth = preScaledImage.getWidth();
-            double oldHeight = preScaledImage.getHeight();
-            double newWidth;
-            double newHeight;
-
-            if ( oldWidth > oldHeight )
-            {
-                newWidth = maxSize;
-                double ratio = newWidth / oldWidth;
-                newHeight = Math.max( 1.0, Math.round( ratio * oldHeight ) );
-            }
-            else
-            {
-                newHeight = maxSize;
-                double ratio = newHeight / oldHeight;
-                newWidth = Math.max( 1.0, Math.round( ratio * oldWidth ) );
-            }
-
-            // skip if new size is larger or equal to original:
-            if ( newWidth >= origImage.getWidth() || newHeight >= origImage.getHeight() )
-            {
-                continue;
-            }
-
-            if ( scaled.get( String.valueOf( (int) newWidth ) + "x" + String.valueOf( (int) newHeight ) ) == null )
-            {
-                tmpImage = ImageUtil.scaleImage( preScaledImage, (int) newWidth, (int) newHeight, getBufferedImageType( encodeType ) );
-
-                baos = new ByteArrayOutputStream();
-                ImageUtil.writeImage( tmpImage, encodeType, baos );
-                final String filename = resolveFilenameForScaledImage( originalFilenameWithoutExtension, tmpImage, encodeType );
-                binaryData.add( AdminHandlerBaseServlet.createBinaryDataFromStream( baos, filename ) );
-                scaledImages.add(
-                    new String[]{"%" + String.valueOf( index ), String.valueOf( (int) newWidth ), String.valueOf( (int) newHeight )} );
-                index++;
-
-                scaled.put( String.valueOf( (int) newWidth ) + "x" + String.valueOf( (int) newHeight ), "" );
-            }
-        }
-
-        // Fixed width images
-        final int[] fixedWidthSizes = {256, 512, 1024};
-        final String[] fizedWidthLabels = {"small", "medium", "large"};
-        for ( int i = 0; i < fixedWidthSizes.length; i++ )
-        {
-            final int newWidth = fixedWidthSizes[i];
-            if ( newWidth < origImage.getWidth() )
-            {
-                final double ratio = (double) newWidth / (double) origImage.getWidth();
-                final int newHeight = (int) Math.max( 1.0, Math.round( ratio * origImage.getHeight() ) );
-                tmpImage = ImageUtil.scaleImage( origImage, newWidth, newHeight, getBufferedImageType( encodeType ) );
-
-                baos = new ByteArrayOutputStream();
-                ImageUtil.writeImage( tmpImage, encodeType, baos, 1.0f );
-                final String filename =
-                    resolveFilenameForFixedWidthImage( originalFilenameWithoutExtension, fizedWidthLabels[i], encodeType );
-                binaryData.add( AdminHandlerBaseServlet.createBinaryDataFromStream( baos, filename, fizedWidthLabels[i] ) );
-            }
-        }
+        final List<BinaryData> newStyleScaledImages =
+            ContentImageUtil.createStandardSizeImages( origImage, encodeType, originalFilenameWithoutExtension );
+        binaryData.addAll( newStyleScaledImages );
 
         return binaryData;
     }
 
-    private int getBufferedImageType( String encodeType )
+    private BinaryData getOriginalImage( BufferedImage origImage, String encodeType, String originalFilenameWithoutExtension )
+        throws IOException
     {
-        if ( encodeType.equals( "png" ) )
-        {
-            return BufferedImage.TYPE_INT_ARGB;
-        }
-        else
-        {
-            return BufferedImage.TYPE_INT_RGB;
-        }
-    }
+        // Original image:
+        BufferedImage tmpImage = origImage;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageUtil.writeImage( tmpImage, encodeType, baos );
+        final String originalfileFilename =
+            ContentImageUtil.resolveFilenameForScaledImage( originalFilenameWithoutExtension, tmpImage, encodeType );
 
-    private static String resolveFilenameForScaledImage( String originalImageName, BufferedImage image, String fileType )
-    {
-        StringBuffer name = new StringBuffer();
-        name.append( originalImageName ).append( "_" ).append( image.getWidth() ).append( "x" ).append( image.getHeight() );
-        name.append( "." ).append( fileType );
-        return name.toString();
-    }
-
-    private static String resolveFilenameForFixedWidthImage( String originalImageName, String label, String fileType )
-    {
-        return originalImageName + ( label != null ? "_" + label : "" ) + "." + fileType;
-    }
-
-    private int[] generateCustomSize( RenderedImage origImage, SizeData sd )
-        throws VerticalAdminException
-    {
-        float[] customSize = new float[2];
-
-        String type = sd.customType;
-
-        String value = null;
-        if ( value == null )
-        {
-            value = String.valueOf( sd.customValue );
-        }
-
-        if ( "max".equals( type ) )
-        {
-            if ( origImage.getWidth() > origImage.getHeight() )
-            {
-                type = "width";
-            }
-            else
-            {
-                type = "height";
-            }
-        }
-
-        if ( type.equals( "width" ) )
-        {
-            customSize[0] = Float.parseFloat( value );
-            double ratio = customSize[0] / origImage.getWidth();
-            customSize[1] = Math.round( ratio * origImage.getHeight() );
-        }
-        else if ( type.equals( "height" ) )
-        {
-            customSize[1] = Float.parseFloat( value );
-            double ratio = customSize[1] / origImage.getHeight();
-            customSize[0] = Math.round( ratio * origImage.getWidth() );
-        }
-
-        return new int[]{(int) customSize[0], (int) customSize[1]};
+        return BinaryData.createBinaryDataFromStream( baos, originalfileFilename );
     }
 }

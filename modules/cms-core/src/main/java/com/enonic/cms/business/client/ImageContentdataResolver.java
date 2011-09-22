@@ -1,12 +1,14 @@
 package com.enonic.cms.business.client;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.api.client.model.content.image.ImageContentDataInput;
+
+import com.enonic.cms.business.core.content.image.ImageUtil;
 
 import com.enonic.cms.domain.content.contentdata.ContentData;
 import com.enonic.cms.domain.content.contentdata.legacy.LegacyImageContentData;
@@ -14,7 +16,7 @@ import com.enonic.cms.domain.content.contentdata.legacy.LegacyImageContentData;
 public class ImageContentdataResolver
 {
     public ContentData resolveContentdata( ImageContentDataInput imageContentDataInput )
-     {
+    {
         Document xml = buildXml( imageContentDataInput );
         return new LegacyImageContentData( xml );
     }
@@ -27,31 +29,45 @@ public class ImageContentdataResolver
         {
             contentDataEl.addContent( new Element( "description" ).setText( input.description.getValue() ) );
         }
-        contentDataEl.addContent( new Element( "filesize" ).setText( String.valueOf( input.binary.getBinarySize() ) ) );
 
-        final Element binarydataEl = new Element( "binarydata" );
+        Element keywords = buildKeywordsElement( input );
+
+        contentDataEl.addContent( keywords );
+
+        BufferedImage origImage = null;
+        try
+        {
+            origImage = ImageUtil.readImage( input.binary.getBinary() );
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
+
+        Element sourceimageEl = new Element( "sourceimage" );
+        sourceimageEl.setAttribute( "width", Integer.toString( origImage.getWidth() ) );
+        sourceimageEl.setAttribute( "height", Integer.toString( origImage.getHeight() ) );
+        Element binarySourceimageEl = new Element( "binarydata" );
         if ( input.binary.hasExistingBinaryKey() )
         {
-            binarydataEl.setAttribute( "key", input.binary.getExistingBinaryKey().toString() );
+            binarySourceimageEl.setAttribute( "key", input.binary.getExistingBinaryKey().toString() );
         }
         else
         {
-            binarydataEl.setAttribute( "key", "%0" );
+            binarySourceimageEl.setAttribute( "key", "%0" );
         }
-        contentDataEl.addContent( binarydataEl );
+        sourceimageEl.addContent( binarySourceimageEl );
+        contentDataEl.addContent( sourceimageEl );
 
-        Element keywords = new Element( "keywords" );
-        if ( input.keywords != null )
-        {
-            for ( String keyword : input.keywords.getKeywords() )
-            {
-                Element keywordEl = new Element( "keyword" ).setText( keyword );
-                keywords.addContent( keywordEl );
-            }
-        }
-        contentDataEl.addContent( keywords );
-
-        Element sourceimageEl = new Element( "sourceimage" );
+        Element imagesEl = new Element( "images" );
+        imagesEl.setAttribute( "border", "no" );
+        Element imageEl = new Element( "image" );
+        imageEl.setAttribute( "rotation", "none" );
+        imageEl.setAttribute( "type", "original" );
+        Element imageWidthEl = new Element( "width" );
+        imageWidthEl.addContent( Integer.toString( origImage.getWidth() ) );
+        Element imageHeightEl = new Element( "height" );
+        imageHeightEl.addContent( Integer.toString( origImage.getHeight() ) );
         Element binaryImageEl = new Element( "binarydata" );
         if ( input.binary.hasExistingBinaryKey() )
         {
@@ -61,9 +77,29 @@ public class ImageContentdataResolver
         {
             binaryImageEl.setAttribute( "key", "%0" );
         }
-        sourceimageEl.addContent( binaryImageEl );
-        contentDataEl.addContent( sourceimageEl );
+        imageEl.addContent( imageWidthEl ).addContent( imageHeightEl ).addContent( binaryImageEl );
+        imagesEl.addContent( imageEl );
+        contentDataEl.addContent( imagesEl );
 
         return new Document( contentDataEl );
+    }
+
+    private Element buildKeywordsElement( ImageContentDataInput input )
+    {
+        Element keywords = new Element( "keywords" );
+
+        if ( input.keywords != null && !input.keywords.isEmpty() )
+        {
+            StringBuilder keywordsBuilder = new StringBuilder( "" );
+
+            for ( String keyword : input.keywords.getKeywords() )
+            {
+                keywordsBuilder.append( keyword ).append( " " );
+            }
+            String keywordsText = keywordsBuilder.substring( 0, keywordsBuilder.length() - 1 );
+
+            keywords.setText( keywordsText );
+        }
+        return keywords;
     }
 }
