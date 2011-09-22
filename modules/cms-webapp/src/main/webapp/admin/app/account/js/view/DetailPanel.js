@@ -149,9 +149,21 @@ Ext.define('App.view.DetailPanel', {
 
     updateTitle: function(selModel){
         this.selModel = selModel;
-        this.setTitle(selModel.selected.length + " user(s) selected (<a href='#' class='selectAll'>select all</a>)")
-        var a = this.header.el.down( 'a.selectAll' );
-        a.on( "click", this.selectAll, this );
+
+        var count = selModel.selected.length;
+        var header = count + " user(s) selected";
+        if ( count > 0 ) {
+            header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
+        }
+        this.setTitle( header );
+
+        var clearSel = this.header.el.down( 'a.clearSelection' );
+        if ( clearSel ) {
+            clearSel.on( "click", function() {
+                this.selModel.deselectAll();
+            }, this );
+        }
+
     },
 
     selectAll: function(){
