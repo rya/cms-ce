@@ -1,15 +1,15 @@
-Ext.define( 'App.view.Toolbar', {
+Ext.define( 'App.view.BrowseToolbar', {
     extend: 'Ext.toolbar.Toolbar',
-    alias : 'widget.accountsToolbar',
+    alias : 'widget.browseToolbar',
 
     border: false,
 
     initComponent: function()
     {
-
         var buttonDefaults = {
             scale: 'medium',
-            iconAlign: 'top'
+            iconAlign: 'top',
+            minWidth: 64
         };
 
         this.items = [
@@ -20,7 +20,7 @@ Ext.define( 'App.view.Toolbar', {
                 items: [
                     {
                         xtype: 'splitbutton',
-                        text: ' &nbsp;&nbsp;&nbsp;New&nbsp;&nbsp;&nbsp; ',
+                        text: ' New',
                         action: 'newUser',
                         iconCls: 'icon-add-24',
                         cls: 'x-btn-as-arrow',
@@ -40,7 +40,7 @@ Ext.define( 'App.view.Toolbar', {
                 defaults: buttonDefaults,
                 items: [
                     {
-                        text: '&nbsp;&nbsp;Edit&nbsp;&nbsp;',
+                        text: 'Edit',
                         action: 'edit',
                         iconCls: 'icon-edit-user-24',
                         disableOnMultipleSelection: true
