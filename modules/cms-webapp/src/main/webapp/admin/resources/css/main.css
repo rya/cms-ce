@@ -25,7 +25,9 @@ body,
 .x-form-display-field {
     font: 11px tahoma,arial,verdana,sans-serif;
 }
-.x-toolbar .sliding-pager-text.x-toolbar-text {
+.x-toolbar .sliding-pager-text.x-toolbar-text,
+.x-toolbar .cms-bold-toolbar-text.x-toolbar-text
+{
     color: #04408C !important;
     font-weight: bold;
 }

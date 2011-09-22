@@ -8,7 +8,7 @@ Ext.define( 'App.view.GridPanel', {
     columnLines: true,
     frame: false,
     store: 'UserStore',
-
+    title: 'Total: <span id="account-grid-total-count"></span> (<a href="#" id="account-grid-select-all" class="selectAll">Select all</a>)',
     verticalScrollerType: 'paginggridscroller',
     invalidateScrollerOnRefresh: false,
 

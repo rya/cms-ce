@@ -1,7 +1,6 @@
 Ext.define('App.view.DetailPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userDetail',
-
     split: true,
     autoScroll: true,
     layout: 'card',
@@ -35,14 +34,13 @@ Ext.define('App.view.DetailPanel', {
 
     createNonSelection: function(){
         var tpl = new Ext.XTemplate(
-                '<div style="padding-left:10px;">',
-                'No user selected',
-                '</div>'
+                '<div>No user selected</div>'
                 );
         var panel = {
             xtype: 'panel',
             itemId: 'nonSelectedPanel',
             styleHtmlContent: true,
+            padding : 10,
             border: 0,
             tpl: tpl
         };
