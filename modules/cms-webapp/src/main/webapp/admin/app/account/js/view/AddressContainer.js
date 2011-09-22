@@ -6,6 +6,8 @@ Ext.define( 'App.view.AddressContainer', {
     title: 'Address',
     padding: 10,
 
+    dropConfig: undefined,
+
     requires: [
         "App.view.AddressDropTarget"
     ],
