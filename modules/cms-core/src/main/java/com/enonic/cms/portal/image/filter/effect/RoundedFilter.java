@@ -34,7 +34,7 @@ public final class RoundedFilter
         int arc = this.radius * 2;
         int margin = this.borderSize;
 
-        if ( borderSize > 0 )
+        if ( margin > 0 )
         {
             g.setPaint( new Color( this.borderColor, false ) );
             g.fillRoundRect( 0, 0, source.getWidth(), source.getHeight(), arc, arc );

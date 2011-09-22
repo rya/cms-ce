@@ -6,8 +6,9 @@ package com.enonic.cms.portal.image.filter.effect;
 
 import java.awt.image.BufferedImage;
 
-import com.enonic.cms.portal.image.filter.ImageFilter;
 import org.junit.Test;
+
+import com.enonic.cms.portal.image.filter.ImageFilter;
 
 import static org.junit.Assert.*;
 
@@ -33,6 +34,6 @@ public class ScaleSquareFilterTest
     private BufferedImage scale( int size )
     {
         ImageFilter filter = new ScaleSquareFilter( size );
-        return filter.filter( getSource() );
+        return filter.filter( getOpaque() );
     }
 }
