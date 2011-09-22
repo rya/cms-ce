@@ -22,7 +22,9 @@ Ext.define( 'App.controller.UserController', {
         'UserPreferencesPanel',
         'AddressPanel',
         'AddressContainer',
-        'GroupDetailButton'
+        'GroupDetailButton',
+        'UserWizardToolbar',
+        'UserWizard'
     ],
 
     init: function()
@@ -292,7 +294,7 @@ Ext.define( 'App.controller.UserController', {
                 autoScroll: true,
                 items: [
                     {
-                        xtype: 'newUserPanel'
+                        xtype: 'userWizard'
                     }
                 ]
             }
