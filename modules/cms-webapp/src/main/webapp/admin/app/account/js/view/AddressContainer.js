@@ -10,27 +10,29 @@ Ext.define( 'App.view.AddressContainer', {
         "App.view.AddressDropTarget"
     ],
 
-    initComponent: function() {
+    initComponent: function()
+    {
         var button = {
             xtype: 'button',
             text: 'Add New Address',
             action: 'addNewTab',
             currentUser: this.currentUser
         };
-        this.addEvents({
-            validatedrop: true,
-            beforedragover: true,
-            dragover: true,
-            beforedrop: true,
-            drop: true
-        });
-        Ext.Array.include(this.items, button);
+        this.addEvents( {
+                            validatedrop: true,
+                            beforedragover: true,
+                            dragover: true,
+                            beforedrop: true,
+                            drop: true
+                        } );
+        Ext.Array.include( this.items, button );
         this.callParent( arguments );
     },
 
-    initEvents: function () {
+    initEvents: function ()
+    {
         this.callParent();
-        this.dd = new App.view.AddressDropTarget(this, this.dropConfig)
+        this.dd = new App.view.AddressDropTarget( this, this.dropConfig )
     }
 
-})
+} );

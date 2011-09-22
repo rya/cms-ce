@@ -1,4 +1,4 @@
-Ext.define('App.view.TabMenu', {
+Ext.define( 'App.view.TabMenu', {
     extend: 'Ext.menu.Menu',
     alias: 'widget.userTabMenu',
 
@@ -12,4 +12,4 @@ Ext.define('App.view.TabMenu', {
             action: 'newAddressTab'
         }
     ]
-});
+} );

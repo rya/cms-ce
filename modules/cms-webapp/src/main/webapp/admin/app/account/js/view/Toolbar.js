@@ -1,10 +1,11 @@
-Ext.define('App.view.Toolbar', {
+Ext.define( 'App.view.Toolbar', {
     extend: 'Ext.toolbar.Toolbar',
     alias : 'widget.accountsToolbar',
 
     border: false,
 
-    initComponent: function() {
+    initComponent: function()
+    {
 
         var buttonDefaults = {
             scale: 'medium',
@@ -23,12 +24,12 @@ Ext.define('App.view.Toolbar', {
                         action: 'newUser',
                         iconCls: 'icon-add-24',
                         cls: 'x-btn-as-arrow',
-                        menu: new Ext.menu.Menu({
-                            items: [
-                                {text: 'User', iconCls: '', action: 'newUser'},
-                                {text: 'Group', iconCls: '', action: 'newGroup'}
-                            ]
-                        })
+                        menu: new Ext.menu.Menu( {
+                                                     items: [
+                                                         {text: 'User', iconCls: '', action: 'newUser'},
+                                                         {text: 'Group', iconCls: '', action: 'newGroup'}
+                                                     ]
+                                                 } )
 
                     }
                 ]
@@ -66,7 +67,7 @@ Ext.define('App.view.Toolbar', {
             }
         ];
 
-        this.callParent(arguments);
+        this.callParent( arguments );
     }
 
-});
+} );

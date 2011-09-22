@@ -14,8 +14,10 @@ Ext.define( 'App.view.AddressPanel', {
 
     padding: 10,
 
-    initComponent: function() {
-        if (this.values == null){
+    initComponent: function()
+    {
+        if ( this.values == null )
+        {
             this.values = [];
         }
         this.title = this.values['label'] == null ? '[no title]' : this.values['label'];
@@ -38,29 +40,31 @@ Ext.define( 'App.view.AddressPanel', {
                 value: this.values['iso-country'],
                 disabled: this.readonly
             };
-            regionField = new Ext.form.field.ComboBox({
-                xtype: 'combobox',
-                store: regionStore,
-                valueField: 'code',
-                displayField: 'englishName',
-                queryMode: 'local',
-                minChars: 1,
-                emptyText: 'Please select',
-                fieldLabel: 'Region',
-                name: 'iso-region',
-                itemId: 'iso-region',
-                value: this.values['iso-region'],
-                disabled: this.values['iso-region'] == null ? true : false
-            });
-            if (this.values['iso-country'] && this.values['iso-region']){
+            regionField = new Ext.form.field.ComboBox( {
+                                                           xtype: 'combobox',
+                                                           store: regionStore,
+                                                           valueField: 'code',
+                                                           displayField: 'englishName',
+                                                           queryMode: 'local',
+                                                           minChars: 1,
+                                                           emptyText: 'Please select',
+                                                           fieldLabel: 'Region',
+                                                           name: 'iso-region',
+                                                           itemId: 'iso-region',
+                                                           value: this.values['iso-region'],
+                                                           disabled: this.values['iso-region'] == null
+                                                       } );
+            if ( this.values['iso-country'] && this.values['iso-region'] )
+            {
                 Ext.apply( regionStore.proxy.extraParams, {
                     'countryCode': this.values['iso-country']
                 } );
-                regionStore.load({
-                    callback: function(){
-                        regionField.setValue(this.values['iso-region']);
-                    }
-                });
+                regionStore.load( {
+                                      callback: function()
+                                      {
+                                          regionField.setValue( this.values['iso-region'] );
+                                      }
+                                  } );
             }
         }
         else
@@ -83,50 +87,51 @@ Ext.define( 'App.view.AddressPanel', {
             };
         }
         this.items = [
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Label',
-                    name: 'label',
-                    itemId: 'address-label',
-                    enableKeyEvents: true,
-                    value: this.values['label'],
-                    bubbleEvents: ['keyup'],
-                    disabled: this.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Street',
-                    name: 'street',
-                    itemId: 'address-street',
-                    value: this.values['street'],
-                    disabled: this.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Postal Code',
-                    name: 'postal-code',
-                    itemId: 'address-postal-code',
-                    value: this.values['postal-code'],
-                    disabled: this.readonly
-                },
-                {
-                    xtype: 'textfield',
-                    fieldLabel: 'Postal Address',
-                    name: 'postal-address',
-                    itemId: 'address-postal-address',
-                    value: this.values['postal-address'],
-                    disabled: this.readonly
-                },
-                countryField,
-                regionField
-            ];
+            {
+                xtype: 'textfield',
+                fieldLabel: 'Label',
+                name: 'label',
+                itemId: 'address-label',
+                enableKeyEvents: true,
+                value: this.values['label'],
+                bubbleEvents: ['keyup'],
+                disabled: this.readonly
+            },
+            {
+                xtype: 'textfield',
+                fieldLabel: 'Street',
+                name: 'street',
+                itemId: 'address-street',
+                value: this.values['street'],
+                disabled: this.readonly
+            },
+            {
+                xtype: 'textfield',
+                fieldLabel: 'Postal Code',
+                name: 'postal-code',
+                itemId: 'address-postal-code',
+                value: this.values['postal-code'],
+                disabled: this.readonly
+            },
+            {
+                xtype: 'textfield',
+                fieldLabel: 'Postal Address',
+                name: 'postal-address',
+                itemId: 'address-postal-address',
+                value: this.values['postal-address'],
+                disabled: this.readonly
+            },
+            countryField,
+            regionField
+        ];
         this.listeners = {
             beforeclose: {
-                fn: function(panel, opts){
-                    panel.setDisabled(true);
+                fn: function( panel, opts )
+                {
+                    panel.setDisabled( true );
                 }
             }
         };
         this.callParent( arguments );
     }
-})
+} );

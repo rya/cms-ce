@@ -1,13 +1,13 @@
-Ext.define('App.view.ShowPanel', {
+Ext.define( 'App.view.ShowPanel', {
     extend: 'Ext.panel.Panel',
     alias : 'widget.userShow',
-
 
     layout: 'border',
     border: false,
     padding: 0,
 
-    initComponent: function() {
+    initComponent: function()
+    {
         this.items = [
             {
                 region: 'center',
@@ -21,7 +21,7 @@ Ext.define('App.view.ShowPanel', {
             }
         ];
 
-        this.callParent(arguments);
+        this.callParent( arguments );
     }
 
-});
+} );
