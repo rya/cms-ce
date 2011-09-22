@@ -140,7 +140,7 @@ Ext.define( 'App.view.ChangePasswordWindow', {
     doChange: function( e )
     {
         var form = Ext.getCmp( 'userChangePasswordForm' ).getForm();
-        var window =  Ext.getCmp( 'userChangePasswordForm' ).up( 'userChangePasswordWindow' );
+        var window = Ext.getCmp( 'userChangePasswordForm' ).up( 'userChangePasswordWindow' );
         if ( form.isValid() )
         {
             form.submit( {
@@ -152,7 +152,8 @@ Ext.define( 'App.view.ChangePasswordWindow', {
                              failure: function( form, action )
                              {
                                  Ext.Msg.alert( 'Failed', action.result.errorMsg );
-                             }                } );
+                             }
+                         } );
         }
     }
 

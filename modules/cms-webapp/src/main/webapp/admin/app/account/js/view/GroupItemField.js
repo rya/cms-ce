@@ -27,8 +27,9 @@ Ext.define( 'App.view.GroupItemField', {
                 xtype: 'button',
                 iconCls: 'icon-delete',
                 action: 'deleteGroup'
-            }];
+            }
+        ];
         this.callParent( arguments );
     }
 
-} )
+} );
