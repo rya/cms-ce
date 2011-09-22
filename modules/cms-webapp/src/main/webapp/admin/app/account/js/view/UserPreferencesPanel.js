@@ -6,26 +6,26 @@ Ext.define( 'App.view.UserPreferencesPanel', {
 
     initComponent: function()
     {
-        var groupPanel = this.generateGroupPanel(this.userFields);
+        var groupPanel = this.generateGroupPanel( this.userFields );
         var groupSearch = {
-                xtype: 'combobox',
-                store: 'GroupStore',
-                triggeredAction: 'all',
-                typeAhead: true,
-                queryMode: 'remote',
-                minChars: 1,
-                forceSelection: true,
-                hideTrigger: true,
-                valueField: 'key',
-                displayField: 'name',
-                action: 'selectGroup',
-                listConfig: {
-                    getInnerTpl: function()
-                    {
-                        return '<div style="white-space: nowrap;">{name} ({userStore})</div>';
-                    }
+            xtype: 'combobox',
+            store: 'GroupStore',
+            triggeredAction: 'all',
+            typeAhead: true,
+            queryMode: 'remote',
+            minChars: 1,
+            forceSelection: true,
+            hideTrigger: true,
+            valueField: 'key',
+            displayField: 'name',
+            action: 'selectGroup',
+            listConfig: {
+                getInnerTpl: function()
+                {
+                    return '<div style="white-space: nowrap;">{name} ({userStore})</div>';
                 }
-            };
+            }
+        };
         var groupsPanel = {
             xtype: 'panel',
             layout: {
@@ -40,18 +40,20 @@ Ext.define( 'App.view.UserPreferencesPanel', {
         this.callParent( arguments );
     },
 
-    generateGroupPanel: function (userData){
+    generateGroupPanel: function ( userData )
+    {
         var groupFields = [];
         var groupKeys = [];
-        Ext.Array.each(userData.groups, function(group){
+        Ext.Array.each( userData.groups, function( group )
+        {
             var groupField = {
                 xtype: 'groupDetailButton',
                 value: group.name,
                 key: group.key
             };
-            Ext.Array.include(groupFields, groupField);
-            Ext.Array.include(groupKeys, group.key);
-        });
+            Ext.Array.include( groupFields, groupField );
+            Ext.Array.include( groupKeys, group.key );
+        } );
         var groupPanel = {
             xtype: 'panel',
             itemId: 'groupPanel',
@@ -59,20 +61,25 @@ Ext.define( 'App.view.UserPreferencesPanel', {
             layout: 'column',
             border: 0,
             flex: 1,
-            removeItem: function(item){
-                this.remove(item);
-                Ext.Array.remove(this.groupKeys, item.key);
+            removeItem: function( item )
+            {
+                this.remove( item );
+                Ext.Array.remove( this.groupKeys, item.key );
             },
-            addItem: function(item){
-                this.add(item);
-                Ext.Array.include(this.groupKeys, item.key);
+            addItem: function( item )
+            {
+                this.add( item );
+                Ext.Array.include( this.groupKeys, item.key );
             }
         };
-        if (groupFields.length > 0){
+        if ( groupFields.length > 0 )
+        {
             groupPanel.items = groupFields;
             return groupPanel;
-        }else{
+        }
+        else
+        {
             return groupPanel;
         }
     }
-} )
+} );

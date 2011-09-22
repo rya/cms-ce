@@ -7,6 +7,7 @@ Ext.define( 'App.view.UserFormField', {
     },
 
     height: '100%',
+    actionName: undefined,
 
     initComponent: function()
     {
@@ -64,8 +65,7 @@ Ext.define( 'App.view.UserFormField', {
         }
         if ( this.required && (this.fieldLabel != undefined))
         {
-            this.fieldLabel =
-                    this.fieldLabel + "<span style=\"color:red;\" ext:qtip=\"This field is required\">*</span>";
+            this.fieldLabel += "<span style=\"color:red;\" ext:qtip=\"This field is required\">*</span>";
         }
 
 
@@ -80,8 +80,7 @@ Ext.define( 'App.view.UserFormField', {
 
     createDateConfig: function( fieldConfig )
     {
-        var date = Ext.Date.parse(fieldConfig.value, 'Y-m-d');
-        fieldConfig.value = date;
+        fieldConfig.value = Ext.Date.parse( fieldConfig.value, 'Y-m-d' );
         var dateConfig = {
             xtype: 'datefield',
             format: 'Y-m-d'

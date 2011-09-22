@@ -1,4 +1,4 @@
-Ext.define('App.view.GroupDetailButton', {
+Ext.define( 'App.view.GroupDetailButton', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.groupDetailButton',
 
@@ -8,7 +8,8 @@ Ext.define('App.view.GroupDetailButton', {
         background: 'lightGrey'
     },
 
-    initComponent: function(){
+    initComponent: function()
+    {
         var iconPane = {
             xtype: 'panel',
             layout: 'fit',
@@ -24,7 +25,8 @@ Ext.define('App.view.GroupDetailButton', {
                     },
                     padding: 2,
                     src: 'app/account/images/group.png'
-                }]
+                }
+            ]
         };
         var displayNamePane = {
             xtype: 'panel',
@@ -50,18 +52,20 @@ Ext.define('App.view.GroupDetailButton', {
                 background: 'lightGrey'
             },
             margin: {left: 2, right: 0, bottom: 0, top: 0},
-            items: [{
-                xtype: 'button',
-                style: {
-                    background: 'lightGrey'
-                },
-                action: 'deleteGroup',
-                iconCls: 'icon-delete'
-            }]
+            items: [
+                {
+                    xtype: 'button',
+                    style: {
+                        background: 'lightGrey'
+                    },
+                    action: 'deleteGroup',
+                    iconCls: 'icon-delete'
+                }
+            ]
         };
         this.items = [iconPane, displayNamePane, buttonPane];
-        this.callParent(arguments);
+        this.callParent( arguments );
     }
 
 
-})
+} );

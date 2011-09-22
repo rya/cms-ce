@@ -134,7 +134,7 @@ Ext.define( 'App.view.EditUserFormPanel', {
                 if (me.userFields && me.userFields.userInfo && me.userFields.userInfo.addresses){
                     var addresses = me.userFields.userInfo.addresses;
                     var tabs = [];
-                    for (index in addresses){
+                    for ( var index in addresses){
                         Ext.Array.include(tabs, me.generateAddressPanel(field, true, addresses[index]));
                     }
                     return {
