@@ -6,7 +6,7 @@ package com.enonic.cms.business;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.business.vhost.VirtualHostHelper;
+import com.enonic.cms.core.vhost.VirtualHostHelper;
 
 public class DeploymentPathResolver
 {

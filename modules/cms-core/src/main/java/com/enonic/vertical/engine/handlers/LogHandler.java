@@ -26,9 +26,10 @@ import com.enonic.vertical.engine.processors.UserElementProcessor;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 
-import com.enonic.cms.domain.log.LogType;
-import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
-import com.enonic.cms.domain.log.Table;
+import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.log.Table;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;

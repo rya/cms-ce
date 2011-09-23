@@ -49,6 +49,7 @@ import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.framework.util.URLUtils;
 
+import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
@@ -66,7 +67,6 @@ import com.enonic.cms.domain.RequestParametersMerger;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.domain.resolver.ResolverContext;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.SiteEntity;

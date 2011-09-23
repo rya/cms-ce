@@ -76,6 +76,8 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
+import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
@@ -129,9 +131,8 @@ import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.content.query.RelatedChildrenContentQuery;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.log.LogType;
-import com.enonic.cms.domain.log.StoreNewLogEntryCommand;
-import com.enonic.cms.domain.log.Table;
+
+import com.enonic.cms.core.log.Table;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;

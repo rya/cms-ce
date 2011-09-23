@@ -64,7 +64,7 @@
 
   <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
 
-  <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+  <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 
   <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
 

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.log.LogEntryKey;
+import com.enonic.cms.core.log.LogEntryKey;
 
 /**
  *

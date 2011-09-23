@@ -94,34 +94,34 @@
       Resolvers
     -->
     <bean id="resolverInputXMLCreator"
-          class="com.enonic.cms.business.resolver.ResolverInputXMLCreator"/>
+          class="com.enonic.cms.core.resolver.ResolverInputXMLCreator"/>
 
     <bean id="resolverXMLCreator"
-          class="com.enonic.cms.domain.resolver.ResolverHttpRequestInputXMLCreator"/>
+          class="com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator"/>
     <bean id="resolverInputCreator"
-          class="com.enonic.cms.business.resolver.ResolverHttpRequestInputCreator"/>
+          class="com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator"/>
 
 
     <bean id="cookieOrSessionForcedResolverValueService"
-          class="com.enonic.cms.business.resolver.ForceResolverValueServiceImpl"/>
+          class="com.enonic.cms.core.resolver.ForceResolverValueServiceImpl"/>
     <bean id="sessionCachedResolverValueService"
-          class="com.enonic.cms.business.resolver.CacheResolverValueServiceImpl"/>
+          class="com.enonic.cms.core.resolver.CacheResolverValueServiceImpl"/>
 
     <!-- Device Class -->
     <bean id="deviceClassificationService"
-          class="com.enonic.cms.business.resolver.deviceclass.DeviceClassResolverServiceImpl">
+          class="com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl">
         <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
         <property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>
         <property name="cacheResolverValueService" ref="sessionCachedResolverValueService"/>
     </bean>
 
     <bean id="deviceClassXsltScriptResolver"
-          class="com.enonic.cms.business.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
+          class="com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
 
     <!-- Localization -->
-    <bean id="localizeService" class="com.enonic.cms.business.localization.LocalizationServiceImpl"/>
+    <bean id="localizeService" class="com.enonic.cms.core.localization.LocalizationServiceImpl"/>
     <bean id="localizationResourceBundleService"
-          class="com.enonic.cms.business.localization.resource.LocalizationResourceBundleServiceImpl">
+          class="com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl">
         <property name="propertiesCache">
             <bean class="com.enonic.cms.framework.cache.CacheFacadeFactory">
                 <property name="cacheManager" ref="cacheFacadeManager"/>
@@ -131,13 +131,13 @@
     </bean>
 
     <bean id="localeResolverService"
-          class="com.enonic.cms.business.resolver.locale.LocaleResolverServiceImpl">
+          class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
         <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
         <property name="forceResolverValueService" ref="cookieOrSessionForcedResolverValueService"/>
     </bean>
 
     <bean id="localeXsltScriptResolver"
-          class="com.enonic.cms.business.resolver.locale.LocaleXsltScriptResolver"/>
+          class="com.enonic.cms.core.resolver.locale.LocaleXsltScriptResolver"/>
 
     <!--
         Misc.
@@ -181,14 +181,14 @@
                   value="${com.enonic.vertical.presentation.autologinTimeout}"/>
     </bean>
 
-    <bean id="countryService" class="com.enonic.cms.business.country.CountryServiceImpl">
+    <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl">
         <property name="resource">
             <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
                 <property name="requireResource" value="true"/>
                 <property name="resources">
                     <list>
                         <value>${cms.home}/config/countries.xml</value>
-                        <value>classpath:com/enonic/cms/business/country/countries.xml</value>
+                        <value>classpath:com/enonic/cms/core/country/countries.xml</value>
                     </list>
                 </property>
             </bean>
@@ -196,15 +196,15 @@
     </bean>
 
 
-    <bean id="localeService" class="com.enonic.cms.business.locale.LocaleServiceImpl"/>
+    <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
 
-    <bean id="timeZoneService" class="com.enonic.cms.business.timezone.TimeZoneServiceImpl"/>
+    <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
 
     <bean id="captchaService" class="com.enonic.cms.business.captcha.CaptchaServiceImpl"/>
 
     <bean id="captchaRepository" class="com.enonic.cms.business.captcha.CaptchaRepositoryImpl"/>
 
-    <bean id="logService" class="com.enonic.cms.business.log.LogServiceImpl"/>
+    <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 
     <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
 

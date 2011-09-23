@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 
@@ -26,6 +25,10 @@ import com.enonic.vertical.adminweb.VerticalAdminLogger;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.country.Country;
+import com.enonic.cms.core.country.CountryCode;
+import com.enonic.cms.core.country.Region;
+import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
@@ -51,7 +54,7 @@ import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
-import com.enonic.cms.business.country.CountryService;
+import com.enonic.cms.core.country.CountryService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
@@ -61,11 +64,8 @@ import com.enonic.cms.domain.content.query.ContentByContentQuery;
 import com.enonic.cms.domain.content.query.RelatedContentQuery;
 import com.enonic.cms.domain.content.resultset.ContentResultSet;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.country.Country;
-import com.enonic.cms.domain.country.CountryCode;
-import com.enonic.cms.domain.country.Region;
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceSpecification;
+
+import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserKey;

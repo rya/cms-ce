@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.business.core.preferences.PreferenceService;
+import com.enonic.cms.core.preference.PreferenceService;
 
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 

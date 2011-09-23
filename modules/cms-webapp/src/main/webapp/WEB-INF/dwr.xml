@@ -20,7 +20,7 @@
     </create>
     <convert converter="bean" match="com.enonic.cms.server.service.admin.ajax.dto.UserDto"/>
     <convert converter="bean" match="com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto"/>
-    <convert converter="bean" match="com.enonic.cms.domain.country.Region"/>
+    <convert converter="bean" match="com.enonic.cms.core.country.Region"/>
     <convert converter="bean" match="com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto"/>
 
   </allow>

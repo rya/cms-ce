@@ -38,13 +38,18 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.preference.PreferenceKey;
+import com.enonic.cms.core.preference.PreferenceScopeKeyResolver;
+import com.enonic.cms.core.preference.PreferenceScopeType;
+import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.SiteContext;
-import com.enonic.cms.business.core.preferences.PreferenceAccessException;
-import com.enonic.cms.business.core.preferences.PreferenceService;
+import com.enonic.cms.core.preference.PreferenceAccessException;
+
 import com.enonic.cms.business.core.security.PasswordGenerator;
 import com.enonic.cms.business.core.security.SecurityHolder;
 import com.enonic.cms.business.core.security.userstore.UserStoreConnectorPolicyBrokenException;
@@ -54,14 +59,11 @@ import com.enonic.cms.business.mail.MessageSettings;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.log.LogType;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.PortalInstanceKeyResolver;
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceScopeKey;
-import com.enonic.cms.domain.preference.PreferenceScopeKeyResolver;
-import com.enonic.cms.domain.preference.PreferenceScopeType;
+import com.enonic.cms.core.preference.PreferenceEntity;
+import com.enonic.cms.core.preference.PreferenceScopeKey;
+
 import com.enonic.cms.domain.security.InvalidCredentialsException;
 import com.enonic.cms.domain.security.group.AbstractMembershipsCommand;
 import com.enonic.cms.domain.security.group.AddMembershipsCommand;

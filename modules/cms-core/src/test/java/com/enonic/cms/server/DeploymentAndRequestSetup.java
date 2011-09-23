@@ -6,12 +6,12 @@ package com.enonic.cms.server;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.enonic.cms.server.service.vhost.VirtualHostResolver;
+import com.enonic.cms.core.vhost.VirtualHost;
+import com.enonic.cms.core.vhost.VirtualHostResolver;
 
-import com.enonic.cms.business.vhost.VirtualHostHelper;
+import com.enonic.cms.core.vhost.VirtualHostHelper;
 
 import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.vhost.VirtualHost;
 
 /**
  * Aug 24, 2010

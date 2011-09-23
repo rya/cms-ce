@@ -15,12 +15,12 @@ import org.hibernate.transform.ResultTransformer;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.log.ContentLogEntrySpecification;
-import com.enonic.cms.domain.log.LogEntryEntity;
-import com.enonic.cms.domain.log.LogEntryKey;
-import com.enonic.cms.domain.log.LogEntrySpecification;
-import com.enonic.cms.domain.log.LogType;
-import com.enonic.cms.domain.log.Table;
+import com.enonic.cms.core.log.ContentLogEntrySpecification;
+import com.enonic.cms.core.log.LogEntryEntity;
+import com.enonic.cms.core.log.LogEntryKey;
+import com.enonic.cms.core.log.LogEntrySpecification;
+import com.enonic.cms.core.log.Table;
+import com.enonic.cms.core.log.LogType;
 
 public class LogEntryEntityDao
     extends AbstractBaseEntityDao<LogEntryEntity>

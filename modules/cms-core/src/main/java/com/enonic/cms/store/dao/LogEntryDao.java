@@ -6,9 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.domain.log.LogEntryEntity;
-import com.enonic.cms.domain.log.LogEntryKey;
-import com.enonic.cms.domain.log.LogEntrySpecification;
+import com.enonic.cms.core.log.LogEntryEntity;
+import com.enonic.cms.core.log.LogEntryKey;
+import com.enonic.cms.core.log.LogEntrySpecification;
 
 
 public interface LogEntryDao

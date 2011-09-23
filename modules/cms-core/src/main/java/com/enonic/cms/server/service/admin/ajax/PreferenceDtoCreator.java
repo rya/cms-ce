@@ -8,16 +8,16 @@ import org.springframework.web.util.HtmlUtils;
 
 import com.enonic.esl.util.Base64Util;
 
+import com.enonic.cms.core.preference.PreferenceKey;
+import com.enonic.cms.core.preference.PreferenceScopeKey;
 import com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.store.dao.PreferenceDao;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.domain.preference.PreferenceEntity;
-import com.enonic.cms.domain.preference.PreferenceKey;
-import com.enonic.cms.domain.preference.PreferenceScopeKey;
-import com.enonic.cms.domain.preference.PreferenceScopeType;
+import com.enonic.cms.core.preference.PreferenceEntity;
+import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.portlet.PortletEntity;

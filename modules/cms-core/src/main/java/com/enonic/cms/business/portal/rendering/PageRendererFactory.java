@@ -16,7 +16,7 @@ import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.business.TightestCacheSettingsResolver;
-import com.enonic.cms.business.core.preferences.PreferenceService;
+import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;

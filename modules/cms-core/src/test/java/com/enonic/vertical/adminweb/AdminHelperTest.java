@@ -31,7 +31,7 @@ public class AdminHelperTest
         request.setScheme( "http" );
         request.setServerName( "admin.balle.com" );
         request.setServerPort( 80 );
-        request.setAttribute( "com.enonic.cms.business.vhost.BASE_PATH", "" );
+        request.setAttribute( "com.enonic.cms.core.vhost.BASE_PATH", "" );
 
         String adminPath;
 
@@ -49,7 +49,7 @@ public class AdminHelperTest
         request.setScheme( "http" );
         request.setServerName( "admin.balle.com" );
         request.setServerPort( 80 );
-        request.setAttribute( "com.enonic.cms.business.vhost.BASE_PATH", null );
+        request.setAttribute( "com.enonic.cms.core.vhost.BASE_PATH", null );
 
         String adminPath;
 
@@ -67,7 +67,7 @@ public class AdminHelperTest
         request.setScheme( "http" );
         request.setServerName( "admin.balle.com" );
         request.setServerPort( 80 );
-        request.setAttribute( "com.enonic.cms.business.vhost.BASE_PATH", null );
+        request.setAttribute( "com.enonic.cms.core.vhost.BASE_PATH", null );
 
         String adminPath;
 
@@ -85,7 +85,7 @@ public class AdminHelperTest
         request.setScheme( "http" );
         request.setServerName( "admin.balle.com" );
         request.setServerPort( 80 );
-        request.setAttribute( "com.enonic.cms.business.vhost.BASE_PATH", "/bjarne" );
+        request.setAttribute( "com.enonic.cms.core.vhost.BASE_PATH", "/bjarne" );
 
         String adminPath;
 

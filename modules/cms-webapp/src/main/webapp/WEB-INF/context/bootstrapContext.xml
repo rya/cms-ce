@@ -17,7 +17,7 @@
   </bean>
 
   <!-- Configure virtual host resolver. -->
-  <bean class="com.enonic.cms.server.service.vhost.VirtualHostResolver">
+  <bean class="com.enonic.cms.core.vhost.VirtualHostResolver">
     <property name="configuration">
       <bean class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="location" value="${cms.home.uri}/config/vhost.properties"/>

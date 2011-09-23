@@ -10,7 +10,7 @@ import com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto;
 import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
 import com.enonic.cms.server.service.admin.ajax.dto.UserDto;
 
-import com.enonic.cms.domain.country.Region;
+import com.enonic.cms.core.country.Region;
 
 public interface AdminAjaxService
 {
