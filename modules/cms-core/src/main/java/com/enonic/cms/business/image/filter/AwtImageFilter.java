@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.business.image.filter;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
@@ -41,8 +40,6 @@ public final class AwtImageFilter
         BufferedImage bufferedImage = ImageHelper.createImage( image.getWidth( null ), image.getHeight( null ), true );
         Graphics2D g = bufferedImage.createGraphics();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
-        g.setColor( Color.white );
-        g.fillRect( 0, 0, image.getWidth( null ), image.getHeight( null ) );
         g.drawImage( image, 0, 0, null );
         g.dispose();
         return bufferedImage;
