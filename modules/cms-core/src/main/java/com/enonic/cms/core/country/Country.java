@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.core.country;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -29,11 +31,7 @@ public class Country
 
     public Country( final CountryCode code, final String englishName, final String localName, final String callingCode )
     {
-        if ( code == null )
-        {
-            throw new IllegalArgumentException( "code cannot be null" );
-        }
-
+        Preconditions.checkNotNull(code, "code cannot be null");
         this.code = code;
         this.englishName = englishName;
         this.localName = localName;
@@ -77,21 +75,13 @@ public class Country
 
     public void addRegion( Region region )
     {
-        if ( region == null )
-        {
-            throw new IllegalArgumentException( "region cannot be null" );
-        }
-
+        Preconditions.checkNotNull(region, "region cannot be null");
         regionsMapByCode.put( region.getCode(), region );
     }
 
     public Region getRegion( String code )
     {
-        if ( code == null )
-        {
-            throw new IllegalArgumentException( "code cannot be null" );
-        }
-
+        Preconditions.checkNotNull(code, "code cannot be null");
         return regionsMapByCode.get( code );
     }
 

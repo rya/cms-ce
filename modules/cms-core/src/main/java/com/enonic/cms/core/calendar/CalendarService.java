@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import com.google.common.base.Preconditions;
 import org.jdom.Document;
 import org.jdom.Element;
 
@@ -81,17 +82,12 @@ public class CalendarService
     public Document getCalendar( boolean relative, int year, int month, int count, boolean includeWeeks, boolean includeDays,
                                  String language, String country )
     {
+        Preconditions.checkArgument(count >= 0, "Parameter 'count' must be 0 or a positive integer.");
 
         org.jdom.Element root = new org.jdom.Element( "calendar" );
         org.jdom.Document doc = new org.jdom.Document( root );
 
         Locale locale = new Locale( language, country );
-
-        // check for valid count value
-        if ( count < 0 )
-        {
-            VerticalEngineLogger.fatalEngine( this.getClass(), 10, "Parameter 'count' must be 0 or a positive integer.", null );
-        }
 
         // set current date
         SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd", locale );
