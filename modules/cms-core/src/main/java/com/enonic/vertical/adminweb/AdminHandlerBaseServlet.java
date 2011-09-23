@@ -68,6 +68,8 @@ import com.enonic.cms.domain.structure.SiteEntity;
 public abstract class AdminHandlerBaseServlet
     extends AbstractAdminwebServlet
 {
+    protected static final int[] EXCLUDED_TYPE_KEYS_IN_PREVIEW = new int[]{1, 2, 3, 4, 6};
+
     private Vector<ErrorCode> errorCodes = new Vector<ErrorCode>();
 
     private DiskFileUpload fileUpload;
@@ -1474,6 +1476,43 @@ public abstract class AdminHandlerBaseServlet
             }
         }
         return keys.toArray();
+    }
+
+    /**
+     * add sites with page templates
+     *
+     * used for determining if preview is available
+     *
+     * @param admin service
+     * @param verticalDoc document
+     * @param user logged in user
+     */
+    protected void addUserSitesToDocument( AdminService admin, Document verticalDoc, UserEntity user )
+    {
+        Document doc = XMLTool.domparse( admin.getAdminMenu( user, -1 ) );
+        Element rootSitesElement = doc.getDocumentElement();
+        Element[] allSiteElements = XMLTool.getElements( rootSitesElement );
+
+        for ( Element siteElement : allSiteElements )
+        {
+            int siteKey = Integer.valueOf( siteElement.getAttribute( "key" ) );
+
+            addSiteToDocument( admin, verticalDoc, siteKey );
+        }
+    }
+
+    /**
+     * add only one site to document
+     *
+     * @param admin service
+     * @param verticalDoc document
+     * @param siteKey key of site
+     */
+    protected void addSiteToDocument( AdminService admin, Document verticalDoc, int siteKey )
+    {
+        String pageTemplateXML = admin.getPageTemplatesByMenu( siteKey, EXCLUDED_TYPE_KEYS_IN_PREVIEW );
+        Document ptDoc = XMLTool.domparse( pageTemplateXML );
+        XMLTool.mergeDocuments( verticalDoc, ptDoc, true );
     }
 
     private static class ErrorCode

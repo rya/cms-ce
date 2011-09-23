@@ -62,7 +62,7 @@ public class MyPageServlet
     private static final int ASSIGNED_TO_COUNT = 6;
 
     public void handlerPage( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
-                             ExtendedMap parameters, User oldUser, Document verticalDoc )
+                             ExtendedMap parameters, User oldUser, AdminService admin, Document verticalDoc )
         throws VerticalAdminException, VerticalEngineException
     {
 
@@ -109,6 +109,8 @@ public class MyPageServlet
         addFeedback( verticalDoc, formItems );
 
         addParameters( formItems, parameters, maximize );
+
+        addUserSitesToDocument( admin, verticalDoc, user );
 
         VerticalAdminLogger.debug( this.getClass(), 0, verticalDoc );
         transformXML( request, response, verticalDoc, "dashboard.xsl", parameters );
@@ -292,7 +294,7 @@ public class MyPageServlet
 
         if ( "page".equals( operation ) )
         {
-            handlerPage( request, response, session, formItems, parameters, user, verticalDoc );
+            handlerPage( request, response, session, formItems, parameters, user, admin, verticalDoc );
         }
         else if ( "createcontentwizard_step1".equals( operation ) )
         {

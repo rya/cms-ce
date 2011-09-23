@@ -34,6 +34,6 @@ public class ScaleWidthFilterTest
     private BufferedImage scale( int size )
     {
         ImageFilter filter = new ScaleWidthFilter( size );
-        return filter.filter( getSource() );
+        return filter.filter( getOpaque() );
     }
 }

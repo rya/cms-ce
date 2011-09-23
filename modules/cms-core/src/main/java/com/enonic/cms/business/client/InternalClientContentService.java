@@ -4,6 +4,8 @@
  */
 package com.enonic.cms.business.client;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +52,8 @@ import com.enonic.cms.business.core.content.command.SnapshotContentCommand;
 import com.enonic.cms.business.core.content.command.UnassignContentCommand;
 import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 import com.enonic.cms.business.core.content.command.UpdateContentCommand.UpdateStrategy;
+import com.enonic.cms.business.core.content.image.ContentImageUtil;
+import com.enonic.cms.business.core.content.image.ImageUtil;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.UserParser;
 import com.enonic.cms.business.portal.cache.PageCacheService;
@@ -247,6 +251,38 @@ public class InternalClientContentService
         return contentService.createContent( command ).toInt();
     }
 
+    public int createImageContent( CreateImageContentParams params )
+        throws IOException
+    {
+        validateCreateImageContentParams( params );
+
+        CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
+
+        UserEntity runningUser = securityService.getRunAsUser();
+
+        LegacyImageContentData contentdata = (LegacyImageContentData) imageContentResolver.resolveContentdata( params.contentData );
+
+        BinaryData[] binaryArray = getBinaries( params );
+        List<BinaryDataAndBinary> binaryDatas = BinaryDataAndBinary.createNewFrom( binaryArray );
+
+        CreateContentCommand createCommand = new CreateContentCommand();
+        createCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
+        createCommand.setCreator( runningUser );
+        createCommand.setStatus( ContentStatus.get( params.status ) );
+        createCommand.setPriority( 0 );
+        createCommand.setCategory( category );
+        createCommand.setLanguage( category.getUnitExcludeDeleted().getLanguage() );
+        createCommand.setAvailableFrom( params.publishFrom );
+        createCommand.setAvailableTo( params.publishTo );
+        createCommand.setContentData( contentdata );
+        createCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
+        createCommand.setBinaryDatas( binaryDatas );
+        createCommand.setUseCommandsBinaryDataToAdd( true );
+
+        ContentKey contentKey = contentService.createContent( createCommand );
+        return contentKey.toInt();
+    }
+
     public Document getBinary( GetBinaryParams params )
         throws Exception
     {
@@ -321,6 +357,50 @@ public class InternalClientContentService
         }
 
         return createBinaryDocument( createBinaryData( contentBinaryData ) );
+    }
+
+    private BinaryData[] getBinaries( CreateImageContentParams params )
+        throws IOException
+    {
+        String binaryName = params.contentData.binary.getBinaryName();
+        // find file type
+        String type = null;
+        String filenameWithoutExtension = binaryName;
+
+        int idx = binaryName.lastIndexOf( "." );
+        if ( idx != -1 )
+        {
+            type = binaryName.substring( idx + 1 ).toLowerCase();
+            if ( "jpg".equals( type ) )
+            {
+                type = "jpeg";
+            }
+
+            filenameWithoutExtension = binaryName.substring( 0, idx );
+        }
+
+        BufferedImage origImage = ImageUtil.readImage( params.contentData.binary.getBinary() );
+
+        ArrayList<BinaryData> binaryList = new ArrayList<BinaryData>();
+
+        // Do not add original as un-labeled image with name = name-heightXwitdth
+
+        // Add fixed size images
+        binaryList.addAll(
+            ContentImageUtil.createStandardSizeImages( origImage, ContentImageUtil.getEncodeType( type ), filenameWithoutExtension ) );
+
+        // add source image
+        BinaryData image = BinaryData.createBinaryDataFromStream( null, null, "source", params.contentData );
+        binaryList.add( image );
+
+        if ( binaryList == null )
+        {
+            return null;
+        }
+        else
+        {
+            return binaryList.toArray( new BinaryData[binaryList.size()] );
+        }
     }
 
     public void assignContent( AssignContentParams params )
@@ -462,32 +542,6 @@ public class InternalClientContentService
         return contentKey.toInt();
     }
 
-    private void validateCreateImageContentParams( CreateImageContentParams params )
-    {
-        if ( params.categoryKey == null )
-        {
-            throw new IllegalArgumentException( "categoryKey must be specified" );
-        }
-        if ( params.status == null )
-        {
-            throw new IllegalArgumentException( "status must be specified" );
-        }
-        if ( params.contentData == null )
-        {
-            throw new IllegalArgumentException( "data must be specified" );
-        }
-        if ( params.publishFrom != null && params.publishTo != null && !params.publishTo.after( params.publishFrom ) )
-        {
-            throw new IllegalArgumentException( "publishTo must be after publishFrom" );
-        }
-
-        CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
-        if ( category == null )
-        {
-            throw new IllegalArgumentException( "category does not exists, id: " + params.categoryKey );
-        }
-    }
-
     public int updateFileContent( UpdateFileContentParams params )
     {
         validateUpdateFileContentParams( params );
@@ -550,37 +604,6 @@ public class InternalClientContentService
         }
 
         return updateContentResult.getTargetedVersionKey().toInt();
-    }
-
-    public int createImageContent( CreateImageContentParams params )
-        throws ClientException
-    {
-        validateCreateImageContentParams( params );
-
-        CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
-
-        UserEntity runningUser = securityService.getRunAsUser();
-
-        LegacyImageContentData contentdata = (LegacyImageContentData) imageContentResolver.resolveContentdata( params.contentData );
-        List<BinaryDataAndBinary> binaryData = new ArrayList<BinaryDataAndBinary>();
-        binaryData.add( BinaryDataAndBinary.convertFromBinaryInput( params.contentData.binary ) );
-
-        CreateContentCommand createCommand = new CreateContentCommand();
-        createCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
-        createCommand.setCreator( runningUser );
-        createCommand.setStatus( ContentStatus.get( params.status ) );
-        createCommand.setPriority( 0 );
-        createCommand.setCategory( category );
-        createCommand.setLanguage( category.getUnitExcludeDeleted().getLanguage() );
-        createCommand.setAvailableFrom( params.publishFrom );
-        createCommand.setAvailableTo( params.publishTo );
-        createCommand.setContentData( contentdata );
-        createCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
-        createCommand.setBinaryDatas( binaryData );
-        createCommand.setUseCommandsBinaryDataToAdd( true );
-
-        ContentKey contentKey = contentService.createContent( createCommand );
-        return contentKey.toInt();
     }
 
     private void validateUpdateFileContentParams( UpdateFileContentParams params )
@@ -649,6 +672,32 @@ public class InternalClientContentService
         if ( params.status == null )
         {
             throw new IllegalArgumentException( "status must be specified" );
+        }
+        if ( params.publishFrom != null && params.publishTo != null && !params.publishTo.after( params.publishFrom ) )
+        {
+            throw new IllegalArgumentException( "publishTo must be after publishFrom" );
+        }
+
+        CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
+        if ( category == null )
+        {
+            throw new IllegalArgumentException( "category does not exists, id: " + params.categoryKey );
+        }
+    }
+
+    private void validateCreateImageContentParams( CreateImageContentParams params )
+    {
+        if ( params.categoryKey == null )
+        {
+            throw new IllegalArgumentException( "categoryKey must be specified" );
+        }
+        if ( params.status == null )
+        {
+            throw new IllegalArgumentException( "status must be specified" );
+        }
+        if ( params.contentData == null )
+        {
+            throw new IllegalArgumentException( "data must be specified" );
         }
         if ( params.publishFrom != null && params.publishTo != null && !params.publishTo.after( params.publishFrom ) )
         {

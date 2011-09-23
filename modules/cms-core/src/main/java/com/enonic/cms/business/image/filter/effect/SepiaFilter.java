@@ -39,7 +39,9 @@ public final class SepiaFilter
             g = 255;
         }
 
-        c = new Color( r, g, b );
-        return c.getRGB();
+        int alpha = ( rgb >> 24 ) & 0xff;
+        rgb = new Color( r, g, b ).getRGB();
+
+        return ( rgb & 0x00ffffff ) | ( alpha << 24 );
     }
 }

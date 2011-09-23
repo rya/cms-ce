@@ -446,12 +446,13 @@
           </xsl:if>
 
           <xsl:if test="$enablepreview">
+            <xsl:variable name="has-page-template" select="/*/pagetemplates/pagetemplate/contenttypes/contenttype[@key = $contenttypekey]"/>
             <xsl:call-template name="button">
               <xsl:with-param name="type" select="'button'"/>
               <xsl:with-param name="caption" select="'%cmdPreview%'"/>
               <xsl:with-param name="id" select="'previewbtn'"/>
               <xsl:with-param name="name" select="'previewbtn'"/>
-              <xsl:with-param name="disabled" select="boolean($create = 1)"/>
+              <xsl:with-param name="disabled" select="boolean($create = 1 or not($has-page-template))"/>
               <xsl:with-param name="onclick">
                 <xsl:if test="$subfunctions != ''">
                   <xsl:value-of select="$subfunctions"/>

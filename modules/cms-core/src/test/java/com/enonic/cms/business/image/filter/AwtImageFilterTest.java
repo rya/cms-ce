@@ -1,8 +1,4 @@
-/*
- * Copyright 2000-2011 Enonic AS
- * http://www.enonic.com/license
- */
-package com.enonic.cms.business.image.filter.effect;
+package com.enonic.cms.business.image.filter;
 
 import java.awt.image.BufferedImage;
 
@@ -10,7 +6,7 @@ import javax.imageio.ImageIO;
 
 import org.junit.Before;
 
-public abstract class BaseImageFilterTest
+public abstract class AwtImageFilterTest
 {
     private BufferedImage opaque;
     private BufferedImage transparent;

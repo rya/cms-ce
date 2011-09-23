@@ -8,6 +8,7 @@ public class ImageDescriptionInput
     extends TextAreaInput
     implements Serializable
 {
+    private static final long serialVersionUID = -3893002034248445490L;
 
     public ImageDescriptionInput( String value )
     {

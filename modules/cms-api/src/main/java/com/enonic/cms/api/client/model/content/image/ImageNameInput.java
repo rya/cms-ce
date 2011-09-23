@@ -9,6 +9,8 @@ public class ImageNameInput
         implements Serializable
 {
 
+    private static final long serialVersionUID = -4097807956530351622L;
+
     public ImageNameInput( String value )
     {
         super( "name", value );

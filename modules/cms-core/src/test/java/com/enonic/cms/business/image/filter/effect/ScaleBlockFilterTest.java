@@ -1,12 +1,12 @@
 package com.enonic.cms.business.image.filter.effect;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
 import java.awt.image.BufferedImage;
 
+import org.junit.Test;
+
 import com.enonic.cms.business.image.filter.ImageFilter;
+
+import static org.junit.Assert.*;
 
 public class ScaleBlockFilterTest
         extends BaseImageFilterTest
@@ -26,12 +26,12 @@ public class ScaleBlockFilterTest
     private BufferedImage scale( int width, int height)
     {
         ImageFilter filter = new ScaleBlockFilter( width, height, 0.5f, 0.5f );
-        return filter.filter( getSource() );
+        return filter.filter( getOpaque() );
     }
 
     private BufferedImage scaleWithOffset( int width, int height, float xOffset, float yOffset)
     {
         ImageFilter filter = new ScaleBlockFilter( width, height, xOffset, yOffset );
-        return filter.filter( getSource() );
+        return filter.filter( getOpaque() );
     }
 }
