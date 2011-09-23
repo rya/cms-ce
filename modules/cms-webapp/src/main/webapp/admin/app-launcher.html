@@ -4,7 +4,6 @@
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all.js"></script>
-    <script type="text/javascript" src="app/common/Common.js"></script>
     <script type="text/javascript">
 
         Ext.Loader.setConfig({
@@ -18,6 +17,8 @@
         Ext.application({
             name: 'App',
             appFolder: 'app/launcher/js',
+
+            requires: ['App.LauncherToolbarHelper'],
 
             controllers: [
                 'LauncherController'

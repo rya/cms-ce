@@ -14,6 +14,8 @@ Ext.define( 'App.view.GridPanel', {
 
     initComponent: function()
     {
+        this.selModel = Ext.create('Ext.selection.CheckboxModel');
+
         this.columns = [
             {
                 text: 'Display Name',
