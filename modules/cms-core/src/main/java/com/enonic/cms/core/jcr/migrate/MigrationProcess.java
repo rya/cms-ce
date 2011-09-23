@@ -40,7 +40,7 @@ public class MigrationProcess
 
     private void executeTasks()
     {
-        AbstractTask[] tasks = new AbstractTask[]{userStoreTask, userTask, groupTask, userFieldsTask, groupMembershipTask};
+        final AbstractTask[] tasks = new AbstractTask[]{userStoreTask, userTask, groupTask, userFieldsTask, groupMembershipTask};
         for ( AbstractTask task : tasks )
         {
             task.setTemplate( new JdbcTemplate( dataSource ) );
@@ -55,7 +55,7 @@ public class MigrationProcess
     {
         try
         {
-            StopWatch stopWatch = new StopWatch();
+            final StopWatch stopWatch = new StopWatch();
             stopWatch.start();
 
             repositoryBootstrap.setLog( log );

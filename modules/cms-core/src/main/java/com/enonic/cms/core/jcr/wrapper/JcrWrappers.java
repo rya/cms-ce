@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.jcr.wrapper;
 
+import javax.jcr.Binary;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
@@ -21,17 +22,22 @@ public final class JcrWrappers
 
     public static JcrSession wrap( final Session value )
     {
-        return new JcrSessionWrapper( value );
+        return ( value == null ) ? null : new JcrSessionWrapper( value );
     }
 
     public static JcrNode wrap( final Node value )
     {
-        return new JcrNodeWrapper( value );
+        return ( value == null ) ? null : new JcrNodeWrapper( value );
     }
 
     public static JcrNodeIterator wrap( NodeIterator nodeIterator )
     {
-        return new JcrNodeIteratorWrapper( nodeIterator );
+        return ( nodeIterator == null ) ? null : new JcrNodeIteratorWrapper( nodeIterator );
+    }
+
+    public static JcrBinary wrap( Binary value )
+    {
+        return ( value == null ) ? null : new JcrBinaryWrapper( value );
     }
 
     public static Session unwrap( final JcrSession value )

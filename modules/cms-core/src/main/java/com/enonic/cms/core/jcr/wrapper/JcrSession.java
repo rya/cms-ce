@@ -12,4 +12,6 @@ public interface JcrSession
 
     public JcrQuery createQuery(String statement);
 
+    public JcrNode getNodeByIdentifier(String id);
+
 }

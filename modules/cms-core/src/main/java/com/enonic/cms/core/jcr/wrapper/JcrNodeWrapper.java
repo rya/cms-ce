@@ -11,7 +11,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.jcr.Binary;
+import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
 import javax.jcr.PropertyType;
@@ -19,6 +22,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 
 import org.apache.jackrabbit.value.BinaryValue;
+import org.joda.time.DateTime;
 
 class JcrNodeWrapper
     implements JcrNode
@@ -46,7 +50,14 @@ class JcrNodeWrapper
     @Override
     public String getNodeType()
     {
-        throw new UnsupportedOperationException( "Not implemented" );
+        try
+        {
+            return node.getPrimaryNodeType().getName();
+        }
+        catch ( RepositoryException e )
+        {
+            throw JcrException.wrap( e );
+        }
     }
 
     @Override
@@ -65,7 +76,31 @@ class JcrNodeWrapper
     @Override
     public JcrNode getParent()
     {
-        throw new UnsupportedOperationException( "Not implemented" );
+        try
+        {
+            return JcrWrappers.wrap( node.getParent() );
+        }
+        catch ( ItemNotFoundException nfe )
+        {
+            return null;
+        }
+        catch ( RepositoryException e )
+        {
+            throw JcrException.wrap( e );
+        }
+    }
+
+    @Override
+    public String getIdentifier()
+    {
+        try
+        {
+            return node.getIdentifier();
+        }
+        catch ( RepositoryException e )
+        {
+            throw JcrException.wrap( e );
+        }
     }
 
     @Override
@@ -203,7 +238,7 @@ class JcrNodeWrapper
             if ( property.isMultiple() )
             {
                 Value[] values = property.getValues();
-                List propertyList = new ArrayList();
+                List<Object> propertyList = new ArrayList<Object>();
                 for ( Value value : values )
                 {
                     propertyList.add( getValue( value ) );
@@ -214,6 +249,10 @@ class JcrNodeWrapper
             {
                 return getPropertyValue( property );
             }
+        }
+        catch ( PathNotFoundException nfe )
+        {
+            return null;
         }
         catch ( RepositoryException e )
         {
@@ -227,7 +266,7 @@ class JcrNodeWrapper
         switch ( value.getType() )
         {
             case PropertyType.BINARY:
-                return value.getBinary().getSize();
+                return value.getBinary();
 
             case PropertyType.STRING:
                 return value.getString();
@@ -270,7 +309,7 @@ class JcrNodeWrapper
         switch ( property.getType() )
         {
             case PropertyType.BINARY:
-                return property.getBinary().getSize();
+                return property.getBinary();
 
             case PropertyType.STRING:
                 return property.getString();
@@ -288,7 +327,7 @@ class JcrNodeWrapper
                 return property.getBoolean();
 
             case PropertyType.NAME:
-                return property.getName();
+                return property.getString();
 
             case PropertyType.PATH:
                 return property.getPath();
@@ -310,30 +349,55 @@ class JcrNodeWrapper
     @Override
     public String getStringProperty( String name )
     {
-        throw new UnsupportedOperationException( "Not implemented" );
+        Object value = getProperty( name );
+        if ( value == null || value instanceof String )
+        {
+            return (String) value;
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
-    public String getBooleanProperty( String name )
+    public Boolean getBooleanProperty( String name )
     {
-        throw new UnsupportedOperationException( "Not implemented" );
+        Object value = getProperty( name );
+        if ( value == null || value instanceof Boolean )
+        {
+            return (Boolean) value;
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
     public Long getLongProperty( String name )
     {
         Object value = getProperty( name );
-        if ( !( value instanceof Long ) )
+        if ( value == null || value instanceof Long )
         {
-            throw new IllegalArgumentException();
+            return (Long) value;
         }
-        return (Long) value;
+        throw new IllegalArgumentException();
+    }
+
+    public DateTime getDateTimeProperty( String name )
+    {
+        Object value = getProperty( name );
+        if ( value == null || value instanceof Calendar )
+        {
+            return new DateTime( value );
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
     public JcrBinary getBinaryProperty( String name )
     {
-        throw new UnsupportedOperationException( "Not implemented" );
+        Object value = getProperty( name );
+        if ( value == null || value instanceof Binary )
+        {
+            return JcrWrappers.wrap( (Binary)value );
+        }
+        throw new IllegalArgumentException();
     }
 
     @Override
@@ -368,6 +432,10 @@ class JcrNodeWrapper
             else if ( value instanceof Date )
             {
                 node.setProperty( name, toCalendar( (Date) value ) );
+            }
+            else if ( value instanceof DateTime )
+            {
+                node.setProperty( name, ( (DateTime) value ).toGregorianCalendar() );
             }
             else if ( value instanceof byte[] )
             {

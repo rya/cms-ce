@@ -4,13 +4,13 @@
  */
 package com.enonic.cms.tools.migrate;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.jcr.PropertyType;
-import javax.jcr.RepositoryException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -31,7 +31,6 @@ import com.enonic.cms.core.jcr.wrapper.JcrNode;
 import com.enonic.cms.core.jcr.wrapper.JcrNodeIterator;
 import com.enonic.cms.core.jcr.wrapper.JcrRepository;
 import com.enonic.cms.core.jcr.wrapper.JcrSession;
-import com.enonic.cms.core.jcr.wrapper.JcrWrappers;
 
 @Path("/migration/")
 @Component
@@ -80,10 +79,9 @@ public final class MigrationResource
     @Path("jcrxml")
     public String jcrTreeAsXml()
     {
-        JcrSession session = null;
+        final JcrSession session = jcrRepository.login();
         try
         {
-            session = jcrRepository.login();
             return JcrUtils.sessionViewToXml( session, "/", true );
         }
         finally
@@ -97,13 +95,12 @@ public final class MigrationResource
     @Path("jcrjson")
     public Map<String, Object> jcrTreeAsJson( final @QueryParam("path") String path )
     {
-        JcrSession session = null;
+        final JcrSession session = jcrRepository.login();
         try
         {
-            session = jcrRepository.login();
             Map<String, Object> rootJson = new HashMap<String, Object>();
 
-            JcrNode root;
+            final JcrNode root;
             if ( StringUtils.isBlank( path ) )
             {
                 root = session.getRootNode();
@@ -122,33 +119,35 @@ public final class MigrationResource
         }
     }
 
-    private void buildJsonTree( JcrNode node, Map<String, Object> nodeJson )
+    private void buildJsonTree( final JcrNode node, final Map<String, Object> nodeJson )
     {
         nodeJson.put( "_name", node.getName() );
         nodeJson.put( "_path", node.getPath() );
-        try
-        {
-            nodeJson.put( "_type", JcrWrappers.unwrap( node ).getDefinition().getDefaultPrimaryTypeName() );
-        }
-        catch ( RepositoryException e )
-        {
-            e.printStackTrace();
-        }
+        nodeJson.put( "_type", node.getNodeType() );
 
         if ( node.hasProperties() )
         {
-            List<Map<String, Object>> properties = new ArrayList<Map<String, Object>>();
+            final List<Map<String, Object>> properties = new ArrayList<Map<String, Object>>();
             for ( String propName : node.getPropertyNames() )
             {
-                Object propValue = node.getProperty( propName );
-                if ( propValue instanceof JcrNode )
+                final Object propValue;
+                switch ( node.getPropertyType( propName ) )
                 {
-                    propValue = ( (JcrNode) propValue ).getPath();
+                    case PropertyType.BINARY:
+                        propValue = MessageFormat.format( "({0} bytes)", node.getBinaryProperty( propName ).getSize() );
+                        break;
+                    case PropertyType.REFERENCE:
+                    case PropertyType.WEAKREFERENCE:
+                        propValue = ( (JcrNode) node.getProperty( propName ) ).getPath();
+                        break;
+                    default:
+                        propValue = node.getProperty( propName );
                 }
-                Map<String, Object> property = new HashMap<String, Object>();
+
+                final Map<String, Object> property = new HashMap<String, Object>();
                 property.put( "name", propName );
                 property.put( "value", propValue );
-                property.put( "type", getPropertyTypeName(node, propName) );
+                property.put( "type", getPropertyTypeName( node, propName ) );
                 properties.add( property );
             }
             nodeJson.put( "_properties", properties );
@@ -158,14 +157,14 @@ public final class MigrationResource
             nodeJson.put( "leaf", true );
         }
 
-        List<Map<String, Object>> childrenList = new ArrayList<Map<String, Object>>();
+        final List<Map<String, Object>> childrenList = new ArrayList<Map<String, Object>>();
         nodeJson.put( "_children", childrenList );
 
-        JcrNodeIterator children = node.getChildren();
+        final JcrNodeIterator children = node.getChildren();
         while ( children.hasNext() )
         {
-            JcrNode child = children.nextNode();
-            Map<String, Object> childJson = new HashMap<String, Object>();
+            final JcrNode child = children.nextNode();
+            final Map<String, Object> childJson = new HashMap<String, Object>();
             buildJsonTree( child, childJson );
             childrenList.add( childJson );
         }
@@ -173,7 +172,7 @@ public final class MigrationResource
 
     private String getPropertyTypeName( JcrNode node, String propertyName )
     {
-        int type = node.getPropertyType( propertyName );
+        final int type = node.getPropertyType( propertyName );
         return PropertyType.nameFromValue( type );
     }
 
