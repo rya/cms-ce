@@ -125,7 +125,11 @@ public class ContentTypeEntity
 
     public void setData( Document data )
     {
-        this.data = LazyInitializedJDOMDocument.parse(data);
+        if (data == null) {
+            this.data = null;
+        } else {
+            this.data = LazyInitializedJDOMDocument.parse(data);
+        }
         this.contentTypeConfig = null;
     }
 
