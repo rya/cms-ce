@@ -6,12 +6,13 @@ package com.enonic.cms.core.timezone;
 
 import java.util.Collection;
 
-import com.google.common.base.Preconditions;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Sep 8, 2009
@@ -27,8 +28,8 @@ public class TimeZoneXmlCreator
 
     public Document createTimeZonesDocument( final Collection<DateTimeZone> timeZones )
     {
-        Preconditions.checkNotNull(timeZones, "timeZones cannot be null" );
- 
+        Preconditions.checkNotNull( timeZones, "timeZones cannot be null" );
+
         Element timeZonesEl = new Element( "time-zones" );
         for ( DateTimeZone timeZone : timeZones )
         {
@@ -54,8 +55,10 @@ public class TimeZoneXmlCreator
 
     private String getHoursAsHumanReadable( Period offsetPeriod )
     {
+
         final StringBuffer s = new StringBuffer();
-        if ( offsetPeriod.getMinutes() < 0 )
+
+        if ( offsetPeriod.getMinutes() < 0 | offsetPeriod.getHours() < 0 )
         {
             s.append( "-" );
         }
@@ -73,7 +76,7 @@ public class TimeZoneXmlCreator
         s.append( Math.abs( hours ) );
         s.append( ":" );
 
-        final int minutes = offsetPeriod.getMinutes();
+        final int minutes = Math.abs( offsetPeriod.getMinutes() );
         if ( minutes < 10 )
         {
             s.append( "0" );
