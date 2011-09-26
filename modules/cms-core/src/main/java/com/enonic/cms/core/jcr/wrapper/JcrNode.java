@@ -6,6 +6,8 @@ package com.enonic.cms.core.jcr.wrapper;
 
 import java.util.Set;
 
+import org.joda.time.DateTime;
+
 public interface JcrNode
 {
     public String getName();
@@ -15,6 +17,8 @@ public interface JcrNode
     public String getPath();
 
     public JcrNode getParent();
+
+    public String getIdentifier();
 
     public JcrNode getNode( String relPath );
 
@@ -36,9 +40,11 @@ public interface JcrNode
 
     public String getStringProperty( String name );
 
-    public String getBooleanProperty( String name );
+    public Boolean getBooleanProperty( String name );
 
     public Long getLongProperty( String name );
+
+    public DateTime getDateTimeProperty( String name );
 
     public JcrBinary getBinaryProperty( String name );
 

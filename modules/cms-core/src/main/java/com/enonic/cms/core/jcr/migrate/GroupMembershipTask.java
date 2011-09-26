@@ -70,7 +70,7 @@ public final class GroupMembershipTask
 
         private JcrNode getUserNodeByGroupKey( String groupkey, JcrSession session )
     {
-        String sql = "SELECT * " + "FROM [" + JcrCmsConstants.USER_NODE_TYPE + "] " + "WHERE groupKey = $groupkey ";
+        String sql = "SELECT * FROM [" + JcrCmsConstants.USER_NODE_TYPE + "] " + "WHERE groupKey = $groupkey ";
 
         JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "groupkey", groupkey ).execute();
         if ( nodes.hasNext() )
@@ -82,7 +82,7 @@ public final class GroupMembershipTask
 
     private JcrNode getGroupNode( String key, JcrSession session )
     {
-        String sql = "SELECT * " + "FROM [" + JcrCmsConstants.GROUP_NODE_TYPE + "] " + "WHERE key = $key ";
+        String sql = "SELECT * FROM [" + JcrCmsConstants.GROUP_NODE_TYPE + "] " + "WHERE key = $key ";
 
         JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "key", key ).execute();
         if ( nodes.hasNext() )

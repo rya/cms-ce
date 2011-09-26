@@ -1,4 +1,4 @@
-Ext.define('CMS.common.Common', {
+Ext.define('App.LauncherToolbarHelper', {
      statics: {
          hideLauncherMenus: function() {
              var componentQuery = Ext.ComponentQuery;

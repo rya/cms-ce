@@ -52,7 +52,7 @@ public class Migration
 
         log.clear();
         log.logInfo( "Starting migration..." );
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        final ExecutorService executor = Executors.newSingleThreadExecutor();
         futureResult = executor.submit( migrationProcess );
     }
 

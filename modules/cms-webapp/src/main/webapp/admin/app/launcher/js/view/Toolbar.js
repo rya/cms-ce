@@ -83,31 +83,31 @@ Ext.define('App.view.Toolbar', {
                         menu: {
                             items: [
                                 {
-                                    id: 600,
+                                    id: 810,
                                     text:"Cache",
                                     appUrl:"app-systemCache.html",
                                     icon: 'app/launcher/images/drive_web.png'
                                 },
                                 {
-                                    id: 500,
+                                    id: 820,
                                     text: "Content Types",
                                     appUrl: "app-contentType.html",
                                     icon: 'app/launcher/images/page_world.png'
                                 },
                                 {
-                                    id: 900,
+                                    id: 830,
                                     text: 'Live Portal Trace',
                                     appUrl: 'blank.html',
                                     icon: 'app/launcher/images/utilities-system-monitor.png'
                                 },
                                 {
-                                    id: 700,
+                                    id: 840,
                                     text: 'Repository',
                                     appUrl: 'blank.html',
                                     icon: 'app/launcher/images/database.png'
                                 },
                                 {
-                                    id: 400,
+                                    id: 850,
                                     text: 'Userstores',
                                     appUrl: 'app-userstore.html',
                                     icon: 'app/launcher/images/address-book-blue-icon.png'

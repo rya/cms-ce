@@ -59,12 +59,12 @@ Ext.define( 'App.view.AddressPanel', {
                 Ext.apply( regionStore.proxy.extraParams, {
                     'countryCode': this.values['iso-country']
                 } );
-                regionStore.load( {
-                                      callback: function()
-                                      {
-                                          regionField.setValue( this.values['iso-region'] );
-                                      }
-                                  } );
+                regionStore.load({
+                    scope: this,
+                    callback: function() {
+                        regionField.setValue( this.values['iso-region'] );
+                    }
+                });
             }
         }
         else

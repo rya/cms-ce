@@ -86,7 +86,7 @@ public final class GroupTask
 
     private JcrNode getDefaultUserStoreNode( JcrSession session )
     {
-        String sql = "SELECT * " + "FROM [" + JcrCmsConstants.USERSTORE_NODE_TYPE + "] " + "WHERE localname() = $name";
+        String sql = "SELECT * FROM [" + JcrCmsConstants.USERSTORE_NODE_TYPE + "] " + "WHERE localname() = $name";
 
         JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "name", JcrCmsConstants.SYSTEM_USERSTORE_NODE ).execute();
         if ( nodes.hasNext() )
@@ -98,7 +98,7 @@ public final class GroupTask
 
     private JcrNode getUserStoreNode( Integer userStoreKey, JcrSession session )
     {
-        String sql = "SELECT * " + "FROM [" + JcrCmsConstants.USERSTORE_NODE_TYPE + "] " + "WHERE key = $key ";
+        String sql = "SELECT * FROM [" + JcrCmsConstants.USERSTORE_NODE_TYPE + "] " + "WHERE key = $key ";
 
         JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "key", userStoreKey ).execute();
         if ( nodes.hasNext() )
