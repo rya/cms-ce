@@ -13,9 +13,9 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 
-import com.enonic.cms.business.core.resource.ResourceService;
-
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleServiceImpl;
+
+import com.enonic.cms.business.core.resource.ResourceService;
 
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.structure.SiteEntity;
@@ -26,9 +26,6 @@ import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.*;
 
-/**
- * Created by rmy - Date: Apr 23, 2009
- */
 public class LocalizationResourceBundleServiceImplTest
     extends LocalizationResourceBundleServiceImpl
 {
@@ -71,11 +68,10 @@ public class LocalizationResourceBundleServiceImplTest
     @Test
     public void testNoCache()
     {
+        setUpResourceService();
         setUpFetchFromCache( null );
         setUpPutInCache();
         replay( propertiesCache );
-
-        setUpResourceService();
 
         SiteEntity site = LocalizationTestUtils.createSite( "phrases.properties" );
         Locale locale = new Locale( "no" );

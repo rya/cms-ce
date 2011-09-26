@@ -112,7 +112,6 @@ public class PostProcessInstructionParserTest
         assertTrue( processedInstruction.doUrlEncodeResult() == true );
     }
 
-
     private String createDocument( CreateContentUrlInstruction instruction, boolean enocode, boolean escape )
         throws IOException
     {

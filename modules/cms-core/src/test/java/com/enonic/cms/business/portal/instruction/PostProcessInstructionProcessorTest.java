@@ -27,6 +27,8 @@ import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionPatterns;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
+import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializingException;
+import com.enonic.cms.domain.portal.instruction.PostProcessInstructionUnknownTypeException;
 import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
 import com.enonic.cms.domain.structure.SiteEntity;
 
@@ -93,6 +95,48 @@ public class PostProcessInstructionProcessorTest
 
         assertEquals( document, processedDocument );
     }
+
+    @Test
+    public void testUnknownInstruction()
+        throws Exception
+    {
+        List<PostProcessInstruction> instructions = new ArrayList<PostProcessInstruction>();
+        instructions.add( new RenderWindowInstruction() );
+        final String document = createInputDoc( instructions );
+
+        executor = Mockito.mock( PostProcessInstructionExecutor.class );
+        Mockito.when( executor.execute( Mockito.isA( RenderWindowInstruction.class ),
+                                        Mockito.isA( PostProcessInstructionContext.class ) ) ).thenThrow(
+            new PostProcessInstructionUnknownTypeException( "expected exception" ) );
+
+        processor = new PostProcessInstructionProcessor( setUpContext(), executor );
+
+        String processedDocument = processor.processInstructions( document );
+
+        assertEquals( document, processedDocument );
+    }
+
+
+    @Test
+    public void testSerializingException()
+        throws Exception
+    {
+        List<PostProcessInstruction> instructions = new ArrayList<PostProcessInstruction>();
+        instructions.add( new RenderWindowInstruction() );
+        final String document = createInputDoc( instructions );
+
+        executor = Mockito.mock( PostProcessInstructionExecutor.class );
+        Mockito.when( executor.execute( Mockito.isA( RenderWindowInstruction.class ),
+                                        Mockito.isA( PostProcessInstructionContext.class ) ) ).thenThrow(
+            new PostProcessInstructionSerializingException( "test", null ) );
+
+        processor = new PostProcessInstructionProcessor( setUpContext(), executor );
+
+        String processedDocument = processor.processInstructions( document );
+
+        assertEquals( document, processedDocument );
+    }
+
 
     @Test
     public void testProcessInstructions()

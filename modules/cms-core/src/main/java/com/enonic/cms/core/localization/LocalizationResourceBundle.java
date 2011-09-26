@@ -13,6 +13,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by rmy - Date: Apr 23, 2009
@@ -25,6 +27,8 @@ public class LocalizationResourceBundle
     private static final String UTF_8_ENCODING = "UTF-8";
 
     private static final String LATIN_1_ENCODING = "ISO-8859-1";
+
+    private static final Logger LOG = LoggerFactory.getLogger( LocalizationResourceBundle.class );
 
     public LocalizationResourceBundle( Properties props )
     {
@@ -72,12 +76,10 @@ public class LocalizationResourceBundle
         }
         catch ( UnsupportedEncodingException e )
         {
-            // Woha, this should not happen!
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error( "Parsing localized phrase: " + localizedPhrase + " failed", e );
             return null;
         }
     }
-
 }
 
 
