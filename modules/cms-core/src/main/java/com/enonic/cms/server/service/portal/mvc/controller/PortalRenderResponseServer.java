@@ -135,6 +135,8 @@ public class PortalRenderResponseServer
             }
         }
 
+        httpResponse.setContentType( response.getHttpContentType() );
+
         if ( isHeadRequest )
         {
             httpResponse.setContentLength( response.getContentAsBytes().length );
@@ -142,7 +144,6 @@ public class PortalRenderResponseServer
 
         if ( writeContent )
         {
-            httpResponse.setContentType( response.getHttpContentType() );
             writeContent( httpResponse, response.getContentAsBytes() );
         }
     }
