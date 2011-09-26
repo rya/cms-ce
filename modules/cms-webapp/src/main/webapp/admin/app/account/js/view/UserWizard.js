@@ -3,16 +3,14 @@ Ext.define('App.view.UserWizard', {
     alias : 'widget.userWizard',
 
 
-    layout: 'border',
+    layout: 'card',
     border: false,
     padding: 0,
 
     initComponent: function() {
         this.items = [
             {
-                region: 'center',
-                xtype: 'panel',
-                flex: 2
+                xtype: 'userStoreListPanel'
             }
         ];
         this.dockedItems = [
