@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
+import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
+
 public class TimeZoneXmlCreatorTest
     extends TestCase
 {
