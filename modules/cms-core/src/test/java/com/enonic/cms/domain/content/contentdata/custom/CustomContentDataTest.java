@@ -226,16 +226,6 @@ public class CustomContentDataTest
         ContentTypeConfig config = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, standardConfigEl );
 
         CustomContentData contentData = new CustomContentData( config );
-        // Test for B-01293
-//        try
-//        {
-//            contentData.add( new SelectorDataEntry( config.getInputConfig( "myRadiobutton" ), "Choice2" ) );
-//            fail( "Choice2 is not a valid choice for this radiobutton" );
-//        }
-//        catch ( Exception e )
-//        {
-//            // Just continue;
-//        }
         contentData.add( new SelectorDataEntry( config.getInputConfig( "myRadiobutton" ), "10" ) );
         SelectorDataEntry dataEntry = (SelectorDataEntry) contentData.getEntry( "myRadiobutton" );
         assertNotNull( dataEntry );

@@ -5,6 +5,7 @@
 package com.enonic.cms.domain.content.contenttype;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -139,8 +140,9 @@ public class InputConfigParser
         boolean required = parseInputReqiured( inputEl );
         String displayName = parseInputDisplayName( inputEl );
         String xpath = parseInputXpath( inputEl );
+        LinkedHashMap<String, String> optionValuesWithDescription = parseOptions( inputEl );
 
-        return new RadioButtonDataEntryConfig( inputName, required, displayName, xpath );
+        return new RadioButtonDataEntryConfig( inputName, required, displayName, xpath, optionValuesWithDescription );
     }
 
     private MultipleChoiceDataEntryConfig parseMultipleChoiceInputConfig( Element inputEl )
@@ -211,8 +213,9 @@ public class InputConfigParser
         boolean required = parseInputReqiured( inputEl );
         String displayName = parseInputDisplayName( inputEl );
         String xpath = parseInputXpath( inputEl );
+        LinkedHashMap<String, String> optionValuesWithDescription = parseOptions( inputEl );
 
-        return new DropdownDataEntryConfig( inputName, required, displayName, xpath );
+        return new DropdownDataEntryConfig( inputName, required, displayName, xpath, optionValuesWithDescription );
     }
 
     private DateDataEntryConfig parseDateInputConfig( Element inputEl )
@@ -397,6 +400,28 @@ public class InputConfigParser
             throw new InvalidContentTypeConfigException(
                 "Missing xpath element for input config '" + inputName + "' in position: " + inputConfigPosition );
         }
+    }
+
+    private LinkedHashMap<String, String> parseOptions( Element inputEl )
+    {
+        LinkedHashMap<String, String> options = new LinkedHashMap<String, String>();
+        Element optionsElement = inputEl.getChild( "options" );
+        if ( optionsElement != null )
+        {
+            List children = optionsElement.getChildren( "option" );
+            for ( Object child : children )
+            {
+                Element option = (Element) child;
+                Attribute valueAttribute = option.getAttribute( "value" );
+                if ( valueAttribute != null )
+                {
+                    String value = valueAttribute.getValue();
+                    String description = option.getText();
+                    options.put( value, description );
+                }
+            }
+        }
+        return options;
     }
 
     private boolean parseInputReqiured( Element inputEl )
