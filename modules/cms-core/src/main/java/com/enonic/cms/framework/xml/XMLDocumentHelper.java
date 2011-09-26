@@ -4,10 +4,8 @@
  */
 package com.enonic.cms.framework.xml;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -21,12 +19,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.jdom.Document;
 import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
 import org.jdom.output.DOMOutputter;
 import org.jdom.transform.JDOMResult;
 import org.jdom.transform.JDOMSource;
-import org.jvnet.fastinfoset.FastInfosetResult;
-
 import com.enonic.cms.framework.util.JDOMUtil;
 
 /**
@@ -115,45 +110,6 @@ public final class XMLDocumentHelper
         DOMResult result = new DOMResult();
         transform( source, result );
         return (org.w3c.dom.Document) result.getNode();
-    }
-
-    /**
-     * Convert to fast info set document.
-     */
-    public static Document convertToDocumentData( Document doc )
-            throws XMLException, JDOMException, IOException
-    {
-        return convertToDocumentData( new JDOMSource( doc ) );
-    }
-
-    /**
-     * Convert to fast info set document.
-     */
-    public static Document convertToDocumentData( org.w3c.dom.Document doc )
-            throws XMLException, JDOMException, IOException
-    {
-        return convertToDocumentData( new DOMSource( doc ) );
-    }
-
-    /**
-     * Convert to fast info set document.
-     */
-    public static Document convertToDocumentData( String doc )
-            throws XMLException, JDOMException, IOException
-    {
-        return convertToDocumentData( new StringSource( doc ) );
-    }
-
-    /**
-     * Convert to fast info set document.
-     */
-    private static Document convertToDocumentData( Source source )
-            throws XMLException, IOException, JDOMException
-    {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        FastInfosetResult result = new FastInfosetResult( out );
-        transform( source, result );
-        return new SAXBuilder().build(new StringReader(out.toString("UTF-8")));
     }
 
     /**

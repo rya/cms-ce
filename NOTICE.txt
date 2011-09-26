@@ -17,10 +17,6 @@ Apache Commons Libraries
   Apache License, Version 2.0
   http://www.apache.org/licenses/LICENSE-2.0
 
-Sun FastInfoSet
-  Apache License, Version 2.0
-  http://www.apache.org/licenses/LICENSE-2.0
-
 Joda Time
   Apache License, Version 2.0
   http://www.apache.org/licenses/LICENSE-2.0
