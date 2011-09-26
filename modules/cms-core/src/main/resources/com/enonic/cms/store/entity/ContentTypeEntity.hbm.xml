@@ -8,7 +8,7 @@
       <column name="CTY_LKEY"/>
       <generator class="assigned"/>
     </id>
-    <property name="data" type="com.enonic.cms.store.hibernate.type.XMLBytesUserType">
+    <property name="data" type="com.enonic.cms.store.hibernate.type.LazyInitializedJDOMDocumentUserType">
       <column name="CTY_MBDATA" length="1000000"/>
     </property>
     <property name="description" type="string">

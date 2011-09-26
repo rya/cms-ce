@@ -6,9 +6,8 @@ package com.enonic.cms.business.core.content;
 
 import java.util.Date;
 
+import org.jdom.Document;
 import org.joda.time.DateTime;
-
-import com.enonic.cms.framework.xml.XMLBytes;
 
 import com.enonic.cms.business.TableKeyGeneratorFixture;
 
@@ -147,7 +146,7 @@ public class DomainFactory
         return contentHandler;
     }
 
-    public ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
+    public ContentTypeEntity createContentType( String name, String contentHandlerClassName, Document data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
         contenType.setKey( tableKeyGeneratorFixture.nextKey2() );

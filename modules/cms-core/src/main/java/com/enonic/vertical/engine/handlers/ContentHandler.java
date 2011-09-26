@@ -1188,7 +1188,7 @@ public final class ContentHandler
 
             if ( entity.getData() != null )
             {
-                Document modDoc = entity.getData().getAsDOMDocument();
+                Document modDoc = XMLTool.domparse( XMLTool.documentToString( entity.getData() ) );
                 Element mdElem = modDoc.getDocumentElement();
 
                 if ( mdElem.getTagName().equals( "module" ) )

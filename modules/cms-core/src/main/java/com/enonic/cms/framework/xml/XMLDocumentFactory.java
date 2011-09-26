@@ -39,24 +39,6 @@ public final class XMLDocumentFactory
     /**
      * Create xml document based on string.
      */
-    public static XMLDocument create( XMLBytes doc )
-    {
-        return new XMLDocumentImpl( doc );
-    }
-
-    /**
-     * Create xml document based on string.
-     */
-    public static XMLDocument create( XMLBytes doc, String systemId )
-    {
-        XMLDocument xml = create( doc );
-        xml.setSystemId( systemId );
-        return xml;
-    }
-
-    /**
-     * Create xml document based on string.
-     */
     public static XMLDocument create( Reader input )
         throws XMLException
     {

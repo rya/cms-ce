@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.framework.xml;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
@@ -21,11 +21,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.jdom.Document;
 import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.jdom.output.DOMOutputter;
 import org.jdom.transform.JDOMResult;
 import org.jdom.transform.JDOMSource;
 import org.jvnet.fastinfoset.FastInfosetResult;
-import org.jvnet.fastinfoset.FastInfosetSource;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
@@ -43,15 +43,6 @@ public final class XMLDocumentHelper
      * Transformer factory.
      */
     private final static TransformerFactory TRANSFORMER_FACTORY = TransformerFactory.newInstance();
-
-    /**
-     * Convert to jdom document.
-     */
-    public static Document convertToJDOMDocument( XMLBytes doc )
-        throws XMLException
-    {
-        return convertToJDOMDocument( new FastInfosetSource( new ByteArrayInputStream( doc.getData() ) ) );
-    }
 
     /**
      * Convert to jdom document.
@@ -87,15 +78,6 @@ public final class XMLDocumentHelper
         JDOMResult result = new JDOMResult();
         transform( source, result );
         return result.getDocument();
-    }
-
-    /**
-     * Convert to jdom document.
-     */
-    public static org.w3c.dom.Document convertToW3CDocument( XMLBytes doc )
-        throws XMLException
-    {
-        return convertToW3CDocument( new FastInfosetSource( new ByteArrayInputStream( doc.getData() ) ) );
     }
 
     /**
@@ -138,8 +120,8 @@ public final class XMLDocumentHelper
     /**
      * Convert to fast info set document.
      */
-    public static XMLBytes convertToDocumentData( Document doc )
-        throws XMLException
+    public static Document convertToDocumentData( Document doc )
+            throws XMLException, JDOMException, IOException
     {
         return convertToDocumentData( new JDOMSource( doc ) );
     }
@@ -147,8 +129,8 @@ public final class XMLDocumentHelper
     /**
      * Convert to fast info set document.
      */
-    public static XMLBytes convertToDocumentData( org.w3c.dom.Document doc )
-        throws XMLException
+    public static Document convertToDocumentData( org.w3c.dom.Document doc )
+            throws XMLException, JDOMException, IOException
     {
         return convertToDocumentData( new DOMSource( doc ) );
     }
@@ -156,8 +138,8 @@ public final class XMLDocumentHelper
     /**
      * Convert to fast info set document.
      */
-    public static XMLBytes convertToDocumentData( String doc )
-        throws XMLException
+    public static Document convertToDocumentData( String doc )
+            throws XMLException, JDOMException, IOException
     {
         return convertToDocumentData( new StringSource( doc ) );
     }
@@ -165,22 +147,13 @@ public final class XMLDocumentHelper
     /**
      * Convert to fast info set document.
      */
-    private static XMLBytes convertToDocumentData( Source source )
-        throws XMLException
+    private static Document convertToDocumentData( Source source )
+            throws XMLException, IOException, JDOMException
     {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         FastInfosetResult result = new FastInfosetResult( out );
         transform( source, result );
-        return new XMLBytes( out.toByteArray() );
-    }
-
-    /**
-     * Convert to data document.
-     */
-    public static String convertToString( XMLBytes doc )
-        throws XMLException
-    {
-        return convertToString( new FastInfosetSource( new ByteArrayInputStream( doc.getData() ) ) );
+        return new SAXBuilder().build(new StringReader(out.toString("UTF-8")));
     }
 
     /**

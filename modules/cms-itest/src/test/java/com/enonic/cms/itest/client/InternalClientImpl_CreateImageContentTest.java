@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.CreateImageContentParams;
@@ -70,7 +69,7 @@ public class InternalClientImpl_CreateImageContentTest
         new byte[]{66, 77, 58, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0, 0, 40, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, 0, 0, 0, 0, 0, 4, 0, 0, 0,
             -60, 14, 0, 0, -60, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -22, -18, -23, 0};
 
-    private XMLBytes contentTypeConfig;
+    private Document contentTypeConfig;
 
     @Before
     public void before()
@@ -82,7 +81,7 @@ public class InternalClientImpl_CreateImageContentTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsBytes();
+        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsJDOMDocument();
 
         hibernateTemplate.flush();
 

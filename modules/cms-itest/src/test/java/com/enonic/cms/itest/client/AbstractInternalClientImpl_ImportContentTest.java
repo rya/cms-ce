@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ImportContentsParams;
@@ -71,7 +69,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         fixture.flushAndClearHibernateSesssion();
     }
 
-    protected void setupImport( final XMLBytes config )
+    protected void setupImport( final Document config )
     {
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
         fixture.createAndStoreUserAndUserGroup( "testuser2", "testuser2 fullname", UserType.NORMAL, "testuserstore" );
@@ -199,7 +197,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         hibernateTemplate.clear();
     }
 
-    private XMLBytes getConfigImage()
+    private Document getConfigImage()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -212,10 +210,10 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes getConfigRelatedContent()
+    private Document getConfigRelatedContent()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -234,7 +232,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
     protected boolean contentKeyExistInContentCollection( Collection<ContentEntity> contents, ContentKey key )

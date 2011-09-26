@@ -5,6 +5,7 @@
 package com.enonic.cms.framework.xml;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,6 +14,9 @@ import java.io.StringReader;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 import org.xml.sax.InputSource;
 
 import com.sun.xml.fastinfoset.sax.SAXDocumentSerializer;
@@ -61,20 +65,21 @@ public final class XMLDocumentParser
     /**
      * Parse document and return the fast infoset byte array.
      */
-    public XMLBytes parseDocument( String doc )
-        throws XMLException
+    public Document parseDocument( String doc )
+            throws XMLException, IOException, JDOMException
     {
         InputSource source = new InputSource();
         source.setCharacterStream( new StringReader( doc ) );
         byte[] byteData = internalParseDocument( source );
-        return new XMLBytes( byteData );
+        org.jdom.Document jdoc = new SAXBuilder().build(new StringReader(new String(byteData, "UTF-8")));
+        return jdoc;
     }
 
     /**
      * Parse document and return the fast infoset byte array.
      */
-    public XMLBytes parseDocument( Reader input )
-        throws XMLException
+    public Document parseDocument( Reader input )
+            throws XMLException, JDOMException, IOException
     {
         return parseDocument( XMLDocumentHelper.copyToString( input ) );
     }
@@ -82,8 +87,8 @@ public final class XMLDocumentParser
     /**
      * Parse document and return the fast infoset byte array.
      */
-    public XMLBytes parseDocument( InputStream input )
-        throws XMLException
+    public Document parseDocument( InputStream input )
+            throws XMLException, JDOMException, IOException
     {
         return parseDocument( new InputStreamReader( input ) );
     }

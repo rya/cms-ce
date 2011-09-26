@@ -18,7 +18,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -94,7 +93,7 @@ public class DatasourceServiceImpl_getContentTest
     @Autowired
     private UserDao userDao;
 
-    private XMLBytes personConfigAsXmlBytes;
+    private Document personConfigAsXmlBytes;
 
     private MockHttpServletRequest httpRequest;
 
@@ -124,7 +123,7 @@ public class DatasourceServiceImpl_getContentTest
         ctyconf.addRelatedContentInput( "my-relatedcontent", "contentdata/my-relatedcontent", "My relatedcontent", false, false );
         ctyconf.addRelatedContentInput( "my-relatedcontents", "contentdata/my-relatedcontents", "My relatedcontents", false, true );
         ctyconf.endBlock();
-        personConfigAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        personConfigAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
 
         fixture.save(
             factory.createContentType( "MyPersonType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), personConfigAsXmlBytes ) );
@@ -140,7 +139,7 @@ public class DatasourceServiceImpl_getContentTest
         ctyconfMyRelated.addInput( "title", "text", "contentdata/title", "Title", true );
         ctyconfMyRelated.addRelatedContentInput( "myRelatedContent", "contentdata/myRelatedContent", "My related content", false, true );
         ctyconfMyRelated.endBlock();
-        XMLBytes myRelatedconfigAsXmlBytes = XMLDocumentFactory.create( ctyconfMyRelated.toString() ).getAsBytes();
+        Document myRelatedconfigAsXmlBytes = XMLDocumentFactory.create( ctyconfMyRelated.toString() ).getAsJDOMDocument();
 
         fixture.save(
             factory.createContentType( "MyRelatedType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), myRelatedconfigAsXmlBytes ) );

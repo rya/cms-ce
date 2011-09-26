@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.domain.content.contentdata.custom;
 
+import org.jdom.Document;
 import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.domain.content.ContentHandlerEntity;
@@ -387,7 +387,7 @@ public class BlockGroupDataEntriesModifierTest
         return groupDataEntry;
     }
 
-    private XMLBytes createPersonContentTypeXml()
+    private Document createPersonContentTypeXml()
     {
         StringBuffer xml = new StringBuffer();
         xml.append( "<moduledata>" );
@@ -428,10 +428,10 @@ public class BlockGroupDataEntriesModifierTest
 
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
-        return XMLDocumentFactory.create( xml.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( xml.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes createNumbersContentTypeXml()
+    private Document createNumbersContentTypeXml()
     {
         StringBuffer xml = new StringBuffer();
         xml.append( "<moduledata>" );
@@ -461,6 +461,6 @@ public class BlockGroupDataEntriesModifierTest
 
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
-        return XMLDocumentFactory.create( xml.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( xml.toString() ).getAsJDOMDocument();
     }
 }

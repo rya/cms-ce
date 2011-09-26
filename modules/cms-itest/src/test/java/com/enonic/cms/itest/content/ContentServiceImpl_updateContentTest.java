@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -22,7 +23,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -77,7 +77,7 @@ public class ContentServiceImpl_updateContentTest
 
     private Element standardConfigEl;
 
-    private XMLBytes standardConfig;
+    private Document standardConfig;
 
     @Before
     public void setUp()
@@ -114,7 +114,7 @@ public class ContentServiceImpl_updateContentTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsJDOMDocument();
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );

@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.ClientException;
@@ -60,7 +59,7 @@ public class InternalClientImpl_getBinaryTest
     @Autowired
     private InternalClient internalClient;
 
-    private XMLBytes contentTypeConfig;
+    private Document contentTypeConfig;
 
     @Before
     public void before()
@@ -72,7 +71,7 @@ public class InternalClientImpl_getBinaryTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsBytes();
+        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsJDOMDocument();
 
         fixture.flushAndClearHibernateSesssion();
 

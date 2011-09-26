@@ -20,7 +20,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -57,7 +56,7 @@ public class ContentServiceImpl_relatedcontentTest
 {
     private Element configEl;
 
-    private XMLBytes config;
+    private Document config;
 
     @Before
     public void before()
@@ -96,7 +95,7 @@ public class ContentServiceImpl_relatedcontentTest
         configXml.append( "     </form>" );
         configXml.append( "</config>" );
         configEl = JDOMUtil.parseDocument( configXml.toString() ).getRootElement();
-        config = XMLDocumentFactory.create( configXml.toString() ).getAsBytes();
+        config = XMLDocumentFactory.create( configXml.toString() ).getAsJDOMDocument();
 
         initSystemData();
 

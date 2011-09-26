@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.domain.content.contentdata.custom;
 
+import org.jdom.Document;
 import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.domain.content.ContentHandlerEntity;
@@ -381,11 +381,11 @@ public class CustomContentDataModifierTest
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
         ctyconf.addInput( "htmlarea", "htmlarea", "contentdata/htmlarea", "Htmlarea", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsJDOMDocument = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
 
         ContentTypeEntity contentType = new ContentTypeEntity();
         contentType.setHandler( contentHandler );
-        contentType.setData( configAsXmlBytes );
+        contentType.setData( configAsJDOMDocument );
         config = contentType.getContentTypeConfig();
 
         CustomContentData existingContentData = new CustomContentData( config );
@@ -409,7 +409,7 @@ public class CustomContentDataModifierTest
         assertEquals( newContentData, modifiedContentData );
     }
 
-    private XMLBytes createPersonContentTypeXml()
+    private Document createPersonContentTypeXml()
     {
         StringBuffer xml = new StringBuffer();
         xml.append( "<moduledata>" );
@@ -450,6 +450,6 @@ public class CustomContentDataModifierTest
 
         xml.append( "</config>" );
         xml.append( "</moduledata>" );
-        return XMLDocumentFactory.create( xml.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( xml.toString() ).getAsJDOMDocument();
     }
 }

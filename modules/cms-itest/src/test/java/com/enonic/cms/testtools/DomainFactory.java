@@ -11,7 +11,6 @@ import org.joda.time.DateTime;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
-import com.enonic.cms.framework.xml.XMLBytes;
 
 import com.enonic.cms.itest.MockKeyService;
 
@@ -188,7 +187,7 @@ public class DomainFactory
         return createContentType( name, contentHandlerClassName, null );
     }
 
-    public ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
+    public ContentTypeEntity createContentType( String name, String contentHandlerClassName, Document data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
         contenType.setKey( mockKeyService.generateNextKeySafe( "TCONTENTTYPE" ) );

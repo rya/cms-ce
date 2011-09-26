@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import junitx.framework.Assert;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -40,7 +39,6 @@ public class JDOMUtilTest
         Assert.assertNotNull( cdata );
         Assert.assertEquals( "<p>jalla</p>", cdata.getText() );
 
-        XMLBytes xmlBytes = xmlDoc.getAsBytes();
-        LOG.info( new String( xmlBytes.getData(), "UTF-8" ) );
+        LOG.info( new String( xmlDoc.getAsString().getBytes(), "UTF-8" ) );
     }
 }

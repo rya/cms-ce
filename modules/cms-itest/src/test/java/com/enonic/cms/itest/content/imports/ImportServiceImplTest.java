@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -97,7 +96,7 @@ public class ImportServiceImplTest
 
         fixture.save( factory.createContentHandler( "MyHandler", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.save( factory.createContentType( "PersonCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
-                                                 XMLDocumentFactory.create( personContentTypeXml ).getAsBytes() ) );
+                                                 XMLDocumentFactory.create( personContentTypeXml ).getAsJDOMDocument() ) );
         fixture.save( factory.createUnit( "MyUnit" ) );
         fixture.save( factory.createCategory( "Persons", "PersonCty", "MyUnit", "testuser", "testuser" ) );
         fixture.save( factory.createCategoryAccessForUser( "Persons", "testuser", "read, create, approve" ) );
@@ -317,7 +316,7 @@ public class ImportServiceImplTest
         dateCtyConfig.addInput( "date", "date", "contentdata/date", "Date", true );
         dateCtyConfig.endBlock();
         dateCtyConfig.addIndexParameter( "date" );
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( dateCtyConfig.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( dateCtyConfig.toString() ).getAsJDOMDocument();
         fixture.save( factory.createContentType( "DateCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
         fixture.save( factory.createUnit( "DatesUnit" ) );
         fixture.save( factory.createCategory( "Dates", "DateCty", "DatesUnit", "testuser", "testuser" ) );
@@ -2156,7 +2155,7 @@ public class ImportServiceImplTest
     private void updateContentType( String contentTypeName, String contentTypeXml )
     {
         ContentTypeEntity contentType = fixture.findContentTypeByName( contentTypeName );
-        contentType.setData( XMLDocumentFactory.create( contentTypeXml ).getAsBytes() );
+        contentType.setData( XMLDocumentFactory.create( contentTypeXml ).getAsJDOMDocument() );
         fixture.flushAndClearHibernateSesssion();
     }
 

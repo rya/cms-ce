@@ -6,7 +6,8 @@ package com.enonic.cms.domain.resource;
 
 import java.io.InputStream;
 
-import com.enonic.cms.framework.xml.XMLBytes;
+import org.jdom.Document;
+
 import com.enonic.cms.framework.xml.XMLDocument;
 
 public interface ResourceFile
@@ -18,8 +19,6 @@ public interface ResourceFile
 
     XMLDocument getDataAsXml();
 
-    XMLBytes getDataAsXmlBytes();
-
     String getDataAsString();
 
     byte[] getDataAsByteArray();
@@ -28,7 +27,7 @@ public interface ResourceFile
 
     void setData( XMLDocument data );
 
-    void setData( XMLBytes data );
+    void setData( Document data );
 
     void setData( String data );
 

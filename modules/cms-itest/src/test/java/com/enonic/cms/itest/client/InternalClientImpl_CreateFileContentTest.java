@@ -21,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.CreateFileContentParams;
@@ -70,7 +69,7 @@ public class InternalClientImpl_CreateFileContentTest
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
 
-    private XMLBytes contentTypeConfig;
+    private Document contentTypeConfig;
 
     @Before
     public void before()
@@ -82,7 +81,7 @@ public class InternalClientImpl_CreateFileContentTest
 
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsBytes();
+        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsJDOMDocument();
 
         hibernateTemplate.flush();
 

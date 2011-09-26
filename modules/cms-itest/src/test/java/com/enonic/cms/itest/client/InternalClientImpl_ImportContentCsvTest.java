@@ -19,7 +19,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ImportContentsParams;
@@ -531,17 +530,17 @@ public class InternalClientImpl_ImportContentCsvTest
         return builder.toString();
     }
 
-    private XMLBytes getConfigForStringBasedCSVImport()
+    private Document getConfigForStringBasedCSVImport()
     {
         return doGetConfigForStringBasedCSVImport( 2 );
     }
 
-    private XMLBytes getConfigForStringBasedCSVImport_Draft()
+    private Document getConfigForStringBasedCSVImport_Draft()
     {
         return doGetConfigForStringBasedCSVImport( 0 );
     }
 
-    private XMLBytes doGetConfigForStringBasedCSVImport( int status )
+    private Document doGetConfigForStringBasedCSVImport( int status )
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -599,10 +598,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes getConfigForStringBasedCSVImportWithPublishFromAndToFromImportData()
+    private Document getConfigForStringBasedCSVImportWithPublishFromAndToFromImportData()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -644,10 +643,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes getConfigForContentKeyBasedCSVImport()
+    private Document getConfigForContentKeyBasedCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -693,10 +692,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes getConfigForCustomRelatedContentCSVImport()
+    private Document getConfigForCustomRelatedContentCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -727,10 +726,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes getConfigForImageRelatedContentCSVImport()
+    private Document getConfigForImageRelatedContentCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -761,10 +760,10 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 
-    private XMLBytes getConfigForMiscCSVImport()
+    private Document getConfigForMiscCSVImport()
     {
         final StringBuffer config = new StringBuffer();
         config.append( "<contenttype>" );
@@ -804,6 +803,6 @@ public class InternalClientImpl_ImportContentCsvTest
         config.append( "    <index xpath=\"contentdata/name\"/>" );
         config.append( "  </indexparameters>" );
         config.append( "</contenttype>" );
-        return XMLDocumentFactory.create( config.toString() ).getAsBytes();
+        return XMLDocumentFactory.create( config.toString() ).getAsJDOMDocument();
     }
 }

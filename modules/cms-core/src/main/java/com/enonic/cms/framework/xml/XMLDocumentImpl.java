@@ -22,11 +22,6 @@ public final class XMLDocumentImpl
     private String systemId;
 
     /**
-     * Fast infoset byte array.
-     */
-    private XMLBytes bytesDocument;
-
-    /**
      * JDOM document.
      */
     private Document jdomDocument;
@@ -40,14 +35,6 @@ public final class XMLDocumentImpl
      * String document.
      */
     private String stringDocument;
-
-    /**
-     * Construct the xml document.
-     */
-    public XMLDocumentImpl( XMLBytes bytesDocument )
-    {
-        this.bytesDocument = bytesDocument;
-    }
 
     /**
      * Construct the xml document.
@@ -100,16 +87,6 @@ public final class XMLDocumentImpl
     }
 
     /**
-     * Return the xml as text.
-     */
-    public XMLBytes getAsBytes()
-        throws XMLException
-    {
-        ensureBytesDocument();
-        return this.bytesDocument;
-    }
-
-    /**
      * Return as W3C dom document.
      */
     public org.w3c.dom.Document getAsDOMDocument()
@@ -139,16 +116,9 @@ public final class XMLDocumentImpl
         {
             return getAsStringSource();
         }
-        else if ( this.jdomDocument != null )
-        {
-            return getAsJDOMSource();
-        }
         else
         {
-            ensureBytesDocument();
-            Source source = this.bytesDocument.getAsSource();
-            source.setSystemId( this.systemId );
-            return source;
+            return getAsJDOMSource();
         }
     }
 
@@ -193,11 +163,7 @@ public final class XMLDocumentImpl
     {
         if ( this.stringDocument == null )
         {
-            if ( this.bytesDocument != null )
-            {
-                this.stringDocument = XMLDocumentHelper.convertToString( this.bytesDocument );
-            }
-            else if ( this.jdomDocument != null )
+            if ( this.jdomDocument != null )
             {
                 this.stringDocument = XMLDocumentHelper.convertToString( this.jdomDocument );
             }
@@ -216,11 +182,7 @@ public final class XMLDocumentImpl
     {
         if ( this.jdomDocument == null )
         {
-            if ( this.bytesDocument != null )
-            {
-                this.jdomDocument = XMLDocumentHelper.convertToJDOMDocument( this.bytesDocument );
-            }
-            else if ( this.w3cDocument != null )
+            if ( this.w3cDocument != null )
             {
                 this.jdomDocument = XMLDocumentHelper.convertToJDOMDocument( this.w3cDocument );
             }
@@ -239,40 +201,13 @@ public final class XMLDocumentImpl
     {
         if ( this.w3cDocument == null )
         {
-            if ( this.bytesDocument != null )
-            {
-                this.w3cDocument = XMLDocumentHelper.convertToW3CDocument( this.bytesDocument );
-            }
-            else if ( this.jdomDocument != null )
+            if ( this.jdomDocument != null )
             {
                 this.w3cDocument = XMLDocumentHelper.convertToW3CDocument( this.jdomDocument );
             }
             else if ( this.stringDocument != null )
             {
                 this.w3cDocument = XMLDocumentHelper.convertToW3CDocument( this.stringDocument );
-            }
-        }
-    }
-
-    /**
-     * Ensure document data.
-     */
-    private void ensureBytesDocument()
-        throws XMLException
-    {
-        if ( this.bytesDocument == null )
-        {
-            if ( this.jdomDocument != null )
-            {
-                this.bytesDocument = XMLDocumentHelper.convertToDocumentData( this.jdomDocument );
-            }
-            else if ( this.w3cDocument != null )
-            {
-                this.bytesDocument = XMLDocumentHelper.convertToDocumentData( this.w3cDocument );
-            }
-            else if ( this.stringDocument != null )
-            {
-                this.bytesDocument = XMLDocumentHelper.convertToDocumentData( this.stringDocument );
             }
         }
     }
