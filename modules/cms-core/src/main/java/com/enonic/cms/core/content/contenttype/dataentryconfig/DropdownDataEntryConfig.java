@@ -5,11 +5,14 @@
 package com.enonic.cms.core.content.contenttype.dataentryconfig;
 
 
+import java.util.LinkedHashMap;
+
 public class DropdownDataEntryConfig
-    extends AbstractBaseDataEntryConfig
+    extends SelectorDataEntryConfig
 {
-    public DropdownDataEntryConfig( String name, boolean required, String displayName, String xpath )
+    public DropdownDataEntryConfig( String name, boolean required, String displayName, String xpath,
+                                    LinkedHashMap<String, String> optionValuesWithDescriptions )
     {
-        super( name, required, DataEntryConfigType.DROPDOWN, displayName, xpath );
+        super( name, required, DataEntryConfigType.DROPDOWN, displayName, xpath, optionValuesWithDescriptions );
     }
 }
