@@ -50,19 +50,9 @@ public class ResolverContext
         return request;
     }
 
-    public void setRequest( HttpServletRequest request )
-    {
-        this.request = request;
-    }
-
     public SiteEntity getSite()
     {
         return site;
-    }
-
-    public void setSite( SiteEntity site )
-    {
-        this.site = site;
     }
 
     public MenuItemEntity getMenuItem()
@@ -70,19 +60,9 @@ public class ResolverContext
         return menuItem;
     }
 
-    public void setMenuItem( MenuItemEntity menuItem )
-    {
-        this.menuItem = menuItem;
-    }
-
     public LanguageEntity getLanguage()
     {
         return language;
-    }
-
-    public void setLanguage( LanguageEntity language )
-    {
-        this.language = language;
     }
 
     public UserEntity getUser()

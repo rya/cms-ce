@@ -8,8 +8,12 @@ import java.util.Locale;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.enonic.cms.core.resolver.BaseResolverTest;
+import com.enonic.cms.core.resolver.ForceResolverValueService;
+import com.enonic.cms.core.resolver.ForceResolverValueServiceImpl;
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.resolver.ResolverContext;
 
 import com.enonic.cms.domain.LanguageEntity;
@@ -19,9 +23,6 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by rmy - Date: Apr 28, 2009
- */
 public class LocaleResolverServiceImplTest
     extends BaseResolverTest
 {
@@ -91,6 +92,48 @@ public class LocaleResolverServiceImplTest
         Locale locale = localeResolverService.getLocale( context );
         assertEquals( "Should use menuItem language since contenLanguage doesnt contain code", "en", locale.getLanguage() );
     }
+
+    @Test
+    public void testForceLocaleTemporary()
+    {
+        SiteEntity site = createSite( "no", true );
+        ResolverContext context = new ResolverContext( request, site, createMenuItem( "en" ), new LanguageEntity() );
+
+        MockHttpServletResponse mockResponse = new MockHttpServletResponse();
+
+        ForceResolverValueService forceResolverValueService = new ForceResolverValueServiceImpl();
+
+        localeResolverService.setForceResolverValueService( forceResolverValueService );
+
+        final String testLocale = "xx";
+        localeResolverService.setForcedLocale( context, mockResponse, ForcedResolverValueLifetimeSettings.session, testLocale );
+
+        Locale locale = localeResolverService.getLocale( context );
+        assertEquals( testLocale, locale.toString() );
+
+        localeResolverService.resetLocale( context, response );
+
+        locale = localeResolverService.getLocale( context );
+        assertEquals( "en", locale.toString() );
+    }
+
+    @Test
+    public void testForceLocalePermanent()
+    {
+        SiteEntity site = createSite( "no", true );
+
+        ResolverContext context = new ResolverContext( request, site, createMenuItem( "en" ), new LanguageEntity() );
+
+        ForceResolverValueService forceResolverValueService = new ForceResolverValueServiceImpl();
+
+        localeResolverService.setForceResolverValueService( forceResolverValueService );
+
+        final String testLocale = "xx";
+        localeResolverService.setForcedLocale( context, response, ForcedResolverValueLifetimeSettings.permanent, testLocale );
+
+        assertEquals( testLocale, response.getCookie( localeResolverService.createForcedValueKey( site ) ).getValue() );
+    }
+
 
     private MenuItemEntity createMenuItem( String languageCode )
     {

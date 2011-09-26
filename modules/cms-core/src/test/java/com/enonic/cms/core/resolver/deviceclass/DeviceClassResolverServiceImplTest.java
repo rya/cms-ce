@@ -6,19 +6,16 @@ package com.enonic.cms.core.resolver.deviceclass;
 
 import java.util.Calendar;
 
-import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl;
-import com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.enonic.cms.core.resolver.BaseResolverTest;
 import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 import com.enonic.cms.core.resolver.ScriptResolverService;
 
 import com.enonic.cms.domain.SiteKey;
-
-import com.enonic.cms.core.resolver.ScriptResolverResult;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.structure.SiteEntity;
@@ -104,6 +101,23 @@ public class DeviceClassResolverServiceImplTest
         String deviceClass = deviceClassResolverService.getDeviceClass( context );
 
         assertEquals( null, deviceClass );
+    }
+
+    @Test
+    public void testDefaultDeviceClass()
+    {
+        setUpGetResourceFileMock( true, true );
+
+        expect( deviceClassResolverServiceMock.resolveValue( isA( ResolverContext.class ), isA( ResourceFile.class ) ) ).andReturn(
+            createScriptResolverReturnValue( "" ) ).times( 1 );
+        replay( deviceClassResolverServiceMock );
+
+        SiteEntity site = createSite( true );
+        ResolverContext context = new ResolverContext( request, site );
+        String deviceClass = deviceClassResolverService.getDeviceClass( context );
+
+        assertEquals( DeviceClassResolverServiceImpl.DEFAULT_DEVICE_CLASS, deviceClass );
+
     }
 
     @After

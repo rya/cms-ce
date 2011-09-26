@@ -14,13 +14,7 @@ public class ScriptResolverResult
 {
     private final static String REDIRECT_RETURN_VALUE_KEY = "resolverRedirectValue";
 
-
     protected Map<String, Object> resolverReturnValues = new HashMap<String, Object>();
-
-    public String getRedirectUrl()
-    {
-        return (String) resolverReturnValues.get( REDIRECT_RETURN_VALUE_KEY );
-    }
 
     public Map<String, Object> getResolverReturnValues()
     {

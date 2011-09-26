@@ -6,14 +6,15 @@ package com.enonic.cms.core.resolver.locale;
 
 import java.util.Locale;
 
-/**
- * Created by rmy - Date: Sep 15, 2009
- */
-public class LocaleParser
+import com.google.common.base.Preconditions;
+
+public abstract class LocaleParser
 {
 
     public static Locale parseLocale( final String value )
     {
+        Preconditions.checkArgument( value != null, "locale string cannot be null" );
+
         String normalized = supportBothUnderscoreAndDash( value );
 
         final String[] parts = normalized.split( "_" );

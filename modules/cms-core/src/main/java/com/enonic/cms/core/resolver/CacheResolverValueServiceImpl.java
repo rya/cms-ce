@@ -35,7 +35,7 @@ public class CacheResolverValueServiceImpl
         return true;
     }
 
-    protected void removeSessionAttribute( HttpServletRequest request, String toBeRemoved )
+    private void removeSessionAttribute( HttpServletRequest request, String toBeRemoved )
     {
         Enumeration attributeNames = request.getSession().getAttributeNames();
 
