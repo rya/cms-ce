@@ -30,12 +30,6 @@ public interface XMLDocument
         throws XMLException;
 
     /**
-     * Return the xml as text.
-     */
-    public XMLBytes getAsBytes()
-        throws XMLException;
-
-    /**
      * Return as W3C dom document.
      */
     public org.w3c.dom.Document getAsDOMDocument()

@@ -8,8 +8,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.jdom.Document;
 
-import com.enonic.cms.framework.xml.XMLBytes;
+import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
 public class ContentHandlerEntity
     implements Serializable
@@ -22,7 +23,7 @@ public class ContentHandlerEntity
 
     private String description;
 
-    private XMLBytes xmlConfig;
+    private LazyInitializedJDOMDocument xmlConfig;
 
     private Date timestamp;
 
@@ -46,9 +47,9 @@ public class ContentHandlerEntity
         return description;
     }
 
-    public XMLBytes getXmlConfig()
+    public Document getXmlConfig()
     {
-        return xmlConfig;
+        return xmlConfig != null ? xmlConfig.getDocument() : null;
     }
 
     public Date getTimestamp()
@@ -76,9 +77,9 @@ public class ContentHandlerEntity
         this.description = description;
     }
 
-    public void setXmlConfig( XMLBytes xmlConfig )
+    public void setXmlConfig( Document xmlConfig )
     {
-        this.xmlConfig = xmlConfig;
+        this.xmlConfig = LazyInitializedJDOMDocument.parse(xmlConfig);
     }
 
     public void setTimestamp( Date timestamp )

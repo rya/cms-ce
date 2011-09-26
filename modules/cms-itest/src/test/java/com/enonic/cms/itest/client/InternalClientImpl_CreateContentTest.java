@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Set;
 
+import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.CreateContentParams;
@@ -69,7 +69,7 @@ public class InternalClientImpl_CreateContentTest
     @Autowired
     private InternalClient internalClient;
 
-    private XMLBytes standardConfig;
+    private Document standardConfig;
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
 
@@ -102,7 +102,7 @@ public class InternalClientImpl_CreateContentTest
         standardConfigXml.append( "         </block>" );
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsJDOMDocument();
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );
@@ -178,7 +178,7 @@ public class InternalClientImpl_CreateContentTest
         ctyconf.addInput( "laerer-navn", "text", "navn", "Navn" );
         ctyconf.addInput( "laerer-karakter", "text", "karakter", "Karakter" );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save( factory.createContentType( "Skole", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.save( factory.createUnit( "MyUnit", "en" ) );

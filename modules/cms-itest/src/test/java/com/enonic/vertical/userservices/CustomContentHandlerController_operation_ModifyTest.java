@@ -6,6 +6,7 @@ package com.enonic.vertical.userservices;
 
 import java.rmi.RemoteException;
 
+import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.esl.containers.ExtendedMap;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -136,7 +136,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "myTitle", "text", "contentdata/mytitle", "Mandantory", true );
         ctyconf.addInput( "myCheckbox", "checkbox", "contentdata/mycheckbox", "My checkbox", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save(
             factory.createContentType( "MyContentType1", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -185,7 +185,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "myTitle", "text", "contentdata/mytitle", "Mandantory", true );
         ctyconf.addInput( "myIncludedCheckbox", "checkbox", "contentdata/myincludedcheckbox", "My checkbox to change", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save(
             factory.createContentType( "MyContentType2", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -243,7 +243,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "toalsochangetoblank", "text", "contentdata/toalsochangetoblank", "To also be changed to blank", false );
         ctyconf.addInput( "unchanged", "text", "contentdata/unchanged", "Should not be changed", false );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save(
             factory.createContentType( "MyContentType3", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -312,7 +312,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "phone_number", "text", "number", "Number", false );
         ctyconf.endBlock();
 
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save(
             factory.createContentType( "PersonContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -386,7 +386,7 @@ public class CustomContentHandlerController_operation_ModifyTest
         ctyconf.addInput( "phone_number", "text", "number", "Number", false );
         ctyconf.endBlock();
 
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save(
             factory.createContentType( "PersonContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
@@ -577,7 +577,7 @@ public class CustomContentHandlerController_operation_ModifyTest
 
     private void createAndSaveContentTypeAndCategory( String contentTypeName, String categoryName, ContentTypeConfigBuilder ctyconf )
     {
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save(
             factory.createContentType( contentTypeName, ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 

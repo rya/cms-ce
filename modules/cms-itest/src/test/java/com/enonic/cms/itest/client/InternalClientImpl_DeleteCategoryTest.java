@@ -2,6 +2,7 @@ package com.enonic.cms.itest.client;
 
 import java.io.IOException;
 
+import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.ClientException;
@@ -51,7 +51,7 @@ public class InternalClientImpl_DeleteCategoryTest
     @Autowired
     private InternalClient internalClient;
 
-    private XMLBytes contentTypeConfig;
+    private Document contentTypeConfig;
 
     @Autowired
     private HibernateTemplate hibernateTemplate;
@@ -77,7 +77,7 @@ public class InternalClientImpl_DeleteCategoryTest
         //prepare data for content creation
         StringBuffer contentTypeConfigXml = new StringBuffer();
         contentTypeConfigXml.append( "<moduledata/>" );
-        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsBytes();
+        contentTypeConfig = XMLDocumentFactory.create( contentTypeConfigXml.toString() ).getAsJDOMDocument();
         hibernateTemplate.flush();
 
         fixture.save( factory.createContentHandler( "MyHandler", ContentHandlerName.FILE.getHandlerClassShortName() ) );

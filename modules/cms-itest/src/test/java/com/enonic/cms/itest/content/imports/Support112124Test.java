@@ -75,9 +75,9 @@ public class Support112124Test
                 factory.createContentHandler( "MyHandler", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         fixture.save( factory.createContentType( "kontaktCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
-                                                 XMLDocumentFactory.create( kontaktContentTypeXml ).getAsBytes() ) );
+                                                 XMLDocumentFactory.create( kontaktContentTypeXml ).getAsJDOMDocument() ) );
         fixture.save( factory.createContentType( "statistikkCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
-                                                 XMLDocumentFactory.create( statistikkContentTypeXml ).getAsBytes() ) );
+                                                 XMLDocumentFactory.create( statistikkContentTypeXml ).getAsJDOMDocument() ) );
 
         fixture.save( factory.createUnit( "MyUnit" ) );
         fixture.save( factory.createCategory( "Kontakt", "kontaktCty", "MyUnit", "testuser", "testuser" ) );

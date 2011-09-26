@@ -25,7 +25,6 @@ import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
@@ -110,7 +109,7 @@ public class InternalClientImpl_getRelatedContentTest
         personCtyConf.startBlock( "Person" );
         personCtyConf.addInput( "name", "text", "contentdata/name", "Name", true );
         personCtyConf.endBlock();
-        XMLBytes personConfigAsXmlBytes = XMLDocumentFactory.create( personCtyConf.toString() ).getAsBytes();
+        Document personConfigAsXmlBytes = XMLDocumentFactory.create( personCtyConf.toString() ).getAsJDOMDocument();
         fixture.save( factory.createContentType( "Person", ContentHandlerName.CUSTOM.getHandlerClassShortName(), personConfigAsXmlBytes ) );
 
         ContentTypeConfigBuilder deptCtyConf = new ContentTypeConfigBuilder( "Department", "name" );
@@ -118,7 +117,7 @@ public class InternalClientImpl_getRelatedContentTest
         deptCtyConf.addInput( "name", "text", "contentdata/name", "Name", true );
         deptCtyConf.addRelatedContentInput( "employee", "contentdata/employee", "Employee", false, true, "Person" );
         deptCtyConf.endBlock();
-        XMLBytes deptConfigAsXmlBytes = XMLDocumentFactory.create( deptCtyConf.toString() ).getAsBytes();
+        Document deptConfigAsXmlBytes = XMLDocumentFactory.create( deptCtyConf.toString() ).getAsJDOMDocument();
         fixture.save( factory.createContentType( "Department", ContentHandlerName.CUSTOM.getHandlerClassShortName(), deptConfigAsXmlBytes ) );
 
         // setup archive: Company Unit with 2 categories: Employees and Departments.

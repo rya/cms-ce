@@ -97,7 +97,7 @@ public class ContentTypeXmlCreator
 
         if ( contentType.getData() != null )
         {
-            Document dataDoc = contentType.getData().getAsJDOMDocument();
+            Document dataDoc = contentType.getData();
             Element dataRootEl = dataDoc.getRootElement();
 
             if ( dataRootEl.getName().equals( "module" ) )

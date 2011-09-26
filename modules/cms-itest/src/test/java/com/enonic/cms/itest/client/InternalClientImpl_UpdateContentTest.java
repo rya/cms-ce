@@ -25,7 +25,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ContentDataInputUpdateStrategy;
@@ -94,7 +93,7 @@ public class InternalClientImpl_UpdateContentTest
     @Autowired
     private InternalClient internalClient;
 
-    private XMLBytes standardConfig;
+    private Document standardConfig;
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
 
@@ -156,7 +155,7 @@ public class InternalClientImpl_UpdateContentTest
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
         // standardConfig = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsJDOMDocument();
     }
 
     private void saveNeededEntities()
@@ -452,7 +451,7 @@ public class InternalClientImpl_UpdateContentTest
         ctyconf.addInput( "laerer-navn", "text", "navn", "Navn" );
         ctyconf.addInput( "laerer-karakter", "text", "karakter", "Karakter" );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save( factory.createContentType( "Skole", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
         fixture.save( factory.createUnit( "MyUnit", "en" ) );

@@ -7,6 +7,7 @@ package com.enonic.cms.itest.client;
 import java.io.IOException;
 import java.util.Date;
 
+import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -20,7 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.AssignContentParams;
@@ -80,8 +80,7 @@ public class InternalClientImpl_AssignContentTest
     @Autowired
     private InternalClient internalClient;
 
-    private XMLBytes standardConfig;
-
+    private Document standardConfig;
 
     @Before
     public void before()
@@ -278,7 +277,7 @@ public class InternalClientImpl_AssignContentTest
         standardConfigXml.append( "         </block>" );
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
-        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsBytes();
+        standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsJDOMDocument();
     }
 
     private String createClientUserQualifiedName( UserEntity user )

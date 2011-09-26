@@ -9,10 +9,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.jdom.Document;
 import org.springframework.util.FileCopyUtils;
 
 import com.enonic.cms.framework.io.UnicodeInputStream;
-import com.enonic.cms.framework.xml.XMLBytes;
+import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -44,11 +45,6 @@ final class ResourceFileImpl
         return doGetDataAsXml( true );
     }
 
-    public XMLBytes getDataAsXmlBytes()
-    {
-        return doGetDataAsXml( true ).getAsBytes();
-    }
-
     public String getDataAsString()
     {
         FileResourceData data = this.service.getResourceData( this.name );
@@ -69,12 +65,14 @@ final class ResourceFileImpl
 
     public void setData( XMLDocument data )
     {
-        doSetData( data.getAsBytes().getData() );
+        LazyInitializedJDOMDocument doc =  LazyInitializedJDOMDocument.parse(data.getAsJDOMDocument());
+        doSetData( doc.getDocumentAsString().getBytes() );
     }
 
-    public void setData( XMLBytes data )
+    public void setData( Document data )
     {
-        doSetData( data.getData() );
+        LazyInitializedJDOMDocument doc =  LazyInitializedJDOMDocument.parse(data);
+        doSetData( doc.getDocumentAsString().getBytes() );
     }
 
     public void setData( String data )

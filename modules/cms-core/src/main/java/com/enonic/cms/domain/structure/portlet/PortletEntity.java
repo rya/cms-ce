@@ -17,7 +17,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -423,16 +422,6 @@ class PortletData
         {
             throw new RuntimeException( "Failed to get as bytes: ", e );
         }
-    }
-
-    public XMLBytes getAsXMLBytes()
-    {
-        return new XMLBytes( getAsBytes() );
-    }
-
-    public Document getJDOMDocument()
-    {
-        return xmlDoc;
     }
 
 }

@@ -19,7 +19,6 @@ import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.xml.XMLBytes;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.test.AssertTool;
@@ -95,7 +94,7 @@ public class DataSourceServiceImpl_getContentByQueryTest
         ctyconf.startBlock( "MyContent" );
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
         ctyconf.endBlock();
-        XMLBytes configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsBytes();
+        Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
 
         fixture.save(
             factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(),

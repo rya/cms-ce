@@ -20,7 +20,6 @@ import net.sf.saxon.sxpath.XPathEvaluator;
 import net.sf.saxon.sxpath.XPathExpression;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLBytes;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
@@ -204,7 +203,7 @@ public abstract class AbstractPersistContentTest
         return createContentType( name, contentHandlerClassName, null );
     }
 
-    protected ContentTypeEntity createContentType( String name, String contentHandlerClassName, XMLBytes data )
+    protected ContentTypeEntity createContentType( String name, String contentHandlerClassName, Document data )
     {
         ContentTypeEntity contenType = new ContentTypeEntity();
         contenType.setKey( ++lastUsedId );
