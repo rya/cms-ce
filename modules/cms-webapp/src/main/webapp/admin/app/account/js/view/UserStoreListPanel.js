@@ -24,32 +24,7 @@ Ext.define('App.view.UserStoreListPanel', {
         this.itemSelector = 'div.userstore';
         this.listeners = {
             itemclick: function(view, record, item){
-                Ext.create('Ext.fx.Animator', {
-                    target: item,
-                    duration: 1000,
-                    easing: 'easeIn',
-                    keyframes: {
-                        '0%': {
-                            opacity: 1,
-                            backgroundColor: '9B30FF'
-                        },
-                        '20%': {
-                            opacity: 0.5
-                        },
-                        '40%': {
-                            opacity: 0.3
-                        },
-                        '60%': {
-                            opacity: 0.5
-                        },
-                        '80%': {
-                            opacity: 1
-                        },
-                        '100%': {
-                            backgroundColor: 'transparent'
-                        }
-                    }
-                });
+                Ext.fly( item ).highlight();
                 var radioButton = new Ext.Element(item).down('input');
                 radioButton.dom.checked = true;
             }

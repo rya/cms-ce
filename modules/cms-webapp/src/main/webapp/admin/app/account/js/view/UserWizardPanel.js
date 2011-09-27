@@ -1,7 +1,11 @@
 Ext.define( 'App.view.UserWizardPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userWizardPanel',
-    requires: ['Common.WizardPanel'],
+    requires: [
+        'Common.WizardPanel',
+        'App.view.UserStoreListPanel',
+        'App.view.UserWizardToolbar'
+    ],
 
     layout: {
         type: 'hbox',
@@ -15,37 +19,22 @@ Ext.define( 'App.view.UserWizardPanel', {
 
     dockedItems: [
         {
-            xtype: 'toolbar',
-            dock: 'top',
-            defaults: {
-                scale: 'medium',
-                iconAlign: 'top'
-            },
-            items: [
-                {
-                    text: 'save',
-                    action: 'wizardSave'
-                },
-                '->',
-                {
-                    text: 'Prev',
-                    itemId: 'prev',
-                    disabled: true,
-                    action: 'wizardPrev'
-                },
-                {
-                    text: 'Next',
-                    itemId: 'next',
-                    action: 'wizardNext'
-                }
-            ]
+            xtype: 'userWizardToolbar',
+            dock: 'top'
         }
     ],
 
     items: [
         {
-            html: 'user ico',
-            width: 100
+            width: 100,
+            items: [
+                {
+                    xtype: 'image',
+                    src: 'resources/images/x-user.png',
+                    width: 100,
+                    height: 100
+                }
+            ]
         },
         {
             flex: 1,
@@ -68,8 +57,8 @@ Ext.define( 'App.view.UserWizardPanel', {
                     showControls: false,
                     items: [
                         {
-                            stepTitle: "Step 1",
-                            html: 'Panel 1<br/> gf dg 34 geg dfg dfg dfg<br/> sew4r wr wer wer'
+                            stepTitle: 'Userstore',
+                            xtype: 'userStoreListPanel'
                         },
                         {
                             title: "Step 2",
