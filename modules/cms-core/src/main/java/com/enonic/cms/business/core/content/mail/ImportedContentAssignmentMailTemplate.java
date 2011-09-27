@@ -9,10 +9,10 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.core.mail.AbstractMailTemplate;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.mail.AbstractMailTemplate;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;

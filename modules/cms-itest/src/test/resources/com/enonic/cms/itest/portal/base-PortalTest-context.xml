@@ -25,7 +25,7 @@
     <bean id="loadedVerticalProperties" class="com.enonic.cms.server.service.boot.BootPropertiesFactoryBean"/>
 
 
-    <bean id="imageCache" class="com.enonic.cms.business.image.cache.ImageCacheFactory">
+    <bean id="imageCache" class="com.enonic.cms.core.image.cache.ImageCacheFactory">
         <property name="cacheName" value="image"/>
         <property name="cacheManager" ref="cacheFacadeManager"/>
     </bean>

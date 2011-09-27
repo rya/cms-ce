@@ -78,6 +78,8 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
+import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
@@ -106,8 +108,6 @@ import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 import com.enonic.cms.business.core.content.mail.AssignmentMailSender;
 import com.enonic.cms.business.core.content.mail.ImportedContentAssignmentMailTemplate;
 import com.enonic.cms.business.core.structure.MenuItemAccessRightAccumulator;
-import com.enonic.cms.business.mail.ApproveAndRejectMailTemplate;
-import com.enonic.cms.business.mail.MailRecipient;
 import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
 import com.enonic.cms.domain.SiteKey;

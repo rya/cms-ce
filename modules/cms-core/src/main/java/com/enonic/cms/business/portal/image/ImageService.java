@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.business.portal.image;
 
-import com.enonic.cms.business.image.ImageRequest;
-import com.enonic.cms.business.image.ImageResponse;
+import com.enonic.cms.core.image.ImageRequest;
+import com.enonic.cms.core.image.ImageResponse;
 
 public interface ImageService
 {

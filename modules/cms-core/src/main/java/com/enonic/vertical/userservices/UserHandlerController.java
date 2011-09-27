@@ -39,6 +39,7 @@ import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.mail.MessageSettings;
 import com.enonic.cms.core.preference.PreferenceKey;
 import com.enonic.cms.core.preference.PreferenceScopeKeyResolver;
 import com.enonic.cms.core.preference.PreferenceScopeType;
@@ -55,7 +56,6 @@ import com.enonic.cms.business.core.security.SecurityHolder;
 import com.enonic.cms.business.core.security.userstore.UserStoreConnectorPolicyBrokenException;
 import com.enonic.cms.business.core.security.userstore.connector.UserAlreadyExistsException;
 import com.enonic.cms.business.login.LoginService;
-import com.enonic.cms.business.mail.MessageSettings;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;

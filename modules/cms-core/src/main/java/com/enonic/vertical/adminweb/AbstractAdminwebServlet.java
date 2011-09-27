@@ -32,6 +32,7 @@ import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.log.LogService;
+import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.core.service.PresentationService;
@@ -69,7 +70,6 @@ import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
 import com.enonic.cms.core.country.CountryService;
 import com.enonic.cms.core.locale.LocaleService;
 
-import com.enonic.cms.business.mail.SendMailService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.portal.rendering.PageRendererFactory;
 import com.enonic.cms.business.preview.PreviewService;

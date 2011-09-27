@@ -19,14 +19,15 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.image.ImageRequest;
-import com.enonic.cms.business.image.ImageRequestParser;
-import com.enonic.cms.business.image.ImageResponse;
+
+import com.enonic.cms.core.image.ImageRequestParser;
+import com.enonic.cms.core.image.ImageResponse;
 import com.enonic.cms.business.portal.image.ImageProcessorException;
 import com.enonic.cms.business.portal.image.ImageRequestAccessResolver;
 import com.enonic.cms.business.portal.image.ImageService;

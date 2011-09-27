@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Maps;
 
-import com.enonic.cms.business.mail.AbstractMailTemplate;
+import com.enonic.cms.core.mail.AbstractMailTemplate;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentStatus;

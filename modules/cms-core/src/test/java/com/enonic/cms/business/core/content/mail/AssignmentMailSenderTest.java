@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import com.enonic.cms.business.mail.MailRecipient;
-import com.enonic.cms.business.mail.SendMailService;
+import com.enonic.cms.core.mail.MailRecipient;
+import com.enonic.cms.core.mail.SendMailService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.security.user.UserEntity;
