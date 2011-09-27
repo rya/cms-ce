@@ -30,6 +30,7 @@ Ext.define( 'App.controller.UserController', {
     init: function()
     {
         Ext.create('widget.userContextMenu');
+        Ext.create('widget.userChangePasswordWindow');
 
         var me = this;
         var userStore = this.getStore('UserStore');
