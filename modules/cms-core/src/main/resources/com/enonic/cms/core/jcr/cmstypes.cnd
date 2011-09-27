@@ -6,14 +6,13 @@
 // principal
 [cms:principal] > cms:base, mix:referenceable abstract
 - cms:displayname (string)
-- cms:key (string)
 
 // user
 [cms:user] > cms:principal, nt:unstructured
 
 // group
 [cms:group] > cms:principal, nt:unstructured
-+ members (cms:users) multiple
+- members (WeakReference) multiple
 
 // role
 [cms:role] > cms:group

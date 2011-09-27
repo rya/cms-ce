@@ -35,12 +35,9 @@ public final class GroupTask
 
         Integer userStoreKey = row.getInteger( "grp_dom_lkey" );
 
-        JcrSession session = null;
-
+        final JcrSession session = jcrRepository.login();
         try
         {
-            session = jcrRepository.login();
-
             JcrNode userstoreNode;
             if ( userStoreKey == null )
             {

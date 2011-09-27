@@ -4,11 +4,10 @@
  */
 package com.enonic.cms.core.jcr.wrapper;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.jcr.Binary;
@@ -223,6 +222,23 @@ class JcrNodeWrapper
             Property property = node.getProperty( name );
             return property.getType();
         }
+        catch ( PathNotFoundException nfe )
+        {
+            return PropertyType.UNDEFINED;
+        }
+        catch ( RepositoryException e )
+        {
+            throw JcrException.wrap( e );
+        }
+    }
+
+    public boolean isMultiValuedProperty( String name )
+    {
+        try
+        {
+            Property property = node.getProperty( name );
+            return property.isMultiple();
+        }
         catch ( RepositoryException e )
         {
             throw JcrException.wrap( e );
@@ -238,10 +254,10 @@ class JcrNodeWrapper
             if ( property.isMultiple() )
             {
                 Value[] values = property.getValues();
-                List<Object> propertyList = new ArrayList<Object>();
-                for ( Value value : values )
+                Object[] propertyList = new Object[values.length];
+                for ( int i = 0; i < values.length; i++ )
                 {
-                    propertyList.add( getValue( value ) );
+                    propertyList[i] = getValue( values[i] );
                 }
                 return propertyList;
             }
@@ -257,6 +273,19 @@ class JcrNodeWrapper
         catch ( RepositoryException e )
         {
             throw JcrException.wrap( e );
+        }
+    }
+
+    private Property getInternalProperty( String name )
+        throws RepositoryException
+    {
+        try
+        {
+            return node.getProperty( name );
+        }
+        catch ( PathNotFoundException nfe )
+        {
+            return null;
         }
     }
 
@@ -290,10 +319,9 @@ class JcrNodeWrapper
                 return value.getString();
 
             case PropertyType.REFERENCE:
-                throw new UnsupportedOperationException( "Not implemented" );
-
             case PropertyType.WEAKREFERENCE:
-                throw new UnsupportedOperationException( "Not implemented" );
+                final Node referencedNode = node.getSession().getNodeByIdentifier( value.getString() );
+                return JcrWrappers.wrap( referencedNode );
 
             case PropertyType.URI:
                 throw new UnsupportedOperationException( "Not implemented" );
@@ -333,8 +361,6 @@ class JcrNodeWrapper
                 return property.getPath();
 
             case PropertyType.REFERENCE:
-                return JcrWrappers.wrap( property.getNode() );
-
             case PropertyType.WEAKREFERENCE:
                 return JcrWrappers.wrap( property.getNode() );
 
@@ -454,6 +480,35 @@ class JcrNodeWrapper
     }
 
     @Override
+    public void addPropertyReference( String name, JcrNode referencedNode, boolean weak )
+    {
+        try
+        {
+            final Node refNode = JcrWrappers.unwrap( referencedNode );
+            final Value value = node.getSession().getValueFactory().createValue( refNode, weak );
+
+            final Property existingProperty = getInternalProperty( name );
+            if ( ( existingProperty != null ) && ( existingProperty.isMultiple() ) )
+            {
+                final Value[] values = existingProperty.getValues();
+                final Value[] newValues = Arrays.copyOfRange( values, 0, values.length + 1 );
+
+                newValues[values.length] = value;
+                node.setProperty( name, newValues );
+            }
+            else
+            {
+                final Value[] multiValue = new Value[]{value};
+                node.setProperty( name, multiValue );
+            }
+        }
+        catch ( RepositoryException e )
+        {
+            throw JcrException.wrap( e );
+        }
+    }
+
+    @Override
     public void setPropertyReference( String name, JcrNode referencedNode, boolean weak )
     {
         if ( ( name == null ) || ( referencedNode == null ) )
@@ -464,8 +519,8 @@ class JcrNodeWrapper
         {
             Node refNode = JcrWrappers.unwrap( referencedNode );
             Value value = node.getSession().getValueFactory().createValue( refNode, weak );
-            node.setProperty( name, value );
-        }
+                node.setProperty( name, value );
+            }
         catch ( RepositoryException e )
         {
             throw JcrException.wrap( e );
@@ -509,7 +564,7 @@ class JcrNodeWrapper
         return cal;
     }
 
-    Node getValue()
+    Node getWrappedNode()
     {
         return node;
     }

@@ -43,11 +43,9 @@ public class RepositoryBootstrap
     {
         log.logInfo( "Initializing JCR repository..." );
 
-        JcrSession session = null;
+        final JcrSession session = repository.login();
         try
         {
-            session = repository.login();
-
             registerNamespaces( session );
             registerCustomNodeTypes( session );
 

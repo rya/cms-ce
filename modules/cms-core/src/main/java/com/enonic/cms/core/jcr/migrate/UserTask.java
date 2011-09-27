@@ -33,12 +33,9 @@ public final class UserTask
     {
         this.logInfo( "Importing user: {0}", row.getString( "usr_suid" ) );
 
-        JcrSession session = null;
-
+        final JcrSession session = jcrRepository.login();
         try
         {
-            session = jcrRepository.login();
-
             String userName = row.getString( "USR_SUID" );
             Integer userStoreKey = row.getInteger( "USR_DOM_LKEY" );
             if ( userStoreKey == null )
