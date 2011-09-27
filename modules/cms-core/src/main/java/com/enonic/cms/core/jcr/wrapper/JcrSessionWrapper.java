@@ -67,7 +67,7 @@ class JcrSessionWrapper
         }
     }
 
-    Session getSession()
+    Session getWrappedSession()
     {
         return this.session;
     }

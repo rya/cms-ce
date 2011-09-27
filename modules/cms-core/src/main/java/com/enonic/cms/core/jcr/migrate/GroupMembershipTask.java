@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.core.jcr.migrate;
 
-import org.apache.jackrabbit.JcrConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,23 +30,21 @@ public final class GroupMembershipTask
     @Override
     protected void importRow( final JdbcDynaRow row )
     {
-        String groupKey = row.getString( "ggm_grp_hkey" );
-        String groupMemberKey = row.getString( "ggm_mbr_grp_hkey" );
+        final String groupKey = row.getString( "ggm_grp_hkey" );
+        final String groupMemberKey = row.getString( "ggm_mbr_grp_hkey" );
 
-        JcrSession session = null;
+        final JcrSession session = jcrRepository.login();
 
         try
         {
-            session = jcrRepository.login();
-
-            JcrNode parentGroupNode = getGroupNode( groupKey, session );
+            final JcrNode parentGroupNode = getGroupNode( groupKey, session );
             JcrNode memberPrincipalNode = getGroupNode( groupMemberKey, session );
             if ( memberPrincipalNode == null )
             {
                 this.logWarning( "Could not find group with key {0}. Skipping group member.", groupMemberKey );
                 return;
             }
-            GroupType memberGroupType = getGroupType(memberPrincipalNode);
+            final GroupType memberGroupType = getGroupType(memberPrincipalNode);
             if (memberGroupType == GroupType.USER ) {
                 memberPrincipalNode = getUserNodeByGroupKey( groupMemberKey, session );
             }
@@ -56,8 +53,7 @@ public final class GroupMembershipTask
             {
                 this.logInfo( "Importing group membership: {0} <= {1} ({2})", parentGroupNode.getName(), memberPrincipalNode.getName() , memberGroupType.getName());
 
-                JcrNode memberNode = parentGroupNode.addNode( "member", JcrConstants.NT_UNSTRUCTURED );
-                memberNode.setPropertyReference( "principal", memberPrincipalNode, true );
+                parentGroupNode.addPropertyReference( "members", memberPrincipalNode, true );
             }
 
             session.save();
@@ -70,9 +66,9 @@ public final class GroupMembershipTask
 
         private JcrNode getUserNodeByGroupKey( String groupkey, JcrSession session )
     {
-        String sql = "SELECT * FROM [" + JcrCmsConstants.USER_NODE_TYPE + "] " + "WHERE groupKey = $groupkey ";
+        final String sql = "SELECT * FROM [" + JcrCmsConstants.USER_NODE_TYPE + "] " + "WHERE groupKey = $groupkey ";
 
-        JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "groupkey", groupkey ).execute();
+        final JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "groupkey", groupkey ).execute();
         if ( nodes.hasNext() )
         {
             return nodes.nextNode();
@@ -82,9 +78,9 @@ public final class GroupMembershipTask
 
     private JcrNode getGroupNode( String key, JcrSession session )
     {
-        String sql = "SELECT * FROM [" + JcrCmsConstants.GROUP_NODE_TYPE + "] " + "WHERE key = $key ";
+        final String sql = "SELECT * FROM [" + JcrCmsConstants.GROUP_NODE_TYPE + "] " + "WHERE key = $key ";
 
-        JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "key", key ).execute();
+        final JcrNodeIterator nodes = session.createQuery( sql ).bindValue( "key", key ).execute();
         if ( nodes.hasNext() )
         {
             return nodes.nextNode();
@@ -94,7 +90,7 @@ public final class GroupMembershipTask
 
     private GroupType getGroupType( JcrNode groupNode )
     {
-        Long typeVal = groupNode.getLongProperty( "type" );
+        final Long typeVal = groupNode.getLongProperty( "type" );
         if ( typeVal == null )
         {
             return GroupType.ANONYMOUS;

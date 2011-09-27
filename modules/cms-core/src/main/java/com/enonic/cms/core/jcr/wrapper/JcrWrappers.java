@@ -44,7 +44,7 @@ public final class JcrWrappers
     {
         if ( value instanceof JcrSessionWrapper )
         {
-            return ( (JcrSessionWrapper) value ).getSession();
+            return ( (JcrSessionWrapper) value ).getWrappedSession();
         }
         else
         {
@@ -56,7 +56,7 @@ public final class JcrWrappers
     {
         if ( value instanceof JcrNodeWrapper )
         {
-            return ( (JcrNodeWrapper) value ).getValue();
+            return ( (JcrNodeWrapper) value ).getWrappedNode();
         }
         else
         {

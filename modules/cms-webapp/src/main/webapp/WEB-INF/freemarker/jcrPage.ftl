@@ -56,6 +56,7 @@ Ext.onReady(function() {
         store: store,
         multiSelect: false,
         singleExpand: false,
+        animate: false,
         lines: true,
         columns: [{
             xtype: 'treecolumn',

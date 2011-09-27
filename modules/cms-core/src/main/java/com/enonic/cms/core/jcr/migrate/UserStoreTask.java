@@ -31,11 +31,9 @@ public final class UserStoreTask
     @Override
     protected void importRow( final JdbcDynaRow row )
     {
-        JcrSession session = null;
-
+        final JcrSession session = jcrRepository.login();
         try
         {
-            session = jcrRepository.login();
             this.logInfo( "Importing userstore: {0}", row.getString( "dom_sname" ) );
 
             String userstoreName = row.getString( "DOM_SNAME" );

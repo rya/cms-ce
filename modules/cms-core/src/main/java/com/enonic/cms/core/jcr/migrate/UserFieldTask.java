@@ -40,12 +40,9 @@ public final class UserFieldTask
         this.logInfo( "Importing user field: {0} {1}={2}", row.getString( "usf_usr_hkey" ), row.getString( "usf_name" ),
                       row.getString( "usf_value" ) );
 
-        JcrSession session = null;
-
+        final JcrSession session = jcrRepository.login();
         try
         {
-            session = jcrRepository.login();
-
             String userKey = row.getString( "usf_usr_hkey" );
             String fieldName = row.getString( "usf_name" );
             String fieldValue = row.getString( "usf_value" );

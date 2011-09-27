@@ -6,6 +6,7 @@ package com.enonic.cms.tools.migrate;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -130,31 +131,20 @@ public final class MigrationResource
             final List<Map<String, Object>> properties = new ArrayList<Map<String, Object>>();
             for ( String propName : node.getPropertyNames() )
             {
-                final Object propValue;
-                switch ( node.getPropertyType( propName ) )
-                {
-                    case PropertyType.BINARY:
-                        propValue = MessageFormat.format( "({0} bytes)", node.getBinaryProperty( propName ).getSize() );
-                        break;
-                    case PropertyType.REFERENCE:
-                    case PropertyType.WEAKREFERENCE:
-                        propValue = ( (JcrNode) node.getProperty( propName ) ).getPath();
-                        break;
-                    default:
-                        propValue = node.getProperty( propName );
-                }
-
                 final Map<String, Object> property = new HashMap<String, Object>();
+                final Object propValue = getPropertyValue( node, propName );
                 property.put( "name", propName );
                 property.put( "value", propValue );
-                property.put( "type", getPropertyTypeName( node, propName ) );
+
+                String propType = getPropertyTypeName( node, propName );
+                if ( node.isMultiValuedProperty( propName ) )
+                {
+                    propType = propType + " (multi-valued)";
+                }
+                property.put( "type", propType );
                 properties.add( property );
             }
             nodeJson.put( "_properties", properties );
-        }
-        else
-        {
-            nodeJson.put( "leaf", true );
         }
 
         final List<Map<String, Object>> childrenList = new ArrayList<Map<String, Object>>();
@@ -168,6 +158,51 @@ public final class MigrationResource
             buildJsonTree( child, childJson );
             childrenList.add( childJson );
         }
+
+        if (!node.hasChildNodes())
+        {
+            nodeJson.put( "leaf", true );
+        }
+    }
+
+    private Object getPropertyValue(final JcrNode node, final String propertyName){
+        final Object value;
+        switch ( node.getPropertyType( propertyName ) )
+        {
+            case PropertyType.BINARY:
+                value = MessageFormat.format( "({0} bytes)", node.getBinaryProperty( propertyName ).getSize() );
+                break;
+            case PropertyType.REFERENCE:
+            case PropertyType.WEAKREFERENCE:
+                if ( node.isMultiValuedProperty( propertyName ) )
+                {
+                    Object[] propertyValues = (Object[]) node.getProperty( propertyName );
+                    JcrNode[] nodeRefArray = Arrays.copyOf( propertyValues, propertyValues.length, JcrNode[].class );
+                    value = nodesPathsToString( nodeRefArray );
+                }
+                else
+                {
+                    value = ( (JcrNode) node.getProperty( propertyName ) ).getPath();
+                }
+                break;
+            default:
+                value = node.getProperty( propertyName );
+        }
+        return value;
+    }
+
+    private String nodesPathsToString( JcrNode[] nodes )
+    {
+        final StringBuilder buf = new StringBuilder();
+        for ( JcrNode node : nodes )
+        {
+            if ( buf.length() > 0 )
+            {
+                buf.append( ", " );
+            }
+            buf.append( node.getPath() );
+        }
+        return buf.toString();
     }
 
     private String getPropertyTypeName( JcrNode node, String propertyName )

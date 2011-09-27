@@ -36,6 +36,8 @@ public interface JcrNode
 
     public Object getProperty( String name );
 
+    public boolean isMultiValuedProperty( String name );
+
     public int getPropertyType( String name );
 
     public String getStringProperty( String name );
@@ -51,6 +53,8 @@ public interface JcrNode
     public void setProperty( String name, Object value );
 
     public void setPropertyReference( String name, JcrNode referencedNode, boolean weak );
+
+    public void addPropertyReference( String name, JcrNode referencedNode, boolean weak );
 
     public JcrNodeIterator getChildren();
 

@@ -19,6 +19,8 @@ public class JcrCmsConstants
 
     public static final String USERSTORE_NODE_TYPE = "cms:userstore";
 
+    public static final String PRINCIPAL_NODE_TYPE = "cms:principal";
+
     public static final String GROUPS_NODE = "groups";
 
     public static final String GROUPS_NODE_TYPE = "cms:groups";

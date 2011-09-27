@@ -32,6 +32,8 @@ public class MigrationProcess
 
     private GroupMembershipTask groupMembershipTask;
 
+    private CleanUpTask cleanUpTask;
+
     private DataSource dataSource;
 
     MigrationProcess()
@@ -47,6 +49,8 @@ public class MigrationProcess
             task.setLog( log );
             task.execute();
         }
+        cleanUpTask.setLog( log );
+        cleanUpTask.execute();
     }
 
     @Override
@@ -116,8 +120,15 @@ public class MigrationProcess
         this.groupMembershipTask = groupMembershipTask;
     }
 
+    @Autowired
+    public void setCleanUpTask( CleanUpTask cleanUpTask )
+    {
+        this.cleanUpTask = cleanUpTask;
+    }
+
     public void setLog( Log log )
     {
         this.log = log;
     }
+
 }
