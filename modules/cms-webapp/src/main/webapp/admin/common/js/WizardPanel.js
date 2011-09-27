@@ -4,7 +4,7 @@ Ext.define( 'Common.WizardPanel', {
     requires: ['Common.WizardLayout'],
 
     layout: 'wizard',
-
+    autoScroll: true,
     defaults: {
         border: false,
         padding: 10

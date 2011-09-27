@@ -24,7 +24,7 @@ Ext.define( 'App.controller.UserController', {
         'AddressContainer',
         'GroupDetailButton',
         'UserWizardToolbar',
-        'UserWizard',
+        'UserWizardPanel',
         'UserStoreListPanel'
     ],
 
@@ -290,9 +290,10 @@ Ext.define( 'App.controller.UserController', {
                 iconCls: 'icon-user-add',
                 closable: true,
                 autoScroll: true,
+                layout: 'fit',
                 items: [
                     {
-                        xtype: 'userWizard'
+                        xtype: 'userWizardPanel'
                     }
                 ]
             };
