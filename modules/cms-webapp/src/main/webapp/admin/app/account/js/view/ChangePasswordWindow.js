@@ -10,27 +10,27 @@ Ext.define( 'App.view.ChangePasswordWindow', {
     initComponent: function()
     {
         var tplHtml = '<div class="cms-change-password-form">'
-                                +'<div class="cms-user-info clearfix">'
-                                +'<div class="cms-user-photo cms-left">'
-                                +'<img alt="User" src="data/user/photo?key={key}&thumb=true"/>'
-                                +'</div>'
-                                +'<div class="cms-left">'
-                                +'{displayName}<br/>'
-                                +'({qualifiedName})<br/>'
-                                +'<a href="mailto:{email}">{email}</a>'
-                                +'</div>'
-                                +'</div>'
-                                +'</div>';
+                +'<div class="cms-user-info clearfix">'
+                +'<div class="cms-user-photo cms-left">'
+                +'<img alt="User" src="data/user/photo?key={key}&thumb=true"/>'
+                +'</div>'
+                +'<div class="cms-left">'
+                +'{displayName}<br/>'
+                +'({qualifiedName})<br/>'
+                +'<a href="mailto:{email}">{email}</a>'
+                +'</div>'
+                +'</div>'
+                +'</div>';
 
         this.items = [
             {
                 id: 'userChangePasswordUserInfo',
                 bodyPadding: 10,
                 border: false,
-                html: '',
+                tpl: new Ext.XTemplate(tplHtml),
                 listeners: {
                     'render': function() {
-                        new Ext.XTemplate( tplHtml ).overwrite(this.body, this.up().modelData );
+                        this.update(this.up().modelData);
                     }
                 }
             },
