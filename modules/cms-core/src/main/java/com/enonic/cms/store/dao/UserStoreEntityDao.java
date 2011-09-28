@@ -12,7 +12,7 @@ import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("userStoreDao")
-final class UserStoreEntityDao
+public final class UserStoreEntityDao
     extends AbstractBaseEntityDao<UserStoreEntity>
     implements UserStoreDao
 {

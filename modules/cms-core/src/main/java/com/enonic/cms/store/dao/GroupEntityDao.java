@@ -30,7 +30,7 @@ import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
 @Repository("groupDao")
-final class GroupEntityDao
+public final class GroupEntityDao
     extends AbstractBaseEntityDao<GroupEntity>
     implements GroupDao
 {

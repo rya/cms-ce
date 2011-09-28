@@ -20,7 +20,7 @@ import com.enonic.cms.domain.EntityPageList;
 import org.springframework.stereotype.Repository;
 
 @Repository("virtualFileDao")
-final class VirtualFileDaoImpl
+public final class VirtualFileDaoImpl
     extends AbstractBaseEntityDao<VirtualFileEntity>
     implements VirtualFileDao
 {

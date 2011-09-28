@@ -11,7 +11,7 @@ import com.enonic.cms.domain.structure.menuitem.section.SectionContentKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("sectionContentDao")
-final class SectionContentEntityDao
+public final class SectionContentEntityDao
     extends AbstractBaseEntityDao<SectionContentEntity>
     implements SectionContentDao
 {

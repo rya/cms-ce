@@ -11,7 +11,7 @@ import com.enonic.cms.domain.content.UnitEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository("unitDao")
-final class UnitEntityDao
+public final class UnitEntityDao
     extends AbstractBaseEntityDao<UnitEntity>
     implements UnitDao
 {

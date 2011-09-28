@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Repository("resourceUsageDao")
-final class ResourceUsageDaoImpl
+public final class ResourceUsageDaoImpl
     implements ResourceUsageDao
 {
     @Autowired

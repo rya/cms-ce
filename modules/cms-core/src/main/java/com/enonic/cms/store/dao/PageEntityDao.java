@@ -10,7 +10,7 @@ import com.enonic.cms.domain.structure.page.PageEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository("pageDao")
-final class PageEntityDao
+public final class PageEntityDao
     extends AbstractBaseEntityDao<PageEntity>
     implements PageDao
 {

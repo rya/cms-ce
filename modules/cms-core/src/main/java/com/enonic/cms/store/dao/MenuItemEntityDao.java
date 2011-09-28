@@ -21,7 +21,7 @@ import com.enonic.cms.domain.structure.page.template.PageTemplateSpecification;
 import org.springframework.stereotype.Repository;
 
 @Repository("menuItemDao")
-final class MenuItemEntityDao
+public final class MenuItemEntityDao
     extends AbstractBaseEntityDao<MenuItemEntity>
     implements MenuItemDao
 {

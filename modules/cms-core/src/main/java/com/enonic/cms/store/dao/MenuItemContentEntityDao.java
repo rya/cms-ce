@@ -9,7 +9,7 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemContentKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("menuItemContentDao")
-final class MenuItemContentEntityDao
+public final class MenuItemContentEntityDao
     extends AbstractBaseEntityDao<MenuItemContentEntity>
     implements MenuItemContentDao
 {

@@ -9,7 +9,7 @@ import com.enonic.cms.domain.content.RelatedContentKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("relatedContentDao")
-final class RelatedContentEntityDao
+public final class RelatedContentEntityDao
     extends AbstractBaseEntityDao<RelatedContentEntity>
     implements RelatedContentDao
 {

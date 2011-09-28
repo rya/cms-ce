@@ -21,7 +21,7 @@ import com.enonic.cms.domain.security.group.GroupKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentVersionDao")
-final class ContentVersionEntityDao
+public final class ContentVersionEntityDao
     extends AbstractBaseEntityDao<ContentVersionEntity>
     implements ContentVersionDao
 {

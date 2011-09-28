@@ -13,7 +13,7 @@ import com.enonic.cms.core.preference.PreferenceSpecification;
 import org.springframework.stereotype.Repository;
 
 @Repository("preferenceDao")
-final class PreferenceEntityDao
+public final class PreferenceEntityDao
     extends AbstractBaseEntityDao<PreferenceEntity>
     implements PreferenceDao
 {

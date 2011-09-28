@@ -29,7 +29,7 @@ import com.enonic.cms.domain.structure.menuitem.section.SectionContentTypeFilter
 import org.springframework.stereotype.Repository;
 
 @Repository("siteDao")
-final class SiteEntityDao
+public final class SiteEntityDao
     extends AbstractBaseEntityDao<SiteEntity>
     implements SiteDao
 {

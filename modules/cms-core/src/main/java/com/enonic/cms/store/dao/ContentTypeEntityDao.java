@@ -12,7 +12,7 @@ import com.enonic.cms.domain.resource.ResourceKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentTypeDao")
-final class ContentTypeEntityDao
+public final class ContentTypeEntityDao
     extends AbstractBaseEntityDao<ContentTypeEntity>
     implements ContentTypeDao
 {

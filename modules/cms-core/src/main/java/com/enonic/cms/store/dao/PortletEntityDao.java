@@ -13,7 +13,7 @@ import com.enonic.cms.domain.structure.portlet.PortletEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository("portletDao")
-final class PortletEntityDao
+public final class PortletEntityDao
     extends AbstractBaseEntityDao<PortletEntity>
     implements PortletDao
 {

@@ -11,7 +11,7 @@ import com.enonic.cms.domain.LanguageKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("languageDao")
-final class LanguageEntityDao
+public final class LanguageEntityDao
     extends AbstractBaseEntityDao<LanguageEntity>
     implements LanguageDao
 {

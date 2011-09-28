@@ -16,7 +16,7 @@ import com.enonic.cms.domain.resource.ResourceKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("resourceDao")
-final class ResourceDaoImpl
+public final class ResourceDaoImpl
     implements ResourceDao
 {
     @Autowired

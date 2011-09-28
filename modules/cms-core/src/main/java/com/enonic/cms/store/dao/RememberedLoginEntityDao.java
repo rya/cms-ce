@@ -11,7 +11,7 @@ import com.enonic.cms.domain.security.user.UserKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("rememberedLoginDao")
-final class RememberedLoginEntityDao
+public final class RememberedLoginEntityDao
     extends AbstractBaseEntityDao<RememberedLoginEntity>
     implements RememberedLoginDao
 {

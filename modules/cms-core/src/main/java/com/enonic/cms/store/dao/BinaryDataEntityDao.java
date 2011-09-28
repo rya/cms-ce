@@ -18,7 +18,7 @@ import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("binaryDataDao")
-final class BinaryDataEntityDao
+public final class BinaryDataEntityDao
     extends AbstractBaseEntityDao<BinaryDataEntity>
     implements BinaryDataDao
 {

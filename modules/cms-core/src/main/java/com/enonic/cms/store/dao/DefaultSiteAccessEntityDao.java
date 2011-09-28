@@ -9,7 +9,7 @@ import com.enonic.cms.domain.structure.DefaultSiteAccessEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository("defaultSiteAccessDao")
-final class DefaultSiteAccessEntityDao
+public final class DefaultSiteAccessEntityDao
     extends AbstractBaseEntityDao<DefaultSiteAccessEntity>
     implements DefaultSiteAccessDao
 {

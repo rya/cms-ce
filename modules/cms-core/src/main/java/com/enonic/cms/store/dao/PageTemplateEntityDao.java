@@ -17,7 +17,7 @@ import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 import org.springframework.stereotype.Repository;
 
 @Repository("pageTemplateDao")
-final class PageTemplateEntityDao
+public final class PageTemplateEntityDao
     extends AbstractBaseEntityDao<PageTemplateEntity>
     implements PageTemplateDao
 {

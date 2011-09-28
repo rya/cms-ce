@@ -25,7 +25,7 @@ import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentIndexDao")
-final class ContentIndexEntityDao
+public final class ContentIndexEntityDao
     extends AbstractBaseEntityDao<ContentIndexEntity>
     implements ContentIndexDao
 {

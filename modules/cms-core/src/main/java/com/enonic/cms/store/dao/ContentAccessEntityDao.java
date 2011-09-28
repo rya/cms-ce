@@ -9,7 +9,7 @@ import com.enonic.cms.domain.security.group.GroupKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentAccessDao")
-final class ContentAccessEntityDao
+public final class ContentAccessEntityDao
     extends AbstractBaseEntityDao<ContentAccessEntity>
     implements ContentAccessDao
 {

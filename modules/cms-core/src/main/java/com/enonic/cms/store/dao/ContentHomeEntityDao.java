@@ -9,7 +9,7 @@ import com.enonic.cms.domain.structure.menuitem.ContentHomeKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentHomeDao")
-final class ContentHomeEntityDao
+public final class ContentHomeEntityDao
     extends AbstractBaseEntityDao<ContentHomeEntity>
     implements ContentHomeDao
 {

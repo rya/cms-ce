@@ -17,7 +17,7 @@ import com.enonic.cms.domain.security.group.GroupKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("categoryDao")
-final class CategoryEntityDao
+public final class CategoryEntityDao
     extends AbstractBaseEntityDao<CategoryEntity>
     implements CategoryDao
 {

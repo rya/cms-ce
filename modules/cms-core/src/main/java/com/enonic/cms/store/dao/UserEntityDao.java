@@ -29,7 +29,7 @@ import com.enonic.cms.domain.security.user.UserType;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
 @Repository("userDao")
-final class UserEntityDao
+public final class UserEntityDao
     extends AbstractBaseEntityDao<UserEntity>
     implements UserDao
 {

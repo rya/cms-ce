@@ -13,7 +13,7 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemAccessKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("menuItemAccessDao")
-final class MenuItemAccessEntityDao
+public final class MenuItemAccessEntityDao
     extends AbstractBaseEntityDao<MenuItemAccessEntity>
     implements MenuItemAccessDao
 {

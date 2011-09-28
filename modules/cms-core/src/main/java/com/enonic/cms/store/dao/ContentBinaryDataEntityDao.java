@@ -12,7 +12,7 @@ import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentBinaryDataDao")
-final class ContentBinaryDataEntityDao
+public final class ContentBinaryDataEntityDao
     extends AbstractBaseEntityDao<ContentBinaryDataEntity>
     implements ContentBinaryDataDao
 {

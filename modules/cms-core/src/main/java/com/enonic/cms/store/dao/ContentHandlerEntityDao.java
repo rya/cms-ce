@@ -11,7 +11,7 @@ import com.enonic.cms.domain.content.ContentHandlerKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentHandlerDao")
-final class ContentHandlerEntityDao
+public final class ContentHandlerEntityDao
     extends AbstractBaseEntityDao<ContentHandlerEntity>
     implements ContentHandlerDao
 {
