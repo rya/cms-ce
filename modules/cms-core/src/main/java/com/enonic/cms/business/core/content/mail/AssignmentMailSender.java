@@ -8,7 +8,7 @@ import java.util.Date;
 
 import org.springframework.util.Assert;
 
-import com.enonic.cms.business.mail.SendMailService;
+import com.enonic.cms.core.mail.SendMailService;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.security.user.UserEntity;

@@ -1,7 +1,7 @@
 package com.enonic.cms.business.portal.livetrace;
 
-import com.enonic.cms.business.image.ImageRequest;
-import com.enonic.cms.business.image.ImageResponse;
+import com.enonic.cms.core.image.ImageRequest;
+import com.enonic.cms.core.image.ImageResponse;
 
 /**
  * Nov 25, 2010

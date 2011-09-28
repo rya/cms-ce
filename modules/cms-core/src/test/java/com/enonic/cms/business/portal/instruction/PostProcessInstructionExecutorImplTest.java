@@ -20,6 +20,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
 import com.enonic.cms.store.dao.ContentDao;
@@ -29,7 +30,6 @@ import com.enonic.cms.store.resource.FileResourceService;
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.image.ImageRequest;
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.WindowRendererContext;
 import com.enonic.cms.business.preview.PreviewContext;

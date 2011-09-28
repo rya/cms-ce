@@ -47,10 +47,10 @@ import com.enonic.vertical.presentation.AbstractPresentationController;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
+import com.enonic.cms.core.captcha.CaptchaService;
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.captcha.CaptchaService;
 import com.enonic.cms.business.core.security.UserStoreParser;
 
 import com.enonic.cms.domain.Attribute;

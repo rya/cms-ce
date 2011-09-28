@@ -23,7 +23,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -60,6 +59,8 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
+import com.enonic.cms.core.mail.MailRecipient;
+import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -74,9 +75,8 @@ import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
 import com.enonic.cms.business.core.structure.SiteService;
 import com.enonic.cms.business.core.structure.SiteXmlCreator;
 import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
-import com.enonic.cms.business.mail.ApproveAndRejectMailTemplate;
-import com.enonic.cms.business.mail.MailRecipient;
-import com.enonic.cms.business.mail.SendMailService;
+import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
+
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 

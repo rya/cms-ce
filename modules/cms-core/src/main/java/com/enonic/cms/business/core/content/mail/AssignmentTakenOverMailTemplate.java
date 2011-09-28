@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.core.content.mail;
 
-import com.enonic.cms.business.mail.MailRecipient;
+import com.enonic.cms.core.mail.MailRecipient;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentVersionEntity;

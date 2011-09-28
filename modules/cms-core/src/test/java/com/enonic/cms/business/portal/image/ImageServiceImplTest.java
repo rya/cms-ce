@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.business.image.ImageRequestParser;
+import com.enonic.cms.core.image.ImageRequestParser;
 
 public class ImageServiceImplTest
     extends TestCase

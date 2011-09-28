@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
@@ -24,7 +25,6 @@ import com.enonic.cms.business.core.content.ContentService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.userstore.UserStoreService;
 import com.enonic.cms.business.core.structure.SiteService;
-import com.enonic.cms.business.mail.SendMailService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 

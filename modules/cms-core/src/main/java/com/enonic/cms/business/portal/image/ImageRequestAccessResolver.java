@@ -7,7 +7,7 @@ import com.enonic.cms.api.util.Preconditions;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.image.ImageRequest;
+import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 

@@ -172,7 +172,7 @@
         <property name="host" value="${cms.mail.smtpHost}"/>
     </bean>
 
-    <bean id="sendMailService" class="com.enonic.cms.business.mail.SendMailServiceImpl">
+    <bean id="sendMailService" class="com.enonic.cms.core.mail.SendMailServiceImpl">
         <property name="fromMail" value="${cms.admin.email}"/>
     </bean>
 
@@ -200,9 +200,9 @@
 
     <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
 
-    <bean id="captchaService" class="com.enonic.cms.business.captcha.CaptchaServiceImpl"/>
+    <bean id="captchaService" class="com.enonic.cms.core.captcha.CaptchaServiceImpl"/>
 
-    <bean id="captchaRepository" class="com.enonic.cms.business.captcha.CaptchaRepositoryImpl"/>
+    <bean id="captchaRepository" class="com.enonic.cms.core.captcha.CaptchaRepositoryImpl"/>
 
     <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 

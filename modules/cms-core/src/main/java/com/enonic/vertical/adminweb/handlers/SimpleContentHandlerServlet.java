@@ -20,7 +20,6 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -45,7 +44,7 @@ import com.enonic.cms.business.core.content.AssignmentDataParser;
 import com.enonic.cms.business.core.content.command.ImportContentCommand;
 import com.enonic.cms.business.core.content.imports.ImportJob;
 import com.enonic.cms.business.core.content.mail.ImportedContentAssignmentMailTemplate;
-import com.enonic.cms.business.mail.MailRecipient;
+import com.enonic.cms.core.mail.MailRecipient;
 
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
