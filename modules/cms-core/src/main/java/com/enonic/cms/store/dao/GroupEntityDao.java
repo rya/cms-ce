@@ -17,6 +17,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
@@ -28,7 +29,8 @@ import com.enonic.cms.domain.security.group.GroupSpecification;
 import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
-public class GroupEntityDao
+@Repository("groupDao")
+final class GroupEntityDao
     extends AbstractBaseEntityDao<GroupEntity>
     implements GroupDao
 {

@@ -15,6 +15,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
@@ -27,7 +28,8 @@ import com.enonic.cms.domain.security.user.UserSpecification;
 import com.enonic.cms.domain.security.user.UserType;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 
-public class UserEntityDao
+@Repository("userDao")
+final class UserEntityDao
     extends AbstractBaseEntityDao<UserEntity>
     implements UserDao
 {

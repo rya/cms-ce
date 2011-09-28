@@ -9,8 +9,10 @@ import java.util.List;
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.security.userstore.UserStoreEntity;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import org.springframework.stereotype.Repository;
 
-public class UserStoreEntityDao
+@Repository("userStoreDao")
+final class UserStoreEntityDao
     extends AbstractBaseEntityDao<UserStoreEntity>
     implements UserStoreDao
 {

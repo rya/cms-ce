@@ -17,6 +17,7 @@ import com.enonic.cms.store.dao.VirtualFileDao;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
 import com.enonic.cms.domain.content.binary.BinaryDataEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public final class DbUsedBlobKeyFinder
     implements UsedBlobKeyFinder
@@ -60,11 +61,13 @@ public final class DbUsedBlobKeyFinder
         }
     }
 
+    @Autowired
     public void setBinaryDataDao( final BinaryDataDao dao )
     {
         this.binaryDataDao = dao;
     }
 
+    @Autowired
     public void setVirtualFileDao( final VirtualFileDao dao )
     {
         this.virtualFileDao = dao;

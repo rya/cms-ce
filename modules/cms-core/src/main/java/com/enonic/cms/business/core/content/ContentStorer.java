@@ -25,7 +25,6 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentEntityDao;
 import com.enonic.cms.store.dao.ContentHomeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
@@ -115,7 +114,7 @@ public class ContentStorer
     private ContentValidator contentValidator;
 
     @Autowired
-    private ContentEntityDao contentEntityDao;
+    private ContentDao contentEntityDao;
 
     public ContentEntity createContent( final CreateContentCommand createContentCommand )
     {

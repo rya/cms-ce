@@ -6,8 +6,10 @@ package com.enonic.cms.store.dao;
 
 import com.enonic.cms.domain.content.category.CategoryAccessEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
+import org.springframework.stereotype.Repository;
 
-public class CategoryAccessEntityDao
+@Repository("categoryAccessDao")
+final class CategoryAccessEntityDao
     extends AbstractBaseEntityDao<CategoryAccessEntity>
     implements CategoryAccessDao
 {
@@ -15,6 +17,4 @@ public class CategoryAccessEntityDao
     {
         deleteByNamedQuery( "CategoryAccessEntity.deleteByGroupKey", "groupKey", groupKey );
     }
-
-
 }

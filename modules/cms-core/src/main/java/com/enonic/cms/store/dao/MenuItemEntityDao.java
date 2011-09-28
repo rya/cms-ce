@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.store.dao;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,8 +18,10 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.domain.structure.page.PageSpecification;
 import com.enonic.cms.domain.structure.page.template.PageTemplateSpecification;
+import org.springframework.stereotype.Repository;
 
-public class MenuItemEntityDao
+@Repository("menuItemDao")
+final class MenuItemEntityDao
     extends AbstractBaseEntityDao<MenuItemEntity>
     implements MenuItemDao
 {

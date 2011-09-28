@@ -8,8 +8,10 @@ import java.util.List;
 
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.content.UnitEntity;
+import org.springframework.stereotype.Repository;
 
-public class UnitEntityDao
+@Repository("unitDao")
+final class UnitEntityDao
     extends AbstractBaseEntityDao<UnitEntity>
     implements UnitDao
 {

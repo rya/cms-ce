@@ -17,66 +17,13 @@ import com.enonic.cms.framework.blob.BlobStore;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
 import com.enonic.cms.domain.EntityPageList;
+import org.springframework.stereotype.Repository;
 
-public class VirtualFileDaoImpl
+@Repository("virtualFileDao")
+final class VirtualFileDaoImpl
     extends AbstractBaseEntityDao<VirtualFileEntity>
-    implements VirtualFileDao, InitializingBean, DisposableBean
+    implements VirtualFileDao
 {
-    @Autowired
-    @Qualifier("sessionFactory")
-    private SessionFactory sessionFactory;
-
-    /**
-     * Prefix.
-     */
-    private String scheme;
-
-    /**
-     * Hidden file list.
-     */
-    private String excludePattern;
-
-    /**
-     * Default folder list.
-     */
-    private String defaultFolderList;
-
-    private boolean defaultFoldersCreated = false;
-
-    @Autowired
-    @Qualifier("blobStore")
-    private BlobStore blobStore;
-
-    public void afterPropertiesSet()
-        throws Exception
-    {
-    }
-
-    public void destroy()
-    {
-    }
-
-    /**
-     * Set the hidden files.
-     */
-    public void setExcludePattern( String excludePattern )
-    {
-        this.excludePattern = excludePattern;
-    }
-
-    /**
-     * Set the scheme.
-     */
-    public void setScheme( String scheme )
-    {
-        this.scheme = scheme;
-    }
-
-    public void setDefaultFolderList( String defaultFolderList )
-    {
-        this.defaultFolderList = defaultFolderList;
-    }
-
     public List<VirtualFileEntity> findAll()
     {
         return findByNamedQuery( VirtualFileEntity.class, "VirtualFileEntity.getAll" );

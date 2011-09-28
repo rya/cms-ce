@@ -6,11 +6,10 @@ package com.enonic.cms.store.dao;
 
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.structure.DefaultSiteAccessEntity;
+import org.springframework.stereotype.Repository;
 
-/**
- * Jul 8, 2009
- */
-public class DefaultSiteAccessEntityDao
+@Repository("defaultSiteAccessDao")
+final class DefaultSiteAccessEntityDao
     extends AbstractBaseEntityDao<DefaultSiteAccessEntity>
     implements DefaultSiteAccessDao
 {

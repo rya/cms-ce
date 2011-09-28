@@ -13,8 +13,10 @@ import com.enonic.cms.domain.resource.FileResourceName;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceFolder;
 import com.enonic.cms.domain.resource.ResourceKey;
+import org.springframework.stereotype.Repository;
 
-public class ResourceDaoImpl
+@Repository("resourceDao")
+final class ResourceDaoImpl
     implements ResourceDao
 {
     @Autowired

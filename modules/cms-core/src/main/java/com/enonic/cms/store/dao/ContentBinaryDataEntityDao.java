@@ -9,8 +9,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import org.springframework.stereotype.Repository;
 
-public class ContentBinaryDataEntityDao
+@Repository("contentBinaryDataDao")
+final class ContentBinaryDataEntityDao
     extends AbstractBaseEntityDao<ContentBinaryDataEntity>
     implements ContentBinaryDataDao
 {

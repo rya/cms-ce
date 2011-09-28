@@ -6,8 +6,10 @@ package com.enonic.cms.store.dao;
 
 import com.enonic.cms.domain.content.ContentAccessEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
+import org.springframework.stereotype.Repository;
 
-public class ContentAccessEntityDao
+@Repository("contentAccessDao")
+final class ContentAccessEntityDao
     extends AbstractBaseEntityDao<ContentAccessEntity>
     implements ContentAccessDao
 {

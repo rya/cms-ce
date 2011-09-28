@@ -1,14 +1,14 @@
 package com.enonic.cms.business.core.content;
 
-import com.enonic.cms.store.dao.ContentEntityDao;
+import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.content.ContentEntity;
 
 public class ContentNameForCopiesResolver
 {
-    private ContentEntityDao contentEntityDao;
+    private ContentDao contentEntityDao;
 
-    public ContentNameForCopiesResolver( ContentEntityDao contentEntityDao )
+    public ContentNameForCopiesResolver( ContentDao contentEntityDao )
     {
         this.contentEntityDao = contentEntityDao;
     }

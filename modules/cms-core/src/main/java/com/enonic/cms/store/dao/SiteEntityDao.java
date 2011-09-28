@@ -26,8 +26,10 @@ import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.section.SectionContentTypeFilterEntity;
+import org.springframework.stereotype.Repository;
 
-public class SiteEntityDao
+@Repository("siteDao")
+final class SiteEntityDao
     extends AbstractBaseEntityDao<SiteEntity>
     implements SiteDao
 {

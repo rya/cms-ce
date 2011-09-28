@@ -10,8 +10,10 @@ import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import org.springframework.stereotype.Repository;
 
-public class PortletEntityDao
+@Repository("portletDao")
+final class PortletEntityDao
     extends AbstractBaseEntityDao<PortletEntity>
     implements PortletDao
 {

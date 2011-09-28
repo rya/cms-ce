@@ -21,8 +21,10 @@ import com.enonic.cms.core.log.LogEntryKey;
 import com.enonic.cms.core.log.LogEntrySpecification;
 import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.log.LogType;
+import org.springframework.stereotype.Repository;
 
-public class LogEntryEntityDao
+@Repository("logEntryDao")
+final class LogEntryEntityDao
     extends AbstractBaseEntityDao<LogEntryEntity>
     implements LogEntryDao
 {
@@ -168,7 +170,7 @@ public class LogEntryEntityDao
 
 }
 
-class LogEntryResultTransformer
+final class LogEntryResultTransformer
     implements ResultTransformer
 {
 

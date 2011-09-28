@@ -9,8 +9,10 @@ import java.util.List;
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.resource.ResourceKey;
+import org.springframework.stereotype.Repository;
 
-public class ContentTypeEntityDao
+@Repository("contentTypeDao")
+final class ContentTypeEntityDao
     extends AbstractBaseEntityDao<ContentTypeEntity>
     implements ContentTypeDao
 {

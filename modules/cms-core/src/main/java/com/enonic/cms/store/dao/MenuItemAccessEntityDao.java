@@ -10,8 +10,10 @@ import java.util.List;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemAccessKey;
+import org.springframework.stereotype.Repository;
 
-public class MenuItemAccessEntityDao
+@Repository("menuItemAccessDao")
+final class MenuItemAccessEntityDao
     extends AbstractBaseEntityDao<MenuItemAccessEntity>
     implements MenuItemAccessDao
 {

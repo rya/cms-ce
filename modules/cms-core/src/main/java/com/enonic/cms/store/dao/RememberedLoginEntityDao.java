@@ -8,9 +8,10 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.security.RememberedLoginEntity;
 import com.enonic.cms.domain.security.RememberedLoginKey;
 import com.enonic.cms.domain.security.user.UserKey;
+import org.springframework.stereotype.Repository;
 
-
-public class RememberedLoginEntityDao
+@Repository("rememberedLoginDao")
+final class RememberedLoginEntityDao
     extends AbstractBaseEntityDao<RememberedLoginEntity>
     implements RememberedLoginDao
 {

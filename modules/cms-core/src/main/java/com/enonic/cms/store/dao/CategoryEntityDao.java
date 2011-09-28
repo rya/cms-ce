@@ -14,12 +14,13 @@ import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.security.group.GroupKey;
+import org.springframework.stereotype.Repository;
 
-public class CategoryEntityDao
+@Repository("categoryDao")
+final class CategoryEntityDao
     extends AbstractBaseEntityDao<CategoryEntity>
     implements CategoryDao
 {
-
     @Autowired
     @Qualifier("sessionFactory")
     private SessionFactory sessionFactory;

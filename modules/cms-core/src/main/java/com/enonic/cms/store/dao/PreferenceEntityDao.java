@@ -10,8 +10,10 @@ import java.util.List;
 import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceKey;
 import com.enonic.cms.core.preference.PreferenceSpecification;
+import org.springframework.stereotype.Repository;
 
-public class PreferenceEntityDao
+@Repository("preferenceDao")
+final class PreferenceEntityDao
     extends AbstractBaseEntityDao<PreferenceEntity>
     implements PreferenceDao
 {

@@ -8,8 +8,10 @@ import java.util.List;
 
 import com.enonic.cms.domain.content.ContentHandlerEntity;
 import com.enonic.cms.domain.content.ContentHandlerKey;
+import org.springframework.stereotype.Repository;
 
-public class ContentHandlerEntityDao
+@Repository("contentHandlerDao")
+final class ContentHandlerEntityDao
     extends AbstractBaseEntityDao<ContentHandlerEntity>
     implements ContentHandlerDao
 {

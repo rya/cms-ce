@@ -6,8 +6,10 @@ package com.enonic.cms.store.dao;
 
 import com.enonic.cms.domain.content.RelatedContentEntity;
 import com.enonic.cms.domain.content.RelatedContentKey;
+import org.springframework.stereotype.Repository;
 
-public class RelatedContentEntityDao
+@Repository("relatedContentDao")
+final class RelatedContentEntityDao
     extends AbstractBaseEntityDao<RelatedContentEntity>
     implements RelatedContentDao
 {

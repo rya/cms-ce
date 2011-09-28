@@ -12,13 +12,11 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
 
 import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.structure.SiteEntity;
@@ -27,6 +25,7 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemType;
 import com.enonic.cms.domain.structure.page.PageEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import org.mockito.Mockito;
 
 public abstract class AbstractSiteXmlCreatorTest
     extends AbstractXmlCreatorTest
@@ -50,21 +49,8 @@ public abstract class AbstractSiteXmlCreatorTest
     {
         super.setUp();
 
-        GroupDao groupDao = new GroupEntityDao()
-        {
+        GroupDao groupDao = Mockito.mock(GroupDao.class);
 
-            @Override
-            public GroupEntity findBuiltInAnonymous()
-            {
-                return null;
-            }
-
-            @Override
-            public GroupEntity findBuiltInEnterpriseAdministrator()
-            {
-                return null;
-            }
-        };
         menuItemAccessResolver = new MenuItemAccessResolver( groupDao )
         {
             @Override

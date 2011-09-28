@@ -15,9 +15,10 @@ import com.enonic.cms.framework.blob.BlobStore;
 
 import com.enonic.cms.domain.content.binary.BinaryDataEntity;
 import com.enonic.cms.domain.content.binary.BinaryDataKey;
+import org.springframework.stereotype.Repository;
 
-
-public class BinaryDataEntityDao
+@Repository("binaryDataDao")
+final class BinaryDataEntityDao
     extends AbstractBaseEntityDao<BinaryDataEntity>
     implements BinaryDataDao
 {

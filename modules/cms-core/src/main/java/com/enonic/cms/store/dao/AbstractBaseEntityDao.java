@@ -18,7 +18,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.enonic.cms.domain.EntityPageList;
 
 
-public abstract class AbstractBaseEntityDao<T>
+abstract class AbstractBaseEntityDao<T>
     implements EntityDao<T>
 {
 

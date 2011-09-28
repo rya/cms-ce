@@ -6,9 +6,10 @@ package com.enonic.cms.store.dao;
 
 import com.enonic.cms.domain.structure.menuitem.MenuItemContentEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemContentKey;
+import org.springframework.stereotype.Repository;
 
-
-public class MenuItemContentEntityDao
+@Repository("menuItemContentDao")
+final class MenuItemContentEntityDao
     extends AbstractBaseEntityDao<MenuItemContentEntity>
     implements MenuItemContentDao
 {

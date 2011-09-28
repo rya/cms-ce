@@ -18,8 +18,10 @@ import com.enonic.cms.domain.content.ContentVersionSpecification;
 import com.enonic.cms.domain.content.category.CategoryAccessEntity;
 import com.enonic.cms.domain.content.category.CategoryAccessType;
 import com.enonic.cms.domain.security.group.GroupKey;
+import org.springframework.stereotype.Repository;
 
-public class ContentVersionEntityDao
+@Repository("contentVersionDao")
+final class ContentVersionEntityDao
     extends AbstractBaseEntityDao<ContentVersionEntity>
     implements ContentVersionDao
 {

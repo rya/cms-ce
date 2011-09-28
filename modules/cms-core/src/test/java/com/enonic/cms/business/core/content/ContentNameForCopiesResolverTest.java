@@ -4,7 +4,7 @@ import org.mockito.Mockito;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.store.dao.ContentEntityDao;
+import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.category.CategoryEntity;
@@ -14,7 +14,7 @@ public class ContentNameForCopiesResolverTest
 {
     private final CategoryEntity category = new CategoryEntity();
 
-    private ContentEntityDao contentEntityDao;
+    private ContentDao contentEntityDao;
     private ContentNameForCopiesResolver resolver;
 
 
@@ -23,7 +23,7 @@ public class ContentNameForCopiesResolverTest
             throws Exception
     {
         // re-init contentEntityDao each time
-        contentEntityDao = Mockito.mock( ContentEntityDao.class );
+        contentEntityDao = Mockito.mock( ContentDao.class );
         resolver = new ContentNameForCopiesResolver(contentEntityDao);
     }
 

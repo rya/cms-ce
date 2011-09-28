@@ -77,13 +77,13 @@ public class ResourceServiceImpl
         if ( source instanceof ResourceFile )
         {
             ResourceKey newResourceKey = new ResourceKey( destination.getResourceKey() + "/" + source.getName() );
-            resourceUsageDao.updateResoruceReference( source.getResourceKey(), newResourceKey );
+            resourceUsageDao.updateResourceReference(source.getResourceKey(), newResourceKey);
         }
         else if ( source instanceof ResourceFolder )
         {
             String oldPrefix = source.getPath() + "/";
             String newPrefix = destination.getPath() + "/" + source.getName() + "/";
-            resourceUsageDao.updateResoruceReferencePrefix( oldPrefix, newPrefix );
+            resourceUsageDao.updateResourceReferencePrefix(oldPrefix, newPrefix);
         }
         else
         {

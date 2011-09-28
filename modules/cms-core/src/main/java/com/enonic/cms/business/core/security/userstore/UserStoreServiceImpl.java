@@ -24,7 +24,7 @@ import com.google.common.collect.Multimap;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.UserEntityDao;
+import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.core.security.group.GroupStorageService;
@@ -89,7 +89,7 @@ public class UserStoreServiceImpl
     private UserStoreDao userStoreDao;
 
     @Autowired
-    private UserEntityDao userDao;
+    private UserDao userDao;
 
     @Autowired
     private GroupDao groupDao;
