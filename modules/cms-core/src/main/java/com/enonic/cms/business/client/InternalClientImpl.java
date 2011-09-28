@@ -47,6 +47,7 @@ import com.enonic.cms.api.client.model.GetContentByCategoryParams;
 import com.enonic.cms.api.client.model.GetContentByQueryParams;
 import com.enonic.cms.api.client.model.GetContentBySectionParams;
 import com.enonic.cms.api.client.model.GetContentParams;
+import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
 import com.enonic.cms.api.client.model.GetContentVersionsParams;
 import com.enonic.cms.api.client.model.GetGroupParams;
 import com.enonic.cms.api.client.model.GetGroupsParams;
@@ -91,7 +92,6 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.GroupQuery;
-import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
@@ -127,6 +127,7 @@ import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.content.ContentVersionKey;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.content.imports.ImportResult;
 import com.enonic.cms.domain.content.imports.ImportResultXmlCreator;
 import com.enonic.cms.domain.content.index.ContentIndexQuery.SectionFilterStatus;
@@ -234,8 +235,6 @@ public final class InternalClientImpl
     @Autowired
     private ContentTypeDao contentTypeDao;
 
-    private MenuItemDao menuItemDao;
-
     @Autowired(required = false)
     private SiteCachesService siteCachesService;
 
@@ -250,6 +249,11 @@ public final class InternalClientImpl
     private SitePropertiesService sitePropertiesService;
 
     private PreviewService previewService;
+
+    public void setContentTypeDao( ContentTypeDao contentTypeDao )
+    {
+        this.contentTypeDao = contentTypeDao;
+    }
 
     public KeyService getKeyService()
     {
@@ -2281,12 +2285,6 @@ public final class InternalClientImpl
         this.internalClientContentService = internalClientContentService;
     }
 
-    @Autowired
-    public void setMenuItemDao( MenuItemDao menuItemDao )
-    {
-        this.menuItemDao = menuItemDao;
-    }
-
     public void setPreviewService( PreviewService previewService )
     {
         this.previewService = previewService;
@@ -2342,5 +2340,45 @@ public final class InternalClientImpl
         }
 
         return map;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
+        throws ClientException
+    {
+        try
+        {
+            if ( params.key == null && params.name == null )
+            {
+                throw new IllegalArgumentException( "Either key or name must be specified" );
+            }
+
+            if ( params.key != null )
+            {
+                ContentTypeEntity contentType = contentTypeDao.findByKey( params.key );
+                if ( contentType == null )
+                {
+                    throw new IllegalArgumentException( "contentType not found, given key: " + params.key );
+                }
+                return contentType.getData();
+            }
+            else if ( params.name != null )
+            {
+                ContentTypeEntity contentType = contentTypeDao.findByName( params.name );
+                if ( contentType == null )
+                {
+                    throw new IllegalArgumentException( "contentType not found, given name: " + params.name );
+                }
+                // renaming root element from moduledata to contenttype
+                Document rawDoc = (Document) contentType.getData().clone();
+                rawDoc.getRootElement().setName( "contenttype" );
+                return rawDoc;
+            }
+            return null;
+        }
+        catch ( Exception e )
+        {
+            throw handleException( e );
+        }
     }
 }
