@@ -24,7 +24,6 @@ Ext.define( 'App.controller.UserWizardController', {
 
     validateStep: function( wizard, step )
     {
-        console.log( 'beforestepchanged\n' + wizard + '\n' + step );
         var data = {};
         data[ step.title ] = true;
         wizard.addData( data );
@@ -32,12 +31,12 @@ Ext.define( 'App.controller.UserWizardController', {
 
     stepChanged: function( wizard, oldStep, newStep )
     {
-        console.log( 'stepchanged\n' + wizard + '\n' + oldStep + '\n' + newStep );
+
     },
 
     wizardFinished: function( wizard, data )
     {
-        console.log( 'finished\n' + data );
+
     },
 
     wizardPrev: function( btn, evt )
