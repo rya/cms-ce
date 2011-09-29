@@ -1,10 +1,9 @@
 <html>
 <head>
-    <title>Enonic CMS Admin</title>
+    <title>User Wizard Test</title>
     <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
     <script type="text/javascript" src="ext/ext-all-debug.js"></script>
-    <script type="text/javascript" src="app/setup.js"></script>
 
     <script type="text/javascript">
 
@@ -22,25 +21,19 @@
             appFolder: 'app/account/js',
 
             controllers: [
-                'UserController',
                 'UserWizardController'
             ],
 
             requires: [
-                'Common.TabPanel'//,
-//                'App.view.ShowPanel',
-//                'App.view.FilterPanel'
+                'App.view.wizard.UserWizardPanel'
             ],
 
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
-                    layout: 'border',
-                    padding: 5,
-
+                    layout: 'fit',
                     items: [
                         {
-                            region: 'center',
-                            xtype: 'cmsTabPanel'
+                            xtype: 'userWizardPanel'
                         }
                     ]
                 });

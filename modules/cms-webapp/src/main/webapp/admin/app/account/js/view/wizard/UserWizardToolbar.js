@@ -1,4 +1,4 @@
-Ext.define('App.view.UserWizardToolbar', {
+Ext.define('App.view.wizard.UserWizardToolbar', {
     extend: 'Ext.toolbar.Toolbar',
     alias : 'widget.userWizardToolbar',
 
@@ -32,20 +32,27 @@ Ext.define('App.view.UserWizardToolbar', {
                 items: [
                     {
                         text: 'Previous',
-                        iconCls: 'icon-btn-arrow-left-24'
+                        iconCls: 'icon-btn-arrow-left-24',
+                        itemId: 'prev',
+                        disabled: true,
+                        action: 'wizardPrev'
                     },
                     {
                         text: 'Next',
-                        iconCls: 'icon-btn-arrow-right-24'
+                        iconCls: 'icon-btn-arrow-right-24',
+                        itemId: 'next',
+                        action: 'wizardNext'
                     },
                     {
                         text: 'Finish',
-                        iconCls: 'icon-btn-tick-24'
+                        iconCls: 'icon-btn-tick-24',
+                        disabled: true,
+                        itemId: 'finish',
+                        action: 'wizardNext'
                     }
                 ]
             }
         ];
-
         this.callParent(arguments);
     }
 
