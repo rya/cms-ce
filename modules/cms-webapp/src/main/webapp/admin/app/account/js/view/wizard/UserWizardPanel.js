@@ -58,20 +58,20 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                             xtype: 'userStoreListPanel'
                         },
                         {
-                            title: "Step 2",
-                            html: 'Panel 2<br/> dfs dfwe fhgh wer wvd fggf '
+                            stepTitle: "Step 2",
+                            html: 'Panel 2<br/> Suspendisse massa justo, commodo viverra mollis vel, faucibus cursus nulla.'
                         },
                         {
                             stepTitle: "Step 3",
-                            html: 'Panel 3'
+                            html: 'Panel 3<br/>Quisque non tellus in massa feugiat dictum.'
                         },
                         {
                             stepTitle: "Step 4",
-                            html: 'Panel 4<br/> dfg we ewgr er gwe ergerg ergewr gsd'
+                            html: 'Quisque augue urna, lacinia ac consectetur sed, accumsan sit amet sapien.'
                         },
                         {
                             stepTitle: "Step 5",
-                            html: 'Panel 5<br/> rtewr wr wer wer wertg dfg df'
+                            html: 'Panel 5<br/> Duis vel nibh enim. Mauris vel risus erat, eu tristique elit.'
                         }
                     ]
                 }
