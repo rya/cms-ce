@@ -53,7 +53,6 @@ Ext.define('App.view.wizard.UserWizardToolbar', {
                 ]
             }
         ];
-
         this.callParent(arguments);
     }
 
