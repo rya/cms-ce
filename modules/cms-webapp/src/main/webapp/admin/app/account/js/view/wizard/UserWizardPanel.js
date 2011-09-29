@@ -17,12 +17,9 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         border: false
     },
 
-    dockedItems: [
-        {
-            xtype: 'userWizardToolbar',
-            dock: 'top'
-        }
-    ],
+    tbar: {
+        xtype: 'userWizardToolbar'
+    },
 
     items: [
         {
