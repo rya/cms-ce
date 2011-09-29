@@ -1,4 +1,4 @@
-Ext.define('App.view.UserWizardToolbar', {
+Ext.define('App.view.wizard.UserWizardToolbar', {
     extend: 'Ext.toolbar.Toolbar',
     alias : 'widget.userWizardToolbar',
 
@@ -41,6 +41,13 @@ Ext.define('App.view.UserWizardToolbar', {
                         text: 'Next',
                         iconCls: 'icon-btn-arrow-right-24',
                         itemId: 'next',
+                        action: 'wizardNext'
+                    },
+                    {
+                        text: 'Finish',
+                        iconCls: 'icon-btn-tick-24',
+                        disabled: true,
+                        itemId: 'finish',
                         action: 'wizardNext'
                     }
                 ]

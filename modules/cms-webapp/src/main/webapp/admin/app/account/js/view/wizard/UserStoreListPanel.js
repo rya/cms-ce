@@ -1,4 +1,4 @@
-Ext.define('App.view.UserStoreListPanel', {
+Ext.define('App.view.wizard.UserStoreListPanel', {
     extend: 'Ext.view.View',
     alias : 'widget.userStoreListPanel',
 

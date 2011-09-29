@@ -137,13 +137,21 @@ Ext.define( 'Common.WizardPanel', {
     updateButtons: function( toolbar )
     {
         if( toolbar ) {
-            var prev = toolbar.down( '#prev' );
+            var prev = toolbar.down( '#prev' ),
+                next = toolbar.down( '#next' ),
+                finish = toolbar.down( '#finish' );
+            var hasNext = this.getNext(),
+                hasPrev = this.getPrev();
             if( prev ) {
-                prev.setDisabled( !this.getPrev() );
+                prev.setDisabled( !hasPrev );
             }
-            var next = toolbar.down( '#next' );
             if( next ) {
-                next.setText( this.getNext() ? 'Next' : 'Finish' );
+                if ( finish ) {
+                    next.setDisabled( !hasNext );
+                    finish.setDisabled( hasNext )
+                } else {
+                    next.setText( hasNext ? 'Next' : 'Finish' );
+                }
             }
         }
     },

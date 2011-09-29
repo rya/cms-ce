@@ -1,10 +1,10 @@
-Ext.define( 'App.view.UserWizardPanel', {
+Ext.define( 'App.view.wizard.UserWizardPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.userWizardPanel',
     requires: [
         'Common.WizardPanel',
-        'App.view.UserStoreListPanel',
-        'App.view.UserWizardToolbar'
+        'App.view.wizard.UserStoreListPanel',
+        'App.view.wizard.UserWizardToolbar'
     ],
 
     layout: {

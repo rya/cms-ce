@@ -23,9 +23,9 @@ Ext.define( 'App.controller.UserController', {
         'AddressPanel',
         'AddressContainer',
         'GroupDetailButton',
-        'UserWizardToolbar',
-        'UserWizardPanel',
-        'UserStoreListPanel'
+        'wizard.UserWizardToolbar',
+        'wizard.UserWizardPanel',
+        'wizard.UserStoreListPanel'
     ],
 
     init: function()
