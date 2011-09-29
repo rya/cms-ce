@@ -1,67 +1,78 @@
 Ext.define( 'App.view.DeleteWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.userDeleteWindow',
-
-    height: 182,
-    width: 400,
-
     title: 'Delete User',
+    layout: 'fit',
+    width: 350,
+    bodyPadding: 10,
+    plain: true,
     modal: true,
-
-    layout: {
-        type: 'vbox',
-        align: 'stretch',
-        defaultMargins: {top:10, right:10, bottom:10, left:10}
-    },
-
-    items: [
-        {
-            xtype: 'form',
-            id: 'line1',
-            layout: {
-                type: 'hbox',
-                defaultMargins: {top:0, right:10, bottom:0, left:0}
-            },
-            items: [
-                {
-                    xtype: 'image',
-                    id: 'photo'
-                },
-                {
-                    xtype: 'label',
-                    id: 'dName'
-                }
-            ]
-        }
-    ],
+    border: false,
 
     initComponent: function()
     {
+        // TODO: Generalize (same template used in change password window)
+        var tplDeleteOneHtml = '<div class="cms-delete-user-confirmation-message">'
+                +'<div class="cms-user-info clearfix">'
+                +'<div class="cms-user-photo cms-left">'
+                +'<img alt="User" src="data/user/photo?key={key}&thumb=true"/>'
+                +'</div>'
+                +'<div class="cms-left">'
+                +'{displayName}<br/>'
+                +'({qualifiedName})<br/>'
+                +'<a href="mailto:{email}:">{email}</a>'
+                +'</div>'
+                +'</div>'
+                +'</div>';
+
+        var tplDeleteManyHtml = '<div class="cms-delete-user-confirmation-message">'
+                +'<div class="icon-question-mark-32 cms-left" style="width:32px; height:32px; margin-right: 10px">'
+                +'</div>'
+                +'<div class="cms-left" style="margin-top:5px">'
+                +'Are you sure you want to delete the selected {selectionLength} items?'
+                +'</div>'
+                +'</div>';
+
+        this.listeners = {
+                    'render': function() {
+                        if (this.selectionLength === 1)
+                        {
+                            this.tpl = new Ext.XTemplate(tplDeleteOneHtml),
+                            this.update(this.modelData);
+                        }
+                        else
+                        {
+                            this.tpl = new Ext.XTemplate(tplDeleteManyHtml),
+                            this.update({selectionLength: this.selectionLength});
+                        }
+                    }
+                }
+
         this.buttons = [
             {
                 text: 'Cancel',
-                scope: this,
-                handler: this.close
+                handler: function() {
+                    this.up('window').close();
+                }
             },
             {
-                text: 'Delete user',
-                action: 'deleteUser'
+                text: 'Delete user'
             }
         ];
+
         this.callParent( arguments );
     },
 
-    doShow: function( model )
+    doShow: function( selection )
     {
-        this.title = 'Delete User';
-        this.userKey = model.get('key');
-        var name = this.child( '#line1' ).child( '#dName' );
-        var photo = this.child( '#line1' ).child( '#photo' );
-        name.text = model.data.displayName + ' (' + model.data.qualifiedName + ')';
-        photo.src = 'data/user/photo?key=' + model.data.key;
-        photo.addCls('photo');
+        this.selectionLength = selection.length;
+
+        if ( this.selectionLength === 1 )
+        {
+            this.modelData = selection[0].data;
+        }
+
         this.show();
     }
 
-} );
-
+});

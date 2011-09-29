@@ -197,7 +197,7 @@ Ext.define( 'App.controller.UserController', {
     showDeleteUserWindow: function()
     {
         Ext.create('widget.userDeleteWindow');
-        this.getUserDeleteWindow().doShow( this.getSelectedGridItem() );
+        this.getUserDeleteWindow().doShow( this.getUserGrid().getSelectionModel().getSelection() );
     },
 
     showChangePasswordWindow: function()
