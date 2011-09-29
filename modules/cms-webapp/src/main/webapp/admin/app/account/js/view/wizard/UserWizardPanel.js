@@ -59,19 +59,19 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                             xtype: 'userStoreListPanel'
                         },
                         {
-                            stepTitle: "Step 2",
+                            stepTitle: "Profile",
                             html: 'Panel 2<br/> Suspendisse massa justo, commodo viverra mollis vel, faucibus cursus nulla.'
                         },
                         {
-                            stepTitle: "Step 3",
+                            stepTitle: "User",
                             html: 'Panel 3<br/>Quisque non tellus in massa feugiat dictum.'
                         },
                         {
-                            stepTitle: "Step 4",
+                            stepTitle: "Memberships",
                             html: 'Quisque augue urna, lacinia ac consectetur sed, accumsan sit amet sapien.'
                         },
                         {
-                            stepTitle: "Step 5",
+                            stepTitle: "Finalize",
                             html: 'Panel 5<br/> Duis vel nibh enim. Mauris vel risus erat, eu tristique elit.'
                         }
                     ]

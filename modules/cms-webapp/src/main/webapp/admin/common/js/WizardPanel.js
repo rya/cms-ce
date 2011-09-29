@@ -53,7 +53,7 @@ Ext.define( 'Common.WizardPanel', {
                         '<tpl for=".">',
                             '<li>',
                                 '<a href="javascript:;" {[ this.isCurrent( xindex - 1 ) ? "class=current" : "" ]}>',
-                                    '{[ (values.stepTitle || values.title) ]}',
+                                    '{[xindex]}. {[  (values.stepTitle || values.title) ]}',
                                    '<span class="arrow"></span>',
                                 '</a>',
                             '</li>',
