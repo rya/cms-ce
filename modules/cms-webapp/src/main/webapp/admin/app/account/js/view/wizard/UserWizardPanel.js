@@ -45,6 +45,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
             },
             items: [
                 {
+                    cls: 'cms-new-user-header',
                     styleHtmlContent: true,
                     html: '<h1>New User</h1><h4>User Wizard</h4>'
                 },

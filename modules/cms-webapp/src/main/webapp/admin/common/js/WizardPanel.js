@@ -2,7 +2,6 @@ Ext.define( 'Common.WizardPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.wizardPanel',
     requires: ['Common.WizardLayout'],
-
     layout: 'wizard',
     autoScroll: true,
     defaults: {
@@ -48,12 +47,18 @@ Ext.define( 'Common.WizardPanel', {
             xtype: 'component',
             dock: 'top',
             styleHtmlContent: true,
-            margin: '0 10 5',
+            margin: 0,
             tpl: new Ext.XTemplate(
-                    '<tpl for="."><h3 style="float: left; font-weight: normal;">',
-                    '{[ this.isCurrent( xindex - 1 ) ? "<b>" + (values.stepTitle || values.title) + "</b>" : (values.stepTitle || values.title) ]}',
-                    '{[ xindex < xcount ? "<span>&nbsp;>&nbsp;</span>" : "" ]}',
-                    '</h3></tpl>',
+                    '<ol class="cms-wizard-steps clearfix">',
+                        '<tpl for=".">',
+                            '<li>',
+                                '<a href="javascript:;" {[ this.isCurrent( xindex - 1 ) ? "class=current" : "" ]}>',
+                                    '{[ (values.stepTitle || values.title) ]}',
+                                   '<span class="arrow"></span>',
+                                '</a>',
+                            '</li>',
+                        '</tpl>',
+                    '</ol>',
                     {
                         isCurrent: function( index ) {
                             return wizard.getLayout().getActiveItem()

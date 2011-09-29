@@ -681,3 +681,66 @@ div.userstore:hover {
 .userstore input{
     vertical-align: middle;
 }
+
+/*New form*/
+.cms-new-user-header {
+    margin-bottom: 1em;
+}
+
+.cms-new-user-header h4 {
+    margin: 0 !important;
+}
+
+/* Wizard navigation */
+.cms-wizard-steps {
+    background-color: #eee;
+    margin: 0 !important;
+    padding: 0;
+    height: 38px;
+    list-style-type:none;
+    font: 11px/38px Tahoma; /* line-height MUST be the same as height */
+}
+
+.cms-wizard-steps li {
+    float: left; /*ie6/7 needs this */
+    list-style: none !important;
+}
+
+.cms-wizard-steps a {
+    float: left;
+    position:relative;
+    padding: 0 25px 0 15px;
+    color: #333;
+    text-decoration: none !important;
+    outline: none;
+    cursor: default;
+}
+
+.cms-wizard-steps a.current {
+    font-weight: bold;
+    color: #000;
+}
+
+.cms-wizard-steps a.odd {
+    background: #e9e9e9;
+}
+
+.cms-wizard-steps span {
+    position: absolute;
+    display: block;
+    line-height: 0;
+    height: 0;
+    width: 0;
+    right: 0;
+    top: 0;
+    border-top: 20px solid #fff;
+    border-right: none;
+    border-bottom: 18px solid #fff;
+    border-left: 17px solid #eee;
+}
+
+.cms-wizard-steps a.odd span {
+    border-left: 10px solid #fff;
+    border-top: 15px solid #eee;
+    border-bottom: 15px solid #eee;
+}
