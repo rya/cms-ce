@@ -49,6 +49,7 @@ import com.enonic.cms.api.client.model.GetContentByCategoryParams;
 import com.enonic.cms.api.client.model.GetContentByQueryParams;
 import com.enonic.cms.api.client.model.GetContentBySectionParams;
 import com.enonic.cms.api.client.model.GetContentParams;
+import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
 import com.enonic.cms.api.client.model.GetContentVersionsParams;
 import com.enonic.cms.api.client.model.GetGroupParams;
 import com.enonic.cms.api.client.model.GetGroupsParams;
@@ -92,6 +93,7 @@ import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.CategoryService;
 import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
@@ -155,6 +157,7 @@ import com.enonic.cms.portal.datasource.DataSourceContext;
 import com.enonic.cms.portal.datasource.context.UserContextXmlCreator;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.GroupQuery;
@@ -230,6 +233,14 @@ public final class InternalClientImpl
 
     @Inject
     private SiteCachesService siteCachesService;
+
+    @Inject
+    private ContentTypeDao contentTypeDao;
+
+    public void setContentTypeDao( ContentTypeDao contentTypeDao )
+    {
+        this.contentTypeDao = contentTypeDao;
+    }
 
     /**
      * Vertical properties.
@@ -2289,5 +2300,45 @@ public final class InternalClientImpl
         binaryElem.addContent( dataElem );
 
         return new Document( binaryElem );
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
+        throws ClientException
+    {
+        try
+        {
+            if ( params.key == null && params.name == null )
+            {
+                throw new IllegalArgumentException( "Either key or name must be specified" );
+            }
+
+            if ( params.key != null )
+            {
+                ContentTypeEntity contentType = contentTypeDao.findByKey( params.key );
+                if ( contentType == null )
+                {
+                    throw new IllegalArgumentException( "contentType not found, given key: " + params.key );
+                }
+                return contentType.getData();
+            }
+            else if ( params.name != null )
+            {
+                ContentTypeEntity contentType = contentTypeDao.findByName( params.name );
+                if ( contentType == null )
+                {
+                    throw new IllegalArgumentException( "contentType not found, given name: " + params.name );
+                }
+                // renaming root element from moduledata to contenttype
+                Document rawDoc = (Document) contentType.getData().clone();
+                rawDoc.getRootElement().setName( "contenttype" );
+                return rawDoc;
+            }
+            return null;
+        }
+        catch ( Exception e )
+        {
+            throw handleException( e );
+        }
     }
 }
