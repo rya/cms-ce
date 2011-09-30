@@ -39,7 +39,7 @@
         <module>modules/cms-core</module>
         <module>modules/cms-webapp</module>
         <module>modules/cms-distro</module>
-	<module>modules/cms-itest</module>
+        <module>modules/cms-itest</module>
     </modules>
 
     <dependencyManagement>
@@ -427,6 +427,7 @@
                     </executions>
                     <configuration>
                         <forkMode>always</forkMode>
+                        <argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
                         <includes>
                             <include>**/itest/**/*.java</include>
                         </includes>
