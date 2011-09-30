@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -30,10 +31,10 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+import com.enonic.cms.testtools.DomainFactory;
+import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.AbstractPersistContentTest;
-import com.enonic.cms.business.core.content.DomainFactory;
-import com.enonic.cms.business.core.content.DomainFixture;
+import com.enonic.cms.business.core.content.ContentService;
 import com.enonic.cms.business.core.security.SecurityHolder;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
@@ -64,7 +65,6 @@ import static org.junit.Assert.*;
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class CustomContentHandlerController_operation_CreateTest
-    extends AbstractPersistContentTest
 {
     @Autowired
     private SecurityService securityService;
@@ -74,6 +74,12 @@ public class CustomContentHandlerController_operation_CreateTest
 
     @Autowired
     private GroupEntityDao groupEntityDao;
+
+    @Autowired
+    protected HibernateTemplate hibernateTemplate;
+
+    @Autowired
+    protected ContentService contentService;
 
     private SiteRedirectHelper siteRedirectHelper;
 
@@ -147,14 +153,14 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // execise: create the content
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "categorykey", findCategoryByName( "PersonCategory" ).getKey().toString() );
+        formItems.putString( "categorykey", fixture.findCategoryByName( "PersonCategory" ).getKey().toString() );
         formItems.putString( "name", "Laverne Veronica Wyatt-Skriubakken" );
         customContentHandlerController.handlerCreate( request, response, session, formItems, null, siteKey_1 );
 
         fixture.flushAndClearHibernateSesssion();
 
         // verify
-        ContentEntity content = findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
+        ContentEntity content = fixture.findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
         assertNotNull( content );
         assertEquals( "laverne-veronica-wyatt-skriubakken", content.getName() );
     }
@@ -184,7 +190,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // execise: create the content
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "categorykey", findCategoryByName( "PersonCategory" ).getKey().toString() );
+        formItems.putString( "categorykey", fixture.findCategoryByName( "PersonCategory" ).getKey().toString() );
         formItems.putString( "name", "Laverne Veronica Wyatt-Skriubakken" );
         formItems.putString( "Phone[1].phone_label", "Mobile" );
         formItems.putString( "Phone[1].phone_number", "99999999" );
@@ -197,7 +203,7 @@ public class CustomContentHandlerController_operation_CreateTest
         fixture.flushAndClearHibernateSesssion();
 
         // verify
-        ContentEntity content = findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
+        ContentEntity content = fixture.findFirstContentByCategory( fixture.findCategoryByName( "MyCategory" ) );
         assertNotNull( content );
         ContentVersionEntity version = content.getMainVersion();
         CustomContentData contentData = (CustomContentData) version.getContentData();
@@ -587,7 +593,7 @@ public class CustomContentHandlerController_operation_CreateTest
 
         // execise: create the content
         ExtendedMap formItems = new ExtendedMap( true );
-        formItems.putString( "categorykey", findCategoryByName( "MyCategory4" ).getKey().toString() );
+        formItems.putString( "categorykey", fixture.findCategoryByName( "MyCategory4" ).getKey().toString() );
         formItems.putString( "title", "Title" );
         customContentHandlerController.handlerCreate( request, response, session, formItems, null, siteKey_1 );
 
@@ -599,7 +605,7 @@ public class CustomContentHandlerController_operation_CreateTest
                                                                                     Mockito.any( MultiValueMap.class ) );
 
         // verify
-        ContentEntity content = fixture.findFirstContentByCategory( findCategoryByName( "MyCategory4" ) );
+        ContentEntity content = fixture.findFirstContentByCategory( fixture.findCategoryByName( "MyCategory4" ) );
         assertNotNull( content );
         ContentVersionEntity version = content.getMainVersion();
         CustomContentData contentData = (CustomContentData) version.getContentData();

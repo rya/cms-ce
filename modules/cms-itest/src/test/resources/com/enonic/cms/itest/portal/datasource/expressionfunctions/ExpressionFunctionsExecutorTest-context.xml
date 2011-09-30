@@ -8,21 +8,14 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-  <context:annotation-config/>
+    <context:annotation-config/>
 
-  <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
-  </bean>
+    <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
+    </bean>
 
-  <import resource="../../../base-PersistTest-context.xml"/>
+    <import resource="classpath:com/enonic/cms/itest/base-core-test-context.xml"/>
 
-  <import resource="classpath:store-dao-context.xml"/>
-
-  <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
-
-  <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
-    <property name="blobStore" ref="blobStore"/>
-    <property name="sessionFactory" ref="sessionFactory"/>
-  </bean>
+    <import resource="classpath:store-dao-context.xml"/>
 
 
 </beans>

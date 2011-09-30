@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.core.content.access;
+package com.enonic.cms.business.core.content;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,10 +15,10 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.store.dao.GroupEntityDao;
+import com.enonic.cms.testtools.DomainFactory;
+import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.AbstractPersistContentTest;
-import com.enonic.cms.business.core.content.DomainFactory;
-import com.enonic.cms.business.core.content.DomainFixture;
+import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 
 import com.enonic.cms.domain.content.ContentAccessRightsAccumulated;
 import com.enonic.cms.domain.content.ContentEntity;
@@ -35,7 +35,6 @@ import static org.junit.Assert.*;
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
 public class ContentAccessResolverTest
-    extends AbstractPersistContentTest
 {
     @Autowired
     private HibernateTemplate hibernateTemplate;
