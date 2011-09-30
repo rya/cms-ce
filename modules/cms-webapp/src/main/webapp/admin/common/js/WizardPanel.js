@@ -3,12 +3,13 @@ Ext.define( 'Common.WizardPanel', {
     alias: 'widget.wizardPanel',
     requires: ['Common.WizardLayout'],
     layout: 'wizard',
+    cls: 'cms-wizard',
     autoScroll: true,
     defaults: {
         border: false,
         padding: 10
     },
-
+    externalControls: undefined,
     showControls: true,
     data: {},
 
@@ -69,7 +70,9 @@ Ext.define( 'Common.WizardPanel', {
         }];
 
         this.callParent( arguments );
-        this.addEvents( "beforestepchanged", "stepchanged", "finished" );
+        this.addEvents( "beforestepchanged", "stepchanged", "animationstarted", "animationfinished", "finished" );
+        this.on( "animationstarted", this.onAnimationStarted );
+        this.on( "animationfinished", this.onAnimationFinished );
         this.updateProgress();
     },
 
@@ -118,20 +121,38 @@ Ext.define( 'Common.WizardPanel', {
                     newStep = this.getLayout().setActiveItem( direction );
                     break;
             }
-            if ( newStep )
-            {
-                this.fireEvent( "stepchanged", this, oldStep, newStep );
+            if( newStep ) {
                 this.updateProgress();
+                this.externalControls = btn.up( 'toolbar' );
                 if ( this.showControls ) {
-                    // update internal controls if shown
-                    this.updateButtons( this.getDockedComponent('controls') );
+                    // disable internal controls if shown
+                    this.updateButtons( this.getDockedComponent('controls'), true );
                 }
-                if ( btn ) {
-                    // try to update external controls
-                    this.updateButtons( btn.up( 'toolbar' ) );
+                if ( this.externalControls ) {
+                    // try to disable external controls
+                    this.updateButtons( this.externalControls, true );
                 }
-                return newStep;
             }
+        }
+    },
+
+    onAnimationStarted: function( newStep, oldStep ) {
+
+    },
+
+    onAnimationFinished: function( newStep, oldStep ) {
+        if ( newStep )
+        {
+            this.fireEvent( "stepchanged", this, oldStep, newStep );
+            if ( this.showControls ) {
+                // update internal controls if shown
+                this.updateButtons( this.getDockedComponent('controls') );
+            }
+            if ( this.externalControls ) {
+                // try to update external controls
+                this.updateButtons( this.externalControls );
+            }
+            return newStep;
         }
     },
 
@@ -139,7 +160,7 @@ Ext.define( 'Common.WizardPanel', {
         this.dockedItems.items[0].update( this.items.items );
     },
 
-    updateButtons: function( toolbar )
+    updateButtons: function( toolbar, disable )
     {
         if( toolbar ) {
             var prev = toolbar.down( '#prev' ),
@@ -148,14 +169,15 @@ Ext.define( 'Common.WizardPanel', {
             var hasNext = this.getNext(),
                 hasPrev = this.getPrev();
             if( prev ) {
-                prev.setDisabled( !hasPrev );
+                prev.setDisabled( disable || !hasPrev );
             }
             if( next ) {
                 if ( finish ) {
-                    next.setDisabled( !hasNext );
-                    finish.setDisabled( hasNext )
+                    next.setDisabled( disable || !hasNext );
+                    finish.setDisabled( disable || hasNext )
                 } else {
                     next.setText( hasNext ? 'Next' : 'Finish' );
+                    next.setDisabled( disable );
                 }
             }
         }
