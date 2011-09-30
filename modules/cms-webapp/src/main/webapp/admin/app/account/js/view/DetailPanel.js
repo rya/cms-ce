@@ -49,16 +49,7 @@ Ext.define('App.view.DetailPanel', {
     },
 
     createLargeBoxSelection: function(){
-        var tpl = Ext.Template('<tpl for="users">' +
-           '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
-           '<div class="left">' +
-           '<img alt="User" src="data/user/photo?key={key}&thumb=true"/></div>' +
-           '<div class="center">' +
-           '<h2>{displayName}</h2>' +
-           '<p>{userStore}/{name}</p></div>' +
-           '<div class="right">' +
-           ' <a id="{key}" class="remove-selection" href="javascript:;"></a></div></div>' +
-           '</tpl>');
+        var tpl = Ext.Template( Templates.account.selectedUserLarge );
 
         var panel = {
             xtype: 'panel',
@@ -81,15 +72,7 @@ Ext.define('App.view.DetailPanel', {
     },
 
     createSmallBoxSelection: function(){
-        var tpl = Ext.Template('<tpl for="users">' +
-            '<div class="cms-selected-item-box small x-btn-default-small clearfix">' +
-            '<div class="cms-selected-item-box left">' +
-            '<img alt="User" src="resources/images/user_add.png"/></div>' +
-            '<div class="cms-selected-item-box center">' +
-            '<h2>{displayName}</h2></div>' +
-            '<div class="cms-selected-item-box right">' +
-            '<a id="{key}" class="remove-selection" href="javascript:;"></a></div></div>'+
-            '</tpl>');
+        var tpl = Ext.Template( Templates.account.selectedUserSmall );
 
         var panel = {
             xtype: 'panel',

@@ -63,7 +63,7 @@ Ext.define( 'App.view.GridPanel', {
     nameRenderer: function( value, p, record )
     {
         return Ext.String.format(
-                '<div class="cms-grid-title">{0}</div><div class="cms-grid-description">{1}</div>',
+                Templates.userstore.gridPanelNameRenderer,
                 value,
                 record.data.name
                 );

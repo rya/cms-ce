@@ -48,24 +48,12 @@ Ext.define( 'Common.WizardPanel', {
             dock: 'top',
             styleHtmlContent: true,
             margin: 0,
-            tpl: new Ext.XTemplate(
-                    '<ol class="cms-wizard-steps clearfix">',
-                        '<tpl for=".">',
-                            '<li>',
-                                '<a href="javascript:;" {[ this.isCurrent( xindex - 1 ) ? "class=current" : "" ]}>',
-                                    '{[xindex]}. {[  (values.stepTitle || values.title) ]}',
-                                   '<span class="arrow"></span>',
-                                '</a>',
-                            '</li>',
-                        '</tpl>',
-                    '</ol>',
-                    {
-                        isCurrent: function( index ) {
-                            return wizard.getLayout().getActiveItem()
-                                    == wizard.getComponent( index );
-                        }
-                    }
-            )
+            tpl: new Ext.XTemplate( Templates.common.wizardPanelSteps, {
+                isCurrent: function( index ) {
+                    return wizard.getLayout().getActiveItem()
+                            == wizard.getComponent( index );
+                }
+            })
         }];
 
         this.callParent( arguments );
