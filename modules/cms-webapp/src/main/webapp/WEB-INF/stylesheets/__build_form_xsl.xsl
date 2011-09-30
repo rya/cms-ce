@@ -1765,8 +1765,15 @@
     <xsl:variable name="min-occurrence" select="0" />
     <xsl:variable name="max-occurrence" select="1" />
 
-    <x:variable name="readonly">
-      <xsl:value-of select="$input/@readonly"/>
+    <x:variable name="input-readonly">
+      <xsl:choose>
+        <xsl:when test="$input/@readonly = 'true'">
+          <xsl:value-of select="$input/@readonly"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <x:value-of select="$readonly"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </x:variable>
 
     <x:variable name="select-content-button-onclick">
@@ -1892,7 +1899,7 @@
                       </xsl:attribute>
                     </x:value-of>
                   </x:attribute>
-                  <x:if test="$readonly">
+                  <x:if test="$input-readonly">
                     <x:attribute name="disabled">disabled</x:attribute>
                   </x:if>
                 </input>
@@ -1901,7 +1908,7 @@
                   <x:with-param name="type" select="'button'"/>
                   <x:with-param name="name" select="'relatedcontent_{$input/@name}'"/>
                   <x:with-param name="image" select="'images/icon_browse.gif'"/>
-                  <x:with-param name="disabled" select="$readonly"/>
+                  <x:with-param name="disabled" select="$input-readonly"/>
                   <x:with-param name="tooltip" select="'%cmdSelectContent%'"/>
                   <x:with-param name="onclick">
                     <x:value-of select="$select-content-button-onclick"/>
@@ -1915,7 +1922,7 @@
                   </x:with-param>
                   <x:with-param name="image" select="'images/icon_remove.gif'"/>
                   <x:with-param name="type" select="'button'"/>
-                  <x:with-param name="disabled" select="$readonly"/>
+                  <x:with-param name="disabled" select="$input-readonly"/>
                   <x:with-param name="tooltip" select="'%btnRemoveContent%'"/>
 
                   <x:with-param name="onclick">
@@ -1940,8 +1947,15 @@
     <xsl:variable name="min-occurrence" select="0" />
     <xsl:variable name="max-occurrence" select="-1" />
 
-    <x:variable name="readonly">
+    <x:variable name="input-readonly">
+      <xsl:choose>
+        <xsl:when test="$input/@readonly = 'true'">
       <xsl:value-of select="$input/@readonly"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <x:value-of select="$readonly"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </x:variable>
 
     <x:variable name="add-content-button-onclick">
@@ -2054,7 +2068,7 @@
                     </x:variable>
 
                     <span>
-                      <x:if test="$readonly">
+                      <x:if test="$input-readonly">
                         <x:attribute name="class">
                           <x:text>disabled-element</x:text>
                         </x:attribute>
@@ -2076,7 +2090,7 @@
                       </x:with-param>
                       <x:with-param name="image" select="'images/icon_move_up.gif'"/>
                       <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="disabled" select="$readonly"/>
+                      <x:with-param name="disabled" select="$input-readonly"/>
                       <x:with-param name="tooltip" select="'%altContentMoveUp%'"/>
                       <x:with-param name="onclick">
                         <xsl:text>javaScript:moveRelatedContentUp( this, '</xsl:text>
@@ -2091,7 +2105,7 @@
                       </x:with-param>
                       <x:with-param name="image" select="'images/icon_move_down.gif'"/>
                       <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="disabled" select="$readonly"/>
+                      <x:with-param name="disabled" select="$input-readonly"/>
                       <x:with-param name="tooltip" select="'%altContentMoveDown%'"/>
                       <x:with-param name="onclick">
                         <xsl:text>javaScript:moveRelatedContentDown( this, '</xsl:text>
@@ -2107,7 +2121,7 @@
                       </x:with-param>
                       <x:with-param name="image" select="'images/icon_remove.gif'"/>
                       <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="disabled" select="$readonly"/>
+                      <x:with-param name="disabled" select="$input-readonly"/>
                       <x:with-param name="tooltip" select="'%btnRemoveContent%'"/>
 
                       <x:with-param name="onclick">
@@ -2131,7 +2145,7 @@
               <xsl:value-of select="$input/@name"/>
               <xsl:text>addbutton</xsl:text>
             </x:with-param>
-            <x:with-param name="disabled" select="$readonly"/>
+            <x:with-param name="disabled" select="$input-readonly"/>
             <x:with-param name="onclick">
               <x:value-of select="$add-content-button-onclick"/>
             </x:with-param>
