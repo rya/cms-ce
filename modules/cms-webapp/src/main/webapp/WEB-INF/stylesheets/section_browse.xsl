@@ -36,6 +36,8 @@
     <xsl:param name="menuitemkey"/>
     <xsl:param name="debugpath"/>
 
+    <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
+
     <xsl:variable name="menuitemelem" select="/contenttitles/model/selected-menuitem/menuitem"/>
     <xsl:variable name="menuelem" select="/contenttitles/model/selected-menu/menu"/>
 
@@ -542,6 +544,7 @@
 
                     <!-- Display general operation column -->
                     <td align="center" class="{$cell-class}">
+                      <xsl:variable name="has-page-template" select="key('page-templates-by-content-type', $contenttypekey)"/>
                       <xsl:call-template name="sectionoperations">
                         <xsl:with-param name="key" select="$key"/>
                         <xsl:with-param name="versionkey" select="$version-key"/>
@@ -549,8 +552,8 @@
                         <xsl:with-param name="page" select="$page"/>
                         <xsl:with-param name="unitkey" select="@unitkey"/>
                         <xsl:with-param name="menukey" select="$menukey"/>
-                        <xsl:with-param name="sitekey" select="$menukey"/>
                         <xsl:with-param name="previewmenukey" select="$menukey"/>
+                        <xsl:with-param name="previewnotavailable" select="not($has-page-template)"/>
                         <xsl:with-param name="contentpage" select="(@contenttypekey + 999)"/>
                         <xsl:with-param name="cat" select="@categorykey"/>
                         <xsl:with-param name="previewmenuitemkey" select="@previewpage"/>
@@ -563,7 +566,6 @@
                         <xsl:with-param name="ordered" select="$ordered"/>
                         <xsl:with-param name="reordered" select="$reordered"/>
                         <xsl:with-param name="state" select="@state"/>
-                        <xsl:with-param name="contenttypekey" select="@contenttypekey"/>
                       </xsl:call-template>
                     </td>
                   </tr>

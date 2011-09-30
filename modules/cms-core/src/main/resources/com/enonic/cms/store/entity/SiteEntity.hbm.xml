@@ -35,6 +35,13 @@
     <many-to-one name="pageTemplate" class="com.enonic.cms.domain.structure.page.template.PageTemplateEntity" fetch="select">
       <column name="MEN_PAT_LKEY"/>
     </many-to-one>
+    <set name="pageTemplates" inverse="true">
+      <cache usage="nonstrict-read-write"/>
+      <key>
+        <column name="PAT_MEN_LKEY"/>
+      </key>
+      <one-to-many class="com.enonic.cms.domain.structure.page.template.PageTemplateEntity"/>
+    </set>
     <many-to-one name="defaultRunAsUser" class="com.enonic.cms.domain.security.user.UserEntity" fetch="select">
       <column name="MEN_USR_HRUNAS" length="40"/>
     </many-to-one>

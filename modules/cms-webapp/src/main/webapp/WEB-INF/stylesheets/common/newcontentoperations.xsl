@@ -9,9 +9,10 @@
 
   <xsl:include href="../handlerconfigs/default.xsl"/>
 
+  <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
+
   <xsl:template name="contentoperations">
     <xsl:param name="key"/>
-    <xsl:param name="contenttypekey"/>
     <xsl:param name="contentelem"/>
     <xsl:param name="contenttypeelem"/>
     <xsl:param name="ischild"/>
@@ -89,14 +90,26 @@
         </xsl:if>
 
         <xsl:if test="$includepreview = 'true'">
+          <xsl:variable name="has-page-template" select="key('page-templates-by-content-type', $contenttypekey)"/>
+
+          <xsl:variable name="tooltip">
+            <xsl:choose>
+              <xsl:when test="not($has-page-template)">
+                <xsl:value-of select="'%altContentPreviewNotAvailable%'"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:value-of select="'%altContentPreview%'"/>
+              </xsl:otherwise>
+            </xsl:choose>
+          </xsl:variable>
+
           <td align="center">
             <xsl:call-template name="button">
               <xsl:with-param name="style" select="'flat'"/>
               <xsl:with-param name="type" select="'link'"/>
               <xsl:with-param name="image" select="'images/icon_preview.gif'"/>
-              <xsl:with-param name="disabled" select="not(/data/pagetemplates/pagetemplate/contenttypes/contenttype[@key = $contenttypekey])"/>
-              <xsl:with-param name="tooltip" select="'%altContentPreview%'"/>
-              <xsl:with-param name="tooltip-for-disabled" select="'%altContentPreviewNotAvailable%'"/>
+              <xsl:with-param name="disabled" select="not($has-page-template)"/>
+              <xsl:with-param name="tooltip" select="$tooltip"/>
               <xsl:with-param name="href">
                 <xsl:text>adminpage?page=</xsl:text><xsl:value-of select="$page"/>
                 <xsl:text>&amp;op=preview&amp;subop=frameset&amp;contentkey=</xsl:text>

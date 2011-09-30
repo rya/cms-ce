@@ -46,6 +46,8 @@ public class SiteEntity
 
     private PageTemplateEntity pageTemplate;
 
+    private Set<PageTemplateEntity> pageTemplates;
+
     private LanguageEntity language;
 
     private String statisticsUrl;
@@ -433,4 +435,15 @@ public class SiteEntity
     {
         return defaultAccesses;
     }
+
+    public Set<PageTemplateEntity> getPageTemplates()
+    {
+        return pageTemplates;
+    }
+
+    public void setPageTemplates( Set<PageTemplateEntity> pageTemplates )
+    {
+        this.pageTemplates = pageTemplates;
+    }
+
 }
