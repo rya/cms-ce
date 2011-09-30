@@ -4,7 +4,8 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
     requires: [
         'Common.WizardPanel',
         'App.view.wizard.UserStoreListPanel',
-        'App.view.wizard.UserWizardToolbar'
+        'App.view.wizard.UserWizardToolbar',
+        'App.view.EditUserFormPanel'
     ],
 
     layout: {
@@ -58,8 +59,10 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                             xtype: 'userStoreListPanel'
                         },
                         {
-                            stepTitle: "Step 2",
-                            html: 'Panel 2<br/> Suspendisse massa justo, commodo viverra mollis vel, faucibus cursus nulla.'
+                            stepTitle: "Profile",
+                            itemId: 'userForm',
+                            xtype: 'editUserFormPanel',
+                            enableToolbar: false
                         },
                         {
                             stepTitle: "Step 3",

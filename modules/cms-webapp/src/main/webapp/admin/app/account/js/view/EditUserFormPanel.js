@@ -32,64 +32,53 @@ Ext.define( 'App.view.EditUserFormPanel', {
             }
         }
     },
+
     currentUser: undefined,
     defaultUserStoreName: 'default',
+    enableToolbar: true,
 
     listeners: {
         afterrender: function( me )
         {
             me.el.mask( "Loading..." );
-            Ext.Ajax.request( {
-                url: 'data/userstore/detail',
-                method: 'GET',
-                params: {
-                    name: me.currentUser ? me.currentUser.userStore : me.defaultUserStoreName
-                },
-                success: function( response )
-                {
-                    var obj = Ext.decode( response.responseText, true );
-                    if ( obj )
-                    {
-                        me.generateForm( obj );
-                    }
-                    me.el.unmask();
-                }
-            } );
+            me.renderUserForm(me.currentUser);
         }
     },
 
     initComponent: function()
     {
         var me = this;
-        this.dockedItems = [
-        {
-            dock: 'top',
-            xtype: 'toolbar',
-            border: false,
-            padding: 5,
-            items: [
-                {
-                    text: 'Save',
-                    iconCls: 'icon-save',
-                    action: 'saveUser'
-                },
-                {
-                    text: 'Cancel',
-                    action: 'closeUserForm'
-                },
-                '->',
-                {
-                    text: 'Delete',
-                    iconCls: 'icon-delete-user',
-                    action: 'deleteUser'
-                },
-                {
-                    text: 'Change Password',
-                    iconCls: 'icon-change-password',
-                    action: 'changePassword'
-                }
-            ]
-        }];
+        if (this.enableToolbar){
+            this.dockedItems = [
+            {
+                dock: 'top',
+                xtype: 'toolbar',
+                border: false,
+                padding: 5,
+                items: [
+                    {
+                        text: 'Save',
+                        iconCls: 'icon-save',
+                        action: 'saveUser'
+                    },
+                    {
+                        text: 'Cancel',
+                        action: 'closeUserForm'
+                    },
+                    '->',
+                    {
+                        text: 'Delete',
+                        iconCls: 'icon-delete-user',
+                        action: 'deleteUser'
+                    },
+                    {
+                        text: 'Change Password',
+                        iconCls: 'icon-change-password',
+                        action: 'changePassword'
+                    }
+                ]
+            }];
+        }
         this.userFieldSet = {
             'username': this.createTextField,
             'email': this.createTextField
@@ -157,6 +146,27 @@ Ext.define( 'App.view.EditUserFormPanel', {
         this.callParent( arguments );
         this.removeAll();
         this.show();
+    },
+
+    renderUserForm: function( user ){
+        var me = this;
+        Ext.Ajax.request( {
+                url: 'data/userstore/detail',
+                method: 'GET',
+                params: {
+                    name: user ? user.userStore : me.defaultUserStoreName
+                },
+                success: function( response )
+                {
+                    var obj = Ext.decode( response.responseText, true );
+                    if ( obj )
+                    {
+                        me.removeAll();
+                        me.generateForm( obj );
+                    }
+                    me.el.unmask();
+                }
+            } );
     },
 
     createAutoCompleteField: function ( field )
