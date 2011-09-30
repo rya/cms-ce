@@ -59,11 +59,14 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
+import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
+import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.SitePropertiesService;
@@ -75,14 +78,14 @@ import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
 import com.enonic.cms.business.core.structure.SiteService;
 import com.enonic.cms.business.core.structure.SiteXmlCreator;
 import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
-import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
-
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
 import com.enonic.cms.domain.CmsDateAndTimeFormats;
 import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
 import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
@@ -202,10 +205,12 @@ public class SectionHandlerServlet
             throws WizardException
         {
 
+            SiteDao siteDao = CmsCoreServicesSpringManagedBeansBridge.getSiteDao();
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             int menuKey = formItems.getInt( "menukey" );
-            formItems.put( "menuname", admin.getMenuName( menuKey ) );
+            SiteEntity site = siteDao.findByKey( new SiteKey( menuKey ) );
+            formItems.put( "menuname", site.getName() );
 
             String stepName = wizardState.getCurrentStep().getName();
 
@@ -600,7 +605,7 @@ public class SectionHandlerServlet
                                          ExtendedMap parameters, User user, Document dataconfigDoc, Document wizarddataDoc )
             throws WizardException
         {
-
+            ContentDao contentDao = CmsCoreServicesSpringManagedBeansBridge.getContentDao();
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             if ( formItems.containsKey( "selectedunitkey" ) )
@@ -614,9 +619,10 @@ public class SectionHandlerServlet
             wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
 
             int contentKey = formItems.getInt( "contentkey" );
-            int versionKey = admin.getCurrentVersionKey( contentKey );
-            formItems.put( "contenttitle", admin.getContentTitle( versionKey ) );
-            formItems.put( "contenttypekey", String.valueOf( admin.getContentTypeKey( contentKey ) ) );
+            final ContentEntity content = contentDao.findByKey( new ContentKey( contentKey ) );
+            final ContentVersionEntity contentMainVersion = content.getMainVersion();
+            formItems.put( "contenttitle", contentMainVersion.getTitle() );
+            formItems.put( "contenttypekey", String.valueOf( content.getCategory().getContentType().getKey() ) );
 
             Step currentStep = wizardState.getCurrentStep();
             if ( "step0".equals( currentStep.getName() ) || "step1".equals( currentStep.getName() ) )
@@ -643,7 +649,7 @@ public class SectionHandlerServlet
                     criteria.setMarkContentFilteredSections( true );
 
                     // remove sections which does not allow this content type
-                    int contentTypeKey = admin.getContentTypeKey( contentKey );
+                    int contentTypeKey = content.getCategory().getContentType().getKey();
                     criteria.setContentTypeKeyFilter( contentTypeKey );
 
                     doc = XMLTool.domparse( admin.getSections( user, criteria ) );
@@ -1418,8 +1424,7 @@ public class SectionHandlerServlet
                 {
                     menuKeys[i] = Integer.parseInt( menuElems[i].getAttribute( "key" ) );
 
-                    Document doc = XMLTool.domparse( admin.getPageTemplatesByMenu( menuKeys[i],
-                                                                                   EXCLUDED_TYPE_KEYS_IN_PREVIEW ) );
+                    Document doc = XMLTool.domparse( admin.getPageTemplatesByMenu( menuKeys[i], EXCLUDED_TYPE_KEYS_IN_PREVIEW ) );
                     wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
                 }
 

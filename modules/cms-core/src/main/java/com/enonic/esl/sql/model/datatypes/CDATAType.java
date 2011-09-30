@@ -130,9 +130,4 @@ public class CDATAType
     {
         return type;
     }
-
-    public String getSQLValue( String xpathValue )
-    {
-        return null;
-    }
 }

@@ -10,13 +10,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.StringTokenizer;
 
 import org.apache.commons.fileupload.FileItem;
 
 import com.enonic.esl.io.zip.ZipEntry;
-import com.enonic.esl.io.zip.ZipFile;
 import com.enonic.esl.io.zip.ZipInputStream;
 import com.enonic.esl.util.RegexpUtil;
 
@@ -92,23 +90,6 @@ public class FileUtil
         return baos.toByteArray();
     }
 
-    /**
-     * Inflates a zip into a directory. Creates the directory and/or its parents if they don't exists.
-     *
-     * @param zipFile ZipFile zip file to inflate
-     * @param dir     File destination directory
-     */
-    public static void inflateZipFile( ZipFile zipFile, File dir )
-        throws IOException
-    {
-        Enumeration entries = zipFile.entries();
-        while ( entries.hasMoreElements() )
-        {
-            ZipEntry entry = (ZipEntry) entries.nextElement();
-            inflateFile( dir, zipFile, entry );
-        }
-    }
-
     public static void inflateZipFile( ZipInputStream zipIn, File dir, String filterRegExp )
         throws IOException
     {
@@ -156,24 +137,6 @@ public class FileUtil
                 {
                     os.close();
                 }
-            }
-        }
-    }
-
-    private static void inflateFile( File dir, ZipFile zipFile, ZipEntry entry )
-        throws IOException
-    {
-        InputStream is = null;
-        try
-        {
-            is = zipFile.getInputStream( entry );
-            inflateFile( dir, is, entry );
-        }
-        finally
-        {
-            if ( is != null )
-            {
-                is.close();
             }
         }
     }

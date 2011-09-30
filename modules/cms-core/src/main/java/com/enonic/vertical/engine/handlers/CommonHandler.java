@@ -35,14 +35,12 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
-import com.enonic.cms.framework.util.TIntObjectHashMap;
 
 import com.enonic.cms.domain.security.user.User;
 
@@ -599,62 +597,6 @@ public class CommonHandler
         return keys.toArray();
     }
 
-    public TIntObjectHashMap getIntIntArrayMap( String sql, int paramValue )
-    {
-        return getIntIntArrayMap( sql, new int[]{paramValue} );
-    }
-
-    public TIntObjectHashMap getIntIntArrayMap( String sql, int[] paramValues )
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-        TIntObjectHashMap keyMap = new TIntObjectHashMap();
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql );
-            if ( paramValues != null )
-            {
-                for ( int i = 0; i < paramValues.length; i++ )
-                {
-                    preparedStmt.setInt( i + 1, paramValues[i] );
-                }
-            }
-
-            resultSet = preparedStmt.executeQuery();
-            while ( resultSet.next() )
-            {
-                int key = resultSet.getInt( 1 );
-                int value = resultSet.getInt( 2 );
-                TIntArrayList values;
-                if ( keyMap.contains( key ) )
-                {
-                    values = (TIntArrayList) keyMap.get( key );
-                }
-                else
-                {
-                    values = new TIntArrayList();
-                    keyMap.put( key, values );
-                }
-                values.add( value );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get (integer -> integer array) map: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-        return keyMap;
-    }
-
     public int[] getIntArray( String sql )
     {
         return getIntArray( sql, (Object[]) null );
@@ -1191,38 +1133,6 @@ public class CommonHandler
         }
 
         return keys;
-    }
-
-
-    public void removeEntities( String[] keys, Table table )
-        throws VerticalRemoveException
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        int index;
-        try
-        {
-            con = getConnection();
-            StringBuffer sql = XDG.generateRemoveWherePrimaryKeysSQL( table );
-            preparedStmt = con.prepareStatement( sql.toString() );
-            for ( index = 0; index < keys.length; index++ )
-            {
-                cascadeDelete( table, keys[index] );
-                preparedStmt.setString( 1, keys[index] );
-                preparedStmt.executeUpdate();
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            int msgKey = MSG_GENERAL;
-            String message = "Failed to remove entity/ies: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), msgKey, message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
     }
 
     public void updateEntities( Document doc, ElementProcessor[] elementProcessors )
@@ -1996,20 +1906,6 @@ public class CommonHandler
                 Table referrerTable = deleteForeignKey.getTable();
                 StringBuffer sql = XDG.generateRemoveSQL( referrerTable, deleteForeignKey );
                 executeSQL( sql.toString(), key );
-            }
-        }
-    }
-
-    public void cascadeDelete( Table table, String key )
-    {
-        ForeignKeyColumn[] deleteForeignKeys = table.getReferencedKeys( true );
-        if ( deleteForeignKeys != null && deleteForeignKeys.length > 0 )
-        {
-            for ( ForeignKeyColumn deleteForeignKey : deleteForeignKeys )
-            {
-                Table referrerTable = deleteForeignKey.getTable();
-                StringBuffer sql = XDG.generateRemoveSQL( referrerTable, deleteForeignKey );
-                executeSQL( sql.toString(), new Object[]{key} );
             }
         }
     }

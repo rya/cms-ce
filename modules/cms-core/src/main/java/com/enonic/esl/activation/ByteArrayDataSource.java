@@ -106,7 +106,6 @@ or its licensors, Sun reserves the right to terminate the Agreement.
 */
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -129,32 +128,8 @@ public class ByteArrayDataSource
         this.type = type + "; charset=" + encoding;
     }
 
-    /* Create a DataSource from an input stream */
-
-    public ByteArrayDataSource( InputStream is, String type, String encoding )
-    {
-        this.type = type + "; charset=" + encoding;
-        try
-        {
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            int ch;
-
-            while ( ( ch = is.read() ) != -1 )
-            // XXX - must be made more efficient by
-            // doing buffered reads, rather than one byte reads
-            {
-                os.write( ch );
-            }
-            data = os.toByteArray();
-
-        }
-        catch ( IOException ioex )
-        {
-        }
-    }
 
     /* Create a DataSource from a String */
-
     public ByteArrayDataSource( String data, String type, String encoding )
     {
         try

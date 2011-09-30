@@ -7,9 +7,7 @@ package com.enonic.esl.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -94,15 +92,6 @@ public final class Base64Util
         return writer.toString();
     }
 
-    /**
-     * Outputs base64 representation of the specified stream data to an <code>OutputStream</code>.
-     */
-    public static void encode( InputStream in, OutputStream out )
-        throws IOException
-    {
-        Writer writer = new OutputStreamWriter( out, CHARSET );
-        encode( in, writer );
-    }
 
     /**
      * Outputs base64 representation of the specified data to a <code>Writer</code>.
@@ -166,15 +155,6 @@ public final class Base64Util
     }
 
     /**
-     * Decode base64 encoded data. The data read from the inputstream is assumed to be of charset "US-ASCII".
-     */
-    public static void decode( InputStream in, OutputStream out )
-        throws IOException
-    {
-        decode( new InputStreamReader( in, CHARSET ), out );
-    }
-
-    /**
      * Decode base64 encoded data.
      */
     public static void decode( String data, OutputStream out )
@@ -196,15 +176,6 @@ public final class Base64Util
             throw new IllegalStateException( ioe );
         }
         return baos.toByteArray();
-    }
-
-    /**
-     * Decode base64 encoded data.
-     */
-    public static void decode( char[] chars, OutputStream out )
-        throws IOException
-    {
-        decode( chars, 0, chars.length, out );
     }
 
     /**

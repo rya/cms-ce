@@ -30,8 +30,6 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.domain.structure.page.PageEntity;
 import com.enonic.cms.domain.structure.page.PageWindowEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
 
 public final class PageHandler
     extends BaseHandler
@@ -391,14 +389,6 @@ public final class PageHandler
         }
 
         return pageKeys.toArray();
-    }
-
-    public PageTemplateKey getPageTemplateKey( int pageKey )
-    {
-        PageEntity entity = pageDao.findByKey( pageKey );
-        PageTemplateEntity templateEntity = entity != null ? entity.getTemplate() : null;
-        int pageTemplateKey = templateEntity != null ? templateEntity.getKey() : -1;
-        return new PageTemplateKey( pageTemplateKey );
     }
 
     public int[] getContentObjectKeys( int[] pageTemplateParameterKeys )

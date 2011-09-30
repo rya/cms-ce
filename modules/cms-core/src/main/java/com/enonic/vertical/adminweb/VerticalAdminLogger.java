@@ -53,62 +53,6 @@ public class VerticalAdminLogger
         }
     }
 
-    public static void warnAdmin( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalAdminException
-    {
-
-        try
-        {
-            warn( clazz, msgKey, message, msgData, throwable, VerticalAdminException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalAdminException) ve;
-        }
-    }
-
-    public static void warnAdmin( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalAdminException
-    {
-
-        try
-        {
-            warn( clazz, msgKey, message, msgData, throwable, VerticalAdminException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalAdminException) ve;
-        }
-    }
-
-    public static void warnAdmin( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalAdminException
-    {
-
-        try
-        {
-            warn( clazz, msgKey, message, throwable, VerticalAdminException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalAdminException) ve;
-        }
-    }
-
-    public static void fatalAdmin( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalAdminRuntimeException
-    {
-
-        try
-        {
-            fatal( clazz, msgKey, message, msgData, throwable, VerticalAdminRuntimeException.class );
-        }
-        catch ( VerticalRuntimeException vre )
-        {
-            throw (VerticalAdminRuntimeException) vre;
-        }
-    }
-
     public static void fatalAdmin( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
         throws VerticalAdminRuntimeException
     {

@@ -374,8 +374,6 @@ public interface AdminService
         throws Exception;
 
 
-    public PageTemplateType getPageTemplateType( int pageTemplateKey );
-
     public boolean isContentVersionApproved( int versionKey );
 
     public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )

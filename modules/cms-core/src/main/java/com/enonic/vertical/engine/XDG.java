@@ -646,11 +646,6 @@ public class XDG
         return tmpElem;
     }
 
-    public static StringBuffer generateRemoveWherePrimaryKeysSQL( Table table )
-    {
-        return generateRemoveSQL( table, table.getPrimaryKeys() );
-    }
-
     public static StringBuffer generateRemoveSQL( Table table, Column whereColumn )
     {
         return generateRemoveSQL( table, new Column[]{whereColumn} );
