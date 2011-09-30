@@ -200,6 +200,17 @@ public class DomainFactory
         return contenType;
     }
 
+    public ContentTypeEntity createContentType( Integer key, String name, String contentHandlerClassName, Document data )
+    {
+        ContentTypeEntity contenType = new ContentTypeEntity();
+        contenType.setKey( key );
+        contenType.setName( name );
+        contenType.setHandler( fixture.findContentHandlerByClassName( contentHandlerClassName ) );
+        contenType.setTimestamp( new Date() );
+        contenType.setData( data );
+        return contenType;
+    }
+
     public UnitEntity createUnit( String name )
     {
         return createUnit( name, null );
