@@ -114,6 +114,8 @@ public class PortalRenderResponseServerHeadTest
         assertEquals( CONTENT_VALUE.length(), httpServletResponse.getContentAsByteArray().length );
 
         assertEquals( ETAG_VALUE, httpServletResponse.getHeader( ETAG_HEADER_NAME ) );
+
+        assertEquals( HttpServletResponse.SC_OK, httpServletResponse.getStatus() );
     }
 
     @Test
@@ -131,6 +133,8 @@ public class PortalRenderResponseServerHeadTest
         assertEquals( 0, httpServletResponse.getContentAsByteArray().length );
 
         assertEquals( ETAG_VALUE, httpServletResponse.getHeader( ETAG_HEADER_NAME ) );
+
+        assertEquals( HttpServletResponse.SC_OK, httpServletResponse.getStatus() );
     }
 
     @Test
