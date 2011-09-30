@@ -144,6 +144,7 @@ import com.enonic.cms.domain.security.user.UserSpecification;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
+import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**
@@ -1404,14 +1405,14 @@ public class ContentBaseHandlerServlet
         ExtendedMap parameters = new ExtendedMap();
         addCustomData( session, oldUser, admin, doc, contentKey, contentTypeKey, formItems, parameters );
 
-        int siteKey = formItems.getInt( "sitekey", -1 );
+        int siteKey = formItems.getInt( "menukey", -1 );
         if ( siteKey == -1)
         {
-            addUserSitesToDocument( admin, doc, executor );
+            addPageTemplatesOfUserSitesToDocument( admin, executor, PageTemplateType.CONTENT, doc );
         }
         else
         {
-            addSiteToDocument( admin, doc, siteKey );
+            addPageTemplatesOfSiteToDocument( siteKey, PageTemplateType.CONTENT, doc );
         }
 
         addCommonParameters( admin, oldUser, request, parameters, unitKey, -1 );
@@ -2961,7 +2962,7 @@ public class ContentBaseHandlerServlet
             parameters.put( "reload", formItems.getString( "reload" ) );
         }
 
-        addUserSitesToDocument( admin, verticalDoc, user );
+        addPageTemplatesOfUserSitesToDocument( admin, user, PageTemplateType.CONTENT, verticalDoc );
 
         transformXML( request, response, verticalDoc, "content_list.xsl", parameters );
     }

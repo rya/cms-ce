@@ -2502,7 +2502,7 @@ public class SectionHandlerServlet
         else
         {
             doc = getSectionDocument( admin, user, index, count, sectionKey, menuKey, menuItemKey );
-            addSiteToDocument( admin, doc, menuKey );
+            addPageTemplatesOfSiteToDocument( menuKey, PageTemplateType.CONTENT, doc );
             session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
         }
 
