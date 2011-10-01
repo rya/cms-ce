@@ -540,15 +540,18 @@
               for ( var i = 0; i &lt; paramNameElementsLn; i++ )
               {
                 var paramNameElement = paramNameElements[i];
-                var paramNameVal = paramNameElement.value;
+                if( paramNameElement.name === "paramname" )
+                {
+                    var paramNameVal = paramNameElement.value;
 
-                <xsl:if test="$type = 'content'">
-                  if ( paramNameVal == 'key' &amp;&amp; type == 'content' )
-                  {
-                    error(paramNameElement, '%errKeyIsNotAllowed%', tabPane);
-                    return;
-                  }
-                </xsl:if>
+                    <xsl:if test="$type = 'content'">
+                      if ( paramNameVal == 'key' &amp;&amp; type == 'content' )
+                      {
+                        error(paramNameElement, '%errKeyIsNotAllowed%', tabPane);
+                        return;
+                      }
+                    </xsl:if>
+                }
               }
 
               <xsl:if test="$key != 'none'">
