@@ -160,7 +160,7 @@ Ext.define( 'App.controller.UserController', {
            ]
         } );
         var userDetail = this.getUserDetail();
-        userDetail.updateTitle(this.getRowSelectionPaging());
+        userDetail.updateTitle(this.getPersistentGridSelectionPlugin());
     },
 
     createNewGroupTab: function()
@@ -190,8 +190,8 @@ Ext.define( 'App.controller.UserController', {
 
     updateDetailsPanel: function( selModel, selModelSelected )
     {
-        var rowSelectionPaging = this.getRowSelectionPaging();
-        var selection = rowSelectionPaging.getSelection();
+        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
+        var selection = persistentGridSelection.getSelection();
         var userDetail = this.getUserDetail();
 
         if ( selection.length == 0 )
@@ -219,7 +219,7 @@ Ext.define( 'App.controller.UserController', {
             userDetail.showMultipleSelection( selectedUsers, detailed );
         }
 
-        userDetail.updateTitle(rowSelectionPaging);
+        userDetail.updateTitle(persistentGridSelection);
     },
 
     searchFilter: function()
@@ -374,11 +374,11 @@ Ext.define( 'App.controller.UserController', {
 
     cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
     {
-        var rowSelectionPaging = this.getRowSelectionPaging();
+        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
         var rightClick = event.button === 2;
-        var isSelected = rowSelectionPaging.selected[record.internalId];
+        var isSelected = persistentGridSelection.selected[record.internalId];
 
-        var cancel = rightClick && isSelected && rowSelectionPaging.getSelection().length > 1;
+        var cancel = rightClick && isSelected && persistentGridSelection.getSelection().length > 1;
         if ( cancel )
         {
             return false;
@@ -557,7 +557,7 @@ Ext.define( 'App.controller.UserController', {
         this.getUserGrid().getSelectionModel().selectAll();
     },
 
-    getRowSelectionPaging: function()
+    getPersistentGridSelectionPlugin: function()
     {
         // TODO: Find a better way to get to the plugin
         return this.getUserGrid().plugins[0];
