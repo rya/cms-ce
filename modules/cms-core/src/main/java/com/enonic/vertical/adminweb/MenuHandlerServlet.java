@@ -1054,10 +1054,10 @@ public class MenuHandlerServlet
         int menuItemKeyInt = formItems.getInt( "parentmi", -1 );
 
         MenuItemKey menuItemKey = menuItemKeyInt >= 0 ? new MenuItemKey( menuItemKeyInt ) : null;
-        MenuItemEntity menuItem = menuItemDao.findByKey( menuItemKey );
+        MenuItemEntity menuItem = menuItemKey != null ? menuItemDao.findByKey( menuItemKey ) : null;
 
         int menuKey = formItems.getInt( "menukey", -1 );
-        if ( menuItemKey != null && menuKey == -1 )
+        if ( menuItem != null && menuKey == -1 )
         {
             menuKey = menuItem.getSite().getKey().toInt();
         }
