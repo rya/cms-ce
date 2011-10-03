@@ -20,6 +20,7 @@ Ext.define('App.view.wizard.UserWizardToolbar', {
                 items: [
                     {
                         text: 'Save',
+                        itemId: 'save',
                         iconCls: 'icon-btn-save-24'
                     }
                 ]

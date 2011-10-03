@@ -4,7 +4,8 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
     requires: [
         'Common.WizardPanel',
         'App.view.wizard.UserStoreListPanel',
-        'App.view.wizard.UserWizardToolbar'
+        'App.view.wizard.UserWizardToolbar',
+        'App.view.wizard.WizardStepFinalizePanel'
     ],
 
     layout: {
@@ -72,7 +73,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                         },
                         {
                             stepTitle: "Finalize",
-                            html: 'Panel 5<br/> Duis vel nibh enim. Mauris vel risus erat, eu tristique elit.'
+                            xtype: 'wizardStepFinalizePanel'
                         }
                     ]
                 }
