@@ -37,8 +37,6 @@ Ext.define( 'App.controller.UserController', {
         var userStore = this.getStore('UserStore');
         userStore.guaranteeRange( 0, userStore.pageSize - 1 );
 
-        userStore.on('load', me.updateGridTitle, this);
-
         this.control( {
                           'cmsTabPanel': {
                               afterrender: this.createBrowseTab
@@ -61,8 +59,7 @@ Ext.define( 'App.controller.UserController', {
                           'userGrid': {
                               selectionchange: this.updateDetailsPanel,
                               itemcontextmenu: this.popupMenu,
-                              itemdblclick: this.showEditUserForm,
-                              afterrender: this.postRenderGridPanel
+                              itemdblclick: this.showEditUserForm
                           },
                           'userFilter': {
                               specialkey: this.filterHandleEnterKey,
@@ -533,15 +530,6 @@ Ext.define( 'App.controller.UserController', {
             userInfoPanel = button.up( 'userShortDetailButton' );
         }
         selModel.deselect( userInfoPanel.getUser() );
-    },
-
-    postRenderGridPanel: function() {
-        Ext.get('account-grid-select-all').on('click', this.selectAll, this)
-    },
-
-    updateGridTitle: function() {
-        var totalCount = this.getStore('UserStore').getTotalCount();
-        Ext.DomQuery.select('#account-grid-total-count')[0].innerHTML = totalCount;
     },
 
     selectAll: function() {
