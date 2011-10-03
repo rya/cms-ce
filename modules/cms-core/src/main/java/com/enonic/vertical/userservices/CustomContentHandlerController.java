@@ -7,7 +7,6 @@ package com.enonic.vertical.userservices;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +31,6 @@ import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.ContentStatus;
 import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.content.contentdata.ContentData;
 import com.enonic.cms.domain.content.contentdata.ContentDataParserException;
 import com.enonic.cms.domain.content.contentdata.ContentDataParserInvalidDataException;
@@ -42,7 +39,6 @@ import com.enonic.cms.domain.content.contentdata.InvalidContentDataException;
 import com.enonic.cms.domain.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.domain.content.contentdata.custom.support.CustomContentDataFormParser;
 import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
@@ -53,9 +49,6 @@ import com.enonic.cms.domain.security.user.UserEntity;
 public class CustomContentHandlerController
     extends ContentHandlerBaseController
 {
-
-    private final static int ERR_UNSUPPORTED_TYPE = 101;
-
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey, String operation )
@@ -311,43 +304,6 @@ public class CustomContentHandlerController
 
         redirectToPage( request, response, formItems );
     }
-
-
-    protected CreateContentCommand parseCreateContentCommand( ExtendedMap formItems )
-    {
-        CreateContentCommand createContentCommand = new CreateContentCommand();
-
-        int categoryKey = formItems.getInt( "categorykey" );
-
-        CategoryEntity category = categoryDao.findByKey( new CategoryKey( categoryKey ) );
-
-        ContentTypeEntity contentType = category.getContentType();
-
-        createContentCommand.setCategory( category );
-
-        if ( category.getAutoMakeAvailableAsBoolean() )
-        {
-            createContentCommand.setAvailableFrom( new Date() );
-
-            createContentCommand.setStatus( ContentStatus.APPROVED );
-        }
-        else
-        {
-            createContentCommand.setStatus( ContentStatus.DRAFT );
-        }
-
-        createContentCommand.setPriority( 0 );
-
-        createContentCommand.setLanguage( category.getLanguage() );
-
-        CustomContentDataFormParser customContentParser = new CustomContentDataFormParser( contentType.getContentTypeConfig(), formItems );
-        ContentData contentData = customContentParser.parseContentData();
-        createContentCommand.setContentData( contentData );
-        createContentCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentData.getTitle() ) );
-
-        return createContentCommand;
-    }
-
 
     protected UpdateContentCommand parseUpdateContentCommand( UserEntity user, ExtendedMap formItems, boolean modifyMode )
     {

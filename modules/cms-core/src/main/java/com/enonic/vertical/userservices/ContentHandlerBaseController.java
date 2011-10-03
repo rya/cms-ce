@@ -50,6 +50,7 @@ import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.content.ContentLocation;
 import com.enonic.cms.domain.content.ContentLocationSpecification;
 import com.enonic.cms.domain.content.ContentLocations;
+import com.enonic.cms.domain.content.ContentStatus;
 import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.content.ContentVersionKey;
 import com.enonic.cms.domain.content.binary.BinaryData;
@@ -57,6 +58,9 @@ import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.domain.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.domain.content.contentdata.ContentData;
+import com.enonic.cms.domain.content.contentdata.custom.support.CustomContentDataFormParser;
+import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
@@ -960,4 +964,39 @@ public class ContentHandlerBaseController
     }
 
     protected SimpleDateFormat dateFormatTo = new SimpleDateFormat( "yyyy-MM-dd" );
+
+    protected CreateContentCommand parseCreateContentCommand( ExtendedMap formItems )
+    {
+        CreateContentCommand createContentCommand = new CreateContentCommand();
+
+        int categoryKey = formItems.getInt( "categorykey" );
+
+        CategoryEntity category = categoryDao.findByKey( new CategoryKey( categoryKey ) );
+
+        ContentTypeEntity contentType = category.getContentType();
+
+        createContentCommand.setCategory( category );
+
+        if ( category.getAutoMakeAvailableAsBoolean() )
+        {
+            createContentCommand.setAvailableFrom( new Date() );
+
+            createContentCommand.setStatus( ContentStatus.APPROVED );
+        }
+        else
+        {
+            createContentCommand.setStatus( ContentStatus.DRAFT );
+        }
+
+        createContentCommand.setPriority( 0 );
+
+        createContentCommand.setLanguage( category.getLanguage() );
+
+        CustomContentDataFormParser customContentParser = new CustomContentDataFormParser( contentType.getContentTypeConfig(), formItems );
+        ContentData contentData = customContentParser.parseContentData();
+        createContentCommand.setContentData( contentData );
+        createContentCommand.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentData.getTitle() ) );
+
+        return createContentCommand;
+    }
 }
