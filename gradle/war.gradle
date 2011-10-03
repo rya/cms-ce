@@ -1,6 +1,0 @@
-
-apply plugin: 'war'
-		
-war {
-	manifest = jar.manifest
-}
