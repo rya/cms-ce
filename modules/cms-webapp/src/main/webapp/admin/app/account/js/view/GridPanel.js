@@ -2,16 +2,16 @@ Ext.define( 'App.view.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
-    requires: ['Common.RowSelectionPagingPlugin'],
-    plugins: ['rowSelectionPaging'],
+    requires: ['Common.PersistentGridSelectionPlugin'],
+    plugins: ['persistentGridSelection'],
     layout: 'fit',
     multiSelect: true,
     loadMask: true,
     columnLines: true,
     frame: false,
     store: 'UserStore',
-    verticalScrollerType: 'paginggridscroller',
-    invalidateScrollerOnRefresh: false,
+    /*verticalScrollerType: 'paginggridscroller',
+    invalidateScrollerOnRefresh: false,*/
 
     initComponent: function()
     {
@@ -46,6 +46,11 @@ Ext.define( 'App.view.GridPanel', {
                 sortable: true
             }
         ];
+
+        this.tbar = {
+            xtype: 'pagingtoolbar',
+            store: this.store
+        };
 
         this.viewConfig = {
             trackOver : true,

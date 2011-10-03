@@ -1,7 +1,7 @@
-Ext.define('Common.RowSelectionPagingPlugin', {
+Ext.define('Common.PersistentGridSelectionPlugin', {
 
     extend: 'Ext.util.Observable',
-    alias : 'plugin.rowSelectionPaging',
+    alias : 'plugin.persistentGridSelection',
     init: function(grid) {
         this.grid = grid;
         this.selections = []; // array of selected records

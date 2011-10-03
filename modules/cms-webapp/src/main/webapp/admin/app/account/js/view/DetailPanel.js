@@ -130,10 +130,10 @@ Ext.define('App.view.DetailPanel', {
         return this.currentUser;
     },
 
-    updateTitle: function(selModel){
-        this.selModel = selModel;
+    updateTitle: function(persistentGridSelection){
 
-        var count = selModel.selected.length;
+        var count = persistentGridSelection.getSelection().length;
+        this.selModel = '';
         var header = count + " user(s) selected";
         if ( count > 0 ) {
             header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
@@ -143,14 +143,10 @@ Ext.define('App.view.DetailPanel', {
         var clearSel = this.header.el.down( 'a.clearSelection' );
         if ( clearSel ) {
             clearSel.on( "click", function() {
-                this.selModel.deselectAll();
+                persistentGridSelection.clearSelections();
             }, this );
         }
 
     },
-
-    selectAll: function(){
-        this.selModel.selectAll();
-    }
 
 });

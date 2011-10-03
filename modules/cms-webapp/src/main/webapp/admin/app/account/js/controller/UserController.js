@@ -34,8 +34,11 @@ Ext.define( 'App.controller.UserController', {
         Ext.create('widget.userChangePasswordWindow');
 
         var me = this;
+
+        /*
         var userStore = this.getStore('UserStore');
         userStore.guaranteeRange( 0, userStore.pageSize - 1 );
+        */
 
         this.control( {
                           'cmsTabPanel': {
@@ -157,7 +160,7 @@ Ext.define( 'App.controller.UserController', {
            ]
         } );
         var userDetail = this.getUserDetail();
-        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
+        userDetail.updateTitle(this.getRowSelectionPaging());
     },
 
     createNewGroupTab: function()
@@ -185,35 +188,38 @@ Ext.define( 'App.controller.UserController', {
         this.getUserChangePasswordWindow().doShow( this.getSelectedGridItem() );
     },
 
-    updateDetailsPanel: function( selModel, selected )
+    updateDetailsPanel: function( selModel, selModelSelected )
     {
+        var rowSelectionPaging = this.getRowSelectionPaging();
+        var selection = rowSelectionPaging.getSelection();
         var userDetail = this.getUserDetail();
 
-        if ( selected.length == 0 )
+        if ( selection.length == 0 )
         {
             userDetail.showNonSelection();
         }
         else
         {
-            var user = selected[0];
+            var user = selection[0];
             if ( user )
             {
                 userDetail.setCurrentUser( user.data );
             }
 
             var detailed = true;
-            if ( selected.length > 10 )
+            if ( selection.length > 10 )
             {
                 detailed = false;
             }
             var selectedUsers = [];
-            Ext.Array.each( selected, function( user )
+            Ext.Array.each( selection, function( user )
             {
                 Ext.Array.include( selectedUsers, user.data );
             } );
             userDetail.showMultipleSelection( selectedUsers, detailed );
         }
-        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
+
+        userDetail.updateTitle(rowSelectionPaging);
     },
 
     searchFilter: function()
@@ -368,11 +374,11 @@ Ext.define( 'App.controller.UserController', {
 
     cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
     {
-        var selectionModel = this.getUserGrid().getSelectionModel();
+        var rowSelectionPaging = this.getRowSelectionPaging();
         var rightClick = event.button === 2;
-        var isSelected = selectionModel.isSelected(record);
+        var isSelected = rowSelectionPaging.selected[record.internalId];
 
-        var cancel = rightClick && isSelected && selectionModel.getSelection().length > 1;
+        var cancel = rightClick && isSelected && rowSelectionPaging.getSelection().length > 1;
         if ( cancel )
         {
             return false;
@@ -549,6 +555,12 @@ Ext.define( 'App.controller.UserController', {
 
     selectAll: function() {
         this.getUserGrid().getSelectionModel().selectAll();
+    },
+
+    getRowSelectionPaging: function()
+    {
+        // TODO: Find a better way to get to the plugin
+        return this.getUserGrid().plugins[0];
     },
 
     getCmsTabPanel: function()
