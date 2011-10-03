@@ -294,6 +294,13 @@
         <property name="groupDao" ref="groupDao"/>
     </bean>
 
+    <bean id="attachmentControllerForAdmin" class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
+        <property name="securityService" ref="securityService"/>
+        <property name="binaryDataDao" ref="binaryDataDao"/>
+        <property name="contentDao" ref="contentDao"/>
+        <property name="groupDao" ref="groupDao"/>
+        <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
+    </bean>
 
     <bean id="imageController" class="com.enonic.cms.server.service.portal.mvc.controller.ImageController">
         <property name="autoLoginService" ref="autoLoginService"/>

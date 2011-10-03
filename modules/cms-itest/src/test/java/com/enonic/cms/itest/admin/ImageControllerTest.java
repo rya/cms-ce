@@ -32,8 +32,6 @@ import com.enonic.cms.api.client.model.content.image.ImageNameInput;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.admin.mvc.controller.ImageController;
 import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationContextLoader;
-import com.enonic.cms.store.dao.BinaryDataDao;
-import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.testtools.DomainFactory;
@@ -83,12 +81,6 @@ public class ImageControllerTest
 
     @Autowired
     private GroupDao groupDao;
-
-    @Autowired
-    private ContentBinaryDataDao contentBinaryDataDao;
-
-    @Autowired
-    private BinaryDataDao binaryDataDao;
 
     @Autowired
     private InternalClientContentService internalClientContentService;
