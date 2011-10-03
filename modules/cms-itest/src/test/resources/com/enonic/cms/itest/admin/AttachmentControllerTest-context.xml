@@ -10,19 +10,6 @@
 
     <context:annotation-config/>
 
-    <import resource="classpath:com/enonic/cms/itest/admin/base-AdminTest-context.xml"/>
-
-    <bean id="internalClientContentService"
-          class="com.enonic.cms.business.client.InternalClientContentService">
-    </bean>
-
-
-    <bean id="attachmentController" class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
-        <property name="binaryDataDao" ref="binaryDataDao"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="groupDao" ref="groupDao"/>
-        <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
-    </bean>
+    <import resource="classpath:com/enonic/cms/itest/base-core-test-context.xml"/>
 
 </beans>

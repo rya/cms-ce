@@ -215,16 +215,19 @@ public final class ImageServiceImpl
         this.imageCache = imageCache;
     }
 
+    @Autowired
     public void setContentDao( ContentDao contentDao )
     {
         this.contentDao = contentDao;
     }
 
+    @Autowired
     public void setUserDao( UserDao userDao )
     {
         this.userDao = userDao;
     }
 
+    @Autowired
     public void setBlobStore( BlobStore blobStore )
     {
         this.blobStore = blobStore;

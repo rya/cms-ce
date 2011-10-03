@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -65,9 +64,6 @@ import static org.junit.Assert.*;
 @ContextConfiguration(loader = XmlWebApplicationContextLoader.class)
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
-/**
- * TODO: Re-introduce ignores tests when createImageContent is available via either ContentService or InternalServiceImpl
- */
 public class ImageControllerTest
 {
     @Autowired
@@ -132,7 +128,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void request_content_image_without_format_gives_png_as_content_type()
         throws Exception
     {
@@ -151,7 +146,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void request_content_image_with_format_gives_same_content_type()
         throws Exception
     {
@@ -170,7 +164,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void request_content_image_with_label_small()
         throws Exception
     {
@@ -316,7 +309,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void request_content_image_that_binary_is_on_main_version()
         throws Exception
     {
@@ -344,7 +336,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void exception_thrown_for_request_to_content_image_that_binary_is_not_on_main_version()
         throws Exception
     {
@@ -394,7 +385,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void request_user_image()
         throws Exception
     {
@@ -415,7 +405,6 @@ public class ImageControllerTest
     }
 
     @Test
-    @Ignore
     public void response_ok_for_request_to_content_image_that_is_not_online_when_is_related_to_content_in_preview()
         throws Exception
     {
