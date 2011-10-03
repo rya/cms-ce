@@ -601,16 +601,9 @@
           <xsl:with-param name="is-clickable" select="not($is-selected)"/>
         </xsl:call-template>
 
-        <xsl:choose>
-          <xsl:when test="$selected-version-is-unsaved-draft">
-            <br/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:call-template name="formatdatetime">
-              <xsl:with-param name="date" select="@timestamp"/>
-            </xsl:call-template>
-          </xsl:otherwise>
-        </xsl:choose>
+          <xsl:call-template name="formatdatetime">
+            <xsl:with-param name="date" select="@timestamp"/>
+          </xsl:call-template>
 
         <a style="display: none" href="javascript:changeVersion('{@key}')" id="operation_goto_{@key}">
           &nbsp;
@@ -669,14 +662,7 @@
           <xsl:with-param name="is-clickable" select="not($is-selected)"/>
         </xsl:call-template>
 
-        <xsl:choose>
-          <xsl:when test="$selected-version-is-unsaved-draft">
-            <br/>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="concat(@modifierFullName, ' (', @modifierQualifiedName, ')')"/>
-          </xsl:otherwise>
-        </xsl:choose>
+          <xsl:value-of select="concat(@modifierFullName, ' (', @modifierQualifiedName, ')')"/>
       </td>
     </tr>
 

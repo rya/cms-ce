@@ -15,6 +15,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.servlet.ServletConfig;
@@ -49,13 +50,14 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
+import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 import com.enonic.cms.domain.content.UnitEntity;
 import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;
@@ -63,6 +65,8 @@ import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;
 import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 
 
 public abstract class AdminHandlerBaseServlet
@@ -1479,17 +1483,21 @@ public abstract class AdminHandlerBaseServlet
     }
 
     /**
-     * add sites with page templates
+     * add page templates of sites that user can see
      *
      * used for determining if preview is available
      *
      * @param admin service
-     * @param verticalDoc document
      * @param user logged in user
+     * @param allowedPageTemplateType types of Page Templates to add
+     * @param verticalDoc document
      */
-    protected void addUserSitesToDocument( AdminService admin, Document verticalDoc, UserEntity user )
+    protected void addPageTemplatesOfUserSitesToDocument( AdminService admin, UserEntity user, PageTemplateType allowedPageTemplateType, Document verticalDoc )
     {
-        Document doc = XMLTool.domparse( admin.getAdminMenu( user, -1 ) );
+        final String adminMenuXML = admin.getAdminMenu( user, -1 );
+
+        Document doc = XMLTool.domparse( adminMenuXML );
+
         Element rootSitesElement = doc.getDocumentElement();
         Element[] allSiteElements = XMLTool.getElements( rootSitesElement );
 
@@ -1497,21 +1505,43 @@ public abstract class AdminHandlerBaseServlet
         {
             int siteKey = Integer.valueOf( siteElement.getAttribute( "key" ) );
 
-            addSiteToDocument( admin, verticalDoc, siteKey );
+            addPageTemplatesOfSiteToDocument( siteKey, allowedPageTemplateType, verticalDoc );
         }
     }
 
     /**
-     * add only one site to document
+     * add Page Templates of one site to document
      *
-     * @param admin service
-     * @param verticalDoc document
      * @param siteKey key of site
+     * @param allowedPageTemplateType type of page templates
+     * @param verticalDoc document to add XML data
      */
-    protected void addSiteToDocument( AdminService admin, Document verticalDoc, int siteKey )
+    protected void addPageTemplatesOfSiteToDocument( int siteKey, PageTemplateType allowedPageTemplateType, Document verticalDoc )
     {
-        String pageTemplateXML = admin.getPageTemplatesByMenu( siteKey, EXCLUDED_TYPE_KEYS_IN_PREVIEW );
-        Document ptDoc = XMLTool.domparse( pageTemplateXML );
+        final Document ptDoc = XMLTool.createDocument( "pagetemplates-in-site" );
+        final Element root = ptDoc.getDocumentElement();
+        root.setAttribute( "site", String.valueOf( siteKey ) );
+
+        final SiteEntity siteEntity = siteDao.findByKey( siteKey );
+        final Set<PageTemplateEntity> pageTemplates = siteEntity.getPageTemplates();
+        for ( PageTemplateEntity pageTemplate : pageTemplates )
+        {
+            if ( pageTemplate.getType() == allowedPageTemplateType )
+    {
+                final Element elem = XMLTool.createElement( ptDoc, root, "pagetemplate" );
+                elem.setAttribute( "key", String.valueOf( pageTemplate.getKey() ) );
+                final Element contentTypesEl = XMLTool.createElement( ptDoc, elem, "contenttypes" );
+
+                final Set<ContentTypeEntity> contentTypeEntities = pageTemplate.getContentTypes();
+
+                for ( ContentTypeEntity contentTypeEntity : contentTypeEntities )
+                {
+                    final Element contentTypeEl = XMLTool.createElement( ptDoc, contentTypesEl, "contenttype" );
+                    contentTypeEl.setAttribute( "key", String.valueOf( contentTypeEntity.getKey() ) );
+                }
+            }
+        }
+
         XMLTool.mergeDocuments( verticalDoc, ptDoc, true );
     }
 

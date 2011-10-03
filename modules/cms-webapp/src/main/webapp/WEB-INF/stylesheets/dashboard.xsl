@@ -473,7 +473,6 @@
                 <xsl:with-param name="versionkey" select="$versionkey"/>
                 <xsl:with-param name="approveright" select="$approveright"/>
                 <xsl:with-param name="publishright" select="$publishright"/>
-                <xsl:with-param name="contenttypekey" select="@contenttypekey"/>
               </xsl:call-template>
             </div>
 

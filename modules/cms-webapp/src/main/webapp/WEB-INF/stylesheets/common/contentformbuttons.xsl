@@ -9,6 +9,10 @@
 
   <xsl:output method="html"/>
 
+  <xsl:param name="referer"/>
+
+  <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
+
   <xsl:template name="contentformbuttons">
     <xsl:param name="formname" select="'formAdmin'"/>
     <xsl:param name="subfunctions" select="''"/>
@@ -446,13 +450,13 @@
           </xsl:if>
 
           <xsl:if test="$enablepreview">
-            <xsl:variable name="has-page-template" select="/*/pagetemplates/pagetemplate/contenttypes/contenttype[@key = $contenttypekey]"/>
+            <xsl:variable name="has-page-template" select="key('page-templates-by-content-type', $contenttypekey)"/>
             <xsl:call-template name="button">
               <xsl:with-param name="type" select="'button'"/>
               <xsl:with-param name="caption" select="'%cmdPreview%'"/>
               <xsl:with-param name="id" select="'previewbtn'"/>
               <xsl:with-param name="name" select="'previewbtn'"/>
-              <xsl:with-param name="disabled" select="boolean($create = 1 or not($has-page-template))"/>
+              <xsl:with-param name="disabled" select="$create = 1 or not($has-page-template)"/>
               <xsl:with-param name="onclick">
                 <xsl:if test="$subfunctions != ''">
                   <xsl:value-of select="$subfunctions"/>

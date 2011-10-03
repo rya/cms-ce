@@ -10,27 +10,7 @@
 
     <context:annotation-config/>
 
-    <import resource="classpath:com/enonic/cms/itest/portal/base-PortalTest-context.xml"/>
+    <import resource="classpath:com/enonic/cms/itest/base-core-test-context.xml"/>
 
-    <bean id="internalClientContentService"
-          class="com.enonic.cms.business.client.InternalClientContentService">
-    </bean>
-
-    <bean id="imageController" class="com.enonic.cms.server.service.portal.mvc.controller.ImageController">
-        <property name="autoLoginService" ref="autoLoginService"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="disableParamEncoding" value="true"/>
-        <property name="groupDao" ref="groupDao"/>
-        <property name="imageService" ref="imageService"/>
-        <property name="livePortalTraceService" ref="livePortalTraceService"/>
-        <property name="previewService" ref="previewService"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="siteDao" ref="siteDao"/>
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="siteService" ref="siteService"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="timeService" ref="timeService"/>
-        <property name="userDao" ref="userDao"/>
-    </bean>
 
 </beans>

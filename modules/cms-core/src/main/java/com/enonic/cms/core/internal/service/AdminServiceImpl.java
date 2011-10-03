@@ -875,11 +875,6 @@ public class AdminServiceImpl
         return adminEngine.initializeDatabaseValues();
     }
 
-    public PageTemplateType getPageTemplateType( int pageTemplateKey )
-    {
-        return adminEngine.getPageTemplateType( new PageTemplateKey( pageTemplateKey ) );
-    }
-
     public boolean isContentVersionApproved( int versionKey )
     {
         return adminEngine.isContentVersionApproved( versionKey );

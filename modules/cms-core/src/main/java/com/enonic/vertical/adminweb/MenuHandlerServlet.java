@@ -107,7 +107,7 @@ import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 import com.enonic.cms.domain.structure.portlet.PortletEntity;
 
 public class MenuHandlerServlet
-        extends AdminHandlerBaseServlet
+    extends AdminHandlerBaseServlet
 {
     private final static int TYPE_NEWSLETTER = 4;
 
@@ -122,7 +122,7 @@ public class MenuHandlerServlet
     private static final String ELEMENT_NAME_DISPLAY_NAME = "displayname";
 
     private void buildPageXML( ExtendedMap formItems, String xmlParams, Element menuItemElem )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         Document doc = menuItemElem.getOwnerDocument();
@@ -166,17 +166,16 @@ public class MenuHandlerServlet
                 {
                     if ( keyArray[j] != null && keyArray[j].trim().length() != 0 )
                     {
-                        createContentObjectXML( doc, contentObjects, paramName, keyArray[j],
-                                                formItems.getString( "pagekey", "" ), String.valueOf( j ), key,
-                                                separator );
+                        createContentObjectXML( doc, contentObjects, paramName, keyArray[j], formItems.getString( "pagekey", "" ),
+                                                String.valueOf( j ), key, separator );
                     }
                 }
             }
         }
     }
 
-    private void createContentObjectXML( Document doc, Element contentObjects, String paramName, String key,
-                                         String pageKey, String order, String paramKey, String separator )
+    private void createContentObjectXML( Document doc, Element contentObjects, String paramName, String key, String pageKey, String order,
+                                         String paramKey, String separator )
     {
 
         Element contentObject = XMLTool.createElement( doc, contentObjects, "contentobject" );
@@ -190,7 +189,7 @@ public class MenuHandlerServlet
     }
 
     private void createContentXML( ExtendedMap formItems, Element menuItemElem )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         Document doc = menuItemElem.getOwnerDocument();
@@ -236,16 +235,14 @@ public class MenuHandlerServlet
 
     private void createURLXML( Element menuitem_elem, ExtendedMap formItems )
     {
-        Element url_elem = XMLTool.createElement( menuitem_elem.getOwnerDocument(), menuitem_elem, "url",
-                                                  (String) formItems.get( "url" ) );
+        Element url_elem = XMLTool.createElement( menuitem_elem.getOwnerDocument(), menuitem_elem, "url", (String) formItems.get( "url" ) );
 
         url_elem.setAttribute( "newwindow", (String) formItems.get( "newwindow" ) );
         url_elem.setAttribute( "local", (String) formItems.get( "islocalurl" ) );
     }
 
-    private Document formItemsToMenuItem( AdminService admin, Element menuItemElem, ExtendedMap formItems, int menuKey,
-                                          int menuItemKey )
-            throws VerticalAdminException
+    private Document formItemsToMenuItem( AdminService admin, Element menuItemElem, ExtendedMap formItems, int menuKey, int menuItemKey )
+        throws VerticalAdminException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -448,7 +445,9 @@ public class MenuHandlerServlet
         else if ( "content".equals( type ) )
         {
             int pageTemplateKey = formItems.getInt( "pagetemplatekey" );
-            PageTemplateType pageTemplateType = admin.getPageTemplateType( pageTemplateKey );
+            PageTemplateEntity pageTemplate = pageTemplateDao.findByKey( pageTemplateKey );
+            PageTemplateType pageTemplateType = pageTemplate.getType();
+
             if ( pageTemplateType == PageTemplateType.SECTIONPAGE || pageTemplateType == PageTemplateType.NEWSLETTER )
             {
                 buildSectionXML( menuItemElement, formItems );
@@ -503,9 +502,9 @@ public class MenuHandlerServlet
      * To prevent last-minute bugs, this is just copied from formItemsToMenuItem (which is used for update and create menuItem)
      * This should rewritten be a separate builder for previewMenuItemXml, and remove all old-style stuff
      */
-    private Document createPreviewMenuItemXml( AdminService admin, Element menuItemElem, ExtendedMap formItems,
-                                               int menuKey, int menuItemKey )
-            throws VerticalAdminException
+    private Document createPreviewMenuItemXml( AdminService admin, Element menuItemElem, ExtendedMap formItems, int menuKey,
+                                               int menuItemKey )
+        throws VerticalAdminException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -709,7 +708,8 @@ public class MenuHandlerServlet
         else if ( "content".equals( type ) )
         {
             int pageTemplateKey = formItems.getInt( "pagetemplatekey" );
-            PageTemplateType pageTemplateType = admin.getPageTemplateType( pageTemplateKey );
+            PageTemplateEntity pageTemplate = pageTemplateDao.findByKey( pageTemplateKey );
+            PageTemplateType pageTemplateType = pageTemplate.getType();
             if ( pageTemplateType == PageTemplateType.SECTIONPAGE || pageTemplateType == PageTemplateType.NEWSLETTER )
             {
                 buildSectionXML( menuItemElement, formItems );
@@ -781,7 +781,7 @@ public class MenuHandlerServlet
     }
 
     private void buildFormXML( ExtendedMap formItems, Element menuItemElement )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         Document doc = menuItemElement.getOwnerDocument();
@@ -1043,9 +1043,9 @@ public class MenuHandlerServlet
         VerticalAdminLogger.debug( this.getClass(), 0, doc );
     }
 
-    public void handlerBrowse( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    public void handlerBrowse( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1054,11 +1054,12 @@ public class MenuHandlerServlet
         int menuItemKeyInt = formItems.getInt( "parentmi", -1 );
 
         MenuItemKey menuItemKey = menuItemKeyInt >= 0 ? new MenuItemKey( menuItemKeyInt ) : null;
+        MenuItemEntity menuItem = menuItemDao.findByKey( menuItemKey );
 
         int menuKey = formItems.getInt( "menukey", -1 );
         if ( menuItemKey != null && menuKey == -1 )
         {
-            menuKey = admin.getMenuKeyByMenuItem( menuItemKey );
+            menuKey = menuItem.getSite().getKey().toInt();
         }
 
         if ( menuItemKey == null )
@@ -1068,8 +1069,7 @@ public class MenuHandlerServlet
         else if ( formItems.containsKey( "browsemode" ) )
         {
             String deploymentPath = DeploymentPathResolver.getAdminDeploymentPath( request );
-            CookieUtil.setCookie( response, "browsemode" + menuItemKey, formItems.getString( "browsemode" ), -1,
-                                  deploymentPath );
+            CookieUtil.setCookie( response, "browsemode" + menuItemKey, formItems.getString( "browsemode" ), -1, deploymentPath );
         }
         else
         {
@@ -1077,11 +1077,9 @@ public class MenuHandlerServlet
             // if (c != null && "section".equals(c.getValue())) {
             if ( c == null || !"menuitem".equals( c.getValue() ) )
             {
-                MenuItemKey sectionKey = admin.getSectionKeyByMenuItemKey( menuItemKey );
-                if ( sectionKey != null )
+                if ( menuItem.isSection() )
                 {
-                    redirectToSectionBrowse( request, response, menuKey, menuItemKey,
-                                             formItems.getBoolean( "reload", false ) );
+                    redirectToSectionBrowse( request, response, menuKey, menuItemKey, formItems.getBoolean( "reload", false ) );
                 }
             }
         }
@@ -1119,7 +1117,7 @@ public class MenuHandlerServlet
     {
         SiteKey siteKey = new SiteKey( menuKey );
         MenuBrowseModelFactory menuBrowseModelFactory =
-                new MenuBrowseModelFactory( securityService, siteDao, menuItemDao, sitePropertiesService );
+            new MenuBrowseModelFactory( securityService, siteDao, menuItemDao, sitePropertiesService );
         MenuBrowseMenuItemsModel model = menuBrowseModelFactory.createMenuItemModel( user, siteKey, menuItemKey );
         return model.toXML();
     }
@@ -1136,10 +1134,9 @@ public class MenuHandlerServlet
         return sitePath;
     }
 
-    public void handlerCustom( javax.servlet.http.HttpServletRequest request,
-                               javax.servlet.http.HttpServletResponse response, HttpSession session, AdminService admin,
-                               ExtendedMap formItems, String operation )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerCustom( javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response,
+                               HttpSession session, AdminService admin, ExtendedMap formItems, String operation )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         if ( operation.equals( "edit" ) )
@@ -1197,9 +1194,8 @@ public class MenuHandlerServlet
         }
     }
 
-    private void moveMenuItemBelow( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                    ExtendedMap formItems )
-            throws VerticalAdminException
+    private void moveMenuItemBelow( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         int menuItemKeyInt = formItems.getInt( "key" );
@@ -1223,23 +1219,20 @@ public class MenuHandlerServlet
 
         SiteKey siteKey = new SiteKey( formItems.getString( "menukey" ) );
         MenuBrowseModelFactory menuBrowseModelFactory =
-                new MenuBrowseModelFactory( securityService, siteDao, menuItemDao, sitePropertiesService );
-        MenuBrowseMenuItemsModel model =
-                menuBrowseModelFactory.createMenuItemModel( userEntity, siteKey, menuItemParentToMoveBelow );
+            new MenuBrowseModelFactory( securityService, siteDao, menuItemDao, sitePropertiesService );
+        MenuBrowseMenuItemsModel model = menuBrowseModelFactory.createMenuItemModel( userEntity, siteKey, menuItemParentToMoveBelow );
 
         // add the moving menuitem as a bottom child of the new parent
         List<MenuItemAndUserAccessRights> menuItemsToListWithMovingMenuItemAdded =
-                new ArrayList<MenuItemAndUserAccessRights>( model.getMenuItemsToList() );
-        MenuItemAccessRightAccumulator menuItemAccessRightAccumulator =
-                new MenuItemAccessRightAccumulator( securityService );
+            new ArrayList<MenuItemAndUserAccessRights>( model.getMenuItemsToList() );
+        MenuItemAccessRightAccumulator menuItemAccessRightAccumulator = new MenuItemAccessRightAccumulator( securityService );
         MenuItemAccumulatedAccessRights menuItemAccessRightsForAnonymousUser =
-                menuItemAccessRightAccumulator.getAccessRightsAccumulated( menuItemToMove, securityService.getUser(
-                        securityService.getAnonymousUserKey() ) );
+            menuItemAccessRightAccumulator.getAccessRightsAccumulated( menuItemToMove,
+                                                                       securityService.getUser( securityService.getAnonymousUserKey() ) );
         MenuItemAccumulatedAccessRights menuItemAccessRightsForUser =
-                menuItemAccessRightAccumulator.getAccessRightsAccumulated( menuItemToMove, userEntity );
+            menuItemAccessRightAccumulator.getAccessRightsAccumulated( menuItemToMove, userEntity );
         MenuItemAndUserAccessRights menuItemAndUserAccessRightsForMenuItemToMove =
-                new MenuItemAndUserAccessRights( menuItemToMove, menuItemAccessRightsForUser,
-                                                 menuItemAccessRightsForAnonymousUser );
+            new MenuItemAndUserAccessRights( menuItemToMove, menuItemAccessRightsForUser, menuItemAccessRightsForAnonymousUser );
         menuItemsToListWithMovingMenuItemAdded.add( menuItemAndUserAccessRightsForMenuItemToMove );
         model.setMenuItemsToList( menuItemsToListWithMovingMenuItemAdded );
 
@@ -1260,17 +1253,16 @@ public class MenuHandlerServlet
         redirectClientToAdminPath( "adminpage", params, request, response );
     }
 
-    public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                             AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                             ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         menuItemForm( request, response, session, admin, formItems );
     }
 
-    private void handlerRemoveItem( HttpServletRequest request, HttpServletResponse response, AdminService admin,
-                                    ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    private void handlerRemoveItem( HttpServletRequest request, HttpServletResponse response, AdminService admin, ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1292,8 +1284,8 @@ public class MenuHandlerServlet
         redirectToBrowse( request, response, formItems );
     }
 
-    public void handlerMenuItemSelectorAcrossSites( HttpServletRequest request, HttpServletResponse response,
-                                                    HttpSession session, AdminService admin, ExtendedMap formItems )
+    public void handlerMenuItemSelectorAcrossSites( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                                    AdminService admin, ExtendedMap formItems )
     {
         User user = securityService.getLoggedInAdminConsoleUser();
 
@@ -1307,8 +1299,7 @@ public class MenuHandlerServlet
             PageTemplateType pageTemplateTypeRestriction = null;
             if ( StringUtils.isNotBlank( formItems.getString( "menuItemPageTemplateTypeRestriction", null ) ) )
             {
-                pageTemplateTypeRestriction =
-                        PageTemplateType.get( formItems.getInt( "menuItemPageTemplateTypeRestriction" ) );
+                pageTemplateTypeRestriction = PageTemplateType.get( formItems.getInt( "menuItemPageTemplateTypeRestriction" ) );
             }
 
             PageTemplateSpecification pageTemplateSpecification = new PageTemplateSpecification();
@@ -1324,8 +1315,8 @@ public class MenuHandlerServlet
             menuItemsAcrossSitesModel.addMenuItems( menuItemsAcrossSites );
             MenuItemsAcrossSitesXmlCreator menuItemsAcrossSitesXmlCreator = new MenuItemsAcrossSitesXmlCreator();
 
-            XMLDocument menuitemsAcrossSitesXMLDocument = XMLDocumentFactory.create(
-                    menuItemsAcrossSitesXmlCreator.createXmlDocument( menuItemsAcrossSitesModel ) );
+            XMLDocument menuitemsAcrossSitesXMLDocument =
+                XMLDocumentFactory.create( menuItemsAcrossSitesXmlCreator.createXmlDocument( menuItemsAcrossSitesModel ) );
 
             Map<String, Object> parameters = new HashMap<String, Object>();
 
@@ -1359,9 +1350,9 @@ public class MenuHandlerServlet
         }
     }
 
-    public boolean handlerSelect( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                  AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    public boolean handlerSelect( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                  ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1400,8 +1391,7 @@ public class MenuHandlerServlet
             addCommonParameters( admin, user, request, parameters, -1, menuKey );
 
             Document menuDocTemp = XMLTool.domparse( admin.getAdminMenu( user, menuKey ) );
-            Element menuElemTemp =
-                    XMLTool.selectElement( menuDocTemp.getDocumentElement(), "menu[@key = '" + menuKey + "']" );
+            Element menuElemTemp = XMLTool.selectElement( menuDocTemp.getDocumentElement(), "menu[@key = '" + menuKey + "']" );
             Element[] menuItemElems = XMLTool.getElements( menuElemTemp );
             Document menuDoc = XMLTool.createDocument( "menutop" );
             Element menuTop = menuDoc.getDocumentElement();
@@ -1429,9 +1419,9 @@ public class MenuHandlerServlet
         return true;
     }
 
-    private void handlerSetup( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    private void handlerSetup( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1535,21 +1525,19 @@ public class MenuHandlerServlet
 
     private void addSelectedMenuElement( org.jdom.Element modelEl, UserEntity user, SiteEntity site )
     {
-        DefaultSiteAccessRightAccumulator defaultSiteAccessRightAccumulator =
-                new DefaultSiteAccessRightAccumulator( securityService );
+        DefaultSiteAccessRightAccumulator defaultSiteAccessRightAccumulator = new DefaultSiteAccessRightAccumulator( securityService );
         DefaultSiteAccumulatedAccessRights defaultSiteAccessRightsAccumulated =
-                defaultSiteAccessRightAccumulator.getAccessRightsAccumulated( site, user );
+            defaultSiteAccessRightAccumulator.getAccessRightsAccumulated( site, user );
 
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( null );
-        org.jdom.Element selectedMenuEl =
-                siteXmlCreator.createMenuElement( site, sitePropertiesService.getSiteProperties( site.getKey() ),
-                                                  defaultSiteAccessRightsAccumulated );
+        org.jdom.Element selectedMenuEl = siteXmlCreator.createMenuElement( site, sitePropertiesService.getSiteProperties( site.getKey() ),
+                                                                            defaultSiteAccessRightsAccumulated );
         modelEl.addContent( new org.jdom.Element( "selected-menu" ).addContent( selectedMenuEl ) );
     }
 
-    public void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1563,7 +1551,9 @@ public class MenuHandlerServlet
         {
             final Element[] menuItemElements = XMLTool.getElements( menuDoc, "/model/menuitems-to-list/menuitem" );
 
-            int fromParentKey = admin.getParentMenuItemKey( moveMenuItemKey );
+            MenuItemEntity moveMenuItem = menuItemDao.findByKey( moveMenuItemKey );
+
+            int fromParentKey = moveMenuItem.getParent() != null ? moveMenuItem.getParent().getKey() : -1;
             int toParentKey = formItems.getInt( "move_to_parent", -1 );
 
             MenuItemEntity toParentMenuItem = menuItemDao.findByKey( new MenuItemKey( toParentKey ) );
@@ -1612,9 +1602,9 @@ public class MenuHandlerServlet
     }
 
 
-    private void handlerMultiSitePicker( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                         AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    private void handlerMultiSitePicker( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                         ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         String deploymentPath = DeploymentPathResolver.getAdminDeploymentPath( request );
@@ -1680,8 +1670,7 @@ public class MenuHandlerServlet
 
     private void addMenusXML( AdminService admin, User user, int selectedSiteParameter, Document doc )
     {
-        Document menusDoc =
-                XMLTool.domparse( admin.getAdminMenuIncludeReadOnlyAccessRights( user, selectedSiteParameter ) );
+        Document menusDoc = XMLTool.domparse( admin.getAdminMenuIncludeReadOnlyAccessRights( user, selectedSiteParameter ) );
 
         Element[] menuTops = XMLTool.selectElements( menusDoc.getDocumentElement(), "menu" );
 
@@ -1706,9 +1695,9 @@ public class MenuHandlerServlet
         }
     }
 
-    private void selectNewParent( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                  AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    private void selectNewParent( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                  ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1722,9 +1711,8 @@ public class MenuHandlerServlet
             Document menuDoc = XMLTool.domparse( admin.getAdminMenu( user, menuKey ) );
             int menuItemKey = formItems.getInt( "key" );
             Element menuElem = XMLTool.selectElement( menuDoc.getDocumentElement(), "menu[@key = '" + menuKey + "']" );
-            String menuItemName = XMLTool.selectElement( menuDoc.getDocumentElement(),
-                                                         "//menuitem[@key = " + menuItemKey + " ]" ).getAttribute(
-                    "name" );
+            String menuItemName =
+                XMLTool.selectElement( menuDoc.getDocumentElement(), "//menuitem[@key = " + menuItemKey + " ]" ).getAttribute( "name" );
             menuElem = XMLTool.renameElement( menuElem, "menutop" );
             menuElem.removeAttribute( "key" );
             menuDoc = XMLTool.createDocument( menuElem );
@@ -1752,9 +1740,9 @@ public class MenuHandlerServlet
         }
     }
 
-    private void insertMenuItem( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                 AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    private void insertMenuItem( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                 ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1776,8 +1764,8 @@ public class MenuHandlerServlet
                 menuItemElem = (Element) menuItemDoc.getDocumentElement().getFirstChild();
             }
 
-            String menuItemXML = XMLTool.documentToString(
-                    formItemsToMenuItem( admin, menuItemElem, formItems, siteKey.toInt(), menuItemKey ) );
+            String menuItemXML =
+                XMLTool.documentToString( formItemsToMenuItem( admin, menuItemElem, formItems, siteKey.toInt(), menuItemKey ) );
 
             if ( menuItemKey != -1 )
             {
@@ -1793,11 +1781,9 @@ public class MenuHandlerServlet
 
             // Lagre rettigheter til innholdet
             // Oppdaterer rettigheter bare hvis brukeren ikke har valgt � propagere
-            if ( formItems.containsKey( "updateaccessrights" ) &&
-                    !formItems.getString( "propagate", "" ).equals( "true" ) )
+            if ( formItems.containsKey( "updateaccessrights" ) && !formItems.getString( "propagate", "" ).equals( "true" ) )
             {
-                admin.updateAccessRights( user, buildAccessRightsXML( String.valueOf( menuItemKey ), formItems,
-                                                                      AccessRight.MENUITEM ) );
+                admin.updateAccessRights( user, buildAccessRightsXML( String.valueOf( menuItemKey ), formItems, AccessRight.MENUITEM ) );
             }
 
             // Redirect to propagate page
@@ -1824,9 +1810,9 @@ public class MenuHandlerServlet
         }
     }
 
-    public void handlerPreview( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    public void handlerPreview( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                ExtendedMap formItems )
+        throws VerticalAdminException
     {
         MenuItemAccessResolver menuItemAccessResolver = new MenuItemAccessResolver( groupDao );
         String type = formItems.getString( "type", "" );
@@ -1861,8 +1847,7 @@ public class MenuHandlerServlet
 
                     List<MenuItemEntity> menuItems = new ArrayList<MenuItemEntity>();
                     menuItems.add( menuItemDao.findByKey( menuItemKeyInt ) );
-                    Document menuItemDoc =
-                            JDOMUtil.toW3CDocument( xmlCreator.createMenuItemsDocument( menuItems, "menuitems" ) );
+                    Document menuItemDoc = JDOMUtil.toW3CDocument( xmlCreator.createMenuItemsDocument( menuItems, "menuitems" ) );
                     oldMenuItemElem = (Element) menuItemDoc.getDocumentElement().getFirstChild();
                 }
             }
@@ -1892,15 +1877,14 @@ public class MenuHandlerServlet
             // create new menuitem with same values and modify with values from request
             modifiedMenuItem = modifyMenuItemForPreview( formItems, modifiedMenuItem );
 
-            Document menuitemsDoc =
-                    createPreviewMenuItemXml( admin, oldMenuItemElem, formItems, siteKey.toInt(), menuItemKey.toInt() );
+            Document menuitemsDoc = createPreviewMenuItemXml( admin, oldMenuItemElem, formItems, siteKey.toInt(), menuItemKey.toInt() );
 
             Element menuitemsElem = menuitemsDoc.getDocumentElement();
             Element newMenuItemElem = XMLTool.getElement( menuitemsElem, "menuitem" );
 
             final PageTemplateEntity pageTemplate = modifiedMenuItem.getPage().getTemplate();
-            final Regions regionsInPage = RegionsResolver.resolveRegionsForPageRequest( modifiedMenuItem, pageTemplate,
-                                                                                        PageRequestType.MENUITEM );
+            final Regions regionsInPage =
+                RegionsResolver.resolveRegionsForPageRequest( modifiedMenuItem, pageTemplate, PageRequestType.MENUITEM );
 
             // vertical context
             request.setAttribute( Attribute.PREVIEW_ENABLED, "true" );
@@ -1947,9 +1931,8 @@ public class MenuHandlerServlet
             if ( modifiedMenuItem.getContent() != null )
             {
                 ContentXMLCreator contentXMLCreator = new ContentXMLCreator();
-                XMLDocument contentDoc = contentXMLCreator.createContentsDocument( requester,
-                                                                                   modifiedMenuItem.getContent().getMainVersion(),
-                                                                                   null );
+                XMLDocument contentDoc =
+                    contentXMLCreator.createContentsDocument( requester, modifiedMenuItem.getContent().getMainVersion(), null );
                 contentProcessor = new ContentProcessor( contentDoc.getAsDOMDocument() );
             }
 
@@ -2024,7 +2007,7 @@ public class MenuHandlerServlet
 
 
     private MenuItemEntity modifyMenuItemForPreview( ExtendedMap formItems, MenuItemEntity menuItem )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         menuItem.removeRequestParameters();
@@ -2065,8 +2048,7 @@ public class MenuHandlerServlet
         menuItem.setXmlData( menuItem.getMenuDataJDOMDocument() );
 
         // name
-        String menuItemName =
-                formItems.getString( "name", null ) != null ? formItems.getString( "name" ) : menuItem.getName();
+        String menuItemName = formItems.getString( "name", null ) != null ? formItems.getString( "name" ) : menuItem.getName();
 
         // display-name
         String displayName = formItems.getString( FORM_ITEM_DISPLAY_NAME, null );
@@ -2077,8 +2059,7 @@ public class MenuHandlerServlet
 
         menuItem.setName( menuItemName );
 
-        menuItem.setDisplayName(
-                displayName != null ? formItems.getString( FORM_ITEM_DISPLAY_NAME ) : menuItem.getDisplayName() );
+        menuItem.setDisplayName( displayName != null ? formItems.getString( FORM_ITEM_DISPLAY_NAME ) : menuItem.getDisplayName() );
 
         menuItem.setMenuName( menuName != null ? formItems.getString( FORM_ITEM_MENU_NAME ) : menuItem.getMenuName() );
 
@@ -2145,14 +2126,12 @@ public class MenuHandlerServlet
         menuItem.setRunAs( runAsType );
 
         // set description
-        menuItem.setDescription( formItems.getString( "description", null ) != null
-                                         ? formItems.getString( "description" )
-                                         : menuItem.getDescription() );
+        menuItem.setDescription(
+            formItems.getString( "description", null ) != null ? formItems.getString( "description" ) : menuItem.getDescription() );
 
         // set keywords
-        menuItem.setKeywords( formItems.getString( "keywords", null ) != null
-                                      ? formItems.getString( "keywords" )
-                                      : menuItem.getKeywords() );
+        menuItem.setKeywords(
+            formItems.getString( "keywords", null ) != null ? formItems.getString( "keywords" ) : menuItem.getKeywords() );
 
         // set language
         if ( formItems.getString( "languagekey", null ) != null )
@@ -2244,9 +2223,9 @@ public class MenuHandlerServlet
         return menuItemName;
     }
 
-    private void handlerPropagateAccessRightsPage( HttpServletRequest request, HttpServletResponse response,
-                                                   HttpSession session, AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    private void handlerPropagateAccessRightsPage( HttpServletRequest request, HttpServletResponse response, HttpSession session,
+                                                   AdminService admin, ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         try
@@ -2292,9 +2271,9 @@ public class MenuHandlerServlet
         }
     }
 
-    private void handlerPropagateAccessRights( HttpServletRequest request, HttpServletResponse response,
-                                               AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    private void handlerPropagateAccessRights( HttpServletRequest request, HttpServletResponse response, AdminService admin,
+                                               ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -2320,8 +2299,7 @@ public class MenuHandlerServlet
                     {
                         ExtendedMap paramsInName = ParamsInTextParser.parseParamsInText( paramName, "[", "]", ";" );
                         String paramValue = formItems.getString( paramName );
-                        ExtendedMap categoryAccessRight =
-                                ParamsInTextParser.parseParamsInText( paramValue, "[", "]", ";" );
+                        ExtendedMap categoryAccessRight = ParamsInTextParser.parseParamsInText( paramValue, "[", "]", ";" );
                         String diffinfo = categoryAccessRight.getString( "diffinfo" );
                         if ( "removed".equals( diffinfo ) )
                         {
@@ -2356,14 +2334,13 @@ public class MenuHandlerServlet
                         {
 
                             // Henter ud eksisterende accessrights
-                            Document docCurrentCategoryAR = XMLTool.domparse(
-                                    admin.getAccessRights( user, AccessRight.MENUITEM, curMenuItemKey, false ) );
+                            Document docCurrentCategoryAR =
+                                XMLTool.domparse( admin.getAccessRights( user, AccessRight.MENUITEM, curMenuItemKey, false ) );
 
                             // Påfører endringer
                             Document docChangedCategoryAR =
-                                    applyChangesInAccessRights( docCurrentCategoryAR, removedMenuItemAccessRights,
-                                                                modifiedMenuItemAccessRights,
-                                                                addedMenuItemAccessRights );
+                                applyChangesInAccessRights( docCurrentCategoryAR, removedMenuItemAccessRights, modifiedMenuItemAccessRights,
+                                                            addedMenuItemAccessRights );
 
                             // Lagrer
                             admin.updateAccessRights( user, XMLTool.documentToString( docChangedCategoryAR ) );
@@ -2375,8 +2352,7 @@ public class MenuHandlerServlet
             else
             {
                 // Prepare for overwrite accessrights
-                Document docNewCategoryAccessRights =
-                        buildAccessRightsXML( null, null, formItems, AccessRight.MENUITEM );
+                Document docNewCategoryAccessRights = buildAccessRightsXML( null, null, formItems, AccessRight.MENUITEM );
 
                 // Run through each (selected) menuitem...
                 for ( Object paramKey : formItems.keySet() )
@@ -2405,8 +2381,7 @@ public class MenuHandlerServlet
 
             int menuItemKey = formItems.getInt( "menuitemkey" );
 
-            String accessRightsXML =
-                    buildAccessRightsXML( String.valueOf( menuItemKey ), formItems, AccessRight.MENUITEM );
+            String accessRightsXML = buildAccessRightsXML( String.valueOf( menuItemKey ), formItems, AccessRight.MENUITEM );
 
             // Oppdaterer i db
             admin.updateAccessRights( user, accessRightsXML );
@@ -2416,9 +2391,9 @@ public class MenuHandlerServlet
         redirectToBrowse( request, response, formItems );
     }
 
-    private void redirectToSectionBrowse( HttpServletRequest request, HttpServletResponse response, int menuKey,
-                                          MenuItemKey menuItemKey, boolean reload )
-            throws VerticalAdminException
+    private void redirectToSectionBrowse( HttpServletRequest request, HttpServletResponse response, int menuKey, MenuItemKey menuItemKey,
+                                          boolean reload )
+        throws VerticalAdminException
     {
 
         MultiValueMap queryParams = new MultiValueMap();
@@ -2431,7 +2406,7 @@ public class MenuHandlerServlet
     }
 
     private void redirectToBrowse( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         MultiValueMap queryParams = new MultiValueMap();
@@ -2443,9 +2418,9 @@ public class MenuHandlerServlet
         redirectClientToAdminPath( "adminpage", queryParams, request, response );
     }
 
-    private void menuItemForm( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    private void menuItemForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         int menuKey = formItems.getInt( "menukey" );
@@ -2484,8 +2459,7 @@ public class MenuHandlerServlet
                 String insertBelow = formItems.getString( "insertbelow", null );
                 if ( insertBelow != null && !"-1".equals( insertBelow ) )
                 {
-                    defaultAccessRightXML =
-                            admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true );
+                    defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true );
 
                     menuItemParent = new MenuItemKey( Integer.parseInt( insertBelow ) );
 
@@ -2584,8 +2558,7 @@ public class MenuHandlerServlet
                 }
                 else
                 {
-                    nodeAccessRights = XMLTool.selectNode( doc1.getDocumentElement(),
-                                                           "//menuitem[@key=" + key + "]/accessrights" );
+                    nodeAccessRights = XMLTool.selectNode( doc1.getDocumentElement(), "//menuitem[@key=" + key + "]/accessrights" );
                 }
 
                 // get new accessrights xml from parameters
@@ -2597,8 +2570,8 @@ public class MenuHandlerServlet
                     if ( docAccessRights.getDocumentElement().hasChildNodes() )
                     // replace accessrights element with the generated accessrights
                     {
-                        nodeAccessRights.getParentNode().replaceChild(
-                                doc1.importNode( docAccessRights.getDocumentElement(), true ), nodeAccessRights );
+                        nodeAccessRights.getParentNode().replaceChild( doc1.importNode( docAccessRights.getDocumentElement(), true ),
+                                                                       nodeAccessRights );
                     }
                 }
 
@@ -2613,8 +2586,7 @@ public class MenuHandlerServlet
                 }
                 else
                 {
-                    nodeParameters =
-                            XMLTool.selectNode( doc1.getDocumentElement(), "//menuitem[@key=" + key + "]/parameters" );
+                    nodeParameters = XMLTool.selectNode( doc1.getDocumentElement(), "//menuitem[@key=" + key + "]/parameters" );
                 }
 
                 XMLTool.removeChildNodes( (Element) nodeParameters, false );
@@ -2628,8 +2600,7 @@ public class MenuHandlerServlet
                         final String currParamName = paramName[i];
                         if ( currParamName == null || !currParamName.trim().equals( "" ) )
                         {
-                            Element newElem =
-                                    XMLTool.createElement( doc1, (Element) nodeParameters, "parameter", paramValue[i] );
+                            Element newElem = XMLTool.createElement( doc1, (Element) nodeParameters, "parameter", paramValue[i] );
                             newElem.setAttribute( "name", currParamName );
                             nodeParameters.appendChild( newElem );
                         }
@@ -2642,8 +2613,7 @@ public class MenuHandlerServlet
                     String paramValue = formItems.getString( "paramval", "" );
                     if ( paramName.length() > 0 )
                     {
-                        Element newElem =
-                                XMLTool.createElement( doc1, (Element) nodeParameters, "parameter", paramValue );
+                        Element newElem = XMLTool.createElement( doc1, (Element) nodeParameters, "parameter", paramValue );
                         newElem.setAttribute( "name", paramName );
                         nodeParameters.appendChild( newElem );
                     }
@@ -2774,9 +2744,9 @@ public class MenuHandlerServlet
                 String contentKeyStr = menuitemElem.getAttribute( "contentkey" );
                 if ( contentKeyStr.length() > 0 )
                 {
-                    int contentKey = Integer.parseInt( contentKeyStr );
-                    int versionKey = admin.getCurrentVersionKey( contentKey );
-                    String contentTitle = admin.getContentTitle( versionKey );
+                    final ContentKey contentKey = new ContentKey( Integer.parseInt( contentKeyStr ) );
+                    final ContentEntity content = contentDao.findByKey( contentKey );
+                    final String contentTitle = content.getMainVersion().getTitle();
                     parameters.put( "contenttitle", contentTitle );
                 }
             }
@@ -2793,8 +2763,8 @@ public class MenuHandlerServlet
             parameters.put( "selectedtabpageid", formItems.getString( "selectedtabpageid", null ) );
 
             // Get form categories
-            int[] contentTypeKeys = admin.getContentTypesByHandlerClass(
-                    "com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet" );
+            int[] contentTypeKeys =
+                admin.getContentTypesByHandlerClass( "com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet" );
             if ( contentTypeKeys != null && contentTypeKeys.length > 0 )
             {
                 StringBuffer contentTypeString = new StringBuffer();
@@ -2838,9 +2808,8 @@ public class MenuHandlerServlet
         }
     }
 
-    private void moveMenuItemDown( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                   ExtendedMap formItems )
-            throws VerticalAdminException
+    private void moveMenuItemDown( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         String menuXML = (String) session.getAttribute( "menuxml" );
@@ -2898,9 +2867,8 @@ public class MenuHandlerServlet
         redirectClientToAdminPath( "adminpage", queryParams, request, response );
     }
 
-    private void moveMenuItemUp( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                 ExtendedMap formItems )
-            throws VerticalAdminException
+    private void moveMenuItemUp( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         String menuXML = (String) session.getAttribute( "menuxml" );
@@ -2943,7 +2911,7 @@ public class MenuHandlerServlet
     }
 
     private void handlerFormBuilder( HttpServletResponse response, HttpSession session, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         String subOperation = formItems.getString( "subop" );

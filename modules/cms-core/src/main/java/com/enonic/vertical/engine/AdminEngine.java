@@ -1289,11 +1289,6 @@ public final class AdminEngine
         return this.systemHandler.initializeDatabaseValues();
     }
 
-    public PageTemplateType getPageTemplateType( PageTemplateKey pageTemplateKey )
-    {
-        return pageTemplateHandler.getPageTemplateType( pageTemplateKey );
-    }
-
     public boolean isContentVersionApproved( int versionKey )
     {
         return contentHandler.isContentVersionApproved( versionKey );

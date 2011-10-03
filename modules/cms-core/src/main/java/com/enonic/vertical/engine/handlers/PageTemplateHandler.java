@@ -588,16 +588,6 @@ public final class PageTemplateHandler
         return XMLDocumentFactory.create( doc );
     }
 
-    public PageTemplateType getPageTemplateType( PageTemplateKey pageTemplateKey )
-    {
-        PageTemplateEntity entity = pageTemplateDao.findByKey( pageTemplateKey.toInt() );
-        if ( entity == null )
-        {
-            return null;
-        }
-        return entity.getType();
-    }
-
     private Document createPageTemplatesDocument( Collection<PageTemplateEntity> pageTemplates )
     {
         Document doc = XMLTool.createDocument( "pagetemplates" );

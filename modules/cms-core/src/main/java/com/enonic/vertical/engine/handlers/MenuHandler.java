@@ -72,6 +72,8 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.domain.structure.menuitem.MenuItemType;
+import com.enonic.cms.domain.structure.page.PageEntity;
+import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
 import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 
@@ -216,13 +218,15 @@ public final class MenuHandler
 //	final static private String MENU_ITEM_SELECT_NAME_BY_KEY =
 //		"SELECT mei_sName FROM " + MENU_ITEM_TABLE + " WHERE mei_lKey = ?";
 
-    final static private String REMOVE_ALL_SHORTCUT_REFERENCES_IN_MENU = "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = NULL WHERE mei_men_lKey = ?";
+    final static private String REMOVE_ALL_SHORTCUT_REFERENCES_IN_MENU =
+        "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = NULL WHERE mei_men_lKey = ?";
 
     final static private String MENU_ITEM_URL_UPDATE =
         "UPDATE " + MENU_ITEM_TABLE + " SET mei_sURL = ?, mei_burlopennewwin = ? WHERE mei_lKey = ?";
 
     final static private String MENU_ITEM_SHORTCUT_UPDATE =
-            "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = ( SELECT mei_lKey FROM " + MENU_ITEM_TABLE + " WHERE mei_men_lKey = ? AND mei_sName = ? ), mei_bShortcutForward = ? WHERE mei_lKey = ?";
+        "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = ( SELECT mei_lKey FROM " + MENU_ITEM_TABLE +
+            " WHERE mei_men_lKey = ? AND mei_sName = ? ), mei_bShortcutForward = ? WHERE mei_lKey = ?";
 
     final static private String MENU_ITEMS_BY_CONTENTOBJECT = "SELECT mei_lKey, mei_pag_lKey FROM tMenuItem WHERE mei_pag_lKey in " +
         "(SELECT pco_pag_lKey FROM tPageConObj WHERE pco_cob_lKey = ?)";
@@ -661,14 +665,12 @@ public final class MenuHandler
         }
         else
         {
+            final PageEntity page = pageDao.findByKey( pKey );
+            final PageTemplateEntity pageTemplate = page.getTemplate();
             Element pageElem = XMLTool.createElement( doc, menuItemElement, "page" );
             pageElem.setAttribute( "key", String.valueOf( pKey ) );
-
-            // extract pagetemplate key
-            PageTemplateKey ptKey = getPageHandler().getPageTemplateKey( pKey );
-            pageElem.setAttribute( "pagetemplatekey", ptKey.toString() );
-            PageTemplateType pageTemplateType = getPageTemplateHandler().getPageTemplateType( ptKey );
-            pageElem.setAttribute( "pagetemplatetype", String.valueOf( pageTemplateType.getKey() ) );
+            pageElem.setAttribute( "pagetemplatekey", String.valueOf( pageTemplate.getKey() ) );
+            pageElem.setAttribute( "pagetemplatetype", String.valueOf( pageTemplate.getType().getKey() ) );
         }
     }
 
@@ -1291,7 +1293,8 @@ public final class MenuHandler
                     // page
                     Element pageElem = XMLTool.getElement( menuItemElement, "page" );
                     PageTemplateKey pageTemplateKey = new PageTemplateKey( pageElem.getAttribute( "pagetemplatekey" ) );
-                    PageTemplateType pageTemplateType = getPageTemplateHandler().getPageTemplateType( pageTemplateKey );
+                    PageTemplateEntity pageTemplate = pageTemplateDao.findByKey( pageTemplateKey.toInt() );
+                    PageTemplateType pageTemplateType = pageTemplate.getType();
                     if ( pageTemplateType == PageTemplateType.SECTIONPAGE || pageTemplateType == PageTemplateType.NEWSLETTER )
                     {
                         createSection( menuItemElement, menuItemKey );
@@ -1515,7 +1518,7 @@ public final class MenuHandler
     }
 
     private void createOrOverrideShortcut( Element shortcutDestinationMenuItem, MenuItemKey shortcutMenuItem, SiteKey menuKey )
-            throws VerticalCreateException
+        throws VerticalCreateException
     {
         Element shortcutElem = XMLTool.getElement( shortcutDestinationMenuItem, "shortcut" );
         String name = shortcutElem.getAttribute( "name" );
@@ -2602,8 +2605,9 @@ public final class MenuHandler
                 NodeList list = XMLTool.selectNodes( doc.getDocumentElement(), xpath );
 
                 // Loop through the results.
-                for (int i = 0; i < list.getLength(); i++) {
-                    Element n = (Element)list.item( i );
+                for ( int i = 0; i < list.getLength(); i++ )
+                {
+                    Element n = (Element) list.item( i );
                     tmp = n.getAttribute( "key" );
                     removeMenuItem( user, Integer.parseInt( tmp ) );
                 }
@@ -2680,7 +2684,7 @@ public final class MenuHandler
         }
 
         // Path to public home:
-        tmpElement = XMLTool.getElement( menuDataElement, SiteData.PATH_TO_PUBLIC_HOME_RESOURCES_ELEMENT_NAME);
+        tmpElement = XMLTool.getElement( menuDataElement, SiteData.PATH_TO_PUBLIC_HOME_RESOURCES_ELEMENT_NAME );
         if ( tmpElement != null )
         {
             String pathToPublicHome = tmpElement.getChildNodes().item( 0 ).getTextContent();
@@ -2691,7 +2695,7 @@ public final class MenuHandler
         }
 
         // Path to home:
-        tmpElement = XMLTool.getElement( menuDataElement, SiteData.PATH_TO_HOME_RESOURCES_ELEMENT_NAME);
+        tmpElement = XMLTool.getElement( menuDataElement, SiteData.PATH_TO_HOME_RESOURCES_ELEMENT_NAME );
         if ( tmpElement != null )
         {
             String pathToHome = tmpElement.getChildNodes().item( 0 ).getTextContent();

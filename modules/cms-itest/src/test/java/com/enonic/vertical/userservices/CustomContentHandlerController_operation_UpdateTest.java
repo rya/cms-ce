@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -28,11 +29,10 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
+import com.enonic.cms.testtools.DomainFactory;
+import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.AbstractPersistContentTest;
 import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.DomainFactory;
-import com.enonic.cms.business.core.content.DomainFixture;
 import com.enonic.cms.business.core.security.SecurityHolder;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
@@ -57,7 +57,6 @@ import static org.junit.Assert.*;
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class CustomContentHandlerController_operation_UpdateTest
-    extends AbstractPersistContentTest
 {
     @Autowired
     private GroupEntityDao groupEntityDao;
@@ -73,6 +72,9 @@ public class CustomContentHandlerController_operation_UpdateTest
 
     @Autowired
     private ContentDao contentDao;
+
+    @Autowired
+    private HibernateTemplate hibernateTemplate;
 
     private SiteRedirectHelper siteRedirectHelper;
 
@@ -110,7 +112,7 @@ public class CustomContentHandlerController_operation_UpdateTest
         customContentHandlerController.setSiteRedirectHelper( siteRedirectHelper );
 
         // setup
-        initSystemData();
+        fixture.initSystemData();
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.createAndStoreNormalUserWithUserGroup( "testuser", "Test user", "testuserstore" );
         SecurityHolder.setAnonUser( fixture.findUserByName( "anonymous" ).getKey() );

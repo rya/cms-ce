@@ -1,10 +1,7 @@
-/*
- * Copyright 2000-2011 Enonic AS
- * http://www.enonic.com/license
- */
 package com.enonic.cms.business.core.content;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -13,15 +10,21 @@ import org.jdom.Element;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.test.AssertTool;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.testtools.DomainFactory;
+import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.AbstractPersistContentTest;
 import com.enonic.cms.business.core.content.command.CreateContentCommand;
 import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 
@@ -47,23 +50,39 @@ import static org.junit.Assert.*;
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class ContentServiceImpl_withFileHandlerTest
-    extends AbstractPersistContentTest
 {
+    @Autowired
+    private HibernateTemplate hibernateTemplate;
+
+    @Autowired
+    private ContentService contentService;
+
+    @Autowired
+    private ContentDao contentDao;
+
+    @Autowired
+    private ContentVersionDao contentVersionDao;
+
+    private DomainFactory factory;
+
+    private DomainFixture fixture;
+
     private byte[] dummyBinary = new byte[]{1, 2, 3};
 
     @Before
     public void before()
     {
-        initSystemData();
+        fixture = new DomainFixture( hibernateTemplate );
+        factory = new DomainFactory( fixture );
 
-        createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
-        hibernateTemplate.save( createContentHandler( "File content", ContentHandlerName.FILE.getHandlerClassShortName() ) );
-        hibernateTemplate.save( createContentType( "MyContentType", ContentHandlerName.FILE.getHandlerClassShortName() ) );
-        hibernateTemplate.save( createUnit( "MyUnit" ) );
-        hibernateTemplate.save( createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
-        hibernateTemplate.save(
-            createCategoryAccess( "MyCategory", findUserByName( "testuser" ).getUserGroup().getName(), "true", "true", "true", "true",
-                                  "true" ) );
+        fixture.initSystemData();
+
+        fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
+        hibernateTemplate.save( factory.createContentHandler( "File content", ContentHandlerName.FILE.getHandlerClassShortName() ) );
+        hibernateTemplate.save( factory.createContentType( "MyContentType", ContentHandlerName.FILE.getHandlerClassShortName() ) );
+        hibernateTemplate.save( factory.createUnit( "MyUnit" ) );
+        hibernateTemplate.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
+        hibernateTemplate.save( factory.createCategoryAccess( "MyCategory", fixture.findUserByName( "testuser" ), "read, create" ) );
         hibernateTemplate.flush();
         hibernateTemplate.clear();
 
@@ -102,13 +121,13 @@ public class ContentServiceImpl_withFileHandlerTest
         assertNotNull( contentData );
 
         Document contentDataXml = contentData.getContentDataXml();
-        assertXPathEquals( "/contentdata/name", contentDataXml, "test file" );
-        assertXPathEquals( "/contentdata/description", contentDataXml, "test description" );
-        assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "keyword1" );
-        assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "keyword2" );
-        assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( dummyBinary.length ) );
-        assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
-                           binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
+        AssertTool.assertXPathEquals( "/contentdata/name", contentDataXml, "test file" );
+        AssertTool.assertXPathEquals( "/contentdata/description", contentDataXml, "test description" );
+        AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "keyword1" );
+        AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "keyword2" );
+        AssertTool.assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( dummyBinary.length ) );
+        AssertTool.assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
+                                      binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
     }
 
     @Test
@@ -133,7 +152,7 @@ public class ContentServiceImpl_withFileHandlerTest
             persistedCersion.getContentBinaryData().iterator().next().getBinaryData().getBinaryDataKey();
 
         List<BinaryDataAndBinary> binaryDataToAdd = new ArrayList<BinaryDataAndBinary>();
-        binaryDataToAdd.add( createBinaryDataAndBinary( "changedBinary.dat", changedDummyBytes ) );
+        binaryDataToAdd.add( factory.createBinaryDataAndBinary( "changedBinary.dat", changedDummyBytes ) );
         updateCommand.setBinaryDataToAdd( binaryDataToAdd );
         updateCommand.setUseCommandsBinaryDataToAdd( true );
         List<BinaryDataKey> binaryDataToRemove = new ArrayList<BinaryDataKey>();
@@ -168,13 +187,13 @@ public class ContentServiceImpl_withFileHandlerTest
         assertNotNull( contentData );
 
         Document contentDataXml = contentData.getContentDataXml();
-        assertXPathEquals( "/contentdata/name", contentDataXml, "changed file" );
-        assertXPathEquals( "/contentdata/description", contentDataXml, "changed description" );
-        assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "changed1" );
-        assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "changed2" );
-        assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( changedDummyBytes.length ) );
-        assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
-                           binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
+        AssertTool.assertXPathEquals( "/contentdata/name", contentDataXml, "changed file" );
+        AssertTool.assertXPathEquals( "/contentdata/description", contentDataXml, "changed description" );
+        AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "changed1" );
+        AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "changed2" );
+        AssertTool.assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( changedDummyBytes.length ) );
+        AssertTool.assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
+                                      binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
     }
 
     @Test
@@ -199,7 +218,7 @@ public class ContentServiceImpl_withFileHandlerTest
         BinaryDataEntity persistedFileBinaryData = persistedCersion.getContentBinaryData().iterator().next().getBinaryData();
 
         List<BinaryDataAndBinary> binaryDataToAdd = new ArrayList<BinaryDataAndBinary>();
-        binaryDataToAdd.add( createBinaryDataAndBinary( "changedBinary.dat", changedDummyBytes ) );
+        binaryDataToAdd.add( factory.createBinaryDataAndBinary( "changedBinary.dat", changedDummyBytes ) );
         updateCommand.setBinaryDataToAdd( binaryDataToAdd );
         updateCommand.setUseCommandsBinaryDataToAdd( true );
         List<BinaryDataKey> binaryDataToRemove = new ArrayList<BinaryDataKey>();
@@ -232,28 +251,28 @@ public class ContentServiceImpl_withFileHandlerTest
         assertNotNull( contentData );
 
         Document contentDataXml = contentData.getContentDataXml();
-        assertXPathEquals( "/contentdata/name", contentDataXml, "changed file" );
-        assertXPathEquals( "/contentdata/description", contentDataXml, "changed description" );
-        assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "changed1" );
-        assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "changed2" );
-        assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( changedDummyBytes.length ) );
-        assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
-                           binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
+        AssertTool.assertXPathEquals( "/contentdata/name", contentDataXml, "changed file" );
+        AssertTool.assertXPathEquals( "/contentdata/description", contentDataXml, "changed description" );
+        AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "changed1" );
+        AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "changed2" );
+        AssertTool.assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( changedDummyBytes.length ) );
+        AssertTool.assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
+                                      binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
     }
 
     private void doCreate_UpdateContentCommand( UpdateContentCommand command, ContentKey contentKey, String name, String description,
                                                 int fileBytesLength, String[] keywords )
     {
-        ContentEntity content = createContent( "MyCategory", "en", "testuser", "0" );
+        ContentEntity content = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
         content.setKey( contentKey );
-        ContentVersionEntity version = createContentVersion( "0", "testuser" );
+        ContentVersionEntity version = factory.createContentVersion( "0", "testuser" );
 
         Document fileContentDataDoc = createFileContentDataDoc( name, description, keywords, String.valueOf( fileBytesLength ) );
 
         version.setContentData( FileContentDataParser.parse( fileContentDataDoc, null ) );
 
         ContentAndVersion contentAndVersion = new ContentAndVersion( content, version );
-        command.setModifier( findUserByName( "testuser" ) );
+        command.setModifier( fixture.findUserByName( "testuser" ) );
 
         // Populate command with contentEntity data
         command.populateContentValuesFromContent( content );
@@ -263,17 +282,17 @@ public class ContentServiceImpl_withFileHandlerTest
     private CreateContentCommand doCreate_CreateContentCommand( String name, String description, byte[] fileBytes, String filename,
                                                                 String[] keywords )
     {
-        ContentEntity content = createContent( "MyCategory", "en", "testuser", "0" );
-        ContentVersionEntity version = createContentVersion( "0", "testuser" );
+        ContentEntity content = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
+        ContentVersionEntity version = factory.createContentVersion( "0", "testuser" );
 
         Document fileContentDataDoc = createFileContentDataDoc( name, description, keywords, String.valueOf( fileBytes.length ) );
         version.setContentData( FileContentDataParser.parse( fileContentDataDoc, null ) );
 
         List<BinaryDataAndBinary> binaryDatas = new ArrayList<BinaryDataAndBinary>();
-        binaryDatas.add( createBinaryDataAndBinary( filename, fileBytes ) );
+        binaryDatas.add( factory.createBinaryDataAndBinary( filename, fileBytes ) );
 
         CreateContentCommand command = new CreateContentCommand();
-        command.setCreator( findUserByName( "testuser" ) );
+        command.setCreator( fixture.findUserByName( "testuser" ) );
 
         command.populateCommandWithContentValues( content );
         command.populateCommandWithContentVersionValues( version );

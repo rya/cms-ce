@@ -38,7 +38,6 @@ import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
-import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
@@ -84,8 +83,6 @@ public class CategoryHandler
         "UPDATE " + CAT_TABLE + " SET cat_uni_lKey = ?" + ",cat_cty_lKey = ?" + ",cat_cat_lSuper = ?" + ",cat_usr_hOwner = ?" +
             ",cat_dteCreated = ?" + ",cat_sName = ?" + ",cat_sDescription = ?" + ",cat_usr_hModifier = ?" + ",cat_dteTimestamp = " +
             "@currentTimestamp@" + ",cat_bAutoApprove = ?" + " WHERE cat_lKey = ?";
-
-    private final static String CAT_DELETE = "UPDATE " + CAT_TABLE + " SET cat_bDeleted = 1 WHERE cat_lKey=?";
 
     private final static String CAT_SELECT_COUNT = "SELECT count(cat_lKey) FROM " + CAT_TABLE;
 
@@ -795,53 +792,6 @@ public class CategoryHandler
         }
 
         return subCategories;
-    }
-
-    /**
-     * @see CategoryHandler#removeCategory(Connection, CategoryKey)
-     */
-    public void removeCategory( Connection _con, CategoryKey categoryKey )
-        throws VerticalRemoveException
-    {
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        if ( getContentCount( null, categoryKey, true ) > 0 || hasSubCategories( categoryKey ) )
-        {
-            throw new VerticalRemoveException(
-                "Unable to remove category with key " + categoryKey.toString() + " : Category contains sub-categories and/or content" );
-        }
-
-        getCommonHandler().cascadeDelete( db.tCategory, categoryKey.toInt() );
-
-        try
-        {
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
-            preparedStmt = con.prepareStatement( CAT_DELETE );
-            preparedStmt.setInt( 1, categoryKey.toInt() );
-            preparedStmt.executeUpdate();
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to remove category: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 1, message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            if ( _con == null )
-            {
-                close( con );
-            }
-        }
     }
 
     public void updateCategory( Connection _con, User olduser, Document doc )
@@ -2349,7 +2299,7 @@ public class CategoryHandler
                 if ( cs != null )
                 {
                     long filenameSize = resultSet.getLong( 3 ) * 2; // two times because it is in content version too
-                    long amount = constantSize + filenameSize + new Double(resultSet.getDouble( 4 )).longValue();
+                    long amount = constantSize + filenameSize + new Double( resultSet.getDouble( 4 ) ).longValue();
                     cs.addAmount( amount );
                 }
             }
