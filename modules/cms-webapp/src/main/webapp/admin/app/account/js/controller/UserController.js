@@ -128,25 +128,6 @@ Ext.define( 'App.controller.UserController', {
                       } );
     },
 
-    newUser: function()
-    {
-        Ext.Msg.alert( 'New User', 'TODO' );
-    },
-
-    newGroup: function()
-    {
-        Ext.Msg.alert( 'New Group', 'TODO' );
-    },
-
-    selectUser: function( view )
-    {
-        var first = this.getUserStoreStore().getAt( 0 );
-        if ( first )
-        {
-            view.getSelectionModel().select( first );
-        }
-    },
-
     onFilterPanelRender: function()
     {
         Ext.getCmp( 'filter' ).focus( false, 10 );
@@ -286,7 +267,7 @@ Ext.define( 'App.controller.UserController', {
         if ( el.action == 'newUser' )
         {
             var tab = {
-                id: 'new-user',
+                id: Ext.id(null, 'new-user-'),
                 title: 'New User',
                 iconCls: 'icon-user-add',
                 closable: true,
