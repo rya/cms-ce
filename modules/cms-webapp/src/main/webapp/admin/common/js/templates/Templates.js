@@ -9,7 +9,7 @@ Templates.common = {
             '<tpl for=".">' +
                 '<li>' +
                     '<a href="javascript:;" {[ this.isCurrent( xindex - 1 ) ? "class=current" : "" ]}>' +
-                        '{[xindex]}. {[  (values.stepTitle || values.title) ]}' +
+                        '<span class="text">{[xindex]}. {[  (values.stepTitle || values.title) ]}<span>' +
                         '<span class="arrow"></span>' +
                     '</a>' +
                 '</li>' +

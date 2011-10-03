@@ -710,14 +710,14 @@ div.userstore:hover {
     float: left;
     position:relative;
     padding: 0 25px 0 15px;
-    color: #333;
+    color: #5e5e5e;
     text-decoration: none !important;
     outline: none;
     cursor: default;
 }
 
 .cms-wizard-steps a.current {
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: #000;
 }
 
@@ -725,7 +725,10 @@ div.userstore:hover {
     background: #e9e9e9;
 }
 
-.cms-wizard-steps span {
+.cms-wizard-steps span.text {
+}
+
+.cms-wizard-steps span.arrow {
     position: absolute;
     display: block;
     line-height: 0;
