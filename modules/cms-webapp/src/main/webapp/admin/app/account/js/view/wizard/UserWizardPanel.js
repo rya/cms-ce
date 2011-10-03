@@ -5,6 +5,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         'Common.WizardPanel',
         'App.view.wizard.UserStoreListPanel',
         'App.view.wizard.UserWizardToolbar',
+        'App.view.wizard.WizardStepMembershipPanel',
         'App.view.wizard.WizardStepFinalizePanel'
     ],
 
@@ -69,7 +70,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                         },
                         {
                             stepTitle: "Memberships",
-                            html: 'Quisque augue urna, lacinia ac consectetur sed, accumsan sit amet sapien.'
+                            xtype: 'wizardStepMembershipPanel'
                         },
                         {
                             stepTitle: "Finalize",
