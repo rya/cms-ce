@@ -20,6 +20,7 @@ Ext.define('App.view.wizard.UserWizardToolbar', {
                 items: [
                     {
                         text: 'Save',
+                        itemId: 'save',
                         iconCls: 'icon-btn-save-24'
                     }
                 ]
@@ -47,6 +48,7 @@ Ext.define('App.view.wizard.UserWizardToolbar', {
                         text: 'Finish',
                         iconCls: 'icon-btn-tick-24',
                         disabled: true,
+                        tooltip: 'Save and Notify',
                         itemId: 'finish',
                         action: 'wizardNext'
                     }

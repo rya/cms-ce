@@ -153,7 +153,8 @@ Ext.define( 'Common.WizardPanel', {
         if( toolbar ) {
             var prev = toolbar.down( '#prev' ),
                 next = toolbar.down( '#next' ),
-                finish = toolbar.down( '#finish' );
+                finish = toolbar.down( '#finish' ),
+                save = toolbar.down( '#save' );
             var hasNext = this.getNext(),
                 hasPrev = this.getPrev();
             if( prev ) {
@@ -167,6 +168,9 @@ Ext.define( 'Common.WizardPanel', {
                     next.setText( hasNext ? 'Next' : 'Finish' );
                     next.setDisabled( disable );
                 }
+            }
+            if ( save ) {
+                save.setDisabled( disable || !hasNext );
             }
         }
     },
