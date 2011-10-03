@@ -36,11 +36,6 @@
     <bean id="pageTemplateXsltViewTransformer"
           class="com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
-    <bean id="portalSystemFunctionsService"
-          class="com.enonic.cms.business.portal.rendering.systemfunctions.PortalSystemFunctionsServiceImpl">
-        <property name="windowRendererFactory" ref="windowRendererFactory"/>
-    </bean>
-
     <bean id="loginPagePathResolverService" class="com.enonic.cms.business.portal.support.LoginPagePathResolverServiceImpl">
         <property name="presentationService" ref="presentationService"/>
     </bean>
