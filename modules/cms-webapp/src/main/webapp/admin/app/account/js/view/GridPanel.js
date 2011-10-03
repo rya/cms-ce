@@ -2,6 +2,8 @@ Ext.define( 'App.view.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.userGrid',
 
+    requires: ['Common.RowSelectionPagingPlugin'],
+    plugins: ['rowSelectionPaging'],
     layout: 'fit',
     multiSelect: true,
     loadMask: true,
