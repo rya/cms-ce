@@ -744,3 +744,7 @@ div.userstore:hover {
     border-top: 15px solid #eee;
     border-bottom: 15px solid #eee;
 }
+
+.cms-wizard .x-panel-body {
+    border: 0 none;
+}
