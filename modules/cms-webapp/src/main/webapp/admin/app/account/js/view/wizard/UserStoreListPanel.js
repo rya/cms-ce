@@ -7,9 +7,9 @@ Ext.define('App.view.wizard.UserStoreListPanel', {
 
     initComponent: function() {
         var tpl = '<tpl for=".">' +
-                    '<div class="css-userstore">' +
+                    '<div class="cms-userstore">' +
                     '<input type="radio" name="userstore" value="{key}">' +
-                    '<div class="css-userstore-block">' +
+                    '<div class="cms-userstore-block">' +
                         '<div class="left"><img width="50" height="50" src="app/account/images/app-icon-userstores.png"/></div>' +
                         '<div class="center">' +
                             '<h2>{name}</h2>' +
@@ -19,7 +19,7 @@ Ext.define('App.view.wizard.UserStoreListPanel', {
                     '</div><br>' +
                 '</tpl>';
         this.tpl = tpl;
-        this.itemSelector = 'div.css-userstore';
+        this.itemSelector = 'div.cms-userstore';
         this.callParent(arguments);
     },
 

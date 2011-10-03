@@ -1,5 +1,5 @@
 Ext.define( 'App.view.EditUserFormPanel', {
-    extend: 'Ext.panel.Panel',
+    extend: 'Ext.form.Panel',
     alias: 'widget.editUserFormPanel',
 
     defaults: {
@@ -28,7 +28,7 @@ Ext.define( 'App.view.EditUserFormPanel', {
         },
         tableAttrs: {
             style:{
-                width: '98%'
+                width: '96%'
             }
         }
     },
@@ -395,6 +395,17 @@ Ext.define( 'App.view.EditUserFormPanel', {
         if (field){
             field.setValue(value);
         }
+    },
+
+    getData: function(){
+        var formValues = this.getValues();
+        var userData = {
+            username: formValues['username'],
+            'display-name': formValues['display-name'],
+            email: formValues['email'],
+            userInfo: formValues
+        };
+        return userData;
     }
 
 } );

@@ -442,22 +442,6 @@ img.photo {
     border-width: 1px !important;
 }
 
-.cms-display-name-readonly input {
-    font-weight: bold;
-}
-
-.cms-display-name input {
-    border: none;
-    font-size: 35px;
-    text-align: left;
-    background: none;
-}
-
-.cms-display-name div {
-    font-weight: bold;
-    font-size: 20px;
-}
-
 .x-form-display-field {
     padding-left: 5px;
     padding-top: 3px;
@@ -614,10 +598,11 @@ img.photo {
     margin: 2px 0 0 5px;
     padding: 3px;
     border: 1px solid TRANSPARENT;
-    background: TRANSPARENT url(../../resources/images/pencil.png) 3px 3px no-repeat;
+    background: TRANSPARENT url(../../resources/images/pencil.png) no-repeat;
     float: left;
-    width: 24px;
-    height: 24px;
+    width: 16px;
+    height: 16px;
+    float: right;
 }
 
 .cms-edit-form-header .edit-button:hover {
@@ -627,6 +612,19 @@ img.photo {
 .cms-edit-form-header .right p {
     margin: 5px 0 0 0;
 }
+
+.cms-display-name-editable {
+    font-weight: normal !important;
+}
+
+.cms-display-name {
+    border: none;
+    font-weight: bold;
+    /*font-size: 35px;*/
+    text-align: left;
+    background: none;
+}
+/*-----------------------*/
 
 
 
@@ -642,7 +640,7 @@ img.photo {
 }
 
 
-.css-userstore-block{
+.cms-userstore-block{
     display: inline-block;
     border: 1px solid #a9a9a9;
     background: #dcdcdc ;
@@ -652,22 +650,22 @@ img.photo {
     width: 95%;
 }
 
-.css-userstore-block div.left{
+.cms-userstore-block div.left{
     float: left;
     padding-right: 20px;
 }
 
-.css-userstore-block div.center{
+.cms-userstore-block div.center{
     float: left;
     vertical-align: middle;
 }
 
-.css-userstore-block div.center h2{
+.cms-userstore-block div.center h2{
     font-size: 30px;
     font-weight: bold;
 }
 
-.css-userstore {
+.cms-userstore {
     display: inline-block;
     padding-left: 10px;
     width: 500px;
@@ -675,15 +673,11 @@ img.photo {
     border: 1px solid transparent;
 }
 
-div.css-userstore:hover {
+div.cms-userstore:hover {
     background-color: #add8e6;
     border: 1px solid #6495ed;
 }
 
-div.userstore:hover {
-    background-color: #add8e6;
-    border: 1px solid #6495ed;
-}
-.userstore input{
+.cms-userstore input{
     vertical-align: middle;
 }

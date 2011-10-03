@@ -375,11 +375,11 @@ Ext.define( 'App.controller.UserController', {
         var lastName = formPanel.down( '#last-name' ) ? Ext.String.trim( formPanel.down( '#last-name' ).getValue() )
                 : '';
         var suffix = formPanel.down( '#suffix' ) ? Ext.String.trim( formPanel.down( '#suffix' ).getValue() ) : '';
-        var displayName = formPanel.down( '#display-name' );
+        var displayName = Ext.get('display-name');
         if ( displayName )
         {
             var displayNameValue = prefix + ' ' + firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix;
-            displayName.setValue( Ext.String.trim( displayNameValue ) );
+            displayName.dom.value = Ext.String.trim( displayNameValue );
         }
     },
 
@@ -485,7 +485,7 @@ Ext.define( 'App.controller.UserController', {
             var formValues = editUserForm.getValues();
             var userData = {
                 username: formValues['username'],
-                'display-name': formValues['display-name'],
+                'display-name': Ext.get('display-name').dom.value,
                 email: formValues['email'],
                 key: editUserForm.userFields.key,
                 userStore: editUserForm.userFields.userStore ? editUserForm.userFields.userStore
