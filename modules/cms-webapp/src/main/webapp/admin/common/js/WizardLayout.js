@@ -7,7 +7,7 @@ Ext.define( 'Common.WizardLayout', {
     renderHidden : false,
     animation: 'slide',
     easing: 'easeOut',
-    duration: 1000,
+    duration: 500,
 
     setActiveItem : function(item){
 
