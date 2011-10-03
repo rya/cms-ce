@@ -11,20 +11,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.fileupload.FileItem;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.UserServicesService;
 
+import com.enonic.cms.business.core.content.CreateContentException;
+import com.enonic.cms.business.core.content.command.CreateContentCommand;
+
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
+import com.enonic.cms.domain.content.contentdata.ContentDataParserException;
+import com.enonic.cms.domain.content.contentdata.ContentDataParserInvalidDataException;
+import com.enonic.cms.domain.content.contentdata.ContentDataParserUnsupportedTypeException;
+import com.enonic.cms.domain.content.contentdata.InvalidContentDataException;
+import com.enonic.cms.domain.content.contentdata.MissingRequiredContentDataException;
+import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.domain.security.user.UserEntity;
 
 /**
  * Extension of the standard sendmail servlet. <p/> <p> In addition to sending an email (using the functionality in {@link
@@ -45,7 +48,11 @@ public class ContentSendMailController
     {
         if ( operation.equals( "send" ) )
         {
-            if ( !formItems.containsKey( "categorykey" ) )
+
+            User oldUser = securityService.getOldUserObject();
+            int categoryKey = formItems.getInt( "categorykey", -1 );
+
+            if ( categoryKey == -1 )
             {
                 String message = "Category key not specified.";
                 VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
@@ -53,38 +60,62 @@ public class ContentSendMailController
                 return;
             }
 
-            int categoryKey = formItems.getInt( "categorykey" );
-            User user = securityService.getOldUserObject();
-
-            Document ctDoc = XMLTool.domparse( userServices.getContentTypeByCategory( categoryKey ) );
-            Element rootElement = ctDoc.getDocumentElement();
-            Element contentTypeElement = XMLTool.getElement( rootElement, "contenttype" );
-            Element moduleDataElement = XMLTool.getElement( contentTypeElement, "moduledata" );
-            Element moduleElement = XMLTool.getElement( moduleDataElement, "config" );
-            formItems.put( "__module_element", moduleElement );
-
-            // we want to keep a reference for later
-            Element formElement = XMLTool.getElement( moduleElement, "form" );
-            String titleName = XMLTool.getElement( formElement, "title" ).getAttribute( "name" );
-
-            int contentTypeKey = Integer.parseInt( contentTypeElement.getAttribute( "key" ) );
-
-            String contentTitle = formItems.getString( titleName );
-            String xmlData = buildXML( userServices, user, formItems, siteKey, contentTypeKey, contentTitle, false );
-
-            BinaryData[] binaries = null;
-            if ( formItems.hasFileItems() )
+            CreateContentCommand createContentCommand;
+            try
             {
-                FileItem[] fileItems = formItems.getFileItems();
-                binaries = new BinaryData[fileItems.length];
-                for ( int i = 0; i < fileItems.length; i++ )
+                createContentCommand = parseCreateContentCommand( formItems );
+            }
+            catch ( ContentDataParserInvalidDataException e )
+            {
+                String message = e.getMessage();
+                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+                return;
+            }
+            catch ( ContentDataParserException e )
+            {
+                VerticalUserServicesLogger.error( this.getClass(), e.getMessage(), e );
+                throw new UserServicesException( ERR_OPERATION_BACKEND );
+            }
+            catch ( ContentDataParserUnsupportedTypeException e )
+            {
+                VerticalUserServicesLogger.error( this.getClass(), e.getMessage(), e );
+                throw new UserServicesException( ERR_OPERATION_BACKEND );
+            }
+
+            UserEntity runningUser = securityService.getUser( oldUser );
+
+            createContentCommand.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
+
+            createContentCommand.setCreator( runningUser );
+
+            try
+            {
+                contentService.createContent( createContentCommand );
+            }
+            catch ( CreateContentException e )
+            {
+                RuntimeException cause = e.getRuntimeExceptionCause();
+
+                if ( cause instanceof MissingRequiredContentDataException )
                 {
-                    binaries[i] = createBinaryData( fileItems[i] );
+                    String message = e.getMessage();
+                    VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                    redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
+                    return;
+                }
+                else if ( cause instanceof InvalidContentDataException )
+                {
+                    String message = e.getMessage();
+                    VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                    redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+                    return;
+                }
+                else
+                {
+                    throw cause;
                 }
             }
-            ContentKey newKey = storeNewContent( user, binaries, xmlData );
-
-            formItems.put( "_key", newKey.toString() );
         }
 
         // call parent method to ensure inherited functionality
