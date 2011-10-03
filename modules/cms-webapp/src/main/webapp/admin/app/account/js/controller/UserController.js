@@ -58,6 +58,7 @@ Ext.define( 'App.controller.UserController', {
                           },
                           'userGrid': {
                               selectionchange: this.updateDetailsPanel,
+                              beforeitemmousedown: this.cancelDeselectOnContextClick,
                               itemcontextmenu: this.popupMenu,
                               itemdblclick: this.showEditUserForm
                           },
@@ -170,7 +171,6 @@ Ext.define( 'App.controller.UserController', {
 
     createEditGroupTab: function()
     {
-
     },
 
     showDeleteUserWindow: function()
@@ -364,6 +364,21 @@ Ext.define( 'App.controller.UserController', {
     getSelectedGridItem: function()
     {
         return this.getUserGrid().getSelectionModel().selected.get( 0 );
+    },
+
+    cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
+    {
+        var selectionModel = this.getUserGrid().getSelectionModel();
+        var rightClick = event.button === 2;
+        var isSelected = selectionModel.isSelected(record);
+
+        var cancel = rightClick && isSelected && selectionModel.getSelection().length > 1;
+        if ( cancel )
+        {
+            return false;
+        }
+
+        return true;
     },
 
     addNewTab: function( button, event )

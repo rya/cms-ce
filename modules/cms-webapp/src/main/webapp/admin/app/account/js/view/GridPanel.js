@@ -13,7 +13,10 @@ Ext.define( 'App.view.GridPanel', {
 
     initComponent: function()
     {
-        this.selModel = Ext.create('Ext.selection.CheckboxModel');
+        this.selModel = Ext.create('Ext.selection.CheckboxModel', {
+            mode: 'SIMPLE',
+            allowDeselect: true
+        });
 
         this.columns = [
             {
