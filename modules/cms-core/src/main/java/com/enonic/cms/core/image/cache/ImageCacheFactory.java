@@ -9,24 +9,23 @@ import org.springframework.beans.factory.FactoryBean;
 import com.enonic.cms.framework.cache.CacheManager;
 
 public final class ImageCacheFactory
-    implements FactoryBean
+    implements FactoryBean<ImageCache>
 {
     private String cacheName;
 
     private CacheManager cacheManager;
 
-    public void setCacheName( String cacheName )
+    public void setCacheName( final String cacheName )
     {
         this.cacheName = cacheName;
     }
 
-    public void setCacheManager( CacheManager cacheManager )
+    public void setCacheManager( final CacheManager cacheManager )
     {
         this.cacheManager = cacheManager;
     }
 
-    public Object getObject()
-        throws Exception
+    public ImageCache getObject()
     {
         return new WrappedImageCache( this.cacheManager.getOrCreateCache( this.cacheName ) );
     }
