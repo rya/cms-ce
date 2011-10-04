@@ -198,19 +198,5 @@
             <artifactId>slf4j-jdk14</artifactId>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <forkMode>once</forkMode>
-                    <argLine>-Xmx1024m -XX:MaxPermSize=512m</argLine>
-                    <systemPropertyVariables>
-                        <java.io.tmpdir>${project.build.directory}/tmp</java.io.tmpdir>
-                    </systemPropertyVariables>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

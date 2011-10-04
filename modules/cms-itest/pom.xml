@@ -15,6 +15,10 @@
     <packaging>jar</packaging>
     <name>Enonic CMS ITest</name>
 
+    <properties>
+        <skipITs>false</skipITs>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -62,27 +66,17 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.9</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
                 <configuration>
                     <forkMode>once</forkMode>
                     <argLine>-Xmx1024m -XX:MaxPermSize=512m -Djava.awt.headless=true</argLine>
-                    <includes>
-                        <include>**/itest/**/*.java</include>
-                    </includes>
+                    <skip>${skipITs}</skip>
                 </configuration>
             </plugin>
         </plugins>
