@@ -4,12 +4,6 @@
  */
 package com.enonic.cms.core.preference;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Feb 19, 2010
- * Time: 11:11:38 AM
- */
 public class PreferenceAccessException
     extends RuntimeException
 {
