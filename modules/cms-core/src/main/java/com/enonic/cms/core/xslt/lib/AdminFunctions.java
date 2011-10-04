@@ -9,16 +9,12 @@ import java.net.URLEncoder;
 import java.util.List;
 
 import org.jdom.Namespace;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
 public final class AdminFunctions
 {
-    private static final Logger LOG = LoggerFactory.getLogger( PortalFunctions.class );
-
     public static String urlEncode(final String uri)
     {
         try {
@@ -34,11 +30,7 @@ public final class AdminFunctions
 
         recursiveRemoveNamespaces( doc.getRootElement() );
 
-        String serialize = includeSelf ? JDOMUtil.serialize( doc, 4, true ) : JDOMUtil.serializeChildren( doc, 4 );
-
-        LOG.debug( "xml came in:\n***\n{}\n***", serialize );
-
-        return serialize;
+        return includeSelf ? JDOMUtil.serialize( doc, 4, true ) : JDOMUtil.serializeChildren( doc, 4 );
     }
 
     private static void recursiveRemoveNamespaces( org.jdom.Element element )

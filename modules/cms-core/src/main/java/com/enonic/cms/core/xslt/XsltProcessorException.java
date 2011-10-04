@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.core.xslt;
 
-import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Formatter;
 
@@ -29,52 +28,27 @@ public final class XsltProcessorException
     /**
      * Construct the errors.
      */
-    public XsltProcessorException( String message )
+    public XsltProcessorException( final XsltProcessorErrors errors )
     {
-        super( message );
-        this.errors = null;
-    }
-
-    /**
-     * Construct the errors.
-     */
-    public XsltProcessorException( String message, XsltProcessorErrors errors )
-    {
-        super( message );
+        super( "Errors occurred during transformation" );
         this.errors = errors;
     }
 
     /**
      * Construct the errors.
      */
-    public XsltProcessorException( Throwable cause )
+    public XsltProcessorException( final Throwable cause )
     {
-        this( cause.getMessage(), cause );
+        super( cause.getMessage(), cause );
+        this.errors = new XsltProcessorErrors();
     }
 
     /**
      * Construct the errors.
      */
-    public XsltProcessorException( Throwable cause, XsltProcessorErrors errors )
+    public XsltProcessorException( final Throwable cause, final XsltProcessorErrors errors )
     {
-        this( cause.getMessage(), cause, errors );
-    }
-
-    /**
-     * Construct the errors.
-     */
-    public XsltProcessorException( String message, Throwable cause )
-    {
-        super( message, cause );
-        this.errors = null;
-    }
-
-    /**
-     * Construct the errors.
-     */
-    public XsltProcessorException( String message, Throwable cause, XsltProcessorErrors errors )
-    {
-        super( message, cause );
+        super( cause.getMessage(), cause );
         this.errors = errors;
     }
 

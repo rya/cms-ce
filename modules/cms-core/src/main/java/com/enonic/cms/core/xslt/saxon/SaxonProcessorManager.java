@@ -4,41 +4,41 @@
  */
 package com.enonic.cms.core.xslt.saxon;
 
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.URIResolver;
+
+import com.enonic.cms.core.xslt.*;
 import net.sf.saxon.Configuration;
 import net.sf.saxon.TransformerFactoryImpl;
 import net.sf.saxon.functions.FunctionLibraryList;
 import net.sf.saxon.functions.JavaExtensionLibrary;
 
-import com.enonic.cms.core.xslt.XsltProcessorException;
-import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
-import com.enonic.cms.core.xslt.base.BaseProcessorManager;
 import com.enonic.cms.core.xslt.lib.PortalFunctions;
 
 /**
  * This class implements the standard xslt processor manager.
  */
 public final class SaxonProcessorManager
-    extends BaseProcessorManager
+    implements XsltProcessorManager
 {
     private final TransformerFactoryImpl transformerFactory;
-    private final Configuration configuration;
 
     public SaxonProcessorManager()
     {
         XsltProcessorManagerAccessor.setProcessorManager( this );
         this.transformerFactory = new TransformerFactoryImpl();
-        this.configuration = this.transformerFactory.getConfiguration();
 
+        final Configuration configuration = this.transformerFactory.getConfiguration();
         final FunctionLibraryList libraryList = new FunctionLibraryList();
-        final JavaExtensionLibrary extensionLibrary = new JavaExtensionLibrary( this.configuration );
+        final JavaExtensionLibrary extensionLibrary = new JavaExtensionLibrary( configuration );
         libraryList.addFunctionLibrary( extensionLibrary );
         registerExtensions( extensionLibrary );
 
-        this.configuration.setExtensionBinder( "java", libraryList );
-        this.configuration.setLineNumbering( true );
-        this.configuration.setHostLanguage( Configuration.XSLT );
-        this.configuration.setVersionWarning( false );
+        configuration.setExtensionBinder( "java", libraryList );
+        configuration.setLineNumbering( true );
+        configuration.setHostLanguage( Configuration.XSLT );
+        configuration.setVersionWarning( false );
     }
 
     private void registerExtensions(final JavaExtensionLibrary library)
@@ -47,10 +47,31 @@ public final class SaxonProcessorManager
         library.declareJavaClass( PortalFunctions.OLD_NAMESPACE_URI, PortalFunctions.class );
     }
 
-    @Override
-    protected TransformerFactory getTransformerFactory()
+    public XsltProcessor createProcessor( final Source xsl, final URIResolver resolver )
         throws XsltProcessorException
     {
-        return this.transformerFactory;
+        final Transformer transformer = createTransformer(xsl, resolver);
+        transformer.setURIResolver( resolver );
+        return new XsltProcessorImpl( transformer );
+    }
+
+    public XsltProcessor createProcessor( final XsltResource xsl, final URIResolver resolver )
+        throws XsltProcessorException
+    {
+        return createProcessor( xsl.getAsSource(), resolver );
+    }
+
+    private Transformer createTransformer( final Source xsl, final URIResolver resolver )
+        throws XsltProcessorException
+    {
+        final XsltProcessorErrors errors = new XsltProcessorErrors();
+        this.transformerFactory.setErrorListener( errors );
+        this.transformerFactory.setURIResolver( resolver );
+
+        try {
+            return this.transformerFactory.newTransformer(xsl);
+        } catch (Exception e) {
+            throw new XsltProcessorException( e, errors );
+        }
     }
 }

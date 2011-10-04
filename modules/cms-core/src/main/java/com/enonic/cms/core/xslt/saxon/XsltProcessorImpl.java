@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.xslt.base;
+package com.enonic.cms.core.xslt.saxon;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -110,7 +110,7 @@ final class XsltProcessorImpl
 
             if ( errors.hasErrors() )
             {
-                throw new XsltProcessorException( "An error occured during transformation", errors );
+                throw new XsltProcessorException( errors );
             }
         }
         catch ( Exception e )

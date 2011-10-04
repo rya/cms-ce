@@ -4,29 +4,56 @@
  */
 package com.enonic.cms.core.xslt;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.util.FileCopyUtils;
-import junit.framework.TestCase;
+import org.junit.Test;
+import javax.xml.transform.Source;
+import static org.junit.Assert.*;
 
 public class XsltResourceTest
-    extends TestCase
 {
-    private String readXslt( String name )
+    @Test
+    public void testGetContent()
         throws Exception
     {
-        Resource resource = new ClassPathResource( name, getClass() );
-        return new String( FileCopyUtils.copyToByteArray( resource.getInputStream() ) );
+        final XsltResource res = new XsltResource("xslt content");
+        assertEquals("xslt content", res.getContent());
+
+        final Source source = res.getAsSource();
+        assertNotNull(source);
     }
 
-    public void testGeneral()
+    @Test
+    public void testGetNameUnknown()
         throws Exception
     {
-        String source = readXslt( "XsltResourceTest.xsl" );
-        XsltResource resource = new XsltResource( "name ÆØÅ æøå #1", source );
-        assertEquals( "name ÆØÅ æøå #1", resource.getName() );
-        assertNotNull( resource.getAsSource() );
-        assertEquals( "dummy:/" + java.net.URLEncoder.encode( "name ÆØÅ æøå #1", "UTF-8" ), resource.getAsSource().getSystemId() );
-        assertEquals( source, resource.getContent() );
+        final XsltResource res = new XsltResource("xslt content");
+        assertEquals("unknown", res.getName());
+
+        final Source source = res.getAsSource();
+        assertNotNull(source);
+        assertEquals("dummy:/unknown", source.getSystemId());
+    }
+
+    @Test
+    public void testGetNameLocal()
+        throws Exception
+    {
+        final XsltResource res = new XsltResource("file.xsl", "xslt content");
+        assertEquals("file.xsl", res.getName());
+
+        final Source source = res.getAsSource();
+        assertNotNull(source);
+        assertEquals("dummy:/file.xsl", source.getSystemId());
+    }
+
+    @Test
+    public void testGetNameWithScheme()
+        throws Exception
+    {
+        final XsltResource res = new XsltResource("http://mydomain.com/file.xsl", "xslt content");
+        assertEquals("http://mydomain.com/file.xsl", res.getName());
+
+        final Source source = res.getAsSource();
+        assertNotNull(source);
+        assertEquals("http://mydomain.com/file.xsl", source.getSystemId());
     }
 }
