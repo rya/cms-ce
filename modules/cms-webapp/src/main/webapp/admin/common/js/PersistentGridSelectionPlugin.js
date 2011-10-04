@@ -1,11 +1,17 @@
+/**
+ * PersistentGridSelectionPlugin
+ * Based on joeri's RowSelectionPaging post,2009-02-26
+ *
+ * Only tested on grids using the CheckboxModel
+ */
 Ext.define('Common.PersistentGridSelectionPlugin', {
 
     extend: 'Ext.util.Observable',
     alias : 'plugin.persistentGridSelection',
     init: function(grid) {
         this.grid = grid;
-        this.selections = []; // array of selected records
-        this.selected = {}; // hash mapping record id to selected state
+        this.selections = [];
+        this.selected = {};
         this.ignoreSelectionChanges = '';
         grid.on('render', function() {
             // attach an interceptor for the selModel's onRefresh handler
@@ -16,7 +22,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('deselect', this.onRowDeselect, this);
-            this.grid.dockedItems.items[1].on('beforechange', this.pageChange, this );             // not sure about this , looking for another way
+            this.grid.dockedItems.items[1].on('beforechange', this.pageChange, this );
         }, this);
     },
 
@@ -33,11 +39,12 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             }
         }
         this.ignoreSelectionChanges = false;
-    }, // end onViewRefresh
+    },
 
     pageChange: function() {
         this.ignoreSelectionChanges = true;
     },
+
     // private
     onSelectionClear: function() {
         if (! this.ignoreSelectionChanges) {
@@ -46,7 +53,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             this.selections = [];
             this.selected = {};
         }
-    }, // end onSelectionClear
+    },
 
     // private
     onRowSelect: function(sm,rec,i,o) {
@@ -59,34 +66,42 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
 
         }
 
-    }, // end onRowSelect
+    },
+
     onHeaderClick: function(headerCt, header, e) {
         if (header.isCheckerHd) {
             e.stopEvent();
             var isChecked = header.el.hasCls(Ext.baseCSSPrefix + 'grid-hd-checker-on');
             if (isChecked) {
-                // We have to supress the event or it will scrollTo the change
                 this.clearSelections();
             } else {
-                // We have to supress the event or it will scrollTo the change
-                this.selectAll();
+                this.grid.selModel.selectAll();
             }
         }
+
+        return false;
     },
+
     // private
-    onRowDeselect: function(sm,rec,i,o){
+    onRowDeselect: function(rowModel,record,index,eOpts){
         if (!this.ignoreSelectionChanges) {
-            if (this.selected[rec.internalId]) {
-                for (var i = this.selections.length - 1; i >= 0; i--) {
-                    if (this.selections[i].internalId == rec.internalId) {
-                        this.selections.splice(i, 1);
-                        this.selected[rec.internalId] = false;
+            if (this.selected[record.internalId]) {
+                for (var j = this.selections.length - 1; j >= 0; j--) {
+                    if (this.selections[j].internalId == record.internalId) {
+                        this.selections.splice(j, 1);
+                        this.selected[record.internalId] = false;
                         break;
                     }
                 }
             }
         }
-    }, // end onRowDeselect
+    },
+
+    // private
+    notifySelectionModelAboutSelectionChange: function()
+    {
+        this.grid.selModel.fireEvent("selectionchange", {});
+    },
 
     /**
      * Clears selections across all pages
@@ -96,7 +111,8 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
         this.selected = {};
         this.grid.selModel.deselectAll();
         this.onViewRefresh();
-    }, // end clearSelections
+        this.notifySelectionModelAboutSelectionChange();
+    },
 
     /**
      * Returns the selected records for all pages
@@ -104,31 +120,24 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
      */
     getSelection: function() {
         return [].concat(this.selections);
-    }, // end getSelections
+    },
+
+    /**
+     * Removes an record from the selection
+      * @param record
+     */
+    deselect: function(record)
+    {
+        this.onRowDeselect(this.grid.selModel, record);
+        this.notifySelectionModelAboutSelectionChange();
+    },
 
     /**
      * Selects all the rows in the grid, including those on other pages
      * Be very careful using this on very large datasets
      */
     selectAll: function() {
-        /*
-        var ds = this.grid.getStore();
-        ds.suspendEvents();
-        ds.load({               //problem is , when i load this store (ds),  the store of  grid take this new store and reload the data
-            start: 0,
-            limit: ds.getTotalCount() ,
-            callback: function() {
-                this.selections = ds.data.items.slice(0);
-                this.selected = {};
-                for (var i = this.selections.length - 1; i >= 0; i--) {
-                    this.selected[this.selections[i].internalId] = true;
-                };
-                ds.resumeEvents();
-                this.onViewRefresh();
-            },
-            scope: this
-        });
-        */
+        this.grid.selModel.selectAll();
     }
 
 });
