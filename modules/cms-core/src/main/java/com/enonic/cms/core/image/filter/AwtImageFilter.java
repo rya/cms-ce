@@ -11,7 +11,6 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageProducer;
-
 import com.enonic.cms.framework.util.ImageHelper;
 
 public final class AwtImageFilter
@@ -32,11 +31,6 @@ public final class AwtImageFilter
 
     private BufferedImage convert( Image image )
     {
-        if ( image instanceof BufferedImage )
-        {
-            return (BufferedImage) image;
-        }
-
         BufferedImage bufferedImage = ImageHelper.createImage( image.getWidth( null ), image.getHeight( null ), true );
         Graphics2D g = bufferedImage.createGraphics();
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );

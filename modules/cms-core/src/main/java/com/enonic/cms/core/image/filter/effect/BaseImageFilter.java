@@ -20,11 +20,6 @@ public abstract class BaseImageFilter
         return ImageHelper.createImage( src, true );
     }
 
-    protected final BufferedImage createImage( int width, int height )
-    {
-        return ImageHelper.createImage( width, height, true );
-    }
-
     protected final BufferedImage getScaledInstance( BufferedImage img, int targetWidth, int targetHeight )
     {
         return ImageHelper.getScaledInstance( img, targetWidth, targetHeight );
