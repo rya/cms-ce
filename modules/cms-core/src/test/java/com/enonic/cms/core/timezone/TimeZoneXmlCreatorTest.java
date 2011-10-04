@@ -3,7 +3,7 @@
  * http://www.enonic.com/license
  */
 
-package com.enonic.cms.business.timezone;
+package com.enonic.cms.core.timezone;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,11 @@ import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
 import org.junit.Test;
 
 import junit.framework.TestCase;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-
-import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
 
 public class TimeZoneXmlCreatorTest
     extends TestCase
@@ -29,11 +26,6 @@ public class TimeZoneXmlCreatorTest
     DateTime now = new DateTime( 2011, 1, 1, 1, 1, 1, 1 );
 
     TimeZoneXmlCreator xmlCreator = new TimeZoneXmlCreator( now );
-
-    @Before
-    public void setUp()
-    {
-    }
 
     @Test
     public void testCreateTimeZoneXmlDocument()
