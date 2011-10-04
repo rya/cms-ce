@@ -14,21 +14,6 @@ public class PreferenceXmlCreatorTest
     extends AbstractXmlCreatorTest
 {
     @Test
-    public void testCreatePreferencesDocumentSingle()
-        throws Exception
-    {
-        final String expectedXml = getXml( "/com/enonic/cms/core/preference/SinglePreferencesDocument-result.xml" );
-
-        final PreferenceEntity pref = new PreferenceEntity();
-        final PreferenceKey key = new PreferenceKey( "user:ABC1234.GLOBAL.testBase" );
-        pref.setKey( key );
-        pref.setValue( "testValue" );
-
-        final XMLDocument xmlDoc = PreferenceXmlCreator.createPreferencesDocument( pref );
-        assertEquals( expectedXml, getFormattedXmlString( xmlDoc ) );
-    }
-
-    @Test
     public void testCreatePreferencesDocumentMultiple()
         throws Exception
     {

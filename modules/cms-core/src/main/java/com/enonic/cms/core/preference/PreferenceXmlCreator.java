@@ -10,18 +10,6 @@ import com.enonic.cms.framework.xml.XMLDocument;
 
 public final class PreferenceXmlCreator
 {
-    public static XMLDocument createPreferencesDocument( PreferenceEntity preference )
-    {
-
-        XMLBuilder builder = new XMLBuilder();
-        builder.startElement( "preferences" );
-        doCreatePreferenceElement( builder, preference );
-        builder.setAttribute( "count", "1" );
-        builder.endElement();
-
-        return builder.getDocument();
-    }
-
     public static XMLDocument createPreferencesDocument( Collection<PreferenceEntity> preferences )
     {
 

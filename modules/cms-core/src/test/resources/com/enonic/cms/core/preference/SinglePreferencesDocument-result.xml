@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<preferences count="1">
-  <preference key="GLOBAL.testBase" basekey="testBase" scope="GLOBAL">testValue</preference>
-</preferences>
