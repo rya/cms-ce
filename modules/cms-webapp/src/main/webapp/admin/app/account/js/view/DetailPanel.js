@@ -99,7 +99,7 @@ Ext.define('App.view.DetailPanel', {
         if (className == 'remove-selection'){
             var key = t.attributes.getNamedItem('id').nodeValue;
             var userGridSelModel = this.up('cmsTabPanel').down('userGrid').getSelectionModel();
-            var selection = userGridSelModel.getSelection();
+            var selection = this.persistentGridSelection.getSelection();
             Ext.each(selection, function(item){
                 if (item.get('key') == key){
                     userGridSelModel.deselect(item);
@@ -131,9 +131,8 @@ Ext.define('App.view.DetailPanel', {
     },
 
     updateTitle: function(persistentGridSelection){
-
+        this.persistentGridSelection = persistentGridSelection;
         var count = persistentGridSelection.getSelection().length;
-        this.selModel = '';
         var header = count + " user(s) selected";
         if ( count > 0 ) {
             header += " (<a href='#' class='clearSelection'>Clear selection</a>)";

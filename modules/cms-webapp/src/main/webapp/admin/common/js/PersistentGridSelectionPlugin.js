@@ -40,7 +40,6 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
     },
     // private
     onSelectionClear: function() {
-        console.log('onSelectionClear');
         if (! this.ignoreSelectionChanges) {
             // selection cleared by user
             // also called internally when the selection replaces the old selection
