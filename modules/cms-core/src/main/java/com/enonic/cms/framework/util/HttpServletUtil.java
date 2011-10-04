@@ -12,8 +12,6 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
 import java.util.TimeZone;
 
 import javax.servlet.ServletContext;
@@ -34,8 +32,6 @@ public class HttpServletUtil
 
     private static final String SDF_DATE_PATTERN = "E, dd MMM yyyy HH:mm:ss z";
 
-    private static final String SDF_LAST_MODIFIED_PATTERN = "E, dd MMM yyyy HH:mm:ss z";
-
     private static final TimeZone TIMEZONE_GMT = TimeZone.getTimeZone( "GMT" );
 
     public static void setDateHeader( HttpServletResponse response, Date dateTime )
@@ -50,13 +46,6 @@ public class HttpServletUtil
         final SimpleDateFormat dateFormat = new SimpleDateFormat( SDF_EXPIRES_PATTERN, Locale.ENGLISH );
         dateFormat.setTimeZone( TIMEZONE_GMT );
         response.setHeader( "Expires", dateFormat.format( expirationTime ) );
-    }
-
-    public static void setLastModifiedHeader( HttpServletResponse response, Date lastModifiedTime )
-    {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat( SDF_LAST_MODIFIED_PATTERN, Locale.ENGLISH );
-        dateFormat.setTimeZone( TIMEZONE_GMT );
-        response.setHeader( "Last-Modified", dateFormat.format( lastModifiedTime ) );
     }
 
     public static void setCacheControl( HttpServletResponse response, HttpCacheControlSettings settings )
@@ -143,32 +132,6 @@ public class HttpServletUtil
         }
         out.flush();
         in.close();
-        return byteCount;
-    }
-
-    /**
-     * Copy the contents of the given InputStream to the given OutputStream.
-     *
-     * @param props The set of properties to output.
-     * @param out   The stram to copy to.
-     * @return The number of bytes copied from the input stream to the output stream.
-     * @throws java.io.IOException If an I/O error occurs.
-     */
-    public static int outputProperitesNoCloseOut( Properties props, Writer out )
-            throws IOException
-    {
-        int byteCount = 0;
-        if ( props != null && props.size() > 0 )
-        {
-            for ( Map.Entry<Object, Object> prop : props.entrySet() )
-            {
-                out.write( prop.getKey().toString() );
-                out.write( " = " );
-                out.write( prop.getValue().toString() );
-                out.write( System.getProperty( "line.separator" ) );
-            }
-        }
-        out.flush();
         return byteCount;
     }
 

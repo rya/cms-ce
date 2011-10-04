@@ -63,31 +63,11 @@ public final class JDOMUtil
     /**
      * Parse document.
      */
-    public static Document parseDocument( Reader in )
-        throws IOException, JDOMException
-    {
-        SAXBuilder builder = getSAXBuilder();
-        return builder.build( in );
-    }
-
-    /**
-     * Parse document.
-     */
     public static Document parseDocument( String xml )
         throws IOException, JDOMException
     {
         SAXBuilder builder = getSAXBuilder();
         return builder.build( new StringReader( xml ) );
-    }
-
-    /**
-     * Parse document.
-     */
-    public static Document parseDocument( InputSource in )
-        throws IOException, JDOMException
-    {
-        SAXBuilder builder = getSAXBuilder();
-        return builder.build( in );
     }
 
     /**
@@ -112,7 +92,7 @@ public final class JDOMUtil
     /**
      * Convert org.w3c.dom.Document to JDOM document.
      */
-    public static Document toDocument( org.w3c.dom.Document doc )
+    private static Document toDocument( org.w3c.dom.Document doc )
     {
         DOMBuilder builder = new DOMBuilder();
         return builder.build( doc );
@@ -121,7 +101,7 @@ public final class JDOMUtil
     /**
      * Convert org.w3c.dom.Element to JDOM document.
      */
-    public static Document toDocument( org.w3c.dom.Element element )
+    private static Document toDocument( org.w3c.dom.Element element )
     {
         DOMBuilder builder = new DOMBuilder();
         return new Document( (Element)builder.build( element ).detach() );
@@ -135,22 +115,6 @@ public final class JDOMUtil
     {
         DOMOutputter builder = new DOMOutputter();
         return builder.output( doc );
-    }
-
-    public static byte[] toBytes( Document doc )
-    {
-        ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
-        XMLOutputter outputter = new XMLOutputter();
-        try
-        {
-            outputter.output( doc, byteOutputStream );
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( "Failed to convert document to bytes", e );
-        }
-
-        return byteOutputStream.toByteArray();
     }
 
     /**
@@ -203,22 +167,6 @@ public final class JDOMUtil
         }
     }
 
-    /**
-     * Return the child elements of an element.
-     */
-    public static Element[] getElements( Element root, String name )
-    {
-        if ( root != null )
-        {
-            List list = root.getChildren( name );
-            return (Element[]) list.toArray( new Element[list.size()] );
-        }
-        else
-        {
-            return new Element[0];
-        }
-    }
-
     @SuppressWarnings({"unchecked"})
     public static List<Element> getChildren( final Element parentEl, final String name )
     {
@@ -256,7 +204,7 @@ public final class JDOMUtil
     /**
      * Create element and adds it to parent.
      */
-    public static Element createElement( Element parent, String name )
+    private static Element createElement( Element parent, String name )
     {
         Element elem = new Element( name );
         parent.addContent( elem );
