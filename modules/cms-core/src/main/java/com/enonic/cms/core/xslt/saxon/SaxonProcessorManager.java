@@ -14,8 +14,6 @@ import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.base.BaseProcessorManager;
 import com.enonic.cms.core.xslt.lib.PortalFunctions;
-import com.enonic.cms.core.xslt.trace.NopTraceListener;
-import com.enonic.cms.core.xslt.trace.RecursionTraceListener;
 
 /**
  * This class implements the standard xslt processor manager.
@@ -41,8 +39,6 @@ public final class SaxonProcessorManager
         this.configuration.setLineNumbering( true );
         this.configuration.setHostLanguage( Configuration.XSLT );
         this.configuration.setVersionWarning( false );
-
-        setMaxRecursionDepth( -1 );
     }
 
     private void registerExtensions(final JavaExtensionLibrary library)
@@ -56,20 +52,5 @@ public final class SaxonProcessorManager
         throws XsltProcessorException
     {
         return this.transformerFactory;
-    }
-
-    /**
-     * Set max recursion depth (-1 for unlimited).
-     */
-    public void setMaxRecursionDepth( int maxRecursionDepth )
-    {
-        if ( maxRecursionDepth > 0 )
-        {
-            this.configuration.setTraceListener( new RecursionTraceListener( maxRecursionDepth ) );
-        }
-        else
-        {
-            this.configuration.setTraceListener( new NopTraceListener() );
-        }
     }
 }

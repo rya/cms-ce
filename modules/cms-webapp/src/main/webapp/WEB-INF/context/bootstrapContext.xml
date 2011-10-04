@@ -33,7 +33,6 @@
 
   <!-- Xslt processor manager initializer. -->
   <bean class="com.enonic.cms.core.xslt.saxon.SaxonProcessorManager">
-    <property name="maxRecursionDepth" value="${cms.xsl.maxRecursionDepth}"/>
   </bean>
 
 </beans>
