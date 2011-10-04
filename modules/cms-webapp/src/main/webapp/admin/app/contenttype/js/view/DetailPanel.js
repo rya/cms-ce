@@ -8,22 +8,15 @@ Ext.define('App.view.DetailPanel', {
 
     initComponent: function() {
 
-        this.tpl = new Ext.XTemplate(
-                '<div class="detail-info">',
-                '<h3>{name}</h3>',
-                '<dl>',
-                '<dt>Key</dt><dd>{key}</dd>',
-                '<dt>Last Modified</dt><dd>{timestamp:this.formatDate}</dd>',
-                '</dl>',
-                '</div>', {
-
-            formatDate: function(value) {
-                if (!value) {
+        this.tpl = new Ext.XTemplate( Templates.contenttype.detailPanelInfo, {
+            formatDate: function( value )
+            {
+                if ( !value )
+                {
                     return '';
                 }
-                return Ext.Date.format(value, 'j M Y, H:i:s');
+                return Ext.Date.format( value, 'j M Y, H:i:s' );
             }
-            
         });
 
         this.dockedItems = [

@@ -37,8 +37,6 @@ Ext.define( 'App.controller.UserController', {
         var userStore = this.getStore('UserStore');
         userStore.guaranteeRange( 0, userStore.pageSize - 1 );
 
-        userStore.on('load', me.updateGridTitle, this);
-
         this.control( {
                           'cmsTabPanel': {
                               afterrender: this.createBrowseTab
@@ -60,9 +58,9 @@ Ext.define( 'App.controller.UserController', {
                           },
                           'userGrid': {
                               selectionchange: this.updateDetailsPanel,
+                              beforeitemmousedown: this.cancelDeselectOnContextClick,
                               itemcontextmenu: this.popupMenu,
-                              itemdblclick: this.showEditUserForm,
-                              afterrender: this.postRenderGridPanel
+                              itemdblclick: this.showEditUserForm
                           },
                           'userFilter': {
                               specialkey: this.filterHandleEnterKey,
@@ -128,25 +126,6 @@ Ext.define( 'App.controller.UserController', {
                       } );
     },
 
-    newUser: function()
-    {
-        Ext.Msg.alert( 'New User', 'TODO' );
-    },
-
-    newGroup: function()
-    {
-        Ext.Msg.alert( 'New Group', 'TODO' );
-    },
-
-    selectUser: function( view )
-    {
-        var first = this.getUserStoreStore().getAt( 0 );
-        if ( first )
-        {
-            view.getSelectionModel().select( first );
-        }
-    },
-
     onFilterPanelRender: function()
     {
         Ext.getCmp( 'filter' ).focus( false, 10 );
@@ -192,7 +171,6 @@ Ext.define( 'App.controller.UserController', {
 
     createEditGroupTab: function()
     {
-
     },
 
     showDeleteUserWindow: function()
@@ -286,7 +264,7 @@ Ext.define( 'App.controller.UserController', {
         if ( el.action == 'newUser' )
         {
             var tab = {
-                id: 'new-user',
+                id: Ext.id(null, 'new-user-'),
                 title: 'New User',
                 iconCls: 'icon-user-add',
                 closable: true,
@@ -386,6 +364,21 @@ Ext.define( 'App.controller.UserController', {
     getSelectedGridItem: function()
     {
         return this.getUserGrid().getSelectionModel().selected.get( 0 );
+    },
+
+    cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
+    {
+        var selectionModel = this.getUserGrid().getSelectionModel();
+        var rightClick = event.button === 2;
+        var isSelected = selectionModel.isSelected(record);
+
+        var cancel = rightClick && isSelected && selectionModel.getSelection().length > 1;
+        if ( cancel )
+        {
+            return false;
+        }
+
+        return true;
     },
 
     addNewTab: function( button, event )
@@ -552,15 +545,6 @@ Ext.define( 'App.controller.UserController', {
             userInfoPanel = button.up( 'userShortDetailButton' );
         }
         selModel.deselect( userInfoPanel.getUser() );
-    },
-
-    postRenderGridPanel: function() {
-        Ext.get('account-grid-select-all').on('click', this.selectAll, this)
-    },
-
-    updateGridTitle: function() {
-        var totalCount = this.getStore('UserStore').getTotalCount();
-        Ext.DomQuery.select('#account-grid-total-count')[0].innerHTML = totalCount;
     },
 
     selectAll: function() {

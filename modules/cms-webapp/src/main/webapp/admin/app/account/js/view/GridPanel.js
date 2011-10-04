@@ -8,13 +8,15 @@ Ext.define( 'App.view.GridPanel', {
     columnLines: true,
     frame: false,
     store: 'UserStore',
-    title: 'Total: <span id="account-grid-total-count"></span> (<a href="#" id="account-grid-select-all" class="selectAll">Select all</a>)',
     verticalScrollerType: 'paginggridscroller',
     invalidateScrollerOnRefresh: false,
 
     initComponent: function()
     {
-        this.selModel = Ext.create('Ext.selection.CheckboxModel');
+        this.selModel = Ext.create('Ext.selection.CheckboxModel', {
+            mode: 'SIMPLE',
+            allowDeselect: true
+        });
 
         this.columns = [
             {
@@ -54,9 +56,7 @@ Ext.define( 'App.view.GridPanel', {
     nameRenderer: function( value, p, record )
     {
         return Ext.String.format(
-                '<div style="float:left"><img src="data/user/photo?key={0}&thumb=true" class="cms-thumbnail"></div>' +
-                        '<div style="float:left"><div class="cms-grid-title">{1}</div>' +
-                        '<div class="cms-grid-description"><span class="cms-emphasis">{2}</span> in user store {3}</div>',
+                Templates.account.gridPanelNameRenderer,
                 record.data.key,
                 value,
                 record.data.name,

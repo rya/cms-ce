@@ -15,13 +15,7 @@ Ext.define( 'App.view.UserstoreForm', {
                 cls: 'cms-userstore-info',
                 styleHtmlContent: true,
                 itemId: 'headerPanel',
-                // TODO: Create an Ext component.
-                tpl: new Ext.XTemplate(
-                    '<div class="cms-userstore-info">',
-                    '<h1>{name}</h1>',
-                    '<em>{connectorName}</em>',
-                    '</div>'
-                ),
+                tpl: new Ext.XTemplate( Templates.userstore.editFormHeader ),
                 border: false,
                 bodyPadding: '0 0 10 0',
                 height: 90,

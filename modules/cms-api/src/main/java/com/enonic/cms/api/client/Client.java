@@ -26,6 +26,7 @@ import com.enonic.cms.api.client.model.GetContentByCategoryParams;
 import com.enonic.cms.api.client.model.GetContentByQueryParams;
 import com.enonic.cms.api.client.model.GetContentBySectionParams;
 import com.enonic.cms.api.client.model.GetContentParams;
+import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
 import com.enonic.cms.api.client.model.GetContentVersionsParams;
 import com.enonic.cms.api.client.model.GetGroupParams;
 import com.enonic.cms.api.client.model.GetGroupsParams;
@@ -314,4 +315,6 @@ public interface Client
 
     public void clearPageCacheForContent( Integer[] contentKeys )
         throws ClientException;
+
+    public Document getContentTypeConfigXML(GetContentTypeConfigXMLParams params) throws ClientException;
 }

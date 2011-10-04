@@ -6,6 +6,8 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         'App.view.wizard.UserStoreListPanel',
         'App.view.wizard.UserWizardToolbar',
         'App.view.EditUserFormPanel'
+        'App.view.wizard.WizardStepMembershipPanel',
+        'App.view.wizard.WizardStepFinalizePanel'
     ],
 
     layout: {
@@ -46,6 +48,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
             },
             items: [
                 {
+                    cls: 'cms-new-user-header',
                     styleHtmlContent: true,
                     html: '<h1>New User</h1><h4>User Wizard</h4>'
                 },
@@ -65,16 +68,16 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                             enableToolbar: false
                         },
                         {
-                            stepTitle: "Step 3",
+                            stepTitle: "User",
                             html: 'Panel 3<br/>Quisque non tellus in massa feugiat dictum.'
                         },
                         {
-                            stepTitle: "Step 4",
-                            html: 'Quisque augue urna, lacinia ac consectetur sed, accumsan sit amet sapien.'
+                            stepTitle: "Memberships",
+                            xtype: 'wizardStepMembershipPanel'
                         },
                         {
-                            stepTitle: "Step 5",
-                            html: 'Panel 5<br/> Duis vel nibh enim. Mauris vel risus erat, eu tristique elit.'
+                            stepTitle: "Finalize",
+                            xtype: 'wizardStepFinalizePanel'
                         }
                     ]
                 }

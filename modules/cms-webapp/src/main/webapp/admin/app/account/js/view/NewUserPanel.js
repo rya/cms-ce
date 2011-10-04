@@ -1,19 +1,13 @@
 Ext.define( 'App.view.NewUserPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.newUserPanel',
-
     autoScroll: true,
-
     defaults: {
         bodyPadding: 10
     },
     items: [],
     currentUser: '',
-
-
-
     modal: true,
-
     layout: {
         type: 'border'
     },

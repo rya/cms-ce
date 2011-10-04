@@ -8,16 +8,7 @@ Ext.define('App.view.DetailPanel', {
 
     initComponent: function() {
 
-        this.tpl = new Ext.XTemplate(
-                '<div class="detail-info">',
-                '<h3>{name}</h3>',
-                '<dl>',
-                '<dt>Key</dt><dd>{key}</dd>',
-                '<dt>Default Store</dt><dd>{defaultStore}</dd>',
-                '<dt>Connector Name</dt><dd>{connectorName}</dd>',
-                '</dl>',
-                '</div>'
-        );
+        this.tpl = new Ext.XTemplate( Templates.userstore.detailPanelInfo );
 
         this.dockedItems = [
             {
