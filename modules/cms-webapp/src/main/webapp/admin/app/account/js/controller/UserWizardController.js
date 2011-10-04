@@ -41,6 +41,24 @@ Ext.define( 'App.controller.UserWizardController', {
 
     stepChanged: function( wizard, oldStep, newStep )
     {
+        if ((newStep.getXType() == 'editUserFormPanel') &&
+                (oldStep.getXType() == 'userStoreListPanel')){
+            var prefix = newStep.down('#prefix');
+            var firstName = newStep.down('#first-name');
+            var middleName = newStep.down( '#middle-name' );
+            var lastName = newStep.down( '#last-name' );
+            var suffix = newStep.down( '#suffix' );
+            if (prefix) prefix.on('keyup', this.textFieldHandleEnterKey);
+            if (firstName) firstName.on('keyup', this.textFieldHandleEnterKey);
+            if (middleName) middleName.on('keyup', this.textFieldHandleEnterKey);
+            if (lastName) lastName.on('keyup', this.textFieldHandleEnterKey);
+            if (suffix) suffix.on('keyup', this.textFieldHandleEnterKey);
+        }
+        if (oldStep.getXType() == 'userStoreListPanel'){
+            var userStore = wizard.getData().userStore;
+            Ext.get('q-userstore').dom.innerHTML = userStore + '\\';
+            Ext.get('q-username').dom.innerHTML = 'unnamed';
+        }
     },
 
     wizardFinished: function( wizard, data )
@@ -83,6 +101,26 @@ Ext.define( 'App.controller.UserWizardController', {
             this.wizardNext(nextButton);
         }
 
+    },
+
+    textFieldHandleEnterKey: function( field, event )
+    {
+        var formPanel = field.up( 'editUserFormPanel' );
+        var prefix = formPanel.down( '#prefix' ) ? Ext.String.trim( formPanel.down( '#prefix' ).getValue() ) : '';
+        var firstName = formPanel.down( '#first-name' ) ? Ext.String.trim( formPanel.down( '#first-name' ).getValue() )
+                : '';
+        var middleName = formPanel.down( '#middle-name' )
+                ? Ext.String.trim( formPanel.down( '#middle-name' ).getValue() ) : '';
+        var lastName = formPanel.down( '#last-name' ) ? Ext.String.trim( formPanel.down( '#last-name' ).getValue() )
+                : '';
+        var suffix = formPanel.down( '#suffix' ) ? Ext.String.trim( formPanel.down( '#suffix' ).getValue() ) : '';
+        var displayName = Ext.get('display-name');
+        if ( displayName )
+        {
+            var displayNameValue = prefix + ' ' + firstName + ' ' + middleName + ' ' + lastName + ' ' + suffix;
+            displayName.dom.value = Ext.String.trim( displayNameValue );
+            displayName.addCls('cms-edited-field');
+        }
     },
 
     getUserWizardPanel: function()

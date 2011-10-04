@@ -24,69 +24,112 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         xtype: 'userWizardToolbar'
     },
 
-    items: [
-        {
-            width: 100,
-            items: [
-                {
-                    xtype: 'image',
-                    src: 'resources/images/x-user.png',
-                    width: 100,
-                    height: 100
-                }
-            ]
-        },
-        {
-            flex: 1,
-            layout: {
-                type: 'vbox',
-                align: 'stretch',
-                padding: '0 10'
-            },
-            defaults: {
-                border: false
-            },
-            items: [
-                {
-                    cls: 'cms-new-user-header',
-                    styleHtmlContent: true,
-                    html: '<h1>New User</h1><h4>User Wizard</h4>'
-                },
-                {
-                    flex: 1,
-                    xtype: 'wizardPanel',
-                    showControls: false,
-                    items: [
-                        {
-                            stepTitle: 'Userstore',
-                            xtype: 'userStoreListPanel'
-                        },
-                        {
-                            stepTitle: "Profile",
-                            itemId: 'userForm',
-                            xtype: 'editUserFormPanel',
-                            enableToolbar: false
-                        },
-                        {
-                            stepTitle: "User",
-                            html: 'Panel 3<br/>Quisque non tellus in massa feugiat dictum.'
-                        },
-                        {
-                            stepTitle: "Memberships",
-                            xtype: 'wizardStepMembershipPanel'
-                        },
-                        {
-                            stepTitle: "Finalize",
-                            xtype: 'wizardStepFinalizePanel'
-                        }
-                    ]
-                }
-            ]
+
+    toggleDisplayNameField: function(e, t){
+        var className = t.attributes.getNamedItem('class').nodeValue;
+        if (className == 'edit-button'){
+            var displayNameField = Ext.get('display-name');
+            var readonly = displayNameField.getAttribute('readonly');
+            if (readonly){
+                displayNameField.dom.removeAttribute('readonly');
+            }else{
+                displayNameField.set({readonly: true});
+            }
+            displayNameField.addCls('cms-edited-field');
         }
-    ],
+    },
+
+    toggleEditButton: function(e, t){
+        var editButton = Ext.get('edit-button');
+        if (e.type == 'mouseover'){
+            editButton.show();
+        }
+        if (e.type == 'mouseout'){
+            editButton.hide();
+        }
+    },
 
     initComponent: function()
     {
+        var me = this;
+        me.items = [
+            {
+                width: 100,
+                items: [
+                    {
+                        xtype: 'image',
+                        src: 'resources/images/x-user.png',
+                        width: 100,
+                        height: 100
+                    }
+                ]
+            },
+            {
+                flex: 1,
+                layout: {
+                    type: 'vbox',
+                    align: 'stretch',
+                    padding: '0 10'
+                },
+                defaults: {
+                    border: false
+                },
+                items: [
+                    {
+                        xtype: 'panel',
+                        cls: 'cms-new-user-header',
+                        styleHtmlContent: true,
+                        listeners: {
+                            click: {
+                                element: 'body',
+                                fn: me.toggleDisplayNameField
+                            },
+                            mouseover: {
+                                element: 'body',
+                                fn: me.toggleEditButton
+                            },
+                            mouseout: {
+                                element: 'body',
+                                fn: me.toggleEditButton
+                            }
+                        },
+                        html: '<div class="cms-wizard-header clearfix">' +
+                                '<div class="right">' +
+                                '<h1><input id="display-name" type="text" value="New User" readonly="true" class="cms-display-name"/></h1><a href="javascript:;" id="edit-button" class="edit-button"></a>' +
+                                '<p >-User Wizard: <span id="q-userstore"></span><span id="q-username"></span></p></div></div>'
+                    },
+                    {
+                        flex: 1,
+                        xtype: 'wizardPanel',
+                        showControls: false,
+                        items: [
+                            {
+                                stepTitle: 'Userstore',
+                                xtype: 'userStoreListPanel'
+                            },
+                            {
+                                stepTitle: "Profile",
+                                itemId: 'userForm',
+                                xtype: 'editUserFormPanel',
+                                enableToolbar: false
+                            },
+                            {
+                                stepTitle: "User",
+                                html: 'Panel 3<br/>Quisque non tellus in massa feugiat dictum.'
+                            },
+                            {
+                                stepTitle: "Memberships",
+                                xtype: 'wizardStepMembershipPanel'
+                            },
+                            {
+                                stepTitle: "Finalize",
+                                xtype: 'wizardStepFinalizePanel'
+                            }
+                        ]
+                    }
+                ]
+            }
+        ];
         this.callParent( arguments );
     }
 
