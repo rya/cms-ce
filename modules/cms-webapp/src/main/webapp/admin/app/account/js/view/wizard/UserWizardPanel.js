@@ -5,7 +5,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         'Common.WizardPanel',
         'App.view.wizard.UserStoreListPanel',
         'App.view.wizard.UserWizardToolbar',
-        'App.view.EditUserFormPanel'
+        'App.view.EditUserFormPanel',
         'App.view.wizard.WizardStepMembershipPanel',
         'App.view.wizard.WizardStepFinalizePanel'
     ],

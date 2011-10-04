@@ -6,18 +6,17 @@ if ( !Templates )
 Templates.account = {
     userstoreRadioButton:
         '<tpl for=".">' +
-            '<div class="userstore">' +
-                '<input type="radio" name="userstore" value="{key}">' +
-                '<div class="userstore-block">' +
-                    '<div class="left"><img width="50" height="50" src="app/account/images/app-icon-userstores.png"/></div>' +
-                    '<div class="center">' +
-                        '<h2>{name}</h2>' +
-                        '<p>(usersstores\\\\{name})</p>' +
+                    '<div class="cms-userstore">' +
+                    '<input type="radio" name="userstore" value="{key}">' +
+                    '<div class="cms-userstore-block">' +
+                        '<div class="left"><img width="50" height="50" src="app/account/images/app-icon-userstores.png"/></div>' +
+                        '<div class="center">' +
+                            '<h2>{name}</h2>' +
+                            '<p>(usersstores\\\\{name})</p>' +
+                        '</div>' +
                     '</div>' +
-                '</div>' +
-            '</div>' +
-            '<br>' +
-        '</tpl>'
+                    '</div><br>' +
+                '</tpl>'
 
     ,gridPanelNameRenderer:
         '<div style="float:left"><img src="data/user/photo?key={0}&thumb=true" class="cms-thumbnail"></div>' +
@@ -27,12 +26,10 @@ Templates.account = {
     ,editUserPanelHeader:
         '<div class="cms-edit-form-header clearfix">' +
             '<div class="left">' +
-                '<img alt="User" src="data/user/photo?key={key}"/></div>' +
+            '<img alt="User" src="data/user/photo?key={key}"/></div>' +
             '<div class="right">' +
-                '<h1>{displayName}</h1><a href="javascript:;" class="edit-button"></a>' +
-                '<p>{qualifiedName}</p>' +
-            '</div>' +
-        '</div>'
+            '<h1><input id="display-name" type="text" value="{displayName}" readonly="true" class="cms-display-name"/></h1><a href="javascript:;" class="edit-button"></a>' +
+            '<p>{qualifiedName}</p></div></div>'
 
     ,selectedUserLarge:
         '<tpl for="users">' +

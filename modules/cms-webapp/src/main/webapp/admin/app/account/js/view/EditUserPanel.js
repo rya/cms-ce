@@ -37,12 +37,7 @@ Ext.define( 'App.view.EditUserPanel', {
             margin: 5,
             flex: 0.2
         };
-        var headerPanelTpl = Ext.Template('<div class="cms-edit-form-header clearfix">' +
-            '<div class="left">' +
-            '<img alt="User" src="data/user/photo?key={key}"/></div>' +
-            '<div class="right">' +
-            '<h1><input id="display-name" type="text" value="{displayName}" readonly="true" class="cms-display-name"/></h1><a href="javascript:;" class="edit-button"></a>' +
-            '<p>{qualifiedName}</p></div></div>');
+        var headerPanelTpl = Templates.account.editUserPanelHeader;
         var headerPanel = {
             xtype: 'panel',
             tpl: headerPanelTpl,

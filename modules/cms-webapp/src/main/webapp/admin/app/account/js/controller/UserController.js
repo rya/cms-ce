@@ -383,8 +383,9 @@ Ext.define( 'App.controller.UserController', {
 
     addNewTab: function( button, event )
     {
-        var tabId = button.currentUser != '' ? button.currentUser.userStore + '-' + button.currentUser.name
+        var tabId = button.currentUser != undefined ? button.currentUser.userStore + '-' + button.currentUser.name
                 : 'new-user';
+        alert(tabId);
         var tabPanel = this.getCmsTabPanel().down( '#' + tabId ).down( '#addressContainer' );
         var newTab = this.getEditUserFormPanel().generateAddressPanel( tabPanel.sourceField, true );
         newTab = tabPanel.insert( 0 , newTab );
