@@ -24,6 +24,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -58,13 +59,13 @@ import com.enonic.cms.framework.util.TIntHashSet;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 
@@ -119,6 +120,8 @@ public class SectionHandlerServlet
     public static class CreateUpdateSectionWizard
         extends Wizard
     {
+        @Autowired
+        private SiteDao siteDao;
 
         protected void initialize( AdminService admin, Document wizardconfigDoc )
             throws WizardException
@@ -205,7 +208,6 @@ public class SectionHandlerServlet
             throws WizardException
         {
 
-            SiteDao siteDao = CmsCoreServicesSpringManagedBeansBridge.getSiteDao();
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             int menuKey = formItems.getInt( "menukey" );
@@ -546,6 +548,8 @@ public class SectionHandlerServlet
     public static class AddContentWizard
         extends Wizard
     {
+        @Autowired
+        private ContentDao contentDao;
 
         public AddContentWizard()
         {
@@ -605,7 +609,6 @@ public class SectionHandlerServlet
                                          ExtendedMap parameters, User user, Document dataconfigDoc, Document wizarddataDoc )
             throws WizardException
         {
-            ContentDao contentDao = CmsCoreServicesSpringManagedBeansBridge.getContentDao();
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             if ( formItems.containsKey( "selectedunitkey" ) )
@@ -946,23 +949,33 @@ public class SectionHandlerServlet
     public static class PublishWizard
         extends Wizard
     {
+        @Autowired
+        private ContentService contentService;
 
-        private final ContentService contentService;
+        @Autowired
+        private SecurityService securityService;
 
-        private final SecurityService securityService;
+        @Autowired
+        private MenuItemDao menuItemDao;
 
-        private final MenuItemDao menuItemDao;
+        @Autowired
+        private SendMailService sendMailService;
 
-        private final SendMailService sendMailService;
+        @Autowired
+        private SiteCachesService siteCachesService;
+
+        @Autowired
+        private SiteService siteService;
+
+        @Autowired
+        private SitePropertiesService sitePropertiesService;
+
+        @Autowired
+        private GroupDao groupDao;
 
         public PublishWizard()
         {
             super();
-
-            securityService = CmsCoreServicesSpringManagedBeansBridge.getSecurityService();
-            menuItemDao = CmsCoreServicesSpringManagedBeansBridge.getMenuItemDao();
-            sendMailService = CmsCoreServicesSpringManagedBeansBridge.getSendMailService();
-            contentService = CmsCoreServicesSpringManagedBeansBridge.getContentService();
         }
 
         protected void initialize( AdminService admin, Document wizardConfigDoc )
@@ -979,7 +992,7 @@ public class SectionHandlerServlet
                                     String testCondition )
             throws WizardException
         {
-            User user = CmsCoreServicesSpringManagedBeansBridge.getSecurityService().getLoggedInAdminConsoleUser();
+            User user = securityService.getLoggedInAdminConsoleUser();
             boolean result;
             if ( "moreOrder".equals( testCondition ) )
             {
@@ -1265,7 +1278,6 @@ public class SectionHandlerServlet
 
             admin.addContentToSections( user, XMLTool.documentToString( sectionsDoc ) );
 
-            SiteCachesService siteCachesService = CmsCoreServicesSpringManagedBeansBridge.getSiteCachesService();
             for ( SiteKey siteKey : listOfMenuItemKeysBySiteKey.keySet() )
             {
                 PageCacheService pageCacheService = siteCachesService.getPageCacheService( siteKey );
@@ -1344,15 +1356,12 @@ public class SectionHandlerServlet
 
             // sites
             int contentTypeKey = admin.getContentTypeKey( contentKey );
-            SiteService siteService = CmsCoreServicesSpringManagedBeansBridge.getSiteService();
 
             List<SiteEntity> sites = siteService.getSitesToPublishTo( contentTypeKey, user );
             SiteXmlCreator siteXmlCreator = new SiteXmlCreator( null );
             siteXmlCreator.setIncludeMenuItems( false );
 
             Map<SiteKey, SiteProperties> sitePropertyMap = new HashMap<SiteKey, SiteProperties>();
-
-            SitePropertiesService sitePropertiesService = CmsCoreServicesSpringManagedBeansBridge.getSitePropertiesService();
 
             for ( SiteEntity site : sites )
             {
@@ -2113,7 +2122,7 @@ public class SectionHandlerServlet
             final UserEntity newUser = securityService.getUser( oldUser );
             final List<MenuItemEntity> accessibleMenuItems = new ArrayList<MenuItemEntity>();
             MenuItemAccessResolver menuItemAccessResolver =
-                new MenuItemAccessResolver( CmsCoreServicesSpringManagedBeansBridge.getGroupDao() );
+                new MenuItemAccessResolver( groupDao );
             for ( final MenuItemEntity menuItem : menuItemsOfTypeSection )
             {
                 if ( menuItemAccessResolver.hasAccess( newUser, menuItem, MenuItemAccessType.PUBLISH ) ||
@@ -2434,7 +2443,7 @@ public class SectionHandlerServlet
         ExtendedMap parameters = new ExtendedMap();
         User user = securityService.getLoggedInAdminConsoleUser();
 
-        Wizard createUpdateWizard = Wizard.getInstance( admin, this, session, formItems, WIZARD_CONFIG_CREATE_UPDATE );
+        Wizard createUpdateWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_CREATE_UPDATE );
         createUpdateWizard.processRequest( request, response, session, admin, formItems, parameters, user );
     }
 
@@ -2444,12 +2453,12 @@ public class SectionHandlerServlet
     {
         if ( "addcontent".equals( wizardName ) )
         {
-            Wizard addContentWizard = Wizard.getInstance( admin, this, session, formItems, WIZARD_CONFIG_ADD_CONTENT );
+            Wizard addContentWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_ADD_CONTENT );
             addContentWizard.processRequest( request, response, session, admin, formItems, parameters, user );
         }
         else if ( "publish".equals( wizardName ) )
         {
-            Wizard publishWizard = Wizard.getInstance( admin, this, session, formItems, WIZARD_CONFIG_PUBLISH );
+            Wizard publishWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_PUBLISH );
             publishWizard.processRequest( request, response, session, admin, formItems, parameters, user );
         }
         else
@@ -3170,7 +3179,6 @@ public class SectionHandlerServlet
     {
         MenuItemEntity menuItem = menuItemDao.findByKey( menuItemKey );
         SiteEntity site = menuItem.getSite();
-        SiteCachesService siteCachesService = CmsCoreServicesSpringManagedBeansBridge.getSiteCachesService();
         PageCacheService pageCacheService = siteCachesService.getPageCacheService( site.getKey() );
         pageCacheService.removeEntriesByMenuItem( menuItemKey );
     }

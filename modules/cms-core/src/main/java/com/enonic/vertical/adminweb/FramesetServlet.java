@@ -12,14 +12,11 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.xml.XMLTool;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.content.ContentKey;
@@ -79,8 +76,6 @@ public class FramesetServlet
             editContent = (Integer) session.getAttribute( "editContent" );
             if ( editContent != null && editContent > -1 )
             {
-
-                ContentDao contentDao = CmsCoreServicesSpringManagedBeansBridge.getContentDao();
                 assert ( contentDao != null );
                 ContentEntity entity = contentDao.findByKey( new ContentKey( editContent ) );
                 int categoryKey = entity.getCategory().getKey().toInt();

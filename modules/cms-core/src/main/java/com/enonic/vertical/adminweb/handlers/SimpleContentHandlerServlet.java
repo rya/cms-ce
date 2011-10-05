@@ -37,7 +37,6 @@ import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentXMLBuildersSprin
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineException;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.core.content.AssignmentDataParser;
@@ -245,11 +244,11 @@ final public class SimpleContentHandlerServlet
     private void sendAssignmentMail( User oldUser, AssignmentDataParser assignmentDataParser, ImportJob importJob, ImportResult report )
     {
         ImportedContentAssignmentMailTemplate mailTemplate = new ImportedContentAssignmentMailTemplate( report.getAssigned().keySet(),
-                                                                                                        CmsCoreServicesSpringManagedBeansBridge.getContentDao() );
+                                                                                                        contentDao );
         mailTemplate.setAssignmentDescription( assignmentDataParser.getAssignmentDescription() );
         mailTemplate.setAssignmentDueDate( assignmentDataParser.getAssignmentDueDate() );
 
-        UserEntity assigner = CmsCoreServicesSpringManagedBeansBridge.getUserDao().findByKey( oldUser.getKey() );
+        UserEntity assigner = userDao.findByKey( oldUser.getKey() );
         mailTemplate.setAssigner( assigner );
 
         mailTemplate.setFrom( new MailRecipient( assigner.getDisplayName(), assigner.getEmail() ) );

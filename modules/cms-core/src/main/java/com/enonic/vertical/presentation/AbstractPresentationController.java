@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
@@ -61,6 +62,13 @@ public abstract class AbstractPresentationController
     protected ContentService contentService;
 
     protected SiteCachesService siteCachesService;
+
+    protected UserServicesService userServicesService;
+
+    public void setUserServicesService( UserServicesService userServicesService )
+    {
+        this.userServicesService = userServicesService;
+    }
 
     public void setSiteCachesService( SiteCachesService value )
     {

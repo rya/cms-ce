@@ -149,7 +149,7 @@ public class ContentEnhancedImageHandlerServlet
     {
         if ( "import".equals( wizardName ) )
         {
-            Wizard importImagesWizard = Wizard.getInstance( admin, this, session, formItems, WIZARD_IMPORT_IMAGES );
+            Wizard importImagesWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_IMPORT_IMAGES );
             importImagesWizard.processRequest( request, response, session, admin, formItems, parameters, user );
         }
         else

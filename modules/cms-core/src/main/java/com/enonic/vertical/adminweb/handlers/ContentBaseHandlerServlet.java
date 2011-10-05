@@ -35,6 +35,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -75,11 +76,11 @@ import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
+import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
@@ -92,6 +93,8 @@ import com.enonic.cms.business.core.content.AssignContentResult;
 import com.enonic.cms.business.core.content.AssignmentAction;
 import com.enonic.cms.business.core.content.AssignmentActionResolver;
 import com.enonic.cms.business.core.content.AssignmentDataParser;
+import com.enonic.cms.business.core.content.ContentParserService;
+import com.enonic.cms.business.core.content.ContentService;
 import com.enonic.cms.business.core.content.ContentSourceXmlCreator;
 import com.enonic.cms.business.core.content.ContentXMLCreator;
 import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
@@ -107,7 +110,9 @@ import com.enonic.cms.business.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 import com.enonic.cms.business.core.content.mail.AssignmentMailSender;
 import com.enonic.cms.business.core.content.mail.ImportedContentAssignmentMailTemplate;
+import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.structure.MenuItemAccessRightAccumulator;
+import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
 import com.enonic.cms.domain.SiteKey;
@@ -133,6 +138,9 @@ import com.enonic.cms.domain.content.query.RelatedChildrenContentQuery;
 import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
 
 import com.enonic.cms.core.log.Table;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.UserDao;
+
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
@@ -250,6 +258,26 @@ public class ContentBaseHandlerServlet
     public static abstract class ImportZipWizard
             extends Wizard
     {
+        @Autowired
+        private ContentDao contentDao;
+
+        @Autowired
+        private UserDao userDao;
+
+        @Autowired
+        private SendMailService sendMailService;
+
+        @Autowired
+        private ContentService contentService;
+
+        @Autowired
+        private SecurityService securityService;
+
+        @Autowired
+        private ContentParserService contentParserService;
+
+        @Autowired
+        private SiteCachesService siteCachesService;
 
         private int[] imageContentTypes;
 
@@ -647,19 +675,19 @@ public class ContentBaseHandlerServlet
                                                       String assigneeKey )
         {
             ImportedContentAssignmentMailTemplate mailTemplate =
-                    new ImportedContentAssignmentMailTemplate( assignedContent, CmsCoreServicesSpringManagedBeansBridge.getContentDao() );
+                    new ImportedContentAssignmentMailTemplate( assignedContent, contentDao );
             mailTemplate.setAssignmentDescription( assignmentDataParser.getAssignmentDescription() );
             mailTemplate.setAssignmentDueDate( assignmentDataParser.getAssignmentDueDate() );
 
-            UserEntity assigner = CmsCoreServicesSpringManagedBeansBridge.getUserDao().findByKey( user.getKey() );
+            UserEntity assigner = userDao.findByKey( user.getKey() );
             mailTemplate.setAssigner( assigner );
 
             mailTemplate.setFrom( new MailRecipient( user.getDisplayName(), user.getEmail() ) );
 
-            UserEntity assignee = CmsCoreServicesSpringManagedBeansBridge.getUserDao().findByKey( assigneeKey );
+            UserEntity assignee = userDao.findByKey( assigneeKey );
 
             mailTemplate.addRecipient( new MailRecipient( assignee.getName(), assignee.getEmail() ) );
-            CmsCoreServicesSpringManagedBeansBridge.getSendMailService().sendMail( mailTemplate );
+            sendMailService.sendMail( mailTemplate );
         }
 
         private void saveEntries( User user, AdminService admin, ExtendedMap oldFormItems, ContentBaseHandlerServlet cbhServlet,
@@ -765,13 +793,13 @@ public class ContentBaseHandlerServlet
                         assignContentCommand.setAssignmentDescription( assignmentDataParser.getAssignmentDescription() );
                         assignContentCommand.setAssignmentDueDate( assignmentDataParser.getAssignmentDueDate() );
 
-                        CmsCoreServicesSpringManagedBeansBridge.getContentService().assignContent( assignContentCommand );
+                        contentService.assignContent( assignContentCommand );
 
                         assignedContent.add( storedContentKey );
                     }
                     else
                     {
-                        ContentEntity storedContent = CmsCoreServicesSpringManagedBeansBridge.getContentDao().findByKey( storedContentKey );
+                        ContentEntity storedContent = contentDao.findByKey( storedContentKey );
 
                         if ( storedContent.isAssigned() )
                         {
@@ -779,8 +807,7 @@ public class ContentBaseHandlerServlet
                             unassignContentCommand.setContentKey( storedContentKey );
                             unassignContentCommand.setUnassigner( user.getKey() );
 
-                            CmsCoreServicesSpringManagedBeansBridge.getContentService().unassignContent(
-                                    unassignContentCommand );
+                            contentService.unassignContent( unassignContentCommand );
                         }
 
                     }
@@ -790,13 +817,12 @@ public class ContentBaseHandlerServlet
 
         protected ContentKey storeNewContent( User oldUser, BinaryData[] binaries, String xmlData )
         {
-            UserEntity runningUser = CmsCoreServicesSpringManagedBeansBridge.getSecurityService().getUser( oldUser );
+            UserEntity runningUser = securityService.getUser( oldUser );
             List<BinaryDataAndBinary> binaryDataAndBinaries = BinaryDataAndBinary.createNewFrom( binaries );
 
             boolean parseContentData = true; // always parse content data when creating content
-            ContentAndVersion parsedContentAndVersion = CmsCoreServicesSpringManagedBeansBridge.getContentParserService().parseContentAndVersion( xmlData,
-                                                                                                                                                  null,
-                                                                                                                                                  parseContentData );
+            ContentAndVersion parsedContentAndVersion = contentParserService.parseContentAndVersion( xmlData, null,
+                                                                                                     parseContentData );
             ContentEntity parsedContent = parsedContentAndVersion.getContent();
             ContentVersionEntity parsedVersion = parsedContentAndVersion.getVersion();
 
@@ -811,22 +837,21 @@ public class ContentBaseHandlerServlet
             createCommand.setBinaryDatas( binaryDataAndBinaries );
             createCommand.setUseCommandsBinaryDataToAdd( true );
 
-            return CmsCoreServicesSpringManagedBeansBridge.getContentService().createContent( createCommand );
+            return contentService.createContent( createCommand );
         }
 
         protected UpdateContentResult updateContent( User oldTypeUser, String xmlData, List<BinaryDataAndBinary> binariesToAdd,
                                                      boolean asCurrentVersion )
         {
-            UserEntity runningUser = CmsCoreServicesSpringManagedBeansBridge.getSecurityService().getUser( oldTypeUser );
+            UserEntity runningUser = securityService.getUser( oldTypeUser );
 
             boolean parseContentData = true;
-            ContentAndVersion parsedContentAndVersion = CmsCoreServicesSpringManagedBeansBridge.getContentParserService().parseContentAndVersion( xmlData,
-                                                                                                                                                  null,
-                                                                                                                                                  parseContentData );
+            ContentAndVersion parsedContentAndVersion = contentParserService.parseContentAndVersion( xmlData, null,
+                                                                                                     parseContentData );
             ContentEntity parsedContent = parsedContentAndVersion.getContent();
 
             // be sure to add existing content's access rights, else the content will loose them all
-            ContentEntity persistedContent = CmsCoreServicesSpringManagedBeansBridge.getContentDao().findByKey( parsedContent.getKey() );
+            ContentEntity persistedContent = contentDao.findByKey( parsedContent.getKey() );
             for ( ContentAccessEntity contentAccess : persistedContent.getContentAccessRights() )
             {
                 parsedContent.addContentAccessRight( contentAccess.copy() );
@@ -850,11 +875,11 @@ public class ContentBaseHandlerServlet
             updateContentCommand.setBinaryDataToRemove( persistedContent.getMainVersion().getContentBinaryDataKeys() );
             updateContentCommand.setUseCommandsBinaryDataToRemove( true );
 
-            UpdateContentResult updateContentResult = CmsCoreServicesSpringManagedBeansBridge.getContentService().updateContent( updateContentCommand );
+            UpdateContentResult updateContentResult = contentService.updateContent( updateContentCommand );
 
             if ( updateContentResult.isAnyChangesMade() )
             {
-                new PageCacheInvalidatorForContent( CmsCoreServicesSpringManagedBeansBridge.getSiteCachesService() ).invalidateForContent(
+                new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContent(
                         updateContentResult.getTargetedVersion() );
             }
 

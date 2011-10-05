@@ -135,7 +135,7 @@ public class ContentFileHandlerServlet
     {
         if ( "import".equals( wizardName ) )
         {
-            Wizard importFilesWizard = Wizard.getInstance( admin, this, session, formItems, WIZARD_IMPORT_FILES );
+            Wizard importFilesWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_IMPORT_FILES );
             importFilesWizard.processRequest( request, response, session, admin, formItems, parameters, user );
         }
         else
