@@ -6,8 +6,9 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         'App.view.wizard.UserStoreListPanel',
         'App.view.wizard.UserWizardToolbar',
         'App.view.EditUserFormPanel',
+        'App.view.wizard.WizardStepUserPanel',
         'App.view.wizard.WizardStepMembershipPanel',
-        'App.view.wizard.WizardStepFinalizePanel'
+        'App.view.wizard.WizardStepFinalizePanel',
     ],
 
     layout: {
@@ -23,7 +24,6 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
     tbar: {
         xtype: 'userWizardToolbar'
     },
-
 
     toggleDisplayNameField: function(e, t){
         var className = t.attributes.getNamedItem('class').nodeValue;
@@ -115,7 +115,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                             },
                             {
                                 stepTitle: "User",
-                                html: 'Panel 3<br/>Quisque non tellus in massa feugiat dictum.'
+                                xtype: 'wizardStepUserPanel'
                             },
                             {
                                 stepTitle: "Memberships",
