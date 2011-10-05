@@ -1,6 +1,6 @@
 Ext.define('App.view.FilterPanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.userFilter',
+    alias: 'widget.accountFilter',
     cls: 'facet-navigation',
 
     title: 'Filter',

@@ -1,6 +1,6 @@
 Ext.define('App.view.ContextMenu', {
     extend: 'Ext.menu.Menu',
-    alias: 'widget.userContextMenu',
+    alias: 'widget.accountContextMenu',
 
     items: [
         {
