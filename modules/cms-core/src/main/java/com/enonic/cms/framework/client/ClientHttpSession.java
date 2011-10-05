@@ -11,12 +11,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
-public class ClientHttpSession
+final class ClientHttpSession
     implements HttpSession
 {
-
-    public static final String SESSION_COOKIE_NAME = "JSESSION";
-
     private static int nextId = 1;
 
     private final String id;

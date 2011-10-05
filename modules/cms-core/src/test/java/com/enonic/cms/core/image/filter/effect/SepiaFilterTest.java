@@ -11,7 +11,7 @@ import com.enonic.cms.core.image.filter.ImageFilter;
 import static org.junit.Assert.*;
 
 public class SepiaFilterTest
-        extends AwtImageFilterTest
+    extends AwtImageFilterTest
 {
     @Test
     public void testOpaqueImage()

@@ -24,15 +24,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class ClientHttpServletRequest
+public final class ClientHttpServletRequest
     implements HttpServletRequest
 {
 
     public static final String DEFAULT_SCHEME = "http";
 
     public static final int DEFAULT_SERVER_PORT = 80;
-
-    private String protocol = DEFAULT_SCHEME;
 
     private String scheme = DEFAULT_SCHEME;
 
@@ -53,12 +51,6 @@ public class ClientHttpServletRequest
     private String contextPath = "";
 
     private Map parameters = new LinkedHashMap();
-
-
-    public ClientHttpServletRequest( String server, String servletPath )
-    {
-        this( server, DEFAULT_SERVER_PORT, "/", servletPath );
-    }
 
     public ClientHttpServletRequest( String serverName, int port, String uri, String contextPath )
     {
@@ -82,12 +74,6 @@ public class ClientHttpServletRequest
             this.contextPath = contextPath;
         }
 
-    }
-
-    public void addHeader( String name, Object value )
-    {
-        assert ( name != null );
-        this.headers.put( name, value );
     }
 
     /**

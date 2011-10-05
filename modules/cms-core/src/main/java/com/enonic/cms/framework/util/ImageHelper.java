@@ -112,20 +112,6 @@ public final class ImageHelper
         return targetImage;
     }
 
-    public static BufferedImage ensureAlphaChannel( BufferedImage img )
-    {
-        if ( img.getType() == BufferedImage.TYPE_INT_ARGB )
-        {
-            return img;
-        }
-
-        BufferedImage target = createImage( img, true );
-        Graphics g = target.createGraphics();
-        g.drawImage( img, 0, 0, null );
-        g.dispose();
-        return target;
-    }
-
     public static BufferedImage removeAlphaChannel( BufferedImage img, int color )
     {
         if ( !img.getColorModel().hasAlpha() )

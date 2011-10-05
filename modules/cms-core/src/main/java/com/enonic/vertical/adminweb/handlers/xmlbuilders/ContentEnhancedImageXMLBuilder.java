@@ -114,30 +114,6 @@ public class ContentEnhancedImageXMLBuilder
         tempElement = XMLTool.createElement( doc, image, "binarydata" );
         tempElement.setAttribute( "key", formItems.getString( "originalbinarydatakey" ) );
 
-        // Custom image
-        width = formItems.getString( "customwidth", null );
-        height = formItems.getString( "customheight", null );
-        if ( width != null && height != null )
-        {
-            image = XMLTool.createElement( doc, images, "image" );
-            image.setAttribute( "type", "custom" );
-            XMLTool.createElement( doc, image, "width", width );
-            XMLTool.createElement( doc, image, "height", height );
-            tempElement = XMLTool.createElement( doc, image, "binarydata" );
-            tempElement.setAttribute( "key", formItems.getString( "custombinarydatakey" ) );
-        }
-
-        // All the other images:
-        ArrayList scaledImages = (ArrayList) formItems.get( "otherimages" );
-        for ( Object scaledImage : scaledImages )
-        {
-            image = XMLTool.createElement( doc, images, "image" );
-            image.setAttribute( "type", "scaled" );
-            XMLTool.createElement( doc, image, "width", ( (String[]) scaledImage )[1] );
-            XMLTool.createElement( doc, image, "height", ( (String[]) scaledImage )[2] );
-            XMLTool.createElement( doc, image, "binarydata" ).setAttribute( "key", ( (String[]) scaledImage )[0] );
-        }
-
         // related file
         if ( formItems.containsKey( "relatedfile" ) )
         {

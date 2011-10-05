@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<preferences count="2">
+  <preference key="GLOBAL.key1" basekey="key1" scope="GLOBAL">value1</preference>
+  <preference key="GLOBAL.key2" basekey="key2" scope="GLOBAL">value2</preference>
+</preferences>
+        

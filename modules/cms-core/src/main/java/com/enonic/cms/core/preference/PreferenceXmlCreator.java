@@ -5,25 +5,11 @@
 package com.enonic.cms.core.preference;
 
 import java.util.Collection;
-
 import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
-public class PreferenceXmlCreator
+public final class PreferenceXmlCreator
 {
-
-    public static XMLDocument createPreferencesDocument( PreferenceEntity preference )
-    {
-
-        XMLBuilder builder = new XMLBuilder();
-        builder.startElement( "preferences" );
-        doCreatePreferenceElement( builder, preference );
-        builder.setAttribute( "count", "1" );
-        builder.endElement();
-
-        return builder.getDocument();
-    }
-
     public static XMLDocument createPreferencesDocument( Collection<PreferenceEntity> preferences )
     {
 

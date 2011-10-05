@@ -9,8 +9,6 @@
 
   <xsl:output method="html"/>
 
-  <xsl:param name="referer"/>
-
   <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
 
   <xsl:template name="contentformbuttons">

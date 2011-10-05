@@ -13,7 +13,7 @@ public abstract class AwtImageFilterTest
 
     @Before
     public final void setUp()
-            throws Exception
+        throws Exception
     {
         this.opaque = ImageIO.read( getClass().getResourceAsStream( "source.jpg" ) );
         this.transparent = ImageIO.read( getClass().getResourceAsStream( "transparent.png" ) );
