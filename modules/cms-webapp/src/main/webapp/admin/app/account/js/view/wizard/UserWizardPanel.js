@@ -52,16 +52,74 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
     initComponent: function()
     {
         var me = this;
+
+        var userImage = Ext.create( 'Ext.Img', {
+            src: 'resources/images/x-user.png',
+            width: 100,
+            height: 100
+        } );
+
+        var uploadForm = Ext.create('Ext.form.Panel', {
+            width: 100,
+            height: 100,
+            frame: false,
+            border: false,
+            style: {
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                padding: 0,
+                margin: 0,
+                opacity: 0
+            },
+            items: [{
+                xtype: 'filefield',
+                buttonOnly: true,
+                hideLabel: true,
+                width: 100,
+                height: 100,
+                buttonConfig: {
+                    width: 100,
+                    height: 100
+                },
+                listeners: {
+                    afterrender: function( imgUpl ) {
+                        imgUpl.el.down( 'input[type=file]' ).setStyle( {
+                            width: imgUpl.getWidth(),
+                            height: imgUpl.getHeight()
+                        } );
+                    },
+                    change: function( imgUpl, path, eOpts ) {
+                        var form = this.up('form').getForm();
+                        if( form.isValid() )
+                        {
+                            form.submit( {
+                                url: 'file-upload.php',
+                                waitMsg: 'Uploading your photo...',
+                                success: function( fp, o ) {
+                                    Ext.Msg.show({
+                                        title: 'Done',
+                                        msg: 'File uploaded successfully.',
+                                        minWidth: 200,
+                                        modal: true,
+                                        icon: Ext.Msg.INFO,
+                                        buttons: Ext.Msg.OK
+                                    });
+                                }
+                            } );
+                        }
+                    }
+                }
+            }]
+        });
+
+
         me.items = [
             {
                 width: 100,
                 items: [
-                    {
-                        xtype: 'image',
-                        src: 'resources/images/x-user.png',
-                        width: 100,
-                        height: 100
-                    }
+                    userImage,
+                    uploadForm
                 ]
             },
             {

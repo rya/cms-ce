@@ -77,7 +77,8 @@ Ext.define( 'App.controller.UserWizardController', {
         w.next( btn );
     },
 
-    userStoreSelected: function(view, record, item){
+    userStoreSelected: function(view, record, item)
+    {
         view.setData(record);
         var itemElement = new Ext.Element( item );
         itemElement.highlight( '9B30FF' );
@@ -89,7 +90,8 @@ Ext.define( 'App.controller.UserWizardController', {
         this.wizardNext(nextButton);
     },
 
-    userStoreAfterRender: function(view){
+    userStoreAfterRender: function(view)
+    {
         if (view.getNodes().length == 1){
             var node = Ext.fly(view.getNodes()[0]);
             var radioButton = node.down('input');
@@ -122,11 +124,16 @@ Ext.define( 'App.controller.UserWizardController', {
         }
     },
 
+    userImageClicked: function()
+    {
+        alert('clicked');
+    },
+
+
     getUserWizardPanel: function()
     {
         return Ext.ComponentQuery.query( 'userWizardPanel' )[0];
     },
-
 
     getWizardPanel: function()
     {
