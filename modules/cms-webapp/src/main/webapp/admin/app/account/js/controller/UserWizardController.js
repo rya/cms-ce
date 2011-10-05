@@ -34,9 +34,8 @@ Ext.define( 'App.controller.UserWizardController', {
         }
         if (data){
             wizard.addData( data );
-            return true;
         }
-        return false;
+        return true;
     },
 
     stepChanged: function( wizard, oldStep, newStep )
