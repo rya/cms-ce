@@ -238,6 +238,7 @@
         <property name="siteCachesService" ref="siteCachesService"/>
         <property name="userStoreService" ref="userStoreService"/>
         <property name="sendMailService" ref="sendMailService"/>
+        <property name="userServicesService" ref="userServicesService"/>
     </bean>
 
     <bean id="renderPageController" class="com.enonic.cms.server.service.portal.mvc.controller.DefaultController">

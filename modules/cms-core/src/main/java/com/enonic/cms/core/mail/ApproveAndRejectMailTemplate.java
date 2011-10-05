@@ -7,7 +7,7 @@ package com.enonic.cms.core.mail;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.business.core.content.ContentService;
 
@@ -20,6 +20,9 @@ import com.enonic.cms.domain.security.user.UserEntity;
 public class ApproveAndRejectMailTemplate
     extends AbstractMailTemplate
 {
+    @Autowired
+    private ContentService contentService;
+
     private String originalBody;
 
     private ContentKey contentKey;
@@ -52,8 +55,6 @@ public class ApproveAndRejectMailTemplate
         List<ContentKey> keyList = new ArrayList<ContentKey>();
         keyList.add( contentKey );
 
-        ContentService contentService = CmsCoreServicesSpringManagedBeansBridge.getContentService();
-
         ContentByContentQuery contentByContentQuery = new ContentByContentQuery();
         contentByContentQuery.setUser( user );
         contentByContentQuery.setContentKeyFilter( keyList );
@@ -68,11 +69,6 @@ public class ApproveAndRejectMailTemplate
             throw new RuntimeException( "getContent returned multiple contents for single content key" );
         }
         return resultSet.getContent( 0 );
-
-        // ContentDao contentDao = CmsCoreServicesSpringManagedBeansBridge.getContentDao();
-        // assert(contentDao != null);
-        //
-        // return contentDao.findByKey( new ContentKey (contentKey ) );
     }
 
     @Override

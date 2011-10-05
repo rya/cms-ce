@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.api.Version;
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.upgrade.UpgradeService;
 
@@ -28,6 +27,9 @@ public final class WelcomeController
     private UpgradeService upgradeService;
 
     @Autowired
+    private AdminService adminService;
+
+    @Autowired
     public void setUpgradeService( final UpgradeService upgradeService )
     {
         this.upgradeService = upgradeService;
@@ -37,7 +39,6 @@ public final class WelcomeController
         throws Exception
     {
         HashMap<String, Integer> siteMap = new HashMap<String, Integer>();
-        AdminService adminService = CmsCoreServicesSpringManagedBeansBridge.getAdminService();
         Map menuMap = adminService.getMenuMap();
 
         for ( Object val : menuMap.keySet() )

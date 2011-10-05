@@ -28,4 +28,6 @@
 
   <import resource="initializationContext.xml"/>
 
+  <import resource="staticInitializationContext.xml"/>
+
 </beans>

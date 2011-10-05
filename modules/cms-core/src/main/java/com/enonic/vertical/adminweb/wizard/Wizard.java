@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
+import org.springframework.context.ApplicationContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -560,7 +560,7 @@ public abstract class Wizard
 
     private NormalStep firstStep;
 
-    private static Wizard createWizard( AdminService admin, AdminHandlerBaseServlet servlet, HttpSession session,
+    private static Wizard createWizard( AdminService admin, ApplicationContext applicationContext, AdminHandlerBaseServlet servlet, HttpSession session,
                                         String wizardConfigFilename )
         throws WizardException
     {
@@ -570,31 +570,23 @@ public abstract class Wizard
 
         // create new wizard
         Wizard wizard = null;
+        Class wizardClass = null;
         try
         {
-            Class wizardClass = Class.forName( className );
-            wizard = (Wizard) wizardClass.newInstance();
+            wizardClass = Class.forName( className );
         }
         catch ( ClassNotFoundException cnfe )
         {
             String message = "Wizard class not found: %t";
             WizardLogger.errorWizard( Wizard.class, 0, message, cnfe );
         }
-        catch ( InstantiationException ie )
-        {
-            String message = "Failed to instantiate Wizard class: %t";
-            WizardLogger.errorWizard( Wizard.class, 0, message, ie );
-        }
-        catch ( IllegalAccessException iae )
-        {
-            String message = "Failed to access constructor: %t";
-            WizardLogger.errorWizard( Wizard.class, 0, message, iae );
-        }
         catch ( ClassCastException cce )
         {
             String message = "Wizard class does not extend Wizard: %t";
             WizardLogger.errorWizard( Wizard.class, 0, message, cce );
         }
+
+        wizard = (Wizard)applicationContext.getBean( className, wizardClass );
 
         wizard.wizardConfigFilename = wizardConfigFilename;
         wizard.servlet = servlet;
@@ -605,14 +597,14 @@ public abstract class Wizard
         return wizard;
     }
 
-    public static Wizard getInstance( AdminService admin, AdminHandlerBaseServlet servlet, HttpSession session, ExtendedMap formItems,
+    public static Wizard getInstance( AdminService admin, ApplicationContext applicationContext, AdminHandlerBaseServlet servlet, HttpSession session, ExtendedMap formItems,
                                       String wizardConfigFilename )
         throws WizardException
     {
         String buttonName = formItems.getString( "__wizard_button", null );
         if ( buttonName == null )
         {
-            Wizard wizard = createWizard( admin, servlet, session, wizardConfigFilename );
+            Wizard wizard = createWizard( admin, applicationContext, servlet, session, wizardConfigFilename );
             session.setAttribute( "__" + wizardConfigFilename, wizard );
             return wizard;
         }

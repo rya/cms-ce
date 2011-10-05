@@ -15,10 +15,10 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdom.transform.JDOMSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,7 +35,6 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.internal.service.CmsCoreServicesSpringManagedBeansBridge;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.core.security.userstore.DeleteUserStoreJob;
@@ -71,6 +70,8 @@ public class UserStoreHandlerServlet
     public static class CreateUpdateUserStoreWizard
         extends Wizard
     {
+        @Autowired
+        private UserStoreService userStoreService;
 
         public CreateUpdateUserStoreWizard()
         {
@@ -136,9 +137,6 @@ public class UserStoreHandlerServlet
                                           User user, Document dataDoc )
             throws WizardException, VerticalEngineException
         {
-
-            final UserStoreService userStoreService = CmsCoreServicesSpringManagedBeansBridge.getUserStoreService();
-
             if ( StringUtils.isNotEmpty( formItems.getString( "key", null ) ) )
             {
                 updateUserStore( formItems, user, userStoreService );
@@ -153,7 +151,6 @@ public class UserStoreHandlerServlet
                                          ExtendedMap parameters, User user, Document dataconfigDoc, Document wizarddataDoc )
             throws WizardException
         {
-            UserStoreService userStoreService = CmsCoreServicesSpringManagedBeansBridge.getUserStoreService();
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             Step currentStep = wizardState.getCurrentStep();
@@ -237,7 +234,6 @@ public class UserStoreHandlerServlet
         {
             try
             {
-                final UserStoreService userStoreService = CmsCoreServicesSpringManagedBeansBridge.getUserStoreService();
                 userStoreService.verifyUserStoreConnector( connectorName );
             }
             catch ( Exception e )
@@ -259,7 +255,6 @@ public class UserStoreHandlerServlet
                 final UserStoreConfig config = UserStoreConfigParser.parse( configEl, connectorName != null );
                 if ( connectorName != null )
                 {
-                    final UserStoreService userStoreService = CmsCoreServicesSpringManagedBeansBridge.getUserStoreService();
                     userStoreService.verifyUserStoreConnectorConfig( config, connectorName );
                 }
             }
@@ -417,7 +412,7 @@ public class UserStoreHandlerServlet
         ExtendedMap parameters = new ExtendedMap();
         User user = securityService.getLoggedInAdminConsoleUser();
 
-        Wizard createUpdateWizard = Wizard.getInstance( admin, this, session, formItems, WIZARD_CONFIG_CREATE_UPDATE );
+        Wizard createUpdateWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_CREATE_UPDATE );
         createUpdateWizard.processRequest( request, response, session, admin, formItems, parameters, user );
     }
 
