@@ -33,7 +33,7 @@ Templates.account = {
 
     ,selectedUserLarge:
         '<tpl for="users">' +
-            '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
+            '<div id="selected-item-box-{key}" class="cms-selected-item-box large x-btn-default-large clearfix">' +
                 '<div class="left">' +
                     '<img alt="User" src="data/user/photo?key={key}&thumb=true"/>' +
                 '</div>' +
@@ -42,14 +42,14 @@ Templates.account = {
                     '<p>{userStore}/{name}</p>' +
                 '</div>' +
                 '<div class="right">' +
-                    ' <a id="{key}" class="remove-selection" href="javascript:;"></a>' +
+                    ' <a id="remove-from-selection-button-{key}" class="remove-selection" href="javascript:;"></a>' +
                 '</div>' +
             '</div>' +
         '</tpl>'
 
     ,selectedUserSmall:
         '<tpl for="users">' +
-            '<div class="cms-selected-item-box small x-btn-default-small clearfix">' +
+            '<div id="selected-item-box-{key}" class="cms-selected-item-box small x-btn-default-small clearfix">' +
                 '<div class="cms-selected-item-box left">' +
                     '<img alt="User" src="resources/images/user_add.png"/>' +
                 '</div>' +
@@ -57,12 +57,12 @@ Templates.account = {
                     '<h2>{displayName}</h2>' +
                 '</div>' +
                 '<div class="cms-selected-item-box right">' +
-                    '<a id="{key}" class="remove-selection" href="javascript:;"></a>' +
+                    '<a id="remove-from-selection-button-{key}" class="remove-selection" href="javascript:;"></a>' +
                 '</div>' +
             '</div>'+
         '</tpl>'
 
-    ,deleteManyUsersForm:
+    ,deleteManyUsers:
         '<div class="cms-delete-user-confirmation-message">' +
             '<div class="icon-question-mark-32 cms-left" style="width:32px; height:32px; margin-right: 10px"><!-- --></div>' +
             '<div class="cms-left" style="margin-top:5px">' +

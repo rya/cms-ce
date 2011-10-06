@@ -3,9 +3,10 @@ Ext.define('App.store.UserStore', {
 
     model: 'App.model.UserModel',
 
-    pageSize: 100,
+    pageSize: 50,
     remoteSort: true,
-    buffered: true,
+    //buffered: true,
+    autoLoad: true,
 
     proxy: {
         type: 'ajax',
