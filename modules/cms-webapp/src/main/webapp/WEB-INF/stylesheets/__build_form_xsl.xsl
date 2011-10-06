@@ -3228,6 +3228,13 @@
   <xsl:template name="displaytextarea">
     <xsl:param name="input"/>
     <xsl:param name="xml" select="'false'"/>
+
+    <x:variable name="_textarea_value">
+        <xsl:attribute name="select">
+            <xsl:value-of select="$input/xpath"/>
+        </xsl:attribute>
+    </x:variable>
+
     <tr>
       <x:call-template name="textarea">
         <x:with-param name="xml">
@@ -3251,11 +3258,9 @@
             <xsl:text>:'</xsl:text>
           </xsl:attribute>
         </x:with-param>
-        <x:with-param name="selectnode">
-          <xsl:attribute name="select">
-            <xsl:value-of select="$input/xpath"/>
-          </xsl:attribute>
-        </x:with-param>
+
+        <x:with-param name="selectnode" select="translate($_textarea_value, '&#xD;','')"/>
+
         <x:with-param name="default">
           <xsl:value-of select="$input/default"/>
         </x:with-param>
