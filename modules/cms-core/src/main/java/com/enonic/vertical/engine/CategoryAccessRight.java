@@ -4,7 +4,7 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryKey;
 
 public final class CategoryAccessRight
     extends AccessRight

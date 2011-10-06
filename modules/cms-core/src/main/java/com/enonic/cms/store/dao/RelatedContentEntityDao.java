@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.store.dao;
 
-import com.enonic.cms.domain.content.RelatedContentEntity;
-import com.enonic.cms.domain.content.RelatedContentKey;
+import com.enonic.cms.core.content.RelatedContentEntity;
+import com.enonic.cms.core.content.RelatedContentKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("relatedContentDao")

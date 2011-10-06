@@ -22,7 +22,7 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.domain.security.user.User;
 
 public class DiscussionHandlerController

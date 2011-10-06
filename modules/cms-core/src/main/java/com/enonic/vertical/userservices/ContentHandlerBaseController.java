@@ -33,34 +33,36 @@ import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.core.content.PageCacheInvalidatorForContent;
-import com.enonic.cms.business.core.content.UpdateContentResult;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentAccessEntity;
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentLocation;
-import com.enonic.cms.domain.content.ContentLocationSpecification;
-import com.enonic.cms.domain.content.ContentLocations;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.custom.support.CustomContentDataFormParser;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.ContentAccessEntity;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionKey;
+
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.support.CustomContentDataFormParser;
+
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
@@ -353,7 +355,8 @@ public class ContentHandlerBaseController
         }
         else
         {
-            updateContentCommand = UpdateContentCommand.updateExistingVersion2( parsedContentAndVersion.getVersion().getKey() );
+            updateContentCommand = UpdateContentCommand.updateExistingVersion2(
+                    parsedContentAndVersion.getVersion().getKey() );
         }
 
         updateContentCommand.setModifier( runningUser );

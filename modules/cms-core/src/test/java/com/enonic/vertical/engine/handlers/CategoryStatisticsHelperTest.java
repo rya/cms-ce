@@ -9,8 +9,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.category.CategoryStatistics;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryStatistics;
 
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.expect;

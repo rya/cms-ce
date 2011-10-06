@@ -1,13 +1,14 @@
 package com.enonic.cms.business.portal.image;
 
 
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.ContentEntity;
+
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 
 public class BinaryDataForImageRequestResolver
 {

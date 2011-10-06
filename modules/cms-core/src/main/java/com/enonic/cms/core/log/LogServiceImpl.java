@@ -22,7 +22,7 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.LogEntryDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.core.content.index.LogEntryEntityFetcherImpl;
+import com.enonic.cms.core.content.index.LogEntryEntityFetcherImpl;
 
 import com.enonic.cms.domain.security.user.UserEntity;
 

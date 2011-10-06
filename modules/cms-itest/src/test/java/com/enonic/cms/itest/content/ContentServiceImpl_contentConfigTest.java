@@ -21,26 +21,29 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.InvalidContentTypeConfigException;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.ContentService;
+
 import com.enonic.cms.business.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.DateDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.SelectorDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.InvalidContentTypeConfigException;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserType;
 
@@ -248,7 +251,7 @@ public class ContentServiceImpl_contentConfigTest
         catch ( Exception e )
         {
             assertTrue( "Expected CreateContentException, was: " + e.getClass().getName(),
-                        e instanceof com.enonic.cms.business.core.content.CreateContentException );
+                        e instanceof CreateContentException );
             assertEquals( "Failed to created content: Missing data for required title input (missing value in data entry): birth",
                           e.getMessage() );
         }

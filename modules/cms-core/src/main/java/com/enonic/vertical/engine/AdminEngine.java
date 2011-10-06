@@ -42,29 +42,30 @@ import com.enonic.vertical.engine.handlers.UserHandler;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.IndexService;
+import com.enonic.cms.core.content.RegenerateIndexBatcher;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.IndexService;
-import com.enonic.cms.business.core.content.RegenerateIndexBatcher;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
 
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.query.ContentByCategoryQuery;
-import com.enonic.cms.domain.content.query.RelatedContentQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.binary.BinaryData;
+
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;

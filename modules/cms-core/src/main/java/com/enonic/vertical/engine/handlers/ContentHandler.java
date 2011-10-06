@@ -56,20 +56,20 @@ import com.enonic.cms.framework.util.TIntObjectHashMap;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentTitleXmlCreator;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
 import com.enonic.cms.business.core.security.UserNameXmlCreator;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentTitleXmlCreator;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserKey;
@@ -1948,7 +1948,8 @@ public final class ContentHandler
     public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
         throws VerticalUpdateException
     {
-        UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2( new ContentVersionKey( versionKey ) );
+        UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2(
+                new ContentVersionKey( versionKey ) );
         command.setContentKey( new ContentKey( contentKey ) );
         command.setStatus( ContentStatus.get( status ) );
         command.setModifier( securityService.getUser( user ) );

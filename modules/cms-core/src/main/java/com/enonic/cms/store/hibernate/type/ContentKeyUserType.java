@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
 
 
 public class ContentKeyUserType

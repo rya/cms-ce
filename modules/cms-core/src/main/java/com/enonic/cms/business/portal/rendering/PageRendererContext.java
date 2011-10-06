@@ -10,12 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;

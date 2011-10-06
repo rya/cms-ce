@@ -24,10 +24,11 @@ import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.category.CategoryKey;
+
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;

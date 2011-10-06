@@ -6,10 +6,10 @@ package com.enonic.cms.domain.structure.menuitem.section;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentLocation;
-import com.enonic.cms.domain.content.ContentLocationSpecification;
-import com.enonic.cms.domain.content.ContentLocations;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentLocations;
 
 public class SectionContentXmlCreator
 {

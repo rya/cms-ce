@@ -2,21 +2,21 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.content.binary.ContentBinaryDataEntity" table="TCONTENTBINARYDATA" mutable="true">
+  <class name="com.enonic.cms.core.content.binary.ContentBinaryDataEntity" table="TCONTENTBINARYDATA" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.ContentBinaryDataKeyUserType" column="CBD_LKEY">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
         <param name="table">TCONTENTBINARYDATA</param>
-        <param name="idClassName">com.enonic.cms.domain.content.binary.ContentBinaryDataKey</param>
+        <param name="idClassName">com.enonic.cms.core.content.binary.ContentBinaryDataKey</param>
       </generator>
     </id>
     <property name="label" type="string">
       <column name="CBD_SLABEL" length="32"/>
     </property>
-    <many-to-one name="binaryData" class="com.enonic.cms.domain.content.binary.BinaryDataEntity" fetch="select" cascade="none">
+    <many-to-one name="binaryData" class="com.enonic.cms.core.content.binary.BinaryDataEntity" fetch="select" cascade="none">
       <column name="CBD_BDA_LKEY" not-null="true"/>
     </many-to-one>
-    <many-to-one name="contentVersion" class="com.enonic.cms.domain.content.ContentVersionEntity" fetch="select">
+    <many-to-one name="contentVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select">
       <column name="CBD_COV_LKEY" not-null="true"/>
     </many-to-one>
   </class>

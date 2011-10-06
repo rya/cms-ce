@@ -59,6 +59,10 @@ import com.enonic.cms.framework.util.TIntHashSet;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
@@ -71,8 +75,8 @@ import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.ContentService;
+
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
 import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
@@ -84,9 +88,6 @@ import com.enonic.cms.business.portal.cache.SiteCachesService;
 
 import com.enonic.cms.domain.CmsDateAndTimeFormats;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
 import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
 import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;

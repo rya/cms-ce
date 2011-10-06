@@ -19,11 +19,18 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
+import com.enonic.cms.core.content.binary.AttachmentRequest;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.store.dao.BinaryDataDao;
 
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 import com.enonic.cms.business.portal.livetrace.AttachmentRequestTrace;
 import com.enonic.cms.business.portal.livetrace.AttachmentRequestTracer;
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
@@ -34,14 +41,9 @@ import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.AttachmentNotFoundException;
-import com.enonic.cms.domain.content.binary.AttachmentRequest;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+
 import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.security.user.UserEntity;

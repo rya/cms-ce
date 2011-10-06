@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.xslt.lib.PortalFunctions;
 import com.enonic.cms.server.DeploymentAndRequestSetup;
@@ -23,9 +25,8 @@ import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsF
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
+
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 
 import static org.junit.Assert.*;

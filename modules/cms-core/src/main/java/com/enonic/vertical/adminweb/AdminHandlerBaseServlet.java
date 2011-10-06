@@ -50,14 +50,15 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
+import com.enonic.cms.core.content.UnitEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
-import com.enonic.cms.domain.content.UnitEntity;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.binary.BinaryData;
+
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;

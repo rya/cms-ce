@@ -24,34 +24,36 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentSpecification;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryXmlCreator;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
 import com.enonic.cms.core.log.LogEntryEntity;
 import com.enonic.cms.core.log.LogEntryResultSet;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.category.CategoryXmlCreator;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+
 import com.enonic.cms.business.core.structure.SectionXmlCreator;
 import com.enonic.cms.core.log.ContentLogXMLCreator;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentSpecification;
-import com.enonic.cms.domain.content.category.CategoryAccessType;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeXmlCreator;
-import com.enonic.cms.domain.content.index.ContentIndexQuery.CategoryAccessTypeFilterPolicy;
-import com.enonic.cms.domain.content.index.ContentIndexQuery.SectionFilterStatus;
-import com.enonic.cms.domain.content.query.ContentByContentQuery;
-import com.enonic.cms.domain.content.query.ContentBySectionQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.content.category.CategoryEntity;
+
+import com.enonic.cms.core.content.contenttype.ContentTypeXmlCreator;
+import com.enonic.cms.core.content.index.ContentIndexQuery.CategoryAccessTypeFilterPolicy;
+import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.ContentBySectionQuery;
 import com.enonic.cms.core.log.ContentLogEntrySpecification;
 
 import com.enonic.cms.domain.security.user.User;

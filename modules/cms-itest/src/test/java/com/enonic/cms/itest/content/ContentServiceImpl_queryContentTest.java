@@ -18,23 +18,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.command.AssignContentCommand;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.AssignContentCommand;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.command.CreateContentCommand;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.content.query.ContentByCategoryQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.category.CategoryKey;
+
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
 

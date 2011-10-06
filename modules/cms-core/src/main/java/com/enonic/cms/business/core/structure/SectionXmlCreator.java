@@ -17,18 +17,20 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.content.category.access.CategoryAccessResolver;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentLocation;
-import com.enonic.cms.domain.content.ContentLocationSpecification;
-import com.enonic.cms.domain.content.ContentLocations;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
+
+import com.enonic.cms.core.content.ContentLocation;
+
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;

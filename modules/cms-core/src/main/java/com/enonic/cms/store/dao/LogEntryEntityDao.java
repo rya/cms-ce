@@ -14,7 +14,7 @@ import org.hibernate.transform.ResultTransformer;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.domain.content.ContentEntity;
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.log.ContentLogEntrySpecification;
 import com.enonic.cms.core.log.LogEntryEntity;
 import com.enonic.cms.core.log.LogEntryKey;

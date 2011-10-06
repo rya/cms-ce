@@ -6,7 +6,7 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 
 public interface ContentBinaryDataDao
     extends EntityDao<ContentBinaryDataEntity>

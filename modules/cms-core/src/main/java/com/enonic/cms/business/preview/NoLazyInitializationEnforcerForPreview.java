@@ -4,10 +4,12 @@
  */
 package com.enonic.cms.business.preview;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
+
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
+
 import com.enonic.cms.domain.security.user.UserEntity;
 
 /**

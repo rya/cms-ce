@@ -21,6 +21,15 @@ import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
@@ -28,21 +37,16 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.ContentService;
+
 import com.enonic.cms.business.core.security.SecurityService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.contentdata.ContentData;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.ContentStatus;
+
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 import com.enonic.cms.domain.security.user.User;
 

@@ -5,7 +5,7 @@
 package com.enonic.cms.domain.resource;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.domain.structure.portlet.PortletEntity;

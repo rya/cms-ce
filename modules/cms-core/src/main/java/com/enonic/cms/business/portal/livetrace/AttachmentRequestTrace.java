@@ -6,8 +6,8 @@ package com.enonic.cms.business.portal.livetrace;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 /**
  * Oct 11, 2010

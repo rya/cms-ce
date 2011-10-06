@@ -26,13 +26,15 @@ import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.domain.CacheSettings;
 import com.enonic.cms.domain.CaseInsensitiveString;
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupKey;
 import com.enonic.cms.domain.security.user.UserEntity;

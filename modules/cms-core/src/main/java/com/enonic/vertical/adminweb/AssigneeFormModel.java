@@ -14,12 +14,12 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.category.CategoryXmlCreator;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryXmlCreator;
 
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.structure.SiteEntity;
 

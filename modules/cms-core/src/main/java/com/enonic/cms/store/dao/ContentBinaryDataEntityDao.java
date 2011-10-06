@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentBinaryDataDao")

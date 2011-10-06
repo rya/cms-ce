@@ -8,22 +8,27 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.RelatedContentEntity;
+import com.enonic.cms.core.content.UnitEntity;
+
 import com.enonic.cms.business.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerEntity;
-import com.enonic.cms.domain.content.ContentHandlerKey;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.RelatedContentEntity;
-import com.enonic.cms.domain.content.UnitEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+
+import com.enonic.cms.core.content.ContentHandlerKey;
+
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.user.User;

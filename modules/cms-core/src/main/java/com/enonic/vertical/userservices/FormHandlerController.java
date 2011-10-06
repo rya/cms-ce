@@ -27,18 +27,18 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.VerticalSession;
 import com.enonic.cms.domain.security.user.User;

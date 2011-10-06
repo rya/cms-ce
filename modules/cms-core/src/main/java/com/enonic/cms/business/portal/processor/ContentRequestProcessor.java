@@ -12,6 +12,8 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.business.portal.rendering.PageTemplateResolver;
 import com.enonic.cms.business.preview.PreviewContext;
 
@@ -19,7 +21,6 @@ import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageResolver;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.portal.ContentNameMismatchException;
 import com.enonic.cms.domain.portal.ContentNotFoundException;
 import com.enonic.cms.domain.portal.ContentPath;

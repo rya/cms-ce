@@ -14,7 +14,7 @@
     <property name="timestamp" type="timestamp">
       <column name="SCO_DTETIMESTAMP" not-null="true"/>
     </property>
-    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" fetch="select">
+    <many-to-one name="content" class="com.enonic.cms.core.content.ContentEntity" fetch="select">
       <column name="SCO_CON_LKEY" not-null="true"/>
     </many-to-one>
     <property name="order" type="int">

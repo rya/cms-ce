@@ -25,6 +25,12 @@ import com.enonic.vertical.adminweb.VerticalAdminLogger;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.country.Country;
 import com.enonic.cms.core.country.CountryCode;
 import com.enonic.cms.core.country.Region;
@@ -48,22 +54,17 @@ import com.enonic.cms.store.dao.PreferenceDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.ContentXMLCreator;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
 import com.enonic.cms.core.country.CountryService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.query.ContentByContentQuery;
-import com.enonic.cms.domain.content.query.RelatedContentQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
-import com.enonic.cms.domain.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.content.ContentVersionEntity;
+
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.domain.security.group.GroupKey;

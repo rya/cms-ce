@@ -18,10 +18,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
 
-import com.enonic.cms.domain.content.ContentIndexEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentIndexDao")

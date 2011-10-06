@@ -5,11 +5,12 @@
 package com.enonic.cms.business.core.structure.menuitem;
 
 import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
@@ -17,7 +18,6 @@ import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
 
-import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
 import com.enonic.cms.domain.core.structure.menuitem.MenuItemAccessException;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
@@ -28,7 +28,6 @@ import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class MenuItemServiceImpl
     implements MenuItemService

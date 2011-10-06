@@ -23,9 +23,9 @@ import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentXMLBuildersSprin
 import com.enonic.vertical.adminweb.wizard.Wizard;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.domain.content.binary.BinaryData;
 import com.enonic.cms.domain.security.user.User;
 
 public class ContentFileHandlerServlet

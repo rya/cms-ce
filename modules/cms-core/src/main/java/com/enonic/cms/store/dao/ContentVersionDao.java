@@ -6,9 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.ContentVersionSpecification;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.ContentVersionSpecification;
 
 
 public interface ContentVersionDao

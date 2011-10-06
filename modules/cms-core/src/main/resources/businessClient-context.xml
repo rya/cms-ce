@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
   <!-- Local client is the client implementation local for this vm. -->
-  <bean id="localClient" class="com.enonic.cms.business.client.InternalClientImpl">
+  <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
     <property name="adminService" ref="adminService"/>
     <property name="presentationService" ref="presentationService"/>
     <property name="dataSourceService" ref="dataSourceService"/>
@@ -27,15 +27,15 @@
   </bean>
 
   <bean id="internalClientRenderService"
-        class="com.enonic.cms.business.client.InternalClientRenderService"/>
+        class="com.enonic.cms.core.client.InternalClientRenderService"/>
 
   <bean id="internalClientContentService"
-        class="com.enonic.cms.business.client.InternalClientContentService">
+        class="com.enonic.cms.core.client.InternalClientContentService">
     <property name="siteCachesService" ref="siteCachesService"/>
     <property name="userParser" ref="userParser"/>
   </bean>
 
-  <bean class="com.enonic.cms.business.client.LocalClientSetter">
+  <bean class="com.enonic.cms.core.client.LocalClientSetter">
     <property name="localClient" ref="localClient"/>
   </bean>
 

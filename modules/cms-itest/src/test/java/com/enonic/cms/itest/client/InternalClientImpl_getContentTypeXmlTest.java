@@ -14,13 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
+import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.client.InternalClientImpl;
-
-import com.enonic.cms.domain.content.ContentHandlerName;
+import com.enonic.cms.core.client.InternalClientImpl;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;

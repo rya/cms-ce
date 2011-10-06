@@ -8,7 +8,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.content.ContentEntity;
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
 

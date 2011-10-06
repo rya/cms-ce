@@ -9,12 +9,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.business.core.content.ContentService;
+import com.enonic.cms.core.content.ContentService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.query.ContentByContentQuery;
-import com.enonic.cms.domain.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+
 import com.enonic.cms.domain.security.user.UserEntity;
 
 public class ApproveAndRejectMailTemplate

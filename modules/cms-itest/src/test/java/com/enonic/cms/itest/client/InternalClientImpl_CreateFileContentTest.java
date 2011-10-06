@@ -30,21 +30,22 @@ import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
 import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
 import com.enonic.cms.api.client.model.content.file.FileKeywordsInput;
 import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.client.InternalClient;
+import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.business.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.content.ContentKey;
+
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserType;
 
@@ -129,7 +130,7 @@ public class InternalClientImpl_CreateFileContentTest
         ContentVersionEntity persistedVersion = persistedContent.getMainVersion();
         assertNotNull( persistedVersion );
         assertEquals( "test binary", persistedVersion.getTitle() );
-        assertEquals( com.enonic.cms.domain.content.ContentStatus.DRAFT.getKey(), persistedVersion.getStatus().getKey() );
+        assertEquals( com.enonic.cms.core.content.ContentStatus.DRAFT.getKey(), persistedVersion.getStatus().getKey() );
 
         Set<ContentBinaryDataEntity> contentBinaryDatas = persistedVersion.getContentBinaryData();
         assertEquals( 1, contentBinaryDatas.size() );

@@ -7,13 +7,13 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;

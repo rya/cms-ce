@@ -23,8 +23,9 @@ import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
 import com.enonic.cms.domain.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.domain.structure.menuitem.MenuItemAccumulatedAccessRights;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;

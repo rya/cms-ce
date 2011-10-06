@@ -7,8 +7,8 @@ package com.enonic.vertical.engine.handlers;
 import java.util.Collection;
 import java.util.Map;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.category.CategoryStatistics;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryStatistics;
 
 public class CategoryStatisticsHelper
 {

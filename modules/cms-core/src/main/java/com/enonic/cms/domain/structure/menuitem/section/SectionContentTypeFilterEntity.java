@@ -4,7 +4,8 @@
  */
 package com.enonic.cms.domain.structure.menuitem.section;
 
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 

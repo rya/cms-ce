@@ -7,9 +7,10 @@ package com.enonic.cms.core.image;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserKey;
 

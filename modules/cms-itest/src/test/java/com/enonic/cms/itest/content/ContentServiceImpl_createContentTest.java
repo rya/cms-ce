@@ -26,6 +26,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentNameValidator;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
@@ -33,19 +41,12 @@ import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentNameValidator;
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.CreateContentException;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserType;
 

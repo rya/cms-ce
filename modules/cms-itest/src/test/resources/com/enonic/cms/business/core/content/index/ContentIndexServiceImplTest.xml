@@ -37,7 +37,7 @@
     <property name="sessionFactory" ref="sessionFactory"/>
   </bean>
 
-  <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl"/>
+  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
   <bean id="contentIndexDao" class="com.enonic.cms.store.dao.ContentIndexEntityDao"/>
 

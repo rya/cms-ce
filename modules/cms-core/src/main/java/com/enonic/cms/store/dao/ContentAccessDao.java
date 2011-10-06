@@ -4,7 +4,8 @@
  */
 package com.enonic.cms.store.dao;
 
-import com.enonic.cms.domain.content.ContentAccessEntity;
+import com.enonic.cms.core.content.ContentAccessEntity;
+
 import com.enonic.cms.domain.security.group.GroupKey;
 
 public interface ContentAccessDao

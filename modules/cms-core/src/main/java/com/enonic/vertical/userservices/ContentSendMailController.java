@@ -14,17 +14,16 @@ import javax.servlet.http.HttpSession;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.ContentDataParserInvalidDataException;
+import com.enonic.cms.core.content.contentdata.ContentDataParserUnsupportedTypeException;
+import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.core.content.CreateContentException;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.contentdata.ContentDataParserException;
-import com.enonic.cms.domain.content.contentdata.ContentDataParserInvalidDataException;
-import com.enonic.cms.domain.content.contentdata.ContentDataParserUnsupportedTypeException;
-import com.enonic.cms.domain.content.contentdata.InvalidContentDataException;
-import com.enonic.cms.domain.content.contentdata.MissingRequiredContentDataException;
+import com.enonic.cms.core.content.contentdata.ContentDataParserException;
+import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;

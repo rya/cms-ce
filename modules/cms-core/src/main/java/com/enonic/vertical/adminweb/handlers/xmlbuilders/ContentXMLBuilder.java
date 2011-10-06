@@ -10,7 +10,8 @@ import org.w3c.dom.Element;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.adminweb.VerticalAdminException;
 
-import com.enonic.cms.domain.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryData;
+
 import com.enonic.cms.domain.security.user.User;
 
 public interface ContentXMLBuilder

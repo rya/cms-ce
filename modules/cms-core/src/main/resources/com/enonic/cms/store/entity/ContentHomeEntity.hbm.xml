@@ -12,7 +12,7 @@
         <column name="CHO_MEN_LKEY"/>
       </key-property>
     </composite-id>
-    <many-to-one name="content" class="com.enonic.cms.domain.content.ContentEntity" update="false" insert="false"
+    <many-to-one name="content" class="com.enonic.cms.core.content.ContentEntity" update="false" insert="false"
                  fetch="select">
       <column name="CHO_CON_LKEY" not-null="true"/>
     </many-to-one>

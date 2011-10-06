@@ -24,6 +24,15 @@ import com.enonic.esl.containers.ExtendedMap;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -31,22 +40,15 @@ import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
 import com.enonic.cms.business.core.security.SecurityHolder;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.BooleanDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
+
+import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
+
 import com.enonic.cms.domain.security.user.User;
 
 import static junitx.framework.Assert.assertFalse;

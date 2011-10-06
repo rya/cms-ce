@@ -91,7 +91,7 @@
       <key>
         <column name="MIC_MEI_LKEY" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.content.ContentEntity">
+      <many-to-many class="com.enonic.cms.core.content.ContentEntity">
         <column name="MIC_CON_LKEY" not-null="true"/>
       </many-to-many>
     </set>
@@ -105,7 +105,7 @@
       <key>
         <column name="SCTF_MEI_LKEY" not-null="true"/>
       </key>
-      <many-to-many class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity">
+      <many-to-many class="com.enonic.cms.core.content.contenttype.ContentTypeEntity">
         <column name="SCTF_CTY_LKEY" not-null="true"/>
       </many-to-many>
     </set>

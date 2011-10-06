@@ -25,25 +25,28 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.BlockGroupDataEntries;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.imports.ImportJob;
+import com.enonic.cms.core.content.imports.ImportResult;
+import com.enonic.cms.core.content.imports.ImportService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.command.ImportContentCommand;
-import com.enonic.cms.business.core.content.imports.ImportJob;
-import com.enonic.cms.business.core.content.imports.ImportJobFactory;
-import com.enonic.cms.business.core.content.imports.ImportService;
+import com.enonic.cms.core.content.imports.ImportJobFactory;
+
 import com.enonic.cms.business.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.contentdata.custom.BlockGroupDataEntries;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.DateDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.content.imports.ImportResult;
+import com.enonic.cms.core.content.ContentHandlerName;
+
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
 import com.enonic.cms.domain.security.user.User;
 
 import static org.junit.Assert.*;

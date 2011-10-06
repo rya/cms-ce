@@ -16,30 +16,30 @@
 
     <import resource="classpath:/com/enonic/cms/itest/base-persist-test-context.xml"/>
 
-    <bean id="indexService" class="com.enonic.cms.business.core.content.IndexServiceImpl"/>
+    <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
-    <bean id="categoryService" class="com.enonic.cms.business.core.content.category.CategoryServiceImpl">
+    <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
         <property name="timeService" ref="timeService"/>
         <property name="keyService" ref="keyService"/>
     </bean>
 
-    <bean id="contentStorer" class="com.enonic.cms.business.core.content.ContentStorer"/>
+    <bean id="contentStorer" class="com.enonic.cms.core.content.ContentStorer"/>
 
-    <bean id="contentService" class="com.enonic.cms.business.core.content.ContentServiceImpl">
+    <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
         <property name="contentStorer" ref="contentStorer"/>
     </bean>
 
-    <bean id="importService" class="com.enonic.cms.business.core.content.imports.ImportServiceImpl"/>
+    <bean id="importService" class="com.enonic.cms.core.content.imports.ImportServiceImpl"/>
 
-    <bean id="importJobFactory" class="com.enonic.cms.business.core.content.imports.ImportJobFactory"/>
+    <bean id="importJobFactory" class="com.enonic.cms.core.content.imports.ImportJobFactory"/>
 
-    <bean id="contentIndexService" class="com.enonic.cms.business.core.content.index.ContentIndexServiceImpl"/>
+    <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
     <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
 
-    <bean id="contentSecurityFilterResolver" class="com.enonic.cms.business.core.content.ContentSecurityFilterResolver"/>
+    <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
-    <bean id="contentValidator" class="com.enonic.cms.business.core.content.ContentValidator"/>
+    <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
 
     <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
 
@@ -89,20 +89,20 @@
 
     <bean id="siteCachesService" class="com.enonic.cms.itest.portal.cache.MockSiteCachesService"/>
 
-    <bean id="localClient" class="com.enonic.cms.business.client.InternalClientImpl">
+    <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
         <property name="internalClientContentService" ref="internalClientContentService"/>
         <property name="securityService" ref="securityService"/>
         <property name="userParser" ref="userParser"/>
     </bean>
 
     <bean id="internalClientContentService"
-          class="com.enonic.cms.business.client.InternalClientContentService">
+          class="com.enonic.cms.core.client.InternalClientContentService">
         <property name="siteCachesService" ref="siteCachesService"/>
         <property name="userParser" ref="userParser"/>
     </bean>
 
     <bean id="internalClientRenderService"
-          class="com.enonic.cms.business.client.InternalClientRenderService"/>
+          class="com.enonic.cms.core.client.InternalClientRenderService"/>
 
     <bean id="portalRequestService" class="com.enonic.cms.business.portal.PortalRequestServiceImpl">
     </bean>
@@ -120,7 +120,7 @@
 
     <bean id="resourceService" class="com.enonic.cms.business.core.resource.ResourceServiceImpl"/>
 
-    <bean class="com.enonic.cms.business.client.LocalClientSetter">
+    <bean class="com.enonic.cms.core.client.LocalClientSetter">
         <property name="localClient" ref="localClient"/>
     </bean>
 

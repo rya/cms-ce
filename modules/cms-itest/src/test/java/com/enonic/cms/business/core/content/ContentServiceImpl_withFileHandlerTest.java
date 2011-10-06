@@ -18,6 +18,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.UpdateContentResult;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.content.contentdata.legacy.support.FileContentDataParser;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.ContentDao;
@@ -25,21 +38,10 @@ import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionKey;
 
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.content.contentdata.legacy.LegacyFileContentData;
-import com.enonic.cms.domain.content.contentdata.legacy.support.FileContentDataParser;
 import com.enonic.cms.domain.security.user.UserType;
 
 import static org.junit.Assert.*;

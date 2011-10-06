@@ -48,7 +48,8 @@ import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.util.UUIDGenerator;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+
 import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.user.QualifiedUsername;
 import com.enonic.cms.domain.security.user.User;

@@ -22,19 +22,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
 import com.enonic.cms.itest.test.AssertTool;
 
 import com.enonic.cms.business.SpecialCharacterTestStrings;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextAreaDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
 
 import static org.junit.Assert.*;
 

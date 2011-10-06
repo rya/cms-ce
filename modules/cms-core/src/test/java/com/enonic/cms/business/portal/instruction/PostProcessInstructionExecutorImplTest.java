@@ -20,6 +20,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
@@ -35,11 +38,9 @@ import com.enonic.cms.business.portal.rendering.WindowRendererContext;
 import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.ContentEntity;
+
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.CreateImageUrlInstruction;
