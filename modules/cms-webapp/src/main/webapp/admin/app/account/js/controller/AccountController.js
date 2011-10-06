@@ -33,97 +33,95 @@ Ext.define( 'App.controller.AccountController', {
         Ext.create('widget.accountContextMenu');
         Ext.create('widget.userChangePasswordWindow');
 
-        var me = this;
-        var userStore = this.getStore('UserStore');
-        userStore.guaranteeRange( 0, userStore.pageSize - 1 );
-
-        this.control( {
-                          'cmsTabPanel': {
-                              afterrender: this.createBrowseTab
-                          },
-                          '*[action=newUser]': {
-                              click: this.showEditUserForm
-                          },
-                          '*[action=saveUser]': {
-                              click: this.saveUser
-                          },
-                          '*[action=newGroup]': {
-                              click: this.createNewGroupTab
-                          },
-                          '*[action=toggleDisplayNameField]': {
-                              click: this.toggleDisplayNameField
-                          },
-                          'editUserPanel #iso-country' : {
-                              select: this.countryChangeHandler
-                          },
-                          'accountGrid': {
-                              selectionchange: this.updateDetailsPanel,
-                              beforeitemmousedown: this.cancelDeselectOnContextClick,
-                              itemcontextmenu: this.popupMenu,
-                              itemdblclick: this.showEditUserForm
-                          },
-                          'userFilter': {
-                              specialkey: this.filterHandleEnterKey,
-                              render: this.onFilterPanelRender
-                          },
-                          'accountFilter button[action=search]': {
-                              click: this.searchFilter
-                          },
-                          '*[action=showDeleteWindow]': {
-                              click: this.showDeleteUserWindow
-                          },
-                          '*[action=deleteUser]': {
-                              click: this.deleteUser
-                          },
-                          '*[action=addNewTab]': {
-                              click: this.addNewTab
-                          },
-                          '*[action=deselectItem]': {
-                              click: this.deselectItem
-                          },
-                          '*[action=edit]': {
-                              click: this.showEditUserForm
-                          },
-                          '*[action=changePassword]': {
-                              click: this.showChangePasswordWindow
-                          },
-                          'accountDetail': {
-                              render: this.initDetailToolbar
-                          },
-                          'editUserPanel textfield[name=prefix]': {
-                              keyup: this.textFieldHandleEnterKey
-                          },
-                          'editUserPanel textfield[name=first-name]': {
-                              keyup: this.textFieldHandleEnterKey
-                          },
-                          'editUserPanel textfield[name=middle-name]': {
-                              keyup: this.textFieldHandleEnterKey
-                          },
-                          'editUserPanel textfield[name=last-name]': {
-                              keyup: this.textFieldHandleEnterKey
-                          },
-                          'editUserPanel textfield[name=suffix]': {
-                              keyup: this.textFieldHandleEnterKey
-                          },
-                          'editUserPanel textfield[name=label]': {
-                              keyup: this.updateTabTitle
-                          },
-                          '*[action=deleteGroup]': {
-                              click: this.leaveGroup
-                          },
-                          '*[action=selectGroup]': {
-                              select: this.selectGroup
-                          },
-                          '*[action=closeMembershipWindow]': {
-                              click: this.closeMembershipWindow
-                          },
-                          '*[action=closeUserForm]': {
-                              click: this.closeUserForm
-                          },
-                          '*[action=initValue]': {
-                              added: this.initValue
-                          }
-                      } );
+        this.control(
+            {
+                'cmsTabPanel': {
+                    afterrender: this.createBrowseTab
+                },
+                '*[action=newUser]': {
+                    click: this.showEditUserForm
+                },
+                '*[action=saveUser]': {
+                    click: this.saveUser
+                },
+                '*[action=newGroup]': {
+                    click: this.createNewGroupTab
+                },
+                '*[action=toggleDisplayNameField]': {
+                    click: this.toggleDisplayNameField
+                },
+                'editUserPanel #iso-country' : {
+                    select: this.countryChangeHandler
+                },
+                'accountGrid': {
+                    selectionchange: this.updateDetailsPanel,
+                    beforeitemmousedown: this.cancelDeselectOnContextClick,
+                    itemcontextmenu: this.popupMenu,
+                    itemdblclick: this.showEditUserForm
+                },
+                'userFilter': {
+                    specialkey: this.filterHandleEnterKey,
+                    render: this.onFilterPanelRender
+                },
+                'accountFilter button[action=search]': {
+                    click: this.searchFilter
+                },
+                '*[action=showDeleteWindow]': {
+                    click: this.showDeleteUserWindow
+                },
+                '*[action=deleteUser]': {
+                    click: this.deleteUser
+                },
+                '*[action=addNewTab]': {
+                    click: this.addNewTab
+                },
+                '*[action=deselectItem]': {
+                    click: this.deselectItem
+                },
+                '*[action=edit]': {
+                    click: this.showEditUserForm
+                },
+                '*[action=changePassword]': {
+                    click: this.showChangePasswordWindow
+                },
+                'accountDetail': {
+                    render: this.initDetailToolbar
+                },
+                'editUserPanel textfield[name=prefix]': {
+                    keyup: this.textFieldHandleEnterKey
+                },
+                'editUserPanel textfield[name=first-name]': {
+                    keyup: this.textFieldHandleEnterKey
+                },
+                'editUserPanel textfield[name=middle-name]': {
+                    keyup: this.textFieldHandleEnterKey
+                },
+                'editUserPanel textfield[name=last-name]': {
+                    keyup: this.textFieldHandleEnterKey
+                },
+                'editUserPanel textfield[name=suffix]': {
+                    keyup: this.textFieldHandleEnterKey
+                },
+                'editUserPanel textfield[name=label]': {
+                    keyup: this.updateTabTitle
+                },
+                '*[action=deleteGroup]': {
+                    click: this.leaveGroup
+                },
+                '*[action=selectGroup]': {
+                    select: this.selectGroup
+                },
+                '*[action=closeMembershipWindow]': {
+                    click: this.closeMembershipWindow
+                },
+                '*[action=closeUserForm]': {
+                    click: this.closeUserForm
+                },
+                '*[action=initValue]': {
+                    added: this.initValue
+                }
+            }
+        );
     },
 
     onFilterPanelRender: function()
@@ -156,21 +154,20 @@ Ext.define( 'App.controller.AccountController', {
                }
            ]
         } );
+
         var accountDetail = this.getAccountDetail();
-        accountDetail.updateTitle(this.getUserGrid().getSelectionModel());
+        accountDetail.updateTitle(this.getPersistentGridSelectionPlugin());
     },
 
     createNewGroupTab: function()
     {
-        this.getCmsTabPanel().addTab( {
-                                       title: 'New Group',
-                                       html: 'New Group Form',
-                                       iconCls: 'icon-group-add'
-                                   } );
-    },
-
-    createEditGroupTab: function()
-    {
+        this.getCmsTabPanel().addTab(
+            {
+                title: 'New Group',
+                html: 'New Group Form',
+                iconCls: 'icon-group-add'
+            }
+        );
     },
 
     showDeleteUserWindow: function()
@@ -185,35 +182,38 @@ Ext.define( 'App.controller.AccountController', {
         this.getUserChangePasswordWindow().doShow( this.getSelectedGridItem() );
     },
 
-    updateDetailsPanel: function( selModel, selected )
+    updateDetailsPanel: function( selModel, selModelSelected )
     {
+        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
+        var selection = persistentGridSelection.getSelection();
         var accountDetail = this.getAccountDetail();
 
-        if ( selected.length == 0 )
+        if ( selection.length == 0 )
         {
-             accountDetail.showNonSelection();
+            accountDetail.showNonSelection();
         }
         else
         {
-            var user = selected[0];
+            var user = selection[0];
             if ( user )
             {
-                 accountDetail.setCurrentUser( user.data );
+                accountDetail.setCurrentUser( user.data );
             }
 
             var detailed = true;
-            if ( selected.length > 10 )
+            if ( selection.length > 10 )
             {
                 detailed = false;
             }
             var selectedUsers = [];
-            Ext.Array.each( selected, function( user )
+            Ext.Array.each( selection, function( user )
             {
                 Ext.Array.include( selectedUsers, user.data );
             } );
-             accountDetail.showMultipleSelection( selectedUsers, detailed );
+            accountDetail.showMultipleSelection( selectedUsers, detailed );
         }
-         accountDetail.updateTitle(this.getUserGrid().getSelectionModel());
+
+        accountDetail.updateTitle(persistentGridSelection);
     },
 
     searchFilter: function()
@@ -243,20 +243,22 @@ Ext.define( 'App.controller.AccountController', {
     deleteUser: function()
     {
         var deleteUserWindow = this.getUserDeleteWindow();
-        Ext.Ajax.request( {
-                              url: 'data/user/delete',
-                              method: 'POST',
-                              params: {userKey: deleteUserWindow.userKey},
-                              success: function( response, opts )
-                              {
-                                  deleteUserWindow.close();
-                                  Ext.Msg.alert( 'Info', 'User was deleted' );
-                              },
-                              failure: function( response, opts )
-                              {
-                                  Ext.Msg.alert( 'Info', 'User wasn\'t deleted' );
-                              }
-                          } );
+        Ext.Ajax.request(
+            {
+                url: 'data/user/delete',
+                method: 'POST',
+                params: {userKey: deleteUserWindow.userKey},
+                success: function( response, opts )
+                {
+                    deleteUserWindow.close();
+                    Ext.Msg.alert( 'Info', 'User was deleted' );
+                },
+                failure: function( response, opts )
+                {
+                    Ext.Msg.alert( 'Info', 'User wasn\'t deleted' );
+                }
+            }
+        );
     },
 
     showEditUserForm: function( el, e )
@@ -283,37 +285,40 @@ Ext.define( 'App.controller.AccountController', {
             var accountDetail = this.getAccountDetail();
             var tabPane = this.getCmsTabPanel();
             var currentUser = accountDetail.getCurrentUser();
-            Ext.Ajax.request( {
-                                  url: 'data/user/userinfo',
-                                  method: 'GET',
-                                  params: {key: currentUser.key},
-                                  success: function( response )
-                                  {
-                                      var jsonObj = Ext.JSON.decode( response.responseText );
-                                      var tab = {
-                                          id: currentUser.userStore + '-' + currentUser.name,
-                                          layout: 'border',
-                                          title: currentUser.displayName + ' (' + currentUser.qualifiedName + ')',
-                                          iconCls: 'icon-edit-user',
-                                          closable: true,
-                                          autoScroll: true,
-                                          items: [
-                                              {
-                                                  xtype: 'editUserPanel',
-                                                  region: 'center',
-                                                  userFields: jsonObj,
-                                                  currentUser: currentUser
-                                              }
-                                          ]
-                                      };
-                                      tabPane.addTab( tab );
-                                  }
-                              } );
+            Ext.Ajax.request(
+                {
+                    url: 'data/user/userinfo',
+                    method: 'GET',
+                    params: {key: currentUser.key},
+                    success: function( response )
+                    {
+                        var jsonObj = Ext.JSON.decode( response.responseText );
+                        var tab = {
+                            id: currentUser.userStore + '-' + currentUser.name,
+                            layout: 'border',
+                            title: currentUser.displayName + ' (' + currentUser.qualifiedName + ')',
+                            iconCls: 'icon-edit-user',
+                            closable: true,
+                            autoScroll: true,
+                            items: [
+                                {
+                                    xtype: 'editUserPanel',
+                                    region: 'center',
+                                    userFields: jsonObj,
+                                    currentUser: currentUser
+                                }
+                            ]
+                        };
+                        tabPane.addTab( tab );
+                    }
+                }
+            );
 
         }
     },
 
-    initDetailToolbar: function() {
+    initDetailToolbar: function()
+    {
         var accountDetail = this.getAccountDetail();
         accountDetail.showNonSelection();
     },
@@ -368,11 +373,11 @@ Ext.define( 'App.controller.AccountController', {
 
     cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
     {
-        var selectionModel = this.getUserGrid().getSelectionModel();
+        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
         var rightClick = event.button === 2;
-        var isSelected = selectionModel.isSelected(record);
+        var isSelected = persistentGridSelection.selected[record.internalId];
 
-        var cancel = rightClick && isSelected && selectionModel.getSelection().length > 1;
+        var cancel = rightClick && isSelected && persistentGridSelection.getSelection().length > 1;
         if ( cancel )
         {
             return false;
@@ -424,27 +429,31 @@ Ext.define( 'App.controller.AccountController', {
             value: value[0].get( 'name' ),
             key: value[0].get( 'key' )
         };
+
         var isContain = Ext.Array.contains( groupPanel.groupKeys, value[0].get( 'key' ) );
         if ( !isContain )
         {
-            Ext.Ajax.request( {
-                                  url: 'data/group/join',
-                                  method: 'POST',
-                                  params: {key: userPanel.currentUser.key, isUser: true, join: [groupItem.key]},
-                                  success: function( response, opts )
-                                  {
-                                      groupPanel.add( groupItem );
-                                  },
-                                  failure: function( response, opts )
-                                  {
-                                      Ext.Msg.alert( 'Info', 'Group wasn\'t added' );
-                                  }
-                              } );
+            Ext.Ajax.request(
+                {
+                    url: 'data/group/join',
+                    method: 'POST',
+                    params: {key: userPanel.currentUser.key, isUser: true, join: [groupItem.key]},
+                    success: function( response, opts )
+                    {
+                        groupPanel.add( groupItem );
+                    },
+                    failure: function( response, opts )
+                    {
+                        Ext.Msg.alert( 'Info', 'Group wasn\'t added' );
+                    }
+                }
+            );
         }
         else
         {
             Ext.Msg.alert( 'Info', 'Group was already added' );
         }
+
         field.setValue( '' );
     },
 
@@ -453,19 +462,21 @@ Ext.define( 'App.controller.AccountController', {
         var groupItem = element.up( 'groupDetailButton' );
         var groupPanel = element.up( '#groupPanel' );
         var userPanel = element.up( 'editUserPanel' );
-        Ext.Ajax.request( {
-                              url: 'data/group/leave',
-                              method: 'POST',
-                              params: {key: userPanel.currentUser.key, isUser: true, leave: [groupItem.key]},
-                              success: function( response, opts )
-                              {
-                                  groupPanel.removeItem( groupItem );
-                              },
-                              failure: function( response, opts )
-                              {
-                                  Ext.Msg.alert( 'Info', 'Group wasn\'t removed' );
-                              }
-                          } );
+        Ext.Ajax.request(
+            {
+                url: 'data/group/leave',
+                method: 'POST',
+                params: {key: userPanel.currentUser.key, isUser: true, leave: [groupItem.key]},
+                success: function( response, opts )
+                {
+                    groupPanel.removeItem( groupItem );
+                },
+                failure: function( response, opts )
+                {
+                    Ext.Msg.alert( 'Info', 'Group wasn\'t removed' );
+                }
+            }
+        );
     },
 
     saveUser: function( button )
@@ -493,27 +504,29 @@ Ext.define( 'App.controller.AccountController', {
             }
             userData.userInfo.addresses = addresses;
 
-            Ext.Ajax.request( {
-                                  url: 'data/user/update',
-                                  method: 'POST',
-                                  jsonData: userData,
-                                  success: function( response, opts )
-                                  {
-                                      var serverResponse = Ext.JSON.decode( response.responseText );
-                                      if ( !serverResponse.success )
-                                      {
-                                          Ext.Msg.alert( 'Error', serverResponse.error );
-                                      }
-                                      else
-                                      {
-                                          Ext.Msg.alert( 'Info', 'User was updated' );
-                                      }
-                                  },
-                                  failure: function( response, opts )
-                                  {
-                                      Ext.Msg.alert( 'Error', 'Internal server error was occured' );
-                                  }
-                              } );
+            Ext.Ajax.request(
+                {
+                    url: 'data/user/update',
+                    method: 'POST',
+                    jsonData: userData,
+                    success: function( response, opts )
+                    {
+                        var serverResponse = Ext.JSON.decode( response.responseText );
+                        if ( !serverResponse.success )
+                        {
+                            Ext.Msg.alert( 'Error', serverResponse.error );
+                        }
+                        else
+                        {
+                            Ext.Msg.alert( 'Info', 'User was updated' );
+                        }
+                    },
+                    failure: function( response, opts )
+                    {
+                        Ext.Msg.alert( 'Error', 'Internal server error was occured' );
+                    }
+                }
+            );
         }
         else
         {
@@ -547,6 +560,12 @@ Ext.define( 'App.controller.AccountController', {
 
     selectAll: function() {
         this.getUserGrid().getSelectionModel().selectAll();
+    },
+
+    getPersistentGridSelectionPlugin: function()
+    {
+        // TODO: Find a better way to get to the plugin
+        return this.getUserGrid().plugins[0];
     },
 
     getCmsTabPanel: function()

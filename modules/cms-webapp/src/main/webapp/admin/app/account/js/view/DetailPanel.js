@@ -97,12 +97,14 @@ Ext.define('App.view.DetailPanel', {
     deselectItem: function(e, t){
         var className = t.attributes.getNamedItem('class').nodeValue;
         if (className == 'remove-selection'){
-            var key = t.attributes.getNamedItem('id').nodeValue;
-            var userGridSelModel = this.up('cmsTabPanel').down('accountGrid').getSelectionModel();
-            var selection = userGridSelModel.getSelection();
+            var key = t.attributes.getNamedItem('id').nodeValue.split('remove-from-selection-button-')[1];
+            var userGridSelModel = this.up('cmsTabPanel').down('userGrid').getSelectionModel();
+            var persistentGridSelection = this.persistentGridSelection;
+            var selection = persistentGridSelection.getSelection();
             Ext.each(selection, function(item){
-                if (item.get('key') == key){
-                    userGridSelModel.deselect(item);
+                if (item.get('key') == key) {
+                    Ext.get('selected-item-box-' + key).remove();
+                    persistentGridSelection.deselect(item);
                 }
             });
         }
@@ -130,10 +132,9 @@ Ext.define('App.view.DetailPanel', {
         return this.currentUser;
     },
 
-    updateTitle: function(selModel){
-        this.selModel = selModel;
-
-        var count = selModel.selected.length;
+    updateTitle: function(persistentGridSelection){
+        this.persistentGridSelection = persistentGridSelection;
+        var count = persistentGridSelection.getSelection().length;
         var header = count + " user(s) selected";
         if ( count > 0 ) {
             header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
@@ -143,14 +144,10 @@ Ext.define('App.view.DetailPanel', {
         var clearSel = this.header.el.down( 'a.clearSelection' );
         if ( clearSel ) {
             clearSel.on( "click", function() {
-                this.selModel.deselectAll();
+                persistentGridSelection.clearSelections();
             }, this );
         }
 
     },
-
-    selectAll: function(){
-        this.selModel.selectAll();
-    }
 
 });

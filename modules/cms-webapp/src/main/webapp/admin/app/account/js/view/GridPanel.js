@@ -2,20 +2,21 @@ Ext.define( 'App.view.GridPanel', {
     extend: 'Ext.grid.Panel',
     alias : 'widget.accountGrid',
 
+    requires: ['Common.PersistentGridSelectionPlugin'],
+    plugins: ['persistentGridSelection'],
     layout: 'fit',
     multiSelect: true,
     loadMask: true,
     columnLines: true,
     frame: false,
     store: 'UserStore',
-    verticalScrollerType: 'paginggridscroller',
-    invalidateScrollerOnRefresh: false,
+    /*verticalScrollerType: 'paginggridscroller',
+    invalidateScrollerOnRefresh: false,*/
 
     initComponent: function()
     {
         this.selModel = Ext.create('Ext.selection.CheckboxModel', {
-            mode: 'SIMPLE',
-            allowDeselect: true
+            mode: 'SIMPLE'
         });
 
         this.columns = [
@@ -44,6 +45,11 @@ Ext.define( 'App.view.GridPanel', {
                 sortable: true
             }
         ];
+
+        this.tbar = {
+            xtype: 'pagingtoolbar',
+            store: this.store
+        };
 
         this.viewConfig = {
             trackOver : true,
