@@ -8,7 +8,7 @@ Templates.common = {
         '<ol class="cms-wizard-steps clearfix">' +
             '<tpl for=".">' +
                 '<li>' +
-                    '<a href="javascript:;" {[ this.isCurrent( xindex - 1 ) ? "class=current" : "" ]}>' +
+                    '<a wizardStep="{[xindex]}" href="javascript:;" class="step {[ this.isCurrent( xindex - 1 ) ? \" current\" : \"\" ]}" >' +
                         '<span class="text">{[xindex]}. {[  (values.stepTitle || values.title) ]}<span>' +
                         '<span class="arrow"></span>' +
                     '</a>' +
