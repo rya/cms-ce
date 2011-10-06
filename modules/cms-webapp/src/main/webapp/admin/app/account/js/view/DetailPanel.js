@@ -94,15 +94,19 @@ Ext.define('App.view.DetailPanel', {
         return panel;
     },
 
-    deselectItem: function(e, t){
-        var className = t.attributes.getNamedItem('class').nodeValue;
-        if (className == 'remove-selection'){
-            var key = t.attributes.getNamedItem('id').nodeValue.split('remove-from-selection-button-')[1];
+    deselectItem: function(event, target)
+    {
+        var className = target.className;
+        if (className && className == 'remove-selection')
+        {
+            var key = target.attributes.getNamedItem('id').nodeValue.split('remove-from-selection-button-')[1];
             var userGridSelModel = this.up('cmsTabPanel').down('accountGrid').getSelectionModel();
             var persistentGridSelection = this.persistentGridSelection;
             var selection = persistentGridSelection.getSelection();
-            Ext.each(selection, function(item){
-                if (item.get('key') == key) {
+            Ext.each(selection, function(item)
+            {
+                if (item.get('key') == key)
+                {
                     Ext.get('selected-item-box-' + key).remove();
                     persistentGridSelection.deselect(item);
                 }
