@@ -20,7 +20,7 @@ Ext.define( 'App.view.DeleteWindow', {
                         }
                         else
                         {
-                            this.tpl = new Ext.XTemplate(Templates.account.deleteManyUsersForm),
+                            this.tpl = new Ext.XTemplate(Templates.account.deleteManyUsers),
                             this.update({selectionLength: this.selectionLength});
                         }
                     }
@@ -41,13 +41,13 @@ Ext.define( 'App.view.DeleteWindow', {
         this.callParent( arguments );
     },
 
-    doShow: function( selection )
+    doShow: function( persistedSelection )
     {
-        this.selectionLength = selection.length;
+        this.selectionLength = persistedSelection.getSelection().length;
 
         if ( this.selectionLength === 1 )
         {
-            this.modelData = selection[0].data;
+            this.modelData = persistedSelection[0].data;
         }
 
         this.show();

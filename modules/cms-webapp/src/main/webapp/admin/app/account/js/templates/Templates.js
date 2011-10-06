@@ -62,7 +62,7 @@ Templates.account = {
             '</div>'+
         '</tpl>'
 
-    ,deleteManyUsersForm:
+    ,deleteManyUsers:
         '<div class="cms-delete-user-confirmation-message">' +
             '<div class="icon-question-mark-32 cms-left" style="width:32px; height:32px; margin-right: 10px"><!-- --></div>' +
             '<div class="cms-left" style="margin-top:5px">' +

@@ -129,6 +129,8 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
     deselect: function(record)
     {
         this.onRowDeselect(this.grid.selModel, record);
+        // If the deselected use is on the current page we need to programmatically deselect it.
+        this.grid.selModel.deselect(record);
         this.notifySelectionModelAboutSelectionChange();
     },
 

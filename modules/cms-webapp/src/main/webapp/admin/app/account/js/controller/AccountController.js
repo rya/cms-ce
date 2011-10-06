@@ -156,7 +156,7 @@ Ext.define( 'App.controller.AccountController', {
         } );
 
         var accountDetail = this.getAccountDetail();
-        accountDetail.updateTitle(this.getPersistentGridSelectionPlugin());
+        accountDetail.updateTitle(this.getPersistentGridSelection());
     },
 
     createNewGroupTab: function()
@@ -173,7 +173,7 @@ Ext.define( 'App.controller.AccountController', {
     showDeleteUserWindow: function()
     {
         Ext.create('widget.userDeleteWindow');
-        this.getUserDeleteWindow().doShow( this.getUserGrid().getSelectionModel().getSelection() );
+        this.getUserDeleteWindow().doShow( this.getPersistentGridSelection() );
     },
 
     showChangePasswordWindow: function()
@@ -182,9 +182,9 @@ Ext.define( 'App.controller.AccountController', {
         this.getUserChangePasswordWindow().doShow( this.getSelectedGridItem() );
     },
 
-    updateDetailsPanel: function( selModel, selModelSelected )
+    updateDetailsPanel: function()
     {
-        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
+        var persistentGridSelection = this.getPersistentGridSelection();
         var selection = persistentGridSelection.getSelection();
         var accountDetail = this.getAccountDetail();
 
@@ -373,7 +373,7 @@ Ext.define( 'App.controller.AccountController', {
 
     cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
     {
-        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
+        var persistentGridSelection = this.getPersistentGridSelection();
         var rightClick = event.button === 2;
         var isSelected = persistentGridSelection.selected[record.internalId];
 
@@ -555,16 +555,19 @@ Ext.define( 'App.controller.AccountController', {
         {
             userInfoPanel = button.up( 'userShortDetailButton' );
         }
+
         selModel.deselect( userInfoPanel.getUser() );
     },
 
-    selectAll: function() {
+    selectAll: function()
+    {
         this.getUserGrid().getSelectionModel().selectAll();
     },
 
-    getPersistentGridSelectionPlugin: function()
+    getPersistentGridSelection: function()
     {
         // TODO: Find a better way to get to the plugin
+        //console.log(this.getUserGrid().getPlugin('persistentGridSelection'));
         return this.getUserGrid().plugins[0];
     },
 
