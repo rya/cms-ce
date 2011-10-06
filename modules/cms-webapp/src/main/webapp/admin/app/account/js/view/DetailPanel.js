@@ -1,6 +1,6 @@
 Ext.define('App.view.DetailPanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.userDetail',
+    alias: 'widget.accountDetail',
     split: true,
     autoScroll: true,
     layout: 'card',
@@ -98,7 +98,7 @@ Ext.define('App.view.DetailPanel', {
         var className = t.attributes.getNamedItem('class').nodeValue;
         if (className == 'remove-selection'){
             var key = t.attributes.getNamedItem('id').nodeValue;
-            var userGridSelModel = this.up('cmsTabPanel').down('userGrid').getSelectionModel();
+            var userGridSelModel = this.up('cmsTabPanel').down('accountGrid').getSelectionModel();
             var selection = userGridSelModel.getSelection();
             Ext.each(selection, function(item){
                 if (item.get('key') == key){

@@ -1,4 +1,4 @@
-Ext.define( 'App.controller.UserController', {
+Ext.define( 'App.controller.AccountController', {
     extend: 'Ext.app.Controller',
 
     stores: ['UserStore', 'UserstoreConfigStore', 'CountryStore', 'CallingCodeStore', 'LanguageStore',
@@ -30,7 +30,7 @@ Ext.define( 'App.controller.UserController', {
 
     init: function()
     {
-        Ext.create('widget.userContextMenu');
+        Ext.create('widget.accountContextMenu');
         Ext.create('widget.userChangePasswordWindow');
 
         var me = this;
@@ -56,7 +56,7 @@ Ext.define( 'App.controller.UserController', {
                           'editUserPanel #iso-country' : {
                               select: this.countryChangeHandler
                           },
-                          'userGrid': {
+                          'accountGrid': {
                               selectionchange: this.updateDetailsPanel,
                               beforeitemmousedown: this.cancelDeselectOnContextClick,
                               itemcontextmenu: this.popupMenu,
@@ -66,7 +66,7 @@ Ext.define( 'App.controller.UserController', {
                               specialkey: this.filterHandleEnterKey,
                               render: this.onFilterPanelRender
                           },
-                          'userFilter button[action=search]': {
+                          'accountFilter button[action=search]': {
                               click: this.searchFilter
                           },
                           '*[action=showDeleteWindow]': {
@@ -87,7 +87,7 @@ Ext.define( 'App.controller.UserController', {
                           '*[action=changePassword]': {
                               click: this.showChangePasswordWindow
                           },
-                          'userDetail': {
+                          'accountDetail': {
                               render: this.initDetailToolbar
                           },
                           'editUserPanel textfield[name=prefix]': {
@@ -148,16 +148,16 @@ Ext.define( 'App.controller.UserController', {
                {
                    region: 'west',
                    width: 225,
-                   xtype: 'userFilter'
+                   xtype: 'accountFilter'
                },
                {
                    region: 'center',
-                   xtype: 'userShow'
+                   xtype: 'accountShow'
                }
            ]
         } );
-        var userDetail = this.getUserDetail();
-        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
+        var accountDetail = this.getAccountDetail();
+        accountDetail.updateTitle(this.getUserGrid().getSelectionModel());
     },
 
     createNewGroupTab: function()
@@ -187,18 +187,18 @@ Ext.define( 'App.controller.UserController', {
 
     updateDetailsPanel: function( selModel, selected )
     {
-        var userDetail = this.getUserDetail();
+        var accountDetail = this.getAccountDetail();
 
         if ( selected.length == 0 )
         {
-            userDetail.showNonSelection();
+             accountDetail.showNonSelection();
         }
         else
         {
             var user = selected[0];
             if ( user )
             {
-                userDetail.setCurrentUser( user.data );
+                 accountDetail.setCurrentUser( user.data );
             }
 
             var detailed = true;
@@ -211,9 +211,9 @@ Ext.define( 'App.controller.UserController', {
             {
                 Ext.Array.include( selectedUsers, user.data );
             } );
-            userDetail.showMultipleSelection( selectedUsers, detailed );
+             accountDetail.showMultipleSelection( selectedUsers, detailed );
         }
-        userDetail.updateTitle(this.getUserGrid().getSelectionModel());
+         accountDetail.updateTitle(this.getUserGrid().getSelectionModel());
     },
 
     searchFilter: function()
@@ -280,9 +280,9 @@ Ext.define( 'App.controller.UserController', {
         }
         else
         {
-            var userDetail = this.getUserDetail();
+            var accountDetail = this.getAccountDetail();
             var tabPane = this.getCmsTabPanel();
-            var currentUser = userDetail.getCurrentUser();
+            var currentUser = accountDetail.getCurrentUser();
             Ext.Ajax.request( {
                                   url: 'data/user/userinfo',
                                   method: 'GET',
@@ -314,8 +314,8 @@ Ext.define( 'App.controller.UserController', {
     },
 
     initDetailToolbar: function() {
-        var userDetail = this.getUserDetail();
-        userDetail.showNonSelection();
+        var accountDetail = this.getAccountDetail();
+        accountDetail.showNonSelection();
     },
 
     getGridSelectionCount: function()
@@ -556,17 +556,17 @@ Ext.define( 'App.controller.UserController', {
 
     getUserGrid: function()
     {
-        return Ext.ComponentQuery.query( 'userGrid' )[0];
+        return Ext.ComponentQuery.query( 'accountGrid' )[0];
     },
 
-    getUserDetail: function()
+    getAccountDetail: function()
     {
-        return Ext.ComponentQuery.query( 'userDetail' )[0];
+        return Ext.ComponentQuery.query( 'accountDetail' )[0];
     },
 
     getFilterTextField: function()
     {
-        return Ext.ComponentQuery.query( 'userFilter textfield[name=filter]' )[0];
+        return Ext.ComponentQuery.query( 'accountFilter textfield[name=filter]' )[0];
     },
 
     getEditUserFormPanel: function()
@@ -586,7 +586,7 @@ Ext.define( 'App.controller.UserController', {
 
     getUserContextMenu: function()
     {
-        return Ext.ComponentQuery.query( 'userContextMenu' )[0];
+        return Ext.ComponentQuery.query( 'accountContextMenu' )[0];
     }
 
 } );

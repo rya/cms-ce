@@ -1,6 +1,6 @@
 Ext.define( 'App.view.ShowPanel', {
     extend: 'Ext.panel.Panel',
-    alias : 'widget.userShow',
+    alias : 'widget.accountShow',
 
     layout: 'border',
     border: false,
@@ -11,12 +11,12 @@ Ext.define( 'App.view.ShowPanel', {
         this.items = [
             {
                 region: 'center',
-                xtype: 'userGrid',
+                xtype: 'accountGrid',
                 flex: 2
             },
             {
                 region: 'south',
-                xtype: 'userDetail',
+                xtype: 'accountDetail',
                 flex: 1
             }
         ];

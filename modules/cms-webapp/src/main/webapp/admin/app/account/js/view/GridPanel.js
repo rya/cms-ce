@@ -1,6 +1,6 @@
 Ext.define( 'App.view.GridPanel', {
     extend: 'Ext.grid.Panel',
-    alias : 'widget.userGrid',
+    alias : 'widget.accountGrid',
 
     layout: 'fit',
     multiSelect: true,
