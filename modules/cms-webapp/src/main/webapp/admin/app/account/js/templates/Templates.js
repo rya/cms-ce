@@ -31,6 +31,9 @@ Templates.account = {
             '<h1><input id="display-name" type="text" value="{displayName}" readonly="true" class="cms-display-name"/></h1><a href="javascript:;" class="edit-button"></a>' +
             '<p>{qualifiedName}</p></div></div>'
 
+    ,noUserSelected:
+        '<div>No user selected</div>'
+
     ,selectedUserLarge:
         '<tpl for="users">' +
             '<div id="selected-item-box-{key}" class="cms-selected-item-box large x-btn-default-large clearfix">' +
@@ -61,6 +64,9 @@ Templates.account = {
                 '</div>' +
             '</div>'+
         '</tpl>'
+
+    ,allUsersSelected:
+            '<div id="select-all-users-in-page">All {pageSize} items on this page are selected. <a href="javascript:;" id="select-all-users-in-account-link">Select all {totalCount} items in Accounts</a></div>'
 
     ,deleteManyUsers:
         '<div class="cms-delete-user-confirmation-message">' +
