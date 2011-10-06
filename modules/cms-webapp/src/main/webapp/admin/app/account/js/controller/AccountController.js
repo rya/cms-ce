@@ -566,9 +566,7 @@ Ext.define( 'App.controller.AccountController', {
 
     getPersistentGridSelection: function()
     {
-        // TODO: Find a better way to get to the plugin
-        //console.log(this.getUserGrid().getPlugin('persistentGridSelection'));
-        return this.getUserGrid().plugins[0];
+        return this.getUserGrid().getPlugin('persistentGridSelection');
     },
 
     getCmsTabPanel: function()
