@@ -8,6 +8,7 @@ Ext.define( 'App.view.UserFormField', {
 
     height: '100%',
     actionName: undefined,
+    //anchor: '50%',
 
     initComponent: function()
     {
@@ -30,6 +31,33 @@ Ext.define( 'App.view.UserFormField', {
             action: this.actionName,
             value: this.fieldValue
         };
+        if (this.fieldname == 'initials'){
+            this.anchor = '20%';
+        }else
+        if (this.fieldname == 'birthday'){
+            this.anchor = '20%';
+        }else
+        if (this.fieldname == 'gender'){
+            this.anchor = '20%';
+        }else
+        if (this.fieldname == 'country'){
+            this.anchor = '30%';
+        }else
+        if (this.fieldname == 'global-position'){
+            this.anchor = '20%';
+        }else
+        if (this.fieldname == 'locale'){
+            this.anchor = '20%';
+        }else
+        if (this.fieldname == 'fax'){
+            this.anchor = '30%';
+        }else
+        if (this.fieldname == 'mobile'){
+            this.anchor = '30%';
+        }else
+        if (this.fieldname == 'phone'){
+            this.anchor = '30%';
+        }
         var builderFunction;
         if ( this.type )
         {
