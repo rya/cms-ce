@@ -17,6 +17,13 @@ import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
@@ -36,14 +43,9 @@ import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageResolver;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentLocation;
-import com.enonic.cms.domain.content.ContentLocationSpecification;
-import com.enonic.cms.domain.content.ContentLocations;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
+
+import com.enonic.cms.core.content.ContentVersionEntity;
+
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;

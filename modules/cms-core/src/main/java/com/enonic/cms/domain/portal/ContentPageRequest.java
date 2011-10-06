@@ -4,8 +4,9 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
 

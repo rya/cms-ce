@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryKey;
 
 public class CategoryKeyUserType
     extends AbstractIntegerBasedUserType<CategoryKey>

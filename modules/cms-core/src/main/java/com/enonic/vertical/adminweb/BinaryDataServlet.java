@@ -15,9 +15,9 @@ import javax.servlet.http.HttpSession;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.domain.content.binary.BinaryData;
 import com.enonic.cms.domain.security.user.User;
 
 public class BinaryDataServlet

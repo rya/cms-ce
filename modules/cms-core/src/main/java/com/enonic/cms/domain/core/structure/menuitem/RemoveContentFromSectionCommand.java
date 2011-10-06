@@ -7,7 +7,8 @@ package com.enonic.cms.domain.core.structure.menuitem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
+
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 

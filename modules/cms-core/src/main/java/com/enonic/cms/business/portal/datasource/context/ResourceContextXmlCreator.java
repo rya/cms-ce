@@ -6,9 +6,10 @@ package com.enonic.cms.business.portal.datasource.context;
 
 import org.jdom.Element;
 
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
 
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;

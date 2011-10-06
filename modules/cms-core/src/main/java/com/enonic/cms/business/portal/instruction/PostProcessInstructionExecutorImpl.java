@@ -14,6 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyParser;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.core.image.ImageRequestParams;
 import com.enonic.cms.core.image.ImageRequestParser;
@@ -30,13 +37,6 @@ import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionEx
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyParser;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithLabel;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
 import com.enonic.cms.domain.nativelink.NativeLinkKey;
 import com.enonic.cms.domain.portal.PathToContentResolver;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;

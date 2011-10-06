@@ -35,13 +35,13 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLException;
 
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
-import com.enonic.cms.business.core.content.category.command.DeleteCategoryCommand;
+import com.enonic.cms.core.content.category.CategoryEntity;
 
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;

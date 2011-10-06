@@ -12,11 +12,11 @@ import com.google.common.collect.Sets;
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.gc.UsedBlobKeyFinder;
 
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.VirtualFileDao;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public final class DbUsedBlobKeyFinder

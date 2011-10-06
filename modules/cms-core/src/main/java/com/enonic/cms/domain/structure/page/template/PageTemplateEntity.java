@@ -19,7 +19,8 @@ import org.jdom.Element;
 
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
 import com.enonic.cms.domain.portal.datasource.Datasources;
 import com.enonic.cms.domain.portal.datasource.DatasourcesType;
 import com.enonic.cms.domain.resource.ResourceKey;

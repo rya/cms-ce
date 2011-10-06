@@ -36,33 +36,35 @@ import com.enonic.cms.api.client.model.content.ContentDataInput;
 import com.enonic.cms.api.client.model.content.ContentStatus;
 import com.enonic.cms.api.client.model.content.GroupInput;
 import com.enonic.cms.api.client.model.content.TextInput;
+import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.command.AssignContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.BlockGroupDataEntries;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.client.InternalClient;
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.AssignContentCommand;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.content.command.CreateContentCommand.AccessRightsStrategy;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.command.CreateContentCommand.AccessRightsStrategy;
 import com.enonic.cms.business.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.ContentVersionKey;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.BlockGroupDataEntries;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserType;
 
@@ -186,7 +188,7 @@ public class InternalClientImpl_UpdateContentTest
         ContentVersionEntity version = new ContentVersionEntity();
         version.setContent( content );
         version.setModifiedBy( runningUser );
-        version.setStatus( com.enonic.cms.domain.content.ContentStatus.DRAFT );
+        version.setStatus( com.enonic.cms.core.content.ContentStatus.DRAFT );
         version.setContent( content );
         CustomContentData contentData = new CustomContentData( fixture.findContentTypeByName( "MyContentType" ).getContentTypeConfig() );
 
@@ -240,7 +242,7 @@ public class InternalClientImpl_UpdateContentTest
         int contentVersionKey = internalClient.updateContent( params );
 
         ContentVersionEntity actualVersion = contentVersionDao.findByKey( new ContentVersionKey( contentVersionKey ) );
-        assertEquals( com.enonic.cms.domain.content.ContentStatus.DRAFT.getKey(), actualVersion.getStatus().getKey() );
+        assertEquals( com.enonic.cms.core.content.ContentStatus.DRAFT.getKey(), actualVersion.getStatus().getKey() );
         assertEquals( "changedtitle", actualVersion.getTitle() );
         assertEquals( "changedtitle", actualVersion.getContentData().getTitle() );
     }
@@ -625,7 +627,7 @@ public class InternalClientImpl_UpdateContentTest
         ContentVersionEntity version = new ContentVersionEntity();
         version.setContent( content );
         version.setModifiedBy( runningUser );
-        version.setStatus( com.enonic.cms.domain.content.ContentStatus.APPROVED );
+        version.setStatus( com.enonic.cms.core.content.ContentStatus.APPROVED );
         version.setContent( content );
         CustomContentData contentData = new CustomContentData( fixture.findContentTypeByName( "MyContentType" ).getContentTypeConfig() );
 

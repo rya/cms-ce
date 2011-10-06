@@ -2,7 +2,7 @@ package com.enonic.cms.business.portal.livetrace;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
 
 /**
  * Oct 11, 2010

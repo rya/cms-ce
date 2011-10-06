@@ -37,7 +37,7 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.core.content.ContentService;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
 

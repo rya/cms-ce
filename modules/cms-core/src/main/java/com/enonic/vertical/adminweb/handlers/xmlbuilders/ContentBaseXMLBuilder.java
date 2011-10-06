@@ -21,7 +21,8 @@ import com.enonic.vertical.adminweb.VerticalAdminLogger;
 import com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet;
 import com.enonic.vertical.engine.AccessRight;
 
-import com.enonic.cms.domain.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryData;
+
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.security.user.User;
 

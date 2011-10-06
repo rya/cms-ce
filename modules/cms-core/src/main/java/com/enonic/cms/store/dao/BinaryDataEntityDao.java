@@ -13,8 +13,8 @@ import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
 
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("binaryDataDao")

@@ -14,14 +14,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
-
-import com.enonic.cms.domain.content.ContentAccessRightsAccumulated;
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.security.group.GroupEntity;
 import com.enonic.cms.domain.security.group.GroupType;
 import com.enonic.cms.domain.security.user.UserEntity;

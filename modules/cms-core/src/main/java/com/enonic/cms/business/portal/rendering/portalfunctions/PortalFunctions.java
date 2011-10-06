@@ -19,6 +19,8 @@ import com.enonic.cms.framework.util.URLUtils;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
 import com.enonic.cms.core.captcha.CaptchaService;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.image.ImageRequestParser;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
@@ -40,11 +42,10 @@ import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.ContentEntity;
+
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.domain.portal.ContentPath;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.portal.Ticket;

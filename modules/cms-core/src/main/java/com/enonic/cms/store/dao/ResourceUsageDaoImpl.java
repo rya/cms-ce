@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.dao;
 
-import com.enonic.cms.domain.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.resource.ResourceReferencer;
 import com.enonic.cms.domain.resource.ResourceReferencerType;

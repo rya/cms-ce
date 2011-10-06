@@ -11,7 +11,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.domain.portal.ContentPath;
 
 public class SitePathTest

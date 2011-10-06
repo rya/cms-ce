@@ -26,6 +26,23 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentAccessType;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.ContentDao;
@@ -33,26 +50,10 @@ import com.enonic.cms.store.dao.GroupEntityDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.content.ContentService;
-import com.enonic.cms.business.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand;
 
-import com.enonic.cms.domain.content.ContentAccessEntity;
-import com.enonic.cms.domain.content.ContentAccessType;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.domain.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.domain.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.domain.content.contenttype.ContentTypeConfigParser;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
-import com.enonic.cms.domain.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.content.ContentAccessEntity;
+
 import com.enonic.cms.domain.security.user.UserEntity;
 import com.enonic.cms.domain.security.user.UserType;
 
@@ -240,7 +241,8 @@ public class ContentServiceImplTest
         version.setStatus( ContentStatus.DRAFT );
         version.setContent( content );
 
-        ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, standardConfigEl );
+        ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM,
+                                                                             standardConfigEl );
         CustomContentData contentData = new CustomContentData( contentTypeConfig );
 
         TextDataEntryConfig titleConfig = (TextDataEntryConfig) contentData.getInputConfig( "myTitle" );

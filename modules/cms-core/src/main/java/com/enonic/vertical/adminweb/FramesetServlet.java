@@ -18,8 +18,8 @@ import com.enonic.esl.xml.XMLTool;
 
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 
 public class FramesetServlet
     extends AdminHandlerBaseServlet

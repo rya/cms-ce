@@ -8,11 +8,12 @@ import com.enonic.vertical.engine.XDG;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentEntity;
+
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 
 public class BinaryDataHandler
     extends BaseHandler

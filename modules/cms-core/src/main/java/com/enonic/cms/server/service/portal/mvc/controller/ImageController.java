@@ -19,7 +19,7 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 import com.enonic.cms.core.image.ImageRequest;
 
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 
 import com.enonic.cms.core.image.ImageRequestParser;
 import com.enonic.cms.core.image.ImageResponse;

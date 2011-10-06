@@ -9,8 +9,9 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.core.content.ContentKey;
+
 import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.content.ContentKey;
 
 /**
  * Jul 24, 2009

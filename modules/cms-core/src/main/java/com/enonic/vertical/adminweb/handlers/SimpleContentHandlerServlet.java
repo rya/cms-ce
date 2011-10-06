@@ -37,18 +37,19 @@ import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentXMLBuildersSprin
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.imports.ImportResult;
+import com.enonic.cms.core.content.mail.ImportedContentAssignmentMailTemplate;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.core.content.AssignmentDataParser;
-import com.enonic.cms.business.core.content.command.ImportContentCommand;
-import com.enonic.cms.business.core.content.imports.ImportJob;
-import com.enonic.cms.business.core.content.mail.ImportedContentAssignmentMailTemplate;
+import com.enonic.cms.core.content.AssignmentDataParser;
+
+import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.mail.MailRecipient;
 
-import com.enonic.cms.domain.content.category.CategoryEntity;
-import com.enonic.cms.domain.content.category.CategoryKey;
-import com.enonic.cms.domain.content.imports.ImportResult;
-import com.enonic.cms.domain.content.imports.ImportResultXmlCreator;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.imports.ImportResultXmlCreator;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserEntity;
 

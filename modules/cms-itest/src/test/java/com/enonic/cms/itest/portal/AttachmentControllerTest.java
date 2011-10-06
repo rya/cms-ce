@@ -31,6 +31,16 @@ import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
 import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
 import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.core.client.InternalClientContentService;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.portal.mvc.controller.AttachmentController;
 import com.enonic.cms.server.service.portal.mvc.controller.AttachmentRequestException;
@@ -38,21 +48,11 @@ import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationCont
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.client.InternalClientContentService;
 import com.enonic.cms.business.core.security.SecurityHolder;
 import com.enonic.cms.business.preview.ContentPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.content.ContentAndVersion;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentStatus;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.domain.content.contentdata.ContentData;
 import com.enonic.cms.domain.security.user.UserKey;
 import com.enonic.cms.domain.security.user.UserType;
 import com.enonic.cms.domain.structure.SiteEntity;

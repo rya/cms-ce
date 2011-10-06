@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.content.ContentKey;
+import com.enonic.cms.core.content.ContentKey;
 
 public class MenuItemContentKey
     implements Serializable

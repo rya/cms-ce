@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.core.content.ContentKey;
+
 import com.enonic.cms.domain.NotFoundErrorType;
 import com.enonic.cms.domain.StacktraceLoggingUnrequired;
-import com.enonic.cms.domain.content.ContentKey;
 
 /**
  * Created by IntelliJ IDEA.

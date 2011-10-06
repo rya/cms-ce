@@ -6,19 +6,21 @@ package com.enonic.cms.server.domain.content.binary;
 
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.PathAndParams;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyInPathParser;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.domain.content.binary.AttachmentNativeLinkKeyWithLabel;
-import com.enonic.cms.domain.content.binary.AttachmentNotFoundException;
-import com.enonic.cms.domain.content.binary.AttachmentRequest;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.content.binary.InvalidBinaryPathException;
+
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
+import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.InvalidBinaryPathException;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyInPathParser;
+import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
+import com.enonic.cms.core.content.binary.AttachmentRequest;
 
 public abstract class AttachmentRequestResolver
 {

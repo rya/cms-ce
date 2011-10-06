@@ -8,8 +8,8 @@ import java.util.List;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
-import com.enonic.cms.domain.content.binary.BinaryDataEntity;
-import com.enonic.cms.domain.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 
 public interface BinaryDataDao

@@ -14,7 +14,7 @@
       <column name="sctf_mei_lkey"/>
     </many-to-one>
 
-    <many-to-one name="contentType" class="com.enonic.cms.domain.content.contenttype.ContentTypeEntity" fetch="select">
+    <many-to-one name="contentType" class="com.enonic.cms.core.content.contenttype.ContentTypeEntity" fetch="select">
       <column name="sctf_cty_lkey"/>
     </many-to-one>
 

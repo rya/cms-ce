@@ -26,19 +26,20 @@ import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
 import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
 import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
 import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.client.InternalClient;
+import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.business.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentHandlerName;
-import com.enonic.cms.domain.content.ContentKey;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.contentdata.legacy.LegacyFileContentData;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
 import com.enonic.cms.domain.security.user.UserType;
 
 import static org.junit.Assert.*;
@@ -96,7 +97,7 @@ public class InternalClientImpl_getBinaryTest
         SecurityHolder.setRunAsUser( fixture.findUserByName( "creator" ).getKey() );
 
         ContentKey contentKey =
-            createFileContent( "Dummy name", new byte[]{1, 2, 3}, com.enonic.cms.domain.content.ContentStatus.APPROVED, "MyCategory" );
+            createFileContent( "Dummy name", new byte[]{1, 2, 3}, ContentStatus.APPROVED, "MyCategory" );
 
         fixture.flushAndClearHibernateSesssion();
 
@@ -123,7 +124,7 @@ public class InternalClientImpl_getBinaryTest
         SecurityHolder.setRunAsUser( fixture.findUserByName( "creator" ).getKey() );
 
         ContentKey contentKey =
-            createFileContent( "Dummy name", new byte[]{1, 2, 3}, com.enonic.cms.domain.content.ContentStatus.APPROVED, "MyCategory" );
+            createFileContent( "Dummy name", new byte[]{1, 2, 3}, ContentStatus.APPROVED, "MyCategory" );
 
         fixture.flushAndClearHibernateSesssion();
 
@@ -151,7 +152,7 @@ public class InternalClientImpl_getBinaryTest
         SecurityHolder.setRunAsUser( fixture.findUserByName( "creator" ).getKey() );
 
         ContentKey contentKey =
-            createFileContent( "Dummy name", new byte[]{1, 2, 3}, com.enonic.cms.domain.content.ContentStatus.APPROVED, "MyCategory" );
+            createFileContent( "Dummy name", new byte[]{1, 2, 3}, ContentStatus.APPROVED, "MyCategory" );
 
         fixture.flushAndClearHibernateSesssion();
 
@@ -197,7 +198,7 @@ public class InternalClientImpl_getBinaryTest
     {
         SecurityHolder.setRunAsUser( fixture.findUserByName( "creator" ).getKey() );
         ContentKey contentKey =
-            createFileContent( "Dummy name", new byte[]{1, 2, 3}, com.enonic.cms.domain.content.ContentStatus.APPROVED, "MyCategory" );
+            createFileContent( "Dummy name", new byte[]{1, 2, 3}, ContentStatus.APPROVED, "MyCategory" );
 
         fixture.flushAndClearHibernateSesssion();
 
@@ -237,7 +238,7 @@ public class InternalClientImpl_getBinaryTest
         }
     }
 
-    private ContentKey createFileContent( String name, byte[] bytes, com.enonic.cms.domain.content.ContentStatus contentStatus,
+    private ContentKey createFileContent( String name, byte[] bytes, ContentStatus contentStatus,
                                           String categoryName )
     {
         FileContentDataInput fileContentData = new FileContentDataInput();

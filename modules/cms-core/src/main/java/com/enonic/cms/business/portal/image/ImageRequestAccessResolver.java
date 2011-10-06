@@ -4,16 +4,16 @@ package com.enonic.cms.business.portal.image;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.api.util.Preconditions;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.business.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentVersionEntity;
-import com.enonic.cms.domain.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.domain.security.user.UserEntity;
 
 public class ImageRequestAccessResolver

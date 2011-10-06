@@ -15,7 +15,8 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
 import com.enonic.vertical.adminweb.VerticalAdminException;
 
-import com.enonic.cms.domain.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryData;
+
 import com.enonic.cms.domain.security.user.User;
 
 public class ContentFileXMLBuilder

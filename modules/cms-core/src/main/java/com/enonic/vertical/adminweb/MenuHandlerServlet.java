@@ -48,12 +48,14 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.business.core.structure.DefaultSiteAccessRightAccumulator;
 import com.enonic.cms.business.core.structure.MenuItemAccessRightAccumulator;
 import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
@@ -78,8 +80,6 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesModel;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesXmlCreator;
-import com.enonic.cms.domain.content.ContentEntity;
-import com.enonic.cms.domain.content.ContentKey;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;

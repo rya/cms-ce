@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jdom.Document;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.service.DataSourceService;
 
 import com.enonic.cms.business.portal.InvocationCache;
@@ -19,7 +20,6 @@ import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.ShoppingCart;

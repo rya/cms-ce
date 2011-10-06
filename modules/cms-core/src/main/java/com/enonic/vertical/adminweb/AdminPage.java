@@ -20,11 +20,11 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.URLUtil;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
+import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.core.security.SecurityHolderAdmin;
 
-import com.enonic.cms.domain.content.ContentHandlerName;
 import com.enonic.cms.domain.security.user.User;
 import com.enonic.cms.domain.security.user.UserSpecification;
 import com.enonic.cms.domain.security.userstore.UserStoreKey;

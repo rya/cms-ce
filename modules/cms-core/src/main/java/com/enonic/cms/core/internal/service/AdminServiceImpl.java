@@ -36,8 +36,8 @@ import com.enonic.cms.business.core.resource.ResourceService;
 
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.binary.BinaryData;
-import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.domain.resource.ResourceFolder;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.resource.ResourceXmlCreator;

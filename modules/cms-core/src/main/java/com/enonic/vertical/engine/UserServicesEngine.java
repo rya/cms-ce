@@ -22,7 +22,8 @@ import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.domain.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+
 import com.enonic.cms.domain.security.user.User;
 
 public class UserServicesEngine

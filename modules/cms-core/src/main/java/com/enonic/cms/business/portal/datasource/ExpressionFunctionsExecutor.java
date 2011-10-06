@@ -22,11 +22,12 @@ import org.springframework.expression.TypedValue;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
+import com.enonic.cms.core.content.ContentEntity;
+
 import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsStatic;
 
 import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.content.ContentEntity;
 import com.enonic.cms.domain.portal.VerticalSession;
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.domain.security.user.UserEntity;

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.content.binary.ContentBinaryDataKey;
+import com.enonic.cms.core.content.binary.ContentBinaryDataKey;
 
 
 public class ContentBinaryDataKeyUserType

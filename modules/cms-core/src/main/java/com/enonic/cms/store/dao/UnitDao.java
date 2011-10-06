@@ -7,7 +7,7 @@ package com.enonic.cms.store.dao;
 import java.util.List;
 
 import com.enonic.cms.domain.EntityPageList;
-import com.enonic.cms.domain.content.UnitEntity;
+import com.enonic.cms.core.content.UnitEntity;
 
 public interface UnitDao
     extends EntityDao<UnitEntity>

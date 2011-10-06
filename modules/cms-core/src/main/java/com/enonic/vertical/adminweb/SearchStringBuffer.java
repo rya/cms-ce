@@ -4,7 +4,7 @@
  */
 package com.enonic.vertical.adminweb;
 
-import com.enonic.cms.domain.content.index.ContentIndexConstants;
+import com.enonic.cms.core.content.index.ContentIndexConstants;
 
 public final class SearchStringBuffer
 {

@@ -14,13 +14,14 @@ import com.google.common.collect.Maps;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.core.content.ContentLocationXmlCreator;
+import com.enonic.cms.core.content.ContentLocationXmlCreator;
+import com.enonic.cms.core.content.ContentLocations;
+
 import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
 import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
 import com.enonic.cms.business.core.structure.SiteXmlCreator;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.content.ContentLocations;
 import com.enonic.cms.domain.structure.SiteEntity;
 import com.enonic.cms.domain.structure.SiteProperties;
 import com.enonic.cms.domain.structure.menuitem.MenuItemAccumulatedAccessRights;
