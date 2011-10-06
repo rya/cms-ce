@@ -21,6 +21,17 @@ Ext.define( 'App.view.UserFormField', {
             'text': this.createTextConfig,
             'boolean': this.createCheckBoxConfig
         };
+        this.fieldWidth = {
+            'initials': '20%',
+            'birthday': '20%',
+            'gender': '20%',
+            'country': '30%',
+            'global-position': '20%',
+            'locale': '20%',
+            'fax': '30%',
+            'mobile': '30%',
+            'phone': '30%'
+        }
         this.items = [];
         var fieldConfig = {
             flex: 1,
@@ -31,33 +42,7 @@ Ext.define( 'App.view.UserFormField', {
             action: this.actionName,
             value: this.fieldValue
         };
-        if (this.fieldname == 'initials'){
-            this.anchor = '20%';
-        }else
-        if (this.fieldname == 'birthday'){
-            this.anchor = '20%';
-        }else
-        if (this.fieldname == 'gender'){
-            this.anchor = '20%';
-        }else
-        if (this.fieldname == 'country'){
-            this.anchor = '30%';
-        }else
-        if (this.fieldname == 'global-position'){
-            this.anchor = '20%';
-        }else
-        if (this.fieldname == 'locale'){
-            this.anchor = '20%';
-        }else
-        if (this.fieldname == 'fax'){
-            this.anchor = '30%';
-        }else
-        if (this.fieldname == 'mobile'){
-            this.anchor = '30%';
-        }else
-        if (this.fieldname == 'phone'){
-            this.anchor = '30%';
-        }
+        this.anchor = this.fieldWidth[this.fieldname];
         var builderFunction;
         if ( this.type )
         {
