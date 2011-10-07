@@ -1,6 +1,6 @@
-Ext.define( 'App.view.wizard.WizardStepUserPanel', {
+Ext.define( 'App.view.wizard.WizardStepLoginInfoPanel', {
     extend: 'Ext.form.Panel',
-    alias: 'widget.wizardStepUserPanel',
+    alias: 'widget.wizardStepLoginInfoPanel',
 
     defaults: {
         padding: '10px 15px'
