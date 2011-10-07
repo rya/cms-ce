@@ -104,6 +104,15 @@ public class ContentTypeConfig
         return contentHandlerName;
     }
 
+    public void validate()
+        throws InvalidImportConfigException
+    {
+        for ( CtyImportConfig importConfig : imports )
+        {
+            importConfig.validateContentTypeImportConfig( this );
+        }
+    }
+
     public String toString()
     {
         StringBuffer s = new StringBuffer();

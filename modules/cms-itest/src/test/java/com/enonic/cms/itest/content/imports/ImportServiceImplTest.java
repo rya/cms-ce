@@ -27,10 +27,13 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
@@ -40,24 +43,18 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEn
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.InvalidContentTypeConfigException;
 import com.enonic.cms.core.content.imports.ImportException;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.core.content.ContentService;
-
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.contentdata.ContentData;
-
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-
-import com.enonic.cms.core.security.user.User;
 
 import static org.junit.Assert.*;
 
@@ -232,6 +229,36 @@ public class ImportServiceImplTest
             related_persons.getRelatedContentKeys().toArray( new ContentKey[related_persons.getRelatedContentKeys().size()] );
         ContentKey[] expectedKeys = {fatherContentKey, daughterContentKey, motherContentKey};
         assertArrayEquals( expectedKeys, actualKeys );
+    }
+
+    @Test(expected = InvalidContentTypeConfigException.class)
+    public void expect_exception_when_mapping_is_missing_separator_and_destination_is_to_relatedcontent_with_multiple_true()
+        throws UnsupportedEncodingException
+    {
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig += "<import name='test-related-content' status='2' sync='person-no' mode='csv'>";
+        importsConfig += "  <mapping src='1' dest='person-no'/>";
+        importsConfig += "  <mapping src='2' dest='name'/>";
+        importsConfig += "  <mapping dest='related_persons' relatedcontenttype='PersonCty' relatedfield='person-no' src='3' separator=''/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String importData = "";
+        importData += "4;Grand daughter;1";
+
+        // exercise
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "test-related-content";
+        command.inputStream = new ByteArrayInputStream( importData.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        job.start();
     }
 
     @Test
@@ -1615,8 +1642,7 @@ public class ImportServiceImplTest
 
         // setup: create a draft for the approved content
         UpdateContentCommand updateCommand =
-            UpdateContentCommand.storeNewVersionIfChanged(
-                    fixture.findContentByKey( contentKey_approved ).getMainVersion().getKey() );
+            UpdateContentCommand.storeNewVersionIfChanged( fixture.findContentByKey( contentKey_approved ).getMainVersion().getKey() );
         updateCommand.setContentKey( contentKey_approved );
         updateCommand.setUpdateStrategy( UpdateContentCommand.UpdateStrategy.MODIFY );
         updateCommand.setModifier( fixture.findUserByName( "testuser" ).getKey() );

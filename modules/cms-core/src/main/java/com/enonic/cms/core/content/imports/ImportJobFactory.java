@@ -54,6 +54,7 @@ public class ImportJobFactory
                 "Given publishFrom (" + command.publishFrom + ") bust be before given publishTo (" + command.publishTo + ")" );
         }
         CtyImportConfig importConfig = getImportConfig( command.importer, command.categoryToImportTo, command.importName );
+        importConfig.validateContentTypeImportConfig( command.categoryToImportTo.getContentType().getContentTypeConfig() );
         ImportDataReader importDataReader = getImportDataReader( importConfig, command.inputStream );
 
         ImportJobImpl importJob = new ImportJobImpl();

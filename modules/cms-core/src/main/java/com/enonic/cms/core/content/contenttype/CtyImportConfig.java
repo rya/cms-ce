@@ -235,4 +235,13 @@ public class CtyImportConfig
     {
         return updateStrategy;
     }
+
+    public void validateContentTypeImportConfig( final ContentTypeConfig contentTypeConfig )
+        throws InvalidImportConfigException
+    {
+        for ( CtyImportMappingConfig ctyImportMappingConfig : mappings )
+        {
+            ctyImportMappingConfig.validate( contentTypeConfig );
+        }
+    }
 }
