@@ -28,12 +28,13 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerKey;
 import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.service.AdminService;
-
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeXmlCreator;
 import com.enonic.cms.core.content.contenttype.InvalidContentTypeConfigException;
+import com.enonic.cms.core.service.AdminService;
+
 import com.enonic.cms.domain.resource.ResourceFile;
 import com.enonic.cms.domain.resource.ResourceKey;
 import com.enonic.cms.domain.security.user.User;
@@ -528,7 +529,8 @@ public class ContentTypeHandlerServlet
             {
                 if ( contentHandlerName.equals( ContentHandlerName.CUSTOM ) )
                 {
-                    ContentTypeConfigParser.parse( contentHandlerName, configEl );
+                    final ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( contentHandlerName, configEl );
+                    contentTypeConfig.validate();
                 }
             }
             catch ( InvalidContentTypeConfigException e )

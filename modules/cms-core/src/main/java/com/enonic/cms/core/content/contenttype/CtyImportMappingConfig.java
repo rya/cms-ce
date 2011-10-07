@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.content.contenttype;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
@@ -133,6 +134,33 @@ public class CtyImportMappingConfig
     public Boolean hasAdditionalSource()
     {
         return additionalSource != null;
+    }
+
+    public void validate( final ContentTypeConfig contentTypeConfig )
+        throws InvalidImportConfigException
+    {
+        final DataEntryConfig dataEntryConfig = contentTypeConfig.getInputConfig( destination );
+        if ( dataEntryConfig == null )
+        {
+            throw new InvalidImportConfigException( importConfig.getName(),
+                                                    "Destination not found in content type '" + contentTypeConfig.getName() + "': " +
+                                                        destination );
+        }
+
+        if ( dataEntryConfig instanceof RelatedContentDataEntryConfig )
+        {
+            final RelatedContentDataEntryConfig relatedContentDataEntryConfig = (RelatedContentDataEntryConfig) dataEntryConfig;
+
+            if ( relatedContentDataEntryConfig.isMultiple() )
+            {
+                if ( importConfig.getMode() == CtyImportModeConfig.CSV && StringUtils.isEmpty( getSeparator() ) )
+                {
+                    throw new InvalidImportConfigException( importConfig.getName(),
+                                                            "Expected separator setting for import mapping to destinations of type relatedcontent when multiple is true: " +
+                                                                destination );
+                }
+            }
+        }
     }
 
     @Override

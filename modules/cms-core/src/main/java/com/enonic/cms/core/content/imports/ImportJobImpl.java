@@ -26,7 +26,7 @@ import com.enonic.cms.domain.security.user.UserEntity;
 
 
 public class ImportJobImpl
-        implements ImportJob
+    implements ImportJob
 {
     private static final Logger LOG = LoggerFactory.getLogger( ImportJobImpl.class );
 
@@ -65,8 +65,11 @@ public class ImportJobImpl
     public ImportResult start()
     {
         LOG.info( "Starting content import job #" + this.getImportJobNumber() );
-        LOG.info( "Import job #" + this.getImportJobNumber() + ": importing to category: key = " + categoryToImportTo.getKey() + ", path = " +
-                          categoryToImportTo.getPathAsString() );
+        LOG.info(
+            "Import job #" + this.getImportJobNumber() + ": importing to category: key = " + categoryToImportTo.getKey() + ", path = " +
+                categoryToImportTo.getPathAsString() );
+
+        importConfig.validateContentTypeImportConfig( categoryToImportTo.getContentType().getContentTypeConfig() );
 
         if ( importConfig.isSyncEnabled() )
         {
@@ -79,8 +82,8 @@ public class ImportJobImpl
         final long batchSize = 20L;
         final BatchedImportDataReader batchedDataReader = new BatchedImportDataReader( importDataReader, batchSize );
 
-        LOG.info( "Import job #" + this.getImportJobNumber() + ": Importing content in transactional batches of " +
-                          batchSize + " content per transaction." );
+        LOG.info( "Import job #" + this.getImportJobNumber() + ": Importing content in transactional batches of " + batchSize +
+                      " content per transaction." );
 
         int batchCount = 0;
         long lastBatchStartTime;
@@ -102,7 +105,8 @@ public class ImportJobImpl
                 }
             }
 
-            LOG.info( "Import job #" + this.getImportJobNumber() + ": batch #" + batchCount + " finished in " + ( System.currentTimeMillis() - lastBatchStartTime ) + " milliseconds." );
+            LOG.info( "Import job #" + this.getImportJobNumber() + ": batch #" + batchCount + " finished in " +
+                          ( System.currentTimeMillis() - lastBatchStartTime ) + " milliseconds." );
 
             batchedDataReader.startNewBatch();
         }
@@ -130,13 +134,13 @@ public class ImportJobImpl
         contentNotAffectedByImport = contentDao.findContentKeysByCategory( categoryToImportTo );
 
         LOG.info( "Import job #" + this.getImportJobNumber() + ": found " + contentNotAffectedByImport.size() +
-                          " existing content in category: " + categoryToImportTo.getPathAsString() );
+                      " existing content in category: " + categoryToImportTo.getPathAsString() );
 
         existingContentKeysBySyncValue =
-                new ExistingContentBySyncValueResolver( contentIndexService ).resolve( categoryToImportTo, importConfig );
+            new ExistingContentBySyncValueResolver( contentIndexService ).resolve( categoryToImportTo, importConfig );
 
         LOG.info( "Import job #" + this.getImportJobNumber() + ": found " + existingContentKeysBySyncValue.size() +
-                          " matching content keys (by sync value) in category: " + categoryToImportTo.getPathAsString() );
+                      " matching content keys (by sync value) in category: " + categoryToImportTo.getPathAsString() );
     }
 
     private void handleUnaffectedContentInCategory()
@@ -144,7 +148,7 @@ public class ImportJobImpl
         if ( contentNotAffectedByImport.isEmpty() )
         {
             LOG.info( "Import job #" + this.getImportJobNumber() +
-                              ": No remaining content to purge. All content in the category was affected by the import the job." );
+                          ": No remaining content to purge. All content in the category was affected by the import the job." );
             return;
         }
 

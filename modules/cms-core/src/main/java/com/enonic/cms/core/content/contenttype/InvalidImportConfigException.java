@@ -12,7 +12,7 @@ public class InvalidImportConfigException
 {
     public InvalidImportConfigException( String message )
     {
-        super( message );
+        super( "Import config is not valid: " + message );
     }
 
     public InvalidImportConfigException( String name, String message )
