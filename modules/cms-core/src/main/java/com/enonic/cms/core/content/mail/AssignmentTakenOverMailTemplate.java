@@ -4,12 +4,10 @@
  */
 package com.enonic.cms.core.content.mail;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.mail.MailRecipient;
-
-import com.enonic.cms.core.content.ContentEntity;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Created by IntelliJ IDEA.

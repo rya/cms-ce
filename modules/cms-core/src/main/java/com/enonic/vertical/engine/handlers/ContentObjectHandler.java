@@ -39,10 +39,10 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public final class ContentObjectHandler
     extends BaseHandler

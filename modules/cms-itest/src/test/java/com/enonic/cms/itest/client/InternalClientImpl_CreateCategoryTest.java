@@ -21,16 +21,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.cms.api.client.model.CreateCategoryParams;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.business.core.security.SecurityHolder;
 
 import com.enonic.cms.core.content.ContentHandlerName;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 import static org.junit.Assert.*;
 

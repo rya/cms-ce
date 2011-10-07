@@ -13,7 +13,7 @@ import com.enonic.vertical.engine.BaseEngine;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.GroupHandler;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public final class UnitFilter
     implements Filter

@@ -12,8 +12,8 @@ import org.jdom.Document;
 
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 public class LogEntryEntity
     implements Serializable

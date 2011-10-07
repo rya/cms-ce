@@ -19,7 +19,7 @@ import com.enonic.cms.core.resolver.locale.mock.LocaleResolverInputXMLCreatorMoc
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.saxon.SaxonProcessorManager;
 
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFile;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

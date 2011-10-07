@@ -34,12 +34,12 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.portal.ShoppingCart;
-import com.enonic.cms.domain.security.user.User;
 
 public class OrderHandlerController
     extends ContentHandlerBaseController

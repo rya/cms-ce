@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,17 +26,18 @@ import com.enonic.vertical.engine.MenuAccessRight;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.resource.ResourceXmlCreator;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceXmlCreator;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
+import com.enonic.cms.core.resource.ResourceFolder;
+
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
 public class MainMenuServlet
     extends AdminHandlerBaseServlet

@@ -3,17 +3,15 @@ package com.enonic.cms.core.content.category;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentStorer;
 import com.enonic.cms.core.content.UnitEntity;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
-
-import com.enonic.cms.core.content.ContentEntity;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 class DeleteCategoryCommandProcessor
 {

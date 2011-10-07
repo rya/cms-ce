@@ -13,9 +13,8 @@ import org.mockito.Mockito;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
-
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 import static org.junit.Assert.*;
 

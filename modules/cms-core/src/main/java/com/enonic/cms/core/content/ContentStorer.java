@@ -35,11 +35,19 @@ import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.BaseContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;
+import com.enonic.cms.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentDataModifier;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserNotFoundException;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -51,18 +59,8 @@ import com.enonic.cms.store.dao.RelatedContentDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.core.content.command.UnassignContentCommand;
-import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand.UpdateStrategy;
-
 import com.enonic.cms.domain.LanguageEntity;
-
-import com.enonic.cms.core.content.contentdata.custom.CustomContentDataModifier;
 import com.enonic.cms.domain.portal.ContentNotFoundException;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserNotFoundException;
-import com.enonic.cms.domain.structure.menuitem.ContentHomeEntity;
 
 public class ContentStorer
 {

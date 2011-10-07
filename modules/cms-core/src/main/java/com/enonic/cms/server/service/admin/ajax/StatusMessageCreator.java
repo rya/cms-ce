@@ -4,14 +4,16 @@
  */
 package com.enonic.cms.server.service.admin.ajax;
 
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.GroupMembershipsStatus;
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.RemoteUsersStatus;
+
 import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.status.GroupMembershipsStatus;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.status.RemoteGroupsStatus;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.status.RemoteUsersStatus;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.status.UserMembershipsStatus;
-import com.enonic.cms.business.core.security.userstore.status.LocalGroupsStatus;
-import com.enonic.cms.business.core.security.userstore.status.LocalUsersStatus;
+
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.RemoteGroupsStatus;
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.UserMembershipsStatus;
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
+import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
+import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
 
 public final class StatusMessageCreator
 {

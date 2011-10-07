@@ -66,8 +66,24 @@ import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteProperties;
+import com.enonic.cms.core.structure.SiteService;
+import com.enonic.cms.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.page.PageSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -77,12 +93,8 @@ import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.core.content.ContentService;
 
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
-import com.enonic.cms.business.core.structure.SiteService;
-import com.enonic.cms.business.core.structure.SiteXmlCreator;
-import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.security.SecurityService;
+
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
@@ -91,18 +103,7 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
 import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
-import com.enonic.cms.domain.structure.page.PageSpecification;
-import com.enonic.cms.domain.structure.page.template.PageTemplateSpecification;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.SiteEntity;
 
 
 public class SectionHandlerServlet

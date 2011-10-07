@@ -9,9 +9,9 @@ import java.util.Locale;
 import com.enonic.cms.core.content.ContentEntity;
 
 import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class ExpressionContext
 {

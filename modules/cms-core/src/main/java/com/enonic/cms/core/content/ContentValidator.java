@@ -12,9 +12,8 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.store.dao.ContentDao;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
+import com.enonic.cms.store.dao.ContentDao;
 
 public class ContentValidator
 {

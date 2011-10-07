@@ -24,7 +24,9 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.image.ImageRequest;
+import com.enonic.cms.core.resource.FileResource;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -46,12 +48,11 @@ import com.enonic.cms.domain.portal.instruction.CreateContentUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.CreateImageUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 import static org.junit.Assert.*;
 

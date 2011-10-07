@@ -35,7 +35,7 @@ import com.enonic.cms.server.service.tools.DataSourceInfoResolver;
 
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 /**
  *

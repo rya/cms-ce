@@ -9,9 +9,9 @@ import java.util.List;
 
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 public interface SiteDao
     extends EntityDao<SiteEntity>

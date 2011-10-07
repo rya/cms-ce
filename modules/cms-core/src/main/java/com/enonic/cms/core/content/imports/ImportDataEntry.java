@@ -13,7 +13,6 @@ import com.google.common.collect.Multimap;
 import com.enonic.cms.core.content.contenttype.CtyImportBlockConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
 import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
-
 import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 
 public class ImportDataEntry

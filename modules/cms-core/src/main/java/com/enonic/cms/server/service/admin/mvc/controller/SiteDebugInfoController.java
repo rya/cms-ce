@@ -31,8 +31,8 @@ import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.PagePortletTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.RenderTraceInfo;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  * This class implements the debug controller.

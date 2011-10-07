@@ -26,14 +26,14 @@ import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
 
 public interface AdminService
 {

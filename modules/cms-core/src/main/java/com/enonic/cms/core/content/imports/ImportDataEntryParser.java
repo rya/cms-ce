@@ -12,18 +12,15 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
 import com.enonic.cms.core.content.contentdata.custom.DataEntrySet;
 import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.KeywordsDataEntry;
-
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.FileDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.ImageDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
@@ -34,9 +31,8 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportBlockConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
 import com.enonic.cms.core.content.contenttype.CtySetConfig;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
 
 /**

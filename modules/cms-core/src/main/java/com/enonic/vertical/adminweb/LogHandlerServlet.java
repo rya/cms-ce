@@ -35,11 +35,11 @@ import com.enonic.vertical.engine.XDG;
 
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.Table;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.domain.CmsDateAndTimeFormats;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 public class LogHandlerServlet
     extends AdminHandlerBaseServlet

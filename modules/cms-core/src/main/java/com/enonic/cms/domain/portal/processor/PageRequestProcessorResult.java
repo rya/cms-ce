@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+
+import com.enonic.cms.core.structure.page.Regions;
 
 /**
  * Sep 28, 2009

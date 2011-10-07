@@ -9,15 +9,13 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.mail.AbstractMailTemplate;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
-
-import com.enonic.cms.core.content.ContentEntity;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 /**
  * Created by IntelliJ IDEA.

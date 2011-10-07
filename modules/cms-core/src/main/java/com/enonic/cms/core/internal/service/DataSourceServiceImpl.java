@@ -63,8 +63,21 @@ import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.core.preference.PreferenceUniqueMatchResolver;
 import com.enonic.cms.core.preference.PreferenceXmlCreator;
+import com.enonic.cms.core.security.UserStoreParser;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.timezone.TimeZoneService;
 import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
 import com.enonic.cms.store.dao.ContentDao;
@@ -79,13 +92,10 @@ import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.GetContentResult;
 import com.enonic.cms.core.content.GetContentXmlCreator;
 
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.UserStoreParser;
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
-import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
-import com.enonic.cms.business.core.structure.SiteXmlCreator;
-import com.enonic.cms.business.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.security.SecurityService;
+
+import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
+
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewContext;
 
@@ -106,16 +116,9 @@ import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
 
 import com.enonic.cms.core.preference.PreferenceScopeResolver;
 
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.user.UserXmlCreator;
+
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 
 public final class DataSourceServiceImpl
         implements DataSourceService

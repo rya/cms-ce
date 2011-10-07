@@ -47,9 +47,9 @@ import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.RedirectInstruction;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * May 26, 2009

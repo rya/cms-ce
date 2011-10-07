@@ -12,16 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStorer;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.index.ContentIndexService;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
-
-import com.enonic.cms.core.content.ContentStorer;
-
-import com.enonic.cms.core.content.index.ContentIndexService;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 public class ImportServiceImpl
     implements ImportService

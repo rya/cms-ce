@@ -33,20 +33,18 @@ import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.binary.InvalidBinaryPathException;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
-
-import com.enonic.cms.business.core.security.SecurityService;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.PathAndParams;
 import com.enonic.cms.domain.RequestParameters;
 
 import com.enonic.cms.core.content.ContentVersionKey;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 public class AttachmentController
     extends AbstractController

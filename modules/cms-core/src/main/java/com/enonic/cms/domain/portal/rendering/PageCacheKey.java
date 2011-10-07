@@ -10,7 +10,7 @@ import java.util.Locale;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 
 public class PageCacheKey

@@ -5,10 +5,9 @@
 package com.enonic.cms.core.content;
 
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
-import com.enonic.cms.store.dao.GroupDao;
-
 import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.domain.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.store.dao.GroupDao;
 
 
 public class InheritContentAccessRightsAlgorithm

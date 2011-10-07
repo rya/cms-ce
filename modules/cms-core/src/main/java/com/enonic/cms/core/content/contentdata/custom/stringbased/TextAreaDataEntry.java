@@ -7,7 +7,6 @@ package com.enonic.cms.core.content.contentdata.custom.stringbased;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 
 public class TextAreaDataEntry

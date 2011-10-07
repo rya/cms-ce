@@ -1,6 +1,6 @@
 package com.enonic.cms.core.preference;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

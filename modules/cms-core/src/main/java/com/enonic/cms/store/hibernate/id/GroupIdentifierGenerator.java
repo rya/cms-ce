@@ -11,7 +11,7 @@ import org.hibernate.id.IdentifierGenerator;
 
 import com.enonic.esl.util.DigestUtil;
 
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 public class GroupIdentifierGenerator
     implements IdentifierGenerator

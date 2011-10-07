@@ -10,10 +10,8 @@ import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
-
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public interface ImportJob

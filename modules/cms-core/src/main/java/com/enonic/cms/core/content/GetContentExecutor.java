@@ -11,20 +11,18 @@ import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.preview.PreviewContext;
-
-import com.enonic.cms.core.content.query.ContentByContentQuery;
-import com.enonic.cms.core.content.query.RelatedContentQuery;
-
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
 
 /**
  * Nov 16, 2010

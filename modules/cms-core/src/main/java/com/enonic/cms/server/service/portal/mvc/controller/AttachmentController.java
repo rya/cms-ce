@@ -27,6 +27,7 @@ import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
 import com.enonic.cms.core.content.binary.AttachmentRequest;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.server.domain.content.binary.AttachmentRequestResolver;
 import com.enonic.cms.store.dao.BinaryDataDao;
 
@@ -46,9 +47,8 @@ import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class AttachmentController
     extends AbstractSiteController

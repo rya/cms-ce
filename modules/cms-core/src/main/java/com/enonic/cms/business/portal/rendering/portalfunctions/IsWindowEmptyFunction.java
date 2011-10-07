@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.core.structure.page.WindowKey;
+
 import com.enonic.cms.business.portal.rendering.PageRendererContext;
 import com.enonic.cms.business.portal.rendering.WindowRenderer;
 import com.enonic.cms.business.portal.rendering.WindowRendererContext;
@@ -18,7 +20,6 @@ import com.enonic.cms.business.portal.rendering.tracing.TraceMarkerHelper;
 
 import com.enonic.cms.domain.RequestParameters;
 import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
-import com.enonic.cms.domain.structure.page.WindowKey;
 
 public class IsWindowEmptyFunction
 {

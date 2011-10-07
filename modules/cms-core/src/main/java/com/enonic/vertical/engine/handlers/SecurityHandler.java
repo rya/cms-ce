@@ -49,12 +49,11 @@ import com.enonic.vertical.event.VerticalEventListener;
 import com.enonic.cms.framework.util.UUIDGenerator;
 
 import com.enonic.cms.core.content.category.CategoryKey;
-
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 final public class SecurityHandler
     extends BaseHandler

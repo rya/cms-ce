@@ -24,7 +24,7 @@ import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Created by rmy - Date: Apr 3, 2009

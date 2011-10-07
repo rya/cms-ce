@@ -23,23 +23,24 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.security.group.DeleteGroupCommand;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupSpecification;
+import com.enonic.cms.core.security.group.GroupXmlCreator;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.domain.security.group.DeleteGroupCommand;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.group.GroupXmlCreator;
-import com.enonic.cms.domain.security.group.StoreNewGroupCommand;
-import com.enonic.cms.domain.security.group.UpdateGroupCommand;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
-import com.enonic.cms.domain.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.group.StoreNewGroupCommand;
+import com.enonic.cms.core.security.group.UpdateGroupCommand;
+
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 
 final public class GroupHandlerServlet
     extends AdminHandlerBaseServlet

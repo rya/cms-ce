@@ -13,7 +13,7 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.VerticalAdminException;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class ContentCatalogXMLBuilder
     extends ContentBaseXMLBuilder

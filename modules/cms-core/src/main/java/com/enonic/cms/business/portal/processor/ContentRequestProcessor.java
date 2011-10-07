@@ -29,8 +29,8 @@ import com.enonic.cms.domain.portal.PageTemplateNotFoundException;
 import com.enonic.cms.domain.portal.PathToContentResolver;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 /**
  * Sep 28, 2009

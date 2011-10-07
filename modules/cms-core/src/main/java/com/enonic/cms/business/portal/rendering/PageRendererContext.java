@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.page.Regions;
 
 import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.business.preview.PreviewContext;
@@ -20,10 +23,8 @@ import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Apr 22, 2009

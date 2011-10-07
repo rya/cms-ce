@@ -49,10 +49,9 @@ import org.slf4j.LoggerFactory;
 import com.enonic.cms.framework.util.MimeTypeResolver;
 
 import com.enonic.cms.api.Version;
-
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceData;
-import com.enonic.cms.domain.resource.FileResourceName;
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceData;
+import com.enonic.cms.core.resource.FileResourceName;
 
 /**
  * This class implements the resource.

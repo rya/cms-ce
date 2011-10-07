@@ -16,18 +16,18 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.content.ContentLocationXmlCreator;
 import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 
-import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
-import com.enonic.cms.business.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccumulatedAccessRights;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAndUserAccessRights;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteProperties;
+import com.enonic.cms.core.structure.menuitem.MenuItemAndUserAccessRights;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 /**
  * Jan 7, 2010

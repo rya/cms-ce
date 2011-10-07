@@ -9,7 +9,6 @@ import org.jdom.Element;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.contentdata.ContentDataXPathCreator;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 

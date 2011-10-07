@@ -8,10 +8,11 @@ import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.contentdata.ContentData;
@@ -19,7 +20,7 @@ import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
+
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;

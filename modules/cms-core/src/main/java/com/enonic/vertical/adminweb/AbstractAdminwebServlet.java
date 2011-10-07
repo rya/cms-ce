@@ -36,9 +36,12 @@ import com.enonic.cms.framework.time.TimeService;
 
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.resource.access.ResourceAccessResolver;
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentHandlerDao;
@@ -62,14 +65,12 @@ import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.category.CategoryService;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportService;
-import com.enonic.cms.business.core.resource.ResourceService;
-import com.enonic.cms.business.core.resource.access.ResourceAccessResolver;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
-import com.enonic.cms.business.core.structure.SiteService;
-import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.resource.ResourceService;
+
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.core.country.CountryService;
 import com.enonic.cms.core.locale.LocaleService;
 

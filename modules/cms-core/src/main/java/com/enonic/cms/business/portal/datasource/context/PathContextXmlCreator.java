@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * Jul 28, 2009

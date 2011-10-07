@@ -27,6 +27,7 @@ import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.ContentDao;
@@ -35,8 +36,7 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserType;
 
 import static org.junit.Assert.*;
 

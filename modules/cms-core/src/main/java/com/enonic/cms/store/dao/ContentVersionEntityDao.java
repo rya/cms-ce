@@ -17,8 +17,8 @@ import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.ContentVersionSpecification;
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
 import com.enonic.cms.core.content.category.CategoryAccessType;
+import com.enonic.cms.core.security.group.GroupKey;
 
-import com.enonic.cms.domain.security.group.GroupKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("contentVersionDao")

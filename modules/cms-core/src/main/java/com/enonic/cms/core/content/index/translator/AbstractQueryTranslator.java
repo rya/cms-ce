@@ -12,7 +12,7 @@ import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.core.content.ContentAccessEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 /**
  * This class implements the query translator.

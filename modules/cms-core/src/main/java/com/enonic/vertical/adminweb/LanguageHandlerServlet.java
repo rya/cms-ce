@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 
@@ -22,10 +21,10 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.security.user.User;
 
 public class LanguageHandlerServlet
     extends AdminHandlerBaseServlet

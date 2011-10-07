@@ -30,16 +30,16 @@ import com.enonic.cms.framework.util.UrlPathDecoder;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceXmlCreator;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 
-import com.enonic.cms.domain.resource.ResourceBase;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceXmlCreator;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.resource.ResourceBase;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFolder;
 
 public class ResourceHandlerServlet
         extends AdminHandlerBaseServlet

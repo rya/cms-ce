@@ -5,9 +5,8 @@
 package com.enonic.cms.domain;
 
 import com.enonic.cms.core.content.ContentEntity;
-
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * May 11, 2009

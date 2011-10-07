@@ -4,35 +4,37 @@
  */
 package com.enonic.cms.core.content.imports;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Lists;
+
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.AbstractContentKeyBasedInputDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.AbstractStringBasedInputDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
 import com.enonic.cms.core.content.imports.sourcevalueholders.StringArraySourceValue;
 import com.enonic.cms.core.content.index.ContentIndexQuery;
 import com.enonic.cms.core.content.index.ContentIndexService;
-
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.contentkeybased.AbstractContentKeyBasedInputDataEntry;
-
-import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
-
 import com.enonic.cms.core.content.index.config.IndexDefinition;
 import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
-
 import com.enonic.cms.store.dao.ContentTypeDao;
-import com.google.common.collect.Lists;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class RelatedContentFinder
 {

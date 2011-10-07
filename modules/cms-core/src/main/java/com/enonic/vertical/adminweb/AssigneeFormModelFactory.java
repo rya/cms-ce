@@ -6,12 +6,12 @@ package com.enonic.vertical.adminweb;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 /**
  * Created by IntelliJ IDEA.

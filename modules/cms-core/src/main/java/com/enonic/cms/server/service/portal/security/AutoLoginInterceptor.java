@@ -9,13 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.server.service.servlet.OriginalPathResolver;
 
-import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.core.plugin.ExtensionManager;
-
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 /**
  * This interceptor executes any auto login plugins available.

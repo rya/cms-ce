@@ -12,9 +12,8 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.index.ContentIndexQuery;
-
 import com.enonic.cms.core.content.index.ContentIndexQuery.CategoryAccessTypeFilterPolicy;
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 public abstract class AbstractContentArchiveQuery
     extends AbstractContentQuery

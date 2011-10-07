@@ -7,9 +7,8 @@ package com.enonic.cms.core.content.mail;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.mail.MailRecipient;
-
 import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.mail.MailRecipient;
 
 /**
  * Created by IntelliJ IDEA.

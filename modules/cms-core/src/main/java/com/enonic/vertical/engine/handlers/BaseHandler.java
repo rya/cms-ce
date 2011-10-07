@@ -20,6 +20,8 @@ import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 
 import com.enonic.cms.core.log.LogService;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.service.KeyService;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
@@ -38,8 +40,6 @@ import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
 
 import com.enonic.cms.domain.CmsDateAndTimeFormats;
 

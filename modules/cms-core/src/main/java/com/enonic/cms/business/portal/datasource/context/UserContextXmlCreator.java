@@ -9,12 +9,12 @@ import java.util.Set;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.field.UserInfoXmlCreator;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.field.UserInfoXmlCreator;
 
 public class UserContextXmlCreator
 {

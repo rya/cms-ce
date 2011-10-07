@@ -6,13 +6,13 @@ package com.enonic.cms.business;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 public class SiteRepository
 {

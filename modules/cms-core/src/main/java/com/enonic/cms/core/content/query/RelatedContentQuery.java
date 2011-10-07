@@ -7,8 +7,7 @@ package com.enonic.cms.core.content.query;
 import java.util.Date;
 
 import com.enonic.cms.core.content.resultset.ContentResultSet;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class RelatedContentQuery
 {

@@ -10,9 +10,8 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
 import com.enonic.cms.core.content.contentdata.custom.TitleDataEntry;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.UrlDataEntryConfig;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.UrlDataEntryConfig;
 
 public class UrlDataEntry
     extends AbstractStringBasedInputDataEntry

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menuitems istop="yes">
+  <menuitem key="1" menukey="1" modifier="KEY" order="0" owner="KEY" timestamp="2007-07-25 09:00" type="label" visible="yes">
+    <name>1</name>
+    <menu-name>1</menu-name>
+    <display-name>1</display-name>
+    <show-in-menu>true</show-in-menu>
+    <description/>
+    <keywords/>
+    <parameters/>
+  </menuitem>
+</menuitems>
+

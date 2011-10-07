@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menuitems istop="yes">
+  <menuitem key="1" menukey="1" modifier="KEY" order="0" owner="KEY" timestamp="2007-07-25 09:00" type="section" visible="yes">
+    <name>one</name>
+    <menu-name>one</menu-name>
+    <display-name>one</display-name>
+    <show-in-menu>true</show-in-menu>
+    <description/>
+    <keywords/>
+    <parameters/>
+    <section key="1" menuitemkey="1" menukey="1" ordered="false">
+      <contenttypes>
+        <contenttype key="201">
+          <name>type1</name>
+        </contenttype>
+        <contenttype key="202">
+          <name>type2</name>
+        </contenttype>
+      </contenttypes>
+    </section>
+  </menuitem>
+</menuitems>
+

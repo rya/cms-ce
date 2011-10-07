@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 
@@ -20,14 +19,14 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.xml.XMLTool;
 
+import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.DeploymentPathResolver;
 
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 public final class NavigatorServlet
     extends AdminHandlerBaseServlet

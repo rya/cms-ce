@@ -18,6 +18,8 @@ import org.mockito.Mockito;
 
 import com.google.common.collect.Lists;
 
+import com.enonic.cms.core.structure.SiteEntity;
+
 import com.enonic.cms.business.portal.rendering.WindowRendererContext;
 
 import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
@@ -30,7 +32,6 @@ import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializingException;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionUnknownTypeException;
 import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
-import com.enonic.cms.domain.structure.SiteEntity;
 
 import static org.junit.Assert.*;
 

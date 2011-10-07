@@ -12,10 +12,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.enonic.vertical.adminweb.AdminHelper;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public final class LoginCheckInterceptor
     extends HandlerInterceptorAdapter

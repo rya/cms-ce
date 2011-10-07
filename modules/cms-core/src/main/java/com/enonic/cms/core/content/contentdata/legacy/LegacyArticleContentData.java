@@ -13,7 +13,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.cms.core.content.ContentKey;
-
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 

@@ -6,7 +6,7 @@ package com.enonic.cms.core.localization;
 
 import java.util.Locale;
 
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Created by rmy - Date: Apr 22, 2009

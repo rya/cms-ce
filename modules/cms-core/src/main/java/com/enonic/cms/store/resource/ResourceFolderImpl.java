@@ -7,10 +7,10 @@ package com.enonic.cms.store.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceFolder;
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFolder;
 
 public final class ResourceFolderImpl
     extends ResourceBaseImpl

@@ -7,11 +7,12 @@ package com.enonic.cms.domain.portal.rendering.viewtransformer;
 import java.io.IOException;
 import java.util.Map;
 
+import com.enonic.cms.core.structure.page.RegionOrigin;
+
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
 import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
-import com.enonic.cms.domain.structure.page.Region;
-import com.enonic.cms.domain.structure.page.RegionOrigin;
-import com.enonic.cms.domain.structure.page.Window;
+import com.enonic.cms.core.structure.page.Region;
+import com.enonic.cms.core.structure.page.Window;
 
 
 public final class RegionTransformationParameter

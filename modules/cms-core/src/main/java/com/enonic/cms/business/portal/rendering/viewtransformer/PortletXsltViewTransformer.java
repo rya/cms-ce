@@ -18,17 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.structure.TemplateParameterType;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
-
-import com.enonic.cms.business.core.resource.ResourceService;
 
 import com.enonic.cms.domain.portal.PortletXsltViewTransformationException;
 import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParameter;
 import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParams;
 import com.enonic.cms.domain.portal.rendering.viewtransformer.ViewTransformationResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.structure.TemplateParameterType;
 
 /**
  * Apr 30, 2009

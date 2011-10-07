@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorErrors;
 import com.enonic.cms.core.xslt.XsltProcessorException;
@@ -17,10 +19,7 @@ import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
 
-import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.portal.rendering.StyleSheetURIResolver;
-
-import com.enonic.cms.domain.resource.ResourceKey;
 
 /**
  * May 13, 2009

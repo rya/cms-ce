@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.enonic.cms.core.content.index.ContentIndexConstants;
-
 import com.enonic.cms.core.content.index.queryexpression.CombinedLogicalOrExpr;
 import com.enonic.cms.core.content.index.queryexpression.CompareExpr;
 import com.enonic.cms.core.content.index.queryexpression.Expression;

@@ -21,8 +21,7 @@ import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.category.CategoryEntity;
-
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceKey;
 
 public class ContentTypeEntity
     implements Serializable

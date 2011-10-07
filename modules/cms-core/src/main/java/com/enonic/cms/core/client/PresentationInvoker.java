@@ -12,9 +12,8 @@ import com.enonic.cms.api.client.model.GetMenuDataParams;
 import com.enonic.cms.api.client.model.GetMenuItemParams;
 import com.enonic.cms.api.client.model.GetMenuParams;
 import com.enonic.cms.api.client.model.GetSubMenuParams;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.DataSourceService;
-
-import com.enonic.cms.business.core.security.SecurityService;
 
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 

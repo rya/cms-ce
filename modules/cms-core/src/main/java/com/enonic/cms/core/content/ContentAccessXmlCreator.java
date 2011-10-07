@@ -8,8 +8,8 @@ import java.util.Collection;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
 
 
 public class ContentAccessXmlCreator

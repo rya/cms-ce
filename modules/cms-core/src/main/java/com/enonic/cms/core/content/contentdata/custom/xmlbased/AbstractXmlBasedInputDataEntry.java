@@ -11,7 +11,6 @@ import org.jdom.Document;
 import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
-
 import com.enonic.cms.core.content.contentdata.custom.AbstractInputDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;

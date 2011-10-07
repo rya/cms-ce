@@ -18,9 +18,8 @@ import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedContent;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
 import com.enonic.cms.core.content.resultset.RelatedParentContent;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 
 public abstract class AbstractRelatedContentFetcher

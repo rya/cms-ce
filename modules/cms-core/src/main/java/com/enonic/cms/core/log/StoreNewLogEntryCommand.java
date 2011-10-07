@@ -6,8 +6,8 @@ package com.enonic.cms.core.log;
 
 import org.jdom.Document;
 
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Jul 9, 2009

@@ -15,11 +15,12 @@ import com.enonic.cms.core.resolver.ForceResolverValueService;
 import com.enonic.cms.core.resolver.ForceResolverValueServiceImpl;
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import static org.junit.Assert.*;
 

@@ -36,14 +36,16 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityHolder;
+
 import com.enonic.cms.business.preview.ContentPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
@@ -51,7 +53,6 @@ import com.enonic.cms.business.preview.PreviewService;
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;

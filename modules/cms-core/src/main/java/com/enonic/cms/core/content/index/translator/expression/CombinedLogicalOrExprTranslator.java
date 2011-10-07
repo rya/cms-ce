@@ -7,9 +7,9 @@ package com.enonic.cms.core.content.index.translator.expression;
 import java.util.List;
 
 import com.enonic.cms.core.content.index.ContentIndexConstants;
+import com.enonic.cms.core.content.index.queryexpression.CombinedLogicalOrExpr;
 import com.enonic.cms.core.content.index.queryexpression.CompareExpr;
 import com.enonic.cms.core.content.index.queryexpression.FieldExpr;
-import com.enonic.cms.core.content.index.queryexpression.CombinedLogicalOrExpr;
 
 public class CombinedLogicalOrExprTranslator
 {

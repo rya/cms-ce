@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menus>
+  <menu key="1" language="Norwegian" languagecode="no" languagekey="1">
+    <name/>
+    <firstpage/>
+    <loginpage/>
+    <errorpage/>
+    <defaultpagetemplate/>
+    <menudata/>
+    <details menukey="1"/>
+    <statistics/>
+    <menuitems istop="yes">
+      <menuitem key="1" menukey="1" modifier="KEY" order="0" owner="KEY" path="true" timestamp="2007-07-25 09:00" type="content"
+                visible="yes">
+        <name>mi 1</name>
+        <alternative-name/>
+        <subtitle deprecated="Use alternative-name instead"/>
+        <show-in-menu>true</show-in-menu>
+        <description/>
+        <keywords/>
+        <parameters/>
+        <menuitems istop="no">
+          <menuitem active="true" key="11" menukey="1" modifier="KEY" order="0" owner="KEY" parent="1" path="true"
+                    timestamp="2007-07-25 09:00" type="content" visible="yes">
+            <name>mi 1.1</name>
+            <alternative-name/>
+            <subtitle deprecated="Use alternative-name instead"/>
+            <show-in-menu>true</show-in-menu>
+            <description/>
+            <keywords/>
+            <parameters/>
+            <menuitems istop="no">
+              <menuitem key="111" menukey="1" modifier="KEY" order="0" owner="KEY" parent="11" timestamp="2007-07-25 09:00" type="content"
+                        visible="yes">
+                <name>mi 1.1.1</name>
+                <alternative-name/>
+                <subtitle deprecated="Use alternative-name instead"/>
+                <show-in-menu>true</show-in-menu>
+                <description/>
+                <keywords/>
+                <parameters/>
+                <menuitems istop="no"/>
+              </menuitem>
+            </menuitems>
+          </menuitem>
+          <menuitem key="12" menukey="1" modifier="KEY" order="0" owner="KEY" parent="1" timestamp="2007-07-25 09:00" type="content"
+                    visible="yes">
+            <name>mi 1.2</name>
+            <alternative-name/>
+            <subtitle deprecated="Use alternative-name instead"/>
+            <show-in-menu>true</show-in-menu>
+            <description/>
+            <keywords/>
+            <parameters/>
+            <menuitems istop="no">
+              <menuitem key="121" menukey="1" modifier="KEY" order="0" owner="KEY" parent="12" timestamp="2007-07-25 09:00" type="content"
+                        visible="yes">
+                <name>mi 1.2.1</name>
+                <alternative-name/>
+                <subtitle deprecated="Use alternative-name instead"/>
+                <show-in-menu>true</show-in-menu>
+                <description/>
+                <keywords/>
+                <parameters/>
+                <menuitems istop="no"/>
+              </menuitem>
+              <menuitem key="122" menukey="1" modifier="KEY" order="0" owner="KEY" parent="12" timestamp="2007-07-25 09:00" type="content"
+                        visible="yes">
+                <name>mi 1.2.2</name>
+                <alternative-name/>
+                <subtitle deprecated="Use alternative-name instead"/>
+                <show-in-menu>true</show-in-menu>
+                <description/>
+                <keywords/>
+                <parameters/>
+                <menuitems istop="no">
+                  <menuitem key="1221" menukey="1" modifier="KEY" order="0" owner="KEY" parent="122" timestamp="2007-07-25 09:00"
+                            type="content" visible="yes">
+                    <name>mi 1.2.2.1</name>
+                    <alternative-name/>
+                    <subtitle deprecated="Use alternative-name instead"/>
+                    <show-in-menu>true</show-in-menu>
+                    <description/>
+                    <keywords/>
+                    <parameters/>
+                    <menuitems istop="no"/>
+                  </menuitem>
+                </menuitems>
+              </menuitem>
+            </menuitems>
+          </menuitem>
+        </menuitems>
+      </menuitem>
+      <menuitem key="2" menukey="1" modifier="KEY" order="0" owner="KEY" timestamp="2007-07-25 09:00" type="content" visible="yes">
+        <name>mi 2</name>
+        <alternative-name/>
+        <subtitle deprecated="Use alternative-name instead"/>
+        <show-in-menu>true</show-in-menu>
+        <description/>
+        <keywords/>
+        <parameters/>
+        <menuitems istop="no">
+          <menuitem key="21" menukey="1" modifier="KEY" order="0" owner="KEY" parent="2" timestamp="2007-07-25 09:00" type="content"
+                    visible="yes">
+            <name>mi 2.1</name>
+            <alternative-name/>
+            <subtitle deprecated="Use alternative-name instead"/>
+            <show-in-menu>true</show-in-menu>
+            <description/>
+            <keywords/>
+            <parameters/>
+            <menuitems istop="no"/>
+          </menuitem>
+        </menuitems>
+      </menuitem>
+    </menuitems>
+  </menu>
+</menus>
+

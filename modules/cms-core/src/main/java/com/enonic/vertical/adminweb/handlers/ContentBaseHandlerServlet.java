@@ -110,7 +110,17 @@ import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.structure.MenuItemAccessRightAccumulator;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
@@ -128,8 +138,6 @@ import com.enonic.cms.core.content.command.UnassignContentCommand;
 
 import com.enonic.cms.core.content.mail.AssignmentMailSender;
 
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.structure.MenuItemAccessRightAccumulator;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
@@ -146,17 +154,10 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**

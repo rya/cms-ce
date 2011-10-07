@@ -5,7 +5,6 @@
 package com.enonic.cms.core.content.contentdata;
 
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 
 public class MissingRequiredContentDataException

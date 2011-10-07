@@ -11,13 +11,11 @@ import org.apache.commons.lang.StringUtils;
 
 import com.google.common.collect.Maps;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.mail.AbstractMailTemplate;
-
-import com.enonic.cms.core.content.ContentEntity;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * Created by IntelliJ IDEA.

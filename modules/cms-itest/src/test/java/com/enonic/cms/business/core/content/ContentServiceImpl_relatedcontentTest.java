@@ -40,6 +40,7 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.store.dao.ContentDao;
@@ -48,8 +49,6 @@ import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 import static org.junit.Assert.*;
 

@@ -14,9 +14,15 @@ import java.util.Set;
 import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentStorer;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
@@ -24,23 +30,13 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
 import com.enonic.cms.core.content.contenttype.CtyImportBlockConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportUpdateStrategyConfig;
 import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.core.content.UpdateContentResult;
-import com.enonic.cms.core.content.command.AssignContentCommand;
-
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionEntity;
-
-import com.enonic.cms.core.content.category.CategoryEntity;
-
-import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
-
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 public class ContentImporterImpl
 {

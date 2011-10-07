@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
 import com.enonic.cms.core.content.resultset.RelatedContent;
@@ -16,8 +17,6 @@ import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
 import com.enonic.cms.core.content.resultset.RelatedParentContent;
 import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 
 public class RelatedContentFetcher

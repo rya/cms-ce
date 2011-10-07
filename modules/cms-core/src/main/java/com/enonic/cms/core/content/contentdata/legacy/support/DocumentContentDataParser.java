@@ -10,7 +10,6 @@ import org.jdom.Document;
 
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.contentdata.ContentData;
-
 import com.enonic.cms.core.content.contentdata.legacy.LegacyDocumentContentData;
 
 /**

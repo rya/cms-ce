@@ -28,15 +28,14 @@ import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.core.security.UserNameXmlCreator;
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
-
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.UserNameXmlCreator;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreService;
 
 public final class GroupHandler
     extends BaseHandler

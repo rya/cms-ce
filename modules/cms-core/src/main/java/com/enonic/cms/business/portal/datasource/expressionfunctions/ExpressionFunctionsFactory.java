@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.portal.datasource.expressionfunctions;
 
-import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.time.TimeService;

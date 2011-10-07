@@ -36,7 +36,7 @@ import com.enonic.cms.store.dao.ContentIndexDao;
 
 import com.enonic.cms.core.content.index.AggregatedResult;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class ContentIndexServiceImplTest
     extends AbstractTransactionalSpringContextTests

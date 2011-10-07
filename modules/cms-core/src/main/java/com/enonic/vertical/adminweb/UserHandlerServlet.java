@@ -53,6 +53,24 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.country.Country;
 import com.enonic.cms.core.locale.LocaleXmlCreator;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.group.GroupXmlCreator;
+import com.enonic.cms.core.security.user.DeleteUserCommand;
+import com.enonic.cms.core.security.user.DisplayNameResolver;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
+import com.enonic.cms.core.security.user.UserXmlCreator;
+import com.enonic.cms.core.security.user.field.UserInfoXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
 import com.enonic.cms.core.xslt.XsltProcessor;
@@ -64,36 +82,22 @@ import com.enonic.cms.store.dao.GroupQuery;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.core.security.PasswordGenerator;
+import com.enonic.cms.core.security.PasswordGenerator;
 
 import com.enonic.cms.domain.AbstractPagedXmlCreator;
 
 import com.enonic.cms.core.country.CountryXmlCreator;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.ObjectClassesXmlCreator;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.group.GroupSpecification;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.group.GroupXmlCreator;
-import com.enonic.cms.domain.security.user.DeleteUserCommand;
-import com.enonic.cms.domain.security.user.DisplayNameResolver;
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.StoreNewUserCommand;
-import com.enonic.cms.domain.security.user.UpdateUserCommand;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.user.UserStorageExistingEmailException;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.user.UserXmlCreator;
-import com.enonic.cms.domain.security.user.field.UserInfoXmlCreator;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
-import com.enonic.cms.domain.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
+
+import com.enonic.cms.core.security.ObjectClassesXmlCreator;
+
+import com.enonic.cms.core.security.group.GroupSpecification;
+
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
+import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 import com.enonic.cms.domain.user.field.UserFieldMap;
 import com.enonic.cms.domain.user.field.UserFieldTransformer;

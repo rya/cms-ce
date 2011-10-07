@@ -24,7 +24,11 @@ import com.enonic.cms.core.content.ContentLocation;
 import com.enonic.cms.core.content.ContentLocationSpecification;
 import com.enonic.cms.core.content.ContentLocations;
 import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Regions;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 
@@ -50,11 +54,8 @@ import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
 import com.enonic.cms.core.resolver.ResolverContext;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 /**
  * Feb 22, 2010

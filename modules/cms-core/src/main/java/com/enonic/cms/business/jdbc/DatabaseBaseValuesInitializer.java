@@ -12,7 +12,7 @@ import com.enonic.esl.util.Base64Util;
 import com.enonic.esl.util.DigestUtil;
 import com.enonic.esl.util.UUID;
 
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 /**
  * Created by IntelliJ IDEA.

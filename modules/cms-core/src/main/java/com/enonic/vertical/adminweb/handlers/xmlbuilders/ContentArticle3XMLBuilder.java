@@ -14,7 +14,7 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class ContentArticle3XMLBuilder
     extends ContentBaseXMLBuilder

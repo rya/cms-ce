@@ -47,8 +47,8 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 
 import static org.junit.Assert.*;
 

@@ -17,60 +17,54 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;
+import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.content.index.AggregatedQuery;
 import com.enonic.cms.core.content.index.ContentEntityFetcherImpl;
 import com.enonic.cms.core.content.index.ContentIndexQuery;
+import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.content.index.ContentVersionEntityFetcherImpl;
 import com.enonic.cms.core.content.index.IndexValueQuery;
+import com.enonic.cms.core.content.query.AbstractContentArchiveQuery;
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.ContentByQueryQuery;
+import com.enonic.cms.core.content.query.ContentBySectionQuery;
 import com.enonic.cms.core.content.query.OpenContentQuery;
 import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
 import com.enonic.cms.core.content.query.RelatedContentQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.ContentResultSetLazyFetcher;
+import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.ContentVersionResultSet;
+import com.enonic.cms.core.content.resultset.ContentVersionResultSetLazyFetcher;
 import com.enonic.cms.core.content.resultset.ContentVersionResultSetNonLazy;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.log.LogService;
+import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.cms.core.log.Table;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
-
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.core.content.command.UnassignContentCommand;
-
-import com.enonic.cms.core.content.index.ContentIndexService;
-import com.enonic.cms.core.log.LogService;
-
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-
-import com.enonic.cms.core.content.query.AbstractContentArchiveQuery;
-import com.enonic.cms.core.content.query.ContentByCategoryQuery;
-import com.enonic.cms.core.content.query.ContentByContentQuery;
-import com.enonic.cms.core.content.query.ContentByQueryQuery;
-import com.enonic.cms.core.content.query.ContentBySectionQuery;
-
-import com.enonic.cms.core.content.resultset.ContentResultSetLazyFetcher;
-import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.core.content.resultset.ContentVersionResultSetLazyFetcher;
-import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.core.log.LogType;
-
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 
 public class ContentServiceImpl
     implements ContentService

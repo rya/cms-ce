@@ -10,8 +10,8 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 import static org.junit.Assert.*;
 

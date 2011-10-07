@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.server.service.webdav;
 
-import com.enonic.cms.business.core.resource.access.ResourceAccessResolver;
+import com.enonic.cms.core.resource.access.ResourceAccessResolver;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class DavAccessResolverImpl
     implements DavAccessResolver

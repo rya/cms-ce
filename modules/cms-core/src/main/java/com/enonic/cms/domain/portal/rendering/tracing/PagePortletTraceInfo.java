@@ -6,8 +6,8 @@ package com.enonic.cms.domain.portal.rendering.tracing;
 
 import org.jdom.Element;
 
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  * This class implements the page object trace info.

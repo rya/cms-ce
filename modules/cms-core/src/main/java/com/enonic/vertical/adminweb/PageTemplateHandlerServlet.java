@@ -32,22 +32,23 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.framework.xml.XMLException;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.portal.cache.PageCacheService;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
-import com.enonic.cms.domain.structure.page.PageSpecification;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateSpecification;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
+import com.enonic.cms.core.structure.page.PageSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public class PageTemplateHandlerServlet
     extends AdminHandlerBaseServlet

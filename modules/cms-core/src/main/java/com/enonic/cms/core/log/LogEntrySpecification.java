@@ -6,7 +6,7 @@ package com.enonic.cms.core.log;
 
 import java.util.Date;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 /**
  * This class represents the specification of a getContentByCategory search.

@@ -30,6 +30,8 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
@@ -41,9 +43,8 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class FormHandlerController
     extends ContentHandlerBaseController

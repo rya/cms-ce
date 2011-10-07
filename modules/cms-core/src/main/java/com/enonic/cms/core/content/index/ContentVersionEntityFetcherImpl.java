@@ -8,10 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.store.dao.ContentVersionDao;
-
-import com.enonic.cms.core.content.ContentVersionEntity;
 
 public final class ContentVersionEntityFetcherImpl
     implements ContentVersionEntityFetcher

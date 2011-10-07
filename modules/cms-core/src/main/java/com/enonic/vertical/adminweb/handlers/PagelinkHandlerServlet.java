@@ -19,9 +19,8 @@ import com.enonic.vertical.adminweb.VerticalAdminLogger;
 import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentXMLBuildersSpringManagedBeansBridge;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.domain.security.user.User;
 
 public class PagelinkHandlerServlet
     extends ContentBaseHandlerServlet

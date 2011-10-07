@@ -19,11 +19,11 @@ import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 /**
  * Apr 21, 2009

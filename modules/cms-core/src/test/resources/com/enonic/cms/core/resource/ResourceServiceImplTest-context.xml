@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <context:annotation-config/>
+  <tx:annotation-driven transaction-manager="transactionManager"/>
+
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.connection.driver_class">org.h2.Driver</prop>
+        <prop key="hibernate.connection.url">jdbc:h2:mem:cms;DB_CLOSE_ON_EXIT=FALSE;LOCK_MODE=0</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+        <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+        <prop key="hibernate.jdbc.batch_size">0</prop>
+        <prop key="hibernate.show_sql">false</prop>
+        <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+      </props>
+    </property>
+    <property name="mappingLocations">
+      <list>
+        <value>classpath:/com/enonic/cms/store/entity/ContentTypeEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/ContentHandlerEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/CategoryEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/UnitEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/CategoryAccessEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/ContentBinaryDataEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/BinaryDataEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/ContentEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/RelatedContentEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/ContentAccessEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/ContentHomeEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/ContentVersionEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/PortletEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/GroupEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/MenuItemAccessEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/MenuItemEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/LanguageEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/PageEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/PageWindowEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/PageTemplateEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/PageTemplatePortletEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/PageTemplateRegionEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/SectionContentEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/SiteEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/DefaultSiteAccessEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/UserEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/UserStoreEntity.hbm.xml</value>
+        <value>classpath:/com/enonic/cms/store/entity/VirtualFileEntity.hbm.xml</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+
+  <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
+
+  <bean id="resourceDao" class="com.enonic.cms.store.dao.ResourceDaoImpl"/>
+
+  <bean id="resourceUsageDao" class="com.enonic.cms.store.dao.ResourceUsageDao"/>
+
+  <bean id="contentTypeDao" class="com.enonic.cms.store.dao.ContentTypeEntityDao"/>
+
+  <bean id="portletDao" class="com.enonic.cms.store.dao.PortletEntityDao"/>
+
+  <bean id="languageDao" class="com.enonic.cms.store.dao.LanguageEntityDao"/>
+
+  <bean id="pageTemplateDao" class="com.enonic.cms.store.dao.PageTemplateEntityDao"/>
+
+  <bean id="siteDao" class="com.enonic.cms.store.dao.SiteEntityDao"/>
+
+  <bean id="virtualFileDao" class="com.enonic.cms.store.dao.VirtualFileDaoImpl">
+    <property name="excludePattern" value="${cms.admin.resources.excludePattern}"/>
+    <property name="defaultFolderList" value="/_public"/>
+  </bean>
+
+  <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
+
+  <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
+
+  <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
+    <property name="sessionFactory" ref="sessionFactory"/>
+    <property name="blobStore" ref="blobStore"/>
+  </bean>
+
+</beans>

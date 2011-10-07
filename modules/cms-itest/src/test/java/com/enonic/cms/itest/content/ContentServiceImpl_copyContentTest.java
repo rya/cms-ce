@@ -36,6 +36,7 @@ import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
@@ -48,8 +49,7 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserEntity;
 
 import static org.junit.Assert.*;
 

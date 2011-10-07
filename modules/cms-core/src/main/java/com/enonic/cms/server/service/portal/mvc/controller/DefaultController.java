@@ -16,12 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.security.AutoLoginService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.server.service.servlet.OriginalUrlResolver;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.security.AutoLoginService;
-import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.PortalRequestService;
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
@@ -36,7 +36,7 @@ import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.RedirectInstruction;
 import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 /**
  * Apr 17, 2009

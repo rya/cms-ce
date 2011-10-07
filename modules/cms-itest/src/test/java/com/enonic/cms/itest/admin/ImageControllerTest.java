@@ -36,7 +36,15 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityHolderAdmin;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.server.service.admin.mvc.controller.ImageController;
 import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationContextLoader;
 import com.enonic.cms.store.dao.ContentDao;
@@ -44,20 +52,11 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityHolderAdmin;
-import com.enonic.cms.business.core.security.SecurityService;
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.core.content.ContentStatus;
-
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 import static org.junit.Assert.*;
 

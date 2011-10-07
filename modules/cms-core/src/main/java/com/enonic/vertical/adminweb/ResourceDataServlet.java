@@ -16,8 +16,8 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
 
 public class ResourceDataServlet
     extends AbstractAdminwebServlet

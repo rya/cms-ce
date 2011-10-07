@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.MenuItemDao;
 
 import com.enonic.cms.domain.Path;
@@ -17,8 +18,7 @@ import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.RedirectInstruction;
 import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class PageRedirectController
     extends AbstractSiteController

@@ -40,6 +40,7 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.content.mail.ImportedContentAssignmentMailTemplate;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.core.content.AssignmentDataParser;
@@ -50,8 +51,7 @@ import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.imports.ImportResultXmlCreator;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 final public class SimpleContentHandlerServlet
     extends ContentBaseHandlerServlet

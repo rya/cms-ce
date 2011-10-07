@@ -13,19 +13,17 @@ import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.ImportContentCommand;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.CtyImportModeConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportStatusConfig;
 import com.enonic.cms.core.content.index.ContentIndexService;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.contenttype.CtyImportModeConfig;
-
-import com.enonic.cms.domain.security.user.UserEntity;
 
 
 public class ImportJobFactory

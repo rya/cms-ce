@@ -12,9 +12,8 @@ import java.util.HashSet;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryKey;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * This class implements the content resource.

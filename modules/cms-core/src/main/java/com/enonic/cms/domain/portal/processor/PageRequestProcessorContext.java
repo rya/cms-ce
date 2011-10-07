@@ -8,15 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+
 import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.ContentPath;
 import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 /**
  * Sep 28, 2009

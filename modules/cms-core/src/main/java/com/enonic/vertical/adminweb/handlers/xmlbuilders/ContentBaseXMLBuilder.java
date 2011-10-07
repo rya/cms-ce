@@ -22,9 +22,9 @@ import com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet;
 import com.enonic.vertical.engine.AccessRight;
 
 import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.security.user.User;
 
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.security.user.User;
 
 public class ContentBaseXMLBuilder
     extends AbstractBaseXMLBuilder

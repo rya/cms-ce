@@ -11,27 +11,25 @@ import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.SnapshotContentCommand;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
-import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-import com.enonic.cms.core.content.query.ContentByQueryQuery;
-import com.enonic.cms.core.content.query.OpenContentQuery;
-
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;
 import com.enonic.cms.core.content.query.ContentByContentQuery;
+import com.enonic.cms.core.content.query.ContentByQueryQuery;
 import com.enonic.cms.core.content.query.ContentBySectionQuery;
+import com.enonic.cms.core.content.query.OpenContentQuery;
 import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
 import com.enonic.cms.core.content.query.RelatedContentQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentVersionResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public interface ContentService
 {

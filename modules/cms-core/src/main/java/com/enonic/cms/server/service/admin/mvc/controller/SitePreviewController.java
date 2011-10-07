@@ -19,13 +19,14 @@ import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.security.SecurityService;
+
 import com.enonic.cms.business.SitePathResolver;
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 /**
  * This class implements a file controller that returns the actual referenced file in the servlet context.

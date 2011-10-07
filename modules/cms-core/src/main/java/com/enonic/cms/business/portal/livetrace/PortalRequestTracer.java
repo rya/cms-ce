@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
 
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewService;
 
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
 
 /**
  * Nov 25, 2010

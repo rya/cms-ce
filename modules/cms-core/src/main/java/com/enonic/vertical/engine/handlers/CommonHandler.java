@@ -42,7 +42,7 @@ import com.enonic.vertical.engine.processors.ProcessElementException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class CommonHandler
     extends BaseHandler

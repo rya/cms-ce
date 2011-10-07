@@ -53,21 +53,22 @@ import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.core.content.UnitEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 import com.enonic.cms.core.content.binary.BinaryData;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.security.user.UserEntity;
+
+import com.enonic.cms.core.structure.SiteEntity;
 
 
 public abstract class AdminHandlerBaseServlet

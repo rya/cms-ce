@@ -26,6 +26,8 @@ import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
@@ -37,9 +39,6 @@ import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;
-
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 import static org.junit.Assert.*;
 

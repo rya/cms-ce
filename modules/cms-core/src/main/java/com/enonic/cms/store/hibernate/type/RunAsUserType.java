@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.structure.RunAsType;
+import com.enonic.cms.core.structure.RunAsType;
 
 public class RunAsUserType
     extends AbstractIntegerBasedUserType<RunAsType>

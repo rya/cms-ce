@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.service.PresentationService;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.server.domain.AbstractBaseError;
 import com.enonic.cms.server.domain.ClientError;
 import com.enonic.cms.server.domain.ContentNameMismatchClientError;
@@ -46,7 +47,6 @@ import com.enonic.cms.domain.portal.ContentNameMismatchException;
 import com.enonic.cms.domain.portal.LoginPageNotFoundException;
 import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
 import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 public class PortalExceptionResolver
     implements HandlerExceptionResolver

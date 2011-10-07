@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.menuitem.MenuItemContentEntity" table="TMENUITEMCONTENT" mutable="true">
-    <composite-id name="key" class="com.enonic.cms.domain.structure.menuitem.MenuItemContentKey">
+  <class name="com.enonic.cms.core.structure.menuitem.MenuItemContentEntity" table="TMENUITEMCONTENT" mutable="true">
+    <composite-id name="key" class="com.enonic.cms.core.structure.menuitem.MenuItemContentKey">
       <key-property name="menuItemKey" type="int">
         <column name="MIC_MEI_LKEY"/>
       </key-property>

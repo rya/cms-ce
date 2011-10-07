@@ -21,13 +21,12 @@ import com.enonic.cms.framework.blob.BlobStore;
 import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 import com.enonic.cms.framework.util.MimeTypeResolver;
 
+import com.enonic.cms.core.resource.FileResource;
+import com.enonic.cms.core.resource.FileResourceData;
+import com.enonic.cms.core.resource.FileResourceName;
 import com.enonic.cms.store.support.EntityChangeListener;
 import com.enonic.cms.store.support.EntityChangeListenerHub;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
-
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceData;
-import com.enonic.cms.domain.resource.FileResourceName;
 
 public final class FileResourceServiceImpl
     implements FileResourceService, EntityChangeListener, BeanPostProcessor

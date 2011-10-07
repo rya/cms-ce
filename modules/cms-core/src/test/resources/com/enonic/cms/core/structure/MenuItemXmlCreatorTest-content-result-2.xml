@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menuitems istop="yes">
+  <menuitem contentkey="1001" key="1" menukey="1" modifier="KEY" order="0" owner="KEY" timestamp="2007-07-25 09:00" type="content"
+            visible="yes">
+    <name>one</name>
+    <menu-name>one</menu-name>
+    <display-name>one</display-name>
+    <show-in-menu>true</show-in-menu>
+    <description/>
+    <keywords/>
+    <parameters/>
+    <document mode="xhtml"/>
+    <data cachedisabled="false" cachetype="default"/>
+    <page key="201" pagetemplate="name-301" pagetemplatekey="301" pagetemplatetype="5"/>
+  </menuitem>
+</menuitems>
+

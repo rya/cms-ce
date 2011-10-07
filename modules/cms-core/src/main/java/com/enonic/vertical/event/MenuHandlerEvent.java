@@ -4,7 +4,7 @@
  */
 package com.enonic.vertical.event;
 
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class MenuHandlerEvent
     extends VerticalEvent

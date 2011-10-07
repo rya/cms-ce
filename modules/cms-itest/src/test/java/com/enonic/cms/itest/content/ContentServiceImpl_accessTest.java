@@ -30,6 +30,10 @@ import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
@@ -41,19 +45,15 @@ import com.enonic.cms.core.content.CreateContentException;
 import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 
 import com.enonic.cms.core.content.ContentHandlerName;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.group.GroupType;
 
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.junit.Assert.*;

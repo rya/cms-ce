@@ -11,10 +11,10 @@ import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.ReadableDateTime;
 
+import com.enonic.cms.core.content.index.queryexpression.ArrayExpr;
 import com.enonic.cms.core.content.index.queryexpression.FunctionExpr;
 import com.enonic.cms.core.content.index.queryexpression.QueryParserException;
 import com.enonic.cms.core.content.index.queryexpression.ValueExpr;
-import com.enonic.cms.core.content.index.queryexpression.ArrayExpr;
 
 /**
  * This class defines the query functions.

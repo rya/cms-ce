@@ -9,14 +9,13 @@ import java.util.List;
 import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 
 public class ContentParserService

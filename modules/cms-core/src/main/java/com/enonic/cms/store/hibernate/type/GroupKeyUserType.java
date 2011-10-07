@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 
 public class GroupKeyUserType

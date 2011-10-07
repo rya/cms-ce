@@ -15,8 +15,7 @@ import org.joda.time.DateTime;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryAccessType;
-
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**
  * This class implements the content query.

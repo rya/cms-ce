@@ -11,7 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.jdom.Document;
 
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.DataSourceService;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import com.enonic.cms.business.portal.InvocationCache;
 import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
@@ -25,14 +28,11 @@ import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
 import com.enonic.cms.domain.portal.datasource.DatasourcesType;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.SiteProperties;
+import com.enonic.cms.core.structure.page.Window;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 /**
  * Apr 21, 2009

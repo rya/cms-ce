@@ -18,7 +18,7 @@ import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
 
 import com.enonic.cms.core.resolver.locale.LocaleResolverException;
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * Created by rmy - Date: Apr 29, 2009

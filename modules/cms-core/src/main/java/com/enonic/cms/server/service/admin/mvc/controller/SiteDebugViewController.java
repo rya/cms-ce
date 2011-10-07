@@ -27,7 +27,7 @@ import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PageRequestContext;
 import com.enonic.cms.domain.portal.PageRequestContextResolver;
 import com.enonic.cms.domain.portal.SiteNotFoundException;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * This class implements the debug controller.

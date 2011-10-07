@@ -15,11 +15,13 @@ import com.enonic.cms.framework.util.GenericConcurrencyLock;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.service.DataSourceService;
 
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.core.resource.ResourceService;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutor;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
@@ -59,14 +61,13 @@ import com.enonic.cms.domain.portal.rendering.viewtransformer.TemplateParameterT
 import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParameterOrigin;
 import com.enonic.cms.domain.portal.rendering.viewtransformer.TransformationParams;
 import com.enonic.cms.domain.portal.rendering.viewtransformer.ViewTransformationResult;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.TemplateParameter;
-import com.enonic.cms.domain.structure.TemplateParameterType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Window;
-import com.enonic.cms.domain.structure.page.WindowKey;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.structure.TemplateParameter;
+import com.enonic.cms.core.structure.TemplateParameterType;
+import com.enonic.cms.core.structure.page.Window;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**

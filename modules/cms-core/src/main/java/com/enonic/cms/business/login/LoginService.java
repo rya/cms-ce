@@ -5,7 +5,7 @@
 package com.enonic.cms.business.login;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * Jul 10, 2009

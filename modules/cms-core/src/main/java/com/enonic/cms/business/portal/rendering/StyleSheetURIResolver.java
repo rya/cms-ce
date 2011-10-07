@@ -16,10 +16,10 @@ import org.slf4j.LoggerFactory;
 
 import com.enonic.cms.framework.xml.StringSource;
 
-import com.enonic.cms.business.core.resource.ResourceService;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceService;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * This class resolves the stylesheets and also other resources. It should be renamed to reflect that it also resolves other files that

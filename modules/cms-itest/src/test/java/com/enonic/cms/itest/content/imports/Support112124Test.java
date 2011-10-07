@@ -35,7 +35,7 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.imports.ImportJob;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;

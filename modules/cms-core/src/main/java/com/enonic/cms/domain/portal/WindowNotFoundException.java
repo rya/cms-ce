@@ -4,11 +4,12 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.core.structure.page.WindowKey;
+
 import com.enonic.cms.domain.NotFoundErrorType;
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.StacktraceLoggingUnrequired;
-import com.enonic.cms.domain.structure.page.WindowKey;
 
 public class WindowNotFoundException
     extends RuntimeException

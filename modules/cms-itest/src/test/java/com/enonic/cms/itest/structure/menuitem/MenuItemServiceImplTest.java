@@ -25,11 +25,18 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
 
 import com.enonic.cms.core.content.ContentHandlerName;
 
@@ -37,14 +44,6 @@ import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentComman
 import com.enonic.cms.domain.core.structure.menuitem.MenuItemAccessException;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
 import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;

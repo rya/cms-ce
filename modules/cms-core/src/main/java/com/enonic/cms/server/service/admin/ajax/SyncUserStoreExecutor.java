@@ -6,14 +6,14 @@ package com.enonic.cms.server.service.admin.ajax;
 
 import java.util.Date;
 
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreType;
 import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
 
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJob;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreType;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJob;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
 
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 
 public final class SyncUserStoreExecutor
 {

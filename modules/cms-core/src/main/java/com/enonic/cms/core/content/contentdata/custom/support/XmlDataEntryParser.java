@@ -13,7 +13,6 @@ import org.jdom.Element;
 import org.jdom.output.XMLOutputter;
 
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 
 
