@@ -25,9 +25,9 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         xtype: 'userWizardToolbar'
     },
 
-    toggleDisplayNameField: function(e, t){
-        var className = t.attributes.getNamedItem('class').nodeValue;
-        if (className == 'edit-button'){
+    toggleDisplayNameField: function(event, target){
+        var className = target.className;
+        if (className && className === 'edit-button'){
             var displayNameField = Ext.get('display-name');
             var readonly = displayNameField.getAttribute('readonly');
             if (readonly){
