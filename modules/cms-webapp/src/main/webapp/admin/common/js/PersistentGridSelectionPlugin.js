@@ -7,6 +7,7 @@
 Ext.define('Common.PersistentGridSelectionPlugin', {
 
     extend: 'Ext.util.Observable',
+    pluginId: 'persistentGridSelection',
     alias : 'plugin.persistentGridSelection',
     init: function(grid) {
         this.grid = grid;
@@ -33,6 +34,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
         this.grid.selModel.refresh();
         // selection changed from view updates, restore full selection
         var ds = this.grid.getStore();
+        // TODO: Optimized.
         for (var i = ds.getCount() - 1; i >= 0; i--) {
             if (this.selected[ds.getAt(i).internalId]) {
                 this.grid.selModel.select(i,true,false);

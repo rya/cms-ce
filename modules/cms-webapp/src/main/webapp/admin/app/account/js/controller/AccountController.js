@@ -187,10 +187,23 @@ Ext.define( 'App.controller.AccountController', {
         var persistentGridSelection = this.getPersistentGridSelection();
         var selection = persistentGridSelection.getSelection();
         var accountDetail = this.getAccountDetail();
+        var selectionLength = selection.length;
+        var userStore = this.getStore('UserStore');
+        var pageSize = userStore.pageSize;
+        var totalCount = userStore.totalCount;
 
-        if ( selection.length == 0 )
+        if ( selectionLength == 0 )
         {
-            accountDetail.showNonSelection();
+            accountDetail.showNoneSelection();
+        }
+        else if ( selectionLength >= pageSize )
+        {
+            accountDetail.showAllSelected(
+                {
+                    pageSize: pageSize,
+                    totalCount: totalCount
+                }
+            );
         }
         else
         {
@@ -201,7 +214,7 @@ Ext.define( 'App.controller.AccountController', {
             }
 
             var detailed = true;
-            if ( selection.length > 10 )
+            if ( selectionLength > 10 )
             {
                 detailed = false;
             }
@@ -320,12 +333,7 @@ Ext.define( 'App.controller.AccountController', {
     initDetailToolbar: function()
     {
         var accountDetail = this.getAccountDetail();
-        accountDetail.showNonSelection();
-    },
-
-    getGridSelectionCount: function()
-    {
-        return this.getUserGrid().getSelectionModel().getSelection().length;
+        accountDetail.showNoneSelection();
     },
 
     countryChangeHandler: function( field, newValue, oldValue, options )
@@ -336,14 +344,17 @@ Ext.define( 'App.controller.AccountController', {
             region.clearValue();
             Ext.apply( region.store.proxy.extraParams, {
                 'countryCode': field.getValue()
-            } );
-            region.store.load( {
-                                   callback: function( records, operation, success )
-                                   {
-                                       region.setDisabled( !records || records.length == 0 );
-                                   }
-                               } );
-        }
+            });
+
+            region.store.load(
+                {
+                    callback: function( records, operation, success )
+                    {
+                        region.setDisabled( !records || records.length == 0 );
+                    }
+                }
+            );
+}
         return true;
     },
 
@@ -566,9 +577,7 @@ Ext.define( 'App.controller.AccountController', {
 
     getPersistentGridSelection: function()
     {
-        // TODO: Find a better way to get to the plugin
-        //console.log(this.getUserGrid().getPlugin('persistentGridSelection'));
-        return this.getUserGrid().plugins[0];
+        return this.getUserGrid().getPlugin('persistentGridSelection');
     },
 
     getCmsTabPanel: function()
