@@ -49,6 +49,7 @@ Ext.define('App.view.DetailPanel', {
     createNoneSelection: function()
     {
         var tpl = new Ext.XTemplate( Templates.account.noUserSelected );
+
         var panel = {
             xtype: 'panel',
             itemId: 'noneSelectedPanel',
@@ -63,7 +64,8 @@ Ext.define('App.view.DetailPanel', {
 
     createAllSelection: function()
     {
-        var tpl = new Ext.XTemplate( Templates.account.allUsersSelected );
+        var tpl = new Ext.XTemplate( Templates.account.allUsersOnPageSelected );
+
         var panel = {
             xtype: 'panel',
             itemId: 'allSelectedPanel',
