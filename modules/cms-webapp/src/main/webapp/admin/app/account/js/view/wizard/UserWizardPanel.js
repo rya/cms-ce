@@ -49,6 +49,13 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         }
     },
 
+    resizeFileUpload: function( file ) {
+        file.el.down( 'input[type=file]' ).setStyle( {
+            width: file.getWidth(),
+            height: file.getHeight()
+        } );
+    },
+
     initComponent: function()
     {
         var me = this;
@@ -60,6 +67,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         } );
 
         var uploadForm = Ext.create('Ext.form.Panel', {
+            fileUpload: true,
             width: 100,
             height: 100,
             frame: false,
@@ -74,6 +82,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
             },
             items: [{
                 xtype: 'filefield',
+                name: 'photo',
                 buttonOnly: true,
                 hideLabel: true,
                 width: 100,
@@ -84,22 +93,24 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                 },
                 listeners: {
                     afterrender: function( imgUpl ) {
-                        imgUpl.el.down( 'input[type=file]' ).setStyle( {
-                            width: imgUpl.getWidth(),
-                            height: imgUpl.getHeight()
-                        } );
+                        me.resizeFileUpload( imgUpl );
                     },
                     change: function( imgUpl, path, eOpts ) {
                         var form = this.up('form').getForm();
                         if( form.isValid() )
                         {
                             form.submit( {
-                                url: 'file-upload.php',
+                                url: 'data/user/photo',
+                                method: 'POST',
                                 waitMsg: 'Uploading your photo...',
-                                success: function( fp, o ) {
+                                success: function( form, action ) {
+                                    userImage.setSrc( action.result.src );
+                                    me.resizeFileUpload( imgUpl );
+                                },
+                                failure: function(form, action) {
                                     Ext.Msg.show({
-                                        title: 'Done',
-                                        msg: 'File uploaded successfully.',
+                                        title: 'Failure',
+                                        msg: 'File was not uploaded.',
                                         minWidth: 200,
                                         modal: true,
                                         icon: Ext.Msg.INFO,
