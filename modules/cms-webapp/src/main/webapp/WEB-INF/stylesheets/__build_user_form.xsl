@@ -948,7 +948,7 @@
         <x:variable name="show-fieldset-name" select="true()"/>
         <x:variable name="show-fieldset-photo" select="boolean($configuration/photo)"/>
         <x:variable name="show-fieldset-details"
-                    select="boolean($configuration/personal-id) or boolean($configuration/member-id) or boolean($configuration/birthday) or boolean($configuration/gender) or boolean($configuration/title) or boolean($configuration/description) or boolean($configuration/html-email) or boolean($configuration/home-page)"/>
+                    select="boolean($configuration/personal-id) or boolean($configuration/member-id) or boolean($configuration/birthday) or boolean($configuration/gender) or boolean($configuration/title) or boolean($configuration/description) or boolean($configuration/html-email) or boolean($configuration/home-page) or boolean($configuration/organization)"/>
         <x:variable name="show-fieldset-location"
                     select="boolean($configuration/time-zone) or boolean($configuration/locale) or boolean($configuration/country) or boolean($configuration/global-position)"/>
         <x:variable name="show-fieldset-communication"
