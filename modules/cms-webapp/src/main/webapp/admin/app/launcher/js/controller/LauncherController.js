@@ -11,7 +11,7 @@ Ext.define('App.controller.LauncherController', {
             '*[id=launcher-logo]': {
                 render: this.onLogoRendered
             },
-            '*[id=launcher-start-button] menu > menuitem[appUrl != ""]': {
+            '*[id=launcher-start-button] menu > menuitem': {
                 click: this.loadApp
             }
         });
@@ -32,8 +32,8 @@ Ext.define('App.controller.LauncherController', {
     },
 
     loadApp: function(item, e, options ) {
-        if (item.appUrl === '') {
-            item.appUrl = 'blank.html'
+        if (item.cms.appUrl === '') {
+            item.cms.appUrl = 'blank.html'
         }
 
         if (!item.icon || item.icon === '') {
@@ -43,7 +43,7 @@ Ext.define('App.controller.LauncherController', {
         this.showLoadMask();
         this.setDocumentTitle(item.text);
         this.setUrlFragment(item.text);
-        this.getIframe().src = item.appUrl;
+        this.getIframe().src = item.cms.appUrl;
         this.updateStartButton(item);
     },
 

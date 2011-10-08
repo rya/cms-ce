@@ -38,38 +38,50 @@ Ext.define('App.view.Toolbar', {
                     {
                         id: 0,
                         text: 'Dashboard',
-                        appUrl: 'app-dashboard.html',
+                        cms: {
+                            appUrl: 'app-dashboard.html'
+                        },
                         icon: 'app/launcher/images/house.png'
                     },
                     '-',
                     {
                         id: 100,
                         text: 'Accounts',
-                        appUrl: 'app-account.html',
+                        cms: {
+                            appUrl: 'app-account.html'
+                        },
                         icon: 'app/launcher/images/group.png'
                     },
                     {
                         id: 200,
                         text: 'Content',
-                        appUrl: 'blank.html',
+                        cms: {
+                            appUrl: 'blank.html'
+                        },
                         icon: 'app/launcher/images/folder_database.png'
                     },
                     {
                         id: 300,
                         text: 'Sites',
-                        appUrl: 'blank.html',
+                        cms: {
+                            appUrl: 'blank.html'
+                        },
                         icon: 'app/launcher/images/world.png'
                     },
                     {
                         id: 500,
                         text: 'Direct Marketing',
-                        appUrl: 'blank.html',
+                        cms: {
+                            appUrl: 'blank.html'
+                        },
                         icon: 'app/launcher/images/chart_curve.png'
                     },
                     {
                         id: 600,
                         text: 'Reports',
-                        appUrl: 'blank.html',
+                        cms: {
+                            appUrl: 'blank.html'
+                        },
                         icon: 'app/launcher/images/report.png'
                     },
 
@@ -78,38 +90,50 @@ Ext.define('App.view.Toolbar', {
                     {
                         id: 800,
                         text: 'System',
-                        appUrl: 'app-system.html',
+                        cms: {
+                            appUrl: 'app-system.html'
+                        },
                         icon: 'app/launcher/images/cog.png',
                         menu: {
                             items: [
                                 {
                                     id: 810,
                                     text:"Cache",
-                                    appUrl:"app-systemCache.html",
+                                    cms: {
+                                        appUrl:"app-systemCache.html"
+                                    },
                                     icon: 'app/launcher/images/drive_web.png'
                                 },
                                 {
                                     id: 820,
                                     text: "Content Types",
-                                    appUrl: "app-contentType.html",
+                                    cms: {
+                                        appUrl: "app-contentType.html"
+                                    },
                                     icon: 'app/launcher/images/page_world.png'
                                 },
                                 {
                                     id: 830,
                                     text: 'Live Portal Trace',
-                                    appUrl: 'blank.html',
+                                    cms: {
+                                        appUrl: 'blank.html'
+                                    },
                                     icon: 'app/launcher/images/utilities-system-monitor.png'
                                 },
                                 {
                                     id: 840,
                                     text: 'Repository',
-                                    appUrl: 'blank.html',
+                                    cms: {
+                                        appUrl: 'blank.html'
+                                    },
                                     icon: 'app/launcher/images/database.png'
                                 },
                                 {
                                     id: 850,
                                     text: 'Userstores',
-                                    appUrl: 'app-userstore.html',
+                                    cms: {
+                                        appUrl: 'app-userstore.html'
+                                    },
                                     icon: 'app/launcher/images/address-book-blue-icon.png'
                                 }
                             ]
