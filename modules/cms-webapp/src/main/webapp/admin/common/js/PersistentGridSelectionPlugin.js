@@ -125,6 +125,14 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
     },
 
     /**
+     * Returns the selection count for all pages
+     * @return {Number} Number of selected records
+     */
+    getSelectionCount: function() {
+        return this.getSelection().length;
+    },
+
+    /**
      * Removes an record from the selection
       * @param record
      */

@@ -24,13 +24,12 @@ Ext.define( 'App.view.BrowseToolbar', {
                         action: 'newUser',
                         iconCls: 'icon-add-24',
                         cls: 'x-btn-as-arrow',
-                        menu: new Ext.menu.Menu( {
-                                                     items: [
-                                                         {text: 'User', iconCls: '', action: 'newUser'},
-                                                         {text: 'Group', iconCls: '', action: 'newGroup'}
-                                                     ]
-                                                 } )
-
+                        menu: new Ext.menu.Menu({
+                            items: [
+                                {text: 'User', iconCls: '', action: 'newUser'},
+                                {text: 'Group', iconCls: '', action: 'newGroup'}
+                            ]
+                        })
                     }
                 ]
             },
@@ -48,7 +47,8 @@ Ext.define( 'App.view.BrowseToolbar', {
                     {
                         text: 'Delete',
                         action: 'showDeleteWindow',
-                        iconCls: 'icon-delete-user-24'
+                        iconCls: 'icon-delete-user-24',
+                        disableOnMultipleSelection: false
                     }
                 ]
             },

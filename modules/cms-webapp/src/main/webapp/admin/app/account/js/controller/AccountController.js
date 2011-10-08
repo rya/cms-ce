@@ -36,7 +36,10 @@ Ext.define( 'App.controller.AccountController', {
         this.control(
             {
                 'cmsTabPanel': {
-                    afterrender: this.createBrowseTab
+                    afterrender: function(tabPanel, eOpts) {
+                        this.createBrowseTab(tabPanel, eOpts);
+                        this.updateActionItems();
+                    }
                 },
                 '*[action=newUser]': {
                     click: this.showEditUserForm
@@ -54,8 +57,11 @@ Ext.define( 'App.controller.AccountController', {
                     select: this.countryChangeHandler
                 },
                 'accountGrid': {
-                    selectionchange: this.updateDetailsPanel,
-                    beforeitemmousedown: this.cancelDeselectOnContextClick,
+                    selectionchange: function() {
+                        this.updateDetailsPanel();
+                        this.updateActionItems();
+                    },
+                    beforeitemmousedown: this.cancelItemContextClickOnMultipleSelection,
                     itemcontextmenu: this.popupMenu,
                     itemdblclick: this.showEditUserForm
                 },
@@ -129,7 +135,7 @@ Ext.define( 'App.controller.AccountController', {
         Ext.getCmp( 'filter' ).focus( false, 10 );
     },
 
-    createBrowseTab: function( component, options )
+    createBrowseTab: function( tabPanel, eOpts )
     {
         this.getCmsTabPanel().addTab( {
            id: 'tab-browse',
@@ -155,8 +161,8 @@ Ext.define( 'App.controller.AccountController', {
            ]
         } );
 
-        var accountDetail = this.getAccountDetail();
-        accountDetail.updateTitle(this.getPersistentGridSelection());
+        var accountDetail = this.getAccountDetailPanel();
+        accountDetail.updateTitle(this.getPersistentGridSelectionPlugin());
     },
 
     createNewGroupTab: function()
@@ -173,7 +179,7 @@ Ext.define( 'App.controller.AccountController', {
     showDeleteUserWindow: function()
     {
         Ext.create('widget.userDeleteWindow');
-        this.getUserDeleteWindow().doShow( this.getPersistentGridSelection() );
+        this.getUserDeleteWindow().doShow( this.getPersistentGridSelectionPlugin() );
     },
 
     showChangePasswordWindow: function()
@@ -184,21 +190,21 @@ Ext.define( 'App.controller.AccountController', {
 
     updateDetailsPanel: function()
     {
-        var persistentGridSelection = this.getPersistentGridSelection();
+        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
         var selection = persistentGridSelection.getSelection();
-        var accountDetail = this.getAccountDetail();
-        var selectionLength = selection.length;
+        var accountDetailPanel = this.getAccountDetailPanel();
+        var selectionCount = persistentGridSelection.getSelectionCount();
         var userStore = this.getStore('UserStore');
         var pageSize = userStore.pageSize;
         var totalCount = userStore.totalCount;
 
-        if ( selectionLength == 0 )
+        if ( selectionCount == 0 )
         {
-            accountDetail.showNoneSelection();
+            accountDetailPanel.showNoneSelection();
         }
-        else if ( selectionLength >= pageSize )
+        else if ( selectionCount >= pageSize )
         {
-            accountDetail.showAllSelected(
+            accountDetailPanel.showAllSelected(
                 {
                     pageSize: pageSize,
                     totalCount: totalCount
@@ -210,11 +216,11 @@ Ext.define( 'App.controller.AccountController', {
             var user = selection[0];
             if ( user )
             {
-                accountDetail.setCurrentUser( user.data );
+                accountDetailPanel.setCurrentUser( user.data );
             }
 
             var detailed = true;
-            if ( selectionLength > 10 )
+            if ( selectionCount > 10 )
             {
                 detailed = false;
             }
@@ -223,10 +229,36 @@ Ext.define( 'App.controller.AccountController', {
             {
                 Ext.Array.include( selectedUsers, user.data );
             } );
-            accountDetail.showMultipleSelection( selectedUsers, detailed );
+            accountDetailPanel.showMultipleSelection( selectedUsers, detailed );
         }
 
-        accountDetail.updateTitle(persistentGridSelection);
+        accountDetailPanel.updateTitle(persistentGridSelection);
+    },
+
+    updateActionItems: function()
+    {
+        var components2d = [];
+        components2d.push( Ext.ComponentQuery.query( '*[action=edit]' ) );
+        components2d.push( Ext.ComponentQuery.query( '*[action=showDeleteWindow]' ) );
+        components2d.push( Ext.ComponentQuery.query( '*[action=changePassword]' ) );
+
+        var items = [];
+        var selectionCount = this.getPersistentGridSelectionPlugin().getSelectionCount();
+        var multipleSelection = selectionCount > 1;
+        var disable = selectionCount === 0;
+
+        for ( var i = 0; i < components2d.length; i++ )
+        {
+            items = components2d[i];
+            for (var j = 0; j < items.length; j++)
+            {
+                items[j].setDisabled(disable);
+                if ( multipleSelection && items[j].disableOnMultipleSelection )
+                {
+                    items[j].setDisabled(true);
+                }
+            }
+        }
     },
 
     searchFilter: function()
@@ -295,7 +327,7 @@ Ext.define( 'App.controller.AccountController', {
         }
         else
         {
-            var accountDetail = this.getAccountDetail();
+            var accountDetail = this.getAccountDetailPanel();
             var tabPane = this.getCmsTabPanel();
             var currentUser = accountDetail.getCurrentUser();
             Ext.Ajax.request(
@@ -332,7 +364,7 @@ Ext.define( 'App.controller.AccountController', {
 
     initDetailToolbar: function()
     {
-        var accountDetail = this.getAccountDetail();
+        var accountDetail = this.getAccountDetailPanel();
         accountDetail.showNoneSelection();
     },
 
@@ -382,13 +414,13 @@ Ext.define( 'App.controller.AccountController', {
         return this.getUserGrid().getSelectionModel().selected.get( 0 );
     },
 
-    cancelDeselectOnContextClick: function( view, record, item, index, event, eOpts )
+    cancelItemContextClickOnMultipleSelection: function( view, record, item, index, event, eOpts )
     {
-        var persistentGridSelection = this.getPersistentGridSelection();
+        var persistentGridSelection = this.getPersistentGridSelectionPlugin();
         var rightClick = event.button === 2;
         var isSelected = persistentGridSelection.selected[record.internalId];
 
-        var cancel = rightClick && isSelected && persistentGridSelection.getSelection().length > 1;
+        var cancel = rightClick && isSelected && persistentGridSelection.getSelectionCount() > 1;
         if ( cancel )
         {
             return false;
@@ -570,12 +602,7 @@ Ext.define( 'App.controller.AccountController', {
         selModel.deselect( userInfoPanel.getUser() );
     },
 
-    selectAll: function()
-    {
-        this.getUserGrid().getSelectionModel().selectAll();
-    },
-
-    getPersistentGridSelection: function()
+    getPersistentGridSelectionPlugin: function()
     {
         return this.getUserGrid().getPlugin('persistentGridSelection');
     },
@@ -590,7 +617,7 @@ Ext.define( 'App.controller.AccountController', {
         return Ext.ComponentQuery.query( 'accountGrid' )[0];
     },
 
-    getAccountDetail: function()
+    getAccountDetailPanel: function()
     {
         return Ext.ComponentQuery.query( 'accountDetail' )[0];
     },

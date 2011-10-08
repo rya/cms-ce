@@ -6,7 +6,8 @@ Ext.define('App.view.ContextMenu', {
         {
             text: 'Edit User',
             iconCls: 'icon-edit-user',
-            action: 'edit'
+            action: 'edit',
+            disableOnMultipleSelection: true
         },
         {
             text: 'Delete User',
@@ -17,7 +18,8 @@ Ext.define('App.view.ContextMenu', {
         {
             text: 'Change Password',
             iconCls: 'icon-change-password',
-            action: 'changePassword'
+            action: 'changePassword',
+            disableOnMultipleSelection: true
         }
     ]
 });
