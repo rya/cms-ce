@@ -23,6 +23,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('deselect', this.onRowDeselect, this);
+            // TODO: Use getComponent or ComponentQuery instead of items[1]
             this.grid.dockedItems.items[1].on('beforechange', this.pageChange, this );
         }, this);
     },

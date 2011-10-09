@@ -61,6 +61,14 @@ Ext.define('App.view.Toolbar', {
                         icon: 'app/launcher/images/group.png'
                     },
                     {
+                        id: 175,
+                        text: 'Accounts 3',
+                        cms: {
+                            appUrl: 'app-account3.html'
+                        },
+                        icon: 'app/launcher/images/group.png'
+                    },
+                    {
                         id: 200,
                         text: 'Content',
                         cms: {
