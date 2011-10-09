@@ -156,6 +156,7 @@ Ext.define( 'App.controller.AccountController', {
                },
                {
                    region: 'center',
+                   padding: '5 5 5 0',
                    xtype: 'accountShow'
                }
            ]

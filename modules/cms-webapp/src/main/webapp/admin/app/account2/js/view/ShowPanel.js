@@ -4,7 +4,7 @@ Ext.define( 'App.view.ShowPanel', {
 
     layout: 'border',
     border: false,
-    padding: 0,
+    padding: 5,
 
     initComponent: function()
     {
