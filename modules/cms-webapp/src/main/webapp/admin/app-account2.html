@@ -14,7 +14,7 @@
         Ext.Loader.setConfig({
             enabled: true,
             paths: {
-                'App' : 'app/account/js',
+                'App' : 'app/account2/js',
                 'Common' : 'common/js'
             },
             disableCaching: false
@@ -22,7 +22,7 @@
 
         Ext.application({
             name: 'App',
-            appFolder: 'app/account/js',
+            appFolder: 'app/account2/js',
 
             controllers: [
                 'AccountController',
@@ -64,6 +64,7 @@
                                     items: [
                                         {
                                             region: 'center',
+                                            padding: 5,
                                             xtype: 'accountShow'
                                         }
                                     ]
