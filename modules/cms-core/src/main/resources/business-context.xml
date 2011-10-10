@@ -204,7 +204,7 @@
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
-    <bean id="taskManager" class="com.enonic.cms.core.plugin.task.TaskManager"/>
+    <bean id="taskManager" class="com.enonic.cms.core.task.TaskManager"/>
 
 </beans>
 

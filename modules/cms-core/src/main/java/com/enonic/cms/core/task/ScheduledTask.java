@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.task;
+package com.enonic.cms.core.task;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -8,13 +8,7 @@ import org.springframework.scheduling.support.CronSequenceGenerator;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
 import com.enonic.cms.api.util.LogFacade;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmy
- * Date: 6/23/11
- * Time: 12:43 PM
- */
-public class ScheduledTask
+final class ScheduledTask
     implements Runnable
 {
     private final static LogFacade LOG = LogFacade.get( ScheduledTask.class );

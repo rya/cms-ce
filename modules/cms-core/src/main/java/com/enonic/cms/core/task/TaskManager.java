@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.task;
+package com.enonic.cms.core.task;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,14 +13,7 @@ import com.enonic.cms.api.plugin.ext.TaskHandler;
 import com.enonic.cms.api.util.LogFacade;
 import com.enonic.cms.core.plugin.ExtensionListener;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: rmy
- * Date: 6/23/11
- * Time: 12:43 PM
- */
-final class TaskManager
+public final class TaskManager
     implements ExtensionListener, DisposableBean
 {
     private final static LogFacade LOG = LogFacade.get( TaskManager.class );

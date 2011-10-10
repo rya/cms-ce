@@ -1,10 +1,7 @@
 package com.enonic.cms.core.plugin;
 
 import java.util.List;
-
 import org.joda.time.DateTime;
-import org.osgi.framework.Bundle;
-
 import com.enonic.cms.api.plugin.ext.Extension;
 
 public interface Plugin

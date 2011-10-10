@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.task;
+package com.enonic.cms.core.task;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,12 +9,6 @@ import junit.framework.TestCase;
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: 6/21/11
- * Time: 11:47 AM
- */
 public class TaskManagerTest
     extends TestCase
 {
