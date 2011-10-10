@@ -53,7 +53,7 @@ Ext.define( 'App.controller.AccountController', {
                 '*[action=toggleDisplayNameField]': {
                     click: this.toggleDisplayNameField
                 },
-                'editUserPanel #iso-country' : {
+                'addressPanel #iso-country' : {
                     select: this.countryChangeHandler
                 },
                 'accountGrid': {
