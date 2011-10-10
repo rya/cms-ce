@@ -204,7 +204,7 @@ img.photo {
 
 .facet-header {
     font-weight: bold;
-    margin: 5px 0
+    margin: 0 0 5px 0;
 }
 
 .facet-single-select-item,

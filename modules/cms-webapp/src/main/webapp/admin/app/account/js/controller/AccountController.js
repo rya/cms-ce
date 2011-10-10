@@ -65,7 +65,7 @@ Ext.define( 'App.controller.AccountController', {
                     itemcontextmenu: this.popupMenu,
                     itemdblclick: this.showEditUserForm
                 },
-                'userFilter': {
+                'accountFilter': {
                     specialkey: this.filterHandleEnterKey,
                     render: this.onFilterPanelRender
                 },
@@ -264,6 +264,7 @@ Ext.define( 'App.controller.AccountController', {
 
     filterHandleEnterKey: function( field, event )
     {
+        console.log(field);
         if ( event.getKey() == event.ENTER )
         {
             this.searchFilter();
