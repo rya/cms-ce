@@ -48,7 +48,9 @@ Ext.define( 'App.view.GridPanel', {
 
         this.tbar = {
             xtype: 'pagingtoolbar',
-            store: this.store
+            store: this.store,
+            displayInfo: true,
+            displayMsg: 'Displaying {0} - {1} of {2} users'
         };
 
         this.viewConfig = {
