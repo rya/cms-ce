@@ -65,13 +65,6 @@ Templates.account = {
             '</div>'+
         '</tpl>'
 
-    ,allUsersOnPageSelected:
-            '<div id="selection-all-users-on-page">All {pageSize} items on this page are selected. <a href="javascript:;" id="selection-all-users-in-account-link">Select all {totalCount} items in Accounts</a></div>'
-
-    ,allUsersInAccountSelected:
-            '<div style="" id="selection-all-users-in-account">All {totalSize} conversations in Accounts are selected. <a href="javascript:;" id="selection-all-users-clear-selection-link">Clear selection</a></div>'
-
-
     ,deleteManyUsers:
         '<div class="cms-delete-user-confirmation-message">' +
             '<div class="icon-question-mark-32 cms-left" style="width:32px; height:32px; margin-right: 10px"><!-- --></div>' +

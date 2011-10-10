@@ -203,15 +203,6 @@ Ext.define( 'App.controller.AccountController', {
         {
             accountDetailPanel.showNoneSelection();
         }
-        else if ( selectionCount >= pageSize )
-        {
-            accountDetailPanel.showAllSelected(
-                {
-                    pageSize: pageSize,
-                    totalCount: totalCount
-                }
-            );
-        }
         else
         {
             var user = selection[0];
