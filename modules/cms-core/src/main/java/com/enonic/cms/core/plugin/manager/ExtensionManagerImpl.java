@@ -22,18 +22,18 @@ import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.plugin.ExtensionManager;
 import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
-import com.enonic.cms.core.plugin.PluginRegistry;
+import com.enonic.cms.core.plugin.PluginManager;
 
 import com.enonic.cms.business.SiteURLResolver;
 
 public final class ExtensionManagerImpl
     implements ExtensionManager, InitializingBean
 {
-    private PluginRegistry pluginRegistry;
+    private PluginManager pluginManager;
 
-    public void setPluginRegistry( final PluginRegistry pluginRegistry )
+    public void setPluginManager( final PluginManager pluginManager )
     {
-        this.pluginRegistry = pluginRegistry;
+        this.pluginManager = pluginManager;
     }
 
     public void afterPropertiesSet()
@@ -44,12 +44,12 @@ public final class ExtensionManagerImpl
 
     private List<Extension> getAllExtensions()
     {
-        if ( this.pluginRegistry == null )
+        if ( this.pluginManager == null )
         {
             return Collections.emptyList();
         }
 
-        return this.pluginRegistry.getExtensions();
+        return this.pluginManager.getExtensions();
     }
 
     @SuppressWarnings("unchecked")
@@ -183,9 +183,8 @@ public final class ExtensionManagerImpl
         return getPlugins( TextExtractor.class );
     }
 
-    public PluginRegistry getPluginRegistry()
+    public PluginManager getPluginManager()
     {
-        return this.pluginRegistry;
+        return this.pluginManager;
     }
-
 }

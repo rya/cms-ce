@@ -55,18 +55,6 @@
         <ul>
             <li>${plugin.timestamp}</li>
         </ul>
-        <li>Imported Packages</li>
-        <ul>
-            [#list plugin.importedPackages as pck]
-                <li>${pck}</li>
-            [/#list]
-        </ul>
-        <li>Exported Packages</li>
-        <ul>
-            [#list plugin.exportedPackages as pck]
-                <li>${pck}</li>
-            [/#list]
-        </ul>
     </ul>
 
 </div>

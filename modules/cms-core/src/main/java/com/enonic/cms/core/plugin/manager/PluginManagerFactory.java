@@ -15,7 +15,7 @@ import org.springframework.web.context.ServletContextAware;
 import com.enonic.cms.api.client.LocalClient;
 import com.enonic.cms.api.plugin.PluginEnvironment;
 import com.enonic.cms.core.plugin.ExtensionListener;
-import com.enonic.cms.core.plugin.PluginRegistry;
+import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.plugin.config.PluginConfigManager;
 import com.enonic.cms.core.plugin.container.FelixOsgiContainer;
 import com.enonic.cms.core.plugin.context.PluginContextManager;
@@ -29,7 +29,7 @@ public final class PluginManagerFactory
 {
     private final FelixOsgiContainer container;
 
-    private final PluginManager manager;
+    private final PluginManagerImpl manager;
 
     private final HostActivator hostServices;
 
@@ -41,7 +41,7 @@ public final class PluginManagerFactory
     public PluginManagerFactory()
     {
         this.container = new FelixOsgiContainer();
-        this.manager = new PluginManager();
+        this.manager = new PluginManagerImpl();
         this.hostServices = new HostActivator();
         this.configManager = new PluginConfigManager();
         this.hotDeployer = new HotDeployer();
@@ -63,7 +63,7 @@ public final class PluginManagerFactory
 
     public Class getObjectType()
     {
-        return PluginRegistry.class;
+        return PluginManager.class;
     }
 
     public boolean isSingleton()

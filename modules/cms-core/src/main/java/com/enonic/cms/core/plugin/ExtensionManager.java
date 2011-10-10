@@ -37,5 +37,5 @@ public interface ExtensionManager
 
     public Collection<TextExtractor> getAllTextExtractorPlugins();
 
-    public PluginRegistry getPluginRegistry();
+    public PluginManager getPluginManager();
 }

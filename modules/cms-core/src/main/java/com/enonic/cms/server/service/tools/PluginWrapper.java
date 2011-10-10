@@ -54,16 +54,6 @@ public final class PluginWrapper
         return this.plugin.isFramework();
     }
 
-    public Collection<String> getExportedPackages()
-    {
-        return OsgiHelper.getExportPackages( this.plugin.getBundle() );
-    }
-
-    public Collection<String> getImportedPackages()
-    {
-        return OsgiHelper.getImportPackages( this.plugin.getBundle() );
-    }
-
     public static Collection<PluginWrapper> toWrapperList( final Collection<? extends Plugin> list )
     {
         final ArrayList<PluginWrapper> target = new ArrayList<PluginWrapper>();

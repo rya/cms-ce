@@ -53,33 +53,6 @@ public abstract class AbstractToolController
      */
     protected abstract void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems );
 
-    /**
-     * Return the base path.
-     */
-    protected String createBaseUrl( HttpServletRequest req )
-    {
-        StringBuffer str = new StringBuffer();
-        str.append( req.getScheme() ).append( "://" ).append( req.getServerName() );
-
-        if ( req.getServerPort() != 80 )
-        {
-            str.append( ":" ).append( req.getServerPort() );
-        }
-
-        str.append( req.getContextPath() );
-        return str.toString();
-    }
-
-    /**
-     * Redirect to self.
-     */
-    protected void redirectToSelf( HttpServletRequest req, HttpServletResponse res )
-        throws Exception
-    {
-        redirectToReferer( req, res );
-    }
-
-
     public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
         throws VerticalAdminException, VerticalEngineException
@@ -135,6 +108,4 @@ public abstract class AbstractToolController
     {
         this.freemarkerConfiguration = freemarkerConfiguration;
     }
-
-
 }

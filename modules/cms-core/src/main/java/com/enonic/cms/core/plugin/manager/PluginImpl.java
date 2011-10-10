@@ -50,11 +50,6 @@ final class PluginImpl
         return this.bundle.getState() == Bundle.ACTIVE;
     }
 
-    public Bundle getBundle()
-    {
-        return this.bundle;
-    }
-
     public List<Extension> getExtensions()
     {
         return this.holder.getAllForBundle( this.bundle );

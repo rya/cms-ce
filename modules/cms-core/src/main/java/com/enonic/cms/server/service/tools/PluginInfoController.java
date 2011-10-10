@@ -18,16 +18,22 @@ import com.enonic.cms.core.plugin.Plugin;
 public final class PluginInfoController
     extends AbstractToolController
 {
+    private ExtensionManager extensionManager;
+
+    public void setExtensionManager(final ExtensionManager extensionManager)
+    {
+        this.extensionManager = extensionManager;
+    }
+
     protected void doHandleRequest( final HttpServletRequest req, final HttpServletResponse res, ExtendedMap formItems )
     {
-        final String updateKey = formItems.getString( "update", null );
+        final String updateKey = formItems.getString("update", null);
 
         if ( updateKey != null )
         {
-            doUpdatePlugin( new Long( updateKey ), req, res );
+            doUpdatePlugin(new Long(updateKey), req, res);
         }
 
-        final ExtensionManager extensionManager = ExtensionManagerAccessor.getExtensionManager();
         final HashMap<String, Object> model = new HashMap<String, Object>();
 
         model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
@@ -36,15 +42,15 @@ public final class PluginInfoController
         model.put( "httpInterceptors", toWrappers( extensionManager.getAllHttpInterceptors() ) );
         model.put( "httpResponseFilters", toWrappers( extensionManager.getAllHttpResponseFilters() ) );
         model.put( "taskExtensions", toWrappers( extensionManager.getAllTaskPlugins() ) );
-        model.put( "textExtractorExtensions", toWrappers( extensionManager.getAllTextExtractorPlugins() ) );
-        model.put( "pluginHandles", toPluginWrappers( extensionManager.getPluginRegistry().getPlugins() ) );
+        model.put( "textExtractorExtensions", toWrappers( this.extensionManager.getAllTextExtractorPlugins() ) );
+        model.put( "pluginHandles", toPluginWrappers( this.extensionManager.getPluginManager().getPlugins() ) );
 
         process( res, model, "pluginInfoPage.ftl" );
     }
 
     private void doUpdatePlugin( final long pluginKey, final HttpServletRequest req, final HttpServletResponse res )
     {
-        final Plugin plugin = ExtensionManagerAccessor.getExtensionManager().getPluginRegistry().getPluginByKey( pluginKey );
+        final Plugin plugin = this.extensionManager.getPluginManager().getPluginByKey( pluginKey );
         if ( plugin != null )
         {
             plugin.update();
@@ -70,23 +76,5 @@ public final class PluginInfoController
     private Collection<PluginWrapper> toPluginWrappers( final Collection<? extends Plugin> list )
     {
         return PluginWrapper.toWrapperList( list );
-    }
-
-    private Long getLongParam( final HttpServletRequest req, final String key )
-    {
-        final String value = req.getParameter( key );
-        if ( value == null )
-        {
-            return null;
-        }
-
-        try
-        {
-            return Long.parseLong( value );
-        }
-        catch ( Throwable e )
-        {
-            return null;
-        }
     }
 }

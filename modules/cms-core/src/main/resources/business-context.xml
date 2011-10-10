@@ -204,7 +204,7 @@
     </bean>
 
     <bean id="extensionManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
-        <property name="pluginRegistry" ref="pluginManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
     <bean id="taskManager" class="com.enonic.cms.core.plugin.task.TaskManager"/>

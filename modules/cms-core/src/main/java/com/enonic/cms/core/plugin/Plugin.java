@@ -23,8 +23,6 @@ public interface Plugin
 
     public DateTime getTimestamp();
 
-    public Bundle getBundle();
-
     public boolean isFramework();
 
     public void update();

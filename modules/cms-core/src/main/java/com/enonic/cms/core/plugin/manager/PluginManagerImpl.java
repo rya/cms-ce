@@ -13,10 +13,10 @@ import com.google.common.collect.Lists;
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.ExtensionListener;
 import com.enonic.cms.core.plugin.Plugin;
-import com.enonic.cms.core.plugin.PluginRegistry;
+import com.enonic.cms.core.plugin.PluginManager;
 
-final class PluginManager
-    implements PluginRegistry, BundleActivator
+final class PluginManagerImpl
+    implements PluginManager, BundleActivator
 {
     private ExtensionTracker extensions;
 
@@ -80,5 +80,10 @@ final class PluginManager
     public void setListeners( List<ExtensionListener> listeners )
     {
         this.listeners = listeners;
+    }
+
+    public void updatePlugin(long key)
+    {
+        throw new UnsupportedOperationException();
     }
 }
