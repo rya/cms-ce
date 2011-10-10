@@ -18,10 +18,13 @@ final class BundleEventLogger
         switch ( event.getType() )
         {
             case BundleEvent.INSTALLED:
-                LOG.info( "Installed bundle [{0}] from [{1}]", bundle.getSymbolicName(), bundle.getLocation() );
+                LOG.info( "Installed plugin [{0}] from [{1}]", bundle.getSymbolicName(), bundle.getLocation() );
+                break;
+            case BundleEvent.UNINSTALLED:
+                LOG.info( "Uninstalled plugin [{0}] from [{1}]", bundle.getSymbolicName(), bundle.getLocation() );
                 break;
             case BundleEvent.STARTED:
-                LOG.info( "Started bundle [{0}]", bundle.getSymbolicName() );
+                LOG.info( "Started plugin [{0}]", bundle.getSymbolicName() );
                 break;
         }
     }

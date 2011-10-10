@@ -73,9 +73,7 @@ final class PluginInstaller
     {
         try
         {
-            final Bundle bundle = this.context.installBundle( location );
-            LOG.info( "Installed plugin [{0}] from location [{1}]", bundle.getSymbolicName(), location );
-            return bundle;
+            return this.context.installBundle( location );
         }
         catch ( Exception e )
         {
@@ -90,8 +88,6 @@ final class PluginInstaller
         try
         {
             bundle.update();
-            LOG.info( "Updated plugin [{0}] from location [{1}]", bundle.getSymbolicName(), bundle.getLocation() );
-
             return bundle;
         }
         catch ( Exception e )
@@ -111,8 +107,6 @@ final class PluginInstaller
         try
         {
             bundle.uninstall();
-            LOG.info( "Uninstalled plugin [{0}] from location [{1}]", bundle.getSymbolicName(), bundle.getLocation() );
-
             return bundle;
         }
         catch ( Exception e )
