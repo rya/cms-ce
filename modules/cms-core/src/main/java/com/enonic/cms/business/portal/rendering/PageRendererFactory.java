@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.business.portal.rendering;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -71,6 +72,9 @@ public class PageRendererFactory
     @Autowired
     private DataSourceService dataSourceService;
 
+    @Autowired
+    private ExtensionManager extensionManager;
+
     public PageRenderer createPageRenderer( PageRendererContext pageRendererContext )
     {
         PageRenderer pageRenderer = new PageRenderer( pageRendererContext, livePortalTraceService );
@@ -86,6 +90,7 @@ public class PageRendererFactory
         pageRenderer.setTimeService( timeService );
         pageRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         pageRenderer.setDataSourceService( dataSourceService );
+        pageRenderer.setExtensionManager( extensionManager );
 
         return pageRenderer;
     }

@@ -12,7 +12,6 @@ import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.core.plugin.Plugin;
 
 public final class PluginInfoController
@@ -50,11 +49,7 @@ public final class PluginInfoController
 
     private void doUpdatePlugin( final long pluginKey, final HttpServletRequest req, final HttpServletResponse res )
     {
-        final Plugin plugin = this.extensionManager.getPluginManager().getPluginByKey( pluginKey );
-        if ( plugin != null )
-        {
-            plugin.update();
-        }
+        this.extensionManager.getPluginManager().updatePlugin( pluginKey );
 
         try
         {

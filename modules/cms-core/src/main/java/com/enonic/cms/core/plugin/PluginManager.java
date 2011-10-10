@@ -10,7 +10,5 @@ public interface PluginManager
 
     public List<Extension> getExtensions();
 
-    public Plugin getPluginByKey(long key);
-
     public void updatePlugin(long key);
 }

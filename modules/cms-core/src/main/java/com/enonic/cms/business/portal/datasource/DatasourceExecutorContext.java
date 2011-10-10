@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.jdom.Document;
 
 import com.enonic.cms.core.LanguageEntity;
@@ -95,6 +96,7 @@ public class DatasourceExecutorContext
 
     private DataSourceService dataSourceService;
 
+    private ExtensionManager extensionManager;
 
     public DatasourcesType getDatasourcesType()
     {
@@ -384,5 +386,15 @@ public class DatasourceExecutorContext
     public void setDataSourceService( DataSourceService dataSourceService )
     {
         this.dataSourceService = dataSourceService;
+    }
+
+    public ExtensionManager getExtensionManager()
+    {
+        return extensionManager;
+    }
+
+    public void setExtensionManager(ExtensionManager extensionManager)
+    {
+        this.extensionManager = extensionManager;
     }
 }

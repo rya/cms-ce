@@ -259,6 +259,7 @@
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
         <property name="userDao" ref="userDao"/>
         <property name="siteDao" ref="siteDao"/>
+        <property name="extensionManager" ref="extensionManager"/>
     </bean>
 
 

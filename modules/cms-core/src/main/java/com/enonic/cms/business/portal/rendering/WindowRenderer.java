@@ -6,6 +6,7 @@ package com.enonic.cms.business.portal.rendering;
 
 import java.util.concurrent.locks.Lock;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,6 +106,8 @@ public class WindowRenderer
     private static GenericConcurrencyLock<WindowCacheKey> concurrencyLock = GenericConcurrencyLock.create();
 
     private DataSourceService dataSourceService;
+
+    private ExtensionManager extensionManager;
 
     /**
      * The window rendering trace for this window rendering.
@@ -501,6 +504,7 @@ public class WindowRenderer
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setWindow( window );
         datasourceExecutorContext.setDataSourceService( this.dataSourceService );
+        datasourceExecutorContext.setExtensionManager( this.extensionManager );
 
         DatasourceExecutor dataSourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -653,5 +657,10 @@ public class WindowRenderer
     public void setDataSourceService( DataSourceService dataSourceService )
     {
         this.dataSourceService = dataSourceService;
+    }
+
+    public void setExtensionManager(ExtensionManager extensionManager)
+    {
+        this.extensionManager = extensionManager;
     }
 }

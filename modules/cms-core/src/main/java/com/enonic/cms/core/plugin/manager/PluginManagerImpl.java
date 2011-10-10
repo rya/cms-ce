@@ -64,19 +64,6 @@ final class PluginManagerImpl
         return ImmutableList.of();
     }
 
-    public Plugin getPluginByKey( long key )
-    {
-        for ( final Plugin plugin : getPlugins() )
-        {
-            if ( plugin.getKey() == key )
-            {
-                return plugin;
-            }
-        }
-
-        return null;
-    }
-
     public void setListeners( List<ExtensionListener> listeners )
     {
         this.listeners = listeners;

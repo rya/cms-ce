@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.business.portal.rendering;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
@@ -59,6 +60,9 @@ public class WindowRendererFactory
     @Autowired
     private DataSourceService dataSourceService;
 
+    @Autowired
+    private ExtensionManager extensionManager;
+
     public WindowRenderer createPortletRenderer( WindowRendererContext windowRendererContext )
     {
         PageCacheService pageCacheService = siteCachesService.getPageCacheService( windowRendererContext.getSite().getKey() );
@@ -75,6 +79,7 @@ public class WindowRendererFactory
         windowRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         windowRenderer.setLiveTraceService( livePortalTraceService );
         windowRenderer.setDataSourceService( dataSourceService );
+        windowRenderer.setExtensionManager( extensionManager );
 
         return windowRenderer;
     }

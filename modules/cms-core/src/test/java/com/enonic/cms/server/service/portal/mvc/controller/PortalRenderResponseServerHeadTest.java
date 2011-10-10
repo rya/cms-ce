@@ -7,8 +7,6 @@ import com.enonic.cms.business.SitePropertyNames;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
-import com.enonic.cms.core.plugin.manager.ExtensionManagerImpl;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
@@ -72,8 +70,6 @@ public class PortalRenderResponseServerHeadTest
 
         ServletRequestAccessor.setRequest( httpServletRequest );
         portalRenderResponseServer.setSitePropertiesService( sitePropertiesService );
-
-        ExtensionManagerAccessor.setExtensionManager( new ExtensionManagerImpl() );
 
         portalRenderResponseServer.setUserDao( userDao );
         portalRenderResponseServer.setSiteDao( siteDao );

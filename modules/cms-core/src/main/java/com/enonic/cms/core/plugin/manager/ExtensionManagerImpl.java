@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.springframework.beans.factory.InitializingBean;
-
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 
@@ -21,25 +19,18 @@ import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.core.plugin.PluginManager;
 
 import com.enonic.cms.business.SiteURLResolver;
 
 public final class ExtensionManagerImpl
-    implements ExtensionManager, InitializingBean
+    implements ExtensionManager
 {
     private PluginManager pluginManager;
 
     public void setPluginManager( final PluginManager pluginManager )
     {
         this.pluginManager = pluginManager;
-    }
-
-    public void afterPropertiesSet()
-        throws Exception
-    {
-        ExtensionManagerAccessor.setExtensionManager( this );
     }
 
     private List<Extension> getAllExtensions()

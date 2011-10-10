@@ -6,6 +6,7 @@ package com.enonic.cms.business.portal.rendering;
 
 import java.util.concurrent.locks.Lock;
 
+import com.enonic.cms.core.plugin.ExtensionManager;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -105,6 +106,8 @@ public class PageRenderer
     private static GenericConcurrencyLock<PageCacheKey> concurrencyLock = GenericConcurrencyLock.create();
 
     private DataSourceService dataSourceService;
+
+    private ExtensionManager extensionManager;
 
     protected PageRenderer( PageRendererContext pageRendererContext, LivePortalTraceService livePortalTraceService )
     {
@@ -414,6 +417,7 @@ public class PageRenderer
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setUser( context.getRunAsUser() );
         datasourceExecutorContext.setDataSourceService( this.dataSourceService );
+        datasourceExecutorContext.setExtensionManager( this.extensionManager );
 
         DatasourceExecutor datasourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -579,6 +583,11 @@ public class PageRenderer
     public void setDataSourceService( DataSourceService dataSourceService )
     {
         this.dataSourceService = dataSourceService;
+    }
+
+    public void setExtensionManager(ExtensionManager extensionManager)
+    {
+        this.extensionManager = extensionManager;
     }
 }
 
