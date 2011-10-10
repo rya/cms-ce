@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.domain.portal;
 
-import com.enonic.cms.domain.NotFoundErrorType;
-import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.NotFoundErrorType;
+import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 
 /**
  * Aug 28, 2009

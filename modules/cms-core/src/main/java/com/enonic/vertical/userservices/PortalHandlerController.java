@@ -16,12 +16,12 @@ import org.apache.commons.lang.StringUtils;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 
 import com.enonic.cms.core.structure.SiteEntity;

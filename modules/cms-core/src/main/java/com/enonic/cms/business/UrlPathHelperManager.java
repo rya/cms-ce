@@ -9,7 +9,7 @@ import java.util.Map;
 
 import org.springframework.web.util.UrlPathHelper;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class UrlPathHelperManager
 {

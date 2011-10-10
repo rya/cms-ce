@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.domain.portal;
 
-import com.enonic.cms.domain.NotFoundErrorType;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.NotFoundErrorType;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 
 public class LoginPageNotFoundException
     extends RuntimeException

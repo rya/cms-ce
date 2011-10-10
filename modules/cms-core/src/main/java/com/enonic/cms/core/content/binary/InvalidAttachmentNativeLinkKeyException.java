@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.content.binary;
 
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 
 /**
  * Feb 16, 2010

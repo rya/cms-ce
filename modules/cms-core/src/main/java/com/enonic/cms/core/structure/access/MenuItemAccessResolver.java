@@ -4,14 +4,13 @@
  */
 package com.enonic.cms.core.structure.access;
 
+import com.enonic.cms.core.AbstractAccessResolver;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.GroupDao;
-
-import com.enonic.cms.business.core.AbstractAccessResolver;
 
 public class MenuItemAccessResolver
     extends AbstractAccessResolver<MenuItemEntity, MenuItemAccessType>

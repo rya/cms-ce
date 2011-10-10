@@ -8,7 +8,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.junit.Test;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
+import com.enonic.cms.core.AbstractEqualsTest;
 
 
 public class LegacyCatalogContentDataEqualsTest

@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.ImageDataEntry;
@@ -24,8 +25,6 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DateDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.ImageDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 
 public class CustomContentDataEqualsTest

@@ -7,7 +7,7 @@ package com.enonic.cms.core.log;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.domain.ResultSet;
+import com.enonic.cms.core.ResultSet;
 
 public interface LogEntryResultSet
     extends ResultSet

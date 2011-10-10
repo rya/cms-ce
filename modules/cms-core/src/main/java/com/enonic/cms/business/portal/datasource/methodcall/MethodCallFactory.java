@@ -23,7 +23,7 @@ import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.business.portal.datasource.ExpressionFunctionsExecutor;
 
-import com.enonic.cms.domain.RequestParameters;
+import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 import com.enonic.cms.domain.portal.datasource.Datasource;
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;

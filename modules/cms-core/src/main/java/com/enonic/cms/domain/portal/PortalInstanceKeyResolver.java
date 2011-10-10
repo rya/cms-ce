@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 import com.enonic.cms.core.structure.portlet.PortletKey;
 

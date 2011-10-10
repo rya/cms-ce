@@ -14,12 +14,11 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
+import com.enonic.cms.core.AbstractPagedXmlCreator;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupXmlCreator;
 import com.enonic.cms.core.security.user.field.UserInfoXmlCreator;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-
-import com.enonic.cms.domain.AbstractPagedXmlCreator;
 
 public class UserXmlCreator
     extends AbstractPagedXmlCreator

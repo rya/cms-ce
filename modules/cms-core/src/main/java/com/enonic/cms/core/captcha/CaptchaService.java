@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 /**
  *

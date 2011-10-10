@@ -12,11 +12,10 @@ import org.jdom.Element;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
+import com.enonic.cms.core.AbstractPagedXmlCreator;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-
-import com.enonic.cms.domain.AbstractPagedXmlCreator;
 
 public class GroupXmlCreator
     extends AbstractPagedXmlCreator

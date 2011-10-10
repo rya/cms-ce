@@ -6,9 +6,8 @@ package com.enonic.vertical.engine;
 
 import java.io.Serializable;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class SectionCriteria
     implements Serializable

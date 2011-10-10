@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.core.content.binary;
 
-import com.enonic.cms.domain.BadRequestErrorType;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.BadRequestErrorType;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 
 public class InvalidBinaryPathException
     extends RuntimeException

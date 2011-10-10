@@ -6,15 +6,14 @@ package com.enonic.cms.domain.portal;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentLocation;
 import com.enonic.cms.core.content.ContentLocationSpecification;
 import com.enonic.cms.core.content.ContentLocations;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.SectionContentDao;
-
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
 
 /**
  * Feb 23, 2010

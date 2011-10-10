@@ -7,7 +7,7 @@ package com.enonic.cms.business;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class SiteContextManager
 {

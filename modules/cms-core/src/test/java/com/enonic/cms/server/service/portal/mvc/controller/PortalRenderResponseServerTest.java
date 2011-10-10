@@ -17,6 +17,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.DeploymentAndRequestSetup;
 
@@ -24,9 +27,6 @@ import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.RedirectInstruction;

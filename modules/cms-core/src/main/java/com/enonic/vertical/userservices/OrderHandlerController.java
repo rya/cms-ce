@@ -37,8 +37,8 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.CalendarUtil;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.domain.portal.ShoppingCart;
 
 public class OrderHandlerController

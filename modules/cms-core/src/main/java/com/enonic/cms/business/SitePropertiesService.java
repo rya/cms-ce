@@ -6,7 +6,7 @@ package com.enonic.cms.business;
 
 import com.enonic.cms.core.structure.SiteProperties;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public interface SitePropertiesService
 {

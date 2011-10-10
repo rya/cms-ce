@@ -59,6 +59,8 @@ import com.enonic.cms.framework.util.TIntHashSet;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CmsDateAndTimeFormats;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
@@ -98,8 +100,6 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
 import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;

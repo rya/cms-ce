@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 
 
 public abstract class AbstractBaseEntityDao<T>

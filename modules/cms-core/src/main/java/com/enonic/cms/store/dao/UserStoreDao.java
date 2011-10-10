@@ -9,7 +9,7 @@ import java.util.List;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 
 public interface UserStoreDao
     extends EntityDao<UserStoreEntity>

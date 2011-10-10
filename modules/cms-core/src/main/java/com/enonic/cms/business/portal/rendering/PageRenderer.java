@@ -15,6 +15,7 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.util.GenericConcurrencyLock;
 
+import com.enonic.cms.core.CacheSettings;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -43,9 +44,8 @@ import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.portal.rendering.tracing.TraceMarkerHelper;
 import com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer;
 
-import com.enonic.cms.domain.CacheObjectSettings;
-import com.enonic.cms.domain.CacheSettings;
-import com.enonic.cms.domain.CachedObject;
+import com.enonic.cms.core.CacheObjectSettings;
+import com.enonic.cms.core.CachedObject;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.Ticket;
 import com.enonic.cms.domain.portal.datasource.DataSourceResult;

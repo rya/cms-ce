@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.portal.support;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 
 public interface LoginPagePathResolverService
 {

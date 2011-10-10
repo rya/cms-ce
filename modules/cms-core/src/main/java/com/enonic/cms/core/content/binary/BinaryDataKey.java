@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.AbstractIntegerBasedKey;
+import com.enonic.cms.core.AbstractIntegerBasedKey;
 
 public class BinaryDataKey
     extends AbstractIntegerBasedKey

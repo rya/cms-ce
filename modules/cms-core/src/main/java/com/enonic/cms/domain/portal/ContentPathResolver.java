@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.Path;
+import com.enonic.cms.core.Path;
 
 /**
  * Jul 24, 2009

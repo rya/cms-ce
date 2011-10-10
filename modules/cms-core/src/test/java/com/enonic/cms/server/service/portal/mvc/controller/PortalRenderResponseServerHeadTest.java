@@ -5,15 +5,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.core.plugin.manager.ExtensionManagerImpl;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.Path;
+
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.core.structure.SiteEntity;

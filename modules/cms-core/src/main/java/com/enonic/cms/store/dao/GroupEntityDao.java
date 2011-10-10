@@ -22,13 +22,12 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
+import com.enonic.cms.core.EntityPageList;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
-
-import com.enonic.cms.domain.EntityPageList;
 
 @Repository("groupDao")
 public final class GroupEntityDao

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.domain.portal;
 
-import com.enonic.cms.domain.Path;
+import com.enonic.cms.core.Path;
 
 public class ReservedLocalPaths
 {

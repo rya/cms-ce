@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.security.group;
 
-import com.enonic.cms.domain.NotFoundErrorType;
+import com.enonic.cms.core.NotFoundErrorType;
 
 public class GroupNotFoundException
     extends RuntimeException

@@ -12,7 +12,7 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.cms.business.portal.datasource.methodcall.MethodCall;
 import com.enonic.cms.business.portal.datasource.methodcall.MethodCallParameter;
 
-import com.enonic.cms.domain.CalendarUtil;
+import com.enonic.cms.core.CalendarUtil;
 
 /**
  * Apr 30, 2009

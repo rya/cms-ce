@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
 
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -23,8 +24,8 @@ import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.business.portal.rendering.RegionsResolver;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.LanguageEntity;
+
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
 

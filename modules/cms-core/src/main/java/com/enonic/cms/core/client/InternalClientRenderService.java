@@ -21,6 +21,12 @@ import com.enonic.cms.framework.client.ClientHttpServletRequest;
 import com.enonic.cms.api.client.model.RenderContentParams;
 import com.enonic.cms.api.client.model.RenderPageParams;
 import com.enonic.cms.api.client.model.RenderParams;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.security.SecurityService;
@@ -36,12 +42,6 @@ import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.portal.PortalRequestService;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PathToContentResolver;
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;

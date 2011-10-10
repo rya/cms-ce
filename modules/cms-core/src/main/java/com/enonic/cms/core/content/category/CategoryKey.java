@@ -11,8 +11,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.enonic.esl.util.StringUtil;
 
-import com.enonic.cms.domain.AbstractIntegerBasedKey;
-import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.core.InvalidKeyException;
+import com.enonic.cms.core.AbstractIntegerBasedKey;
 
 public class CategoryKey
     extends AbstractIntegerBasedKey

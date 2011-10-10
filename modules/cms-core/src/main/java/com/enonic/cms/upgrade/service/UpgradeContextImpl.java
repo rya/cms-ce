@@ -28,11 +28,10 @@ import com.enonic.cms.framework.jdbc.dialect.Dialect;
 import com.enonic.cms.framework.jdbc.dialect.H2Dialect;
 import com.enonic.cms.framework.jdbc.dialect.OracleDialect;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.store.DatabaseAccessor;
 import com.enonic.cms.upgrade.UpgradeContext;
 import com.enonic.cms.upgrade.log.UpgradeLog;
-
-import com.enonic.cms.domain.SiteKey;
 
 public final class UpgradeContextImpl
     implements UpgradeContext

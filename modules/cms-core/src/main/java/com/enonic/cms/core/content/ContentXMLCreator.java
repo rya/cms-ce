@@ -20,6 +20,9 @@ import org.joda.time.format.DateTimeFormatter;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CmsDateAndTimeFormats;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataXmlCreator;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
@@ -33,10 +36,6 @@ import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentXmlCreator;
-
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
 
 public class ContentXMLCreator
 {

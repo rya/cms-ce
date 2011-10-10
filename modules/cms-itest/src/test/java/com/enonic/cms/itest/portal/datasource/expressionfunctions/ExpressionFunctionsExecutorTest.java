@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.itest.portal.datasource.expressionfunctions;
 
-import com.enonic.cms.domain.RequestParameters;
+import com.enonic.cms.core.RequestParameters;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;

@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.resolver.deviceclass.UserAgentTestEnums;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
@@ -18,9 +20,7 @@ import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteURLResolver;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 
 import static org.junit.Assert.*;
 

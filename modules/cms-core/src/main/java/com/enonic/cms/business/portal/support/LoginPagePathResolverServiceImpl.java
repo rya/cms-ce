@@ -6,11 +6,11 @@ package com.enonic.cms.business.portal.support;
 
 import com.enonic.vertical.engine.Types;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.service.PresentationService;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.LoginPageNotFoundException;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 

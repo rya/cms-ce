@@ -8,9 +8,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.domain.Path;
 
 /**
  * Feb 15, 2010

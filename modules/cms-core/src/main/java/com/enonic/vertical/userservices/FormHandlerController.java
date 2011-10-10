@@ -37,7 +37,7 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import com.enonic.cms.core.content.command.CreateContentCommand;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;

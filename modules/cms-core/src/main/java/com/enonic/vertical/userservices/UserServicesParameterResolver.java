@@ -4,8 +4,8 @@
  */
 package com.enonic.vertical.userservices;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SitePath;
 
 /**
  *

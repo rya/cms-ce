@@ -6,7 +6,7 @@ package com.enonic.cms.core.resource;
 
 import org.junit.Test;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
+import com.enonic.cms.core.AbstractEqualsTest;
 
 
 public class ResourceKeyEqualsTest

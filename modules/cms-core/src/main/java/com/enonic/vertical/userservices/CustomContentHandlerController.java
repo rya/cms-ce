@@ -17,6 +17,7 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.UpdateContentResult;
@@ -36,7 +37,6 @@ import com.enonic.cms.core.content.UpdateContentException;
 
 import com.enonic.cms.core.content.command.CreateContentCommand;
 
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 

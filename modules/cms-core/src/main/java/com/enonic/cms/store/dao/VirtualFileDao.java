@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 
 public interface VirtualFileDao
 {

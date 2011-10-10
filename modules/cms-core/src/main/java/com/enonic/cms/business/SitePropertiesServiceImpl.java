@@ -18,10 +18,9 @@ import org.springframework.core.io.ResourceLoader;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.boot.HomeService;
 import com.enonic.cms.core.structure.SiteProperties;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class SitePropertiesServiceImpl
     implements SitePropertiesService, InitializingBean

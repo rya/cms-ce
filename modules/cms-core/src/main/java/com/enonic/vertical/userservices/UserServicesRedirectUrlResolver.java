@@ -12,8 +12,9 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.URL;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SitePath;
+
 import com.enonic.cms.domain.portal.httpservices.IllegalRedirectException;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 

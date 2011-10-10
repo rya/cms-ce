@@ -19,13 +19,13 @@ import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.core.security.user.User;
 
 /**

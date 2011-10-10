@@ -12,7 +12,7 @@ import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.business.core.AbstractAccessResolver;
+import com.enonic.cms.core.AbstractAccessResolver;
 
 
 public class CategoryAccessResolver

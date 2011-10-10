@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.structure.menuitem.section;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class ContentHomeSpecification
 {

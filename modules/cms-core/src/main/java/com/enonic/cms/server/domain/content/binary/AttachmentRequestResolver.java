@@ -6,11 +6,11 @@ package com.enonic.cms.server.domain.content.binary;
 
 import java.util.List;
 
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.PathAndParams;
+import com.enonic.cms.core.PathAndParams;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;

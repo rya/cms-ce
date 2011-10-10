@@ -11,14 +11,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.Path;
+
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
 import com.enonic.cms.business.SiteURLResolver;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 
 public class SiteRedirectAndForwardHelperTest
     extends TestCase

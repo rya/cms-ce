@@ -11,11 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.AbstractResultSet;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.index.ContentVersionEntityFetcher;
-
-import com.enonic.cms.domain.AbstractResultSet;
 
 public final class ContentVersionResultSetLazyFetcher
     extends AbstractResultSet

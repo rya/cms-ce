@@ -7,12 +7,11 @@ package com.enonic.cms.core.content.contentdata.custom;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.HtmlAreaDataEntryConfig;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;

@@ -15,7 +15,7 @@ import com.enonic.cms.framework.util.PropertiesUtil;
 
 import com.enonic.cms.core.boot.ConfigBuilder;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public final class StandardPropertyResolver
     implements PropertyResolver, InitializingBean

@@ -14,7 +14,7 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.domain.portal.PortalResponse;
 
 /**

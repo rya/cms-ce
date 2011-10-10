@@ -26,6 +26,7 @@ import com.enonic.esl.containers.ExtendedMap;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
@@ -45,7 +46,6 @@ import com.enonic.cms.core.content.ContentService;
 
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentVersionEntity;

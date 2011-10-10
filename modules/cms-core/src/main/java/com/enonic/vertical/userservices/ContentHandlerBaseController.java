@@ -33,6 +33,8 @@ import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
+import com.enonic.cms.core.CalendarUtil;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentLocationSpecification;
@@ -52,8 +54,6 @@ import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.business.portal.cache.PageCacheService;
 
-import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentLocation;

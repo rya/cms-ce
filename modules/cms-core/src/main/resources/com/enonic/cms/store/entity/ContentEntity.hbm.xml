@@ -37,7 +37,7 @@
         <many-to-one name="mainVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
             <column name="CON_COV_LKEY"/>
         </many-to-one>
-        <many-to-one name="language" class="com.enonic.cms.domain.LanguageEntity" fetch="select">
+        <many-to-one name="language" class="com.enonic.cms.core.LanguageEntity" fetch="select">
             <column name="CON_LAN_LKEY" not-null="true"/>
         </many-to-one>
         <many-to-one name="source" class="com.enonic.cms.core.content.ContentEntity" fetch="select">

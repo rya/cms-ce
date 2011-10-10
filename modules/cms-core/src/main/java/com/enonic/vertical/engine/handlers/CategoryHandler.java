@@ -52,6 +52,7 @@ import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
@@ -59,8 +60,6 @@ import com.enonic.cms.core.content.category.CategoryXmlCreator;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.store.dao.CategoryDao;
-
-import com.enonic.cms.domain.CalendarUtil;
 
 import com.enonic.cms.core.content.category.CategoryStatistics;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;

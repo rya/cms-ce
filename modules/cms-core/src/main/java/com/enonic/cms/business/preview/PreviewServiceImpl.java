@@ -11,7 +11,7 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
-import com.enonic.cms.domain.Attribute;
+import com.enonic.cms.core.Attribute;
 
 /**
  * Sep 30, 2010
