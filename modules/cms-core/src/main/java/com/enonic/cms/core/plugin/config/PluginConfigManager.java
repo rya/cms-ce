@@ -1,10 +1,9 @@
 package com.enonic.cms.core.plugin.config;
 
 import java.io.File;
-
+import com.enonic.cms.api.plugin.PluginConfig;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-
 import com.enonic.cms.api.util.LogFacade;
 
 public final class PluginConfigManager
@@ -23,7 +22,8 @@ public final class PluginConfigManager
         throws Exception
     {
         LOG.info( "Plugin configuration is loaded from [{0}]", this.configDir.getAbsolutePath() );
-        new PluginConfigFactory( this.configDir ).register( context );
+        final PluginConfigFactory factory = new PluginConfigFactory(this.configDir);
+        context.registerService(PluginConfig.class.getName(), factory, null);
     }
 
     public void stop( final BundleContext context )

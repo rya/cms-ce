@@ -44,15 +44,6 @@ public class PluginConfigFactoryTest
     }
 
     @Test
-    public void testRegister()
-    {
-        final BundleContext context = Mockito.mock(BundleContext.class);
-        this.factory.register(context);
-
-        Mockito.verify(context, Mockito.times(1)).registerService(PluginConfig.class.getName(), this.factory, null);
-    }
-
-    @Test
     public void testGetService()
         throws Exception
     {
@@ -76,5 +67,11 @@ public class PluginConfigFactoryTest
         assertEquals("external-value1", config.getString("key3"));
         assertEquals("default-value1", config.getString("default1"));
         assertEquals("default-value2", config.getString("default2"));
+    }
+
+    @Test
+    public void testUnGetService()
+    {
+        this.factory.ungetService(null, null, null);
     }
 }

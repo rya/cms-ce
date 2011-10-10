@@ -1,7 +1,6 @@
 package com.enonic.cms.core.plugin.config;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import com.enonic.cms.api.plugin.PluginConfig;
@@ -13,7 +12,7 @@ final class PluginConfigImpl
 
     public PluginConfigImpl( final Map<String, String> map )
     {
-        this.map = Collections.unmodifiableMap( map );
+        this.map = map;
     }
 
     public String getString( final String key )
@@ -167,22 +166,22 @@ final class PluginConfigImpl
 
     public String put( final String key, final String value )
     {
-        return this.map.put( key, value );
+        throw new UnsupportedOperationException();
     }
 
     public String remove( final Object key )
     {
-        return this.map.remove( key );
+        throw new UnsupportedOperationException();
     }
 
     public void putAll( final Map<? extends String, ? extends String> map )
     {
-        this.map.putAll( map );
+        throw new UnsupportedOperationException();
     }
 
     public void clear()
     {
-        this.map.clear();
+        throw new UnsupportedOperationException();
     }
 
     public Set<String> keySet()

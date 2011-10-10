@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceFactory;
 import org.osgi.framework.ServiceRegistration;
 
@@ -59,10 +58,5 @@ final class PluginConfigFactory
     public void ungetService( final Bundle bundle, final ServiceRegistration reg, final Object o )
     {
         // Do nothing
-    }
-
-    public void register( final BundleContext context )
-    {
-        context.registerService( PluginConfig.class.getName(), this, null );
     }
 }
