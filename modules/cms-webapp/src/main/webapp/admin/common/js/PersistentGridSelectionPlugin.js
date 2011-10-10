@@ -23,8 +23,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('deselect', this.onRowDeselect, this);
-            // TODO: Use getComponent or ComponentQuery instead of items[1]
-            this.grid.dockedItems.items[1].on('beforechange', this.pageChange, this );
+            Ext.ComponentQuery.query('pagingtoolbar')[0].on('beforechange', this.pageChange, this );
         }, this);
     },
 
@@ -35,7 +34,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
         this.grid.selModel.refresh();
         // selection changed from view updates, restore full selection
         var ds = this.grid.getStore();
-        // TODO: Optimized.
+        // TODO: Optimize.
         for (var i = ds.getCount() - 1; i >= 0; i--) {
             if (this.selected[ds.getAt(i).internalId]) {
                 this.grid.selModel.select(i,true,false);
