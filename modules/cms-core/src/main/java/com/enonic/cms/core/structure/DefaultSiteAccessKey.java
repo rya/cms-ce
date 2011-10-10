@@ -8,9 +8,8 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.group.GroupKey;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class DefaultSiteAccessKey
     implements Serializable

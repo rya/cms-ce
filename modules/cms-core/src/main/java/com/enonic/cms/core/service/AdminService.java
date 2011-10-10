@@ -32,8 +32,8 @@ import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
-import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.SiteKey;
 
 public interface AdminService
 {

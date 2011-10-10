@@ -6,7 +6,7 @@ package com.enonic.cms.domain.portal;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.domain.Path;
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentKey;
 
 /**

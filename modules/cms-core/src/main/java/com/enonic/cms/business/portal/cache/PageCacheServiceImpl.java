@@ -7,11 +7,11 @@ package com.enonic.cms.business.portal.cache;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.CacheObjectSettings;
+import com.enonic.cms.core.CachedObject;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
-import com.enonic.cms.domain.CacheObjectSettings;
-import com.enonic.cms.domain.CachedObject;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.domain.portal.rendering.PageCacheKey;
 import com.enonic.cms.domain.portal.rendering.WindowCacheKey;
 

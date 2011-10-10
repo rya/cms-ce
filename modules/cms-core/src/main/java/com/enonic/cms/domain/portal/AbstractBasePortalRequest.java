@@ -6,7 +6,7 @@ package com.enonic.cms.domain.portal;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.user.UserKey;
 
 /**

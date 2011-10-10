@@ -26,7 +26,7 @@ import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.PagePortletTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;

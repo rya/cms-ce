@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentKey;
@@ -17,8 +18,6 @@ import com.enonic.cms.core.content.RelatedContentEntity;
 import com.enonic.cms.core.content.UnitEntity;
 
 import com.enonic.cms.core.security.SecurityHolder;
-
-import com.enonic.cms.domain.LanguageEntity;
 
 import com.enonic.cms.core.content.ContentHandlerKey;
 

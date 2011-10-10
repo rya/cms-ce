@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
@@ -37,9 +39,8 @@ import com.enonic.cms.business.portal.rendering.WindowRenderer;
 import com.enonic.cms.business.portal.rendering.WindowRendererFactory;
 import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionException;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.RequestParameters;
+
 import com.enonic.cms.domain.nativelink.NativeLinkKey;
 import com.enonic.cms.domain.portal.PathToContentResolver;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;

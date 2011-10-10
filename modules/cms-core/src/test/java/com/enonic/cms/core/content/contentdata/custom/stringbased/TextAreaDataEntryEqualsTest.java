@@ -6,10 +6,9 @@ package com.enonic.cms.core.content.contentdata.custom.stringbased;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.HtmlAreaDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextAreaDataEntryConfig;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 /**
  * Created by IntelliJ IDEA.

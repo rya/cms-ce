@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.structure.page.template.PageTemplatePortletEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;

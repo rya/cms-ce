@@ -6,9 +6,8 @@ package com.enonic.cms.core.internal.service;
 
 import com.enonic.vertical.engine.PresentationEngine;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.service.PresentationService;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class PresentationServiceImpl
     implements PresentationService

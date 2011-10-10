@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.LanguageKey;
+import com.enonic.cms.core.LanguageKey;
 
 /**
  * Created by rmy - Date: Oct 5, 2009

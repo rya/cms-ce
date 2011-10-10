@@ -19,6 +19,7 @@ import com.enonic.vertical.engine.BaseEngine;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 
+import com.enonic.cms.core.CmsDateAndTimeFormats;
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
@@ -40,8 +41,6 @@ import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.core.content.ContentService;
-
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
 
 public abstract class BaseHandler
 {

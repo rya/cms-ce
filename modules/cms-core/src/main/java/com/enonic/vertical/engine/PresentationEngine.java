@@ -46,7 +46,7 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class PresentationEngine
     extends BaseEngine

@@ -74,6 +74,7 @@ import com.enonic.cms.api.client.model.UnassignContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
 import com.enonic.cms.api.client.model.preference.Preference;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -163,8 +164,6 @@ import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.portal.datasource.context.UserContextXmlCreator;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
-
-import com.enonic.cms.domain.SiteKey;
 
 /**
  * This class implements the local client.

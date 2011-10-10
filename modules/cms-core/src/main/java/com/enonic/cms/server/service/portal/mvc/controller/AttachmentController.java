@@ -19,6 +19,8 @@ import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
@@ -39,9 +41,7 @@ import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.business.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Path;
 
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 

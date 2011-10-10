@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.core.content.binary;
 
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.NotFoundErrorType;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.NotFoundErrorType;
 
 public class AttachmentNotFoundException
     extends RuntimeException

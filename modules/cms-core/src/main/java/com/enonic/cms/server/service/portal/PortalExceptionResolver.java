@@ -17,6 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.ForbiddenErrorType;
+import com.enonic.cms.core.InvalidKeyException;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.UnauthorizedErrorType;
 import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.server.domain.AbstractBaseError;
@@ -33,16 +39,11 @@ import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
 import com.enonic.cms.business.SiteURLResolver;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.BadRequestErrorType;
-import com.enonic.cms.domain.ForbiddenErrorType;
-import com.enonic.cms.domain.InvalidKeyException;
-import com.enonic.cms.domain.NotFoundErrorType;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
-import com.enonic.cms.domain.UnauthorizedErrorType;
+import com.enonic.cms.core.BadRequestErrorType;
+import com.enonic.cms.core.NotFoundErrorType;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
+
 import com.enonic.cms.domain.portal.ContentNameMismatchException;
 import com.enonic.cms.domain.portal.LoginPageNotFoundException;
 import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;

@@ -6,10 +6,11 @@ package com.enonic.cms.business.portal;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
-import com.enonic.cms.domain.InvalidKeyException;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.InvalidKeyException;
+
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.PortalInstanceKeyResolver;
 

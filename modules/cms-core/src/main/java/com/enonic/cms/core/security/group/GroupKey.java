@@ -10,8 +10,8 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.InvalidKeyException;
-import com.enonic.cms.domain.StringBasedKey;
+import com.enonic.cms.core.InvalidKeyException;
+import com.enonic.cms.core.StringBasedKey;
 
 public class GroupKey
     implements StringBasedKey, Serializable

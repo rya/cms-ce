@@ -11,13 +11,13 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.SiteKey;
+
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteURLResolver;
 import com.enonic.cms.business.UrlPathHelperManager;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class SiteRedirectHelperTest
     extends TestCase

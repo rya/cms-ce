@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.CaseInsensitiveString;
+import com.enonic.cms.core.CaseInsensitiveString;
 
 public class CaseInsensitiveStringUserType
     extends AbstractStringBasedUserType<CaseInsensitiveString>

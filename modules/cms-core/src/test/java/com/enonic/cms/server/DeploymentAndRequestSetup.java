@@ -11,7 +11,7 @@ import com.enonic.cms.core.vhost.VirtualHostResolver;
 
 import com.enonic.cms.core.vhost.VirtualHostHelper;
 
-import com.enonic.cms.domain.Attribute;
+import com.enonic.cms.core.Attribute;
 
 /**
  * Aug 24, 2010

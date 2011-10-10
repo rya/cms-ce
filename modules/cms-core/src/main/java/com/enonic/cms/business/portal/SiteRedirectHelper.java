@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.SiteKey;
+
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SiteURLResolver;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class SiteRedirectHelper
 {

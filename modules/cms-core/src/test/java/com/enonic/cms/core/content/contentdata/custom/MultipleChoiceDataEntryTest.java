@@ -10,11 +10,10 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.MultipleChoiceDataEntryConfig;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 import static org.junit.Assert.*;
 

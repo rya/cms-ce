@@ -9,7 +9,7 @@ import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
 import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 
 public interface ExtensionManager
 {

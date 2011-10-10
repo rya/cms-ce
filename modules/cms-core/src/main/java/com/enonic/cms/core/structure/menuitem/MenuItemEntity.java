@@ -22,6 +22,9 @@ import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CaseInsensitiveString;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
@@ -34,10 +37,7 @@ import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
-import com.enonic.cms.domain.CacheSettings;
-import com.enonic.cms.domain.CaseInsensitiveString;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.Path;
+import com.enonic.cms.core.CacheSettings;
 
 /**
  * Created by IntelliJ IDEA.

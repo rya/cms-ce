@@ -6,10 +6,10 @@ package com.enonic.cms.core.structure.menuitem;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.AbstractEqualsTest;
 
 
 public class ContentHomeEntityEqualsTest

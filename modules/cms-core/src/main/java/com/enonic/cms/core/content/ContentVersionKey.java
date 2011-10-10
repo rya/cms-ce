@@ -11,8 +11,8 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.AbstractIntegerBasedKey;
-import com.enonic.cms.domain.IntBasedKey;
+import com.enonic.cms.core.AbstractIntegerBasedKey;
+import com.enonic.cms.core.IntBasedKey;
 
 public class ContentVersionKey
     extends AbstractIntegerBasedKey

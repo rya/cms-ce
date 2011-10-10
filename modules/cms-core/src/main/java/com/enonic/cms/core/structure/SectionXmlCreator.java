@@ -13,6 +13,7 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentLocation;
 import com.enonic.cms.core.content.ContentLocationSpecification;
@@ -24,8 +25,6 @@ import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.SiteDao;
-
-import com.enonic.cms.domain.SiteKey;
 
 /**
  * Created by IntelliJ IDEA.

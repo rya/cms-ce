@@ -48,6 +48,9 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.LanguageResolver;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.resolver.ResolverContext;
@@ -83,12 +86,9 @@ import com.enonic.cms.business.portal.rendering.RegionsResolver;
 import com.enonic.cms.business.preview.MenuItemPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.LanguageResolver;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesModel;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesXmlCreator;
 import com.enonic.cms.domain.portal.PageRequestType;

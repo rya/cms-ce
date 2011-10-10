@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.server.service.portal.mvc.controller;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 
 /**
  * Feb 17, 2010

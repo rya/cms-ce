@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.domain.portal;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 /**

@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -38,8 +39,7 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class ContentEntity
     implements Serializable

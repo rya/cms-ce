@@ -8,8 +8,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;

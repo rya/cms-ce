@@ -18,6 +18,8 @@ import org.joda.time.DateTime;
 import com.enonic.cms.framework.util.URLUtils;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.captcha.CaptchaService;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
@@ -45,9 +47,7 @@ import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils
 import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.service;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public interface PresentationService
 {

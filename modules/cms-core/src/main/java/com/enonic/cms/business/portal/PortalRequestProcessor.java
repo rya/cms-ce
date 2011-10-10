@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
+import com.enonic.cms.core.RequestParametersMerger;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -34,11 +36,10 @@ import com.enonic.cms.business.portal.rendering.WindowRenderer;
 import com.enonic.cms.business.portal.rendering.WindowRendererContext;
 import com.enonic.cms.business.portal.rendering.WindowRendererFactory;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.RequestParametersMerger;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.RequestParameters;
+
 import com.enonic.cms.domain.portal.MenuItemRequestType;
 import com.enonic.cms.domain.portal.PageRequestContext;
 import com.enonic.cms.domain.portal.PageRequestContextResolver;

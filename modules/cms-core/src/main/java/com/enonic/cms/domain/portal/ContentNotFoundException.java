@@ -4,10 +4,9 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.core.NotFoundErrorType;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.domain.NotFoundErrorType;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
 
 public class ContentNotFoundException
     extends RuntimeException

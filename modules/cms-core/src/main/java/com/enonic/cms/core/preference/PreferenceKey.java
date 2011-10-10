@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.enonic.cms.core.security.user.UserKey;
 
-import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.core.InvalidKeyException;
 
 
 public class PreferenceKey

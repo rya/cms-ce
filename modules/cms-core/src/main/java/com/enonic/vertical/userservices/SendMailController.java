@@ -22,7 +22,7 @@ import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class SendMailController
     extends ContentHandlerBaseController

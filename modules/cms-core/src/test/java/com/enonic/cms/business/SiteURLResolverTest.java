@@ -8,11 +8,10 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 
 public class SiteURLResolverTest
     extends TestCase

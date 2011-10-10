@@ -7,11 +7,10 @@ package com.enonic.cms.store.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.EntityPageList;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
-
-import com.enonic.cms.domain.EntityPageList;
 
 public interface PageTemplateDao
     extends EntityDao<PageTemplateEntity>

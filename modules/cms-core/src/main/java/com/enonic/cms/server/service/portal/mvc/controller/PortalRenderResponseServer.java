@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
+import com.enonic.cms.core.SiteBasePathAndSitePathToStringBuilder;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.plugin.ExtensionManager;
 import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.domain.portal.PortalRenderingException;
@@ -38,12 +41,10 @@ import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteBasePath;
-import com.enonic.cms.domain.SiteBasePathAndSitePath;
-import com.enonic.cms.domain.SiteBasePathAndSitePathToStringBuilder;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteBasePath;
+import com.enonic.cms.core.SiteBasePathAndSitePath;
+
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.RedirectInstruction;

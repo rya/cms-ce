@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.UrlDataEntryConfig;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
+import com.enonic.cms.core.AbstractEqualsTest;
 
 /**
  * Created by IntelliJ IDEA.

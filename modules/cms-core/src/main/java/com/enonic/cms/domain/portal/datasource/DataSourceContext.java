@@ -8,9 +8,10 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.ShoppingCart;
+
 import com.enonic.cms.core.security.user.UserEntity;
 
 public class DataSourceContext

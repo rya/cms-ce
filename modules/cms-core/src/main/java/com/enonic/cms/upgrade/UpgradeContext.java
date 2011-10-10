@@ -14,7 +14,7 @@ import org.springframework.transaction.support.TransactionCallback;
 
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public interface UpgradeContext
 {

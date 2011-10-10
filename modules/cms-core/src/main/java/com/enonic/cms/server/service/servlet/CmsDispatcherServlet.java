@@ -23,10 +23,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
 
+import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
-
-import com.enonic.cms.domain.Attribute;
 
 /**
  * This class implements a modification of the dispatcher servlet.

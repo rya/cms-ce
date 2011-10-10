@@ -6,7 +6,7 @@ package com.enonic.cms.core.structure.page;
 
 import org.junit.Test;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
+import com.enonic.cms.core.AbstractEqualsTest;
 
 /**
  * Aug 26, 2010

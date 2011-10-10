@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import org.junit.Test;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 

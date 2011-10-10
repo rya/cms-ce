@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
@@ -22,8 +23,7 @@ import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
+import com.enonic.cms.core.LanguageKey;
 
 public abstract class AbstractSiteXmlCreatorTest
     extends AbstractXmlCreatorTest

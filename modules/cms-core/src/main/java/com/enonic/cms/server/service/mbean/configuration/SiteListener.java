@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jmx.export.MBeanExporter;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteEventListener;
 import com.enonic.cms.store.dao.SiteDao;
@@ -21,8 +22,6 @@ import com.enonic.cms.business.SitePropertiesService;
 
 import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
-
-import com.enonic.cms.domain.SiteKey;
 
 public class SiteListener
         implements SiteEventListener, InitializingBean

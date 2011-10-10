@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.enonic.cms.core.security.group.GroupKey;
 
-import com.enonic.cms.domain.AbstractEqualsTest;
+import com.enonic.cms.core.AbstractEqualsTest;
 
 
 public class CategoryAccessEntityEqualsTest

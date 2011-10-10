@@ -6,7 +6,7 @@ package com.enonic.cms.core.preference;
 
 import org.junit.Test;
 import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.domain.AbstractXmlCreatorTest;
+import com.enonic.cms.core.AbstractXmlCreatorTest;
 
 import java.util.Arrays;
 

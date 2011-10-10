@@ -52,9 +52,9 @@ import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.core.security.UserStoreParser;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentAccessException;
 import com.enonic.cms.core.content.category.CategoryAccessException;
 import com.enonic.cms.domain.portal.VerticalSession;

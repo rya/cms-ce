@@ -8,8 +8,8 @@ import java.io.UnsupportedEncodingException;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
 

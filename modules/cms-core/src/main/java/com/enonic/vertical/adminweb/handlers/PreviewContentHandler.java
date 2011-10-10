@@ -17,6 +17,10 @@ import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
@@ -42,11 +46,7 @@ import com.enonic.cms.business.preview.PreviewService;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageResolver;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.LanguageResolver;
 
 import com.enonic.cms.core.content.ContentVersionEntity;
 

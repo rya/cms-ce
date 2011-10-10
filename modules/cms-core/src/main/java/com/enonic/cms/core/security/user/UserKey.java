@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.core.InvalidKeyException;
 
 public class UserKey
     implements Serializable

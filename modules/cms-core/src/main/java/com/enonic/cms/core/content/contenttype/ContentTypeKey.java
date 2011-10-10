@@ -12,8 +12,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.AbstractIntegerBasedKey;
-import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.core.AbstractIntegerBasedKey;
+import com.enonic.cms.core.InvalidKeyException;
 
 public class ContentTypeKey
     extends AbstractIntegerBasedKey

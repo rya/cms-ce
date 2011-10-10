@@ -6,9 +6,8 @@ package com.enonic.cms.core.content.category;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.security.group.GroupKey;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 
 public class CategoryAccessKeyEqualsTest

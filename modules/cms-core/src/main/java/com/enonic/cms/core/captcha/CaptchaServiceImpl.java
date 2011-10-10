@@ -18,13 +18,12 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.business.SitePropertiesService;
-
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 
 public class CaptchaServiceImpl
     implements CaptchaService

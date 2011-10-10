@@ -36,8 +36,8 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
 
 
 public class ContentParser
