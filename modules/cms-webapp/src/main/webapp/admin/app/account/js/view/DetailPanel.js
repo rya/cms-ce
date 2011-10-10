@@ -1,6 +1,6 @@
 Ext.define('App.view.DetailPanel', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.userDetail',
+    alias: 'widget.accountDetail',
     split: true,
     autoScroll: true,
     layout: 'card',
@@ -9,36 +9,50 @@ Ext.define('App.view.DetailPanel', {
     initComponent: function() {
         var largeBoxesPanel = this.createLargeBoxSelection();
         var smallBoxesPanel = this.createSmallBoxSelection();
-        var nonSelectedPanel = this.createNonSelection();
-        this.items = [nonSelectedPanel, largeBoxesPanel, smallBoxesPanel];
+        var noneSelectedPanel = this.createNoneSelection();
+        var allSelectedPanel = this.createAllSelection();
+
+        this.items = [noneSelectedPanel, largeBoxesPanel, smallBoxesPanel, allSelectedPanel];
         this.callParent(arguments);
     },
 
     showMultipleSelection: function(data, detailed){
         var activeItem;
-        if (detailed){
+        if (detailed)
+        {
             activeItem = this.down('#largeBoxPanel');
             this.getLayout().setActiveItem('largeBoxPanel');
-        }else{
+        }
+        else
+        {
             activeItem = this.down('#smallBoxPanel');
             this.getLayout().setActiveItem('smallBoxPanel');
         }
+
         activeItem.update({users: data});
     },
 
-    showNonSelection: function(data){
-        var activeItem = this.down('#nonSelectedPanel');
-        this.getLayout().setActiveItem('nonSelectedPanel');
+    showNoneSelection: function(data)
+    {
+        var activeItem = this.down('#noneSelectedPanel');
+        this.getLayout().setActiveItem('noneSelectedPanel');
         activeItem.update(data);
     },
 
-    createNonSelection: function(){
-        var tpl = new Ext.XTemplate(
-                '<div>No user selected</div>'
-                );
+    showAllSelected: function(data)
+    {
+        var activeItem = this.down('#allSelectedPanel');
+        this.getLayout().setActiveItem('allSelectedPanel');
+        activeItem.update(data);
+    },
+
+    createNoneSelection: function()
+    {
+        var tpl = new Ext.XTemplate( Templates.account.noUserSelected );
+
         var panel = {
             xtype: 'panel',
-            itemId: 'nonSelectedPanel',
+            itemId: 'noneSelectedPanel',
             styleHtmlContent: true,
             padding : 10,
             border: 0,
@@ -48,7 +62,25 @@ Ext.define('App.view.DetailPanel', {
         return panel;
     },
 
-    createLargeBoxSelection: function(){
+    createAllSelection: function()
+    {
+        var tpl = new Ext.XTemplate( Templates.account.allUsersOnPageSelected );
+
+        var panel = {
+            xtype: 'panel',
+            itemId: 'allSelectedPanel',
+            id: 'allSelectedPanel',
+            styleHtmlContent: true,
+            padding : 10,
+            border: 0,
+            tpl: tpl
+        };
+
+        return panel;
+    },
+
+    createLargeBoxSelection: function()
+    {
         var tpl = Ext.Template( Templates.account.selectedUserLarge );
 
         var panel = {
@@ -71,7 +103,8 @@ Ext.define('App.view.DetailPanel', {
         return panel;
     },
 
-    createSmallBoxSelection: function(){
+    createSmallBoxSelection: function()
+    {
         var tpl = Ext.Template( Templates.account.selectedUserSmall );
 
         var panel = {
@@ -94,27 +127,37 @@ Ext.define('App.view.DetailPanel', {
         return panel;
     },
 
-    deselectItem: function(e, t){
-        var className = t.attributes.getNamedItem('class').nodeValue;
-        if (className == 'remove-selection'){
-            var key = t.attributes.getNamedItem('id').nodeValue;
-            var userGridSelModel = this.up('cmsTabPanel').down('userGrid').getSelectionModel();
-            var selection = userGridSelModel.getSelection();
-            Ext.each(selection, function(item){
-                if (item.get('key') == key){
-                    userGridSelModel.deselect(item);
+    deselectItem: function(event, target)
+    {
+        var className = target.className;
+        if (className && className === 'remove-selection')
+        {
+            var key = target.attributes.getNamedItem('id').nodeValue.split('remove-from-selection-button-')[1];
+            var userGridSelModel = this.up('cmsTabPanel').down('accountGrid').getSelectionModel();
+            var persistentGridSelection = this.persistentGridSelection;
+            var selection = persistentGridSelection.getSelection();
+            Ext.each(selection, function(item)
+            {
+                if (item.get('key') == key)
+                {
+                    Ext.get('selected-item-box-' + key).remove();
+                    persistentGridSelection.deselect(item);
                 }
             });
         }
     },
 
-    generateUserButton: function(userData, shortInfo){
-        if (shortInfo){
+    generateUserButton: function(userData, shortInfo)
+    {
+        if (shortInfo)
+        {
             return {
                 xtype: 'userShortDetailButton',
                 userData: userData
             };
-        }else{
+        }
+        else
+        {
             return {
                 xtype: 'userDetailButton',
                 userData: userData
@@ -122,35 +165,35 @@ Ext.define('App.view.DetailPanel', {
         }
     },
 
-    setCurrentUser: function(user){
+    setCurrentUser: function(user)
+    {
         this.currentUser = user;
     },
 
-    getCurrentUser: function(){
+    getCurrentUser: function()
+    {
         return this.currentUser;
     },
 
-    updateTitle: function(selModel){
-        this.selModel = selModel;
-
-        var count = selModel.selected.length;
+    updateTitle: function(persistentGridSelection)
+    {
+        this.persistentGridSelection = persistentGridSelection;
+        var count = persistentGridSelection.getSelectionCount();
         var header = count + " user(s) selected";
-        if ( count > 0 ) {
-            header += " (<a href='#' class='clearSelection'>Clear selection</a>)";
+        if ( count > 0 )
+        {
+            header += " (<a href='javascript:;' class='clearSelection'>Clear selection</a>)";
         }
         this.setTitle( header );
 
         var clearSel = this.header.el.down( 'a.clearSelection' );
-        if ( clearSel ) {
+        if ( clearSel )
+        {
             clearSel.on( "click", function() {
-                this.selModel.deselectAll();
+                persistentGridSelection.clearSelections();
             }, this );
         }
 
-    },
-
-    selectAll: function(){
-        this.selModel.selectAll();
     }
 
 });

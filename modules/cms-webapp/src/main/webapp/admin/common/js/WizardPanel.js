@@ -45,8 +45,15 @@ Ext.define( 'Common.WizardPanel', {
         }
 
         this.dockedItems = [{
-            xtype: 'component',
+            xtype: 'panel',
             dock: 'top',
+            listeners: {
+                click: {
+                    fn: wizard.changeStep,
+                    element: 'body',
+                    scope: wizard
+                }
+            },
             styleHtmlContent: true,
             margin: 0,
             tpl: new Ext.XTemplate( Templates.common.wizardPanelSteps, {
@@ -62,6 +69,17 @@ Ext.define( 'Common.WizardPanel', {
         this.on( "animationstarted", this.onAnimationStarted );
         this.on( "animationfinished", this.onAnimationFinished );
         this.updateProgress();
+    },
+
+    changeStep: function(event, target){
+        var element = Ext.fly(target);
+        if (element.hasCls('text')){
+            element = element.up('a');
+        }
+        if (element.hasCls('step')){
+            var step = Number(element.getAttribute('wizardStep'));
+            this.navigate(step - 1);
+        }
     },
 
     next: function( btn )

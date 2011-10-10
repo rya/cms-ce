@@ -20,7 +20,7 @@ Templates.account = {
 
     ,gridPanelNameRenderer:
         '<div style="float:left"><img src="data/user/photo?key={0}&thumb=true" class="cms-thumbnail"></div>' +
-        '<div style="float:left"><div class="cms-grid-title">{1}</div>' +
+        '<div style="float:left;padding-top: 5px"><div class="cms-grid-title">{1}</div>' +
         '<div class="cms-grid-description"><span class="cms-emphasis">{2}</span> in user store {3}</div>'
 
     ,editUserPanelHeader:
@@ -31,9 +31,12 @@ Templates.account = {
             '<h1><input id="display-name" type="text" value="{displayName}" readonly="true" class="cms-display-name"/></h1><a href="javascript:;" class="edit-button"></a>' +
             '<p>{qualifiedName}</p></div></div>'
 
+    ,noUserSelected:
+        '<div>No user selected</div>'
+
     ,selectedUserLarge:
         '<tpl for="users">' +
-            '<div class="cms-selected-item-box large x-btn-default-large clearfix">' +
+            '<div id="selected-item-box-{key}" class="cms-selected-item-box large x-btn-default-large clearfix">' +
                 '<div class="left">' +
                     '<img alt="User" src="data/user/photo?key={key}&thumb=true"/>' +
                 '</div>' +
@@ -42,14 +45,14 @@ Templates.account = {
                     '<p>{userStore}/{name}</p>' +
                 '</div>' +
                 '<div class="right">' +
-                    ' <a id="{key}" class="remove-selection" href="javascript:;"></a>' +
+                    ' <a id="remove-from-selection-button-{key}" class="remove-selection" href="javascript:;"></a>' +
                 '</div>' +
             '</div>' +
         '</tpl>'
 
     ,selectedUserSmall:
         '<tpl for="users">' +
-            '<div class="cms-selected-item-box small x-btn-default-small clearfix">' +
+            '<div id="selected-item-box-{key}" class="cms-selected-item-box small x-btn-default-small clearfix">' +
                 '<div class="cms-selected-item-box left">' +
                     '<img alt="User" src="resources/images/user_add.png"/>' +
                 '</div>' +
@@ -57,12 +60,19 @@ Templates.account = {
                     '<h2>{displayName}</h2>' +
                 '</div>' +
                 '<div class="cms-selected-item-box right">' +
-                    '<a id="{key}" class="remove-selection" href="javascript:;"></a>' +
+                    '<a id="remove-from-selection-button-{key}" class="remove-selection" href="javascript:;"></a>' +
                 '</div>' +
             '</div>'+
         '</tpl>'
 
-    ,deleteManyUsersForm:
+    ,allUsersOnPageSelected:
+            '<div id="selection-all-users-on-page">All {pageSize} items on this page are selected. <a href="javascript:;" id="selection-all-users-in-account-link">Select all {totalCount} items in Accounts</a></div>'
+
+    ,allUsersInAccountSelected:
+            '<div style="" id="selection-all-users-in-account">All {totalSize} conversations in Accounts are selected. <a href="javascript:;" id="selection-all-users-clear-selection-link">Clear selection</a></div>'
+
+
+    ,deleteManyUsers:
         '<div class="cms-delete-user-confirmation-message">' +
             '<div class="icon-question-mark-32 cms-left" style="width:32px; height:32px; margin-right: 10px"><!-- --></div>' +
             '<div class="cms-left" style="margin-top:5px">' +

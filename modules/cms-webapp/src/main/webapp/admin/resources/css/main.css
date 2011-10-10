@@ -500,6 +500,10 @@ img.photo {
 }
 
 .cms-selected-item-box.large .left img {
+    border-radius: 3px;
+}
+
+.cms-selected-item-box.large .left img {
     width: 40px;
     height: 40px;
 }
@@ -510,7 +514,9 @@ img.photo {
 
 .cms-selected-item-box.large .center h2 {
     margin: 2px 0 0 0;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: normal;
+
 }
 
 .cms-selected-item-box.large .center p {
@@ -713,7 +719,7 @@ div.cms-userstore:hover {
     color: #5e5e5e;
     text-decoration: none !important;
     outline: none;
-    cursor: default;
+    cursor: pointer;
 }
 
 .cms-wizard-steps a.current {
@@ -756,6 +762,10 @@ div.cms-userstore:hover {
     padding: 10px;
 }
 
+.cms-wizard-header p {
+    clear: both;
+}
+
 .cms-wizard-header .right {
     float: left;
 }
@@ -770,10 +780,10 @@ div.cms-userstore:hover {
     margin: 2px 0 0 5px;
     padding: 3px;
     border: 1px solid TRANSPARENT;
-    background: TRANSPARENT url(../../resources/images/pencil.png) no-repeat;
+    background: url(../../resources/images/pencil.png) no-repeat scroll 2px 2px TRANSPARENT;
     float: left;
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
     float: right;
 }
 

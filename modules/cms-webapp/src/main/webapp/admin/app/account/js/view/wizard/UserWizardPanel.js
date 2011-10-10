@@ -6,7 +6,7 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         'App.view.wizard.UserStoreListPanel',
         'App.view.wizard.UserWizardToolbar',
         'App.view.EditUserFormPanel',
-        'App.view.wizard.WizardStepUserPanel',
+        'App.view.wizard.WizardStepLoginInfoPanel',
         'App.view.wizard.WizardStepMembershipPanel',
         'App.view.wizard.WizardStepFinalizePanel',
     ],
@@ -25,9 +25,9 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         xtype: 'userWizardToolbar'
     },
 
-    toggleDisplayNameField: function(e, t){
-        var className = t.attributes.getNamedItem('class').nodeValue;
-        if (className == 'edit-button'){
+    toggleDisplayNameField: function(event, target){
+        var className = target.className;
+        if (className && className === 'edit-button'){
             var displayNameField = Ext.get('display-name');
             var readonly = displayNameField.getAttribute('readonly');
             if (readonly){
@@ -183,8 +183,8 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                                 enableToolbar: false
                             },
                             {
-                                stepTitle: "User",
-                                xtype: 'wizardStepUserPanel'
+                                stepTitle: "Login",
+                                xtype: 'wizardStepLoginInfoPanel'
                             },
                             {
                                 stepTitle: "Memberships",
