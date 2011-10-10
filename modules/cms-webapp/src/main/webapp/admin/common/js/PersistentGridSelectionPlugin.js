@@ -23,6 +23,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('deselect', this.onRowDeselect, this);
+            // TODO: Use getComponent or ComponentQuery instead of items[1]
             this.grid.dockedItems.items[1].on('beforechange', this.pageChange, this );
         }, this);
     },
@@ -122,6 +123,14 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
      */
     getSelection: function() {
         return [].concat(this.selections);
+    },
+
+    /**
+     * Returns the selection count for all pages
+     * @return {Number} Number of selected records
+     */
+    getSelectionCount: function() {
+        return this.getSelection().length;
     },
 
     /**

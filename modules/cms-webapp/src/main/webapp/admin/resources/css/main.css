@@ -500,6 +500,10 @@ img.photo {
 }
 
 .cms-selected-item-box.large .left img {
+    border-radius: 3px;
+}
+
+.cms-selected-item-box.large .left img {
     width: 40px;
     height: 40px;
 }
@@ -510,7 +514,9 @@ img.photo {
 
 .cms-selected-item-box.large .center h2 {
     margin: 2px 0 0 0;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: normal;
+
 }
 
 .cms-selected-item-box.large .center p {

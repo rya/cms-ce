@@ -1,0 +1,83 @@
+<html>
+<head>
+    <title>Enonic CMS Admin</title>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/BoxSelect.css">
+    <script type="text/javascript" src="ext/ext-all-debug.js"></script>
+    <script type="text/javascript" src="common/js/templates/Templates.js"></script>
+    <script type="text/javascript" src="app/account2/js/templates/Templates.js"></script>
+    <script type="text/javascript" src="app/setup.js"></script>
+
+    <script type="text/javascript">
+
+        Ext.Loader.setConfig({
+            enabled: true,
+            paths: {
+                'App' : 'app/account2/js',
+                'Common' : 'common/js'
+            },
+            disableCaching: false
+        });
+
+        Ext.application({
+            name: 'App',
+            appFolder: 'app/account2/js',
+
+            controllers: [
+                'AccountController',
+                'UserWizardController'
+            ],
+
+            requires: [
+                'Common.TabPanel',
+                'App.view.ShowPanel',
+                'App.view.FilterPanel'
+            ],
+
+            launch: function() {
+                Ext.create('Ext.container.Viewport', {
+                    layout: 'border',
+                    padding: 5,
+
+                    items: [
+                        {
+                            region: 'west',
+                            xtype: 'accountFilter',
+                            width: 200
+                        },
+                        {
+                            region: 'center',
+                            xtype: 'cmsTabPanel',
+                            items: [
+                                {
+                                    id: 'tab-browse',
+                                    title: 'Browse',
+                                    closable: false,
+                                    xtype: 'panel',
+                                    layout: 'border',
+                                    dockedItems: [
+                                        {
+                                            xtype: 'browseToolbar',
+                                            dock: 'top'
+                                        }],
+                                    items: [
+                                        {
+                                            region: 'center',
+                                            xtype: 'accountShow'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                });
+            }
+        });
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>

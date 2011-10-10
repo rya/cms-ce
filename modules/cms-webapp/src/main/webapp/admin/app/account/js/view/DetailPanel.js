@@ -178,7 +178,7 @@ Ext.define('App.view.DetailPanel', {
     updateTitle: function(persistentGridSelection)
     {
         this.persistentGridSelection = persistentGridSelection;
-        var count = persistentGridSelection.getSelection().length;
+        var count = persistentGridSelection.getSelectionCount();
         var header = count + " user(s) selected";
         if ( count > 0 )
         {
