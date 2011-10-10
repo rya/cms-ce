@@ -54,7 +54,7 @@ Templates.account = {
         '<tpl for="users">' +
             '<div id="selected-item-box-{key}" class="cms-selected-item-box small x-btn-default-small clearfix">' +
                 '<div class="cms-selected-item-box left">' +
-                    '<img alt="User" src="resources/images/user_add.png"/>' +
+                    '<img alt="User" src="data/user/photo?key={key}&thumb=true"/>' +
                 '</div>' +
                 '<div class="cms-selected-item-box center">' +
                     '<h2>{displayName}</h2>' +

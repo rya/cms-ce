@@ -482,6 +482,11 @@ img.photo {
     border: 1px solid #d1d1d1;
 }
 
+.cms-selected-item-box.large .left img,
+.cms-selected-item-box.small .left img {
+    border-radius: 3px;
+}
+
 .cms-selected-item-box .left {
     float: left;
 }
@@ -502,10 +507,6 @@ img.photo {
 
 .cms-selected-item-box.large .left {
     margin-right: 16px;
-}
-
-.cms-selected-item-box.large .left img {
-    border-radius: 3px;
 }
 
 .cms-selected-item-box.large .left img {
