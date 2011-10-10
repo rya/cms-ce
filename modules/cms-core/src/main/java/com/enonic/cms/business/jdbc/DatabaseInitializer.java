@@ -6,10 +6,9 @@ package com.enonic.cms.business.jdbc;
 
 import org.springframework.beans.factory.InitializingBean;
 
+import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.upgrade.UpgradeService;
-
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
 
 /**
  * This class implements the database initializer. It will initialize the database if not initialized before.

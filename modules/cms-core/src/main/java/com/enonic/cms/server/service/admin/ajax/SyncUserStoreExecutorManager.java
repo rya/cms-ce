@@ -6,9 +6,8 @@ package com.enonic.cms.server.service.admin.ajax;
 
 import java.util.HashMap;
 
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
 import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
-
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
 
 public final class SyncUserStoreExecutorManager
 {

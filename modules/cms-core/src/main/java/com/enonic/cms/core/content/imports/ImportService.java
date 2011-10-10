@@ -7,8 +7,7 @@ package com.enonic.cms.core.content.imports;
 import java.util.List;
 
 import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public interface ImportService
 {

@@ -13,9 +13,8 @@ import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.UrlDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-
+import com.enonic.cms.core.content.contentdata.custom.stringbased.UrlDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
 
 

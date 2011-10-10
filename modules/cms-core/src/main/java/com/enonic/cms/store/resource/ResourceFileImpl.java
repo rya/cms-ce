@@ -17,9 +17,9 @@ import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.resource.FileResourceData;
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceFile;
+import com.enonic.cms.core.resource.FileResourceData;
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.resource.ResourceFile;
 
 final class ResourceFileImpl
     extends ResourceBaseImpl

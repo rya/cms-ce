@@ -11,7 +11,7 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import com.enonic.cms.business.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -33,7 +33,7 @@ import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.preference.PreferenceScopeKeyResolver;
 import com.enonic.cms.core.preference.PreferenceScopeResolver;
 
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
  *

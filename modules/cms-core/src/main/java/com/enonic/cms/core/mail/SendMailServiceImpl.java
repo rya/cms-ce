@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 
 import com.enonic.vertical.VerticalProperties;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public final class SendMailServiceImpl
     extends AbstractSendMailService

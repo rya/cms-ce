@@ -8,8 +8,9 @@ import java.util.List;
 
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
+
 import org.springframework.stereotype.Repository;
 
 @Repository("portletDao")

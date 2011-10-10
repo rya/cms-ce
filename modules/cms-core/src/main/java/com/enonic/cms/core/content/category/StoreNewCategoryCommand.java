@@ -5,8 +5,7 @@
 package com.enonic.cms.core.content.category;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * Mar 9, 2010

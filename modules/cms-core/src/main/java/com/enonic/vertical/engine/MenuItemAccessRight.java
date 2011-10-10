@@ -4,7 +4,7 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 public final class MenuItemAccessRight
     extends AccessRight

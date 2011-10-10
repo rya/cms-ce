@@ -35,6 +35,12 @@ import com.enonic.cms.core.country.Country;
 import com.enonic.cms.core.country.CountryCode;
 import com.enonic.cms.core.country.Region;
 import com.enonic.cms.core.preference.PreferenceEntity;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
@@ -57,9 +63,9 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.userstore.MemberOfResolver;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
+
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
 import com.enonic.cms.core.country.CountryService;
 
 import com.enonic.cms.core.content.ContentVersionEntity;
@@ -67,12 +73,7 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 import com.enonic.cms.core.preference.PreferenceSpecification;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemSpecification;
+import com.enonic.cms.core.security.group.GroupKey;
 
 public class AdminAjaxServiceImpl
         implements AdminAjaxService, InitializingBean

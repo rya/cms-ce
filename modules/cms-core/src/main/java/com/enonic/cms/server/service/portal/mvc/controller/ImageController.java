@@ -23,6 +23,7 @@ import com.enonic.cms.core.content.access.ContentAccessResolver;
 
 import com.enonic.cms.core.image.ImageRequestParser;
 import com.enonic.cms.core.image.ImageResponse;
+import com.enonic.cms.core.security.user.UserEntity;
 
 import com.enonic.cms.business.portal.image.ImageProcessorException;
 import com.enonic.cms.business.portal.image.ImageRequestAccessResolver;
@@ -39,9 +40,8 @@ import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public final class ImageController
     extends AbstractSiteController

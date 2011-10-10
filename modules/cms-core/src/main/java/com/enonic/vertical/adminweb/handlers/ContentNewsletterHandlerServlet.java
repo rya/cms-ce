@@ -50,8 +50,12 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.framework.util.URLUtils;
 
 import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.portal.rendering.PageRenderer;
@@ -67,14 +71,10 @@ import com.enonic.cms.domain.RequestParametersMerger;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public class ContentNewsletterHandlerServlet
     extends ContentBaseHandlerServlet

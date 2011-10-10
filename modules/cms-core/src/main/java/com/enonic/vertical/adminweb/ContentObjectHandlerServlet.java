@@ -37,6 +37,9 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.framework.xml.XMLException;
 
 import com.enonic.cms.core.internal.service.DataSourceFailedXmlCreator;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 
@@ -56,11 +59,9 @@ import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.datasource.DataSourceResult;
 import com.enonic.cms.domain.portal.datasource.Datasources;
 import com.enonic.cms.domain.portal.datasource.DatasourcesType;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.SiteEntity;
+
 import com.enonic.cms.domain.stylesheet.InvalidStylesheetException;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 

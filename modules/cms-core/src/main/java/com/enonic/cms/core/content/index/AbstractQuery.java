@@ -8,8 +8,7 @@ import java.util.Collection;
 
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 /**
  * This class implements the abstract query.

@@ -15,10 +15,10 @@ import org.apache.jackrabbit.webdav.DavSession;
 import org.apache.jackrabbit.webdav.lock.LockManager;
 import org.apache.jackrabbit.webdav.lock.SimpleLockManager;
 
+import com.enonic.cms.core.resource.FileResourceName;
 import com.enonic.cms.store.resource.FileResourceService;
 
-import com.enonic.cms.domain.resource.FileResource;
-import com.enonic.cms.domain.resource.FileResourceName;
+import com.enonic.cms.core.resource.FileResource;
 
 /**
  * This class implemnts the resource factory.

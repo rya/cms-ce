@@ -14,9 +14,8 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
-import com.enonic.cms.core.content.contenttype.CtySetConfig;
-
 import com.enonic.cms.core.content.contenttype.CtySet;
+import com.enonic.cms.core.content.contenttype.CtySetConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 
 public class CustomContentDataXmlCreator

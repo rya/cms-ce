@@ -6,8 +6,9 @@ package com.enonic.cms.core.preference;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.security.user.UserKey;
+
 import com.enonic.cms.domain.InvalidKeyException;
-import com.enonic.cms.domain.security.user.UserKey;
 
 import static org.junit.Assert.*;
 

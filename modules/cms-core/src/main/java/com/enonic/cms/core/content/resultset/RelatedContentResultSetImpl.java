@@ -20,9 +20,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.ContentKey;
 
 
 public class RelatedContentResultSetImpl

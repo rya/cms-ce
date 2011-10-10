@@ -7,7 +7,7 @@ package com.enonic.cms.core.content;
 import java.util.Comparator;
 import java.util.List;
 
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 
 public class ContentLocationComparatorOnPath

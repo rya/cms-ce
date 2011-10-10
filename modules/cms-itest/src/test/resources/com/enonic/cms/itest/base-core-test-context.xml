@@ -35,7 +35,7 @@
 
     <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
-    <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+    <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
     <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
@@ -44,29 +44,29 @@
     <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
 
     <bean id="synchronizeUserStoreJobFactory"
-          class="com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
+          class="com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
 
-    <bean id="userStoreService" class="com.enonic.cms.business.core.security.userstore.UserStoreServiceImpl"/>
+    <bean id="userStoreService" class="com.enonic.cms.core.security.userstore.UserStoreServiceImpl"/>
 
-    <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
+    <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
 
-    <bean id="memberOfResolver" class="com.enonic.cms.business.core.security.userstore.MemberOfResolver"/>
+    <bean id="memberOfResolver" class="com.enonic.cms.core.security.userstore.MemberOfResolver"/>
 
-    <bean id="userStoreAccessResolver" class="com.enonic.cms.business.core.security.userstore.UserStoreAccessResolver">
+    <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver">
         <property name="memberOfResolver" ref="memberOfResolver"/>
     </bean>
 
-    <bean id="groupStorageService" class="com.enonic.cms.business.core.security.group.GroupStorageService"/>
+    <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
 
-    <bean id="userStorageService" class="com.enonic.cms.business.core.security.userstore.UserStorageService"/>
+    <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
 
     <bean id="userStoreConnectorConfigLoader"
-          class="com.enonic.cms.business.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
+          class="com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
 
     <bean id="remoteUserStoreFactory"
-          class="com.enonic.cms.business.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
+          class="com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
 
-    <bean id="userStoreConnectorManager" class="com.enonic.cms.business.core.security.userstore.UserStoreConnectorManagerImpl"/>
+    <bean id="userStoreConnectorManager" class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl"/>
 
     <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 
@@ -118,17 +118,17 @@
 
     <bean id="datasourceExecutorFactory" class="com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory"/>
 
-    <bean id="resourceService" class="com.enonic.cms.business.core.resource.ResourceServiceImpl"/>
+    <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
 
     <bean class="com.enonic.cms.core.client.LocalClientSetter">
         <property name="localClient" ref="localClient"/>
     </bean>
 
-    <bean id="userParser" class="com.enonic.cms.business.core.security.UserParser"/>
+    <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
 
-    <bean id="userStoreParser" class="com.enonic.cms.business.core.security.UserStoreParser"/>
+    <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
 
-    <bean id="autoLoginService" class="com.enonic.cms.business.core.security.AutoLoginService">
+    <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
         <property name="securityService" ref="securityService"/>
         <property name="loginService" ref="loginService"/>
     </bean>
@@ -166,7 +166,7 @@
     <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
     </bean>
 
-    <bean id="siteService" class="com.enonic.cms.business.core.structure.SiteServiceImpl">
+    <bean id="siteService" class="com.enonic.cms.core.structure.SiteServiceImpl">
         <property name="siteCachesService" ref="siteCachesService"/>
         <property name="siteContextManager">
             <bean class="com.enonic.cms.business.SiteContextManager"/>
@@ -263,7 +263,7 @@
     <bean id="presentationService" class="com.enonic.cms.core.internal.service.PresentationServiceImpl">
     </bean>
 
-    <bean id="menuItemService" class="com.enonic.cms.business.core.structure.menuitem.MenuItemServiceImpl"/>
+    <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
 
     <bean id="siteRedirectAndForwardHelper"
           class="com.enonic.cms.business.SiteRedirectAndForwardHelper">

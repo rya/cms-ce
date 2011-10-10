@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.enonic.cms.core.content.contentdata.ContentData;
-import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
+import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 

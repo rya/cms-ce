@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.domain.admin;
 
-import com.enonic.cms.domain.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.QualifiedUsername;
 
 public class AdminConsoleAccessDeniedException
     extends RuntimeException

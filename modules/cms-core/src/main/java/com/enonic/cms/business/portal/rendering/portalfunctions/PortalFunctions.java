@@ -24,6 +24,12 @@ import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.image.ImageRequestParser;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.WindowKey;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
@@ -32,7 +38,7 @@ import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.image.ImageRequest;
 import com.enonic.cms.core.localization.LocalizationService;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
@@ -56,13 +62,8 @@ import com.enonic.cms.domain.portal.instruction.CreateResourceUrlInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstruction;
 import com.enonic.cms.domain.portal.instruction.PostProcessInstructionSerializer;
 import com.enonic.cms.domain.portal.instruction.RenderWindowInstruction;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.WindowKey;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 public class PortalFunctions
 {

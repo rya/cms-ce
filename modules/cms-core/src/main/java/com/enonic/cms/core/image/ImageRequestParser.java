@@ -12,10 +12,10 @@ import java.util.Map;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.security.user.UserKey;
 
 public final class ImageRequestParser
 {

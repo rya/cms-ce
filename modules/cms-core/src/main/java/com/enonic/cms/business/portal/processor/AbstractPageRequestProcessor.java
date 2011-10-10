@@ -12,6 +12,10 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.PageTemplateDao;
 import com.enonic.cms.store.dao.SectionContentDao;
@@ -23,11 +27,8 @@ import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.page.Regions;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
+
+import com.enonic.cms.core.structure.page.Regions;
 
 /**
  * Sep 28, 2009

@@ -27,31 +27,32 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.esl.containers.ExtendedMap;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.security.SecurityHolder;
+
+import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.StoreNewUserCommand;
-import com.enonic.cms.domain.security.user.UpdateUserCommand;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.StoreNewUserStoreCommand;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.security.userstore.config.UserStoreUserFieldConfig;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 import com.enonic.cms.domain.user.field.UserFieldType;
 
 import static junit.framework.Assert.assertEquals;

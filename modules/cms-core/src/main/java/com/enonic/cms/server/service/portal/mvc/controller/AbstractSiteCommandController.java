@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
 
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
-import com.enonic.cms.business.core.structure.SiteService;
+import com.enonic.cms.core.structure.SiteService;
 
 import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.domain.SitePath;

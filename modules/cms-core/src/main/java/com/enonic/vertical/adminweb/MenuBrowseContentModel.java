@@ -12,15 +12,15 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.business.core.structure.MenuItemXmlCreator;
-import com.enonic.cms.business.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteProperties;
+import com.enonic.cms.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
-import com.enonic.cms.domain.structure.DefaultSiteAccumulatedAccessRights;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.SiteProperties;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccumulatedAccessRights;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.DefaultSiteAccumulatedAccessRights;
 
 public class MenuBrowseContentModel
 {

@@ -9,8 +9,9 @@ import org.jdom.Element;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceKey;
+
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.resource.ResourceKey;
 
 /**
  * Container for contentobject data.

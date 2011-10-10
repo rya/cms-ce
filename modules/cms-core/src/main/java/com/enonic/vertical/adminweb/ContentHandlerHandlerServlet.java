@@ -18,9 +18,8 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.domain.security.user.User;
 
 public class ContentHandlerHandlerServlet
     extends AdminHandlerBaseServlet

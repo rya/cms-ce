@@ -35,25 +35,25 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.security.user.DeleteUserStoreCommand;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
+import com.enonic.cms.core.security.userstore.UpdateUserStoreCommand;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigXmlCreator;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJob;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreType;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.core.security.userstore.DeleteUserStoreJob;
-import com.enonic.cms.business.core.security.userstore.UserStoreService;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreJob;
-import com.enonic.cms.business.core.security.userstore.connector.synchronize.SynchronizeUserStoreType;
+import com.enonic.cms.core.security.userstore.DeleteUserStoreJob;
 
-import com.enonic.cms.domain.security.user.DeleteUserStoreCommand;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.userstore.StoreNewUserStoreCommand;
-import com.enonic.cms.domain.security.userstore.UpdateUserStoreCommand;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.security.userstore.UserStoreXmlCreator;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfigParser;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfig;
-import com.enonic.cms.domain.security.userstore.connector.config.UserStoreConnectorConfigXmlCreator;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 
 
 public class UserStoreHandlerServlet
@@ -180,7 +180,8 @@ public class UserStoreHandlerServlet
                 // UserStore connector config names
 
                 final XMLDocument userStoreConnectorConfigNamesXmlDoc = XMLDocumentFactory.create(
-                    UserStoreConnectorConfigXmlCreator.createUserStoreConnectorConfigsDocument( userStoreConnectorConfigs.values() ) );
+                    UserStoreConnectorConfigXmlCreator.createUserStoreConnectorConfigsDocument(
+                            userStoreConnectorConfigs.values() ) );
                 wizarddataElem.appendChild(
                     wizarddataDoc.importNode( userStoreConnectorConfigNamesXmlDoc.getAsDOMDocument().getDocumentElement(), true ) );
             }
@@ -312,8 +313,9 @@ public class UserStoreHandlerServlet
             UserStoreConfig config = new UserStoreConfig();
             if ( configXmlString != null && configXmlString.trim().length() > 0 )
             {
-                config = UserStoreConfigParser.parse( XMLDocumentFactory.create( configXmlString ).getAsJDOMDocument().getRootElement(),
-                                                      connectorName != null );
+                config = UserStoreConfigParser.parse(
+                        XMLDocumentFactory.create( configXmlString ).getAsJDOMDocument().getRootElement(),
+                        connectorName != null );
             }
 
             final StoreNewUserStoreCommand command = new StoreNewUserStoreCommand();

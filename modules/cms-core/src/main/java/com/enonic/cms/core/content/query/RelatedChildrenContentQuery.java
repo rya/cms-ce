@@ -10,8 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.enonic.cms.core.content.ContentVersionEntity;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class RelatedChildrenContentQuery
 {

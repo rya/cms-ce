@@ -10,13 +10,11 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.content.ContentStatus;
-
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.content.index.ContentIndexQuery;
-
 import com.enonic.cms.core.content.index.ContentIndexQuery.CategoryAccessTypeFilterPolicy;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public abstract class AbstractContentQuery
 {

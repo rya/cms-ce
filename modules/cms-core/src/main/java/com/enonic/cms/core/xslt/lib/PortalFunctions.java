@@ -9,10 +9,11 @@ import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsC
 import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsFactory;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.WindowKey;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.WindowKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+
 import net.sf.saxon.om.Item;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;

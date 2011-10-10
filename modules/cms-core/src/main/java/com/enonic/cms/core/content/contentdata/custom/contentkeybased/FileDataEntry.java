@@ -7,7 +7,6 @@ package com.enonic.cms.core.content.contentdata.custom.contentkeybased;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
 import com.enonic.cms.core.content.contentdata.custom.RelationDataEntry;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 
 public class FileDataEntry

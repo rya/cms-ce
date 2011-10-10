@@ -12,9 +12,8 @@ import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
-import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
-
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
+import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 
 public class BlockIndexResolver

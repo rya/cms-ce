@@ -10,8 +10,8 @@ import java.util.Map;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.binary.BinaryDataKey;
 
 /**
  *

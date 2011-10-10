@@ -7,9 +7,9 @@ package com.enonic.cms.store.dao;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessKey;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessKey;
 
 /**
  * Created by IntelliJ IDEA. User: jvs Date: Nov 8, 2008 Time: 4:26:47 PM To change this template use File | Settings | File Templates.

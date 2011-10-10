@@ -19,14 +19,14 @@ import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.ContentDataParserInvalidDataException;
 import com.enonic.cms.core.content.contentdata.ContentDataParserUnsupportedTypeException;
 import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.contentdata.ContentDataParserException;
 import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 /**
  * Extension of the standard sendmail servlet. <p/> <p> In addition to sending an email (using the functionality in {@link

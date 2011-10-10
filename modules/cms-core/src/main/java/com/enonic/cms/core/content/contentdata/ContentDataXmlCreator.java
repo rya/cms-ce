@@ -7,7 +7,6 @@ package com.enonic.cms.core.content.contentdata;
 import org.jdom.Document;
 
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-
 import com.enonic.cms.core.content.contentdata.custom.support.CustomContentDataXmlCreator;
 import com.enonic.cms.core.content.contentdata.legacy.AbstractBaseLegacyContentData;
 

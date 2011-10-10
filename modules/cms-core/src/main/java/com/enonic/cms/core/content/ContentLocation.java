@@ -7,10 +7,11 @@ package com.enonic.cms.core.content;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.util.Assert;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 
 
 public class ContentLocation

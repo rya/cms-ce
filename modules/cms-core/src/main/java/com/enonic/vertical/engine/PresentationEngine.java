@@ -42,11 +42,11 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.calendar.CalendarService;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.structure.SiteEntity;
 
 public class PresentationEngine
     extends BaseEngine

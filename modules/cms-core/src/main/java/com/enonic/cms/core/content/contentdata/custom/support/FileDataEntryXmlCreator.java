@@ -9,7 +9,6 @@ import org.jdom.Element;
 import com.enonic.cms.core.content.contentdata.ContentDataXPathCreator;
 import com.enonic.cms.core.content.contentdata.custom.RelationDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.FileDataEntry;
-
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.FilesDataEntry;
 
 public class FileDataEntryXmlCreator

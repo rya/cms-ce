@@ -4,8 +4,9 @@
  */
 package com.enonic.cms.domain.portal;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+
 import com.enonic.cms.domain.ForbiddenErrorType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
 
 public class PortalAccessDeniedException
     extends RuntimeException

@@ -15,12 +15,13 @@ import org.jdom.output.XMLOutputter;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
+import com.enonic.cms.core.structure.portlet.PortletKey;
+
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;
 import com.enonic.cms.domain.portal.rendering.tracing.RenderTraceInfo;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
 
 /**
  * This class implements the data source controller.

@@ -27,26 +27,26 @@
 
   <bean id="preferenceService" class="com.enonic.cms.core.preference.PreferenceServiceImpl"/>
 
-  <bean id="menuItemService" class="com.enonic.cms.business.core.structure.menuitem.MenuItemServiceImpl"/>
+  <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
 
-  <bean id="resourceService" class="com.enonic.cms.business.core.resource.ResourceServiceImpl"/>
+  <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
 
-  <bean id="securityService" class="com.enonic.cms.business.core.security.SecurityServiceImpl"/>
+  <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
   <!-- resolvers -->
   <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
-  <bean id="groupAccessResolver" class="com.enonic.cms.business.core.security.group.access.GroupAccessResolverImpl"/>
+  <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
 
-  <bean id="resourceAccessResolver" class="com.enonic.cms.business.core.resource.access.ResourceAccessResolver"/>
+  <bean id="resourceAccessResolver" class="com.enonic.cms.core.resource.access.ResourceAccessResolver"/>
 
   <!-- content validators -->
   <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
 
   <!-- other objects -->
-  <bean id="userParser" class="com.enonic.cms.business.core.security.UserParser"/>
+  <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
 
-  <bean id="userStoreParser" class="com.enonic.cms.business.core.security.UserStoreParser"/>
+  <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
 
   <bean id="contentStorer" class="com.enonic.cms.core.content.ContentStorer"/>
 

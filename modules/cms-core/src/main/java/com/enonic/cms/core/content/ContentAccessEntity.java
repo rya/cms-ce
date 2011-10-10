@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
 
 public class ContentAccessEntity
     implements Serializable

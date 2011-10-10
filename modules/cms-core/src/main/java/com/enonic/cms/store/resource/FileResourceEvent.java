@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.resource;
 
-import com.enonic.cms.domain.resource.FileResourceName;
+import com.enonic.cms.core.resource.FileResourceName;
 
 public final class FileResourceEvent
 {

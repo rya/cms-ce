@@ -6,7 +6,7 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.domain.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.PageEntity;
 
 
 public interface PageDao

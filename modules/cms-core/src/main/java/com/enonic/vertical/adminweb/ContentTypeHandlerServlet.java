@@ -33,11 +33,11 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigParser;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeXmlCreator;
 import com.enonic.cms.core.content.contenttype.InvalidContentTypeConfigException;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
 
 public class ContentTypeHandlerServlet
     extends AdminHandlerBaseServlet

@@ -10,16 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.api.plugin.ext.TextExtractor;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.index.BigText;
-import com.enonic.cms.core.content.index.ContentDocument;
-import com.enonic.cms.core.content.index.ContentIndexService;
-import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
-import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.framework.blob.BlobRecord;
-import com.enonic.cms.framework.util.MimeTypeResolver;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,16 +17,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.store.dao.BinaryDataDao;
-import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.framework.blob.BlobRecord;
+import com.enonic.cms.framework.util.MimeTypeResolver;
 
+import com.enonic.cms.api.plugin.ext.TextExtractor;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.BigText;
+import com.enonic.cms.core.content.index.ContentDocument;
+import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.content.index.SimpleText;
 import com.enonic.cms.core.content.index.config.IndexDefinition;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
+import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.BinaryDataDao;
+import com.enonic.cms.store.dao.ContentDao;
 
 public final class IndexServiceImpl
         implements IndexService

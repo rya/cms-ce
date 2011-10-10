@@ -11,21 +11,17 @@ import java.util.Map;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.core.content.index.ContentIndexQuery;
 import com.enonic.cms.core.content.index.ContentIndexService;
-
-import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
-
-import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
-
 import com.enonic.cms.core.content.index.IndexValueQuery;
 import com.enonic.cms.core.content.index.IndexValueResult;
 import com.enonic.cms.core.content.index.IndexValueResultSet;
 import com.enonic.cms.core.content.index.config.IndexDefinition;
 import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
-
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 
 public class ExistingContentBySyncValueResolver

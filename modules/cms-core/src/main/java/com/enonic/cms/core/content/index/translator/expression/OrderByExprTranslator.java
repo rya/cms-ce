@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.enonic.cms.core.content.index.ContentIndexConstants;
-
 import com.enonic.cms.core.content.index.queryexpression.FieldExpr;
 import com.enonic.cms.core.content.index.queryexpression.OrderByExpr;
 import com.enonic.cms.core.content.index.queryexpression.OrderFieldExpr;

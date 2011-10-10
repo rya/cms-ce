@@ -7,11 +7,10 @@ package com.enonic.cms.core.content;
 import java.util.Collection;
 
 import com.enonic.cms.core.content.category.CategoryAccessType;
-
 import com.enonic.cms.core.content.index.ContentIndexQuery.CategoryAccessTypeFilterPolicy;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * This class represents the specification of a getContentByCategory search.

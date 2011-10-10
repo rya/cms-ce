@@ -11,7 +11,7 @@ import java.util.Set;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 
 public abstract class PageRequestBase

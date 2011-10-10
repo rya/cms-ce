@@ -2,12 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.security.userstore.UserStoreEntity" table="TDOMAIN" mutable="true">
+  <class name="com.enonic.cms.core.security.userstore.UserStoreEntity" table="TDOMAIN" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.UserStoreKeyUserType" column="DOM_LKEY">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
         <param name="table">TDOMAIN</param>
-        <param name="idClassName">com.enonic.cms.domain.security.userstore.UserStoreKey</param>
+        <param name="idClassName">com.enonic.cms.core.security.userstore.UserStoreKey</param>
       </generator>
     </id>
     <property name="deleted" type="int">

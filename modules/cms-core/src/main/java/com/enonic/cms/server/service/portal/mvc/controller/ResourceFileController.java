@@ -15,16 +15,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceService;
+
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.core.resource.ResourceService;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.portal.ResourceNotFoundException;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceKeyResolverForSiteLocalResources;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceKeyResolverForSiteLocalResources;
 
 public class ResourceFileController
     extends AbstractSiteController

@@ -12,12 +12,11 @@ import org.joda.time.ReadableDateTime;
 
 import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.index.ContentIndexConstants;
-
 import com.enonic.cms.core.content.index.queryexpression.ArrayExpr;
 import com.enonic.cms.core.content.index.queryexpression.CombinedLogicalOrExpr;
 import com.enonic.cms.core.content.index.queryexpression.CompareExpr;
-import com.enonic.cms.core.content.index.queryexpression.FieldExpr;
 import com.enonic.cms.core.content.index.queryexpression.Expression;
+import com.enonic.cms.core.content.index.queryexpression.FieldExpr;
 import com.enonic.cms.core.content.index.queryexpression.ValueExpr;
 import com.enonic.cms.core.content.index.translator.ContentQueryTranslatorException;
 import com.enonic.cms.core.content.index.util.ValueConverter;

@@ -18,15 +18,14 @@ import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.security.UserNameXmlCreator;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.core.security.UserNameXmlCreator;
-
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.group.GroupKey;
 
 public final class UserHandler
     extends BaseHandler

@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.domain.structure.portlet.PortletEntity" table="TCONTENTOBJECT" mutable="true">
+  <class name="com.enonic.cms.core.structure.portlet.PortletEntity" table="TCONTENTOBJECT" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="COB_LKEY"/>
@@ -20,7 +20,7 @@
     <property name="borderKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">
       <column name="COB_SBORDER" length="1024"/>
     </property>
-    <many-to-one name="site" class="com.enonic.cms.domain.structure.SiteEntity" fetch="select">
+    <many-to-one name="site" class="com.enonic.cms.core.structure.SiteEntity" fetch="select">
       <column name="COB_MEN_LKEY"/>
     </many-to-one>
     <property name="styleKey" type="com.enonic.cms.store.hibernate.type.ResourceKeyUserType">

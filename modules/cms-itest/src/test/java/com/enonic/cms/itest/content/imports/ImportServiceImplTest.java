@@ -49,14 +49,12 @@ import com.enonic.cms.core.content.imports.ImportException;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.test.AssertTool;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.business.core.security.SecurityHolder;
-
-import com.enonic.cms.domain.security.user.User;
 
 import static org.junit.Assert.*;
 

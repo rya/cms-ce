@@ -11,11 +11,12 @@ import junit.framework.TestCase;
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.portlet.PortletKey;
+
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
 
 public class ExpressionFunctionsTest
     extends TestCase

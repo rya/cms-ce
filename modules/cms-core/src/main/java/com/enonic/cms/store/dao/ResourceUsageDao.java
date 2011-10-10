@@ -6,8 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.HashMap;
 import com.google.common.collect.Multimap;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.resource.ResourceReferencer;
+
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceReferencer;
 
 public interface ResourceUsageDao
 {

@@ -11,8 +11,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+
+import com.enonic.cms.domain.LanguageEntity;
 
 public class UnitEntity
     implements Serializable

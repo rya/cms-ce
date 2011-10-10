@@ -9,7 +9,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 import com.enonic.cms.domain.AbstractEqualsTest;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 
 public class WindowCacheKeyEqualsTest

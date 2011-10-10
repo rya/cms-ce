@@ -45,17 +45,17 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.RunAsType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
-import com.enonic.cms.domain.structure.page.template.PageTemplatePortletEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateRegionEntity;
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplatePortletEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public final class PageTemplateHandler
     extends BaseHandler

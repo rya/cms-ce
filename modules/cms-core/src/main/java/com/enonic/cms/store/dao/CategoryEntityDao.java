@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.enonic.cms.domain.EntityPageList;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.domain.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupKey;
 import org.springframework.stereotype.Repository;
 
 @Repository("categoryDao")

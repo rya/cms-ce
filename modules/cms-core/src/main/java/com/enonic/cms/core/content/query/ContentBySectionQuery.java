@@ -8,9 +8,9 @@ import java.util.Collection;
 
 import com.enonic.cms.core.content.index.ContentIndexQuery;
 import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 public class ContentBySectionQuery
     extends AbstractContentQuery

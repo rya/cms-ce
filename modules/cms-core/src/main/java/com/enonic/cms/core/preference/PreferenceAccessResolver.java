@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.preference;
 
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 
 public class PreferenceAccessResolver

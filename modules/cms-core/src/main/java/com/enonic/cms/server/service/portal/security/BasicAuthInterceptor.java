@@ -10,10 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.enonic.cms.business.core.security.SecurityService;
-
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public final class BasicAuthInterceptor
     extends HandlerInterceptorAdapter

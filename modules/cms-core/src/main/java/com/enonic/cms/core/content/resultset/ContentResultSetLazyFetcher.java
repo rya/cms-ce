@@ -12,11 +12,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.index.ContentEntityFetcher;
 
 import com.enonic.cms.domain.AbstractResultSet;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.index.ContentEntityFetcher;
 
 
 public final class ContentResultSetLazyFetcher

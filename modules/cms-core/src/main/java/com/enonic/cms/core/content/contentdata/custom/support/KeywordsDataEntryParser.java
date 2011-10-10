@@ -9,7 +9,6 @@ import java.util.List;
 import org.jdom.Element;
 
 import com.enonic.cms.core.content.contentdata.custom.KeywordsDataEntry;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 
 

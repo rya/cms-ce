@@ -25,16 +25,15 @@ import com.enonic.esl.io.FileUtil;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contentdata.ContentDataParserException;
-
 import com.enonic.cms.core.content.contentdata.ContentDataParserInvalidDataException;
 import com.enonic.cms.core.content.contentdata.ContentDataParserUnsupportedTypeException;
+import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.FormItemsGroup;
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.FileDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.ImageDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
@@ -44,15 +43,15 @@ import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
-
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.UrlDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
-import com.enonic.cms.core.content.contenttype.CtySetConfig;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
+import com.enonic.cms.core.content.contenttype.CtySetConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.CheckboxDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfigType;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DateDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.FileDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.FilesDataEntryConfig;
@@ -61,10 +60,7 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.ImageDataEntryCon
 import com.enonic.cms.core.content.contenttype.dataentryconfig.ImagesDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextAreaDataEntryConfig;
-
-import com.enonic.cms.core.content.contenttype.dataentryconfig.BinaryDataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfigType;
 
 /**
  * Created by rmy - Date: Jun 10, 2009

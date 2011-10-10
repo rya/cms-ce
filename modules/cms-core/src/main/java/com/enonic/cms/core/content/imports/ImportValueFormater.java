@@ -15,10 +15,9 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
-import com.enonic.cms.core.content.imports.sourcevalueholders.StringArraySourceValue;
-
-import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 import com.enonic.cms.core.content.imports.sourcevalueholders.BinarySourceValue;
+import com.enonic.cms.core.content.imports.sourcevalueholders.StringArraySourceValue;
+import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 
 public class ImportValueFormater
 {

@@ -19,7 +19,7 @@ import com.enonic.cms.domain.Path;
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyParser;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 /**
  * Jan 21, 2010

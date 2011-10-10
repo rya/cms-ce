@@ -33,6 +33,8 @@ import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.resultset.RelatedChildContent;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentEntityDao;
 import com.enonic.cms.store.dao.GroupEntityDao;
@@ -41,8 +43,8 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.ContentService;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
@@ -52,8 +54,6 @@ import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased
 
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserType;
 
 import static org.junit.Assert.*;
 

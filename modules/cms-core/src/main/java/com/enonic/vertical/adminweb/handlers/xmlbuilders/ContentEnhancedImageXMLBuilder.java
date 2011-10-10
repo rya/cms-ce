@@ -23,9 +23,8 @@ import com.enonic.vertical.adminweb.VerticalAdminLogger;
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.image.ContentImageUtil;
 import com.enonic.cms.core.content.image.ImageUtil;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.domain.security.user.User;
 
 public class ContentEnhancedImageXMLBuilder
     extends ContentBaseXMLBuilder

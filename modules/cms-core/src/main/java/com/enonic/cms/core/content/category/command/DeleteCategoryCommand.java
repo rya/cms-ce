@@ -2,8 +2,7 @@ package com.enonic.cms.core.content.category.command;
 
 
 import com.enonic.cms.core.content.category.CategoryKey;
-
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 public class DeleteCategoryCommand
 {

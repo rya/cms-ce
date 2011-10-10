@@ -29,10 +29,10 @@ import com.enonic.vertical.event.MenuHandlerListener;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.User;
 
 
 public final class LogHandler

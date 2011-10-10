@@ -16,7 +16,6 @@ import com.enonic.cms.framework.jdbc.dialect.Dialect;
 
 import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.ContentKey;
-
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryKey;
@@ -25,16 +24,15 @@ import com.enonic.cms.core.content.index.ContentIndexQuery;
 import com.enonic.cms.core.content.index.ContentIndexQueryExprParser;
 import com.enonic.cms.core.content.index.TranslatedQuery;
 import com.enonic.cms.core.content.index.optimizer.LogicalOrOptimizer;
-import com.enonic.cms.core.content.index.queryexpression.QueryExpr;
 import com.enonic.cms.core.content.index.queryexpression.Expression;
+import com.enonic.cms.core.content.index.queryexpression.QueryExpr;
 import com.enonic.cms.core.content.index.translator.expression.ColumnName;
 import com.enonic.cms.core.content.index.translator.expression.ExpressionTranslator;
 import com.enonic.cms.core.content.index.translator.expression.FieldName;
-
 import com.enonic.cms.core.content.index.translator.expression.OrderByExprTranslator;
-import com.enonic.cms.domain.security.group.GroupKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 
 /**
  * This class implements the translation of content query.

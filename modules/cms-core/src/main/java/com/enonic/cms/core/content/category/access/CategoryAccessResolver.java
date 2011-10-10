@@ -7,13 +7,12 @@ package com.enonic.cms.core.content.category.access;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupMembershipSearcher;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.business.core.AbstractAccessResolver;
-
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupMembershipSearcher;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 
 public class CategoryAccessResolver

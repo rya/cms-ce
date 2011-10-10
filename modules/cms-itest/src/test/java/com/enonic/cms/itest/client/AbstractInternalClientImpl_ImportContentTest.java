@@ -28,6 +28,7 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
@@ -35,10 +36,9 @@ import com.enonic.cms.testtools.DomainFixture;
 import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.core.content.ContentService;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityHolder;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserType;
 
 public abstract class AbstractInternalClientImpl_ImportContentTest
 {

@@ -20,8 +20,8 @@ import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryXmlCreator;
 
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Created by IntelliJ IDEA.

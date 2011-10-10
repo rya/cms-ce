@@ -5,9 +5,9 @@
 package com.enonic.cms.business.portal.datasource.context;
 
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 /**
  * Created by IntelliJ IDEA.

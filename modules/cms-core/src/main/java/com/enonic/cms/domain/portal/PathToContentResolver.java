@@ -10,11 +10,11 @@ import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentLocation;
 import com.enonic.cms.core.content.ContentLocationSpecification;
 import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.SectionContentDao;
 
 import com.enonic.cms.domain.Path;
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 /**
  * Feb 23, 2010

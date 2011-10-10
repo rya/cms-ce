@@ -20,14 +20,14 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.core.resolver.mock.ResolverHttpRequestInputCreatorMock;
 import com.enonic.cms.core.resolver.mock.ResolverHttpRequestInputXMLCreatorMock;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.group.GroupType;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.security.user.UserType;
-import com.enonic.cms.domain.security.userstore.UserStoreEntity;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.*;

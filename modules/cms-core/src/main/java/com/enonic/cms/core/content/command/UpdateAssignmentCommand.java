@@ -7,8 +7,7 @@ package com.enonic.cms.core.content.command;
 import java.util.Date;
 
 import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * Created by IntelliJ IDEA.

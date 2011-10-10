@@ -11,7 +11,7 @@ import com.enonic.cms.domain.CachedObject;
 import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.portal.rendering.PageCacheKey;
 import com.enonic.cms.domain.portal.rendering.WindowCacheKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 /**
  * Mar 4, 2010

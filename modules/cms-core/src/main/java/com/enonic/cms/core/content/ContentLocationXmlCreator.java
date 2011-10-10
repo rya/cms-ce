@@ -7,7 +7,7 @@ package com.enonic.cms.core.content;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 /**
  * Oct 28, 2009

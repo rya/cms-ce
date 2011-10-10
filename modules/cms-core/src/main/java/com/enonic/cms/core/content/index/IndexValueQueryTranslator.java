@@ -7,7 +7,6 @@ package com.enonic.cms.core.content.index;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
 import com.enonic.cms.core.content.ContentIndexEntity;
-
 import com.enonic.cms.core.content.index.translator.AbstractQueryTranslator;
 
 /**

@@ -6,9 +6,11 @@ package com.enonic.cms.domain.portal;
 
 import java.util.StringTokenizer;
 
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
-import com.enonic.cms.domain.structure.portlet.PortletKey;
+
+import com.enonic.cms.core.structure.portlet.PortletKey;
 
 import static com.enonic.cms.core.preference.PreferenceScopeType.PAGE;
 import static com.enonic.cms.core.preference.PreferenceScopeType.SITE;

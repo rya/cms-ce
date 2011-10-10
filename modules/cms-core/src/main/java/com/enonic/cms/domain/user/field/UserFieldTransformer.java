@@ -11,7 +11,7 @@ import org.apache.commons.fileupload.FileItem;
 
 import com.enonic.esl.containers.ExtendedMap;
 
-import com.enonic.cms.domain.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 
 public final class UserFieldTransformer
 {

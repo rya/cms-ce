@@ -11,7 +11,7 @@ import org.hibernate.id.IdentifierGenerator;
 
 import com.enonic.esl.util.DigestUtil;
 
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 public class UserIdentifierGenerator
     implements IdentifierGenerator

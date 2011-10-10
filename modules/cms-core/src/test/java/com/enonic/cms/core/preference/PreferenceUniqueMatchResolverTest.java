@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.domain.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserKey;
 
 /**
  * Created by IntelliJ IDEA.

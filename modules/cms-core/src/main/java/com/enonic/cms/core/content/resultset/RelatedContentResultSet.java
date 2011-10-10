@@ -7,9 +7,9 @@ package com.enonic.cms.core.content.resultset;
 import java.util.Collection;
 import java.util.Set;
 
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
 
 /**

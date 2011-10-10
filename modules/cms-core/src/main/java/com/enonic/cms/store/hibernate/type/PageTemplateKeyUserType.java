@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 
 /**
  *

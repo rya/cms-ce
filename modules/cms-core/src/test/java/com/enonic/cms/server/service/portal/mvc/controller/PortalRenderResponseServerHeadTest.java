@@ -7,6 +7,7 @@ import com.enonic.cms.business.SitePropertyNames;
 
 import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.core.plugin.manager.ExtensionManagerImpl;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import com.enonic.cms.domain.Attribute;
@@ -15,8 +16,7 @@ import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+import com.enonic.cms.core.structure.SiteEntity;
 
 import com.enonic.cms.server.DeploymentAndRequestSetup;
 import com.enonic.cms.store.dao.SiteDao;

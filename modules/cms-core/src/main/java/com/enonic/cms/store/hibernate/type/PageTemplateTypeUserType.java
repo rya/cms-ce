@@ -11,7 +11,7 @@ import java.sql.Types;
 
 import org.hibernate.HibernateException;
 
-import com.enonic.cms.domain.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 
 public class PageTemplateTypeUserType

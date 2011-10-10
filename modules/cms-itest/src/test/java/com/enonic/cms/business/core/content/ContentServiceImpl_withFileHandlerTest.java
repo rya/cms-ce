@@ -42,7 +42,7 @@ import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentVersionKey;
 
-import com.enonic.cms.domain.security.user.UserType;
+import com.enonic.cms.core.security.user.UserType;
 
 import static org.junit.Assert.*;
 

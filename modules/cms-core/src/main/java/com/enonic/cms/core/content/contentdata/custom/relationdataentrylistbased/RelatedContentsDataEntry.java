@@ -5,13 +5,11 @@
 package com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased;
 
 import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
-
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
 import com.enonic.cms.core.content.contentdata.custom.RelationsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
-
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 
 public class RelatedContentsDataEntry
     extends AbstractRelationDataEntryListBasedInputDataEntry<RelatedContentDataEntry>

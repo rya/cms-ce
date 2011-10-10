@@ -40,6 +40,8 @@ import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.content.imports.ImportService;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.testtools.DomainFactory;
@@ -47,10 +49,7 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.command.ImportContentCommand;
 
-import com.enonic.cms.business.core.security.SecurityHolder;
-
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.User;
 
 import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.*;

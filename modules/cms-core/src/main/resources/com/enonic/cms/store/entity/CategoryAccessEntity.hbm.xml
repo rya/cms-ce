@@ -28,7 +28,7 @@
       <column name="CAR_BADMINISTRATE" not-null="true"/>
     </property>
 
-    <many-to-one name="group" class="com.enonic.cms.domain.security.group.GroupEntity" insert="false" update="false"
+    <many-to-one name="group" class="com.enonic.cms.core.security.group.GroupEntity" insert="false" update="false"
                  fetch="select">
       <column name="CAR_GRP_HKEY" not-null="true"/>
     </many-to-one>

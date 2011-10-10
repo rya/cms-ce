@@ -18,27 +18,25 @@ import com.enonic.cms.framework.xml.XMLException;
 
 import com.enonic.cms.core.content.contentdata.ContentDataXPathCreator;
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.DataEntry;
 import com.enonic.cms.core.content.contentdata.custom.DataEntryType;
 import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.KeywordsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.MultipleChoiceAlternative;
 import com.enonic.cms.core.content.contentdata.custom.MultipleChoiceDataEntry;
-
-import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.RelationDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.FileDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.ImageDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.FilesDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.ImagesDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.UrlDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.UrlDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;

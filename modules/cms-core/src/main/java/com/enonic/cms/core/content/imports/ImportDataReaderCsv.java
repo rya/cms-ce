@@ -18,8 +18,8 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
 import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
-import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 import com.enonic.cms.core.content.imports.sourcevalueholders.StringArraySourceValue;
+import com.enonic.cms.core.content.imports.sourcevalueholders.StringSourceValue;
 
 public class ImportDataReaderCsv
     extends AbstractImportDataReader

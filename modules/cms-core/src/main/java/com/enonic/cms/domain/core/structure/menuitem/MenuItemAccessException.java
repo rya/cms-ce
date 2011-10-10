@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.domain.core.structure.menuitem;
 
-import com.enonic.cms.domain.security.user.QualifiedUsername;
-import com.enonic.cms.domain.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.user.QualifiedUsername;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 public class MenuItemAccessException
     extends RuntimeException

@@ -38,12 +38,14 @@ import com.enonic.cms.core.log.LogEntryEntity;
 import com.enonic.cms.core.log.LogEntryResultSet;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.Table;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 
-import com.enonic.cms.business.core.structure.SectionXmlCreator;
+import com.enonic.cms.core.structure.SectionXmlCreator;
 import com.enonic.cms.core.log.ContentLogXMLCreator;
 
 import com.enonic.cms.core.content.category.CategoryAccessType;
@@ -55,9 +57,6 @@ import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
 import com.enonic.cms.core.content.query.ContentByContentQuery;
 import com.enonic.cms.core.content.query.ContentBySectionQuery;
 import com.enonic.cms.core.log.ContentLogEntrySpecification;
-
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserEntity;
 
 public class MyPageServlet
     extends AdminHandlerBaseServlet

@@ -27,6 +27,7 @@ import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.internal.service.DataSourceServiceImpl;
+import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
@@ -34,7 +35,7 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.ContentService;
 
-import com.enonic.cms.business.core.security.SecurityService;
+import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.core.content.ContentHandlerName;
 
@@ -44,7 +45,6 @@ import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedCon
 
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.security.user.User;
 
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;

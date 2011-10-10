@@ -9,8 +9,8 @@ import java.util.List;
 
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 
 public class UnapproveSectionContentCommand

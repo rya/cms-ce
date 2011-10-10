@@ -11,8 +11,7 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.adminweb.VerticalAdminException;
 
 import com.enonic.cms.core.content.binary.BinaryData;
-
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public interface ContentXMLBuilder
 {

@@ -6,13 +6,14 @@ package com.enonic.cms.store.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.resource.ResourceFolder;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.store.resource.FileResourceService;
 import com.enonic.cms.store.resource.ResourceFolderImpl;
 
-import com.enonic.cms.domain.resource.FileResourceName;
-import com.enonic.cms.domain.resource.ResourceFile;
-import com.enonic.cms.domain.resource.ResourceFolder;
-import com.enonic.cms.domain.resource.ResourceKey;
+import com.enonic.cms.core.resource.FileResourceName;
+import com.enonic.cms.core.resource.ResourceFile;
+
 import org.springframework.stereotype.Repository;
 
 @Repository("resourceDao")

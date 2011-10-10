@@ -23,8 +23,7 @@ import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
 import com.enonic.cms.core.content.category.CategoryKey;
-
-import com.enonic.cms.domain.security.user.User;
+import com.enonic.cms.core.security.user.User;
 
 public class UserServicesEngine
     extends BaseEngine

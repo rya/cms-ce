@@ -21,13 +21,13 @@ import com.enonic.esl.net.URLUtil;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.core.security.SecurityHolderAdmin;
+import com.enonic.cms.core.security.SecurityHolderAdmin;
 
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserSpecification;
-import com.enonic.cms.domain.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserSpecification;
 
 /**
  * Routes a request for a page in the administration web to the correct servlet.

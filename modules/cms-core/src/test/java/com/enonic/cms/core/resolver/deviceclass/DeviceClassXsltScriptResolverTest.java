@@ -13,11 +13,11 @@ import com.enonic.cms.framework.xml.XMLDocumentImpl;
 
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.deviceclass.mock.DeviceClassResolverXMLCreatorMock;
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.saxon.SaxonProcessorManager;
 
 import com.enonic.cms.core.resolver.ScriptResolverResult;
-import com.enonic.cms.domain.resource.ResourceFile;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

@@ -13,13 +13,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.core.localization.LocalizationServiceImpl;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleService;
 
 import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.core.localization.LocalizationResourceBundle;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.structure.SiteEntity;
+
+import com.enonic.cms.core.resource.ResourceKey;
+
+import com.enonic.cms.core.structure.SiteEntity;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

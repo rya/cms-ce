@@ -21,17 +21,15 @@ import com.google.common.collect.Sets;
 
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.contentdata.ContentData;
-
 import com.enonic.cms.core.content.contentdata.ContentDataParser;
 import com.enonic.cms.core.content.contentdata.ContentDataXmlCreator;
 import com.enonic.cms.core.content.contentdata.custom.TitleDataEntryNotFoundException;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class ContentVersionEntity
     implements Serializable, Cloneable

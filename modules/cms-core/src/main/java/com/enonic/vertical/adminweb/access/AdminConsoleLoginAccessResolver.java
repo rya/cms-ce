@@ -4,8 +4,9 @@
  */
 package com.enonic.vertical.adminweb.access;
 
-import com.enonic.cms.domain.security.group.GroupEntity;
-import com.enonic.cms.domain.security.user.UserEntity;
+import com.enonic.cms.core.security.group.GroupEntity;
+
+import com.enonic.cms.core.security.user.UserEntity;
 
 public class AdminConsoleLoginAccessResolver
 {

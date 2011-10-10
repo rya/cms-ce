@@ -6,9 +6,10 @@ package com.enonic.cms.domain.portal.processor;
 
 import java.util.Map;
 
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+
 import com.enonic.cms.domain.SitePath;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
 
 /**
  * Sep 29, 2009

@@ -64,16 +64,16 @@ import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.UserNameXmlCreator;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.ContentTypeDao;
-
-import com.enonic.cms.business.core.security.UserNameXmlCreator;
 
 import com.enonic.cms.domain.CalendarUtil;
 import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.resource.ResourceKey;
-import com.enonic.cms.domain.security.user.User;
-import com.enonic.cms.domain.security.user.UserKey;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public final class ContentHandler
     extends BaseHandler

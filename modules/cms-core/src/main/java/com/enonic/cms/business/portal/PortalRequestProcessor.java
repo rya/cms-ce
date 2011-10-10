@@ -8,8 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.page.WindowKey;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.PortletDao;
@@ -52,12 +57,8 @@ import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
-import com.enonic.cms.domain.security.user.UserEntity;
-import com.enonic.cms.domain.structure.SiteEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.domain.structure.menuitem.MenuItemType;
-import com.enonic.cms.domain.structure.page.WindowKey;
-import com.enonic.cms.domain.structure.portlet.PortletEntity;
+
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 /**
  * Class for processing portal requests. Create new instance for each use.

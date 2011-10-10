@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.domain.portal.rendering.viewtransformer;
 
-import com.enonic.cms.domain.structure.TemplateParameter;
+import com.enonic.cms.core.structure.TemplateParameter;
 
 /**
  * May 20, 2009
