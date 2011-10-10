@@ -7,96 +7,56 @@ import java.util.logging.Logger;
 
 public final class LogFacade
 {
-    private final static String FQCN = LogFacade.class.getName();
-
     private final Logger logger;
+    private final String fcqn;
 
-    private LogFacade( final String clz )
+    private LogFacade( final Class clz, final Class fcqn )
     {
-        this.logger = Logger.getLogger( clz );
+        this.logger = Logger.getLogger( clz.getName() );
+        this.fcqn = fcqn != null ? fcqn.getName() : LogFacade.class.getName();
     }
 
     public void debug( final String message, final Object... args )
     {
-        log( FQCN, Level.FINEST, message, args, null );
+        log( Level.FINEST, message, args, null );
     }
 
     public void debug( final Throwable cause, final String message, final Object... args )
     {
-        log( FQCN, Level.FINEST, message, args, cause );
+        log( Level.FINEST, message, args, cause );
     }
 
     public void info( final String message, final Object... args )
     {
-        log( FQCN, Level.INFO, message, args, null );
+        log( Level.INFO, message, args, null );
     }
 
     public void info( final Throwable cause, final String message, final Object... args )
     {
-        log( FQCN, Level.INFO, message, args, cause );
+        log( Level.INFO, message, args, cause );
     }
 
     public void warning( final String message, final Object... args )
     {
-        log( FQCN, Level.WARNING, message, args, null );
+        log( Level.WARNING, message, args, null );
     }
 
     public void warning( final Throwable cause, final String message, final Object... args )
     {
-        log( FQCN, Level.WARNING, message, args, cause );
+        log( Level.WARNING, message, args, cause );
     }
 
     public void error( final String message, final Object... args )
     {
-        log( FQCN, Level.SEVERE, message, args, null );
+        log( Level.SEVERE, message, args, null );
     }
 
     public void error( final Throwable cause, final String message, final Object... args )
     {
-        log( FQCN, Level.SEVERE, message, args, cause );
+        log( Level.SEVERE, message, args, cause );
     }
 
-    public void debugFqcn( final String fqcn, final String message, final Object... args )
-    {
-        log( fqcn, Level.FINEST, message, args, null );
-    }
-
-    public void debugFqcn( final String fqcn, final Throwable cause, final String message, final Object... args )
-    {
-        log( fqcn, Level.FINEST, message, args, cause );
-    }
-
-    public void infoFqcn( final String fqcn, final String message, final Object... args )
-    {
-        log( fqcn, Level.INFO, message, args, null );
-    }
-
-    public void infoFqcn( final String fqcn, final Throwable cause, final String message, final Object... args )
-    {
-        log( fqcn, Level.INFO, message, args, cause );
-    }
-
-    public void warningFqcn( final String fqcn, final String message, final Object... args )
-    {
-        log( fqcn, Level.WARNING, message, args, null );
-    }
-
-    public void warningFqcn( final String fqcn, final Throwable cause, final String message, final Object... args )
-    {
-        log( fqcn, Level.WARNING, message, args, cause );
-    }
-
-    public void errorFqcn( final String fqcn, final String message, final Object... args )
-    {
-        log( fqcn, Level.SEVERE, message, args, null );
-    }
-
-    public void errorFqcn( final String fqcn, final Throwable cause, final String message, final Object... args )
-    {
-        log( fqcn, Level.SEVERE, message, args, cause );
-    }
-
-    private void log( final String fqcn, final Level level, final String message, final Object[] args, final Throwable cause )
+    private void log( final Level level, final String message, final Object[] args, final Throwable cause )
     {
         if ( !this.logger.isLoggable( level ) )
         {
@@ -106,7 +66,7 @@ public final class LogFacade
         final LogRecord record = new LogRecord( level, MessageFormat.format( message, args ) );
         record.setThrown( cause );
 
-        final StackTraceElement source = findStackTraceElement( fqcn );
+        final StackTraceElement source = findStackTraceElement();
         if ( source != null )
         {
             record.setSourceClassName( source.getClassName() );
@@ -131,19 +91,14 @@ public final class LogFacade
         return this.logger.isLoggable( Level.WARNING );
     }
 
-    public boolean isErrorEnabled()
-    {
-        return this.logger.isLoggable( Level.SEVERE );
-    }
-
-    private StackTraceElement findStackTraceElement( final String fqcn )
+    private StackTraceElement findStackTraceElement()
     {
         final StackTraceElement[] trace = Thread.currentThread().getStackTrace();
 
         boolean foundFcqn = false;
         for ( final StackTraceElement elem : trace )
         {
-            if ( elem.getClassName().equals( fqcn ) )
+            if ( elem.getClassName().equals( this.fcqn ) )
             {
                 foundFcqn = true;
             }
@@ -158,11 +113,11 @@ public final class LogFacade
 
     public static LogFacade get( final Class clz )
     {
-        return new LogFacade( clz.getName() );
+        return new LogFacade( clz, null );
     }
 
-    public static LogFacade get( final String clz )
+    public static LogFacade get( final Class clz, final Class fcqn )
     {
-        return new LogFacade( clz );
+        return new LogFacade( clz, fcqn );
     }
 }

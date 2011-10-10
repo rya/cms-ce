@@ -9,9 +9,7 @@ import com.enonic.cms.api.util.LogFacade;
 final class FelixLogBridge
     extends Logger
 {
-    private final static LogFacade LOG = LogFacade.get( FelixLogBridge.class );
-
-    private final static String FQCN = FelixLogBridge.class.getName();
+    private final static LogFacade LOG = LogFacade.get( FelixLogBridge.class, FelixLogBridge.class );
 
     public FelixLogBridge()
     {
@@ -43,19 +41,19 @@ final class FelixLogBridge
 
         if ( level == LOG_ERROR )
         {
-            LOG.errorFqcn( FQCN, cause, message );
+            LOG.error( cause, message );
         }
         else if ( level == LOG_INFO )
         {
-            LOG.infoFqcn( FQCN, cause, message );
+            LOG.info( cause, message );
         }
         else if ( level == LOG_WARNING )
         {
-            LOG.warningFqcn( FQCN, cause, message );
+            LOG.warning( cause, message );
         }
         else
         {
-            LOG.debugFqcn( FQCN, cause, message );
+            LOG.debug( cause, message );
         }
     }
 }
