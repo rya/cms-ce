@@ -27,6 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.enonic.esl.containers.ExtendedMap;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
@@ -45,9 +48,6 @@ import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;

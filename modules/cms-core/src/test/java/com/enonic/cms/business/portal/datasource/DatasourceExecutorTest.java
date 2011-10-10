@@ -14,11 +14,12 @@ import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 
 import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.RequestParameters;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.datasource.Datasource;
+
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserImpl;

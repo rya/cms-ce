@@ -15,7 +15,7 @@ import com.enonic.cms.core.security.user.UserKey;
 
 import com.enonic.cms.business.login.LoginService;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class AutoLoginService
 {

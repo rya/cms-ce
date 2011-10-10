@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.preference;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 
 

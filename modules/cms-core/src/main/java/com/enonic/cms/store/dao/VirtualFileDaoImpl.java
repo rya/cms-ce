@@ -6,17 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.enonic.cms.framework.blob.BlobStore;
-
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 import org.springframework.stereotype.Repository;
 
 @Repository("virtualFileDao")

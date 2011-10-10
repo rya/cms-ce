@@ -23,7 +23,7 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.contentdata.ContentDataParserException;
 import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
 import com.enonic.cms.domain.portal.httpservices.UserServicesException;

@@ -12,6 +12,8 @@ import org.joda.time.DateTime;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
 
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
@@ -45,9 +47,6 @@ import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.itest.MockKeyService;
-
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
 
 import com.enonic.cms.core.content.ContentHandlerKey;
 

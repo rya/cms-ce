@@ -6,12 +6,11 @@ package com.enonic.cms.business.portal.livetrace;
 
 import org.joda.time.DateTime;
 
+import com.enonic.cms.core.PathAndParamsToStringBuilder;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.structure.SiteEntity;
-
-import com.enonic.cms.domain.PathAndParamsToStringBuilder;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 
 /**
  * Oct 6, 2010

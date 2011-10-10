@@ -42,6 +42,8 @@ import com.enonic.vertical.engine.handlers.UserHandler;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.IndexService;
@@ -66,8 +68,6 @@ import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 
-import com.enonic.cms.domain.LanguageKey;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.binary.BinaryData;
 
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;

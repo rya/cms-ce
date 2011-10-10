@@ -56,6 +56,8 @@ import com.enonic.cms.framework.util.TIntObjectHashMap;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CalendarUtil;
+import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStatus;
@@ -69,8 +71,6 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
-import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.LanguageKey;
 import com.enonic.cms.core.resource.ResourceKey;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;

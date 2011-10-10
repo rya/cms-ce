@@ -18,7 +18,7 @@ import com.enonic.cms.business.portal.rendering.WindowRendererFactory;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.portal.rendering.tracing.TraceMarkerHelper;
 
-import com.enonic.cms.domain.RequestParameters;
+import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.domain.portal.rendering.RenderedWindowResult;
 
 public class IsWindowEmptyFunction

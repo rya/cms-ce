@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.core.resource;
 
-import com.enonic.cms.domain.PathAndParams;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.PathAndParams;
+import com.enonic.cms.core.SitePath;
 
 public class ResourceKeyResolverForSiteLocalResources
 {

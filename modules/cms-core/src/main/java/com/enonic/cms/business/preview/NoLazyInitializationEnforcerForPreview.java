@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.business.preview;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.content.ContentVersionEntity;
 
-import com.enonic.cms.domain.LanguageEntity;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.security.user.UserEntity;

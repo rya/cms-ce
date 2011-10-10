@@ -7,10 +7,9 @@ package com.enonic.cms.core.content.resultset;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.ResultSet;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
-
-import com.enonic.cms.domain.ResultSet;
 
 /**
  * This class defines the content result set.

@@ -55,10 +55,10 @@ import com.enonic.vertical.event.VerticalEventMulticaster;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
+import com.enonic.cms.core.CalendarUtil;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.resource.ResourceKey;
 
-import com.enonic.cms.domain.CalendarUtil;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
@@ -495,7 +495,8 @@ public final class MenuHandler
         menuItemElement.setAttribute( "order", result.getString( "mei_lOrder" ) );
 
         // Add timestamp attribute
-        menuItemElement.setAttribute( "timestamp", CalendarUtil.formatTimestamp( result.getTimestamp( "mei_dteTimestamp" ) ) );
+        menuItemElement.setAttribute( "timestamp", CalendarUtil.formatTimestamp(
+                result.getTimestamp( "mei_dteTimestamp" ) ) );
 
         // attribute: language
         int lanKey = result.getInt( "lan_lKey" );

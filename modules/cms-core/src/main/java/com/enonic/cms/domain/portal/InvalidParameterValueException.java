@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.domain.portal;
 
-import com.enonic.cms.domain.BadRequestErrorType;
-import com.enonic.cms.domain.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.BadRequestErrorType;
+import com.enonic.cms.core.StacktraceLoggingUnrequired;
 
 public class InvalidParameterValueException
     extends RuntimeException

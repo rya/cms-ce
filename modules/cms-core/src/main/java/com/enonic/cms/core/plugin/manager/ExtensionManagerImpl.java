@@ -19,13 +19,12 @@ import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
 import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
 import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.plugin.ExtensionManager;
 import com.enonic.cms.core.plugin.ExtensionManagerAccessor;
 import com.enonic.cms.core.plugin.PluginRegistry;
 
 import com.enonic.cms.business.SiteURLResolver;
-
-import com.enonic.cms.domain.SitePath;
 
 public final class ExtensionManagerImpl
     implements ExtensionManager, InitializingBean

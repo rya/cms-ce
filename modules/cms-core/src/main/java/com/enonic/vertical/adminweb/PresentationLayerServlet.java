@@ -29,6 +29,7 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineException;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 
@@ -36,7 +37,6 @@ import com.enonic.cms.core.structure.SiteXmlCreator;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.structure.SiteEntity;

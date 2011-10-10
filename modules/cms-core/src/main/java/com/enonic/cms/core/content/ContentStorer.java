@@ -59,7 +59,7 @@ import com.enonic.cms.store.dao.RelatedContentDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.domain.portal.ContentNotFoundException;
 
 public class ContentStorer

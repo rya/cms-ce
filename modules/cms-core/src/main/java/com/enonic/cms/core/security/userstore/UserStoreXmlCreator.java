@@ -9,14 +9,13 @@ import java.util.Map;
 import org.jdom.Document;
 import org.jdom.Element;
 
+import com.enonic.cms.core.AbstractPagedXmlCreator;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfigXmlCreator;
 import com.enonic.cms.core.security.userstore.connector.config.GroupPolicyConfig;
 import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.core.security.userstore.connector.config.UserPolicyConfig;
 import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigXmlCreator;
-
-import com.enonic.cms.domain.AbstractPagedXmlCreator;
 
 public class UserStoreXmlCreator
     extends AbstractPagedXmlCreator

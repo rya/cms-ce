@@ -39,7 +39,7 @@ import com.enonic.cms.business.portal.image.ImageService;
 import com.enonic.cms.business.portal.rendering.WindowRendererContext;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;

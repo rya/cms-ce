@@ -6,11 +6,11 @@ package com.enonic.cms.business.portal.processor;
 
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageResolver;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.LanguageResolver;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.domain.portal.PageTemplateNotFoundException;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorContext;
 import com.enonic.cms.domain.portal.processor.PageRequestProcessorResult;

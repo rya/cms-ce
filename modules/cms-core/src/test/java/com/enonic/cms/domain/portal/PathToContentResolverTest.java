@@ -11,12 +11,11 @@ import com.google.common.collect.Sets;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 import com.enonic.cms.store.dao.SectionContentDao;
-
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SiteKey;
 
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.structure.SiteEntity;

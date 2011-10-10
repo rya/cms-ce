@@ -16,7 +16,7 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 import static org.junit.Assert.*;
 

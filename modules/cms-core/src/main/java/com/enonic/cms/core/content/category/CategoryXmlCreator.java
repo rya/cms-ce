@@ -18,13 +18,12 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.security.user.UserEntity;
-
-import com.enonic.cms.domain.CalendarUtil;
 
 public class CategoryXmlCreator
 {

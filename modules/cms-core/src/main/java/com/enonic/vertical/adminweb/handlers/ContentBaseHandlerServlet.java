@@ -76,6 +76,7 @@ import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.AssignmentAction;
 import com.enonic.cms.core.content.AssignmentDataParser;
 import com.enonic.cms.core.content.ContentAndVersion;
@@ -141,7 +142,6 @@ import com.enonic.cms.core.content.mail.AssignmentMailSender;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAccessException;
 import com.enonic.cms.core.content.ContentMoveAccessException;

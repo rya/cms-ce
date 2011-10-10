@@ -33,6 +33,9 @@ import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.InvalidKeyException;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.calendar.CalendarService;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
@@ -98,10 +101,6 @@ import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
 
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewContext;
-
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.InvalidKeyException;
-import com.enonic.cms.domain.SiteKey;
 
 import com.enonic.cms.core.content.ContentVersionKey;
 

@@ -15,10 +15,10 @@ import org.springframework.web.servlet.mvc.AbstractCommandController;
 
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.business.SiteRedirectAndForwardHelper;
-import com.enonic.cms.core.structure.SiteService;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.structure.SiteService;
 
 public abstract class AbstractSiteCommandController
         extends AbstractCommandController

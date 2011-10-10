@@ -18,8 +18,8 @@ import com.enonic.esl.util.DigestUtil;
 import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.CmsDateAndTimeFormats;
 
 public class ResourceXmlCreator
 {

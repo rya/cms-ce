@@ -27,7 +27,7 @@ import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 
 @Repository("userDao")
 public final class UserEntityDao

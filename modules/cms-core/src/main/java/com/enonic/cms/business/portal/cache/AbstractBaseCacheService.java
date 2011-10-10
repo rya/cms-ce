@@ -6,8 +6,8 @@ package com.enonic.cms.business.portal.cache;
 
 import com.enonic.cms.framework.cache.CacheFacade;
 
-import com.enonic.cms.domain.CachedObject;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.CachedObject;
+import com.enonic.cms.core.SiteKey;
 
 public abstract class AbstractBaseCacheService
     implements BaseCacheService

@@ -6,10 +6,9 @@ package com.enonic.cms.core.content.binary;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 
 public class ContentBinaryDataEntityEqualsTest

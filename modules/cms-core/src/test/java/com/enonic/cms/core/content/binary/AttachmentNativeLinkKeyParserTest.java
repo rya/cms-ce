@@ -6,9 +6,8 @@ package com.enonic.cms.core.content.binary;
 
 import org.junit.Test;
 
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.domain.Path;
 
 import static org.junit.Assert.*;
 

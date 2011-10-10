@@ -19,7 +19,7 @@ import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.ScriptResolverResult;
 import com.enonic.cms.core.resolver.ScriptResolverService;
 
-import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.localization.LocaleParsingException;
 
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;

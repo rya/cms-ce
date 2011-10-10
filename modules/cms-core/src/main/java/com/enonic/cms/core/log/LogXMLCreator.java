@@ -12,7 +12,7 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.domain.CmsDateAndTimeFormats;
+import com.enonic.cms.core.CmsDateAndTimeFormats;
 
 public class LogXMLCreator
 {

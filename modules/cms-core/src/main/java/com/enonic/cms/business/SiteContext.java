@@ -8,7 +8,7 @@ import org.springframework.core.style.ToStringCreator;
 
 import com.enonic.cms.business.portal.cache.PageCacheService;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class SiteContext
 {

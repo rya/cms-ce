@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.AutoLoginService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.server.service.servlet.OriginalUrlResolver;
@@ -28,9 +30,8 @@ import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.business.portal.livetrace.PortalRequestTracer;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.Path;
+
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.RedirectInstruction;

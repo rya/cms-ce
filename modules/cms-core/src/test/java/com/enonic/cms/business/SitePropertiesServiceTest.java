@@ -18,7 +18,7 @@ import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.boot.HomeService;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;

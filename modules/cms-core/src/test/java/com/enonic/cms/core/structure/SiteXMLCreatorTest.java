@@ -12,12 +12,11 @@ import org.jdom.JDOMException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.enonic.cms.core.CaseInsensitiveString;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-
-import com.enonic.cms.domain.CaseInsensitiveString;
 
 import static org.easymock.classextension.EasyMock.createNiceMock;
 

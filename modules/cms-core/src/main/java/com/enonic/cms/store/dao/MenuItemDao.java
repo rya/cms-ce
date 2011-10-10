@@ -7,10 +7,9 @@ package com.enonic.cms.store.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.EntityPageList;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
-
-import com.enonic.cms.domain.EntityPageList;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 

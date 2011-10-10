@@ -6,11 +6,10 @@ package com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbase
 
 import org.junit.Test;
 
+import com.enonic.cms.core.AbstractEqualsTest;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.ImageDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.ImageDataEntryConfig;
-
-import com.enonic.cms.domain.AbstractEqualsTest;
 
 /**
  * Oct 9, 2009

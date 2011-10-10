@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.domain.Path;
+import com.enonic.cms.core.Path;
 
 /**
  * Created by IntelliJ IDEA.

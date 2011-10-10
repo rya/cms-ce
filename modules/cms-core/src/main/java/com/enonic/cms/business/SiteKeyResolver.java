@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.util.UrlPathHelper;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class SiteKeyResolver
 {

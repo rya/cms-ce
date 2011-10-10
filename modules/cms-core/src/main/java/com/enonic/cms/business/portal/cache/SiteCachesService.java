@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.portal.cache;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public interface SiteCachesService
 {

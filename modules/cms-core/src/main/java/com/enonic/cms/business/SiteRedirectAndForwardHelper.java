@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.framework.spring.mvc.RedirectAndForwardHelper;
 
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SitePath;
 
 public class SiteRedirectAndForwardHelper
     extends RedirectAndForwardHelper

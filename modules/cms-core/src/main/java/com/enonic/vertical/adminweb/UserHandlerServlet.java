@@ -51,6 +51,7 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.AbstractPagedXmlCreator;
 import com.enonic.cms.core.country.Country;
 import com.enonic.cms.core.locale.LocaleXmlCreator;
 import com.enonic.cms.core.resource.ResourceFile;
@@ -83,8 +84,6 @@ import com.enonic.cms.store.dao.GroupQuery;
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.core.security.PasswordGenerator;
-
-import com.enonic.cms.domain.AbstractPagedXmlCreator;
 
 import com.enonic.cms.core.country.CountryXmlCreator;
 

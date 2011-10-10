@@ -7,7 +7,8 @@ package com.enonic.cms.core.preference;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
+
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 
 

@@ -36,6 +36,9 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.framework.xml.XMLException;
 
+import com.enonic.cms.core.RequestParameters;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.internal.service.DataSourceFailedXmlCreator;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
@@ -52,9 +55,6 @@ import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.business.portal.datasource.processor.NonDoingDataSourceProcessor;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.datasource.DataSourceResult;
 import com.enonic.cms.domain.portal.datasource.Datasources;

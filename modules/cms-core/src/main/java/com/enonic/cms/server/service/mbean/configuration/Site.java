@@ -6,7 +6,7 @@ package com.enonic.cms.server.service.mbean.configuration;
 
 import java.util.Properties;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class Site
     implements SiteMBean

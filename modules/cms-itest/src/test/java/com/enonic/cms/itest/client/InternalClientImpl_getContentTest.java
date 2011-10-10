@@ -22,6 +22,7 @@ import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.GetContentParams;
+import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.client.InternalClientImpl;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentEntity;
@@ -50,7 +51,6 @@ import com.enonic.cms.business.preview.ContentPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.Attribute;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 

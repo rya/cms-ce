@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.login;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.user.UserKey;
 
 /**

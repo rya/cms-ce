@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.enonic.cms.domain.AbstractResultSet;
+import com.enonic.cms.core.AbstractResultSet;
 
 
 public final class LogEntryResultSetNonLazy

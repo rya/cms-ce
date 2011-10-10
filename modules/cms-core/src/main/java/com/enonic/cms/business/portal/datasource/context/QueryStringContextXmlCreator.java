@@ -8,10 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jdom.Element;
 
+import com.enonic.cms.core.SitePath;
+
 import com.enonic.cms.business.SiteURLResolver;
 
-import com.enonic.cms.domain.RequestParameters;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.RequestParameters;
 
 /**
  * Apr 21, 2009

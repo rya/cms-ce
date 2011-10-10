@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.store.hibernate.type;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 
 public class SiteKeyUserType

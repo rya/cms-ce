@@ -8,15 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
+import com.enonic.cms.core.AdminSiteDebugBasePath;
+import com.enonic.cms.core.AdminSitePreviewBasePath;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.PortalSiteBasePath;
+import com.enonic.cms.core.SiteBasePath;
+
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.AdminSiteDebugBasePath;
-import com.enonic.cms.domain.AdminSitePreviewBasePath;
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.PortalSiteBasePath;
-import com.enonic.cms.domain.SiteBasePath;
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteKey;
 
 /**
  * Sep 3, 2010

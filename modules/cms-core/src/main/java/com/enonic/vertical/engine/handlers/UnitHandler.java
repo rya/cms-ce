@@ -26,7 +26,7 @@ import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.filters.Filter;
 
-import com.enonic.cms.domain.CalendarUtil;
+import com.enonic.cms.core.CalendarUtil;
 
 public class UnitHandler
     extends BaseHandler

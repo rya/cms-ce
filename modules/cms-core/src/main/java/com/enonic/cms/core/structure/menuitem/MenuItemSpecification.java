@@ -6,7 +6,7 @@ package com.enonic.cms.core.structure.menuitem;
 
 import com.enonic.cms.core.structure.page.PageSpecification;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 /**
  * Sep 30, 2009

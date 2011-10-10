@@ -18,7 +18,7 @@ import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.structure.SiteEntity;
 
-import com.enonic.cms.domain.LanguageEntity;
+import com.enonic.cms.core.LanguageEntity;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 

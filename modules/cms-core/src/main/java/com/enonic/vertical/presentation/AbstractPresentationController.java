@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentParserService;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.mail.SendMailService;
@@ -30,9 +32,7 @@ import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.business.portal.SiteRedirectHelper;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 
-import com.enonic.cms.domain.Attribute;
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
+import com.enonic.cms.core.SiteKey;
 
 public abstract class AbstractPresentationController
     implements Controller, DisposableBean

@@ -11,12 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.vertical.userservices.UserServicesParameterResolver;
 
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.server.service.portal.ticket.TicketValidator;
 
 import com.enonic.cms.business.SitePropertyNames;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.SitePath;
 import com.enonic.cms.domain.portal.InvalidParameterValueException;
 import com.enonic.cms.domain.portal.InvalidTicketException;
 import com.enonic.cms.domain.portal.ParameterMissingException;

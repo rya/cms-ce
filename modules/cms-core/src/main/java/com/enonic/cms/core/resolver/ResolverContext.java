@@ -6,10 +6,9 @@ package com.enonic.cms.core.resolver;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
-
-import com.enonic.cms.domain.LanguageEntity;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 

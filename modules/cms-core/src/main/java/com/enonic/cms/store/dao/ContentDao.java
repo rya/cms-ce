@@ -7,11 +7,10 @@ package com.enonic.cms.store.dao;
 import java.util.Collection;
 import java.util.List;
 
+import com.enonic.cms.core.EntityPageList;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionKey;
-
-import com.enonic.cms.domain.EntityPageList;
 
 import com.enonic.cms.core.content.ContentSpecification;
 import com.enonic.cms.core.content.category.CategoryEntity;

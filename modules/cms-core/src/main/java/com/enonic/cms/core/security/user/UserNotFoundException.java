@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.security.user;
 
-import com.enonic.cms.domain.NotFoundErrorType;
+import com.enonic.cms.core.NotFoundErrorType;
 
 public class UserNotFoundException
     extends RuntimeException

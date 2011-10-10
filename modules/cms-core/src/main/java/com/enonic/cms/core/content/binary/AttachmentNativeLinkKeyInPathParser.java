@@ -7,7 +7,7 @@ package com.enonic.cms.core.content.binary;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.domain.Path;
+import com.enonic.cms.core.Path;
 
 public final class AttachmentNativeLinkKeyInPathParser
 {

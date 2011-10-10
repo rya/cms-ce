@@ -26,7 +26,7 @@ import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.user.User;
 
 public class PollHandlerController

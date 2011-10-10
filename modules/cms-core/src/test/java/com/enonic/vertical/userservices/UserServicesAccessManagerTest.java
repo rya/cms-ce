@@ -6,11 +6,10 @@ package com.enonic.vertical.userservices;
 
 import junit.framework.TestCase;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.structure.SiteService;
 
 import com.enonic.cms.business.MockSitePropertiesService;
-
-import com.enonic.cms.domain.SiteKey;
 
 import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;

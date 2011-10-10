@@ -23,6 +23,8 @@ import com.google.common.io.ByteStreams;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
+import com.enonic.cms.core.PathAndParams;
+import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
@@ -40,9 +42,7 @@ import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.Path;
-import com.enonic.cms.domain.PathAndParams;
-import com.enonic.cms.domain.RequestParameters;
+import com.enonic.cms.core.Path;
 
 import com.enonic.cms.core.content.ContentVersionKey;
 

@@ -2,12 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping default-access="field">
-  <class name="com.enonic.cms.domain.LanguageEntity" table="TLANGUAGE" mutable="true">
+  <class name="com.enonic.cms.core.LanguageEntity" table="TLANGUAGE" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="LAN_LKEY" type="com.enonic.cms.store.hibernate.type.LanguageKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
         <param name="table">TLANGUAGE</param>
-        <param name="idClassName">com.enonic.cms.domain.LanguageKey</param>
+        <param name="idClassName">com.enonic.cms.core.LanguageKey</param>
       </generator>
     </id>
     <property name="code" type="string">

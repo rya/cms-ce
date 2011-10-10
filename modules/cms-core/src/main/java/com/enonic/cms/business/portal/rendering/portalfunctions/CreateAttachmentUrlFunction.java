@@ -6,6 +6,7 @@ package com.enonic.cms.business.portal.rendering.portalfunctions;
 
 import java.util.Set;
 
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
@@ -13,8 +14,6 @@ import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
 import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.domain.Path;
 
 import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyParser;
 import com.enonic.cms.core.content.binary.BinaryDataKey;

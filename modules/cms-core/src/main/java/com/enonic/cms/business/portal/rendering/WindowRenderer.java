@@ -15,6 +15,9 @@ import com.enonic.cms.framework.util.GenericConcurrencyLock;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CacheObjectSettings;
+import com.enonic.cms.core.CachedObject;
+import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
@@ -41,10 +44,8 @@ import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.portal.rendering.tracing.TraceMarkerHelper;
 import com.enonic.cms.business.portal.rendering.viewtransformer.PortletXsltViewTransformer;
 
-import com.enonic.cms.domain.CacheObjectSettings;
-import com.enonic.cms.domain.CacheSettings;
-import com.enonic.cms.domain.CachedObject;
-import com.enonic.cms.domain.RequestParameters;
+import com.enonic.cms.core.CacheSettings;
+
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.PortalRenderingException;
 import com.enonic.cms.domain.portal.Ticket;
@@ -232,9 +233,10 @@ public class WindowRenderer
                     // register the rendered window in the cache
                     if ( windowResult.isErrorFree() )
                     {
-                        final CachedObject newCachedPortletHolder = pageCacheService.cachePortletWindow( cacheKey, windowResult,
+                        final CachedObject
+                                newCachedPortletHolder = pageCacheService.cachePortletWindow( cacheKey, windowResult,
                                                                                                          CacheObjectSettings.createFrom(
-                                                                                                             portletCacheSettings ) );
+                                                                                                                 portletCacheSettings ) );
                         windowResult.setExpirationTimeInCache( newCachedPortletHolder.getExpirationTime() );
                     }
                 }

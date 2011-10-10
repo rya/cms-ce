@@ -7,7 +7,7 @@ package com.enonic.cms.core.structure.page;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.portlet.PortletKey;
 
-import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.core.InvalidKeyException;
 
 /**
  * May 13, 2009

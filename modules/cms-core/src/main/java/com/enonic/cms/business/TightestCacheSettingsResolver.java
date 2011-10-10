@@ -9,11 +9,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.core.CacheSettings;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
 
-import com.enonic.cms.domain.CacheSettings;
-import com.enonic.cms.domain.SiteKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Regions;
 

@@ -28,8 +28,8 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
-import com.enonic.cms.domain.LanguageEntity;
-import com.enonic.cms.domain.LanguageKey;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
 
 public class MenuItemXmlCreator
 {

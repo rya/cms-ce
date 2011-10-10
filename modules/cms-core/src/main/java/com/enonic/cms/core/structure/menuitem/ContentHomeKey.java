@@ -10,7 +10,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.SiteKey;
+import com.enonic.cms.core.SiteKey;
 
 public class ContentHomeKey
     implements Serializable

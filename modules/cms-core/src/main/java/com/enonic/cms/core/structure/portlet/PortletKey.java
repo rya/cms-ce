@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.AbstractIntegerBasedKey;
+import com.enonic.cms.core.AbstractIntegerBasedKey;
 
 public class PortletKey
     extends AbstractIntegerBasedKey

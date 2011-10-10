@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.domain.InvalidKeyException;
+import com.enonic.cms.core.InvalidKeyException;
 
 
 public class PreferenceScopeKey

@@ -10,12 +10,11 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.vertical.adminweb.AdminHelper;
 
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.business.SitePathResolver;
-
-import com.enonic.cms.domain.SiteKey;
-import com.enonic.cms.domain.SitePath;
 
 public abstract class SiteDebugController
     extends AbstractController

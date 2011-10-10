@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.enonic.cms.core.content.category.CategoryEntity;
 
-import com.enonic.cms.domain.EntityPageList;
+import com.enonic.cms.core.EntityPageList;
 
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.group.GroupKey;
