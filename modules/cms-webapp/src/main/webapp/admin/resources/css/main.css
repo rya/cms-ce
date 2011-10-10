@@ -477,6 +477,11 @@ img.photo {
     display: inline-block;
 }
 
+.cms-selected-item-box.large .right a:hover,
+.cms-selected-item-box.small .right a:hover {
+    border: 1px solid #d1d1d1;
+}
+
 .cms-selected-item-box .left {
     float: left;
 }
@@ -524,14 +529,15 @@ img.photo {
 }
 
 .cms-selected-item-box.large .right {
-    margin: 12px 6px 0 0;
+    margin: 9px 6px 0 0;
 }
 
 .cms-selected-item-box.large .right a {
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
     display: block;
-    background: transparent url(../../resources/images/cross.png) no-repeat;
+    border: 1px solid TRANSPARENT;
+    background: transparent url(../../resources/images/cross.png) no-repeat 2px;
 }
 
 
@@ -565,14 +571,15 @@ img.photo {
 }
 
 .cms-selected-item-box.small .right {
-    margin: 6px 3px 0 0;
+    margin: 4px 3px 0 0;
 }
 
 .cms-selected-item-box.small .right a {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     display: block;
-    background: transparent url(../../resources/images/cross-sm.png) no-repeat;
+    border: 1px solid TRANSPARENT;
+    background: transparent url(../../resources/images/cross-sm.png) no-repeat 1px;
 }
 
 /* Edit Form Header */

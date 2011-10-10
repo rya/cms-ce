@@ -140,8 +140,13 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
     deselect: function(record)
     {
         this.onRowDeselect(this.grid.selModel, record);
-        // If the deselected use is on the current page we need to programmatically deselect it.
-        this.grid.selModel.deselect(record);
+
+        // If the deselected item is on the current page we need to programmatically deselect it.
+        // First get the item object from the store (the record argument in this method is not the same object since the page has been refreshed)
+        var storeRecord = this.grid.getStore().getById(record.internalId);
+        this.grid.selModel.deselect(storeRecord);
+
+        // Tell the selection model about a change.
         this.notifySelectionModelAboutSelectionChange();
     },
 
