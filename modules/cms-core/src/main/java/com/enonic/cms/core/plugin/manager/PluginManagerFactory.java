@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.ServletContextAware;
 
 import com.enonic.cms.api.client.LocalClient;
-import com.enonic.cms.api.plugin.PluginEnvironment;
 import com.enonic.cms.core.plugin.ExtensionListener;
 import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.plugin.config.PluginConfigManager;
@@ -45,6 +44,8 @@ public final class PluginManagerFactory
         this.hostServices = new HostActivator();
         this.configManager = new PluginConfigManager();
         this.hotDeployer = new HotDeployer();
+
+        this.hostServices.addService(new PluginEnvironmentImpl());
 
         this.container.addActivator( new LoggerActivator() );
         this.container.addActivator( this.hostServices );
@@ -89,11 +90,6 @@ public final class PluginManagerFactory
     }
 
     public void setLocalClient( final LocalClient service )
-    {
-        this.hostServices.addService( service );
-    }
-
-    public void setPluginEnvironment( final PluginEnvironment service )
     {
         this.hostServices.addService( service );
     }

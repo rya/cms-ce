@@ -16,4 +16,6 @@ public interface PluginContext
         throws PluginException;
 
     public void register(Extension extension);
+
+    // public List<Extension> getExtensions();
 }

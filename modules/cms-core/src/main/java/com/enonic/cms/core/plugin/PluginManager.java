@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 
+// TODO: Should extend ExtensionManager
 public interface PluginManager
 {
     public List<Plugin> getPlugins();

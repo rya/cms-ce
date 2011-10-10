@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin;
+package com.enonic.cms.core.plugin.manager;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 /**
  * This class implements the plugin environment.
  */
-public final class PluginEnvironmentImpl
+final class PluginEnvironmentImpl
     implements PluginEnvironment
 {
     /**

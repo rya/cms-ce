@@ -198,9 +198,6 @@
         <property name="scanPeriod" value="${cms.plugin.scanPeriod}"/>
         <property name="properties" ref="loadedVerticalProperties"/>
         <property name="localClient" ref="localClient"/>
-        <property name="pluginEnvironment">
-            <bean class="com.enonic.cms.core.plugin.PluginEnvironmentImpl"/>
-        </property>
     </bean>
 
     <bean id="extensionManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
