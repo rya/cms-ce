@@ -11,7 +11,7 @@ public final class BootContextListener
     protected void configureAndRefreshWebApplicationContext(final ConfigurableWebApplicationContext appContext,
                                                             final ServletContext servletContext)
     {
-        BootEnvironment.start(appContext.getEnvironment());
+        BootEnvironment.config(appContext.getEnvironment());
         super.configureAndRefreshWebApplicationContext(appContext, servletContext);
     }
 }

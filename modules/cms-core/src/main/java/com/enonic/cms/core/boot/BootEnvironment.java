@@ -6,7 +6,7 @@ import java.io.File;
 
 final class BootEnvironment
 {
-    public static void start(final ConfigurableEnvironment env)
+    public static void config(final ConfigurableEnvironment env)
     {
         final MutablePropertySources sources = env.getPropertySources();
         final File homeDir = new HomeResolver(env).resolve();
