@@ -16,7 +16,7 @@
     <name>Enonic CMS ITest</name>
 
     <properties>
-        <skipITs>false</skipITs>
+        <skipITs>true</skipITs>
     </properties>
 
     <dependencies>
