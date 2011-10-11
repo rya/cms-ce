@@ -56,18 +56,23 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
         } );
     },
 
+    setFileUploadDisabled: function( disable ) {
+        this.uploadForm.setDisabled( disable );
+    },
+
     initComponent: function()
     {
         var me = this;
 
         var userImage = Ext.create( 'Ext.Img', {
-            src: 'resources/images/x-user.png',
+            src: 'resources/images/x-user-photo.png',
             width: 100,
             height: 100
         } );
 
-        var uploadForm = Ext.create('Ext.form.Panel', {
+        var uploadForm = this.uploadForm = Ext.create('Ext.form.Panel', {
             fileUpload: true,
+            disabled: true,
             width: 100,
             height: 100,
             frame: false,
@@ -97,7 +102,9 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                     },
                     change: function( imgUpl, path, eOpts ) {
                         var form = this.up('form').getForm();
-                        if( form.isValid() )
+                        var regex = new RegExp("\.(jpg|jpeg|gif|png|bmp)$");
+                        var isValid = regex.test( path );
+                        if( isValid )
                         {
                             form.submit( {
                                 url: 'data/user/photo',
@@ -118,6 +125,10 @@ Ext.define( 'App.view.wizard.UserWizardPanel', {
                                     });
                                 }
                             } );
+                        }
+                        else
+                        {
+                            Ext.Msg.alert("Incorrect file", "Supported files are jpg, jpeg, png, gif and bmp.");
                         }
                     }
                 }

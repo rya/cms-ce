@@ -40,7 +40,10 @@ Ext.define( 'App.controller.UserWizardController', {
 
     stepChanged: function( wizard, oldStep, newStep )
     {
-        if ((newStep.getXType() == 'editUserFormPanel') &&
+        if ( newStep.getXType() == 'userStoreListPanel') {
+            // move to 1st step
+            this.getUserWizardPanel().setFileUploadDisabled( true );
+        } else if ((newStep.getXType() == 'editUserFormPanel') &&
                 (oldStep.getXType() == 'userStoreListPanel')){
             var prefix = newStep.down('#prefix');
             var firstName = newStep.down('#first-name');
@@ -53,10 +56,12 @@ Ext.define( 'App.controller.UserWizardController', {
             if (lastName) lastName.on('keyup', this.textFieldHandleEnterKey);
             if (suffix) suffix.on('keyup', this.textFieldHandleEnterKey);
         }
-        if (oldStep.getXType() == 'userStoreListPanel'){
+        if (oldStep.getXType() == 'userStoreListPanel') {
+            // move from 1st step
             var userStore = wizard.getData().userStore;
             Ext.get('q-userstore').dom.innerHTML = userStore + '\\';
             Ext.get('q-username').dom.innerHTML = 'unnamed';
+            this.getUserWizardPanel().setFileUploadDisabled( false );
         }
     },
 
