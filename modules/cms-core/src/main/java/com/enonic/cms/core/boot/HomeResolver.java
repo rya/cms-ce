@@ -5,14 +5,14 @@ import com.google.common.base.Strings;
 import org.springframework.core.env.Environment;
 import java.io.File;
 
-final class HomeResolver2
+final class HomeResolver
     implements HomeConstants
 {
-    private final static LogFacade LOG = LogFacade.get(HomeResolver2.class);
+    private final static LogFacade LOG = LogFacade.get(HomeResolver.class);
 
     private final Environment env;
 
-    public HomeResolver2(final Environment env)
+    public HomeResolver(final Environment env)
     {
         this.env = env;
     }

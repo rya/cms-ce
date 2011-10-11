@@ -13,7 +13,7 @@ final class BootEnvironment
     {
         final MutablePropertySources sources = env.getPropertySources();
         
-        final File homeDir = new HomeResolver2(env).resolve();
+        final File homeDir = new HomeResolver(env).resolve();
         sources.addFirst(new HomePropertySource(homeDir));
 
         final ConfigLoader loader = new ConfigLoader(env, homeDir);

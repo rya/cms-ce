@@ -4,9 +4,6 @@
  */
 package com.enonic.cms.core.boot;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.SystemUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,14 +12,10 @@ import org.mockito.Mockito;
 import org.springframework.core.env.Environment;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-public class HomeResolver2Test
+public class HomeResolverTest
 {
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -92,7 +85,7 @@ public class HomeResolver2Test
         Mockito.when(env.getProperty("cms.home")).thenReturn(propValue);
         Mockito.when(env.getProperty("CMS_HOME")).thenReturn(envValue);
 
-        final HomeResolver2 resolver = new HomeResolver2(env);
+        final HomeResolver resolver = new HomeResolver(env);
         return resolver.resolve();
     }
 }
