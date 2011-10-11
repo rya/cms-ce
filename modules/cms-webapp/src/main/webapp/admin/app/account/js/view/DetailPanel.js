@@ -10,9 +10,8 @@ Ext.define('App.view.DetailPanel', {
         var largeBoxesPanel = this.createLargeBoxSelection();
         var smallBoxesPanel = this.createSmallBoxSelection();
         var noneSelectedPanel = this.createNoneSelection();
-        var allSelectedPanel = this.createAllSelection();
 
-        this.items = [noneSelectedPanel, largeBoxesPanel, smallBoxesPanel, allSelectedPanel];
+        this.items = [noneSelectedPanel, largeBoxesPanel, smallBoxesPanel];
         this.callParent(arguments);
     },
 
@@ -39,13 +38,6 @@ Ext.define('App.view.DetailPanel', {
         activeItem.update(data);
     },
 
-    showAllSelected: function(data)
-    {
-        var activeItem = this.down('#allSelectedPanel');
-        this.getLayout().setActiveItem('allSelectedPanel');
-        activeItem.update(data);
-    },
-
     createNoneSelection: function()
     {
         var tpl = new Ext.XTemplate( Templates.account.noUserSelected );
@@ -53,23 +45,6 @@ Ext.define('App.view.DetailPanel', {
         var panel = {
             xtype: 'panel',
             itemId: 'noneSelectedPanel',
-            styleHtmlContent: true,
-            padding : 10,
-            border: 0,
-            tpl: tpl
-        };
-
-        return panel;
-    },
-
-    createAllSelection: function()
-    {
-        var tpl = new Ext.XTemplate( Templates.account.allUsersOnPageSelected );
-
-        var panel = {
-            xtype: 'panel',
-            itemId: 'allSelectedPanel',
-            id: 'allSelectedPanel',
             styleHtmlContent: true,
             padding : 10,
             border: 0,

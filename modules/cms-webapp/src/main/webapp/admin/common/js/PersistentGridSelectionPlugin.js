@@ -23,8 +23,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('select', this.onRowSelect, this );
             this.grid.selModel.on('deselect', this.onRowDeselect, this);
-            // TODO: Use getComponent or ComponentQuery instead of items[1]
-            this.grid.dockedItems.items[1].on('beforechange', this.pageChange, this );
+            Ext.ComponentQuery.query('pagingtoolbar')[0].on('beforechange', this.pageChange, this );
         }, this);
     },
 
@@ -35,7 +34,7 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
         this.grid.selModel.refresh();
         // selection changed from view updates, restore full selection
         var ds = this.grid.getStore();
-        // TODO: Optimized.
+        // TODO: Optimize.
         for (var i = ds.getCount() - 1; i >= 0; i--) {
             if (this.selected[ds.getAt(i).internalId]) {
                 this.grid.selModel.select(i,true,false);
@@ -140,8 +139,13 @@ Ext.define('Common.PersistentGridSelectionPlugin', {
     deselect: function(record)
     {
         this.onRowDeselect(this.grid.selModel, record);
-        // If the deselected use is on the current page we need to programmatically deselect it.
-        this.grid.selModel.deselect(record);
+
+        // If the deselected item is on the current page we need to programmatically deselect it.
+        // First get the item object from the store (the record argument in this method is not the same object since the page has been refreshed)
+        var storeRecord = this.grid.getStore().getById(record.internalId);
+        this.grid.selModel.deselect(storeRecord);
+
+        // Tell the selection model about a change.
         this.notifySelectionModelAboutSelectionChange();
     },
 

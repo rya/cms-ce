@@ -54,7 +54,7 @@ Templates.account = {
         '<tpl for="users">' +
             '<div id="selected-item-box-{key}" class="cms-selected-item-box small x-btn-default-small clearfix">' +
                 '<div class="cms-selected-item-box left">' +
-                    '<img alt="User" src="resources/images/user_add.png"/>' +
+                    '<img alt="User" src="data/user/photo?key={key}&thumb=true"/>' +
                 '</div>' +
                 '<div class="cms-selected-item-box center">' +
                     '<h2>{displayName}</h2>' +
@@ -64,13 +64,6 @@ Templates.account = {
                 '</div>' +
             '</div>'+
         '</tpl>'
-
-    ,allUsersOnPageSelected:
-            '<div id="selection-all-users-on-page">All {pageSize} items on this page are selected. <a href="javascript:;" id="selection-all-users-in-account-link">Select all {totalCount} items in Accounts</a></div>'
-
-    ,allUsersInAccountSelected:
-            '<div style="" id="selection-all-users-in-account">All {totalSize} conversations in Accounts are selected. <a href="javascript:;" id="selection-all-users-clear-selection-link">Clear selection</a></div>'
-
 
     ,deleteManyUsers:
         '<div class="cms-delete-user-confirmation-message">' +

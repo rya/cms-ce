@@ -65,7 +65,7 @@ Ext.define( 'App.controller.AccountController', {
                     itemcontextmenu: this.popupMenu,
                     itemdblclick: this.showEditUserForm
                 },
-                'userFilter': {
+                'accountFilter': {
                     specialkey: this.filterHandleEnterKey,
                     render: this.onFilterPanelRender
                 },
@@ -203,15 +203,6 @@ Ext.define( 'App.controller.AccountController', {
         {
             accountDetailPanel.showNoneSelection();
         }
-        else if ( selectionCount >= pageSize )
-        {
-            accountDetailPanel.showAllSelected(
-                {
-                    pageSize: pageSize,
-                    totalCount: totalCount
-                }
-            );
-        }
         else
         {
             var user = selection[0];
@@ -273,6 +264,7 @@ Ext.define( 'App.controller.AccountController', {
 
     filterHandleEnterKey: function( field, event )
     {
+        console.log(field);
         if ( event.getKey() == event.ENTER )
         {
             this.searchFilter();
