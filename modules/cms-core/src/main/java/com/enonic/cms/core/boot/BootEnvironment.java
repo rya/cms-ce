@@ -16,7 +16,7 @@ public final class BootEnvironment
         final File homeDir = new HomeResolver2(env).resolve();
         sources.addFirst(new HomePropertySource(homeDir));
 
-        final ConfigLoader loader = new ConfigLoader(homeDir);
+        final ConfigLoader loader = new ConfigLoader(env, homeDir);
         final Properties configProperties = loader.load();
         sources.addLast(new PropertiesPropertySource("config", configProperties));
     }

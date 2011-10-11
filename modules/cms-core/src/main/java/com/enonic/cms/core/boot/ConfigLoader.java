@@ -1,10 +1,13 @@
 package com.enonic.cms.core.boot;
 
 import com.enonic.cms.api.util.LogFacade;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.springframework.util.PropertyPlaceholderHelper;
+import static org.springframework.util.PropertyPlaceholderHelper.*;
 import java.io.File;
 import java.util.Properties;
 
@@ -13,10 +16,12 @@ final class ConfigLoader
     private final static LogFacade LOG = LogFacade.get(ConfigLoader.class);
     
     private final File homeDir;
+    private final Environment env;
     private ResourceLoader resourceLoader;
     
-    public ConfigLoader(final File homeDir)
+    public ConfigLoader(final Environment env, final File homeDir)
     {
+        this.env = env;
         this.homeDir = homeDir;
         setResourceLoader(new DefaultResourceLoader(getClass().getClassLoader()));
     }
@@ -31,7 +36,32 @@ final class ConfigLoader
         final Properties props = new Properties();
         props.putAll( loadDefaultProperties() );
         props.putAll( loadCmsProperties() );
-        return props;
+        return interpolate(props);
+    }
+
+    private Properties interpolate(final Properties props)
+    {
+        final PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", ":", true);
+        final PlaceholderResolver resolver = new PlaceholderResolver() {
+            public String resolvePlaceholder(final String name)
+            {
+                final String value = props.getProperty(name);
+                if (value != null) {
+                    return value;
+                }
+
+                return env.getProperty(name);
+            }
+        };
+
+        final Properties target = new Properties();
+        for (final Object key : props.keySet()) {
+            final String name = key.toString();
+            final String value = props.getProperty(name);
+            target.setProperty(name, helper.replacePlaceholders(value, resolver));
+        }
+
+        return target;
     }
 
     private Properties load(final String location, final boolean required)
