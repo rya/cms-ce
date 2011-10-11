@@ -7,6 +7,7 @@ package com.enonic.cms.store.support;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
 import org.springframework.orm.hibernate3.LocalSessionFactoryBean;
 
@@ -64,6 +65,11 @@ public final class HibernateConfigurator
     public void setCacheManager( CacheManager cacheManager )
     {
         this.cacheManager = cacheManager;
+    }
+    
+    public Configuration getHibernateConfiguration()
+    {
+        return getConfiguration();
     }
 
     /**

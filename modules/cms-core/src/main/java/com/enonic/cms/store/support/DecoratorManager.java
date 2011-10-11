@@ -126,7 +126,7 @@ public final class DecoratorManager
         throws Exception
     {
         SessionFactoryImplementor impl = (SessionFactoryImplementor) this.sessionFactory;
-        Configuration config = HibernateConfigurator.getInstance().getConfiguration();
+        Configuration config = HibernateConfigurator.getInstance().getHibernateConfiguration();
         CacheInvalidator cacheInvalidator = new CacheInvalidator( config, impl, this.cacheManager );
         this.invalidatorDecorator = new InvalidatorConnectionDecorator( cacheInvalidator );
         this.loggingDecorator = new LoggingConnectionDecorator();
