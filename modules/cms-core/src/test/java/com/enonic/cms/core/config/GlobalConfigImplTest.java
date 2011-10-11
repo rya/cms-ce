@@ -2,11 +2,9 @@ package com.enonic.cms.core.config;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertiesPropertySource;
-import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.support.DefaultConversionService;
 import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.Map;
 import java.util.Properties;
@@ -20,14 +18,9 @@ public class GlobalConfigImplTest
     public void setUp()
     {
         this.props = new Properties();
+        final ConversionService converter = new DefaultConversionService();
 
-        final StandardEnvironment env = new StandardEnvironment();
-        final MutablePropertySources sources = env.getPropertySources();
-        sources.remove(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME);
-        sources.remove(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME);
-        sources.addLast(new PropertiesPropertySource("config", this.props));
-
-        this.config = new GlobalConfigImpl(env);
+        this.config = new GlobalConfigImpl(this.props, converter);
     }
     
     @Test

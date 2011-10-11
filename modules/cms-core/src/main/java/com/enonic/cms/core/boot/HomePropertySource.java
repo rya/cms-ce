@@ -17,7 +17,6 @@ final class HomePropertySource
     {
         final Map<String, Object> map = Maps.newHashMap();
         map.put(CMS_HOME, dir);
-        map.put(CMS_HOME_URI, dir.toURI());
         return map;
     }
 }
