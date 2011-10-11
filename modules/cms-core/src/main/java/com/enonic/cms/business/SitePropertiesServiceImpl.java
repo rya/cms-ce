@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.business;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -19,7 +20,6 @@ import org.springframework.core.io.ResourceLoader;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.boot.HomeService;
 import com.enonic.cms.core.structure.SiteProperties;
 
 public class SitePropertiesServiceImpl
@@ -29,7 +29,7 @@ public class SitePropertiesServiceImpl
 
     private Map<SiteKey, Properties> sitePropertiesMap = new ConcurrentHashMap<SiteKey, Properties>();
 
-    private HomeService homeService;
+    private File homeDir;
 
     private ResourceLoader resourceLoader = new FileSystemResourceLoader();
 
@@ -48,9 +48,9 @@ public class SitePropertiesServiceImpl
         }
     }
 
-    public void setHomeService( HomeService value )
+    public void setHomeDir( File homeDir )
     {
-        this.homeService = value;
+        this.homeDir = homeDir;
     }
 
     public SiteProperties getSiteProperties( SiteKey siteKey )
@@ -109,7 +109,7 @@ public class SitePropertiesServiceImpl
         String relativePathToCmsHome = "/config/site-" + siteKey + ".properties";
         try
         {
-            String resourcePath = homeService.getHomeDir().getURL() + relativePathToCmsHome;
+            String resourcePath = this.homeDir.toURI().toURL() + relativePathToCmsHome;
             Resource resource = resourceLoader.getResource( resourcePath );
             boolean useCustomProperties = resource.exists();
             if ( useCustomProperties )

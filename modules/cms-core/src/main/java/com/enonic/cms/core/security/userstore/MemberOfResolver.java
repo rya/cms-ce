@@ -5,6 +5,7 @@
 package com.enonic.cms.core.security.userstore;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -13,9 +14,7 @@ import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
-/**
- * Jul 21, 2009
- */
+@Component
 public class MemberOfResolver
 {
     @Autowired

@@ -10,7 +10,9 @@ import org.apache.commons.beanutils.BeanMap;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class RemoteUserStoreFactory
 {
     private final static Logger LOG = LoggerFactory.getLogger( RemoteUserStoreFactory.class );

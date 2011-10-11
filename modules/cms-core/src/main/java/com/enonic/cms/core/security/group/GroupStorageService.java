@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.core.security.user.UserEntity;
@@ -21,6 +22,7 @@ import com.enonic.cms.store.dao.MenuItemAccessDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
+@Component
 public class GroupStorageService
 {
     private GroupDao groupDao;

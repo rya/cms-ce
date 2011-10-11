@@ -5,10 +5,10 @@
 package com.enonic.cms.core.security.userstore;
 
 import com.enonic.cms.core.security.user.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-/**
- * Jul 9, 2009
- */
+@Component
 public class UserStoreAccessResolver
 {
     private MemberOfResolver memberOfResolver;
@@ -49,6 +49,7 @@ public class UserStoreAccessResolver
         return memberOfResolver.hasEnterpriseAdminPowers( user );
     }
 
+    @Autowired
     public void setMemberOfResolver( MemberOfResolver memberOfResolver )
     {
         this.memberOfResolver = memberOfResolver;

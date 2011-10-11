@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -72,6 +73,7 @@ import com.enonic.cms.domain.user.field.UserInfoTransformer;
 import com.enonic.cms.domain.user.remote.RemoteGroup;
 import com.enonic.cms.domain.user.remote.RemoteUser;
 
+@Component("userStoreService")
 public class UserStoreServiceImpl
     implements UserStoreService
 {

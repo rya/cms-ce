@@ -26,9 +26,6 @@
     <property name="timeService" ref="timeService"/>
   </bean>
 
-  <bean id="internalClientRenderService"
-        class="com.enonic.cms.core.client.InternalClientRenderService"/>
-
   <bean id="internalClientContentService"
         class="com.enonic.cms.core.client.InternalClientContentService">
     <property name="siteCachesService" ref="siteCachesService"/>

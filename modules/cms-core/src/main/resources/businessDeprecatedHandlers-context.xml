@@ -83,13 +83,4 @@
   <bean id="key-commonHandler" class="com.enonic.vertical.engine.handlers.CommonHandler" parent="key-baseHandler">
   </bean>
 
-  <!--
-
-     Repositories
-
-  -->
-
-  <bean id="siteRepository" class="com.enonic.cms.business.SiteRepository">
-  </bean>
-
 </beans>

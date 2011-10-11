@@ -5,20 +5,6 @@
 
   <import resource="classpath:store-dao-context.xml"/>
 
-  <!--bean id="hibernateBlobStore" class="com.enonic.cms.store.hibernate.blob.HibernateBlobStore"/>
-
-  <bean id="blobStore" class="com.enonic.cms.framework.blob.cache.CacheBlobStoreFactory">
-    <property name="cacheName" value="blob"/>
-    <property name="cacheManager" ref="cacheFacadeManager"/>
-    <property name="realBlobStore" ref="hibernateBlobStore"/>
-  </bean>
-
-  <bean id="garbageCollectRunner" class="com.enonic.cms.framework.blob.gc.GarbageCollectRunner">
-    <property name="delayHours" value="12"/>
-    <property name="periodHours" value="12"/>
-    <property name="blobStore" ref="hibernateBlobStore"/>
-  </bean-->
-
   <bean id="blobStore" class="com.enonic.cms.framework.blob.file.FileBlobStore">
     <property name="directory" value="${cms.blobstore.dir}"/>
   </bean>

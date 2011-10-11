@@ -80,7 +80,7 @@ public class ConfigLoaderTest
         throws Exception
     {
         Mockito.when(this.resourceLoader.getResource(
-                "classpath:com/enonic/cms/core/boot/default.properties")).thenReturn(this.prop1Resource);
+                "classpath:com/enonic/vertical/default.properties")).thenReturn(this.prop1Resource);
 
         final Properties props = this.configLoader.load();
         assertNotNull(props);
@@ -96,7 +96,7 @@ public class ConfigLoaderTest
         throws Exception
     {
         Mockito.when(this.resourceLoader.getResource(
-                "classpath:com/enonic/cms/core/boot/default.properties")).thenReturn(this.prop1Resource);
+                "classpath:com/enonic/vertical/default.properties")).thenReturn(this.prop1Resource);
         Mockito.when(this.resourceLoader.getResource(
                 this.homeDir.getAbsolutePath() + "/config/cms.properties")).thenReturn(this.prop2Resource);
 

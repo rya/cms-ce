@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserStoreConnectorConfigLoader
 {
     private VerticalProperties verticalProperties;

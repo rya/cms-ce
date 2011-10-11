@@ -137,7 +137,7 @@
           class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
 
     <bean id="sitePropertiesService" class="com.enonic.cms.business.SitePropertiesServiceImpl">
-        <property name="homeService" ref="homeService"/>
+        <property name="homeDir" value="#{config.homeDir}"/>
     </bean>
 
 
@@ -179,13 +179,6 @@
             </bean>
         </property>
     </bean>
-
-    <context:component-scan base-package="com.enonic.cms.core.locale"/>
-    <context:component-scan base-package="com.enonic.cms.core.timezone"/>
-    <context:component-scan base-package="com.enonic.cms.core.captcha"/>
-    <context:component-scan base-package="com.enonic.cms.core.log"/>
-    <context:component-scan base-package="com.enonic.cms.core.task"/>
-    <context:component-scan base-package="com.enonic.cms.business.preview"/>
 
     <bean id="pluginManager" class="com.enonic.cms.core.plugin.manager.PluginManagerFactory">
         <property name="configDir" value="${cms.plugin.configDir}"/>

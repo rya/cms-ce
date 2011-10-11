@@ -5,7 +5,7 @@
 
     <!-- Placeholder configurer. -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" ref="loadedVerticalProperties"/>
+        <property name="properties" value="loadedVerticalProperties"/>
     </bean>
 
     <!-- Default view resolver. -->

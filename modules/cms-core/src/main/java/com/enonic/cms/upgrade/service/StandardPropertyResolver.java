@@ -8,13 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Properties;
-
 import org.springframework.beans.factory.InitializingBean;
-
 import com.enonic.cms.framework.util.PropertiesUtil;
-
-import com.enonic.cms.core.boot.ConfigBuilder;
-
 import com.enonic.cms.core.SiteKey;
 
 public final class StandardPropertyResolver
@@ -37,11 +32,6 @@ public final class StandardPropertyResolver
         throws Exception
     {
         this.configDir = new File( this.homeDir, "config" );
-
-        if ( this.cmsProperties == null )
-        {
-            this.cmsProperties = new ConfigBuilder( this.homeDir ).loadProperties();
-        }
     }
 
     public void setHomeDir( File homeDir )

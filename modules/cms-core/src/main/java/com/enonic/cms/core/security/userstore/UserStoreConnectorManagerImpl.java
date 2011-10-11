@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
@@ -25,6 +26,7 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
+@Component
 public final class UserStoreConnectorManagerImpl
     implements UserStoreConnectorManager
 {

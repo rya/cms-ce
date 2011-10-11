@@ -32,10 +32,9 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemAccessDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
+import org.springframework.stereotype.Component;
 
-/**
- * Jun 24, 2009
- */
+@Component
 public class UserStorageService
 {
     private UserStoreDao userStoreDao;

@@ -47,10 +47,9 @@ import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
 import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
+import org.springframework.stereotype.Component;
 
-/**
- * Sep 3, 2009
- */
+@Component
 public class InternalClientRenderService
 {
     @Autowired

@@ -8,16 +8,13 @@ import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.UrlResource;
-
 import com.enonic.vertical.VerticalProperties;
-
-import com.enonic.cms.core.boot.HomeService;
-
 import com.enonic.cms.core.SiteKey;
 
 import static org.easymock.EasyMock.createMock;
@@ -27,11 +24,11 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.*;
 
-/**
- * Author: rmy, 25/02/2009
- */
 public class SitePropertiesServiceTest
 {
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     private static final int TEST_SITE_KEY_ID = 0;
 
     private static final String BOOLEAN_TRUE = "boolean.true";
@@ -60,8 +57,6 @@ public class SitePropertiesServiceTest
 
     private SitePropertiesServiceImpl sitePropertiesService;
 
-    private HomeService homeService = createMock( HomeService.class );
-
     private ResourceLoader resourceLoader = createMock( ResourceLoader.class );
 
     private SiteKey siteKey = new SiteKey( TEST_SITE_KEY_ID );
@@ -89,25 +84,13 @@ public class SitePropertiesServiceTest
         throws Exception
     {
         sitePropertiesService = new SitePropertiesServiceImpl();
-        sitePropertiesService.setHomeService( homeService );
+        sitePropertiesService.setHomeDir(folder.newFolder("cms-home"));
         sitePropertiesService.setResourceLoader( resourceLoader );
         sitePropertiesService.afterPropertiesSet();
     }
 
     private void mockAndLoadTestProperties()
     {
-        try
-        {
-            Resource homeResource = new UrlResource( "http:mockURL" );
-            expect( homeService.getHomeDir() ).andReturn( homeResource );
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            fail( "Could not mock homeService.getHomeDir" );
-        }
-        replay( homeService );
-
         expect( resourceLoader.getResource( isA( String.class ) ) ).andReturn( getLocalTestDefaultPropertyResouce() );
         expect( resourceLoader.getResource( isA( String.class ) ) ).andReturn( getLocalTestSitePropertyResouce() );
         replay( resourceLoader );
@@ -233,7 +216,6 @@ public class SitePropertiesServiceTest
     @After
     public void verifyAndTeardown()
     {
-        verify( homeService );
         verify( resourceLoader );
     }
 

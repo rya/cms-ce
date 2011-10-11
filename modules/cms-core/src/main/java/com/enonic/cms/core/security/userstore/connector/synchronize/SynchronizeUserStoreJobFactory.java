@@ -10,7 +10,9 @@ import com.enonic.cms.core.security.userstore.UserStoreConnectorManager;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SynchronizeUserStoreJobFactory
 {
     @Autowired
