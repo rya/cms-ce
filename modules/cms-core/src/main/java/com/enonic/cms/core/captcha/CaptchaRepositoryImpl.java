@@ -22,10 +22,9 @@ import com.octo.captcha.image.ImageCaptchaFactory;
 import com.octo.captcha.image.gimpy.GimpyFactory;
 import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
 import com.octo.captcha.service.image.ImageCaptchaService;
+import org.springframework.stereotype.Component;
 
-/**
- * @inheritDoc
- */
+@Component("captchaRepository")
 public class CaptchaRepositoryImpl
     implements CaptchaRepository
 {

@@ -18,7 +18,7 @@ import com.enonic.cms.server.service.boot.support.ClassLoadedFromWebAppVerifier;
  * This class implements the bootstrap context listener.
  */
 public final class BootContextListener
-        extends ContextLoaderListener
+    extends ContextLoaderListener
 {
 
     private static final Logger LOG = LoggerFactory.getLogger( BootContextListener.class );

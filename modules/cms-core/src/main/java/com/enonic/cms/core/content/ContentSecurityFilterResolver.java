@@ -15,8 +15,9 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ContentSecurityFilterResolver
 {
 

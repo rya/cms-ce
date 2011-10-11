@@ -7,6 +7,7 @@ package com.enonic.cms.core.preference;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.core.security.user.UserKey;
 
-
+@Component("preferenceService")
 public class PreferenceServiceImpl
     implements PreferenceService
 {

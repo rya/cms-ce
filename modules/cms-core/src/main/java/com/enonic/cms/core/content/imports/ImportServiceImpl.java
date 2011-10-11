@@ -7,6 +7,7 @@ package com.enonic.cms.core.content.imports;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +17,13 @@ import com.enonic.cms.core.content.ContentStorer;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 
+@Component("importService")
 public class ImportServiceImpl
     implements ImportService
 {
-    @Autowired
-    private CategoryDao categoryDao;
-
     @Autowired
     private ContentStorer contentStorer;
 

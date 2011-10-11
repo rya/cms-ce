@@ -12,7 +12,9 @@ import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
 import com.enonic.cms.api.util.LogFacade;
 import com.enonic.cms.core.plugin.ExtensionListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class TaskManager
     implements ExtensionListener, DisposableBean
 {

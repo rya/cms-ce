@@ -11,11 +11,6 @@
     <property name="properties" ref="loadedVerticalProperties"/>
   </bean>
 
-  <!-- Incject vertical properties singleton. -->
-  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties">
-    <property name="properties" ref="loadedVerticalProperties"/>
-  </bean>
-
   <!-- Configure virtual host resolver. -->
   <bean class="com.enonic.cms.core.vhost.VirtualHostResolver">
     <property name="configuration">
@@ -29,10 +24,6 @@
   <!-- Configure the cache manager. -->
   <bean id="cacheFacadeManager" class="com.enonic.cms.framework.cache.CacheManagerFactory">
     <property name="properties" ref="loadedVerticalProperties"/>
-  </bean>
-
-  <!-- Xslt processor manager initializer. -->
-  <bean class="com.enonic.cms.core.xslt.saxon.SaxonProcessorManager">
   </bean>
 
 </beans>

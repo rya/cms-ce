@@ -61,7 +61,9 @@ import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.domain.portal.ContentNotFoundException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ContentStorer
 {
     @Autowired

@@ -10,7 +10,9 @@ import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.store.dao.UserStoreDao;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserStoreParser
 {
 

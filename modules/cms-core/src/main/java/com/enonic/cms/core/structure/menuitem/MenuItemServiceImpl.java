@@ -7,6 +7,7 @@ package com.enonic.cms.core.structure.menuitem;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import com.enonic.cms.domain.core.structure.menuitem.MenuItemAccessException;
 import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
 import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
 
+@Component("menuItemService")
 public class MenuItemServiceImpl
     implements MenuItemService
 {

@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -25,6 +26,7 @@ import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.core.content.index.LogEntryEntityFetcherImpl;
 
+@Component("logService")
 public class LogServiceImpl
     implements LogService
 {

@@ -16,7 +16,9 @@ import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.store.dao.UserDao;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserParser
 {
 

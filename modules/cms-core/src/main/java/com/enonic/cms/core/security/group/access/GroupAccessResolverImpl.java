@@ -11,8 +11,9 @@ import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
+import org.springframework.stereotype.Component;
 
-
+@Component("groupAccessResolver")
 public class GroupAccessResolverImpl
     implements GroupAccessResolver
 {

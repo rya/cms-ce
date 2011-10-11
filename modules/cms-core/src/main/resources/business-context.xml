@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
     <bean id="keyService" class="com.enonic.cms.core.internal.service.KeyServiceImpl">
         <property name="keyEngine" ref="keyEngine"/>
@@ -179,18 +180,12 @@
         </property>
     </bean>
 
-
-    <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
-
-    <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
-
-    <bean id="captchaService" class="com.enonic.cms.core.captcha.CaptchaServiceImpl"/>
-
-    <bean id="captchaRepository" class="com.enonic.cms.core.captcha.CaptchaRepositoryImpl"/>
-
-    <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
-
-    <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
+    <context:component-scan base-package="com.enonic.cms.core.locale"/>
+    <context:component-scan base-package="com.enonic.cms.core.timezone"/>
+    <context:component-scan base-package="com.enonic.cms.core.captcha"/>
+    <context:component-scan base-package="com.enonic.cms.core.log"/>
+    <context:component-scan base-package="com.enonic.cms.core.task"/>
+    <context:component-scan base-package="com.enonic.cms.business.preview"/>
 
     <bean id="pluginManager" class="com.enonic.cms.core.plugin.manager.PluginManagerFactory">
         <property name="configDir" value="${cms.plugin.configDir}"/>
@@ -203,8 +198,6 @@
     <bean id="extensionManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
-
-    <bean id="taskManager" class="com.enonic.cms.core.task.TaskManager"/>
 
 </beans>
 

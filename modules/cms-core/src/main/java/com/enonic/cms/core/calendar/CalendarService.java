@@ -15,11 +15,10 @@ import org.jdom.Document;
 import org.jdom.Element;
 
 import com.enonic.vertical.engine.VerticalEngineLogger;
+import org.springframework.stereotype.Component;
 
-/**
- *
- */
-public class CalendarService
+@Component
+public final class CalendarService
 {
     /**
      * Get todays date with the standard Norwegian format.

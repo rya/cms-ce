@@ -16,8 +16,9 @@ import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.UserDao;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ContentParserService
 {
     @Autowired

@@ -24,7 +24,9 @@ import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.business.SitePropertiesService;
+import org.springframework.stereotype.Component;
 
+@Component("captchaService")
 public class CaptchaServiceImpl
     implements CaptchaService
 {

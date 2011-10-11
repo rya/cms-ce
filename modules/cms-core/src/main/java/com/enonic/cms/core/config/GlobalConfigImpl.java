@@ -1,11 +1,6 @@
 package com.enonic.cms.core.config;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.EnumerablePropertySource;
-import org.springframework.core.env.PropertySource;
-
 import java.io.File;
 import java.util.*;
 
@@ -22,6 +17,11 @@ final class GlobalConfigImpl
     public File getHomeDir()
     {
         return getValue("cms.home", File.class);
+    }
+
+    public String getJdbcDialect()
+    {
+        return getValue("cms.jdbc.dialect", String.class);
     }
 
     public Map<String, String> toMap()

@@ -24,8 +24,9 @@ import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ImportJobFactory
 {
     @Autowired

@@ -92,7 +92,8 @@ final class ConfigLoader
     
     private Properties loadDefaultProperties()
     {
-        final String basePath = getClass().getPackage().getName().replace('.', '/');
+        // final String basePath = getClass().getPackage().getName().replace('.', '/');
+        final String basePath = "com/enonic/vertical";
         return load("classpath:" + basePath + "/default.properties", true);
     }
 

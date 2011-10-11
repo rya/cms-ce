@@ -72,7 +72,7 @@ public class ConfigBuilderTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         props.store( out, "" );
         ByteArrayInputStream in = new ByteArrayInputStream( out.toByteArray() );
-        Mockito.when( this.classLoader.getResourceAsStream( "com/enonic/vertical/default.properties" ) ).thenReturn( in );
+        Mockito.when( this.classLoader.getResourceAsStream("com/enonic/cms/core/boot/default.properties") ).thenReturn( in );
     }
 
     @After

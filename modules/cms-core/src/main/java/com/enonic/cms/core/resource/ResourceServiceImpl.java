@@ -7,6 +7,7 @@ package com.enonic.cms.core.resource;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import com.google.common.collect.Multimap;
 import com.enonic.cms.store.dao.ResourceDao;
 import com.enonic.cms.store.dao.ResourceUsageDao;
 
+@Component("resourceService")
 public class ResourceServiceImpl
     implements ResourceService
 {

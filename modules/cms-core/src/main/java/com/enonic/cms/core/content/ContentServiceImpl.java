@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +67,7 @@ import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 
+@Component("contentService")
 public class ContentServiceImpl
     implements ContentService
 {
@@ -619,6 +621,7 @@ public class ContentServiceImpl
         return false;
     }
 
+    @Autowired
     public void setContentStorer( ContentStorer value )
     {
         this.contentStorer = value;

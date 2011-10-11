@@ -27,10 +27,12 @@ import com.enonic.cms.core.content.resultset.ContentResultSetLazyFetcher;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentIndexDao;
+import org.springframework.stereotype.Component;
 
 /**
  * This class implements the content index service based on hibernate.
  */
+@Component("contentIndexService")
 public final class ContentIndexServiceImpl
     implements ContentIndexService, ContentIndexConstants
 {
@@ -51,6 +53,7 @@ public final class ContentIndexServiceImpl
         CHANGED_AND_LENGTHENED
     }
 
+    @Autowired
     public void setDialect( Dialect dialect )
     {
         this.dialect = dialect;

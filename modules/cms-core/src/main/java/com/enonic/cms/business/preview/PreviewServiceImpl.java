@@ -12,10 +12,9 @@ import com.google.common.base.Preconditions;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import com.enonic.cms.core.Attribute;
+import org.springframework.stereotype.Component;
 
-/**
- * Sep 30, 2010
- */
+@Component("previewService")
 class PreviewServiceImpl
     implements PreviewService
 {

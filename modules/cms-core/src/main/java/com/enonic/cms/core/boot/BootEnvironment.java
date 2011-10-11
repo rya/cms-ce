@@ -7,7 +7,7 @@ import org.springframework.core.env.PropertiesPropertySource;
 import java.io.File;
 import java.util.Properties;
 
-public final class BootEnvironment
+final class BootEnvironment
 {
     public static void start(final ConfigurableEnvironment env)
     {

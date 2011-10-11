@@ -15,10 +15,12 @@ import net.sf.saxon.functions.FunctionLibraryList;
 import net.sf.saxon.functions.JavaExtensionLibrary;
 
 import com.enonic.cms.core.xslt.lib.PortalFunctions;
+import org.springframework.stereotype.Component;
 
 /**
  * This class implements the standard xslt processor manager.
  */
+@Component
 public final class SaxonProcessorManager
     implements XsltProcessorManager
 {

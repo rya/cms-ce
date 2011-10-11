@@ -8,6 +8,8 @@ public interface GlobalConfig
 {
     public File getHomeDir();
 
+    public String getJdbcDialect();
+
     public Map<String, String> toMap();
 
     public Properties toProperties();

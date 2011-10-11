@@ -15,10 +15,15 @@ import java.util.Set;
 
 final class ConfigHelper
 {
+    private final static String CMS_PREFIX = "cms.";
+
+    // Should be renamed to cms.*
+    private final static String COM_ENONIC_PREFIX = "com.enonic.";
+    
     public static Map<String, String> toMap(final ConfigurableEnvironment env)
     {
         final Set<String> unfilteredKeys = findKeys(env.getPropertySources());
-        final Set<String> filteredKeys = filterKeys(unfilteredKeys, "cms.");
+        final Set<String> filteredKeys = filterKeys(unfilteredKeys);
 
         final Map<String, String> map = Maps.newHashMap();
         for (final String key : filteredKeys) {
@@ -28,12 +33,12 @@ final class ConfigHelper
         return map;
     }
 
-    private static Set<String> filterKeys(final Set<String> set, final String prefix)
+    private static Set<String> filterKeys(final Set<String> set)
     {
         return Sets.filter(set, new Predicate<String>() {
             public boolean apply(final String input)
             {
-                return input.startsWith(prefix);
+                return input.startsWith(CMS_PREFIX) || input.startsWith(COM_ENONIC_PREFIX);
             }
         });
     }
