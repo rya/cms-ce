@@ -143,11 +143,6 @@ Ext.define( 'App.controller.AccountController', {
            closable: false,
            xtype: 'panel',
            layout: 'border',
-           dockedItems: [
-               {
-                   xtype: 'browseToolbar',
-                   dock: 'top'
-               }],
            items: [
                {
                    region: 'west',
@@ -156,7 +151,6 @@ Ext.define( 'App.controller.AccountController', {
                },
                {
                    region: 'center',
-                   padding: '5 5 5 0',
                    xtype: 'accountShow'
                }
            ]
