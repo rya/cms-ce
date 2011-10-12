@@ -80,12 +80,6 @@ public final class AdminEngine
     extends BaseEngine
     implements InitializingBean
 {
-
-    private SiteDao siteDao;
-
-    @Autowired
-    private UserDao userDao;
-
     private BinaryDataHandler binaryDataHandler;
 
     private CategoryHandler categoryHandler;
@@ -1490,11 +1484,6 @@ public final class AdminEngine
     public void setSecurityService( SecurityService service )
     {
         securityService = service;
-    }
-
-    public void setSiteDao( SiteDao value )
-    {
-        this.siteDao = value;
     }
 
     public void setIndexService( IndexService service )

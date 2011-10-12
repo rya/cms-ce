@@ -41,7 +41,6 @@
     <property name="groupHandler" ref="groupHandler"/>
     <property name="indexService" ref="indexService"/>
     <property name="languageHandler" ref="languageHandler"/>
-    <property name="siteDao" ref="siteDao"/>
     <property name="logHandler" ref="logHandler"/>
     <property name="menuHandler" ref="menuHandler"/>
     <property name="pageHandler" ref="pageHandler"/>

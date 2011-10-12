@@ -157,7 +157,6 @@
         <property name="autoLoginService" ref="autoLoginService"/>
         <property name="contentDao" ref="contentDao"/>
         <property name="groupDao" ref="groupDao"/>
-        <property name="presentationService" ref="presentationService"/>
         <property name="previewService" ref="previewService"/>
         <property name="securityService" ref="securityService"/>
         <property name="siteDao" ref="siteDao"/>
