@@ -35,20 +35,46 @@
 //                'App.view.FilterPanel'
             ],
 
+
             launch: function() {
                 Ext.create('Ext.container.Viewport', {
                     layout: 'border',
                     padding: 5,
-
                     items: [
+                        {
+                            region: 'west',
+                            xtype: 'accountFilter',
+                            width: 200
+                        },
                         {
                             region: 'center',
                             xtype: 'cmsTabPanel',
-                            bodyCls: 'cms-no-border'
+                            items: [
+                                {
+                                    id: 'tab-browse',
+                                    title: 'Browse',
+                                    closable: false,
+                                    xtype: 'panel',
+                                    layout: 'border',
+                                    dockedItems: [
+                                        {
+                                            xtype: 'browseToolbar',
+                                            dock: 'top'
+                                        }],
+                                    items: [
+                                        {
+                                            region: 'center',
+                                            xtype: 'accountShow'
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 });
             }
+
+
         });
 
     </script>

@@ -46,18 +46,12 @@ Ext.define( 'App.view.GridPanel', {
             }
         ];
 
-        this.dockedItems = [
-            {
-                xtype: 'browseToolbar',
-                dock: 'top'
-            },
-            {
-                xtype: 'pagingtoolbar',
-                store: this.store,
-                displayInfo: true,
-                displayMsg: 'Displaying {0} - {1} of {2} users'
-            }
-        ];
+        this.tbar = {
+            xtype: 'pagingtoolbar',
+            store: this.store,
+            displayInfo: true,
+            displayMsg: 'Displaying {0} - {1} of {2} users'
+        },
 
         this.viewConfig = {
             trackOver : true,

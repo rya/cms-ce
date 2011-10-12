@@ -37,8 +37,8 @@ Ext.define( 'App.controller.AccountController', {
             {
                 'cmsTabPanel': {
                     afterrender: function(tabPanel, eOpts) {
-                        this.createBrowseTab(tabPanel, eOpts);
-                        this.updateActionItems();
+                        //this.createBrowseTab(tabPanel, eOpts);
+                        //this.updateActionItems();
                     }
                 },
                 '*[action=newUser]': {
@@ -91,7 +91,7 @@ Ext.define( 'App.controller.AccountController', {
                     click: this.showChangePasswordWindow
                 },
                 'accountDetail': {
-                    render: this.initDetailToolbar
+                    afterrender: this.initDetailToolbar
                 },
                 'editUserPanel textfield[name=prefix]': {
                     keyup: this.textFieldHandleEnterKey
@@ -133,31 +133,6 @@ Ext.define( 'App.controller.AccountController', {
     onFilterPanelRender: function()
     {
         Ext.getCmp( 'filter' ).focus( false, 10 );
-    },
-
-    createBrowseTab: function( tabPanel, eOpts )
-    {
-        this.getCmsTabPanel().addTab( {
-           id: 'tab-browse',
-           title: 'Browse',
-           closable: false,
-           xtype: 'panel',
-           layout: 'border',
-           items: [
-               {
-                   region: 'west',
-                   width: 225,
-                   xtype: 'accountFilter'
-               },
-               {
-                   region: 'center',
-                   xtype: 'accountShow'
-               }
-           ]
-        } );
-
-        var accountDetail = this.getAccountDetailPanel();
-        accountDetail.updateTitle(this.getPersistentGridSelectionPlugin());
     },
 
     createNewGroupTab: function()
@@ -352,6 +327,7 @@ Ext.define( 'App.controller.AccountController', {
     initDetailToolbar: function()
     {
         var accountDetail = this.getAccountDetailPanel();
+        accountDetail.updateTitle(this.getPersistentGridSelectionPlugin());
         accountDetail.showNoneSelection();
     },
 
