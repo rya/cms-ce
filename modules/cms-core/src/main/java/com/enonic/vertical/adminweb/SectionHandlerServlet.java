@@ -3038,7 +3038,7 @@ public class SectionHandlerServlet
         {
             CategoryCriteria categoryCriteria = new CategoryCriteria();
             categoryCriteria.addCategoryKeys( categoryKeys );
-            Document categoriesDoc = admin.getMenu( user, Types.CATEGORY, categoryCriteria, false ).getAsDOMDocument();
+            Document categoriesDoc = admin.getMenu( user, categoryCriteria ).getAsDOMDocument();
             XMLTool.mergeDocuments( doc, categoriesDoc, false );
         }
 

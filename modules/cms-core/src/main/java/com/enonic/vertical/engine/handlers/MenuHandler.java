@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.enonic.vertical.engine.criteria.Criteria;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
@@ -46,8 +45,6 @@ import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.engine.criteria.MenuCriteria;
-import com.enonic.vertical.engine.criteria.MenuItemCriteria;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 import com.enonic.vertical.event.VerticalEventMulticaster;
@@ -320,7 +317,7 @@ public final class MenuHandler
         try
         {
             //// build sql statement
-            String sql = getSecurityHandler().appendMenuItemSQL( user, MENU_SELECT_ITEMS_BY_PARENT, null ) + ORDER_BY;
+            String sql = getSecurityHandler().appendMenuItemSQL( user, MENU_SELECT_ITEMS_BY_PARENT ) + ORDER_BY;
             con = getConnection();
             preparedStmt = con.prepareStatement( sql );
 
@@ -1993,7 +1990,7 @@ public final class MenuHandler
         {
             con = getConnection();
 
-            String sql = getSecurityHandler().appendMenuItemSQL( user, MENU_ITEM_SELECT_BY_KEY, null );
+            String sql = getSecurityHandler().appendMenuItemSQL( user, MENU_ITEM_SELECT_BY_KEY );
             preparedStmt = con.prepareStatement( sql );
 
             preparedStmt.setInt( 1, key );
@@ -3881,8 +3878,7 @@ public final class MenuHandler
 
         if ( user != null )
         {
-            MenuCriteria criteria = new MenuCriteria( Criteria.NONE );
-            getSecurityHandler().appendMenuSQL( user, sqlMenus, criteria );
+            getSecurityHandler().appendMenuSQL( user, sqlMenus );
         }
 
         Hashtable<String, Element> hashtable_menus = new Hashtable<String, Element>();
@@ -3927,15 +3923,9 @@ public final class MenuHandler
                 statement = null;
             }
 
-            MenuItemCriteria menuItemCriteria = new MenuItemCriteria( Criteria.NONE );
-            if ( !menuItemCriteria.getDisableMenuItemLoadingForUnspecified() || menuItemCriteria.getMenuKey() >= 0 )
-            {
-                Hashtable<String, Element> hashtable_MenuItems = appendMenuItemsBySettings( user, doc, hashtable_menus );
-            }
-
             String sqlMenuItems;
             sqlMenuItems = "SELECT DISTINCT mei_men_lKey FROM tMenuItem JOIN tMenu on tMenuItem.mei_men_lKey = tMenu.men_lKey ";
-            sqlMenuItems = getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems, menuItemCriteria );
+            sqlMenuItems = getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems );
 
             statement = con.prepareStatement( sqlMenuItems );
             resultSet = statement.executeQuery();
@@ -3974,17 +3964,9 @@ public final class MenuHandler
         List<Integer> paramValues = new ArrayList<Integer>( 2 );
         StringBuffer sqlMenuItems = new StringBuffer( MENU_ITEM_SELECT );
 
-        // menuKey
-        MenuItemCriteria criteria = new MenuItemCriteria( Criteria.NONE );
-        if ( criteria.hasMenuKey() )
-        {
-            sqlMenuItems.append( " AND mei_men_lKey = ?" );
-            paramValues.add(criteria.getMenuKeyAsInteger());
-        }
-
         if ( user != null )
         {
-            getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems, criteria );
+            getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems );
         }
 
         sqlMenuItems.append( ORDER_BY );

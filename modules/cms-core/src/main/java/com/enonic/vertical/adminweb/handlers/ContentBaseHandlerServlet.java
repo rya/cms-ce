@@ -2914,7 +2914,7 @@ public class ContentBaseHandlerServlet
 
                 CategoryCriteria categoryCriteria = new CategoryCriteria();
                 categoryCriteria.addCategoryKeys( Arrays.asList( keyArray ) );
-                Document categoriesDoc = admin.getMenu( oldUser, Types.CATEGORY, categoryCriteria, false ).getAsDOMDocument();
+                Document categoriesDoc = admin.getMenu( oldUser, categoryCriteria ).getAsDOMDocument();
                 XMLTool.mergeDocuments( verticalDoc, categoriesDoc, false );
             }
         }

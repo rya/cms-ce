@@ -35,16 +35,12 @@ import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.engine.criteria.Criteria;
-import com.enonic.vertical.engine.criteria.MenuCriteria;
-import com.enonic.vertical.engine.criteria.MenuItemCriteria;
 import com.enonic.vertical.engine.dbmodel.CatAccessRightView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRightView;
 import com.enonic.vertical.engine.dbmodel.ContentView;
 import com.enonic.vertical.engine.dbmodel.MenuARView;
 import com.enonic.vertical.engine.dbmodel.MenuItemARView;
 import com.enonic.vertical.engine.dbmodel.SectionContentView;
-import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.util.UUIDGenerator;
 
@@ -57,7 +53,6 @@ import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 final public class SecurityHandler
     extends BaseHandler
-    implements VerticalEventListener
 {
     // constants -----------------------------------------------------------------------------------
 
@@ -1930,7 +1925,6 @@ final public class SecurityHandler
         {
             contentAccessRight.setRead( true );
             contentAccessRight.setUpdate( true );
-            contentAccessRight.setDelete( true );
             return contentAccessRight;
         }
 
@@ -1941,7 +1935,6 @@ final public class SecurityHandler
         {
             contentAccessRight.setRead( true );
             contentAccessRight.setUpdate( true );
-            contentAccessRight.setDelete( true );
             return contentAccessRight;
         }
 
@@ -1988,7 +1981,6 @@ final public class SecurityHandler
 
             contentAccessRight.setRead( rights[READ] );
             contentAccessRight.setUpdate( rights[UPDATE] );
-            contentAccessRight.setDelete( rights[DELETE] );
         }
         catch ( SQLException sqle )
         {
@@ -3443,28 +3435,15 @@ final public class SecurityHandler
 
     public String appendMenuItemSQL( User user, String sql )
     {
-
-        return appendMenuItemSQL( user, sql, null );
-    }
-
-    public String appendMenuItemSQL( User user, String sql, MenuItemCriteria criteria )
-    {
-
         StringBuffer bufferSQL = new StringBuffer( sql );
-        appendMenuItemSQL( user, bufferSQL, criteria );
+        appendMenuItemSQL( user, bufferSQL );
         return bufferSQL.toString();
     }
 
-    public void appendMenuItemSQL( User user, StringBuffer sql, MenuItemCriteria criteria )
+    public void appendMenuItemSQL( User user, StringBuffer sql )
     {
 
         if ( user != null && user.isEnterpriseAdmin() )
-        {
-            return;
-        }
-
-        // Return if we shall not apply security
-        if ( criteria != null && criteria.applySecurity() == false )
         {
             return;
         }
@@ -3503,161 +3482,13 @@ final public class SecurityHandler
         }
         newSQL.append( ")" );
 
-        // appending rights criteria
-        if ( criteria != null )
-        {
-            if ( criteria.getType() != Criteria.NONE )
-            {
-                StringBuffer rightsSQL = new StringBuffer();
-                String binding = criteria.getBinding();
-                if ( criteria.includeUpdate() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " mia_bUpdate = " );
-                    rightsSQL.append( criteria.getUpdateAsInt() );
-                }
-                if ( criteria.includeDelete() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " mia_bDelete = " );
-                    rightsSQL.append( criteria.getDeleteAsInt() );
-                }
-                if ( criteria.includeCreate() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " mia_bCreate = " );
-                    rightsSQL.append( criteria.getCreateAsInt() );
-                }
-                if ( criteria.includeAdministrate() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " mia_bAdministrate = " );
-                    rightsSQL.append( criteria.getAdministrateAsInt() );
-                }
-                if ( criteria.includeAdd() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " mia_bAdd = " );
-                    rightsSQL.append( criteria.getAddAsInt() );
-                }
-                if ( criteria.includePublish() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " mia_bPublish = " );
-                    rightsSQL.append( criteria.getPublishAsInt() );
-                }
-
-                if ( rightsSQL.length() > 0 )
-                {
-                    newSQL.append( " AND (" );
-                    newSQL.append( rightsSQL );
-                    newSQL.append( " )" );
-                }
-            }
-        }
-
         newSQL.append( ")" );
-
-        // Støtte for å selektere ut menuitem som har en parent med en eller annen rettighet..
-        if ( criteria != null && criteria.hasParentCriteria() )
-        {
-            MenuItemCriteria parentCriteria = criteria.getParentCriteria();
-            newSQL.append( " OR " + MENUITEMAR_SECURITY_FILTER_ON_PARENT );
-            // appending group clause
-            for ( int i = 0; i < groups.length; ++i )
-            {
-                if ( i != 0 )
-                {
-                    newSQL.append( "," );
-                }
-                newSQL.append( "'" );
-                newSQL.append( groups[i] );
-                newSQL.append( "'" );
-            }
-            newSQL.append( ")" );
-
-            StringBuffer rightsSQL = new StringBuffer();
-            String binding = parentCriteria.getBinding();
-            if ( parentCriteria.includeUpdate() )
-            {
-                if ( rightsSQL.length() > 0 )
-                {
-                    rightsSQL.append( binding );
-                }
-                rightsSQL.append( " mia_bUpdate=" );
-                rightsSQL.append( parentCriteria.getUpdateAsInt() );
-            }
-            if ( parentCriteria.includeDelete() )
-            {
-                if ( rightsSQL.length() > 0 )
-                {
-                    rightsSQL.append( binding );
-                }
-                rightsSQL.append( " mia_bDelete=" );
-                rightsSQL.append( parentCriteria.getDeleteAsInt() );
-            }
-            if ( parentCriteria.includeCreate() )
-            {
-                if ( rightsSQL.length() > 0 )
-                {
-                    rightsSQL.append( binding );
-                }
-                rightsSQL.append( " mia_bCreate=" );
-                rightsSQL.append( parentCriteria.getCreateAsInt() );
-            }
-            if ( parentCriteria.includeAdministrate() )
-            {
-                if ( rightsSQL.length() > 0 )
-                {
-                    rightsSQL.append( binding );
-                }
-                rightsSQL.append( " mia_bAdministrate=" );
-                rightsSQL.append( parentCriteria.getAdministrateAsInt() );
-            }
-
-            if ( rightsSQL.length() > 0 )
-            {
-                newSQL.append( " AND (" );
-                newSQL.append( rightsSQL );
-                newSQL.append( " )" );
-            }
-
-            newSQL.append( ")" );
-        }
-
         newSQL.append( ")" );
-
-        //return newSQL;
     }
 
-    public void appendMenuSQL( User user, StringBuffer sql, MenuCriteria criteria )
+    public void appendMenuSQL( User user, StringBuffer sql )
     {
-
-        // Return if we shall not apply security
-        if ( criteria != null && criteria.applySecurity() == false )
-        {
-            return;
-        }
-
-        if ( user != null && user.isEnterpriseAdmin() )
+       if ( user != null && user.isEnterpriseAdmin() )
         {
             return;
         }
@@ -3693,59 +3524,6 @@ final public class SecurityHandler
             newSQL.append( "'" );
         }
         newSQL.append( ")" );
-
-        if ( criteria != null )
-        {
-            if ( criteria.getType() != Criteria.NONE )
-            {
-                StringBuffer rightsSQL = new StringBuffer();
-                String binding = criteria.getBinding();
-                if ( criteria.includeUpdate() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " dma_bUpdate=" );
-                    rightsSQL.append( criteria.getUpdateAsInt() );
-                }
-                if ( criteria.includeDelete() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " dma_bDelete=" );
-                    rightsSQL.append( criteria.getDeleteAsInt() );
-                }
-                if ( criteria.includeCreate() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " dma_bCreate=" );
-                    rightsSQL.append( criteria.getCreateAsInt() );
-                }
-                if ( criteria.includeAdministrate() )
-                {
-                    if ( rightsSQL.length() > 0 )
-                    {
-                        rightsSQL.append( binding );
-                    }
-                    rightsSQL.append( " dma_bAdministrate=" );
-                    rightsSQL.append( criteria.getAdministrateAsInt() );
-                }
-
-                if ( rightsSQL.length() > 0 )
-                {
-                    newSQL.append( " AND (" );
-                    newSQL.append( rightsSQL );
-                    newSQL.append( " )" );
-                }
-            }
-        }
-
         newSQL.append( ")" );
     }
 

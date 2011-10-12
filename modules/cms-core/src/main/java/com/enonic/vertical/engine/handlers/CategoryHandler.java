@@ -35,14 +35,12 @@ import com.enonic.esl.util.RelationTree;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
-import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
-import com.enonic.vertical.engine.criteria.Criteria;
 import com.enonic.vertical.engine.dbmodel.CategoryTable;
 import com.enonic.vertical.engine.dbmodel.CategoryView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRight2Table;
@@ -1135,10 +1133,8 @@ public class CategoryHandler
         return ( count > 0 );
     }
 
-    public void getMenu( User olduser, Element root, Criteria criteria, boolean includeSubtrees )
+    public void getMenu( User olduser, Element root, CategoryCriteria categoryCriteria )
     {
-        CategoryCriteria categoryCriteria = (CategoryCriteria) criteria;
-        SecurityHandler securityHandler = getSecurityHandler();
         UserHandler userHandler = getUserHandler();
 
         VerticalEngineLogger.debug( this.getClass(), 0, "Criteria: %0", categoryCriteria, null );
@@ -1148,12 +1144,6 @@ public class CategoryHandler
         sqlCategories.append( CategoryView.getInstance().getReplacementSql() );
         StringBuffer sqlCategoriesWHERE = new StringBuffer( " WHERE " );
 
-        if ( categoryCriteria.hasUnitKey() )
-        {
-            sqlCategoriesWHERE.append( CAT_WHERE_CLAUSE_UNI );
-            paramValues.add( categoryCriteria.getUnitKeyAsInteger() );
-            sqlCategoriesWHERE.append( " AND " );
-        }
         // If a category key is specified, get only this (and parents)
         if ( categoryCriteria.getCategoryKey() != -1 )
         {
@@ -1178,26 +1168,6 @@ public class CategoryHandler
         }
 
         TIntArrayList contentTypes = new TIntArrayList();
-        if ( categoryCriteria.getContentTypes() != null )
-        {
-            List contentTypesList = categoryCriteria.getContentTypes();
-            StringBuffer str_contentTypes = new StringBuffer();
-            for ( int i = 0; i < contentTypesList.size(); i++ )
-            {
-                if ( str_contentTypes.length() > 0 )
-                {
-                    str_contentTypes.append( " OR " );
-                }
-                Integer curContentType = (Integer) contentTypesList.get( i );
-                contentTypes.add( curContentType );
-                str_contentTypes.append( CAT_WHERE_CLAUSE_CTY );
-                paramValues.add( curContentType );
-            }
-            sqlCategoriesWHERE.append( " ( " );
-            sqlCategoriesWHERE.append( str_contentTypes );
-            sqlCategoriesWHERE.append( " ) " );
-            sqlCategoriesWHERE.append( " AND " );
-        }
 
         if ( sqlCategoriesWHERE.length() == 7 )
         {
@@ -1218,10 +1188,8 @@ public class CategoryHandler
         ResultSet resultSet = null;
 
         Document doc = root.getOwnerDocument();
-        if ( categoryCriteria.useRootElement() )
-        {
-            root = XMLTool.createElement( doc, root, "categories" );
-        }
+        root = XMLTool.createElement( doc, root, "categories" );
+
         if ( categoryCriteria.useDisableAttribute() )
         {
             root.setAttribute( "disable", "true" );
@@ -1274,11 +1242,6 @@ public class CategoryHandler
                 {
                     superCatKey = superCategoryKey;
                     catElem.setAttribute( "superkey", superCatKey.toString() );
-                }
-                else if ( categoryCriteria.hasUnitKey() && unitKey == categoryCriteria.getUnitKey() )
-                {
-                    // If this is the current unit category, it should be open
-                    catElem.setAttribute( "expanded", "true" );
                 }
 
                 int ctyKey = resultSet.getInt( "cat_cty_lKey" );
@@ -1370,11 +1333,6 @@ public class CategoryHandler
                         superCatKey = superCategoryKey;
                         catElem.setAttribute( "superkey", superCatKey.toString() );
                     }
-                    else if ( categoryCriteria.hasUnitKey() && unitKey == categoryCriteria.getUnitKey() )
-                    {
-                        // If this is the current unit category, it should be open
-                        catElem.setAttribute( "expanded", "true" );
-                    }
 
                     // category name
                     catElem.setAttribute( "name", categoryName );
@@ -1427,80 +1385,6 @@ public class CategoryHandler
             }
 
             XMLTool.makeTree( XMLTool.getElements( root, "category" ) );
-            //}
-
-            if ( categoryCriteria.includeAllUnits() )
-            {
-                // Find all other units
-                if ( categoryCriteria.hasUnitKey() )
-                {
-                    sqlCategoriesWHERE = new StringBuffer( " WHERE cat_uni_lKey != " + categoryCriteria.getUnitKey() + " AND " );
-                }
-                else
-                {
-                    sqlCategoriesWHERE = new StringBuffer( " WHERE " );
-                }
-                sqlCategoriesWHERE.append( "cat_cat_lSuper IS NULL" );
-                Element[] categoryElems = XMLTool.getElements( root );
-                if ( categoryElems.length > 0 )
-                {
-                    sqlCategoriesWHERE.append( " AND cat_lKey NOT IN (" );
-                    for ( int j = 0; j < categoryElems.length; j++ )
-                    {
-                        if ( j > 0 )
-                        {
-                            sqlCategoriesWHERE.append( ',' );
-                        }
-                        sqlCategoriesWHERE.append( categoryElems[j].getAttribute( "key" ) );
-                    }
-                    sqlCategoriesWHERE.append( ')' );
-                }
-
-                /*String*/
-                sql = sqlCategories.toString() + sqlCategoriesWHERE.toString();
-                VerticalEngineLogger.debug( this.getClass(), 0, "SQL (3): %0", sql, null );
-                preparedStmt = con.prepareStatement( sql );
-                resultSet = preparedStmt.executeQuery();
-
-                while ( resultSet.next() )
-                {
-                    CategoryKey categoryKey = new CategoryKey( resultSet.getInt( "cat_lKey" ) );
-                    int thisUnitKey = resultSet.getInt( "cat_uni_lKey" );
-                    String categoryName = resultSet.getString( "cat_sName" );
-
-                    boolean hasChildren = hasSubCategories( olduser, categoryKey, contentTypes.toArray(), true );
-                    if ( hasChildren )
-                    {
-                        Element catElem = XMLTool.createElement( doc, root, "category", null, "name", categoryName );
-                        catElem.setAttribute( "key", categoryKey.toString() );
-                        catElem.setAttribute( "unitkey", Integer.toString( thisUnitKey ) );
-                        catElem.setAttribute( "name", categoryName );
-
-                        int ctyKey = resultSet.getInt( "cat_cty_lKey" );
-                        // Set disabled if it does not have the correct content type
-                        if ( categoryCriteria.useDisableAttribute() &&
-                            ( contentTypes.size() > 0 && !contentTypes.contains( ctyKey ) || resultSet.wasNull() ) )
-                        {
-                            catElem.setAttribute( "disable", "true" );
-                        }
-
-                        if ( !resultSet.wasNull() )
-                        {
-                            catElem.setAttribute( "contenttypekey", String.valueOf( ctyKey ) );
-                            // Set handler
-                            String handlerClass = getContentHandler().getContentHandlerClassForContentType( ctyKey );
-                            catElem.setAttribute( "handler", handlerClass );
-                        }
-
-                        // Does anonymous have access?
-                        User anonUser = userHandler.getAnonymousUser();
-                        CategoryAccessRight catAR = securityHandler.getCategoryAccessRight( anonUser, categoryKey );
-                        catElem.setAttribute( "anonaccess", Boolean.valueOf( catAR.getRead() ).toString() );
-
-                        catElem.setAttribute( "haschildren", Boolean.valueOf( hasChildren ).toString() );
-                    }
-                }
-            }
         }
         catch ( SQLException sqle )
         {

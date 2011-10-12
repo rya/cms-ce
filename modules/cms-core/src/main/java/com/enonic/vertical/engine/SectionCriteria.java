@@ -56,99 +56,6 @@ public class SectionCriteria
 
     private boolean includeSectionContentTypesInfo = true;
 
-    public String toString()
-    {
-        StringBuffer sql = new StringBuffer();
-        sql.append( "[siteKeys=" );
-        if ( siteKeys != null )
-        {
-            sql.append( '[' );
-            for ( int i = 0; i < siteKeys.length; i++ )
-            {
-                if ( i > 0 )
-                {
-                    sql.append( ',' );
-                }
-                sql.append( siteKeys[i] );
-            }
-            sql.append( ']' );
-        }
-        else
-        {
-            sql.append( "null" );
-        }
-        sql.append( ",menuItemKeys=" );
-        if ( menuItemKeys != null )
-        {
-            sql.append( '[' );
-            for ( int i = 0; i < menuItemKeys.length; i++ )
-            {
-                if ( i > 0 )
-                {
-                    sql.append( ',' );
-                }
-                sql.append( menuItemKeys[i] );
-            }
-            sql.append( ']' );
-        }
-        else
-        {
-            sql.append( "null" );
-        }
-        sql.append( ",sectionKey=" );
-        sql.append( sectionKey );
-        sql.append( ",superSectionKey=" );
-        sql.append( superSectionKey );
-        sql.append( ",includeSection=" );
-        sql.append( includeSection );
-        sql.append( ",level=" );
-        sql.append( level );
-        sql.append( ",sectionKeys=" );
-        if ( sectionKeys != null )
-        {
-            sql.append( '[' );
-            for ( int i = 0; i < sectionKeys.length; i++ )
-            {
-                if ( i > 0 )
-                {
-                    sql.append( ',' );
-                }
-                sql.append( sectionKeys[i] );
-            }
-            sql.append( ']' );
-        }
-        else
-        {
-            sql.append( "null" );
-        }
-        sql.append( ",contentKey=" );
-        sql.append( contentKey );
-        sql.append( ",contentKeyExcludeFilter=" );
-        sql.append( contentKeyExcludeFilter );
-        sql.append( ",contentTypeKeyFilter=" );
-        sql.append( contentTypeKeyFilter );
-        sql.append( ",publishRight=" );
-        sql.append( publishRight );
-        sql.append( ",approveRight=" );
-        sql.append( approveRight );
-        sql.append( ",adminRight=" );
-        sql.append( adminRight );
-        sql.append( ",treeStructure=" );
-        sql.append( treeStructure );
-        sql.append( ",includeChildCount=" );
-        sql.append( includeChildCount );
-        sql.append( ",recursivly=" );
-        sql.append( recursivly );
-        sql.append( ",markContentFilteredSections=" );
-        sql.append( markContentFilteredSections );
-        sql.append( ",includeAll=" );
-        sql.append( includeAll );
-        sql.append( ",addAccessRights=" );
-        sql.append( addAccessRights );
-        sql.append( ']' );
-        return sql.toString();
-    }
-
     public boolean appendAccessRights()
     {
         return addAccessRights;
@@ -223,21 +130,11 @@ public class SectionCriteria
         return publishRight;
     }
 
-    /**
-     * Set to true if only sections with administration right should be retrieved.
-     *
-     * @param adminRight
-     */
     public void setAdminRight( boolean adminRight )
     {
         this.adminRight = adminRight;
     }
 
-    /**
-     * Set to true if sections should be retrieved recursivly.
-     *
-     * @param recursivly
-     */
     public void setSectionRecursivly( boolean recursivly )
     {
         this.recursivly = recursivly;

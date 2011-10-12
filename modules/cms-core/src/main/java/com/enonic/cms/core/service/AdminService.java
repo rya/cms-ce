@@ -7,6 +7,7 @@ package com.enonic.cms.core.service;
 import java.util.Date;
 import java.util.Map;
 
+import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import org.w3c.dom.Element;
 
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -17,7 +18,6 @@ import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
-import com.enonic.vertical.engine.criteria.Criteria;
 import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -253,7 +253,7 @@ public interface AdminService
     public void moveCategory( User user, int catKey, int superCatKey )
         throws VerticalUpdateException, VerticalSecurityException;
 
-    public XMLDocument getMenu( User user, int type, Criteria criteria, boolean includeSubtrees );
+    public XMLDocument getMenu( User user, CategoryCriteria criteria );
 
     public String getPath( User user, int type, int key );
 

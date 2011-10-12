@@ -20,7 +20,6 @@ import org.w3c.dom.Element;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
-import com.enonic.vertical.engine.criteria.Criteria;
 import com.enonic.vertical.engine.filters.Filter;
 import com.enonic.vertical.engine.handlers.BinaryDataHandler;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
@@ -901,16 +900,11 @@ public final class AdminEngine
         return contentHandler.getContentKeysByCategory( user, CategoryKey.parse( categoryKey ) );
     }
 
-    public XMLDocument getMenu( User user, int type, Criteria criteria, boolean includeSubtrees )
+    public XMLDocument getMenu( User user, CategoryCriteria criteria )
     {
         Document doc = XMLTool.createDocument( "data" );
         Element root = doc.getDocumentElement();
-
-        if ( type == Types.CATEGORY )
-        {
-            categoryHandler.getMenu( user, root, criteria, includeSubtrees );
-        }
-
+        categoryHandler.getMenu( user, root, criteria );
         return XMLDocumentFactory.create( doc );
     }
 
@@ -929,12 +923,8 @@ public final class AdminEngine
             CategoryCriteria criteria = new CategoryCriteria();
             criteria.setCategoryKey( key );
             criteria.setUseDisableAttribute( false );
-            categoryHandler.getMenu( user, unitElem, criteria, false );
+            categoryHandler.getMenu( user, unitElem, criteria );
 
-            // Append unit (and categories) to site doc
-            //siteElem.appendChild(siteDoc.importNode(unitElem, true));
-
-            // Append site doc to global doc
             doc.getDocumentElement().appendChild( doc.importNode( unitElem, true ) );
         }
         return XMLTool.documentToString( doc );

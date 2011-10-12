@@ -20,10 +20,6 @@ public final class ContentAccessRight
         this.update = update;
     }
 
-    public void setDelete( boolean delete )
-    {
-    }
-
     public boolean getUpdate()
     {
         return update;
