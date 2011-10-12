@@ -224,11 +224,18 @@ Ext.define( 'App.controller.AccountController', {
 
     searchFilter: function()
     {
+        this.setBrowseTabActive();
+
         var usersStore = this.getUserStoreStore();
         var textField = this.getFilterTextField();
-
         usersStore.clearFilter();
         usersStore.load( {params:{query: textField.getValue()}} );
+    },
+
+    setBrowseTabActive: function()
+    {
+        var browseTab = this.getCmsTabPanel().getTabById('tab-browse');
+        this.getCmsTabPanel().setActiveTab(browseTab);
     },
 
     filterHandleEnterKey: function( field, event )
