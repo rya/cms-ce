@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.enonic.vertical.engine.criteria.Criteria;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
@@ -36,9 +37,7 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
-import com.enonic.vertical.engine.MenuGetterSettings;
 import com.enonic.vertical.engine.MenuItemAccessRight;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
@@ -3545,7 +3544,7 @@ public final class MenuHandler
     }
 
     private void copyMenu( CopyContext copyContext, Element menuElem )
-        throws VerticalCopyException, VerticalCreateException, VerticalUpdateException, VerticalSecurityException
+        throws VerticalCreateException, VerticalUpdateException, VerticalSecurityException
     {
 
         if ( menuElem != null )
@@ -3659,7 +3658,6 @@ public final class MenuHandler
     }
 
     public void copyMenu( User user, int menuKey, boolean includeContents )
-        throws VerticalCopyException
     {
 
         try
@@ -3875,32 +3873,15 @@ public final class MenuHandler
      * @param getterSettings If given - build tree from these settings
      * @return A DOM document containing the menu tree
      */
-    public Document getMenusForAdmin( User user, MenuGetterSettings getterSettings )
+    public Document getMenusForAdmin( User user )
     {
 
         List<Integer> paramValues = new ArrayList<Integer>( 2 );
         StringBuffer sqlMenus = new StringBuffer( MENU_SELECT );
 
-        if ( getterSettings.hasMenuKeys() )
-        {
-            int[] menuKeys = getterSettings.getMenuKeys();
-            sqlMenus.append( " WHERE " );
-            sqlMenus.append( "men_lKey IN (" );
-            for ( int i = 0; i < menuKeys.length; i++ )
-            {
-                if ( i > 0 )
-                {
-                    sqlMenus.append( ',' );
-                }
-                sqlMenus.append( menuKeys[i] );
-            }
-            sqlMenus.append( ')' );
-        }
-
-        // Selekterer bare menyer som brukeren har create eller administrate p�
         if ( user != null )
         {
-            MenuCriteria criteria = getterSettings.getMenuCriteria();
+            MenuCriteria criteria = new MenuCriteria( Criteria.NONE );
             getSecurityHandler().appendMenuSQL( user, sqlMenus, criteria );
         }
 
@@ -3946,74 +3927,26 @@ public final class MenuHandler
                 statement = null;
             }
 
-            MenuItemCriteria menuItemCriteria = getterSettings.getMenuItemCriteria();
+            MenuItemCriteria menuItemCriteria = new MenuItemCriteria( Criteria.NONE );
             if ( !menuItemCriteria.getDisableMenuItemLoadingForUnspecified() || menuItemCriteria.getMenuKey() >= 0 )
             {
-                // Legger så til menuitems til menyene
-                Hashtable<String, Element> hashtable_MenuItems = appendMenuItemsBySettings( user, doc, hashtable_menus, getterSettings );
-
-                // Hvis brukeren bare vil ha et fullt tree fra gitte menuItemKey,
-                // så må vi fjerne alle søsken-noder til foreldre-nodene
-                if ( getterSettings.hasOnlyChildrenFromThisMenuItemKey() )
-                {
-                    Element curMenuItem = hashtable_MenuItems.get( getterSettings.getMenuItemKeyAsInteger().toString() );
-
-                    while ( curMenuItem != null )
-                    {
-
-                        XMLTool.removeAllSiblings( curMenuItem );
-
-                        // Move to first parent node (menuitems)
-                        curMenuItem = (Element) curMenuItem.getParentNode();
-                        // Exit loop if we have reached the top
-                        if ( "menus".equals( curMenuItem.getNodeName() ) )
-                        {
-                            break;
-                        }
-
-                        // Move to next parent node (menuitem/menu)
-                        if ( curMenuItem != null )
-                        {
-                            curMenuItem = (Element) curMenuItem.getParentNode();
-                        }
-                    }
-                }
-
-                if ( getterSettings.hasTagParentsOfThisMenuItem() )
-                {
-
-                    Element menuItem = hashtable_MenuItems.get( getterSettings.getTagParentsOfThisMenuItemKeyAsInteger().toString() );
-                    Node parent = menuItem.getParentNode();
-                    String tagName = getterSettings.getTagParentsOfThisMenuItemTagName();
-                    String tagValue = getterSettings.getTagParentsOfThisMenuItemTagValue();
-                    while ( parent != null )
-                    {
-                        if ( parent instanceof Element )
-                        {
-                            ( (Element) parent ).setAttribute( tagName, tagValue );
-                        }
-                        parent = parent.getParentNode();
-                    }
-                }
+                Hashtable<String, Element> hashtable_MenuItems = appendMenuItemsBySettings( user, doc, hashtable_menus );
             }
 
-            if ( !getterSettings.hasMenuKeys() )
+            String sqlMenuItems;
+            sqlMenuItems = "SELECT DISTINCT mei_men_lKey FROM tMenuItem JOIN tMenu on tMenuItem.mei_men_lKey = tMenu.men_lKey ";
+            sqlMenuItems = getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems, menuItemCriteria );
+
+            statement = con.prepareStatement( sqlMenuItems );
+            resultSet = statement.executeQuery();
+            while ( resultSet.next() )
             {
-                String sqlMenuItems;
-                sqlMenuItems = "SELECT DISTINCT mei_men_lKey FROM tMenuItem JOIN tMenu on tMenuItem.mei_men_lKey = tMenu.men_lKey ";
-                sqlMenuItems = getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems, menuItemCriteria );
-
-                statement = con.prepareStatement( sqlMenuItems );
-                resultSet = statement.executeQuery();
-                while ( resultSet.next() )
+                String menuKey = resultSet.getString( "mei_men_lKey" );
+                if ( !hashtable_menus.containsKey( menuKey ) )
                 {
-                    String menuKey = resultSet.getString( "mei_men_lKey" );
-                    if ( !hashtable_menus.containsKey( menuKey ) )
-                    {
-                        Element menuElement = getMenuData( doc.getDocumentElement(), Integer.parseInt( menuKey ) );
+                    Element menuElement = getMenuData( doc.getDocumentElement(), Integer.parseInt( menuKey ) );
 
-                        hashtable_menus.put( menuKey, menuElement );
-                    }
+                    hashtable_menus.put( menuKey, menuElement );
                 }
             }
         }
@@ -4033,8 +3966,7 @@ public final class MenuHandler
         return doc;
     }
 
-    private Hashtable<String, Element> appendMenuItemsBySettings( User user, Document doc, Hashtable<String, Element> hashtable_menus,
-                                                                  MenuGetterSettings getterSettings )
+    private Hashtable<String, Element> appendMenuItemsBySettings( User user, Document doc, Hashtable<String, Element> hashtable_menus )
     {
 
         Hashtable<String, Element> hashtable_MenuItems = new Hashtable<String, Element>();
@@ -4043,34 +3975,11 @@ public final class MenuHandler
         StringBuffer sqlMenuItems = new StringBuffer( MENU_ITEM_SELECT );
 
         // menuKey
-        MenuItemCriteria criteria = getterSettings.getMenuItemCriteria();
-        if ( getterSettings.hasMenuKeys() || criteria.hasMenuKey() )
+        MenuItemCriteria criteria = new MenuItemCriteria( Criteria.NONE );
+        if ( criteria.hasMenuKey() )
         {
-            if ( getterSettings.hasMenuKeys() )
-            {
-                int[] menuKeys = getterSettings.getMenuKeys();
-                sqlMenuItems.append( " AND men_lKey IN (" );
-                for ( int i = 0; i < menuKeys.length; i++ )
-                {
-                    if ( i > 0 )
-                    {
-                        sqlMenuItems.append( ',' );
-                    }
-                    sqlMenuItems.append( menuKeys[i] );
-                }
-
-                sqlMenuItems.append( ')' );
-            }
-            else
-            {
-                sqlMenuItems.append( " AND mei_men_lKey = ?" );
-                paramValues.add( criteria.getMenuKeyAsInteger() );
-            }
-        }
-        // only root menuitems
-        if ( getterSettings.getOnlyRootMenuItems() )
-        {
-            sqlMenuItems.append( " AND mei_lParent IS NULL" );
+            sqlMenuItems.append( " AND mei_men_lKey = ?" );
+            paramValues.add(criteria.getMenuKeyAsInteger());
         }
 
         if ( user != null )

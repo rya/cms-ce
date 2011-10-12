@@ -49,7 +49,6 @@ import com.enonic.vertical.engine.processors.ContentTypeProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 import com.enonic.vertical.engine.processors.VersionKeyContentMapProcessor;
-import com.enonic.vertical.event.VerticalEventMulticaster;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.util.TIntObjectHashMap;
@@ -85,29 +84,6 @@ public final class ContentHandler
 
     private final static String CON_IS_CHILD = "SELECT rco_con_lParent,rco_con_lChild FROM TRELATEDCONTENT WHERE rco_con_lChild = ?";
 
-    private static final Map<String, String> orderByMap;
-
-    static
-    {
-        orderByMap = new HashMap<String, String>();
-
-        orderByMap.put( "category", "cat_lKey" );
-        orderByMap.put( "owneruid", "usr_sOwnerUID" );
-        orderByMap.put( "ownername", "usr_sOwnerName" );
-        orderByMap.put( "created", "con_dteCreated" );
-        orderByMap.put( "@created", "con_dteCreated" );
-        orderByMap.put( "publishfrom", "con_dtePublishFrom" );
-        orderByMap.put( "@publishfrom", "con_dtePublishFrom" );
-        orderByMap.put( "publishto", "con_dtePublishTo" );
-        orderByMap.put( "@publishto", "con_dtePublishTo" );
-        orderByMap.put( "languagekey", "con_lan_lKey" );
-        orderByMap.put( "title", "cov_sTitle" );
-        orderByMap.put( "priority", "con_lPriority" );
-        orderByMap.put( "@priority", "con_lPriority" );
-        orderByMap.put( "timestamp", "cov_dteTimeStamp" );
-        orderByMap.put( "@timestamp", "cov_dteTimeStamp" );
-    }
-
     // tContentType
     private final static String CTY_INSERT = "INSERT INTO  " + CTY_TABLE + " VALUES (?,?,?,?,@currentTimestamp@" + ",?,?,?)";
 
@@ -141,8 +117,6 @@ public final class ContentHandler
     private final static String HAN_DELETE = "DELETE FROM " + HAN_TABLE + " WHERE han_lKey = ?";
 
     private final static String HAN_ORDER_BY_NAME = " ORDER BY han_sName";
-
-    private VerticalEventMulticaster multicaster = new VerticalEventMulticaster();
 
     @Autowired
     private ContentTypeDao contentTypeDao;
@@ -232,7 +206,7 @@ public final class ContentHandler
     }
 
 
-    public int createContentType( User user, Document doc )
+    public int createContentType( Document doc )
     {
 
         Connection con = null;

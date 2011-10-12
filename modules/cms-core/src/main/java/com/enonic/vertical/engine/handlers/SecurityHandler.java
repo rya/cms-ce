@@ -1728,10 +1728,6 @@ final public class SecurityHandler
         {
             MenuAccessRight menuAccessRight = new MenuAccessRight( menuKey );
             menuAccessRight.setRead( true );
-            menuAccessRight.setCreate( true );
-            menuAccessRight.setPublish( true );
-            menuAccessRight.setUpdate( true );
-            menuAccessRight.setDelete( true );
             menuAccessRight.setAdministrate( true );
             return menuAccessRight;
         }
@@ -1793,10 +1789,6 @@ final public class SecurityHandler
             preparedStmt.close();
 
             menuAccessRight.setRead( rights[READ] );
-            menuAccessRight.setCreate( rights[CREATE] );
-            menuAccessRight.setPublish( rights[PUBLISH] );
-            menuAccessRight.setUpdate( rights[UPDATE] );
-            menuAccessRight.setDelete( rights[DELETE] );
             menuAccessRight.setAdministrate( rights[ADMIN] );
         }
         catch ( SQLException sqle )
@@ -1834,10 +1826,7 @@ final public class SecurityHandler
         if ( user.isEnterpriseAdmin() || Arrays.binarySearch( groups, eaGroup ) >= 0 )
         {
             menuItemAccessRight.setRead( true );
-            menuItemAccessRight.setCreate( true );
             menuItemAccessRight.setPublish( true );
-            menuItemAccessRight.setUpdate( true );
-            menuItemAccessRight.setDelete( true );
             menuItemAccessRight.setAdministrate( true );
             menuItemAccessRight.setAdd( true );
             return menuItemAccessRight;
@@ -1902,10 +1891,7 @@ final public class SecurityHandler
             preparedStmt.close();
 
             menuItemAccessRight.setRead( rights[READ] );
-            menuItemAccessRight.setCreate( rights[CREATE] );
             menuItemAccessRight.setPublish( rights[PUBLISH] );
-            menuItemAccessRight.setUpdate( rights[UPDATE] );
-            menuItemAccessRight.setDelete( rights[DELETE] );
             menuItemAccessRight.setAdministrate( rights[ADMIN] );
             menuItemAccessRight.setAdd( rights[ADD] );
         }

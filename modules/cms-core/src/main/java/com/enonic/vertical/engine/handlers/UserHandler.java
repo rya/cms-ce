@@ -14,7 +14,6 @@ import org.w3c.dom.Document;
 
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.event.VerticalEventListener;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -29,9 +28,7 @@ import com.enonic.cms.core.security.group.GroupKey;
 
 public final class UserHandler
     extends BaseHandler
-    implements VerticalEventListener
 {
-
     @Autowired
     private UserDao userDao;
 

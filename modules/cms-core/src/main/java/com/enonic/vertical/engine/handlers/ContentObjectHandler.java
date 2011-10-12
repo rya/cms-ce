@@ -27,7 +27,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
@@ -767,7 +766,6 @@ public final class ContentObjectHandler
     }
 
     public void copyContentObjects( int oldMenuKey, CopyContext copyContext )
-        throws VerticalCopyException
     {
         int newMenuKey = copyContext.getMenuKey( oldMenuKey );
 
@@ -816,10 +814,7 @@ public final class ContentObjectHandler
     }
 
     public void copyContentObjectsPostOp( int oldMenuKey, CopyContext copyContext )
-        throws VerticalCopyException
     {
-
-        boolean includeContents = copyContext.isIncludeContents();
         int newMenuKey = copyContext.getMenuKey( oldMenuKey );
 
         try

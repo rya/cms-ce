@@ -24,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
-public class BinaryDataHandler
+public final class BinaryDataHandler
 {
     @Autowired
     private ContentVersionDao contentVersionDao;

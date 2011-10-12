@@ -212,7 +212,7 @@ public final class AdminEngine
     }
 
     public void copyMenu( User user, int menuKey, boolean includeContent )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
 
         if ( !user.isEnterpriseAdmin() )
@@ -306,7 +306,7 @@ public final class AdminEngine
             VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
         }
 
-        return contentHandler.createContentType( user, doc );
+        return contentHandler.createContentType( doc );
     }
 
     public void createLanguage( User user, String languageCode, String description )
@@ -361,7 +361,6 @@ public final class AdminEngine
     }
 
     public int copyPageTemplate( User user, int pageTemplateKey )
-        throws VerticalCopyException
     {
         return pageTemplateHandler.copyPageTemplate( user, new PageTemplateKey( pageTemplateKey ) );
     }
@@ -956,9 +955,9 @@ public final class AdminEngine
         return XMLTool.documentToString( doc );
     }
 
-    public String getMenusForAdmin( User user, MenuGetterSettings getterSettings )
+    public String getMenusForAdmin( User user )
     {
-        Document doc = menuHandler.getMenusForAdmin( user, getterSettings );
+        Document doc = menuHandler.getMenusForAdmin( user );
         return XMLTool.documentToString( doc );
     }
 
@@ -1103,7 +1102,7 @@ public final class AdminEngine
     }
 
     public void copySection( int sectionKey )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
         sectionHandler.copySection( sectionKey );
     }

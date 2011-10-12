@@ -31,7 +31,6 @@ import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
@@ -1493,7 +1492,6 @@ public final class PageTemplateHandler
     }
 
     public void copyPageTemplates( int oldMenuKey, CopyContext copyContext )
-        throws VerticalCopyException
     {
         //int oldSiteKey = copyContext.getOldSiteKey();
         //int newSiteKey = copyContext.getNewSiteKey();
@@ -1551,7 +1549,6 @@ public final class PageTemplateHandler
     }
 
     public int copyPageTemplate( User user, PageTemplateKey pageTemplateKey )
-        throws VerticalCopyException
     {
 
         Document doc = getPageTemplate( pageTemplateKey ).getAsDOMDocument();
@@ -1602,7 +1599,6 @@ public final class PageTemplateHandler
     }
 
     public void copyPageTemplatesPostOp( int oldMenuKey, CopyContext copyContext )
-        throws VerticalCopyException
     {
 
         int newMenuKey = copyContext.getMenuKey( oldMenuKey );

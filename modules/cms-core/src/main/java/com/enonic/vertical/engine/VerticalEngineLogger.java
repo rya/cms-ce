@@ -53,31 +53,13 @@ public class VerticalEngineLogger
     }
 
     public static void errorCopy( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalCopyException
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalCopyException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalCopyException) ve;
-        }
+        error( clazz, msgKey, message, msgData, throwable, VerticalCopyException.class );
     }
 
     public static void errorCopy( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalCopyException
     {
-
-        try
-        {
-            error( clazz, msgKey, message, throwable, VerticalCopyException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalCopyException) ve;
-        }
+        error( clazz, msgKey, message, throwable, VerticalRuntimeException.class );
     }
 
     public static void errorCreate( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )

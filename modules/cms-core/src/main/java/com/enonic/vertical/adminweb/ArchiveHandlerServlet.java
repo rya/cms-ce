@@ -23,7 +23,6 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet;
 import com.enonic.vertical.engine.AccessRight;
-import com.enonic.vertical.engine.PropertyException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.filters.UnitFilter;
 
@@ -232,31 +231,23 @@ public class ArchiveHandlerServlet
                                ExtendedMap formItems )
         throws VerticalAdminException, VerticalEngineException
     {
-
         User user = securityService.getLoggedInAdminConsoleUser();
 
-        try
-        {
-            String unitXML = buildUnitXML( formItems, true );
-            int unitKey = admin.createUnit( unitXML );
-            formItems.put( "selectedunitkey", String.valueOf( unitKey ) );
+        String unitXML = buildUnitXML( formItems, true );
+        int unitKey = admin.createUnit( unitXML );
+        formItems.put( "selectedunitkey", String.valueOf( unitKey ) );
 
-            String categoryXML = buildCategoryXML( user, formItems, true );
-            String accessRightsXML = buildAccessRightsXML( null, formItems, AccessRight.CATEGORY );
-            Document doc = XMLTool.domparse( categoryXML );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
-            admin.createCategory( user, XMLTool.documentToString( doc ) );
+        String categoryXML = buildCategoryXML( user, formItems, true );
+        String accessRightsXML = buildAccessRightsXML( null, formItems, AccessRight.CATEGORY );
+        Document doc = XMLTool.domparse( categoryXML );
+        XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
+        admin.createCategory( user, XMLTool.documentToString( doc ) );
 
-            MultiValueMap queryParams = new MultiValueMap();
-            queryParams.put( "page", formItems.get( "page" ) );
-            queryParams.put( "op", "browse" );
-            queryParams.put( "reload", "true" );
-            redirectClientToAdminPath( "adminpage", queryParams, request, response );
-        }
-        catch ( PropertyException e )
-        {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "Error setting properties: %t", e );
-        }
+        MultiValueMap queryParams = new MultiValueMap();
+        queryParams.put( "page", formItems.get( "page" ) );
+        queryParams.put( "op", "browse" );
+        queryParams.put( "reload", "true" );
+        redirectClientToAdminPath( "adminpage", queryParams, request, response );
     }
 
     public void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -265,62 +256,55 @@ public class ArchiveHandlerServlet
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
-        try
+        String xmlUnitData = buildUnitXML( formItems, false );
+        admin.updateUnit( xmlUnitData );
+
+        String xmlData = buildCategoryXML( user, formItems, false );
+        int categoryKey = formItems.getInt( "key" );
+
+        // Oppdaterer kategorien med rettigheter bare hvis brukeren ikke har valgt å propagere
+        if ( formItems.containsKey( "updateaccessrights" ) && !formItems.getString( "propagate", "" ).equals( "true" ) )
         {
-            String xmlUnitData = buildUnitXML( formItems, false );
-            admin.updateUnit( xmlUnitData );
+            String accessRightsXML = buildAccessRightsXML( String.valueOf( categoryKey ), formItems, AccessRight.CATEGORY );
+            Document doc = XMLTool.domparse( xmlData );
+            XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
+            admin.updateCategory( user, XMLTool.documentToString( doc ) );
+        }
+        else
+        {
+            admin.updateCategory( user, xmlData );
+        }
 
-            String xmlData = buildCategoryXML( user, formItems, false );
-            int categoryKey = formItems.getInt( "key" );
-
-            // Oppdaterer kategorien med rettigheter bare hvis brukeren ikke har valgt å propagere
-            if ( formItems.containsKey( "updateaccessrights" ) && !formItems.getString( "propagate", "" ).equals( "true" ) )
+        // Redirect to propagate page
+        if ( "true".equals( formItems.getString( "propagate" ) ) )
+        {
+            handlerPropagateAccessRightsPage( request, response, session, admin, formItems );
+        }
+        else
+        {
+            MultiValueMap queryParams = new MultiValueMap();
+            queryParams.put( "op", "browse" );
+            if ( formItems.containsKey( "returnpage" ) )
             {
-                String accessRightsXML = buildAccessRightsXML( String.valueOf( categoryKey ), formItems, AccessRight.CATEGORY );
-                Document doc = XMLTool.domparse( xmlData );
-                XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
-                admin.updateCategory( user, XMLTool.documentToString( doc ) );
+                queryParams.put( "page", formItems.get( "returnpage" ) );
             }
             else
             {
-                admin.updateCategory( user, xmlData );
-            }
-
-            // Redirect to propagate page
-            if ( "true".equals( formItems.getString( "propagate" ) ) )
-            {
-                handlerPropagateAccessRightsPage( request, response, session, admin, formItems );
-            }
-            else
-            {
-                MultiValueMap queryParams = new MultiValueMap();
-                queryParams.put( "op", "browse" );
-                if ( formItems.containsKey( "returnpage" ) )
+                int cctk = formItems.getInt( "categorycontenttypekey", -1 );
+                if ( cctk > -1 )
                 {
-                    queryParams.put( "page", formItems.get( "returnpage" ) );
+                    queryParams.put( "page", cctk + 999 );
                 }
                 else
                 {
-                    int cctk = formItems.getInt( "categorycontenttypekey", -1 );
-                    if ( cctk > -1 )
-                    {
-                        queryParams.put( "page", cctk + 999 );
-                    }
-                    else
-                    {
-                        queryParams.put( "page", "991" );
-                    }
+                    queryParams.put( "page", "991" );
                 }
-
-                queryParams.put( "cat", String.valueOf( categoryKey ) );
-                queryParams.put( "selectedunitkey", formItems.get( "selectedunitkey" ) );
-                queryParams.put( "reload", "true" );
-                redirectClientToAdminPath( "adminpage", queryParams, request, response );
             }
-        }
-        catch ( PropertyException e )
-        {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "Error setting properties for category: %t", e );
+
+            queryParams.put( "cat", String.valueOf( categoryKey ) );
+            queryParams.put( "selectedunitkey", formItems.get( "selectedunitkey" ) );
+            queryParams.put( "reload", "true" );
+            redirectClientToAdminPath( "adminpage", queryParams, request, response );
         }
     }
 

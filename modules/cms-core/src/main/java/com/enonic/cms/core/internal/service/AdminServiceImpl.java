@@ -18,10 +18,8 @@ import com.enonic.vertical.engine.AdminEngine;
 import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
-import com.enonic.vertical.engine.MenuGetterSettings;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
@@ -74,7 +72,7 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = 86400)
     public void copyMenu( User user, int menuKey, boolean includeContent )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
         adminEngine.copyMenu( user, menuKey, includeContent );
     }
@@ -214,7 +212,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int copyPageTemplate( User user, int pageTemplateKey )
-        throws VerticalCopyException
     {
         return adminEngine.copyPageTemplate( user, pageTemplateKey );
     }
@@ -595,9 +592,9 @@ public class AdminServiceImpl
         return adminEngine.getPath( user, type, key );
     }
 
-    public String getMenusForAdmin( User user, MenuGetterSettings getterSettings )
+    public String getMenusForAdmin( User user )
     {
-        return adminEngine.getMenusForAdmin( user, getterSettings );
+        return adminEngine.getMenusForAdmin( user );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
@@ -703,7 +700,7 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void copySection( int sectionKey )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
         adminEngine.copySection( sectionKey );
     }

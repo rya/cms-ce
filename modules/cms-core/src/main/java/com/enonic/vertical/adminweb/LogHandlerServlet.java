@@ -29,7 +29,6 @@ import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.util.Base64Util;
 import com.enonic.esl.util.DateUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.MenuGetterSettings;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.XDG;
 
@@ -386,8 +385,7 @@ public class LogHandlerServlet
                                 ExtendedMap formItems, ExtendedMap parameters, User user, Document verticalDoc )
         throws VerticalAdminException
     {
-        MenuGetterSettings getterSettings = new MenuGetterSettings();
-        Document menusDoc = XMLTool.domparse( admin.getMenusForAdmin( user, getterSettings ) );
+        Document menusDoc = XMLTool.domparse( admin.getMenusForAdmin( user ) );
         XMLTool.mergeDocuments( verticalDoc, menusDoc, true );
         DOMSource xmlSource = new DOMSource( verticalDoc );
         Source xslSource = AdminStore.getStylesheet( session, "log_filter.xsl" );

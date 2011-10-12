@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.enonic.cms.store.dao.LanguageDao;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -18,11 +19,13 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.LanguageKey;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public final class LanguageHandler
-    extends BaseHandler
 {
-
+    @Autowired
+    private LanguageDao languageDao;
+    
     public String getLanguageCode( LanguageKey languageKey )
     {
         LanguageEntity entity = languageDao.findByKey( languageKey );
@@ -50,9 +53,6 @@ public final class LanguageHandler
         return createLanguagesDoc( list );
     }
 
-    /**
-     * Create language document.
-     */
     private XMLDocument createLanguagesDoc( List<LanguageEntity> list )
     {
         Element root = new Element( "languages" );

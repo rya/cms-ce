@@ -12,10 +12,8 @@ import org.w3c.dom.Element;
 import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
-import com.enonic.vertical.engine.MenuGetterSettings;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
@@ -41,7 +39,7 @@ public interface AdminService
     public String getPageTemplates( PageTemplateType type );
 
     public void copyMenu( User user, int menuKey, boolean includeContent )
-        throws VerticalCopyException, VerticalSecurityException;
+        throws VerticalSecurityException;
 
     public boolean contentExists( int categoryKey, String contentTitle );
 
@@ -102,8 +100,7 @@ public interface AdminService
     public int createPageTemplate( User user, String xmlData )
         throws VerticalSecurityException;
 
-    public int copyPageTemplate( User user, int pageTemplateKey )
-        throws VerticalCopyException;
+    public int copyPageTemplate( User user, int pageTemplateKey );
 
     public int createUnit( String xmlData )
         throws VerticalSecurityException;
@@ -260,7 +257,7 @@ public interface AdminService
 
     public String getPath( User user, int type, int key );
 
-    public String getMenusForAdmin( User user, MenuGetterSettings getterSettings );
+    public String getMenusForAdmin( User user );
 
     public void moveMenuItem( User user, Element[] menuItemElems, int menuItemKey, int fromMenuKey, int fromParentKey, int toMenuKey,
                               int toParentKey );
@@ -304,7 +301,7 @@ public interface AdminService
         throws VerticalRemoveException, VerticalSecurityException;
 
     public void copySection( int sectionKey )
-        throws VerticalCopyException, VerticalSecurityException;
+        throws VerticalSecurityException;
 
     public void addContentToSections( User user, String xmlData )
         throws VerticalSecurityException;

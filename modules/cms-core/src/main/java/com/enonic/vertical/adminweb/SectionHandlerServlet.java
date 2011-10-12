@@ -46,7 +46,6 @@ import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.Types;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalRemoveException;
@@ -3117,7 +3116,7 @@ public class SectionHandlerServlet
      */
     public void handlerCopy( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                              ExtendedMap formItems, User user, int key )
-        throws VerticalCopyException, VerticalSecurityException, VerticalAdminException
+        throws VerticalSecurityException, VerticalAdminException
     {
         // First, get supersection key
         SectionCriteria section = new SectionCriteria();

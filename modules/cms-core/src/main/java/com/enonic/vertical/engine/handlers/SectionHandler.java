@@ -21,7 +21,6 @@ import org.w3c.dom.Element;
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalCopyException;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalKeyException;
@@ -1543,13 +1542,13 @@ public class SectionHandler
     }
 
     public void copySection( int sectionKey )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
         copySections( null, new int[]{sectionKey} );
     }
 
     private void copySections( CopyContext copyContext, int[] sectionKeys )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
         SectionView sectionView = SectionView.getInstance();
         String sql = XDG.generateSelectSQL( sectionView, new Column[]{sectionView.mei_men_lKey, sectionView.mei_lParent}, false,
@@ -1602,7 +1601,7 @@ public class SectionHandler
     }
 
     private void copySectionAtSameLevel( CopyContext copyContext, int sectionKey, MenuItemKey superKey )
-        throws VerticalCopyException, VerticalSecurityException
+        throws VerticalSecurityException
     {
         try
         {
