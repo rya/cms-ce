@@ -17,7 +17,6 @@ import com.enonic.cms.core.content.contentdata.legacy.support.DocumentContentDat
 import com.enonic.cms.core.content.contentdata.legacy.support.FileContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.FormContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.ImageContentDataParser;
-import com.enonic.cms.core.content.contentdata.legacy.support.LeadsContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.NewsletterContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.OrderContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.PersonContentDataParser;
@@ -68,10 +67,6 @@ public class ContentDataParser
 
             case FORM:
                 contentData = FormContentDataParser.parse( contentDataXmlDoc, binaryDatas );
-                break;
-
-            case LEADS:
-                contentData = LeadsContentDataParser.parse( contentDataXmlDoc, binaryDatas );
                 break;
 
             case NEWSLETTER:

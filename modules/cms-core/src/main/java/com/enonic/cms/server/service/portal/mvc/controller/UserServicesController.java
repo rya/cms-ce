@@ -76,10 +76,6 @@ public class UserServicesController
         {
             servletURL.append( "com.enonic.vertical.userservices.PollHandlerServlet" );
         }
-        else if ( handler.equals( "leads" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.LeadsHandlerServlet" );
-        }
         else if ( handler.equals( "order" ) )
         {
             servletURL.append( "com.enonic.vertical.userservices.OrderHandlerServlet" );

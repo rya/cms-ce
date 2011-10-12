@@ -36,10 +36,6 @@
         parent="abstractBaseXMLBuilder">
   </bean>
 
-  <bean id="contentLeadsXMLBuilder" class="com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentLeadsXMLBuilder"
-        parent="abstractBaseXMLBuilder">
-  </bean>
-
   <bean id="contentNewsletterXMLBuilder" class="com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentNewsletterXMLBuilder"
         parent="abstractBaseXMLBuilder">
   </bean>
@@ -73,7 +69,6 @@
     <property name="contentDocumentXMLBuilder" ref="contentDocumentXMLBuilder"/>
     <property name="contentEnhancedImageXMLBuilder" ref="contentEnhancedImageXMLBuilder"/>
     <property name="contentFileXMLBuilder" ref="contentFileXMLBuilder"/>
-    <property name="contentLeadsXMLBuilder" ref="contentLeadsXMLBuilder"/>
     <property name="contentNewsletterXMLBuilder" ref="contentNewsletterXMLBuilder"/>
     <property name="contentOrderXMLBuilder" ref="contentOrderXMLBuilder"/>
     <property name="contentPersonXMLBuilder" ref="contentPersonXMLBuilder"/>

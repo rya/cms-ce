@@ -144,8 +144,6 @@
                        value-ref="contentFileHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"
                        value-ref="contentFormHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentLeadsHandlerServlet"
-                       value-ref="contentLeadsHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"
                        value-ref="contentNewsletterHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentOrderHandlerServlet"
@@ -314,8 +312,6 @@
           class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"/>
     <bean id="contentFormHandlerServletWrapper"
           class="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
-    <bean id="contentLeadsHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentLeadsHandlerServlet"/>
     <bean id="contentNewsletterHandlerServletWrapper"
           class="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
     <bean id="contentOrderHandlerServletWrapper"

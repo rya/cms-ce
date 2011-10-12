@@ -15,7 +15,6 @@ public enum ContentHandlerName
     FILE( "ContentFileHandlerServlet" ),
     FORM( "ContentFormHandlerServlet" ),
     IMAGE( "ContentEnhancedImageHandlerServlet" ),
-    LEADS( "ContentLeadsHandlerServlet" ),
     NEWSLETTER( "ContentNewsletterHandlerServlet" ),
     PERSON( "ContentPersonHandlerServlet" ),
     POLL( "ContentPollHandlerServlet" ),

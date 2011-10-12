@@ -22,8 +22,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
 
     private ContentFileXMLBuilder contentFileXMLBuilder;
 
-    private ContentLeadsXMLBuilder contentLeadsXMLBuilder;
-
     private ContentNewsletterXMLBuilder contentNewsletterXMLBuilder;
 
     private ContentOrderXMLBuilder contentOrderXMLBuilder;
@@ -111,16 +109,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
     public void setContentFileXMLBuilder( ContentFileXMLBuilder contentFileXMLBuilder )
     {
         this.contentFileXMLBuilder = contentFileXMLBuilder;
-    }
-
-    public static ContentLeadsXMLBuilder getContentLeadsXMLBuilder()
-    {
-        return instance.contentLeadsXMLBuilder;
-    }
-
-    public void setContentLeadsXMLBuilder( ContentLeadsXMLBuilder contentLeadsXMLBuilder )
-    {
-        this.contentLeadsXMLBuilder = contentLeadsXMLBuilder;
     }
 
     public static ContentNewsletterXMLBuilder getContentNewsletterXMLBuilder()
