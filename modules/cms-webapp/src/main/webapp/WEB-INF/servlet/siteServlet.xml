@@ -114,7 +114,6 @@
         <property name="alwaysUseFullPath" value="true"/>
         <property name="mappings">
             <props>
-                <prop key="/site/**/servlet/com.enonic.vertical.userservices.CatalogHandlerServlet">catalogHandlerController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentHandlerBaseServlet">contentHandlerBaseController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentSendMailServlet">contentSendMailController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.FormHandlerServlet">formHandlerController</prop>
@@ -273,9 +272,6 @@
     </bean>
 
     <!-- UserServices servlets -->
-    <bean id="catalogHandlerController" class="com.enonic.vertical.userservices.CatalogHandlerController"
-          parent="abstractUserServicesHandlerController"/>
-
     <bean id="contentHandlerBaseController" class="com.enonic.vertical.userservices.ContentHandlerBaseController"
           parent="abstractUserServicesHandlerController"/>
 

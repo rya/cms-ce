@@ -16,10 +16,6 @@
         parent="abstractBaseXMLBuilder">
   </bean>
 
-  <bean id="contentCatalogXMLBuilder" class="com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentCatalogXMLBuilder"
-        parent="abstractBaseXMLBuilder">
-  </bean>
-
   <bean id="contentDocumentXMLBuilder" class="com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentDocumentXMLBuilder"
         parent="abstractBaseXMLBuilder">
   </bean>
@@ -60,7 +56,6 @@
         class="com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentXMLBuildersSpringManagedBeansBridge">
     <property name="contentBaseXMLBuilder" ref="contentBaseXMLBuilder"/>
     <property name="contentArticle3XMLBuilder" ref="contentArticle3XMLBuilder"/>
-    <property name="contentCatalogXMLBuilder" ref="contentCatalogXMLBuilder"/>
     <property name="contentDocumentXMLBuilder" ref="contentDocumentXMLBuilder"/>
     <property name="contentEnhancedImageXMLBuilder" ref="contentEnhancedImageXMLBuilder"/>
     <property name="contentFileXMLBuilder" ref="contentFileXMLBuilder"/>

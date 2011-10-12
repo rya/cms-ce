@@ -77,8 +77,6 @@ public class ContentHandlerBaseController
 
     protected final static int SECONDS_IN_WEEK = 60 * 60 * 24 * 7;
 
-    protected int WORD_BREAK_LIMIT = 20;
-
     protected void buildContentTypeXML( UserServicesService userServices, Element contentdataElem, ExtendedMap formItems,
                                         boolean skipEmptyElements )
         throws VerticalUserServicesException, RemoteException
@@ -204,32 +202,6 @@ public class ContentHandlerBaseController
 
         return XMLTool.documentToString( doc );
     }
-
-    protected String cleanBody( String body )
-    {
-
-        StringBuffer newBody = new StringBuffer( body.length() );
-        String delimiters = " .,:;!?/\\+-*=<>()[]{}";
-        StringTokenizer tokenizer = new StringTokenizer( body, delimiters, true );
-
-        while ( tokenizer.hasMoreTokens() )
-        {
-            String token = tokenizer.nextToken();
-            if ( token.length() > WORD_BREAK_LIMIT )
-            {
-                newBody.append( token.substring( 0, WORD_BREAK_LIMIT - 1 ) );
-                newBody.append( '-' );
-                newBody.append( token.substring( WORD_BREAK_LIMIT - 1 ) );
-            }
-            else
-            {
-                newBody.append( token );
-            }
-        }
-
-        return newBody.toString();
-    }
-
 
     /**
      * Handle remove content.

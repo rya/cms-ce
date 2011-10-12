@@ -8,7 +8,6 @@ public enum ContentHandlerName
 {
 
     ARTICLE( "ContentArticle3HandlerServlet" ),
-    CATALOG( "ContentCatalogHandlerServlet" ),
     CUSTOM( "SimpleContentHandlerServlet" ),
     DOCUMENT( "ContentDocumentHandlerServlet" ),
     FILE( "ContentFileHandlerServlet" ),

@@ -12,8 +12,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
 
     private ContentArticle3XMLBuilder contentArticle3XMLBuilder;
 
-    private ContentCatalogXMLBuilder contentCatalogXMLBuilder;
-
     private ContentDocumentXMLBuilder contentDocumentXMLBuilder;
 
     private ContentEnhancedImageXMLBuilder contentEnhancedImageXMLBuilder;
@@ -57,16 +55,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
     public void setContentArticle3XMLBuilder( ContentArticle3XMLBuilder contentArticle3XMLBuilder )
     {
         this.contentArticle3XMLBuilder = contentArticle3XMLBuilder;
-    }
-
-    public static ContentCatalogXMLBuilder getContentCatalogXMLBuilder()
-    {
-        return instance.contentCatalogXMLBuilder;
-    }
-
-    public void setContentCatalogXMLBuilder( ContentCatalogXMLBuilder contentCatalogXMLBuilder )
-    {
-        this.contentCatalogXMLBuilder = contentCatalogXMLBuilder;
     }
 
     public static ContentDocumentXMLBuilder getContentDocumentXMLBuilder()

@@ -11,7 +11,6 @@ import org.jdom.Document;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.contentdata.custom.support.CustomContentDataXmlParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.ArticleContentDataParser;
-import com.enonic.cms.core.content.contentdata.legacy.support.CatalogContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.DocumentContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.FileContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.FormContentDataParser;
@@ -50,10 +49,6 @@ public class ContentDataParser
 
             case ARTICLE:
                 contentData = ArticleContentDataParser.parse( contentDataXmlDoc, binaryDatas );
-                break;
-
-            case CATALOG:
-                contentData = CatalogContentDataParser.parse( contentDataXmlDoc, binaryDatas );
                 break;
 
             case DOCUMENT:
