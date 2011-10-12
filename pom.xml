@@ -30,7 +30,7 @@
         <maven.build.timestamp.format>yyyyMMdd.HHmmss</maven.build.timestamp.format>
         <buildTimestamp>${maven.build.timestamp}</buildTimestamp>
 
-        <spring.version>3.1.0.M2</spring.version>
+        <spring.version>3.1.0.RC1</spring.version>
         <slf4j.version>1.6.1</slf4j.version>
     </properties>
 
