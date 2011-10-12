@@ -6,7 +6,6 @@ package com.enonic.vertical.engine;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.handlers.BinaryDataHandler;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
@@ -24,8 +23,6 @@ import com.enonic.vertical.engine.handlers.UserHandler;
 
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.user.User;
-
-import com.enonic.cms.core.SiteKey;
 
 public class PresentationEngine
     extends BaseEngine
@@ -134,34 +131,6 @@ public class PresentationEngine
     public UserHandler getUserHandler()
     {
         return userHandler;
-    }
-
-    public Document getSections( User user, SiteKey siteKey )
-    {
-        SectionCriteria criteria = new SectionCriteria();
-        criteria.setTreeStructure( true );
-        criteria.setSiteKey( siteKey );
-        return sectionHandler.getSections( user, criteria );
-    }
-
-    public Document getSections( User user, int superSectionKey, int level, boolean includeSection )
-    {
-        Document doc;
-        if ( superSectionKey >= 0 )
-        {
-            SectionCriteria criteria = new SectionCriteria();
-            criteria.setSuperSectionKey( superSectionKey );
-            criteria.setSectionRecursivly( true );
-            criteria.setIncludeSection( includeSection );
-            criteria.setLevel( level );
-            doc = sectionHandler.getSections( user, criteria );
-        }
-        else
-        {
-            doc = XMLTool.createDocument( "sections" );
-        }
-
-        return doc;
     }
 
     public Document getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )

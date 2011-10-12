@@ -511,21 +511,6 @@ public interface DataSourceService
      */
     public XMLDocument getURLAsXML( DataSourceContext context, String url, int timeout );
 
-
-    /**
-     * Get a section tree specified by a level indicator and a super-section key. The super-section may be included. If level is positive,
-     * returns sections up to and including this level. A value of 0 returns all sections.
-     *
-     * @param context         the Vertical Site context
-     * @param superSectionKey a super-section key
-     * @param level           if > 0, return up to and including this level. if 0, return all
-     * @param includeSection  include the super-section in the results
-     * @return sections xml
-     */
-    public XMLDocument getSections( DataSourceContext context, int superSectionKey, int level, boolean includeSection );
-
-    public XMLDocument getSections( DataSourceContext context );
-
     /**
      * Get related contents based on a selection of content keys.
      * <p/>

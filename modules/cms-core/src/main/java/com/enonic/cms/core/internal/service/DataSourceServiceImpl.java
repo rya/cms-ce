@@ -972,24 +972,6 @@ public final class DataSourceServiceImpl
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSections( DataSourceContext context, int superSectionKey, int level, boolean includeSection )
-    {
-        return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), superSectionKey, level, includeSection ) );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Transactional(propagation = Propagation.REQUIRED)
-    public XMLDocument getSections( DataSourceContext context )
-    {
-        return XMLDocumentFactory.create( presentationEngine.getSections( context.getUser(), context.getSiteKey() ) );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    @Transactional(propagation = Propagation.REQUIRED)
     public XMLDocument getIndexValues( DataSourceContext context, String path, int[] categories, boolean includeSubCategories,
                                        int[] contentTypes, int index, int count, boolean distinct, String order )
     {
