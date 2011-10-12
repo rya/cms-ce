@@ -42,8 +42,6 @@ public final class ContentIndexServiceImpl
     @Autowired
     private ContentDao contentDao;
 
-    private Dialect dialect;
-
     private enum IndexState
     {
         CHANGED,
@@ -51,12 +49,6 @@ public final class ContentIndexServiceImpl
         NEW,
         CHANGED_AND_SHORTENED,
         CHANGED_AND_LENGTHENED
-    }
-
-    @Autowired
-    public void setDialect( Dialect dialect )
-    {
-        this.dialect = dialect;
     }
 
     /**
@@ -115,7 +107,7 @@ public final class ContentIndexServiceImpl
 
         try
         {
-            translated = new ContentQueryTranslator( this.dialect ).translate( contentIndexQuery );
+            translated = new ContentQueryTranslator().translate( contentIndexQuery );
         }
         catch ( Throwable e )
         {
