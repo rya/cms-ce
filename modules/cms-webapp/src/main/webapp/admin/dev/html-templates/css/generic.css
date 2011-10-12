@@ -26,11 +26,11 @@ h2.header {
     height: 0;
 }
 
-ul {
+#templates-index ul {
     margin-left: 34px
 }
 
-ul li {
+templates-index ul li {
    list-style: disc;
 }
 
