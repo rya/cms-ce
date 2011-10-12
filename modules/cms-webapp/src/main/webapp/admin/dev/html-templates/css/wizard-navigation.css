@@ -1,31 +1,32 @@
-.cms-wizard-navigation {
+ul.cms-wizard-navigation {
+    list-style-type: none;
     background-color: #ccc;
     padding:  1px;
-
 }
 
-.cms-wizard-navigation div {
+ul.cms-wizard-navigation li {
     float: left;
     padding-right: 14px;
+    margin: 0;
 }
 
-.cms-wizard-navigation div {
+ul.cms-wizard-navigation li {
     background: TRANSPARENT url(../images/arrow.png) no-repeat top right;
 }
 
-.cms-wizard-navigation div.active {
+ul.cms-wizard-navigation li.active {
     background: TRANSPARENT url(../images/arrow-active.png) no-repeat top right;
 }
 
-.cms-wizard-navigation div.previous {
+ul.cms-wizard-navigation li.previous {
     background: TRANSPARENT url(../images/arrow-previous.png) no-repeat top right;
 }
 
-.cms-wizard-navigation div.last {
+ul.cms-wizard-navigation li.last {
     background: TRANSPARENT url(../images/arrow-last.png) no-repeat top right;
 }
 
-.cms-wizard-navigation div a {
+ul.cms-wizard-navigation li a {
     display: block;
     padding: 8px 15px 8px 15px;
     margin-right: 2px;
@@ -33,17 +34,17 @@
     background-color: #eee;
 }
 
-.cms-wizard-navigation div a.previous {
+ul.cms-wizard-navigation li a.previous {
     color: #434343;
 }
 
-.cms-wizard-navigation div a.active {
+ul.cms-wizard-navigation li a.active {
     color: #000;
     font-weight: bold;
     background-color: #fff;
     padding-right: 150px;
 }
-.cms-wizard-navigation a.next {
+ul.cms-wizard-navigation a.next {
     color: #acacac;
 }
 
