@@ -4,6 +4,13 @@
  */
 package com.enonic.cms.core.internal.service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -15,6 +22,10 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.esl.xml.XMLTool;
+import com.enonic.vertical.VerticalProperties;
+import com.enonic.vertical.engine.VerticalEngineLogger;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
@@ -122,6 +133,8 @@ import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 public final class DataSourceServiceImpl
         implements DataSourceService
 {
+    private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
+
     private static final Logger LOG = LoggerFactory.getLogger( DataSourceServiceImpl.class );
 
     private CalendarService calendarService;
@@ -505,7 +518,7 @@ public final class DataSourceServiceImpl
     public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language,
                                          String country )
     {
-        return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
+        return XMLDocumentFactory.create(calendarService.getFormattedDate(offset, dateformat, language, country));
     }
 
     /**
@@ -804,7 +817,104 @@ public final class DataSourceServiceImpl
             LOG.debug( msg.toString() );
         }
 
-        return XMLDocumentFactory.create( presentationEngine.getURLAsText( url, encoding, timeout ) );
+        return XMLDocumentFactory.create( getURLAsText( url, encoding, timeout ) );
+    }
+
+    private org.w3c.dom.Document getURL( String address, String encoding, int timeoutMs )
+    {
+        InputStream in = null;
+        BufferedReader reader = null;
+        org.w3c.dom.Document result;
+        try
+        {
+            URL url = new URL( address );
+            URLConnection urlConn = url.openConnection();
+            urlConn.setConnectTimeout( timeoutMs > 0 ? timeoutMs : DEFAULT_CONNECTION_TIMEOUT );
+            urlConn.setRequestProperty( "User-Agent", VerticalProperties.getVerticalProperties().getDataSourceUserAgent() );
+            String userInfo = url.getUserInfo();
+            if ( StringUtils.isNotBlank( userInfo ) )
+            {
+                String userInfoBase64Encoded = new String( Base64.encodeBase64(userInfo.getBytes()) );
+                urlConn.setRequestProperty( "Authorization", "Basic " + userInfoBase64Encoded );
+            }
+            in = urlConn.getInputStream();
+
+            // encoding == null: XML file
+            if ( encoding == null )
+            {
+                result = XMLTool.domparse(in);
+            }
+            else
+            {
+                StringBuffer sb = new StringBuffer( 1024 );
+                reader = new BufferedReader( new InputStreamReader( in, encoding ) );
+                char[] line = new char[1024];
+                int charCount = reader.read( line );
+                while ( charCount > 0 )
+                {
+                    sb.append( line, 0, charCount );
+                    charCount = reader.read( line );
+                }
+
+                result = XMLTool.createDocument( "urlresult" );
+                org.w3c.dom.Element root = result.getDocumentElement();
+                XMLTool.createCDATASection( result, root, sb.toString() );
+            }
+        }
+        catch ( SocketTimeoutException ste )
+        {
+            String message = "Socket timeout when trying to get url: " + address;
+            VerticalEngineLogger.warn(this.getClass(), 0, message, null);
+            result = null;
+        }
+        catch ( IOException ioe )
+        {
+            String message = "Failed to get URL: %t";
+            VerticalEngineLogger.warn( this.getClass(), 0, message, ioe );
+            result = null;
+        }
+        catch ( RuntimeException re )
+        {
+            String message = "Failed to get URL: %t";
+            VerticalEngineLogger.warn( this.getClass(), 0, message, re );
+            result = null;
+        }
+        finally
+        {
+            try
+            {
+                if ( reader != null )
+                {
+                    reader.close();
+                }
+                else if ( in != null )
+                {
+                    in.close();
+                }
+            }
+            catch ( IOException ioe )
+            {
+                String message = "Failed to close URL connection: %t";
+                VerticalEngineLogger.warn( this.getClass(), 0, message, ioe );
+            }
+        }
+
+        if ( result == null )
+        {
+            result = XMLTool.createDocument( "noresult" );
+        }
+
+        return result;
+    }
+
+    private org.w3c.dom.Document getURLAsXML( String address, int timeout )
+    {
+        return getURL( address, null, timeout );
+    }
+
+    private org.w3c.dom.Document getURLAsText( String address, String encoding, int timeout )
+    {
+        return getURL( address, encoding, timeout );
     }
 
     /**
@@ -857,7 +967,7 @@ public final class DataSourceServiceImpl
             LOG.debug( msg.toString() );
         }
 
-        return XMLDocumentFactory.create( presentationEngine.getURLAsXML( url, timeout ) );
+        return XMLDocumentFactory.create( getURLAsXML( url, timeout ) );
     }
 
     /**
