@@ -133,6 +133,23 @@ Ext.define( 'App.controller.AccountController', {
     onFilterPanelRender: function()
     {
         Ext.getCmp( 'filter' ).focus( false, 10 );
+
+        this.getFilterTypeField().addListener( 'change', function(field, newValue, oldValue, eOpts) {
+            var fieldIsSelected = typeof field.getValue().type === 'string';
+            if ( fieldIsSelected )
+            {
+                this.searchFilter();
+            }
+        }, this );
+
+        this.getFilterUserStoreField().addListener( 'change', function(field, newValue, oldValue, eOpts) {
+            var fieldIsSelected = typeof field.getValue().userStoreKey === 'string';
+            if ( fieldIsSelected )
+            {
+                this.searchFilter();
+            }
+        }, this );
+
     },
 
     createNewGroupTab: function()
@@ -228,9 +245,19 @@ Ext.define( 'App.controller.AccountController', {
 
         var usersStore = this.getUserStoreStore();
         var textField = this.getFilterTextField();
+        var typeField = this.getFilterTypeField();
+        var userStoreField = this.getFilterUserStoreField();
+
         usersStore.clearFilter();
-        usersStore.load( {params:{query: textField.getValue()}} );
-    },
+        usersStore.load(
+            {
+                params: {
+                    query: textField.getValue(),
+                    type: typeField.getValue(),
+                    userStoreKey: userStoreField.getValue()
+                }
+            });
+        },
 
     setBrowseTabActive: function()
     {
@@ -240,7 +267,6 @@ Ext.define( 'App.controller.AccountController', {
 
     filterHandleEnterKey: function( field, event )
     {
-        console.log(field);
         if ( event.getKey() == event.ENTER )
         {
             this.searchFilter();
@@ -595,6 +621,16 @@ Ext.define( 'App.controller.AccountController', {
     getFilterTextField: function()
     {
         return Ext.ComponentQuery.query( 'accountFilter textfield[name=filter]' )[0];
+    },
+
+    getFilterTypeField: function()
+    {
+        return Ext.ComponentQuery.query( 'accountFilter radiogroup[itemId=typeRadios]' )[0];
+    },
+
+    getFilterUserStoreField: function()
+    {
+        return Ext.ComponentQuery.query( 'accountFilter radiogroup[itemId=userstoreRadios]' )[0];
     },
 
     getEditUserFormPanel: function()

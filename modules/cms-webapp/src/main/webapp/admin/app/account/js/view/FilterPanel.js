@@ -49,17 +49,24 @@ Ext.define('App.view.FilterPanel', {
                     text: 'Type',
                     cls: 'facet-header'
                 },
+
                 {
-                    xtype: 'checkbox',
-                    boxLabel: 'Users (917)',
-                    cls: 'facet-multi-select-item',
-                    checkedCls: 'x-form-cb-checked facet-selected'
-                },
-                {
-                    xtype: 'checkbox',
-                    boxLabel: 'Groups (5)',
-                    cls: 'facet-multi-select-item',
-                    checkedCls: 'x-form-cb-checked facet-selected'
+                    xtype: 'radiogroup',
+                    itemId: 'typeRadios',
+                    columns: 1,
+                    vertical: true,
+
+                    defaults: {
+                        name: 'type',
+                        cls: 'facet-single-select-item',
+                        checkedCls: 'x-form-cb-checked facet-selected',
+                        width: 170
+                    },
+
+                    items: [
+                        { boxLabel: 'Users (917)', inputValue: 'users', checked: true },
+                        { boxLabel: 'Groups (5)', inputValue: 'groups'}
+                    ]
                 },
                 {
                     xtype: 'label',
@@ -68,11 +75,12 @@ Ext.define('App.view.FilterPanel', {
                 },
                 {
                     xtype: 'radiogroup',
+                    itemId: 'userstoreRadios',
                     columns: 1,
                     vertical: true,
 
                     defaults: {
-                        name: 'userstore',
+                        name: 'userStoreKey',
                         cls: 'facet-single-select-item',
                         checkedCls: 'x-form-cb-checked facet-selected',
                         width: 170
