@@ -56,10 +56,6 @@ public class UserServicesController
         {
             servletURL.append( "com.enonic.vertical.userservices.CustomContentHandlerServlet" );
         }
-        else if ( handler.equals( "discussion" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.DiscussionHandlerServlet" );
-        }
         else if ( handler.equals( "catalog" ) )
         {
             servletURL.append( "com.enonic.vertical.userservices.CatalogHandlerServlet" );

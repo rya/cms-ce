@@ -20,7 +20,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -73,51 +72,12 @@ import com.enonic.cms.domain.portal.PrettyPathNameCreator;
  */
 public class ContentHandlerBaseController
     extends AbstractUserServicesHandlerController
-    implements InitializingBean
 {
     protected final static int ERR_MISSING_CATEGORY_KEY = 100;
 
     protected final static int SECONDS_IN_WEEK = 60 * 60 * 24 * 7;
 
-    protected int WORD_BREAK_LIMIT;
-
-
-    public void afterPropertiesSet()
-        throws Exception
-    {
-        WORD_BREAK_LIMIT =
-            verticalProperties.getPropertyAsInt( "com.enonic.vertical.userservices.DiscussionHandlerServlet.WORD_BREAK_LIMIT" );
-    }
-
-    protected String breakString( String string )
-    {
-        int cCounter = 0;
-        StringBuffer newstring = new StringBuffer( string.length() );
-        char c;
-        for ( int i = 0; i < string.length(); i++ )
-        {
-            c = string.charAt( i );
-
-            if ( c == ' ' || c == '.' || c == '!' || c == '?' )
-            {
-                cCounter = 0;
-            }
-            else
-            {
-                ++cCounter;
-            }
-
-            if ( cCounter == WORD_BREAK_LIMIT && ( i + 1 ) < string.length() && string.charAt( i + 1 ) != '-' && c != '-' )
-            {
-                newstring.append( '-' );
-                cCounter = 0;
-            }
-            newstring.append( c );
-        }
-
-        return newstring.toString();
-    }
-
+    protected int WORD_BREAK_LIMIT = 20;
 
     protected void buildContentTypeXML( UserServicesService userServices, Element contentdataElem, ExtendedMap formItems,
                                         boolean skipEmptyElements )

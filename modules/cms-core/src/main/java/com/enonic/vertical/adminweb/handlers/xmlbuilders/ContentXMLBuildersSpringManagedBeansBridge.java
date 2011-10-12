@@ -14,8 +14,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
 
     private ContentCatalogXMLBuilder contentCatalogXMLBuilder;
 
-    private ContentDiscussionXMLBuilder contentDiscussionXMLBuilder;
-
     private ContentDocumentXMLBuilder contentDocumentXMLBuilder;
 
     private ContentEnhancedImageXMLBuilder contentEnhancedImageXMLBuilder;
@@ -69,16 +67,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
     public void setContentCatalogXMLBuilder( ContentCatalogXMLBuilder contentCatalogXMLBuilder )
     {
         this.contentCatalogXMLBuilder = contentCatalogXMLBuilder;
-    }
-
-    public static ContentDiscussionXMLBuilder getContentDiscussionXMLBuilder()
-    {
-        return instance.contentDiscussionXMLBuilder;
-    }
-
-    public void setContentDiscussionXMLBuilder( ContentDiscussionXMLBuilder contentDiscussionXMLBuilder )
-    {
-        this.contentDiscussionXMLBuilder = contentDiscussionXMLBuilder;
     }
 
     public static ContentDocumentXMLBuilder getContentDocumentXMLBuilder()

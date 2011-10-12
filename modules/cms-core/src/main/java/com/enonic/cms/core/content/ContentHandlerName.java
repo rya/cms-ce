@@ -10,7 +10,6 @@ public enum ContentHandlerName
     ARTICLE( "ContentArticle3HandlerServlet" ),
     CATALOG( "ContentCatalogHandlerServlet" ),
     CUSTOM( "SimpleContentHandlerServlet" ),
-    DISCUSSION( "ContentDiscussionHandlerServlet" ),
     DOCUMENT( "ContentDocumentHandlerServlet" ),
     FILE( "ContentFileHandlerServlet" ),
     FORM( "ContentFormHandlerServlet" ),

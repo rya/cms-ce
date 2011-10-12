@@ -134,8 +134,6 @@
                        value-ref="contentBaseHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentCatalogHandlerServlet"
                        value-ref="contentCatalogHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentDiscussionHandlerServlet"
-                       value-ref="contentDiscussionHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"
                        value-ref="contentDocumentHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"
@@ -286,8 +284,6 @@
           class="com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"/>
     <bean id="contentCatalogHandlerServletWrapper"
           class="com.enonic.vertical.adminweb.handlers.ContentCatalogHandlerServlet"/>
-    <bean id="contentDiscussionHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentDiscussionHandlerServlet"/>
     <bean id="languageHandlerServletWrapper" class="com.enonic.vertical.adminweb.LanguageHandlerServlet"/>
     <bean id="logHandlerServletWrapper" class="com.enonic.vertical.adminweb.LogHandlerServlet"/>
     <bean id="mainMenuServletWrapper" class="com.enonic.vertical.adminweb.MainMenuServlet"/>
