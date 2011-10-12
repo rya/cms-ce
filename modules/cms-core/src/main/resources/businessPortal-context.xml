@@ -37,7 +37,6 @@
           class="com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
     <bean id="loginPagePathResolverService" class="com.enonic.cms.business.portal.support.LoginPagePathResolverServiceImpl">
-        <property name="presentationService" ref="presentationService"/>
     </bean>
 
     <bean id="siteRedirectHelper" class="com.enonic.cms.business.portal.SiteRedirectHelper">

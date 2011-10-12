@@ -160,7 +160,7 @@ public final class ContentHandler
         }
     }
 
-    public int[] getCategoryKeys( int[] contentKeys )
+    private int[] getCategoryKeys( int[] contentKeys )
     {
         if ( contentKeys == null || contentKeys.length == 0 )
         {

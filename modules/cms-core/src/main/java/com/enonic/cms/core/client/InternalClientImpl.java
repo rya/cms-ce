@@ -143,10 +143,7 @@ import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
-import com.enonic.cms.core.service.KeyService;
-import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.CategoryDao;
@@ -177,14 +174,6 @@ public final class InternalClientImpl
     private InternalClientContentService internalClientContentService;
 
     private InternalClientRenderService internalClientRenderService;
-
-    private KeyService keyService;
-
-    private AdminService adminService;
-
-    private UserServicesService userServicesService;
-
-    private PresentationService presentationService;
 
     private DataSourceService dataSourceService;
 
@@ -250,31 +239,6 @@ public final class InternalClientImpl
     public void setContentTypeDao( ContentTypeDao contentTypeDao )
     {
         this.contentTypeDao = contentTypeDao;
-    }
-
-    public KeyService getKeyService()
-    {
-        return this.keyService;
-    }
-
-    public PresentationService getPresentationService()
-    {
-        return this.presentationService;
-    }
-
-    public DataSourceService getDataSourceService()
-    {
-        return this.dataSourceService;
-    }
-
-    public UserServicesService getUserServicesService()
-    {
-        return userServicesService;
-    }
-
-    public AdminService getAdminService()
-    {
-        return this.adminService;
     }
 
     public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
@@ -2215,26 +2179,6 @@ public final class InternalClientImpl
             list.add( groupType );
         }
         return list;
-    }
-
-    public void setKeyService( KeyService value )
-    {
-        this.keyService = value;
-    }
-
-    public void setAdminService( AdminService value )
-    {
-        this.adminService = value;
-    }
-
-    public void setUserServicesService( UserServicesService value )
-    {
-        this.userServicesService = value;
-    }
-
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
     }
 
     public void setResourceService( ResourceService value )

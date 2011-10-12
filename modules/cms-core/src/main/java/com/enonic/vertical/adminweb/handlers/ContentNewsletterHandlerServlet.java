@@ -562,7 +562,6 @@ public class ContentNewsletterHandlerServlet
     {
 
         formItems.put( "_session", session );
-        formItems.put( "_presentation", presentation );
 
         if ( "session".equals( formItems.getString( "content", null ) ) )
         {

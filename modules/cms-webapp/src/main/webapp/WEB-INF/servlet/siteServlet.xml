@@ -40,7 +40,6 @@
 
     <bean id="siteExceptionResolver" class="com.enonic.cms.server.service.portal.PortalExceptionResolver">
         <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="presentationService" ref="presentationService"/>
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
         <property name="siteURLResolver" ref="siteURLResolver"/>
         <property name="menuItemDao" ref="menuItemDao"/>

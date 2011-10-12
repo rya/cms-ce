@@ -4,46 +4,42 @@
  */
 package com.enonic.cms.business.portal.support;
 
-import com.enonic.vertical.engine.Types;
-
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.service.PresentationService;
-
 import com.enonic.cms.domain.portal.LoginPageNotFoundException;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class LoginPagePathResolverServiceImpl
     implements LoginPagePathResolverService
 {
+    @Autowired
+    private SiteDao siteDao;
 
-    private PresentationService presentationService;
-
-    public void setPresentationService( PresentationService value )
+    public SitePath resolvePathToUserServicesLoginPage( final SitePath sitePath )
     {
-        this.presentationService = value;
-    }
-
-    public SitePath resolvePathToUserServicesLoginPage( SitePath sitePath )
-    {
-        // forward to userservice "login" for processing
-        SitePath loginSitePath = new SitePath( sitePath.getSiteKey(), ReservedLocalPaths.PATH_USERSERVICES, sitePath.getParams() );
+        final SitePath loginSitePath = new SitePath( sitePath.getSiteKey(), ReservedLocalPaths.PATH_USERSERVICES, sitePath.getParams() );
         loginSitePath.addParam( "_handler", "user" );
         loginSitePath.addParam( "_op", "login" );
         return loginSitePath;
     }
 
-    public SitePath resolvePathToDefaultPageInMenu( SitePath sitePath )
+    public SitePath resolvePathToDefaultPageInMenu( final SitePath sitePath )
     {
-        SiteKey siteKey = sitePath.getSiteKey();
-        int menuItemKey = presentationService.getLoginPage( siteKey.toInt() );
-        if ( menuItemKey < 0 )
+        final SiteKey siteKey = sitePath.getSiteKey();
+        final SiteEntity siteEntity = this.siteDao.findByKey(siteKey);
+        final MenuItemEntity loginPage = siteEntity.getLoginPage();
+
+        if ( loginPage == null )
         {
             throw new LoginPageNotFoundException( siteKey );
         }
 
-        Path newLocalPath = new Path( presentationService.getPathString( Types.MENUITEM, menuItemKey, false ) );
+        final Path newLocalPath = loginPage.getPath();
         return sitePath.createNewInSameSite( newLocalPath, sitePath.getParams() );
     }
 }

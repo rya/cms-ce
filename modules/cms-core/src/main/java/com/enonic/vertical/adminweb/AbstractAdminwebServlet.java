@@ -40,7 +40,6 @@ import com.enonic.cms.core.resource.access.ResourceAccessResolver;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.KeyService;
-import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -171,9 +170,6 @@ public abstract class AbstractAdminwebServlet
     protected MenuItemService menuItemService;
 
     @Autowired
-    protected PresentationService presentation;
-
-    @Autowired
     protected ResourceService resourceService;
 
     @Autowired
@@ -245,7 +241,6 @@ public abstract class AbstractAdminwebServlet
 
     protected ApplicationContext applicationContext;
 
-    @Override
     public void setApplicationContext( ApplicationContext applicationContext )
         throws BeansException
     {

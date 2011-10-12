@@ -5,16 +5,12 @@
 
   <!-- Local client is the client implementation local for this vm. -->
   <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
-    <property name="adminService" ref="adminService"/>
-    <property name="presentationService" ref="presentationService"/>
     <property name="dataSourceService" ref="dataSourceService"/>
     <property name="internalClientRenderService" ref="internalClientRenderService"/>
     <property name="internalClientContentService" ref="internalClientContentService"/>
     <property name="userDao" ref="userDao"/>
     <property name="userParser" ref="userParser"/>
     <property name="userStoreParser" ref="userStoreParser"/>
-    <property name="keyService" ref="keyService"/>
-    <property name="userServicesService" ref="userServicesService"/>
     <property name="resourceService" ref="resourceService"/>
     <property name="preferenceService" ref="preferenceService"/>
     <property name="cmsProperties" ref="loadedVerticalProperties"/>

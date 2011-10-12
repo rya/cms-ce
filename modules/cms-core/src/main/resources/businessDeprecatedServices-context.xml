@@ -8,10 +8,6 @@
     <property name="resourceService" ref="resourceService"/>
   </bean>
 
-  <bean id="presentationService" class="com.enonic.cms.core.internal.service.PresentationServiceImpl">
-    <property name="presentationEngine" ref="presentationEngine"/>
-  </bean>
-
   <bean id="abstractBaseEngine" abstract="true" class="com.enonic.vertical.engine.BaseEngine">
     <property name="dataSourceService" ref="dataSourceService"/>
     <property name="connectionFactory" ref="connectionFactory"/>
@@ -20,7 +16,6 @@
 
   <bean id="presentationEngine" class="com.enonic.vertical.engine.PresentationEngine" parent="abstractBaseEngine">
     <property name="binaryDataHandler" ref="binaryDataHandler"/>
-    <property name="calendarService" ref="calendarService"/>
     <property name="commonHandler" ref="commonHandler"/>
     <property name="contentHandler" ref="contentHandler"/>
     <property name="categoryHandler" ref="categoryHandler"/>

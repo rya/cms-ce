@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -35,7 +34,6 @@ import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.security.userstore.UserStoreService;
 
 public final class GroupHandler
     extends BaseHandler
@@ -73,12 +71,7 @@ public final class GroupHandler
 
     static private Map<UserStoreKey, String> authenticatedUsersGroupKeys = new HashMap<UserStoreKey, String>();
 
-
-    @Autowired
-    private UserStoreService userStoreService;
-
-
-    synchronized public String getAuthenticatedUsersGroupKey( UserStoreKey userStoreKey )
+    synchronized private String getAuthenticatedUsersGroupKey( UserStoreKey userStoreKey )
     {
         if ( userStoreKey == null )
         {
@@ -101,22 +94,6 @@ public final class GroupHandler
 
         return groupKey;
     }
-
-    /* Appears not to be in use:
-    synchronized public String getUserStoreAdminGroupKey( UserStoreKey userStoreKey )
-    {
-        GroupSpecification spec = new GroupSpecification();
-        spec.setUserStoreKey( userStoreKey );
-        spec.setType( GroupType.USERSTORE_ADMINS );
-
-        GroupEntity group = groupDao.findSingleBySpecification( spec );
-        if ( group == null )
-        {
-            return null;
-        }
-        return group.getGroupKey().toString();
-    }
-    */
 
     private String getGroupKeyByGroupType( GroupType groupType )
     {
@@ -430,7 +407,7 @@ public final class GroupHandler
         }
     }
 
-    public String[] getGroupMemberships( Connection _con, String[] groups, Set<String> excludeGroups )
+    private String[] getGroupMemberships( Connection _con, String[] groups, Set<String> excludeGroups )
     {
 
         PreparedStatement preparedStmt = null;

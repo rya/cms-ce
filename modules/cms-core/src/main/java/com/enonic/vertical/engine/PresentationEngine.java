@@ -15,7 +15,6 @@ import java.net.URLConnection;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -37,14 +36,8 @@ import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.calendar.CalendarService;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.core.SiteKey;
 
@@ -56,8 +49,6 @@ public class PresentationEngine
     private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
 
     private BinaryDataHandler binaryDataHandler;
-
-    private CalendarService calendarService;
 
     private CategoryHandler categoryHandler;
 
@@ -84,9 +75,6 @@ public class PresentationEngine
     private SecurityHandler securityHandler;
 
     private UserHandler userHandler;
-
-    @Autowired
-    private SiteDao siteDao;
 
     public void afterPropertiesSet()
         throws Exception
@@ -163,11 +151,6 @@ public class PresentationEngine
     public UserHandler getUserHandler()
     {
         return userHandler;
-    }
-
-    public XMLDocument getFormattedDate( int offset, String dateformat, String language, String country )
-    {
-        return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
     }
 
     private Document getURL( String address, String encoding, int timeoutMs )
@@ -267,16 +250,6 @@ public class PresentationEngine
         return getURL( address, encoding, timeout );
     }
 
-    public boolean hasErrorPage( int menuKey )
-    {
-        return menuHandler.getErrorPage( menuKey ) >= 0;
-    }
-
-    public int getErrorPage( int menuKey )
-    {
-        return menuHandler.getErrorPage( menuKey );
-    }
-
     public Document getSections( User user, SiteKey siteKey )
     {
         SectionCriteria criteria = new SectionCriteria();
@@ -303,11 +276,6 @@ public class PresentationEngine
         }
 
         return doc;
-    }
-
-    public int getLoginPage( int menuKey )
-    {
-        return menuHandler.getLoginPage( menuKey );
     }
 
     public Document getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )
@@ -345,23 +313,9 @@ public class PresentationEngine
         return binaryDataHandler.getBinaryDataKey( contentKey, label );
     }
 
-    public String getPathString( int type, int key, boolean includeRoot )
-    {
-        if ( type == Types.MENUITEM )
-        {
-            return menuHandler.getPathString( key, includeRoot, false ).toString();
-        }
-        return null;
-    }
-
     public void setBinaryDataHandler( BinaryDataHandler binaryDataHandler )
     {
         this.binaryDataHandler = binaryDataHandler;
-    }
-
-    public void setCalendarService( CalendarService service )
-    {
-        calendarService = service;
     }
 
     public void setCategoryHandler( CategoryHandler categoryHandler )
@@ -427,13 +381,6 @@ public class PresentationEngine
     public void setUserHandler( UserHandler userHandler )
     {
         this.userHandler = userHandler;
-    }
-
-
-    public boolean siteExists( SiteKey siteKey )
-    {
-        SiteEntity site = siteDao.findByKey( siteKey.toInt() );
-        return ( site != null );
     }
 
     public String getContents( User user, int[] contentKeys, int parentLevel, int childrenLevel, int parentChildrenLevel,

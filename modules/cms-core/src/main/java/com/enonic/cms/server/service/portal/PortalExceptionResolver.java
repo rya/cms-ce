@@ -10,8 +10,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.store.dao.SiteDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +26,6 @@ import com.enonic.cms.core.InvalidKeyException;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.UnauthorizedErrorType;
-import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.server.domain.AbstractBaseError;
 import com.enonic.cms.server.domain.ClientError;
@@ -59,22 +61,18 @@ public class PortalExceptionResolver
 
     private SitePathResolver sitePathResolver;
 
-    private PresentationService presentationService;
-
     private SiteRedirectAndForwardHelper siteRedirectAndForwardHelper;
 
     private SiteURLResolver siteURLResolver;
 
     private MenuItemDao menuItemDao;
 
+    @Autowired
+    private SiteDao siteDao;
+
     public void setSitePathResolver( SitePathResolver value )
     {
         this.sitePathResolver = value;
-    }
-
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
     }
 
     public void setSiteRedirectAndForwardHelper( SiteRedirectAndForwardHelper value )
@@ -279,11 +277,11 @@ public class PortalExceptionResolver
     {
 
         SitePath sitePath = sitePathResolver.resolveSitePath( request );
-        boolean siteExists = presentationService.siteExists( sitePath.getSiteKey() );
-        if ( siteExists && presentationService.hasErrorPage( sitePath.getSiteKey().toInt() ) )
+        boolean siteExists = siteExists( sitePath.getSiteKey() );
+        if ( siteExists && hasErrorPage( sitePath.getSiteKey().toInt() ) )
         {
             request.setAttribute( Attribute.ORIGINAL_SITEPATH, sitePath );
-            int errorPageKey = presentationService.getErrorPage( sitePath.getSiteKey().toInt() );
+            int errorPageKey = getErrorPage( sitePath.getSiteKey().toInt() );
             SitePath errorPagePath = new SitePath( sitePath.getSiteKey(), new Path( resolveMenuItemPath( errorPageKey ) ) );
             final String statusCodeString = String.valueOf( error.getStatusCode() );
             errorPagePath.addParam( "http_status_code", statusCodeString );
@@ -340,7 +338,7 @@ public class PortalExceptionResolver
     {
 
         SiteKey siteKey = unauthPageSitePath.getSiteKey();
-        int menuItemKey = presentationService.getLoginPage( siteKey.toInt() );
+        int menuItemKey = getLoginPage( siteKey.toInt() );
 
         if ( menuItemKey >= 0 )
         {
@@ -374,5 +372,42 @@ public class PortalExceptionResolver
             }
         }
         return false;
+    }
+
+    private int getErrorPage( final int siteKey )
+    {
+        final SiteEntity entity = this.siteDao.findByKey( siteKey );
+        if ( ( entity == null ) || ( entity.getErrorPage() == null ) )
+        {
+            return -1;
+        }
+        else
+        {
+            return entity.getErrorPage().getKey();
+        }
+    }
+
+    private boolean hasErrorPage( final int siteKey )
+    {
+        return getErrorPage( siteKey ) >= 0;
+    }
+
+    private int getLoginPage( final int siteKey )
+    {
+        final SiteEntity entity = this.siteDao.findByKey( siteKey );
+        if ( ( entity == null ) || ( entity.getLoginPage() == null ) )
+        {
+            return -1;
+        }
+        else
+        {
+            return entity.getLoginPage().getKey();
+        }
+    }
+
+    private boolean siteExists( final SiteKey siteKey )
+    {
+        final SiteEntity site = this.siteDao.findByKey( siteKey.toInt() );
+        return site != null;
     }
 }

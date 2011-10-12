@@ -20,7 +20,6 @@ import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.AutoLoginService;
-import com.enonic.cms.core.service.PresentationService;
 import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
@@ -56,8 +55,6 @@ public abstract class AbstractSiteController
     protected SiteRedirectAndForwardHelper siteRedirectAndForwardHelper;
 
     protected SitePathResolver sitePathResolver;
-
-    protected PresentationService presentationService;
 
     protected SecurityService securityService;
 
@@ -145,11 +142,6 @@ public abstract class AbstractSiteController
     public void setSiteDao( SiteDao value )
     {
         this.siteDao = value;
-    }
-
-    public void setPresentationService( PresentationService value )
-    {
-        this.presentationService = value;
     }
 
     public void setSiteRedirectAndForwardHelper( SiteRedirectAndForwardHelper value )

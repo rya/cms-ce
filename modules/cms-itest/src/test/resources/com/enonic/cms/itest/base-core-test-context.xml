@@ -260,9 +260,6 @@
         <property name="urlDecode" value="true"/>
     </bean>
 
-    <bean id="presentationService" class="com.enonic.cms.core.internal.service.PresentationServiceImpl">
-    </bean>
-
     <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
 
     <bean id="siteRedirectAndForwardHelper"
