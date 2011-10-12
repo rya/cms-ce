@@ -824,8 +824,4 @@ public interface DataSourceService
     public XMLDocument getLocales( DataSourceContext context );
 
     public XMLDocument getTimeZones( DataSourceContext context );
-
-    public XMLDocument getShoppingCartContents( DataSourceContext context, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                boolean updateStatistics, int[] filterByCategories, boolean categoryRecursive,
-                                                int[] filterByContentTypes );
 }

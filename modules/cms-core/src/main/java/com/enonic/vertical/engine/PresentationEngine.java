@@ -7,7 +7,6 @@ package com.enonic.vertical.engine;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.filters.ContentFilter;
 import com.enonic.vertical.engine.handlers.BinaryDataHandler;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.CommonHandler;
@@ -268,26 +267,5 @@ public class PresentationEngine
     public void setUserHandler( UserHandler userHandler )
     {
         this.userHandler = userHandler;
-    }
-
-    public String getContents( User user, int[] contentKeys, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                               boolean includeAccessRights, boolean includeUserRights, ContentFilter contentFilter )
-    {
-
-        if ( user == null )
-        {
-            user = userHandler.getAnonymousUser();
-        }
-
-        Document doc =
-            contentHandler.getContents( user, contentKeys, true, false, parentLevel, childrenLevel, parentChildrenLevel, false, false,
-                                        contentFilter );
-
-        if ( includeAccessRights || includeUserRights )
-        {
-            securityHandler.appendAccessRights( user, doc, includeAccessRights, includeUserRights );
-        }
-
-        return XMLTool.documentToString( doc );
     }
 }

@@ -38,7 +38,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.vertical.engine.PresentationEngine;
-import com.enonic.vertical.engine.filters.ContentFilter;
 
 import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -120,7 +119,6 @@ import com.enonic.cms.core.content.query.ContentByQueryQuery;
 import com.enonic.cms.core.content.query.InvalidContentBySectionQueryException;
 import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
 
-import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
 
@@ -1331,41 +1329,14 @@ public final class DataSourceServiceImpl
         return XMLDocumentFactory.create( userDoc );
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public XMLDocument getShoppingCartContents( DataSourceContext context, int parentLevel, int childrenLevel, int parentChildrenLevel,
-                                                boolean updateStatistics, int[] filterByCategories, boolean categoryRecursive,
-                                                int[] filterByContentTypes )
-    {
-
-        ShoppingCart cart = context.getShoppingCart();
-        if ( cart != null )
-        {
-            int[] contentKeys = cart.toIdArray();
-            if ( contentKeys.length > 0 )
-            {
-                ContentFilter contentFilter = new ContentFilter( filterByCategories, categoryRecursive, filterByContentTypes );
-                return XMLDocumentFactory.create(
-                        presentationEngine.getContents( context.getUser(), contentKeys, parentLevel, childrenLevel,
-                                                        parentChildrenLevel, false, false, contentFilter ) );
-            }
-        }
-
-        return XMLDocumentFactory.create( "<contents/>" );
-    }
-
     /**
      * @inheritDoc
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public XMLDocument getPreferences( DataSourceContext context, String scope, String wildCardKey, boolean uniqueMatch )
     {
-
         return doGetPreferences( context, scope, wildCardKey, uniqueMatch );
     }
-
 
     /**
      * @inheritDoc

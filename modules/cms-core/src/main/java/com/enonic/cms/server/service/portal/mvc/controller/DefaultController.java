@@ -45,7 +45,7 @@ import com.enonic.cms.core.security.user.User;
 public class DefaultController
     extends AbstractPortalController
 {
-    private static String LOCAL_PREFIX = "/_default";
+    private final static String LOCAL_PREFIX = "/_default";
 
     private SecurityService securityService;
 

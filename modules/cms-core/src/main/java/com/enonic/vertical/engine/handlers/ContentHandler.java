@@ -314,7 +314,7 @@ public final class ContentHandler
                             relatedTitlesOnly, includeStatistics, contentFilter );
     }
 
-    public Document getContents( User user, int[] contentKeys, boolean publishedOnly, boolean titlesOnly, int parentLevel,
+    private Document getContents( User user, int[] contentKeys, boolean publishedOnly, boolean titlesOnly, int parentLevel,
                                  int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics,
                                  ContentFilter contentFilter )
     {
