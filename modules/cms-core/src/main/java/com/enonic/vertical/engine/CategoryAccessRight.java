@@ -4,8 +4,6 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.cms.core.content.category.CategoryKey;
-
 public final class CategoryAccessRight
     extends AccessRight
 {
@@ -18,9 +16,8 @@ public final class CategoryAccessRight
 
     private boolean adminread;
 
-    public CategoryAccessRight( CategoryKey categoryKey )
+    public CategoryAccessRight()
     {
-        super( categoryKey.toInt(), AccessRight.CATEGORY );
     }
 
     public void setCreate( boolean create )

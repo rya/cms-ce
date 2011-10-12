@@ -4,10 +4,7 @@
  */
 package com.enonic.vertical.engine;
 
-import java.io.Serializable;
-
 public abstract class AccessRight
-    implements Serializable
 {
     // constants:
 
@@ -21,19 +18,7 @@ public abstract class AccessRight
 
     public final static int SECTION = 4;
 
-    // instance fields:
-
-    private int key;
-
-    private int type;
-
     private boolean read = false;
-
-    public AccessRight( int key, int type )
-    {
-        this.type = type;
-        this.key = key;
-    }
 
     public boolean getRead()
     {

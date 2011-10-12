@@ -9,9 +9,8 @@ public final class MenuAccessRight
 {
     private boolean administrate = false;
 
-    public MenuAccessRight( int key )
+    public MenuAccessRight()
     {
-        super( key, AccessRight.MENUITEM_DEFAULT );
     }
 
     public void setAdministrate( boolean administrate )

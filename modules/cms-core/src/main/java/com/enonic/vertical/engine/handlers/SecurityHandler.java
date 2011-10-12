@@ -1617,7 +1617,7 @@ final public class SecurityHandler
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         GroupHandler groupHandler = getGroupHandler();
-        CategoryAccessRight categoryAccessRight = new CategoryAccessRight( categoryKey );
+        CategoryAccessRight categoryAccessRight = new CategoryAccessRight();
 
         // if enterprise administrator, return full rights
         String eaGroup = groupHandler.getEnterpriseAdministratorGroupKey();
@@ -1721,7 +1721,7 @@ final public class SecurityHandler
         Arrays.sort( groups );
         if ( user.isEnterpriseAdmin() || Arrays.binarySearch( groups, eaGroup ) >= 0 )
         {
-            MenuAccessRight menuAccessRight = new MenuAccessRight( menuKey );
+            MenuAccessRight menuAccessRight = new MenuAccessRight();
             menuAccessRight.setRead( true );
             menuAccessRight.setAdministrate( true );
             return menuAccessRight;
@@ -1730,7 +1730,7 @@ final public class SecurityHandler
         Connection con = null;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
-        MenuAccessRight menuAccessRight = new MenuAccessRight( menuKey );
+        MenuAccessRight menuAccessRight = new MenuAccessRight();
 
         // [read, create, publish, administrate, update, delete]
         int READ = 0, CREATE = 1, PUBLISH = 2, ADMIN = 3, UPDATE = 4, DELETE = 5;
@@ -1813,7 +1813,7 @@ final public class SecurityHandler
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         GroupHandler groupHandler = getGroupHandler();
-        MenuItemAccessRight menuItemAccessRight = new MenuItemAccessRight( menuItemKey );
+        MenuItemAccessRight menuItemAccessRight = new MenuItemAccessRight();
 
         String eaGroup = groupHandler.getEnterpriseAdministratorGroupKey();
         String[] groups = groupHandler.getAllGroupMembershipsForUser( user );
@@ -1915,7 +1915,7 @@ final public class SecurityHandler
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         GroupHandler groupHandler = getGroupHandler();
-        ContentAccessRight contentAccessRight = new ContentAccessRight( contentKey );
+        ContentAccessRight contentAccessRight = new ContentAccessRight();
 
         // if enterprise administrator, return full rights
         String eaGroup = groupHandler.getEnterpriseAdministratorGroupKey();

@@ -7,12 +7,10 @@ package com.enonic.vertical.engine;
 public final class ContentAccessRight
     extends AccessRight
 {
-
     private boolean update;
 
-    public ContentAccessRight( int key )
+    public ContentAccessRight()
     {
-        super( key, AccessRight.MENUITEM );
     }
 
     public void setUpdate( boolean update )
@@ -24,5 +22,4 @@ public final class ContentAccessRight
     {
         return update;
     }
-
 }

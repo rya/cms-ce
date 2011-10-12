@@ -4,8 +4,6 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-
 public final class MenuItemAccessRight
     extends AccessRight
 {
@@ -15,9 +13,8 @@ public final class MenuItemAccessRight
 
     private boolean add = false;
 
-    public MenuItemAccessRight( MenuItemKey key )
+    public MenuItemAccessRight()
     {
-        super( key.toInt(), AccessRight.MENUITEM );
     }
 
     public void setPublish( boolean publish )
