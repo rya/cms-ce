@@ -57,7 +57,6 @@ public class IsWindowEmptyFunction
             windowRenderContext.setRenderedInline( true );
             windowRenderContext.setRenderer( pageRendererContext.getRenderer() );
             windowRenderContext.setTicketId( pageRendererContext.getTicketId() );
-            windowRenderContext.setShoppingCart( pageRendererContext.getShoppingCart() );
             windowRenderContext.setSite( pageRendererContext.getSite() );
             windowRenderContext.setSitePath( pageRendererContext.getSitePath() );
             windowRenderContext.setVerticalSession( pageRendererContext.getVerticalSession() );

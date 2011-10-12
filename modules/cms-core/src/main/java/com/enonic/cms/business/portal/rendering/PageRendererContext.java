@@ -21,7 +21,6 @@ import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
 import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
@@ -69,8 +68,6 @@ public class PageRendererContext
     private SitePath originalSitePath;
 
     private SitePath sitePath;
-
-    private ShoppingCart shoppingCart;
 
     private VerticalSession verticalSession;
 
@@ -230,16 +227,6 @@ public class PageRendererContext
     public void setTicketId( String ticketId )
     {
         this.ticketId = ticketId;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart( ShoppingCart shoppingCart )
-    {
-        this.shoppingCart = shoppingCart;
     }
 
     public VerticalSession getVerticalSession()

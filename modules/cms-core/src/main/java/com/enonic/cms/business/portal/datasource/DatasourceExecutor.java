@@ -21,7 +21,6 @@ import com.enonic.cms.business.portal.livetrace.DatasourceExecutionTracer;
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
 
-import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.datasource.DataSourceResult;
 import com.enonic.cms.domain.portal.datasource.Datasource;
 import com.enonic.cms.domain.portal.datasource.Datasources;
@@ -53,16 +52,6 @@ public class DatasourceExecutor
 
         Element contextEl = datasourcesContextXmlCreator.createContextElement( datasources, context );
         verticaldataEl.addContent( contextEl );
-
-        if ( datasources.isShoppingCartSetToFull() || datasources.isShoppingCartSetToSummary() )
-        {
-            Document shoppingCartDoc = buildShoppingCartXml( context.getShoppingCart(), datasources.isShoppingCartSetToFull() );
-
-            // shoppingcart
-            Element contentobject = getOrCreateElement( verticaldataEl, "contentobject" );
-            Element shoppingcart = shoppingCartDoc.getRootElement();
-            contentobject.addContent( shoppingcart.detach() );
-        }
 
         // execute data sources
         for ( Datasource datasource : datasources.getDatasourceElements() )
@@ -147,19 +136,6 @@ public class DatasourceExecutor
         return context.getDefaultResultRootElementName();
     }
 
-    private Document buildShoppingCartXml( ShoppingCart cart, boolean full )
-    {
-        if ( cart != null )
-        {
-            return XMLDocumentFactory.create( cart.toDoc( full ) ).getAsJDOMDocument();
-        }
-        else
-        {
-            return new Document( new Element( "shoppingcart" ) );
-        }
-    }
-
-
     private Document executeMethodCall( Datasource datasource )
     {
         MethodCall methodCall = MethodCallFactory.create( context, datasource );
@@ -213,20 +189,6 @@ public class DatasourceExecutor
             info.setDataSourceResult( XMLDocumentFactory.create( result ) );
         }
     }
-
-    private Element getOrCreateElement( Element parent, String name )
-    {
-        Element elem = parent.getChild( name );
-        if ( elem != null )
-        {
-            return elem;
-        }
-
-        elem = new Element( name );
-        parent.addContent( elem );
-        return elem;
-    }
-
 
     public void setContext( DatasourceExecutorContext value )
     {

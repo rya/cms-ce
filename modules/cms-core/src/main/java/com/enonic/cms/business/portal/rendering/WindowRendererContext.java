@@ -66,8 +66,6 @@ public class WindowRendererContext
 
     private SitePath originalSitePath;
 
-    private ShoppingCart shoppingCart;
-
     private VerticalSession verticalSession;
 
     private String profile;
@@ -239,16 +237,6 @@ public class WindowRendererContext
     public void setDeviceClass( String deviceClass )
     {
         this.deviceClass = deviceClass;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
-    }
-
-    public void setShoppingCart( ShoppingCart shoppingCart )
-    {
-        this.shoppingCart = shoppingCart;
     }
 
     public VerticalSession getVerticalSession()

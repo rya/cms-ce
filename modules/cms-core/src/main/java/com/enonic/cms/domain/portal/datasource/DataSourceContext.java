@@ -18,8 +18,6 @@ public class DataSourceContext
 {
     private SiteKey siteKey = null;
 
-    private ShoppingCart shoppingCart;
-
     private PortalInstanceKey portalInstanceKey;
 
     private UserEntity user;
@@ -43,11 +41,6 @@ public class DataSourceContext
         siteKey = value;
     }
 
-    public void setShoppingCart( final ShoppingCart value )
-    {
-        shoppingCart = value;
-    }
-
     public void setPortalInstanceKey( final PortalInstanceKey value )
     {
         portalInstanceKey = value;
@@ -61,11 +54,6 @@ public class DataSourceContext
     public SiteKey getSiteKey()
     {
         return siteKey;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
     }
 
     public PortalInstanceKey getPortalInstanceKey()

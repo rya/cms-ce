@@ -214,7 +214,6 @@ public class PortalRequestProcessor
             windowRendererContext.setRenderedInline( false );
             windowRendererContext.setRenderer( requester );
             windowRendererContext.setTicketId( request.getTicketId() );
-            windowRendererContext.setShoppingCart( request.getShoppingCart() );
             windowRendererContext.setSite( site );
             windowRendererContext.setSitePath( sitePath );
             windowRendererContext.setVerticalSession( request.getVerticalSession() );
@@ -249,7 +248,6 @@ public class PortalRequestProcessor
             pageRendererContext.setTicketId( request.getTicketId() );
             pageRendererContext.setSite( site );
             pageRendererContext.setSitePath( sitePath );
-            pageRendererContext.setShoppingCart( request.getShoppingCart() );
             pageRendererContext.setVerticalSession( request.getVerticalSession() );
             PageRenderer pageRenderer = pageRendererFactory.createPageRenderer( pageRendererContext );
 

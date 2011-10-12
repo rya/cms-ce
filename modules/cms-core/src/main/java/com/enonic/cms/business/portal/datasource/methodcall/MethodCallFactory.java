@@ -157,7 +157,6 @@ public class MethodCallFactory
     {
         DataSourceContext dataSourceContext = new DataSourceContext( context.getPreviewContext() );
         dataSourceContext.setPortalInstanceKey( context.getPortalInstanceKey() );
-        dataSourceContext.setShoppingCart( context.getShoppingCart() );
         dataSourceContext.setSiteKey( context.getSite() != null ? context.getSite().getKey() : null );
         dataSourceContext.setUser( context.getUser() );
         return dataSourceContext;

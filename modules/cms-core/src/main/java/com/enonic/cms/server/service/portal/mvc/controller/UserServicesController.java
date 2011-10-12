@@ -68,10 +68,6 @@ public class UserServicesController
         {
             servletURL.append( "com.enonic.vertical.userservices.PollHandlerServlet" );
         }
-        else if ( handler.equals( "order" ) )
-        {
-            servletURL.append( "com.enonic.vertical.userservices.OrderHandlerServlet" );
-        }
         else if ( handler.equals( "sendmail" ) )
         {
             servletURL.append( "com.enonic.vertical.userservices.SendMailServlet" );

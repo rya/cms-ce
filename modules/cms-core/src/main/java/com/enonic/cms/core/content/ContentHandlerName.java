@@ -16,8 +16,7 @@ public enum ContentHandlerName
     NEWSLETTER( "ContentNewsletterHandlerServlet" ),
     PERSON( "ContentPersonHandlerServlet" ),
     POLL( "ContentPollHandlerServlet" ),
-    PRODUCT( "ContentProductHandlerServlet" ),
-    ORDER( "ContentOrderHandlerServlet" );
+    PRODUCT( "ContentProductHandlerServlet" );
 
 
     private String handlerClassName;

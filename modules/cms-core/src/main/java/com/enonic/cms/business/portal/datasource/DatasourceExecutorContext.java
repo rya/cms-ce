@@ -78,8 +78,6 @@ public class DatasourceExecutorContext
 
     private InvocationCache invocationCache;
 
-    private ShoppingCart shoppingCart;
-
     private String deviceClass;
 
     private VerticalSession verticalSession;
@@ -246,16 +244,6 @@ public class DatasourceExecutorContext
     public void setPortletDocument( Document value )
     {
         this.portletDocument = value;
-    }
-
-    public void setShoppingCart( ShoppingCart shoppingCart )
-    {
-        this.shoppingCart = shoppingCart;
-    }
-
-    public ShoppingCart getShoppingCart()
-    {
-        return shoppingCart;
     }
 
     public void setCssKeys( ResourceKey[] cssKeys )

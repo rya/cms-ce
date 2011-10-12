@@ -126,14 +126,6 @@ public class DatabaseBaseValuesInitializer001
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xmlconfig><config/><indexparameters><index type=\"text\" xpath=\"contentdata/subject\"/><index type=\"text\" xpath=\"contentdata/summary\"/></indexparameters><ctydefault/></xmlconfig>";
         insertContentHandler( conn, key, name, clazz, description, xmlConfig );
 
-        key = 9;
-        name = "Shop Orders";
-        clazz = "com.enonic.vertical.adminweb.handlers.ContentOrderHandlerServlet";
-        description = "";
-        xmlConfig =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?><xmlconfig><config/><indexparameters><index type=\"text\" xpath=\"contentdata/status\"/><index type=\"text\" xpath=\"contentdata/customer/firstname\"/><index type=\"text\" xpath=\"contentdata/customer/lastname\"/><index type=\"text\" xpath=\"contentdata/customer/company\"/><index type=\"text\" xpath=\"contentdata/customer/email\"/><index type=\"text\" xpath=\"contentdata/customer/telephone\"/><index type=\"text\" xpath=\"contentdata/customer/mobile\"/><index type=\"text\" xpath=\"contentdata/customer/fax\"/><index type=\"text\" xpath=\"contentdata/billingaddress/postaladdress\"/><index type=\"text\" xpath=\"contentdata/billingaddress/postalcode\"/><index type=\"text\" xpath=\"contentdata/billingaddress/location\"/><index type=\"text\" xpath=\"contentdata/billingaddress/country\"/><index type=\"text\" xpath=\"contentdata/shippingaddress/postaladdress\"/><index type=\"text\" xpath=\"contentdata/shippingaddress/postalcode\"/><index type=\"text\" xpath=\"contentdata/shippingaddress/location\"/><index type=\"text\" xpath=\"contentdata/shippingaddress/country\"/><index type=\"text\" xpath=\"contentdata/items/item\"/></indexparameters><ctydefault><browse><column><timestamp/></column><column title=\"Orderno.\"><key/></column><column orderby=\"title\" title=\"Customer\"><mailto emailxpath=\"contentdata/customer/email\" namexpath=\"title\"/></column><column title=\"Total price\" width=\"120\"><number>contentdata/items/@total</number></column><column><contenttype/></column></browse></ctydefault></xmlconfig>";
-        insertContentHandler( conn, key, name, clazz, description, xmlConfig );
-
         key = 10;
         name = "Polls";
         description = "";

@@ -45,7 +45,6 @@ import com.enonic.cms.business.portal.PortalRequestService;
 import com.enonic.cms.domain.portal.PathToContentResolver;
 import com.enonic.cms.domain.portal.PortalRequest;
 import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
 import org.springframework.stereotype.Component;
 
@@ -218,23 +217,9 @@ public class InternalClientRenderService
         portalRequest.setTicketId( httpRequest.getSession().getId() );
         portalRequest.setRequestTime( new DateTime() );
         portalRequest.setOriginalUrl( httpRequest.getRequestURL().toString() );
-        portalRequest.setShoppingCart( getAndEnsureShoppingCartOnHttpSession( httpRequest.getSession() ) );
         portalRequest.setVerticalSession( getAndEnsureVerticalSessionOnHttpSession( httpRequest.getSession() ) );
 
         return portalRequest;
-    }
-
-    // FIXME duplicate code
-
-    private ShoppingCart getAndEnsureShoppingCartOnHttpSession( HttpSession httpSession )
-    {
-        ShoppingCart cart = (ShoppingCart) httpSession.getAttribute( "shoppingcart" );
-        if ( cart == null )
-        {
-            cart = new ShoppingCart();
-            httpSession.setAttribute( "shoppingcart", cart );
-        }
-        return cart;
     }
 
     // FIXME duplicate code

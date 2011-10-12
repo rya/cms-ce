@@ -69,26 +69,6 @@ public class Datasources
         return hasAttributeValue( "true", "stylecontext", datasourcesEl );
     }
 
-    public boolean isDocumentTrue()
-    {
-        return hasAttributeValue( "true", "document", datasourcesEl );
-    }
-
-    public boolean hasShoppingCart()
-    {
-        return isShoppingCartSetToFull() || isShoppingCartSetToSummary();
-    }
-
-    public boolean isShoppingCartSetToFull()
-    {
-        return "full".equals( datasourcesEl.getAttributeValue( "shoppingcart" ) );
-    }
-
-    public boolean isShoppingCartSetToSummary()
-    {
-        return "summary".equals( datasourcesEl.getAttributeValue( "shoppingcart" ) );
-    }
-
     public List<Datasource> getDatasourceElements()
     {
         ArrayList<Datasource> datasources = new ArrayList<Datasource>();
@@ -104,7 +84,6 @@ public class Datasources
         boolean cacheable = !hasSessionContext();
         cacheable &= !hasHttpContext();
         cacheable &= !hasCookieContext();
-        cacheable &= !hasShoppingCart();
         return cacheable;
     }
 

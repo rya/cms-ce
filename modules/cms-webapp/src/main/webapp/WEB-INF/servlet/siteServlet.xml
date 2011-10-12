@@ -117,7 +117,6 @@
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentHandlerBaseServlet">contentHandlerBaseController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.ContentSendMailServlet">contentSendMailController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.FormHandlerServlet">formHandlerController</prop>
-                <prop key="/site/**/servlet/com.enonic.vertical.userservices.OrderHandlerServlet">orderHandlerController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.PollHandlerServlet">pollHandlerController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.SendMailServlet">sendMailController</prop>
                 <prop key="/site/**/servlet/com.enonic.vertical.userservices.UserHandlerServlet">userHandlerController</prop>
@@ -279,9 +278,6 @@
           parent="abstractUserServicesHandlerController"/>
 
     <bean id="formHandlerController" class="com.enonic.vertical.userservices.FormHandlerController"
-          parent="abstractUserServicesHandlerController"/>
-
-    <bean id="orderHandlerController" class="com.enonic.vertical.userservices.OrderHandlerController"
           parent="abstractUserServicesHandlerController"/>
 
     <bean id="pollHandlerController" class="com.enonic.vertical.userservices.PollHandlerController"
