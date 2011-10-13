@@ -10,6 +10,12 @@ public interface GlobalConfig
 
     public String getJdbcDialect();
 
+    public File getPluginConfigDir();
+
+    public File getPluginDeployDir();
+
+    public long getPluginScanPeriod();
+
     public Map<String, String> toMap();
 
     public Properties toProperties();

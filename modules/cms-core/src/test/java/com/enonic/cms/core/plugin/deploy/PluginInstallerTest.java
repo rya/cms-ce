@@ -7,8 +7,6 @@ import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.packageadmin.PackageAdmin;
-
 import java.io.File;
 
 public class PluginInstallerTest
@@ -17,7 +15,6 @@ public class PluginInstallerTest
     public TemporaryFolder folder = new TemporaryFolder();
 
     private BundleContext bundleContext;
-    private PackageAdmin packageAdmin;
     private PluginInstaller pluginInstaller;
     private File pluginFile;
     private Bundle bundle;
@@ -27,8 +24,7 @@ public class PluginInstallerTest
         throws Exception
     {
         this.bundleContext = Mockito.mock(BundleContext.class);
-        this.packageAdmin = Mockito.mock(PackageAdmin.class);
-        this.pluginInstaller = new PluginInstaller(this.bundleContext, this.packageAdmin);
+        this.pluginInstaller = new PluginInstaller(this.bundleContext);
 
         this.pluginFile = this.folder.newFile("plugin.jar");
 
@@ -48,7 +44,6 @@ public class PluginInstallerTest
         this.pluginInstaller.onFileCreate(this.pluginFile);
 
         Mockito.verify(this.bundle, Mockito.times(1)).start(0);
-        Mockito.verify(this.packageAdmin, Mockito.times(1)).refreshPackages(null);
     }
 
     @Test
@@ -61,7 +56,6 @@ public class PluginInstallerTest
 
         Mockito.verify(this.bundle, Mockito.times(1)).update();
         Mockito.verify(this.bundle, Mockito.times(1)).start(0);
-        Mockito.verify(this.packageAdmin, Mockito.times(1)).refreshPackages(null);
     }
 
     @Test
@@ -73,6 +67,5 @@ public class PluginInstallerTest
         this.pluginInstaller.onFileDelete(this.pluginFile);
 
         Mockito.verify(this.bundle, Mockito.times(1)).uninstall();
-        Mockito.verify(this.packageAdmin, Mockito.times(1)).refreshPackages(null);
     }
 }

@@ -180,17 +180,5 @@
         </property>
     </bean>
 
-    <bean id="pluginManager" class="com.enonic.cms.core.plugin.manager.PluginManagerFactory">
-        <property name="configDir" value="${cms.plugin.configDir}"/>
-        <property name="deployDir" value="${cms.plugin.deployDir}"/>
-        <property name="scanPeriod" value="${cms.plugin.scanPeriod}"/>
-        <property name="properties" ref="loadedVerticalProperties"/>
-        <property name="localClient" ref="localClient"/>
-    </bean>
-
-    <bean id="extensionManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
-        <property name="pluginManager" ref="pluginManager"/>
-    </bean>
-
 </beans>
 

@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.portal.rendering;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
@@ -61,7 +61,7 @@ public class WindowRendererFactory
     private DataSourceService dataSourceService;
 
     @Autowired
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     public WindowRenderer createPortletRenderer( WindowRendererContext windowRendererContext )
     {
@@ -79,7 +79,7 @@ public class WindowRendererFactory
         windowRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         windowRenderer.setLiveTraceService( livePortalTraceService );
         windowRenderer.setDataSourceService( dataSourceService );
-        windowRenderer.setExtensionManager( extensionManager );
+        windowRenderer.setPluginManager( pluginManager );
 
         return windowRenderer;
     }

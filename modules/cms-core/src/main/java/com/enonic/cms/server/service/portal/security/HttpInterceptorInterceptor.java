@@ -5,7 +5,7 @@
 package com.enonic.cms.server.service.portal.security;
 
 import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.server.service.servlet.OriginalPathResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -19,9 +19,9 @@ public class HttpInterceptorInterceptor extends HandlerInterceptorAdapter
 {
     private static final String POST_HANDLE_PLUGINS_PARAM = "httpInterceptorInterceptor.postHandlePlugins";
 
-    private ExtensionManager pluginManager;
+    private PluginManager pluginManager;
 
-    public void setPluginManager( ExtensionManager pluginManager )
+    public void setPluginManager( PluginManager pluginManager )
     {
         this.pluginManager = pluginManager;
     }
@@ -81,7 +81,7 @@ public class HttpInterceptorInterceptor extends HandlerInterceptorAdapter
     private Collection<HttpInterceptor> getInterceptorPlugins( HttpServletRequest req )
     {
         String path = originalPathResolver.getRequestPathFromHttpRequest( req );
-        return pluginManager.findMatchingHttpInterceptors( path );
+        return pluginManager.getExtensions().findMatchingHttpInterceptors( path );
 
     }
 

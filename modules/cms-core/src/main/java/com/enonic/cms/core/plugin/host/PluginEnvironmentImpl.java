@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.manager;
+package com.enonic.cms.core.plugin.host;
 
 import java.io.Serializable;
 import java.util.HashMap;

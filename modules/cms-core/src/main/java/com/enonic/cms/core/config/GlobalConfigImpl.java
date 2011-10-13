@@ -28,6 +28,21 @@ final class GlobalConfigImpl
         return getValue("cms.jdbc.dialect", String.class);
     }
 
+    public File getPluginConfigDir()
+    {
+        return getValue("cms.plugin.configDir", File.class);
+    }
+
+    public File getPluginDeployDir()
+    {
+        return getValue("cms.plugin.deployDir", File.class);
+    }
+
+    public long getPluginScanPeriod()
+    {
+        return getValue("cms.plugin.scanPeriod", Long.class);
+    }
+
     public Map<String, String> toMap()
     {
         return Maps.fromProperties(this.props);

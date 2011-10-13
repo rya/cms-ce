@@ -17,7 +17,7 @@ import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 import com.enonic.cms.core.SiteBasePathAndSitePathToStringBuilder;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.domain.portal.PortalRenderingException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -68,7 +68,7 @@ public class PortalRenderResponseServer
 
     private SiteDao siteDao;
 
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     public ModelAndView serveResponse( PortalRequest request, PortalResponse response, HttpServletResponse httpResponse,
                                        HttpServletRequest httpRequest )
@@ -304,7 +304,7 @@ public class PortalRenderResponseServer
                 httpRequest.setAttribute( EXECUTED_PLUGINS, executedPlugins );
             }
 
-            for ( HttpResponseFilter plugin : this.extensionManager.findMatchingHttpResponseFilters( originalSitePath ) )
+            for ( HttpResponseFilter plugin : this.pluginManager.getExtensions().findMatchingHttpResponseFilters( originalSitePath.asString() ) )
             {
                 if ( !executedPlugins.contains( plugin ) )
                 {
@@ -358,8 +358,8 @@ public class PortalRenderResponseServer
         this.siteDao = siteDao;
     }
 
-    public void setExtensionManager(ExtensionManager extensionManager)
+    public void setPluginManager(PluginManager pluginManager)
     {
-        this.extensionManager = extensionManager;
+        this.pluginManager = pluginManager;
     }
 }

@@ -1,93 +1,74 @@
 package com.enonic.cms.core.plugin.container;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
-
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.Constants;
-
+import java.util.*;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import org.apache.felix.framework.Felix;
+import org.apache.felix.framework.util.FelixConstants;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.io.Files;
-
 import com.enonic.cms.api.util.LogFacade;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-public abstract class OsgiContainer
-    implements Constants
+@Component
+public final class OsgiContainer
+    implements FelixConstants
 {
-    protected final LogFacade logger;
+    protected final static LogFacade LOG = LogFacade.get(OsgiContainer.class);
 
-    private final List<BundleActivator> activators;
-
+    private List<OsgiContributor> contributors;
     private Map<String, String> properties;
+    private Felix felix = null;
 
-    private ServletContext servletContext;
-
-    public OsgiContainer()
+    @Autowired
+    public void setContributors(final List<OsgiContributor> list)
     {
-        this.logger = LogFacade.get( getClass() );
-        this.properties = Maps.newHashMap();
-        this.activators = Lists.newArrayList();
+        this.contributors = Lists.newArrayList(list);
+        Collections.sort(this.contributors);
     }
 
-    public final void addActivator( final BundleActivator activator )
+    @Value("#{config.toMap()}")
+    public void setProperties( final Map<String, String> properties )
     {
-        this.activators.add( activator );
+        this.properties = properties;
     }
 
-    public final void setProperties( final Properties properties )
+    private Map<String, Object> createConfigMap()
     {
-        this.properties = Maps.fromProperties( properties );
-    }
+        final FelixLogBridge logBridge = new FelixLogBridge();
 
-    protected final List<BundleActivator> getActivators()
-    {
-        return this.activators;
-    }
-
-    protected Map<String, Object> getConfigMap()
-        throws Exception
-    {
-        final HashMap<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = Maps.newHashMap();
         map.putAll( this.properties );
 
-        map.put( FRAMEWORK_SYSTEMPACKAGES_EXTRA, getSystemPackagesExtra() );
         map.put( FRAMEWORK_STORAGE_CLEAN, FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT );
-        map.put( FRAMEWORK_STORAGE, Files.createTempDir().getAbsolutePath() );
-
-        if ( this.properties.get( FRAMEWORK_BOOTDELEGATION ) == null )
-        {
-            map.put( FRAMEWORK_BOOTDELEGATION, getBootDelegationPackages() );
-        }
+        map.put( LOG_LEVEL_PROP, String.valueOf( logBridge.getLogLevel() ) );
+        map.put( LOG_LOGGER_PROP, logBridge );
+        map.put( IMPLICIT_BOOT_DELEGATION_PROP, "true" );
+        map.put( FRAMEWORK_BOOTDELEGATION, "*" );
+        map.put( FRAMEWORK_BUNDLE_PARENT, FRAMEWORK_BUNDLE_PARENT_FRAMEWORK );
+        map.put( SYSTEMBUNDLE_ACTIVATORS_PROP, this.contributors );
 
         return map;
     }
 
-    private String getSystemPackagesExtra()
+    @PostConstruct
+    public void start()
         throws Exception
     {
-        final ExportsBuilder builder = new ExportsBuilder( this.servletContext );
-        return builder.getExports();
+        this.felix = new Felix( createConfigMap() );
+        LOG.info( "Starting Felix OSGi Container ({0})", this.felix.getVersion() );
+        this.felix.start();
+
+        LOG.info( "OSGi container started and running" );
     }
 
-    private String getBootDelegationPackages()
+    @PreDestroy
+    public void stop()
+        throws Exception
     {
-        return "com.yourkit,com.yourkit.*," + "com.jprofiler,com.jprofiler.*," + "org.apache.xerces,org.apache.xerces.*," +
-            "org.apache.xalan,org.apache.xalan.*," + "org.apache.xml.serializer," + "sun.*," + "com.sun.xml.bind.v2";
+        this.felix.stop();
+        this.felix.waitForStop( 5000 );
     }
-
-    public void setServletContext( final ServletContext servletContext )
-    {
-        this.servletContext = servletContext;
-    }
-
-    public abstract void start()
-        throws Exception;
-
-    public abstract void stop()
-        throws Exception;
 }

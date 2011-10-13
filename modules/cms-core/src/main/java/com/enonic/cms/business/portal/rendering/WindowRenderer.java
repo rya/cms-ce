@@ -6,7 +6,7 @@ package com.enonic.cms.business.portal.rendering;
 
 import java.util.concurrent.locks.Lock;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -107,7 +107,7 @@ public class WindowRenderer
 
     private DataSourceService dataSourceService;
 
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     /**
      * The window rendering trace for this window rendering.
@@ -503,7 +503,7 @@ public class WindowRenderer
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setWindow( window );
         datasourceExecutorContext.setDataSourceService( this.dataSourceService );
-        datasourceExecutorContext.setExtensionManager( this.extensionManager );
+        datasourceExecutorContext.setPluginManager( this.pluginManager );
 
         DatasourceExecutor dataSourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -658,8 +658,8 @@ public class WindowRenderer
         this.dataSourceService = dataSourceService;
     }
 
-    public void setExtensionManager(ExtensionManager extensionManager)
+    public void setPluginManager(PluginManager pluginManager)
     {
-        this.extensionManager = extensionManager;
+        this.pluginManager = pluginManager;
     }
 }

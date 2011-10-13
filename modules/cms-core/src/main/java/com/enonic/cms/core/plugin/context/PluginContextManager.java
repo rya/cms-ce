@@ -1,12 +1,19 @@
 package com.enonic.cms.core.plugin.context;
 
 import com.enonic.cms.api.plugin.PluginContext;
-import org.osgi.framework.BundleActivator;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
 import org.osgi.framework.BundleContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class PluginContextManager
-    implements BundleActivator
+    extends OsgiContributor
 {
+    public PluginContextManager()
+    {
+        super(1);
+    }
+    
     public void start( final BundleContext context )
         throws Exception
     {

@@ -1,30 +1,41 @@
 package com.enonic.cms.core.plugin.host;
 
+import java.util.Iterator;
 import java.util.List;
-
-import org.osgi.framework.BundleContext;
-
+import com.enonic.cms.api.client.Client;
+import com.enonic.cms.api.client.LocalClient;
+import com.enonic.cms.api.plugin.PluginEnvironment;
 import com.google.common.collect.Lists;
 
 final class HostServices
+    implements Iterable<HostService>
 {
-    private final List<HostService> list;
+    private List<HostService> services;
 
     public HostServices()
     {
-        this.list = Lists.newArrayList();
+        this.services = Lists.newArrayList();
     }
 
-    public void register( final BundleContext context )
+    public void register(final LocalClient service)
     {
-        for ( final HostService service : this.list )
-        {
-            service.register( context );
-        }
+        service(service).type(LocalClient.class).type(Client.class);
     }
 
-    public void add( final Object instance )
+    public void register(final PluginEnvironment service)
     {
-        this.list.add( new HostService( instance ) );
+        service(service).type(PluginEnvironment.class);
+    }
+
+    private <T> HostService<T> service(final T instance)
+    {
+        final HostService<T> service = HostService.create(instance);
+        this.services.add(service);
+        return service;
+    }
+
+    public Iterator<HostService> iterator()
+    {
+        return this.services.iterator();
     }
 }

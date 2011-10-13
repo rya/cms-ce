@@ -1,69 +1,33 @@
 package com.enonic.cms.core.plugin.host;
 
-import java.util.HashSet;
 import java.util.Set;
-
 import org.osgi.framework.BundleContext;
-
 import com.google.common.collect.Sets;
 
-final class HostService
+final class HostService<T>
 {
-    private final static String[] ALLOW_PREFIXES = {"com.enonic.cms.api."};
+    private final T instance;
+    private final Set<String> types;
 
-    private final String[] types;
-
-    private final Object instance;
-
-    public HostService( final Object instance )
+    private HostService(final T instance)
     {
         this.instance = instance;
-        this.types = findTypes( instance.getClass() );
+        this.types = Sets.newHashSet();
     }
 
-    public void register( final BundleContext context )
+    public HostService<T> type(final Class<? super T> type)
     {
-        context.registerService( this.types, instance, null );
+        this.types.add(type.getName());
+        return this;
     }
 
-    private static String[] findTypes( final Class<?> type )
+    public void register(final BundleContext context)
     {
-        final HashSet<String> set = Sets.newHashSet();
-        collectTypes( set, type );
-        return set.toArray( new String[set.size()] );
+        context.registerService(this.types.toArray(new String[this.types.size()]), instance, null );
     }
 
-    private static void collectTypes( final Set<String> types, final Class<?> type )
+    public static <T> HostService<T> create(T instance)
     {
-        if ( type == null )
-        {
-            return;
-        }
-
-        final String typeName = type.getName();
-        if ( allowType( typeName ) )
-        {
-            types.add( typeName );
-        }
-
-        collectTypes( types, type.getSuperclass() );
-
-        for ( Class<?> iface : type.getInterfaces() )
-        {
-            collectTypes( types, iface );
-        }
-    }
-
-    private static boolean allowType( final String type )
-    {
-        for ( final String prefix : ALLOW_PREFIXES )
-        {
-            if ( type.startsWith( prefix ) )
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return new HostService<T>(instance);
     }
 }

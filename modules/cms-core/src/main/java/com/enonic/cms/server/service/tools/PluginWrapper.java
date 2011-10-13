@@ -2,17 +2,17 @@ package com.enonic.cms.server.service.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
+import com.enonic.cms.core.plugin.PluginHandle;
 import org.joda.time.format.DateTimeFormatterBuilder;
-
-import com.enonic.cms.core.plugin.Plugin;
-import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 public final class PluginWrapper
 {
-    private final Plugin plugin;
+    private final PluginHandle plugin;
 
-    public PluginWrapper( final Plugin plugin )
+    public PluginWrapper( final PluginHandle plugin )
     {
         this.plugin = plugin;
     }
@@ -41,7 +41,7 @@ public final class PluginWrapper
     {
         return new DateTimeFormatterBuilder().appendYear( 4, 4 ).appendLiteral( '-' ).appendMonthOfYear( 2 ).appendLiteral(
             '-' ).appendDayOfMonth( 2 ).appendLiteral( ' ' ).appendHourOfDay( 2 ).appendLiteral( ':' ).appendMinuteOfHour(
-            2 ).appendLiteral( ':' ).appendSecondOfMinute( 2 ).toFormatter().print( this.plugin.getTimestamp() );
+            2 ).appendLiteral( ':' ).appendSecondOfMinute( 2 ).toFormatter().print(this.plugin.getTimestamp());
     }
 
     public boolean isActive()
@@ -49,15 +49,15 @@ public final class PluginWrapper
         return this.plugin.isActive();
     }
 
-    public boolean isFramework()
+    public Map<String, String> getConfig()
     {
-        return this.plugin.isFramework();
+        return this.plugin.getConfig();
     }
 
-    public static Collection<PluginWrapper> toWrapperList( final Collection<? extends Plugin> list )
+    public static Collection<PluginWrapper> toWrapperList( final List<PluginHandle> list )
     {
         final ArrayList<PluginWrapper> target = new ArrayList<PluginWrapper>();
-        for ( final Plugin item : list )
+        for ( final PluginHandle item : list )
         {
             target.add( new PluginWrapper( item ) );
         }

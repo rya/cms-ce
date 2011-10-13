@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
@@ -79,7 +79,7 @@ public final class ContentObjectHandlerServlet
     private DatasourceExecutorFactory datasourceExecutorFactory;
 
     @Autowired
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     private Document buildContentObjectXML( AdminService admin, ExtendedMap formItems, boolean createContentObject,
                                             boolean updateStyleSheets )
@@ -716,7 +716,7 @@ public final class ContentObjectHandlerServlet
         datasourceExecutorContext.setUser( userEntity );
         datasourceExecutorContext.setDefaultResultRootElementName( verticalProperties.getDatasourceDefaultResultRootElement() );
         datasourceExecutorContext.setDataSourceService( this.dataSourceService );
-        datasourceExecutorContext.setExtensionManager( this.extensionManager );
+        datasourceExecutorContext.setPluginManager( this.pluginManager );
 
         DatasourceExecutor datasourceExecutor = datasourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -760,7 +760,7 @@ public final class ContentObjectHandlerServlet
         datasourceExecutorContext.setUser( userEntity );
         datasourceExecutorContext.setDefaultResultRootElementName( verticalProperties.getDatasourceDefaultResultRootElement() );
         datasourceExecutorContext.setDataSourceService( this.dataSourceService );
-        datasourceExecutorContext.setExtensionManager( this.extensionManager );
+        datasourceExecutorContext.setPluginManager( this.pluginManager );
 
         DatasourceExecutor datasourceExecutor = datasourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 

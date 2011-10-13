@@ -108,9 +108,6 @@
     <property name="defaultFolderList" value="/_public"/>
   </bean>
 
-  <bean id="pluginManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
-  </bean>
-
   <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
   <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">

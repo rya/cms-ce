@@ -1,12 +1,19 @@
 package com.enonic.cms.core.plugin.spring;
 
-import org.osgi.framework.BundleActivator;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
 import org.osgi.framework.BundleContext;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class SpringActivator
-    implements BundleActivator
+    extends OsgiContributor
 {
     private SpringExtender tracker;
+
+    public SpringActivator()
+    {
+        super(5);
+    }
 
     public void start( final BundleContext context )
         throws Exception

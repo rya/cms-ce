@@ -24,8 +24,6 @@ public class BootEnvironmentTest
         final StandardEnvironment env = new StandardEnvironment();
         env.getPropertySources().addFirst(new PropertiesPropertySource("mock", props));
 
-        BootEnvironment.config(env);
-
         final PropertySource source = env.getPropertySources().iterator().next();
         assertNotNull(source);
         assertTrue(source instanceof HomePropertySource);

@@ -8,7 +8,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.jdom.Document;
 
 import com.enonic.cms.core.LanguageEntity;
@@ -26,7 +26,6 @@ import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.ShoppingCart;
 import com.enonic.cms.domain.portal.VerticalSession;
 import com.enonic.cms.domain.portal.datasource.DatasourcesType;
 import com.enonic.cms.core.structure.SiteEntity;
@@ -94,7 +93,7 @@ public class DatasourceExecutorContext
 
     private DataSourceService dataSourceService;
 
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     public DatasourcesType getDatasourcesType()
     {
@@ -376,13 +375,13 @@ public class DatasourceExecutorContext
         this.dataSourceService = dataSourceService;
     }
 
-    public ExtensionManager getExtensionManager()
+    public PluginManager getPluginManager()
     {
-        return extensionManager;
+        return pluginManager;
     }
 
-    public void setExtensionManager(ExtensionManager extensionManager)
+    public void setPluginManager(PluginManager pluginManager)
     {
-        this.extensionManager = extensionManager;
+        this.pluginManager = pluginManager;
     }
 }

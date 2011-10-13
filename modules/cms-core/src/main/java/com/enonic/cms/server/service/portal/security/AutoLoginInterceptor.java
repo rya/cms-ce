@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.plugin.PluginManager;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.enonic.cms.api.plugin.ext.http.HttpAutoLogin;
@@ -13,8 +14,6 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.server.service.servlet.OriginalPathResolver;
-
-import com.enonic.cms.core.plugin.ExtensionManager;
 
 /**
  * This interceptor executes any auto login plugins available.
@@ -24,13 +23,13 @@ public final class AutoLoginInterceptor
 {
     private final static Logger LOG = Logger.getLogger( AutoLoginInterceptor.class.getName() );
 
-    private ExtensionManager pluginManager;
+    private PluginManager pluginManager;
 
     private SecurityService securityService;
 
     private OriginalPathResolver originalPathResolver = new OriginalPathResolver();
 
-    public void setPluginManager( ExtensionManager pluginManager )
+    public void setPluginManager( PluginManager pluginManager )
     {
         this.pluginManager = pluginManager;
     }
@@ -48,7 +47,7 @@ public final class AutoLoginInterceptor
     {
 
         String path = originalPathResolver.getRequestPathFromHttpRequest( req );
-        HttpAutoLogin plugin = pluginManager.findMatchingHttpAutoLoginPlugin( path );
+        HttpAutoLogin plugin = pluginManager.getExtensions().findMatchingHttpAutoLoginPlugin( path );
 
         if ( plugin != null )
         {

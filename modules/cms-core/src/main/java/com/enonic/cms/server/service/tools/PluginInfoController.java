@@ -2,26 +2,26 @@ package com.enonic.cms.server.service.tools;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.plugin.*;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.URL;
 import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.api.plugin.ext.Extension;
-import com.enonic.cms.core.plugin.ExtensionManager;
-import com.enonic.cms.core.plugin.Plugin;
 
 public final class PluginInfoController
     extends AbstractToolController
 {
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
-    public void setExtensionManager(final ExtensionManager extensionManager)
+    public void setPluginManager(final PluginManager pluginManager)
     {
-        this.extensionManager = extensionManager;
+        this.pluginManager = pluginManager;
     }
 
     protected void doHandleRequest( final HttpServletRequest req, final HttpServletResponse res, ExtendedMap formItems )
@@ -35,21 +35,25 @@ public final class PluginInfoController
 
         final HashMap<String, Object> model = new HashMap<String, Object>();
 
+        final ExtensionSet extensions = this.pluginManager.getExtensions();
         model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
-        model.put( "functionLibraryExtensions", toWrappers( extensionManager.getAllFunctionLibraries() ) );
-        model.put( "autoLoginExtensions", toWrappers( extensionManager.getAllHttpAutoLoginPlugins() ) );
-        model.put( "httpInterceptors", toWrappers( extensionManager.getAllHttpInterceptors() ) );
-        model.put( "httpResponseFilters", toWrappers( extensionManager.getAllHttpResponseFilters() ) );
-        model.put( "taskExtensions", toWrappers( extensionManager.getAllTaskPlugins() ) );
-        model.put( "textExtractorExtensions", toWrappers( this.extensionManager.getAllTextExtractorPlugins() ) );
-        model.put( "pluginHandles", toPluginWrappers( this.extensionManager.getPluginManager().getPlugins() ) );
+        model.put( "functionLibraryExtensions", toWrappers( extensions.getAllFunctionLibraries() ) );
+        model.put( "autoLoginExtensions", toWrappers( extensions.getAllHttpAutoLoginPlugins() ) );
+        model.put( "httpInterceptors", toWrappers( extensions.getAllHttpInterceptors() ) );
+        model.put( "httpResponseFilters", toWrappers( extensions.getAllHttpResponseFilters() ) );
+        model.put( "taskExtensions", toWrappers( extensions.getAllTaskPlugins() ) );
+        model.put( "textExtractorExtensions", toWrappers( extensions.getAllTextExtractorPlugins() ) );
+        model.put( "pluginHandles", toPluginWrappers( this.pluginManager.getPlugins() ) );
 
         process( res, model, "pluginInfoPage.ftl" );
     }
 
     private void doUpdatePlugin( final long pluginKey, final HttpServletRequest req, final HttpServletResponse res )
     {
-        this.extensionManager.getPluginManager().updatePlugin( pluginKey );
+        final PluginHandle handle = this.pluginManager.findPluginByKey(pluginKey);
+        if (handle != null) {
+            handle.update();
+        }
 
         try
         {
@@ -63,12 +67,12 @@ public final class PluginInfoController
 
     }
 
-    private Collection<ExtensionWrapper> toWrappers( final Collection<? extends Extension> list )
+    private Collection<ExtensionWrapper> toWrappers( final List<? extends Extension> list )
     {
         return ExtensionWrapper.toWrapperList( list );
     }
 
-    private Collection<PluginWrapper> toPluginWrappers( final Collection<? extends Plugin> list )
+    private Collection<PluginWrapper> toPluginWrappers( final List<PluginHandle> list )
     {
         return PluginWrapper.toWrapperList( list );
     }
