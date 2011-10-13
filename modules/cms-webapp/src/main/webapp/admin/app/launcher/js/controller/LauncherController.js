@@ -3,6 +3,10 @@ Ext.define('App.controller.LauncherController', {
 
     views: ['Toolbar'],
 
+    requires: [
+        'App.LauncherToolbarHelper'
+    ],
+
     init: function() {
         this.control({
             'viewport': {
