@@ -12,10 +12,13 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.enonic.cms.framework.cache.base.AbstractCacheManager;
 import com.enonic.cms.framework.cache.standard.StandardCacheManager;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * This class switches between cache managers.
  */
+@Component("cacheFacadeManager")
 public final class CacheManagerFactory
     implements FactoryBean<CacheManager>, InitializingBean, DisposableBean
 {
@@ -56,6 +59,7 @@ public final class CacheManagerFactory
     /**
      * Set the properties.
      */
+    @Value("#{config.toProperties()}")
     public void setProperties( Properties properties )
     {
         this.properties = properties;

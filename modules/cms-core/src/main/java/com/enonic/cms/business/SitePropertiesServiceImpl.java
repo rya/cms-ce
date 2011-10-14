@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -21,7 +22,9 @@ import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.structure.SiteProperties;
+import org.springframework.stereotype.Component;
 
+@Component("sitePropertiesService")
 public class SitePropertiesServiceImpl
     implements SitePropertiesService, InitializingBean
 {
@@ -48,6 +51,7 @@ public class SitePropertiesServiceImpl
         }
     }
 
+    @Value("#{config.homeDir}")
     public void setHomeDir( File homeDir )
     {
         this.homeDir = homeDir;

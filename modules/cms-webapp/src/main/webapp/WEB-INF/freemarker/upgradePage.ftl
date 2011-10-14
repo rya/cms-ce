@@ -115,10 +115,7 @@
     <h1>Database Upgrade Tool</h1>
     <div class="infoBox">
 
-    [#if needsOldUpgrade == true]
-        Cannot upgrade your system. Please upgrade to latest 4.5.x version first
-        (${requiredVersion}).
-    [#elseif upgradeInProgress == true]
+    [#if upgradeInProgress == true]
         Upgrade in progress. Please wait for the upgrade to finish.
     [#elseif upgradeNeeded == true]
         <div class="container">

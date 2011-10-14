@@ -6,15 +6,12 @@ package com.enonic.cms.core.resolver.deviceclass;
 
 import com.enonic.cms.core.resolver.AbstractXsltScriptResolver;
 import com.enonic.cms.core.resolver.ScriptResolverResult;
+import org.springframework.stereotype.Component;
 
-/**
- * Created by rmy - Date: Apr 14, 2009
- */
+@Component
 public class DeviceClassXsltScriptResolver
     extends AbstractXsltScriptResolver
 {
-    protected final static String RESOLVING_EXCEPTION_MSG = "Faild to resolve device class";
-
     public final static String DEVICE_CLASS_RETURN_VALUE_KEY = "deviceClassReturnValue";
 
     protected ScriptResolverResult populateScriptResolverResult( String resolvedValue )

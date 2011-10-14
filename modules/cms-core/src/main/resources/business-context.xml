@@ -10,15 +10,13 @@
 
     <bean id="upgradePropertyResolver"
           class="com.enonic.cms.upgrade.service.StandardPropertyResolver">
-        <property name="homeDir" value="${cms.home}"/>
-        <property name="properties" ref="loadedVerticalProperties"/>
     </bean>
 
     <!-- Transaction based upgrade service. -->
     <bean id="upgradeService" class="com.enonic.cms.upgrade.service.UpgradeServiceImpl">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="dialect" ref="dialectFactory"/>
-        <property name="transactionTemplate" ref="transcationTemplate"/>
+        <property name="transactionTemplate" ref="transactionTemplate"/>
         <property name="propertyResolver" ref="upgradePropertyResolver"/>
     </bean>
 
@@ -100,9 +98,6 @@
         <property name="cacheResolverValueService" ref="sessionCachedResolverValueService"/>
     </bean>
 
-    <bean id="deviceClassXsltScriptResolver"
-          class="com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
-
     <!-- Localization -->
     <bean id="localizeService" class="com.enonic.cms.core.localization.LocalizationServiceImpl"/>
     <bean id="localizationResourceBundleService"
@@ -136,15 +131,6 @@
     <bean id="adminConsoleLoginAccessResolver"
           class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
 
-    <bean id="sitePropertiesService" class="com.enonic.cms.business.SitePropertiesServiceImpl">
-        <property name="homeDir" value="#{config.homeDir}"/>
-    </bean>
-
-
-    <bean id="urlPathHelperManager" class="com.enonic.cms.business.UrlPathHelperManager">
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
-
     <bean id="userServicesRedirectHelper"
           class="com.enonic.vertical.userservices.UserServicesRedirectUrlResolver"></bean>
 
@@ -164,20 +150,6 @@
     <bean id="loginService" class="com.enonic.cms.business.login.LoginServiceImpl">
         <property name="autologinTimeoutInDays"
                   value="${com.enonic.vertical.presentation.autologinTimeout}"/>
-    </bean>
-
-    <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl">
-        <property name="resource">
-            <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
-                <property name="requireResource" value="true"/>
-                <property name="resources">
-                    <list>
-                        <value>${cms.home}/config/countries.xml</value>
-                        <value>classpath:com/enonic/cms/core/country/countries.xml</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
     </bean>
 
 </beans>

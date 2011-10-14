@@ -65,7 +65,7 @@
     <property name="defaultTimeout" value="${cms.tx.defaultTimeout}"/>
   </bean>
 
-  <bean name="transcationTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+  <bean name="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
     <property name="transactionManager" ref="transactionManager"/>
   </bean>
 

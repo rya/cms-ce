@@ -100,8 +100,6 @@ public final class UpgradeController
             model.put( AUTHENTICATION_FAILED_KEY, false );
         }
 
-        model.put( "needsOldUpgrade", this.upgradeService.needsOldUpgradeSystem() );
-        model.put( "requiredVersion", VerticalProperties.REQUIRED_40X_VERSION );
         model.put( "upgradeNeeded", this.upgradeService.needsUpgrade() );
         model.put( "upgradeInProgress", this.upgradeProcessTask.isInProgress() );
         model.put( "upgradeError", this.upgradeProcessTask.getError() );

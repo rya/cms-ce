@@ -23,6 +23,11 @@ final class GlobalConfigImpl
         return getValue("cms.home", File.class);
     }
 
+    public File getConfigDir()
+    {
+        return new File(getHomeDir(), "config)");
+    }
+
     public String getJdbcDialect()
     {
         return getValue("cms.jdbc.dialect", String.class);
@@ -41,6 +46,31 @@ final class GlobalConfigImpl
     public long getPluginScanPeriod()
     {
         return getValue("cms.plugin.scanPeriod", Long.class);
+    }
+
+    public File getCountriesFile()
+    {
+        return new File(getConfigDir(), "countries.xml");
+    }
+
+    public File getVirtualHostConfigFile()
+    {
+        return new File(getConfigDir(), "vhost.properties");
+    }
+
+    public boolean getJdbcLogging()
+    {
+        return getValue("cms.jdbc.logging", Boolean.class);
+    }
+
+    public boolean getJdbcConnectionTrace()
+    {
+        return getValue("cms.jdbc.connectionTrace", Boolean.class);
+    }
+
+    public int getTxDefaultTimeout()
+    {
+        return getValue("cms.tx.defaultTimeout", Integer.class);
     }
 
     public Map<String, String> toMap()
