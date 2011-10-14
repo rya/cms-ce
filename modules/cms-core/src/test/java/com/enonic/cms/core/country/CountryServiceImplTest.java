@@ -10,7 +10,6 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
 
 public class CountryServiceImplTest
 {
@@ -27,7 +26,7 @@ public class CountryServiceImplTest
     @Test
     public void testGetCountry()
     {
-        Assert.assertNull( this.service.getCountry( new CountryCode( "NO" ) ) );
+        Assert.assertNull( this.service.getCountry( new CountryCode( "XX" ) ) );
 
         Country country = this.service.getCountry( new CountryCode( "BB" ) );
         Assert.assertNotNull( country );
@@ -39,13 +38,10 @@ public class CountryServiceImplTest
     public void testGetCountries()
     {
         Collection<Country> countries = this.service.getCountries();
-        Assert.assertEquals( 3, countries.size() );
+        Assert.assertEquals( 246, countries.size() );
 
         Iterator<Country> it = countries.iterator();
-        Assert.assertEquals( "BB", it.next().getCode().toString() );
-        Assert.assertEquals( "GY", it.next().getCode().toString() );
-        Assert.assertEquals( "UG", it.next().getCode().toString() );
-        Assert.assertFalse( it.hasNext() );
+        Assert.assertEquals( "AF", it.next().getCode().toString() );
+        Assert.assertEquals( "AX", it.next().getCode().toString() );
     }
-
 }
