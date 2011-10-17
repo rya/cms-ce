@@ -31,8 +31,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.octo.captcha.service.CaptchaServiceException;
-
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.util.ArrayUtil;
@@ -391,12 +389,6 @@ public class AbstractUserServicesHandlerController
             {
                 handlerCustom( request, response, session, formItems, userServices, siteKey, operation );
             }
-        }
-        catch ( CaptchaServiceException e )
-        {
-            String message = "Failed during captcha validation: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         catch ( VerticalUserServicesException vuse )
         {
