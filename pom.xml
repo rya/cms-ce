@@ -124,9 +124,9 @@
                 <version>1.4</version>
             </dependency>
             <dependency>
-                <groupId>com.octo.captcha</groupId>
-                <artifactId>jcaptcha-all</artifactId>
-                <version>1.0-RC6</version>
+                <groupId>nl-captcha</groupId>
+                <artifactId>simplecaptcha</artifactId>
+                <version>1.2.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>quartz</groupId>

@@ -7,22 +7,17 @@ package com.enonic.cms.core.captcha;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageFilter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
-import com.jhlabs.image.WaterFilter;
-import com.octo.captcha.CaptchaFactory;
-import com.octo.captcha.component.image.deformation.ImageDeformationByFilters;
-import com.octo.captcha.component.image.fontgenerator.RandomFontGenerator;
-import com.octo.captcha.component.image.textpaster.RandomTextPaster;
-import com.octo.captcha.component.image.wordtoimage.DeformedComposedWordToImage;
-import com.octo.captcha.component.word.wordgenerator.RandomWordGenerator;
-import com.octo.captcha.engine.image.gimpy.BasicGimpyEngine;
-import com.octo.captcha.image.ImageCaptchaFactory;
-import com.octo.captcha.image.gimpy.GimpyFactory;
-import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
-import com.octo.captcha.service.image.ImageCaptchaService;
 import org.springframework.stereotype.Component;
+
+import nl.captcha.Captcha;
+import nl.captcha.backgrounds.TransparentBackgroundProducer;
+import nl.captcha.gimpy.RippleGimpyRenderer;
+import nl.captcha.text.producer.DefaultTextProducer;
+import nl.captcha.text.renderer.DefaultWordRenderer;
 
 @Component("captchaRepository")
 public class CaptchaRepositoryImpl
@@ -31,14 +26,15 @@ public class CaptchaRepositoryImpl
 
     private static final int FONT_SIZE = 24;
 
-    private ImageCaptchaService instance = getInstance();
+    private Captcha captcha = null;
 
     /**
      * @inheritDoc
      */
     public BufferedImage getImageChallengeForID( String sessionId, Locale locale )
     {
-        return instance.getImageChallengeForID( sessionId, locale );
+        captcha = getInstance();
+        return captcha.getImage();
     }
 
     /**
@@ -53,93 +49,47 @@ public class CaptchaRepositoryImpl
 
         if ( userResponse instanceof String )
         {
-            return instance.validateResponseForID( sessionId, ( (String) userResponse ).toLowerCase() );
+            return captcha.isCorrect( ( (String) userResponse ).toLowerCase() );
         }
 
-        return instance.validateResponseForID( sessionId, userResponse );
+        return Boolean.FALSE;
     }
 
-    private ImageCaptchaService getInstance()
+    private Captcha getInstance()
     {
-        if ( instance == null )
-        {
-
-            instance = setupCustomInstance();
-        }
-
-        return instance;
+        captcha = setupCustomInstance();
+        return captcha;
     }
 
-    private ImageCaptchaService setupCustomInstance()
+    private Captcha setupCustomInstance()
     {
-        RandomWordGenerator generator = new RandomWordGenerator( "abcdefghijkmnpqrstuvwxyz23456789" );
-        RandomFontGenerator fontGenerator = new RandomFontGenerator( FONT_SIZE, FONT_SIZE, createFontsList() );
+        int width = 160;
+        int height = 50;
+        char[] chars = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '2', '3', '4', '5', '6', '7', '8', '9'};
+        DefaultTextProducer text = new DefaultTextProducer( 5, chars );
+        TransparentBackgroundProducer background = new TransparentBackgroundProducer();
+        RippleGimpyRenderer gimpy = new RippleGimpyRenderer();
 
-        TransparentBackgroundGenerator background = new TransparentBackgroundGenerator( 160, 50 );
-        RandomTextPaster textPaster = new RandomTextPaster( 5, 5, Color.BLACK );
+        Captcha captcha = new Captcha.Builder( width, height )
+        .addText( text, new DefaultWordRenderer(createColorList(), createFontsList() ) )
+        .addBackground( background )
+        .gimp( gimpy )
+        .build();
 
-        WaterFilter waterFilter = new WaterFilter();
-        waterFilter.setAntialias( true );
-        waterFilter.setAmplitude( 2 );
-        waterFilter.setWavelength( 50 );
-        ImageFilter[] imageFilters = new ImageFilter[]{waterFilter};
-        ImageFilter[] emptyFilters = new ImageFilter[]{};
-        ImageDeformationByFilters imageDeformation = new ImageDeformationByFilters( imageFilters );
-        ImageDeformationByFilters emptyDeformation = new ImageDeformationByFilters( emptyFilters );
-
-        DeformedComposedWordToImage word2image =
-            new DeformedComposedWordToImage( fontGenerator, background, textPaster, emptyDeformation, imageDeformation, emptyDeformation );
-
-        ImageCaptchaFactory factory = new GimpyFactory( generator, word2image );
-        BasicGimpyEngine engine = new BasicGimpyEngine();
-        engine.setFactories( new CaptchaFactory[]{factory} );
-        DefaultManageableImageCaptchaService serviceInstance = new DefaultManageableImageCaptchaService();
-        serviceInstance.setCaptchaEngine( engine );
-        serviceInstance.setCaptchaStoreMaxSize( 200000 );
-        serviceInstance.setMinGuarantedStorageDelayInSeconds( 300 );
-
-        serviceInstance.setCaptchaEngine( engine );
-        return serviceInstance;
+        return  captcha;
     }
 
-
-    private Font[] createFontsList()
+    private List<Font> createFontsList()
     {
-
-        return new Font[]{new Font( "Dialog", Font.BOLD, FONT_SIZE ), new Font( "Serif", Font.BOLD, FONT_SIZE ),
-            new Font( "SansSerif", Font.BOLD, FONT_SIZE ),};
-
+        return Arrays.asList(
+            new Font[]{ new Font( "Dialog", Font.BOLD, FONT_SIZE ), new Font( "Serif", Font.BOLD, FONT_SIZE ),
+            new Font( "SansSerif", Font.BOLD, FONT_SIZE ), } );
     }
 
-//    private Font getFirstAvailableFontFromJre() {
-//
-//        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//        Font[] fonts = environment.getAllFonts();
-//
-//
-//        if ( fonts != null && fonts.length > 0 )
-//        {
-//            return fonts[0];
-//        }
-//        //fallback
-//        return new Font( "SansSerif", Font.BOLD, FONT_SIZE);
-//
-//    }
-
-//  return new Font[] {
-//  new Font( "LucidaBright", Font.BOLD, size)
-//  new Font( "Arial ", Font.PLAIN, size ), new Font( "Arial ", Font.BOLD, size ), new Font( "Arial ", Font.ITALIC, size ),
-//  new Font( "Courier ", Font.PLAIN, size ), new Font( "Courier ", Font.BOLD, size ), new Font( "Courier ", Font.ITALIC, size ),
-//  new Font( "Dialog ", Font.PLAIN, size ), new Font( "Dialog ", Font.BOLD, size ), new Font( "Dialog ", Font.ITALIC, size ),
-//  new Font( "Geneva ", Font.PLAIN, size ), new Font( "Geneva ", Font.BOLD, size ), new Font( "Geneva ", Font.ITALIC, size ),
-//  new Font( "Gill Sans ", Font.PLAIN, size ), new Font( "Gill Sans ", Font.BOLD, size ), new Font( "Gill Sans ", Font.ITALIC, size ),
-//  new Font( "Helvetica ", Font.PLAIN, size ), new Font( "Helvetica ", Font.BOLD, size ), new Font( "Helvetica ", Font.ITALIC, size ),
-//  new Font( "Lucida Console ", Font.PLAIN, size ), new Font( "Lucida Console ", Font.BOLD, size ), new Font( "Lucida Console ", Font.ITALIC, size ),
-//  new Font( "Monospaced ", Font.PLAIN, size ), new Font( "Monospaced ", Font.BOLD, size ), new Font( "Monospaced ", Font.ITALIC, size ),
-//  new Font( "SansSerif ", Font.PLAIN, size ), new Font( "SansSerif ", Font.BOLD, size ), new Font( "SansSerif ", Font.ITALIC, size ),
-//  new Font( "Serif ", Font.PLAIN, size ), new Font( "Serif ", Font.BOLD, size ), new Font( "Serif ", Font.ITALIC, size ),
-//  new Font( "Times New Roman ", Font.PLAIN, size ), new Font( "Times New Roman ", Font.BOLD, size ), new Font( "Times New Roman ", Font.ITALIC, size ),
-//};
+    private List<Color> createColorList()
+    {
+        return Arrays.asList( Color.BLACK );
+    }
 
 }
 
