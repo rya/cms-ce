@@ -18,8 +18,6 @@ import org.springframework.web.util.HtmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.octo.captcha.service.CaptchaServiceException;
-
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.io.FileUtil;
 import com.enonic.esl.net.Mail;
@@ -259,20 +257,12 @@ public class FormHandlerController
 
         HttpServletRequest request = ServletRequestAccessor.getRequest();
 
-        try
+        Boolean captchaOk = captchaService.validateCaptcha( formItems, request, "form", "create" );
+        if ( ( captchaOk != null ) && ( !captchaOk ) )
         {
-            Boolean captchaOk = captchaService.validateCaptcha( formItems, request, "form", "create" );
-            if ( ( captchaOk != null ) && ( !captchaOk ) )
-            {
-                errorCodes.add( ERR_INVALID_CAPTCHA );
-            }
+            errorCodes.add( ERR_INVALID_CAPTCHA );
         }
-        catch ( CaptchaServiceException e )
-        {
-            String message = "Failed during captcha validation: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
-            errorCodes.add( ERR_OPERATION_BACKEND );
-        }
+
 
         // If one or more errors occurred, an exception is thrown, containing the errorcodes
         // and the resulting document (that now should include error XML):

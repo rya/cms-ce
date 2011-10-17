@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
-import com.octo.captcha.service.CaptchaServiceException;
-
 import com.enonic.cms.core.captcha.CaptchaRepository;
 
 /**
@@ -65,11 +63,6 @@ public class CaptchaController
 
         }
         catch ( IIOException e )
-        {
-            response.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
-            return;
-        }
-        catch ( CaptchaServiceException e )
         {
             response.sendError( HttpServletResponse.SC_INTERNAL_SERVER_ERROR );
             return;

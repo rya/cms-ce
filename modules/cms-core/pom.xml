@@ -59,8 +59,8 @@
             <artifactId>joda-time</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.octo.captcha</groupId>
-            <artifactId>jcaptcha-all</artifactId>
+            <groupId>nl-captcha</groupId>
+            <artifactId>simplecaptcha</artifactId>
         </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
