@@ -1,5 +1,6 @@
 package com.enonic.cms.core.plugin.logger;
 
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
@@ -14,6 +15,9 @@ final class BundleEventLogger
     public void bundleChanged( final BundleEvent event )
     {
         final Bundle bundle = event.getBundle();
+        if (OsgiHelper.isFrameworkBundle(bundle)) {
+            return;
+        }
 
         switch ( event.getType() )
         {

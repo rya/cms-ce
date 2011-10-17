@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.business.portal.rendering;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -73,7 +73,7 @@ public class PageRendererFactory
     private DataSourceService dataSourceService;
 
     @Autowired
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     public PageRenderer createPageRenderer( PageRendererContext pageRendererContext )
     {
@@ -90,7 +90,7 @@ public class PageRendererFactory
         pageRenderer.setTimeService( timeService );
         pageRenderer.setPostProcessInstructionExecutor( postProcessInstructionExecutor );
         pageRenderer.setDataSourceService( dataSourceService );
-        pageRenderer.setExtensionManager( extensionManager );
+        pageRenderer.setPluginManager( pluginManager );
 
         return pageRenderer;
     }

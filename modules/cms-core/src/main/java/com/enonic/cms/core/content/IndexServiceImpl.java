@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.plugin.PluginManager;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,6 @@ import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.content.index.SimpleText;
 import com.enonic.cms.core.content.index.config.IndexDefinition;
 import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
-import com.enonic.cms.core.plugin.ExtensionManager;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -52,7 +52,7 @@ public final class IndexServiceImpl
     private ContentDao contentDao;
 
     @Autowired
-    private ExtensionManager pluginManager;
+    private PluginManager pluginManager;
 
     @Autowired
     private BinaryDataDao binaryDataDao;
@@ -156,7 +156,7 @@ public final class IndexServiceImpl
         throws IOException
     {
         String mimeType = MimeTypeResolver.getInstance().getMimeType( binaryData.getName() );
-        TextExtractor textExtractor = pluginManager.findTextExtractorPluginByMimeType( mimeType );
+        TextExtractor textExtractor = pluginManager.getExtensions().findTextExtractorPluginByMimeType( mimeType );
 
         String fullTextString;
         if ( textExtractor == null )

@@ -7,17 +7,20 @@ package com.enonic.cms.business;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.util.UrlPathHelper;
 
 import com.enonic.cms.core.SiteKey;
 
+@Component
 public class UrlPathHelperManager
 {
-
     private SitePropertiesService sitePropertiesService;
 
     private Map urlPathHelperMapBySiteKey = new HashMap();
 
+    @Autowired
     public void setSitePropertiesService( SitePropertiesService value )
     {
         this.sitePropertiesService = value;

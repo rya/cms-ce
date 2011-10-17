@@ -2,6 +2,7 @@ package com.enonic.cms.server.service.tools;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.google.common.base.Joiner;
 
@@ -99,7 +100,7 @@ public final class ExtensionWrapper
         return extension.getClass().getSimpleName();
     }
 
-    public static Collection<ExtensionWrapper> toWrapperList( final Collection<? extends Extension> list )
+    public static Collection<ExtensionWrapper> toWrapperList( final List<? extends Extension> list )
     {
         final ArrayList<ExtensionWrapper> target = new ArrayList<ExtensionWrapper>();
         for ( final Extension ext : list )

@@ -6,7 +6,7 @@ package com.enonic.cms.business.portal.rendering;
 
 import java.util.concurrent.locks.Lock;
 
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -107,7 +107,7 @@ public class PageRenderer
 
     private DataSourceService dataSourceService;
 
-    private ExtensionManager extensionManager;
+    private PluginManager pluginManager;
 
     protected PageRenderer( PageRendererContext pageRendererContext, LivePortalTraceService livePortalTraceService )
     {
@@ -415,7 +415,7 @@ public class PageRenderer
         datasourceExecutorContext.setVerticalSession( context.getVerticalSession() );
         datasourceExecutorContext.setUser( context.getRunAsUser() );
         datasourceExecutorContext.setDataSourceService( this.dataSourceService );
-        datasourceExecutorContext.setExtensionManager( this.extensionManager );
+        datasourceExecutorContext.setPluginManager( this.pluginManager );
 
         DatasourceExecutor datasourceExecutor = dataSourceExecutorFactory.createDatasourceExecutor( datasourceExecutorContext );
 
@@ -583,9 +583,9 @@ public class PageRenderer
         this.dataSourceService = dataSourceService;
     }
 
-    public void setExtensionManager(ExtensionManager extensionManager)
+    public void setPluginManager(PluginManager pluginManager)
     {
-        this.extensionManager = extensionManager;
+        this.pluginManager = pluginManager;
     }
 }
 

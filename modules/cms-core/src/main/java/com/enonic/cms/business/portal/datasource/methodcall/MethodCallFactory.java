@@ -7,6 +7,8 @@ package com.enonic.cms.business.portal.datasource.methodcall;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.enonic.cms.core.plugin.ExtensionSet;
+import com.enonic.cms.core.plugin.PluginManager;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
@@ -17,7 +19,6 @@ import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
-import com.enonic.cms.core.plugin.ExtensionManager;
 
 import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
 import com.enonic.cms.business.portal.datasource.ExpressionFunctionsExecutor;
@@ -43,8 +44,8 @@ public class MethodCallFactory
 
         String pluginName = resolvePluginName(methodName);
 
-        ExtensionManager extensionManager = context.getExtensionManager();
-        FunctionLibrary pluginObject = pluginName != null ? getPluginObject( extensionManager, pluginName ) : null;
+        ExtensionSet extensions = context.getPluginManager().getExtensions();
+        FunctionLibrary pluginObject = pluginName != null ? getPluginObject( extensions, pluginName ) : null;
 
         Object targetObject = pluginObject != null ? pluginObject.getTarget() : context.getDataSourceService();
         Class targetClass = targetObject.getClass();
@@ -188,9 +189,9 @@ public class MethodCallFactory
         }
     }
 
-    private static FunctionLibrary getPluginObject( ExtensionManager extensionManager, String pluginName )
+    private static FunctionLibrary getPluginObject( ExtensionSet extensions, String pluginName )
     {
-        FunctionLibrary object = extensionManager.findFunctionLibrary(pluginName);
+        FunctionLibrary object = extensions.findFunctionLibrary(pluginName);
         if ( object == null )
         {
             throw new VerticalRenderException( "Plugin [" + pluginName + "] is not registered" );

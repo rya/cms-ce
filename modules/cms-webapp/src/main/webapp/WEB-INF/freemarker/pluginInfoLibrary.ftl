@@ -25,9 +25,7 @@
         <b style="color: #00A000">ACTIVE</b>
     [/#if] -
     <a href="javascript: showDetails(${plugin.key})">details</a>
-    [#if plugin.framework == false]
-        | <a href="servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController?op=custom&update=${plugin.key}">update</a>
-    [/#if]
+    | <a href="servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController?op=custom&update=${plugin.key}">update</a>
     <ul>
         <li>${plugin.id} ${plugin.version} deployed ${plugin.timestamp}</li>
     </ul>
@@ -54,6 +52,12 @@
         <li>Deployed</li>
         <ul>
             <li>${plugin.timestamp}</li>
+        </ul>
+        <li>Configuration</li>
+        <ul>
+            [#list plugin.config?keys as key]
+            <li>${key} = ${plugin.config[key]}</li>
+            [/#list]
         </ul>
     </ul>
 

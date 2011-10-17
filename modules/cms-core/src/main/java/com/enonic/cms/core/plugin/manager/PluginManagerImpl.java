@@ -1,76 +1,95 @@
 package com.enonic.cms.core.plugin.manager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
+import com.enonic.cms.core.plugin.*;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import com.enonic.cms.api.plugin.ext.Extension;
-import com.enonic.cms.core.plugin.ExtensionListener;
-import com.enonic.cms.core.plugin.Plugin;
-import com.enonic.cms.core.plugin.PluginManager;
-
-final class PluginManagerImpl
-    implements PluginManager, BundleActivator
+@Component("pluginManager")
+public final class PluginManagerImpl
+    extends OsgiContributor implements PluginManager
 {
-    private ExtensionTracker extensions;
+    private final ExtensionHolder holder;
 
-    private List<ExtensionListener> listeners;
+    private ExtensionTracker tracker;
 
     private BundleContext context;
 
+    public PluginManagerImpl()
+    {
+        super(1);
+        this.holder = new ExtensionHolder();
+    }
+    
     public void start( final BundleContext context )
         throws Exception
     {
         this.context = context;
-        this.extensions = new ExtensionTracker( this.context, this.listeners );
-        this.extensions.open();
+        this.tracker = new ExtensionTracker( this.context, this.holder );
+        this.tracker.open();
     }
 
     public void stop( final BundleContext context )
         throws Exception
     {
-        this.extensions.close();
+        this.tracker.close();
     }
 
-    public List<Plugin> getPlugins()
+    public List<PluginHandle> getPlugins()
     {
         if ( this.context == null )
         {
-            return ImmutableList.of();
+            return Collections.emptyList();
         }
 
-        final ArrayList<Plugin> list = Lists.newArrayList();
+        final ArrayList<PluginHandle> list = Lists.newArrayList();
+        for ( final Bundle bundle : getBundles() )
+        {
+            list.add( new PluginHandleImpl( bundle, this.holder ) );
+        }
+
+        return list;
+    }
+
+    private List<Bundle> getBundles()
+    {
+        final ArrayList<Bundle> list = Lists.newArrayList();
         for ( final Bundle bundle : this.context.getBundles() )
         {
-            list.add( new PluginImpl( bundle, this.extensions ) );
+            if (!OsgiHelper.isFrameworkBundle(bundle)) {
+                list.add(bundle);
+            }
         }
 
-        return ImmutableList.copyOf( list );
+        return list;
     }
 
-    public List<Extension> getExtensions()
+    public PluginHandle findPluginByKey(final long key)
     {
-        if ( this.extensions != null )
-        {
-            return this.extensions.getAll();
+        for (final PluginHandle plugin : getPlugins()) {
+            if (plugin.getKey() == key) {
+                return plugin;
+            }
         }
 
-        return ImmutableList.of();
+        return null;
     }
 
-    public void setListeners( List<ExtensionListener> listeners )
+    @Autowired(required = false)
+    public void setListeners(final List<ExtensionListener> list)
     {
-        this.listeners = listeners;
+        this.holder.setListeners(list);
     }
 
-    public void updatePlugin(long key)
+    public ExtensionSet getExtensions()
     {
-        throw new UnsupportedOperationException();
+        return new ExtensionSetImpl(this.holder.getAll());
     }
 }

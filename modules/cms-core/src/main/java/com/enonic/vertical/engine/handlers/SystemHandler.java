@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.enonic.esl.sql.model.DatabaseSchemaTool;
-import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 
 import com.enonic.cms.store.DatabaseAccessor;
@@ -82,10 +81,6 @@ public final class SystemHandler
         {
             return selectModelNumber( conn );
         }
-        else if ( canUpgrade40xVersion( conn ) )
-        {
-            return 0;
-        }
         else
         {
             return -1;
@@ -120,39 +115,6 @@ public final class SystemHandler
         finally
         {
             close( stmt );
-        }
-    }
-
-    /**
-     * Return true if it can upgrade 4.0.x version.
-     */
-    private boolean canUpgrade40xVersion( Connection conn )
-            throws Exception
-    {
-        return getMinor40xVersion( conn ) >= VerticalProperties.REQUIRED_40X_MINOR_VERSION;
-    }
-
-    /**
-     * Return the minor vertical 4.0.x version number.
-     */
-    private int getMinor40xVersion( Connection conn )
-            throws Exception
-    {
-        try
-        {
-            String version = getVerticalVersion( conn );
-            if ( ( version != null ) && version.contains( "4.0." ) )
-            {
-                return Integer.parseInt( version.substring( version.lastIndexOf( '.' ) + 1 ) );
-            }
-            else
-            {
-                return 0;
-            }
-        }
-        catch ( NumberFormatException e )
-        {
-            return 0;
         }
     }
 

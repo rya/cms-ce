@@ -1,10 +1,9 @@
 package com.enonic.cms.core.plugin;
 
-import java.util.List;
+import com.enonic.cms.api.plugin.PluginConfig;
 import org.joda.time.DateTime;
-import com.enonic.cms.api.plugin.ext.Extension;
 
-public interface Plugin
+public interface PluginHandle
 {
     public long getKey();
 
@@ -16,11 +15,11 @@ public interface Plugin
 
     public boolean isActive();
 
-    public List<Extension> getExtensions();
-
     public DateTime getTimestamp();
 
-    public boolean isFramework();
+    public ExtensionSet getExtensions();
+
+    public PluginConfig getConfig();
 
     public void update();
 }

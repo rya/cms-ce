@@ -21,8 +21,6 @@ public class CountryServiceImplTest
         throws Exception
     {
         this.service = new CountryServiceImpl();
-        this.service.setResource(
-            new ClassPathResource( "com/enonic/cms/core/country/test-countries.xml", getClass().getClassLoader() ) );
         this.service.afterPropertiesSet();
     }
 

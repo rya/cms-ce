@@ -318,7 +318,4 @@
 
     <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
 
-    <bean id="pluginManager" class="com.enonic.cms.core.plugin.manager.ExtensionManagerImpl">
-    </bean>
-
 </beans>

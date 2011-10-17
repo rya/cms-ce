@@ -16,16 +16,6 @@ import com.enonic.cms.framework.util.PropertiesUtil;
  */
 public final class VerticalProperties
 {
-    /**
-     * Mandatory 4.0.x minor version for upgrade.
-     */
-    public final static int REQUIRED_40X_MINOR_VERSION = 5;
-
-    /**
-     * Mandatory 40x version (used for upgrade).
-     */
-    public final static String REQUIRED_40X_VERSION = "Vertical Site v4.0." + REQUIRED_40X_MINOR_VERSION;
-
     private static VerticalProperties verticalProperties;
 
     private Properties properties;
@@ -62,12 +52,6 @@ public final class VerticalProperties
             return false;
         }
         return defaultValue;
-    }
-
-    public int getPropertyAsInt( String key )
-    {
-        String s = getProperty( key );
-        return Integer.parseInt( s );
     }
 
     public String getProperty( final String key )

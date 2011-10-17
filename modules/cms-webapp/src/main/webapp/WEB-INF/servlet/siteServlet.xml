@@ -46,7 +46,7 @@
     </bean>
 
     <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.portal.security.AutoLoginInterceptor">
-        <property name="pluginManager" ref="extensionManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
         <property name="securityService" ref="securityService"/>
     </bean>
 
@@ -55,7 +55,7 @@
     </bean>
 
     <bean id="httpInterceptorInterceptor" class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
-        <property name="pluginManager" ref="extensionManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
     <!-- default handler mapping -->
@@ -253,7 +253,7 @@
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
         <property name="userDao" ref="userDao"/>
         <property name="siteDao" ref="siteDao"/>
-        <property name="extensionManager" ref="extensionManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
 

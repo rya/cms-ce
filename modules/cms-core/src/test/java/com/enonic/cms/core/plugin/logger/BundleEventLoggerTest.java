@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 public class BundleEventLoggerTest
 {
     private LogRecord logRecord;
-    private Bundle bundle;
 
     @Before
     public void setUp()
@@ -31,40 +30,51 @@ public class BundleEventLoggerTest
         });
 
         logger.setLevel(Level.FINEST);
-
-        this.bundle = Mockito.mock(Bundle.class);
-        Mockito.when(this.bundle.getSymbolicName()).thenReturn("some_id");
-        Mockito.when(this.bundle.getLocation()).thenReturn("some_location");
     }
 
     @Test
     public void testLogStarted()
     {
-        testLog(BundleEvent.STARTED);
+        fireEvent(1, BundleEvent.STARTED);
+        assertNotNull(this.logRecord);
+        assertNotNull(this.logRecord.getMessage());
     }
 
     @Test
     public void testLogUninstall()
     {
-        testLog(BundleEvent.UNINSTALLED);
+        fireEvent(1, BundleEvent.UNINSTALLED);
+        assertNotNull(this.logRecord);
+        assertNotNull(this.logRecord.getMessage());
     }
 
     @Test
     public void testLogInstall()
     {
-        testLog(BundleEvent.INSTALLED);
+        fireEvent(1, BundleEvent.INSTALLED);
+        assertNotNull(this.logRecord);
+        assertNotNull(this.logRecord.getMessage());
     }
 
-    private void testLog(final int eventType)
+    @Test
+    public void testNoLogFramework()
     {
+        fireEvent(0, BundleEvent.INSTALLED);
+        assertNull(this.logRecord);
+    }
+
+    private void fireEvent(final long bundleId, final int eventType)
+    {
+        final Bundle bundle = Mockito.mock(Bundle.class);
+        Mockito.when(bundle.getSymbolicName()).thenReturn("some_id");
+        Mockito.when(bundle.getLocation()).thenReturn("some_location");
+        Mockito.when(bundle.getBundleId()).thenReturn(bundleId);
+
         final BundleEvent event = Mockito.mock(BundleEvent.class);
-        Mockito.when(event.getBundle()).thenReturn(this.bundle);
+        Mockito.when(event.getBundle()).thenReturn(bundle);
         Mockito.when(event.getType()).thenReturn(eventType);
 
         final BundleEventLogger logger = new BundleEventLogger();
         logger.bundleChanged(event);
-
-        assertNotNull(this.logRecord);
-        assertNotNull(this.logRecord.getMessage());
     }
 }

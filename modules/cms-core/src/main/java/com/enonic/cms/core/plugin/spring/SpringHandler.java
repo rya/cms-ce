@@ -1,94 +1,76 @@
 package com.enonic.cms.core.plugin.spring;
 
+import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.springframework.osgi.context.support.OsgiBundleXmlApplicationContext;
-
 import com.enonic.cms.api.plugin.PluginContext;
-import com.enonic.cms.api.plugin.PluginException;
 import com.enonic.cms.api.plugin.ext.Extension;
 
 final class SpringHandler
 {
+    private final static LogFacade LOG = LogFacade.get(SpringHandler.class);
+
     private final Bundle bundle;
-
-    private final String[] configs;
-
-    private OsgiBundleXmlApplicationContext app;
+    private XmlAppContext app;
 
     public SpringHandler( final Bundle bundle )
     {
         this.bundle = bundle;
-        this.configs = new SpringContextFinder().findContexts( this.bundle );
     }
 
-    public boolean canHandle()
+    public void activate()
     {
-        return this.configs != null;
-    }
-
-    public boolean activate()
-    {
-        try
-        {
+        try {
             doActivate();
-            return true;
-        }
-        catch ( Throwable e )
-        {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public void deactivate()
-    {
-        try
-        {
-            doDeactivate();
-        }
-        catch ( Throwable e )
-        {
-            e.printStackTrace();
-        }
-    }
-
-    private void doActivate()
-        throws Exception
-    {
-        final PluginContext context = lookupPluginContext();
-
-        this.app = new XmlAppContext( this.bundle, this.configs );
-        this.app.addBeanFactoryPostProcessor( new BeansProcessor( context ) );
-        this.app.addBeanFactoryPostProcessor( new ConfigProcessor( context ) );
-        this.app.refresh();
-
-        for ( final Object ext : this.app.getBeansOfType( Extension.class ).values() )
-        {
-            context.register( (Extension) ext );
-        }
-    }
-
-    private void doDeactivate()
-        throws Exception
-    {
-        if ( this.app.isActive() )
-        {
-            this.app.close();
+        } catch (final Throwable e) {
+            handleError(e);
         }
     }
 
     private PluginContext lookupPluginContext()
     {
-        final BundleContext context = this.bundle.getBundleContext();
-        final ServiceReference ref = context.getServiceReference( PluginContext.class.getName() );
+        return OsgiHelper.requireService(this.bundle.getBundleContext(), PluginContext.class);
+    }
 
-        if ( ref == null )
+    private void doActivate()
+    {
+        doActivate(lookupPluginContext());
+    }
+
+    private void doActivate(final PluginContext context)
+    {
+        this.app = new XmlAppContext( this.bundle );
+        this.app.addBeanFactoryPostProcessor(new BeansProcessor(context));
+        this.app.addBeanFactoryPostProcessor( new ConfigProcessor( context ) );
+        this.app.refresh();
+
+        for ( final Extension ext : this.app.getBeansOfType( Extension.class ).values() )
         {
-            throw new PluginException( "Failed to find plugin context for bundle [{0}]", this.bundle.getSymbolicName() );
+            context.register( ext );
+        }
+    }
+
+    public void deactivate()
+    {
+        if (this.app == null) {
+            return;
         }
 
-        return (PluginContext) context.getService( ref );
+        if ( !this.app.isActive() ) {
+            return;
+        }
+
+        this.app.close();
+    }
+
+    private void handleError(final Throwable cause)
+    {
+        LOG.error(cause, "Failed to start plugin [{0}]", this.bundle.getSymbolicName());
+
+        try {
+            this.bundle.stop();
+        } catch (final Exception e) {
+            LOG.warning(e, "Exception when stopping plugin [{0}]", this.bundle.getSymbolicName());
+        }
     }
 }

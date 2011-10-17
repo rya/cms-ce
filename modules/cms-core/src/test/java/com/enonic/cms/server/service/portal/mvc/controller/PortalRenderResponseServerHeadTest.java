@@ -7,7 +7,8 @@ import com.enonic.cms.business.SitePropertyNames;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.plugin.ExtensionManager;
+import com.enonic.cms.core.plugin.ExtensionSet;
+import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
@@ -74,7 +75,11 @@ public class PortalRenderResponseServerHeadTest
 
         portalRenderResponseServer.setUserDao( userDao );
         portalRenderResponseServer.setSiteDao( siteDao );
-        portalRenderResponseServer.setExtensionManager( Mockito.mock(ExtensionManager.class));
+
+        PluginManager pluginManager = Mockito.mock(PluginManager.class);
+        ExtensionSet extensionSet = Mockito.mock(ExtensionSet.class);
+        Mockito.when(pluginManager.getExtensions()).thenReturn(extensionSet);
+        portalRenderResponseServer.setPluginManager(pluginManager);
 
         Mockito.when( siteDao.findByKey( sitePath.getSiteKey() ) ).thenReturn( new SiteEntity() );
 

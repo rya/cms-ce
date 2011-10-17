@@ -40,13 +40,13 @@
 
     <!-- Interceptor to trigger autologin plugins. -->
     <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
-        <property name="pluginManager" ref="extensionManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
         <property name="securityService" ref="securityService"/>
     </bean>
 
     <bean id="httpInterceptorInterceptor"
           class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
-        <property name="pluginManager" ref="extensionManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
     <!-- Admin handler mappings. -->
@@ -212,7 +212,7 @@
 
     <bean id="pluginInfoController" class="com.enonic.cms.server.service.tools.PluginInfoController"
           parent="abstractToolController">
-        <property name="extensionManager" ref="extensionManager"/>
+        <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
     <bean id="livePortalTraceController" class="com.enonic.cms.server.service.tools.LivePortalTraceController"

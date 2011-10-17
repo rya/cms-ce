@@ -4,7 +4,6 @@ import com.enonic.cms.api.util.LogFacade;
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.packageadmin.PackageAdmin;
 import java.io.File;
 
 final class PluginInstaller
@@ -14,12 +13,9 @@ final class PluginInstaller
 
     private final BundleContext context;
 
-    private final PackageAdmin packageAdmin;
-
-    public PluginInstaller(final BundleContext context, final PackageAdmin packageAdmin)
+    public PluginInstaller(final BundleContext context)
     {
         this.context = context;
-        this.packageAdmin = packageAdmin;
     }
 
     @Override
@@ -45,15 +41,10 @@ final class PluginInstaller
         final String location = toLocation( file );
         Bundle bundle = findBundle( location );
 
-        if (bundle == null) {
-            bundle = doInstall(location);
-        } else {
-            doUpdate(bundle);
-        }
-
         if (bundle != null) {
-            start(bundle);
-            refresh();
+            doUpdate(bundle);
+        } else {
+            doInstall(location);
         }
     }
 
@@ -65,56 +56,45 @@ final class PluginInstaller
         if ( bundle != null )
         {
             doUninstall( bundle );
-            refresh();
         }
     }
 
-    private Bundle doInstall( final String location )
+    private void doUpdate( final Bundle bundle )
     {
         try
         {
-            return this.context.installBundle( location );
+            bundle.update();
+            bundle.start(0);
+        }
+        catch ( Exception e )
+        {
+            LOG.error( e, "Error updating plugin from location [{0}]", bundle.getLocation() );
+        }
+    }
+
+    private void doInstall( final String location )
+    {
+        try
+        {
+            final Bundle bundle = this.context.installBundle( location );
+            bundle.start(0);
         }
         catch ( Exception e )
         {
             LOG.error( e, "Error installing plugin from location [{0}]", location );
         }
-
-        return null;
     }
 
-    private Bundle doUpdate( final Bundle bundle )
+    private void doUninstall( final Bundle bundle )
     {
-        try
-        {
-            bundle.update();
-            return bundle;
-        }
-        catch ( Exception e )
-        {
-            LOG.error( e, "Error updating plugin [{0}]", bundle.getSymbolicName() );
-            return null;
-        }
-    }
-
-    private Bundle doUninstall( final Bundle bundle )
-    {
-        if ( bundle == null )
-        {
-            return null;
-        }
-
         try
         {
             bundle.uninstall();
-            return bundle;
         }
         catch ( Exception e )
         {
             LOG.error( e, "Error occurred removing plugin [{0}]", bundle.getSymbolicName() );
         }
-
-        return null;
     }
 
     private Bundle findBundle( final String location )
@@ -140,22 +120,5 @@ final class PluginInstaller
         {
             throw new AssertionError(e);
         }
-    }
-
-    private void start( final Bundle bundle )
-    {
-        try
-        {
-            bundle.start( 0 );
-        }
-        catch ( Exception e )
-        {
-            LOG.error( e, "Error starting plugin [{0}]", bundle.getSymbolicName() );
-        }
-    }
-
-    private void refresh()
-    {
-        this.packageAdmin.refreshPackages( null );
     }
 }
