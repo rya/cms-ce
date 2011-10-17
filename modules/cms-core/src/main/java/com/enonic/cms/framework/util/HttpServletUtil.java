@@ -125,7 +125,14 @@ public class HttpServletUtil
             {
                 LOG.warn( "Error writing to outputstream: " + e.getMessage() +
                                   ". Closing inputstream and passing on the original exception" );
-                in.close();
+                try
+                {
+                    in.close();
+                }
+                catch ( IOException ex )
+                {
+                    LOG.warn( "Error closing inputstream: " + ex.getMessage() );
+                }
                 throw e;
             }
             byteCount += bytesRead;
@@ -151,7 +158,14 @@ public class HttpServletUtil
             {
                 LOG.warn( "Error writing to outputstream: " + e.getMessage() +
                                   ". Closing inputstream and passing on the original exception" );
-                in.close();
+                try
+                {
+                    in.close();
+                }
+                catch ( IOException ex )
+                {
+                    LOG.warn( "Error closing inputstream: " + ex.getMessage() );
+                }
                 throw e;
             }
             byteCount += bytesRead;
