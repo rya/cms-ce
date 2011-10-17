@@ -3,6 +3,8 @@ package com.enonic.cms.core.plugin.container;
 import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
+import com.google.common.io.Files;
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
 import com.google.common.collect.Lists;
@@ -42,6 +44,7 @@ public final class OsgiContainer
         final Map<String, Object> map = Maps.newHashMap();
         map.putAll( this.properties );
 
+        map.put( FRAMEWORK_STORAGE, Files.createTempDir().getAbsolutePath() );
         map.put( FRAMEWORK_STORAGE_CLEAN, FRAMEWORK_STORAGE_CLEAN_ONFIRSTINIT );
         map.put( LOG_LEVEL_PROP, String.valueOf( logBridge.getLogLevel() ) );
         map.put( LOG_LOGGER_PROP, logBridge );
