@@ -59,7 +59,7 @@
             <artifactId>joda-time</artifactId>
         </dependency>
         <dependency>
-            <groupId>nl-captcha</groupId>
+            <groupId>nl.captcha</groupId>
             <artifactId>simplecaptcha</artifactId>
         </dependency>
         <dependency>
