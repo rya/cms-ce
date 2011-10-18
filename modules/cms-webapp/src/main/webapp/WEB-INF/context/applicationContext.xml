@@ -10,10 +10,6 @@
 
     <context:annotation-config/>
 
-    <!-- Load global configuration. -->
-    <bean id="configFactory" class="com.enonic.cms.core.config.GlobalConfigFactory"/>
-    <bean id="config" factory-bean="configFactory" factory-method="create"/>
-
     <!-- Incject vertical properties singleton. -->
     <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties">
         <property name="properties" value="#{config.properties}"/>
@@ -25,10 +21,10 @@
         <property name="properties" value="#{config.properties}"/>
     </bean>
 
+    <context:component-scan base-package="com.enonic.cms.store"/>
     <context:component-scan base-package="com.enonic.cms.core"/>
     <context:component-scan base-package="com.enonic.cms.business"/>
     <context:component-scan base-package="com.enonic.cms.framework"/>
-    <context:component-scan base-package="com.enonic.cms.store"/>
 
     <import resource="dataSourceContext.xml"/>
 
