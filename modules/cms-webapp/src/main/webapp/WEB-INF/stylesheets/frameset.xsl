@@ -27,6 +27,7 @@
           %headEnonicCMSAdministration%
         </title>
         <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
       </head>
 
       <xsl:variable name="loadmainstartpage">

@@ -31,6 +31,8 @@
         <xsl:comment><![CDATA[[if IE 7]>
           <link type="text/css" rel="stylesheet" media="screen" href="css/login_ie7.css" />
         <![endif]]]></xsl:comment>
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
         <script type="text/javascript">
           function bodyOnLoad() {
               if (self != top)
