@@ -31,12 +31,14 @@ Ext.define('App.view.DetailPanel', {
             {
                 text: 'Clear Cache',
                 iconCls: 'icon-delete',
-                action: 'clearCache'
+                action: 'clearCache',
+                disabled: true
             },
             {
                 text: 'Reset Statistics',
                 iconCls: 'icon-delete',
-                action: 'clearStats'
+                action: 'clearStats',
+                disabled: true
             },
                 '->',
             {
@@ -132,10 +134,19 @@ Ext.define('App.view.DetailPanel', {
         this.updateDetail( this.__proto__.cache );
     },
 
+    updateToolbar: function() {
+        var clearStats = this.down('button[action=clearStats]');
+        var clearCache = this.down('button[action=clearCache]');
+        var flag = Ext.isEmpty( this.cache.data.name );
+        clearStats.setDisabled( flag );
+        clearCache.setDisabled( flag );
+    },
+
     updateDetail: function( cache ) {
         if( cache ) {
             // sets the new record as current cache
             this.setCache( cache );
+            this.updateToolbar();
 
             var data = this.cache ? this.cache.data : {} ;
             this.getComponent('cacheDetailHeader').update( data );

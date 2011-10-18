@@ -27,11 +27,26 @@ Ext.define( 'App.controller.SystemCacheController', {
 
     clearCache: function( btn, evt, opts ) {
         var me = this;
+        var cache = this.getDetail().getCache();
         Ext.Msg.confirm("Warning", "All cache will be erased. Are you sure ?", function( btn ) {
             if ( "yes" == btn ) {
-                //TODO clear cache
-                me.getGrid().getStore().load();
-                me.getDetail().clearDetail();
+                var cacheName = cache ? cache.data.name : undefined;
+
+                if ( !Ext.isEmpty(cacheName) ) {
+                    Ext.Ajax.request({
+                        url: 'data/system/cache/clear',
+                        method: 'POST',
+                        params: { name: cacheName },
+                        success: function(response, opts) {
+                            me.getGrid().getStore().load();
+                            me.getDetail().clearDetail();
+                        },
+                        failure: function(response, opts) {
+                            var obj = Ext.decode(response.responseText);
+                            Ext.Msg.alert("Error", obj.msg);
+                        }
+                    });
+                }
             }
         })
     },
