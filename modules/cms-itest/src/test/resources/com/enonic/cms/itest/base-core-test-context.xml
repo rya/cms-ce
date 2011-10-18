@@ -16,6 +16,10 @@
 
     <import resource="classpath:/com/enonic/cms/itest/base-persist-test-context.xml"/>
 
+    <bean id="config" class="com.enonic.cms.itest.config.MockGlobalConfig"/>
+
+    <bean id="pluginManager" class="com.enonic.cms.itest.plugin.MockPluginManager"/>
+    
     <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
     <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
@@ -194,18 +198,7 @@
 
     <bean id="calendarService" class="com.enonic.cms.core.calendar.CalendarService"/>
 
-    <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl">
-        <property name="resource">
-            <bean class="com.enonic.cms.framework.spring.SelectResourceFactory">
-                <property name="requireResource" value="true"/>
-                <property name="resources">
-                    <list>
-                        <value>classpath:com/enonic/cms/core/country/countries.xml</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
+    <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl"/>
 
     <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
 
