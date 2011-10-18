@@ -144,7 +144,6 @@ import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.DataSourceService;
-import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
@@ -159,6 +158,9 @@ import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
 import com.enonic.cms.business.portal.datasource.context.UserContextXmlCreator;
+import com.enonic.cms.business.portal.livetrace.ClientMethodExecutionTrace;
+import com.enonic.cms.business.portal.livetrace.ClientMethodExecutionTracer;
+import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
@@ -223,6 +225,8 @@ public final class InternalClientImpl
 
     @Autowired(required = false)
     private SiteCachesService siteCachesService;
+
+    private LivePortalTraceService livePortalTraceService;
 
     /**
      * Vertical properties.
@@ -295,7 +299,7 @@ public final class InternalClientImpl
     public Document getUser( GetUserParams params )
         throws ClientException
     {
-
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getUser", livePortalTraceService );
         try
         {
             final UserEntity user = userParser.parseUser( params.user );
@@ -310,11 +314,16 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getGroup( GetGroupParams params )
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getGroup", livePortalTraceService );
         try
         {
             if ( params.group == null )
@@ -331,13 +340,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getUsers( GetUsersParams params )
         throws ClientException
     {
-
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getUsers", livePortalTraceService );
         try
         {
             if ( params.userStore == null )
@@ -365,13 +378,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getGroups( GetGroupsParams params )
         throws ClientException
     {
-
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getGroups", livePortalTraceService );
         try
         {
             if ( params.index < 0 )
@@ -417,6 +434,10 @@ public final class InternalClientImpl
         catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
@@ -1004,6 +1025,7 @@ public final class InternalClientImpl
     public Document getCategories( GetCategoriesParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getCategories", livePortalTraceService );
         try
         {
             return getPresentationInvoker().getCategories( params );
@@ -1011,6 +1033,10 @@ public final class InternalClientImpl
         catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
@@ -1021,6 +1047,7 @@ public final class InternalClientImpl
     public Document getContent( GetContentParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContent", livePortalTraceService );
         try
         {
             UserEntity user = securityService.getRunAsUser();
@@ -1058,15 +1085,20 @@ public final class InternalClientImpl
             XMLDocument xml = getContentXmlCreator.create( getContentResult );
             return xml.getAsJDOMDocument();
         }
-        catch ( XMLException e )
+        catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContentVersions( GetContentVersionsParams params )
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContentVersions", livePortalTraceService );
         try
         {
             if ( params == null || params.contentVersionKeys.length == 0 )
@@ -1121,6 +1153,10 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     /**
@@ -1130,6 +1166,7 @@ public final class InternalClientImpl
     public Document getContentByQuery( GetContentByQueryParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContentByQuery", livePortalTraceService );
         try
         {
             PreviewContext previewContext = previewService.getPreviewContext();
@@ -1190,6 +1227,10 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     /**
@@ -1199,6 +1240,7 @@ public final class InternalClientImpl
     public Document getContentByCategory( GetContentByCategoryParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContentByCategory", livePortalTraceService );
         try
         {
             PreviewContext previewContext = previewService.getPreviewContext();
@@ -1259,6 +1301,10 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     /**
@@ -1268,6 +1314,8 @@ public final class InternalClientImpl
     public Document getRandomContentByCategory( GetRandomContentByCategoryParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace =
+            ClientMethodExecutionTracer.startTracing( "getRandomContentByCategory", livePortalTraceService );
         try
         {
             PreviewContext previewContext = previewService.getPreviewContext();
@@ -1336,6 +1384,10 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     /**
@@ -1345,6 +1397,7 @@ public final class InternalClientImpl
     public Document getContentBySection( GetContentBySectionParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContentBySection", livePortalTraceService );
         try
         {
             PreviewContext previewContext = previewService.getPreviewContext();
@@ -1407,6 +1460,10 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     /**
@@ -1416,6 +1473,8 @@ public final class InternalClientImpl
     public Document getRandomContentBySection( GetRandomContentBySectionParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace =
+            ClientMethodExecutionTracer.startTracing( "getRandomContentBySection", livePortalTraceService );
         try
         {
             PreviewContext previewContext = previewService.getPreviewContext();
@@ -1478,12 +1537,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenu( GetMenuParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getMenu", livePortalTraceService );
         try
         {
             return getPresentationInvoker().getMenu( params );
@@ -1492,12 +1556,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenuBranch( GetMenuBranchParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getMenuBranch", livePortalTraceService );
         try
         {
             return getPresentationInvoker().getMenuBranch( params );
@@ -1506,12 +1575,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenuData( GetMenuDataParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getMenuData", livePortalTraceService );
         try
         {
             return getPresentationInvoker().getMenuData( params );
@@ -1520,12 +1594,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getMenuItem( GetMenuItemParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getMenuItem", livePortalTraceService );
         try
         {
             return getPresentationInvoker().getMenuItem( params );
@@ -1534,12 +1613,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getSubMenu( GetSubMenuParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getSubMenu", livePortalTraceService );
         try
         {
             return getPresentationInvoker().getSubMenu( params );
@@ -1547,6 +1631,10 @@ public final class InternalClientImpl
         catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
@@ -1557,6 +1645,7 @@ public final class InternalClientImpl
     public Document getRelatedContent( final GetRelatedContentsParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getRelatedContent", livePortalTraceService );
         try
         {
             PreviewContext previewContext = previewService.getPreviewContext();
@@ -1684,9 +1773,13 @@ public final class InternalClientImpl
 
             return xmlCreator.createContentsDocument( user, mainResultContent, relatedContent ).getAsJDOMDocument();
         }
-        catch ( XMLException e )
+        catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
@@ -1722,6 +1815,7 @@ public final class InternalClientImpl
     public Document getBinary( GetBinaryParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getBinary", livePortalTraceService );
         try
         {
             return internalClientContentService.getBinary( params );
@@ -1730,12 +1824,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getContentBinary( GetContentBinaryParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContentBinary", livePortalTraceService );
         try
         {
             return internalClientContentService.getContentBinary( params );
@@ -1744,12 +1843,17 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public Document getResource( GetResourceParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getResource", livePortalTraceService );
         try
         {
             ResourceKey resourceKey = new ResourceKey( params.resourcePath );
@@ -1770,6 +1874,10 @@ public final class InternalClientImpl
         catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
@@ -1829,6 +1937,7 @@ public final class InternalClientImpl
     public Preference getPreference( GetPreferenceParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getPreference", livePortalTraceService );
         try
         {
             PreferenceKey preferenceKey =
@@ -1843,6 +1952,10 @@ public final class InternalClientImpl
         {
             throw handleException( e );
         }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
+        }
     }
 
     /**
@@ -1852,6 +1965,7 @@ public final class InternalClientImpl
     public List<Preference> getPreferences()
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getPreferences", livePortalTraceService );
         try
         {
             PreferenceSpecification spec = new PreferenceSpecification( this.securityService.getRunAsUser() );
@@ -1871,6 +1985,10 @@ public final class InternalClientImpl
         catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 
@@ -1914,8 +2032,7 @@ public final class InternalClientImpl
         try
         {
             PreferenceKey preferenceKey =
-                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse(
-                        params.scope.getType().toString() ),
+                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
                                    params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
 
             PreferenceEntity preference = new PreferenceEntity();
@@ -2239,6 +2356,11 @@ public final class InternalClientImpl
     public void setTimeService( TimeService timeService )
     {
         this.timeService = timeService;
+    }
+
+    public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
+    {
+        this.livePortalTraceService = livePortalTraceService;
     }
 
     public void setUserDao( UserDao userDao )

@@ -39,12 +39,12 @@
     </bean>
 
     <!-- Interceptor to trigger autologin plugins. -->
-    <bean id="adminAutoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
+    <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
         <property name="securityService" ref="securityService"/>
     </bean>
 
-    <bean id="adminHttpInterceptorInterceptor"
+    <bean id="httpInterceptorInterceptor"
           class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
@@ -70,8 +70,8 @@
         </property>
         <property name="interceptors">
             <list>
-                <ref bean="adminAutoLoginInterceptor"/>
-                <ref bean="adminHttpInterceptorInterceptor"/>
+                <ref bean="autoLoginInterceptor"/>
+                <ref bean="httpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
@@ -89,9 +89,9 @@
         </property>
         <property name="interceptors">
             <list>
-                <ref bean="adminAutoLoginInterceptor"/>
+                <ref bean="autoLoginInterceptor"/>
                 <ref bean="loginCheckInterceptor"/>
-                <ref bean="adminHttpInterceptorInterceptor"/>
+                <ref bean="httpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>

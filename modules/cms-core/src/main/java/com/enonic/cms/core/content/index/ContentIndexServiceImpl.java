@@ -13,8 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.enonic.cms.framework.jdbc.dialect.Dialect;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.ContentKey;
@@ -27,7 +26,10 @@ import com.enonic.cms.core.content.resultset.ContentResultSetLazyFetcher;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentIndexDao;
-import org.springframework.stereotype.Component;
+
+import com.enonic.cms.business.portal.livetrace.ContentIndexQueryTrace;
+import com.enonic.cms.business.portal.livetrace.ContentIndexQueryTracer;
+import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 
 /**
  * This class implements the content index service based on hibernate.
@@ -41,6 +43,9 @@ public final class ContentIndexServiceImpl
 
     @Autowired
     private ContentDao contentDao;
+
+    @Autowired
+    private LivePortalTraceService livePortalTraceService;
 
     private enum IndexState
     {
@@ -94,7 +99,7 @@ public final class ContentIndexServiceImpl
     /**
      * @inheritDoc
      */
-    public ContentResultSet query( ContentIndexQuery contentIndexQuery )
+    public ContentResultSet query( final ContentIndexQuery contentIndexQuery )
     {
         preventExecutionOfTooOpenQuery( contentIndexQuery );
 
@@ -103,40 +108,52 @@ public final class ContentIndexServiceImpl
             return new ContentResultSetLazyFetcher( new ContentEntityFetcherImpl( contentDao ), new LinkedList<ContentKey>(), 0, 0 );
         }
 
-        TranslatedQuery translated;
-
+        final ContentIndexQueryTrace trace = ContentIndexQueryTracer.startTracing( livePortalTraceService );
         try
         {
-            translated = new ContentQueryTranslator().translate( contentIndexQuery );
+            final TranslatedQuery translatedContentQuery;
+
+            try
+            {
+                translatedContentQuery = new ContentQueryTranslator().translate( contentIndexQuery );
+            }
+            catch ( Throwable e )
+            {
+                final ContentResultSetNonLazy rs = new ContentResultSetNonLazy( contentIndexQuery.getIndex() );
+                rs.addError( "Failed to translate contentQuery ( " + contentIndexQuery + " ): " + e.getMessage() );
+                return rs;
+            }
+
+            final String hqlStr = translatedContentQuery.getQuery();
+            ContentIndexQueryTracer.traceQuery( contentIndexQuery, contentIndexQuery.getIndex(), contentIndexQuery.getCount(), trace );
+
+            // Important: if we query on any given date (that changes) there is no use in caching the the content query
+            final boolean cacheable = contentIndexQuery.getContentOnlineAtFilter() == null;
+            final List<ContentKey> keys =
+                contentIndexDao.findContentKeysByQuery( hqlStr, translatedContentQuery.getParameters(), cacheable );
+
+            final int queryResultTotalSize = keys.size();
+
+            ContentIndexQueryTracer.traceMatchCount( queryResultTotalSize, trace );
+            if ( translatedContentQuery.getIndex() > queryResultTotalSize )
+            {
+                final ContentResultSetNonLazy rs = new ContentResultSetNonLazy( contentIndexQuery.getIndex() );
+                rs.addError(
+                    "Index greater than result count: " + translatedContentQuery.getIndex() + " greater than " + queryResultTotalSize );
+                return rs;
+            }
+
+            final int fromIndex = Math.max( translatedContentQuery.getIndex(), 0 );
+            final int toIndex = Math.min( queryResultTotalSize, fromIndex + translatedContentQuery.getCount() );
+            final List<ContentKey> actualKeysWanted = keys.subList( fromIndex, toIndex );
+
+            return new ContentResultSetLazyFetcher( new ContentEntityFetcherImpl( contentDao ), actualKeysWanted, fromIndex,
+                                                    queryResultTotalSize );
         }
-        catch ( Throwable e )
+        finally
         {
-            final ContentResultSetNonLazy rs = new ContentResultSetNonLazy( contentIndexQuery.getIndex() );
-            rs.addError( "Failed to translate contentQuery ( " + contentIndexQuery + " ): " + e.getMessage() );
-            return rs;
+            ContentIndexQueryTracer.stopTracing( trace, livePortalTraceService );
         }
-
-        final String hqlStr = translated.getQuery();
-
-        // Important: if we query on any given date (that changes) there is no use in caching the the content query
-        boolean cacheable = contentIndexQuery.getContentOnlineAtFilter() == null;
-        List<ContentKey> keys = contentIndexDao.findContentKeysByQuery( hqlStr, translated.getParameters(), cacheable );
-
-        final int queryResultTotalSize = keys.size();
-
-        if ( translated.getIndex() > queryResultTotalSize )
-        {
-            final ContentResultSetNonLazy rs = new ContentResultSetNonLazy( contentIndexQuery.getIndex() );
-            rs.addError( "Index greater than result count: " + translated.getIndex() + " greater than " + queryResultTotalSize );
-            return rs;
-        }
-
-        int fromIndex = Math.max( translated.getIndex(), 0 );
-        int toIndex = Math.min( queryResultTotalSize, fromIndex + translated.getCount() );
-        final List<ContentKey> actualKeysWanted = keys.subList( fromIndex, toIndex );
-
-        return new ContentResultSetLazyFetcher( new ContentEntityFetcherImpl( contentDao ), actualKeysWanted, fromIndex,
-                                                queryResultTotalSize );
     }
 
     /**

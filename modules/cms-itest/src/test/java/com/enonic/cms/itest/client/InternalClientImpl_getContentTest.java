@@ -37,6 +37,8 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -45,13 +47,11 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.core.security.SecurityHolder;
-
+import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.preview.ContentPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.domain.portal.datasource.DataSourceContext;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
@@ -81,6 +81,9 @@ public class InternalClientImpl_getContentTest
 
     @Autowired
     private ContentService contentService;
+
+    @Autowired
+    private LivePortalTraceService livePortalTraceService;
 
     @Autowired
     private ContentDao contentDao;
@@ -161,6 +164,7 @@ public class InternalClientImpl_getContentTest
         internalClient.setContentDao( contentDao );
         internalClient.setUserDao( userDao );
         internalClient.setTimeService( new MockTimeService( DATE_TIME_2010_07_01_12_00_00_0 ) );
+        internalClient.setLivePortalTraceService( livePortalTraceService );
     }
 
     @Test
@@ -267,9 +271,7 @@ public class InternalClientImpl_getContentTest
 
         ContentKey relatedTo1 = createPersonContent( "Child of requested content", ContentStatus.DRAFT );
         ContentKey content1 = createPersonContentWithRelatedContent( "Request content", relatedTo1 );
-        ContentKey parentOf1 =
-            createPersonContentWithRelatedContent( "Parent to requested content", ContentStatus.DRAFT,
-                                                   content1 );
+        ContentKey parentOf1 = createPersonContentWithRelatedContent( "Parent to requested content", ContentStatus.DRAFT, content1 );
 
         ContentEntity contentInPreview = new ContentEntity( fixture.findContentByKey( content1 ) );
         ContentVersionEntity contentVersionInPreview = new ContentVersionEntity( contentInPreview.getMainVersion() );
@@ -414,8 +416,7 @@ public class InternalClientImpl_getContentTest
         ContentKey relatedDraft = createPersonContent( "Related draft", ContentStatus.DRAFT );
         ContentKey relatedApproved = createPersonContent( "Related approved", ContentStatus.APPROVED );
         ContentKey parent1 =
-            createPersonContentWithRelatedContents( "Parent content 1", ContentStatus.DRAFT, relatedDraft,
-                                                    relatedApproved );
+            createPersonContentWithRelatedContents( "Parent content 1", ContentStatus.DRAFT, relatedDraft, relatedApproved );
 
         ContentEntity contentInPreview = fixture.findContentByKey( parent1 );
         ContentVersionEntity contentVersionInPreview = new ContentVersionEntity( contentInPreview.getMainVersion() );
@@ -453,8 +454,7 @@ public class InternalClientImpl_getContentTest
         return createPersonContentWithRelatedContent( name, ContentStatus.APPROVED, relatedContent );
     }
 
-    private ContentKey createPersonContentWithRelatedContent( String name, ContentStatus status,
-                                                              ContentKey relatedContent )
+    private ContentKey createPersonContentWithRelatedContent( String name, ContentStatus status, ContentKey relatedContent )
     {
         CustomContentData contentData = new CustomContentData( fixture.findContentTypeByName( "MyPersonType" ).getContentTypeConfig() );
         contentData.add( new TextDataEntry( contentData.getInputConfig( "name" ), name ) );
@@ -469,8 +469,7 @@ public class InternalClientImpl_getContentTest
         return expectedContentKey;
     }
 
-    private ContentKey createPersonContentWithRelatedContents( String name, ContentStatus status,
-                                                               ContentKey... relatedContents )
+    private ContentKey createPersonContentWithRelatedContents( String name, ContentStatus status, ContentKey... relatedContents )
     {
         CustomContentData contentData = new CustomContentData( fixture.findContentTypeByName( "MyPersonType" ).getContentTypeConfig() );
         contentData.add( new TextDataEntry( contentData.getInputConfig( "name" ), name ) );
@@ -492,10 +491,9 @@ public class InternalClientImpl_getContentTest
         return expectedContentKey;
     }
 
-    private CreateContentCommand createCreateContentCommand( String categoryName, String creatorUid,
-                                                             ContentStatus contentStatus, DateTime dueDate,
-                                                             String assigneeUserName, ContentData contentData, DateTime availableFrom,
-                                                             DateTime availableTo )
+    private CreateContentCommand createCreateContentCommand( String categoryName, String creatorUid, ContentStatus contentStatus,
+                                                             DateTime dueDate, String assigneeUserName, ContentData contentData,
+                                                             DateTime availableFrom, DateTime availableTo )
     {
         CreateContentCommand createContentCommand = new CreateContentCommand();
         createContentCommand.setCategory( fixture.findCategoryByName( categoryName ) );

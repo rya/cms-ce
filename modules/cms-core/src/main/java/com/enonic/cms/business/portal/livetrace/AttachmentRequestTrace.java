@@ -13,6 +13,7 @@ import com.enonic.cms.core.content.binary.BinaryDataKey;
  * Oct 11, 2010
  */
 public class AttachmentRequestTrace
+    implements Trace
 {
     private PortalRequestTrace portalRequestTrace;
 
