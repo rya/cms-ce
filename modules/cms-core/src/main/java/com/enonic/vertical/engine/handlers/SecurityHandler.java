@@ -3410,27 +3410,8 @@ final public class SecurityHandler
 
     public void appendSectionSQL( User user, StringBuffer sql, SectionCriteria criteria )
     {
-
-        boolean publishRight = criteria.isPublishRight();
-        boolean approveRight = criteria.isApproveRight();
-        boolean administrateRight = criteria.isAdminRight();
-
         HashMap<String, String> accessRightsMap = new HashMap<String, String>();
-        if ( publishRight )
-        {
-            accessRightsMap.put( "accessrights/userright/@publish", "true" );
-        }
-        if ( approveRight )
-        {
-            accessRightsMap.put( "accessrights/userright/@approve", "true" );
-        }
-        if ( administrateRight )
-        {
-            accessRightsMap.put( "accessrights/userright/@administrate", "true" );
-        }
-
         appendAccessRightsSQL( user, Types.SECTION, sql, accessRightsMap );
-
     }
 
     public String appendMenuItemSQL( User user, String sql )

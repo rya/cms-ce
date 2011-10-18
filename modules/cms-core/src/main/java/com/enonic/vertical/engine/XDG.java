@@ -660,28 +660,6 @@ public class XDG
         return sql;
     }
 
-    public static StringBuffer generateRemoveSQL( Table table, Column whereInColumn, int count )
-    {
-        StringBuffer sql;
-
-        if ( table.getDeletedColumn() != null )
-        {
-            sql = new StringBuffer( "UPDATE " );
-            sql.append( table );
-            sql.append( " SET " );
-            sql.append( table.getDeletedColumn() );
-            sql.append( "= 1" );
-        }
-        else
-        {
-            sql = new StringBuffer( "DELETE FROM " );
-            sql.append( table );
-        }
-
-        generateWhereInSQL( sql, null, whereInColumn, count );
-        return sql;
-    }
-
     public static StringBuffer generateInsertSQL( Table table, Element elem )
     {
         // Generate SQL
@@ -725,11 +703,6 @@ public class XDG
         sql.append( ")" );
 
         return sql;
-    }
-
-    public static StringBuffer generateUpdateSQL( Table table )
-    {
-        return generateUpdateSQL( table, null, null, null );
     }
 
     public static StringBuffer generateUpdateSQL( Table table, Element elem )

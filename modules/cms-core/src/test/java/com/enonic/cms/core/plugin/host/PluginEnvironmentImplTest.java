@@ -57,6 +57,7 @@ public class PluginEnvironmentImplTest
     @Test
     public void testCurrentRequest()
     {
+        ServletRequestAccessor.setRequest(null);
         assertNull(this.env.getCurrentRequest());
 
         final HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
@@ -68,6 +69,7 @@ public class PluginEnvironmentImplTest
     @Test
     public void testCurrentSession()
     {
+        ServletRequestAccessor.setRequest(null);
         assertNull(this.env.getCurrentSession());
 
         final HttpSession session = Mockito.mock(HttpSession.class);

@@ -20,14 +20,6 @@ public class SectionCriteria
 
     private int sectionKey = -1;
 
-    private int superSectionKey = -1;
-
-    private boolean includeSection;
-
-    private int level;
-
-    private int[] sectionKeys;
-
     private int contentKey = -1;
 
     private int contentKeyExcludeFilter = -1;
@@ -36,17 +28,9 @@ public class SectionCriteria
 
     private boolean includeSectionsWithoutContentTypeEvenWhenFilterIsSet = true;
 
-    private boolean publishRight;
-
-    private boolean approveRight;
-
-    private boolean adminRight;
-
     private boolean treeStructure;
 
     private boolean includeChildCount;
-
-    private boolean recursivly;
 
     private boolean markContentFilteredSections;
 
@@ -99,11 +83,6 @@ public class SectionCriteria
         return menuItemKeys;
     }
 
-    public boolean getSectionsRecursivly()
-    {
-        return recursivly;
-    }
-
     public void setSectionKey( int key )
     {
         sectionKey = key;
@@ -114,37 +93,6 @@ public class SectionCriteria
         return sectionKey;
     }
 
-
-    public boolean isAdminRight()
-    {
-        return adminRight;
-    }
-
-    public boolean isApproveRight()
-    {
-        return approveRight;
-    }
-
-    public boolean isPublishRight()
-    {
-        return publishRight;
-    }
-
-    public void setAdminRight( boolean adminRight )
-    {
-        this.adminRight = adminRight;
-    }
-
-    public void setSectionRecursivly( boolean recursivly )
-    {
-        this.recursivly = recursivly;
-    }
-
-    public void setPublishRight( boolean publishRight )
-    {
-        this.publishRight = publishRight;
-    }
-
     public void setIncludeChildCount( boolean includeChildCount )
     {
         this.includeChildCount = includeChildCount;
@@ -153,44 +101,6 @@ public class SectionCriteria
     public boolean getIncludeChildCount()
     {
         return includeChildCount;
-    }
-
-    public int getSuperSectionKey()
-    {
-        return superSectionKey;
-    }
-
-    public void setSuperSectionKey( int i )
-    {
-        superSectionKey = i;
-    }
-
-    public void setSectionKeys( int[] keys )
-    {
-        if ( keys != null && keys.length > 0 )
-        {
-            int[] newArray = new int[keys.length];
-            System.arraycopy( keys, 0, newArray, 0, keys.length );
-            this.sectionKeys = newArray;
-        }
-        else
-        {
-            this.sectionKeys = null;
-        }
-    }
-
-    public int[] getSectionKeys()
-    {
-        if ( sectionKeys != null )
-        {
-            int[] newArray = new int[sectionKeys.length];
-            System.arraycopy( sectionKeys, 0, newArray, 0, sectionKeys.length );
-            return newArray;
-        }
-        else
-        {
-            return null;
-        }
     }
 
     public boolean isTreeStructure()
@@ -251,26 +161,6 @@ public class SectionCriteria
     public void setIncludeAll( boolean b )
     {
         includeAll = b;
-    }
-
-    public boolean isIncludeSection()
-    {
-        return includeSection;
-    }
-
-    public int getLevel()
-    {
-        return level;
-    }
-
-    public void setIncludeSection( boolean b )
-    {
-        includeSection = b;
-    }
-
-    public void setLevel( int i )
-    {
-        level = i;
     }
 
     public boolean isIncludeSectionContentTypesInfo()

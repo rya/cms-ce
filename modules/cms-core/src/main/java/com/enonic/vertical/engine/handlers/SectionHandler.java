@@ -334,10 +334,7 @@ public class SectionHandler
             SiteKey[] siteKeys = criteria.getSiteKeys();
             MenuItemKey[] menuItemKeys = criteria.getMenuItemKeys();
             int sectionKey = criteria.getSectionKey();
-            int superSectionKey = criteria.getSuperSectionKey();
-            boolean includeSection = criteria.isIncludeSection();
-            int level = criteria.getLevel();
-            int[] sectionKeys = criteria.getSectionKeys();
+            int[] sectionKeys = null;
             int contentKey = criteria.getContentKey();
             int contentKeyExcludeFilter = criteria.getContentKeyExcludeFilter();
             int contentTypeKeyFilter = criteria.getContentTypeKeyFilter();
@@ -365,29 +362,6 @@ public class SectionHandler
             else if ( sectionKey != -1 )
             {
                 sql = XDG.generateSelectSQL( sectionView, sectionView.mei_lKey );
-            }
-            else if ( sectionKeys != null )
-            {
-                if ( sectionKeys.length == 0 )
-                {
-                    return XMLTool.createDocument( "sections" );
-                }
-                sql = XDG.generateSelectWhereInSQL( sectionView, (Column[]) null, false, sectionView.mei_lKey, sectionKeys.length );
-            }
-            else if ( superSectionKey != -1 )
-            {
-                if ( includeSection )
-                {
-                    sql = XDG.generateSelectSQL( sectionView, sectionView.mei_lKey );
-                    if ( level > 0 )
-                    {
-                        level += 1;
-                    }
-                }
-                else
-                {
-                    sql = XDG.generateSelectSQL( sectionView, sectionView.mei_lParent );
-                }
             }
             else if ( contentKey != -1 )
             {
@@ -460,17 +434,6 @@ public class SectionHandler
             else if ( sectionKey != -1 )
             {
                 preparedStmt.setInt( index++, sectionKey );
-            }
-            else if ( sectionKeys != null )
-            {
-                for ( int loopSectionKey : sectionKeys )
-                {
-                    preparedStmt.setInt( index++, loopSectionKey );
-                }
-            }
-            else if ( superSectionKey != -1 )
-            {
-                preparedStmt.setInt( index++, superSectionKey );
             }
             else if ( contentKey != -1 )
             {
@@ -564,34 +527,6 @@ public class SectionHandler
                         }
                         Element elem = XMLTool.createElementIfNotPresent( doc, parentElem, "sections" );
                         elem.appendChild( sectionElement );
-                    }
-                }
-            }
-
-            // If specified, get sections recursivly, i.e. retrieve all sections below the
-            // the retrieved sections:
-            else if ( criteria.getSectionsRecursivly() )
-            {
-                if ( level > 1 || level == 0 )
-                {
-                    Element sectionsElement = doc.getDocumentElement();
-                    Element[] sections = XMLTool.getElements( sectionsElement, "section" );
-
-                    for ( Element section : sections )
-                    {
-                        int currentSectionKey = Integer.parseInt( section.getAttribute( "key" ) );
-                        int[] subSectionKeys = getSectionKeysBySuperSection( currentSectionKey, false );
-
-                        if ( subSectionKeys.length > 0 )
-                        {
-
-                            criteria.setSectionKey( -1 );
-                            criteria.setSectionKeys( subSectionKeys );
-                            criteria.setLevel( ( level > 1 ? level - 1 : 0 ) );
-
-                            Document subSectionsDoc = getSections( user, criteria );
-                            section.appendChild( doc.importNode( subSectionsDoc.getDocumentElement(), true ) );
-                        }
                     }
                 }
             }
