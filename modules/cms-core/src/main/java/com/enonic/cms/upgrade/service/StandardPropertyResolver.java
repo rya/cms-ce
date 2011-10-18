@@ -42,7 +42,7 @@ public final class StandardPropertyResolver
         this.homeDir = homeDir;
     }
 
-    @Value("#{config.toProperties()}")
+    @Value("#{config.properties}")
     public void setProperties( final Properties props )
     {
         this.cmsProperties = props;

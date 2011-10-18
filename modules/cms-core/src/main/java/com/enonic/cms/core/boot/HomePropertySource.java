@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.Map;
 
 final class HomePropertySource
-    extends MapPropertySource implements HomeConstants
+    extends MapPropertySource
 {
     public HomePropertySource(final File dir)
     {
@@ -16,7 +16,7 @@ final class HomePropertySource
     private static Map<String, Object> buildMap(final File dir)
     {
         final Map<String, Object> map = Maps.newHashMap();
-        map.put(CMS_HOME, dir);
+        map.put("cms.home", dir);
         return map;
     }
 }

@@ -13,7 +13,7 @@
     <property name="userStoreParser" ref="userStoreParser"/>
     <property name="resourceService" ref="resourceService"/>
     <property name="preferenceService" ref="preferenceService"/>
-    <property name="cmsProperties" ref="loadedVerticalProperties"/>
+    <property name="cmsProperties" value="#{config.properties}"/>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
     <property name="securityService" ref="securityService"/>
     <property name="contentService" ref="contentService"/>

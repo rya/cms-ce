@@ -59,7 +59,7 @@ public final class CacheManagerFactory
     /**
      * Set the properties.
      */
-    @Value("#{config.toProperties()}")
+    @Value("#{config.properties}")
     public void setProperties( Properties properties )
     {
         this.properties = properties;

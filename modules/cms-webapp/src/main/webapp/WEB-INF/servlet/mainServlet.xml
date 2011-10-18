@@ -9,7 +9,7 @@
     <!-- Placeholder configurer. -->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-        <property name="properties" ref="loadedVerticalProperties"/>
+        <property name="properties" value="#{config.properties}"/>
     </bean>
 
     <!-- Create the view resolver. -->

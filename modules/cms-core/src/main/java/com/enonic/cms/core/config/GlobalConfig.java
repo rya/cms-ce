@@ -28,7 +28,9 @@ public interface GlobalConfig
 
     public int getTxDefaultTimeout();
 
-    public Map<String, String> toMap();
+    public File getBlobStoreDir();
 
-    public Properties toProperties();
+    public Map<String, String> getMap();
+
+    public Properties getProperties();
 }

@@ -31,7 +31,7 @@ public final class OsgiContainer
         Collections.sort(this.contributors);
     }
 
-    @Value("#{config.toMap()}")
+    @Value("#{config.map}")
     public void setProperties( final Map<String, String> properties )
     {
         this.properties = properties;

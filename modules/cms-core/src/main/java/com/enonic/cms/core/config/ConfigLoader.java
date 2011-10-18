@@ -2,6 +2,8 @@ package com.enonic.cms.core.config;
 
 import com.enonic.cms.api.util.LogFacade;
 import com.enonic.cms.framework.util.PropertiesUtil;
+import org.springframework.core.env.Environment;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,14 +18,14 @@ final class ConfigLoader
     private final static String DEFAULT_PROPERTIES = "com/enonic/vertical/default.properties";
 
     private final File homeDir;
+    private final Environment env;
     private ClassLoader classLoader;
-    private Properties systemProperties;
 
-    public ConfigLoader(final File homeDir)
+    public ConfigLoader(final File homeDir, final Environment env)
     {
         this.homeDir = homeDir;
+        this.env = env;
         setClassLoader(getClass().getClassLoader());
-        setSystemProperties(System.getProperties());
     }
 
     public void setClassLoader(final ClassLoader classLoader)
@@ -31,20 +33,14 @@ final class ConfigLoader
         this.classLoader = classLoader;
     }
 
-    public void setSystemProperties( final Properties props )
-    {
-        this.systemProperties = props;
-    }
-
     public Properties load()
     {
         final Properties props = new Properties();
-        props.putAll( this.systemProperties );
         props.putAll( loadDefaultProperties() );
         props.putAll( loadCmsProperties() );
         props.putAll( getHomeDirProperties() );
 
-        return PropertiesUtil.interpolate(props);
+        return PropertiesUtil.interpolate(props, this.env);
     }
 
     private Properties getHomeDirProperties()
@@ -79,14 +75,14 @@ final class ConfigLoader
     {
         final File file = new File(this.homeDir, CMS_PROPERTIES);
         if (!file.exists() || file.isDirectory()) {
-            LOG.warning("Could not find cms.properties from [{0}]", file.getAbsolutePath());
+            LOG.info("Could not find cms.properties from [{0}]. Using defaults.", file.getAbsolutePath());
             return new Properties();
         }
 
         try {
             return loadFromStream(new FileInputStream(file));
         } catch (final Exception e) {
-            LOG.error(e, "Failed to load cms.properties from [{0}]", file.getAbsolutePath());
+            LOG.error(e, "Failed to load cms.properties from [{0}]. Using defaults.", file.getAbsolutePath());
         }
 
         return new Properties();

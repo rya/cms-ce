@@ -6,7 +6,7 @@
   <import resource="classpath:store-dao-context.xml"/>
 
   <bean id="blobStore" class="com.enonic.cms.framework.blob.file.FileBlobStore">
-    <property name="directory" value="${cms.blobstore.dir}"/>
+    <property name="directory" value="#{config.blobStoreDir}"/>
   </bean>
 
   <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">

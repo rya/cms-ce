@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 
 import com.enonic.cms.api.Version;
@@ -16,8 +17,7 @@ import com.enonic.cms.upgrade.UpgradeService;
 public class System
     implements SystemMBean
 {
-    @Autowired
-    @Qualifier("loadedVerticalProperties")
+    @Value("#{config.properties}")
     private Properties properties;
 
     @Autowired

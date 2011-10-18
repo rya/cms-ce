@@ -5,6 +5,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
+import org.springframework.core.env.MutablePropertySources;
+import org.springframework.core.env.PropertiesPropertySource;
+import org.springframework.core.env.StandardEnvironment;
+
 import java.io.*;
 import java.util.Properties;
 import static org.junit.Assert.assertEquals;
@@ -17,34 +21,41 @@ public class ConfigLoaderTest
 
     private File homeDir;
     private ConfigLoader configLoader;
+    private MutablePropertySources sources;
     private ClassLoader classLoader;
 
     @Before
     public void setUp()
         throws Exception
     {
+        final StandardEnvironment env = new StandardEnvironment();
+        this.sources = env.getPropertySources();
+
+        this.sources.remove(StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME);
+        this.sources.remove(StandardEnvironment.SYSTEM_ENVIRONMENT_PROPERTY_SOURCE_NAME);
+
         this.classLoader = Mockito.mock(ClassLoader.class);
 
         this.homeDir = this.folder.newFolder("cms-home");
-        this.configLoader = new ConfigLoader(this.homeDir);
+        this.configLoader = new ConfigLoader(this.homeDir, env);
         this.configLoader.setClassLoader(this.classLoader);
-        this.configLoader.setSystemProperties(new Properties());
     }
 
     private void setupSystemProperties()
     {
         final Properties props = new Properties();
-        props.setProperty( "system.param", "value" );
-        props.setProperty( "override", "system" );
-        this.configLoader.setSystemProperties(props);
+        props.setProperty( "system.param", "system.value" );
+
+        this.sources.addFirst(new PropertiesPropertySource("system", props));
     }
 
     private void setupHomeProperties()
         throws Exception
     {
         final Properties props = new Properties();
-        props.setProperty( "home.param", "value" );
+        props.setProperty( "home.param", "home.value" );
         props.setProperty( "override", "home" );
+        props.setProperty( "interpolate", "${home.param} ${system.param}");
 
         final File file = new File( this.homeDir, "config/cms.properties" );
         file.getParentFile().mkdirs();
@@ -58,8 +69,9 @@ public class ConfigLoaderTest
         throws Exception
     {
         final Properties props = new Properties();
-        props.setProperty( "classpath.param", "value" );
+        props.setProperty( "classpath.param", "classpath.value" );
         props.setProperty("override", "classpath");
+        props.setProperty( "interpolate", "${classpath.param} ${system.param}");
 
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         props.store( out, "" );
@@ -85,11 +97,12 @@ public class ConfigLoaderTest
         
         final Properties props = this.configLoader.load();
         assertNotNull( props );
-        assertEquals( 4, props.size() );
+        assertEquals( 5, props.size() );
         assertEquals( this.homeDir.toString(), props.getProperty( "cms.home" ) );
         assertEquals( this.homeDir.toURI().toString(), props.getProperty( "cms.home.uri" ) );
-        assertEquals( "value", props.getProperty( "classpath.param" ) );
+        assertEquals( "classpath.value", props.getProperty( "classpath.param" ) );
         assertEquals( "classpath", props.getProperty( "override" ) );
+        assertEquals( "classpath.value ${system.param}", props.getProperty( "interpolate" ) );
     }
 
     @Test
@@ -101,12 +114,13 @@ public class ConfigLoaderTest
         
         final Properties props = this.configLoader.load();
         assertNotNull( props );
-        assertEquals( 5, props.size() );
+        assertEquals( 6, props.size() );
         assertEquals( this.homeDir.toString(), props.getProperty( "cms.home" ) );
         assertEquals( this.homeDir.toURI().toString(), props.getProperty( "cms.home.uri" ) );
-        assertEquals( "value", props.getProperty( "home.param" ) );
-        assertEquals( "value", props.getProperty( "classpath.param" ) );
+        assertEquals( "home.value", props.getProperty( "home.param" ) );
+        assertEquals( "classpath.value", props.getProperty( "classpath.param" ) );
         assertEquals( "home", props.getProperty( "override" ) );
+        assertEquals( "home.value ${system.param}", props.getProperty( "interpolate" ) );
     }
 
     @Test
@@ -121,8 +135,8 @@ public class ConfigLoaderTest
         assertEquals( 5, props.size() );
         assertEquals( this.homeDir.toString(), props.getProperty( "cms.home" ) );
         assertEquals( this.homeDir.toURI().toString(), props.getProperty( "cms.home.uri" ) );
-        assertEquals( "value", props.getProperty( "system.param" ) );
-        assertEquals( "value", props.getProperty( "classpath.param" ) );
+        assertEquals( "classpath.value", props.getProperty( "classpath.param" ) );
         assertEquals( "classpath", props.getProperty( "override" ) );
+        assertEquals( "classpath.value system.value", props.getProperty( "interpolate" ) );
     }
 }

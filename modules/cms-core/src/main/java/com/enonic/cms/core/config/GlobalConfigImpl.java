@@ -1,51 +1,46 @@
 package com.enonic.cms.core.config;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-import org.springframework.core.convert.ConversionService;
 import java.io.File;
 import java.util.*;
 
 final class GlobalConfigImpl
     implements GlobalConfig
 {
-    private final Properties props;
-    private final ConversionService converter;
+    private final ConfigProperties props;
 
-    public GlobalConfigImpl(final Properties props, final ConversionService converter)
+    public GlobalConfigImpl(final ConfigProperties props)
     {
         this.props = props;
-        this.converter = converter;
     }
 
     public File getHomeDir()
     {
-        return getValue("cms.home", File.class);
+        return this.props.getValue("cms.home", File.class);
     }
 
     public File getConfigDir()
     {
-        return new File(getHomeDir(), "config)");
+        return new File(getHomeDir(), "config");
     }
 
     public String getJdbcDialect()
     {
-        return getValue("cms.jdbc.dialect", String.class);
+        return this.props.getValue("cms.jdbc.dialect", String.class);
     }
 
     public File getPluginConfigDir()
     {
-        return getValue("cms.plugin.configDir", File.class);
+        return this.props.getValue("cms.plugin.configDir", File.class);
     }
 
     public File getPluginDeployDir()
     {
-        return getValue("cms.plugin.deployDir", File.class);
+        return this.props.getValue("cms.plugin.deployDir", File.class);
     }
 
     public long getPluginScanPeriod()
     {
-        return getValue("cms.plugin.scanPeriod", Long.class);
+        return this.props.getValue("cms.plugin.scanPeriod", Long.class);
     }
 
     public File getCountriesFile()
@@ -60,38 +55,31 @@ final class GlobalConfigImpl
 
     public boolean getJdbcLogging()
     {
-        return getValue("cms.jdbc.logging", Boolean.class);
+        return this.props.getValue("cms.jdbc.logging", Boolean.class);
     }
 
     public boolean getJdbcConnectionTrace()
     {
-        return getValue("cms.jdbc.connectionTrace", Boolean.class);
+        return this.props.getValue("cms.jdbc.connectionTrace", Boolean.class);
     }
 
     public int getTxDefaultTimeout()
     {
-        return getValue("cms.tx.defaultTimeout", Integer.class);
+        return this.props.getValue("cms.tx.defaultTimeout", Integer.class);
     }
 
-    public Map<String, String> toMap()
+    public File getBlobStoreDir()
     {
-        return Maps.fromProperties(this.props);
+        return this.props.getValue("cms.blobstore.dir", File.class);
     }
 
-    private <T> T getValue(final String key, final Class<T> type)
+    public Map<String, String> getMap()
     {
-        final String value = this.props.getProperty(key);
-        if (Strings.isNullOrEmpty(value)) {
-            throw new IllegalArgumentException("No value for configuration property [" + key + "]");
-        }
-
-        return this.converter.convert(value, type);
+        return this.props.getMap();
     }
 
-    public Properties toProperties()
+    public Properties getProperties()
     {
-        final Properties target = new Properties();
-        target.putAll(this.props);
-        return target;
+        return this.props.getProperties();
     }
 }

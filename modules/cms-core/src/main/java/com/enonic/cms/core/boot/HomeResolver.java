@@ -6,7 +6,6 @@ import org.springframework.core.env.Environment;
 import java.io.File;
 
 final class HomeResolver
-    implements HomeConstants
 {
     private final static LogFacade LOG = LogFacade.get(HomeResolver.class);
 
@@ -24,13 +23,13 @@ final class HomeResolver
 
     private String resolvePath()
     {
-        String path = this.env.getProperty( CMS_HOME );
+        String path = this.env.getProperty("cms.home");
         if ( !Strings.isNullOrEmpty(path) )
         {
             return path;
         }
 
-        path = this.env.getProperty(CMS_HOME_ENV);
+        path = this.env.getProperty("CMS_HOME");
         if ( !Strings.isNullOrEmpty(path) )
         {
             return path;
