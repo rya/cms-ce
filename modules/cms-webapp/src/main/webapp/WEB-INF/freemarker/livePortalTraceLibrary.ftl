@@ -149,6 +149,10 @@
     <td colspan="2" class="noBorderBottom">
         <table class="tableIndent">
             <tr>
+                <td>Duration</td>
+                <td>[@printDurationWidthStartEnd duration=windowRenderingTrace.duration/]</td>
+            </tr>
+            <tr>
                 <td>Used cached result</td>
                 <td>${windowRenderingTrace.usedCachedResult?string}</td>
             </tr>
@@ -162,6 +166,8 @@
                         Datasource executions:
                         [#if windowRenderingTrace.hasDatasourceExecutionTraces() == false]
                             none
+                            [#else]
+                            ${windowRenderingTrace.durationOfDatasourceExecutionTracesInHRFormat}
                         [/#if]
                     </th>
                 </tr>
@@ -223,6 +229,8 @@
             Datasource executions:
             [#if pageRenderingTrace.hasDatasourceExecutionTraces() == false]
                 none
+                [#else]
+                ${pageRenderingTrace.durationOfDatasourceExecutionTracesInHRFormat}
             [/#if]
         </th>
     </tr>
@@ -243,13 +251,16 @@
     [/#if]
     [#if pageRenderingTrace.hasWindowRenderingTraces() == true]
     <tr>
-        <th colspan="2">Window rendering traces:</th>
+        <th colspan="2">
+            Window rendering traces: ${pageRenderingTrace.durationOfWindowRenderingTracesInHRFormat}
+        </th>
     </tr>
         [#list pageRenderingTrace.windowRenderingTraces as windowTrace]
         [@portalWindowRendringTraceDetails windowRenderingTrace=windowTrace index=windowTrace_index/]
         [/#list]
     [/#if]
     [#if pageRenderingTrace.hasInstructionPostProcessingTrace() == true]
+    <!--
     <tr>
         <th colspan="2">
             Instruction post processing:
@@ -261,7 +272,7 @@
             [@instructionPostProcessingTraceDetails instructionPostProcessingTrace=pageRenderingTrace.instructionPostProcessingTrace/]
             </table>
         </td>
-    </tr>
+    </tr>-->
     [/#if]
 [/#macro]
 
@@ -271,6 +282,10 @@
 <tr id="datasource-execution-trace-${id}" style="display: none;">
     <td colspan="2" class="noBorderBottom">
         <table class="tableIndent">
+            <tr>
+                <td>Duration</td>
+                <td>[@printDurationWidthStartEnd duration=datasourceExecutionTrace.duration/]</td>
+            </tr>
             <tr>
                 <td>Executed</td>
                 <td>${datasourceExecutionTrace.executed?string("Yes", "No")}</td>
@@ -300,6 +315,128 @@
                     </td>
                 </tr>
             [/#if]
+            [#if datasourceExecutionTrace.hasClientMethodExecutionTrace() == true]
+                <tr>
+                    <th colspan="2">
+                        Client Method Execution traces:
+                    ${datasourceExecutionTrace.getDurationOfClientMethodExecutionTracesInHRFormat()}
+                    </th>
+                </tr>
+                [#list datasourceExecutionTrace.clientMethodExecutionTraces as clientMethodExecutionTrace]
+                    [#assign traceId = id + "-" + clientMethodExecutionTrace_index]
+                [@clientMethodExecutionDetails trace=clientMethodExecutionTrace index=clientMethodExecutionTrace_index id=traceId/]
+                [/#list]
+            [/#if]
+            [#if datasourceExecutionTrace.hasContentIndexQueryTraces() == true]
+                <tr>
+                    <th colspan="2">
+                        Content Index Query traces:
+                    ${datasourceExecutionTrace.durationOfContentIndexQueryTracesInHRFormat}
+                    </th>
+                </tr>
+                [#list datasourceExecutionTrace.contentIndexQueryTraces as contentIndexQueryTrace]
+                    [#assign traceId = id + "-" + contentIndexQueryTrace_index]
+                [@contentIndexQueryTraceDetails trace=contentIndexQueryTrace index=contentIndexQueryTrace_index id=traceId/]
+                [/#list]
+            [/#if]
+        </table>
+    </td>
+</tr>
+[/#macro]
+
+[#macro clientMethodExecutionDetails trace index id]
+<tr>
+    <td>
+        <a href="javascript: void(0);" onclick="toggleClientMethodExecutionTrace('${id}');">
+        ${trace.getMethodName()}
+        </a>
+    </td>
+    <td>
+    [@printDuration duration=trace.duration/]
+    </td>
+</tr>
+<tr id="client-method-execution-trace-${id}" style="display: none;">
+    <td colspan="2" class="noBorderBottom">
+        <table class="tableIndent">
+            <tr>
+                <td>Duration</td>
+                <td>[@printDurationWidthStartEnd duration=trace.duration/]</td>
+            </tr>
+            [#if trace.hasContentIndexQueryTraces() == true]
+                <tr>
+                    <th colspan="2">
+                        Content Index Query traces:
+                    ${trace.durationOfContentIndexQueryTracesInHRFormat}
+                    </th>
+                </tr>
+                [#list trace.contentIndexQueryTraces as contentIndexQueryTrace]
+                    [#assign traceId = id + "-" + contentIndexQueryTrace_index]
+                [@contentIndexQueryTraceDetails trace=contentIndexQueryTrace index=contentIndexQueryTrace_index id=traceId/]
+                [/#list]
+            [/#if]
+        </table>
+    </td>
+</tr>
+[/#macro]
+
+[#macro contentIndexQueryTraceDetails trace index id]
+<tr>
+    <td>
+        <a href="javascript: void(0);" onclick="toggleContentIndexQueryTrace('${id}');">
+            Content query #${index + 1}
+        </a>
+    </td>
+    <td>
+    [@printDuration duration=trace.duration/]
+    </td>
+</tr>
+<tr id="content-index-query-trace-${id}" style="display: none;">
+    <td colspan="2" class="noBorderBottom">
+        <table class="tableIndent">
+            <tr>
+                <td>Duration</td>
+                <td>[@printDurationWidthStartEnd duration=trace.duration/]</td>
+            </tr>
+            <tr>
+                <td>Index</td>
+                <td>${trace.index}</td>
+            </tr>
+            <tr>
+                <td>Count</td>
+                <td>${trace.count}</td>
+            </tr>
+            <tr>
+                <td>Match count</td>
+                <td>${trace.matchCount}</td>
+            </tr>
+            <tr>
+                <td>Query</td>
+                <td>${trace.query!?html}</td>
+            </tr>
+            <tr>
+                <td>Content filter</td>
+                <td>${trace.contentFilter!}</td>
+            </tr>
+            <tr>
+                <td>Section filter</td>
+                <td>${trace.sectionFiler!}</td>
+            </tr>
+            <tr>
+                <td>Category filter</td>
+                <td>${trace.categoryFiler!}</td>
+            </tr>
+            <tr>
+                <td>Content type filter</td>
+                <td>${trace.contentTypeFilter!}</td>
+            </tr>
+            <tr>
+                <td>Category access type filter</td>
+                <td>${trace.categoryAccessTypeFilter!}</td>
+            </tr>
+            <tr>
+                <td>Security filter</td>
+                <td>${trace.securityFilter!}</td>
+            </tr>
         </table>
     </td>
 </tr>
@@ -308,7 +445,7 @@
 [#macro instructionPostProcessingTraceDetails instructionPostProcessingTrace]
 <tr>
     <td>Duration</td>
-    <td>[@printDuration duration=instructionPostProcessingTrace.duration/]</td>
+    <td>[@printDurationWidthStartEnd duration=instructionPostProcessingTrace.duration/]</td>
 </tr>
 [/#macro]
 
@@ -387,6 +524,8 @@
 [/#macro]
 
 [#macro printDurationWidthStartEnd duration]
+<span style="white-space: nowrap;">
+
     [#if duration.hasStarted() == false]
 
         [#elseif duration.hasEnded() == true]
@@ -394,4 +533,5 @@
         [#else]
         ${duration.executionTimeAsHRFormat!} ( ${duration.startTimeAsDate?datetime} -> ? )
     [/#if]
+</span>
 [/#macro]

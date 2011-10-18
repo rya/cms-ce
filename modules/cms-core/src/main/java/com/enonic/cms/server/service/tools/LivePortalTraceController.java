@@ -4,14 +4,26 @@
  */
 package com.enonic.cms.server.service.tools;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import java.lang.management.ThreadMXBean;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.hibernate.SessionFactory;
+import org.hibernate.stat.Statistics;
+
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.adminweb.AdminHelper;
+
+import com.enonic.cms.framework.cache.CacheFacade;
+import com.enonic.cms.framework.cache.CacheManager;
 
 import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.portal.livetrace.PastPortalRequestTrace;
@@ -26,7 +38,11 @@ public final class LivePortalTraceController
 
     private LivePortalTraceService livePortalTraceService;
 
-    @Override
+    private CacheManager cacheManager;
+
+    private SessionFactory sessionFactory;
+
+
     protected void doHandleRequest( HttpServletRequest req, HttpServletResponse res, ExtendedMap formItems )
     {
         if ( "POST".equalsIgnoreCase( req.getMethod() ) )
@@ -50,13 +66,20 @@ public final class LivePortalTraceController
         }
         else
         {
-            String window = formItems.getString( "window", "" );
-            String history = formItems.getString( "history", null );
+            final String systemInfo = req.getParameter( "system-info" );
+            final String window = req.getParameter( "window" );
+            final String history = req.getParameter( "history" );
 
             HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
 
-            if ( "current".equals( window ) )
+            if ( StringUtils.isNotBlank( systemInfo ) )
+            {
+                model.putAll( createSystemInfoModel() );
+                process( res, model, "livePortalTrace_system_info" );
+                res.setHeader( "Content-Type", "application/json" );
+            }
+            else if ( "current".equals( window ) )
             {
                 List<PortalRequestTrace> currentPortalRequestTraces = livePortalTraceService.getCurrentPortalRequestTraces();
                 model.put( "currentTraces", currentPortalRequestTraces );
@@ -112,6 +135,50 @@ public final class LivePortalTraceController
         }
     }
 
+    private Map<String, Object> createSystemInfoModel()
+    {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+
+        model.put( "portalRequestTracesInProgress", livePortalTraceService.getNumberOfPortalRequestTracesInProgress() );
+        final CacheFacade entityCache = cacheManager.getCache( "entity" );
+        model.put( "entityCacheCount", entityCache != null ? entityCache.getCount() : 0 );
+        model.put( "entityCacheHitCount", entityCache != null ? entityCache.getHitCount() : 0 );
+        model.put( "entityCacheMissCount", entityCache != null ? entityCache.getMissCount() : 0 );
+
+        final CacheFacade pageCache = cacheManager.getCache( "page" );
+
+        model.put( "pageCacheCount", pageCache != null ? pageCache.getCount() : 0 );
+        model.put( "pageCacheHitCount", pageCache != null ? pageCache.getHitCount() : 0 );
+        model.put( "pageCacheMissCount", pageCache != null ? pageCache.getMissCount() : 0 );
+
+        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+        model.put( "javaHeapMemoryUsageInit", heapMemoryUsage.getInit() );
+        model.put( "javaHeapMemoryUsageUsed", heapMemoryUsage.getUsed() );
+        model.put( "javaHeapMemoryUsageCommitted", heapMemoryUsage.getCommitted() );
+        model.put( "javaHeapMemoryUsageMax", heapMemoryUsage.getMax() );
+        MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+        model.put( "javaNonHeapMemoryUsageInit", nonHeapMemoryUsage.getInit() );
+        model.put( "javaNonHeapMemoryUsageUsed", nonHeapMemoryUsage.getUsed() );
+        model.put( "javaNonHeapMemoryUsageCommitted", nonHeapMemoryUsage.getCommitted() );
+        model.put( "javaNonHeapMemoryUsageMax", nonHeapMemoryUsage.getMax() );
+
+        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        model.put( "javaThreadCount", threadMXBean.getThreadCount() );
+        model.put( "javaThreadPeakCount", threadMXBean.getPeakThreadCount() );
+
+        Statistics statistics = sessionFactory.getStatistics();
+        if ( statistics != null )
+        {
+            model.put( "hibernateConnectionCount", statistics.getConnectCount() );
+            model.put( "hibernateQueryCacheHitCount", statistics.getQueryCacheHitCount() );
+            model.put( "hibernateCollectionFetchCount", statistics.getCollectionFetchCount() );
+            model.put( "hibernateCollectionLoadCount", statistics.getCollectionLoadCount() );
+        }
+        return model;
+    }
+
+
     private boolean isLivePortalTraceEnabled()
     {
         return livePortalTraceService.tracingEnabled();
@@ -120,5 +187,15 @@ public final class LivePortalTraceController
     public void setLivePortalTraceService( LivePortalTraceService livePortalTraceService )
     {
         this.livePortalTraceService = livePortalTraceService;
+    }
+
+    public void setCacheManager( CacheManager cacheManager )
+    {
+        this.cacheManager = cacheManager;
+    }
+
+    public void setSessionFactory( SessionFactory sessionFactory )
+    {
+        this.sessionFactory = sessionFactory;
     }
 }

@@ -16,6 +16,7 @@ import com.enonic.cms.core.structure.SiteEntity;
  * Oct 6, 2010
  */
 public class PortalRequestTrace
+    implements Trace
 {
     private long requestNumber;
 

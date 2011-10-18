@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.business.portal.livetrace;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -15,6 +14,7 @@ import com.enonic.cms.core.security.user.QualifiedUsername;
  * Oct 6, 2010
  */
 public class WindowRenderingTrace
+    implements Trace
 {
     private PortalRequestTrace portalRequestTrace;
 
@@ -28,7 +28,7 @@ public class WindowRenderingTrace
 
     private boolean usedCachedResult = false;
 
-    private List<DatasourceExecutionTrace> datasourceExecutionTraceList = new ArrayList<DatasourceExecutionTrace>();
+    private Traces<DatasourceExecutionTrace> datasourceExecutionTraces = new Traces<DatasourceExecutionTrace>();
 
     private InstructionPostProcessingTrace instructionPostProcessingTrace;
 
@@ -90,17 +90,22 @@ public class WindowRenderingTrace
 
     public void addDatasourceExecutionTrace( DatasourceExecutionTrace trace )
     {
-        this.datasourceExecutionTraceList.add( trace );
+        this.datasourceExecutionTraces.add( trace );
     }
 
     public boolean hasDatasourceExecutionTraces()
     {
-        return !datasourceExecutionTraceList.isEmpty();
+        return datasourceExecutionTraces.hasTraces();
+    }
+
+    public String getDurationOfDatasourceExecutionTracesInHRFormat()
+    {
+        return datasourceExecutionTraces.getTotalPeriodInHRFormat();
     }
 
     public List<DatasourceExecutionTrace> getDatasourceExecutionTraces()
     {
-        return datasourceExecutionTraceList;
+        return datasourceExecutionTraces.getList();
     }
 
     public boolean hasInstructionPostProcessingTrace()

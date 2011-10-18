@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.business.portal.livetrace;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -24,9 +23,9 @@ public class PageRenderingTrace
 
     private boolean usedCachedResult = false;
 
-    private List<WindowRenderingTrace> windowRenderingTraces = new ArrayList<WindowRenderingTrace>();
+    private Traces<WindowRenderingTrace> windowRenderingTraces = new Traces<WindowRenderingTrace>();
 
-    private List<DatasourceExecutionTrace> datasourceExecutionTraceList = new ArrayList<DatasourceExecutionTrace>();
+    private Traces<DatasourceExecutionTrace> datasourceExecutionTraces = new Traces<DatasourceExecutionTrace>();
 
     private InstructionPostProcessingTrace instructionPostProcessingTrace;
 
@@ -83,27 +82,37 @@ public class PageRenderingTrace
 
     public boolean hasWindowRenderingTraces()
     {
-        return !windowRenderingTraces.isEmpty();
+        return windowRenderingTraces.hasTraces();
+    }
+
+    public String getDurationOfWindowRenderingTracesInHRFormat()
+    {
+        return windowRenderingTraces.getTotalPeriodInHRFormat();
     }
 
     public List<WindowRenderingTrace> getWindowRenderingTraces()
     {
-        return windowRenderingTraces;
+        return windowRenderingTraces.getList();
     }
 
     public void addDatasourceExecutionTrace( DatasourceExecutionTrace trace )
     {
-        datasourceExecutionTraceList.add( trace );
+        datasourceExecutionTraces.add( trace );
     }
 
     public boolean hasDatasourceExecutionTraces()
     {
-        return !datasourceExecutionTraceList.isEmpty();
+        return datasourceExecutionTraces.hasTraces();
+    }
+
+    public String getDurationOfDatasourceExecutionTracesInHRFormat()
+    {
+        return datasourceExecutionTraces.getTotalPeriodInHRFormat();
     }
 
     public List<DatasourceExecutionTrace> getDatasourceExecutionTraces()
     {
-        return datasourceExecutionTraceList;
+        return datasourceExecutionTraces.getList();
     }
 
     public boolean hasInstructionPostProcessingTrace()
