@@ -17,8 +17,6 @@ public interface SectionContentDao
 {
     SectionContentEntity findByKey( SectionContentKey key );
 
-    SectionContentEntity findByMenuItemAndContentKeys( MenuItemKey menuItemKey, ContentKey contentKey );
-
     int deleteByContentKey( ContentKey key );
 
     Integer getCountNamedContentsInSection( MenuItemKey menuItemKey, String contentName );

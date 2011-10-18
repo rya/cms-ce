@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.core.structure.menuitem.MenuItemEntity" table="TMENUITEM" mutable="false">
+  <class name="com.enonic.cms.core.structure.menuitem.MenuItemEntity" table="TMENUITEM" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="MEI_LKEY"/>
@@ -95,12 +95,12 @@
         <column name="MIC_CON_LKEY" not-null="true"/>
       </many-to-many>
     </set>
-    <set name="sectionContents" inverse="true">
+    <set name="sectionContents" inverse="true" sort="com.enonic.cms.core.structure.menuitem.SectionContentComparatorByOrder">
       <cache usage="nonstrict-read-write"/>
-      <key column="SCO_MEI_LKEY"/>
+      <key column="SCO_MEI_LKEY" not-null="true"/>
       <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
     </set>
-    <set name="contentTypeFilter" inverse="false" table="TSECCONTYPEFILTER2">
+    <set name="allowedSectionContentTypes" inverse="false" table="TSECCONTYPEFILTER2">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="SCTF_MEI_LKEY" not-null="true"/>

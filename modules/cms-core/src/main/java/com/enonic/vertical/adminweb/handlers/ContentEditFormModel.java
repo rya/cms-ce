@@ -17,17 +17,16 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentLocationXmlCreator;
 import com.enonic.cms.core.content.ContentLocations;
-import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteProperties;
 import com.enonic.cms.core.structure.SiteXmlCreator;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
-
-import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
-
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.SiteProperties;
 import com.enonic.cms.core.structure.menuitem.MenuItemAndUserAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.menuitem.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateXmlCreator;
 
 /**
  * Jan 7, 2010
@@ -38,6 +37,10 @@ public class ContentEditFormModel
 
     private Map<MenuItemKey, MenuItemAndUserAccessRights> menuItemAndUserAccessRightsMapByMenuItemKey;
 
+    private Map<SiteKey, PageTemplateEntity> pageTemplateBySite;
+
+    private PageTemplateXmlCreator pageTemplateXmlCreator = new PageTemplateXmlCreator();
+
     public void setContentLocations( ContentLocations value )
     {
         this.contentLocations = value;
@@ -46,6 +49,11 @@ public class ContentEditFormModel
     public void setMenuItemAndUserAccessRightsMapByMenuItemKey( Map<MenuItemKey, MenuItemAndUserAccessRights> value )
     {
         this.menuItemAndUserAccessRightsMapByMenuItemKey = value;
+    }
+
+    public void setPageTemplateBySite( Map<SiteKey, PageTemplateEntity> pageTemplateBySite )
+    {
+        this.pageTemplateBySite = pageTemplateBySite;
     }
 
     XMLDocument locationsToXML()
@@ -61,6 +69,11 @@ public class ContentEditFormModel
     XMLDocument locationSitesToXML()
     {
         return XMLDocumentFactory.create( new Document( createLocationSitesElement() ) );
+    }
+
+    XMLDocument pageTemplateBySiteToXML()
+    {
+        return XMLDocumentFactory.create( new Document( createPageTemlateBySiteElement() ) );
     }
 
     private Element createLocationElement()
@@ -100,9 +113,21 @@ public class ContentEditFormModel
     private Element createLocationSitesElement()
     {
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( null );
-
-        final Iterable<SiteEntity> sites = contentLocations.getSites();
-
-        return siteXmlCreator.createSitesElement( sites, Maps.<SiteKey, SiteProperties>newHashMap(), "location-sites" );
+        return siteXmlCreator.createSitesElement( contentLocations.getSites(), Maps.<SiteKey, SiteProperties>newHashMap(),
+                                                  "location-sites" );
     }
+
+    private Element createPageTemlateBySiteElement()
+    {
+        Element rootEl = new Element( "page-template-by-site" );
+        for ( Map.Entry<SiteKey, PageTemplateEntity> entry : pageTemplateBySite.entrySet() )
+        {
+            Element siteEl = new Element( "site" );
+            siteEl.setAttribute( "key", entry.getKey().toString() );
+            siteEl.addContent( pageTemplateXmlCreator.createPageTemlateElement( entry.getValue() ) );
+            rootEl.addContent( siteEl );
+        }
+        return rootEl;
+    }
+
 }

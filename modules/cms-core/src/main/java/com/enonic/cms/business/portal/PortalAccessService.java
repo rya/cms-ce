@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.domain.portal.PathRequiresAuthenticationException;
 import com.enonic.cms.domain.portal.PortalAccessDeniedException;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 
 /**
  * This is called a Service because it not only checks the access but also throws corresponding exceptions.

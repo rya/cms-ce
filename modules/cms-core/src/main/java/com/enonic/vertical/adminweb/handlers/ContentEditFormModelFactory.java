@@ -7,21 +7,22 @@ package com.enonic.vertical.adminweb.handlers;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentLocationSpecification;
 import com.enonic.cms.core.content.ContentLocations;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-import com.enonic.cms.store.dao.ContentDao;
-
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.structure.MenuItemAccessRightAccumulator;
-
-import com.enonic.cms.core.content.ContentEntity;
-
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessRightAccumulator;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemAndUserAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.store.dao.ContentDao;
 
 /**
  * Jan 7, 2010
@@ -64,6 +65,18 @@ public class ContentEditFormModelFactory
             menuItemAndUserAccessRightsMapByMenuItemKey.put( menuItem.getMenuItemKey(), menuItemAndUserAccessRights );
         }
         contentEditFormModel.setMenuItemAndUserAccessRightsMapByMenuItemKey( menuItemAndUserAccessRightsMapByMenuItemKey );
+
+        Map<SiteKey, PageTemplateEntity> pageTemplateBySiteKey = new HashMap<SiteKey, PageTemplateEntity>();
+        for ( SiteEntity site : contentLocations.getSites() )
+        {
+            ContentHomeEntity contentHome = content.getContentHome( site.getKey() );
+            if ( contentHome != null && contentHome.getPageTemplate() != null )
+            {
+                pageTemplateBySiteKey.put( site.getKey(), contentHome.getPageTemplate() );
+            }
+        }
+        contentEditFormModel.setPageTemplateBySite( pageTemplateBySiteKey );
+
         return contentEditFormModel;
     }
 

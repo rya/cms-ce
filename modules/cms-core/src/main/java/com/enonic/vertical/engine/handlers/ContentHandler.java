@@ -15,7 +15,6 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -59,20 +58,15 @@ import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentTitleXmlCreator;
-import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.UserNameXmlCreator;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.store.dao.ContentTypeDao;
-
-import com.enonic.cms.core.resource.ResourceKey;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.store.dao.ContentTypeDao;
 
 public final class ContentHandler
     extends BaseHandler
@@ -315,8 +309,8 @@ public final class ContentHandler
     }
 
     private Document getContents( User user, int[] contentKeys, boolean publishedOnly, boolean titlesOnly, int parentLevel,
-                                 int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics,
-                                 ContentFilter contentFilter )
+                                  int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics,
+                                  ContentFilter contentFilter )
     {
         ContentView contentView = ContentView.getInstance();
         if ( contentKeys == null || contentKeys.length == 0 )
@@ -1917,76 +1911,6 @@ public final class ContentHandler
         StringBuffer sql = XDG.generateSelectSQL( versionView, versionView.cov_lKey, false, whereColumns );
         CommonHandler commonHandler = getCommonHandler();
         return commonHandler.getInt( sql.toString(), new int[]{versionKey, 2} ) >= 0;
-    }
-
-    public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
-        throws VerticalUpdateException
-    {
-        UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2(
-                new ContentVersionKey( versionKey ) );
-        command.setContentKey( new ContentKey( contentKey ) );
-        command.setStatus( ContentStatus.get( status ) );
-        command.setModifier( securityService.getUser( user ) );
-        command.setSyncAccessRights( false );
-        command.setSyncRelatedContent( false );
-
-        ContentEntity persistedContent = contentDao.findByKey( new ContentKey( contentKey ) );
-
-        if ( status == ContentStatus.APPROVED.getKey() )
-        {
-            command.setUpdateAsMainVersion( true );
-            command.setAvailableFrom( publishFrom );
-            command.setAvailableTo( publishTo );
-        }
-        else
-        {
-            command.setUpdateAsMainVersion( false );
-            command.setAvailableFrom( persistedContent.getAvailableFrom() );
-            command.setAvailableTo( persistedContent.getAvailableTo() );
-        }
-
-        // Keep comment since this is an update of existing content
-        command.setChangeComment( persistedContent.getMainVersion().getChangeComment() );
-
-        contentService.updateContent( command );
-    }
-
-    public void setContentHome( User user, int contentKey, int menuKey, int menuItemKey, int pageTemplateKey )
-        throws VerticalUpdateException
-    {
-        CommonHandler commonHandler = getCommonHandler();
-        StringBuffer sql = XDG.generateCountSQL( db.tContentHome );
-        Column[] whereColumns = {db.tContentHome.cho_con_lKey, db.tContentHome.cho_men_lKey};
-        XDG.generateWhereSQL( sql, whereColumns );
-        int count = commonHandler.getInt( sql.toString(), new int[]{contentKey, menuKey} );
-        if ( count == 0 )
-        {
-            sql = XDG.generateInsertSQL( db.tContentHome );
-            Integer[] paramValues = {contentKey, menuKey, null, null};
-            if ( menuItemKey >= 0 )
-            {
-                paramValues[2] = menuItemKey;
-            }
-            if ( pageTemplateKey >= 0 )
-            {
-                paramValues[3] = pageTemplateKey;
-            }
-            commonHandler.executeSQL( sql.toString(), paramValues );
-        }
-        else
-        {
-            sql = XDG.generateUpdateSQL( db.tContentHome );
-            Integer[] paramValues = {null, null, contentKey, menuKey};
-            if ( menuItemKey >= 0 )
-            {
-                paramValues[0] = menuItemKey;
-            }
-            if ( pageTemplateKey >= 0 )
-            {
-                paramValues[1] = pageTemplateKey;
-            }
-            commonHandler.executeSQL( sql.toString(), paramValues );
-        }
     }
 
     public Document getContentHomes( int contentKey )

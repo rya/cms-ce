@@ -5,9 +5,6 @@
 package com.enonic.cms.core.structure.menuitem.section;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -52,7 +49,7 @@ public class SectionContentKey
 
         SectionContentKey that = (SectionContentKey) o;
 
-        if ( intValue != that.intValue() )
+        if ( intValue() != that.intValue() )
         {
             return false;
         }
@@ -62,7 +59,7 @@ public class SectionContentKey
 
     public int hashCode()
     {
-        return new HashCodeBuilder( 823, 263 ).append( intValue ).toHashCode();
+        return new HashCodeBuilder( 823, 263 ).append( intValue() ).toHashCode();
     }
 
     public static SectionContentKey parse( String str )
@@ -74,37 +71,5 @@ public class SectionContentKey
         }
 
         return new SectionContentKey( str );
-    }
-
-    public static Collection<SectionContentKey> converToList( int[] array )
-    {
-
-        if ( ( array == null ) || ( array.length == 0 ) )
-        {
-            return new ArrayList<SectionContentKey>();
-        }
-
-        Collection<SectionContentKey> list = new ArrayList<SectionContentKey>( array.length );
-        for ( int value : array )
-        {
-            list.add( new SectionContentKey( value ) );
-
-        }
-        return list;
-    }
-
-    public static String convertToCommaSeparatedString( Collection<SectionContentKey> keys )
-    {
-        StringBuffer s = new StringBuffer();
-        for ( Iterator<SectionContentKey> it = keys.iterator(); it.hasNext(); )
-        {
-            SectionContentKey menuItemKey = it.next();
-            s.append( menuItemKey );
-            if ( it.hasNext() )
-            {
-                s.append( "," );
-            }
-        }
-        return s.toString();
     }
 }

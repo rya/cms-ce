@@ -11,7 +11,6 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -20,20 +19,21 @@ import org.joda.time.format.PeriodFormatter;
 
 import com.enonic.cms.framework.time.TimeService;
 
-import com.enonic.cms.core.preference.PreferenceService;
-import com.enonic.cms.business.portal.page.PageRequestFactory;
-
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceKey;
 import com.enonic.cms.core.preference.PreferenceScope;
 import com.enonic.cms.core.preference.PreferenceScopeKey;
-import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.preference.PreferenceScopeKeyResolver;
 import com.enonic.cms.core.preference.PreferenceScopeResolver;
-
+import com.enonic.cms.core.preference.PreferenceScopeType;
+import com.enonic.cms.core.preference.PreferenceService;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import com.enonic.cms.core.structure.portlet.PortletKey;
+
+import com.enonic.cms.business.portal.page.PageRequestFactory;
+
+import com.enonic.cms.domain.portal.PortalInstanceKey;
+import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
 
 /**
  *
@@ -298,9 +298,9 @@ public class ExpressionFunctions
         query.append( "\"" );
     }
 
-    public String pageKey(String path)
+    public String pageKey( String path )
     {
-        return menuItemService.getPageKeyByPath(context.getMenuItem(), path);
+        return menuItemService.getPageKeyByPath( context.getMenuItem(), path );
     }
 
     public void setPreferenceService( PreferenceService preferenceService )
@@ -318,7 +318,7 @@ public class ExpressionFunctions
         this.timeService = timeService;
     }
 
-    public void setMenuItemService(MenuItemService menuItemService)
+    public void setMenuItemService( MenuItemService menuItemService )
     {
         this.menuItemService = menuItemService;
     }

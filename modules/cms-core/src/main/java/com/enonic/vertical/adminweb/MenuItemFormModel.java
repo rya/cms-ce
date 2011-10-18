@@ -9,14 +9,12 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.structure.DefaultSiteAccumulatedAccessRights;
-import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteProperties;
-
-import com.enonic.cms.core.structure.MenuItemXmlCreator;
 import com.enonic.cms.core.structure.SiteXmlCreator;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.menuitem.MenuItemXmlCreator;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
@@ -88,7 +86,7 @@ public class MenuItemFormModel
 
             for ( int path = self; path >= 0; path-- ) // backward
             {
-                PageEntity page = selectedMenuItemPath.get(path).getPage();
+                PageEntity page = selectedMenuItemPath.get( path ).getPage();
 
                 if ( page != null )
                 {

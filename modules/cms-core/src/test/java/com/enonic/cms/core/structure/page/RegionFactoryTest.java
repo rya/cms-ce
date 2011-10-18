@@ -29,6 +29,7 @@ public class RegionFactoryTest
     {
         // setup
         PageTemplateEntity pageTemplate = new PageTemplateEntity();
+        pageTemplate.setKey( 0 );
         pageTemplate.addPageTemplateRegion( createPageTemplateRegion( 1, "north", pageTemplate ) );
         pageTemplate.addPageTemplateRegion( createPageTemplateRegion( 2, "center", pageTemplate ) );
         pageTemplate.addPageTemplateRegion( createPageTemplateRegion( 3, "west", pageTemplate ) );
@@ -56,7 +57,7 @@ public class RegionFactoryTest
     {
         // setup
         PageTemplateEntity pageTemplate = new PageTemplateEntity();
-
+        pageTemplate.setKey( 0 );
         PageTemplateRegionEntity region_leftColumn = createPageTemplateRegion( 1, "leftColumn", pageTemplate );
         PageTemplateRegionEntity region_mainColumn = createPageTemplateRegion( 2, "mainColumn", pageTemplate );
 
@@ -95,7 +96,7 @@ public class RegionFactoryTest
     {
         // setup
         PageTemplateEntity pageTemplate = new PageTemplateEntity();
-
+        pageTemplate.setKey( 0 );
         PageTemplateRegionEntity region_leftColumn = createPageTemplateRegion( 1, "leftColumn", pageTemplate );
         PageTemplateRegionEntity region_mainColumn = createPageTemplateRegion( 2, "mainColumn", pageTemplate );
 
@@ -130,7 +131,7 @@ public class RegionFactoryTest
     {
         // setup
         PageTemplateEntity pageTemplate = new PageTemplateEntity();
-
+        pageTemplate.setKey( 0 );
         PageTemplateRegionEntity region_leftColumn = createPageTemplateRegion( 1, "leftColumn", pageTemplate );
 
         pageTemplate.addPageTemplateRegion( region_leftColumn );

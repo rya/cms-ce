@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import com.enonic.cms.core.CaseInsensitiveString;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import static org.easymock.classextension.EasyMock.createNiceMock;
@@ -224,8 +224,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-1.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-1.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -254,8 +253,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-1b.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-1b.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -283,8 +281,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-2.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-2.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -315,8 +312,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-3.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-3.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -345,8 +341,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-4.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-4.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -375,8 +370,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-5.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-5.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -405,8 +399,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-6.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-6.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -435,8 +428,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-7.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-7.xml" );
 
         SiteEntity site = createSiteFixture1();
 
@@ -467,8 +459,7 @@ public class SiteXMLCreatorTest
         throws JDOMException, IOException
     {
 
-        String expectedXml = getXml(
-                "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-8.xml" );
+        String expectedXml = getXml( "/com/enonic/cms/core/structure/SiteXMLCreatorTest-MenuBranch-fixture1-result-8.xml" );
 
         SiteEntity site = createSiteFixture1();
 

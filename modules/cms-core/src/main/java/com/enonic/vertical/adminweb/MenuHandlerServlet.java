@@ -48,34 +48,48 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.LanguageResolver;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.core.content.ContentXMLCreator;
-import com.enonic.cms.core.structure.MenuItemAccessRightAccumulator;
-import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.DefaultSiteAccessRightAccumulator;
+import com.enonic.cms.core.structure.DefaultSiteAccumulatedAccessRights;
 import com.enonic.cms.core.structure.RunAsType;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteXmlCreator;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessRightAccumulator;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemAndUserAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemRequestParameter;
+import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.menuitem.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.menuitem.MenuItemXmlCreator;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.PageSpecification;
+import com.enonic.cms.core.structure.page.PageWindowEntity;
+import com.enonic.cms.core.structure.page.PageWindowKey;
+import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
-import com.enonic.cms.core.structure.DefaultSiteAccessRightAccumulator;
-
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.datasource.processor.ContentProcessor;
 import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
@@ -86,27 +100,11 @@ import com.enonic.cms.business.portal.rendering.RegionsResolver;
 import com.enonic.cms.business.preview.MenuItemPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.SitePath;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesModel;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesXmlCreator;
 import com.enonic.cms.domain.portal.PageRequestType;
 import com.enonic.cms.domain.portal.PrettyPathNameCreator;
 import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.core.structure.DefaultSiteAccumulatedAccessRights;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
-import com.enonic.cms.core.structure.menuitem.MenuItemRequestParameter;
-import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
-import com.enonic.cms.core.structure.page.Regions;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
-import com.enonic.cms.core.structure.page.template.PageTemplateType;
-import com.enonic.cms.core.structure.page.PageWindowEntity;
-import com.enonic.cms.core.structure.page.PageWindowKey;
-import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public class MenuHandlerServlet
     extends AdminHandlerBaseServlet
