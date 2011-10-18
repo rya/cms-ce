@@ -8,6 +8,7 @@ import com.enonic.cms.core.content.ContentKey;
  * Oct 11, 2010
  */
 public class ImageRequestTrace
+    implements Trace
 {
     private PortalRequestTrace portalRequestTrace;
 

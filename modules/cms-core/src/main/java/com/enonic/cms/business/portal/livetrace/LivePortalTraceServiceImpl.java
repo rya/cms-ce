@@ -52,6 +52,9 @@ public class LivePortalTraceServiceImpl
     private final static ThreadLocal<DatasourceExecutionTrace> DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL =
         new ThreadLocal<DatasourceExecutionTrace>();
 
+    private final static ThreadLocal<ClientMethodExecutionTrace> CLIENT_METHOD_EXECUTION_TRACE_THREAD_LOCAL =
+        new ThreadLocal<ClientMethodExecutionTrace>();
+
     private final static ThreadLocal<WindowRenderingTrace> WINDOW_RENDERING_TRACE_THREAD_LOCAL = new ThreadLocal<WindowRenderingTrace>();
 
     private final static ThreadLocal<ImageRequestTrace> IMAGE_REQUEST_TRACE_THREAD_LOCAL = new ThreadLocal<ImageRequestTrace>();
@@ -93,6 +96,7 @@ public class LivePortalTraceServiceImpl
         PAGE_RENDERING_TRACE_THREAD_LOCAL.set( null );
         WINDOW_RENDERING_TRACE_THREAD_LOCAL.set( null );
         DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.set( null );
+        CLIENT_METHOD_EXECUTION_TRACE_THREAD_LOCAL.set( null );
         return portalRequestTrace;
     }
 
@@ -208,6 +212,44 @@ public class LivePortalTraceServiceImpl
         return datasourceExecutionTrace;
     }
 
+    public ClientMethodExecutionTrace startClientMethodExecutionTracing( String methodName )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( methodName );
+
+        DatasourceExecutionTrace currentDatasourceExecutionTrace = DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.get();
+        if ( currentDatasourceExecutionTrace == null )
+        {
+            return null;
+        }
+
+        ClientMethodExecutionTrace trace = new ClientMethodExecutionTrace();
+        trace.setMethodName( methodName );
+        trace.setStartTime( timeService.getNowAsDateTime() );
+        currentDatasourceExecutionTrace.addClientMethodExecutionTrace( trace );
+
+        CLIENT_METHOD_EXECUTION_TRACE_THREAD_LOCAL.set( trace );
+
+        return trace;
+    }
+
+    public ContentIndexQueryTrace startContentIndexQueryTracing()
+    {
+        checkEnabled();
+        ContentIndexQuerier currentQuerier = getCurrentContentIndexQuerier();
+        if ( currentQuerier != null )
+        {
+            ContentIndexQueryTrace trace = new ContentIndexQueryTrace();
+            trace.setStartTime( timeService.getNowAsDateTime() );
+            currentQuerier.addContentIndexQueryTrace( trace );
+            return trace;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
     public InstructionPostProcessingTrace startInstructionPostProcessingTracingForWindow()
     {
         checkEnabled();
@@ -289,6 +331,24 @@ public class LivePortalTraceServiceImpl
         DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.set( null );
     }
 
+    public void stopTracing( ClientMethodExecutionTrace clientMethodExecutionTrace )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( clientMethodExecutionTrace );
+
+        clientMethodExecutionTrace.setStopTime( timeService.getNowAsDateTime() );
+
+        CLIENT_METHOD_EXECUTION_TRACE_THREAD_LOCAL.set( null );
+    }
+
+    public void stopTracing( ContentIndexQueryTrace contentIndexQueryTrace )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( contentIndexQueryTrace );
+
+        contentIndexQueryTrace.setStopTime( timeService.getNowAsDateTime() );
+    }
+
     public void stopTracing( InstructionPostProcessingTrace instructionPostProcessingTrace )
     {
         checkEnabled();
@@ -303,6 +363,12 @@ public class LivePortalTraceServiceImpl
         Preconditions.checkNotNull( imageRequestTrace );
 
         imageRequestTrace.setStopTime( timeService.getNowAsDateTime() );
+    }
+
+    public int getNumberOfPortalRequestTracesInProgress()
+    {
+        checkEnabled();
+        return currentPortalRequests.getSize();
     }
 
     public List<PortalRequestTrace> getCurrentPortalRequestTraces()
@@ -373,6 +439,16 @@ public class LivePortalTraceServiceImpl
     private void checkEnabled()
     {
         Preconditions.checkArgument( enabled, "Unexpected call when Live Portal Tracing is disabled" );
+    }
+
+    private ContentIndexQuerier getCurrentContentIndexQuerier()
+    {
+        final ClientMethodExecutionTrace currentClientTrace = CLIENT_METHOD_EXECUTION_TRACE_THREAD_LOCAL.get();
+        if ( currentClientTrace != null )
+        {
+            return currentClientTrace;
+        }
+        return DATASOURCE_EXECUTION_TRACE_THREAD_LOCAL.get();
     }
 
     @Autowired

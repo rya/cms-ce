@@ -28,6 +28,7 @@
     var reloadLongestAttachmentRequestsIntervalId = 0;
     var reloadLongestImageRequestsIntervalId = 0;
     var loadNewPastRequestsIntervalId = 0;
+    var refreshSystemInfoIntervalId = 0;
 
     var servletBaseUrl = "servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController?page=914&op=custom";
 
@@ -97,6 +98,14 @@
                                                      {
                                                          loadNewPastPortalRequestTraces();
                                                      }, 2000 );
+    }
+
+    function startAutomaticUpdateOfSystemInfo()
+    {
+        refreshSystemInfoIntervalId = setInterval( function()
+                                                   {
+                                                       refreshSystemInfo()
+                                                   }, 500 );
     }
 
     function showMoreTraceInfo( id )
@@ -234,6 +243,63 @@
 
     }
 
+    function refreshSystemInfo()
+    {
+
+        var url = servletBaseUrl + "&system-info=true";
+
+        $.getJSON( url, function( jsonObj )
+        {
+            $( '#current-requests-tab-label' ).text( jsonObj.portal_request_traces_in_progress );
+
+            $( '#entity-cache-count' ).text( jsonObj.entity_cache_count );
+            $( '#entity-cache-hit-count' ).text( jsonObj.entity_cache_hit_count );
+            $( '#entity-cache-miss-count' ).text( jsonObj.entity_cache_miss_count );
+
+            $( '#page-cache-count' ).text( jsonObj.page_cache_count );
+            $( '#page-cache-hit-count' ).text( jsonObj.page_cache_hit_count );
+            $( '#page-cache-miss-count' ).text( jsonObj.page_cache_miss_count );
+
+            $( '#java-heap-memory-usage-init' ).text( humanReadableBytes( jsonObj.java_heap_memory_usage_init ) );
+            $( '#java-heap-memory-usage-used' ).text( humanReadableBytes( jsonObj.java_heap_memory_usage_used ) );
+            $( '#java-heap-memory-usage-committed' ).text( humanReadableBytes( jsonObj.java_heap_memory_usage_committed ) );
+            $( '#java-heap-memory-usage-max' ).text( humanReadableBytes( jsonObj.java_heap_memory_usage_max ) );
+
+            $( '#java-non-heap-memory-usage-init' ).text( humanReadableBytes( jsonObj.java_non_heap_memory_usage_init ) );
+            $( '#java-non-heap-memory-usage-used' ).text( humanReadableBytes( jsonObj.java_non_heap_memory_usage_used ) );
+            $( '#java-non-heap-memory-usage-committed' ).text( humanReadableBytes( jsonObj.java_non_heap_memory_usage_committed ) );
+            $( '#java-non-heap-memory-usage-max' ).text( humanReadableBytes( jsonObj.java_non_heap_memory_usage_max ) );
+
+            $( '#java-thread-count' ).text( jsonObj.java_thread_count );
+            $( '#java-thread-peak-count' ).text( jsonObj.java_thread_peak_count );
+
+            $( '#hibernate-connection-count' ).text( jsonObj.hibernate_connection_count );
+            $( '#hibernate-query-cache-hit-count' ).text( jsonObj.hibernate_query_cache_hit_count );
+            $( '#hibernate-collection-fetch-count' ).text( jsonObj.hibernate_collection_fetch_count );
+            $( '#hibernate-collection-load-count' ).text( jsonObj.hibernate_collection_load_count );
+
+        } );
+    }
+
+    function humanReadableBytes( size )
+    {
+
+        var suffix = ["bytes", "KB", "MB", "GB", "TB", "PB"],
+
+                tier = 0;
+
+        while ( size >= 1024 )
+        {
+
+            size = size / 1024;
+
+            tier++;
+
+        }
+
+        return Math.round( size * 10 ) / 10 + " " + suffix[tier];
+    }
+
     function closePortalRequestTraceDetailWindow()
     {
         $( "#portalRequestTraceDetail-window" ).hide();
@@ -261,6 +327,16 @@
         $( "#datasource-execution-trace-" + id ).toggle();
     }
 
+    function toggleClientMethodExecutionTrace( id )
+    {
+        $( "#client-method-execution-trace-" + id ).toggle();
+    }
+
+    function toggleContentIndexQueryTrace( id )
+    {
+        $( "#content-index-query-trace-" + id ).toggle();
+    }
+
     </script>
     <style type="text/css">
         .listBox {
@@ -284,13 +360,52 @@
             white-space: nowrap;
         }
 
-
         .listBox td {
             font-family: Monospace;
         }
 
         .listBox th {
             text-align: left;
+        }
+
+        #system-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            padding: 0;
+            margin: 0 0 20px 0;
+        }
+
+        #system-info-table.post tr td, #system-info-table.post tr th {
+            border: 0;
+            vertical-align: top;
+        }
+
+        #system-info-table tr th {
+            font-weight: normal;
+            background-color: #EEE;
+            text-align: left;
+        }
+
+        #system-info-table tr td,
+        #system-info-table tr th {
+            height: 18px;
+            padding: 2px 10px 2px 10px;
+            vertical-align: middle;
+            border: 1px #aaa solid;
+
+        }
+
+        #system-info-table td {
+            padding-left: 10px;
+        }
+
+        .system-info-group-name-td {
+            padding-right: 10px;
+        }
+
+        .system-info-value {
+            text-align: right;
+            width: 80px;
         }
 
         pre {
@@ -313,7 +428,7 @@
         }
 
         .startTime-column {
-            text-align: right !important;
+            text-align: left !important;
             white-space: nowrap !important;
             padding-left: 10px;
         }
@@ -352,19 +467,93 @@
     </style>
     </head>
     <body>
-    <h1>Admin / <a href="${baseUrl}/adminpage?page=912&op=liveportaltrace">Live Portal Trace</a></h1>
 
-    <button class="button_text" id="stop-auto-update" onclick="stopAutomaticUpdate()">
-        Stop automatic update
-    </button>
+    <table style="margin-bottom: 10px">
+        <tr>
+            <td style="margin-right: 20px" valign="top">
 
-    <button class="button_text" id="start-auto-update" onclick="startAutomaticUpdate()" disabled="true">
-        Start automatic update
-    </button>
+                <h1>Admin / <a href="${baseUrl}/adminpage?page=912&op=liveportaltrace">Live Portal Trace</a></h1>
 
-    <br/>
-    <br/>
+                <button class="button_text" id="stop-auto-update" onclick="stopAutomaticUpdate()">
+                    Stop automatic update
+                </button>
 
+                <button class="button_text" id="start-auto-update" onclick="startAutomaticUpdate()" disabled="true">
+                    Start automatic update
+                </button>
+            </td>
+            <td style="padding-left: 40px">
+                <table id="system-info-table">
+                    <tr>
+                        <th class="system-info-group-name-td">Entity cache</th>
+                        <td>count</td>
+                        <td class="system-info-value" id="entity-cache-count"></td>
+                        <td>hit count</td>
+                        <td class="system-info-value" id="entity-cache-hit-count"></td>
+                        <td>miss count</td>
+                        <td class="system-info-value" id="entity-cache-miss-count"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="system-info-group-name-td">Page cache</th>
+                        <td>count</td>
+                        <td class="system-info-value" id="page-cache-count"></td>
+                        <td>hit count</td>
+                        <td class="system-info-value" id="page-cache-hit-count"></td>
+                        <td>miss count</td>
+                        <td class="system-info-value" id="page-cache-miss-count"></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="system-info-group-name-td">Hibernate stats</th>
+                        <td># conn.</td>
+                        <td class="system-info-value" id="hibernate-connection-count"></td>
+                        <td># query cache hit</td>
+                        <td class="system-info-value" id="hibernate-query-cache-hit-count"></td>
+                        <td># collection fetch</td>
+                        <td class="system-info-value" id="hibernate-collection-fetch-count"></td>
+                        <td># collection load</td>
+                        <td class="system-info-value" id="hibernate-collection-load-count"></td>
+                    </tr>
+                    <tr>
+                        <th class="system-info-group-name-td">Java</th>
+                        <td>Thread count</td>
+                        <td class="system-info-value" id="java-thread-count"></td>
+                        <td>Peak thread count</td>
+                        <td class="system-info-value" id="java-thread-peak-count"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th class="system-info-group-name-td">Java Heap Mem</th>
+                        <td>used</td>
+                        <td class="system-info-value" id="java-heap-memory-usage-used"></td>
+                        <td>commited</td>
+                        <td class="system-info-value" id="java-heap-memory-usage-committed"></td>
+                        <td>max</td>
+                        <td class="system-info-value" id="java-heap-memory-usage-max"></td>
+                        <td>init</td>
+                        <td class="system-info-value" id="java-heap-memory-usage-init"></td>
+                    </tr>
+                    <tr>
+                        <th class="system-info-group-name-td">Java Non Heap Mem</th>
+                        <td>used</td>
+                        <td class="system-info-value" id="java-non-heap-memory-usage-used"></td>
+                        <td>commited</td>
+                        <td class="system-info-value" id="java-non-heap-memory-usage-committed"></td>
+                        <td>max</td>
+                        <td class="system-info-value" id="java-non-heap-memory-usage-max"></td>
+                        <td>init</td>
+                        <td class="system-info-value" id="java-non-heap-memory-usage-init"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
     <div class="tab-pane" id="tab-main">
 
@@ -372,14 +561,44 @@
             var tabPane1 = new WebFXTabPane( document.getElementById( "tab-main" ), true );
         </script>
 
-
-        <!-- Current portal requests -->
+        <!-- History -->
 
         <div class="tab-page" id="tab-page-1">
-            <span class="tab">Current requests</span>
+            <span class="tab">Completed requests</span>
 
             <script type="text/javascript" language="JavaScript">
                 tabPane1.addTabPage( document.getElementById( "tab-page-1" ) );
+            </script>
+
+            <button class="button_text" id="fetch-recent-history" onclick="javascript: loadNewPastPortalRequestTraces()" disabled="true">
+                Fetch recent
+            </button>
+
+            <div class="listBox" style="height: 500px">
+                <table width="100%">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>URL</th>
+                        <th>Started</th>
+                        <th style="text-align: right">Duration</th>
+                    </tr>
+                    </thead>
+                    <tbody id="newPastPortalRequestTraces-table-body">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <!-- Current portal requests -->
+
+        <div class="tab-page" id="tab-page-2">
+            <span class="tab">Current portal requests (<span id="current-requests-tab-label"></span>)</span>
+
+            <script type="text/javascript" language="JavaScript">
+                tabPane1.addTabPage( document.getElementById( "tab-page-2" ) );
             </script>
 
             <button class="button_text" id="reloadCurrentPortalRequests" onclick="javascript: reloadCurrentPortalRequests()">Refresh
@@ -394,11 +613,11 @@
 
         <!-- Longest page requests -->
 
-        <div class="tab-page" id="tab-page-2">
+        <div class="tab-page" id="tab-page-3">
             <span class="tab">Longest page requests</span>
 
             <script type="text/javascript" language="JavaScript">
-                tabPane1.addTabPage( document.getElementById( "tab-page-2" ) );
+                tabPane1.addTabPage( document.getElementById( "tab-page-3" ) );
             </script>
 
             <button class="button_text" id="reloadLongestPortalPageRequests" onclick="javascript: reloadLongestPortalPageRequests()">Refresh
@@ -412,11 +631,11 @@
 
         <!-- Longest attachment requests -->
 
-        <div class="tab-page" id="tab-page-3">
+        <div class="tab-page" id="tab-page-4">
             <span class="tab">Longest attachment requests</span>
 
             <script type="text/javascript" language="JavaScript">
-                tabPane1.addTabPage( document.getElementById( "tab-page-3" ) );
+                tabPane1.addTabPage( document.getElementById( "tab-page-4" ) );
             </script>
 
             <button class="button_text" id="reloadLongestPortalAttachmentRequests"
@@ -432,11 +651,11 @@
 
         <!-- Longest image requests -->
 
-        <div class="tab-page" id="tab-page-4">
+        <div class="tab-page" id="tab-page-5">
             <span class="tab">Longest image requests</span>
 
             <script type="text/javascript" language="JavaScript">
-                tabPane1.addTabPage( document.getElementById( "tab-page-4" ) );
+                tabPane1.addTabPage( document.getElementById( "tab-page-5" ) );
             </script>
 
             <button class="button_text" id="reloadLongestPortalImageRequests" onclick="javascript: reloadLongestPortalImageRequests()">
@@ -456,30 +675,6 @@
 
     </div>
 
-    <!-- History -->
-    <h2>History of portal requests
-        <button class="button_text" id="fetch-recent-history" onclick="javascript: loadNewPastPortalRequestTraces()" disabled="true">Fetch
-            recent
-        </button>
-    </h2>
-
-    <div class="listBox" style="height: 500px">
-        <table width="100%">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Type</th>
-                <th>URL</th>
-                <th>Started</th>
-                <th>Duration</th>
-            </tr>
-            </thead>
-            <tbody id="newPastPortalRequestTraces-table-body">
-            </tbody>
-        </table>
-    </div>
-
-
     <div id="portalRequestTraceDetail-window">
         <div>
             Trace Details (<a href="javascript: void(0);" onclick="closePortalRequestTraceDetailWindow()">Close</a>)
@@ -493,6 +688,9 @@
 
 
     <script type="text/javascript">
+
+        startAutomaticUpdateOfSystemInfo();
+
         reloadCurrentPortalRequests();
         reloadLongestPortalPageRequests();
         reloadLongestPortalAttachmentRequests();

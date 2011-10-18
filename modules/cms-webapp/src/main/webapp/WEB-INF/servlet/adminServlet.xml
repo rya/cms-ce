@@ -4,337 +4,339 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:annotation-config/>
+  <context:annotation-config/>
 
-    <!-- Create the view resolver. -->
-    <bean id="adminFreemarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="configuration" ref="adminFreemarkerConfiguration"/>
-    </bean>
+  <!-- Create the view resolver. -->
+  <bean id="adminFreemarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+    <property name="configuration" ref="adminFreemarkerConfiguration"/>
+  </bean>
 
-    <bean id="adminFreemarkerConfiguration"
-          class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-        <description>Using the Config directly so we can use it outside the web tier</description>
-        <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
-        <property name="freemarkerSettings">
-            <props>
-                <prop key="number_format">0.######</prop>
-                <prop key="default_encoding">UTF-8</prop>
-            </props>
-        </property>
-    </bean>
+  <bean id="adminFreemarkerConfiguration"
+        class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+    <description>Using the Config directly so we can use it outside the web tier</description>
+    <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
+    <property name="freemarkerSettings">
+      <props>
+        <prop key="number_format">0.######</prop>
+        <prop key="default_encoding">UTF-8</prop>
+      </props>
+    </property>
+  </bean>
 
-    <!-- Default view resolver. -->
-    <bean id="adminDefaultViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
-        <property name="order" value="1"/>
-        <property name="location" value="/WEB-INF/servlet/adminServletViews.xml"/>
-    </bean>
+  <!-- Default view resolver. -->
+  <bean id="adminDefaultViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+    <property name="order" value="1"/>
+    <property name="location" value="/WEB-INF/servlet/adminServletViews.xml"/>
+  </bean>
 
-    <!-- Create the view resolver. -->
-    <bean id="adminViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-        <property name="order" value="2"/>
-        <property name="cache" value="true"/>
-        <property name="prefix" value=""/>
-        <property name="suffix" value=".ftl"/>
-        <property name="exposeSpringMacroHelpers" value="true"/>
-    </bean>
+  <!-- Create the view resolver. -->
+  <bean id="adminViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    <property name="order" value="2"/>
+    <property name="cache" value="true"/>
+    <property name="prefix" value=""/>
+    <property name="suffix" value=".ftl"/>
+    <property name="exposeSpringMacroHelpers" value="true"/>
+  </bean>
 
-    <!-- Interceptor to trigger autologin plugins. -->
-    <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
-        <property name="pluginManager" ref="pluginManager"/>
-        <property name="securityService" ref="securityService"/>
-    </bean>
+  <!-- Interceptor to trigger autologin plugins. -->
+  <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
+    <property name="pluginManager" ref="pluginManager"/>
+    <property name="securityService" ref="securityService"/>
+  </bean>
 
-    <bean id="httpInterceptorInterceptor"
-          class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
-        <property name="pluginManager" ref="pluginManager"/>
-    </bean>
+  <bean id="httpInterceptorInterceptor"
+        class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
+    <property name="pluginManager" ref="pluginManager"/>
+  </bean>
 
-    <!-- Admin handler mappings. -->
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="3"/>
-        <property name="alwaysUseFullPath" value="true"/>
-        <property name="urlMap">
-            <map>
-                <entry key="/admin" value-ref="adminPageWrapper"/>
-                <entry key="/admin/" value-ref="adminPageWrapper"/>
-                <entry key="/admin/login" value-ref="adminLogInServletWrapper"/>
-                <entry key="/admin/logout" value-ref="adminLogInServletWrapper"/>
-                <entry key="/admin/forgotpassword" value-ref="adminLogInServletWrapper"/>
-                <entry key="/admin/adminpage" value-ref="adminPageWrapper"/>
-                <entry key="/admin/errorpage" value-ref="errorPageServletWrapper"/>
-                <entry key="/admin/javascript/*.js" value-ref="resourceTranslationController"/>
-                <entry key="/admin/de/**/*.js" value-ref="resourceTranslationController"/>
-                <entry key="/admin/css" value-ref="resourceDataServletWrapper"/>
-                <entry key="/admin/preview/**" value-ref="previewController"/>
-            </map>
-        </property>
-        <property name="interceptors">
-            <list>
-                <ref bean="autoLoginInterceptor"/>
-                <ref bean="httpInterceptorInterceptor"/>
-            </list>
-        </property>
-    </bean>
+  <!-- Admin handler mappings. -->
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="order" value="3"/>
+    <property name="alwaysUseFullPath" value="true"/>
+    <property name="urlMap">
+      <map>
+        <entry key="/admin" value-ref="adminPageWrapper"/>
+        <entry key="/admin/" value-ref="adminPageWrapper"/>
+        <entry key="/admin/login" value-ref="adminLogInServletWrapper"/>
+        <entry key="/admin/logout" value-ref="adminLogInServletWrapper"/>
+        <entry key="/admin/forgotpassword" value-ref="adminLogInServletWrapper"/>
+        <entry key="/admin/adminpage" value-ref="adminPageWrapper"/>
+        <entry key="/admin/errorpage" value-ref="errorPageServletWrapper"/>
+        <entry key="/admin/javascript/*.js" value-ref="resourceTranslationController"/>
+        <entry key="/admin/de/**/*.js" value-ref="resourceTranslationController"/>
+        <entry key="/admin/css" value-ref="resourceDataServletWrapper"/>
+        <entry key="/admin/preview/**" value-ref="previewController"/>
+      </map>
+    </property>
+    <property name="interceptors">
+      <list>
+        <ref bean="autoLoginInterceptor"/>
+        <ref bean="httpInterceptorInterceptor"/>
+      </list>
+    </property>
+  </bean>
 
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="4"/>
-        <property name="alwaysUseFullPath" value="true"/>
-        <property name="urlMap">
-            <map>
-                <entry key="/admin/site/**" value-ref="debugViewController"/>
-                <entry key="/admin/site/**/__info__" value-ref="debugInfoController"/>
-                <entry key="/admin/_image/**" value-ref="adminImageController"/>
-                <entry key="/admin/_attachment/**" value-ref="adminAttachmentController"/>
-            </map>
-        </property>
-        <property name="interceptors">
-            <list>
-                <ref bean="autoLoginInterceptor"/>
-                <ref bean="loginCheckInterceptor"/>
-                <ref bean="httpInterceptorInterceptor"/>
-            </list>
-        </property>
-    </bean>
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="order" value="4"/>
+    <property name="alwaysUseFullPath" value="true"/>
+    <property name="urlMap">
+      <map>
+        <entry key="/admin/site/**" value-ref="debugViewController"/>
+        <entry key="/admin/site/**/__info__" value-ref="debugInfoController"/>
+        <entry key="/admin/_image/**" value-ref="adminImageController"/>
+        <entry key="/admin/_attachment/**" value-ref="adminAttachmentController"/>
+      </map>
+    </property>
+    <property name="interceptors">
+      <list>
+        <ref bean="autoLoginInterceptor"/>
+        <ref bean="loginCheckInterceptor"/>
+        <ref bean="httpInterceptorInterceptor"/>
+      </list>
+    </property>
+  </bean>
 
-    <!-- Admin servlet handler mappings. -->
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="5"/>
-        <property name="alwaysUseFullPath" value="true"/>
-        <property name="urlMap">
-            <map>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.AdminFrontPageServlet"
-                       value-ref="adminFrontPageServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.AdminLogInServlet"
-                       value-ref="adminLogInServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ArchiveHandlerServlet"
-                       value-ref="archiveHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.BinaryDataServlet"
-                       value-ref="binaryDataServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.CategoryHandlerServlet"
-                       value-ref="categoryHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"
-                       value-ref="contentHandlerHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ContentObjectHandlerServlet"
-                       value-ref="contentObjectHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ContentTypeHandlerServlet"
-                       value-ref="contentTypeHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.UserStoreHandlerServlet"
-                       value-ref="userStoreHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.EditorHandlerServlet"
-                       value-ref="editorHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ErrorPageServlet"
-                       value-ref="errorPageServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.FramesetServlet"
-                       value-ref="framesetServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.GroupHandlerServlet"
-                       value-ref="groupHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"
-                       value-ref="contentArticle3HandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"
-                       value-ref="contentBaseHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"
-                       value-ref="contentDocumentHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"
-                       value-ref="contentEnhancedImageHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"
-                       value-ref="contentFileHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"
-                       value-ref="contentFormHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"
-                       value-ref="contentNewsletterHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"
-                       value-ref="contentPersonHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"
-                       value-ref="contentPollHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"
-                       value-ref="contentProductHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"
-                       value-ref="pagelinkHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"
-                       value-ref="simpleContentHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.LanguageHandlerServlet"
-                       value-ref="languageHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.LogHandlerServlet"
-                       value-ref="logHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.MainMenuServlet"
-                       value-ref="mainMenuServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.MenuHandlerServlet"
-                       value-ref="menuHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.MyPageServlet"
-                       value-ref="myPageServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.NavigatorServlet"
-                       value-ref="navigatorServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.PageTemplateHandlerServlet"
-                       value-ref="pageTemplateHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.PresentationLayerServlet"
-                       value-ref="presentationLayerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ResourceDataServlet"
-                       value-ref="resourceDataServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.ResourceHandlerServlet"
-                       value-ref="resourceHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.SectionHandlerServlet"
-                       value-ref="sectionHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.SplashServlet"
-                       value-ref="splashServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.SystemHandlerServlet"
-                       value-ref="systemHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.UserHandlerServlet"
-                       value-ref="userHandlerServletWrapper"/>
-                <!-- Tools controllers  -->
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController"
-                       value-ref="pluginInfoController"/>
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController"
-                       value-ref="livePortalTraceController"/>
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ConnectionInfoController"
-                       value-ref="connectionInfoController"/>
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController"
-                       value-ref="reindexContentToolController"/>
-            </map>
-        </property>
-    </bean>
+  <!-- Admin servlet handler mappings. -->
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="order" value="5"/>
+    <property name="alwaysUseFullPath" value="true"/>
+    <property name="urlMap">
+      <map>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.AdminFrontPageServlet"
+               value-ref="adminFrontPageServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.AdminLogInServlet"
+               value-ref="adminLogInServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ArchiveHandlerServlet"
+               value-ref="archiveHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.BinaryDataServlet"
+               value-ref="binaryDataServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.CategoryHandlerServlet"
+               value-ref="categoryHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"
+               value-ref="contentHandlerHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ContentObjectHandlerServlet"
+               value-ref="contentObjectHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ContentTypeHandlerServlet"
+               value-ref="contentTypeHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.UserStoreHandlerServlet"
+               value-ref="userStoreHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.EditorHandlerServlet"
+               value-ref="editorHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ErrorPageServlet"
+               value-ref="errorPageServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.FramesetServlet"
+               value-ref="framesetServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.GroupHandlerServlet"
+               value-ref="groupHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"
+               value-ref="contentArticle3HandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"
+               value-ref="contentBaseHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"
+               value-ref="contentDocumentHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"
+               value-ref="contentEnhancedImageHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"
+               value-ref="contentFileHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"
+               value-ref="contentFormHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"
+               value-ref="contentNewsletterHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"
+               value-ref="contentPersonHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"
+               value-ref="contentPollHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"
+               value-ref="contentProductHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"
+               value-ref="pagelinkHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"
+               value-ref="simpleContentHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.LanguageHandlerServlet"
+               value-ref="languageHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.LogHandlerServlet"
+               value-ref="logHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.MainMenuServlet"
+               value-ref="mainMenuServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.MenuHandlerServlet"
+               value-ref="menuHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.MyPageServlet"
+               value-ref="myPageServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.NavigatorServlet"
+               value-ref="navigatorServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.PageTemplateHandlerServlet"
+               value-ref="pageTemplateHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.PresentationLayerServlet"
+               value-ref="presentationLayerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ResourceDataServlet"
+               value-ref="resourceDataServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.ResourceHandlerServlet"
+               value-ref="resourceHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.SectionHandlerServlet"
+               value-ref="sectionHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.SplashServlet"
+               value-ref="splashServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.SystemHandlerServlet"
+               value-ref="systemHandlerServletWrapper"/>
+        <entry key="/admin/servlet/com.enonic.vertical.adminweb.UserHandlerServlet"
+               value-ref="userHandlerServletWrapper"/>
+        <!-- Tools controllers  -->
+        <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController"
+               value-ref="pluginInfoController"/>
+        <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController"
+               value-ref="livePortalTraceController"/>
+        <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ConnectionInfoController"
+               value-ref="connectionInfoController"/>
+        <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController"
+               value-ref="reindexContentToolController"/>
+      </map>
+    </property>
+  </bean>
 
-    <!-- Resource mapping. -->
-    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="order" value="5"/>
-        <property name="alwaysUseFullPath" value="true"/>
-        <property name="urlMap">
-            <map>
-                <entry key="/admin/**" value-ref="resourceController"/>
-            </map>
-        </property>
-    </bean>
+  <!-- Resource mapping. -->
+  <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+    <property name="order" value="5"/>
+    <property name="alwaysUseFullPath" value="true"/>
+    <property name="urlMap">
+      <map>
+        <entry key="/admin/**" value-ref="resourceController"/>
+      </map>
+    </property>
+  </bean>
 
-    <!-- Tools -->
-    <bean id="abstractToolController" abstract="true"
-          class="com.enonic.cms.server.service.tools.AbstractToolController">
-        <property name="freemarkerConfiguration" ref="adminFreemarkerConfiguration"/>
-    </bean>
+  <!-- Tools -->
+  <bean id="abstractToolController" abstract="true"
+        class="com.enonic.cms.server.service.tools.AbstractToolController">
+    <property name="freemarkerConfiguration" ref="adminFreemarkerConfiguration"/>
+  </bean>
 
-    <bean id="pluginInfoController" class="com.enonic.cms.server.service.tools.PluginInfoController"
-          parent="abstractToolController">
-        <property name="pluginManager" ref="pluginManager"/>
-    </bean>
+  <bean id="pluginInfoController" class="com.enonic.cms.server.service.tools.PluginInfoController"
+        parent="abstractToolController">
+    <property name="pluginManager" ref="pluginManager"/>
+  </bean>
 
-    <bean id="livePortalTraceController" class="com.enonic.cms.server.service.tools.LivePortalTraceController"
-          parent="abstractToolController">
-        <property name="livePortalTraceService" ref="livePortalTraceService"/>
-    </bean>
+  <bean id="livePortalTraceController" class="com.enonic.cms.server.service.tools.LivePortalTraceController"
+        parent="abstractToolController">
+    <property name="livePortalTraceService" ref="livePortalTraceService"/>
+    <property name="cacheManager" ref="cacheFacadeManager"/>
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
 
-    <bean id="connectionInfoController" class="com.enonic.cms.server.service.tools.ConnectionInfoController"
-          parent="abstractToolController"/>
-
-
-    <bean id="reindexContentToolController" class="com.enonic.cms.server.service.tools.ReindexContentToolController"
-          parent="abstractToolController"/>
+  <bean id="connectionInfoController" class="com.enonic.cms.server.service.tools.ConnectionInfoController"
+        parent="abstractToolController"/>
 
 
-    <!-- Construct the resource controller. -->
-    <bean id="resourceController" class="com.enonic.cms.server.service.admin.mvc.controller.ResourceController">
-    </bean>
+  <bean id="reindexContentToolController" class="com.enonic.cms.server.service.tools.ReindexContentToolController"
+        parent="abstractToolController"/>
 
-    <!-- Debug controller that renders the debug view. -->
-    <bean id="debugViewController" class="com.enonic.cms.server.service.admin.mvc.controller.SiteDebugViewController">
-        <property name="sitePathResolver" ref="sitePathResolverForDebug"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="siteDao" ref="siteDao"/>
-    </bean>
 
-    <bean id="debugInfoController" class="com.enonic.cms.server.service.admin.mvc.controller.SiteDebugInfoController">
-        <property name="sitePathResolver" ref="sitePathResolverForDebug"/>
-        <property name="adminService" ref="adminService"/>
-        <property name="securityService" ref="securityService"/>
-    </bean>
+  <!-- Construct the resource controller. -->
+  <bean id="resourceController" class="com.enonic.cms.server.service.admin.mvc.controller.ResourceController">
+  </bean>
 
-    <bean id="previewController" class="com.enonic.cms.server.service.admin.mvc.controller.SitePreviewController">
-        <property name="sitePathResolver" ref="sitePathResolverForPreview"/>
-        <property name="securityService" ref="securityService"/>
-    </bean>
+  <!-- Debug controller that renders the debug view. -->
+  <bean id="debugViewController" class="com.enonic.cms.server.service.admin.mvc.controller.SiteDebugViewController">
+    <property name="sitePathResolver" ref="sitePathResolverForDebug"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="siteDao" ref="siteDao"/>
+  </bean>
 
-    <!-- Construct the resource translator. -->
-    <bean id="resourceTranslationController"
-          class="com.enonic.cms.server.service.admin.mvc.controller.ResourceTranslationController">
-    </bean>
+  <bean id="debugInfoController" class="com.enonic.cms.server.service.admin.mvc.controller.SiteDebugInfoController">
+    <property name="sitePathResolver" ref="sitePathResolverForDebug"/>
+    <property name="adminService" ref="adminService"/>
+    <property name="securityService" ref="securityService"/>
+  </bean>
 
-    <!--
-        Adminweb Servlet Wrapping Controllers
-    -->
+  <bean id="previewController" class="com.enonic.cms.server.service.admin.mvc.controller.SitePreviewController">
+    <property name="sitePathResolver" ref="sitePathResolverForPreview"/>
+    <property name="securityService" ref="securityService"/>
+  </bean>
 
-    <bean id="adminLogInServletWrapper" class="com.enonic.vertical.adminweb.AdminLogInServlet"/>
-    <bean id="adminFrontPageServletWrapper" class="com.enonic.vertical.adminweb.AdminFrontPageServlet"/>
-    <bean id="adminPageWrapper" class="com.enonic.vertical.adminweb.AdminPage"/>
-    <bean id="binaryDataServletWrapper" class="com.enonic.vertical.adminweb.BinaryDataServlet"/>
-    <bean id="archiveHandlerServletWrapper" class="com.enonic.vertical.adminweb.ArchiveHandlerServlet"/>
-    <bean id="categoryHandlerServletWrapper" class="com.enonic.vertical.adminweb.CategoryHandlerServlet"/>
-    <bean id="contentHandlerHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"/>
-    <bean id="contentObjectHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentObjectHandlerServlet"/>
-    <bean id="contentTypeHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentTypeHandlerServlet"/>
-    <bean id="userStoreHandlerServletWrapper" class="com.enonic.vertical.adminweb.UserStoreHandlerServlet"/>
-    <bean id="editorHandlerServletWrapper" class="com.enonic.vertical.adminweb.EditorHandlerServlet"/>
-    <bean id="errorPageServletWrapper" class="com.enonic.vertical.adminweb.ErrorPageServlet"/>
-    <bean id="framesetServletWrapper" class="com.enonic.vertical.adminweb.FramesetServlet"/>
-    <bean id="groupHandlerServletWrapper" class="com.enonic.vertical.adminweb.GroupHandlerServlet"/>
-    <bean id="contentArticle3HandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"/>
-    <bean id="contentBaseHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"/>
-    <bean id="languageHandlerServletWrapper" class="com.enonic.vertical.adminweb.LanguageHandlerServlet"/>
-    <bean id="logHandlerServletWrapper" class="com.enonic.vertical.adminweb.LogHandlerServlet"/>
-    <bean id="mainMenuServletWrapper" class="com.enonic.vertical.adminweb.MainMenuServlet"/>
-    <bean id="menuHandlerServletWrapper" class="com.enonic.vertical.adminweb.MenuHandlerServlet"/>
-    <bean id="myPageServletWrapper" class="com.enonic.vertical.adminweb.MyPageServlet"/>
-    <bean id="navigatorServletWrapper" class="com.enonic.vertical.adminweb.NavigatorServlet"/>
-    <bean id="pageTemplateHandlerServletWrapper" class="com.enonic.vertical.adminweb.PageTemplateHandlerServlet"/>
-    <bean id="presentationLayerServletWrapper" class="com.enonic.vertical.adminweb.PresentationLayerServlet"/>
-    <bean id="resourceDataServletWrapper" class="com.enonic.vertical.adminweb.ResourceDataServlet"/>
-    <bean id="resourceHandlerServletWrapper" class="com.enonic.vertical.adminweb.ResourceHandlerServlet"/>
-    <bean id="sectionHandlerServletWrapper" class="com.enonic.vertical.adminweb.SectionHandlerServlet"/>
-    <bean id="splashServletWrapper" class="com.enonic.vertical.adminweb.SplashServlet"/>
-    <bean id="systemHandlerServletWrapper" class="com.enonic.vertical.adminweb.SystemHandlerServlet">
-        <property name="configurationProperties" value="#{config.properties}"/>
-    </bean>
-    <bean id="userHandlerServletWrapper" class="com.enonic.vertical.adminweb.UserHandlerServlet"/>
-    <bean id="contentDocumentHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"/>
-    <bean id="contentEnhancedImageHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"/>
-    <bean id="contentFileHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"/>
-    <bean id="contentFormHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
-    <bean id="contentNewsletterHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
-    <bean id="contentPersonHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"/>
-    <bean id="contentPollHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"/>
-    <bean id="contentProductHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"/>
-    <bean id="pagelinkHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"/>
-    <bean id="simpleContentHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"/>
+  <!-- Construct the resource translator. -->
+  <bean id="resourceTranslationController"
+        class="com.enonic.cms.server.service.admin.mvc.controller.ResourceTranslationController">
+  </bean>
 
-    <bean id="adminImageController" class="com.enonic.cms.server.service.admin.mvc.controller.ImageController">
-        <property name="imageService" ref="imageService"/>
-        <property name="disableParamEncoding" value="true"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="groupDao" ref="groupDao"/>
-    </bean>
+  <!--
+      Adminweb Servlet Wrapping Controllers
+  -->
 
-    <bean id="adminAttachmentController"
-          class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
-        <property name="securityService" ref="securityService"/>
-        <property name="binaryDataDao" ref="binaryDataDao"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="groupDao" ref="groupDao"/>
-        <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
-    </bean>
+  <bean id="adminLogInServletWrapper" class="com.enonic.vertical.adminweb.AdminLogInServlet"/>
+  <bean id="adminFrontPageServletWrapper" class="com.enonic.vertical.adminweb.AdminFrontPageServlet"/>
+  <bean id="adminPageWrapper" class="com.enonic.vertical.adminweb.AdminPage"/>
+  <bean id="binaryDataServletWrapper" class="com.enonic.vertical.adminweb.BinaryDataServlet"/>
+  <bean id="archiveHandlerServletWrapper" class="com.enonic.vertical.adminweb.ArchiveHandlerServlet"/>
+  <bean id="categoryHandlerServletWrapper" class="com.enonic.vertical.adminweb.CategoryHandlerServlet"/>
+  <bean id="contentHandlerHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentHandlerHandlerServlet"/>
+  <bean id="contentObjectHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentObjectHandlerServlet"/>
+  <bean id="contentTypeHandlerServletWrapper" class="com.enonic.vertical.adminweb.ContentTypeHandlerServlet"/>
+  <bean id="userStoreHandlerServletWrapper" class="com.enonic.vertical.adminweb.UserStoreHandlerServlet"/>
+  <bean id="editorHandlerServletWrapper" class="com.enonic.vertical.adminweb.EditorHandlerServlet"/>
+  <bean id="errorPageServletWrapper" class="com.enonic.vertical.adminweb.ErrorPageServlet"/>
+  <bean id="framesetServletWrapper" class="com.enonic.vertical.adminweb.FramesetServlet"/>
+  <bean id="groupHandlerServletWrapper" class="com.enonic.vertical.adminweb.GroupHandlerServlet"/>
+  <bean id="contentArticle3HandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentArticle3HandlerServlet"/>
+  <bean id="contentBaseHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet"/>
+  <bean id="languageHandlerServletWrapper" class="com.enonic.vertical.adminweb.LanguageHandlerServlet"/>
+  <bean id="logHandlerServletWrapper" class="com.enonic.vertical.adminweb.LogHandlerServlet"/>
+  <bean id="mainMenuServletWrapper" class="com.enonic.vertical.adminweb.MainMenuServlet"/>
+  <bean id="menuHandlerServletWrapper" class="com.enonic.vertical.adminweb.MenuHandlerServlet"/>
+  <bean id="myPageServletWrapper" class="com.enonic.vertical.adminweb.MyPageServlet"/>
+  <bean id="navigatorServletWrapper" class="com.enonic.vertical.adminweb.NavigatorServlet"/>
+  <bean id="pageTemplateHandlerServletWrapper" class="com.enonic.vertical.adminweb.PageTemplateHandlerServlet"/>
+  <bean id="presentationLayerServletWrapper" class="com.enonic.vertical.adminweb.PresentationLayerServlet"/>
+  <bean id="resourceDataServletWrapper" class="com.enonic.vertical.adminweb.ResourceDataServlet"/>
+  <bean id="resourceHandlerServletWrapper" class="com.enonic.vertical.adminweb.ResourceHandlerServlet"/>
+  <bean id="sectionHandlerServletWrapper" class="com.enonic.vertical.adminweb.SectionHandlerServlet"/>
+  <bean id="splashServletWrapper" class="com.enonic.vertical.adminweb.SplashServlet"/>
+  <bean id="systemHandlerServletWrapper" class="com.enonic.vertical.adminweb.SystemHandlerServlet">
+    <property name="configurationProperties" value="#{config.properties}"/>
+  </bean>
+  <bean id="userHandlerServletWrapper" class="com.enonic.vertical.adminweb.UserHandlerServlet"/>
+  <bean id="contentDocumentHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentDocumentHandlerServlet"/>
+  <bean id="contentEnhancedImageHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet"/>
+  <bean id="contentFileHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet"/>
+  <bean id="contentFormHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
+  <bean id="contentNewsletterHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
+  <bean id="contentPersonHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"/>
+  <bean id="contentPollHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"/>
+  <bean id="contentProductHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"/>
+  <bean id="pagelinkHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"/>
+  <bean id="simpleContentHandlerServletWrapper"
+        class="com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"/>
 
-    <bean id="loginCheckInterceptor" class="com.enonic.cms.server.service.admin.mvc.LoginCheckInterceptor">
-        <property name="securityService" ref="securityService"/>
-    </bean>
+  <bean id="adminImageController" class="com.enonic.cms.server.service.admin.mvc.controller.ImageController">
+    <property name="imageService" ref="imageService"/>
+    <property name="disableParamEncoding" value="true"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="groupDao" ref="groupDao"/>
+  </bean>
 
-    <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+  <bean id="adminAttachmentController"
+        class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
+    <property name="securityService" ref="securityService"/>
+    <property name="binaryDataDao" ref="binaryDataDao"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="groupDao" ref="groupDao"/>
+    <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
+  </bean>
+
+  <bean id="loginCheckInterceptor" class="com.enonic.cms.server.service.admin.mvc.LoginCheckInterceptor">
+    <property name="securityService" ref="securityService"/>
+  </bean>
+
+  <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
 
 </beans>

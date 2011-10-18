@@ -20,6 +20,7 @@
     <property name="contentDao" ref="contentDao"/>
     <property name="previewService" ref="previewService"/>
     <property name="timeService" ref="timeService"/>
+    <property name="livePortalTraceService" ref="livePortalTraceService"/>
   </bean>
 
   <bean id="internalClientContentService"

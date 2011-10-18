@@ -23,6 +23,10 @@ public interface LivePortalTraceService
 
     DatasourceExecutionTrace startPortletDatasourceExecutionTracing( String datasourceMethodName );
 
+    ClientMethodExecutionTrace startClientMethodExecutionTracing( String methodName );
+
+    ContentIndexQueryTrace startContentIndexQueryTracing();
+
     InstructionPostProcessingTrace startInstructionPostProcessingTracingForWindow();
 
     InstructionPostProcessingTrace startInstructionPostProcessingTracingForPage();
@@ -45,11 +49,17 @@ public interface LivePortalTraceService
 
     void stopTracing( DatasourceExecutionTrace datasourceExecutionTrace );
 
+    void stopTracing( ClientMethodExecutionTrace clientMethodExecutionTrace );
+
+    void stopTracing( ContentIndexQueryTrace contentIndexQueryTrace );
+
     void stopTracing( AttachmentRequestTrace attachmentRequestTrace );
 
     void stopTracing( ImageRequestTrace imageRequestTrace );
 
-    void stopTracing( InstructionPostProcessingTrace trace );
+    void stopTracing( InstructionPostProcessingTrace instructionPostProcessingTrace );
+
+    int getNumberOfPortalRequestTracesInProgress();
 
     List<PortalRequestTrace> getCurrentPortalRequestTraces();
 

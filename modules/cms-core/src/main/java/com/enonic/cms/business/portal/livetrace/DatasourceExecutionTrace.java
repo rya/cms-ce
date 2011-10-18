@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 public class DatasourceExecutionTrace
+    implements ContentIndexQuerier, Trace
 {
     private String methodName;
 
@@ -19,6 +20,10 @@ public class DatasourceExecutionTrace
     private boolean isCacheUsed = false;
 
     private List<DatasourceMethodArgument> datasourceMethodArgumentList = new ArrayList<DatasourceMethodArgument>();
+
+    private Traces<ClientMethodExecutionTrace> clientMethodExecutionTraceTraces = new Traces<ClientMethodExecutionTrace>();
+
+    private Traces<ContentIndexQueryTrace> contentIndexQueryTraces = new Traces<ContentIndexQueryTrace>();
 
     public DatasourceExecutionTrace( String methodName )
     {
@@ -80,7 +85,7 @@ public class DatasourceExecutionTrace
         return datasourceMethodArgumentList;
     }
 
-    public void setDatasourceMethodArgumentList( List<DatasourceMethodArgument> datasourceMethodArgumentList )
+    void setDatasourceMethodArgumentList( List<DatasourceMethodArgument> datasourceMethodArgumentList )
     {
         this.datasourceMethodArgumentList = datasourceMethodArgumentList;
     }
@@ -93,5 +98,45 @@ public class DatasourceExecutionTrace
     public List<DatasourceMethodArgument> getDatasourceMethodArguments()
     {
         return datasourceMethodArgumentList;
+    }
+
+    public void addClientMethodExecutionTrace( ClientMethodExecutionTrace trace )
+    {
+        clientMethodExecutionTraceTraces.add( trace );
+    }
+
+    public boolean hasClientMethodExecutionTrace()
+    {
+        return clientMethodExecutionTraceTraces.hasTraces();
+    }
+
+    public String getDurationOfClientMethodExecutionTracesInHRFormat()
+    {
+        return clientMethodExecutionTraceTraces.getTotalPeriodInHRFormat();
+    }
+
+    public List<ClientMethodExecutionTrace> getClientMethodExecutionTraces()
+    {
+        return clientMethodExecutionTraceTraces.getList();
+    }
+
+    public void addContentIndexQueryTrace( ContentIndexQueryTrace trace )
+    {
+        contentIndexQueryTraces.add( trace );
+    }
+
+    public boolean hasContentIndexQueryTraces()
+    {
+        return contentIndexQueryTraces.hasTraces();
+    }
+
+    public String getDurationOfContentIndexQueryTracesInHRFormat()
+    {
+        return contentIndexQueryTraces.getTotalPeriodInHRFormat();
+    }
+
+    public List<ContentIndexQueryTrace> getContentIndexQueryTraces()
+    {
+        return contentIndexQueryTraces.getList();
     }
 }
