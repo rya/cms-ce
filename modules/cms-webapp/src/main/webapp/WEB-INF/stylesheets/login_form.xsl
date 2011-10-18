@@ -40,9 +40,10 @@
                   top.location = self.document.location;
               }
 
-              if (typeof(browserns)=='undefined')
+              var userName = document.getElementsByName('username')[0];
+              if (userName)
               {
-                  document.getElementsByName('username')[0].focus();
+                userName.focus();
               }
           }
 
