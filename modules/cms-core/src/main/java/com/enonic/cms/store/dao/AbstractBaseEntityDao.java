@@ -205,6 +205,11 @@ public abstract class AbstractBaseEntityDao<T>
                                     paramValue != null ? new Object[]{paramValue} : null );
     }
 
+    public int deleteByNamedQuery( final String queryName, String[] paramName, Object[] paramValue )
+    {
+        return executeByNamedQuery( queryName, paramName, paramValue );
+    }
+
     public int updateByNamedQuery( final String queryName, String paramName, Object paramValue )
     {
         return executeByNamedQuery( queryName, paramName != null ? new String[]{paramName} : null,

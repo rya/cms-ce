@@ -5,8 +5,11 @@
   <class name="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity" table="TSECTIONCONTENT2" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="com.enonic.cms.store.hibernate.type.SectionContentKeyUserType">
-      <column name="SCO_LKEY"/>
-      <generator class="assigned"/>
+      <column name="SCO_LKEY" not-null="true"/>
+      <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
+        <param name="table">TSECTIONCONTENT2</param>
+        <param name="idClassName">com.enonic.cms.core.structure.menuitem.section.SectionContentKey</param>
+      </generator>
     </id>
     <property name="approved" type="int">
       <column name="SCO_BAPPROVED" not-null="true"/>
@@ -27,11 +30,6 @@
   <query name="SectionContentEntity.deleteByContentKey" cacheable="false">
     delete from SectionContentEntity
     where content.key = :contentKey
-  </query>
-  <query name="SectionContentEntity.findByMenuItemAndContentKeys" cacheable="true">
-    from SectionContentEntity x
-    where x.menuItem.key = :menuItemKey
-    and x.content.key = :contentKey
   </query>
   <query name="SectionContentEntity.findNamedContentInSection" cacheable="true">
     select count(x) from SectionContentEntity x

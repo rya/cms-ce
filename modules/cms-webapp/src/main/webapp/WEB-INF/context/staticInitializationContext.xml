@@ -3,13 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean class="com.enonic.vertical.adminweb.SectionHandlerServlet$CreateUpdateSectionWizard" scope="prototype" />
-  <bean class="com.enonic.vertical.adminweb.SectionHandlerServlet$AddContentWizard" scope="prototype" />
-  <bean class="com.enonic.vertical.adminweb.SectionHandlerServlet$PublishWizard" scope="prototype" />
+  <bean class="com.enonic.vertical.adminweb.SectionHandlerServlet$PublishWizard" scope="prototype"/>
 
-  <bean class="com.enonic.vertical.adminweb.UserStoreHandlerServlet$CreateUpdateUserStoreWizard" scope="prototype" />
+  <bean class="com.enonic.vertical.adminweb.UserStoreHandlerServlet$CreateUpdateUserStoreWizard" scope="prototype"/>
 
-  <bean class="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet$ImportImagesWizard" scope="prototype" />
-  <bean class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet$ImportFilesWizard" scope="prototype" />
+  <bean class="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet$ImportImagesWizard" scope="prototype"/>
+  <bean class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet$ImportFilesWizard" scope="prototype"/>
 
 </beans>

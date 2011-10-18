@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,19 +29,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.google.common.collect.Lists;
+
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.URL;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 import com.enonic.esl.util.DateUtil;
-import com.enonic.esl.util.ParamsInTextParser;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.handlers.ListCountResolver;
 import com.enonic.vertical.adminweb.wizard.Wizard;
 import com.enonic.vertical.adminweb.wizard.WizardException;
 import com.enonic.vertical.adminweb.wizard.WizardLogger;
-import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
@@ -62,47 +62,52 @@ import com.enonic.cms.core.CmsDateAndTimeFormats;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.core.structure.MenuItemXMLCreatorSetting;
-import com.enonic.cms.core.structure.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteProperties;
 import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.core.structure.SiteXmlCreator;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
+import com.enonic.cms.core.structure.menuitem.AddContentToSectionCommand;
+import com.enonic.cms.core.structure.menuitem.ApproveContentInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.ApproveContentsInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessResolver;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.MenuItemServiceCommand;
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.menuitem.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.menuitem.MenuItemXmlCreator;
+import com.enonic.cms.core.structure.menuitem.OrderContentsInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.RemoveContentsFromSectionCommand;
+import com.enonic.cms.core.structure.menuitem.SetContentHomeCommand;
+import com.enonic.cms.core.structure.menuitem.UnapproveContentsInSectionCommand;
 import com.enonic.cms.core.structure.page.PageSpecification;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
-import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.core.content.ContentService;
-
-import com.enonic.cms.core.security.SecurityService;
-
 import com.enonic.cms.business.portal.cache.PageCacheService;
 import com.enonic.cms.business.portal.cache.SiteCachesService;
-
-import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
-import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
-import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
-import com.enonic.cms.core.structure.SiteEntity;
 
 
 public class SectionHandlerServlet
@@ -110,846 +115,16 @@ public class SectionHandlerServlet
 {
     private static final long serialVersionUID = -983028077176679176L;
 
-    private static final String WIZARD_CONFIG_ADD_CONTENT = "wizardconfig_add_to_section.xml";
-
     private static final String WIZARD_CONFIG_PUBLISH = "wizardconfig_publish_to_section.xml";
 
-    private static final String WIZARD_CONFIG_CREATE_UPDATE = "wizardconfig_create_update_section.xml";
-
     public static final int COOKIE_TIMEOUT = 60 * 60 * 24 * 365 * 50;
-
-    public static class CreateUpdateSectionWizard
-        extends Wizard
-    {
-        @Autowired
-        private SiteDao siteDao;
-
-        protected void initialize( AdminService admin, Document wizardconfigDoc )
-            throws WizardException
-        {
-        }
-
-        protected boolean evaluate( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
-                                    String testCondition )
-            throws WizardException
-        {
-
-            if ( testCondition.equals( "propagateRights" ) )
-            {
-                if ( formItems.getString( "propagate", "" ).equals( "true" ) )
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private void addDefaultAccessRights( User user, int menuKey, Element rootElement, ExtendedMap formItems, AdminService admin )
-        {
-            Document doc = rootElement.getOwnerDocument();
-
-            // Add default access rights...
-            // - if no supersectionkey: map rights from default menurights
-            // - if supersectionkey: inherit rights from supersection
-            if ( !formItems.containsKey( "supersectionkey" ) )
-            {
-                Element newAccessRightsElem = XMLTool.createElement( doc, rootElement, "accessrights" );
-
-                String xmlData = admin.getAccessRights( user, AccessRight.MENUITEM_DEFAULT, menuKey, true );
-                Document defaultAR = XMLTool.domparse( xmlData );
-
-                Element accessRightsElem = defaultAR.getDocumentElement();
-                Element[] accessRights = XMLTool.getElements( accessRightsElem, "accessright" );
-                for ( Element arElement : accessRights )
-                {
-                    Element newArElement = XMLTool.createElement( doc, newAccessRightsElem, "accessright" );
-
-                    newArElement.setAttribute( "fullname", arElement.getAttribute( "fullname" ) );
-                    newArElement.setAttribute( "uid", arElement.getAttribute( "uid" ) );
-                    newArElement.setAttribute( "groupname", arElement.getAttribute( "groupname" ) );
-                    newArElement.setAttribute( "grouptype", arElement.getAttribute( "grouptype" ) );
-                    newArElement.setAttribute( "groupkey", arElement.getAttribute( "groupkey" ) );
-                    newArElement.setAttribute( "read", "true" );
-
-                    String tmp = arElement.getAttribute( "administrate" );
-                    if ( "true".equals( tmp ) )
-                    {
-                        newArElement.setAttribute( "administrate", "true" );
-                        newArElement.setAttribute( "approve", "true" );
-                    }
-                    else
-                    {
-                        newArElement.setAttribute( "administrate", "false" );
-                        newArElement.setAttribute( "approve", "false" );
-                    }
-
-                    tmp = arElement.getAttribute( "create" );
-                    if ( "true".equals( tmp ) )
-                    {
-                        newArElement.setAttribute( "publish", "true" );
-                    }
-                    else
-                    {
-                        newArElement.setAttribute( "publish", "false" );
-                    }
-                }
-            }
-            else
-            {
-                String xmlData = admin.getAccessRights( user, AccessRight.SECTION, formItems.getInt( "supersectionkey" ), true );
-                Document defaultAR = XMLTool.domparse( xmlData );
-                rootElement.appendChild( doc.importNode( defaultAR.getDocumentElement(), true ) );
-            }
-
-        }
-
-        protected void appendCustomData( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
-                                         ExtendedMap parameters, User user, Document dataconfigDoc, Document wizarddataDoc )
-            throws WizardException
-        {
-
-            Element wizarddataElem = wizarddataDoc.getDocumentElement();
-
-            int menuKey = formItems.getInt( "menukey" );
-            SiteEntity site = siteDao.findByKey( new SiteKey( menuKey ) );
-            formItems.put( "menuname", site.getName() );
-
-            String stepName = wizardState.getCurrentStep().getName();
-
-            // Firste step: section information
-            if ( "step0".equals( stepName ) )
-            {
-                XMLDocument xmlDoc = admin.getContentTypes( false );
-                Document doc = xmlDoc.getAsDOMDocument();
-                wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-
-                if ( !wizardState.getCurrentStepState().isErrorState() )
-                {
-                    if ( formItems.containsKey( "key" ) )
-                    {
-                        SectionCriteria sc = new SectionCriteria();
-                        sc.setSectionKey( formItems.getInt( "key" ) );
-                        sc.setAppendAccessRights( true );
-                        sc.setIncludeChildCount( true );
-
-                        String xmlData = admin.getSections( user, sc );
-                        doc = XMLTool.domparse( xmlData );
-
-                        wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-                    }
-                    else
-                    {
-                        addDefaultAccessRights( user, menuKey, wizarddataElem, formItems, admin );
-
-                        int superSectionKey;
-                        if ( formItems.containsKey( "supersectionkey" ) &&
-                            ( superSectionKey = formItems.getInt( "supersectionkey" ) ) != -1 )
-                        {
-
-                            SectionCriteria sc = new SectionCriteria();
-                            sc.setSectionKey( superSectionKey );
-
-                            String xmlData = admin.getSections( user, sc );
-                            Document superSectionDoc = XMLTool.domparse( xmlData );
-                            Element parentCtyElement = XMLTool.createElement( wizarddataDoc, wizarddataElem, "parentcontenttypes" );
-
-                            Element ctysElement = (Element) XMLTool.selectNode( superSectionDoc, "/sections/section/contenttypes" );
-
-                            if ( ctysElement != null )
-                            {
-                                parentCtyElement.appendChild( wizarddataDoc.importNode( ctysElement, true ) );
-                            }
-
-                            parentCtyElement.setAttribute( "ordered",
-                                                           XMLTool.getElementText( superSectionDoc, "/sections/section/@ordered" ) );
-                        }
-                    }
-                }
-            }
-
-            // Second step: propagation of accessrights
-            if ( "step1".equals( stepName ) )
-            {
-                SectionCriteria sc = new SectionCriteria();
-                sc.setSuperSectionKey( formItems.getInt( "key" ) );
-                sc.setAppendAccessRights( true );
-                sc.setAdminRight( true );
-                sc.setSectionRecursivly( true );
-
-                String xmlData = admin.getSections( user, sc );
-                Document sectionDoc = XMLTool.domparse( xmlData );
-
-                wizarddataElem.appendChild( wizarddataDoc.importNode( sectionDoc.getDocumentElement(), true ) );
-
-                Document changedDoc = servlet.buildChangedAccessRightsXML( formItems );
-                wizarddataElem.appendChild( wizarddataDoc.importNode( changedDoc.getDocumentElement(), true ) );
-            }
-
-            if ( formItems.containsKey( "supersectionkey" ) )
-            {
-                MenuItemKey superSectionKey = new MenuItemKey( formItems.getString( "supersectionkey" ) );
-                Document sectionNamesDoc = XMLTool.domparse( admin.getSuperSectionNames( superSectionKey, true ) );
-                XMLTool.mergeDocuments( wizarddataDoc, sectionNamesDoc, true );
-            }
-            else if ( formItems.containsKey( "key" ) )
-            {
-                MenuItemKey sectionKey = new MenuItemKey( formItems.getString( "key" ) );
-                Document sectionNamesDoc = XMLTool.domparse( admin.getSuperSectionNames( sectionKey, false ) );
-                XMLTool.mergeDocuments( wizarddataDoc, sectionNamesDoc, true );
-            }
-        }
-
-        private void generateSectionData( Document doc, Element sectionElement, ExtendedMap formItems, AdminService admin )
-        {
-            Element contentTypesElement = XMLTool.createElement( doc, sectionElement, "contenttypes" );
-            if ( formItems.containsKey( "contenttypekey" ) )
-            {
-                String[] ctys = formItems.getStringArray( "contenttypekey" );
-                for ( String cty : ctys )
-                {
-                    Element ctyElement = XMLTool.createElement( doc, contentTypesElement, "contenttype" );
-                    ctyElement.setAttribute( "key", cty );
-
-                    XMLTool.createElement( doc, ctyElement, "name", admin.getContentTypeName( Integer.parseInt( cty ) ) );
-                }
-            }
-
-            AdminHandlerBaseServlet.buildAccessRightsXML( sectionElement, null, formItems, AccessRight.SECTION );
-        }
-
-        protected void saveState( WizardState wizardState, HttpServletRequest request, HttpServletResponse response, AdminService admin,
-                                  User user, ExtendedMap formItems )
-            throws WizardException
-        {
-
-            super.saveState( wizardState, request, response, admin, user, formItems );
-
-            String stepName = wizardState.getCurrentStep().getName();
-            if ( stepName.equals( "step0" ) && wizardState.getCurrentStepState().getButtonPressed().equals( "save" ) )
-            {
-                Document stateDoc = wizardState.getCurrentStepState().getStateDoc();
-                Element stepStateElement = stateDoc.getDocumentElement();
-
-                Element sectionElement = XMLTool.getElement( stepStateElement, "section" );
-                sectionElement.setAttribute( "name", formItems.getString( "stepstate_section_name", "" ) );
-                sectionElement.setAttribute( "childcount", formItems.getString( "childcount", "0" ) );
-
-                if ( "on".equals( formItems.getString( "stepstate_section_ordered", "" ) ) )
-                {
-                    sectionElement.setAttribute( "ordered", "true" );
-                }
-                else
-                {
-                    sectionElement.setAttribute( "ordered", "false" );
-                }
-
-                XMLTool.createElement( stateDoc, "description", formItems.getString( "stepstate_section_description", "" ) );
-
-                sectionElement.setAttribute( "menukey", formItems.getString( "menukey" ) );
-                sectionElement.setAttribute( "supersectionkey", formItems.getString( "supersectionkey", "" ) );
-
-                int key;
-                if ( formItems.containsKey( "key" ) )
-                {
-                    key = formItems.getInt( "key" );
-                    sectionElement.setAttribute( "key", String.valueOf( key ) );
-                }
-
-                Element ownerElement = XMLTool.createElement( stateDoc, sectionElement, "owner" );
-                ownerElement.setAttribute( "key", String.valueOf( user.getKey() ) );
-
-                Element modifierElement = XMLTool.createElement( stateDoc, sectionElement, "modifier" );
-                modifierElement.setAttribute( "key", String.valueOf( user.getKey() ) );
-                generateSectionData( stateDoc, sectionElement, formItems, admin );
-            }
-            else if ( stepName.equals( "step1" ) && wizardState.getCurrentStepState().getButtonPressed().equals( "save" ) )
-            {
-                Document arpDoc = buildAccessRightsForPropagation( admin, user, formItems );
-
-                Document stateDoc = wizardState.getCurrentStepState().getStateDoc();
-                stateDoc.getDocumentElement().appendChild( stateDoc.importNode( arpDoc.getDocumentElement(), true ) );
-            }
-        }
-
-        private Document buildAccessRightsForPropagation( AdminService admin, User user, ExtendedMap formItems )
-        {
-            String applyOnlyChanges = formItems.getString( "applyonlychanges", "off" );
-
-            Document accessRightsCollectionDoc = XMLTool.createDocument( "accessrightscollection" );
-            Element arcElement = accessRightsCollectionDoc.getDocumentElement();
-
-            // If applyOnlyChanges is "off", we overwrite existing accessrights for the subsections:
-            if ( "off".equals( applyOnlyChanges ) )
-            {
-                Document newSectionAccessRightsDoc =
-                    AdminHandlerBaseServlet.buildAccessRightsXML( null, null, formItems, AccessRight.SECTION );
-                Element newSARElement = newSectionAccessRightsDoc.getDocumentElement();
-
-                // Run through each (selected) section...
-                for ( Object o : formItems.keySet() )
-                {
-                    String paramName = (String) o;
-                    if ( paramName.startsWith( "chkPropagate[key=" ) )
-                    {
-
-                        ExtendedMap paramsInName = ParamsInTextParser.parseParamsInText( paramName, "[", "]", ";" );
-                        int curSectionKey = Integer.parseInt( paramsInName.getString( "key" ) );
-                        newSARElement.setAttribute( "key", String.valueOf( curSectionKey ) );
-
-                        // Add it to the new accessrightscollection
-                        arcElement.appendChild( accessRightsCollectionDoc.importNode( newSARElement, true ) );
-                    }
-                }
-            }
-
-            // If applyOnlyChanges is "on", we must only apply the accessrights that the user
-            // actually changed to the subsections. This is a little more complicated. The code
-            // below is largely copy/paste from the category servlet, modified for sections:
-            else
-            {
-                Hashtable<String, ExtendedMap> removedSectionAccessRights = new Hashtable<String, ExtendedMap>();
-                Hashtable<String, ExtendedMap> addedSectionAccessRights = new Hashtable<String, ExtendedMap>();
-                Hashtable<String, ExtendedMap> modifiedSectionAccessRights = new Hashtable<String, ExtendedMap>();
-
-                for ( Object o1 : formItems.keySet() )
-                {
-                    String paramName = (String) o1;
-                    if ( paramName.startsWith( "arc[key=" ) )
-                    {
-                        ExtendedMap paramsInName = ParamsInTextParser.parseParamsInText( paramName, "[", "]", ";" );
-                        String paramValue = formItems.getString( paramName );
-
-                        ExtendedMap sectionAccessRight = ParamsInTextParser.parseParamsInText( paramValue, "[", "]", ";" );
-
-                        String diffinfo = sectionAccessRight.getString( "diffinfo" );
-                        if ( "removed".equals( diffinfo ) )
-                        {
-                            removedSectionAccessRights.put( paramsInName.getString( "key" ), sectionAccessRight );
-                        }
-                        else if ( "added".equals( diffinfo ) )
-                        {
-                            String groupKey = paramsInName.getString( "key" );
-                            addedSectionAccessRights.put( groupKey, sectionAccessRight );
-                        }
-                        else if ( "modified".equals( diffinfo ) )
-                        {
-                            String groupKey = paramsInName.getString( "key" );
-                            modifiedSectionAccessRights.put( groupKey, sectionAccessRight );
-                        }
-                    }
-                }
-
-                // Run through each (selected) section...
-                for ( Object o : formItems.keySet() )
-                {
-
-                    String paramName = (String) o;
-                    if ( paramName.startsWith( "chkPropagate[key=" ) )
-                    {
-
-                        ExtendedMap paramsInName = ParamsInTextParser.parseParamsInText( paramName, "[", "]", ";" );
-                        int curSectionKey = Integer.parseInt( paramsInName.getString( "key" ) );
-
-                        // Get existing accessrights:
-                        Document docCurrentSectionAR =
-                            XMLTool.domparse( admin.getAccessRights( user, AccessRight.SECTION, curSectionKey, false ) );
-
-                        // Apply changes
-                        Document docChangedSectionAR = servlet.applyChangesInAccessRights( docCurrentSectionAR, removedSectionAccessRights,
-                                                                                           modifiedSectionAccessRights,
-                                                                                           addedSectionAccessRights );
-
-                        // Add to document:
-                        arcElement.appendChild( accessRightsCollectionDoc.importNode( docChangedSectionAR.getDocumentElement(), true ) );
-                    }
-                }
-            }
-
-            return accessRightsCollectionDoc;
-        }
-
-        /**
-         * @see com.enonic.vertical.adminweb.wizard.Wizard#validateState(com.enonic.vertical.adminweb.wizard.Wizard.WizardState,
-         *      javax.servlet.http.HttpSession, com.enonic.cms.core.service.AdminService, com.enonic.esl.containers.ExtendedMap)
-         */
-        protected boolean validateState( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems )
-        {
-
-            if ( wizardState.getCurrentStep().getName().equals( "step0" ) )
-            {
-                if ( !formItems.containsKey( "stepstate_section_name" ) )
-                {
-                    wizardState.addError( "6", "stepstate_section_name" );
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        protected void processWizardData( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
-                                          User user, Document dataDoc )
-            throws WizardException, VerticalEngineException
-        {
-
-            try
-            {
-                Document firstStepStateDoc = wizardState.getFirstStepState().getStateDoc();
-                Element sectionElement = (Element) XMLTool.selectNode( firstStepStateDoc.getDocumentElement(), "/stepstate/section" );
-
-                Document sectionDoc = XMLTool.createDocument();
-                sectionDoc.appendChild( sectionDoc.importNode( sectionElement, true ) );
-
-                int key = -1;
-                String tmp = sectionElement.getAttribute( "key" );
-                if ( tmp != null && tmp.length() > 0 )
-                {
-                    key = Integer.parseInt( tmp );
-                }
-
-                if ( key != -1 )
-                {
-                    admin.updateSection( user, XMLTool.documentToString( sectionDoc ) );
-                }
-                else
-                {
-                    admin.createSection( XMLTool.documentToString( sectionDoc ) );
-                }
-
-                // Propagate accessrights (if appliccable):
-                StepState secondState = wizardState.getFirstStepState().getNextStepState();
-                Document secondStateDoc;
-                if ( secondState != null && ( secondStateDoc = secondState.getStateDoc() ) != null )
-                {
-                    Element stateElement = secondStateDoc.getDocumentElement();
-                    Element arcElement = XMLTool.getElement( stateElement, "accessrightscollection" );
-
-                    Element[] accessRights = XMLTool.getElements( arcElement, "accessrights" );
-                    for ( Element accessRight : accessRights )
-                    {
-                        String keyStr = String.valueOf( key );
-                        if ( !keyStr.equals( accessRight.getAttribute( "key" ) ) )
-                        {
-                            Document arDoc = XMLTool.createDocument();
-                            arDoc.appendChild( arDoc.importNode( accessRight, true ) );
-
-                            admin.updateAccessRights( user, XMLTool.documentToString( arDoc ) );
-                        }
-                    }
-                }
-            }
-            catch ( VerticalEngineException e )
-            {
-                WizardLogger.errorWizard( this.getClass(), 20, "Backend error: %t", e );
-            }
-        }
-    }
-
-    public static class AddContentWizard
-        extends Wizard
-    {
-        @Autowired
-        private ContentDao contentDao;
-
-        public AddContentWizard()
-        {
-            super();
-        }
-
-        /**
-         * @see com.enonic.vertical.adminweb.wizard.Wizard#initialize(com.enonic.cms.core.service.AdminService, org.w3c.dom.Document)
-         */
-        protected void initialize( AdminService admin, Document wizardConfigDoc )
-            throws WizardException
-        {
-        }
-
-        /**
-         * @see com.enonic.vertical.adminweb.wizard.Wizard#validateState(com.enonic.vertical.adminweb.wizard.Wizard.WizardState,
-         *      javax.servlet.http.HttpSession, com.enonic.cms.core.service.AdminService, com.enonic.esl.containers.ExtendedMap)
-         */
-        protected boolean validateState( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems )
-        {
-            return true;
-        }
-
-        /**
-         * @see com.enonic.vertical.adminweb.wizard.Wizard#evaluate(com.enonic.vertical.adminweb.wizard.Wizard.WizardState,
-         *      javax.servlet.http.HttpSession, com.enonic.cms.core.service.AdminService, com.enonic.esl.containers.ExtendedMap,
-         *      java.lang.String)
-         */
-        protected boolean evaluate( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
-                                    String testCondition )
-            throws WizardException
-        {
-
-            boolean result;
-            if ( "moreOrder".equals( testCondition ) )
-            {
-                result = moreOrder( wizardState );
-            }
-            else
-            {
-                String message = "Unknown test condition: %0";
-                WizardLogger.errorWizard( this.getClass(), 0, message, testCondition, null );
-                result = false;
-            }
-            return result;
-        }
-
-        protected void processWizardData( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
-                                          User user, Document dataDoc )
-            throws WizardException, VerticalEngineException
-        {
-
-            admin.addContentToSections( user, XMLTool.documentToString( dataDoc ) );
-        }
-
-        protected void appendCustomData( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
-                                         ExtendedMap parameters, User user, Document dataconfigDoc, Document wizarddataDoc )
-            throws WizardException
-        {
-            Element wizarddataElem = wizarddataDoc.getDocumentElement();
-
-            if ( formItems.containsKey( "selectedunitkey" ) )
-            {
-                int unitKey = formItems.getInt( "selectedunitkey" );
-                formItems.put( "unitname", admin.getUnitName( unitKey ) );
-            }
-
-            int categoryKey = formItems.getInt( "cat" );
-            Document doc = XMLTool.domparse( admin.getSuperCategoryNames( categoryKey, false, true ) );
-            wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-
-            int contentKey = formItems.getInt( "contentkey" );
-            final ContentEntity content = contentDao.findByKey( new ContentKey( contentKey ) );
-            final ContentVersionEntity contentMainVersion = content.getMainVersion();
-            formItems.put( "contenttitle", contentMainVersion.getTitle() );
-            formItems.put( "contenttypekey", String.valueOf( content.getCategory().getContentType().getKey() ) );
-
-            Step currentStep = wizardState.getCurrentStep();
-            if ( "step0".equals( currentStep.getName() ) || "step1".equals( currentStep.getName() ) )
-            {
-                // get site's menus
-                wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-
-                // get sections
-                if ( "step0".equals( currentStep.getName() ) )
-                {
-                    SectionCriteria criteria = new SectionCriteria();
-
-                    // allow only sections with publish right
-                    criteria.setPublishRight( true );
-
-                    // create tree structure and get missing sections
-                    criteria.setTreeStructure( true );
-
-                    // append all sections' access right elements
-                    criteria.setAppendAccessRights( true );
-
-                    // marks filter sections that with filtered="true"
-                    criteria.setContentKeyExcludeFilter( contentKey );
-                    criteria.setMarkContentFilteredSections( true );
-
-                    // remove sections which does not allow this content type
-                    int contentTypeKey = content.getCategory().getContentType().getKey();
-                    criteria.setContentTypeKeyFilter( contentTypeKey );
-
-                    doc = XMLTool.domparse( admin.getSections( user, criteria ) );
-                }
-                else
-                {
-                    // get first step's selected section keys
-                    StepState stepState = wizardState.getFirstStepState();
-                    Document stateDoc = stepState.getStateDoc();
-                    Element stepstateElem = stateDoc.getDocumentElement();
-                    Element[] sectionElems = XMLTool.getElements( stepstateElem, "section" );
-                    int[] sectionKeys = new int[sectionElems.length];
-                    for ( int i = 0; i < sectionElems.length; i++ )
-                    {
-                        sectionKeys[i] = Integer.parseInt( sectionElems[i].getAttribute( "key" ) );
-                    }
-
-                    SectionCriteria criteria = new SectionCriteria();
-                    criteria.setSectionKeys( sectionKeys );
-                    // criteria.setApproveRight(true);
-                    criteria.setTreeStructure( true );
-                    criteria.setAppendAccessRights( true );
-                    doc = XMLTool.domparse( admin.getSections( user, criteria ) );
-                }
-                wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-            }
-            else if ( "step2".equals( currentStep.getName() ) )
-            {
-                StepState stepState = wizardState.getCurrentStepState();
-                NormalStep step;
-                int stepIdx = -1;
-                do
-                {
-                    stepIdx++;
-                    stepState = stepState.getPreviousStepState();
-                    step = stepState.getStep();
-                }
-                while ( !"step1".equals( step.getName() ) );
-
-                Document stateDoc = stepState.getStateDoc();
-                Element stepstateElem = stateDoc.getDocumentElement();
-                Element[] sectionElems = XMLTool.getElements( stepstateElem, "section" );
-                int idx = 0;
-                int i = -1;
-                while ( idx < sectionElems.length )
-                {
-                    if ( "true".equals( sectionElems[idx].getAttribute( "ordered" ) ) )
-                    {
-                        i++;
-                    }
-                    if ( i < stepIdx )
-                    {
-                        idx++;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                MenuItemKey sectionKey = new MenuItemKey( sectionElems[idx].getAttribute( "key" ) );
-                formItems.putInt( "currentsectionkey", sectionKey.toInt() );
-
-                // get super sections for calulating section path
-                doc = XMLTool.domparse( admin.getSuperSectionNames( sectionKey, true ) );
-
-                // add section path
-                Element[] sectionnameElems = XMLTool.getElements( doc.getDocumentElement() );
-                int menuKey = admin.getMenuKeyBySection( sectionKey );
-                StringBuffer sectionPath = new StringBuffer( admin.getMenuName( menuKey ) );
-                for ( Element sectionnameElem : sectionnameElems )
-                {
-                    sectionPath.append( " / " );
-                    sectionPath.append( XMLTool.getElementText( sectionnameElem ) );
-                }
-                formItems.putString( "currentsectionpath", sectionPath.toString() );
-
-                StepState currentStepState = wizardState.getCurrentStepState();
-                String buttonPressed = currentStepState.getButtonPressed();
-                if ( "moveup".equals( buttonPressed ) || "movedown".equals( buttonPressed ) )
-                {
-                    stateDoc = currentStepState.getStateDoc();
-                    stepstateElem = stateDoc.getDocumentElement();
-
-                    // get content index (which content to move)
-                    Element contentidxElem = XMLTool.getElement( stepstateElem, "contentidx" );
-                    int contentIdx = Integer.parseInt( contentidxElem.getAttribute( "value" ) );
-
-                    // move content up/down
-                    Element[] contentElems = XMLTool.getElements( stepstateElem, "content" );
-                    if ( "moveup".equals( buttonPressed ) )
-                    {
-                        stepstateElem.removeChild( contentElems[contentIdx] );
-                        if ( contentIdx > 0 )
-                        {
-                            stepstateElem.insertBefore( contentElems[contentIdx], contentElems[contentIdx - 1] );
-                            Element tempElem = contentElems[contentIdx];
-                            contentElems[contentIdx] = contentElems[contentIdx - 1];
-                            contentElems[contentIdx - 1] = tempElem;
-                        }
-                        else
-                        {
-                            stepstateElem.appendChild( contentElems[0] );
-                            Element tempElem = contentElems[0];
-                            System.arraycopy( contentElems, 1, contentElems, 0, contentElems.length - 1 );
-                            contentElems[contentElems.length - 1] = tempElem;
-                        }
-                    }
-                    else
-                    {
-                        stepstateElem.removeChild( contentElems[contentIdx] );
-                        if ( contentIdx < contentElems.length - 1 )
-                        {
-                            stepstateElem.insertBefore( contentElems[contentIdx], contentElems[contentIdx + 1] );
-                            Element tempElem = contentElems[contentIdx];
-                            contentElems[contentIdx] = contentElems[contentIdx + 1];
-                            contentElems[contentIdx + 1] = tempElem;
-                        }
-                        else
-                        {
-                            stepstateElem.insertBefore( contentElems[contentElems.length - 1], contentElems[0] );
-                            Element tempElem = contentElems[contentElems.length - 1];
-                            for ( int j = contentElems.length - 2; j >= 0; j-- )
-                            {
-                                contentElems[j + 1] = contentElems[j];
-                            }
-                            contentElems[0] = tempElem;
-                        }
-                    }
-
-                    int[] contentKeys = new int[contentElems.length];
-                    for ( int j = 0; j < contentElems.length; j++ )
-                    {
-                        contentKeys[j] = Integer.parseInt( contentElems[j].getAttribute( "key" ) );
-                    }
-
-                    doc = admin.getContentTitles( contentKeys ).getAsDOMDocument();
-                    wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-                }
-                else
-                {
-                    stateDoc = currentStepState.getStateDoc();
-                    stepstateElem = stateDoc.getDocumentElement();
-                    Element[] contentElems = XMLTool.getElements( stepstateElem, "content" );
-
-                    Element rootElem;
-                    if ( contentElems.length > 0 )
-                    {
-                        int[] contentKeys = new int[contentElems.length];
-                        for ( int j = 0; j < contentElems.length; j++ )
-                        {
-                            contentKeys[j] = Integer.parseInt( contentElems[j].getAttribute( "key" ) );
-                        }
-
-                        doc = admin.getContentTitles( contentKeys ).getAsDOMDocument();
-                        rootElem = (Element) wizarddataDoc.importNode( doc.getDocumentElement(), true );
-                    }
-                    else
-                    {
-                        // get section contents
-                        doc = admin.getContentTitlesBySection( sectionKey, null, 0, Integer.MAX_VALUE, false, true ).getAsDOMDocument();
-
-                        // get content to add
-                        Document tempDoc = admin.getContentTitles( new int[]{contentKey} ).getAsDOMDocument();
-                        Element contenttitleElem = XMLTool.getFirstElement( tempDoc.getDocumentElement() );
-
-                        // add content to section contents
-                        rootElem = (Element) wizarddataDoc.importNode( doc.getDocumentElement(), true );
-                        Element elem = XMLTool.getFirstElement( rootElem );
-                        if ( elem != null )
-                        {
-                            rootElem.insertBefore( wizarddataDoc.importNode( contenttitleElem, true ), elem );
-                        }
-                        else
-                        {
-                            rootElem.appendChild( wizarddataDoc.importNode( contenttitleElem, true ) );
-                        }
-                    }
-                    wizarddataElem.appendChild( rootElem );
-                }
-            }
-            else if ( "step3".equals( currentStep.getName() ) )
-            {
-                // get site's menus
-                // doc = XMLTool.domparse(admin.getMenuDataBySite(user, siteKey));
-                wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-
-                // get first step's selected section keys
-                StepState stepState = wizardState.getFirstStepState();
-                Document stateDoc = stepState.getStateDoc();
-                Element stepstateElem = stateDoc.getDocumentElement();
-                Element[] sectionElems = XMLTool.getElements( stepstateElem, "section" );
-                int[] sectionKeys = new int[sectionElems.length];
-                for ( int i = 0; i < sectionElems.length; i++ )
-                {
-                    sectionKeys[i] = Integer.parseInt( sectionElems[i].getAttribute( "key" ) );
-                }
-
-                // get selected sections
-                SectionCriteria criteria = new SectionCriteria();
-                criteria.setSectionKeys( sectionKeys );
-                criteria.setTreeStructure( true );
-                criteria.setAppendAccessRights( true );
-                doc = XMLTool.domparse( admin.getSections( user, criteria ) );
-                wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
-            }
-
-            VerticalAdminLogger.debug( this.getClass(), 0, wizarddataDoc );
-        }
-
-        protected void saveState( WizardState wizardState, HttpServletRequest request, HttpServletResponse response, AdminService admin,
-                                  User user, ExtendedMap formItems )
-            throws WizardException
-        {
-
-            // get step state document
-            StepState stepState = wizardState.getCurrentStepState();
-            Document stepstateDoc = stepState.getStateDoc();
-            Element rootElem = stepstateDoc.getDocumentElement();
-
-            Step currentStep = wizardState.getCurrentStep();
-            if ( "step0".equals( currentStep.getName() ) || "step1".equals( currentStep.getName() ) )
-            {
-                if ( "step0".equals( currentStep.getName() ) )
-                {
-                    Element contentElem = XMLTool.createElement( stepstateDoc, rootElem, "content" );
-                    contentElem.setAttribute( "key", formItems.getString( "contentkey" ) );
-                }
-
-                String[] sectionKeys = formItems.getStringArray( "sectionkey" );
-                for ( String sectionKey1 : sectionKeys )
-                {
-                    Element sectionElem = XMLTool.createElement( stepstateDoc, rootElem, "section" );
-                    sectionElem.setAttribute( "key", sectionKey1 );
-                    int sectionKey = Integer.parseInt( sectionKey1 );
-                    sectionElem.setAttribute( "ordered", String.valueOf( admin.isSectionOrdered( sectionKey ) ) );
-                }
-            }
-            else if ( "step2".equals( currentStep.getName() ) )
-            {
-                Element elem = XMLTool.createElement( stepstateDoc, rootElem, "section" );
-                elem.setAttribute( "key", formItems.getString( "sectionkey", null ) );
-
-                if ( formItems.containsKey( "contentidx" ) )
-                {
-                    elem = XMLTool.createElement( stepstateDoc, rootElem, "contentidx" );
-                    elem.setAttribute( "value", formItems.getString( "contentidx", null ) );
-                }
-
-                String[] contentKeys = formItems.getStringArray( "content" );
-                for ( String contentKey : contentKeys )
-                {
-                    Element contentElem = XMLTool.createElement( stepstateDoc, rootElem, "content" );
-                    contentElem.setAttribute( "key", contentKey );
-                }
-            }
-        }
-
-        private boolean moreOrder( WizardState wizardState )
-        {
-
-            StepState stepState = wizardState.getCurrentStepState();
-            NormalStep step = stepState.getStep();
-            int sectionIndex = 0;
-            while ( !"step1".equals( step.getName() ) )
-            {
-                stepState = stepState.getPreviousStepState();
-                step = stepState.getStep();
-                sectionIndex++;
-            }
-
-            Document stateDoc = stepState.getStateDoc();
-            Element[] sectionElems = XMLTool.getElements( stateDoc.getDocumentElement(), "section" );
-            int idx = 0;
-            int i = -1;
-            while ( idx < sectionElems.length )
-            {
-                if ( "true".equals( sectionElems[idx].getAttribute( "ordered" ) ) )
-                {
-                    i++;
-                }
-                if ( i < sectionIndex )
-                {
-                    idx++;
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
 
     public static class PublishWizard
         extends Wizard
     {
+        @Autowired
+        private MenuItemService menuItemService;
+
         @Autowired
         private ContentService contentService;
 
@@ -973,6 +148,9 @@ public class SectionHandlerServlet
 
         @Autowired
         private GroupDao groupDao;
+
+        @Autowired
+        private ContentDao contentDao;
 
         public PublishWizard()
         {
@@ -1068,7 +246,16 @@ public class SectionHandlerServlet
             {
                 status = -1;
             }
-            int originalStatus = admin.getContentStatus( versionKey );
+            ContentEntity content = contentDao.findByKey( new ContentKey( contentKey ) );
+            int originalStatus = content.getVersion( new ContentVersionKey( versionKey ) ).getStatus().getKey();
+
+            UpdateContentCommand command = UpdateContentCommand.updateExistingVersion2( new ContentVersionKey( versionKey ) );
+            command.setContentKey( new ContentKey( contentKey ) );
+            command.setModifier( securityService.getUser( user ) );
+            command.setSyncAccessRights( false );
+            command.setSyncRelatedContent( false );
+            // Keep comment since this is an update of existing content
+            command.setChangeComment( content.getMainVersion().getChangeComment() );
 
             switch ( status )
             {
@@ -1078,19 +265,17 @@ public class SectionHandlerServlet
                     {
                         // reject approval
                         sendMessage( user, stateDoc, contentKey, originalStatus );
-                        admin.updateContentPublishing( user, contentKey, versionKey, 0, null, null );
+                        command.setStatus( ContentStatus.DRAFT );
+                        command.setUpdateAsMainVersion( false );
+                        command.setAvailableFrom( content.getAvailableFrom() );
+                        command.setAvailableTo( content.getAvailableTo() );
+                        contentService.updateContent( command );
                     }
                     break;
                 }
                 case 1:
                 {
-                    if ( originalStatus == 0 )
-                    {
-                        // send to approval
-                        sendMessage( user, stateDoc, contentKey, originalStatus );
-                        admin.updateContentPublishing( user, contentKey, versionKey, 1, null, null );
-                    }
-                    break;
+                    throw new IllegalArgumentException( "Unexpected status: " + status );
                 }
                 case 2:
                 {
@@ -1113,7 +298,11 @@ public class SectionHandlerServlet
                         }
                     }
 
-                    admin.updateContentPublishing( user, contentKey, versionKey, 2, from, to );
+                    command.setStatus( ContentStatus.APPROVED );
+                    command.setUpdateAsMainVersion( true );
+                    command.setAvailableFrom( from );
+                    command.setAvailableTo( to );
+                    contentService.updateContent( command );
 
                     UnassignContentCommand unassignCommand = new UnassignContentCommand();
                     unassignCommand.setContentKey( new ContentKey( contentKey ) );
@@ -1125,7 +314,11 @@ public class SectionHandlerServlet
                 case 3:
                 {
                     // archive content
-                    admin.updateContentPublishing( user, contentKey, versionKey, 3, null, null );
+                    command.setStatus( ContentStatus.ARCHIVED );
+                    command.setUpdateAsMainVersion( false );
+                    command.setAvailableFrom( content.getAvailableFrom() );
+                    command.setAvailableTo( content.getAvailableTo() );
+                    contentService.updateContent( command );
 
                     UnassignContentCommand unassignCommand = new UnassignContentCommand();
                     unassignCommand.setContentKey( new ContentKey( contentKey ) );
@@ -1134,6 +327,8 @@ public class SectionHandlerServlet
 
                     break;
                 }
+
+
             }
         }
 
@@ -1199,6 +394,9 @@ public class SectionHandlerServlet
             Element[] menuElems = XMLTool.getElements( stateDoc.getDocumentElement(), "menu" );
             Map<SiteKey, List<MenuItemKey>> listOfMenuItemKeysBySiteKey = new HashMap<SiteKey, List<MenuItemKey>>();
             int manualOrderIndex = 0;
+
+            List<MenuItemServiceCommand> menuItemServiceCommands = Lists.newArrayList();
+            List<AddContentToSectionCommand> addContentToSectionCommands = new ArrayList<AddContentToSectionCommand>();
             for ( Element menuElem : menuElems )
             {
                 int menuKey = Integer.parseInt( menuElem.getAttribute( "key" ) );
@@ -1219,25 +417,33 @@ public class SectionHandlerServlet
                         homeKey = -1;
                     }
                     Element pageTemplateElem = XMLTool.getElement( menuElem, "pagetemplate" );
-                    int pageTemplateKey;
+                    PageTemplateKey pageTemplateKey = null;
                     if ( pageTemplateElem != null )
                     {
-                        pageTemplateKey = Integer.parseInt( pageTemplateElem.getAttribute( "key" ) );
+                        pageTemplateKey = new PageTemplateKey( Integer.parseInt( pageTemplateElem.getAttribute( "key" ) ) );
                     }
-                    else
-                    {
-                        pageTemplateKey = -1;
-                    }
-                    admin.setContentHome( user, contentKey, menuKey, homeKey, pageTemplateKey );
+
+                    SetContentHomeCommand setContentHomeCommand = new SetContentHomeCommand();
+                    setContentHomeCommand.setSetter( user.getKey() );
+                    setContentHomeCommand.setContent( new ContentKey( contentKey ) );
+                    setContentHomeCommand.setSection( new MenuItemKey( homeKey ) );
+                    setContentHomeCommand.setPageTemplate( pageTemplateKey );
+                    menuItemServiceCommands.add( setContentHomeCommand );
                 }
 
                 Element[] menuitemElems = XMLTool.getElements( menuElem, "menuitem" );
                 for ( Element menuitemElem : menuitemElems )
                 {
+                    AddContentToSectionCommand addContentToSectionCommand = new AddContentToSectionCommand();
+
                     boolean manuallyOrder = Boolean.valueOf( menuitemElem.getAttribute( "manuallyOrder" ) );
                     boolean ordered = Boolean.valueOf( menuitemElem.getAttribute( "ordered" ) );
                     MenuItemKey menuItemKey = new MenuItemKey( menuitemElem.getAttribute( "key" ) );
                     MenuItemKey sectionKey = admin.getSectionKeyByMenuItemKey( menuItemKey );
+
+                    addContentToSectionCommand.setSection( menuItemKey );
+                    addContentToSectionCommand.setContent( new ContentKey( contentKey ) );
+                    addContentToSectionCommand.setContributor( user.getKey() );
 
                     List<MenuItemKey> menuItemKeysBySiteKey = listOfMenuItemKeysBySiteKey.get( siteKey );
                     if ( menuItemKeysBySiteKey == null )
@@ -1250,12 +456,23 @@ public class SectionHandlerServlet
                     Element sectionElem = XMLTool.createElement( sectionsDoc, sectionsElem, "section" );
                     sectionElem.setAttribute( "key", String.valueOf( sectionKey ) );
                     MenuItemAccessRight menuItemAccessRight = admin.getMenuItemAccessRight( user, menuItemKey );
-                    sectionElem.setAttribute( "approved", String.valueOf( menuItemAccessRight.getPublish() ) );
+                    boolean approveInSection = menuItemAccessRight.getPublish();
+                    sectionElem.setAttribute( "approved", String.valueOf( approveInSection ) );
                     sectionElem.setAttribute( "ordered", Boolean.toString( ordered ) );
                     sectionElem.setAttribute( "manuallyOrder", Boolean.toString( manuallyOrder ) );
 
+                    addContentToSectionCommand.setApproveInSection( approveInSection );
+                    if ( !approveInSection )
+                    {
+                        addContentToSectionCommand.setAddOnTop( false );
+                    }
+
                     if ( ordered && manuallyOrder )
                     {
+                        final OrderContentsInSectionCommand orderContentsInSectionCommand =
+                            addContentToSectionCommand.createOrderContentsInSectionCommand();
+                        final List<ContentKey> wantedOrder = new ArrayList<ContentKey>();
+
                         StepState stepState = wizardState.getStepState( "step1" );
                         int k = -1;
                         do
@@ -1271,13 +488,23 @@ public class SectionHandlerServlet
                         for ( Element tempContentElem : tempContentElems )
                         {
                             contentsElem.appendChild( sectionsDoc.importNode( tempContentElem, true ) );
+                            wantedOrder.add( new ContentKey( tempContentElem.getAttribute( "key" ) ) );
                         }
                         manualOrderIndex++;
+
+                        orderContentsInSectionCommand.setWantedOrder( wantedOrder );
                     }
+                    else if ( ordered && !manuallyOrder && approveInSection )
+                    {
+                        addContentToSectionCommand.setAddOnTop( true );
+                    }
+
+                    addContentToSectionCommands.add( addContentToSectionCommand );
                 }
             }
 
-            admin.addContentToSections( user, XMLTool.documentToString( sectionsDoc ) );
+            menuItemServiceCommands.addAll( addContentToSectionCommands );
+            menuItemService.execute( menuItemServiceCommands.toArray( new MenuItemServiceCommand[menuItemServiceCommands.size()] ) );
 
             for ( SiteKey siteKey : listOfMenuItemKeysBySiteKey.keySet() )
             {
@@ -2122,8 +1349,7 @@ public class SectionHandlerServlet
 
             final UserEntity newUser = securityService.getUser( oldUser );
             final List<MenuItemEntity> accessibleMenuItems = new ArrayList<MenuItemEntity>();
-            MenuItemAccessResolver menuItemAccessResolver =
-                new MenuItemAccessResolver( groupDao );
+            MenuItemAccessResolver menuItemAccessResolver = new MenuItemAccessResolver( groupDao );
             for ( final MenuItemEntity menuItem : menuItemsOfTypeSection )
             {
                 if ( menuItemAccessResolver.hasAccess( newUser, menuItem, MenuItemAccessType.PUBLISH ) ||
@@ -2242,7 +1468,7 @@ public class SectionHandlerServlet
         boolean reordered = "true".equals( formItems.getString( "reordered", "" ) );
         boolean ordered = false;
 
-        RemoveContentFromSectionCommand command = new RemoveContentFromSectionCommand();
+        RemoveContentsFromSectionCommand command = new RemoveContentsFromSectionCommand();
         command.setRemover( user.getKey() );
         command.setSection( sectionKey );
         for ( ContentKey contentKey : contentKeys )
@@ -2252,7 +1478,7 @@ public class SectionHandlerServlet
 
         if ( topLevel )
         {
-            menuItemService.removeContentFromSection( command );
+            menuItemService.execute( command );
         }
         else
         {
@@ -2273,7 +1499,7 @@ public class SectionHandlerServlet
 
             if ( !( ordered && reordered ) )
             {
-                menuItemService.removeContentFromSection( command );
+                menuItemService.execute( command );
             }
             session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
         }
@@ -2312,28 +1538,25 @@ public class SectionHandlerServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        MenuItemKey menuItemKey = new MenuItemKey( formItems.getString( "menuitemkey" ) );
-        String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
-        int[] contentKeys = new int[contentKeyStrings.length];
-        for ( int i = 0; i < contentKeyStrings.length; i++ )
+        final MenuItemKey menuItemKey = new MenuItemKey( formItems.getString( "menuitemkey" ) );
+        final String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
+        final Set<ContentKey> contentKeySet = new LinkedHashSet<ContentKey>();
+        for ( String contentKeyString : contentKeyStrings )
         {
-            contentKeys[i] = Integer.parseInt( contentKeyStrings[i] );
+            contentKeySet.add( new ContentKey( contentKeyString ) );
         }
-        TIntHashSet contentKeysSet = new TIntHashSet();
-        contentKeysSet.add( contentKeys );
 
         User user = securityService.getLoggedInAdminConsoleUser();
         Document doc = XMLTool.domparse( (String) session.getAttribute( "sectionxml" ) );
         Element sectionElem = XMLTool.getElement( doc.getDocumentElement(), "section" );
         boolean ordered = Boolean.valueOf( sectionElem.getAttribute( "ordered" ) );
-        int sectionKey = Integer.parseInt( formItems.getString( "sec" ) );
 
         // Set approved attribute
         Element[] contentTitleElems = XMLTool.getElements( doc.getDocumentElement(), "contenttitle" );
         for ( int i = 0; i < contentTitleElems.length; i++ )
         {
-            int key = Integer.parseInt( contentTitleElems[i].getAttribute( "key" ) );
-            if ( contentKeysSet.contains( key ) )
+            ContentKey key = new ContentKey( contentTitleElems[i].getAttribute( "key" ) );
+            if ( contentKeySet.contains( key ) )
             {
                 contentTitleElems[i].setAttribute( "approved", String.valueOf( approved ) );
 
@@ -2382,7 +1605,28 @@ public class SectionHandlerServlet
 
         if ( !ordered )
         {
-            admin.setSectionContentsApproved( user, sectionKey, contentKeys, approved );
+            if ( approved )
+            {
+                final ApproveContentsInSectionCommand command = new ApproveContentsInSectionCommand();
+                command.setSection( menuItemKey );
+                command.setApprover( user.getKey() );
+                for ( ContentKey contentToApprove : contentKeySet )
+                {
+                    command.addContentToApprove( contentToApprove );
+                }
+                menuItemService.execute( command );
+            }
+            else
+            {
+                final UnapproveContentsInSectionCommand command = new UnapproveContentsInSectionCommand();
+                command.setSection( menuItemKey );
+                command.setUnapprover( user.getKey() );
+                for ( ContentKey contentToUnapprove : contentKeySet )
+                {
+                    command.addContentToUnapprove( contentToUnapprove );
+                }
+                menuItemService.execute( command );
+            }
         }
 
         invalidatePageCache( menuItemKey );
@@ -2413,13 +1657,21 @@ public class SectionHandlerServlet
 
         for ( String contentKeyStr : contentKeys )
         {
-            int contentKey = Integer.valueOf( contentKeyStr );
+            ContentKey contentKey = new ContentKey( contentKeyStr );
             Document doc = XMLTool.createDocument( "sections" );
             Element sectionsElem = doc.getDocumentElement();
             Element sectionElem = XMLTool.createElement( doc, doc.getDocumentElement(), "section" );
             sectionElem.setAttribute( "key", sectionKey.toString() );
-            sectionsElem.setAttribute( "contentkey", Integer.toString( contentKey ) );
-            admin.addContentToSections( user, XMLTool.documentToString( doc ) );
+            sectionsElem.setAttribute( "contentkey", contentKey.toString() );
+
+            // add content to section as unapproved
+            AddContentToSectionCommand command = new AddContentToSectionCommand();
+            command.setAddOnTop( false );
+            command.setContributor( user.getKey() );
+            command.setSection( sectionKey );
+            command.setContent( contentKey );
+            command.setApproveInSection( false );
+            menuItemService.execute( command );
         }
 
         MultiValueMap parameters = new MultiValueMap();
@@ -2432,32 +1684,11 @@ public class SectionHandlerServlet
         redirectClientToAdminPath( "adminpage", parameters, request, response );
     }
 
-    public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
-                             ExtendedMap formItems )
-        throws VerticalAdminException, VerticalEngineException
-    {
-
-        URL url = new URL( request.getHeader( "referer" ) );
-        url.setParameter( "reload", "true" );
-        formItems.put( "redirect", url.toString() );
-
-        ExtendedMap parameters = new ExtendedMap();
-        User user = securityService.getLoggedInAdminConsoleUser();
-
-        Wizard createUpdateWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_CREATE_UPDATE );
-        createUpdateWizard.processRequest( request, response, session, admin, formItems, parameters, user );
-    }
-
     public void handlerWizard( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                ExtendedMap formItems, ExtendedMap parameters, User user, String wizardName )
         throws VerticalAdminException, VerticalEngineException, TransformerException, IOException
     {
-        if ( "addcontent".equals( wizardName ) )
-        {
-            Wizard addContentWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_ADD_CONTENT );
-            addContentWizard.processRequest( request, response, session, admin, formItems, parameters, user );
-        }
-        else if ( "publish".equals( wizardName ) )
+        if ( "publish".equals( wizardName ) )
         {
             Wizard publishWizard = Wizard.getInstance( admin, applicationContext, this, session, formItems, WIZARD_CONFIG_PUBLISH );
             publishWizard.processRequest( request, response, session, admin, formItems, parameters, user );
@@ -2674,7 +1905,7 @@ public class SectionHandlerServlet
 
         User user = securityService.getLoggedInAdminConsoleUser();
         MenuItemKey sectionKey = new MenuItemKey( formItems.getString( "sec" ) );
-        int contentKey = formItems.getInt( "key" );
+        ContentKey contentKey = new ContentKey( formItems.getInt( "key" ) );
         int menuKey = formItems.getInt( "menukey", -1 );
         if ( menuKey == -1 )
         {
@@ -2713,7 +1944,11 @@ public class SectionHandlerServlet
         }
         else
         {
-            admin.updateSectionContent( user, sectionKey, contentKey, 0, true );
+            ApproveContentInSectionCommand command = new ApproveContentInSectionCommand();
+            command.setApprover( user.getKey() );
+            command.setSection( menuItemKey );
+            command.setContentToApprove( contentKey );
+            menuItemService.execute( command );
         }
         session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
 
@@ -2754,7 +1989,7 @@ public class SectionHandlerServlet
         Element sectionElem = XMLTool.getElement( doc.getDocumentElement(), "section" );
         boolean ordered = Boolean.valueOf( sectionElem.getAttribute( "ordered" ) );
         MenuItemKey sectionKey = new MenuItemKey( formItems.getString( "sec" ) );
-        int contentKey = Integer.parseInt( formItems.getString( "key" ) );
+        ContentKey contentKey = new ContentKey( Integer.parseInt( formItems.getString( "key" ) ) );
         MenuItemKey menuItemKey = admin.getMenuItemKeyBySection( sectionKey );
 
         // Set approved attribute = false
@@ -2793,7 +2028,11 @@ public class SectionHandlerServlet
         }
         else
         {
-            admin.updateSectionContent( user, sectionKey, contentKey, 0, false );
+            UnapproveContentsInSectionCommand command = new UnapproveContentsInSectionCommand();
+            command.setUnapprover( user.getKey() );
+            command.setSection( sectionKey );
+            command.addContentToUnapprove( contentKey );
+            menuItemService.execute( command );
         }
 
         session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
@@ -2825,36 +2064,44 @@ public class SectionHandlerServlet
     public void saveContents( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
         throws VerticalAdminException, VerticalUpdateException, VerticalRemoveException, VerticalSecurityException
     {
-
         User user = securityService.getLoggedInAdminConsoleUser();
         Document doc = XMLTool.domparse( (String) session.getAttribute( "sectionxml" ) );
         MenuItemKey menuItemKey = new MenuItemKey( Integer.parseInt( formItems.getString( "sec" ) ) );
         MenuItemEntity section = menuItemDao.findByKey( menuItemKey );
         assert ( section.isSection() );
-
         long pageLoadedTimestamp = Long.parseLong( formItems.getString( "timestamp" ) );
 
-        RemoveContentFromSectionCommand removeCommand = new RemoveContentFromSectionCommand();
-        UnapproveSectionContentCommand updateUnapprovedCommand = new UnapproveSectionContentCommand();
-        ApproveSectionContentCommand updateApprovedCommand = new ApproveSectionContentCommand();
+        final RemoveContentsFromSectionCommand removeContentsCommand = new RemoveContentsFromSectionCommand();
+        removeContentsCommand.setRemover( user.getKey() );
+        removeContentsCommand.setSection( section.getMenuItemKey() );
+
+        final UnapproveContentsInSectionCommand unapproveContentsCommand = new UnapproveContentsInSectionCommand();
+        unapproveContentsCommand.setUnapprover( user.getKey() );
+        unapproveContentsCommand.setSection( section.getMenuItemKey() );
+
+        final ApproveContentsInSectionCommand approveContentsCommand = new ApproveContentsInSectionCommand();
+        approveContentsCommand.setApprover( user.getKey() );
+        approveContentsCommand.setSection( section.getMenuItemKey() );
+
+        final OrderContentsInSectionCommand orderContentsInSectionCommand =
+            approveContentsCommand.createAndReturnOrderContentsInSectionCommand();
 
         Element[] contents = XMLTool.getElements( doc.getDocumentElement(), "contenttitle" );
         for ( Element content : contents )
         {
-            int contentKey = Integer.parseInt( content.getAttribute( "key" ) );
+            ContentKey contentKey = new ContentKey( content.getAttribute( "key" ) );
             if ( "true".equals( content.getAttribute( "removed" ) ) )
             {
-                removeCommand.addContentToRemove( new ContentKey( contentKey ) );
+                removeContentsCommand.addContentToRemove( contentKey );
             }
             else if ( "true".equals( content.getAttribute( "approved" ) ) )
             {
-                //approvedContents.add( contentKey );
-                updateApprovedCommand.addApprovedContentToUpdate( new ContentKey( contentKey ) );
+                approveContentsCommand.addContentToApprove( contentKey );
+                orderContentsInSectionCommand.addContent( contentKey );
             }
             else
             {
-                //unapprovedContents.add( contentKey );
-                updateUnapprovedCommand.addUnapprovedContentToUpdate( new ContentKey( contentKey ) );
+                unapproveContentsCommand.addContentToUnapprove( contentKey );
             }
         }
 
@@ -2863,38 +2110,21 @@ public class SectionHandlerServlet
             throw new IllegalStateException( "Content in this section has been changed. Please reload and try again." );
         }
 
-        if ( removeCommand.getContentToRemove().size() > 0 )
+        final List<MenuItemServiceCommand> menuItemServiceCommands = Lists.newArrayList();
+        if ( removeContentsCommand.hasContentToRemove() )
         {
-            removeCommand.setRemover( user.getKey() );
-            removeCommand.setSection( section.getMenuItemKey() );
-            Integer numberOfRemovedContentFromSection = menuItemService.removeContentFromSection( removeCommand );
-
-            assert removeCommand.getContentToRemove().size() ==
-                numberOfRemovedContentFromSection : "Not all the content that should have been removed were removed.";
+            menuItemServiceCommands.add( removeContentsCommand );
+        }
+        if ( unapproveContentsCommand.hasContentToUnapprove() )
+        {
+            menuItemServiceCommands.add( unapproveContentsCommand );
+        }
+        if ( approveContentsCommand.hasContentToApprove() )
+        {
+            menuItemServiceCommands.add( approveContentsCommand );
         }
 
-        if ( updateApprovedCommand.getApprovedContentToUpdate().size() > 0 )
-        {
-            updateApprovedCommand.setUpdater( user.getKey() );
-            updateApprovedCommand.setSection( section.getMenuItemKey() );
-            Integer approvedContentInSection = menuItemService.approveSectionContent( updateApprovedCommand );
-
-            assert updateApprovedCommand.getApprovedContentToUpdate().size() ==
-                approvedContentInSection : "Incorrect number of approved content in secton after database update";
-        }
-
-        if ( updateUnapprovedCommand.getUnapprovedContentToUpdate().size() > 0 )
-        {
-            updateUnapprovedCommand.setUpdater( user.getKey() );
-            updateUnapprovedCommand.setSection( section.getMenuItemKey() );
-            Integer unapprovedContentInSection = menuItemService.unapproveSectionContent( updateUnapprovedCommand );
-
-            assert updateUnapprovedCommand.getUnapprovedContentToUpdate().size() ==
-                unapprovedContentInSection : "Incorrect number of unapproved content in section after database update";
-        }
-
-        //admin.updateSectionContents( user, menuItemKey.toInt(), approvedContents.toNativeArray(), unapprovedContents.toNativeArray(),
-        //                             new int[]{}, pageLoadedTimestamp );
+        menuItemService.execute( menuItemServiceCommands.toArray( new MenuItemServiceCommand[menuItemServiceCommands.size()] ) );
 
         invalidatePageCache( menuItemKey );
 
@@ -2920,15 +2150,14 @@ public class SectionHandlerServlet
         boolean reordered = "true".equals( formItems.getString( "reordered", "" ) );
         boolean ordered = false;
 
-        RemoveContentFromSectionCommand command = new RemoveContentFromSectionCommand();
+        RemoveContentsFromSectionCommand command = new RemoveContentsFromSectionCommand();
         command.setRemover( user.getKey() );
         command.setSection( sectionKey );
         command.addContentToRemove( contentKey );
 
         if ( topLevel )
         {
-            menuItemService.removeContentFromSection( command );
-//            admin.removeContentFromSection( user, sectionKey, contentKey );
+            menuItemService.execute( command );
         }
         else
         {
@@ -2943,8 +2172,7 @@ public class SectionHandlerServlet
 
             if ( !( ordered && reordered ) )
             {
-                menuItemService.removeContentFromSection( command );
-                //admin.removeContentFromSection( user, sectionKey, contentKey );
+                menuItemService.execute( command );
             }
             session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
         }
@@ -2998,21 +2226,6 @@ public class SectionHandlerServlet
         long timestamp = admin.getSectionContentTimestamp( sectionKey );
         sectionElem.setAttribute( "timestamp", Long.toString( timestamp ) );
         boolean ordered = Boolean.valueOf( sectionElem.getAttribute( "ordered" ) );
-        // boolean parentAdmin = false;
-
-        // get administrate access right on parent
-        // String parentKeyStr = sectionElem.getAttribute("supersectionkey");
-        // if (parentKeyStr != null && parentKeyStr.length() > 0) {
-        // //int parentKey = Integer.parseInt(parentKeyStr);
-        // //int parentMenuItemKey = admin.getMenuItemKeyBySection(parentKey);
-        // //MenuItemAccessRight parentAccessRights = admin.getMenuItemAccessRight(user, parentMenuItemKey);
-        // //parentAdmin = parentAccessRights.getAdministrate();
-        // }
-        // else {
-        // // Get default access rights on menu
-        // //MenuAccessRight parentAccessRights = admin.getMenuAccessRight(user, menuKey);
-        // //parentAdmin = parentAccessRights.getAdministrate();
-        // }
 
         if ( ordered )
         {
@@ -3042,24 +2255,8 @@ public class SectionHandlerServlet
             XMLTool.mergeDocuments( doc, categoriesDoc, false );
         }
 
-        /*
-         * // Default browse config Document defaultBrowseConfig = XMLTool.domparse(AdminStore.getXML(session,
-         * "defaultbrowseconfig.xml")); XMLTool.mergeDocuments(doc, defaultBrowseConfig, true);
-         */
-
-        // Document accessRightsDoc =
-        // XMLTool.domparse(admin.getAccessRights(user, AccessRight.SECTION, sectionKey, true));
-        // set a parent administrate attribute
-        /*
-         * Element userRightElem = XMLTool.getElement(accessRightsDoc.getDocumentElement(), "userright"); if
-         * (userRightElem != null) { userRightElem.setAttribute("parentadministrate", String.valueOf(parentAdmin)); }
-         * doc.getDocumentElement().appendChild(doc.importNode(accessRightsDoc.getDocumentElement(), true));
-         */
-
         // Import the sections to the content doc
         doc.getDocumentElement().appendChild( doc.importNode( sectionElem, true ) );
-        // Document sectionNamesDoc = XMLTool.domparse(admin.getSuperSectionNames(sectionKey, true));
-        // doc.getDocumentElement().appendChild(doc.importNode(sectionNamesDoc.getDocumentElement(), true));
 
         final UserEntity userEntity = securityService.getUser( user.getKey() );
         final Document newMenusDoc = buildModelForBrowse( userEntity, menuKey, menuItemKey );

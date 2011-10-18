@@ -77,14 +77,20 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.content.AssignContentResult;
 import com.enonic.cms.core.content.AssignmentAction;
+import com.enonic.cms.core.content.AssignmentActionResolver;
 import com.enonic.cms.core.content.AssignmentDataParser;
+import com.enonic.cms.core.content.ContentAccessEntity;
+import com.enonic.cms.core.content.ContentAccessException;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentLocationSpecification;
 import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.ContentMoveAccessException;
 import com.enonic.cms.core.content.ContentParserService;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentSourceXmlCreator;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.ContentVersionEntity;
@@ -92,6 +98,7 @@ import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.UnassignContentResult;
+import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
@@ -102,12 +109,18 @@ import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.SnapshotContentCommand;
+import com.enonic.cms.core.content.command.UnassignContentCommand;
 import com.enonic.cms.core.content.command.UpdateAssignmentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.mail.AssignmentMailSender;
 import com.enonic.cms.core.content.mail.ImportedContentAssignmentMailTemplate;
+import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
@@ -120,51 +133,31 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.core.structure.MenuItemAccessRightAccumulator;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessRightAccumulator;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
-
-import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.core.content.AssignContentResult;
-import com.enonic.cms.core.content.AssignmentActionResolver;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.UpdateContentResult;
-
-import com.enonic.cms.core.content.command.SnapshotContentCommand;
-import com.enonic.cms.core.content.command.UnassignContentCommand;
-
-import com.enonic.cms.core.content.mail.AssignmentMailSender;
-
-import com.enonic.cms.business.portal.cache.SiteCachesService;
-import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
-
-import com.enonic.cms.core.content.ContentAccessEntity;
-import com.enonic.cms.core.content.ContentAccessException;
-import com.enonic.cms.core.content.ContentMoveAccessException;
-
-import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
-import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-
-import com.enonic.cms.core.log.Table;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
+import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**
  * Base servlet for servlets handling content. Provides common methods.
  */
 public class ContentBaseHandlerServlet
-        extends AbstractContentHandlerServlet
+    extends AbstractContentHandlerServlet
 {
 
     public static final int COOKIE_TIMEOUT = 60 * 60 * 24 * 365 * 50;
@@ -172,7 +165,7 @@ public class ContentBaseHandlerServlet
     private static final Logger LOG = LoggerFactory.getLogger( ContentBaseHandlerServlet.class );
 
     protected static class DummyFileItem
-            implements FileItem
+        implements FileItem
     {
 
         String fieldName;
@@ -204,7 +197,7 @@ public class ContentBaseHandlerServlet
         }
 
         public InputStream getInputStream()
-                throws IOException
+            throws IOException
         {
             return new FileInputStream( file );
         }
@@ -215,7 +208,7 @@ public class ContentBaseHandlerServlet
         }
 
         public OutputStream getOutputStream()
-                throws IOException
+            throws IOException
         {
             return null;
         }
@@ -231,7 +224,7 @@ public class ContentBaseHandlerServlet
         }
 
         public String getString( String arg0 )
-                throws UnsupportedEncodingException
+            throws UnsupportedEncodingException
         {
             return null;
         }
@@ -255,13 +248,13 @@ public class ContentBaseHandlerServlet
         }
 
         public void write( File arg0 )
-                throws Exception
+            throws Exception
         {
         }
     }
 
     public static abstract class ImportZipWizard
-            extends Wizard
+        extends Wizard
     {
         @Autowired
         private ContentDao contentDao;
@@ -289,7 +282,7 @@ public class ContentBaseHandlerServlet
         private int[] fileContentTypes;
 
         protected void initialize( AdminService admin, Document wizardconfigDoc )
-                throws WizardException
+            throws WizardException
         {
             // fetch image and file content types
             imageContentTypes = admin.getContentTypeKeysByHandler( ContentEnhancedImageHandlerServlet.class.getName() );
@@ -300,7 +293,7 @@ public class ContentBaseHandlerServlet
 
         protected boolean evaluate( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
                                     String testCondition )
-                throws WizardException
+            throws WizardException
         {
             // no conditions defined
             return false;
@@ -308,7 +301,7 @@ public class ContentBaseHandlerServlet
 
         protected void appendCustomData( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
                                          ExtendedMap parameters, User user, Document dataconfigDoc, Document wizarddataDoc )
-                throws WizardException
+            throws WizardException
         {
             int categoryKey = formItems.getInt( "cat" );
             String categoryName = admin.getCategoryName( categoryKey );
@@ -370,9 +363,9 @@ public class ContentBaseHandlerServlet
             return validState;
         }
 
-        protected void saveState( WizardState wizardState, HttpServletRequest request, HttpServletResponse response,
-                                  AdminService admin, User user, ExtendedMap formItems )
-                throws WizardException
+        protected void saveState( WizardState wizardState, HttpServletRequest request, HttpServletResponse response, AdminService admin,
+                                  User user, ExtendedMap formItems )
+            throws WizardException
         {
             super.saveState( wizardState, request, response, admin, user, formItems );
 
@@ -396,7 +389,7 @@ public class ContentBaseHandlerServlet
                         ZipInputStream zis = new ZipInputStream( zipFileItem.getInputStream() );
                         File dir = FileUtil.createTempDir( "zip_" + System.currentTimeMillis() );
                         FileUtil.inflateZipFile( zis, dir, VerticalProperties.getVerticalProperties().getProperty(
-                                "cms.admin.zipimport.excludePattern" ) );
+                            "cms.admin.zipimport.excludePattern" ) );
                         File[] files = dir.listFiles();
                         Element zipElem = XMLTool.createElement( stateDoc, stepstateElem, "zip" );
                         zipElem.setAttribute( "dir", dir.getAbsolutePath() );
@@ -579,7 +572,7 @@ public class ContentBaseHandlerServlet
                     entryElem.setAttribute( "exists", "true" );
                     someExists = true;
 
-                    int contentKey = admin.getContentKey( superCategoryKey, cropName( name ));
+                    int contentKey = admin.getContentKey( superCategoryKey, cropName( name ) );
                     ContentAccessRight contentAccessRight = admin.getContentAccessRight( user, contentKey );
                     if ( contentAccessRight.getUpdate() )
                     {
@@ -620,7 +613,7 @@ public class ContentBaseHandlerServlet
 
         protected void processWizardData( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems,
                                           User user, Document dataDoc )
-                throws VerticalAdminException, VerticalEngineException
+            throws VerticalAdminException, VerticalEngineException
         {
             Document stateDoc = wizardState.getStepState( "step1" ).getStateDoc();
             Element zipElem = XMLTool.getFirstElement( stateDoc.getDocumentElement() );
@@ -664,8 +657,7 @@ public class ContentBaseHandlerServlet
             AssignmentDataParser assignmentDataParser = new AssignmentDataParser( formItems );
             String assigneeKey = assignmentDataParser.getAssigneeKey();
 
-            saveEntries( user, admin, formItems, cbhServlet, categoryKey, entryElems, dir, assignmentDataParser,
-                         assignedContent );
+            saveEntries( user, admin, formItems, cbhServlet, categoryKey, entryElems, dir, assignmentDataParser, assignedContent );
 
             if ( assignedContent.size() > 0 && StringUtils.isNotBlank( assigneeKey ) )
             {
@@ -679,8 +671,7 @@ public class ContentBaseHandlerServlet
         private void sendImportedContentAssignedMail( User user, Set<ContentKey> assignedContent, AssignmentDataParser assignmentDataParser,
                                                       String assigneeKey )
         {
-            ImportedContentAssignmentMailTemplate mailTemplate =
-                    new ImportedContentAssignmentMailTemplate( assignedContent, contentDao );
+            ImportedContentAssignmentMailTemplate mailTemplate = new ImportedContentAssignmentMailTemplate( assignedContent, contentDao );
             mailTemplate.setAssignmentDescription( assignmentDataParser.getAssignmentDescription() );
             mailTemplate.setAssignmentDueDate( assignmentDataParser.getAssignmentDueDate() );
 
@@ -698,7 +689,7 @@ public class ContentBaseHandlerServlet
         private void saveEntries( User user, AdminService admin, ExtendedMap oldFormItems, ContentBaseHandlerServlet cbhServlet,
                                   int superCategoryKey, Element[] entryElems, File parentDir, AssignmentDataParser assignmentDataParser,
                                   Set<ContentKey> assignedContent )
-                throws VerticalUpdateException, VerticalSecurityException, VerticalAdminException
+            throws VerticalUpdateException, VerticalSecurityException, VerticalAdminException
         {
             oldFormItems.put( "newimage", true );
 
@@ -772,8 +763,7 @@ public class ContentBaseHandlerServlet
                         String xmlData = cbhServlet.getContentXMLBuilder().buildXML( formItems, user, false, false, false );
 
                         UpdateContentResult result =
-                                updateContent( user, xmlData, BinaryDataAndBinary.createNewFrom( binaries ),
-                                               setCurrentVersion );
+                            updateContent( user, xmlData, BinaryDataAndBinary.createNewFrom( binaries ), setCurrentVersion );
 
                         storedContentKey = result.getTargetedVersion().getContent().getKey();
                     }
@@ -826,8 +816,7 @@ public class ContentBaseHandlerServlet
             List<BinaryDataAndBinary> binaryDataAndBinaries = BinaryDataAndBinary.createNewFrom( binaries );
 
             boolean parseContentData = true; // always parse content data when creating content
-            ContentAndVersion parsedContentAndVersion = contentParserService.parseContentAndVersion( xmlData, null,
-                                                                                                     parseContentData );
+            ContentAndVersion parsedContentAndVersion = contentParserService.parseContentAndVersion( xmlData, null, parseContentData );
             ContentEntity parsedContent = parsedContentAndVersion.getContent();
             ContentVersionEntity parsedVersion = parsedContentAndVersion.getVersion();
 
@@ -851,8 +840,7 @@ public class ContentBaseHandlerServlet
             UserEntity runningUser = securityService.getUser( oldTypeUser );
 
             boolean parseContentData = true;
-            ContentAndVersion parsedContentAndVersion = contentParserService.parseContentAndVersion( xmlData, null,
-                                                                                                     parseContentData );
+            ContentAndVersion parsedContentAndVersion = contentParserService.parseContentAndVersion( xmlData, null, parseContentData );
             ContentEntity parsedContent = parsedContentAndVersion.getContent();
 
             // be sure to add existing content's access rights, else the content will loose them all
@@ -862,7 +850,8 @@ public class ContentBaseHandlerServlet
                 parsedContent.addContentAccessRight( contentAccess.copy() );
             }
 
-            UpdateContentCommand updateContentCommand = UpdateContentCommand.storeNewVersionEvenIfUnchanged( persistedContent.getMainVersion().getKey() );
+            UpdateContentCommand updateContentCommand =
+                UpdateContentCommand.storeNewVersionEvenIfUnchanged( persistedContent.getMainVersion().getKey() );
             updateContentCommand.setModifier( runningUser );
 
             updateContentCommand.populateContentValuesFromContent( parsedContent );
@@ -884,8 +873,7 @@ public class ContentBaseHandlerServlet
 
             if ( updateContentResult.isAnyChangesMade() )
             {
-                new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContent(
-                        updateContentResult.getTargetedVersion() );
+                new PageCacheInvalidatorForContent( siteCachesService ).invalidateForContent( updateContentResult.getTargetedVersion() );
             }
 
             return updateContentResult;
@@ -896,9 +884,9 @@ public class ContentBaseHandlerServlet
             return name;
         }
 
-        protected abstract BinaryData[] getBinaries( ContentBaseHandlerServlet cbhServlet, AdminService admin,
-                                                     ExtendedMap formItems, File file )
-                throws VerticalAdminException;
+        protected abstract BinaryData[] getBinaries( ContentBaseHandlerServlet cbhServlet, AdminService admin, ExtendedMap formItems,
+                                                     File file )
+            throws VerticalAdminException;
 
     }
 
@@ -918,7 +906,7 @@ public class ContentBaseHandlerServlet
 
     protected void addCustomData( HttpSession session, User user, AdminService admin, Document doc, int contentKey, int contentTypeKey,
                                   ExtendedMap formItems, ExtendedMap parameters )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         // Intentionally left blank for sub-classes to override
@@ -926,7 +914,7 @@ public class ContentBaseHandlerServlet
 
     protected void preProcessContentDocument( User user, AdminService admin, Document doc, ExtendedMap formItems,
                                               HttpServletRequest request )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         // Intentionally left blank for sub-classes to override
@@ -969,7 +957,7 @@ public class ContentBaseHandlerServlet
 
     public void handlerCopy( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                              ExtendedMap formItems, User user, int key )
-            throws VerticalAdminException, VerticalEngineException
+        throws VerticalAdminException, VerticalEngineException
     {
 
         UserEntity copier = securityService.getUser( user );
@@ -983,9 +971,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public final void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                     AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    public final void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                     ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -993,9 +981,9 @@ public class ContentBaseHandlerServlet
         handlerCreate( request, response, session, admin, formItems, user );
     }
 
-    public void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems, User user )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems, User user )
+        throws VerticalAdminException, VerticalEngineException
     {
         // binarys
         BinaryData[] binariesOldTypes = contentXMLBuilder.getBinaries( formItems );
@@ -1045,7 +1033,8 @@ public class ContentBaseHandlerServlet
             {
                 AssignContentCommand assignCommand = new AssignContentCommand();
                 assignCommand.setAssigneeKey( parsedContent.getAssignee().getKey() );
-                UserKey assignerKey = parsedContent.getAssigner() != null ? parsedContent.getAssigner().getKey() : parsedContent.getAssignee().getKey();
+                UserKey assignerKey =
+                    parsedContent.getAssigner() != null ? parsedContent.getAssigner().getKey() : parsedContent.getAssignee().getKey();
                 assignCommand.setAssignerKey( assignerKey );
                 assignCommand.setAssignmentDueDate( parsedContent.getAssignmentDueDate() );
                 assignCommand.setAssignmentDescription( parsedContent.getAssignmentDescription() );
@@ -1109,9 +1098,9 @@ public class ContentBaseHandlerServlet
         }
     }
 
-    public void handlerReport( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems, String subOp )
-            throws VerticalAdminException
+    public void handlerReport( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems, String subOp )
+        throws VerticalAdminException
     {
 
         try
@@ -1157,7 +1146,8 @@ public class ContentBaseHandlerServlet
                 String searchType = formItems.getString( "searchtype" );
                 if ( "simple".equals( searchType ) )
                 {
-                    reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).simpleReport( user, formItems, cat);
+                    reportXML =
+                        new SearchUtility( userDao, groupDao, securityService, contentService ).simpleReport( user, formItems, cat );
                 }
                 else
                 {
@@ -1180,8 +1170,8 @@ public class ContentBaseHandlerServlet
 
                         addUserKeyToFormItems( formItems, "modifier.key", modifierUser );
                     }
-                    reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).advancedReport(
-                            user, formItems, contentTypes );
+                    reportXML = new SearchUtility( userDao, groupDao, securityService, contentService ).advancedReport( user, formItems,
+                                                                                                                        contentTypes );
                 }
                 Document reportDoc = XMLTool.domparse( reportXML );
                 Element contentsElem = reportDoc.getDocumentElement();
@@ -1239,9 +1229,9 @@ public class ContentBaseHandlerServlet
         return userDao.findSingleBySpecification( userSpec );
     }
 
-    public final void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                   AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    public final void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                   ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1325,20 +1315,20 @@ public class ContentBaseHandlerServlet
 
         if ( ( !createContent && versionKey == -1 ) || ( createContent && versionKey != -1 ) )
         {
-            Object [] msgData = new Object[2];
+            Object[] msgData = new Object[2];
             msgData[0] = "ContentKey = " + contentKey;
             msgData[1] = "VersionKey = " + versionKey;
             VerticalAdminLogger.error( this.getClass(), 0, "Parameter error!", msgData, null );
         }
 
-        handlerForm( request, response, session, admin, formItems, user, createContent, unitKey, categoryKey,
-                     contentTypeKey, contentKey, versionKey );
+        handlerForm( request, response, session, admin, formItems, user, createContent, unitKey, categoryKey, contentTypeKey, contentKey,
+                     versionKey );
     }
 
     public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                              ExtendedMap formItems, User oldUser, boolean createContent, int unitKey, int categoryKey, int contentTypeKey,
                              int contentKey, int versionKey )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
         ContentAccessResolver contentAccessResolver = new ContentAccessResolver( groupDao );
         UserEntity executor = securityService.getUser( oldUser );
@@ -1347,12 +1337,11 @@ public class ContentBaseHandlerServlet
 
         if ( !createContent && selectedVersion == null )
         {
-            throw new IllegalArgumentException(
-                    "No version found for content key " + contentKey + " with version key " + versionKey );
+            throw new IllegalArgumentException( "No version found for content key " + contentKey + " with version key " + versionKey );
         }
 
         if ( !createContent &&
-                !contentAccessResolver.hasReadContentAccess( securityService.getUser( oldUser ), selectedVersion.getContent() ) )
+            !contentAccessResolver.hasReadContentAccess( securityService.getUser( oldUser ), selectedVersion.getContent() ) )
         {
             throw new IllegalArgumentException( "No read access to content with key: " + contentKey );
         }
@@ -1370,8 +1359,7 @@ public class ContentBaseHandlerServlet
             populateContentDataFromVersion = formItems.getInt( "populateFromVersion" );
         }
 
-        Document doc = getContentDocument( admin, oldUser, contentKey, categoryKey, versionKey,
-                                           populateContentDataFromVersion );
+        Document doc = getContentDocument( admin, oldUser, contentKey, categoryKey, versionKey, populateContentDataFromVersion );
         Element root = doc.getDocumentElement();
 
         if ( !root.hasChildNodes() )
@@ -1387,12 +1375,13 @@ public class ContentBaseHandlerServlet
             addRepositoryPath( admin, relatedcontentsElem );
 
             ContentEditFormModelFactory contentEditFormModelFactory =
-                    new ContentEditFormModelFactory( contentDao, securityService, new MenuItemAccessRightAccumulator( securityService ) );
+                new ContentEditFormModelFactory( contentDao, securityService, new MenuItemAccessRightAccumulator( securityService ) );
             ContentEditFormModel model = contentEditFormModelFactory.createContentEditFormModel( new ContentKey( contentKey ), executor );
 
             XMLTool.mergeDocuments( doc, model.locationsToXML().getAsDOMDocument(), true );
             XMLTool.mergeDocuments( doc, model.locationMenuitemsToXML().getAsDOMDocument(), true );
             XMLTool.mergeDocuments( doc, model.locationSitesToXML().getAsDOMDocument(), true );
+            XMLTool.mergeDocuments( doc, model.pageTemplateBySiteToXML().getAsDOMDocument(), true );
 
         }
 
@@ -1405,10 +1394,9 @@ public class ContentBaseHandlerServlet
         if ( !createContent && memberOfResolver.hasDeveloperPowers( oldUser.getKey() ) )
         {
             ContentVersionEntity includeSourceContentVerision;
-            if (populateContentDataFromVersion != null)
+            if ( populateContentDataFromVersion != null )
             {
-                includeSourceContentVerision =
-                        contentVersionDao.findByKey(new ContentVersionKey(populateContentDataFromVersion));
+                includeSourceContentVerision = contentVersionDao.findByKey( new ContentVersionKey( populateContentDataFromVersion ) );
             }
             else
             {
@@ -1436,7 +1424,7 @@ public class ContentBaseHandlerServlet
         addCustomData( session, oldUser, admin, doc, contentKey, contentTypeKey, formItems, parameters );
 
         int siteKey = formItems.getInt( "menukey", -1 );
-        if ( siteKey == -1)
+        if ( siteKey == -1 )
         {
             addPageTemplatesOfUserSitesToDocument( admin, executor, PageTemplateType.CONTENT, doc );
         }
@@ -1511,9 +1499,9 @@ public class ContentBaseHandlerServlet
             ContentVersionEntity version = contentVersionDao.findByKey( new ContentVersionKey( versionKey ) );
 
             ContentVersionEntity versionToPopulateContentDataFrom;
-            if (populateContentDataFromVersion != null && !populateContentDataFromVersion.equals(versionKey))
+            if ( populateContentDataFromVersion != null && !populateContentDataFromVersion.equals( versionKey ) )
             {
-                versionToPopulateContentDataFrom = contentVersionDao.findByKey(new ContentVersionKey(populateContentDataFromVersion));
+                versionToPopulateContentDataFrom = contentVersionDao.findByKey( new ContentVersionKey( populateContentDataFromVersion ) );
             }
             else
             {
@@ -1534,19 +1522,19 @@ public class ContentBaseHandlerServlet
 
             RelatedContentResultSet relatedContents = contentService.queryRelatedContent( relatedChildrenContentQuery );
             XMLDocument contentsDocAsXMLDocument = contentXMLCreator.createContentsDocument( runningUser, version, relatedContents );
-            if ( populateContentDataFromVersion != null && !populateContentDataFromVersion.equals(versionKey) )
+            if ( populateContentDataFromVersion != null && !populateContentDataFromVersion.equals( versionKey ) )
             {
                 // Fetching the content-XML without related content.  This XML is only used to get the elements from
                 // the version to populate from, and replacing them in the draft version which is being edited.
                 org.jdom.Document contentsDocAsJdomDocument = contentsDocAsXMLDocument.getAsJDOMDocument();
                 org.jdom.Document contentXmlFromVersionToPopulateFrom =
-                        contentXMLCreator.createContentsDocument( runningUser, versionToPopulateContentDataFrom, null).getAsJDOMDocument();
+                    contentXMLCreator.createContentsDocument( runningUser, versionToPopulateContentDataFrom, null ).getAsJDOMDocument();
 
                 org.jdom.Element contentElInOriginal = contentsDocAsJdomDocument.getRootElement().getChild( "content" );
 
                 // Replace <contentdata>
                 org.jdom.Element contentdataElInVersionToPopulateFrom =
-                        contentXmlFromVersionToPopulateFrom.getRootElement().getChild( "content" ).getChild( "contentdata" );
+                    contentXmlFromVersionToPopulateFrom.getRootElement().getChild( "content" ).getChild( "contentdata" );
                 contentElInOriginal.removeChild( "contentdata" );
                 contentElInOriginal.addContent( contentdataElInVersionToPopulateFrom.detach() );
 
@@ -1675,9 +1663,9 @@ public class ContentBaseHandlerServlet
         }
     }
 
-    public final void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                     AdminService admin, ExtendedMap formItems, int key )
-            throws VerticalAdminException, VerticalEngineException
+    public final void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                     ExtendedMap formItems, int key )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1737,9 +1725,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public final void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                     AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    public final void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                     ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1748,7 +1736,7 @@ public class ContentBaseHandlerServlet
     }
 
     public void handlerUpdate( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, User user )
-            throws VerticalAdminException, VerticalEngineException
+        throws VerticalAdminException, VerticalEngineException
     {
 
         boolean makeAvailable = formItems.getBoolean( "published", false );
@@ -1810,11 +1798,9 @@ public class ContentBaseHandlerServlet
         boolean updateExistingDraft = persistedContentHasDraft && submittedVersionIsDraft;
 
         boolean createNewApprovedVersion = submittedVersionIsApproved && !persistedContentHasDraft && editLockedVersion;
-        boolean updateExistingDraftAsApproved =
-                submittedVersionIsApproved && persistedContentHasDraft && editLockedVersion;
+        boolean updateExistingDraftAsApproved = submittedVersionIsApproved && persistedContentHasDraft && editLockedVersion;
 
-        boolean updateExistingDraftAsArchived =
-                submittedVersionIsArchived && persistedContentHasDraft && editLockedVersion;
+        boolean updateExistingDraftAsArchived = submittedVersionIsArchived && persistedContentHasDraft && editLockedVersion;
 
         UpdateContentCommand updateContentCommand;
 
@@ -1856,7 +1842,7 @@ public class ContentBaseHandlerServlet
 
         CategoryAccessResolver categoryAccessResolver = new CategoryAccessResolver( groupDao );
         final boolean syncAccessRights =
-                categoryAccessResolver.hasAccess( modifier, persistedContent.getCategory(), CategoryAccessType.ADMINISTRATE );
+            categoryAccessResolver.hasAccess( modifier, persistedContent.getCategory(), CategoryAccessType.ADMINISTRATE );
         updateContentCommand.setSyncAccessRights( syncAccessRights );
         updateContentCommand.setUpdateAsMainVersion( asMainVersion );
         updateContentCommand.setBinaryDataToAdd( binariesToAdd );
@@ -1872,7 +1858,8 @@ public class ContentBaseHandlerServlet
         }
 
         AssignmentActionResolver assignmentActionResolver = new AssignmentActionResolver();
-        AssignmentAction assignmentAction = assignmentActionResolver.resolveAssignmentAction( parsedContent, parsedVersion, persistedContent );
+        AssignmentAction assignmentAction =
+            assignmentActionResolver.resolveAssignmentAction( parsedContent, parsedVersion, persistedContent );
 
         switch ( assignmentAction )
         {
@@ -1942,7 +1929,7 @@ public class ContentBaseHandlerServlet
 
         formItems.put( "versionkey", updateContentResult.getTargetedVersionKey().
 
-                toInt()
+            toInt()
 
         );
 
@@ -2046,7 +2033,7 @@ public class ContentBaseHandlerServlet
     }
 
     public void handlerSaveAndAssignForm( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, User user )
-            throws VerticalAdminException, VerticalEngineException
+        throws VerticalAdminException, VerticalEngineException
     {
 
         AssigneeFormModelFactory modelFactory = new AssigneeFormModelFactory( this.siteDao, this.contentDao );
@@ -2084,7 +2071,7 @@ public class ContentBaseHandlerServlet
 
 
     public void redirectToReferer( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         String redirect;
@@ -2126,7 +2113,7 @@ public class ContentBaseHandlerServlet
     }
 
     public void redirectToNotifyForm( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         MultiValueMap params = new MultiValueMap();
@@ -2163,7 +2150,7 @@ public class ContentBaseHandlerServlet
 
 
     private void redirectToPublishWizard( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
         MultiValueMap params = new MultiValueMap();
         params.put( "page", "950" );
@@ -2187,7 +2174,7 @@ public class ContentBaseHandlerServlet
 
 
     private void redirectToSendToAssigneeForm( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
         MultiValueMap params = new MultiValueMap();
 
@@ -2219,7 +2206,7 @@ public class ContentBaseHandlerServlet
     }
 
     public void redirectToForm( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
 
         MultiValueMap params = new MultiValueMap();
@@ -2243,9 +2230,9 @@ public class ContentBaseHandlerServlet
         redirectClientToAdminPath( "adminpage", params, request, response );
     }
 
-    public void handlerSearch( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException
+    public void handlerSearch( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems )
+        throws VerticalAdminException
     {
 
         Document doc;
@@ -2309,9 +2296,9 @@ public class ContentBaseHandlerServlet
         transformXML( request, response, doc, "generic_search.xsl", parameters );
     }
 
-    public void handlerPreview( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                AdminService admin, ExtendedMap formItems )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerPreview( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                ExtendedMap formItems )
+        throws VerticalAdminException, VerticalEngineException
     {
         User user = securityService.getLoggedInAdminConsoleUser();
 
@@ -2337,7 +2324,7 @@ public class ContentBaseHandlerServlet
 
     private void handlerPreviewSiteList( HttpServletRequest request, HttpServletResponse response, AdminService admin,
                                          ExtendedMap formItems, User user )
-            throws VerticalAdminException, VerticalEngineException
+        throws VerticalAdminException, VerticalEngineException
     {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put( "page", formItems.get( "page" ) );
@@ -2459,7 +2446,7 @@ public class ContentBaseHandlerServlet
                         if ( defaultPageTemplateKey < 0 )
                         {
                             throw new VerticalAdminException( "Unable to resolve page template. " +
-                                                                      "No matching page template found and default page template is not set." );
+                                                                  "No matching page template found and default page template is not set." );
                         }
                         parameters.put( "pagetemplatekey", String.valueOf( defaultPageTemplateKey ) );
                     }
@@ -2489,9 +2476,9 @@ public class ContentBaseHandlerServlet
         return false;
     }
 
-    private void handlerPreviewFrameset( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                         AdminService admin, ExtendedMap formItems, User user )
-            throws VerticalAdminException, VerticalEngineException
+    private void handlerPreviewFrameset( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                         ExtendedMap formItems, User user )
+        throws VerticalAdminException, VerticalEngineException
     {
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put( "page", formItems.get( "page" ) );
@@ -2590,7 +2577,7 @@ public class ContentBaseHandlerServlet
 
     private void handlerPreviewPageTemplate( HttpServletRequest request, HttpServletResponse response, HttpSession session,
                                              AdminService admin, ExtendedMap formItems, User oldUser )
-            throws VerticalAdminException, VerticalEngineException
+        throws VerticalAdminException, VerticalEngineException
     {
         try
         {
@@ -2683,9 +2670,9 @@ public class ContentBaseHandlerServlet
         return contentTypesString;
     }
 
-    public void handlerBrowse( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems, ExtendedMap parameters, User oldUser, Document verticalDoc )
-            throws VerticalAdminException
+    public void handlerBrowse( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems, ExtendedMap parameters, User oldUser, Document verticalDoc )
+        throws VerticalAdminException
     {
 
         UserEntity user = securityService.getUser( oldUser );
@@ -2763,13 +2750,10 @@ public class ContentBaseHandlerServlet
 
             if ( searchType.equals( "simple" ) )
             {
-                xmlContent = new SearchUtility( userDao, groupDao, securityService, contentService ).simpleSearch( oldUser,
-                                                                                                                   formItems,
-                                                                                                                   categoryKey,
-                                                                                                                   contentTypes,
-                                                                                                                   orderBy.toString(),
-                                                                                                                   index,
-                                                                                                                   count );
+                xmlContent =
+                    new SearchUtility( userDao, groupDao, securityService, contentService ).simpleSearch( oldUser, formItems, categoryKey,
+                                                                                                          contentTypes, orderBy.toString(),
+                                                                                                          index, count );
                 parameters.put( "searchtext", formItems.getString( "searchtext", "" ) );
                 parameters.put( "scope", formItems.getString( "scope" ) );
             }
@@ -2839,12 +2823,10 @@ public class ContentBaseHandlerServlet
                     parameters.put( "assignment.dueDate.op", formItems.getString( "_assignmentDueDate.op", "" ) );
                 }
 
-                xmlContent = new SearchUtility( userDao, groupDao, securityService, contentService ).advancedSearch( oldUser,
-                                                                                                                     formItems,
+                xmlContent = new SearchUtility( userDao, groupDao, securityService, contentService ).advancedSearch( oldUser, formItems,
                                                                                                                      contentTypes,
                                                                                                                      orderBy.toString(),
-                                                                                                                     index,
-                                                                                                                     count );
+                                                                                                                     index, count );
                 parameters.put( "asearchtext", formItems.getString( "asearchtext", "" ) );
                 parameters.put( "ascope", formItems.getString( "ascope" ) );
                 parameters.put( "subcategories", formItems.getString( "subcategories" ) );
@@ -2997,9 +2979,9 @@ public class ContentBaseHandlerServlet
         transformXML( request, response, verticalDoc, "content_list.xsl", parameters );
     }
 
-    public void handlerNotify( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems, User user )
-            throws VerticalAdminException
+    public void handlerNotify( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems, User user )
+        throws VerticalAdminException
     {
 
         boolean sentToApproval = formItems.containsKey( "senttoapproval" );
@@ -3106,7 +3088,7 @@ public class ContentBaseHandlerServlet
                     if ( StringUtils.isNotBlank( contentKeyString ) )
                     {
                         ApproveAndRejectMailTemplate mailCreator =
-                                new ApproveAndRejectMailTemplate( body, new ContentKey( contentKeyString ), userEntity );
+                            new ApproveAndRejectMailTemplate( body, new ContentKey( contentKeyString ), userEntity );
 
                         addRecipientsForRejectMail( formItems, recipientKeys, mailCreator );
 
@@ -3132,9 +3114,9 @@ public class ContentBaseHandlerServlet
         }
     }
 
-    public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                               AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                               ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         if ( "delete_version".equals( operation ) )
@@ -3179,9 +3161,9 @@ public class ContentBaseHandlerServlet
         }
     }
 
-    public void handlerCallbackClose( HttpServletRequest request, HttpServletResponse response, AdminService admin,
-                                      ExtendedMap formItems, ExtendedMap parameters, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerCallbackClose( HttpServletRequest request, HttpServletResponse response, AdminService admin, ExtendedMap formItems,
+                                      ExtendedMap parameters, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         int key = formItems.getInt( "key" );
@@ -3214,10 +3196,9 @@ public class ContentBaseHandlerServlet
         transformXML( request, response, verticalDoc, "callback_close.xsl", parameters );
     }
 
-    public void handlerBatchCopy( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                  AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters,
-                                  User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerBatchCopy( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                  ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
@@ -3255,9 +3236,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public void handlerDeleteVersion( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                      AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerDeleteVersion( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                      ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
         boolean closeonsuccess = formItems.getBoolean( "closeonsuccess", false );
 
@@ -3270,8 +3251,7 @@ public class ContentBaseHandlerServlet
             throw new IllegalArgumentException( "Not allowed to delete the one and only version" );
         }
 
-        if ( contentVersion.getStatus() == ContentStatus.APPROVED ||
-                contentVersion.getStatus() == ContentStatus.ARCHIVED )
+        if ( contentVersion.getStatus() == ContentStatus.APPROVED || contentVersion.getStatus() == ContentStatus.ARCHIVED )
         {
             throw new IllegalArgumentException( "Not allowed to delete a version that is approved or archived" );
         }
@@ -3296,10 +3276,9 @@ public class ContentBaseHandlerServlet
         }
     }
 
-    public void handlerBatchRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                    AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters,
-                                    User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerBatchRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                    ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
@@ -3336,10 +3315,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public void handlerBatchMove( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                  AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters,
-                                  User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerBatchMove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                  ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
@@ -3374,9 +3352,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public void handlerBatchArchive( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                     AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerBatchArchive( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                     ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
@@ -3401,9 +3379,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public void handlerSaveAndAssign( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                      AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerSaveAndAssign( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                      ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
         boolean sendEmail = formItems.getBoolean( "_send_email", true );
         String assignmentDescription = formItems.getString( "_assignment_description", null );
@@ -3468,9 +3446,9 @@ public class ContentBaseHandlerServlet
         redirectToReferer( request, response, formItems );
     }
 
-    public void handlerBatchApprove( HttpServletRequest request, HttpServletResponse response, HttpSession session,
-                                     AdminService admin, ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
-            throws VerticalAdminException, VerticalEngineException
+    public void handlerBatchApprove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
+                                     ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
+        throws VerticalAdminException, VerticalEngineException
     {
 
         String[] contentKeyStrings = formItems.getStringArray( "batch_operation" );
@@ -3520,7 +3498,7 @@ public class ContentBaseHandlerServlet
     }
 
     protected DOMSource buildXSL( HttpSession session, AdminService admin, int contentTypeKey )
-            throws VerticalAdminException
+        throws VerticalAdminException
     {
         return null;
     }

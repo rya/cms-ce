@@ -2,14 +2,13 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.structure;
+package com.enonic.cms.core.structure.menuitem;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.format.DateTimeFormat;
@@ -19,17 +18,12 @@ import com.enonic.cms.framework.xml.XMLBuilder;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.structure.access.MenuItemAccessResolver;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.page.PageEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.structure.page.PageEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 public class MenuItemXmlCreator
 {
@@ -249,15 +243,6 @@ public class MenuItemXmlCreator
         xmlDoc.endElement();
     }
 
-    private String resolveDisplayName( MenuItemEntity menuItem )
-    {
-        if ( StringUtils.isEmpty( menuItem.getMenuName() ) )
-        {
-            return menuItem.getName();
-        }
-        return menuItem.getMenuName();
-    }
-
     private void addLanguageAttributes( XMLBuilder xmlDoc, MenuItemEntity menuItem )
     {
         LanguageEntity language = menuItem.getLanguage();
@@ -470,7 +455,7 @@ public class MenuItemXmlCreator
         xmlDoc.setAttribute( "ordered", menuItem.isOrderedSection() ? "true" : "false" );
 
         xmlDoc.startElement( "contenttypes" );
-        Set<ContentTypeEntity> contentTypes = menuItem.getContentTypeFilter();
+        Set<ContentTypeEntity> contentTypes = menuItem.getAllowedSectionContentTypes();
         for ( ContentTypeEntity contentType : contentTypes )
         {
             xmlDoc.startElement( "contenttype" );
@@ -533,7 +518,7 @@ public class MenuItemXmlCreator
         return numberOfAccessibleChildren;
     }
 
-    protected boolean addable( MenuItemEntity menuItem )
+    public boolean addable( MenuItemEntity menuItem )
     {
         return ( !menuItem.getHidden() || setting.includeHiddenMenuItems ) && access( menuItem );
     }

@@ -4,10 +4,8 @@
  */
 package com.enonic.cms.core.service;
 
-import java.util.Date;
 import java.util.Map;
 
-import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import org.w3c.dom.Element;
 
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -18,10 +16,13 @@ import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
+import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.resource.ResourceKey;
@@ -29,9 +30,6 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
-
-import com.enonic.cms.core.LanguageKey;
-import com.enonic.cms.core.SiteKey;
 
 public interface AdminService
 {
@@ -156,11 +154,7 @@ public interface AdminService
 
     public String getLanguages();
 
-    //public String getMenuData(User user);
-
     public String getMenu( User user, int menuKey, boolean complete );
-
-    public String getMenuName( int menuKey );
 
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey key );
 
@@ -287,12 +281,6 @@ public interface AdminService
 
     public String getContentHandlerByContentType( int contentTypeKey );
 
-    public int createSection( String xmlData )
-        throws VerticalSecurityException;
-
-    public void updateSection( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException;
-
     public long getSectionContentTimestamp( MenuItemKey sectionKey );
 
     public String getSections( User user, SectionCriteria criteria );
@@ -303,18 +291,7 @@ public interface AdminService
     public void copySection( int sectionKey )
         throws VerticalSecurityException;
 
-    public void addContentToSections( User user, String xmlData )
-        throws VerticalSecurityException;
-
-    public String getSuperSectionNames( MenuItemKey sectionKey, boolean includeSection );
-
-    public void setSectionContentsApproved( User user, int sectionKey, int[] contentKeys, boolean approved )
-        throws VerticalUpdateException, VerticalSecurityException;
-
     public boolean isSectionOrdered( int sectionKey );
-
-    public void updateSectionContent( User user, MenuItemKey sectionKey, int contentKey, int order, boolean approved )
-        throws VerticalUpdateException, VerticalSecurityException;
 
     public MenuItemKey getMenuItemKeyBySection( MenuItemKey sectionKey );
 
@@ -373,12 +350,6 @@ public interface AdminService
 
 
     public boolean isContentVersionApproved( int versionKey );
-
-    public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
-        throws VerticalUpdateException;
-
-    public void setContentHome( User user, int contentKey, int menuKey, int menuItemKey, int pageTemplateKey )
-        throws VerticalUpdateException;
 
     public String getContentHomes( int contentKey );
 

@@ -9,21 +9,20 @@ import java.util.Collection;
 import java.util.List;
 
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.DefaultSiteAccessRightAccumulator;
 import com.enonic.cms.core.structure.DefaultSiteAccumulatedAccessRights;
-import com.enonic.cms.core.structure.MenuItemAccessRightAccumulator;
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessRightAccumulator;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccumulatedAccessRights;
 import com.enonic.cms.core.structure.menuitem.MenuItemAndUserAccessRights;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.core.security.SecurityService;
-
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 /**
  * Nov 24, 2009
@@ -84,8 +83,7 @@ public class MenuBrowseModelFactory
         return model;
     }
 
-    public MenuItemFormModel createMenuItemFormModel( UserEntity user, SiteKey siteKey,
-                                                      MenuItemKey selectedMenuItemKey )
+    public MenuItemFormModel createMenuItemFormModel( UserEntity user, SiteKey siteKey, MenuItemKey selectedMenuItemKey )
     {
         MenuItemFormModel model = new MenuItemFormModel();
 
@@ -94,8 +92,7 @@ public class MenuBrowseModelFactory
         model.setSiteProperties( sitePropertiesService.getSiteProperties( site.getKey() ) );
 
         DefaultSiteAccessRightAccumulator defaultSiteAccessRightAccumulator = new DefaultSiteAccessRightAccumulator( securityService );
-        DefaultSiteAccumulatedAccessRights userRightsForSite = defaultSiteAccessRightAccumulator.getAccessRightsAccumulated(
-                site, user );
+        DefaultSiteAccumulatedAccessRights userRightsForSite = defaultSiteAccessRightAccumulator.getAccessRightsAccumulated( site, user );
         model.setUserRightsForSite( userRightsForSite );
 
         if ( selectedMenuItemKey != null )

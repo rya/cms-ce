@@ -48,32 +48,25 @@ import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.IndexService;
 import com.enonic.cms.core.content.RegenerateIndexBatcher;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.query.ContentByCategoryQuery;
+import com.enonic.cms.core.content.query.RelatedContentQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.SiteDao;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
-
-import com.enonic.cms.core.security.userstore.MemberOfResolver;
-
-import com.enonic.cms.core.content.binary.BinaryData;
-
-import com.enonic.cms.core.content.query.ContentByCategoryQuery;
-import com.enonic.cms.core.content.query.RelatedContentQuery;
-import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-
-import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public final class AdminEngine
     extends BaseEngine
@@ -554,11 +547,6 @@ public final class AdminEngine
         Document doc = menuHandler.getMenu( user, menuKey, complete, true );
         securityHandler.appendAccessRights( user, doc, true, true );
         return XMLTool.documentToString( doc );
-    }
-
-    public String getMenuName( int menuKey )
-    {
-        return menuHandler.getMenuName( menuKey );
     }
 
     public String getMenuItemName( int menuItemKey )
@@ -1062,18 +1050,6 @@ public final class AdminEngine
         return contentHandler.getContentHandlerByContentType( contentTypeKey );
     }
 
-    public int createSection( Document doc )
-        throws VerticalSecurityException
-    {
-        return sectionHandler.createSection( doc );
-    }
-
-    public void updateSection( User user, Document doc )
-        throws VerticalUpdateException, VerticalSecurityException
-    {
-        sectionHandler.updateSection( user, doc );
-    }
-
     public long getSectionContentTimestamp( MenuItemKey sectionKey )
     {
         return sectionHandler.getSectionContentTimestamp( sectionKey.toInt() );
@@ -1097,34 +1073,9 @@ public final class AdminEngine
         sectionHandler.copySection( sectionKey );
     }
 
-    public void addContentToSections( User user, String xmlData )
-        throws VerticalSecurityException
-    {
-        Document doc = XMLTool.domparse( xmlData, "sections" );
-        sectionHandler.addContentToSections( user, doc );
-    }
-
-    public String getSuperSectionNames( MenuItemKey sectionKey, boolean includeSection )
-    {
-        Document doc = sectionHandler.getSuperSectionNames( sectionKey.toInt(), includeSection );
-        return XMLTool.documentToString( doc );
-    }
-
-    public void setSectionContentsApproved( User user, int sectionKey, int[] contentKeys, boolean approved )
-        throws VerticalUpdateException, VerticalSecurityException
-    {
-        sectionHandler.setSectionContentsApproved( user, sectionKey, contentKeys, approved );
-    }
-
     public boolean isSectionOrdered( int sectionKey )
     {
         return sectionHandler.isSectionOrdered( sectionKey );
-    }
-
-    public void updateSectionContent( User user, MenuItemKey sectionKey, int contentKey, int order, boolean approved )
-        throws VerticalUpdateException, VerticalSecurityException
-    {
-        sectionHandler.updateSectionContent( user, sectionKey.toInt(), contentKey, order, approved, null );
     }
 
     public int getMenuKeyBySection( MenuItemKey sectionKey )
@@ -1278,18 +1229,6 @@ public final class AdminEngine
     public boolean isContentVersionApproved( int versionKey )
     {
         return contentHandler.isContentVersionApproved( versionKey );
-    }
-
-    public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
-        throws VerticalUpdateException
-    {
-        contentHandler.updateContentPublishing( user, contentKey, versionKey, status, publishFrom, publishTo );
-    }
-
-    public void setContentHome( User user, int contentKey, int menuKey, int menuItemKey, int pageTemplateKey )
-        throws VerticalUpdateException
-    {
-        contentHandler.setContentHome( user, contentKey, menuKey, menuItemKey, pageTemplateKey );
     }
 
     public String getContentHomes( int contentKey )

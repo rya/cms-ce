@@ -16,6 +16,8 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
+import com.enonic.cms.core.structure.menuitem.MenuItemXMLCreatorSetting;
+import com.enonic.cms.core.structure.menuitem.MenuItemXmlCreator;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
@@ -200,7 +202,7 @@ public class MenuItemXmlCreatorTest
         Set<ContentTypeEntity> filteredContentTypes = new LinkedHashSet<ContentTypeEntity>();
         filteredContentTypes.add( createContentType( "201", "type1" ) );
         filteredContentTypes.add( createContentType( "202", "type2" ) );
-        mi.setContentTypeFilter( filteredContentTypes );
+        mi.setAllowedSectionContentTypes( filteredContentTypes );
 
         PageEntity page = createPage( "201" );
         PageTemplateEntity pageTemplate = createPageTemplate( "301", "name-301" );
@@ -260,7 +262,7 @@ public class MenuItemXmlCreatorTest
         Set<ContentTypeEntity> filteredContentTypes = new LinkedHashSet<ContentTypeEntity>();
         filteredContentTypes.add( createContentType( "201", "type1" ) );
         filteredContentTypes.add( createContentType( "202", "type2" ) );
-        mi.setContentTypeFilter( filteredContentTypes );
+        mi.setAllowedSectionContentTypes( filteredContentTypes );
 
         setting = new MenuItemXMLCreatorSetting();
         xmlCreator = new MenuItemXmlCreator( setting, menuItemAccessResolver );

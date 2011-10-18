@@ -11,22 +11,18 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerKey;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.RelatedContentEntity;
 import com.enonic.cms.core.content.UnitEntity;
-
-import com.enonic.cms.core.security.SecurityHolder;
-
-import com.enonic.cms.core.content.ContentHandlerKey;
-
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
-
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.User;
@@ -34,9 +30,11 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
 /**
  * Nov 26, 2009
@@ -252,6 +250,13 @@ public class DomainFixture
         return (ContentEntity) findFirstByExample( example );
     }
 
+    public List<ContentEntity> findContentByCategory( CategoryEntity category )
+    {
+        ContentEntity example = new ContentEntity();
+        example.setCategory( category );
+        return findByExample( example );
+    }
+
     public int countAllContent()
     {
         List<ContentEntity> list = typecastList( ContentEntity.class, hibernateTemplate.find( "from ContentEntity" ) );
@@ -377,12 +382,33 @@ public class DomainFixture
         return (BinaryDataEntity) findFirstByExample( example );
     }
 
-    public MenuItemEntity findMenuItemByName( String name, int order )
+    public MenuItemEntity findMenuItemByName( String name )
+    {
+        MenuItemEntity example = new MenuItemEntity();
+        example.setName( name );
+        return (MenuItemEntity) findFirstByExample( example );
+    }
+
+    public ContentHomeEntity findContentHomeByKey( ContentHomeKey key )
+    {
+        ContentHomeEntity example = new ContentHomeEntity();
+        example.setKey( key );
+        return (ContentHomeEntity) findFirstByExample( example );
+    }
+
+    public MenuItemEntity findMenuItemByNameAndOrder( String name, int order )
     {
         MenuItemEntity example = new MenuItemEntity();
         example.setName( name );
         example.setOrder( order );
         return (MenuItemEntity) findFirstByExample( example );
+    }
+
+    public PageTemplateEntity findPageTemplateByName( String name )
+    {
+        PageTemplateEntity example = new PageTemplateEntity();
+        example.setName( name );
+        return (PageTemplateEntity) findFirstByExample( example );
     }
 
     public SiteEntity findSiteByName( String value )

@@ -9,15 +9,13 @@ import java.util.Date;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 
-import com.enonic.cms.framework.blob.BlobRecord;
-import com.enonic.cms.framework.blob.memory.MemoryBlobRecord;
-
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
+import com.enonic.cms.core.content.ContentHandlerKey;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStatus;
@@ -25,37 +23,35 @@ import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.UnitEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryAccessEntity;
+import com.enonic.cms.core.content.category.CategoryAccessKey;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
+import com.enonic.cms.core.structure.RunAsType;
 import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.itest.MockKeyService;
-
-import com.enonic.cms.core.content.ContentHandlerKey;
-
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.content.binary.ContentBinaryDataKey;
-import com.enonic.cms.core.content.category.CategoryAccessKey;
-import com.enonic.cms.core.content.category.CategoryKey;
-
-import com.enonic.cms.core.security.user.UserEntity;
 
 import com.enonic.cms.domain.user.field.UserFieldType;
 
@@ -254,6 +250,12 @@ public class DomainFactory
 
     public ContentEntity createContent( String categoryName, String languageCode, String ownerQualifiedName, String priority, Date created )
     {
+        return createContent( "testcontent_" + categoryName, categoryName, languageCode, ownerQualifiedName, priority, created );
+    }
+
+    public ContentEntity createContent( String contentName, String categoryName, String languageCode, String ownerQualifiedName,
+                                        String priority, Date created )
+    {
         ContentEntity content = new ContentEntity();
         content.setLanguage( fixture.findLanguageByCode( languageCode ) );
         content.setCategory( fixture.findCategoryByName( categoryName ) );
@@ -261,7 +263,7 @@ public class DomainFactory
         content.setPriority( Integer.valueOf( priority ) );
         content.setCreatedAt( created );  // Not-null field in database.
         content.setDeleted( false );      // Not-null field in database.
-        content.setName( "testcontent_" + categoryName );
+        content.setName( contentName );
         return content;
     }
 
@@ -302,10 +304,20 @@ public class DomainFactory
         return access;
     }
 
+    public MenuItemAccessEntity createMenuItemAccess( MenuItemEntity menuItem, UserEntity user, String accesses )
+    {
+        return createMenuItemAccess( menuItem, user.getUserGroup(), accesses );
+    }
+
     public MenuItemAccessEntity createMenuItemAccess( String menuItemName, int menuItemOrder, GroupEntity group, String accesses )
     {
-        MenuItemEntity menuItem = fixture.findMenuItemByName( menuItemName, menuItemOrder );
+        MenuItemEntity menuItem = fixture.findMenuItemByName( menuItemName );
 
+        return createMenuItemAccess( menuItem, group, accesses );
+    }
+
+    public MenuItemAccessEntity createMenuItemAccess( MenuItemEntity menuItem, GroupEntity group, String accesses )
+    {
         MenuItemAccessEntity access = new MenuItemAccessEntity();
         access.setKey( new MenuItemAccessKey( menuItem.getKey(), group.getGroupKey() ) );
         access.setAddAccess( accesses.contains( MenuItemAccessType.ADD.toString().toLowerCase() ) );
@@ -374,7 +386,7 @@ public class DomainFactory
         return site;
     }
 
-    public MenuItemEntity createSectionMenuItem( String name, int order, String menuName, String displayName, String site, String owner,
+    public MenuItemEntity createSectionMenuItem( String name, Integer order, String menuName, String displayName, String site, String owner,
                                                  String modifier, String language, String parentName, Integer parentOrder,
                                                  boolean isOrderedSection, Date timestamp, boolean isHidden, Document xmlData )
     {
@@ -393,7 +405,7 @@ public class DomainFactory
         menuItem.setLanguage( fixture.findLanguageByCode( language ) );
         if ( parentName != null && parentOrder != null )
         {
-            menuItem.setParent( fixture.findMenuItemByName( parentName, parentOrder ) );
+            menuItem.setParent( fixture.findMenuItemByName( parentName ) );
         }
         menuItem.setTimestamp( timestamp == null ? new Date() : timestamp );
         menuItem.setHidden( isHidden );
@@ -401,7 +413,7 @@ public class DomainFactory
         return menuItem;
     }
 
-    public MenuItemEntity createPageMenuItem( String name, int order, String menuName, String displayName, String site, String owner,
+    public MenuItemEntity createPageMenuItem( String name, Integer order, String menuName, String displayName, String site, String owner,
                                               String modifier, boolean hasSection, Boolean isOrderedSection, String language,
                                               String parentName, Integer parentOrder, Date timestamp, boolean isHidden, Document xmlData )
     {
@@ -420,7 +432,7 @@ public class DomainFactory
         menuItem.setLanguage( fixture.findLanguageByCode( language ) );
         if ( parentName != null && parentOrder != null )
         {
-            menuItem.setParent( fixture.findMenuItemByName( parentName, parentOrder ) );
+            menuItem.setParent( fixture.findMenuItemByName( parentName ) );
         }
         menuItem.setTimestamp( timestamp == null ? new Date() : timestamp );
         menuItem.setHidden( isHidden );
@@ -428,32 +440,16 @@ public class DomainFactory
         return menuItem;
     }
 
-    public PageTemplateEntity createSectionPagePageTemplate( String name, String site, Date timestamp )
+
+    public ContentHomeEntity createContentHome( ContentEntity content, MenuItemEntity menuItem, PageTemplateEntity pageTemplate )
     {
-        PageTemplateEntity pageTemplate = new PageTemplateEntity();
-        pageTemplate.setKey( mockKeyService.generateNextKeySafe( "TPAGETEMPLATE" ) );
-        pageTemplate.setName( name );
-        pageTemplate.setSite( fixture.findSiteByName( site ) );
-        pageTemplate.setType( PageTemplateType.SECTIONPAGE );
-        pageTemplate.setTimestamp( timestamp == null ? new Date() : timestamp );
-        return pageTemplate;
-    }
-
-    public SectionContentEntity createContentSection( String menuItemName, int menuItemOrder, ContentKey contentKey, Boolean approved,
-                                                      Integer order )
-    {
-        ContentEntity content = fixture.findContentByKey( contentKey );
-        MenuItemEntity menuItem = fixture.findMenuItemByName( menuItemName, menuItemOrder );
-
-        SectionContentEntity sectionContent = new SectionContentEntity();
-        sectionContent.setKey( new SectionContentKey( mockKeyService.generateNextKeySafe( "TSECTIONCONTENT2" ) ) );
-        sectionContent.setTimestamp( new Date() );
-        sectionContent.setOrder( order );
-        sectionContent.setApproved( approved );
-        sectionContent.setContent( content );
-        sectionContent.setMenuItem( menuItem );
-        return sectionContent;
-
+        ContentHomeEntity contentHome = new ContentHomeEntity();
+        contentHome.setKey( new ContentHomeKey( menuItem.getSite().getKey(), content.getKey() ) );
+        contentHome.setContent( content );
+        contentHome.setMenuItem( menuItem );
+        contentHome.setSite( menuItem.getSite() );
+        contentHome.setPageTemplate( pageTemplate );
+        return contentHome;
     }
 
     public ContentBinaryDataEntity createContentBinaryData( String label, BinaryDataEntity binaryData, ContentVersionEntity contentVersion )
@@ -466,8 +462,21 @@ public class DomainFactory
         return contentBinaryData;
     }
 
-    public BlobRecord createBlobRecord( byte[] data )
+    public PageTemplateEntity createPageTemplate( String name, PageTemplateType type, String siteName, ResourceKey stylekey )
     {
-        return new MemoryBlobRecord( data );
+        PageTemplateEntity pageTemplate = new PageTemplateEntity();
+        pageTemplate.setKey( mockKeyService.generateNextKeySafe( "TPAGETEMPLATE" ) );
+        pageTemplate.setName( name );
+        pageTemplate.setTimestamp( new Date() );
+        pageTemplate.setType( type );
+        pageTemplate.setSite( fixture.findSiteByName( siteName ) );
+        pageTemplate.setRunAs( RunAsType.DEFAULT_USER );
+        pageTemplate.setStyleKey( stylekey );
+        return pageTemplate;
+    }
+
+    int generateNextKeySafe( String tableName )
+    {
+        return mockKeyService.generateNextKeySafe( tableName );
     }
 }

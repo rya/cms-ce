@@ -4,18 +4,9 @@
  */
 package com.enonic.cms.core.structure.menuitem;
 
-import com.enonic.cms.domain.core.structure.menuitem.ApproveSectionContentCommand;
-import com.enonic.cms.domain.core.structure.menuitem.RemoveContentFromSectionCommand;
-import com.enonic.cms.domain.core.structure.menuitem.UnapproveSectionContentCommand;
-
-
 public interface MenuItemService
 {
-    public Integer removeContentFromSection( RemoveContentFromSectionCommand command );
+    String getPageKeyByPath( MenuItemEntity menuItemEntity, String path );
 
-    public Integer unapproveSectionContent( UnapproveSectionContentCommand updateUnapprovedCommand );
-
-    public Integer approveSectionContent( ApproveSectionContentCommand updateApprovedCommand );
-
-    String getPageKeyByPath(MenuItemEntity menuItem, String path);
+    void execute( MenuItemServiceCommand... commands );
 }

@@ -72,13 +72,15 @@
 
         <script type="text/javascript">
           var dateTimeRangeValidator = new DateTimeRangeValidator('_pubdata_publishfrom', '_pubdata_publishto', false, {
-            startDatetimeIsLaterThanEndDatetime: '%errOnlineFromIsLaterThanOnlineTo%',
-            startLabel: '%fldOnlineFrom%',
-            endLabel: '%fldOnlineTo%'
+          startDatetimeIsLaterThanEndDatetime: '%errOnlineFromIsLaterThanOnlineTo%',
+          startLabel: '%fldOnlineFrom%',
+          endLabel: '%fldOnlineTo%'
           });
         </script>
 
-        <div id="textfielddatetime-error-message" style="display:none;"><xsl:comment>//</xsl:comment></div>
+        <div id="textfielddatetime-error-message" style="display:none;">
+          <xsl:comment>//</xsl:comment>
+        </div>
 
         <table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr id="publishfrom-row">
@@ -162,7 +164,7 @@
           <xsl:when test="count(/contents/location/site/contentlocation) != 0">
 
             <table style="width: 100%">
-              
+
               <xsl:for-each select="/contents/location/site">
                 <xsl:sort select="name" order="ascending"/>
 
@@ -171,7 +173,8 @@
 
                 <tr>
                   <td colspan="5" style="padding-bottom: 0px;">
-                    <img src="images/icon_sites.gif" alt="{$location-site/name}" title="{$location-site/name}" style="vertical-align: middle;"/>
+                    <img src="images/icon_sites.gif" alt="{$location-site/name}" title="{$location-site/name}"
+                         style="vertical-align: middle;"/>
                     <xsl:text> </xsl:text>
                     <xsl:value-of select="$location-site/name"/>
                   </td>
@@ -191,12 +194,10 @@
                   <td align="center" style="width: 110px; padding-bottom: 0px; font-weight: bold; vertical-align: bottom">
                     %fldPublished%
                   </td>
-                  <!--td align="left" style="padding-bottom: 0px; font-weight: bold; vertical-align: bottom">
-                    type
-                  </td-->
                 </tr>
                 <tr>
-                  <td colspan="5" style="padding-top: 0px; padding-bottom: 0px; border-bottom: 1px solid #B8B8B8; font-size: 1px; height: 2px">
+                  <td colspan="5"
+                      style="padding-top: 0px; padding-bottom: 0px; border-bottom: 1px solid #B8B8B8; font-size: 1px; height: 2px">
                     <br/>
                   </td>
                 </tr>
@@ -237,8 +238,8 @@
         </td>
         <td>
           <xsl:choose>
-            <xsl:when test="/contents/contenthomes/contenthome[@menukey = $menukey]/@pagetemplatekey">
-              <xsl:value-of select="/contents/contenthomes/contenthome[@menukey = $menukey]/@pagetemplatename"/>
+            <xsl:when test="/contents/page-template-by-site/site[@key = $menukey]/page-template">
+              <xsl:value-of select="/contents/page-template-by-site/site[@key = $menukey]/page-template/name"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:text>%optNone%</xsl:text>
@@ -369,9 +370,6 @@
         </xsl:otherwise>
       </xsl:choose>
     </td>
-    <!--td style="vertical-align: top">
-      <xsl:value-of select="@type"/>
-    </td-->
 
   </xsl:template>
 
@@ -387,28 +385,28 @@
         <xsl:value-of select="$align"/>
       </xsl:attribute>
       <input type="checkbox">
-				<xsl:if test="$selectnode = $value">
+        <xsl:if test="$selectnode = $value">
           <xsl:attribute name="checked">
-            <xsl:value-of select="'checked'" />
+            <xsl:value-of select="'checked'"/>
           </xsl:attribute>
         </xsl:if>
         <xsl:attribute name="value">
-          <xsl:value-of select="$value" />
+          <xsl:value-of select="$value"/>
         </xsl:attribute>
         <xsl:attribute name="name">
-          <xsl:value-of select="$name" />
+          <xsl:value-of select="$name"/>
         </xsl:attribute>
         <xsl:attribute name="id">
-          <xsl:value-of select="$name" />
+          <xsl:value-of select="$name"/>
         </xsl:attribute>
-				<xsl:if test="$disabled">
-					<xsl:attribute name="disabled">
-						<xsl:text>disabled</xsl:text>
-					</xsl:attribute>
-				</xsl:if>
-			</input>
-		</td>
-	</xsl:template>
+        <xsl:if test="$disabled">
+          <xsl:attribute name="disabled">
+            <xsl:text>disabled</xsl:text>
+          </xsl:attribute>
+        </xsl:if>
+      </input>
+    </td>
+  </xsl:template>
 
   <xsl:template name="radiobutton_nolabel">
     <xsl:param name="name"/>

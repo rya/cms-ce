@@ -14,7 +14,7 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 public class SectionContentEntity
-    implements Serializable
+    implements Serializable, Comparable<SectionContentEntity>
 {
     private SectionContentKey key;
 
@@ -118,7 +118,7 @@ public class SectionContentEntity
 
         SectionContentEntity that = (SectionContentEntity) o;
 
-        if ( !key.equals( that.getKey() ) )
+        if ( key != null ? !key.equals( that.key ) : that.key != null )
         {
             return false;
         }
@@ -129,5 +129,21 @@ public class SectionContentEntity
     public int hashCode()
     {
         return new HashCodeBuilder( 689, 781 ).append( key ).toHashCode();
+    }
+
+    public int compareTo( SectionContentEntity other )
+    {
+        if ( this.getOrder() < other.getOrder() )
+        {
+            return -1;
+        }
+        else if ( this.getOrder() == other.getOrder() )
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
     }
 }

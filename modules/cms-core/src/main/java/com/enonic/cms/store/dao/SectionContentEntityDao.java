@@ -4,11 +4,12 @@
  */
 package com.enonic.cms.store.dao;
 
+import org.springframework.stereotype.Repository;
+
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentKey;
-import org.springframework.stereotype.Repository;
 
 @Repository("sectionContentDao")
 public final class SectionContentEntityDao
@@ -19,13 +20,6 @@ public final class SectionContentEntityDao
     public SectionContentEntity findByKey( SectionContentKey key )
     {
         return get( SectionContentEntity.class, key.toInt() );
-    }
-
-    public SectionContentEntity findByMenuItemAndContentKeys( MenuItemKey menuItemKey, ContentKey contentKey )
-    {
-        String[] names = new String[]{"menuItemKey", "contentKey"};
-        Object[] values = new Object[]{menuItemKey.toInt(), contentKey.toInt()};
-        return findSingleByNamedQuery( SectionContentEntity.class, "SectionContentEntity.findByMenuItemAndContentKeys", names, values );
     }
 
     public int deleteByContentKey( ContentKey key )

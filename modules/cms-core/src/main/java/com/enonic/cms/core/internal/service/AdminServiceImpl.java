@@ -7,7 +7,6 @@ package com.enonic.cms.core.internal.service;
 import java.util.Date;
 import java.util.Map;
 
-import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -24,25 +23,24 @@ import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
+import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.resource.ResourceFolder;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.resource.ResourceXmlCreator;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.content.binary.BinaryData;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.resource.ResourceFolder;
-import com.enonic.cms.core.structure.page.template.PageTemplateKey;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public class AdminServiceImpl
@@ -359,11 +357,6 @@ public class AdminServiceImpl
         return adminEngine.getMenu( user, menuKey, complete );
     }
 
-    public String getMenuName( int menuKey )
-    {
-        return adminEngine.getMenuName( menuKey );
-    }
-
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey key )
     {
         return adminEngine.getMenuItemAccessRight( user, key );
@@ -665,22 +658,6 @@ public class AdminServiceImpl
         return XMLTool.documentToString( adminEngine.getContentHandlerByContentType( contentTypeKey ) );
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public int createSection( String xmlData )
-        throws VerticalSecurityException
-    {
-        Document doc = XMLTool.domparse( xmlData );
-        return adminEngine.createSection( doc );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void updateSection( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
-    {
-        Document doc = XMLTool.domparse( xmlData );
-        adminEngine.updateSection( user, doc );
-    }
-
     public long getSectionContentTimestamp( MenuItemKey sectionKey )
     {
         return adminEngine.getSectionContentTimestamp( sectionKey );
@@ -705,35 +682,9 @@ public class AdminServiceImpl
         adminEngine.copySection( sectionKey );
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void addContentToSections( User user, String xmlData )
-        throws VerticalSecurityException
-    {
-        adminEngine.addContentToSections( user, xmlData );
-    }
-
-    public String getSuperSectionNames( MenuItemKey sectionKey, boolean includeSection )
-    {
-        return adminEngine.getSuperSectionNames( sectionKey, includeSection );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void setSectionContentsApproved( User user, int sectionKey, int[] contentKeys, boolean approved )
-        throws VerticalUpdateException, VerticalSecurityException
-    {
-        adminEngine.setSectionContentsApproved( user, sectionKey, contentKeys, approved );
-    }
-
     public boolean isSectionOrdered( int sectionKey )
     {
         return adminEngine.isSectionOrdered( sectionKey );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void updateSectionContent( User user, MenuItemKey sectionKey, int contentKey, int order, boolean approved )
-        throws VerticalUpdateException, VerticalSecurityException
-    {
-        adminEngine.updateSectionContent( user, sectionKey, contentKey, order, approved );
     }
 
     public MenuItemKey getMenuItemKeyBySection( MenuItemKey sectionKey )
@@ -875,20 +826,6 @@ public class AdminServiceImpl
     public boolean isContentVersionApproved( int versionKey )
     {
         return adminEngine.isContentVersionApproved( versionKey );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void updateContentPublishing( User user, int contentKey, int versionKey, int status, Date publishFrom, Date publishTo )
-        throws VerticalUpdateException
-    {
-        adminEngine.updateContentPublishing( user, contentKey, versionKey, status, publishFrom, publishTo );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void setContentHome( User user, int contentKey, int menuKey, int menuItemKey, int pageTemplateKey )
-        throws VerticalUpdateException
-    {
-        adminEngine.setContentHome( user, contentKey, menuKey, menuItemKey, pageTemplateKey );
     }
 
     public String getContentHomes( int contentKey )

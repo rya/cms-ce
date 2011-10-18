@@ -34,7 +34,7 @@ import com.enonic.cms.domain.portal.datasource.DatasourcesType;
 public class PageTemplateEntity
     implements Serializable
 {
-    private int key;
+    private Integer key;
 
     private String name;
 
@@ -137,6 +137,11 @@ public class PageTemplateEntity
     public Set<ContentTypeEntity> getContentTypes()
     {
         return contentTypes;
+    }
+
+    public boolean supportsContentType( ContentTypeEntity contentType )
+    {
+        return contentTypes.contains( contentType );
     }
 
     public void addPageTemplateRegion( PageTemplateRegionEntity value )

@@ -12,6 +12,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jdom.Attribute;
@@ -22,6 +24,7 @@ import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CacheSettings;
 import com.enonic.cms.core.CaseInsensitiveString;
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.Path;
@@ -37,15 +40,6 @@ import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 
-import com.enonic.cms.core.CacheSettings;
-
-/**
- * Created by IntelliJ IDEA.
- * User: Dulko
- * Date: 06.10.11
- * Time: 16:49
- * To change this template use File | Settings | File Templates.
- */
 public class MenuItemEntity
     implements Serializable
 {
@@ -55,7 +49,7 @@ public class MenuItemEntity
 
     private String displayName;
 
-    private int order;
+    private Integer order;
 
     private Date timestamp;
 
@@ -93,8 +87,7 @@ public class MenuItemEntity
 
     private MenuItemEntity menuItemShortcut;
 
-    private Map<CaseInsensitiveString, MenuItemEntity>
-            childrenMapByName = new LinkedHashMap<CaseInsensitiveString, MenuItemEntity>();
+    private Map<CaseInsensitiveString, MenuItemEntity> childrenMapByName = new LinkedHashMap<CaseInsensitiveString, MenuItemEntity>();
 
     private Boolean section;
 
@@ -102,9 +95,9 @@ public class MenuItemEntity
 
     private RunAsType runAs;
 
-    private Set<ContentTypeEntity> contentTypeFilter;
+    private Set<ContentTypeEntity> allowedSectionContentTypes = new LinkedHashSet<ContentTypeEntity>();
 
-    private Set<SectionContentEntity> sectionContents;
+    private SortedSet<SectionContentEntity> sectionContents = new TreeSet<SectionContentEntity>( new SectionContentComparatorByOrder() );
 
     private transient MenuItemData menuItemData;
 
@@ -162,7 +155,7 @@ public class MenuItemEntity
         section = menuItem.section;
         orderedSection = menuItem.orderedSection;
         runAs = menuItem.runAs;
-        contentTypeFilter = menuItem.contentTypeFilter;
+        allowedSectionContentTypes = menuItem.allowedSectionContentTypes;
         sectionContents = menuItem.sectionContents;
 
         // no defensive copies are created here, since
@@ -189,7 +182,7 @@ public class MenuItemEntity
         return name;
     }
 
-    public int getOrder()
+    public Integer getOrder()
     {
         return order;
     }
@@ -306,7 +299,7 @@ public class MenuItemEntity
 
     public boolean isSection()
     {
-        return ( section != null ) && section;
+        return section != null && section;
     }
 
     public Boolean isOrderedSection()
@@ -319,14 +312,34 @@ public class MenuItemEntity
         return runAs;
     }
 
-    public Set<ContentTypeEntity> getContentTypeFilter()
+    public boolean hasSectionContentTypeFilter()
     {
-        return contentTypeFilter;
+        return allowedSectionContentTypes.size() > 0;
     }
 
-    public void setContentTypeFilter( Set<ContentTypeEntity> contentTypeFilter )
+    public Set<ContentTypeEntity> getAllowedSectionContentTypes()
     {
-        this.contentTypeFilter = contentTypeFilter;
+        return allowedSectionContentTypes;
+    }
+
+    public void setAllowedSectionContentTypes( Set<ContentTypeEntity> contentTypeFilter )
+    {
+        this.allowedSectionContentTypes = contentTypeFilter;
+    }
+
+    public void addAllowedSectionContentType( ContentTypeEntity contentType )
+    {
+        this.allowedSectionContentTypes.add( contentType );
+    }
+
+    public boolean supportsSectionContentType( ContentTypeEntity contentType )
+    {
+        return this.allowedSectionContentTypes.contains( contentType );
+    }
+
+    public void addSectionContent( SectionContentEntity sectionContent )
+    {
+        this.sectionContents.add( sectionContent );
     }
 
     public Set<SectionContentEntity> getSectionContents()
@@ -334,9 +347,10 @@ public class MenuItemEntity
         return sectionContents;
     }
 
-    public void setSectionContent( Set<SectionContentEntity> entities )
+    public void setSectionContent( Collection<SectionContentEntity> collection )
     {
-        sectionContents = entities;
+        sectionContents.clear();
+        sectionContents.addAll( collection );
     }
 
     /**
@@ -413,7 +427,7 @@ public class MenuItemEntity
         this.name = name;
     }
 
-    public void setOrder( int order )
+    public void setOrder( Integer order )
     {
         this.order = order;
     }
@@ -1009,7 +1023,7 @@ public class MenuItemEntity
         assert isSection() : "This method is only valid for section type menu items.";
         Date newest = new Date( 0 );
 
-        for ( SectionContentEntity sectionContent : sectionContents )
+        for ( SectionContentEntity sectionContent : getSectionContents() )
         {
             if ( sectionContent.getTimestamp().after( newest ) )
             {
@@ -1020,35 +1034,11 @@ public class MenuItemEntity
         return newest;
     }
 
-    public SectionContentEntity removeSectionContent( ContentKey contentKey )
-    {
-        assert isSection() : "This method is only valid for section type menu items.";
-        SectionContentEntity sectionContentToRemove = null;
-
-        for ( SectionContentEntity sectionContent : sectionContents )
-        {
-            if ( sectionContent.getContent().getKey().equals( contentKey ) )
-            {
-                sectionContentToRemove = sectionContent;
-                break;
-            }
-        }
-
-        if ( sectionContentToRemove == null )
-        {
-            return null;
-        }
-        else
-        {
-            sectionContents.remove( sectionContentToRemove );
-            return sectionContentToRemove;
-        }
-    }
-
     public SectionContentEntity getSectionContent( ContentKey contentKey )
     {
         assert isSection() : "This method is only valid for section type menu items.";
-        for ( SectionContentEntity sectionContent : sectionContents )
+
+        for ( SectionContentEntity sectionContent : getSectionContents() )
         {
             if ( sectionContent.getContent().getKey().equals( contentKey ) )
             {

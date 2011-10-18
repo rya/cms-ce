@@ -17,13 +17,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.stereotype.Repository;
 
 import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryKey;
-
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-import org.springframework.stereotype.Repository;
 
 @Repository("contentIndexDao")
 public final class ContentIndexEntityDao
@@ -38,7 +37,7 @@ public final class ContentIndexEntityDao
 
     public int removeAll()
     {
-        return deleteByNamedQuery( "ContentIndexEntity.deleteAll", null, null );
+        return deleteByNamedQuery( "ContentIndexEntity.deleteAll", (String) null, null );
     }
 
     public int removeByContentKey( ContentKey contentKey )

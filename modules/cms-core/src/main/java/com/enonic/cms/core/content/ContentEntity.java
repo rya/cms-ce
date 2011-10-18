@@ -26,6 +26,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -38,8 +39,6 @@ import com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-
-import com.enonic.cms.core.SiteKey;
 
 public class ContentEntity
     implements Serializable
@@ -796,9 +795,9 @@ public class ContentEntity
 
     public SectionContentEntity removeSectionContent( MenuItemKey sectionKey )
     {
-        SectionContentEntity sectionContentToRemove = null;
         if ( sectionContents != null && sectionContents.size() > 0 )
         {
+            SectionContentEntity sectionContentToRemove = null;
             for ( SectionContentEntity sectionContent : sectionContents )
             {
                 if ( sectionContent.getMenuItem().getKey() == sectionKey.toInt() )
@@ -818,5 +817,10 @@ public class ContentEntity
             }
         }
         return null;
+    }
+
+    public void removeContentHome( SiteKey siteKey )
+    {
+        contentHomes.remove( siteKey.toInt() );
     }
 }
