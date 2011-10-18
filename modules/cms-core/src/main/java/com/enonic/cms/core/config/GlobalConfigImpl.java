@@ -73,6 +73,46 @@ final class GlobalConfigImpl
         return this.props.getValue("cms.blobstore.dir", File.class);
     }
 
+    public int getAutoLoginTimeout()
+    {
+        return this.props.getValue("com.enonic.vertical.presentation.autologinTimeout", Integer.class);
+    }
+
+    public String getAdminDefaultLanguage()
+    {
+        return this.props.getValue("cms.admin.defaultLanguage", String.class);
+    }
+
+    public String getMainSmtpHost()
+    {
+        return this.props.getValue("cms.mail.smtpHost", String.class);
+    }
+
+    public String getAdminEmail()
+    {
+        return this.props.getValue("cms.admin.email", String.class);
+    }
+
+    public String getAdminPassword()
+    {
+        return this.props.getValue("cms.admin.password", String.class);
+    }
+
+    public boolean getLivePortalTraceEnabled()
+    {
+        return this.props.getValue("cms.livePortalTrace.enabled", Boolean.class);
+    }
+
+    public int getLivePortalTraceLongestSize()
+    {
+        return this.props.getValue("cms.livePortalTrace.longest.size", Integer.class);
+    }
+
+    public int getLivePortalTraceHistorySize()
+    {
+        return this.props.getValue("cms.livePortalTrace.history.size", Integer.class);
+    }
+
     public Map<String, String> getMap()
     {
         return this.props.getMap();

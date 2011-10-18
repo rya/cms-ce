@@ -30,6 +30,22 @@ public interface GlobalConfig
 
     public File getBlobStoreDir();
 
+    public int getAutoLoginTimeout();
+
+    public String getAdminDefaultLanguage();
+
+    public String getMainSmtpHost();
+
+    public String getAdminEmail();
+
+    public String getAdminPassword();
+
+    public boolean getLivePortalTraceEnabled();
+
+    public int getLivePortalTraceLongestSize();
+
+    public int getLivePortalTraceHistorySize();
+
     public Map<String, String> getMap();
 
     public Properties getProperties();

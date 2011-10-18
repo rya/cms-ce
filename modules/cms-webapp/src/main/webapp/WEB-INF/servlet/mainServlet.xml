@@ -6,12 +6,6 @@
 
     <context:annotation-config/>
 
-    <!-- Placeholder configurer. -->
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
-        <property name="properties" value="#{config.properties}"/>
-    </bean>
-
     <!-- Create the view resolver. -->
     <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
@@ -45,7 +39,9 @@
     </bean>
 
     <bean id="welcomeController" class="com.enonic.cms.server.service.tools.WelcomeController"/>
-    <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController"/>
+    <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController">
+        <property name="entrerpriseAdminPassword" value="#{config.adminPassword}"/>
+    </bean>
 
     <bean id="staticFileController" class="com.enonic.cms.server.service.tools.StaticFileController"/>
 

@@ -239,7 +239,6 @@ public final class UpgradeController
         res.sendRedirect( url );
     }
 
-    @Value("${cms.admin.password}")
     public void setEntrerpriseAdminPassword( String password )
     {
         this.entrerpriseAdminPassword = password;

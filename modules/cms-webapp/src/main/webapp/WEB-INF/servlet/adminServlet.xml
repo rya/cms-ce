@@ -39,12 +39,12 @@
     </bean>
 
     <!-- Interceptor to trigger autologin plugins. -->
-    <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
+    <bean id="adminAutoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
         <property name="securityService" ref="securityService"/>
     </bean>
 
-    <bean id="httpInterceptorInterceptor"
+    <bean id="adminHttpInterceptorInterceptor"
           class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
@@ -70,8 +70,8 @@
         </property>
         <property name="interceptors">
             <list>
-                <ref bean="autoLoginInterceptor"/>
-                <ref bean="httpInterceptorInterceptor"/>
+                <ref bean="adminAutoLoginInterceptor"/>
+                <ref bean="adminHttpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
@@ -89,9 +89,9 @@
         </property>
         <property name="interceptors">
             <list>
-                <ref bean="autoLoginInterceptor"/>
+                <ref bean="adminAutoLoginInterceptor"/>
                 <ref bean="loginCheckInterceptor"/>
-                <ref bean="httpInterceptorInterceptor"/>
+                <ref bean="adminHttpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
@@ -336,5 +336,12 @@
     </bean>
 
     <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+
+    <bean class="com.enonic.vertical.adminweb.SectionHandlerServlet$PublishWizard" scope="prototype"/>
+
+    <bean class="com.enonic.vertical.adminweb.UserStoreHandlerServlet$CreateUpdateUserStoreWizard" scope="prototype"/>
+
+    <bean class="com.enonic.vertical.adminweb.handlers.ContentEnhancedImageHandlerServlet$ImportImagesWizard" scope="prototype"/>
+    <bean class="com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet$ImportFilesWizard" scope="prototype"/>
 
 </beans>
