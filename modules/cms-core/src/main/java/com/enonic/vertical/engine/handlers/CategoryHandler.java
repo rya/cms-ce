@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.sql.SelectString;
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.RelationAggregator;
@@ -109,10 +108,6 @@ public class CategoryHandler
 
     // SQL objects:
 
-    private SelectString catSelectName;
-
-    private SelectString catSelectSca;
-
     private CategoryStatisticsHelper categoryStatisticsHelper;
 
     @Autowired
@@ -123,19 +118,6 @@ public class CategoryHandler
         super.init();
 
         categoryStatisticsHelper = new CategoryStatisticsHelper( this );
-
-        // initialize SQL objects:
-        catSelectName = new SelectString();
-        String q = catSelectName.addTableToFrom( CAT_TABLE, true );
-        catSelectName.addColumnToSelect( q + ".cat_lKey" );
-        catSelectName.addColumnToSelect( q + ".cat_uni_lKey" );
-        catSelectName.addColumnToSelect( q + ".cat_cty_lKey" );
-        catSelectName.addColumnToSelect( q + ".cat_cat_lSuper" );
-        catSelectName.addColumnToSelect( q + ".cat_sName" );
-
-        catSelectSca = new SelectString();
-        q = catSelectSca.addTableToFrom( CAT_TABLE, true );
-        catSelectSca.addColumnToSelect( q + ".cat_cat_lSuper" );
     }
 
     private int[] createCategory( User olduser, CopyContext copyContext, Document categoryDoc, boolean useOldKey )

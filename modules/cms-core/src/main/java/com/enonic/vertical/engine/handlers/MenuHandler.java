@@ -29,7 +29,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
-import com.enonic.esl.sql.JDBCUtil;
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
@@ -3863,6 +3862,17 @@ public final class MenuHandler
         return doc;
     }
 
+    private void addValuesToPreparedStatement( PreparedStatement preparedStatement, List values )
+        throws SQLException
+    {
+        int i = 1;
+        for ( Iterator iter = values.iterator(); iter.hasNext(); i++ )
+        {
+            Object paramValue = iter.next();
+            preparedStatement.setObject( i, paramValue );
+        }
+    }
+
     /**
      * Builds a menu tree, typically used to present the menu in the menu ;)
      *
@@ -3893,7 +3903,7 @@ public final class MenuHandler
             con = getConnection();
 
             statement = con.prepareStatement( sqlMenus.toString() );
-            JDBCUtil.addValuesToPreparedStatement( statement, paramValues );
+            addValuesToPreparedStatement( statement, paramValues );
 
             try
             {

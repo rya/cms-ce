@@ -26,13 +26,6 @@ import com.enonic.cms.core.structure.TemplateParameterType;
 import com.enonic.cms.domain.portal.datasource.Datasources;
 import com.enonic.cms.domain.portal.datasource.DatasourcesType;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Dulko
- * Date: 06.10.11
- * Time: 16:49
- * To change this template use File | Settings | File Templates.
- */
 public class PortletEntity
     implements Serializable
 {

@@ -21,7 +21,6 @@ public class DateUtil
     private static DateFormat isoDateFormatNoTime = new SimpleDateFormat( "yyyy-MM-dd" );
 
     private static DateFormat isoDateFormatWithTime = new SimpleDateFormat( "yyyy-MM-dd HH:mm" );
-    //private static DateFormat isoDateFormatWithTimeSeconds = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
 
     public static Date parseDate( String date )
         throws ParseException
@@ -57,12 +56,6 @@ public class DateUtil
     public static Date parseISODateTime( String date )
         throws ParseException
     {
-        return parseISODateTime( date, false );
-    }
-
-    public static Date parseISODateTime( String date, boolean includeSeconds )
-        throws ParseException
-    {
         return isoDateFormatWithTime.parse( date );
     }
 
@@ -85,14 +78,4 @@ public class DateUtil
     {
         return isoDateFormatWithTime.format( date );
     }
-
-    public static String formatDate( String dateStr, String inputFormat, String outputFormat )
-        throws ParseException
-    {
-        DateFormat in = new SimpleDateFormat( inputFormat );
-        DateFormat out = new SimpleDateFormat( outputFormat );
-        Date date = in.parse( dateStr );
-        return out.format( date );
-    }
-
 }

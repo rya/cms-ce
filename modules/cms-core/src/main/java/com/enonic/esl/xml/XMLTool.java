@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
 import java.util.zip.InflaterInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -38,6 +36,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.fileupload.FileItem;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -54,8 +53,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.w3c.tidy.Configuration;
-import org.w3c.tidy.TagTable;
 import org.w3c.tidy.Tidy;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -138,7 +135,7 @@ public final class XMLTool
         try {
             return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
         } catch (Exception e) {
-            throw new XMLToolException( e );
+            throw new RuntimeException( e );
         }
     }
 
@@ -225,11 +222,11 @@ public final class XMLTool
         }
         catch ( UnsupportedEncodingException e )
         {
-            throw new XMLToolException( e );
+            throw new RuntimeException( e );
         }
         catch ( IOException e )
         {
-            throw new XMLToolException( "Could not close temporary streams used by Tidy", e );
+            throw new RuntimeException( "Could not close temporary streams used by Tidy", e );
         }
     }
 
@@ -316,16 +313,10 @@ public final class XMLTool
      * @param text The text.
      * @return Element
      */
-    public static Element createElement( Document doc, String name, String text )
+    private static Element createElement( Document doc, String name, String text )
     {
-        if ( name == null )
-        {
-            throw new XMLToolException( "Element name cannot be null!" );
-        }
-        else if ( name.trim().length() == 0 )
-        {
-            throw new XMLToolException( "Element name has to contain at least one character!" );
-        }
+        Preconditions.checkNotNull(name, "Element name cannot be null" );
+        Preconditions.checkArgument( name.trim().length() == 0, "Element name has to contain at least one character" );
 
         Element elem = doc.createElement( name );
         if ( text != null )
@@ -381,15 +372,8 @@ public final class XMLTool
 
     public static Element createElement( Document doc, Element root, String name, String text, String sortAttribute, String sortValue )
     {
-
-        if ( name == null )
-        {
-            throw new XMLToolException( "Element name cannot be null!" );
-        }
-        else if ( name.trim().length() == 0 )
-        {
-            throw new XMLToolException( "Element name has to contain at least one character!" );
-        }
+        Preconditions.checkNotNull(name, "Element name cannot be null");
+        Preconditions.checkArgument(name.trim().length() == 0, "Element name has to contain at least one character");
 
         Element elem = doc.createElement( name );
         if ( text != null )
@@ -463,41 +447,10 @@ public final class XMLTool
         return createElement( doc, root, name, text, null, null );
     }
 
-    public static Element createElementBeforeChild( Element root, Element child, String name, String text )
-    {
-
-        if ( name == null )
-        {
-            throw new XMLToolException( "Element name cannot be null!" );
-        }
-        else if ( name.trim().length() == 0 )
-        {
-            throw new XMLToolException( "Element name has to contain at least one character!" );
-        }
-
-        Document doc = root.getOwnerDocument();
-        Element elem = doc.createElement( name );
-        if ( text != null )
-        {
-            Text textNode = doc.createTextNode( text );
-            elem.appendChild( textNode );
-        }
-        root.insertBefore( elem, child );
-
-        return elem;
-    }
-
     public static Element createRootElement( Document doc, String name )
     {
-
-        if ( name == null )
-        {
-            throw new XMLToolException( "Root element name cannot be null!" );
-        }
-        else if ( name.trim().length() == 0 )
-        {
-            throw new XMLToolException( "Root element name has to contain at least one character!" );
-        }
+        Preconditions.checkNotNull(name, "Root element name cannot be null!" );
+        Preconditions.checkArgument(name.trim().length() == 0, "Root element name has to contain at least one character!" );
 
         // remove old root
         NodeList nodes = doc.getChildNodes();
@@ -608,7 +561,7 @@ public final class XMLTool
         }
         catch ( IOException e )
         {
-            throw new XMLToolException( "Failed to close input stream", e );
+            throw new RuntimeException( "Failed to close input stream", e );
         }
 
         return doc;
@@ -687,7 +640,7 @@ public final class XMLTool
             final XPath xp = XPATH_FACTORY.newXPath();
             return (NodeList)xp.evaluate( xpath, node, XPathConstants.NODESET );
         } catch (Exception e) {
-            throw new XMLToolException( e );
+            throw new RuntimeException( e );
         }
     }
 
@@ -697,7 +650,7 @@ public final class XMLTool
             final XPath xp = XPATH_FACTORY.newXPath();
             return (Node)xp.evaluate( xpath, node, XPathConstants.NODE );
         } catch (Exception e) {
-            throw new XMLToolException( e );
+            throw new RuntimeException( e );
         }
     }
     
@@ -800,11 +753,11 @@ public final class XMLTool
         }
         catch ( IOException e )
         {
-            throw new XMLToolException( "Failed to read xml", e );
+            throw new RuntimeException( "Failed to read xml", e );
         }
         catch ( JDOMException e )
         {
-            throw new XMLToolException( "Failed to parse xml", e );
+            throw new RuntimeException( "Failed to parse xml", e );
         }
 
         return doc;
@@ -832,11 +785,11 @@ public final class XMLTool
         }
         catch ( IOException e )
         {
-            throw new XMLToolException( "Failed to retrieve XML source document on the given URL", e );
+            throw new RuntimeException( "Failed to retrieve XML source document on the given URL", e );
         }
         catch ( SAXException e )
         {
-            throw new XMLToolException( "Failed to parse xml document", e );
+            throw new RuntimeException( "Failed to parse xml document", e );
         }
 
         if ( rootNames != null )
@@ -844,13 +797,13 @@ public final class XMLTool
             Element root = doc.getDocumentElement();
             if ( root == null )
             {
-                throw new XMLToolException( "No root element in XML document" );
+                throw new RuntimeException( "No root element in XML document" );
             }
 
             Arrays.sort( rootNames );
             if ( Arrays.binarySearch( rootNames, root.getTagName() ) < 0 )
             {
-                throw new XMLToolException( "Wrong root element name: " + root.getTagName() );
+                throw new RuntimeException( "Wrong root element name: " + root.getTagName() );
             }
         }
 
@@ -1159,40 +1112,7 @@ public final class XMLTool
      */
     public static void printDocument( OutputStream out, Document doc, int indent )
     {
-
-        printDocument( out, doc, null, indent );
-    }
-
-    /**
-     * Print a document to a specific stream.
-     *
-     * @param out      The output stream.
-     * @param doc      The document.
-     * @param indent   The specified indentation level.
-     * @param encoding The character encoding.
-     */
-    private static void printDocument( OutputStream out, Document doc, String encoding, int indent )
-    {
-        printDocument( out, doc, encoding, indent, false );
-    }
-
-    /**
-     * Print a document to a specific stream.
-     *
-     * @param out           The output stream.
-     * @param doc           The document.
-     * @param encoding      The character encoding.
-     * @param indent        The specified indentation level.
-     * @param preserveSpace Whether to preserve the original spacing or strip all whitespace from the result.
-     */
-    private static void printDocument( OutputStream out, Document doc, String encoding, int indent, boolean preserveSpace )
-    {
-        // check: is document present?
-        if ( doc == null )
-        {
-            throw new XMLToolException( "The supplied document is null (doc==" + doc + ")" );
-        }
-
+        Preconditions.checkNotNull(doc, "The supplied document is null (doc==" + doc + ")" );
         serialize( out, doc, indent );
     }
 
@@ -1234,7 +1154,7 @@ public final class XMLTool
             transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, omitDecl ? "yes" : "no" );
             transformer.transform( new DOMSource(node), result );
         } catch (Exception e) {
-            throw new XMLToolException( e );
+            throw new RuntimeException( e );
         }
     }
 
@@ -1256,12 +1176,7 @@ public final class XMLTool
 
     public static void printDocument( Writer out, Document doc, int indent )
     {
-        // check: is document present?
-        if ( doc == null )
-        {
-            throw new XMLToolException( "The supplied document is null (doc==" + doc + ")" );
-        }
-
+        Preconditions.checkNotNull(doc, "The supplied document is null (doc==" + doc + ")" );
         serialize(out, doc, indent);
     }
 
@@ -1329,31 +1244,12 @@ public final class XMLTool
         return toParent.appendChild( node );
     }
 
-    public static void removeAllSiblings( Element node )
-    {
-
-        Element parent = (Element) node.getParentNode();
-
-        Element sibling = (Element) parent.getFirstChild();
-        while ( sibling != null )
-        {
-            if ( sibling != node )
-            {
-                sibling = removeChildFromParent( parent, sibling );
-            }
-            else
-            {
-                sibling = (Element) sibling.getNextSibling();
-            }
-        }
-    }
-
     public static String serialize( Node n )
     {
-        return serialize( n, false, null );
+        return serialize( n, false );
     }
 
-    public static String serialize( Node n, boolean includeSelf, String encoding )
+    public static String serialize( Node n, boolean includeSelf )
     {
         DocumentFragment df = XMLTool.createDocument().createDocumentFragment();
         NodeList children = n.getChildNodes();
@@ -1413,7 +1309,6 @@ public final class XMLTool
      * </p>
      */
     public static void buildSubTree( Document doc, Element rootElement, String prefix, ExtendedMap items )
-        throws XMLToolException
     {
 
         for ( Object o : items.keySet() )
@@ -1592,23 +1487,6 @@ public final class XMLTool
             }
         }
         return 0;
-    }
-
-    public static byte[] documentToDeflatedBytes( Document doc )
-    {
-        ByteArrayOutputStream out = new ByteArrayOutputStream( 4096 );
-        Deflater deflater = new Deflater( Deflater.BEST_COMPRESSION );
-        DeflaterOutputStream dos = new DeflaterOutputStream( out, deflater );
-        printDocument( dos, doc, null, 0, false );
-        try
-        {
-            dos.close();
-        }
-        catch ( IOException e )
-        {
-            throw new XMLToolException( "Failed to close deflater output stream", e );
-        }
-        return out.toByteArray();
     }
 
     public static Document deflatedBytesToDocument( byte[] bytes )

@@ -9,17 +9,7 @@ import java.util.Arrays;
 
 public class TStringArrayList
 {
-    ArrayList strings = new ArrayList();
-
-    public TStringArrayList()
-    {
-
-    }
-
-    public TStringArrayList( String[] stringArray )
-    {
-        strings.addAll( Arrays.asList( stringArray ) );
-    }
+    private final ArrayList<String> strings = new ArrayList<String>();
 
     public void add( String string )
     {
@@ -38,7 +28,7 @@ public class TStringArrayList
 
     public String[] toNativeArray()
     {
-        return (String[]) strings.toArray( new String[0] );
+        return strings.toArray( new String[strings.size()] );
     }
 
     public boolean contains( String string )
@@ -63,7 +53,7 @@ public class TStringArrayList
 
     public String get( int index )
     {
-        return (String) strings.get( index );
+        return strings.get( index );
     }
 
 }

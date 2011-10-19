@@ -31,7 +31,7 @@ public class HtmlArea
         else
         {
             Element dataElem = (Element) dataNode;
-            String value = XMLTool.serialize( dataElem, false, "UTF-8" );
+            String value = XMLTool.serialize( dataElem, false );
             fields.put( name, value );
         }
     }

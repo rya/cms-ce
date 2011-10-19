@@ -26,7 +26,7 @@ public class XML
 
         if ( dataElem.hasChildNodes() )
         {
-            String value = XMLTool.serialize( dataElem, true, "UTF-8" );
+            String value = XMLTool.serialize( dataElem, true );
             fields.put( name, value );
         }
         else

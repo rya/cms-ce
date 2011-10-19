@@ -36,12 +36,6 @@ public class MockKeyService
         }
     }
 
-    public void updateKey( String tableName, String pkColumnName, int minimumValue )
-        throws VerticalKeyException
-    {
-
-    }
-
     public boolean keyExists( String tableName, int key )
     {
         return false;

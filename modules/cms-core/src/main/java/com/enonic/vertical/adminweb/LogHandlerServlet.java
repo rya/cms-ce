@@ -118,9 +118,7 @@ public class LogHandlerServlet
                 if ( "true".equals( dataElem.getAttribute( "deflated" ) ) )
                 {
                     // unzip aggregated entries
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    Base64Util.decode( XMLTool.getElementText( dataElem ), baos );
-                    byte[] docBytes = baos.toByteArray();
+                    byte[] docBytes = Base64Util.decode( XMLTool.getElementText( dataElem ) );
                     Document tempDoc = XMLTool.deflatedBytesToDocument( docBytes );
 
                     Table tableKey = Table.parse( Integer.valueOf( logentryElem.getAttribute( "tablekey" ) ) );

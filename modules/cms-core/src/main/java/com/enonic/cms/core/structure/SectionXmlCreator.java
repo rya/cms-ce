@@ -26,13 +26,6 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.SiteDao;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Dulko
- * Date: 06.10.11
- * Time: 16:51
- * To change this template use File | Settings | File Templates.
- */
 public class SectionXmlCreator
 {
     private SiteDao siteDao;
@@ -143,17 +136,6 @@ class CaseInsensitiveSectionComparator
      *
      * @see java.util.Comparator#compare(Object, Object)
      */
-    public int compare( Section s1, Section s2 )
-    {
-        return s1.compareTo( s2 );
-    }
-
-}
-
-class SiteKeyComparator
-    implements Comparator<Section>
-{
-
     public int compare( Section s1, Section s2 )
     {
         return s1.compareTo( s2 );

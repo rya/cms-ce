@@ -163,9 +163,6 @@ public class HttpServletRequestWrapper
         queryParams.put( name, values );
     }
 
-    /**
-     * @see javax.servlet.ServletRequestWrapper.getParameterNames()
-     */
     public Enumeration<String> getParameterNames()
     {
         Set<String> names = new HashSet<String>();
@@ -184,14 +181,9 @@ public class HttpServletRequestWrapper
         return Collections.enumeration( names );
     }
 
-    /**
-     * Returns the valid values of a parameter, depending on the <code>inherit</code> setting.
-     *
-     * @see javax.servlet.ServletRequestWrapper.getParameterValues(String name)
-     */
     public String[] getParameterValues( String name )
     {
-        String[] values = (String[]) queryParams.get( name );
+        String[] values = queryParams.get( name );
         if ( inherit && ( values == null ) )
         {
             return super.getParameterValues( name );
@@ -230,7 +222,7 @@ public class HttpServletRequestWrapper
      */
     public String getParameter( String name )
     {
-        String[] values = (String[]) queryParams.get( name );
+        String[] values = queryParams.get( name );
 
         if ( inherit && ( values == null ) )
         {

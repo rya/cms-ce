@@ -27,7 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.dom.DOMSource;
 
+import com.google.common.io.Files;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
@@ -44,7 +46,6 @@ import com.google.common.collect.Sets;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.io.FileUtil;
-import com.enonic.esl.io.zip.ZipInputStream;
 import com.enonic.esl.net.URL;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.ArrayUtil;
@@ -384,28 +385,25 @@ public class ContentBaseHandlerServlet
                     {
                         wizardState.addError( "11", "zipfile" );
                     }
-                    else if ( zipFileItem != null )
+
+                    File dir = Files.createTempDir();
+                    FileUtil.inflateZipFile( zipFileItem.getInputStream(), dir, VerticalProperties.getVerticalProperties().getProperty(
+                        "cms.admin.zipimport.excludePattern" ) );
+                    File[] files = dir.listFiles();
+                    Element zipElem = XMLTool.createElement( stateDoc, stepstateElem, "zip" );
+                    zipElem.setAttribute( "dir", dir.getAbsolutePath() );
+                    int categoryKey = formItems.getInt( "cat" );
+                    CategoryAccessRight categoryAccessRight = admin.getCategoryAccessRight( user, categoryKey );
+                    boolean adminRight = categoryAccessRight.getAdministrate();
+                    if ( adminRight )
                     {
-                        ZipInputStream zis = new ZipInputStream( zipFileItem.getInputStream() );
-                        File dir = FileUtil.createTempDir( "zip_" + System.currentTimeMillis() );
-                        FileUtil.inflateZipFile( zis, dir, VerticalProperties.getVerticalProperties().getProperty(
-                            "cms.admin.zipimport.excludePattern" ) );
-                        File[] files = dir.listFiles();
-                        Element zipElem = XMLTool.createElement( stateDoc, stepstateElem, "zip" );
-                        zipElem.setAttribute( "dir", dir.getAbsolutePath() );
-                        int categoryKey = formItems.getInt( "cat" );
-                        CategoryAccessRight categoryAccessRight = admin.getCategoryAccessRight( user, categoryKey );
-                        boolean adminRight = categoryAccessRight.getAdministrate();
-                        if ( adminRight )
-                        {
-                            zipElem.setAttribute( "admin", "true" );
-                        }
-                        int contentTypeKey = admin.getContentTypeKeyByCategory( categoryKey );
-                        boolean someExists = filesToXML( zipElem, files, admin, user, categoryKey, adminRight, contentTypeKey );
-                        if ( !someExists )
-                        {
-                            zipElem.setAttribute( "allchecked", "true" );
-                        }
+                        zipElem.setAttribute( "admin", "true" );
+                    }
+                    int contentTypeKey = admin.getContentTypeKeyByCategory( categoryKey );
+                    boolean someExists = filesToXML( zipElem, files, admin, user, categoryKey, adminRight, contentTypeKey );
+                    if ( !someExists )
+                    {
+                        zipElem.setAttribute( "allchecked", "true" );
                     }
                 }
                 catch ( IOException ioe )
@@ -498,7 +496,12 @@ public class ContentBaseHandlerServlet
                 if ( zipElem != null )
                 {
                     File dir = new File( zipElem.getAttribute( "dir" ) );
-                    FileUtil.recursiveDelete( dir );
+
+                    try {
+                        FileUtils.deleteDirectory(dir);
+                    } catch (final Exception e) {
+                        // Do nothing
+                    }
                 }
             }
         }
