@@ -10,8 +10,8 @@ import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 import com.enonic.cms.core.plugin.ExtensionSet;
 import com.enonic.cms.core.plugin.PluginHandle;
 import com.enonic.cms.core.plugin.PluginManager;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import java.util.Iterator;
 import java.util.List;
 
@@ -82,7 +82,7 @@ public class MockPluginManager
 
             public Iterator<Extension> iterator()
             {
-                return Iterators.empty();
+                return Iterators.emptyIterator();
             }
         };
     }
