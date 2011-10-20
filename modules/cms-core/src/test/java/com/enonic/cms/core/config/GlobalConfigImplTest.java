@@ -47,28 +47,34 @@ public class GlobalConfigImplTest
     @Test
     public void testCmsHome()
     {
-        this.props.put("cms.home", "/path/to/home");
-        final File homeDir = this.config.getHomeDir();
-        assertNotNull(homeDir);
-        assertEquals("/path/to/home", homeDir.toString());
+        final File homeDir = new File("/path/to/home");
+        this.props.put("cms.home", homeDir.getAbsolutePath());
+
+        final File result = this.config.getHomeDir();
+        assertNotNull(result);
+        assertEquals(homeDir.getAbsolutePath(), result.getAbsolutePath());
     }
 
     @Test
     public void testConfigDir()
     {
-        this.props.put("cms.home", "/path/to/home");
-        final File configDir = this.config.getConfigDir();
-        assertNotNull(configDir);
-        assertEquals("/path/to/home/config", configDir.toString());
+        final File homeDir = new File("/path/to/home");
+        this.props.put("cms.home", homeDir.getAbsolutePath());
+
+        final File result = this.config.getConfigDir();
+        assertNotNull(result);
+        assertEquals(new File(homeDir, "config").getAbsolutePath(), result.getAbsolutePath());
     }
 
     @Test
     public void testCountriesFile()
     {
+        final File homeDir = new File("/path/to/home");
         this.props.put("cms.home", "/path/to/home");
-        final File countriesFile = this.config.getCountriesFile();
-        assertNotNull(countriesFile);
-        assertEquals("/path/to/home/config/countries.xml", countriesFile.toString());
+
+        final File result = this.config.getCountriesFile();
+        assertNotNull(result);
+        assertEquals(new File(homeDir, "config/countries.xml").getAbsolutePath(), result.getAbsolutePath());
     }
 
     @Test
