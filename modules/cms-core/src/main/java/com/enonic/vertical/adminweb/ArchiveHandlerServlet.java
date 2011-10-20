@@ -191,8 +191,6 @@ public class ArchiveHandlerServlet
             XMLTool.mergeDocuments( doc, XMLTool.domparse( unitXML ), false );
         }
 
-        VerticalAdminLogger.debug( this.getClass(), 10, doc );
-
         String xmlLanguages = admin.getLanguages();
         XMLTool.mergeDocuments( doc, XMLTool.domparse( xmlLanguages ), true );
 

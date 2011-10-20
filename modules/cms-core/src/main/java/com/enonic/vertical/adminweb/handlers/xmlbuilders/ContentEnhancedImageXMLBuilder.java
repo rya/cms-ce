@@ -222,7 +222,7 @@ public class ContentEnhancedImageXMLBuilder
             }
             catch ( IOException ioe )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 10, "I/O error processing file \"" + image.fileName + "\": %t", ioe );
+                VerticalAdminLogger.errorAdmin("I/O error processing file \"" + image.fileName + "\": %t", ioe );
             }
         }
         else

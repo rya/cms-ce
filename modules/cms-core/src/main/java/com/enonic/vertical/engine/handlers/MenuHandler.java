@@ -257,8 +257,8 @@ public final class MenuHandler
                     documentElem.removeChild( n );
                     XMLTool.createXHTMLNodes( doc, documentElem, docString, true );
                     String menuKey = menuitemElem.getAttribute( "menukey" );
-                    VerticalAdminLogger.error( this.getClass(), 0,
-                                               "Received invalid XML from database, menukey=" + menuKey + ", menuitem key=" + menuItemKey +
+                    VerticalAdminLogger.error(
+                            "Received invalid XML from database, menukey=" + menuKey + ", menuitem key=" + menuItemKey +
                                                    ", name=" + menuItemName + ". Running Tidy..", null );
                 }
                 documentElem.setAttribute( "mode", "xhtml" );
@@ -276,7 +276,7 @@ public final class MenuHandler
                     Document doc = menuitemElem.getOwnerDocument();
                     String docString = XMLTool.serialize( documentElem );
                     XMLTool.createCDATASection( doc, documentElem, docString );
-                    VerticalEngineLogger.debug( this.getClass(), 0, "Expected CDATA, found XML. Serialized it.", null );
+                    VerticalEngineLogger.debug("Expected CDATA, found XML. Serialized it.", null );
                 }
             }
         }
@@ -979,16 +979,16 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String msg = "Failed to create menu: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, msg, sqle );
+            VerticalEngineLogger.errorCreate(msg, sqle );
         }
         catch ( VerticalKeyException gke )
         {
-            String msg = "Unable to generate key for table %0.";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, msg, MENU_TABLE, gke );
+            String msg = "Unable to generate key for table {0}.";
+            VerticalEngineLogger.errorCreate(msg, MENU_TABLE, gke );
         }
         catch ( VerticalUpdateException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, "Error creating default access rights: %t", e );
+            VerticalEngineLogger.errorCreate("Error creating default access rights: %t", e );
         }
         finally
         {
@@ -1070,7 +1070,7 @@ public final class MenuHandler
         // security check:
         if ( !getSecurityHandler().validateMenuItemCreate( user, siteKey.toInt(), parentKey == null ? -1 : parentKey.toInt() ) )
         {
-            VerticalEngineLogger.errorSecurity( this.getClass(), 10, "Not allowed to create menuitem in this position.", null );
+            VerticalEngineLogger.errorSecurity( "Not allowed to create menuitem in this position.", null );
         }
 
         String menuItemName = XMLTool.getElementText( XMLTool.getElement( menuItemElement, ELEMENT_NAME_MENUITEM_NAME ) );
@@ -1085,7 +1085,7 @@ public final class MenuHandler
         // check whether name is unique for this parent
         if ( menuItemNameExists( siteKey, parentKey, menuItemName, null ) )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Menu item name already exists on this level: %0",
+            VerticalEngineLogger.errorCreate("Menu item name already exists on this level: {0}",
                                               new Object[]{menuItemName}, null );
         }
 
@@ -1097,7 +1097,7 @@ public final class MenuHandler
         Integer type = menuItemTypes.get( miType );
         if ( type == null )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Invalid menu item type %0.", new Object[]{type}, null );
+            VerticalEngineLogger.errorCreate("Invalid menu item type {0}.", new Object[]{type}, null );
         }
 
         Connection con = null;
@@ -1118,7 +1118,7 @@ public final class MenuHandler
                 }
                 catch ( VerticalKeyException e )
                 {
-                    VerticalEngineLogger.errorCreate( this.getClass(), 30, "Error generating key for tMenuItem.", e );
+                    VerticalEngineLogger.errorCreate("Error generating key for tMenuItem.", e );
                 }
             }
             else
@@ -1315,7 +1315,7 @@ public final class MenuHandler
                     break;
 
                 default:
-                    VerticalEngineLogger.errorCreate( this.getClass(), 70, "Unknown menuitem type: %0", new Object[]{type}, null );
+                    VerticalEngineLogger.errorCreate("Unknown menuitem type: {0}", new Object[]{type}, null );
             }
 
             // set contentkey if present
@@ -1359,7 +1359,7 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 40, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorCreate("A database error occurred: %t", e );
         }
         finally
         {
@@ -1436,7 +1436,7 @@ public final class MenuHandler
         else
         {
             String msg = "Please specify 'yes' or 'no' in 'newwindow' attribute.";
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, msg, null );
+            VerticalEngineLogger.errorCreate(msg, null );
         }
 
         String url = XMLTool.getElementText( urlElement );
@@ -1454,11 +1454,11 @@ public final class MenuHandler
         }
         catch ( VerticalKeyException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 30, "Error generating key: %t", e );
+            VerticalEngineLogger.errorCreate("Error generating key: %t", e );
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 40, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorCreate("A database error occurred: %t", e );
         }
         finally
         {
@@ -1495,7 +1495,7 @@ public final class MenuHandler
         catch ( VerticalCreateException vce )
         {
             String message = "Failed to create section contenttype filter: %t";
-            VerticalEngineLogger.error( this.getClass(), 1, message, null );
+            VerticalEngineLogger.error(message, null );
         }
     }
 
@@ -1538,7 +1538,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create menu item shortcut: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         finally
         {
@@ -1567,7 +1567,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create menu item shortcut: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         finally
         {
@@ -1599,7 +1599,7 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorCreate("A database error occurred: %t", e );
         }
         finally
         {
@@ -1673,7 +1673,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1718,7 +1718,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get menu name: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             name = null;
         }
         finally
@@ -1833,13 +1833,13 @@ public final class MenuHandler
             }
             else
             {
-                String message = "No menu found for menu ID: %0";
-                VerticalEngineLogger.error( this.getClass(), 10, message, menuId, null );
+                String message = "No menu found for menu ID: {0}";
+                VerticalEngineLogger.error(message, menuId, null );
             }
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.error( this.getClass(), 20, "A database error occurred: %t", sqle );
+            VerticalEngineLogger.error("A database error occurred: %t", sqle );
         }
         finally
         {
@@ -1961,7 +1961,7 @@ public final class MenuHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.error( this.getClass(), 30, "SQL error.", sqle );
+            VerticalEngineLogger.error("SQL error.", sqle );
         }
         finally
         {
@@ -2034,7 +2034,7 @@ public final class MenuHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.error( this.getClass(), 30, "SQL error.", sqle );
+            VerticalEngineLogger.error("SQL error.", sqle );
         }
         finally
         {
@@ -2180,12 +2180,12 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorRemove(message, sqle );
         }
         catch ( VerticalRemoveException vre )
         {
             String message = "Failed to remove menu: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, vre );
+            VerticalEngineLogger.errorRemove(message, vre );
         }
         finally
         {
@@ -2234,7 +2234,7 @@ public final class MenuHandler
         SecurityHandler securityHandler = getSecurityHandler();
         if ( !securityHandler.validateMenuItemRemove( user, menuItemKey ) )
         {
-            VerticalEngineLogger.errorSecurity( this.getClass(), 10, "Not allowed to remove menuitem: %0", new Object[]{menuItemKey},
+            VerticalEngineLogger.errorSecurity("Not allowed to remove menuitem: %0", new Object[]{menuItemKey},
                                                 null );
         }
 
@@ -2302,7 +2302,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String MESSAGE_00 = "A database error occurred while removing menuitem: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 20, MESSAGE_00, sqle );
+            VerticalEngineLogger.errorRemove(MESSAGE_00, sqle );
         }
         finally
         {
@@ -2591,7 +2591,7 @@ public final class MenuHandler
             }
             catch ( VerticalCreateException vce )
             {
-                VerticalEngineLogger.errorUpdate( this.getClass(), 2, "Failed to create new menuitem: %t", vce );
+                VerticalEngineLogger.errorUpdate("Failed to create new menuitem: %t", vce );
             }
 
             // get all deleted menuitems:
@@ -2613,12 +2613,12 @@ public final class MenuHandler
             }
             catch ( VerticalRemoveException vre )
             {
-                VerticalEngineLogger.errorUpdate( this.getClass(), 3, "Failed to remove menuitem: %t", vre );
+                VerticalEngineLogger.errorUpdate("Failed to remove menuitem: %t", vre );
             }
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 5, "A database error occurred: %t", sqle );
+            VerticalEngineLogger.errorUpdate("A database error occurred: %t", sqle );
         }
         finally
         {
@@ -2858,7 +2858,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorUpdate(message, sqle );
         }
         finally
         {
@@ -2902,7 +2902,7 @@ public final class MenuHandler
         }
         catch ( VerticalCreateException e )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 10, "Wrapped exception: %t", e );
+            VerticalEngineLogger.errorUpdate("Wrapped exception: %t", e );
         }
     }
 
@@ -2933,7 +2933,7 @@ public final class MenuHandler
 
         if ( !skipNameCheck && menuItemNameExists( siteKey, parent, menuItemName, key ) )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Menu item name already exists on this level: %0",
+            VerticalEngineLogger.errorCreate("Menu item name already exists on this level: {0}",
                                               new Object[]{menuItemName}, null );
         }
 
@@ -2948,7 +2948,7 @@ public final class MenuHandler
             // security check:
             if ( !getSecurityHandler().validateMenuItemUpdate( user, key.toInt() ) )
             {
-                VerticalEngineLogger.errorSecurity( this.getClass(), 10, "Not allowed to update menuitem: %0.", new Object[]{key}, null );
+                VerticalEngineLogger.errorSecurity("Not allowed to update menuitem: {0}.", new Object[]{key}, null );
             }
 
             // get type:
@@ -2992,7 +2992,7 @@ public final class MenuHandler
                 }
                 catch ( VerticalRemoveException e )
                 {
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 30, "Error removing page: %t", e );
+                    VerticalEngineLogger.errorUpdate("Error removing page: %t", e );
                 }
                 setMenuItemType( key.toInt(), type );
             }
@@ -3092,7 +3092,7 @@ public final class MenuHandler
                     }
                     catch ( VerticalRemoveException vre )
                     {
-                        VerticalEngineLogger.errorUpdate( this.getClass(), 50, "Failed to remove section: %t", vre );
+                        VerticalEngineLogger.errorUpdate("Failed to remove section: %t", vre );
                     }
                 }
 
@@ -3136,7 +3136,7 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 50, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorUpdate("A database error occurred: %t", e );
         }
         finally
         {
@@ -3348,7 +3348,7 @@ public final class MenuHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 20, "SQL error while updating menuitem data.", sqle );
+            VerticalEngineLogger.errorUpdate("SQL error while updating menuitem data.", sqle );
         }
         finally
         {
@@ -3391,8 +3391,8 @@ public final class MenuHandler
                 MenuAccessRight fromParentUserright = getSecurityHandler().getMenuAccessRight( user, fromMenuKey );
                 if ( !fromParentUserright.getAdministrate() && !isEA )
                 {
-                    VerticalEngineLogger.errorSecurity( this.getClass(), 0,
-                                                        "Not allowed to move menuitem[key=%0] from parent[key=%1] to parent[key=%2]. You need administrate rights on the parent to the menuitem you are moving.",
+                    VerticalEngineLogger.errorSecurity(
+                            "Not allowed to move menuitem[key={0}] from parent[key={1}] to parent[key={2}]. You need administrate rights on the parent to the menuitem you are moving.",
                                                         new Object[]{menuItemKey, fromParentKey, toParentKey}, null );
                 }
             }
@@ -3402,8 +3402,8 @@ public final class MenuHandler
                     getSecurityHandler().getMenuItemAccessRight( user, new MenuItemKey( fromParentKey ) );
                 if ( !fromParentUserright.getAdministrate() && !isEA )
                 {
-                    VerticalEngineLogger.errorSecurity( this.getClass(), 0,
-                                                        "Not allowed to move menuitem[key=%0] from parent[key=%1] to parent[key=%2]. You need administrate rights on the parent to the menuitem you are moving.",
+                    VerticalEngineLogger.errorSecurity(
+                            "Not allowed to move menuitem[key={0}] from parent[key={1}] to parent[key={2}]. You need administrate rights on the parent to the menuitem you are moving.",
                                                         new Object[]{menuItemKey, fromParentKey, toParentKey}, null );
                 }
             }
@@ -3412,8 +3412,8 @@ public final class MenuHandler
                 MenuAccessRight toParentUserright = getSecurityHandler().getMenuAccessRight( user, toMenuKey );
                 if ( !toParentUserright.getAdministrate() && !isEA )
                 {
-                    VerticalEngineLogger.errorSecurity( this.getClass(), 0,
-                                                        "Not allowed to move menuitem[key=%0] from parent[key=%1] to parent[key=%2]. You need administrative rights on the menuitems you are moving into.",
+                    VerticalEngineLogger.errorSecurity(
+                            "Not allowed to move menuitem[key={0}] from parent[key={1}] to parent[key={2}]. You need administrative rights on the menuitems you are moving into.",
                                                         new Object[]{menuItemKey, fromParentKey, toParentKey}, null );
                 }
             }
@@ -3422,8 +3422,8 @@ public final class MenuHandler
                 MenuItemAccessRight toParentUserright = getSecurityHandler().getMenuItemAccessRight( user, new MenuItemKey( toParentKey ) );
                 if ( !toParentUserright.getAdministrate() && !isEA )
                 {
-                    VerticalEngineLogger.errorSecurity( this.getClass(), 0,
-                                                        "Not allowed to move menuitem[key=%0] from parent[key=%1] to parent[key=%2]. You need administrative rights on the menuitems you are moving into.",
+                    VerticalEngineLogger.errorSecurity(
+                            "Not allowed to move menuitem[key={0}] from parent[key={1}] to parent[key={2}]. You need administrative rights on the menuitems you are moving into.",
                                                         new Object[]{menuItemKey, fromParentKey, toParentKey}, null );
                 }
             }
@@ -3432,7 +3432,7 @@ public final class MenuHandler
             String name = getMenuItemName( menuItemKey );
             if ( menuItemNameExists( new SiteKey( toMenuKey ), toParentKey == -1 ? null : new MenuItemKey( toParentKey ), name, null ) )
             {
-                VerticalEngineLogger.errorCreate( this.getClass(), 20, "Menu item name already exists on this level: %0",
+                VerticalEngineLogger.errorCreate("Menu item name already exists on this level: {0}",
                                                   new Object[]{name}, null );
             }
 
@@ -3442,7 +3442,7 @@ public final class MenuHandler
         catch ( VerticalSecurityException e )
         {
             String message = "Failed to move menuitem: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, e );
+            VerticalEngineLogger.error(message, e );
         }
     }
 
@@ -3461,8 +3461,8 @@ public final class MenuHandler
                 MenuAccessRight fromParentUserright = getSecurityHandler().getMenuAccessRight( user, menuKey );
                 if ( !fromParentUserright.getAdministrate() && !( hasEAPowers ) )
                 {
-                    VerticalEngineLogger.errorSecurity( this.getClass(), 0,
-                                                        "Not allowed to shift menuitems at root in menu[key=%1]. You need administrate rights on the parent to the menuitem you are moving.",
+                    VerticalEngineLogger.errorSecurity(
+                            "Not allowed to shift menuitems at root in menu[key={1}]. You need administrate rights on the parent to the menuitem you are moving.",
                                                         new Object[]{menuKey}, null );
                 }
             }
@@ -3472,8 +3472,8 @@ public final class MenuHandler
                     getSecurityHandler().getMenuItemAccessRight( user, new MenuItemKey( parentMenuItemKey ) );
                 if ( !fromParentUserright.getAdministrate() && !( hasEAPowers ) )
                 {
-                    VerticalEngineLogger.errorSecurity( this.getClass(), 0,
-                                                        "Not allowed to shift menuitems under parent[key=%0]. You need administrate rights on the parent to the menuitem you are moving.",
+                    VerticalEngineLogger.errorSecurity(
+                            "Not allowed to shift menuitems under parent[key={0}]. You need administrate rights on the parent to the menuitem you are moving.",
                                                         new Object[]{parentMenuItemKey}, null );
                 }
             }
@@ -3487,7 +3487,7 @@ public final class MenuHandler
         catch ( VerticalSecurityException e )
         {
             String message = "Failed to shift menuitems: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, e );
+            VerticalEngineLogger.error(message, e );
         }
     }
 
@@ -3511,13 +3511,13 @@ public final class MenuHandler
             }
             catch ( VerticalUpdateException vue )
             {
-                VerticalEngineLogger.errorUpdate( this.getClass(), 10, "A database error occurred: %t", vue );
+                VerticalEngineLogger.errorUpdate("A database error occurred: %t", vue );
             }
         }
         else
         {
             String MESSAGE_10 = "No page key found in XML.";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 20, MESSAGE_10, null );
+            VerticalEngineLogger.errorUpdate(MESSAGE_10, null );
         }
 
         PreparedStatement preparedStmt = null;
@@ -3531,7 +3531,7 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 30, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorUpdate("A database error occurred: %t", e );
         }
         finally
         {
@@ -3675,9 +3675,7 @@ public final class MenuHandler
         }
         catch ( VerticalEngineException vee )
         {
-            String MESSAGE_00 = "Failed to copy pages: %0";
-            Object[] msgData = new Object[]{vee.getMessage()};
-            VerticalEngineLogger.errorCopy( this.getClass(), 10, MESSAGE_00, msgData, vee );
+            VerticalEngineLogger.errorCopy("Failed to copy pages", vee );
         }
     }
 
@@ -3793,7 +3791,7 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.warn( this.getClass(), 10, "A database error occurred. XML may be incomplete.", e );
+            VerticalEngineLogger.warn("A database error occurred. XML may be incomplete.", e );
         }
         finally
         {
@@ -3849,7 +3847,7 @@ public final class MenuHandler
             }
             catch ( SQLException e )
             {
-                VerticalEngineLogger.warn( this.getClass(), 10, "A database error occurred. XML may be incomplete.", e );
+                VerticalEngineLogger.warn("A database error occurred. XML may be incomplete.", e );
             }
             finally
             {
@@ -3873,13 +3871,6 @@ public final class MenuHandler
         }
     }
 
-    /**
-     * Builds a menu tree, typically used to present the menu in the menu ;)
-     *
-     * @param user           The current user
-     * @param getterSettings If given - build tree from these settings
-     * @return A DOM document containing the menu tree
-     */
     public Document getMenusForAdmin( User user )
     {
 
@@ -3953,7 +3944,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get the menus: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             doc = XMLTool.createDocument( "categories" );
         }
         finally
@@ -4049,7 +4040,7 @@ public final class MenuHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get menuitems: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -4280,7 +4271,7 @@ public final class MenuHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 0, "Failed to get admin menu", e );
+            VerticalEngineLogger.error("Failed to get admin menu", e );
         }
         finally
         {

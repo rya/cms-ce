@@ -204,7 +204,7 @@ public class ErrorPageServlet
         catch ( Exception e )
         {
             String message = "Failed to transform & print output";
-            VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e);
         }
     }
 

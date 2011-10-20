@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.adminweb;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.InetAddress;
@@ -233,17 +232,17 @@ public class LogHandlerServlet
         catch ( ParseException pe )
         {
             String message = "Failed to parse a date: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, pe );
+            VerticalAdminLogger.errorAdmin(message, pe );
         }
         catch ( IOException ioe )
         {
             String message = "Failed to get response writer: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "XSLT error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
     }
 
@@ -291,8 +290,8 @@ public class LogHandlerServlet
             }
             catch ( UnknownHostException uhe )
             {
-                String message = "Failed to get host name of ip address \"%0\": %t";
-                VerticalAdminLogger.warn( this.getClass(), 0, message, address, uhe );
+                String message = "Failed to get host name of ip address \"{0}\": %t";
+                VerticalAdminLogger.warn(message, address, uhe );
             }
         }
 
@@ -370,12 +369,12 @@ public class LogHandlerServlet
         catch ( TransformerException te )
         {
             String message = "Failed to transform xml: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
         catch ( IOException ioe )
         {
             String message = "Failed to get response writer: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
     }
 
@@ -403,12 +402,12 @@ public class LogHandlerServlet
         catch ( IOException ioe )
         {
             String message = "Failed to get writer: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "Failed to transform filter form: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
     }
 }

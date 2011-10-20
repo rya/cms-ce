@@ -124,7 +124,7 @@ public final class PageHandler
                 if ( result <= 0 )
                 {
                     String message = "Failed to create page.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+                    VerticalEngineLogger.errorCreate(message, null );
                 }
 
                 // create all pageconobj entries for page
@@ -144,17 +144,17 @@ public final class PageHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create page(s) because of database error: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse a key field: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, nfe );
+            VerticalEngineLogger.errorCreate(message, nfe );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Error generating new key.";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, gke );
+            VerticalEngineLogger.errorCreate(message, gke );
         }
         finally
         {
@@ -175,7 +175,7 @@ public final class PageHandler
         if ( keys == null || keys.length == 0 )
         {
             String message = "Failed to create page , no key returned";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorCreate(message, null );
         }
 
         return ( keys != null && keys.length > 0 ) ? keys[0] : -1;
@@ -225,12 +225,12 @@ public final class PageHandler
         }
         catch ( SQLException sqle )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 10, "A database error occured while creating the contentobject page: %t",
+            VerticalEngineLogger.errorCreate("A database error occured while creating the contentobject page: %t",
                                               sqle );
         }
         catch ( NumberFormatException nfe )
         {
-            VerticalEngineLogger.errorCreate( this.getClass(), 20, "Error parsing the key field: %t", nfe );
+            VerticalEngineLogger.errorCreate("Error parsing the key field: %t", nfe );
         }
         finally
         {
@@ -339,7 +339,7 @@ public final class PageHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get page keys by menu: %";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -379,7 +379,7 @@ public final class PageHandler
         catch ( SQLException se )
         {
             String message = "Failed to get page keys by page template key: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, se );
+            VerticalEngineLogger.error(message, se );
         }
         finally
         {
@@ -420,7 +420,7 @@ public final class PageHandler
         catch ( SQLException se )
         {
             String message = "Failed to get page keys by page template key: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, null );
+            VerticalEngineLogger.error(message, null );
         }
         finally
         {
@@ -471,7 +471,7 @@ public final class PageHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove page content objects because of database error: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorRemove(message, sqle );
         }
         finally
         {
@@ -516,7 +516,7 @@ public final class PageHandler
             catch ( SQLException sqle )
             {
                 String message = "Failed to remove content objects from pages: %t";
-                VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+                VerticalEngineLogger.errorRemove(message, sqle );
             }
             finally
             {
@@ -567,7 +567,7 @@ public final class PageHandler
             catch ( SQLException sqle )
             {
                 String message = "Failed to remove pages: %t";
-                VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+                VerticalEngineLogger.errorRemove(message, sqle );
             }
             finally
             {
@@ -636,7 +636,7 @@ public final class PageHandler
                 if ( result == 0 )
                 {
                     String message = "Unable to update page: %t";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+                    VerticalEngineLogger.errorUpdate(message, null );
                 }
 
                 // update all pageconobj entries for page
@@ -650,24 +650,24 @@ public final class PageHandler
                 catch ( VerticalRemoveException vre )
                 {
                     String message = "Could not remove content objects: %t";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, vre );
+                    VerticalEngineLogger.errorUpdate(message, vre );
                 }
                 catch ( VerticalCreateException vce )
                 {
                     String message = "Could not create content objects.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, vce );
+                    VerticalEngineLogger.errorUpdate(message, vce );
                 }
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to update page: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorUpdate(message, sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Unable to parse page key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
+            VerticalEngineLogger.errorUpdate(message, nfe );
         }
         finally
         {

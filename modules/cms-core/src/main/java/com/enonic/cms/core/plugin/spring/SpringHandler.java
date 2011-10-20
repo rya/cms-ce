@@ -65,12 +65,12 @@ final class SpringHandler
 
     private void handleError(final Throwable cause)
     {
-        LOG.error(cause, "Failed to start plugin [{0}]", this.bundle.getSymbolicName());
+        LOG.errorCause("Failed to start plugin [{0}]", cause, this.bundle.getSymbolicName());
 
         try {
             this.bundle.stop();
         } catch (final Exception e) {
-            LOG.warning(e, "Exception when stopping plugin [{0}]", this.bundle.getSymbolicName());
+            LOG.warningCause("Exception when stopping plugin [{0}]", e, this.bundle.getSymbolicName());
         }
     }
 }

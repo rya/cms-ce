@@ -168,22 +168,22 @@ public class UnitHandler
         catch ( VerticalUpdateException vue )
         {
             String message = "Failed to create units: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, vue );
+            VerticalEngineLogger.errorCreate(message, vue );
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create units: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse a unit key: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, nfe );
+            VerticalEngineLogger.errorCreate(message, nfe );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to generate unit key: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, gke );
+            VerticalEngineLogger.errorCreate(message, gke );
         }
 
         finally
@@ -355,7 +355,7 @@ public class UnitHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get units: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -399,7 +399,7 @@ public class UnitHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get unit's name: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -466,7 +466,7 @@ public class UnitHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get unit names: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             doc = null;
         }
         finally
@@ -587,12 +587,12 @@ public class UnitHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to update unit: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorUpdate(message, sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse a unit key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
+            VerticalEngineLogger.errorUpdate(message, nfe );
         }
         finally
         {
@@ -650,7 +650,7 @@ public class UnitHandler
         catch ( SQLException sqle )
         {
             String MESSAGE_00 = "Failed to get unit's language key: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, MESSAGE_00, sqle );
+            VerticalEngineLogger.error(MESSAGE_00, sqle );
         }
         finally
         {

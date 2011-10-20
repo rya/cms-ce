@@ -24,7 +24,7 @@ public class KeyHandler
         if ( count <= 0 )
         {
             String message = "Count must be at least 1.";
-            VerticalEngineLogger.errorKey( this.getClass(), 0, message, null, null );
+            VerticalEngineLogger.errorKey( message, null );
         }
         CommonHandler commonHandler = getCommonHandler();
         Connection con = null;
@@ -42,14 +42,14 @@ public class KeyHandler
                 try
                 {
                     commonHandler.update( sql.toString(), values );
-                    String message = "Inserted new key(s) for table \"%0\".";
-                    VerticalEngineLogger.info( this.getClass(), 1, message, tableName, null );
+                    String message = "Inserted new key(s) for table \"{0}\".";
+                    VerticalEngineLogger.info(message, tableName, null );
                     key = 0;
                 }
                 catch ( SQLException sqle )
                 {
-                    String message = "Failed to insert new key(s) for table \"%0\": %t";
-                    VerticalEngineLogger.warn( this.getClass(), 1, message, tableName, sqle );
+                    String message = "Failed to insert new key(s) for table \"{0}\": %t";
+                    VerticalEngineLogger.warn(message, tableName, sqle );
                     sql = XDG.generateSelectSQL( db.tKey, db.tKey.key_lLastKey, false, db.tKey.key_sTableName );
                     key = commonHandler.getInt( sql.toString(), tableName.toLowerCase() );
                 }
@@ -62,8 +62,8 @@ public class KeyHandler
         }
         catch ( SQLException sqle )
         {
-            String message = "Failed to generate next key(s) for table \"%0\": %t";
-            VerticalEngineLogger.errorKey( this.getClass(), 1, message, tableName, sqle );
+            String message = "Failed to generate next key(s) for table \"{0}\"";
+            VerticalEngineLogger.errorKey(message, tableName, sqle );
             key = -1;
         }
         finally
@@ -94,8 +94,8 @@ public class KeyHandler
         }
         catch ( SQLException sqle )
         {
-            String message = "Failed to generate next key for table \"%0\": %t";
-            VerticalEngineLogger.errorKey( this.getClass(), 1, message, tableName, sqle );
+            String message = "Failed to generate next key for table \"{0}\"";
+            VerticalEngineLogger.errorKey(message, tableName, sqle );
             key = -1;
         }
         finally

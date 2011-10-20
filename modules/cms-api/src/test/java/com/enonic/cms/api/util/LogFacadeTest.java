@@ -73,10 +73,10 @@ public class LogFacadeTest
         facade.debug("A {0} message", "nice");
         assertLogRecord("A nice message", Level.FINEST, "testLogDebug", false);
 
-        facade.debug(new Throwable(), "A message");
+        facade.debugCause("A message", new Throwable());
         assertLogRecord("A message", Level.FINEST, "testLogDebug", true);
 
-        facade.debug(new Throwable(), "A {0} message", "nice");
+        facade.debugCause("A {0} message", new Throwable(), "nice");
         assertLogRecord("A nice message", Level.FINEST, "testLogDebug", true);
     }
 
@@ -91,10 +91,10 @@ public class LogFacadeTest
         facade.info("A {0} message", "nice");
         assertLogRecord("A nice message", Level.INFO, "testLogInfo", false);
 
-        facade.info(new Throwable(), "A message");
+        facade.infoCause("A message", new Throwable());
         assertLogRecord("A message", Level.INFO, "testLogInfo", true);
 
-        facade.info(new Throwable(), "A {0} message", "nice");
+        facade.infoCause("A {0} message", new Throwable(), "nice");
         assertLogRecord("A nice message", Level.INFO, "testLogInfo", true);
     }
 
@@ -109,10 +109,10 @@ public class LogFacadeTest
         facade.warning("A {0} message", "nice");
         assertLogRecord("A nice message", Level.WARNING, "testLogWarning", false);
 
-        facade.warning(new Throwable(), "A message");
+        facade.warningCause("A message", new Throwable());
         assertLogRecord("A message", Level.WARNING, "testLogWarning", true);
 
-        facade.warning(new Throwable(), "A {0} message", "nice");
+        facade.warningCause("A {0} message", new Throwable(), "nice");
         assertLogRecord("A nice message", Level.WARNING, "testLogWarning", true);
     }
 
@@ -127,10 +127,10 @@ public class LogFacadeTest
         facade.error("A {0} message", "nice");
         assertLogRecord("A nice message", Level.SEVERE, "testLogError", false);
 
-        facade.error(new Throwable(), "A message");
+        facade.errorCause("A message", new Throwable());
         assertLogRecord("A message", Level.SEVERE, "testLogError", true);
 
-        facade.error(new Throwable(), "A {0} message", "nice");
+        facade.errorCause("A {0} message", new Throwable(), "nice");
         assertLogRecord("A nice message", Level.SEVERE, "testLogError", true);
     }
 

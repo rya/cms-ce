@@ -104,7 +104,7 @@ public final class AdminStore
         }
         catch ( Exception e )
         {
-            VerticalAdminLogger.fatalAdmin( AdminStore.class, 10, "Could not read resource: %0", path, e );
+            VerticalAdminLogger.errorAdmin("Could not read resource: {0}", path, e);
             return null;
         }
     }
@@ -126,7 +126,7 @@ public final class AdminStore
         }
         catch ( Exception e )
         {
-            VerticalAdminLogger.fatalAdmin( AdminStore.class, 10, "Could not read resource: %0", path, e );
+            VerticalAdminLogger.errorAdmin("Could not read resource: {0}", path, e);
             return null;
         }
     }

@@ -273,7 +273,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -334,7 +334,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -399,7 +399,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get access rights for a category: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -452,7 +452,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get access rights for contents: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -610,8 +610,8 @@ final public class SecurityHandler
                     break;
 
                 default:
-                    String message = "Accessright type not supported: %0";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 10, message, type, null );
+                    String message = "Accessright type not supported: {0}";
+                    VerticalEngineLogger.errorCreate(message, type, null );
                     break;
             }
 
@@ -875,8 +875,8 @@ final public class SecurityHandler
                         break;
 
                     default:
-                        String message = "Accessright type not supported: %0";
-                        VerticalEngineLogger.errorCreate( this.getClass(), 0, message, type, null );
+                        String message = "Accessright type not supported: {0}";
+                        VerticalEngineLogger.errorCreate(message, type, null );
                         break;
                 }
 
@@ -886,7 +886,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to create access rights: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         finally
         {
@@ -921,8 +921,8 @@ final public class SecurityHandler
                     break;
 
                 default:
-                    String message = "Accessright type not supported: %0";
-                    VerticalEngineLogger.errorRemove( this.getClass(), 0, message, type, null );
+                    String message = "Accessright type not supported: {0}";
+                    VerticalEngineLogger.errorRemove(message, type, null );
             }
 
             preparedStmt = con.prepareStatement( sql );
@@ -932,7 +932,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorRemove( this.getClass(), 20, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorRemove("A database error occurred: %t", e );
         }
         finally
         {
@@ -967,7 +967,7 @@ final public class SecurityHandler
                 break;
 
             default:
-                VerticalEngineLogger.error( this.getClass(), 10, "Accessright type not supported: %0", new Object[]{type}, null );
+                VerticalEngineLogger.error("Accessright type not supported: {0}", new Object[]{type}, null );
         }
 
         return doc;
@@ -1002,7 +1002,7 @@ final public class SecurityHandler
                 break;
 
             default:
-                VerticalEngineLogger.error( this.getClass(), 10, "Accessright type not supported: %0", new Object[]{type}, null );
+                VerticalEngineLogger.error("Accessright type not supported: {0}", new Object[]{type}, null );
         }
 
         return doc;
@@ -1023,7 +1023,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -1048,7 +1048,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -1077,7 +1077,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -1105,7 +1105,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -1136,7 +1136,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -1359,7 +1359,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -1696,7 +1696,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get maximum category access right: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1789,7 +1789,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get maximum menu access right: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1893,7 +1893,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get maximum menuitem access right: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1985,7 +1985,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get maximum category access right: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -2564,7 +2564,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -2635,7 +2635,7 @@ final public class SecurityHandler
             catch ( SQLException sqle )
             {
                 String message = "Failed to validate category create: %t";
-                VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+                VerticalEngineLogger.error(message, sqle );
             }
             finally
             {
@@ -2709,7 +2709,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to validate category create: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -2778,7 +2778,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to validate category create: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -2845,7 +2845,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -2912,7 +2912,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -3029,7 +3029,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -3090,7 +3090,7 @@ final public class SecurityHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to inherit category access rights: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -3113,7 +3113,7 @@ final public class SecurityHandler
 
         if ( !validateAccessRightsUpdate( user, type, key ) )
         {
-            VerticalEngineLogger.errorSecurity( this.getClass(), 5, "Access denied.", null );
+            VerticalEngineLogger.errorSecurity("Access denied.", null );
         }
 
         try
@@ -3140,8 +3140,8 @@ final public class SecurityHandler
                     break;
 
                 default:
-                    String message = "Accessright type not supported: %0";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, type, null );
+                    String message = "Accessright type not supported: {0}";
+                    VerticalEngineLogger.errorUpdate(message, type, null );
             }
 
             preparedStmt = con.prepareStatement( sql );
@@ -3152,11 +3152,11 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.errorUpdate("A database error occurred: %t", e );
         }
         catch ( VerticalCreateException e )
         {
-            VerticalEngineLogger.errorUpdate( this.getClass(), 20, "Error creating accessrights: %t", e );
+            VerticalEngineLogger.errorUpdate("Error creating accessrights: %t", e );
         }
         finally
         {
@@ -3251,7 +3251,7 @@ final public class SecurityHandler
                 default:
                 {
                     // unknown access rights type, throw runtime exception
-                    VerticalEngineLogger.fatalEngine( this.getClass(), 10, "Access denied.", null );
+                    VerticalEngineLogger.fatalEngine("Access denied.", null );
                     result = false;
                 }
             }
@@ -3332,7 +3332,7 @@ final public class SecurityHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -3639,7 +3639,7 @@ final public class SecurityHandler
                 accessRight_prefix = "car_";
                 break;
             default:
-                VerticalEngineLogger.fatalEngine( this.getClass(), 0, "Access rights not implemented for type: " + type, null, null );
+                VerticalEngineLogger.fatalEngine("Access rights not implemented for type: " + type, null );
                 break;
         }
 
@@ -3675,8 +3675,8 @@ final public class SecurityHandler
             // Access rights for content only checks the category
             if ( type == Types.CONTENTVIEW && !accessRight.startsWith( "category" ) )
             {
-                VerticalEngineLogger.fatalEngine( this.getClass(), 0, "Access right " + accessRight + " not supported for type: " + type,
-                                                  null, null );
+                VerticalEngineLogger.fatalEngine("Access right " + accessRight + " not supported for type: " + type,
+                                                  null );
             }
 
             if ( accessRight.endsWith( "administrate" ) )
@@ -3713,8 +3713,8 @@ final public class SecurityHandler
             }
             else
             {
-                VerticalEngineLogger.fatalEngine( this.getClass(), 0, "Access right " + accessRight + " not supported for type: " + type,
-                                                  null, null );
+                VerticalEngineLogger.fatalEngine("Access right " + accessRight + " not supported for type: " + type,
+                                                  null );
             }
             sqlFilterRights.append( colAccessRight );
             sqlFilterRights.append( " = " );

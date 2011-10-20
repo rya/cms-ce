@@ -208,12 +208,12 @@ public class MainMenuServlet
         catch ( TransformerException te )
         {
             String MESSAGE_02 = "Failed to transform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 2, MESSAGE_02, te );
+            VerticalAdminLogger.errorAdmin(MESSAGE_02, te );
         }
         catch ( IOException ioe )
         {
             String MESSAGE_03 = "I/O error occured: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 3, MESSAGE_03, ioe );
+            VerticalAdminLogger.errorAdmin(MESSAGE_03, ioe );
         }
     }
 }

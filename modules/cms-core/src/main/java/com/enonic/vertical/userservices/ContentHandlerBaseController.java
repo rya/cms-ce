@@ -117,7 +117,7 @@ public class ContentHandlerBaseController
         catch ( ParseException pe )
         {
             String message = "Failed to parse a date: %t";
-            VerticalUserServicesLogger.warnUserServices( this.getClass(), 3, message, pe );
+            VerticalUserServicesLogger.warnUserServices( message, pe );
         }
     }
 
@@ -246,7 +246,7 @@ public class ContentHandlerBaseController
         if ( contentKey == -1 )
         {
             String message = "Content key not specified.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            VerticalUserServicesLogger.warn(message, null );
             redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
             return;
         }
@@ -349,7 +349,7 @@ public class ContentHandlerBaseController
         if ( categoryKey == -1 )
         {
             String message = "Category key not specified.";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            VerticalUserServicesLogger.warn(message, null );
             redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
             return;
         }
@@ -439,7 +439,7 @@ public class ContentHandlerBaseController
         }
         catch ( IOException ioe )
         {
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 20, "Failed to read binary data: %t", ioe );
+            VerticalUserServicesLogger.errorUserServices( "Failed to read binary data: %t", ioe );
         }
 
         return binaryData;
@@ -461,7 +461,7 @@ public class ContentHandlerBaseController
         catch ( IOException ioe )
         {
             String message = "Failed to read file item stream: %t";
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 0, message, ioe );
+            VerticalUserServicesLogger.errorUserServices( message, ioe );
         }
         return null;
     }

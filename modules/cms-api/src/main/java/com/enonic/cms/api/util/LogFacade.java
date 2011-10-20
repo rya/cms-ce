@@ -21,7 +21,7 @@ public final class LogFacade
         log( Level.FINEST, message, args, null );
     }
 
-    public void debug( final Throwable cause, final String message, final Object... args )
+    public void debugCause(final String message, final Throwable cause, final Object... args)
     {
         log( Level.FINEST, message, args, cause );
     }
@@ -31,7 +31,7 @@ public final class LogFacade
         log( Level.INFO, message, args, null );
     }
 
-    public void info( final Throwable cause, final String message, final Object... args )
+    public void infoCause(final String message, final Throwable cause, final Object... args)
     {
         log( Level.INFO, message, args, cause );
     }
@@ -41,7 +41,7 @@ public final class LogFacade
         log( Level.WARNING, message, args, null );
     }
 
-    public void warning( final Throwable cause, final String message, final Object... args )
+    public void warningCause(final String message, final Throwable cause, final Object... args)
     {
         log( Level.WARNING, message, args, cause );
     }
@@ -51,7 +51,7 @@ public final class LogFacade
         log( Level.SEVERE, message, args, null );
     }
 
-    public void error( final Throwable cause, final String message, final Object... args )
+    public void errorCause(final String message, final Throwable cause, final Object... args)
     {
         log( Level.SEVERE, message, args, cause );
     }

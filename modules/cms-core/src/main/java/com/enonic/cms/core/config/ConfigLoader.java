@@ -82,7 +82,7 @@ final class ConfigLoader
         try {
             return loadFromStream(new FileInputStream(file));
         } catch (final Exception e) {
-            LOG.error(e, "Failed to load cms.properties from [{0}]. Using defaults.", file.getAbsolutePath());
+            LOG.errorCause("Failed to load cms.properties from [{0}]. Using defaults.", e, file.getAbsolutePath());
         }
 
         return new Properties();

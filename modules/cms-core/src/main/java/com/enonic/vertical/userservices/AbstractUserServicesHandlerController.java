@@ -120,7 +120,7 @@ public class AbstractUserServicesHandlerController
         throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
     {
         String message = "OperationWrapper CREATE not implemented.";
-        VerticalUserServicesLogger.error( this.getClass(), 0, message, null );
+        VerticalUserServicesLogger.error(message, null );
     }
 
     protected void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -128,7 +128,7 @@ public class AbstractUserServicesHandlerController
         throws VerticalUserServicesException, VerticalRemoveException, VerticalSecurityException, RemoteException
     {
         String message = "OperationWrapper REMOVE not implemented.";
-        VerticalUserServicesLogger.error( this.getClass(), 0, message, null );
+        VerticalUserServicesLogger.error(message, null );
     }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -136,12 +136,12 @@ public class AbstractUserServicesHandlerController
         throws VerticalUserServicesException, VerticalEngineException, IOException, ClassNotFoundException, IllegalAccessException,
         InstantiationException, ParseException
     {
-        String message = "Custom operation not implemented: %0";
+        String message = "Custom operation not implemented: {0}";
         if ( operation != null )
         {
             operation = operation.toUpperCase();
         }
-        VerticalUserServicesLogger.error( this.getClass(), 0, message, operation, null );
+        VerticalUserServicesLogger.error(message, operation, null );
     }
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -149,7 +149,7 @@ public class AbstractUserServicesHandlerController
         throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
         String message = "OperationWrapper UPDATE not implemented.";
-        VerticalUserServicesLogger.error( this.getClass(), 0, message, null );
+        VerticalUserServicesLogger.error(message, null );
     }
 
     protected UserServicesService lookupUserServices()
@@ -283,12 +283,12 @@ public class AbstractUserServicesHandlerController
         catch ( FileUploadException fue )
         {
             String message = "Error occured with file upload: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, message, fue );
+            VerticalAdminLogger.error(message, fue );
         }
         catch ( UnsupportedEncodingException uee )
         {
             String message = "Character encoding not supported: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, message, uee );
+            VerticalAdminLogger.error(message, uee );
         }
 
         // Add parameters from url
@@ -346,7 +346,7 @@ public class AbstractUserServicesHandlerController
         {
             String message = "Access to http service '" + handler + "." + operation + "' on site " + siteKey +
                 " is not allowed by configuration. Check the settings in site-" + siteKey + ".properties";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+            VerticalUserServicesLogger.warn(message, null );
             String httpErrorMsg = "Access denied to http service '" + handler + "." + operation + "' on site " + siteKey;
             response.sendError( HttpServletResponse.SC_FORBIDDEN, httpErrorMsg );
             return null;
@@ -393,43 +393,43 @@ public class AbstractUserServicesHandlerController
         catch ( VerticalUserServicesException vuse )
         {
             String message = "Failed to handle request: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, vuse );
+            VerticalUserServicesLogger.error(message, vuse );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_HANDLER, null );
         }
         catch ( VerticalUpdateException vue )
         {
             String message = "Failed to handle update request: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vue );
+            VerticalUserServicesLogger.warn(message, vue );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         catch ( VerticalRemoveException vre )
         {
             String message = "Failed to handle remove request: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vre );
+            VerticalUserServicesLogger.warn(message, vre );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         catch ( VerticalSecurityException vse )
         {
             String message = "No rights to handle request: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vse );
+            VerticalUserServicesLogger.warn(message, vse );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
         }
         catch ( ContentAccessException vse )
         {
             String message = "No rights to handle request: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vse );
+            VerticalUserServicesLogger.warn(message, vse );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
         }
         catch ( CategoryAccessException vse )
         {
             String message = "No rights to handle request: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vse );
+            VerticalUserServicesLogger.warn(message, vse );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
         }
         catch ( VerticalEngineException vee )
         {
             String message = "Failed to handle engine request: %t";
-            VerticalUserServicesLogger.warn( this.getClass(), 0, message, vee );
+            VerticalUserServicesLogger.warn(message, vee );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         catch ( UserServicesException use )
@@ -439,7 +439,7 @@ public class AbstractUserServicesHandlerController
         catch ( Exception e )
         {
             String message = "Failed to handle request: %t";
-            VerticalUserServicesLogger.error( this.getClass(), 0, message, e );
+            VerticalUserServicesLogger.error(message, e );
             redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         return null;

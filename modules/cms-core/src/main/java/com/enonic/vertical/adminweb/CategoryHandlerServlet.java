@@ -905,8 +905,8 @@ final public class CategoryHandlerServlet
         }
         else
         {
-            String message = "Unknown sub-operation for operation report: %0";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, subOp, null );
+            String message = "Unknown sub-operation for operation report: {0}";
+            VerticalAdminLogger.errorAdmin(message, subOp, null );
         }
     }
 

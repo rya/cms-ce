@@ -540,9 +540,9 @@ public class XDG
                 Column column = table.getColumn( columnName );
                 if ( column == null )
                 {
-                    String message = "column not in xml: %0, tablename: %1";
+                    String message = "column not in xml: {0}, tablename: {1}";
                     Object[] msgData = {columnName, table};
-                    VerticalEngineLogger.fatalEngine( XDG.class, 0, message, msgData, null );
+                    VerticalEngineLogger.fatalEngine(message, msgData, null );
                 }
                 String xpath = column.getXPath();
 
@@ -575,7 +575,7 @@ public class XDG
                 catch ( ProcessElementException pee )
                 {
                     String message = "Failed to run element processors: %t";
-                    VerticalEngineLogger.error( XDG.class, 0, message, pee );
+                    VerticalEngineLogger.error(message, pee );
                 }
             }
         }
@@ -884,11 +884,6 @@ public class XDG
         int pkPosition = columns.length;
         int dataPosition = 0;
 
-        if ( VerticalEngineLogger.isDebugEnabled( XDG.class ) )
-        {
-            VerticalEngineLogger.debug( XDG.class, 0, "dataElem = %0", XMLTool.elementToString( dataElem ), null );
-        }
-
         int excludedCounter = 0;
 
         for ( int i = 0; i < columns.length; i++ )
@@ -923,21 +918,12 @@ public class XDG
                 data = XMLTool.documentToBytes( tmpDoc, "UTF-8" );
             }
 
-            if ( VerticalEngineLogger.isDebugEnabled( XDG.class ) )
-            {
-                VerticalEngineLogger.debug( XDG.class, 0, "i = %0", i, null );
-                VerticalEngineLogger.debug( XDG.class, 0, "columns[i] = %0", columns[i], null );
-                VerticalEngineLogger.debug( XDG.class, 0, "index = %0", index, null );
-                VerticalEngineLogger.debug( XDG.class, 0, "dataPosition = %0", dataPosition, null );
-                VerticalEngineLogger.debug( XDG.class, 0, "data = %0", data, null );
-            }
-
             if ( data == null )
             {
 
                 if ( type == Constants.COLUMN_CURRENT_TIMESTAMP || type == Constants.COLUMN_CREATED_TIMESTAMP )
                 {
-                    VerticalEngineLogger.debug( XDG.class, 0, "Timestamp is not set.", null );
+                    VerticalEngineLogger.debug("Timestamp is not set.", null );
                     // The current timestamp is inserted directly in the query, which means that
                     // the primary key position is one less than if we inserted the timestamp as
                     // a regular parameter
@@ -960,7 +946,7 @@ public class XDG
                 if ( operation == Constants.OPERATION_UPDATE && type == Constants.COLUMN_CREATED_TIMESTAMP )
                 {
                     // Ignore created timestamp on update
-                    VerticalEngineLogger.debug( XDG.class, 0, "Timestamp is ignored.", null );
+                    VerticalEngineLogger.debug("Timestamp is ignored.", null );
                     pkPosition--;
                     dataPosition++;
                 }

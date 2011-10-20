@@ -1040,7 +1040,6 @@ public class MenuHandlerServlet
             }
 
         }
-        VerticalAdminLogger.debug( this.getClass(), 0, doc );
     }
 
     public void handlerBrowse( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -1190,7 +1189,7 @@ public class MenuHandlerServlet
         else
         {
             String message = "Unknown operation: %0";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+            VerticalAdminLogger.errorAdmin(message, null );
         }
     }
 
@@ -1341,12 +1340,12 @@ public class MenuHandlerServlet
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.error(message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "XSL transformer error: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, message, te );
+            VerticalAdminLogger.error(message, te );
         }
     }
 
@@ -1408,12 +1407,12 @@ public class MenuHandlerServlet
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.error(message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "XSL transformer error: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, message, te );
+            VerticalAdminLogger.error(message, te );
         }
 
         return true;
@@ -1464,12 +1463,12 @@ public class MenuHandlerServlet
             catch ( TransformerException te )
             {
                 String message = "Transformer error while transforming XSL: %t";
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+                VerticalAdminLogger.errorAdmin(message, te );
             }
             catch ( IOException ioe )
             {
                 String message = "I/O error: %t";
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+                VerticalAdminLogger.errorAdmin(message, ioe );
             }
         }
     }
@@ -1592,7 +1591,7 @@ public class MenuHandlerServlet
         {
             if ( menuItemToCheck.getMenuItemKey().equals( new MenuItemKey( menuKeyToMove ) ) )
             {
-                throw new VerticalAdminRuntimeException( "Not allowed to move menuitem to self or own descendant" );
+                throw new VerticalAdminException( "Not allowed to move menuitem to self or own descendant" );
             }
             else
             {
@@ -1660,11 +1659,11 @@ public class MenuHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
     }
 
@@ -1732,11 +1731,11 @@ public class MenuHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
     }
 
@@ -1798,15 +1797,15 @@ public class MenuHandlerServlet
         }
         catch ( VerticalCreateException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "Error creating menuitem: %t", e );
+            VerticalAdminLogger.errorAdmin("Error creating menuitem: %t", e );
         }
         catch ( VerticalUpdateException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "Error updating menuitem: %t", e );
+            VerticalAdminLogger.errorAdmin("Error updating menuitem: %t", e );
         }
         catch ( VerticalSecurityException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "Access denied: %t", e );
+            VerticalAdminLogger.errorAdmin("Access denied: %t", e );
         }
     }
 
@@ -1997,11 +1996,11 @@ public class MenuHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 40, "Failed to get response writer: %t", e );
+            VerticalAdminLogger.errorAdmin("Failed to get response writer: %t", e );
         }
         catch ( JDOMException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 40, "Failed to convert jdom to w3c document: %t", e );
+            VerticalAdminLogger.errorAdmin("Failed to convert jdom to w3c document: %t", e );
         }
     }
 
@@ -2262,12 +2261,12 @@ public class MenuHandlerServlet
         catch ( TransformerException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
         catch ( IOException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
     }
 
@@ -2799,12 +2798,12 @@ public class MenuHandlerServlet
         catch ( IOException ioe )
         {
             String msg = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, ioe );
+            VerticalAdminLogger.errorAdmin(msg, ioe );
         }
         catch ( TransformerException te )
         {
             String msg = "XSL transformer error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, te );
+            VerticalAdminLogger.errorAdmin(msg, te );
         }
     }
 
@@ -2935,11 +2934,11 @@ public class MenuHandlerServlet
             }
             catch ( IOException e )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 10, "I/O error: %t", e );
+                VerticalAdminLogger.errorAdmin("I/O error: %t", e );
             }
             catch ( TransformerException e )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 20, "XSLT error: %t", e );
+                VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
             }
         }
     }

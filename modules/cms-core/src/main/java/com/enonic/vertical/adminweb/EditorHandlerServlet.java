@@ -12,13 +12,11 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.AdminService;
 
@@ -51,12 +49,12 @@ public class EditorHandlerServlet
         catch ( TransformerException te )
         {
             String message = "Failed to transform menu xml: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 2, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
         return true;
     }

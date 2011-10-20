@@ -60,7 +60,7 @@ final class ScheduledTask
         catch ( Exception e )
         {
             lastFailedCompletionTime = new Date();
-            LOG.warning( e, "Task invocation failed with exception for TaskHandler: " + taskHandler.getName() );
+            LOG.warningCause("Task invocation failed with exception for TaskHandler: " + taskHandler.getName(), e);
 
         }
     }

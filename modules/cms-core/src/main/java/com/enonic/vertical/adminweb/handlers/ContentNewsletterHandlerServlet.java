@@ -165,7 +165,7 @@ public class ContentNewsletterHandlerServlet
             }
             catch ( UnsupportedEncodingException uee )
             {
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, "%t", uee );
+                VerticalAdminLogger.errorAdmin("%t", uee);
             }
         }
         else
@@ -197,7 +197,7 @@ public class ContentNewsletterHandlerServlet
             catch ( IOException ioe )
             {
                 String message = "I/O error: %t";
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+                VerticalAdminLogger.errorAdmin(message, ioe );
             }
         }
     }
@@ -299,8 +299,8 @@ public class ContentNewsletterHandlerServlet
             }
             catch ( ESLException esle )
             {
-                String msg = "Failed to send email: %0";
-                VerticalAdminLogger.warn( this.getClass(), 0, msg, esle.getMessage(), null );
+                String msg = "Failed to send email: {0}";
+                VerticalAdminLogger.warn(msg, esle.getMessage(), null );
                 Element sentElem = XMLTool.createElement( doc, sendhistoryElem, "sent" );
                 sentElem.setAttribute( "timestamp", DateUtil.formatISODateTime( new Date() ) );
                 sentElem.setAttribute( "uid", user.getName() );
@@ -359,12 +359,12 @@ public class ContentNewsletterHandlerServlet
         catch ( TransformerException te )
         {
             String msg = "XSLT transformation error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, te );
+            VerticalAdminLogger.errorAdmin(msg, te );
         }
         catch ( IOException ioe )
         {
             String msg = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, ioe );
+            VerticalAdminLogger.errorAdmin(msg, ioe );
         }
 
     }
@@ -546,12 +546,12 @@ public class ContentNewsletterHandlerServlet
         catch ( TransformerException te )
         {
             String msg = "XSLT transformation error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, te );
+            VerticalAdminLogger.errorAdmin(msg, te );
         }
         catch ( IOException ioe )
         {
             String msg = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, ioe );
+            VerticalAdminLogger.errorAdmin(msg, ioe );
         }
     }
 
@@ -651,7 +651,7 @@ public class ContentNewsletterHandlerServlet
         }
         catch ( UnsupportedEncodingException uee )
         {
-            VerticalAdminLogger.fatalAdmin( this.getClass(), 0, "%t", uee );
+            VerticalAdminLogger.errorAdmin("%t", uee);
         }
         super.handlerCreate( request, response, session, admin, formItems, user );
     }
@@ -680,7 +680,7 @@ public class ContentNewsletterHandlerServlet
         }
         catch ( UnsupportedEncodingException uee )
         {
-            VerticalAdminLogger.fatalAdmin( this.getClass(), 0, "%t", uee );
+            VerticalAdminLogger.errorAdmin("%t", uee);
         }
         super.handlerUpdate( request, response, formItems, user );
     }

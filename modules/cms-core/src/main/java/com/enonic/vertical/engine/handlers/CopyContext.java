@@ -94,8 +94,8 @@ public class CopyContext
         }
         else
         {
-            String msg = "Element not defined for copy context: %0";
-            VerticalEngineLogger.fatalEngine( this.getClass(), 0, msg, elementName, null );
+            String msg = "Element not defined for copy context: {0}";
+            VerticalEngineLogger.fatalEngine(msg, elementName, null );
         }
     }
 
@@ -103,8 +103,8 @@ public class CopyContext
     {
         // NOTE! At the moment, none of the tables using a string key is supported by the copy context
 
-        String msg = "Element not defined for copy context: %0";
-        VerticalEngineLogger.fatalEngine( this.getClass(), 0, msg, elementName, null );
+        String msg = "Element not defined for copy context: {0}";
+        VerticalEngineLogger.fatalEngine(msg, elementName, null );
     }
 
 

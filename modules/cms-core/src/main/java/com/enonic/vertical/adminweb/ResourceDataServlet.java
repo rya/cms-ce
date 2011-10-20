@@ -41,15 +41,15 @@ public class ResourceDataServlet
             }
             else
             {
-                String msg = "Resource not found: %0";
-                VerticalAdminLogger.warn( this.getClass(), 0, msg, keyStr, null );
+                String msg = "Resource not found: {0}";
+                VerticalAdminLogger.warn(msg, keyStr, null );
                 response.sendError( HttpServletResponse.SC_NOT_FOUND, StringUtil.expandString( msg, keyStr, null ) );
             }
         }
         else
         {
             String message = "Resource key not specified.";
-            VerticalAdminLogger.warn( this.getClass(), 0, message, null );
+            VerticalAdminLogger.warn(message, null );
             response.sendError( HttpServletResponse.SC_NOT_FOUND, message );
         }
     }

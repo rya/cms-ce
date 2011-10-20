@@ -503,7 +503,6 @@ public class UserHandlerServlet
             XMLDocument timeZonesDoc = XMLDocumentFactory.create( timeZoneXmlCreator.createTimeZonesDocument( timeZones ) );
             XMLTool.mergeDocuments( userDoc, timeZonesDoc.getAsDOMDocument(), true );
 
-            VerticalAdminLogger.debug( this.getClass(), 0, userDoc );
             xmlSource = new DOMSource( userDoc );
 
             xslParams.put( "userstorename", userStore.getName() );
@@ -612,7 +611,7 @@ public class UserHandlerServlet
                             }
                             catch ( VerticalException ve )
                             {
-                                VerticalEngineLogger.warn( this.getClass(), 10, "Unable to generate password.", null );
+                                VerticalEngineLogger.warn("Unable to generate password.", null );
                             }
                         }
                     }
@@ -825,11 +824,11 @@ public class UserHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
     }
 
@@ -866,7 +865,7 @@ public class UserHandlerServlet
         }
         catch ( Exception e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 50, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
 
         return result;
@@ -1346,15 +1345,15 @@ public class UserHandlerServlet
         catch ( XsltProcessorException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
     }
 
@@ -1409,18 +1408,17 @@ public class UserHandlerServlet
             }
             catch ( TransformerException e )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 20, "XSLT error.", e );
+                VerticalAdminLogger.errorAdmin("XSLT error.", e );
             }
             catch ( IOException e )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 40, "I/O error.", e );
+                VerticalAdminLogger.errorAdmin("I/O error.", e );
             }
         }
         else if ( "sendnotification".equals( operation ) )
         {
             Mail mail = new Mail();
             mail.setSMTPHost( verticalProperties.getSMTPHost() );
-            VerticalAdminLogger.debug( this.getClass(), 0, "SMTP host: %0", verticalProperties.getSMTPHost(), null );
             mail.setFrom( formItems.getString( "from_name", "" ), formItems.getString( "from_mail", "" ) );
             mail.addRecipient( formItems.getString( "to_name", "" ), formItems.getString( "to_mail" ), Mail.TO_RECIPIENT );
 
@@ -1516,11 +1514,11 @@ public class UserHandlerServlet
             }
             catch ( TransformerException e )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 20, "XSLT error.", e );
+                VerticalAdminLogger.errorAdmin("XSLT error.", e );
             }
             catch ( IOException e )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 40, "I/O error.", e );
+                VerticalAdminLogger.errorAdmin("I/O error.", e );
             }
         }
         else
@@ -1532,7 +1530,7 @@ public class UserHandlerServlet
 
             if ( !newPassword1.equals( newPassword2 ) )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 40, "Passwords do not match!", null );
+                VerticalAdminLogger.errorAdmin("Passwords do not match!", null );
             }
 
             final String uid = formItems.getString( "uid" );

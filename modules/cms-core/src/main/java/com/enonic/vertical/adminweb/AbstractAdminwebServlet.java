@@ -386,13 +386,13 @@ public abstract class AbstractAdminwebServlet
         }
         catch ( IOException ioe )
         {
-            String message = "Failed to forward request to \"%0\": %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, adminPath, ioe );
+            String message = "Failed to forward request to \"{0}\": %t";
+            VerticalAdminLogger.errorAdmin(message, adminPath, ioe );
         }
         catch ( ServletException se )
         {
-            String message = "Failed to forward request to \"%0\": %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, adminPath, se );
+            String message = "Failed to forward request to \"{0}\": %t";
+            VerticalAdminLogger.errorAdmin(message, adminPath, se );
         }
     }
 

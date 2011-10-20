@@ -135,7 +135,7 @@ public final class AdminLogInServlet
             catch ( VerticalAdminException vae2 )
             {
                 String message = "Failed to redirect to error page: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae2 );
+                VerticalAdminLogger.errorAdmin(message, vae2);
             }
         }
     }
@@ -184,7 +184,7 @@ public final class AdminLogInServlet
             catch ( VerticalAdminException vae2 )
             {
                 String message = "Failed to redirect to error page: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae2 );
+                VerticalAdminLogger.errorAdmin(message, vae2);
             }
         }
     }
@@ -229,7 +229,7 @@ public final class AdminLogInServlet
         catch ( VerticalSecurityException vse )
         {
             String msg = "Failed to create log entry of login: %t";
-            VerticalAdminLogger.error( this.getClass(), 0, msg, vse );
+            VerticalAdminLogger.error(msg, vse );
             key = null;
         }
 
@@ -362,7 +362,7 @@ public final class AdminLogInServlet
             if ( uid == null || passwd == null )
             {
                 String message = "User and/or password not set.";
-                VerticalAdminLogger.error( this.getClass(), 0, message, null );
+                VerticalAdminLogger.error(message, null );
                 session.setAttribute( "loginerrorcode", EC_401_MISSING_USER_PASSWD );
                 session.setAttribute( "loginerror", message );
                 session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
@@ -385,9 +385,9 @@ public final class AdminLogInServlet
         }
         catch ( InvalidCredentialsException vse )
         {
-            String message = "Failed to authenticate user (domain key: %0): %1";
+            String message = "Failed to authenticate user (domain key: {0}): {1}";
             Object[] msgData = {userStoreKey, uid};
-            VerticalAdminLogger.warn( this.getClass(), 0, message, msgData, null );
+            VerticalAdminLogger.warn(message, msgData, null );
             message = StringUtil.expandString( message, msgData, vse );
             session.setAttribute( "loginerrorcode", EC_401_USER_PASSWD_WRONG );
             session.setAttribute( "loginerror", message );
@@ -399,7 +399,7 @@ public final class AdminLogInServlet
         catch ( AdminConsoleAccessDeniedException e )
         {
             String message = "User is not authorized to use administration console.";
-            VerticalAdminLogger.error( this.getClass(), 0, message, null );
+            VerticalAdminLogger.error(message, null );
             session.setAttribute( "loginerrorcode", EC_401_ACCESS_DENIED );
             session.setAttribute( "loginerror", message );
             session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
@@ -431,7 +431,7 @@ public final class AdminLogInServlet
             if ( !loggingSuccessful )
             {
                 String message = "Failed to create log entry of user login";
-                VerticalAdminLogger.error( this.getClass(), 0, message, null );
+                VerticalAdminLogger.error(message, null );
                 session.setAttribute( "loginerrorcode", EC_500_UNEXPECTED_ERROR );
                 session.setAttribute( "loginerror", message );
                 session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
@@ -489,7 +489,7 @@ public final class AdminLogInServlet
         catch ( VerticalAdminException vae )
         {
             String message = "Failed to redirect to admin page: %t";
-            VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+            VerticalAdminLogger.errorAdmin(message, vae);
         }
 
     }
@@ -512,8 +512,8 @@ public final class AdminLogInServlet
             catch ( VerticalAdminException vae )
             {
                 String page = "login page";
-                String message = "Failed to redirect to %0: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, page, vae );
+                String message = "Failed to redirect to {0}: %t";
+                VerticalAdminLogger.errorAdmin(message, page, vae);
             }
         }
         else
@@ -524,8 +524,8 @@ public final class AdminLogInServlet
             }
             catch ( VerticalAdminException vae )
             {
-                String message = "Failed to redirect to %0: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, "login page", vae );
+                String message = "Failed to redirect to {0}: %t";
+                VerticalAdminLogger.errorAdmin(message, "login page", vae);
             }
         }
     }

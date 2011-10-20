@@ -236,7 +236,7 @@ public final class ContentObjectHandlerServlet
         catch ( Exception e )
         {
             String message = "Failed to parse datasource document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
         contentObjectData.appendChild( doc.importNode( datasourcesDoc.getDocumentElement(), true ) );
 
@@ -275,7 +275,7 @@ public final class ContentObjectHandlerServlet
                             catch ( NumberFormatException nfe )
                             {
                                 String message = "Failed to parse menu item key: %t";
-                                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                                VerticalAdminLogger.errorAdmin(message, nfe );
                             }
                             String menuItemName = admin.getMenuItemName( menuItemKey );
                             tempElement.setAttribute( "valuename", menuItemName );
@@ -290,7 +290,7 @@ public final class ContentObjectHandlerServlet
                             catch ( NumberFormatException nfe )
                             {
                                 String message = "Failed to parse category key: %t";
-                                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                                VerticalAdminLogger.errorAdmin(message, nfe );
                             }
                             String categoryName = admin.getCategoryName( categoryKey );
                             tempElement.setAttribute( "valuename", categoryName );
@@ -323,7 +323,7 @@ public final class ContentObjectHandlerServlet
                         catch ( NumberFormatException nfe )
                         {
                             String message = "Failed to parse menu item key: %t";
-                            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                            VerticalAdminLogger.errorAdmin(message, nfe );
                         }
                         String menuItemName = admin.getMenuItemName( menuItemKey );
                         tempElement.setAttribute( "valuename", menuItemName );
@@ -338,7 +338,7 @@ public final class ContentObjectHandlerServlet
                         catch ( NumberFormatException nfe )
                         {
                             String message = "Failed to parse menu item key: %t";
-                            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                            VerticalAdminLogger.errorAdmin(message, nfe );
                         }
                         String categoryName = admin.getCategoryName( categoryKey );
                         tempElement.setAttribute( "valuename", categoryName );
@@ -377,7 +377,7 @@ public final class ContentObjectHandlerServlet
                             catch ( NumberFormatException nfe )
                             {
                                 String message = "Failed to parse menu item key: %t";
-                                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                                VerticalAdminLogger.errorAdmin(message, nfe );
                             }
                             String menuItemName = admin.getMenuItemName( menuItemKey );
                             tempElement.setAttribute( "valuename", menuItemName );
@@ -392,7 +392,7 @@ public final class ContentObjectHandlerServlet
                             catch ( NumberFormatException nfe )
                             {
                                 String message = "Failed to parse menu item key: %t";
-                                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                                VerticalAdminLogger.errorAdmin(message, nfe );
                             }
                             String categoryName = admin.getCategoryName( categoryKey );
                             tempElement.setAttribute( "valuename", categoryName );
@@ -424,7 +424,7 @@ public final class ContentObjectHandlerServlet
                         catch ( NumberFormatException nfe )
                         {
                             String message = "Failed to parse menu item key: %t";
-                            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                            VerticalAdminLogger.errorAdmin(message, nfe );
                         }
                         String menuItemName = "null";
                         menuItemName = admin.getMenuItemName( menuItemKey );
@@ -440,7 +440,7 @@ public final class ContentObjectHandlerServlet
                         catch ( NumberFormatException nfe )
                         {
                             String message = "Failed to parse menu item key: %t";
-                            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, nfe );
+                            VerticalAdminLogger.errorAdmin(message, nfe );
                         }
                         String categoryName = admin.getCategoryName( categoryKey );
                         tempElement.setAttribute( "valuename", categoryName );
@@ -991,8 +991,6 @@ public final class ContentObjectHandlerServlet
             parameters.put( "defaultcsskeyExist", resourceService.getResourceFile( defaultCSS ) == null ? "false" : "true" );
         }
 
-        VerticalAdminLogger.debug( this.getClass(), 0, doc );
-
         addCommonParameters( admin, user, request, parameters, -1, menuKey );
 
         if ( createContentObject )
@@ -1149,7 +1147,7 @@ public final class ContentObjectHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( getClass(), 140, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
         finally
         {
@@ -1161,7 +1159,7 @@ public final class ContentObjectHandlerServlet
                 }
                 catch ( IOException e )
                 {
-                    VerticalAdminLogger.errorAdmin( getClass(), 150, "I/O error: %t", e );
+                    VerticalAdminLogger.errorAdmin("I/O error: %t", e );
                 }
             }
         }

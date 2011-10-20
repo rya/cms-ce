@@ -68,7 +68,7 @@ final class PluginInstaller
         }
         catch ( Exception e )
         {
-            LOG.error( e, "Error updating plugin from location [{0}]", bundle.getLocation() );
+            LOG.errorCause("Error updating plugin from location [{0}]", e, bundle.getLocation());
         }
     }
 
@@ -81,7 +81,7 @@ final class PluginInstaller
         }
         catch ( Exception e )
         {
-            LOG.error( e, "Error installing plugin from location [{0}]", location );
+            LOG.errorCause("Error installing plugin from location [{0}]", e, location);
         }
     }
 
@@ -93,7 +93,7 @@ final class PluginInstaller
         }
         catch ( Exception e )
         {
-            LOG.error( e, "Error occurred removing plugin [{0}]", bundle.getSymbolicName() );
+            LOG.errorCause("Error occurred removing plugin [{0}]", e, bundle.getSymbolicName());
         }
     }
 

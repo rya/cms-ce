@@ -117,7 +117,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -164,7 +164,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -367,7 +367,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {
@@ -458,7 +458,7 @@ public final class GroupHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 10, "A database error occurred: %t", e );
+            VerticalEngineLogger.error("A database error occurred: %t", e );
         }
         finally
         {

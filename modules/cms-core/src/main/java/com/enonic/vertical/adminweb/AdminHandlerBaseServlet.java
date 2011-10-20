@@ -190,7 +190,7 @@ public abstract class AdminHandlerBaseServlet
         catch ( IOException ioe )
         {
             String message = "Failed to print html response: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
     }
 
@@ -223,7 +223,7 @@ public abstract class AdminHandlerBaseServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( AdminHandlerBaseServlet.class, 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
         finally
         {
@@ -237,7 +237,7 @@ public abstract class AdminHandlerBaseServlet
             catch ( IOException ioe )
             {
                 String message = "Failed to close file input stream: %t";
-                VerticalAdminLogger.warn( AdminHandlerBaseServlet.class, 0, message, ioe );
+                VerticalAdminLogger.warn(message, ioe );
             }
         }
         return binaryData;
@@ -297,8 +297,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException
     {
 
-        String message = "OperationWrapper BROWSE is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper BROWSE is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerCopy( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -306,10 +306,10 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper COPY is not implemented (page=%0,key=%1)";
+        String message = "OperationWrapper COPY is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.getString( "page" ), key};
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, msgData, null );
+        VerticalAdminLogger.errorAdmin(message, msgData, null );
     }
 
     public void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -317,8 +317,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper CREATE is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper CREATE is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerReport( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -326,8 +326,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper REPORT is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper REPORT is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerPreview( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -335,8 +335,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper PREVIEW is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper PREVIEW is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -352,10 +352,10 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "Custom operation is not implemented (page=%0): %1";
+        String message = "Custom operation is not implemented (page={0}): {1}";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), operation};
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, msgData, null );
+        VerticalAdminLogger.errorAdmin(message, msgData, null );
     }
 
     public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -363,8 +363,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper FORM is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper FORM is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
 
     }
 
@@ -412,10 +412,10 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper REMOVE is not implemented (page=%0,key=%1)";
+        String message = "OperationWrapper REMOVE is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), key};
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, msgData, null );
+        VerticalAdminLogger.errorAdmin(message, msgData, null );
     }
 
     public void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -423,10 +423,10 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper REMOVE is not implemented (page=%0,key=%1)";
+        String message = "OperationWrapper REMOVE is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), key};
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, msgData, null );
+        VerticalAdminLogger.errorAdmin(message, msgData, null );
     }
 
     public void handlerSearch( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -434,8 +434,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException
     {
 
-        String message = "OperationWrapper SEARCH is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper SEARCH is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerSearchResults( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -443,25 +443,25 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException
     {
 
-        String message = "OperationWrapper SEARCH RESULTS is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper SEARCH RESULTS is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerMenu( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                              ExtendedMap formItems, ExtendedMap parameters, User user, Document verticalDoc )
         throws VerticalAdminException, TransformerException, IOException
     {
-        String message = "OperationWrapper MENU is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper MENU is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerWizard( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                ExtendedMap formItems, ExtendedMap parameters, User user, String wizardName )
         throws VerticalAdminException, VerticalEngineException, TransformerException, IOException
     {
-        String message = "OperationWrapper WIZARD is not implemented (page=%0,wizardName=%1)";
+        String message = "OperationWrapper WIZARD is not implemented (page={0},wizardName={1})";
         Object[] msgData = {formItems.get( "page" ), wizardName};
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, msgData, null );
+        VerticalAdminLogger.errorAdmin(message, msgData, null );
     }
 
     public void handlerNotify( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -469,9 +469,9 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException
     {
 
-        String message = "OperationWrapper NOTIFY is not implemented (page=%0)";
+        String message = "OperationWrapper NOTIFY is not implemented (page={0})";
 
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public boolean handlerSelect( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -479,8 +479,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException
     {
 
-        String message = "OperationWrapper SELECT is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper SELECT is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
         return false;
     }
 
@@ -489,8 +489,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException
     {
 
-        String message = "OperationWrapper SHOW is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper SHOW is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -498,8 +498,8 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String message = "OperationWrapper UPDATE is not implemented (page=%0)";
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, formItems.get( "page" ), null );
+        String message = "OperationWrapper UPDATE is not implemented (page={0})";
+        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
     }
 
     public static boolean isArrayFormItem( Map formItems, String string )
@@ -718,7 +718,7 @@ public abstract class AdminHandlerBaseServlet
 
         if ( session == null )
         {
-            VerticalAdminLogger.debug( this.getClass(), 100, "Session is null. Redirecting to login.", null );
+            VerticalAdminLogger.debug("Session is null. Redirecting to login.", null );
 
             // failed to get session, redirect to login page
             try
@@ -728,7 +728,7 @@ public abstract class AdminHandlerBaseServlet
             catch ( VerticalAdminException vae )
             {
                 String message = "Failed to redirect to login page: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                VerticalAdminLogger.errorAdmin(message, vae);
             }
         }
         else
@@ -740,7 +740,7 @@ public abstract class AdminHandlerBaseServlet
             {
                 // no logged in user, invalidate session and redirect to login page
                 String message = "No user logged in. Redirecting to login.";
-                VerticalAdminLogger.debug( this.getClass(), 0, message, null );
+                VerticalAdminLogger.debug(message, null );
                 try
                 {
                     redirectClientToAdminPath( "login", (MultiValueMap) null, request, response );
@@ -748,7 +748,7 @@ public abstract class AdminHandlerBaseServlet
                 catch ( VerticalAdminException vae )
                 {
                     message = "Failed to redirect to login page: %t";
-                    VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                    VerticalAdminLogger.errorAdmin(message, vae);
                 }
             }
             else
@@ -842,8 +842,8 @@ public abstract class AdminHandlerBaseServlet
                             }
                             catch ( NumberFormatException nfe )
                             {
-                                String message = "Failed to parse key (%0): %t";
-                                VerticalAdminLogger.errorAdmin( this.getClass(), 5, message, keyStr, nfe );
+                                String message = "Failed to parse key ({0}): %t";
+                                VerticalAdminLogger.errorAdmin(message, keyStr, nfe );
                             }
                             handlerRemove( request, response, session, admin, formItems, key );
                         }
@@ -862,8 +862,8 @@ public abstract class AdminHandlerBaseServlet
                         }
                         catch ( NumberFormatException nfe )
                         {
-                            String message = "Failed to parse key (%0): %t";
-                            VerticalAdminLogger.errorAdmin( this.getClass(), 5, message, keyStr, nfe );
+                            String message = "Failed to parse key ({0}): %t";
+                            VerticalAdminLogger.errorAdmin(message, keyStr, nfe );
                         }
 
                         handlerCopy( request, response, session, admin, formItems, user, key );
@@ -939,7 +939,7 @@ public abstract class AdminHandlerBaseServlet
                         if ( !( e instanceof VerticalException ) && !( e instanceof VerticalRuntimeException ) )
                         {
                             String message = "Unexpected error occurred during handling of admin page: %t";
-                            VerticalAdminLogger.error( this.getClass(), 8, message, e );
+                            VerticalAdminLogger.error(message, e );
                         }
                         ErrorPageServlet.Error error = new ErrorPageServlet.ThrowableError( e );
                         session.setAttribute( "com.enonic.vertical.error", error );
@@ -948,7 +948,7 @@ public abstract class AdminHandlerBaseServlet
                     catch ( VerticalAdminException vae )
                     {
                         String message = "Failed to redirect to error page: %t";
-                        VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                        VerticalAdminLogger.errorAdmin(message, vae);
                     }
                 }
             }
@@ -1007,7 +1007,7 @@ public abstract class AdminHandlerBaseServlet
         catch ( XsltProcessorException xpe )
         {
             String msg = "Failed to transform xml: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, xpe );
+            VerticalAdminLogger.errorAdmin(msg, xpe );
         }
     }
 
@@ -1451,7 +1451,7 @@ public abstract class AdminHandlerBaseServlet
         catch ( VerticalSecurityException vse )
         {
             String message = "Failed to create log entry because of security error: %t";
-            VerticalAdminLogger.error( this.getClass(), 1, message, vse );
+            VerticalAdminLogger.error(message, vse );
             return false;
         }
 

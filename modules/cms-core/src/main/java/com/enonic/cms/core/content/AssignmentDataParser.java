@@ -10,7 +10,6 @@ import java.util.Date;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.util.DateUtil;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
-import com.enonic.vertical.adminweb.handlers.ContentBaseHandlerServlet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -69,7 +68,7 @@ public class AssignmentDataParser
             }
             catch ( ParseException e )
             {
-                VerticalAdminLogger.errorAdmin( ContentBaseHandlerServlet.class, 10, "Error parsing assignment duedate: %t", e );
+                VerticalAdminLogger.errorAdmin("Error parsing assignment duedate: %t", e );
             }
         }
 

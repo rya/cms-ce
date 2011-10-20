@@ -409,7 +409,7 @@ public class ContentBaseHandlerServlet
                 catch ( IOException ioe )
                 {
                     String message = "Failed to inflate zip file: %t";
-                    WizardLogger.error( this.getClass(), 0, message, ioe );
+                    WizardLogger.error(message, ioe );
                     wizardState.addError( "12", "zipfile", StringUtil.expandString( message, ioe ) );
                 }
             }
@@ -1195,18 +1195,18 @@ public class ContentBaseHandlerServlet
             else
             {
                 String message = "Unknown sub-operation for operation report: %t";
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, subOp, null );
+                VerticalAdminLogger.errorAdmin(message, null );
             }
         }
         catch ( XsltProcessorException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
         catch ( IOException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
 
     }
@@ -1318,10 +1318,7 @@ public class ContentBaseHandlerServlet
 
         if ( ( !createContent && versionKey == -1 ) || ( createContent && versionKey != -1 ) )
         {
-            Object[] msgData = new Object[2];
-            msgData[0] = "ContentKey = " + contentKey;
-            msgData[1] = "VersionKey = " + versionKey;
-            VerticalAdminLogger.error( this.getClass(), 0, "Parameter error!", msgData, null );
+            VerticalAdminLogger.error( "Parameter error!", null );
         }
 
         handlerForm( request, response, session, admin, formItems, user, createContent, unitKey, categoryKey, contentTypeKey, contentKey,
@@ -1368,7 +1365,7 @@ public class ContentBaseHandlerServlet
         if ( !root.hasChildNodes() )
         {
             String message = "Access denied.";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+            VerticalAdminLogger.errorAdmin(message, null );
         }
 
         if ( !createContent )
@@ -1419,8 +1416,6 @@ public class ContentBaseHandlerServlet
             Document tmpDoc = XMLTool.domparse( AdminStore.getXML( session, extraFormXMLFile ) );
             XMLTool.mergeDocuments( doc, tmpDoc, true );
         }
-
-        VerticalAdminLogger.debug( this.getClass(), 0, doc );
 
         // Stylesheet parameters
         ExtendedMap parameters = new ExtendedMap();
@@ -2320,8 +2315,8 @@ public class ContentBaseHandlerServlet
         }
         else
         {
-            String message = "Unknown sub-operation: %0";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, subop, null );
+            String message = "Unknown sub-operation: {0}";
+            VerticalAdminLogger.errorAdmin(message, subop, null );
         }
     }
 
@@ -2626,12 +2621,12 @@ public class ContentBaseHandlerServlet
         catch ( VerticalRenderException vre )
         {
             String message = "Failed to render page: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, vre );
+            VerticalAdminLogger.errorAdmin(message, vre );
         }
         catch ( IOException ioe )
         {
             String message = "Failed to redirect user client: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
     }
 

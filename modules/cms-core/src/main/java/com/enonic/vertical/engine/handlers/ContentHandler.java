@@ -271,26 +271,23 @@ public final class ContentHandler
                 preparedStmt.setNull( 7, Types.VARCHAR );
             }
 
-            VerticalEngineLogger.debug( this.getClass(), 2, "Content type key: %0", String.valueOf( key ), null );
-            VerticalEngineLogger.debug( this.getClass(), 2, "Content type name: %0", name, null );
-
             // add the content type
             int result = preparedStmt.executeUpdate();
             if ( result == 0 )
             {
                 String message = "Failed to create content type. No content type created.";
-                VerticalEngineLogger.errorCreate( this.getClass(), 2, message, null );
+                VerticalEngineLogger.errorCreate(message, null );
             }
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to generate content handler key: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 6, message, gke );
+            VerticalEngineLogger.errorCreate(message, gke );
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create content type: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 3, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         finally
         {
@@ -472,7 +469,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove content type: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorRemove(message, sqle );
         }
         finally
         {
@@ -550,12 +547,12 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to update content type: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorUpdate(message, sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse content type key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
+            VerticalEngineLogger.errorUpdate(message, nfe );
         }
         finally
         {
@@ -803,7 +800,7 @@ public final class ContentHandler
                     catch ( ProcessElementException pee )
                     {
                         String message = "Failed to process element: %t";
-                        VerticalEngineLogger.warn( this.getClass(), 0, message, pee );
+                        VerticalEngineLogger.warn(message, pee );
                     }
 
                     // increase index
@@ -999,7 +996,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get contents; %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             if ( contentsElem != null )
             {
                 XMLTool.removeChildNodes( contentsElem, false );
@@ -1212,7 +1209,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get content type keys: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1372,7 +1369,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get content handlers: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1450,18 +1447,18 @@ public final class ContentHandler
             if ( result == 0 )
             {
                 String message = "Failed to create content handler. No content handler created.";
-                VerticalEngineLogger.errorCreate( this.getClass(), 2, message, null );
+                VerticalEngineLogger.errorCreate(message, null );
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create content handler: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 3, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to generate content handler key: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 6, message, gke );
+            VerticalEngineLogger.errorCreate(message, gke );
         }
         finally
         {
@@ -1523,12 +1520,12 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to update content type: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorUpdate(message, sqle );
         }
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse content type key: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, nfe );
+            VerticalEngineLogger.errorUpdate(message, nfe );
         }
         finally
         {
@@ -1556,7 +1553,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove content handler: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.errorRemove(message, sqle );
         }
         finally
         {
@@ -1683,7 +1680,7 @@ public final class ContentHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get content titles; %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             doc = XMLTool.createDocument( "contenttitles" );
         }
         finally

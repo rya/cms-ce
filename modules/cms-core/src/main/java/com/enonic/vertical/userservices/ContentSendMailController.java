@@ -54,7 +54,7 @@ public class ContentSendMailController
             if ( categoryKey == -1 )
             {
                 String message = "Category key not specified.";
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                VerticalUserServicesLogger.warn(message, null );
                 redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
                 return;
             }
@@ -67,18 +67,18 @@ public class ContentSendMailController
             catch ( ContentDataParserInvalidDataException e )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                VerticalUserServicesLogger.warn(message, null );
                 redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
                 return;
             }
             catch ( ContentDataParserException e )
             {
-                VerticalUserServicesLogger.error( this.getClass(), e.getMessage(), e );
+                VerticalUserServicesLogger.error( e.getMessage(), e );
                 throw new UserServicesException( ERR_OPERATION_BACKEND );
             }
             catch ( ContentDataParserUnsupportedTypeException e )
             {
-                VerticalUserServicesLogger.error( this.getClass(), e.getMessage(), e );
+                VerticalUserServicesLogger.error( e.getMessage(), e );
                 throw new UserServicesException( ERR_OPERATION_BACKEND );
             }
 
@@ -99,14 +99,14 @@ public class ContentSendMailController
                 if ( cause instanceof MissingRequiredContentDataException )
                 {
                     String message = e.getMessage();
-                    VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                    VerticalUserServicesLogger.warn(message, null );
                     redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
                     return;
                 }
                 else if ( cause instanceof InvalidContentDataException )
                 {
                     String message = e.getMessage();
-                    VerticalUserServicesLogger.warn( this.getClass(), 0, message, null );
+                    VerticalUserServicesLogger.warn(message, null );
                     redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
                     return;
                 }

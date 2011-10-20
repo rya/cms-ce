@@ -41,19 +41,19 @@ final class FelixLogBridge
 
         if ( level == LOG_ERROR )
         {
-            LOG.error( cause, message );
+            LOG.errorCause(message, cause);
         }
         else if ( level == LOG_INFO )
         {
-            LOG.info( cause, message );
+            LOG.infoCause(message, cause);
         }
         else if ( level == LOG_WARNING )
         {
-            LOG.warning( cause, message );
+            LOG.warningCause(message, cause);
         }
         else
         {
-            LOG.debug( cause, message );
+            LOG.debugCause(message, cause);
         }
     }
 }

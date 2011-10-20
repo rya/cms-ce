@@ -44,6 +44,8 @@ import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.core.security.user.User;
 
+import static com.enonic.vertical.VerticalLogger.debug;
+
 public class CommonHandler
     extends BaseHandler
 {
@@ -91,7 +93,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -125,7 +127,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             result = 0;
         }
         finally
@@ -166,7 +168,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -210,7 +212,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get date: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -284,7 +286,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get object[][]: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -346,7 +348,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get object[][]: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -403,7 +405,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get int: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             value = -1;
         }
         finally
@@ -451,7 +453,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get int: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             value = -1;
         }
         finally
@@ -499,7 +501,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get int: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             value = false;
         }
         finally
@@ -539,7 +541,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get byte array: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -586,7 +588,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get integer array: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -640,7 +642,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get integer array: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -701,7 +703,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             string = null;
         }
         finally
@@ -751,7 +753,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -821,7 +823,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             strings = new String[0];
         }
         finally
@@ -870,7 +872,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get string: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             objects = new Object[0];
         }
         finally
@@ -918,7 +920,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to execute sql: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -935,11 +937,6 @@ public class CommonHandler
         Connection con = null;
         PreparedStatement preparedStmt = null;
         Object[] keys;
-
-        if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
-        {
-            VerticalEngineLogger.debug( this.getClass(), 0, doc );
-        }
 
         // used by error messages:
         String currentTable = null;
@@ -1004,8 +1001,8 @@ public class CommonHandler
             }
             else
             {
-                String message = "Document root (%0) is not <data>, and does not match any parent or element names.";
-                VerticalEngineLogger.errorCreate( this.getClass(), MSG_GENERAL, message, rootElem.getTagName(), null );
+                String message = "Document root ({0}) is not <data>, and does not match any parent or element names.";
+                VerticalEngineLogger.errorCreate(message, rootElem.getTagName(), null );
                 dataElems = null;
             }
 
@@ -1066,18 +1063,10 @@ public class CommonHandler
                     }
                 }
 
-                if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
-                {
-                    String message = "table=%0;key=%1";
-                    Object[] msgData = new Object[]{table.getName(), keys[i]};
-                    VerticalEngineLogger.debug( this.getClass(), MSG_GENERAL, message, msgData, null );
-                }
-
                 currentTable = table.toString();
                 currentElement = dataElems[i];
 
                 StringBuffer sql = XDG.generateInsertSQL( table, dataElems[i] );
-                VerticalEngineLogger.debug( this.getClass(), 0, "SQL: %0", sql, null );
 
                 preparedStmt = con.prepareStatement( sql.toString() );
 
@@ -1087,7 +1076,7 @@ public class CommonHandler
                 if ( result == 0 )
                 {
                     String message = "Failed to create entity.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), MSG_GENERAL, message, null );
+                    VerticalEngineLogger.errorCreate(message, null );
                 }
                 close( preparedStmt );
                 preparedStmt = null;
@@ -1097,19 +1086,19 @@ public class CommonHandler
         catch ( ParseException pe )
         {
             String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), MSG_GENERAL, message, pe );
+            VerticalEngineLogger.errorCreate(message, pe );
             keys = null;
         }
         catch ( TransformerException te )
         {
             String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), MSG_GENERAL, message, te );
+            VerticalEngineLogger.errorCreate(message, te );
             keys = null;
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
             keys = null;
             if ( currentTable != null )
             {
@@ -1123,7 +1112,7 @@ public class CommonHandler
         catch ( VerticalKeyException gke )
         {
             String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), MSG_GENERAL, message, gke );
+            VerticalEngineLogger.errorCreate(message, gke );
             keys = null;
         }
         finally
@@ -1161,8 +1150,8 @@ public class CommonHandler
             }
             else
             {
-                String message = "Document root (%0) is not <data>, and does not match any parent or element names.";
-                VerticalEngineLogger.errorUpdate( this.getClass(), MSG_GENERAL, message, rootElem.getTagName(), null );
+                String message = "Document root ({0}) is not <data>, and does not match any parent or element names.";
+                VerticalEngineLogger.errorUpdate(message, rootElem.getTagName(), null );
                 dataElems = null;
             }
 
@@ -1173,7 +1162,7 @@ public class CommonHandler
                 if ( keyStr == null || keyStr.length() == 0 )
                 {
                     String message = "Update failed, missing key.";
-                    VerticalEngineLogger.errorUpdate( this.getClass(), MSG_GENERAL, message, null );
+                    VerticalEngineLogger.errorUpdate(message, null );
                 }
                 else
                 {
@@ -1195,8 +1184,8 @@ public class CommonHandler
                     int result = preparedStmt.executeUpdate();
                     if ( result == 0 )
                     {
-                        String message = "Failed to update entity with key: %0";
-                        VerticalEngineLogger.errorUpdate( this.getClass(), MSG_GENERAL, message, keyStr, null );
+                        String message = "Failed to update entity with key: (0}";
+                        VerticalEngineLogger.errorUpdate(message, keyStr, null );
                     }
                     close( preparedStmt );
                 }
@@ -1205,17 +1194,17 @@ public class CommonHandler
         catch ( ParseException pe )
         {
             String message = "Failed to update: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), MSG_GENERAL, message, pe );
+            VerticalEngineLogger.errorUpdate(message, pe );
         }
         catch ( TransformerException te )
         {
             String message = "Failed to update: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), MSG_GENERAL, message, te );
+            VerticalEngineLogger.errorUpdate(message, te );
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to update: %t";
-            VerticalEngineLogger.errorUpdate( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.errorUpdate(message, sqle );
         }
         finally
         {
@@ -1247,7 +1236,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1281,7 +1270,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1333,14 +1322,6 @@ public class CommonHandler
         // Set parameter values
         for ( int i = 0; i < paramValues.size(); i++ )
         {
-            if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
-            {
-                Object[] msgData = new Object[3];
-                msgData[0] = i;
-                msgData[1] = paramValues.get( i );
-                msgData[2] = paramValues.get( i ).getClass();
-                VerticalEngineLogger.debug( this.getClass(), 0, "Parameter %0: %1 (%2)", msgData, null );
-            }
             if ( dataTypes != null )
             {
                 DataType dataType = dataTypes.get( i );
@@ -1403,15 +1384,6 @@ public class CommonHandler
 
                 Column column = table.getColumnByXPath( xpath );
                 List values = parameters.getValueList( xpath );
-
-                if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
-                {
-                    Object[] msgData = new Object[3];
-                    msgData[0] = column;
-                    msgData[1] = values;
-                    msgData[2] = values.getClass();
-                    VerticalEngineLogger.debug( this.getClass(), 0, "%0: %1 (%2)", msgData, null );
-                }
 
                 if ( values.size() == 0 )
                 {
@@ -1492,7 +1464,6 @@ public class CommonHandler
             }
         }
 
-        VerticalEngineLogger.debug( this.getClass(), 0, "SQL: %0", sql.toString(), null );
         preparedStmt = con.prepareStatement( sql.toString() );
         preparedStmt.setFetchSize( FETCH_SIZE );
 
@@ -1503,8 +1474,6 @@ public class CommonHandler
                              ElementProcessor[] elementProcessors, int fromIndex, int count, String orderBy, boolean descending,
                              boolean includeAccessRights, boolean includeCount, Element parentElem )
     {
-
-        VerticalEngineLogger.debug( this.getClass(), 0, "Parameters: %0", parameters, null );
 
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -1535,7 +1504,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "SQL error: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -1672,14 +1641,14 @@ public class CommonHandler
             else
             {
                 String message = "Failed to count data.";
-                VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, null );
+                VerticalEngineLogger.error(message, null );
                 result = 0;
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to count data: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             result = 0;
         }
         finally
@@ -1763,7 +1732,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get path string: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             result.setLength( 0 );
         }
         finally
@@ -1791,11 +1760,6 @@ public class CommonHandler
             prepStmt.setInt( 1, setValue );
             prepStmt.setObject( 2, paramValue );
             rowCount = prepStmt.executeUpdate();
-            if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
-            {
-                String message = "%0 rows updated.";
-                VerticalEngineLogger.debug( this.getClass(), MSG_GENERAL, message, rowCount, null );
-            }
         }
         finally
         {
@@ -1821,11 +1785,6 @@ public class CommonHandler
                 prepStmt.setObject( i + 1, values[i] );
             }
             rowCount = prepStmt.executeUpdate();
-            if ( VerticalEngineLogger.isDebugEnabled( this.getClass() ) )
-            {
-                String message = "%0 row(s) updated.";
-                VerticalEngineLogger.debug( this.getClass(), MSG_GENERAL, message, rowCount, null );
-            }
         }
         finally
         {
@@ -1885,7 +1844,7 @@ public class CommonHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get data: %t";
-            VerticalEngineLogger.error( this.getClass(), MSG_GENERAL, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {

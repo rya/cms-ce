@@ -270,8 +270,6 @@ public class FormHandlerController
         {
             throw new FormException( doc, errorCodes.toArray( new Integer[errorCodes.size()] ) );
         }
-
-        VerticalUserServicesLogger.debug( this.getClass(), 10, doc );
     }
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -415,7 +413,7 @@ public class FormHandlerController
         }
         catch ( IOException ioe )
         {
-            VerticalUserServicesLogger.errorUserServices( this.getClass(), 20, "Failed to read multipart request: %t", ioe );
+            VerticalUserServicesLogger.errorUserServices( "Failed to read multipart request: %t", ioe );
         }
         catch ( FormException e )
         {

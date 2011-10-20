@@ -62,7 +62,7 @@ final class PluginHandleImpl
         try {
             this.bundle.update();
         } catch (final Exception e) {
-            LOG.warning(e, "Exception when updating plugin [{0}]", this.bundle.getSymbolicName());
+            LOG.warningCause("Exception when updating plugin [{0}]", e, this.bundle.getSymbolicName());
         }
     }
 

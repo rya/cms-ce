@@ -81,7 +81,7 @@ public class PollHandlerController
         if ( !multipleChoice )
         {
             String selected = formItems.getString( "choice" );
-            VerticalUserServicesLogger.info( this.getClass(), 0, "the selection was: %0", selected, null );
+            VerticalUserServicesLogger.info("the selection was: {0}", selected, null );
 
             Map alternativesMap = XMLTool.filterElementsWithAttributeAsKey( alternativesElement.getChildNodes(), "id" );
             Element alternativeElem = (Element) alternativesMap.get( selected );

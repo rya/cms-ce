@@ -97,7 +97,7 @@ final public class SimpleContentHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
     }
 
@@ -122,7 +122,6 @@ final public class SimpleContentHandlerServlet
         xslParams.put( "content", "true" );
         xslParams.put( "unitname", unitKey );
 
-        VerticalAdminLogger.debug( this.getClass(), 0, doc );
         transformXML( request, response, doc, "editor/contentpopup_selected.xsl", xslParams );
     }
 
@@ -172,7 +171,7 @@ final public class SimpleContentHandlerServlet
                 catch ( ParseException pe )
                 {
                     String message = "Failed to parse publish from or to date: %t";
-                    VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, pe );
+                    VerticalAdminLogger.errorAdmin(message, pe );
                 }
             }
 
@@ -238,7 +237,7 @@ final public class SimpleContentHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
     }
 
@@ -278,7 +277,6 @@ final public class SimpleContentHandlerServlet
         xslParams.put( "_current_user_key", user.getKey().toString() );
 
         addCommonParameters( adminService, null, request, xslParams, unitKey, -1 );
-        VerticalAdminLogger.debug( this.getClass(), 0, doc );
         transformXML( request, response, doc, "fileimport_form.xsl", xslParams );
     }
 
@@ -358,11 +356,11 @@ final public class SimpleContentHandlerServlet
         }
         catch ( TransformerConfigurationException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 50, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 50, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
 
         return result;

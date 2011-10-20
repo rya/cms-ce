@@ -249,7 +249,7 @@ public class AdminAjaxServiceImpl
             HttpSession session = ServletRequestAccessor.getSession();
             if ( session == null )
             {
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, "Http session is null", null );
+                VerticalAdminLogger.errorAdmin("Http session is null", null );
 
                 return "ERROR: Http session is null";
             }
@@ -264,7 +264,7 @@ public class AdminAjaxServiceImpl
         catch ( XsltProcessorException xpe )
         {
             String msg = "Failed to transform xml: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, msg, xpe );
+            VerticalAdminLogger.errorAdmin(msg, xpe );
 
             return msg;
         }

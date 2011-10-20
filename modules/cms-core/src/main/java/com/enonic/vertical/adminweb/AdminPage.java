@@ -63,7 +63,7 @@ public class AdminPage
             catch ( VerticalAdminException vae )
             {
                 String message = "Failed to redirect to admin page: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                VerticalAdminLogger.errorAdmin(message, vae);
             }
         }
 
@@ -102,25 +102,25 @@ public class AdminPage
 
                             user = remoteUser;
                             SecurityHolderAdmin.setUser( user.getKey() );
-                            String message = "Logged in remote user %0 automatically";
-                            VerticalAdminLogger.info( this.getClass(), 0, message, remoteUserUID, null );
+                            String message = "Logged in remote user {0} automatically";
+                            VerticalAdminLogger.info(message, remoteUserUID, null );
                         }
                         else
                         {
-                            String message = "User %0 is not authorized to use administration console.";
-                            VerticalAdminLogger.error( this.getClass(), 0, message, remoteUserUID, null );
+                            String message = "User {0} is not authorized to use administration console.";
+                            VerticalAdminLogger.error(message, remoteUserUID, null );
                         }
                     }
                     else
                     {
-                        String message = "Failed to log in remote user with uid %0";
-                        VerticalAdminLogger.error( this.getClass(), 0, message, remoteUserUID, null );
+                        String message = "Failed to log in remote user with uid {0}";
+                        VerticalAdminLogger.error(message, remoteUserUID, null );
                     }
                 }
                 catch ( VerticalSecurityException vse )
                 {
-                    String message = "Failed to log in remote user with uid %0: %t";
-                    VerticalAdminLogger.error( this.getClass(), 0, message, remoteUserUID, vse );
+                    String message = "Failed to log in remote user with uid {0}: %t";
+                    VerticalAdminLogger.error(message, remoteUserUID, vse );
                 }
             }
         }
@@ -147,7 +147,7 @@ public class AdminPage
             catch ( VerticalAdminException vae )
             {
                 String message = "Failed to redirect to login page: %t";
-                VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                VerticalAdminLogger.errorAdmin(message, vae);
             }
         }
         else
@@ -173,7 +173,7 @@ public class AdminPage
                 catch ( IllegalArgumentException iae )
                 {
                     String message = "Failed to parse multi-part request";
-                    VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, iae );
+                    VerticalAdminLogger.errorAdmin(message, iae);
                 }
             }
             else
@@ -195,8 +195,8 @@ public class AdminPage
             }
             catch ( NumberFormatException nfe )
             {
-                String message = "Failed to parse page number: %0";
-                VerticalAdminLogger.error( this.getClass(), 0, message, pageStr, nfe );
+                String message = "Failed to parse page number: {0}";
+                VerticalAdminLogger.error(message, pageStr, nfe );
                 ErrorPageServlet.Error error = new ErrorPageServlet.ThrowableError( nfe );
                 session.setAttribute( "com.enonic.vertical.error", error );
                 try
@@ -206,7 +206,7 @@ public class AdminPage
                 catch ( VerticalAdminException vae )
                 {
                     message = "Failed to redirect to error page: %t";
-                    VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                    VerticalAdminLogger.errorAdmin(message, vae);
                 }
             }
 
@@ -381,7 +381,7 @@ public class AdminPage
                     if ( handlerName == null )
                     {
                         String message = "No handler set for content type.";
-                        VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+                        VerticalAdminLogger.errorAdmin(message, null );
                     }
                     servlet = "/admin/servlet/" + handlerClass;
                 }
@@ -390,8 +390,8 @@ public class AdminPage
             }
             catch ( Exception e )
             {
-                String message = "Forward failed: %0 %t";
-                VerticalAdminLogger.error( this.getClass(), 3, message, servlet, e );
+                String message = "Forward failed: {0} %t";
+                VerticalAdminLogger.error(message, servlet, e );
                 ErrorPageServlet.Error error = new ErrorPageServlet.ThrowableError( e );
                 session.setAttribute( "com.enonic.vertical.error", error );
                 try
@@ -401,7 +401,7 @@ public class AdminPage
                 catch ( VerticalAdminException vae )
                 {
                     message = "Failed to redirect to error page: %t";
-                    VerticalAdminLogger.fatalAdmin( this.getClass(), 0, message, vae );
+                    VerticalAdminLogger.errorAdmin(message, vae);
                 }
             }
         }

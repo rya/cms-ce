@@ -215,7 +215,7 @@ public final class AdminEngine
             if ( Arrays.binarySearch( groupKeys, enterpriseGroupKey ) < 0 )
             {
                 String message = "User does not have rights to copy menu.";
-                VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+                VerticalEngineLogger.errorSecurity(message, null );
             }
         }
 
@@ -273,7 +273,7 @@ public final class AdminEngine
             if ( !securityHandler.validateCategoryCreate( user, superCategoryKey ) )
             {
                 String message = "User does not have access rights to create a new category";
-                VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+                VerticalEngineLogger.errorSecurity(message, null );
             }
         }
 
@@ -295,7 +295,7 @@ public final class AdminEngine
         if ( !( securityHandler.isSiteAdmin( user ) || isDeveloper( user ) ) )
         {
             String message = "User is not administrator or developer";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         return contentHandler.createContentType( doc );
@@ -308,7 +308,7 @@ public final class AdminEngine
         if ( !isEnterpriseAdmin( user ) )
         {
             String message = "User is not enterprise administrator";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         languageHandler.createLanguage( languageCode, description );
@@ -664,7 +664,7 @@ public final class AdminEngine
         if ( !( securityHandler.isSiteAdmin( user ) || isDeveloper( user ) ) )
         {
             String message = "User is not administrator or developer";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         contentHandler.removeContentType( contentTypeKey );
@@ -701,7 +701,7 @@ public final class AdminEngine
             if ( !securityHandler.validateCategoryUpdate( user, categoryKey ) )
             {
                 String message = "User does not have access rights to update the category.";
-                VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+                VerticalEngineLogger.errorSecurity(message, null );
             }
         }
         categoryHandler.updateCategory( null, user, doc );
@@ -721,7 +721,7 @@ public final class AdminEngine
         if ( !( securityHandler.isSiteAdmin( user ) || isDeveloper( user ) ) )
         {
             String message = "User is not administrator or developer";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         contentHandler.updateContentType( user, doc );
@@ -740,7 +740,7 @@ public final class AdminEngine
         if ( !isAdmin( user ) )
         {
             String message = "User does not have rights to update menu data.";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         menuHandler.updateMenuData( doc );
@@ -871,13 +871,13 @@ public final class AdminEngine
             !securityHandler.validateCategoryCreate( user, CategoryKey.parse( newSuperCategoryKey ) ) )
         {
             String message = "User does not have access rights to move the category.";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         if ( categoryHandler.isSubCategory( CategoryKey.parse( catKey ), CategoryKey.parse( newSuperCategoryKey ) ) )
         {
             String message = "Cannot move a category to a subcategory";
-            VerticalEngineLogger.errorUpdate( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorUpdate(message, null );
         }
 
         categoryHandler.moveCategory( user, CategoryKey.parse( catKey ), CategoryKey.parse( newSuperCategoryKey ) );
@@ -978,7 +978,7 @@ public final class AdminEngine
         if ( !securityHandler.isEnterpriseAdmin( user ) )
         {
             String message = "User does not have access rights to create content handlers.";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         Document doc = XMLTool.domparse( xmlData );
@@ -992,7 +992,7 @@ public final class AdminEngine
         if ( !securityHandler.isEnterpriseAdmin( user ) )
         {
             String message = "User does not have access rights to update content handlers.";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         Document doc = XMLTool.domparse( xmlData );
@@ -1006,7 +1006,7 @@ public final class AdminEngine
         if ( !isEnterpriseAdmin( user ) )
         {
             String message = "User does not have access rights to delete content handlers.";
-            VerticalEngineLogger.errorSecurity( this.getClass(), 0, message, null );
+            VerticalEngineLogger.errorSecurity(message, null );
         }
 
         contentHandler.removeContentHandler( contentHandlerKey );

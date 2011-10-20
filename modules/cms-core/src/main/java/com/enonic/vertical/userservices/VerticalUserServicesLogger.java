@@ -4,53 +4,22 @@
  */
 package com.enonic.vertical.userservices;
 
-import com.enonic.vertical.VerticalException;
+import com.enonic.cms.api.util.LogFacade;
 import com.enonic.vertical.VerticalLogger;
 
-public class VerticalUserServicesLogger
+public final class VerticalUserServicesLogger
     extends VerticalLogger
 {
+    private final static LogFacade LOG = LogFacade.get(VerticalUserServicesLogger.class);
 
-    public static void warnUserServices( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalUserServicesException
+    public static void warnUserServices( String message, Throwable throwable )
     {
-
-        try
-        {
-            warn( clazz, msgKey, message, throwable, VerticalUserServicesException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalUserServicesException) ve;
-        }
+        LOG.warningCause(message, throwable);
     }
 
-    public static void errorUserServices( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalUserServicesException
+    public static void errorUserServices( String message, Throwable throwable )
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalUserServicesException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalUserServicesException) ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalUserServicesException(message, throwable);
     }
-
-    public static void errorUserServices( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalUserServicesException
-    {
-
-        try
-        {
-            error( clazz, msgKey, message, throwable, VerticalUserServicesException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalUserServicesException) ve;
-        }
-    }
-
 }

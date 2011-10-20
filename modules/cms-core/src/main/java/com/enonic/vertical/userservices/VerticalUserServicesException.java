@@ -9,12 +9,13 @@ import com.enonic.vertical.VerticalException;
 public class VerticalUserServicesException
     extends VerticalException
 {
-    /**
-     * Construct the exception.
-     */
     public VerticalUserServicesException( String message )
     {
         super( message );
     }
 
+    public VerticalUserServicesException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
 }

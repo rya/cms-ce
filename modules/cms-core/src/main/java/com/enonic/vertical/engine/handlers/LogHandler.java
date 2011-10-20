@@ -188,7 +188,7 @@ public final class LogHandler
                 // NOTE! Either we will get read logs from the presentation layer or we would get
                 //       other log entries from the admin-console (like create,update,remove and login)
                 String msg = "Cannot create both read log entries and other log entries!";
-                VerticalEngineLogger.fatalEngine( this.getClass(), 0, msg, null );
+                VerticalEngineLogger.fatalEngine(msg, null );
             }
             else
             {
@@ -206,7 +206,7 @@ public final class LogHandler
 
         {
             // should not be thrown when no processors asigned
-            VerticalEngineLogger.fatalEngine( this.getClass(), 0, "Ignored exception!", pee );
+            VerticalEngineLogger.fatalEngine("Ignored exception!", pee );
         }
 
         return keys;

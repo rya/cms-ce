@@ -152,12 +152,12 @@ public class ContentTypeHandlerServlet
             if ( key < 1000 )
             {
                 addError( 3, "key", String.valueOf( key ) );
-                VerticalAdminLogger.warn( this.getClass(), 0, "Key must be larger than 1000.", null );
+                VerticalAdminLogger.warn("Key must be larger than 1000.", null );
             }
             else if ( lookupKeyBean().keyExists( "tContentType", key ) )
             {
                 addError( 1, "key", String.valueOf( key ) );
-                VerticalAdminLogger.warn( this.getClass(), 0, "Key already exists.", null );
+                VerticalAdminLogger.warn("Key already exists.", null );
             }
         }
 
@@ -234,12 +234,12 @@ public class ContentTypeHandlerServlet
                 if ( key < 1000 )
                 {
                     addError( 3, "key", String.valueOf( key ) );
-                    VerticalAdminLogger.warn( this.getClass(), 0, "Key must be larger than 1000.", null );
+                    VerticalAdminLogger.warn("Key must be larger than 1000.", null );
                 }
                 else if ( lookupKeyBean().keyExists( "tContentType", key ) )
                 {
                     addError( 1, "key", String.valueOf( key ) );
-                    VerticalAdminLogger.warn( this.getClass(), 0, "Key already exists.", null );
+                    VerticalAdminLogger.warn("Key already exists.", null );
                 }
             }
 
@@ -304,11 +304,9 @@ public class ContentTypeHandlerServlet
         }
         String contentHandlersXML = admin.getContentHandlers();
         Document contentHandlersDoc = XMLTool.domparse( contentHandlersXML );
-        doc.getDocumentElement().appendChild( doc.importNode( contentHandlersDoc.getDocumentElement(), true ) );
+        doc.getDocumentElement().appendChild(doc.importNode(contentHandlersDoc.getDocumentElement(), true));
 
-        addErrorsXML( doc );
-
-        VerticalAdminLogger.debug( this.getClass(), 0, doc );
+        addErrorsXML(doc);
 
         if ( createContent )
         {
@@ -363,7 +361,7 @@ public class ContentTypeHandlerServlet
         else
         {
             String message = "Parameter not found: returnkey";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+            VerticalAdminLogger.errorAdmin(message, null );
         }
 
         if ( !( request.getParameter( "returnview" ) == null || request.getParameter( "returnview" ).toString().equals( "" ) ) )
@@ -373,7 +371,7 @@ public class ContentTypeHandlerServlet
         else
         {
             String message = "Parameter not found: returnview";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+            VerticalAdminLogger.errorAdmin(message, null );
         }
 
         if ( !( request.getParameter( "returnrow" ) == null || request.getParameter( "returnrow" ).toString().equals( "" ) ) )
@@ -453,7 +451,7 @@ public class ContentTypeHandlerServlet
             else
             {
                 String message = "Parameter not found: returnkey";
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+                VerticalAdminLogger.errorAdmin(message, null );
             }
 
             if ( !( request.getParameter( "returnview" ) == null || request.getParameter( "returnview" ).toString().equals( "" ) ) )
@@ -463,7 +461,7 @@ public class ContentTypeHandlerServlet
             else
             {
                 String message = "Parameter not found: returnview";
-                VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, null );
+                VerticalAdminLogger.errorAdmin(message, null );
             }
 
             if ( !( request.getParameter( "returnrow" ) == null || request.getParameter( "returnrow" ).toString().equals( "" ) ) )

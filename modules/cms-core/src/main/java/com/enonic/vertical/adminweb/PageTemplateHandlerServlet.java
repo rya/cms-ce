@@ -367,12 +367,12 @@ public class PageTemplateHandlerServlet
         catch ( TransformerException te )
         {
             String message = "XSLT error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
     }
 
@@ -754,11 +754,11 @@ public class PageTemplateHandlerServlet
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
     }
 

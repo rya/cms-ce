@@ -112,10 +112,7 @@ public class MyPageServlet
 
         addParameters( formItems, parameters, maximize );
 
-        VerticalAdminLogger.debug( this.getClass(), 0, verticalDoc );
         transformXML( request, response, verticalDoc, "dashboard.xsl", parameters );
-
-//         ("total time: " + ( System.currentTimeMillis() - totalTime ) );
     }
 
     private void addParameters( ExtendedMap formItems, ExtendedMap parameters, String maximize )

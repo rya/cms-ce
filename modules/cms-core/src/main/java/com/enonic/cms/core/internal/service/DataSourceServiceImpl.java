@@ -846,19 +846,19 @@ public final class DataSourceServiceImpl
         catch ( SocketTimeoutException ste )
         {
             String message = "Socket timeout when trying to get url: " + address;
-            VerticalEngineLogger.warn( this.getClass(), 0, message, null );
+            VerticalEngineLogger.warn(message, null );
             result = null;
         }
         catch ( IOException ioe )
         {
             String message = "Failed to get URL: %t";
-            VerticalEngineLogger.warn( this.getClass(), 0, message, ioe );
+            VerticalEngineLogger.warn(message, ioe );
             result = null;
         }
         catch ( RuntimeException re )
         {
             String message = "Failed to get URL: %t";
-            VerticalEngineLogger.warn( this.getClass(), 0, message, re );
+            VerticalEngineLogger.warn(message, re );
             result = null;
         }
         finally
@@ -877,7 +877,7 @@ public final class DataSourceServiceImpl
             catch ( IOException ioe )
             {
                 String message = "Failed to close URL connection: %t";
-                VerticalEngineLogger.warn( this.getClass(), 0, message, ioe );
+                VerticalEngineLogger.warn(message, ioe );
             }
         }
 

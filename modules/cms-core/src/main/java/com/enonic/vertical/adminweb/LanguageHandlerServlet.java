@@ -57,7 +57,7 @@ public class LanguageHandlerServlet
         catch ( Exception e )
         {
             String message = "Failed to transform & print output: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 2, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
     }
 
@@ -112,12 +112,12 @@ public class LanguageHandlerServlet
         catch ( IOException ioe )
         {
             String message = "Failed to get writer: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "Failed to transform: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
     }
 

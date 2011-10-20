@@ -4,214 +4,114 @@
  */
 package com.enonic.vertical.engine;
 
-import com.enonic.vertical.VerticalException;
+import com.enonic.cms.api.util.LogFacade;
 import com.enonic.vertical.VerticalLogger;
 import com.enonic.vertical.VerticalRuntimeException;
 
-public class VerticalEngineLogger
+public final class VerticalEngineLogger
     extends VerticalLogger
 {
+    private final static LogFacade LOG = LogFacade.get(VerticalEngineLogger.class);
 
-    public static void errorSecurity( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalSecurityException
+    public static void errorSecurity(String message, Throwable throwable)
     {
-        try
-        {
-            error( clazz, msgKey, message, throwable, VerticalSecurityException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalSecurityException) ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalSecurityException(message, throwable);
     }
 
-    public static void errorSecurity( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalSecurityException
+    public static void errorSecurity(String message, Object[] msgData, Throwable throwable)
     {
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalSecurityException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalSecurityException) ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalSecurityException(message, throwable);
     }
 
-    public static void errorSecurity( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalSecurityException
+    public static void errorCopy(String message, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalSecurityException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalSecurityException) ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalRuntimeException(message, throwable);
     }
 
-    public static void errorCopy( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
+    public static void errorCreate(String message, Object[] msgData, Throwable throwable)
     {
-        error( clazz, msgKey, message, msgData, throwable, VerticalCopyException.class );
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalCreateException(message, throwable);
     }
 
-    public static void errorCopy( Class clazz, int msgKey, String message, Throwable throwable )
+    public static void errorCreate(String message, Object msgData, Throwable throwable)
     {
-        error( clazz, msgKey, message, throwable, VerticalRuntimeException.class );
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalCreateException(message, throwable);
     }
 
-    public static void errorCreate( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalCreateException
+    public static void errorCreate(String message, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalCreateException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalCreateException(message, throwable);
     }
 
-    public static void errorCreate( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
+    public static void errorRemove(String message, Object[] msgData, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalCreateException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalRemoveException(message, throwable);
     }
 
-    public static void errorCreate( Class clazz, int msgKey, String message, Throwable throwable )
+    public static void errorRemove(String message, Object msgData, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, throwable, VerticalCreateException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalRemoveException(message, throwable);
     }
 
-    public static void errorRemove( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalRemoveException
+    public static void errorRemove(String message, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalRemoveException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalRemoveException) ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalRemoveException(message, throwable);
     }
 
-    public static void errorRemove( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalRemoveException
+    public static void errorUpdate(String message, Object[] msgData, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalRemoveException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalRemoveException) ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalUpdateException(message, throwable);
     }
 
-    public static void errorRemove( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalRemoveException
+    public static void errorUpdate(String message, Object msgData, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, throwable, VerticalRemoveException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalRemoveException) ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalUpdateException(message, throwable);
     }
 
-    public static void errorUpdate( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
-        throws VerticalUpdateException
+    public static void errorKey( String message, Throwable throwable )
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalUpdateException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalUpdateException) ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalKeyException(message, throwable);
     }
 
-    public static void errorUpdate( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalUpdateException
+    public static void errorKey(String message, Object msgData, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalUpdateException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalUpdateException) ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalKeyException(message, throwable);
     }
 
-    public static void errorKey( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
-        throws VerticalKeyException
+    public static void errorUpdate(String message, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, msgData, throwable, VerticalKeyException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalKeyException) ve;
-        }
+        LOG.errorCause(message, throwable);
+        throw new VerticalUpdateException(message, throwable);
     }
 
-    public static void errorUpdate( Class clazz, int msgKey, String message, Throwable throwable )
-        throws VerticalUpdateException
+    public static void fatalEngine(String message, Object[] msgData, Throwable throwable)
     {
-
-        try
-        {
-            error( clazz, msgKey, message, throwable, VerticalUpdateException.class );
-        }
-        catch ( VerticalException ve )
-        {
-            throw (VerticalUpdateException) ve;
-        }
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalRuntimeException(message, throwable);
     }
 
-    public static void fatalEngine( Class clazz, int msgKey, String message, Object[] msgData, Throwable throwable )
+    public static void fatalEngine(String message, Object msgData, Throwable throwable)
     {
-        fatal( clazz, msgKey, message, msgData, throwable, VerticalRuntimeException.class );
+        LOG.errorCause(message, throwable, msgData);
+        throw new VerticalRuntimeException(message, throwable);
     }
 
-    public static void fatalEngine( Class clazz, int msgKey, String message, Object msgData, Throwable throwable )
+    public static void fatalEngine(String message, Throwable throwable)
     {
-        fatal( clazz, msgKey, message, msgData, throwable, VerticalRuntimeException.class );
-    }
-
-    public static void fatalEngine( Class clazz, int msgKey, String message, Throwable throwable )
-    {
-        fatal( clazz, msgKey, message, throwable, VerticalRuntimeException.class );
+        LOG.errorCause(message, throwable);
+        throw new VerticalRuntimeException(message, throwable);
     }
 }

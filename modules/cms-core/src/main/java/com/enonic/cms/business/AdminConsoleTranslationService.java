@@ -19,7 +19,6 @@ import org.w3c.dom.Element;
 
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
-import com.enonic.vertical.adminweb.VerticalAdminRuntimeException;
 
 public class AdminConsoleTranslationService
 {
@@ -59,7 +58,6 @@ public class AdminConsoleTranslationService
     }
 
     protected void init()
-        throws VerticalAdminRuntimeException
     {
         // the internal language map to build
         Map<String, Map<String, String>> languageMap = new HashMap<String, Map<String, String>>();
@@ -128,7 +126,7 @@ public class AdminConsoleTranslationService
         catch ( IOException ioe )
         {
             String msg = "Failed to read language file: %t";
-            VerticalAdminLogger.fatalAdmin( this.getClass(), 0, msg, ioe );
+            VerticalAdminLogger.errorAdmin(msg, ioe);
         }
         finally
         {
@@ -142,7 +140,7 @@ public class AdminConsoleTranslationService
             catch ( IOException ioe )
             {
                 String msg = "Failed to close language file: %t";
-                VerticalAdminLogger.warn( this.getClass(), 0, msg, ioe );
+                VerticalAdminLogger.warn(msg, ioe );
             }
         }
     }

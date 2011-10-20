@@ -183,8 +183,8 @@ public class SectionHandlerServlet
             }
             else
             {
-                String message = "Unknown test condition: %0";
-                WizardLogger.errorWizard( this.getClass(), 0, message, testCondition, null );
+                String message = "Unknown test condition: {0}";
+                WizardLogger.errorWizard(message, testCondition, null );
                 result = false;
             }
 
@@ -227,7 +227,7 @@ public class SectionHandlerServlet
             catch ( ParseException pe )
             {
                 String message = "Failed to parse a date: %t";
-                WizardLogger.errorWizard( this.getClass(), 0, message, pe );
+                WizardLogger.errorWizard(message, pe );
             }
         }
 
@@ -567,8 +567,6 @@ public class SectionHandlerServlet
             {
                 appendCustomDataStep3( user, admin, wizardState, wizarddataDoc, contentKey, versionKey );
             }
-
-            VerticalAdminLogger.debug( this.getClass(), 0, wizarddataDoc );
         }
 
         private void appendCustomDataStep0( User user, AdminService admin, WizardState wizardState, Document wizarddataDoc,
@@ -966,7 +964,7 @@ public class SectionHandlerServlet
             catch ( ParseException pe )
             {
                 String message = "Failed to parse a date: %t";
-                WizardLogger.errorWizard( this.getClass(), 0, message, pe );
+                WizardLogger.errorWizard(message, pe );
             }
         }
 
@@ -1061,7 +1059,7 @@ public class SectionHandlerServlet
                 {
                     if ( originalStatus != 2 )
                     {
-                        WizardLogger.errorWizard( this.getClass(), 0, "Unknown status: %0", String.valueOf( status ), null );
+                        WizardLogger.errorWizard("Unknown status: {0}", String.valueOf( status ), null );
                     }
                     break;
                 }
@@ -1749,7 +1747,6 @@ public class SectionHandlerServlet
 
         try
         {
-            VerticalAdminLogger.debug( this.getClass(), 0, doc );
             DOMSource xmlSource = new DOMSource( doc );
 
             Source xslSource = AdminStore.getStylesheet( session, "section_browse.xsl" );
@@ -1768,12 +1765,12 @@ public class SectionHandlerServlet
         catch ( IOException ioe )
         {
             String message = "Failed to get response writer: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
     }
 

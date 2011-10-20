@@ -50,7 +50,7 @@ final class PluginConfigHelper
         }
         catch ( Exception e )
         {
-            LOG.warning( e, "Error occurred loading properties from [{0}]", url.toExternalForm() );
+            LOG.warningCause("Error occurred loading properties from [{0}]", e, url.toExternalForm());
         }
 
         return Collections.emptyMap();
@@ -78,7 +78,7 @@ final class PluginConfigHelper
         }
         catch ( Exception e )
         {
-            LOG.warning( e, "Error occurred loading properties from [{0}]", file.getAbsolutePath() );
+            LOG.warningCause("Error occurred loading properties from [{0}]", e, file.getAbsolutePath());
         }
 
         return Collections.emptyMap();

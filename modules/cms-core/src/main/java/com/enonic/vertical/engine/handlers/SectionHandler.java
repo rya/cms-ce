@@ -222,19 +222,19 @@ public class SectionHandler
                 if ( result == 0 )
                 {
                     String message = "Failed to create section contenttype filter.";
-                    VerticalEngineLogger.errorCreate( this.getClass(), 0, message, null );
+                    VerticalEngineLogger.errorCreate(message, null );
                 }
             }
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create section contenttype filter: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 1, message, sqle );
+            VerticalEngineLogger.errorCreate(message, sqle );
         }
         catch ( VerticalRemoveException vre )
         {
             String message = "Failed to create section contenttype filter: %t";
-            VerticalEngineLogger.errorCreate( this.getClass(), 1, message, vre );
+            VerticalEngineLogger.errorCreate(message, vre );
         }
         finally
         {
@@ -261,7 +261,7 @@ public class SectionHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to remove section contenttype filter: %t";
-            VerticalEngineLogger.errorRemove( this.getClass(), 1, message, sqle );
+            VerticalEngineLogger.errorRemove(message, sqle );
         }
         finally
         {
@@ -539,7 +539,7 @@ public class SectionHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get sections: %t";
-            VerticalEngineLogger.error( this.getClass(), 1, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
             doc = XMLTool.createDocument( "sections" );
         }
         finally
@@ -665,7 +665,7 @@ public class SectionHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to append section names to content: %t";
-            VerticalEngineLogger.error( this.getClass(), 1, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -702,7 +702,7 @@ public class SectionHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get section content timestamp: %t";
-            VerticalEngineLogger.error( this.getClass(), 1, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -826,7 +826,7 @@ public class SectionHandler
         catch ( SQLException sqle )
         {
             String message = "Failed to get content keys for content in sections: %t";
-            VerticalEngineLogger.error( this.getClass(), 0, message, sqle );
+            VerticalEngineLogger.error(message, sqle );
         }
         finally
         {
@@ -897,7 +897,7 @@ public class SectionHandler
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.error( this.getClass(), 0, "Failed to find section: %t", e );
+            VerticalEngineLogger.error("Failed to find section: %t", e );
         }
         finally
         {
@@ -926,11 +926,11 @@ public class SectionHandler
         }
         catch ( VerticalKeyException e )
         {
-            VerticalEngineLogger.errorCopy( this.getClass(), 1, "Failed to generate section key: %t", e );
+            VerticalEngineLogger.errorCopy("Failed to generate section key: %t", e );
         }
         catch ( SQLException e )
         {
-            VerticalEngineLogger.errorCopy( this.getClass(), 1, "Failed to copy section: %t", e );
+            VerticalEngineLogger.errorCopy("Failed to copy section: %t", e );
         }
     }
 

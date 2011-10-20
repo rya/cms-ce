@@ -58,7 +58,7 @@ public class SendMailController
                 if ( StringUtils.isEmpty( fromName ) && StringUtils.isEmpty( fromEmail ) )
                 {
                     String message = "No \"from\" fields given. " + "At least one of \"from_name\" and \"from_email\" is required.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 2, message, null );
+                    VerticalUserServicesLogger.warn(message, null );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_FROM_FIELDS, null );
                     return;
                 }
@@ -69,7 +69,7 @@ public class SendMailController
                 if ( recipients.length == 0 )
                 {
                     String message = "No \"to\" fields given. At least one is required.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 3, message, null );
+                    VerticalUserServicesLogger.warn(message, null );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_TO_FIELD, null );
                     return;
                 }
@@ -112,7 +112,7 @@ public class SendMailController
                 if ( subject == null || subject.length() == 0 )
                 {
                     String message = "No \"subject\" field given. A subject field is required.";
-                    VerticalUserServicesLogger.warn( this.getClass(), 4, message, null );
+                    VerticalUserServicesLogger.warn(message, null );
                     redirectToErrorPage( request, response, formItems, ERR_MISSING_SUBJECT_FIELD, null );
                     return;
                 }
@@ -192,7 +192,7 @@ public class SendMailController
             catch ( ESLException esle )
             {
                 String message = "Failed to send email: %t";
-                VerticalUserServicesLogger.error( this.getClass(), 5, message, esle );
+                VerticalUserServicesLogger.error(message, esle );
                 redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
             }
         }
@@ -233,7 +233,7 @@ public class SendMailController
             // 2. must include an '@' and at least one '.' after the '@'
             if ( email == null || email.trim().length() == 0 )
             {
-                String message = "%0 email address not given.";
+                String message = "{0} email address not given.";
                 String addressType = null;
                 switch ( type )
                 {
@@ -247,7 +247,7 @@ public class SendMailController
                         addressType = "Cc";
                         break;
                 }
-                VerticalUserServicesLogger.warn( this.getClass(), 0, message, addressType, null );
+                VerticalUserServicesLogger.warn(message, addressType, null );
                 return ERR_RECIPIENT_HAS_NO_EMAIL_ADDRESS;
             }
             else
@@ -255,7 +255,7 @@ public class SendMailController
                 int idx = email.indexOf( '@' );
                 if ( idx <= 0 )
                 {
-                    String message = "%0 email address in wrong format. Does not include an '@': %1";
+                    String message = "{0} email address in wrong format. Does not include an '@': {1}";
                     Object[] ojbs = new Object[]{null, email};
                     switch ( type )
                     {
@@ -269,12 +269,12 @@ public class SendMailController
                             ojbs[0] = "Cc";
                             break;
                     }
-                    VerticalUserServicesLogger.warn( this.getClass(), 1, message, ojbs, null );
+                    VerticalUserServicesLogger.warn(message, ojbs, null );
                     return ERR_RECIPIENT_HAS_WRONG_ADDRESS_NO_ALPHA;
                 }
                 else if ( email.indexOf( '.', idx ) < 0 )
                 {
-                    String message = "%0 email address in wrong format. Does not include at least one '.': %1";
+                    String message = "{0} email address in wrong format. Does not include at least one '.': {1}";
                     Object[] ojbs = new Object[]{null, email};
                     switch ( type )
                     {
@@ -288,7 +288,7 @@ public class SendMailController
                             ojbs[0] = "Cc";
                             break;
                     }
-                    VerticalUserServicesLogger.warn( this.getClass(), 2, message, ojbs, null );
+                    VerticalUserServicesLogger.warn(message, ojbs, null );
                     return ERR_RECIPIENT_HAS_WRONG_ADDRESS_MISSING_DOT;
                 }
 

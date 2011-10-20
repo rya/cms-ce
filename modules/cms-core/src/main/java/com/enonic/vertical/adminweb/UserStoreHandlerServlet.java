@@ -187,8 +187,8 @@ public class UserStoreHandlerServlet
             }
             else
             {
-                String message = "Unknown step: %0";
-                VerticalAdminLogger.error( this.getClass(), 0, message, currentStep.getName(), null );
+                String message = "Unknown step: {0}";
+                VerticalAdminLogger.error(message, currentStep.getName(), null );
             }
         }
 
@@ -226,8 +226,8 @@ public class UserStoreHandlerServlet
             }
             else
             {
-                String message = "Unknown step: %0";
-                WizardLogger.errorWizard( this.getClass(), 0, message, currentStep, null );
+                String message = "Unknown step: {0}";
+                WizardLogger.errorWizard(message, currentStep, null );
             }
         }
 
@@ -346,7 +346,7 @@ public class UserStoreHandlerServlet
             return user;
         }
 
-        VerticalAdminLogger.errorAdmin( this.getClass(), 0, "Not authorized.", null );
+        VerticalAdminLogger.errorAdmin("Not authorized.", null );
         return null;
     }
 
@@ -393,11 +393,11 @@ public class UserStoreHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
     }
 
@@ -544,11 +544,11 @@ public class UserStoreHandlerServlet
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
     }
 }

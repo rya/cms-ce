@@ -97,11 +97,11 @@ public class FramesetServlet
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "XSLT error.", e );
+            VerticalAdminLogger.errorAdmin("XSLT error.", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, "I/O error.", e );
+            VerticalAdminLogger.errorAdmin("I/O error.", e );
         }
     }
 }

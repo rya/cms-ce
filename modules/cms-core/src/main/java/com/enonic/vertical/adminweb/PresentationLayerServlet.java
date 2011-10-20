@@ -220,17 +220,17 @@ public final class PresentationLayerServlet
         catch ( IOException ioe )
         {
             String MESSAGE_20 = "I/O error.";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 20, MESSAGE_20, ioe );
+            VerticalAdminLogger.errorAdmin(MESSAGE_20, ioe );
         }
         catch ( TransformerConfigurationException tce )
         {
             String MESSAGE_40 = "XSL transformer configuration error.";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 40, MESSAGE_40, tce );
+            VerticalAdminLogger.errorAdmin(MESSAGE_40, tce );
         }
         catch ( TransformerException te )
         {
             String MESSAGE_50 = "XSL transformer error.";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 50, MESSAGE_50, te );
+            VerticalAdminLogger.errorAdmin(MESSAGE_50, te );
         }
     }
 
@@ -403,11 +403,11 @@ public final class PresentationLayerServlet
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
 
     }
@@ -461,11 +461,11 @@ public final class PresentationLayerServlet
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 10, "XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin( this.getClass(), 30, "I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
         }
 
     }
@@ -516,12 +516,12 @@ public final class PresentationLayerServlet
         catch ( TransformerException te )
         {
             String message = "Transformer error while transforming XSL: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, te );
+            VerticalAdminLogger.errorAdmin(message, te );
         }
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, ioe );
+            VerticalAdminLogger.errorAdmin(message, ioe );
         }
     }
 
@@ -601,12 +601,12 @@ public final class PresentationLayerServlet
         catch ( TransformerException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
         catch ( IOException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, e );
+            VerticalAdminLogger.errorAdmin(message, e );
         }
     }
 

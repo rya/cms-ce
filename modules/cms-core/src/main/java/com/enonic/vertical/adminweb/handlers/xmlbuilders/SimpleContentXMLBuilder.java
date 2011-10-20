@@ -22,7 +22,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
 import com.enonic.vertical.adminweb.VerticalAdminException;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
-import com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet;
 
 import com.enonic.cms.core.content.binary.BinaryData;
 
@@ -103,7 +102,7 @@ public class SimpleContentXMLBuilder
         }
         catch ( ParseException e )
         {
-            VerticalAdminLogger.errorAdmin( SimpleContentHandlerServlet.class, 3, "Failed to parse a date: %t", e );
+            VerticalAdminLogger.errorAdmin("Failed to parse a date: %t", e );
         }
 
 
@@ -139,7 +138,7 @@ public class SimpleContentXMLBuilder
 
                 if ( tmpElem == null )
                 {
-                    VerticalAdminLogger.errorAdmin( SimpleContentXMLBuilder.class, 3, "Incorrect xpath specification : " + xpath, null );
+                    VerticalAdminLogger.errorAdmin("Incorrect xpath specification : " + xpath, null );
                 }
 
                 // Then store the data.

@@ -316,7 +316,7 @@ public class ContentBaseXMLBuilder
         }
         catch ( ParseException e )
         {
-            VerticalAdminLogger.errorAdmin( ContentBaseHandlerServlet.class, 10, "Error parsing dates: %t", e );
+            VerticalAdminLogger.errorAdmin("Error parsing dates: %t", e );
         }
 
         // created:
@@ -410,7 +410,7 @@ public class ContentBaseXMLBuilder
             }
             catch ( ParseException e )
             {
-                VerticalAdminLogger.errorAdmin( ContentBaseHandlerServlet.class, 10, "Error parsing dates: %t", e );
+                VerticalAdminLogger.errorAdmin("Error parsing dates: %t", e );
             }
         }
     }

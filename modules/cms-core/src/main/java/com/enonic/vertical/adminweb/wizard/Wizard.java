@@ -81,7 +81,7 @@ public abstract class Wizard
                 if ( testConditions[i] == null || testConditions[i].length() == 0 )
                 {
                     String message = "Missing test condition attribute.";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                    WizardLogger.errorWizard(message, null );
                 }
                 String stepName = conditionElems[i].getAttribute( "goto" );
 
@@ -93,8 +93,8 @@ public abstract class Wizard
                 }
                 else
                 {
-                    String message = "Unknown step name in next step condition: %0";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, stepName, null );
+                    String message = "Unknown step name in next step condition: {0}";
+                    WizardLogger.errorWizard(message, stepName, null );
                 }
             }
 
@@ -110,14 +110,14 @@ public abstract class Wizard
                 }
                 else
                 {
-                    String message = "Unknown step name in default next step condition: %0";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, stepName, null );
+                    String message = "Unknown step name in default next step condition: {0}";
+                    WizardLogger.errorWizard(message, stepName, null );
                 }
             }
             else
             {
                 String message = "Missing default next step condition.";
-                WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                WizardLogger.errorWizard(message, null );
             }
         }
     }
@@ -194,8 +194,8 @@ public abstract class Wizard
             Element dataconfigElem = XMLTool.getElement( stepElem, "dataconfig" );
             if ( dataconfigElem == null )
             {
-                String message = "Step \"%0\" does not have a data configuration.";
-                WizardLogger.errorWizard( this.getClass(), 0, message, name, null );
+                String message = "Step \"{0}\" does not have a data configuration.";
+                WizardLogger.errorWizard(message, name, null );
             }
             this.dataconfigDoc = XMLTool.createDocument();
             this.dataconfigDoc.appendChild( this.dataconfigDoc.importNode( dataconfigElem, true ) );
@@ -218,8 +218,8 @@ public abstract class Wizard
                 this.styleSheetSrc = stylesheetElem.getAttribute( "src" );
                 if ( this.styleSheetSrc == null )
                 {
-                    String message = "Missing XSL source definition for stylesheet in finish step \"%0\".";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, name, null );
+                    String message = "Missing XSL source definition for stylesheet in finish step \"{0}\".";
+                    WizardLogger.errorWizard(message, name, null );
                 }
             }
         }
@@ -577,12 +577,12 @@ public abstract class Wizard
         catch ( ClassNotFoundException cnfe )
         {
             String message = "Wizard class not found: %t";
-            WizardLogger.errorWizard( Wizard.class, 0, message, cnfe );
+            WizardLogger.errorWizard(message, cnfe );
         }
         catch ( ClassCastException cce )
         {
             String message = "Wizard class does not extend Wizard: %t";
-            WizardLogger.errorWizard( Wizard.class, 0, message, cce );
+            WizardLogger.errorWizard(message, cce );
         }
 
         wizard = (Wizard)applicationContext.getBean( className, wizardClass );
@@ -630,7 +630,7 @@ public abstract class Wizard
         if ( stepsElem == null )
         {
             String message = "No steps defined.";
-            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+            WizardLogger.errorWizard(message, null );
         }
 
         Element[] stepElems = XMLTool.getElements( stepsElem );
@@ -639,7 +639,7 @@ public abstract class Wizard
         if ( stepElems.length == 0 )
         {
             String message = "No steps defined.";
-            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+            WizardLogger.errorWizard(message, null );
         }
 
         // create steps
@@ -661,13 +661,13 @@ public abstract class Wizard
                 if ( i == 0 )
                 {
                     String message = "First step cannot be a finish step";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                    WizardLogger.errorWizard(message, null );
                 }
             }
             else
             {
-                String message = "Unknown step type: %0";
-                WizardLogger.errorWizard( this.getClass(), 0, message, type, null );
+                String message = "Unknown step type: {0}";
+                WizardLogger.errorWizard(message, type, null );
             }
 
             // save step for later
@@ -679,7 +679,7 @@ public abstract class Wizard
             if ( buttonsElem == null && "normal".equals( type ) )
             {
                 String message = "Normal steps must include buttons.";
-                WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                WizardLogger.errorWizard(message, null );
             }
             else if ( "normal".equals( type ) )
             {
@@ -712,7 +712,7 @@ public abstract class Wizard
                         if ( normalStep.previousButtonName != null )
                         {
                             String message = "Only one previous button allowed";
-                            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                            WizardLogger.errorWizard(message, null );
                         }
                         normalStep.previousButtonName = name;
                     }
@@ -725,12 +725,12 @@ public abstract class Wizard
                         if ( normalStep.cancelButtonName != null )
                         {
                             String message = "Only one cancel button allowed for each step.";
-                            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                            WizardLogger.errorWizard(message, null );
                         }
                         else if ( normalStep.closeButtonName != null )
                         {
                             String message = "Only one cancel or close button allowed for each step.";
-                            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                            WizardLogger.errorWizard(message, null );
                         }
                         normalStep.cancelButtonName = name;
                     }
@@ -739,12 +739,12 @@ public abstract class Wizard
                         if ( normalStep.closeButtonName != null )
                         {
                             String message = "Only one close button allowed for each step.";
-                            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                            WizardLogger.errorWizard(message, null );
                         }
                         else if ( normalStep.cancelButtonName != null )
                         {
                             String message = "Only one cancel or close button allowed for each step.";
-                            WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                            WizardLogger.errorWizard(message, null );
                         }
                         normalStep.closeButtonName = name;
                     }
@@ -766,7 +766,7 @@ public abstract class Wizard
                 if ( normalStep.nextButtons.size() == 0 )
                 {
                     String message = "Each step must contain at least one next button.";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                    WizardLogger.errorWizard(message, null );
                 }
                 if ( normalStep.cancelButtonName == null && normalStep.closeButtonName == null )
                 {
@@ -776,7 +776,7 @@ public abstract class Wizard
             else
             {
                 String message = "Each step must contain at least one next button.";
-                WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                WizardLogger.errorWizard(message, null );
             }
         }
 
@@ -850,8 +850,8 @@ public abstract class Wizard
             }
             else
             {
-                String message = "Unknown next button pressed: %0";
-                WizardLogger.errorWizard( this.getClass(), 0, message, nextButtonName, null );
+                String message = "Unknown next button pressed: {0}";
+                WizardLogger.errorWizard(message, nextButtonName, null );
             }
         }
         else
@@ -917,7 +917,7 @@ public abstract class Wizard
                 if ( referer == null )
                 {
                     String message = "No support for referer, please add redirect parameter.";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, null );
+                    WizardLogger.errorWizard(message, null );
                 }
                 wizardState.redirectURL = referer;
             }
@@ -952,14 +952,13 @@ public abstract class Wizard
                 catch ( IOException ioe )
                 {
                     String message = "Failed to redirect client: %t";
-                    WizardLogger.errorWizard( this.getClass(), 0, message, ioe );
+                    WizardLogger.errorWizard(message, ioe );
                 }
             }
             else
             {
                 // save custom state
                 saveState( wizardState, request, response, admin, user, formItems );
-                WizardLogger.debug( this.getClass(), 0, wizardState.toDocument() );
 
                 if ( pressedButtonType == BUTTON_PREVIOUS )
                 {
@@ -1018,7 +1017,7 @@ public abstract class Wizard
             catch ( IOException ioe )
             {
                 String message = "Failed to redirect client: %t";
-                WizardLogger.errorWizard( this.getClass(), 0, message, ioe );
+                WizardLogger.errorWizard(message, ioe );
             }
         }
 
@@ -1058,8 +1057,6 @@ public abstract class Wizard
             Document wizardstateDoc = wizardState.toDocument();
             rootElem.appendChild( wizarddataDoc.importNode( wizardstateDoc.getDocumentElement(), true ) );
 
-            VerticalAdminLogger.debug( this.getClass(), 0, wizarddataDoc );
-
             // transform
             Source xslSource = buildWizardXSL( session, wizardState );
             Source xmlSource = new DOMSource( wizarddataDoc );
@@ -1078,7 +1075,7 @@ public abstract class Wizard
             catch ( IOException ioe )
             {
                 String message = "Failed to get response writer: %t";
-                WizardLogger.errorWizard( this.getClass(), 0, message, ioe );
+                WizardLogger.errorWizard(message, ioe );
             }
         }
     }

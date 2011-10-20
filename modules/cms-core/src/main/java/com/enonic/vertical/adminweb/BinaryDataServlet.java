@@ -58,8 +58,8 @@ public class BinaryDataServlet
                         // pathInfo should be /binary/xx/file in 4.1, was /xx/file in 4.0
                         if ( st.countTokens() < 3 )
                         {
-                            String message = "Error in binary path: \"%0\"";
-                            VerticalAdminLogger.error( this.getClass(), 0, message, pathInfo, null );
+                            String message = "Error in binary path: \"{0}\"";
+                            VerticalAdminLogger.error(message, pathInfo, null );
                             return;
                         }
 
@@ -74,8 +74,8 @@ public class BinaryDataServlet
                         }
                         catch ( NumberFormatException nfe )
                         {
-                            String message = "Content key is not a number: \"%0\"";
-                            VerticalAdminLogger.error( this.getClass(), 0, message, contentKeyStr, null );
+                            String message = "Content key is not a number: \"{0}\"";
+                            VerticalAdminLogger.error(message, contentKeyStr, null );
                             return;
                         }
 
@@ -85,8 +85,8 @@ public class BinaryDataServlet
 
                         if ( key == -1 )
                         {
-                            String message = "Binary key not found for path: \"%0\"";
-                            VerticalAdminLogger.error( this.getClass(), 0, message, pathInfo, null );
+                            String message = "Binary key not found for path: \"{0}\"";
+                            VerticalAdminLogger.error(message, pathInfo, null );
                             return;
                         }
                     }
@@ -113,7 +113,7 @@ public class BinaryDataServlet
             catch ( Exception e )
             {
                 String message = "Failed to get binary data: %t";
-                VerticalAdminLogger.error( this.getClass(), 0, message, e );
+                VerticalAdminLogger.error(message, e );
             }
         }
     }

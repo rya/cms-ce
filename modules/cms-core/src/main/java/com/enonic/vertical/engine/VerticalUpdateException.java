@@ -7,9 +7,8 @@ package com.enonic.vertical.engine;
 public class VerticalUpdateException
     extends VerticalEngineException
 {
-
-    public VerticalUpdateException()
+    public VerticalUpdateException(String message, Throwable cause)
     {
-        super( "dummy" );
+        super(message, cause);
     }
 }

@@ -198,7 +198,7 @@ public class ContentHandlerHandlerServlet
         catch ( ClassNotFoundException cnfe )
         {
             String message = "Could not find class: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, cnfe );
+            VerticalAdminLogger.errorAdmin(message, cnfe );
         }
     }
 
@@ -221,7 +221,7 @@ public class ContentHandlerHandlerServlet
         catch ( ClassNotFoundException cnfe )
         {
             String message = "Could not find class: %t";
-            VerticalAdminLogger.errorAdmin( this.getClass(), 0, message, cnfe );
+            VerticalAdminLogger.errorAdmin(message, cnfe );
         }
     }
 
