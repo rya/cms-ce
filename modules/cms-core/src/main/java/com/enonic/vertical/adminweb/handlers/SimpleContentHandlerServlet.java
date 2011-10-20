@@ -109,7 +109,7 @@ final public class SimpleContentHandlerServlet
 
         int unitKey = adminService.getUnitKey( categoryKey );
 
-        String xmlContent = adminService.getContent( user, contentKey, 0, 1, 0 );
+        Document xmlContent = adminService.getContent( user, contentKey, 0, 1, 0 ).getAsDOMDocument();
 
         Document doc = XMLTool.createDocument( "contents" );
         XMLTool.mergeDocuments( doc, xmlContent );
@@ -133,7 +133,7 @@ final public class SimpleContentHandlerServlet
 
         // get xsl
         int key = formItems.getInt( "key" );
-        String xmlData = adminService.getContent( user, key, 0, 1, 0 );
+        String xmlData = adminService.getContent( user, key, 0, 1, 0 ).getAsString();
 
         response.getWriter().write( xmlData );
     }

@@ -1759,7 +1759,7 @@ public class MenuHandlerServlet
             int menuItemKey = formItems.getInt( "key", -1 );
             if ( menuItemKey != -1 )
             {
-                Document menuItemDoc = XMLTool.domparse( admin.getMenuItem( user, menuItemKey, false ) );
+                Document menuItemDoc = admin.getMenuItem( user, menuItemKey, false ).getAsDOMDocument();
                 menuItemElem = (Element) menuItemDoc.getDocumentElement().getFirstChild();
             }
 
@@ -2432,7 +2432,7 @@ public class MenuHandlerServlet
         boolean forwardData = formItems.getBoolean( "forward_data", false );
         boolean create;
 
-        String menuItemXML = null;
+        Document menuItemXML = null;
         String categoryXML = null;
         String pageTemplatesXML;
         String pageTemplateParamsXML = null;
@@ -2446,11 +2446,11 @@ public class MenuHandlerServlet
             if ( key != null && !key.startsWith( "f" ) && !key.equals( "none" ) )
             {
                 create = false;
-                menuItemXML = admin.getMenuItem( user, Integer.parseInt( key ), false, true );
+                menuItemXML = admin.getMenuItem( user, Integer.parseInt( key ), false, true ).getAsDOMDocument();
 
                 menuItemParent = new MenuItemKey( Integer.parseInt( key ) );
 
-                XMLTool.mergeDocuments( doc1, XMLTool.domparse( menuItemXML ), true );
+                XMLTool.mergeDocuments( doc1, menuItemXML, true );
             }
             else
             {
@@ -2462,8 +2462,8 @@ public class MenuHandlerServlet
 
                     menuItemParent = new MenuItemKey( Integer.parseInt( insertBelow ) );
 
-                    String insertBelowMenuXML = admin.getMenuItem( user, Integer.parseInt( insertBelow ), false, true );
-                    XMLTool.mergeDocuments( doc1, XMLTool.domparse( insertBelowMenuXML ), true );
+                    Document insertBelowMenuXML = admin.getMenuItem( user, Integer.parseInt( insertBelow ), false, true ).getAsDOMDocument();
+                    XMLTool.mergeDocuments( doc1, insertBelowMenuXML, true );
                 }
                 else
                 {
@@ -2513,7 +2513,7 @@ public class MenuHandlerServlet
             Element menuitemElem = null;
             if ( menuItemXML != null )
             {
-                Document miDoc = XMLTool.domparse( menuItemXML );
+                Document miDoc = menuItemXML;
                 Element tmpElem = miDoc.getDocumentElement();
                 tmpElem = XMLTool.getFirstElement( tmpElem );
 

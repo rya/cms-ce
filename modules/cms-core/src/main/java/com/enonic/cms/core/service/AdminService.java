@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.enonic.cms.core.security.user.UserEntity;
-import org.jdom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -62,7 +61,7 @@ public interface AdminService
     public int createCategory( User user, String xmlData )
         throws VerticalSecurityException;
 
-    public String getCategory( User user, int categoryKey );
+    public XMLDocument getCategory( User user, int categoryKey );
 
     public int getCategoryKey( int contentKey );
 
@@ -115,7 +114,7 @@ public interface AdminService
     public String getDefaultAccessRights( User user, int type, int key );
 
 
-    public String getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel );
+    public XMLDocument getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel );
 
     public String getCategoryName( int categoryKey );
 
@@ -161,9 +160,9 @@ public interface AdminService
 
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey key );
 
-    public String getMenuItem( User user, int key, boolean withParents );
+    public XMLDocument getMenuItem( User user, int key, boolean withParents );
 
-    public String getMenuItem( User user, int key, boolean withParents, boolean complete );
+    public XMLDocument getMenuItem( User user, int key, boolean withParents, boolean complete );
 
     public String getMenuItemName( int menuItemKey );
 

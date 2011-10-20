@@ -181,7 +181,7 @@ public class ArchiveHandlerServlet
         else
         {
             int categoryKey = formItems.getInt( "categorykey" );
-            doc = XMLTool.domparse( admin.getCategory( user, categoryKey ) );
+            doc = admin.getCategory( user, categoryKey ).getAsDOMDocument();
             int categoryCount = admin.getContentCount( categoryKey, false );
             Element categoryElem = XMLTool.getElement( doc.getDocumentElement(), "category" );
             categoryElem.setAttribute( "contentcount", String.valueOf( categoryCount ) );

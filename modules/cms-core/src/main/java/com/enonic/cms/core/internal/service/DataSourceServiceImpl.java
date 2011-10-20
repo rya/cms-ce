@@ -228,12 +228,10 @@ public final class DataSourceServiceImpl
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
                                    boolean includeData, int childrenLevel, int parentLevel )
     {
-        boolean includeOwnerAndModifierData = true;
-        boolean includeCategoryData = true;
         boolean includeUserRights = false;
         boolean categoryRecursive = false;
-        return doGetContent( context, contentKeys, query, orderBy, index, count, parentLevel, childrenLevel, 0, includeOwnerAndModifierData,
-                             includeData, includeCategoryData, includeData, includeUserRights, null, categoryRecursive, null );
+        return doGetContent( context, contentKeys, query, orderBy, index, count, parentLevel, childrenLevel, 0,
+                includeData, includeData, includeUserRights, null, categoryRecursive, null );
     }
 
     /**
@@ -401,9 +399,7 @@ public final class DataSourceServiceImpl
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
                                    int parentChildrenLevel, boolean updateStatistics )
     {
-        boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
-        boolean includeCategoryData = true;
         boolean includeRelatedContentData = false;
         int[] categoriesFilter = null;
         boolean categoriesRecursive = false;
@@ -411,7 +407,7 @@ public final class DataSourceServiceImpl
         boolean includeUserRights = false;
 
         return doGetContent( context, contentKeys, "", "", 0, contentKeys.length, parentLevel, childrenLevel, parentChildrenLevel,
-                             includeOwnerAndModifierData, includeContentData, includeCategoryData, includeRelatedContentData,
+                includeContentData, includeRelatedContentData,
                              includeUserRights, categoriesFilter, categoriesRecursive, filterContentTypes );
     }
 
@@ -421,16 +417,14 @@ public final class DataSourceServiceImpl
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
                                    int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
     {
-        boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
-        boolean includeCategoryData = true;
         boolean includeRelatedContentData = false;
         int[] categoriesFilter = null;
         boolean categoriesRecursive = false;
         int[] filterContentTypes = null;
 
         return doGetContent( context, contentKeys, "", "", 0, contentKeys.length, parentLevel, childrenLevel, parentChildrenLevel,
-                             includeOwnerAndModifierData, includeContentData, includeCategoryData, includeRelatedContentData,
+                includeContentData, includeRelatedContentData,
                              includeUserRights, categoriesFilter, categoriesRecursive, filterContentTypes );
     }
 
@@ -441,12 +435,10 @@ public final class DataSourceServiceImpl
                                    int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights, int[] filterByCategories,
                                    boolean categoryRecursive, int[] filterByContentTypes )
     {
-        boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
-        boolean includeCategoryData = true;
         boolean includeRelatedContentData = false;
         return doGetContent( context, contentKeys, "", "", 0, contentKeys.length, parentLevel, childrenLevel, parentChildrenLevel,
-                             includeOwnerAndModifierData, includeContentData, includeCategoryData, includeRelatedContentData,
+                includeContentData, includeRelatedContentData,
                              includeUserRights, filterByCategories, categoryRecursive, filterByContentTypes );
     }
 
@@ -457,11 +449,9 @@ public final class DataSourceServiceImpl
                                    int parentChildrenLevel, boolean updateStatistics, boolean relatedTitlesOnly, boolean includeUserRights,
                                    int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes )
     {
-        boolean includeOwnerAndModifierData = true;
         boolean includeContentData = true;
-        boolean includeCategoryData = true;
         return doGetContent( context, contentKeys, "", "", 0, contentKeys.length, parentLevel, childrenLevel, parentChildrenLevel,
-                             includeOwnerAndModifierData, includeContentData, includeCategoryData, !relatedTitlesOnly, includeUserRights,
+                includeContentData, !relatedTitlesOnly, includeUserRights,
                              filterByCategories, categoryRecursive, filterByContentTypes );
     }
 
@@ -754,7 +744,7 @@ public final class DataSourceServiceImpl
     {
         if ( LOG.isDebugEnabled() )
         {
-            StringBuffer msg = new StringBuffer();
+            final StringBuilder msg = new StringBuilder();
             msg.append( "Executing datasource method: getURLAsText\n" );
             HttpServletRequest request = ServletRequestAccessor.getRequest();
             if ( request != null )
@@ -781,7 +771,7 @@ public final class DataSourceServiceImpl
     {
         if ( LOG.isDebugEnabled() )
         {
-            StringBuffer msg = new StringBuffer();
+            final StringBuilder msg = new StringBuilder();
             msg.append( "Executing datasource method: getURLAsText\n" );
             HttpServletRequest request = ServletRequestAccessor.getRequest();
             if ( request != null )
@@ -828,7 +818,7 @@ public final class DataSourceServiceImpl
             }
             else
             {
-                StringBuffer sb = new StringBuffer( 1024 );
+                final StringBuilder sb = new StringBuilder( 1024 );
                 reader = new BufferedReader( new InputStreamReader( in, encoding ) );
                 char[] line = new char[1024];
                 int charCount = reader.read( line );
@@ -906,7 +896,7 @@ public final class DataSourceServiceImpl
     {
         if ( LOG.isDebugEnabled() )
         {
-            StringBuffer msg = new StringBuffer();
+            final StringBuilder msg = new StringBuilder();
             msg.append( "Executing datasource method: getURLAsXML\n" );
             HttpServletRequest request = ServletRequestAccessor.getRequest();
             if ( request != null )
@@ -1167,7 +1157,7 @@ public final class DataSourceServiceImpl
     private String convertSimpleSearch( String search, boolean opAnd )
     {
         String operator = opAnd ? " AND " : " OR ";
-        StringBuffer query = new StringBuffer();
+        final StringBuilder query = new StringBuilder();
 
         if ( search != null )
         {
@@ -1646,11 +1636,11 @@ public final class DataSourceServiceImpl
         return doc;
     }
 
-    private XMLDocument doGetContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
-                                      int parentLevel, int childrenLevel, int parentChildrenLevel, boolean includeOwnerAndModifierData,
-                                      boolean includeContentData, boolean includeCategoryData, boolean includeRelatedContentData,
-                                      boolean includeUserRights, int[] filterByCategories, boolean categoryRecursive,
-                                      int[] filterByContentTypes )
+    private XMLDocument doGetContent(DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
+                                     int parentLevel, int childrenLevel, int parentChildrenLevel,
+                                     boolean includeContentData, boolean includeRelatedContentData,
+                                     boolean includeUserRights, int[] filterByCategories, boolean categoryRecursive,
+                                     int[] filterByContentTypes)
     {
 
         UserEntity user = getUserEntity( context.getUser() );

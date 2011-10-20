@@ -836,8 +836,7 @@ public final class ContentObjectHandlerServlet
             {
                 int contentKey = Integer.parseInt( contentKeyStr );
 
-                String contentXML = admin.getContent( user, contentKey, 0, 0, 0 );
-                Document contentDoc = XMLTool.domparse( contentXML );
+                Document contentDoc = admin.getContent( user, contentKey, 0, 0, 0 ).getAsDOMDocument();
                 NodeList contentNodes = contentDoc.getElementsByTagName( "content" );
                 Element content = (Element) contentNodes.item( 0 );
                 content = (Element) doc.importNode( content, true );

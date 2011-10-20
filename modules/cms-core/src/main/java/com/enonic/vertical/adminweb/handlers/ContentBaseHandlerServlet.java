@@ -952,7 +952,7 @@ public class ContentBaseHandlerServlet
                 elem.setAttribute( "level", "1" );
 
                 // add related content
-                Document tempDoc = XMLTool.domparse( admin.getContent( user, relatedContentKey, 0, 0, 0 ) );
+                Document tempDoc = admin.getContent( user, relatedContentKey, 0, 0, 0 ).getAsDOMDocument();
                 relatedcontentsElem.appendChild( doc.importNode( tempDoc.getDocumentElement().getFirstChild(), true ) );
             }
         }
@@ -2919,7 +2919,7 @@ public class ContentBaseHandlerServlet
 
             // Small hack: we put the current category on /data/category, all categories
             // used are also present in /data/categories/category, but without contentcount and accessrights
-            Document categoryDoc = XMLTool.domparse( admin.getCategory( oldUser, categoryKey.toInt() ) );
+            Document categoryDoc = admin.getCategory( oldUser, categoryKey.toInt() ).getAsDOMDocument();
             XMLTool.mergeDocuments( verticalDoc, categoryDoc, false );
 
             int superCategoryKey = admin.getSuperCategoryKey( categoryKey.toInt() );

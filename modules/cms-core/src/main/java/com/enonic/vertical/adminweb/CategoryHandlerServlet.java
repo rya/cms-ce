@@ -164,13 +164,13 @@ final public class CategoryHandlerServlet
         if ( formItems.containsKey( "key" ) )
         {
             categoryKey = formItems.getInt( "key" );
-            doc = XMLTool.domparse( admin.getCategory( user, categoryKey ) );
+            doc = admin.getCategory( user, categoryKey ).getAsDOMDocument();
             Element categoryElem = XMLTool.getElement( doc.getDocumentElement(), "category" );
             String tmpStr = categoryElem.getAttribute( "supercategorykey" );
             if ( tmpStr != null && tmpStr.length() > 0 )
             {
                 int superCategoryKey = Integer.parseInt( tmpStr );
-                String tmpXMLData = admin.getCategory( user, superCategoryKey );
+                Document tmpXMLData = admin.getCategory( user, superCategoryKey ).getAsDOMDocument();
                 String superCategoryName = XMLTool.getElementText( tmpXMLData, "/categories/category/@name" );
                 formItems.put( "supercategoryname", superCategoryName );
             }

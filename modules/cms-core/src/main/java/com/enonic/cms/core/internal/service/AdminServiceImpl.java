@@ -126,7 +126,7 @@ public class AdminServiceImpl
         return adminEngine.createCategory( user, xmlData );
     }
 
-    public String getCategory( User user, int categoryKey )
+    public XMLDocument getCategory( User user, int categoryKey )
     {
         return adminEngine.getCategory( user, categoryKey );
     }
@@ -244,7 +244,7 @@ public class AdminServiceImpl
     }
 
 
-    public String getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
+    public XMLDocument getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
     {
         return adminEngine.getContent( user, contentKey, parentLevel, childrenLevel, parentChildrenLevel );
     }
@@ -364,12 +364,12 @@ public class AdminServiceImpl
         return adminEngine.getMenuItemAccessRight( user, key );
     }
 
-    public String getMenuItem( User user, int key, boolean withParents )
+    public XMLDocument getMenuItem( User user, int key, boolean withParents )
     {
         return adminEngine.getMenuItem( user, key, withParents );
     }
 
-    public String getMenuItem( User user, int key, boolean withParents, boolean complete )
+    public XMLDocument getMenuItem( User user, int key, boolean withParents, boolean complete )
     {
         return adminEngine.getMenuItem( user, key, withParents, complete );
     }

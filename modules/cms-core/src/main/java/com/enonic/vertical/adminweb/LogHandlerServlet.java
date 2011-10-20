@@ -349,10 +349,10 @@ public class LogHandlerServlet
             switch ( tableKey )
             {
                 case CONTENT:
-                    XMLTool.mergeDocuments( doc, XMLTool.domparse( admin.getContent( user, tableKeyValue, 0, 0, 0 ) ) );
+                    XMLTool.mergeDocuments( doc, admin.getContent( user, tableKeyValue, 0, 0, 0 ).getAsDOMDocument() );
                     break;
                 case MENUITEM:
-                    XMLTool.mergeDocuments( doc, XMLTool.domparse( admin.getMenuItem( user, tableKeyValue, false ) ) );
+                    XMLTool.mergeDocuments( doc, admin.getMenuItem( user, tableKeyValue, false ).getAsDOMDocument() );
                     break;
             }
         }

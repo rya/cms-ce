@@ -87,10 +87,7 @@ public class ContentFileHandlerServlet
             ExtendedMap xslParams = new ExtendedMap();
             xslParams.put( "page", String.valueOf( page ) );
 
-            String xmlData;
-            xmlData = admin.getContent( user, Integer.parseInt( formItems.getString( "key" ) ), 0, 1, 0 );
-
-            Document newDoc = XMLTool.domparse( xmlData );
+            Document newDoc = admin.getContent( user, Integer.parseInt( formItems.getString( "key" ) ), 0, 1, 0 ).getAsDOMDocument();
             if ( newDoc != null )
             {
                 String filename = XMLTool.getElementText( newDoc, "/contents/content/contentdata/name" );

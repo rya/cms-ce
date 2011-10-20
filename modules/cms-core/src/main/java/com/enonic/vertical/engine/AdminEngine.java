@@ -120,11 +120,6 @@ public final class AdminEngine
     public void afterPropertiesSet()
         throws Exception
     {
-        init();
-    }
-
-    private void init()
-    {
         // event listeners
         menuHandler.addListener( logHandler );
     }
@@ -370,12 +365,12 @@ public final class AdminEngine
         return binaryDataHandler.getBinaryData( binaryDataKey );
     }
 
-    public String getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
+    public XMLDocument getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
     {
         Document doc =
             contentHandler.getContent( user, contentKey, false, parentLevel, childrenLevel, parentChildrenLevel, false, true, null );
         securityHandler.appendAccessRights( user, doc, true, true );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create(doc);
     }
 
     public String getCategoryName( int categoryKey )
@@ -390,7 +385,7 @@ public final class AdminEngine
         return XMLTool.documentToString( categoryHandler.getCategoryNameDoc( CategoryKey.parse( categoryKey ) ) );
     }
 
-    public String getCategory( User user, int categoryKey )
+    public XMLDocument getCategory( User user, int categoryKey )
     {
         Document doc = categoryHandler.getCategory( user, CategoryKey.parse( categoryKey ) );
         boolean hasSubs = categoryHandler.hasSubCategories( CategoryKey.parse( categoryKey ) );
@@ -401,7 +396,7 @@ public final class AdminEngine
         }
         securityHandler.appendAccessRights( user, doc, true, true );
 
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create(doc);
     }
 
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey key )
@@ -424,18 +419,18 @@ public final class AdminEngine
         return securityHandler.getContentAccessRight( user, key );
     }
 
-    public String getMenuItem( User user, int key, boolean withParents )
+    public XMLDocument getMenuItem( User user, int key, boolean withParents )
     {
         Document doc = menuHandler.getMenuItem( user, key, withParents );
         securityHandler.appendAccessRights( user, doc, true, true );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
 
-    public String getMenuItem( User user, int key, boolean withParents, boolean complete )
+    public XMLDocument getMenuItem( User user, int key, boolean withParents, boolean complete )
     {
         Document doc = menuHandler.getMenuItem( user, key, withParents, complete, true );
         securityHandler.appendAccessRights( user, doc, true, true );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
 
     public int getCategoryKey( int contentKey )

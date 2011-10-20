@@ -494,8 +494,7 @@ public class ContentNewsletterHandlerServlet
 
             User user = securityService.getLoggedInAdminConsoleUser();
             int key = formItems.getInt( "key" );
-            String xmlData = admin.getContent( user, key, 0, 0, 0 );
-            Document doc = XMLTool.domparse( xmlData );
+            Document doc = admin.getContent( user, key, 0, 0, 0 ).getAsDOMDocument();
 
             session.setAttribute( "_xml", XMLTool.documentToString( doc ) );
 

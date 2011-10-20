@@ -2354,8 +2354,7 @@ public class SectionHandlerServlet
         // get content
         int contentKey = formItems.getInt( "contentkey" );
         int contentTypeKey = admin.getContentTypeKey( contentKey );
-        String xmlData = admin.getContent( user, contentKey, 1, 1, 0 );
-        Document doc = XMLTool.domparse( xmlData );
+        Document doc = admin.getContent( user, contentKey, 1, 1, 0 ).getAsDOMDocument();
         requestWrapper.setParameter( "contentkey", String.valueOf( contentKey ) );
         requestWrapper.setParameter( "page", String.valueOf( 999 + contentTypeKey ) );
         session.setAttribute( "_xml", XMLTool.documentToString( doc ) );
