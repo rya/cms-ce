@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import com.enonic.cms.framework.jdbc.dialect.Dialect;
@@ -24,6 +25,7 @@ import com.enonic.cms.upgrade.task.ReflectionUpgradeTaskLocator;
 import com.enonic.cms.upgrade.task.UpgradeTask;
 import com.enonic.cms.upgrade.task.UpgradeTaskLocator;
 
+@Transactional
 public final class UpgradeServiceImpl
     implements UpgradeService, InitializingBean
 {

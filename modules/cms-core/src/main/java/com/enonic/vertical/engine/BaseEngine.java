@@ -39,8 +39,6 @@ public abstract class BaseEngine
 
     protected DataSourceService dataSourceService;
 
-    private final static ThreadLocal<Connection> SHARED_CONNECTION = new ThreadLocal<Connection>();
-
     public void setDataSourceService( DataSourceService dataSourceService )
     {
         this.dataSourceService = dataSourceService;
@@ -126,10 +124,6 @@ public abstract class BaseEngine
      */
     public final void close( Connection connection )
     {
-        if ( SHARED_CONNECTION.get() != connection )
-        {
-            this.connectionFactory.releaseConnection( connection );
-        }
     }
 
     /**
@@ -154,49 +148,6 @@ public abstract class BaseEngine
     public final Connection getConnection()
         throws SQLException
     {
-        Connection conn = SHARED_CONNECTION.get();
-        if ( conn == null )
-        {
-            conn = this.connectionFactory.getConnection( true );
-        }
-
-        return conn;
-    }
-
-    /**
-     * Open shared connection.
-     */
-    protected final void openSharedConnection()
-    {
-        if ( SHARED_CONNECTION.get() == null )
-        {
-            try
-            {
-                SHARED_CONNECTION.set( this.connectionFactory.getConnection( true ) );
-            }
-            catch ( SQLException e )
-            {
-                throw new RuntimeException( e );
-            }
-        }
-    }
-
-    /**
-     * Close shared connection.
-     */
-    protected final void closeSharedConnection()
-    {
-        Connection conn = SHARED_CONNECTION.get();
-        if ( conn != null )
-        {
-            try
-            {
-                this.connectionFactory.releaseConnection( conn );
-            }
-            finally
-            {
-                SHARED_CONNECTION.set( null );
-            }
-        }
+        return this.connectionFactory.getConnection( true );
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.transaction.support.TransactionCallback;
 
 import com.enonic.esl.sql.model.Database;
@@ -299,8 +300,7 @@ public final class UpgradeContextImpl
     public JdbcTemplate getJdbcTemplate()
         throws SQLException
     {
-        // return new JdbcTemplate( new SingleConnectionDataSource( getConnection(), true ) );
-        return new UpdateJdbcTemplate( new DialectConnectionDecorator( sqlHelper.getDialect() ), sqlHelper.getUndecoratedDataSource() );
+        return new JdbcTemplate( new SingleConnectionDataSource( getConnection(), true ) );
     }
 
     public void close( Connection conn )

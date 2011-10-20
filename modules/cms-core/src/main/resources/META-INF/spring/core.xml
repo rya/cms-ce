@@ -55,7 +55,7 @@
     </bean>
 
     <bean id="connectionFactory" class="com.enonic.cms.store.support.ConnectionFactory">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
         <property name="decorator" ref="decoratorManager"/>
     </bean>
 

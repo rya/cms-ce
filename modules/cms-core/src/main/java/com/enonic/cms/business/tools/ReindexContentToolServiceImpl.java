@@ -224,7 +224,6 @@ public class ReindexContentToolServiceImpl
      */
     public void close( Connection conn )
     {
-        this.connectionFactory.releaseConnection( conn );
     }
 
     @Autowired

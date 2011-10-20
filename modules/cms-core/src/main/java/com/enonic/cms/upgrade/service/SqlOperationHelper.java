@@ -9,9 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import javax.sql.DataSource;
-
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -50,12 +47,6 @@ public final class SqlOperationHelper
         return this.dialect;
     }
 
-    public DataSource getUndecoratedDataSource()
-        throws SQLException
-    {
-        return this.connectionFactory.getAsDataSource( false );
-    }
-
     public Connection getConnection()
         throws SQLException
     {
@@ -64,13 +55,12 @@ public final class SqlOperationHelper
 
     public void close( Connection conn )
     {
-        this.connectionFactory.releaseConnection( conn );
     }
 
     public int generateNextKey( String tableName )
         throws Exception
     {
-        Connection conn = this.connectionFactory.getUnmanagedConnection( false );
+        Connection conn = this.connectionFactory.getConnection( false );
 
         try
         {

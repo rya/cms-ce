@@ -561,15 +561,7 @@ public final class AdminEngine
 
     public String getPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys )
     {
-        try
-        {
-            openSharedConnection();
-            return doGetPageTemplatesByMenu( menuKey, excludeTypeKeys );
-        }
-        finally
-        {
-            closeSharedConnection();
-        }
+        return doGetPageTemplatesByMenu( menuKey, excludeTypeKeys );
     }
 
     private String doGetPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys )
@@ -1249,16 +1241,7 @@ public final class AdminEngine
 
     public Document getAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
     {
-
-        try
-        {
-            openSharedConnection();
-            return doGetAdminMenu( user, menuKeys, menuItemTypes, includeReadOnlyAccessRight );
-        }
-        finally
-        {
-            closeSharedConnection();
-        }
+        return doGetAdminMenu( user, menuKeys, menuItemTypes, includeReadOnlyAccessRight );
     }
 
     private Document doGetAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
