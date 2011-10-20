@@ -39,12 +39,12 @@
     </bean>
 
     <!-- Interceptor to trigger autologin plugins. -->
-    <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
+    <bean id="adminAutoLoginInterceptor" class="com.enonic.cms.server.service.admin.security.AutoLoginInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
         <property name="securityService" ref="securityService"/>
     </bean>
 
-    <bean id="httpInterceptorInterceptor"
+    <bean id="adminHttpInterceptorInterceptor"
           class="com.enonic.cms.server.service.admin.security.HttpInterceptorInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
@@ -70,8 +70,8 @@
         </property>
         <property name="interceptors">
             <list>
-                <ref bean="autoLoginInterceptor"/>
-                <ref bean="httpInterceptorInterceptor"/>
+                <ref bean="adminAutoLoginInterceptor"/>
+                <ref bean="adminHttpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
@@ -89,9 +89,9 @@
         </property>
         <property name="interceptors">
             <list>
-                <ref bean="autoLoginInterceptor"/>
+                <ref bean="adminAutoLoginInterceptor"/>
                 <ref bean="loginCheckInterceptor"/>
-                <ref bean="httpInterceptorInterceptor"/>
+                <ref bean="adminHttpInterceptorInterceptor"/>
             </list>
         </property>
     </bean>
@@ -142,12 +142,8 @@
                        value-ref="contentFormHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"
                        value-ref="contentNewsletterHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"
-                       value-ref="contentPersonHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"
                        value-ref="contentPollHandlerServletWrapper"/>
-                <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"
-                       value-ref="contentProductHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"
                        value-ref="pagelinkHandlerServletWrapper"/>
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"
@@ -304,12 +300,8 @@
           class="com.enonic.vertical.adminweb.handlers.ContentFormHandlerServlet"/>
     <bean id="contentNewsletterHandlerServletWrapper"
           class="com.enonic.vertical.adminweb.handlers.ContentNewsletterHandlerServlet"/>
-    <bean id="contentPersonHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentPersonHandlerServlet"/>
     <bean id="contentPollHandlerServletWrapper"
           class="com.enonic.vertical.adminweb.handlers.ContentPollHandlerServlet"/>
-    <bean id="contentProductHandlerServletWrapper"
-          class="com.enonic.vertical.adminweb.handlers.ContentProductHandlerServlet"/>
     <bean id="pagelinkHandlerServletWrapper" class="com.enonic.vertical.adminweb.handlers.PagelinkHandlerServlet"/>
     <bean id="simpleContentHandlerServletWrapper"
           class="com.enonic.vertical.adminweb.handlers.SimpleContentHandlerServlet"/>

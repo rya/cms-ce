@@ -16,7 +16,7 @@ public final class DigestUtil
      */
     public static String generateMD5( String value )
     {
-        return DigestUtils.md5Hex(value);
+        return DigestUtils.md5Hex(value).toUpperCase();
     }
 
     /**
@@ -24,7 +24,7 @@ public final class DigestUtil
      */
     public static String generateSHA( byte[] bytes )
     {
-        return DigestUtils.shaHex(bytes);
+        return DigestUtils.shaHex(bytes).toUpperCase();
     }
 
     /**
@@ -32,6 +32,6 @@ public final class DigestUtil
      */
     public static String generateSHA( String value )
     {
-        return DigestUtils.shaHex(value);
+        return DigestUtils.shaHex(value).toUpperCase();
     }
 }
