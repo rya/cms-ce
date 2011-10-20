@@ -316,7 +316,7 @@ public final class XMLTool
     private static Element createElement( Document doc, String name, String text )
     {
         Preconditions.checkNotNull(name, "Element name cannot be null" );
-        Preconditions.checkArgument( name.trim().length() == 0, "Element name has to contain at least one character" );
+        Preconditions.checkArgument( name.trim().length() != 0, "Element name has to contain at least one character" );
 
         Element elem = doc.createElement( name );
         if ( text != null )
@@ -373,7 +373,7 @@ public final class XMLTool
     public static Element createElement( Document doc, Element root, String name, String text, String sortAttribute, String sortValue )
     {
         Preconditions.checkNotNull(name, "Element name cannot be null");
-        Preconditions.checkArgument(name.trim().length() == 0, "Element name has to contain at least one character");
+        Preconditions.checkArgument(name.trim().length() != 0, "Element name has to contain at least one character");
 
         Element elem = doc.createElement( name );
         if ( text != null )
@@ -450,7 +450,7 @@ public final class XMLTool
     public static Element createRootElement( Document doc, String name )
     {
         Preconditions.checkNotNull(name, "Root element name cannot be null!" );
-        Preconditions.checkArgument(name.trim().length() == 0, "Root element name has to contain at least one character!" );
+        Preconditions.checkArgument(name.trim().length() != 0, "Root element name has to contain at least one character!" );
 
         // remove old root
         NodeList nodes = doc.getChildNodes();
