@@ -14,9 +14,7 @@ public enum ContentHandlerName
     FORM( "ContentFormHandlerServlet" ),
     IMAGE( "ContentEnhancedImageHandlerServlet" ),
     NEWSLETTER( "ContentNewsletterHandlerServlet" ),
-    PERSON( "ContentPersonHandlerServlet" ),
-    POLL( "ContentPollHandlerServlet" ),
-    PRODUCT( "ContentProductHandlerServlet" );
+    POLL( "ContentPollHandlerServlet" );
 
 
     private String handlerClassName;

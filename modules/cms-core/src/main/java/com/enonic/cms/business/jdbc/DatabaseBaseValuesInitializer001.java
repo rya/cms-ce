@@ -10,12 +10,6 @@ import java.sql.Statement;
 
 import com.enonic.cms.core.security.group.GroupType;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Nov 14, 2010
- * Time: 11:54:15 PM
- */
 public class DatabaseBaseValuesInitializer001
     extends DatabaseBaseValuesInitializer
 {

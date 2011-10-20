@@ -20,11 +20,7 @@ public class ContentXMLBuildersSpringManagedBeansBridge
 
     private ContentNewsletterXMLBuilder contentNewsletterXMLBuilder;
 
-    private ContentPersonXMLBuilder contentPersonXMLBuilder;
-
     private ContentPollXMLBuilder contentPollXMLBuilder;
-
-    private ContentProductXMLBuilder contentProductXMLBuilder;
 
     private SimpleContentXMLBuilder simpleContentXMLBuilder;
 
@@ -95,16 +91,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
         this.contentNewsletterXMLBuilder = contentNewsletterXMLBuilder;
     }
 
-    public static ContentPersonXMLBuilder getContentPersonXMLBuilder()
-    {
-        return instance.contentPersonXMLBuilder;
-    }
-
-    public void setContentPersonXMLBuilder( ContentPersonXMLBuilder contentPersonXMLBuilder )
-    {
-        this.contentPersonXMLBuilder = contentPersonXMLBuilder;
-    }
-
     public static ContentPollXMLBuilder getContentPollXMLBuilder()
     {
         return instance.contentPollXMLBuilder;
@@ -113,16 +99,6 @@ public class ContentXMLBuildersSpringManagedBeansBridge
     public void setContentPollXMLBuilder( ContentPollXMLBuilder contentPollXMLBuilder )
     {
         this.contentPollXMLBuilder = contentPollXMLBuilder;
-    }
-
-    public static ContentProductXMLBuilder getContentProductXMLBuilder()
-    {
-        return instance.contentProductXMLBuilder;
-    }
-
-    public void setContentProductXMLBuilder( ContentProductXMLBuilder contentProductXMLBuilder )
-    {
-        this.contentProductXMLBuilder = contentProductXMLBuilder;
     }
 
     public static SimpleContentXMLBuilder getSimpleContentXMLBuilder()

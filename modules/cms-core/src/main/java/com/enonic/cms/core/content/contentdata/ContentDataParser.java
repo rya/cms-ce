@@ -16,9 +16,7 @@ import com.enonic.cms.core.content.contentdata.legacy.support.FileContentDataPar
 import com.enonic.cms.core.content.contentdata.legacy.support.FormContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.ImageContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.NewsletterContentDataParser;
-import com.enonic.cms.core.content.contentdata.legacy.support.PersonContentDataParser;
 import com.enonic.cms.core.content.contentdata.legacy.support.PollContentDataParser;
-import com.enonic.cms.core.content.contentdata.legacy.support.ProductContentDataParser;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfig;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 
@@ -62,16 +60,8 @@ public class ContentDataParser
                 contentData = NewsletterContentDataParser.parse( contentDataXmlDoc, binaryDatas );
                 break;
 
-            case PERSON:
-                contentData = PersonContentDataParser.parse( contentDataXmlDoc, binaryDatas );
-                break;
-
             case POLL:
                 contentData = PollContentDataParser.parse( contentDataXmlDoc, binaryDatas );
-                break;
-
-            case PRODUCT:
-                contentData = ProductContentDataParser.parse( contentDataXmlDoc, binaryDatas );
                 break;
 
             default:
