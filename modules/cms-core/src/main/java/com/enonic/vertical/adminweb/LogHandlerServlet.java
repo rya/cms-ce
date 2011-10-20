@@ -56,7 +56,7 @@ public class LogHandlerServlet
             ExtendedMap transformParams = new ExtendedMap();
 
             // select log entries for only one single entity
-            String pathXML;
+            Document pathXML;
             int menuKey = -1;
             boolean popup;
             if ( formItems.containsKey( "tablekeyvalue" ) )
@@ -73,12 +73,12 @@ public class LogHandlerServlet
                 {
                     case CONTENT:
                         int categoryKey = admin.getCategoryKey( tableKeyValue );
-                        pathXML = admin.getSuperCategoryNames( categoryKey, false, true );
+                        pathXML = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
                         break;
                     case MENUITEM:
                         menuKey = admin.getMenuKeyByMenuItem( new MenuItemKey( tableKeyValue ) );
                         transformParams.putInt( "parentkey", admin.getParentMenuItemKey( tableKeyValue ) );
-                        pathXML = admin.getMenu( user, menuKey, false );
+                        pathXML = admin.getMenu( user, menuKey, false ).getAsDOMDocument();
                         break;
                     default:
                         pathXML = null;
@@ -128,13 +128,13 @@ public class LogHandlerServlet
                     {
                         case CONTENT:
                             int categoryKey = admin.getCategoryKey( tableKeyValue );
-                            XMLTool.mergeDocuments( tempDoc, XMLTool.domparse( admin.getSuperCategoryNames( categoryKey, false, true ) ),
+                            XMLTool.mergeDocuments( tempDoc, admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument(),
                                                     true );
                             break;
                         case MENUITEM:
                             menuKey = admin.getMenuKeyByMenuItem( new MenuItemKey( tableKeyValue ) );
                             transformParams.putInt( "parentkey", admin.getParentMenuItemKey( tableKeyValue ) );
-                            XMLTool.mergeDocuments( tempDoc, XMLTool.domparse( admin.getMenu( user, menuKey, false ) ), true );
+                            XMLTool.mergeDocuments( tempDoc, admin.getMenu( user, menuKey, false ).getAsDOMDocument(), true );
                             break;
                     }
 
@@ -211,7 +211,7 @@ public class LogHandlerServlet
                     if ( pathXML != null )
                     {
                         Document doc = XMLTool.domparse( xmlData );
-                        XMLTool.mergeDocuments( doc, XMLTool.domparse( pathXML ), true );
+                        XMLTool.mergeDocuments( doc, pathXML, true );
                         xmlSource = new DOMSource( doc );
                     }
                     else
@@ -296,7 +296,7 @@ public class LogHandlerServlet
         }
 
         // select log entries for only one single entity
-        String pathXML;
+        Document pathXML;
         int menuKey = -1;
         boolean popup;
         if ( formItems.containsKey( "tablekeyvalue" ) )
@@ -311,12 +311,12 @@ public class LogHandlerServlet
             {
                 case CONTENT:
                     int categoryKey = admin.getCategoryKey( tableKeyValue );
-                    pathXML = admin.getSuperCategoryNames( categoryKey, false, true );
+                    pathXML = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
                     break;
                 case MENUITEM:
                     menuKey = admin.getMenuKeyByMenuItem( new MenuItemKey( tableKeyValue ) );
                     parameters.putInt( "parentkey", admin.getParentMenuItemKey( tableKeyValue ) );
-                    pathXML = admin.getMenu( user, menuKey, false );
+                    pathXML = admin.getMenu( user, menuKey, false ).getAsDOMDocument();
                     break;
                 default:
                     pathXML = null;
@@ -337,7 +337,7 @@ public class LogHandlerServlet
         parameters.put( "popup", String.valueOf( popup ) );
         if ( pathXML != null )
         {
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( pathXML ), true );
+            XMLTool.mergeDocuments( doc, pathXML, true );
         }
 
         // If type is entity create, update, remove or read include entity xml
@@ -382,7 +382,7 @@ public class LogHandlerServlet
                                 ExtendedMap formItems, ExtendedMap parameters, User user, Document verticalDoc )
         throws VerticalAdminException
     {
-        Document menusDoc = XMLTool.domparse( admin.getMenusForAdmin( user ) );
+        Document menusDoc = admin.getMenusForAdmin( user ).getAsDOMDocument();
         XMLTool.mergeDocuments( verticalDoc, menusDoc, true );
         DOMSource xmlSource = new DOMSource( verticalDoc );
         Source xslSource = AdminStore.getStylesheet( session, "log_filter.xsl" );

@@ -528,7 +528,7 @@ public class SectionHandlerServlet
             }
 
             int categoryKey = formItems.getInt( "cat" );
-            Document doc = XMLTool.domparse( admin.getSuperCategoryNames( categoryKey, false, true ) );
+            Document doc = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
             wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
 

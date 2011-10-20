@@ -311,7 +311,7 @@ public class UnitHandler
         return unitName;
     }
 
-    public String getUnitNamesXML( Filter filter )
+    public Document getUnitNamesXML( Filter filter )
     {
 
         Connection con = null;
@@ -366,7 +366,7 @@ public class UnitHandler
             close( con );
         }
 
-        return XMLTool.documentToString( doc );
+        return doc;
     }
 
     public String getUnits()

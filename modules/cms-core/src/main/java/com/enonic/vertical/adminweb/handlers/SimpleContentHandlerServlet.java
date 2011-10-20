@@ -114,8 +114,8 @@ final public class SimpleContentHandlerServlet
         Document doc = XMLTool.createDocument( "contents" );
         XMLTool.mergeDocuments( doc, xmlContent );
 
-        String xmlCategory = adminService.getSuperCategoryNames( categoryKey, false, true );
-        XMLTool.mergeDocuments( doc, XMLTool.domparse( xmlCategory ), true );
+        Document xmlCategory = adminService.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
+        XMLTool.mergeDocuments( doc, xmlCategory, true );
 
         Map<String, Object> xslParams = new HashMap<String, Object>();
 
@@ -176,7 +176,7 @@ final public class SimpleContentHandlerServlet
             }
 
             Document doc = XMLTool.createDocument( "data" );
-            XMLTool.mergeDocuments( doc, adminService.getSuperCategoryNames( categoryKey, true, true ), true );
+            XMLTool.mergeDocuments( doc, adminService.getSuperCategoryNames( categoryKey, true, true ).getAsDOMDocument(), true );
 
             Map<String, Object> xslParams = new HashMap<String, Object>();
             xslParams.put( "cat", formItems.getString( "cat" ) );
@@ -266,9 +266,9 @@ final public class SimpleContentHandlerServlet
         int contentTypeKey = adminService.getContentTypeKeyByCategory( categoryKey );
 
         Document doc = XMLTool.createDocument( "data" );
-        XMLTool.mergeDocuments( doc, adminService.getSuperCategoryNames( categoryKey, true, true ), true );
-        XMLTool.mergeDocuments( doc, adminService.getAccessRights( user, AccessRight.CATEGORY, categoryKey, true ) );
-        XMLTool.mergeDocuments( doc, adminService.getContentTypeModuleData( contentTypeKey ) );
+        XMLTool.mergeDocuments( doc, adminService.getSuperCategoryNames( categoryKey, true, true ).getAsDOMDocument(), true );
+        XMLTool.mergeDocuments( doc, adminService.getAccessRights( user, AccessRight.CATEGORY, categoryKey, true ).getAsDOMDocument() );
+        XMLTool.mergeDocuments( doc, adminService.getContentTypeModuleData( contentTypeKey ).getAsDOMDocument() );
 
         Map<String, Object> xslParams = new HashMap<String, Object>();
         xslParams.put( "cat", formItems.getString( "cat" ) );
@@ -295,7 +295,7 @@ final public class SimpleContentHandlerServlet
         DOMSource result = null;
         try
         {
-            Document sourceDoc = XMLTool.domparse( admin.getContentTypeModuleData( contentTypeKey ) );
+            Document sourceDoc = admin.getContentTypeModuleData( contentTypeKey ).getAsDOMDocument();
 
             // Set whether fields are indexed or not
             Document indexDoc = XMLTool.domparse( admin.getIndexingParametersXML( contentTypeKey ) );

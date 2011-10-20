@@ -46,7 +46,6 @@ import com.enonic.vertical.adminweb.handlers.ListCountResolver;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 
-import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -704,16 +703,9 @@ public class UserHandlerServlet
                         session.setAttribute( "grouparray", groupArray );
                         for ( String aGroupArray : groupArray )
                         {
-                            try
-                            {
-                                org.jdom.Document groupDocument = JDOMUtil.parseDocument( admin.getGroup( aGroupArray ) );
-                                org.jdom.Element groupsEl = groupDocument.getRootElement();
-                                memberOfEl.addContent( groupsEl.getChild( "group" ).detach() );
-                            }
-                            catch ( org.jdom.JDOMException e )
-                            {
-                                /* Do nothing - move one */
-                            }
+                            org.jdom.Document groupDocument = admin.getGroup( aGroupArray ).getAsJDOMDocument();
+                            org.jdom.Element groupsEl = groupDocument.getRootElement();
+                            memberOfEl.addContent( groupsEl.getChild( "group" ).detach() );
                         }
                         session.setAttribute( "groupxml", XMLTool.documentToString( membershipDoc ) );
                     }

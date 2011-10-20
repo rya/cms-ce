@@ -107,8 +107,8 @@ public class ContentFileHandlerServlet
                 }
             }
 
-            String xmlCategory = admin.getSuperCategoryNames( categoryKey, false, true );
-            XMLTool.mergeDocuments( newDoc, XMLTool.domparse( xmlCategory ), true );
+            Document xmlCategory = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
+            XMLTool.mergeDocuments( newDoc, xmlCategory, true );
 
             addCommonParameters( admin, user, request, xslParams, unitKey, -1 );
 

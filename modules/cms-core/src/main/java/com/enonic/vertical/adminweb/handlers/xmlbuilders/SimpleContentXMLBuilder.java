@@ -35,7 +35,7 @@ public class SimpleContentXMLBuilder
     {
 
         int contentTypeKey = formItems.getInt( "contenttypekey" );
-        Document moduledataDoc = XMLTool.domparse( admin.getContentTypeModuleData( contentTypeKey ) );
+        Document moduledataDoc = admin.getContentTypeModuleData( contentTypeKey ).getAsDOMDocument();
         Element elem = moduledataDoc.getDocumentElement();
         elem = XMLTool.getElement( elem, "config" );
         elem = XMLTool.getElement( elem, "form" );
@@ -68,7 +68,7 @@ public class SimpleContentXMLBuilder
 
         try
         {
-            Document moduleDoc = XMLTool.domparse( admin.getContentTypeModuleData( page - 999 ) );
+            Document moduleDoc = admin.getContentTypeModuleData( page - 999 ).getAsDOMDocument();
 
             Element rootElement = moduleDoc.getDocumentElement();
             Element moduleElement = XMLTool.getElement( rootElement, "config" );

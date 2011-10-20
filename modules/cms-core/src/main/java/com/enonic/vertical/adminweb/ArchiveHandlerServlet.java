@@ -138,7 +138,7 @@ public class ArchiveHandlerServlet
         }
 
         UnitFilter uf = new UnitFilter( user );
-        Document doc = XMLTool.domparse( admin.getUnitNamesXML( uf ) );
+        Document doc = admin.getUnitNamesXML( uf ).getAsDOMDocument();
 
         ExtendedMap xslParams = new ExtendedMap();
         xslParams.put( "contenttypestring", contentTypeString );
@@ -174,9 +174,8 @@ public class ArchiveHandlerServlet
         {
             doc = XMLTool.createDocument( "categories" );
 
-            String xmlDefaultAC = admin.getDefaultAccessRights( user, AccessRight.CATEGORY, -1 );
-//            ( xmlDefaultAC );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( xmlDefaultAC ), true );
+            Document xmlDefaultAC = admin.getDefaultAccessRights( user, AccessRight.CATEGORY, -1 ).getAsDOMDocument();
+            XMLTool.mergeDocuments( doc, xmlDefaultAC, true );
         }
         else
         {
@@ -384,7 +383,7 @@ public class ArchiveHandlerServlet
 
                             // Henter ut eksisterende accessrights
                             Document docCurrentCategoryAR =
-                                XMLTool.domparse( admin.getAccessRights( user, AccessRight.CATEGORY, curCategoryKey, false ) );
+                                admin.getAccessRights( user, AccessRight.CATEGORY, curCategoryKey, false ).getAsDOMDocument();
                             // getAccessRights() skal enten: ikke returnere userright? eller så utvider jeg den med en parameter hvor jeg kan velge dette.
 
                             // Påfører endringer
@@ -406,7 +405,7 @@ public class ArchiveHandlerServlet
                                     {
                                         // Henter ut eksisterende accessrights
                                         Document docCurrentContentAR =
-                                            XMLTool.domparse( admin.getAccessRights( user, AccessRight.CONTENT, contentKey, false ) );
+                                            admin.getAccessRights( user, AccessRight.CONTENT, contentKey, false ).getAsDOMDocument();
 
                                         // Påfører endringer
                                         Document docChangedContentAR =

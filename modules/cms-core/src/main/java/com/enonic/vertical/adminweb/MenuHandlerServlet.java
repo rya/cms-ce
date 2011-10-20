@@ -2334,7 +2334,7 @@ public class MenuHandlerServlet
 
                             // Henter ud eksisterende accessrights
                             Document docCurrentCategoryAR =
-                                XMLTool.domparse( admin.getAccessRights( user, AccessRight.MENUITEM, curMenuItemKey, false ) );
+                                admin.getAccessRights( user, AccessRight.MENUITEM, curMenuItemKey, false ).getAsDOMDocument();
 
                             // Påfører endringer
                             Document docChangedCategoryAR =
@@ -2436,7 +2436,7 @@ public class MenuHandlerServlet
         String categoryXML = null;
         String pageTemplatesXML;
         String pageTemplateParamsXML = null;
-        String defaultAccessRightXML = null;
+        Document defaultAccessRightXML = null;
 
         // menuitem key:
         String key = formItems.getString( "key", null );
@@ -2458,7 +2458,7 @@ public class MenuHandlerServlet
                 String insertBelow = formItems.getString( "insertbelow", null );
                 if ( insertBelow != null && !"-1".equals( insertBelow ) )
                 {
-                    defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true );
+                    defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true ).getAsDOMDocument();
 
                     menuItemParent = new MenuItemKey( Integer.parseInt( insertBelow ) );
 
@@ -2467,7 +2467,7 @@ public class MenuHandlerServlet
                 }
                 else
                 {
-                    defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM_DEFAULT, menuKey, true );
+                    defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM_DEFAULT, menuKey, true ).getAsDOMDocument();
                 }
             }
 
@@ -2542,7 +2542,7 @@ public class MenuHandlerServlet
 
             if ( defaultAccessRightXML != null )
             {
-                XMLTool.mergeDocuments( doc1, XMLTool.domparse( defaultAccessRightXML ), true );
+                XMLTool.mergeDocuments( doc1, defaultAccessRightXML, true );
             }
 
             ExtendedMap parameters = new ExtendedMap();

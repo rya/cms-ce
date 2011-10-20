@@ -72,12 +72,7 @@ public class PagelinkHandlerServlet
         if ( formItems.containsKey( "menukey" ) )
         {
             menuKey = formItems.getInt( "menukey" );
-            String menuXML;
-            synchronized ( admin )
-            {
-                menuXML = admin.getMenu( user, menuKey, false );
-            }
-            menuDoc = XMLTool.domparse( menuXML );
+            menuDoc = admin.getMenu( user, menuKey, false ).getAsDOMDocument();
             parameters.put( "internallink", Boolean.TRUE );
         }
         else

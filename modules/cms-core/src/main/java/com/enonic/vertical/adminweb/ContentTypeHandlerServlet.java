@@ -264,8 +264,7 @@ public class ContentTypeHandlerServlet
                 }
             }
         }
-        String contentHandlersXML = admin.getContentHandlers();
-        Document contentHandlersDoc = XMLTool.domparse( contentHandlersXML );
+        Document contentHandlersDoc = admin.getContentHandlers().getAsDOMDocument();
         doc.getDocumentElement().appendChild(doc.importNode(contentHandlersDoc.getDocumentElement(), true));
 
         addErrorsXML(doc);
@@ -341,7 +340,7 @@ public class ContentTypeHandlerServlet
             returnRow = Integer.parseInt( request.getParameter( "returnrow" ).toString() );
         }
 
-        Document doc = XMLTool.domparse( admin.getContentTypes() ); // siteKey
+        Document doc = admin.getContentTypes().getAsDOMDocument();
 
         HashMap<String, String> parameters = new HashMap<String, String>();
         parameters.put( "returnview", returnView );

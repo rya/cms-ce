@@ -485,10 +485,9 @@ public final class PresentationLayerServlet
 
         try
         {
-            String defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM_DEFAULT, menuKey, true );
+            Document docAccessRights = admin.getAccessRights( user, AccessRight.MENUITEM_DEFAULT, menuKey, true ).getAsDOMDocument();
 
             Document menuDataXMLDoc = XMLTool.domparse( menuDataXML );
-            Document docAccessRights = XMLTool.domparse( defaultAccessRightXML );
 
             Element parent = (Element) XMLTool.selectNode( menuDataXMLDoc.getDocumentElement(), "/menus/menu" );
             parent.appendChild( menuDataXMLDoc.importNode( docAccessRights.getDocumentElement(), true ) );
@@ -575,7 +574,7 @@ public final class PresentationLayerServlet
 
             Document doc = XMLTool.createDocument( "data" );
 
-            Document menuItems = XMLTool.domparse( admin.getMenu( user, menuKey, false ) );
+            Document menuItems = admin.getMenu( user, menuKey, false ).getAsDOMDocument();
             Document changedAccessRights = buildChangedAccessRightsXML( formItems );
             Document currentAccessRights = XMLTool.domparse( buildAccessRightsXML( formItems ) );
 
@@ -680,7 +679,7 @@ public final class PresentationLayerServlet
 
                             // Henter ud eksisterende accessrights
                             Document docCurrentCategoryAR =
-                                XMLTool.domparse( admin.getAccessRights( user, AccessRight.MENUITEM, curMenuItemKey, true ) );
+                                admin.getAccessRights( user, AccessRight.MENUITEM, curMenuItemKey, true ).getAsDOMDocument();
                             Element root = docCurrentCategoryAR.getDocumentElement();
                             Element userright = XMLTool.getElement( root, "userright" );
                             if ( userright != null )

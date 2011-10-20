@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
@@ -96,10 +95,6 @@ public final class ContentHandler
         "SELECT han_lKey, han_sName, han_sDescription, han_sClass, han_xmlConfig, han_dteTimestamp" + " FROM " + HAN_TABLE;
 
     private final static String HAN_SELECT_KEY = "SELECT han_lKey FROM " + HAN_TABLE;
-
-    private final static String CTY_JOIN_HAN = " LEFT JOIN " + CTY_TABLE + " ON cty_han_lKey = han_lKey";
-
-    private final static String HAN_WHERE_CLAUSE_CTY = " cty_lKey = ?";
 
     private final static String HAN_WHERE_CLAUSE_CLASS = " han_sClass = ?";
 
@@ -1549,22 +1544,6 @@ public final class ContentHandler
             close( preparedStmt );
             close( con );
         }
-    }
-
-    /* (non-Javadoc)
-      * @see com.enonic.vertical.engine.ContentHandler#getContentHandlerByContentType(int)
-      */
-    public Document getContentHandlerByContentType( int contentTypeKey )
-    {
-        StringBuffer sql = new StringBuffer( HAN_SELECT_ALL );
-        sql.append( CTY_JOIN_HAN );
-        sql.append( " WHERE" );
-        sql.append( HAN_WHERE_CLAUSE_CTY );
-
-        Vector<Integer> paramValues = new Vector<Integer>();
-        paramValues.add( contentTypeKey );
-
-        return getContentHandlers( sql.toString(), paramValues );
     }
 
     public Document getContentTypeModuleData( int contentTypeKey )

@@ -65,7 +65,7 @@ public class AdminServiceImpl
         this.resourceService = value;
     }
 
-    public String getPageTemplates( PageTemplateType type )
+    public XMLDocument getPageTemplates( PageTemplateType type )
     {
         return adminEngine.getPageTemplates( type );
     }
@@ -136,7 +136,7 @@ public class AdminServiceImpl
         return adminEngine.getCategoryKey( contentKey );
     }
 
-    public String getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )
+    public XMLDocument getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )
     {
         return adminEngine.getSuperCategoryNames( categoryKey, withContentCount, includeCategory );
     }
@@ -233,12 +233,12 @@ public class AdminServiceImpl
         return adminEngine.getBinaryData( binaryDataKey );
     }
 
-    public String getAccessRights( User user, int type, int key, boolean includeUserright )
+    public XMLDocument getAccessRights( User user, int type, int key, boolean includeUserright )
     {
         return adminEngine.getAccessRights( user, type, key, includeUserright );
     }
 
-    public String getDefaultAccessRights( User user, int type, int key )
+    public XMLDocument getDefaultAccessRights( User user, int type, int key )
     {
         return adminEngine.getDefaultAccessRights( user, type, key );
     }
@@ -281,7 +281,7 @@ public class AdminServiceImpl
         return adminEngine.getContentKeysByCategory( user, categoryKey );
     }
 
-    public String getContentObject( int coc_lKey )
+    public XMLDocument getContentObject( int coc_lKey )
     {
         return adminEngine.getContentObject( coc_lKey );
     }
@@ -339,7 +339,7 @@ public class AdminServiceImpl
         return adminEngine.getContentTypeName( contentTypeKey );
     }
 
-    public String getContentTypes()
+    public XMLDocument getContentTypes()
     {
         return adminEngine.getContentTypes();
     }
@@ -354,7 +354,7 @@ public class AdminServiceImpl
         return adminEngine.getLanguages();
     }
 
-    public String getMenu( User user, int menuKey, boolean complete )
+    public XMLDocument getMenu( User user, int menuKey, boolean complete )
     {
         return adminEngine.getMenu( user, menuKey, complete );
     }
@@ -434,7 +434,7 @@ public class AdminServiceImpl
         return adminEngine.getUnitLanguageKey( unitKey );
     }
 
-    public String getUnitNamesXML( Filter filter )
+    public XMLDocument getUnitNamesXML( Filter filter )
     {
         return adminEngine.getUnitNamesXML( filter );
     }
@@ -534,12 +534,12 @@ public class AdminServiceImpl
         adminEngine.updateUnit( xmlData );
     }
 
-    public String getGroup( String gKey )
+    public XMLDocument getGroup( String gKey )
     {
         return adminEngine.getGroup( gKey );
     }
 
-    public String getContentTypeModuleData( int ctKey )
+    public XMLDocument getContentTypeModuleData( int ctKey )
     {
         return adminEngine.getContentTypeModuleData( ctKey );
     }
@@ -582,12 +582,12 @@ public class AdminServiceImpl
         return adminEngine.getMenu( user, criteria );
     }
 
-    public String getPath( User user, int type, int key )
+    public XMLDocument getPath( User user, int type, int key )
     {
         return adminEngine.getPath( user, type, key );
     }
 
-    public String getMenusForAdmin( User user )
+    public XMLDocument getMenusForAdmin( User user )
     {
         return adminEngine.getMenusForAdmin( user );
     }
@@ -610,7 +610,7 @@ public class AdminServiceImpl
         return adminEngine.getUserNames( groupKeys );
     }
 
-    public String getContentHandler( int contentHandlerKey )
+    public XMLDocument getContentHandler( int contentHandlerKey )
     {
         return adminEngine.getContentHandler( contentHandlerKey );
     }
@@ -620,7 +620,7 @@ public class AdminServiceImpl
         return adminEngine.getContentHandlerClassForContentType( contentTypeKey );
     }
 
-    public String getContentHandlers()
+    public XMLDocument getContentHandlers()
     {
         return adminEngine.getContentHandlers();
     }
@@ -653,11 +653,6 @@ public class AdminServiceImpl
     public String getIndexingParametersXML( int contentTypeKey )
     {
         return adminEngine.getIndexingParametersXML( contentTypeKey );
-    }
-
-    public String getContentHandlerByContentType( int contentTypeKey )
-    {
-        return XMLTool.documentToString( adminEngine.getContentHandlerByContentType( contentTypeKey ) );
     }
 
     public long getSectionContentTimestamp( MenuItemKey sectionKey )

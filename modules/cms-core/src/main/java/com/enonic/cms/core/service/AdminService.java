@@ -36,7 +36,7 @@ import com.enonic.cms.core.structure.page.template.PageTemplateType;
 public interface AdminService
 {
 
-    public String getPageTemplates( PageTemplateType type );
+    public XMLDocument getPageTemplates( PageTemplateType type );
 
     public void copyMenu( User user, int menuKey, boolean includeContent )
         throws VerticalSecurityException;
@@ -65,7 +65,7 @@ public interface AdminService
 
     public int getCategoryKey( int contentKey );
 
-    public String getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory );
+    public XMLDocument getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory );
 
     public void updateCategory( User user, String xmlData )
         throws VerticalSecurityException, VerticalUpdateException;
@@ -109,10 +109,9 @@ public interface AdminService
 
     public BinaryData getBinaryData( User user, int binaryDataKey );
 
-    public String getAccessRights( User user, int type, int key, boolean includeUserright );
+    public XMLDocument getAccessRights( User user, int type, int key, boolean includeUserright );
 
-    public String getDefaultAccessRights( User user, int type, int key );
-
+    public XMLDocument getDefaultAccessRights( User user, int type, int key );
 
     public XMLDocument getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel );
 
@@ -128,7 +127,7 @@ public interface AdminService
 
     public int[] getContentKeysByCategory( User user, int categoryKey );
 
-    public String getContentObject( int coc_lKey );
+    public XMLDocument getContentObject( int coc_lKey );
 
     public User getContentObjectRunAs( int contentObjectKey );
 
@@ -150,13 +149,13 @@ public interface AdminService
 
     public String getContentTypeName( int contentTypeKey );
 
-    public String getContentTypes();
+    public XMLDocument getContentTypes();
 
     public XMLDocument getLanguage( LanguageKey languageKey );
 
     public XMLDocument getLanguages();
 
-    public String getMenu( User user, int menuKey, boolean complete );
+    public XMLDocument getMenu( User user, int menuKey, boolean complete );
 
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey key );
 
@@ -188,7 +187,7 @@ public interface AdminService
 
     public int getUnitLanguageKey( int unitKey );
 
-    public String getUnitNamesXML( Filter filter );
+    public XMLDocument getUnitNamesXML( Filter filter );
 
     public boolean hasContent( int contentCategoryKey );
 
@@ -231,9 +230,9 @@ public interface AdminService
     public void updateUnit( String xmlData )
         throws VerticalSecurityException, VerticalUpdateException;
 
-    public String getGroup( String gKey );
+    public XMLDocument getGroup( String gKey );
 
-    public String getContentTypeModuleData( int ctKey );
+    public XMLDocument getContentTypeModuleData( int ctKey );
 
     public int getContentCount( int categoryKey, boolean recursive );
 
@@ -251,9 +250,9 @@ public interface AdminService
 
     public XMLDocument getMenu( User user, CategoryCriteria criteria );
 
-    public String getPath( User user, int type, int key );
+    public XMLDocument getPath( User user, int type, int key );
 
-    public String getMenusForAdmin( User user );
+    public XMLDocument getMenusForAdmin( User user );
 
     public void moveMenuItem( User user, Element[] menuItemElems, int menuItemKey, int fromMenuKey, int fromParentKey, int toMenuKey,
                               int toParentKey );
@@ -262,11 +261,11 @@ public interface AdminService
 
     public Set<UserEntity> getUserNames( String[] groupKeys );
 
-    public String getContentHandler( int contentHandlerKey );
+    public XMLDocument getContentHandler( int contentHandlerKey );
 
     public String getContentHandlerClassForContentType( int contentTypeKey );
 
-    public String getContentHandlers();
+    public XMLDocument getContentHandlers();
 
     public int createContentHandler( User user, String xmlData )
         throws VerticalSecurityException;
@@ -280,8 +279,6 @@ public interface AdminService
     public XMLDocument getContentTypes( boolean includeContentCount );
 
     public String getIndexingParametersXML( int contentTypeKey );
-
-    public String getContentHandlerByContentType( int contentTypeKey );
 
     public long getSectionContentTimestamp( MenuItemKey sectionKey );
 

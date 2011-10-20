@@ -127,7 +127,7 @@ public class ContentHandlerHandlerServlet
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
-        Document doc = XMLTool.domparse( admin.getContentHandlers() );
+        Document doc = admin.getContentHandlers().getAsDOMDocument();
 
         // Parameters
         ExtendedMap parameters = new ExtendedMap();
@@ -158,8 +158,7 @@ public class ContentHandlerHandlerServlet
         else
         {
             // Edit content handler
-            xmlData = admin.getContentHandler( Integer.parseInt( keyStr ) );
-            doc = XMLTool.domparse( xmlData );
+            doc = admin.getContentHandler( Integer.parseInt( keyStr ) ).getAsDOMDocument();
         }
 
         // Parameters

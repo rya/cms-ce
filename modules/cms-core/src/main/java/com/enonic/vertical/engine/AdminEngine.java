@@ -189,10 +189,10 @@ public final class AdminEngine
         return userHandler;
     }
 
-    public String getPageTemplates( PageTemplateType type )
+    public XMLDocument getPageTemplates( PageTemplateType type )
     {
         Document doc = pageTemplateHandler.getPageTemplates( type );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
 
     public void copyMenu( User user, int menuKey, boolean includeContent )
@@ -453,11 +453,10 @@ public final class AdminEngine
         return parentCategoryKey.toInt();
     }
 
-    public String getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )
+    public XMLDocument getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory )
     {
-
         Document doc = categoryHandler.getSuperCategoryNames( CategoryKey.parse( categoryKey ), withContentCount, includeCategory );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create(doc);
     }
 
     public int getContentCount( int categoryKey, boolean recursive )
@@ -466,10 +465,9 @@ public final class AdminEngine
         return categoryHandler.getContentCount( null, CategoryKey.parse( categoryKey ), recursive );
     }
 
-    public String getContentObject( int contentObjectKey )
+    public XMLDocument getContentObject( int contentObjectKey )
     {
-
-        return contentObjectHandler.getContentObject( contentObjectKey ).getAsString();
+        return contentObjectHandler.getContentObject( contentObjectKey );
     }
 
     public User getContentObjectRunAs( int contentObjectKey )
@@ -519,9 +517,9 @@ public final class AdminEngine
         return contentHandler.getContentTypeName( contentTypeKey );
     }
 
-    public String getContentTypeModuleData( int contentTypeKey )
+    public XMLDocument getContentTypeModuleData( int contentTypeKey )
     {
-        return XMLTool.documentToString( contentHandler.getContentTypeModuleData( contentTypeKey ) );
+        return XMLDocumentFactory.create( contentHandler.getContentTypeModuleData( contentTypeKey ) );
     }
 
     public XMLDocument getLanguage( LanguageKey languageKey )
@@ -534,11 +532,11 @@ public final class AdminEngine
         return languageHandler.getLanguages();
     }
 
-    public String getMenu( User user, int menuKey, boolean complete )
+    public XMLDocument getMenu( User user, int menuKey, boolean complete )
     {
         Document doc = menuHandler.getMenu( user, menuKey, complete, true );
         securityHandler.appendAccessRights( user, doc, true, true );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create(doc);
     }
 
     public String getMenuItemName( int menuItemKey )
@@ -593,9 +591,9 @@ public final class AdminEngine
         return categoryHandler.getUnitKey( CategoryKey.parse( categoryKey ) );
     }
 
-    public String getUnitNamesXML( Filter filter )
+    public XMLDocument getUnitNamesXML( Filter filter )
     {
-        return unitHandler.getUnitNamesXML( filter );
+        return XMLDocumentFactory.create(unitHandler.getUnitNamesXML( filter ));
     }
 
     public String getUnits()
@@ -754,23 +752,23 @@ public final class AdminEngine
         return XMLTool.documentToString( doc );
     }
 
-    public String getAccessRights( User user, int type, int key, boolean includeUserright )
+    public XMLDocument getAccessRights( User user, int type, int key, boolean includeUserright )
     {
         Document doc = securityHandler.getAccessRights( user, type, key, includeUserright );
 
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
 
-    public String getDefaultAccessRights( User user, int type, int key )
+    public XMLDocument getDefaultAccessRights( User user, int type, int key )
     {
         Document doc = securityHandler.getDefaultAccessRights( user, type, key );
 
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
 
-    public String getGroup( String gKey )
+    public XMLDocument getGroup( String gKey )
     {
-        return XMLTool.documentToString( groupHandler.getGroup( gKey ) );
+        return XMLDocumentFactory.create( groupHandler.getGroup( gKey ) );
     }
 
     public void updateAccessRights( User user, String xmlData )
@@ -880,7 +878,7 @@ public final class AdminEngine
         return XMLDocumentFactory.create( doc );
     }
 
-    public String getPath( User user, int type, int key )
+    public XMLDocument getPath( User user, int type, int key )
     {
         Document doc = XMLTool.createDocument( "data" );
 
@@ -899,7 +897,8 @@ public final class AdminEngine
 
             doc.getDocumentElement().appendChild( doc.importNode( unitElem, true ) );
         }
-        return XMLTool.documentToString( doc );
+        
+        return XMLDocumentFactory.create( doc );
     }
 
     public String getPathString( int type, int key )
@@ -917,10 +916,10 @@ public final class AdminEngine
         return XMLTool.documentToString( doc );
     }
 
-    public String getMenusForAdmin( User user )
+    public XMLDocument getMenusForAdmin( User user )
     {
         Document doc = menuHandler.getMenusForAdmin( user );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
 
     public void moveMenuItem( User user, Element[] menuItemElems, int menuItemKey, int fromMenuKey, int fromParentKey, int toMenuKey,
@@ -939,9 +938,9 @@ public final class AdminEngine
         return groupHandler.getUserNames(groupKeys);
     }
 
-    public String getContentHandler( int contentHandlerKey )
+    public XMLDocument getContentHandler( int contentHandlerKey )
     {
-        return XMLTool.documentToString( contentHandler.getContentHandler( contentHandlerKey ) );
+        return XMLDocumentFactory.create( contentHandler.getContentHandler( contentHandlerKey ) );
     }
 
     public String getContentHandlerClassForContentType( int contentTypeKey )
@@ -949,9 +948,9 @@ public final class AdminEngine
         return contentHandler.getContentHandlerClassForContentType( contentTypeKey );
     }
 
-    public String getContentHandlers()
+    public XMLDocument getContentHandlers()
     {
-        return XMLTool.documentToString( contentHandler.getContentHandlers() );
+        return XMLDocumentFactory.create( contentHandler.getContentHandlers() );
     }
 
     public int createContentHandler( User user, String xmlData )
@@ -995,10 +994,10 @@ public final class AdminEngine
         contentHandler.removeContentHandler( contentHandlerKey );
     }
 
-    public String getContentTypes()
+    public XMLDocument getContentTypes()
     {
         Document doc = contentHandler.getContentTypes( null, false );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create(doc);
     }
 
     public XMLDocument getContentTypes( boolean includeContentCount )
@@ -1026,11 +1025,6 @@ public final class AdminEngine
 
         }
         return printer.outputString( element );
-    }
-
-    public Document getContentHandlerByContentType( int contentTypeKey )
-    {
-        return contentHandler.getContentHandlerByContentType( contentTypeKey );
     }
 
     public long getSectionContentTimestamp( MenuItemKey sectionKey )

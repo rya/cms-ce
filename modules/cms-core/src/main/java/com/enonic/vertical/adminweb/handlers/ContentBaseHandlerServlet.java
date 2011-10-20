@@ -309,8 +309,8 @@ public class ContentBaseHandlerServlet
             formItems.put( "categoryname", categoryName );
             int unitKey = admin.getUnitKey( categoryKey );
             formItems.put( "selectedunitkey", unitKey );
-            String xmlCat = admin.getSuperCategoryNames( categoryKey, false, true );
-            XMLTool.mergeDocuments( wizarddataDoc, XMLTool.domparse( xmlCat ), true );
+            Document xmlCat = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
+            XMLTool.mergeDocuments( wizarddataDoc, xmlCat, true );
         }
 
         protected boolean validateState( WizardState wizardState, HttpSession session, AdminService admin, ExtendedMap formItems )
@@ -925,8 +925,7 @@ public class ContentBaseHandlerServlet
 
     protected final void addUserRightToDocument( AdminService admin, User user, Document doc, int categoryKey )
     {
-        String xmlAccessRights = admin.getAccessRights( user, AccessRight.CATEGORY, categoryKey, true );
-        Document docAccessRights = XMLTool.domparse( xmlAccessRights );
+        Document docAccessRights = admin.getAccessRights( user, AccessRight.CATEGORY, categoryKey, true ).getAsDOMDocument();
         Element userrightElem = XMLTool.getElement( docAccessRights.getDocumentElement(), "userright" );
         if ( userrightElem != null )
         {
@@ -1122,8 +1121,7 @@ public class ContentBaseHandlerServlet
                 String assigneeUserKey = formItems.getString( "_assignee", "" );
                 String assignerUserKey = formItems.getString( "_assigner", "" );
 
-                String superCategoryXML = admin.getSuperCategoryNames( categoryKey, false, true );
-                Document doc = XMLTool.domparse( superCategoryXML );
+                Document doc = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
 
                 addCommonParameters( admin, user, request, parameters, unitKey, -1 );
                 parameters.put( "contenttypekey", String.valueOf( contentTypeKey ) );
@@ -1385,7 +1383,7 @@ public class ContentBaseHandlerServlet
 
         }
 
-        String xmlCat = admin.getSuperCategoryNames( categoryKey, false, true );
+        Document xmlCat = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
         XMLTool.mergeDocuments( doc, xmlCat, true );
 
         addUserRightToDocument( admin, oldUser, doc, categoryKey );
@@ -1554,7 +1552,7 @@ public class ContentBaseHandlerServlet
         {
             // Blank form, make dummy document
             asW3cDoc = XMLTool.createDocument( "contents" );
-            String xmlAccessRights = admin.getDefaultAccessRights( user, AccessRight.CONTENT, categoryKey );
+            Document xmlAccessRights = admin.getDefaultAccessRights( user, AccessRight.CONTENT, categoryKey ).getAsDOMDocument();
             XMLTool.mergeDocuments( asW3cDoc, xmlAccessRights, true );
         }
 
@@ -1634,7 +1632,7 @@ public class ContentBaseHandlerServlet
         {
             Element categorynameElem = XMLTool.getElement( contentElem, "categoryname" );
             int categoryKey = Integer.parseInt( categorynameElem.getAttribute( "key" ) );
-            Document categoryNamesDoc = XMLTool.domparse( admin.getSuperCategoryNames( categoryKey, false, true ) );
+            Document categoryNamesDoc = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
             Element[] categoryElems = XMLTool.getElements( categoryNamesDoc.getDocumentElement() );
 
             // set repository path
@@ -2999,7 +2997,7 @@ public class ContentBaseHandlerServlet
                 doc = XMLTool.domparse( admin.getUsersWithPublishRight( categoryKey ) );
 
                 // Category header
-                headerDoc = XMLTool.domparse( admin.getPath( user, Types.CATEGORY, categoryKey ) );
+                headerDoc = admin.getPath( user, Types.CATEGORY, categoryKey ).getAsDOMDocument();
             }
             else if ( rejected )
             {
@@ -3007,7 +3005,7 @@ public class ContentBaseHandlerServlet
                 doc = XMLTool.domparse( admin.getContentOwner( contentKey ) );
 
                 // Category header
-                headerDoc = XMLTool.domparse( admin.getPath( user, Types.CATEGORY, categoryKey ) );
+                headerDoc = admin.getPath( user, Types.CATEGORY, categoryKey ).getAsDOMDocument();
             }
             else
             {

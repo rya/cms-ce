@@ -175,7 +175,7 @@ final public class CategoryHandlerServlet
                 formItems.put( "supercategoryname", superCategoryName );
             }
             formItems.putBoolean( "create", false );
-            Document categorynamesDoc = XMLTool.domparse( admin.getSuperCategoryNames( categoryKey, false, true ) );
+            Document categorynamesDoc = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
             XMLTool.mergeDocuments( doc, categorynamesDoc, true );
         }
         else
@@ -187,11 +187,10 @@ final public class CategoryHandlerServlet
             {
                 formItems.putInt( "contenttypekey", admin.getContentTypeKeyByCategory( superCategoryKey ) );
             }
-            String xmlAccessRights = admin.getDefaultAccessRights( user, AccessRight.CATEGORY, superCategoryKey );
-            Document docAccessRights = XMLTool.domparse( xmlAccessRights );
+            Document docAccessRights = admin.getDefaultAccessRights( user, AccessRight.CATEGORY, superCategoryKey ).getAsDOMDocument();
             XMLTool.mergeDocuments( doc, docAccessRights, true );
             formItems.putBoolean( "create", true );
-            Document categorynamesDoc = XMLTool.domparse( admin.getSuperCategoryNames( superCategoryKey, false, true ) );
+            Document categorynamesDoc = admin.getSuperCategoryNames( superCategoryKey, false, true ).getAsDOMDocument();
             XMLTool.mergeDocuments( doc, categorynamesDoc, true );
         }
 
@@ -521,7 +520,7 @@ final public class CategoryHandlerServlet
 
                             // Henter ut eksisterende accessrights
                             Document docCurrentCategoryAR =
-                                XMLTool.domparse( admin.getAccessRights( user, AccessRight.CATEGORY, curCategoryKey, false ) );
+                                admin.getAccessRights( user, AccessRight.CATEGORY, curCategoryKey, false ).getAsDOMDocument();
                             // getAccessRights() skal enten: ikke returnere userright? eller s� utvider jeg den med en
                             // parameter hvor jeg kan velge dette.
 
@@ -544,7 +543,7 @@ final public class CategoryHandlerServlet
                                     {
                                         // Henter ut eksisterende accessrights
                                         Document docCurrentContentAR =
-                                            XMLTool.domparse( admin.getAccessRights( user, AccessRight.CONTENT, contentKeys[i], false ) );
+                                            admin.getAccessRights( user, AccessRight.CONTENT, contentKeys[i], false ).getAsDOMDocument();
 
                                         // Påfører endringer
                                         Document docChangedContentAR =
@@ -851,8 +850,7 @@ final public class CategoryHandlerServlet
             int unitKey = formItems.getInt( "selectedunitkey", -1 );
             int categoryKey = formItems.getInt( "cat" );
 
-            String superCategoryXML = admin.getSuperCategoryNames( categoryKey, false, true );
-            Document doc = XMLTool.domparse( superCategoryXML );
+            Document doc = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
 
             addCommonParameters( admin, user, request, parameters, unitKey, -1 );
 

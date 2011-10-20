@@ -328,10 +328,10 @@ public class ContentNewsletterHandlerServlet
             // add updated xml to session
             session.setAttribute( "_xml", XMLTool.documentToString( doc ) );
 
-            String xmlCat;
+            Document xmlCat;
             int categoryKey = formItems.getInt( "cat" );
-            xmlCat = admin.getSuperCategoryNames( categoryKey, false, true );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( xmlCat ), true );
+            xmlCat = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
+            XMLTool.mergeDocuments( doc, xmlCat, true );
 
             DOMSource xmlSource = new DOMSource( doc );
 
@@ -498,10 +498,10 @@ public class ContentNewsletterHandlerServlet
 
             session.setAttribute( "_xml", XMLTool.documentToString( doc ) );
 
-            String xmlCat;
+            Document xmlCat;
             int categoryKey = formItems.getInt( "cat" );
-            xmlCat = admin.getSuperCategoryNames( categoryKey, false, true );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( xmlCat ), true );
+            xmlCat = admin.getSuperCategoryNames( categoryKey, false, true ).getAsDOMDocument();
+            XMLTool.mergeDocuments( doc, xmlCat, true );
 
             DOMSource xmlSource = new DOMSource( doc );
 
@@ -579,7 +579,7 @@ public class ContentNewsletterHandlerServlet
         throws VerticalAdminException
     {
 
-        XMLTool.mergeDocuments( doc, admin.getPageTemplates( PageTemplateType.NEWSLETTER ), true );
+        XMLTool.mergeDocuments( doc, admin.getPageTemplates( PageTemplateType.NEWSLETTER ).getAsDOMDocument(), true );
 
         String selectedMenuItemKey = null;
         String selectedMenuItemPath = null;

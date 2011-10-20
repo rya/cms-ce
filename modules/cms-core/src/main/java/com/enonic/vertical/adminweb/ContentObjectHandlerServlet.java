@@ -483,8 +483,7 @@ public final class ContentObjectHandlerServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        String xmlCO = admin.getContentObject( Integer.parseInt( request.getParameter( "key" ) ) );
-        Document doc = XMLTool.domparse( xmlCO );
+        Document doc = admin.getContentObject( Integer.parseInt( request.getParameter( "key" ) ) ).getAsDOMDocument();
 
         Element nameElem = (Element) XMLTool.selectNode( doc, "/contentobjects/contentobject/name" );
         Node[] nameArray = XMLTool.filterNodes( nameElem.getChildNodes(), Node.TEXT_NODE );
@@ -808,7 +807,7 @@ public final class ContentObjectHandlerServlet
 
         User user = securityService.getLoggedInAdminConsoleUser();
         boolean createContentObject = false;
-        String xmlData = null;
+        Document xmlData = null;
         Document doc;
         String queryParam = "";
         String script = "";
@@ -825,9 +824,8 @@ public final class ContentObjectHandlerServlet
         {
             int cobKey = Integer.parseInt( request.getParameter( "key" ) );
 
-            xmlData = admin.getContentObject( cobKey );
-
-            doc = XMLTool.domparse( xmlData );
+            xmlData = admin.getContentObject( cobKey ).getAsDOMDocument();
+            doc = xmlData;
 
             NodeList coNodes = doc.getElementsByTagName( "contentobject" );
             Element contentobject = (Element) coNodes.item( 0 );
