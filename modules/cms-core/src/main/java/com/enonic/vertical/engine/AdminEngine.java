@@ -982,7 +982,7 @@ public final class AdminEngine
         }
 
         Document doc = XMLTool.domparse( xmlData );
-        return contentHandler.createContentHandler( user, doc );
+        return contentHandler.createContentHandler(doc );
     }
 
     public void updateContentHandler( User user, String xmlData )

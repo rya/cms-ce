@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -20,6 +19,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.enonic.cms.core.CmsDateAndTimeFormats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -381,10 +382,10 @@ public class CategoryHandler
     public int[] getCategoryKeysBySuperCategory( Connection con, CategoryKey superCategoryKey, boolean recursive )
     {
 
-        return getCategoryKeysBySuperCategories( con, new int[]{superCategoryKey.toInt()}, recursive );
+        return getCategoryKeysBySuperCategories(new int[]{superCategoryKey.toInt()}, recursive );
     }
 
-    public int[] getCategoryKeysBySuperCategories( Connection __con, int[] superCategoryKeys, boolean recursive )
+    public int[] getCategoryKeysBySuperCategories(int[] superCategoryKeys, boolean recursive)
     {
 
         if ( superCategoryKeys == null || superCategoryKeys.length == 0 )
@@ -808,7 +809,7 @@ public class CategoryHandler
             }
 
             // attribute: created
-            Date createdDate = parseDate( root.getAttribute( "created" ) );
+            Date createdDate = CmsDateAndTimeFormats.parseFrom_STORE_DATE(root.getAttribute("created"));
             preparedStmt.setTimestamp( 5, new Timestamp( createdDate.getTime() ) );
 
             // attribute: name
@@ -877,11 +878,6 @@ public class CategoryHandler
         {
             String message = "Failed to parse a key field: %t";
             VerticalEngineLogger.errorUpdate(message, nfe );
-        }
-        catch ( ParseException pe )
-        {
-            String message = "Failed to parse the created date field: %t";
-            VerticalEngineLogger.errorUpdate(message, pe );
         }
         finally
         {

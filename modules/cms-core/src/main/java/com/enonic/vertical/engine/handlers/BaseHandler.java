@@ -235,12 +235,6 @@ public abstract class BaseHandler
         return baseEngine.getConnection();
     }
 
-    protected final Date parseDate( String dateString )
-        throws ParseException
-    {
-        return CmsDateAndTimeFormats.parseFrom_STORE_DATE( dateString );
-    }
-
     public final int getNextKey( String tableName )
         throws VerticalKeyException
     {

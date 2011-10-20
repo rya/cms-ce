@@ -18,7 +18,7 @@ public class KeyHandler
 {
     private final static String KEY_UPDATE = "UPDATE tKey SET key_lLastKey = key_lLastKey + ? WHERE key_sTableName = ?";
 
-    public int generateNextKeyRange( String tableName, int count )
+    private int generateNextKeyRange( String tableName, int count )
         throws VerticalKeyException
     {
         if ( count <= 0 )

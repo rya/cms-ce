@@ -1381,7 +1381,7 @@ public final class ContentHandler
         return doc;
     }
 
-    public int createContentHandler( User user, Document doc )
+    public int createContentHandler(Document doc)
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;

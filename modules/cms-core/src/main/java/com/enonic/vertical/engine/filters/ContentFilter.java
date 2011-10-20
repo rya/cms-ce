@@ -53,7 +53,7 @@ public final class ContentFilter
             if ( categoryRecursive )
             {
                 CategoryHandler categoryHandler = engine.getCategoryHandler();
-                int[] subCategoryKeys = categoryHandler.getCategoryKeysBySuperCategories( null, categoryKeys, true );
+                int[] subCategoryKeys = categoryHandler.getCategoryKeysBySuperCategories(categoryKeys, true );
                 int[] keys = new int[categoryKeys.length + subCategoryKeys.length];
                 System.arraycopy( categoryKeys, 0, keys, 0, categoryKeys.length );
                 System.arraycopy( subCategoryKeys, 0, keys, categoryKeys.length, subCategoryKeys.length );

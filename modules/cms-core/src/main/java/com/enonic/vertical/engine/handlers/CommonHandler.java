@@ -44,14 +44,10 @@ import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.core.security.user.User;
 
-import static com.enonic.vertical.VerticalLogger.debug;
-
 public class CommonHandler
     extends BaseHandler
 {
     private static final Logger LOG = LoggerFactory.getLogger( CommonHandler.class.getName() );
-
-    public final static int MSG_GENERAL = 0;
 
     private final static int FETCH_SIZE = 20;
 
