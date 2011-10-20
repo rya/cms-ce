@@ -36,8 +36,6 @@
     <xsl:param name="menuitemkey"/>
     <xsl:param name="debugpath"/>
 
-    <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
-
     <xsl:variable name="menuitemelem" select="/contenttitles/model/selected-menuitem/menuitem"/>
     <xsl:variable name="menuelem" select="/contenttitles/model/selected-menu/menu"/>
 
@@ -74,6 +72,9 @@
     </xsl:variable>
 
     <xsl:variable name="ordered" select="/contenttitles/section[@key = $sec]/@ordered = 'true'"/>
+
+    <!-- map of allowed content-types in page-templates by content-type-key -->
+    <xsl:key name="key-page-template-content-type" match="/contenttitles/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key"/>
 
   <xsl:template match="/">
 
@@ -544,7 +545,7 @@
 
                     <!-- Display general operation column -->
                     <td align="center" class="{$cell-class}">
-                      <xsl:variable name="has-page-template" select="key('page-templates-by-content-type', $contenttypekey)"/>
+                      <xsl:variable name="has-page-template" select="key('key-page-template-content-type', $contenttypekey)"/>
                       <xsl:call-template name="sectionoperations">
                         <xsl:with-param name="key" select="$key"/>
                         <xsl:with-param name="versionkey" select="$version-key"/>
@@ -556,9 +557,7 @@
                         <xsl:with-param name="previewnotavailable" select="not($has-page-template)"/>
                         <xsl:with-param name="contentpage" select="(@contenttypekey + 999)"/>
                         <xsl:with-param name="cat" select="@categorykey"/>
-                        <xsl:with-param name="previewmenuitemkey" select="@previewpage"/>
                         <xsl:with-param name="menuitemkey" select="$menuitemkey"/>
-                        <xsl:with-param name="disablepreview" select="string(not($menuitemkey))"/>
                         <xsl:with-param name="approved" select="@approved = 'true'"/>
                         <xsl:with-param name="addright" select="$addright"/>
                         <xsl:with-param name="approveright" select="$publishright"/>
@@ -700,4 +699,3 @@
     </xsl:attribute>
   </xsl:template>
 </xsl:stylesheet>
-

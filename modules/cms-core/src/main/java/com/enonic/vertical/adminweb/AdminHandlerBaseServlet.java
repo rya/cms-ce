@@ -51,24 +51,22 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.core.content.UnitEntity;
+import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
-
-import com.enonic.cms.core.content.binary.BinaryData;
-
-import com.enonic.cms.core.security.user.UserEntity;
-
-import com.enonic.cms.core.structure.SiteEntity;
 
 
 public abstract class AdminHandlerBaseServlet
@@ -190,7 +188,7 @@ public abstract class AdminHandlerBaseServlet
         catch ( IOException ioe )
         {
             String message = "Failed to print html response: %t";
-            VerticalAdminLogger.errorAdmin(message, ioe );
+            VerticalAdminLogger.errorAdmin( message, ioe );
         }
     }
 
@@ -223,7 +221,7 @@ public abstract class AdminHandlerBaseServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
         }
         finally
         {
@@ -237,23 +235,9 @@ public abstract class AdminHandlerBaseServlet
             catch ( IOException ioe )
             {
                 String message = "Failed to close file input stream: %t";
-                VerticalAdminLogger.warn(message, ioe );
+                VerticalAdminLogger.warn( message, ioe );
             }
         }
-        return binaryData;
-    }
-
-    public static BinaryData createBinaryDataFromStream( final ByteArrayOutputStream stream, final String fileName )
-    {
-        return createBinaryDataFromStream( stream, fileName, null );
-    }
-
-    public static BinaryData createBinaryDataFromStream( final ByteArrayOutputStream stream, final String fileName, final String label )
-    {
-        final BinaryData binaryData = new BinaryData();
-        binaryData.fileName = fileName;
-        binaryData.data = stream.toByteArray();
-        binaryData.label = label;
         return binaryData;
     }
 
@@ -298,7 +282,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper BROWSE is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerCopy( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -309,7 +293,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "OperationWrapper COPY is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.getString( "page" ), key};
-        VerticalAdminLogger.errorAdmin(message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData, null );
     }
 
     public void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -318,7 +302,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper CREATE is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerReport( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -327,7 +311,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper REPORT is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerPreview( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -336,7 +320,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper PREVIEW is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -355,7 +339,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "Custom operation is not implemented (page={0}): {1}";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), operation};
-        VerticalAdminLogger.errorAdmin(message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData, null );
     }
 
     public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -364,7 +348,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper FORM is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
 
     }
 
@@ -415,7 +399,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "OperationWrapper REMOVE is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), key};
-        VerticalAdminLogger.errorAdmin(message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData, null );
     }
 
     public void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -426,7 +410,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "OperationWrapper REMOVE is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), key};
-        VerticalAdminLogger.errorAdmin(message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData, null );
     }
 
     public void handlerSearch( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -435,7 +419,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper SEARCH is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerSearchResults( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -444,7 +428,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper SEARCH RESULTS is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerMenu( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -452,7 +436,7 @@ public abstract class AdminHandlerBaseServlet
         throws VerticalAdminException, TransformerException, IOException
     {
         String message = "OperationWrapper MENU is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerWizard( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -461,7 +445,7 @@ public abstract class AdminHandlerBaseServlet
     {
         String message = "OperationWrapper WIZARD is not implemented (page={0},wizardName={1})";
         Object[] msgData = {formItems.get( "page" ), wizardName};
-        VerticalAdminLogger.errorAdmin(message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData, null );
     }
 
     public void handlerNotify( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -471,7 +455,7 @@ public abstract class AdminHandlerBaseServlet
 
         String message = "OperationWrapper NOTIFY is not implemented (page={0})";
 
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public boolean handlerSelect( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -480,7 +464,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper SELECT is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
         return false;
     }
 
@@ -490,7 +474,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper SHOW is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -499,7 +483,7 @@ public abstract class AdminHandlerBaseServlet
     {
 
         String message = "OperationWrapper UPDATE is not implemented (page={0})";
-        VerticalAdminLogger.errorAdmin(message, formItems.get( "page" ), null );
+        VerticalAdminLogger.errorAdmin( message, formItems.get( "page" ), null );
     }
 
     public static boolean isArrayFormItem( Map formItems, String string )
@@ -718,7 +702,7 @@ public abstract class AdminHandlerBaseServlet
 
         if ( session == null )
         {
-            VerticalAdminLogger.debug("Session is null. Redirecting to login.", null );
+            VerticalAdminLogger.debug( "Session is null. Redirecting to login.", null );
 
             // failed to get session, redirect to login page
             try
@@ -728,7 +712,7 @@ public abstract class AdminHandlerBaseServlet
             catch ( VerticalAdminException vae )
             {
                 String message = "Failed to redirect to login page: %t";
-                VerticalAdminLogger.errorAdmin(message, vae);
+                VerticalAdminLogger.errorAdmin( message, vae );
             }
         }
         else
@@ -740,7 +724,7 @@ public abstract class AdminHandlerBaseServlet
             {
                 // no logged in user, invalidate session and redirect to login page
                 String message = "No user logged in. Redirecting to login.";
-                VerticalAdminLogger.debug(message, null );
+                VerticalAdminLogger.debug( message, null );
                 try
                 {
                     redirectClientToAdminPath( "login", (MultiValueMap) null, request, response );
@@ -748,7 +732,7 @@ public abstract class AdminHandlerBaseServlet
                 catch ( VerticalAdminException vae )
                 {
                     message = "Failed to redirect to login page: %t";
-                    VerticalAdminLogger.errorAdmin(message, vae);
+                    VerticalAdminLogger.errorAdmin( message, vae );
                 }
             }
             else
@@ -843,7 +827,7 @@ public abstract class AdminHandlerBaseServlet
                             catch ( NumberFormatException nfe )
                             {
                                 String message = "Failed to parse key ({0}): %t";
-                                VerticalAdminLogger.errorAdmin(message, keyStr, nfe );
+                                VerticalAdminLogger.errorAdmin( message, keyStr, nfe );
                             }
                             handlerRemove( request, response, session, admin, formItems, key );
                         }
@@ -863,7 +847,7 @@ public abstract class AdminHandlerBaseServlet
                         catch ( NumberFormatException nfe )
                         {
                             String message = "Failed to parse key ({0}): %t";
-                            VerticalAdminLogger.errorAdmin(message, keyStr, nfe );
+                            VerticalAdminLogger.errorAdmin( message, keyStr, nfe );
                         }
 
                         handlerCopy( request, response, session, admin, formItems, user, key );
@@ -939,7 +923,7 @@ public abstract class AdminHandlerBaseServlet
                         if ( !( e instanceof VerticalException ) && !( e instanceof VerticalRuntimeException ) )
                         {
                             String message = "Unexpected error occurred during handling of admin page: %t";
-                            VerticalAdminLogger.error(message, e );
+                            VerticalAdminLogger.error( message, e );
                         }
                         ErrorPageServlet.Error error = new ErrorPageServlet.ThrowableError( e );
                         session.setAttribute( "com.enonic.vertical.error", error );
@@ -948,7 +932,7 @@ public abstract class AdminHandlerBaseServlet
                     catch ( VerticalAdminException vae )
                     {
                         String message = "Failed to redirect to error page: %t";
-                        VerticalAdminLogger.errorAdmin(message, vae);
+                        VerticalAdminLogger.errorAdmin( message, vae );
                     }
                 }
             }
@@ -964,11 +948,7 @@ public abstract class AdminHandlerBaseServlet
 
         final URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
 
-        new XsltProcessorHelper()
-                .stylesheet( xslSource, uriResolver )
-                .input( doc )
-                .params( parameters )
-                .process(response);
+        new XsltProcessorHelper().stylesheet( xslSource, uriResolver ).input( doc ).params( parameters ).process( response );
     }
 
     protected void transformXML( HttpServletRequest request, HttpServletResponse response, org.jdom.Document doc, Source xslSource,
@@ -980,11 +960,7 @@ public abstract class AdminHandlerBaseServlet
 
         final URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
 
-        new XsltProcessorHelper()
-                .stylesheet( xslSource, uriResolver )
-                .input( doc )
-                .params( parameters )
-                .process( response );
+        new XsltProcessorHelper().stylesheet( xslSource, uriResolver ).input( doc ).params( parameters ).process( response );
     }
 
     protected void transformXML( HttpServletRequest request, HttpServletResponse response, Document doc, String xslPath, Map parameters )
@@ -998,16 +974,12 @@ public abstract class AdminHandlerBaseServlet
             final Source xslDoc = AdminStore.getStylesheet( languageCode, xslPath, false );
             final URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
 
-            new XsltProcessorHelper()
-                    .stylesheet( xslDoc, uriResolver )
-                    .input( doc )
-                    .params( parameters )
-                    .process(response);
+            new XsltProcessorHelper().stylesheet( xslDoc, uriResolver ).input( doc ).params( parameters ).process( response );
         }
         catch ( XsltProcessorException xpe )
         {
             String msg = "Failed to transform xml: %t";
-            VerticalAdminLogger.errorAdmin(msg, xpe );
+            VerticalAdminLogger.errorAdmin( msg, xpe );
         }
     }
 
@@ -1028,11 +1000,7 @@ public abstract class AdminHandlerBaseServlet
         final String languageCode = (String) session.getAttribute( "languageCode" );
         final URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
 
-        new XsltProcessorHelper()
-                .stylesheet(xslSource, uriResolver)
-                .input( xmlSource )
-                .params( parameters, false )
-                .process(writer);
+        new XsltProcessorHelper().stylesheet( xslSource, uriResolver ).input( xmlSource ).params( parameters, false ).process( writer );
     }
 
     protected URIResolver getStylesheetURIResolver( final AdminService adminBean )
@@ -1451,7 +1419,7 @@ public abstract class AdminHandlerBaseServlet
         catch ( VerticalSecurityException vse )
         {
             String message = "Failed to create log entry because of security error: %t";
-            VerticalAdminLogger.error(message, vse );
+            VerticalAdminLogger.error( message, vse );
             return false;
         }
 
@@ -1484,67 +1452,48 @@ public abstract class AdminHandlerBaseServlet
         return keys.toArray();
     }
 
-    /**
-     * add page templates of sites that user can see
-     *
-     * used for determining if preview is available
-     *
-     * @param admin service
-     * @param user logged in user
-     * @param allowedPageTemplateType types of Page Templates to add
-     * @param verticalDoc document
-     */
-    protected void addPageTemplatesOfUserSitesToDocument( AdminService admin, UserEntity user, PageTemplateType allowedPageTemplateType, Document verticalDoc )
+    protected void addPageTemplatesOfUserSitesToDocument( AdminService admin, UserEntity user, PageTemplateType allowedPageTemplateType,
+                                                          Document verticalDoc )
     {
-        final String adminMenuXML = admin.getAdminMenu( user, -1 );
-
-        Document doc = XMLTool.domparse( adminMenuXML );
-
-        Element rootSitesElement = doc.getDocumentElement();
-        Element[] allSiteElements = XMLTool.getElements( rootSitesElement );
-
+        final Document doc = XMLTool.createDocument( "pagetemplates-in-sites" );
+        Document sitesUserHaveAccessToDoc = XMLTool.domparse( admin.getAdminMenu( user, -1 ) );
+        Element[] allSiteElements = XMLTool.getElements( sitesUserHaveAccessToDoc.getDocumentElement() );
         for ( Element siteElement : allSiteElements )
         {
-            int siteKey = Integer.valueOf( siteElement.getAttribute( "key" ) );
-
-            addPageTemplatesOfSiteToDocument( siteKey, allowedPageTemplateType, verticalDoc );
+            final int siteKey = Integer.valueOf( siteElement.getAttribute( "key" ) );
+            final Document supportedPageTemplatesOfSite = getSupportedPageTemplatesOfSite( siteKey, allowedPageTemplateType );
+            XMLTool.mergeDocuments( doc, supportedPageTemplatesOfSite, true );
         }
+        XMLTool.mergeDocuments( verticalDoc, doc, true );
     }
 
-    /**
-     * add Page Templates of one site to document
-     *
-     * @param siteKey key of site
-     * @param allowedPageTemplateType type of page templates
-     * @param verticalDoc document to add XML data
-     */
-    protected void addPageTemplatesOfSiteToDocument( int siteKey, PageTemplateType allowedPageTemplateType, Document verticalDoc )
+    protected Document getSupportedPageTemplatesOfSite( int siteKey, PageTemplateType allowedPageTemplateType )
     {
-        final Document ptDoc = XMLTool.createDocument( "pagetemplates-in-site" );
-        final Element root = ptDoc.getDocumentElement();
-        root.setAttribute( "site", String.valueOf( siteKey ) );
+        final Document doc = XMLTool.createDocument( "pagetemplates-in-site" );
+        final Element rootEl = doc.getDocumentElement();
+        rootEl.setAttribute( "site", String.valueOf( siteKey ) );
 
-        final SiteEntity siteEntity = siteDao.findByKey( siteKey );
-        final Set<PageTemplateEntity> pageTemplates = siteEntity.getPageTemplates();
+        final SiteEntity site = siteDao.findByKey( siteKey );
+        final Set<PageTemplateEntity> pageTemplates = site.getPageTemplates();
+        final PageTemplateSpecification pageTemplateSpecification = new PageTemplateSpecification();
+        pageTemplateSpecification.setType( allowedPageTemplateType );
+
         for ( PageTemplateEntity pageTemplate : pageTemplates )
         {
-            if ( pageTemplate.getType() == allowedPageTemplateType )
-    {
-                final Element elem = XMLTool.createElement( ptDoc, root, "pagetemplate" );
+            if ( pageTemplateSpecification.satisfies( pageTemplate ) )
+            {
+                final Element elem = XMLTool.createElement( doc, rootEl, "pagetemplate" );
                 elem.setAttribute( "key", String.valueOf( pageTemplate.getKey() ) );
-                final Element contentTypesEl = XMLTool.createElement( ptDoc, elem, "contenttypes" );
+                final Element contentTypesEl = XMLTool.createElement( doc, elem, "contenttypes" );
 
-                final Set<ContentTypeEntity> contentTypeEntities = pageTemplate.getContentTypes();
-
-                for ( ContentTypeEntity contentTypeEntity : contentTypeEntities )
+                for ( ContentTypeEntity contentTypeEntity : pageTemplate.getContentTypes() )
                 {
-                    final Element contentTypeEl = XMLTool.createElement( ptDoc, contentTypesEl, "contenttype" );
+                    final Element contentTypeEl = XMLTool.createElement( doc, contentTypesEl, "contenttype" );
                     contentTypeEl.setAttribute( "key", String.valueOf( contentTypeEntity.getKey() ) );
                 }
             }
         }
-
-        XMLTool.mergeDocuments( verticalDoc, ptDoc, true );
+        return doc;
     }
 
     private static class ErrorCode

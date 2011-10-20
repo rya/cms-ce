@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.dom.DOMSource;
 
-import com.google.common.io.Files;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -42,6 +41,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.google.common.collect.Sets;
+import com.google.common.io.Files;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
@@ -409,7 +409,7 @@ public class ContentBaseHandlerServlet
                 catch ( IOException ioe )
                 {
                     String message = "Failed to inflate zip file: %t";
-                    WizardLogger.error(message, ioe );
+                    WizardLogger.error( message, ioe );
                     wizardState.addError( "12", "zipfile", StringUtil.expandString( message, ioe ) );
                 }
             }
@@ -497,9 +497,12 @@ public class ContentBaseHandlerServlet
                 {
                     File dir = new File( zipElem.getAttribute( "dir" ) );
 
-                    try {
-                        FileUtils.deleteDirectory(dir);
-                    } catch (final Exception e) {
+                    try
+                    {
+                        FileUtils.deleteDirectory( dir );
+                    }
+                    catch ( final Exception e )
+                    {
                         // Do nothing
                     }
                 }
@@ -1195,18 +1198,18 @@ public class ContentBaseHandlerServlet
             else
             {
                 String message = "Unknown sub-operation for operation report: %t";
-                VerticalAdminLogger.errorAdmin(message, null );
+                VerticalAdminLogger.errorAdmin( message, null );
             }
         }
         catch ( XsltProcessorException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin(message, e );
+            VerticalAdminLogger.errorAdmin( message, e );
         }
         catch ( IOException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin(message, e );
+            VerticalAdminLogger.errorAdmin( message, e );
         }
 
     }
@@ -1365,7 +1368,7 @@ public class ContentBaseHandlerServlet
         if ( !root.hasChildNodes() )
         {
             String message = "Access denied.";
-            VerticalAdminLogger.errorAdmin(message, null );
+            VerticalAdminLogger.errorAdmin( message, null );
         }
 
         if ( !createContent )
@@ -1421,15 +1424,7 @@ public class ContentBaseHandlerServlet
         ExtendedMap parameters = new ExtendedMap();
         addCustomData( session, oldUser, admin, doc, contentKey, contentTypeKey, formItems, parameters );
 
-        int siteKey = formItems.getInt( "menukey", -1 );
-        if ( siteKey == -1 )
-        {
-            addPageTemplatesOfUserSitesToDocument( admin, executor, PageTemplateType.CONTENT, doc );
-        }
-        else
-        {
-            addPageTemplatesOfSiteToDocument( siteKey, PageTemplateType.CONTENT, doc );
-        }
+        addPageTemplatesOfUserSitesToDocument( admin, executor, PageTemplateType.CONTENT, doc );
 
         addCommonParameters( admin, oldUser, request, parameters, unitKey, -1 );
 
@@ -2316,7 +2311,7 @@ public class ContentBaseHandlerServlet
         else
         {
             String message = "Unknown sub-operation: {0}";
-            VerticalAdminLogger.errorAdmin(message, subop, null );
+            VerticalAdminLogger.errorAdmin( message, subop, null );
         }
     }
 
@@ -2621,12 +2616,12 @@ public class ContentBaseHandlerServlet
         catch ( VerticalRenderException vre )
         {
             String message = "Failed to render page: %t";
-            VerticalAdminLogger.errorAdmin(message, vre );
+            VerticalAdminLogger.errorAdmin( message, vre );
         }
         catch ( IOException ioe )
         {
             String message = "Failed to redirect user client: %t";
-            VerticalAdminLogger.errorAdmin(message, ioe );
+            VerticalAdminLogger.errorAdmin( message, ioe );
         }
     }
 

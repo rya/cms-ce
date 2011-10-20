@@ -9,7 +9,8 @@
 
   <xsl:include href="../handlerconfigs/default.xsl"/>
 
-  <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
+  <!-- map of allowed content-types in page-templates in sites by content-type-key -->
+  <xsl:key name="key-page-template-content-type" match="/*/pagetemplates-in-sites/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key"/>
 
   <xsl:template name="contentoperations">
     <xsl:param name="key"/>
@@ -90,12 +91,12 @@
         </xsl:if>
 
         <xsl:if test="$includepreview = 'true'">
-          <xsl:variable name="has-page-template" select="key('page-templates-by-content-type', $contenttypekey)"/>
+          <xsl:variable name="has-page-template" select="key('key-page-template-content-type', $contenttypekey)"/>
 
           <xsl:variable name="tooltip">
             <xsl:choose>
               <xsl:when test="not($has-page-template)">
-                <xsl:value-of select="'%altContentPreviewNotAvailable%'"/>
+                <xsl:value-of select="'%altContentPreviewNotSupportedByAnySite%'"/>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:value-of select="'%altContentPreview%'"/>
