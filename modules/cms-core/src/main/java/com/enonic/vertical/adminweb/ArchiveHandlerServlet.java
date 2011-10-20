@@ -191,8 +191,8 @@ public class ArchiveHandlerServlet
             XMLTool.mergeDocuments( doc, XMLTool.domparse( unitXML ), false );
         }
 
-        String xmlLanguages = admin.getLanguages();
-        XMLTool.mergeDocuments( doc, XMLTool.domparse( xmlLanguages ), true );
+        Document xmlLanguages = admin.getLanguages().getAsDOMDocument();
+        XMLTool.mergeDocuments( doc, xmlLanguages, true );
 
         // Get content types for this site
         XMLTool.mergeDocuments( doc, admin.getContentTypes( false ).getAsDOMDocument(), true );

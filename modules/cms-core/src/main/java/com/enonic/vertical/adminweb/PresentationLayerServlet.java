@@ -369,7 +369,7 @@ public final class PresentationLayerServlet
         try
         {
             Document doc = XMLTool.createDocument( "menulanguages" );
-            doc.getDocumentElement().appendChild( doc.importNode( XMLTool.domparse( admin.getLanguages() ).getDocumentElement(), true ) );
+            doc.getDocumentElement().appendChild( doc.importNode( admin.getLanguages().getAsDOMDocument().getDocumentElement(), true ) );
 
             Source xslSource = AdminStore.getStylesheet( session, "menu_form.xsl" );
 
@@ -493,7 +493,7 @@ public final class PresentationLayerServlet
             Element parent = (Element) XMLTool.selectNode( menuDataXMLDoc.getDocumentElement(), "/menus/menu" );
             parent.appendChild( menuDataXMLDoc.importNode( docAccessRights.getDocumentElement(), true ) );
 
-            XMLTool.mergeDocuments( menuDataXMLDoc, XMLTool.domparse( admin.getLanguages() ), true );
+            XMLTool.mergeDocuments( menuDataXMLDoc, admin.getLanguages().getAsDOMDocument(), true );
 
             StreamSource xmlSource = new StreamSource( new StringReader( XMLTool.documentToString( menuDataXMLDoc ) ) );
             Source xslSource = AdminStore.getStylesheet( session, "site_form.xsl" );

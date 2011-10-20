@@ -12,13 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.dom.DOMSource;
 
-import org.w3c.dom.Document;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.transform.JDOMSource;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.LanguageKey;
@@ -35,10 +35,9 @@ public class LanguageHandlerServlet
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
-        Document languagesDoc = null;
-        languagesDoc = XMLTool.domparse( admin.getLanguages(), "languages" );
+        Document languagesDoc = admin.getLanguages().getAsJDOMDocument();
 
-        DOMSource xmlSource = new DOMSource( languagesDoc );
+        JDOMSource xmlSource = new JDOMSource( languagesDoc );
 
         // StyleSheet
         Source xslSource = AdminStore.getStylesheet( session, "language_browse.xsl" );
@@ -92,16 +91,15 @@ public class LanguageHandlerServlet
         {
             // update
             parameters.put( "create", "0" );
-            String xmlData = admin.getLanguage( new LanguageKey( languageKeyInt ) );
-            languagesDoc = XMLTool.domparse( xmlData );
+            languagesDoc = admin.getLanguage(new LanguageKey(languageKeyInt)).getAsJDOMDocument();
         }
         else
         {
             // create
             parameters.put( "create", "1" );
-            languagesDoc = XMLTool.createDocument( "languages" );
+            languagesDoc = new Document(new Element("languages"));
         }
-        DOMSource xmlSource = new DOMSource( languagesDoc );
+        JDOMSource xmlSource = new JDOMSource( languagesDoc );
 
         // StyleSheet
         Source xslSource = AdminStore.getStylesheet( session, "language_form.xsl" );

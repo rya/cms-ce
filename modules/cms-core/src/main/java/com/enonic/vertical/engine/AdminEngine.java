@@ -5,10 +5,7 @@
 package com.enonic.vertical.engine;
 
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -942,10 +939,9 @@ public final class AdminEngine
         menuHandler.shiftMenuItems( user, menuItemElems, menuKey, parentMenuItemKey );
     }
 
-    public String getUserNames( String[] groupKeys )
+    public Set<UserEntity> getUserNames( String[] groupKeys )
     {
-        Document doc = groupHandler.getUserNames( groupKeys );
-        return XMLTool.documentToString( doc );
+        return groupHandler.getUserNames(groupKeys);
     }
 
     public String getContentHandler( int contentHandlerKey )

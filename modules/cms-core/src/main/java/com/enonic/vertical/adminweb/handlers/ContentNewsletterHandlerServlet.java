@@ -12,10 +12,7 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +26,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 
+import com.google.common.collect.Sets;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.w3c.dom.Document;
@@ -445,41 +443,36 @@ public class ContentNewsletterHandlerServlet
 
     private Map<String, Map<String, String>> parseInternalReciptients( AdminService admin, ExtendedMap formItems )
     {
-        Document usernamesDoc = createUsernamesDoc( admin, formItems );
+        final Set<UserEntity> members = findUserMembers( admin, formItems );
+        final Map<String, Map<String, String>> emailMap = new HashMap<String, Map<String, String>>();
 
-        Map<String, Map<String, String>> emailMap = new HashMap<String, Map<String, String>>();
-
-        Element[] usernameElems = XMLTool.getElements( usernamesDoc.getDocumentElement() );
-        for ( Element usernameElem : usernameElems )
-        {
-            Map<String, String> paramMap = new HashMap<String, String>();
-            paramMap.put( "recipientName", XMLTool.getElementText( usernameElem ) );
-            paramMap.put( "recipientEmail", usernameElem.getAttribute( "email" ) );
-            emailMap.put( usernameElem.getAttribute( "email" ), paramMap );
+        for (final UserEntity member : members) {
+            final Map<String, String> paramMap = new HashMap<String, String>();
+            final String email = member.getEmail() != null ? member.getEmail() : "";
+            paramMap.put( "recipientName", member.getDisplayName() );
+            paramMap.put( "recipientEmail", email );
+            emailMap.put( email, paramMap );
         }
 
         return emailMap;
     }
 
-    private Document createUsernamesDoc( AdminService admin, ExtendedMap formItems )
+    private Set<UserEntity> findUserMembers( AdminService admin, ExtendedMap formItems )
     {
-        String[] groupKeys;
-        Document usernamesDoc;
         if ( isArrayFormItem( formItems, "member" ) )
         {
-            groupKeys = (String[]) formItems.get( "member" );
-            usernamesDoc = XMLTool.domparse( admin.getUserNames( groupKeys ) );
+            final String[] groupKeys = (String[]) formItems.get( "member" );
+            return admin.getUserNames( groupKeys );
         }
         else if ( formItems.containsKey( "member" ) )
         {
-            groupKeys = new String[]{formItems.getString( "member" )};
-            usernamesDoc = XMLTool.domparse( admin.getUserNames( groupKeys ) );
+            final String[] groupKeys = new String[]{formItems.getString( "member" )};
+            return admin.getUserNames( groupKeys );
         }
         else
         {
-            usernamesDoc = XMLTool.createDocument( "usernames" );
+            return Sets.newHashSet();
         }
-        return usernamesDoc;
     }
 
     private void handlerSend( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,

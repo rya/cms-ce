@@ -5,7 +5,10 @@
 package com.enonic.cms.core.service;
 
 import java.util.Map;
+import java.util.Set;
 
+import com.enonic.cms.core.security.user.UserEntity;
+import org.jdom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -150,9 +153,9 @@ public interface AdminService
 
     public String getContentTypes();
 
-    public String getLanguage( LanguageKey languageKey );
+    public XMLDocument getLanguage( LanguageKey languageKey );
 
-    public String getLanguages();
+    public XMLDocument getLanguages();
 
     public String getMenu( User user, int menuKey, boolean complete );
 
@@ -258,7 +261,7 @@ public interface AdminService
 
     public void shiftMenuItems( User user, Element[] menuItemElems, int menuKey, int parentMenuItemKey );
 
-    public String getUserNames( String[] groupKeys );
+    public Set<UserEntity> getUserNames( String[] groupKeys );
 
     public String getContentHandler( int contentHandlerKey );
 

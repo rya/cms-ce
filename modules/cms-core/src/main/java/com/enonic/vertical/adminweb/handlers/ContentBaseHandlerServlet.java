@@ -903,7 +903,7 @@ public class ContentBaseHandlerServlet
 
     protected final void addEditorDataToDocument( AdminService admin, Document doc )
     {
-        String xmlLanguages = admin.getLanguages();
+        Document xmlLanguages = admin.getLanguages().getAsDOMDocument();
         XMLTool.mergeDocuments( doc, xmlLanguages, true );
     }
 

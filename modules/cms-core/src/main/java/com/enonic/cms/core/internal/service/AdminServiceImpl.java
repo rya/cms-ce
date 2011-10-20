@@ -6,7 +6,9 @@ package com.enonic.cms.core.internal.service;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
+import com.enonic.cms.core.security.user.UserEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -342,14 +344,14 @@ public class AdminServiceImpl
         return adminEngine.getContentTypes();
     }
 
-    public String getLanguage( LanguageKey languageKey )
+    public XMLDocument getLanguage( LanguageKey languageKey )
     {
-        return adminEngine.getLanguage( languageKey ).getAsString();
+        return adminEngine.getLanguage( languageKey );
     }
 
-    public String getLanguages()
+    public XMLDocument getLanguages()
     {
-        return adminEngine.getLanguages().getAsString();
+        return adminEngine.getLanguages();
     }
 
     public String getMenu( User user, int menuKey, boolean complete )
@@ -603,7 +605,7 @@ public class AdminServiceImpl
         adminEngine.shiftMenuItems( user, menuItemElems, menuKey, parentMenuItemKey );
     }
 
-    public String getUserNames( String[] groupKeys )
+    public Set<UserEntity> getUserNames( String[] groupKeys )
     {
         return adminEngine.getUserNames( groupKeys );
     }

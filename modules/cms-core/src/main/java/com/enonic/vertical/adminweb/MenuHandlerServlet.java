@@ -2670,7 +2670,7 @@ public class MenuHandlerServlet
             XMLTool.mergeDocuments( doc1, admin.getContentTypes( false ).getAsDOMDocument(), true );
 
             // Append languages
-            Document langs = XMLTool.domparse( admin.getLanguages() );
+            Document langs = admin.getLanguages().getAsDOMDocument();
             XMLTool.mergeDocuments( doc1, langs, true );
 
             DOMSource xmlSource = new DOMSource( doc1 );

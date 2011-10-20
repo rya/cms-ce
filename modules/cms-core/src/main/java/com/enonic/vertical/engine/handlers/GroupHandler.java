@@ -10,11 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.GroupDao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -24,10 +25,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.event.VerticalEventListener;
-
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.security.UserNameXmlCreator;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
@@ -52,13 +49,6 @@ public final class GroupHandler
 
     final static private String GROUP_GET_BY_KEY = GROUP_GET + " WHERE grp_hKey = ? AND grp_bIsDeleted != 1 ";
 
-    final static private String GROUP_GET_KEY_BY_GROUPTYPE = "SELECT grp_hKey FROM " + GROUP_TABLE + " WHERE grp_lType = ?";
-
-
-    final static private String GROUPS_GET_BY_DOMAIN_AND_TYPE =
-        GROUP_GET + " LEFT JOIN " + USER_TABLE + " ON " + USER_TABLE + ".usr_grp_hKey = " + GROUP_TABLE +
-            ".grp_hKey WHERE (grp_dom_lKey = ? OR usr_dom_lKey = ?) AND grp_lType = ? AND grp_bIsDeleted != 1";
-
     final static private String GRPGRPMEM_GET_MEMBERSHIPS =
         "SELECT * FROM " + GRPGRPMEM_TABLE + " LEFT JOIN " + GROUP_TABLE + " ON " + GROUP_TABLE + ".grp_hKey = " + GRPGRPMEM_TABLE +
             ".ggm_mbr_grp_hKey LEFT JOIN " + USER_TABLE + " ON " + GROUP_TABLE + ".grp_hKey = " + USER_TABLE + ".usr_grp_hKey " +
@@ -68,67 +58,23 @@ public final class GroupHandler
         "SELECT * FROM " + GRPGRPMEM_TABLE + " LEFT JOIN " + GROUP_TABLE + " ON " + GROUP_TABLE + ".grp_hKey = " + GRPGRPMEM_TABLE +
             ".ggm_mbr_grp_hKey WHERE ggm_mbr_grp_hKey IN ";
 
+    @Autowired
+    private GroupDao groupDao;
 
-    static private Map<UserStoreKey, String> authenticatedUsersGroupKeys = new HashMap<UserStoreKey, String>();
-
-    synchronized private String getAuthenticatedUsersGroupKey( UserStoreKey userStoreKey )
+    private String getAuthenticatedUsersGroupKey( final UserStoreKey userStoreKey )
     {
         if ( userStoreKey == null )
         {
             return null;
         }
 
-        String groupKey = authenticatedUsersGroupKeys.get( userStoreKey );
-
-        if ( groupKey == null )
-        {
-            // get group key and insert it into the cache
-            // (perhaps this code should be replaced with something more efficient)
-            Document doc = getGroupsByDomain( userStoreKey, GroupType.AUTHENTICATED_USERS );
-            Element groupsElement = doc.getDocumentElement();
-            Element groupElement = XMLTool.getElement( groupsElement, "group" );
-            groupKey = groupElement.getAttribute( "key" );
-
-            authenticatedUsersGroupKeys.put( userStoreKey, groupKey );
+        final GroupEntity entity = this.groupDao.findBuiltInAuthenticatedUsers(userStoreKey);
+        if ( entity == null ) {
+            return null;
         }
-
-        return groupKey;
+        
+        return entity.getGroupKey().toString();
     }
-
-    private String getGroupKeyByGroupType( GroupType groupType )
-    {
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-
-        String key = null;
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( GROUP_GET_KEY_BY_GROUPTYPE );
-            preparedStmt.setInt( 1, groupType.toInteger() );
-            resultSet = preparedStmt.executeQuery();
-
-            if ( resultSet.next() )
-            {
-                key = resultSet.getString( 1 );
-            }
-        }
-        catch ( SQLException e )
-        {
-            VerticalEngineLogger.error("A database error occurred: %t", e );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-
-        return key;
-    }
-
 
     public Document getGroup( String groupKey )
     {
@@ -174,11 +120,6 @@ public final class GroupHandler
         }
 
         return doc;
-    }
-
-    private Document getGroupsByDomain( UserStoreKey userStoreKey, GroupType type )
-    {
-        return getGroups( GROUPS_GET_BY_DOMAIN_AND_TYPE, new Object[]{userStoreKey.toInt(), userStoreKey.toInt(), type.toInteger()}, true );
     }
 
     private void groupResultSetToDom( Connection con, Element rootElement, ResultSet grpResultSet, boolean includeMembers, int index,
@@ -475,35 +416,25 @@ public final class GroupHandler
 
     public String getAdminGroupKey()
     {
-        return getGroupKeyByGroupType( GroupType.ADMINS );
+        final GroupEntity entity = this.groupDao.findBuiltInAdministrator();
+        return entity != null ? entity.getGroupKey().toString() : null;
     }
 
     public String getAnonymousGroupKey()
     {
-        return getGroupKey( GroupType.ANONYMOUS );
+        final GroupEntity entity = this.groupDao.findBuiltInAnonymous();
+        return entity != null ? entity.getGroupKey().toString() : null;
     }
 
     public String getEnterpriseAdministratorGroupKey()
     {
-        return getGroupKey( GroupType.ENTERPRISE_ADMINS );
+        final GroupEntity entity = this.groupDao.findBuiltInEnterpriseAdministrator();
+        return entity != null ? entity.getGroupKey().toString() : null;
     }
 
-    private String getGroupKey( GroupType type )
+    public Set<UserEntity> getUserNames( String[] groupKeys )
     {
-        GroupEntity group = groupDao.findSingleByGroupType( type );
-        return group.getGroupKey().toString();
-    }
-
-    /**
-     * Fetches all users in the given groups and subgroups, and returns them in an XML document where the root node is &lt;usernames&gt;
-     * and each user is listed in nodes called &lt;username&gt; within that.
-     *
-     * @param groupKeys The groups to look for users in.
-     * @return An XML document listing all the users in the groups.
-     */
-    public Document getUserNames( String[] groupKeys )
-    {
-        HashSet<User> foundUsers = new HashSet<User>();
+        HashSet<UserEntity> foundUsers = new HashSet<UserEntity>();
         HashSet<GroupEntity> groupsToCheck = new HashSet<GroupEntity>();
         for ( String gKey : groupKeys )
         {
@@ -526,9 +457,7 @@ public final class GroupHandler
             }
         }
 
-        UserNameXmlCreator userNameXmlCreator = new UserNameXmlCreator();
-        return XMLDocumentFactory.create( userNameXmlCreator.createUserNamesDocument( foundUsers ) ).getAsDOMDocument();
+        return foundUsers;
     }
-
 }
 
