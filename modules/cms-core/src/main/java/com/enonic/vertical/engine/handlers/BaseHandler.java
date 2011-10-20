@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -244,10 +243,5 @@ public abstract class BaseHandler
     public final int getNextKey( Table table )
     {
         return keyService.generateNextKeySafe( table.getName() );
-    }
-
-    protected final Session getCurrentSession()
-    {
-        return this.sessionFactory.getCurrentSession();
     }
 }

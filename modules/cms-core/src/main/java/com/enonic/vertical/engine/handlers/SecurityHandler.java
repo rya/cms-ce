@@ -111,9 +111,6 @@ final public class SecurityHandler
     private final static String MENUITEMAR_SECURITY_FILTER_1 =
         " EXISTS (SELECT mia_mei_lKey FROM " + MENUITEMAR_TABLE + " WHERE mia_mei_lKey = mei_lKey" + " AND mia_grp_hKey IN (";
 
-    private final static String MENUITEMAR_SECURITY_FILTER_ON_PARENT =
-        " EXISTS (SELECT mia_mei_lKey FROM " + MENUITEMAR_TABLE + " WHERE mia_mei_lKey = mei_lParent" + " AND mia_grp_hKey IN (";
-
     private final static String MENUITEMAR_VALIDATE_UPDATE_1 = " SELECT DISTINCT * FROM " + MENUITEMAR_TABLE + " WHERE mia_mei_lKey = ?" +
         " AND (mia_bUpdate = 1 or mia_bAdministrate = 1) AND mia_grp_hKey IN (";
 
@@ -564,12 +561,6 @@ final public class SecurityHandler
         newSQL.append( ")" );
 
         return StringUtil.expandString( newSQL.toString(), temp );
-    }
-
-    public void createAccessRights( Element elem )
-        throws VerticalCreateException
-    {
-        createAccessRights( null, elem );
     }
 
     private void createAccessRights( Connection _con, Element accessrightsElement )
@@ -3737,22 +3728,4 @@ final public class SecurityHandler
         StringUtil.replaceString( sql, "%groups", sb_groups.toString() );
         StringUtil.replaceString( sql, "%filterRights", sqlFilterRights.toString() );
     }
-
-    public boolean validateSectionApprove( User user, int sectionKey )
-    {
-        // approve = publish on menuitem
-        MenuItemKey menuItemKey = getSectionHandler().getMenuItemKeyBySection( sectionKey );
-        MenuItemAccessRight mia = getSecurityHandler().getMenuItemAccessRight( user, menuItemKey );
-        return mia.getPublish();
-    }
-
-    public boolean validateContentAddToSection( User user, int sectionKey )
-    {
-        // add = add on menuitem
-        MenuItemKey menuItemKey = getSectionHandler().getMenuItemKeyBySection( sectionKey );
-        MenuItemAccessRight mia = getSecurityHandler().getMenuItemAccessRight( user, menuItemKey );
-        return mia.getAdd() || mia.getPublish();
-    }
-
-
 }

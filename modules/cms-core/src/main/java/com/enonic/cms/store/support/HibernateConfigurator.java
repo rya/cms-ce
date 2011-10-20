@@ -89,9 +89,12 @@ public final class HibernateConfigurator
         listenerMap.put( "post-update", EntityChangeListenerHub.getInstance() );
         setEventListeners( listenerMap );
 
-        getHibernateProperties().setProperty(Environment.SHOW_SQL, "true");
-
         super.afterPropertiesSet();
+    }
+
+    public void setLogging(boolean logging)
+    {
+        getHibernateProperties().setProperty(Environment.SHOW_SQL, String.valueOf(logging));
     }
 
     /**

@@ -11,10 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -55,20 +52,6 @@ public class UnitHandler
             "@currentTimestamp@" + " WHERE uni_lKey=?";
 
     private final static String UNI_WHERE_CLAUSE = " uni_lKey=?";
-
-    private final static String UNI_DEFAULT_ORDER_BY = "name ASC";
-
-    private static final Map<String, String> orderByMap;
-
-    static
-    {
-        orderByMap = new HashMap<String, String>();
-
-        orderByMap.put( "key", "uni_lKey" );
-        orderByMap.put( "name", "uni_sName" );
-        orderByMap.put( "description", "uni_sDescription" );
-        orderByMap.put( "timestamp", "uni_dteTimeStamp" );
-    }
 
     /**
      * @param xmlData String
@@ -190,105 +173,28 @@ public class UnitHandler
     }
 
     /**
-     * @param orderBy String
-     * @return String
-     */
-    private String generateOrderBySql( String orderBy )
-    {
-
-        if ( orderBy == null )
-        {
-            return null;
-        }
-
-        StringTokenizer tokenizer = new StringTokenizer( orderBy, "," );
-        StringBuffer orderBySql = new StringBuffer( " ORDER BY " );
-        int count = 0;
-
-        while ( tokenizer.hasMoreTokens() )
-        {
-            String token = tokenizer.nextToken().trim();
-            int spaceIdx = token.indexOf( ' ' );
-            String attribute, ordering;
-            if ( spaceIdx > 0 )
-            {
-                attribute = token.substring( 0, spaceIdx );
-                ordering = token.substring( spaceIdx + 1, token.length() ).toUpperCase();
-                if ( !"ASC".equals( ordering ) && !"DESC".equals( ordering ) )
-                {
-                    ordering = "ASC";
-                }
-            }
-            else
-            {
-                attribute = token;
-                ordering = "ASC";
-            }
-
-            String column = orderByMap.get( attribute );
-            if ( column != null )
-            {
-                if ( ++count > 1 )
-                {
-                    orderBySql.append( ',' );
-                }
-                orderBySql.append( column );
-                orderBySql.append( ' ' );
-                orderBySql.append( ordering );
-            }
-        }
-
-        if ( count > 0 )
-        {
-            return orderBySql.toString();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
      * @param unitKey int
      * @return String
      */
     public String getUnit( int unitKey )
     {
-
         StringBuffer sql = new StringBuffer( UNI_SELECT );
         sql.append( " AND" );
         sql.append( UNI_WHERE_CLAUSE );
         int[] paramValue = {unitKey};
 
-        return getUnit( sql.toString(), null, paramValue );
+        return getUnit( sql.toString(), paramValue );
     }
 
-    /**
-     * @param sql        String
-     * @param orderBy    String
-     * @param paramValue int[]
-     * @return String
-     */
-    private String getUnit( String sql, String orderBy, int[] paramValue )
+    private String getUnit( String sql, int[] paramValue )
     {
-
-        Document doc = getUnitDOM( sql, orderBy, paramValue );
+        Document doc = getUnitDOM( sql, paramValue );
         return XMLTool.documentToString( doc );
     }
 
-    private Document getUnitDOM( String sql, String orderBy, int[] paramValue )
+    private Document getUnitDOM( String sql, int[] paramValue )
     {
-
-        if ( orderBy == null )
-        {
-            orderBy = UNI_DEFAULT_ORDER_BY;
-        }
-
-        String orderBySql = generateOrderBySql( orderBy );
-        if ( orderBySql != null )
-        {
-            sql += orderBySql;
-        }
+        sql += " ORDER BY uni_sName ASC";
 
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -405,7 +311,7 @@ public class UnitHandler
         return unitName;
     }
 
-    private String getUnitNamesXML( String orderBy, Filter filter )
+    public String getUnitNamesXML( Filter filter )
     {
 
         Connection con = null;
@@ -419,17 +325,7 @@ public class UnitHandler
             Element root = doc.getDocumentElement();
 
             StringBuffer sql = new StringBuffer( UNI_SELECT_NAME );
-
-            if ( orderBy == null )
-            {
-                orderBy = UNI_DEFAULT_ORDER_BY;
-            }
-
-            String orderBySql = generateOrderBySql( orderBy );
-            if ( orderBySql != null )
-            {
-                sql.append( orderBySql );
-            }
+            sql.append(" ORDER BY uni_sName ASC");
 
             con = getConnection();
             preparedStmt = con.prepareStatement( sql.toString() );
@@ -473,15 +369,10 @@ public class UnitHandler
         return XMLTool.documentToString( doc );
     }
 
-    public String getUnits( String orderBy )
-    {
-        StringBuffer sql = new StringBuffer( UNI_SELECT );
-        return getUnit( sql.toString(), orderBy, null );
-    }
-
     public String getUnits()
     {
-        return getUnits( null );
+        StringBuffer sql = new StringBuffer( UNI_SELECT );
+        return getUnit( sql.toString(), null );
     }
 
     public void updateUnit( String xmlData )
@@ -655,10 +546,4 @@ public class UnitHandler
 
         return key;
     }
-
-    public String getUnitNamesXML( Filter filter )
-    {
-        return getUnitNamesXML( null, filter );
-    }
-
 }

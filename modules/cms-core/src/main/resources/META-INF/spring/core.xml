@@ -40,6 +40,7 @@
         <property name="cacheManager" ref="cacheFacadeManager"/>
         <property name="configLocation" value="classpath:com/enonic/cms/store/hibernate.cfg.xml"/>
         <property name="useTransactionAwareDataSource" value="false"/>
+        <property name="logging" value="#{config.jdbcLogging}"/>
     </bean>
 
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
