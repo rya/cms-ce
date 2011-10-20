@@ -79,18 +79,6 @@ public final class VerticalEngineLogger
         throw new VerticalUpdateException(message, throwable);
     }
 
-    public static void errorKey( String message, Throwable throwable )
-    {
-        LOG.errorCause(message, throwable);
-        throw new VerticalKeyException(message, throwable);
-    }
-
-    public static void errorKey(String message, Object msgData, Throwable throwable)
-    {
-        LOG.errorCause(message, throwable, msgData);
-        throw new VerticalKeyException(message, throwable);
-    }
-
     public static void errorUpdate(String message, Throwable throwable)
     {
         LOG.errorCause(message, throwable);

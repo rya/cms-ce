@@ -21,7 +21,6 @@ import org.w3c.dom.Element;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.filters.Filter;
@@ -179,11 +178,6 @@ public class UnitHandler
         {
             String message = "Failed to parse a unit key: %t";
             VerticalEngineLogger.errorCreate(message, nfe );
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to generate unit key: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
 
         finally

@@ -34,7 +34,6 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
@@ -312,11 +311,6 @@ public class CategoryHandler
         {
             String message = "Failed to create category: %t";
             VerticalEngineLogger.errorCreate(message, sqle );
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to create category: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
         catch ( VerticalUpdateException vue )
         {

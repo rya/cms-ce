@@ -8,18 +8,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.util.Date;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.sql.model.Table;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.BaseEngine;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 
-import com.enonic.cms.core.CmsDateAndTimeFormats;
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
@@ -110,6 +108,9 @@ public abstract class BaseHandler
 
     @Autowired
     protected MemberOfResolver memberOfResolver;
+
+    @Autowired
+    protected SessionFactory sessionFactory;
 
     public BaseHandler()
     {
@@ -236,14 +237,17 @@ public abstract class BaseHandler
     }
 
     public final int getNextKey( String tableName )
-        throws VerticalKeyException
     {
         return keyService.generateNextKeySafe( tableName );
     }
 
     public final int getNextKey( Table table )
-        throws VerticalKeyException
     {
         return keyService.generateNextKeySafe( table.getName() );
+    }
+
+    protected final Session getCurrentSession()
+    {
+        return this.sessionFactory.getCurrentSession();
     }
 }

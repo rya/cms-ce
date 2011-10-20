@@ -75,7 +75,7 @@
     </bean>
 
     <bean id="keyService" class="com.enonic.cms.core.internal.service.KeyServiceImpl">
-        <property name="keyEngine" ref="keyEngine"/>
+        <property name="keyHandler" ref="keyHandler"/>
     </bean>
 
     <bean id="upgradePropertyResolver" class="com.enonic.cms.upgrade.service.StandardPropertyResolver"/>
@@ -125,11 +125,6 @@
     </bean>
 
     <bean id="tightestCacheSettingsResolver" class="com.enonic.cms.business.TightestCacheSettingsResolver"/>
-
-    <bean id="keyEngine" class="com.enonic.vertical.engine.KeyEngine" parent="abstractBaseEngine">
-        <property name="keyHandler" ref="key_keyHandler"/>
-        <property name="commonHandler" ref="key_commonHandler"/>
-    </bean>
 
     <bean id="resolverInputXMLCreator" class="com.enonic.cms.core.resolver.ResolverInputXMLCreator"/>
 
@@ -592,16 +587,8 @@
     <bean id="systemHandler" class="com.enonic.vertical.engine.handlers.SystemHandler" parent="baseHandler">
     </bean>
 
-    <bean id="key_baseHandler" abstract="true" class="com.enonic.vertical.engine.handlers.BaseHandler"
-          init-method="init">
-        <property name="verticalProperties" ref="verticalProperties"/>
-        <property name="baseEngine" ref="keyEngine"/>
-    </bean>
-
-    <bean id="key_keyHandler" class="com.enonic.vertical.engine.handlers.KeyHandler" parent="key_baseHandler">
-    </bean>
-
-    <bean id="key_commonHandler" class="com.enonic.vertical.engine.handlers.CommonHandler" parent="key_baseHandler">
+    <bean id="keyHandler" class="com.enonic.vertical.engine.handlers.KeyHandler">
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
 </beans>

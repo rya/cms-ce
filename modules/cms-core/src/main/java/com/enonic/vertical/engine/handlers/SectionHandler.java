@@ -22,7 +22,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.XDG;
@@ -924,10 +923,6 @@ public class SectionHandler
         {
             copySection( copyContext, sectionKey, superKey );
         }
-        catch ( VerticalKeyException e )
-        {
-            VerticalEngineLogger.errorCopy("Failed to generate section key: %t", e );
-        }
         catch ( SQLException e )
         {
             VerticalEngineLogger.errorCopy("Failed to copy section: %t", e );
@@ -935,7 +930,7 @@ public class SectionHandler
     }
 
     private void copySection( CopyContext copyContext, int sourceKey, MenuItemKey superKey )
-        throws SQLException, VerticalKeyException
+        throws SQLException
     {
         if ( copyContext != null )
         {

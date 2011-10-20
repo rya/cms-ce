@@ -34,7 +34,6 @@ import com.enonic.esl.util.UUID;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
@@ -1104,12 +1103,6 @@ public class CommonHandler
             {
                 System.err.println( "Current element: \n" + XMLTool.elementToString( currentElement ) );
             }
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
-            keys = null;
         }
         finally
         {

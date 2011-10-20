@@ -126,14 +126,6 @@ public class ContentTypeHandlerServlet
         // Parameters
         ExtendedMap parameters = new ExtendedMap();
         parameters.put( "page", String.valueOf( request.getParameter( "page" ).toString() ) );
-        /*
-        if (siteKey > -1) {
-            parameters.put("selecteddomainkey", Integer.toString(domainKey));
-            parameters.put("domainname", admin.getDomainName(domainKey));
-            parameters.put("sitename", admin.getSiteName(siteKey));
-            parameters.put("localcontenttype", "true");
-        }
-        */
         addSortParamteres( "name", "ascending", formItems, session, parameters );
 
         transformXML( request, response, doc, "contenttype_browse.xsl", parameters );
@@ -145,21 +137,6 @@ public class ContentTypeHandlerServlet
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
-
-        if ( formItems.containsKey( "key" ) )
-        {
-            int key = formItems.getInt( "key" );
-            if ( key < 1000 )
-            {
-                addError( 3, "key", String.valueOf( key ) );
-                VerticalAdminLogger.warn("Key must be larger than 1000.", null );
-            }
-            else if ( lookupKeyBean().keyExists( "tContentType", key ) )
-            {
-                addError( 1, "key", String.valueOf( key ) );
-                VerticalAdminLogger.warn("Key already exists.", null );
-            }
-        }
 
         // Enforce unique names
         String name = formItems.getString( "name" );
@@ -228,21 +205,6 @@ public class ContentTypeHandlerServlet
 
         if ( reloading || hasErrors() )
         {
-            if ( formItems.containsKey( "key" ) && createContent )
-            {
-                int key = formItems.getInt( "key" );
-                if ( key < 1000 )
-                {
-                    addError( 3, "key", String.valueOf( key ) );
-                    VerticalAdminLogger.warn("Key must be larger than 1000.", null );
-                }
-                else if ( lookupKeyBean().keyExists( "tContentType", key ) )
-                {
-                    addError( 1, "key", String.valueOf( key ) );
-                    VerticalAdminLogger.warn("Key already exists.", null );
-                }
-            }
-
             if ( reloading )
             {
                 usehandlerindexing = true;

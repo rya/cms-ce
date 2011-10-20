@@ -4,33 +4,24 @@
  */
 package com.enonic.cms.core.internal.service;
 
+import com.enonic.vertical.engine.handlers.KeyHandler;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.vertical.engine.KeyEngine;
-import com.enonic.vertical.engine.VerticalKeyException;
-
 import com.enonic.cms.core.service.KeyService;
 
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 public class KeyServiceImpl
     implements KeyService
 {
-    protected KeyEngine keyEngine;
+    private KeyHandler keyHandler;
 
-    public void setKeyEngine( KeyEngine value )
+    public void setKeyHandler( KeyHandler keyHandler )
     {
-        this.keyEngine = value;
+        this.keyHandler = keyHandler;
     }
 
     public int generateNextKeySafe( String tableName )
-        throws VerticalKeyException
     {
-        return keyEngine.generateNextKeySafe( tableName );
-    }
-
-    public boolean keyExists( String tableName, int key )
-    {
-        return keyEngine.keyExists( tableName, key );
+        return keyHandler.generateNextKeySafe(tableName);
     }
 }

@@ -7,9 +7,6 @@ package com.enonic.cms.itest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.enonic.vertical.engine.VerticalKeyException;
-
 import com.enonic.cms.core.service.KeyService;
 
 /**
@@ -22,7 +19,6 @@ public class MockKeyService
     private static Map<String, AtomicInteger> nextKeyByTableName = new HashMap<String, AtomicInteger>();
 
     public int generateNextKeySafe( String tableName )
-        throws VerticalKeyException
     {
         synchronized ( nextKeyByTableName )
         {
@@ -34,10 +30,5 @@ public class MockKeyService
             }
             return nextKey.getAndIncrement();
         }
-    }
-
-    public boolean keyExists( String tableName, int key )
-    {
-        return false;
     }
 }

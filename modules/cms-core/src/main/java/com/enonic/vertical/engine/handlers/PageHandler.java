@@ -20,7 +20,6 @@ import org.w3c.dom.Node;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
@@ -150,11 +149,6 @@ public final class PageHandler
         {
             String message = "Failed to parse a key field: %t";
             VerticalEngineLogger.errorCreate(message, nfe );
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Error generating new key.";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
         finally
         {

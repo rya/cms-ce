@@ -33,7 +33,6 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
@@ -317,11 +316,6 @@ public final class PageTemplateHandler
             String message = "Failed to parse a key field: %t";
             VerticalEngineLogger.errorCreate(message, nfe );
         }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed generate page template key: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
-        }
         finally
         {
             close( preparedStmt );
@@ -565,11 +559,6 @@ public final class PageTemplateHandler
         {
             String message = "Failed to parse a key field: %t";
             VerticalEngineLogger.errorCreate(message, nfe );
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to generate page template parameter key: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
         finally
         {

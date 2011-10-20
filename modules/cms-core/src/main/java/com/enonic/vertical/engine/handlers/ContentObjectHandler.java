@@ -29,7 +29,6 @@ import org.w3c.dom.Text;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 
@@ -274,11 +273,6 @@ public final class ContentObjectHandler
                     msgData = new Object[]{"content object key", tmpStr};
             }
             VerticalEngineLogger.errorCreate(message, msgData, nfe );
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to generate content object key";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
         finally
         {

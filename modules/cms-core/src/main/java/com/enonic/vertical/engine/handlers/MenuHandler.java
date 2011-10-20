@@ -39,7 +39,6 @@ import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.VerticalUpdateException;
@@ -981,11 +980,6 @@ public final class MenuHandler
             String msg = "Failed to create menu: %t";
             VerticalEngineLogger.errorCreate(msg, sqle );
         }
-        catch ( VerticalKeyException gke )
-        {
-            String msg = "Unable to generate key for table {0}.";
-            VerticalEngineLogger.errorCreate(msg, MENU_TABLE, gke );
-        }
         catch ( VerticalUpdateException e )
         {
             VerticalEngineLogger.errorCreate("Error creating default access rights: %t", e );
@@ -1112,14 +1106,7 @@ public final class MenuHandler
             String keyStr = menuItemElement.getAttribute( "key" );
             if ( !useOldKey || keyStr == null || keyStr.length() == 0 )
             {
-                try
-                {
-                    menuItemKey = new MenuItemKey( getNextKey( MENU_ITEM_TABLE ) );
-                }
-                catch ( VerticalKeyException e )
-                {
-                    VerticalEngineLogger.errorCreate("Error generating key for tMenuItem.", e );
-                }
+                menuItemKey = new MenuItemKey( getNextKey( MENU_ITEM_TABLE ) );
             }
             else
             {
@@ -1451,10 +1438,6 @@ public final class MenuHandler
             preparedStmt.setInt( 3, menuItemKey.toInt() );
 
             preparedStmt.executeUpdate();
-        }
-        catch ( VerticalKeyException e )
-        {
-            VerticalEngineLogger.errorCreate("Error generating key: %t", e );
         }
         catch ( SQLException e )
         {

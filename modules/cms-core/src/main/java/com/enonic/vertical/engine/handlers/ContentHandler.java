@@ -34,7 +34,6 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalKeyException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
@@ -278,11 +277,6 @@ public final class ContentHandler
                 String message = "Failed to create content type. No content type created.";
                 VerticalEngineLogger.errorCreate(message, null );
             }
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to generate content handler key: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
         catch ( SQLException sqle )
         {
@@ -1454,11 +1448,6 @@ public final class ContentHandler
         {
             String message = "Failed to create content handler: %t";
             VerticalEngineLogger.errorCreate(message, sqle );
-        }
-        catch ( VerticalKeyException gke )
-        {
-            String message = "Failed to generate content handler key: %t";
-            VerticalEngineLogger.errorCreate(message, gke );
         }
         finally
         {
