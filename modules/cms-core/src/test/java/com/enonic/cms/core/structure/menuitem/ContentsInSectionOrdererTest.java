@@ -287,6 +287,32 @@ public class ContentsInSectionOrdererTest
     }
 
     @Test
+    public void all_content_is_not_ordered_when_moving_first_content_two_down()
+    {
+        section0.addSectionContent( createApprovedSectionContent( 1000, createContent( 1 ) ) );
+        section0.addSectionContent( createApprovedSectionContent( 2000, createContent( 2 ) ) );
+        section0.addSectionContent( createApprovedSectionContent( 3000, createContent( 3 ) ) );
+        section0.addSectionContent( createApprovedSectionContent( 4000, createContent( 4 ) ) );
+        section0.addSectionContent( createApprovedSectionContent( 5000, createContent( 5 ) ) );
+
+        List<ContentKey> expectedOrder = new ArrayList<ContentKey>();
+        expectedOrder.add( new ContentKey( 2 ) );
+        expectedOrder.add( new ContentKey( 3 ) );
+        expectedOrder.add( new ContentKey( 1 ) );
+        expectedOrder.add( new ContentKey( 4 ) );
+        expectedOrder.add( new ContentKey( 5 ) );
+        ContentsInSectionOrderer orderer = new ContentsInSectionOrderer( expectedOrder, section0, ORDER_SPACE );
+        Set<SectionContentEntity> changedSC = orderer.order();
+
+        // Verify: order
+        List<SectionContentEntity> actualOrder = toNewSortedArrayList( section0.getSectionContents() );
+        assertOrder( expectedOrder, actualOrder );
+
+        // Verify: only the moved content is updated
+        assertSectionContentSetContains( changedSC, new ContentKey( 1 ) );
+    }
+
+    @Test
     public void test4()
     {
         section0.addSectionContent( createApprovedSectionContent( 1, createContent( 1 ) ) );

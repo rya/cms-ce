@@ -146,4 +146,9 @@ public class SectionContentEntity
             return 1;
         }
     }
+
+    public String toString()
+    {
+        return ", menuItem=" + menuItem + ", content=" + content + ", order=" + order + ", approved=" + approved;
+    }
 }
