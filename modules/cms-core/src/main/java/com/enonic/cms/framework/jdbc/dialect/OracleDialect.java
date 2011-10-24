@@ -63,13 +63,6 @@ public final class OracleDialect
         return super.getObject( result, columnIndex );
     }
 
-    public String translateGenerateStatistics( String tableName )
-    {
-        StringBuffer s = new StringBuffer();
-        s.append( "ANALYZE TABLE " ).append( tableName ).append( " COMPUTE STATISTICS" );
-        return s.toString();
-    }
-
     public String formatTimestamp( long time )
     {
         return "timestamp" + super.formatTimestamp( time );

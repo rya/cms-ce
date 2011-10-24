@@ -38,7 +38,6 @@ public final class Db2Dialect
         setVarcharTypeValue( "varchar(?)" );
         setBlobTypeValue( "blob(?M)" );
         setTimestampTypeValue( "timestamp" );
-        setInlineTimestampForSpeed( true );
     }
 
     @Override

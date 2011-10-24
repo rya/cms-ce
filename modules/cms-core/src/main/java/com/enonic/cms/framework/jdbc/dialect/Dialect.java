@@ -67,8 +67,6 @@ public abstract class Dialect
 
     private final static String P_CHAR_TYPE = "char";
 
-    private final static String P_MINTIMESTAMP_VALUE = "mintimestamp";
-
     private final static String P_LENGTH_FUNCTION = "length";
 
     /**
@@ -96,8 +94,6 @@ public abstract class Dialect
      */
     private final Map<String, String> placeholders;
 
-    private boolean inlineTimestampForSpeed;
-
     /**
      * Use input stream for blob.
      */
@@ -123,24 +119,7 @@ public abstract class Dialect
         setVarcharTypeValue( "varchar(?)" );
         setBlobTypeValue( "blob" );
         setTimestampTypeValue( "timestamp" );
-        setMinTimeStampValue( "0000-01-01 00:00:00" );
         setLengthFunctionName( "length" );
-        setInlineTimestampForSpeed( false );
-    }
-
-    public boolean isInlineTimestampForSpeed()
-    {
-        return inlineTimestampForSpeed;
-    }
-
-    public void setInlineTimestampForSpeed( boolean inlineTimestampForSpeed )
-    {
-        this.inlineTimestampForSpeed = inlineTimestampForSpeed;
-    }
-
-    public String[] getVendorIds()
-    {
-        return this.vendorIds;
     }
 
     /**
@@ -245,14 +224,6 @@ public abstract class Dialect
     public void setTimestampTypeValue( String value )
     {
         setPlaceholder( P_TIMESTAMP_TYPE, value );
-    }
-
-    /**
-     * Set minimum timestamp value placeholder.
-     */
-    public void setMinTimeStampValue( String value )
-    {
-        setPlaceholder( P_MINTIMESTAMP_VALUE, value );
     }
 
     /**
@@ -846,11 +817,6 @@ public abstract class Dialect
         }
     }
 
-    public static String getTypePlaceholder( int sqlType )
-    {
-        return getTypePlaceholder( sqlType, -1 );
-    }
-
     public static String getTypePlaceholder( int sqlType, int size )
     {
         String type = "@" + getTypeName( sqlType );
@@ -877,12 +843,6 @@ public abstract class Dialect
         return false;
     }
 
-    public void initConnection( Connection conn )
-        throws SQLException
-    {
-        // Do nothing
-    }
-
     public String translateDropForeignKey( String tableName, String foreignKeyName )
     {
         StringBuffer sql = new StringBuffer();
@@ -895,18 +855,6 @@ public abstract class Dialect
         StringBuffer sql = new StringBuffer();
         sql.append( " DROP INDEX " ).append( indexName );
         return sql.toString();
-    }
-
-    public String translateGenerateStatistics( String tableName )
-    {
-        StringBuffer sql = new StringBuffer();
-        sql.append( "ANALYZE " ).append( tableName );
-        return sql.toString();
-    }
-
-    public Timestamp getMinDate()
-    {
-        return Timestamp.valueOf( getPlaceholder( P_MINTIMESTAMP_VALUE ) );
     }
 
     private synchronized void updateCurrentTimestamp()

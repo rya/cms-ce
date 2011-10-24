@@ -51,11 +51,4 @@ public final class MySqlDialect
         sql.append( "ALTER TABLE " ).append( tableName ).append( " DROP INDEX " ).append( indexName );
         return sql.toString();
     }
-
-    public String translateGenerateStatistics( String tableName )
-    {
-        StringBuffer sql = new StringBuffer();
-        sql.append( "ANALYZE TABLE " ).append( tableName );
-        return sql.toString();
-    }
 }

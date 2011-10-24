@@ -40,7 +40,6 @@ public final class DialectConnectionDecorator
     public Connection decorate( Connection connection )
         throws SQLException
     {
-        this.dialect.initConnection( connection );
         return new ConnectionImpl( connection );
     }
 
@@ -226,6 +225,13 @@ public final class DialectConnectionDecorator
             throws SQLException
         {
             dialect.setCharacterStream( this.stmt, parameterIndex, reader, length );
+        }
+
+        @Override
+        public void setDate(int parameterIndex, Date x)
+            throws SQLException
+        {
+            dialect.setDate( this.stmt, parameterIndex, x );
         }
     }
 

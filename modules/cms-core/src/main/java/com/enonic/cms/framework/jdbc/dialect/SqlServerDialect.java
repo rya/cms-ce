@@ -36,7 +36,6 @@ public final class SqlServerDialect
         setVarcharTypeValue( "nvarchar(?)" );
         setBlobTypeValue( "image" );
         setTimestampTypeValue( "datetime" );
-        setMinTimeStampValue( "1753-01-01 00:00:00" );
 
         /*
          * len() (not datalength()) might seam like the obviuos choice, but it doesn't work on
