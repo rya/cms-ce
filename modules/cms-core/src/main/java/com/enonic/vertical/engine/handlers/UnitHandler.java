@@ -12,6 +12,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Map;
+import java.util.Set;
+
+import com.enonic.cms.core.content.UnitEntity;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.framework.xml.XMLDocument;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -19,7 +25,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalUpdateException;
-import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.core.CalendarUtil;
@@ -35,8 +40,6 @@ public class UnitHandler
     private final static String UNI_SELECT = "SELECT uni_lKey,uni_lan_lKey,lan_sDescription,uni_sName,uni_sDescription," +
         "uni_lSuperKey,uni_bDeleted,uni_dteTimestamp,cat_lKey,cat_sName" + " FROM tUnit" + " JOIN tLanguage ON uni_lan_lKey=lan_lKey" +
         " JOIN tCategory ON tCategory.cat_uni_lKey = tUnit.uni_lKey" + " WHERE (uni_bDeleted=0) AND cat_cat_lSuper IS NULL";
-
-    private final static String UNI_SELECT_LANGUAGEKEY = "SELECT uni_lan_lKey FROM tUnit WHERE uni_lKey=?";
 
     private final static String UNI_SELECT_NAME =
         "SELECT uni_lKey, uni_sName, cat_sName, cat_lKey, lan_lKey, lan_sDescription, lan_sCode" + " FROM tUnit" +
@@ -176,23 +179,17 @@ public class UnitHandler
      * @param unitKey int
      * @return String
      */
-    public String getUnit( int unitKey )
+    public XMLDocument getUnit( int unitKey )
     {
         StringBuffer sql = new StringBuffer( UNI_SELECT );
         sql.append( " AND" );
         sql.append( UNI_WHERE_CLAUSE );
         int[] paramValue = {unitKey};
 
-        return getUnit( sql.toString(), paramValue );
+        return XMLDocumentFactory.create(getUnit(sql.toString(), paramValue));
     }
 
-    private String getUnit( String sql, int[] paramValue )
-    {
-        Document doc = getUnitDOM( sql, paramValue );
-        return XMLTool.documentToString( doc );
-    }
-
-    private Document getUnitDOM( String sql, int[] paramValue )
+    private Document getUnit( String sql, int[] paramValue )
     {
         sql += " ORDER BY uni_sName ASC";
 
@@ -269,46 +266,8 @@ public class UnitHandler
 
     public String getUnitName( int unitKey )
     {
-
-        String unitName = null;
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-
-        try
-        {
-            StringBuffer sql = new StringBuffer( UNI_SELECT_NAME );
-            sql.append( " AND" );
-            sql.append( UNI_WHERE_CLAUSE );
-            con = getConnection();
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setInt( 1, unitKey );
-            resultSet = preparedStmt.executeQuery();
-
-            if ( resultSet.next() )
-            {
-                unitName = resultSet.getString( "uni_sName" );
-            }
-
-            resultSet.close();
-            resultSet = null;
-            preparedStmt.close();
-            preparedStmt = null;
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get unit's name: %t";
-            VerticalEngineLogger.error(message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-
-        return unitName;
+        final UnitEntity entity = this.unitDao.findByKey(unitKey);
+        return entity != null ? entity.getName() : null;
     }
 
     public Document getUnitNamesXML( Filter filter )
@@ -369,10 +328,10 @@ public class UnitHandler
         return doc;
     }
 
-    public String getUnits()
+    public XMLDocument getUnits()
     {
         StringBuffer sql = new StringBuffer( UNI_SELECT );
-        return getUnit( sql.toString(), null );
+        return XMLDocumentFactory.create(getUnit(sql.toString(), null));
     }
 
     public void updateUnit( String xmlData )
@@ -489,61 +448,42 @@ public class UnitHandler
     public void setUnitContentTypes( int unitKey, int[] contentTypeKeys )
         throws VerticalUpdateException
     {
-        // First remove the old content type settings
-        StringBuffer sql = XDG.generateRemoveSQL( db.tUnitContentType, db.tUnitContentType.uct_uni_lKey );
-        getCommonHandler().executeSQL( sql.toString(), unitKey );
+        final UnitEntity entity = this.unitDao.findByKey(unitKey);
+        if (entity == null) {
+            return;
+        }
 
-        // Set the new content types
-        if ( contentTypeKeys != null && contentTypeKeys.length > 0 )
-        {
-            for ( int contentTypeKey : contentTypeKeys )
-            {
-                sql = XDG.generateInsertSQL( db.tUnitContentType );
-                getCommonHandler().executeSQL( sql.toString(), new int[]{unitKey, contentTypeKey} );
+        entity.getContentTypes().clear();
+
+        for (final int contentTypeKey : contentTypeKeys) {
+            final ContentTypeEntity contentType = this.contentTypeDao.findByKey(contentTypeKey);
+            if (contentType != null) {
+                entity.getContentTypes().add(contentType);
             }
         }
     }
 
-    public int[] getUnitContentTypes( int unitKey )
+    private int[] getUnitContentTypes( int unitKey )
     {
-        // First remove the old content type settings
-        StringBuffer sql =
-            XDG.generateSelectSQL( db.tUnitContentType, db.tUnitContentType.uct_cty_lKey, true, db.tUnitContentType.uct_uni_lKey );
-        return getCommonHandler().getIntArray( sql.toString(), new int[]{unitKey} );
+        final UnitEntity entity = this.unitDao.findByKey(unitKey);
+        if (entity == null) {
+            return new int[0];
+        }
+
+        final Set<ContentTypeEntity> contentTypes = entity.getContentTypes();
+
+        int index = 0;
+        final int[] result = new int[contentTypes.size()];
+        for (final ContentTypeEntity contentType : contentTypes) {
+            result[index++] = contentType.getKey();
+        }
+
+        return result;
     }
 
     public int getUnitLanguageKey( int unitKey )
     {
-
-        int key = -1;
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-
-        try
-        {
-            con = getConnection();
-            preparedStmt = con.prepareStatement( UNI_SELECT_LANGUAGEKEY );
-            preparedStmt.setInt( 1, unitKey );
-            resultSet = preparedStmt.executeQuery();
-
-            if ( resultSet.next() )
-            {
-                key = resultSet.getInt( "uni_lan_lKey" );
-            }
-        }
-        catch ( SQLException sqle )
-        {
-            String MESSAGE_00 = "Failed to get unit's language key: %t";
-            VerticalEngineLogger.error(MESSAGE_00, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
-        }
-
-        return key;
+        final UnitEntity entity = this.unitDao.findByKey(unitKey);
+        return entity != null ? entity.getLanguage().getKey().toInt() : -1;
     }
 }

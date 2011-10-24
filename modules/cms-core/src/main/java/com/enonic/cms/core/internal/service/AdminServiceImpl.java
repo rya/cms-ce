@@ -414,7 +414,7 @@ public class AdminServiceImpl
         return adminEngine.getSuperCategoryKey( categoryKey );
     }
 
-    public String getUnit( int unitKey )
+    public XMLDocument getUnit( int unitKey )
     {
         return adminEngine.getUnit( unitKey );
     }
@@ -890,7 +890,7 @@ public class AdminServiceImpl
         return this.adminEngine.getMenuMap();
     }
 
-    public String getUnits()
+    public XMLDocument getUnits()
     {
         return adminEngine.getUnits();
     }

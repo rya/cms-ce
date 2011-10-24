@@ -179,7 +179,7 @@ public interface AdminService
 
     public int getSuperCategoryKey( int categoryKey );
 
-    public String getUnit( int unitKey );
+    public XMLDocument getUnit( int unitKey );
 
     public String getUnitName( int unitKey );
 
@@ -372,7 +372,7 @@ public interface AdminService
     public Map getMenuMap()
         throws Exception;
 
-    public String getUnits();
+    public XMLDocument getUnits();
 
     public long getArchiveSizeByCategory( int categoryKey );
 

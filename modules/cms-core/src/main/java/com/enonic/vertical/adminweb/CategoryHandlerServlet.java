@@ -200,7 +200,7 @@ final public class CategoryHandlerServlet
             final XMLDocument contentTypeXmlDoc = admin.getContentTypes( false );
             Document contentTypeDoc = contentTypeXmlDoc.getAsDOMDocument();
             XMLTool.mergeDocuments( doc, contentTypeDoc, true );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( admin.getUnit( unitKey ) ), false );
+            XMLTool.mergeDocuments( doc, admin.getUnit( unitKey ).getAsDOMDocument(), false );
             addCommonParameters( admin, user, request, formItems, unitKey, -1 );
         }
         else
@@ -1078,7 +1078,7 @@ final public class CategoryHandlerServlet
 
     private void filterUnitsOnContentTypes( AdminService admin, Document categoriesDoc, int contentTypeKey )
     {
-        Document unitsDoc = XMLTool.domparse( admin.getUnits() );
+        Document unitsDoc = admin.getUnits().getAsDOMDocument();
 
         Element[] topCategories = XMLTool.getElements( categoriesDoc.getDocumentElement() );
         for ( int i = 0; i < topCategories.length; i++ )

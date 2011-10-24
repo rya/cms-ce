@@ -576,7 +576,7 @@ public final class AdminEngine
         return unitHandler.getUnitLanguageKey( unitKey );
     }
 
-    public String getUnit( int unitKey )
+    public XMLDocument getUnit( int unitKey )
     {
         return unitHandler.getUnit( unitKey );
     }
@@ -596,7 +596,7 @@ public final class AdminEngine
         return XMLDocumentFactory.create(unitHandler.getUnitNamesXML( filter ));
     }
 
-    public String getUnits()
+    public XMLDocument getUnits()
     {
         return unitHandler.getUnits();
     }

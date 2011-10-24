@@ -55,8 +55,7 @@ public class CommonHandler
         return executeSQL( sql, new Object[]{paramValue} );
     }
 
-
-    public int executeSQL( String sql, Object[] paramValues )
+    private int executeSQL( String sql, Object[] paramValues )
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -185,7 +184,7 @@ public class CommonHandler
         }
     }
 
-    public Date getTimestamp( String sql, int paramValue )
+    private Date getTimestamp( String sql, int paramValue )
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;

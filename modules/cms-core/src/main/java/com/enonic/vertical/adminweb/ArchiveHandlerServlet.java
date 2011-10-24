@@ -186,8 +186,8 @@ public class ArchiveHandlerServlet
             categoryElem.setAttribute( "contentcount", String.valueOf( categoryCount ) );
 
             int unitKey = formItems.getInt( "key" );
-            String unitXML = admin.getUnit( unitKey );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( unitXML ), false );
+            Document unitXML = admin.getUnit( unitKey ).getAsDOMDocument();
+            XMLTool.mergeDocuments( doc, unitXML, false );
         }
 
         Document xmlLanguages = admin.getLanguages().getAsDOMDocument();
