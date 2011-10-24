@@ -65,8 +65,8 @@ public class ContentsInSectionOrderer
 
         for ( int i = 0; i < approvedSectionContentsInWantedOrder.size(); i++ )
         {
-            final SectionContentEntity currSC = approvedSectionContentsInWantedOrder.get( i );
             final SectionContentEntity prevSC = i > 0 ? approvedSectionContentsInWantedOrder.get( i - 1 ) : null;
+            final SectionContentEntity currSC = approvedSectionContentsInWantedOrder.get( i );
             final SectionContentEntity nextSC =
                 i < approvedSectionContentsInWantedOrder.size() - 1 ? approvedSectionContentsInWantedOrder.get( i + 1 ) : null;
             final SectionContentEntity nextNextSC =
@@ -91,7 +91,7 @@ public class ContentsInSectionOrderer
                     order = resolveNewOrderBetween( prevSC, nextSC );
                     int spaceBetweenPreviousOrderAndThisOrder = measureSpace( prevSC.getOrder(), order );
 
-                    if ( nextNextSC != null )
+                    if ( nextNextSC != null && currSC.getOrder() > prevSC.getOrder() )
                     {
                         int nextNewOrder = resolveNewOrderBetween( currSC, nextNextSC );
                         int spaceBetweenThisOrderAndNextNextOrder = measureSpace( currSC.getOrder(), nextNewOrder );

@@ -9,7 +9,8 @@
 
   <xsl:output method="html"/>
 
-  <xsl:key name="page-templates-by-content-type" match="/*/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key" />
+   <!-- map of allowed content-types in page-templates in sites by content-type-key -->
+  <xsl:key name="key-page-template-content-type" match="/*/pagetemplates-in-sites/pagetemplates-in-site/pagetemplate/contenttypes/contenttype" use="@key"/>
 
   <xsl:template name="contentformbuttons">
     <xsl:param name="formname" select="'formAdmin'"/>
@@ -448,13 +449,25 @@
           </xsl:if>
 
           <xsl:if test="$enablepreview">
-            <xsl:variable name="has-page-template" select="key('page-templates-by-content-type', $contenttypekey)"/>
+            <xsl:variable name="has-page-template" select="key('key-page-template-content-type', $contenttypekey)"/>
+            <xsl:variable name="tooltip">
+              <xsl:choose>
+                <xsl:when test="not($has-page-template)">
+                  <xsl:value-of select="'%altContentPreviewNotSupportedByAnySite%'"/>
+                </xsl:when>
+                <xsl:otherwise>
+                  <xsl:value-of select="'%altContentPreview%'"/>
+                </xsl:otherwise>
+              </xsl:choose>
+            </xsl:variable>
+
             <xsl:call-template name="button">
               <xsl:with-param name="type" select="'button'"/>
               <xsl:with-param name="caption" select="'%cmdPreview%'"/>
               <xsl:with-param name="id" select="'previewbtn'"/>
               <xsl:with-param name="name" select="'previewbtn'"/>
               <xsl:with-param name="disabled" select="$create = 1 or not($has-page-template)"/>
+              <xsl:with-param name="tooltip" select="$tooltip"/>
               <xsl:with-param name="onclick">
                 <xsl:if test="$subfunctions != ''">
                   <xsl:value-of select="$subfunctions"/>

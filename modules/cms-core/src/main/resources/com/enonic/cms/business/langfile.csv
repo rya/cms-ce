@@ -83,11 +83,11 @@
 %mnuFrameworks%|Sidemaler|Page templates|Sideskabelon|Sidmallar
 %mnuSystem%|System|System|System|System
 %mnuJavaProperties%|Java egenskaper|Java properties|Java egenskaber|Java-egenskaper
-%mnuProperties%|Egenskaper|Properties   |Egenskaber|Egenskaper
+%mnuProperties%|Egenskaper|Properties|Egenskaber|Egenskaper
 %mnuSystemCaches%|Mellomlagre|Caches|Cache|Cache
-%mnuPluginInfo%|Plugin-info|Plugin info|-|-
-%mnuLivePortalTrace%|Sanntids portal sporing|Live portal trace|-|-
-%mnuConnectionInfo%|Tilkoblings-informasjon|Connection info|-|-
+%mnuPluginInfo%|Plugin-info|Plugin info|Plugin-info|Plugin-info
+%mnuLivePortalTrace%|Sanntids portal sporing|Live portal trace|Live-portal sporing|Live portal spårning
+%mnuConnectionInfo%|Tilkoblings-informasjon|Connection info|Tilslutning info|anslutning info
 %blockSections%|Seksjoner|Sections|Sektioner|Sektioner
 %headSections%|Seksjoner|Sections|Sektioner|Sektioner
 %msgModifedSectionStructure%|Du har modifisert strukturen i seksjonen. Endringene vil ikke bli lagret før du trykker 'Lagre'.|You have modified the section structure. Your changes will not be active until you press 'Save'.|Du har ændret strukturen i sektionen. Ændringerne bliver ikke gemt før du trykker 'Gem'.|Du har modifierat strukturen i sektionen. Ändringarna lagras inte förrän du trycker på ”Spara”.
@@ -113,7 +113,8 @@
 %altContentMoveDown%|Flytt ned|Move down|Flyt ned|Flytta ned
 %altCannotRemoveSection%|Kan ikke slette seksjonen fordi den ikke er tom|Cannot delete the section because it is not empty|Kan ikke slette sektionen fordi den ikke er tom|Kan inte radera sektionen eftersom den inte är tom
 %altContentPreview%|Forhåndsvis|Preview|Forhåndsvis|Förhandsgranska
-%altContentPreviewNotAvailable%|MISSING|Preview is not available|MISSING|MISSING
+%altContentPreviewNotSupportedByAnySite%|Forhåndsvisning av denne typen innhold er ikke støttet av noe nettsted|Preview of this type of content is not supported by any site|Forhåndsvisning af et sådant indhold er ikke understøttet af nogen site|Förhandsgranskning av sådant innehåll stöds inte av någon webbplats
+%altContentPreviewNotSupportedByThisSite%|Forhåndsvisning av denne typen innhold er ikke støttet av dette nettstedet|Preview of this type of content by this site is not supported|Forhåndsvisning af et sådant indhold er ikke understøttet af denne site|Förhandsgranskning av sådant innehåll stöds inte av denna webbplats
 %mnuGroups%|Grupper|Groups|Grupper|Grupper
 %blockPosition%|Posisjon|Position|Position|Position
 %blockRegion%|Region|Region|Region|Region
@@ -483,7 +484,7 @@
 %fldDefaultLanguage%|Standardspråk|Default language|Standardsprog|Standardspråk
 %defaultLanguage%|Standardspråk|Default language|Standardsprog|Standardspråk
 %headPleaseWait%|Vennligst vent...|Please wait...|Vent...|V.g. vänta…
-%cmdNewSite%|Ny site|New site|Nyt site|Ny site
+%cmdNewSite%|Ny site|New site|Nyt site|Ny webbplats
 %yes%|Ja|Yes|Ja|Ja
 %no%|Nei|No|Nej|Nej
 %headGlobalContentTypes%|Innholdstyper|Content types|Indholdstyper|Innehållstyper
@@ -959,7 +960,7 @@
 %btnRemove%|Fjern|Remove|Fjern|Ta bort
 %btnOpenInIce%|Åpne i ICE|Open in ICE|Åbn i ICE|Öppna i ICE
 %btnOpenInIceTooltip%|Åpne i In Context Editing|Open in In Context Editing|Åbn i In Context Editing|Öppna i In Context Editing
-%btnReindexAll%|Reindekser alt innhold|Reindex all content| |
+%btnReindexAll%|Reindekser alt innhold|Reindex all content|Indekser alle indhold|Indexera allt innehåll
 %blockUploadZip%|Last opp zip|Upload zip|Upload zip|Packa upp zip-fil
 %blockZipFile%|Zipfil|Zip file|Zip-fil|Zip-fil
 %blockImages%|Bilder|Images|Billeder|Bilder
@@ -1113,9 +1114,9 @@
 %lblContentRepositorySize%|Estimert størrelse|Estimated size|Estimeret størrelse|Uppskattad storlek
 %version%|Versjon|Version|Version|Version
 %componentVersions%|Komponent Versjoner|Component Versions|Komponent versioner|Komponentversioner
-%systemProperties%|System Egenskaper|System Properties|System egenskaber|System-egenskaper
-%datasourceProperties%|Datakilde Egenskaper|Datasource Properties| |
-%configurationProperties%|Konfigurasjon egenskaper|Configuration properties| |
+%systemProperties%|System Egenskaper|System Properties|System egenskaber|System-fastigheter
+%datasourceProperties%|Datakilde Egenskaper|Datasource Properties|Datakilde Egenskaber|Datakälla Fastigheter
+%configurationProperties%|Konfigurasjon egenskaper|Configuration properties|Konfiguration egenskaber|Konfiguration fastigheter
 %value%|Verdi|Value|Værdi|Värde
 %lblAny%|--Hvilken som helst--|--Any--|--Hvilken som helst--|--Vilken som helst--
 %enabled%|Slått på|Enabled|Aktiveret|Aktiverad

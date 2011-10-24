@@ -11,7 +11,7 @@ public class PageTemplateSpecification
 {
     private PageTemplateType type;
 
-    private PageTemplateKey pageTemplateKey;
+    private PageTemplateKey key;
 
     public PageTemplateType getType()
     {
@@ -23,13 +23,31 @@ public class PageTemplateSpecification
         this.type = type;
     }
 
-    public PageTemplateKey getPageTemplateKey()
+    public PageTemplateKey getKey()
     {
-        return pageTemplateKey;
+        return key;
     }
 
-    public void setPageTemplateKey( PageTemplateKey pageTemplateKey )
+    public void setKey( PageTemplateKey pageTemplateKey )
     {
-        this.pageTemplateKey = pageTemplateKey;
+        this.key = pageTemplateKey;
+    }
+
+    public boolean satisfies( PageTemplateEntity pageTemplate )
+    {
+        if ( type != null && !type.equals( pageTemplate.getType() ) )
+        {
+            return false;
+        }
+
+        if ( key != null )
+        {
+            if ( !key.equals( pageTemplate.getPageTemplateKey() ) )
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

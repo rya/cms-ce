@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.springframework.stereotype.Repository;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
@@ -18,8 +19,6 @@ import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.core.structure.page.PageSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
-
-import org.springframework.stereotype.Repository;
 
 @Repository("menuItemDao")
 public final class MenuItemEntityDao
@@ -122,9 +121,9 @@ public final class MenuItemEntityDao
                     hqlQuery.addFilter( "AND", "mei.page.template.type = " + pageTemplateSpec.getType().getKey() );
                 }
 
-                if ( pageTemplateSpec.getPageTemplateKey() != null )
+                if ( pageTemplateSpec.getKey() != null )
                 {
-                    hqlQuery.addFilter( "AND", "mei.page.template.key = " + pageTemplateSpec.getPageTemplateKey().toInt() );
+                    hqlQuery.addFilter( "AND", "mei.page.template.key = " + pageTemplateSpec.getKey().toInt() );
                 }
             }
         }

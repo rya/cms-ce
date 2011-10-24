@@ -30,23 +30,21 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.framework.xml.XMLException;
 
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.business.portal.cache.PageCacheService;
-
-import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.structure.RunAsType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.core.structure.page.PageSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
+
+import com.enonic.cms.business.portal.cache.PageCacheService;
 
 public class PageTemplateHandlerServlet
     extends AdminHandlerBaseServlet
@@ -104,18 +102,14 @@ public class PageTemplateHandlerServlet
                 if ( createPageTemplate )
                 {
                     createTemplateParamXML( createPageTemplate, doc, templateParams, "", null,
-                                            formItems.getString( "multiple1", null ) != null &&
-                                                formItems.getString( "multiple1", "" ).length() > 0
-                                                ? formItems.getString( "multiple1" )
+                                            formItems.getString( "multiple1", null ) != null && formItems.getString( "multiple1", "" ).length() > 0 ? formItems.getString( "multiple1" )
                                                 : "0", "0", formItems.getString( "paramname", "" ),
                                             formItems.getString( "separator", "" ) );
                 }
                 else
                 {
                     createTemplateParamXML( createPageTemplate, doc, templateParams, formItems.getString( "paramkey", "" ), key,
-                                            formItems.getString( "multiple1", null ) != null &&
-                                                ( formItems.getString( "multiple1" ) ).length() > 0
-                                                ? formItems.getString( "multiple1" )
+                                            formItems.getString( "multiple1", null ) != null && ( formItems.getString( "multiple1" ) ).length() > 0 ? formItems.getString( "multiple1" )
                                                 : "0", "0", formItems.getString( "paramname" ), formItems.getString( "separator", "" ) );
                 }
             }
@@ -362,12 +356,12 @@ public class PageTemplateHandlerServlet
         catch ( TransformerException te )
         {
             String message = "XSLT error: %t";
-            VerticalAdminLogger.errorAdmin(message, te );
+            VerticalAdminLogger.errorAdmin( message, te );
         }
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin(message, ioe );
+            VerticalAdminLogger.errorAdmin( message, ioe );
         }
     }
 
@@ -748,11 +742,11 @@ public class PageTemplateHandlerServlet
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
         }
     }
 
@@ -825,13 +819,12 @@ public class PageTemplateHandlerServlet
         PageSpecification pageSpecification = new PageSpecification();
 
         PageTemplateSpecification pageTemplateSpecification = new PageTemplateSpecification();
-        pageTemplateSpecification.setPageTemplateKey( new PageTemplateKey( pageTemplateKey ) );
+        pageTemplateSpecification.setKey( new PageTemplateKey( pageTemplateKey ) );
         pageSpecification.setTemplateSpecification( pageTemplateSpecification );
 
         menuItemSpec.setPageSpecification( pageSpecification );
 
-        List<MenuItemEntity> menuItemsUsingPageTemplate = menuItemDao.findBySpecification( menuItemSpec );
-        return menuItemsUsingPageTemplate;
+        return menuItemDao.findBySpecification( menuItemSpec );
     }
 
     private void createTemplateParamXML( boolean create, Document doc, Element templateParams, String key, String pageTemplateKey,

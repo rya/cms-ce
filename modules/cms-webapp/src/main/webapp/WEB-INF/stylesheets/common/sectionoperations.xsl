@@ -34,8 +34,8 @@
 
         <xsl:variable name="tooltip">
           <xsl:choose>
-            <xsl:when test="not($menuitemkey) and $previewnotavailable">
-              <xsl:value-of select="'%altContentPreviewNotAvailable%'"/>
+            <xsl:when test="$previewnotavailable and $menuitemkey">
+              <xsl:value-of select="'%altContentPreviewNotSupportedByThisSite%'"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:value-of select="'%altContentPreview%'"/>
@@ -200,8 +200,6 @@
               <xsl:text>&amp;op=form&amp;key=</xsl:text><xsl:value-of select="$key"/>
               <xsl:text>&amp;cat=</xsl:text>
               <xsl:value-of select="$cat"/>
-              <xsl:text>&amp;menukey=</xsl:text>
-              <xsl:value-of select="$menukey"/>
               <xsl:text>&amp;selectedunitkey=</xsl:text>
               <xsl:value-of select="$unitkey"/>
               <xsl:text>&amp;logread=true</xsl:text>

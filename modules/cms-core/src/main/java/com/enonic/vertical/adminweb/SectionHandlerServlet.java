@@ -184,7 +184,7 @@ public class SectionHandlerServlet
             else
             {
                 String message = "Unknown test condition: {0}";
-                WizardLogger.errorWizard(message, testCondition, null );
+                WizardLogger.errorWizard( message, testCondition, null );
                 result = false;
             }
 
@@ -227,7 +227,7 @@ public class SectionHandlerServlet
             catch ( ParseException pe )
             {
                 String message = "Failed to parse a date: %t";
-                WizardLogger.errorWizard(message, pe );
+                WizardLogger.errorWizard( message, pe );
             }
         }
 
@@ -964,7 +964,7 @@ public class SectionHandlerServlet
             catch ( ParseException pe )
             {
                 String message = "Failed to parse a date: %t";
-                WizardLogger.errorWizard(message, pe );
+                WizardLogger.errorWizard( message, pe );
             }
         }
 
@@ -1059,7 +1059,7 @@ public class SectionHandlerServlet
                 {
                     if ( originalStatus != 2 )
                     {
-                        WizardLogger.errorWizard("Unknown status: {0}", String.valueOf( status ), null );
+                        WizardLogger.errorWizard( "Unknown status: {0}", String.valueOf( status ), null );
                     }
                     break;
                 }
@@ -1741,7 +1741,8 @@ public class SectionHandlerServlet
         else
         {
             doc = getSectionDocument( admin, user, index, count, sectionKey, menuKey, menuItemKey );
-            addPageTemplatesOfSiteToDocument( menuKey, PageTemplateType.CONTENT, doc );
+            Document supportedPageTemplatesOfSite = getSupportedPageTemplatesOfSite( menuKey, PageTemplateType.CONTENT );
+            XMLTool.mergeDocuments( doc, supportedPageTemplatesOfSite, true );
             session.setAttribute( "sectionxml", XMLTool.documentToString( doc ) );
         }
 
@@ -1765,12 +1766,12 @@ public class SectionHandlerServlet
         catch ( IOException ioe )
         {
             String message = "Failed to get response writer: %t";
-            VerticalAdminLogger.errorAdmin(message, ioe );
+            VerticalAdminLogger.errorAdmin( message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin(message, te );
+            VerticalAdminLogger.errorAdmin( message, te );
         }
     }
 
