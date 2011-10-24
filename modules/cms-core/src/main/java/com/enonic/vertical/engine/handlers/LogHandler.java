@@ -7,6 +7,7 @@ package com.enonic.vertical.engine.handlers;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.enonic.vertical.engine.dbmodel.LogEntryTable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -213,7 +214,7 @@ public final class LogHandler
     }
 
 
-    public Document getLogEntries( User user, MultiValueMap adminParams, int fromIdx, int count, boolean complete, boolean includeCount )
+    public Document getLogEntries(User user, MultiValueMap adminParams, int fromIdx, int count, boolean complete)
     {
 
         Column[] selectColumns;
@@ -224,24 +225,24 @@ public final class LogHandler
         else
         {
             selectColumns = new Column[8];
-            selectColumns[0] = db.tLogEntry.len_sKey;
-            selectColumns[1] = db.tLogEntry.len_lTypeKey;
-            selectColumns[2] = db.tLogEntry.len_lTableKey;
-            selectColumns[3] = db.tLogEntry.len_lCount;
-            selectColumns[4] = db.tLogEntry.len_men_lKey;
-            selectColumns[5] = db.tLogEntry.len_usr_hKey;
-            selectColumns[6] = db.tLogEntry.len_sTitle;
-            selectColumns[7] = db.tLogEntry.len_dteTimestamp;
+            selectColumns[0] = LogEntryTable.INSTANCE.len_sKey;
+            selectColumns[1] = LogEntryTable.INSTANCE.len_lTypeKey;
+            selectColumns[2] = LogEntryTable.INSTANCE.len_lTableKey;
+            selectColumns[3] = LogEntryTable.INSTANCE.len_lCount;
+            selectColumns[4] = LogEntryTable.INSTANCE.len_men_lKey;
+            selectColumns[5] = LogEntryTable.INSTANCE.len_usr_hKey;
+            selectColumns[6] = LogEntryTable.INSTANCE.len_sTitle;
+            selectColumns[7] = LogEntryTable.INSTANCE.len_dteTimestamp;
         }
 
         ElementProcessor[] elementProcessors = new ElementProcessor[2];
-        elementProcessors[0] = new UserElementProcessor( baseEngine.getCommonHandler(), db );
-        elementProcessors[1] = new MenuElementProcessor( baseEngine.getCommonHandler(), db );
+        elementProcessors[0] = new UserElementProcessor( baseEngine.getCommonHandler() );
+        elementProcessors[1] = new MenuElementProcessor( baseEngine.getCommonHandler() );
 
         CommonHandler commonHandler = getCommonHandler();
         Document doc =
-            commonHandler.getData( user, Types.LOGENTRY, selectColumns, adminParams, null, elementProcessors, fromIdx, count, "@timestamp",
-                                   true, false, includeCount, null );
+            commonHandler.getData(Types.LOGENTRY, selectColumns, adminParams, elementProcessors, fromIdx, count, "@timestamp",
+                                   true);
 
         if ( adminParams.containsKey( "@tablekeyvalue" ) )
         {
@@ -267,8 +268,8 @@ public final class LogHandler
     public Document getLogEntry( String key )
     {
         ElementProcessor[] elementProcessors = new ElementProcessor[2];
-        elementProcessors[0] = new UserElementProcessor( baseEngine.getCommonHandler(), db );
-        elementProcessors[1] = new MenuElementProcessor( baseEngine.getCommonHandler(), db );
+        elementProcessors[0] = new UserElementProcessor( baseEngine.getCommonHandler() );
+        elementProcessors[1] = new MenuElementProcessor( baseEngine.getCommonHandler() );
         CommonHandler commonHandler = getCommonHandler();
         return commonHandler.getSingleData( Types.LOGENTRY, key, elementProcessors );
     }

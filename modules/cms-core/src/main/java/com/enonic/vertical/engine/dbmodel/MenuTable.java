@@ -12,7 +12,7 @@ import com.enonic.esl.sql.model.Table;
 public final class MenuTable
     extends Table
 {
-    private static final MenuTable Menu = new MenuTable( "tMenu", "menu", "menus" );
+    public static final MenuTable INSTANCE = new MenuTable( "tMenu", "menu", "menus" );
 
     public Column men_lKey = new Column( "men_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
 
@@ -57,10 +57,4 @@ public final class MenuTable
         addColumn( men_sStatisticsURL );
         addColumn( men_usr_hRunAs );
     }
-
-    public static MenuTable getInstance()
-    {
-        return Menu;
-    }
-
 }

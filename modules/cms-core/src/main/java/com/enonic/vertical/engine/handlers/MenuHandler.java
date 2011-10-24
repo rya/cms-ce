@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,11 +93,11 @@ public final class MenuHandler
 
     private final static int AC_ADMIN = 0x80;
 
-    private VerticalEventMulticaster multicaster = new VerticalEventMulticaster();
+    private final VerticalEventMulticaster multicaster = new VerticalEventMulticaster();
 
-    public static final String ELEMENT_NAME_MENU_NAME = "menu-name";
+    private static final String ELEMENT_NAME_MENU_NAME = "menu-name";
 
-    public static final String ELEMENT_NAME_DISPLAY_NAME = "displayname";
+    private static final String ELEMENT_NAME_DISPLAY_NAME = "displayname";
 
     private static final String COLUMN_NAME_DISPLAY_NAME = "mei_sDisplayName";
 
@@ -109,11 +108,6 @@ public final class MenuHandler
     public synchronized void addListener( MenuHandlerListener mhl )
     {
         multicaster.add( mhl );
-    }
-
-    public Document getMenuItem( User user, int key, boolean withParents, boolean complete, boolean includePageConfig )
-    {
-        return getMenuItem( user, key, withParents, complete, includePageConfig, false );
     }
 
     final static private String MENU_TABLE = "tMenu";
@@ -202,16 +196,9 @@ public final class MenuHandler
             " mei_usr_hModifier, mei_xmlData, mei_sKeywords, mei_lan_lKey, mei_bSection, mei_lRunAs, " + COLUMN_NAME_DISPLAY_NAME + ") " +
             " VALUES (?, ?, ?, ?, ?, ?, " + "@currentTimestamp@" + ", ?, ?, ?, ?, ?, " + "?" + ", ?, ?, 0, ?, ?)";
 
-    final static private String MENU_ITEM_SELECT =
-        "SELECT " + MENU_ITEM_COLS + " FROM " + MENU_ITEM_TABLE + " LEFT JOIN tMenu ON tMenu.men_lKey = " + MENU_ITEM_TABLE +
-            ".mei_men_lKey " + " LEFT JOIN tLanguage ON " + MENU_ITEM_TABLE + ".mei_lan_lKey = tLanguage.lan_lKey";
-
     final static private String MENU_ITEM_SELECT_BY_KEY =
         "SELECT " + MENU_ITEM_COLS + " FROM " + MENU_ITEM_TABLE + " LEFT JOIN tMenu ON tMenu.men_lKey = " + MENU_ITEM_TABLE +
             ".mei_men_lKey " + " LEFT JOIN tLanguage ON " + MENU_ITEM_TABLE + ".mei_lan_lKey = tLanguage.lan_lKey" + " WHERE mei_lKey = ?";
-
-//	final static private String MENU_ITEM_SELECT_NAME_BY_KEY =
-//		"SELECT mei_sName FROM " + MENU_ITEM_TABLE + " WHERE mei_lKey = ?";
 
     final static private String REMOVE_ALL_SHORTCUT_REFERENCES_IN_MENU =
         "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = NULL WHERE mei_men_lKey = ?";
@@ -232,7 +219,7 @@ public final class MenuHandler
     final static private String MENU_ITEM_PAGE_UPDATE_KEY =
         "UPDATE " + MENU_ITEM_TABLE + " SET mei_pag_lKey = ?, mei_mid_lKey = ? WHERE mei_lKey = ?";
 
-    final static String MENU_ITEM_SELECT_CHILDREN = "SELECT mei_lKey FROM " + MENU_ITEM_TABLE + " WHERE mei_lParent = ?";
+    private final static String MENU_ITEM_SELECT_CHILDREN = "SELECT mei_lKey FROM " + MENU_ITEM_TABLE + " WHERE mei_lParent = ?";
 
     final static private String MENU_GET_KEY_BY_MENU_ITEM = "SELECT mei_men_lKey FROM " + MENU_ITEM_TABLE + " WHERE mei_lKey = ?";
 
@@ -670,13 +657,13 @@ public final class MenuHandler
         }
     }
 
-    protected void buildSectionTypeXML( int menuItemKey, Element menuItemElement )
+    private void buildSectionTypeXML( int menuItemKey, Element menuItemElement )
     {
         Document sectionDoc = getSectionHandler().getSectionByMenuItem( menuItemKey );
         XMLTool.mergeDocuments( menuItemElement, sectionDoc, true );
     }
 
-    protected void buildShortcutTypeXML( int menuItemKey, Element menuItemElement )
+    private void buildShortcutTypeXML( int menuItemKey, Element menuItemElement )
     {
         StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lKey );
         Object[] columnValues = getCommonHandler().getObjects( sql.toString(), menuItemKey );
@@ -701,7 +688,7 @@ public final class MenuHandler
         }
     }
 
-    protected void buildURLTypeXML( ResultSet result, Document doc, Element menuItemElement )
+    private void buildURLTypeXML( ResultSet result, Document doc, Element menuItemElement )
     {
 
         try
@@ -1029,7 +1016,7 @@ public final class MenuHandler
         return createMenuItem( user, null, menuItemElement, siteKey, order, parentKey, false );
     }
 
-    public int getNextOrder( int menuKey, int parentKey )
+    private int getNextOrder( int menuKey, int parentKey )
     {
         StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lOrder, false, db.tMenuItem.mei_men_lKey );
         if ( parentKey != -1 )
@@ -1402,7 +1389,7 @@ public final class MenuHandler
         return tmp;
     }
 
-    public void createOrUpdateURL( Connection con, Element elem, MenuItemKey menuItemKey )
+    private void createOrUpdateURL( Connection con, Element elem, MenuItemKey menuItemKey )
         throws VerticalCreateException
     {
 
@@ -1446,7 +1433,7 @@ public final class MenuHandler
         }
     }
 
-    public void updateSection( Element menuItemElem, int sectionKey )
+    private void updateSection( Element menuItemElem, int sectionKey )
         throws VerticalCreateException, VerticalSecurityException
     {
         Element sectionElem = XMLTool.getElement( menuItemElem, "section" );
@@ -1557,7 +1544,7 @@ public final class MenuHandler
     }
 
 
-    public void createPage( Connection con, Element elem, int type, MenuItemKey menuItemKey )
+    private void createPage( Connection con, Element elem, int type, MenuItemKey menuItemKey )
         throws VerticalCreateException
     {
 
@@ -1587,34 +1574,7 @@ public final class MenuHandler
         }
     }
 
-    public int getErrorPage( int key )
-    {
-        SiteEntity entity = siteDao.findByKey( key );
-        if ( ( entity == null ) || ( entity.getErrorPage() == null ) )
-        {
-            return -1;
-        }
-        else
-        {
-            return entity.getErrorPage().getKey();
-        }
-    }
-
-    public int getLoginPage( int key )
-    {
-        SiteEntity entity = siteDao.findByKey( key );
-        if ( ( entity == null ) || ( entity.getLoginPage() == null ) )
-        {
-            return -1;
-        }
-        else
-        {
-            return entity.getLoginPage().getKey();
-        }
-    }
-
-    private Document getMenu( User user, int menuKey, int levels, int tagItem, boolean complete, boolean includePageConfig,
-                              boolean includeHidden )
+    private Document getMenu(User user, int menuKey, int levels, int tagItem, boolean complete, boolean includePageConfig)
     {
 
         Document doc = XMLTool.createDocument( "menus" );
@@ -1647,7 +1607,7 @@ public final class MenuHandler
             }
 
             // Build menu items
-            buildMenuItemsXML( user, result, doc, menuItemsElement, levels, tagItem, complete, includePageConfig, includeHidden, true,
+            buildMenuItemsXML( user, result, doc, menuItemsElement, levels, tagItem, complete, includePageConfig, true, true,
                                true );
         }
         catch ( SQLException sqle )
@@ -1667,10 +1627,10 @@ public final class MenuHandler
 
     public Document getMenu( User user, int menuKey, boolean complete, boolean includePageConfig )
     {
-        return getMenu( user, menuKey, -1, -1, complete, includePageConfig, true );
+        return getMenu( user, menuKey, -1, -1, complete, includePageConfig);
     }
 
-    public String getMenuName( int menuKey )
+    private String getMenuName( int menuKey )
     {
 
         Connection con = null;
@@ -1868,10 +1828,8 @@ public final class MenuHandler
         return menuKey;
     }
 
-    protected Document getMenuItem( User user, int key, boolean withParents, boolean complete, boolean includePageConfig,
-                                    boolean withChildren )
+    public Document getMenuItem( User user, int key, boolean withParents, boolean complete, boolean includePageConfig )
     {
-
         Document doc;
         Element rootElement;
         doc = XMLTool.createDocument( "menuitems" );
@@ -1888,55 +1846,48 @@ public final class MenuHandler
             preparedStmt.setInt( 1, key );
             resultSet = preparedStmt.executeQuery();
 
-            if ( !withChildren )
+            if ( resultSet.next() )
             {
-                if ( resultSet.next() )
-                {
-                    buildMenuItemXML( doc, rootElement, resultSet, -1, complete, includePageConfig, true, true, true, -1 );
-                }
+                buildMenuItemXML( doc, rootElement, resultSet, -1, complete, includePageConfig, true, true, true, -1 );
+            }
 
-                // include parents?
-                if ( withParents )
+            // include parents?
+            if ( withParents )
+            {
+                // yep. call getMenuItemDOM recursivly.
+                Element menuItemElement = (Element) doc.getDocumentElement().getFirstChild();
+                if ( menuItemElement.hasAttribute( "parent" ) )
                 {
-                    // yep. call getMenuItemDOM recursivly.
-                    Element menuItemElement = (Element) doc.getDocumentElement().getFirstChild();
-                    if ( menuItemElement.hasAttribute( "parent" ) )
+                    int parentKey = Integer.valueOf( menuItemElement.getAttribute( "parent" ) );
+                    while ( parentKey >= 0 )
                     {
-                        int parentKey = Integer.valueOf( menuItemElement.getAttribute( "parent" ) );
-                        while ( parentKey >= 0 )
+                        // get the parent:
+                        doc = getMenuItem( user, parentKey, false, false, false );
+
+                        // move the child inside the parent:
+                        rootElement = doc.getDocumentElement();
+                        Element parentElement = (Element) rootElement.getFirstChild();
+                        if ( parentElement != null )
                         {
-                            // get the parent:
-                            doc = getMenuItem( user, parentKey, false, false, false );
+                            Element menuItemsElement = XMLTool.createElement( doc, parentElement, "menuitems" );
+                            menuItemsElement.appendChild( doc.importNode( menuItemElement, true ) );
+                            menuItemElement = parentElement;
 
-                            // move the child inside the parent:
-                            rootElement = doc.getDocumentElement();
-                            Element parentElement = (Element) rootElement.getFirstChild();
-                            if ( parentElement != null )
+                            if ( menuItemElement.hasAttribute( "parent" ) )
                             {
-                                Element menuItemsElement = XMLTool.createElement( doc, parentElement, "menuitems" );
-                                menuItemsElement.appendChild( doc.importNode( menuItemElement, true ) );
-                                menuItemElement = parentElement;
-
-                                if ( menuItemElement.hasAttribute( "parent" ) )
-                                {
-                                    parentKey = Integer.valueOf( menuItemElement.getAttribute( "parent" ) );
-                                }
-                                else
-                                {
-                                    parentKey = -1;
-                                }
+                                parentKey = Integer.valueOf( menuItemElement.getAttribute( "parent" ) );
                             }
                             else
                             {
                                 parentKey = -1;
                             }
                         }
+                        else
+                        {
+                            parentKey = -1;
+                        }
                     }
                 }
-            }
-            else
-            {
-                buildMenuItemsXML( user, resultSet, doc, rootElement, -1, -1, complete, includePageConfig, true, true, true );
             }
         }
         catch ( SQLException sqle )
@@ -1954,9 +1905,7 @@ public final class MenuHandler
 
     }
 
-    protected Document getMenuItem( User user, int key, int tagItem, boolean withParents, boolean complete, boolean includePageConfig,
-                                    boolean withChildren, boolean includeHidden, boolean includeTypeSpecificXML, boolean tagItems,
-                                    int levels )
+    private Document getMenuItem(User user, int key, int tagItem)
     {
 
         Document doc = XMLTool.createDocument( "menuitems" );
@@ -1975,41 +1924,10 @@ public final class MenuHandler
             preparedStmt.setInt( 1, key );
             resultSet = preparedStmt.executeQuery();
 
-            if ( !withChildren )
+            if ( resultSet.next() )
             {
-                if ( resultSet.next() )
-                {
-                    buildMenuItemXML( doc, rootElement, resultSet, tagItem, complete, includePageConfig, includeHidden,
-                                      includeTypeSpecificXML, tagItems, levels );
-                }
-
-                // include parents?
-                if ( withParents )
-                {
-                    // yep. call getMenuItemDOM recursivly.
-                    Element menuItemElement = (Element) doc.getDocumentElement().getFirstChild();
-                    String tmp = menuItemElement.getAttribute( "parent" );
-
-                    while ( tmp != null && tmp.length() > 0 )
-                    {
-                        // get the parent:
-                        doc = getMenuItem( user, Integer.parseInt( tmp ), false, false, false );
-
-                        // move the child inside the parent:
-                        rootElement = doc.getDocumentElement();
-                        Element parentElement = (Element) rootElement.getFirstChild();
-                        Element menuItemsElement = XMLTool.createElement( doc, parentElement, "menuitems" );
-                        menuItemsElement.appendChild( doc.importNode( menuItemElement, true ) );
-                        menuItemElement = parentElement;
-
-                        tmp = menuItemElement.getAttribute( "parent" );
-                    }
-                }
-            }
-            else
-            {
-                buildMenuItemsXML( user, resultSet, doc, rootElement, levels, tagItem, complete, includePageConfig, includeHidden,
-                                   includeTypeSpecificXML, tagItems );
+                buildMenuItemXML( doc, rootElement, resultSet, tagItem, false, false, true,
+                                  false, false, 1 );
             }
         }
         catch ( SQLException sqle )
@@ -2027,7 +1945,7 @@ public final class MenuHandler
 
     }
 
-    protected ArrayList<Integer> getMenuItemKeys( int menuKey, int parent )
+    private ArrayList<Integer> getMenuItemKeys( int menuKey, int parent )
     {
         ArrayList<Integer> keys = new ArrayList<Integer>();
 
@@ -2075,7 +1993,7 @@ public final class MenuHandler
     {
         CommonHandler commonHandler = getCommonHandler();
         StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lParent, false, db.tMenuItem.mei_lKey );
-        return commonHandler.getInt( sql.toString(), menuItemKey );
+        return commonHandler.getInt(sql.toString(), menuItemKey);
     }
 
     public String getMenuItemName( int menuItemKey )
@@ -2307,7 +2225,7 @@ public final class MenuHandler
     private boolean isFrontPage( MenuItemEntity menuItem )
     {
         SiteEntity site = menuItem.getSite();
-        return menuItem.equals( site.getFrontPage() );
+        return menuItem.equals(site.getFrontPage());
     }
 
     private List<MenuItemEntity> getShortcuttingMenuItems( MenuItemEntity menuItem )
@@ -2319,7 +2237,7 @@ public final class MenuHandler
         return menuItemDao.findBySpecification( shortcutsToMenuItemsSpec );
     }
 
-    protected void removePageFromMenuItem( Connection con, int key )
+    private void removePageFromMenuItem( Connection con, int key )
         throws SQLException, VerticalRemoveException
     {
 
@@ -2364,7 +2282,7 @@ public final class MenuHandler
         }
     }
 
-    protected void setURLToNull( Connection con, MenuItemKey mikey )
+    private void setURLToNull( Connection con, MenuItemKey mikey )
         throws SQLException
     {
         PreparedStatement preparedStmt = null;
@@ -2689,7 +2607,7 @@ public final class MenuHandler
         UserSpecification userSpec = new UserSpecification();
         userSpec.setDeletedState( UserSpecification.DeletedState.ANY );
         userSpec.setUserGroupKey( new GroupKey( groupKey ) );
-        UserEntity userEntity = userDao.findSingleBySpecification( userSpec );
+        UserEntity userEntity = userDao.findSingleBySpecification(userSpec);
 
         if ( userEntity == null )
         {
@@ -2705,7 +2623,7 @@ public final class MenuHandler
         Element root_elem = doc.getDocumentElement();
 
         // get menu key:
-        String tmp = root_elem.getAttribute( "key" );
+        String tmp = root_elem.getAttribute("key");
         int menuKey = Integer.parseInt( tmp );
 
         Connection con = null;
@@ -2852,7 +2770,7 @@ public final class MenuHandler
 
         Document doc = XMLTool.domparse( xmlData );
         Element rootElement = doc.getDocumentElement();
-        Element menuItemElement = XMLTool.getElement( rootElement, "menuitem" );
+        Element menuItemElement = XMLTool.getElement(rootElement, "menuitem");
 
         SiteKey siteKey = null;
         String tmp = menuItemElement.getAttribute( "menukey" );
@@ -2891,15 +2809,15 @@ public final class MenuHandler
 
         MenuItemKey key = new MenuItemKey( menuitem_elem.getAttribute( "key" ) );
 
-        Element menuItemNameElement = XMLTool.getElement( menuitem_elem, ELEMENT_NAME_MENUITEM_NAME );
+        Element menuItemNameElement = XMLTool.getElement(menuitem_elem, ELEMENT_NAME_MENUITEM_NAME);
 
         String menuItemName = XMLTool.getElementText( menuItemNameElement );
 
         // If no menuItemName given, it should be generated. This is already done in the MenuHandlerServlet, but enshure this for other ways in aswell
         if ( StringUtils.isEmpty( menuItemName ) )
         {
-            menuItemName = generateMenuItemName( menuitem_elem );
-            menuItemNameElement.setTextContent( menuItemName );
+            menuItemName = generateMenuItemName(menuitem_elem);
+            menuItemNameElement.setTextContent(menuItemName);
         }
 
         String uniqueMenuItemName = ensureUniqueMenuItemName( siteKey, parent, menuItemName, key );
@@ -3123,7 +3041,7 @@ public final class MenuHandler
         }
     }
 
-    public void setMenuItemContentKey( MenuItemKey menuItemKey, int contentKey )
+    private void setMenuItemContentKey( MenuItemKey menuItemKey, int contentKey )
     {
         // first delete the contentkey for this menu item
         StringBuffer sql = XDG.generateRemoveSQL( db.tMenuItemContent, db.tMenuItemContent.mic_mei_lKey );
@@ -3137,7 +3055,7 @@ public final class MenuHandler
         }
     }
 
-    public int getMenuItemContentKey( int menuItemKey )
+    private int getMenuItemContentKey( int menuItemKey )
     {
         StringBuffer sql =
             XDG.generateSelectSQL( db.tMenuItemContent, db.tMenuItemContent.mic_con_lKey, false, db.tMenuItemContent.mic_mei_lKey );
@@ -3463,11 +3381,11 @@ public final class MenuHandler
         catch ( VerticalSecurityException e )
         {
             String message = "Failed to shift menuitems: %t";
-            VerticalEngineLogger.error(message, e );
+            VerticalEngineLogger.error(message, e);
         }
     }
 
-    public void updatePage( Connection con, Element elem, int type, MenuItemKey key )
+    private void updatePage( Connection con, Element elem, int type, MenuItemKey key )
         throws VerticalUpdateException
     {
 
@@ -3714,7 +3632,7 @@ public final class MenuHandler
             }
 
             Element elem = XMLTool.getElement( menuitemElem, "menuitems" );
-            prepareCopy( elem, copyContext );
+            prepareCopy(elem, copyContext);
         }
     }
 
@@ -3757,7 +3675,7 @@ public final class MenuHandler
             while ( resultSet.next() )
             {
                 int meiKey = resultSet.getInt( "mei_lKey" );
-                Document menuItemDoc = getMenuItem( user, meiKey, -1, false, false, false, false, true, false, false, 1 );
+                Document menuItemDoc = getMenuItem( user, meiKey, -1);
                 Element tmpElem = (Element) menuItemDoc.getDocumentElement().getFirstChild();
                 if ( tmpElem != null )
                 {  // Fix for nullpointerexception discovered on BergHansen, user did not have access to menuitem
@@ -3812,7 +3730,7 @@ public final class MenuHandler
                 {
                     int meiKey = resultSet.getInt( "mei_lKey" );
 
-                    Document menuItemDoc = getMenuItem( user, meiKey, -1, false, false, false, false, true, false, false, 1 );
+                    Document menuItemDoc = getMenuItem( user, meiKey, -1);
 
                     Element tmpElem = (Element) menuItemDoc.getDocumentElement().getFirstChild();
                     if ( tmpElem != null )
@@ -3933,204 +3851,6 @@ public final class MenuHandler
         return doc;
     }
 
-    private Hashtable<String, Element> appendMenuItemsBySettings( User user, Document doc, Hashtable<String, Element> hashtable_menus )
-    {
-
-        Hashtable<String, Element> hashtable_MenuItems = new Hashtable<String, Element>();
-
-        List<Integer> paramValues = new ArrayList<Integer>( 2 );
-        StringBuffer sqlMenuItems = new StringBuffer( MENU_ITEM_SELECT );
-
-        if ( user != null )
-        {
-            getSecurityHandler().appendMenuItemSQL( user, sqlMenuItems );
-        }
-
-        sqlMenuItems.append( ORDER_BY );
-
-        Connection con = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        Element element_AdminReadMenuItems = doc.getDocumentElement();
-        try
-        {
-            con = getConnection();
-
-            statement = con.prepareStatement( sqlMenuItems.toString() );
-
-            int i = 1;
-            for ( Iterator<Integer> iter = paramValues.iterator(); iter.hasNext(); i++ )
-            {
-                Object paramValue = iter.next();
-                statement.setObject( i, paramValue );
-            }
-
-            try
-            {
-                // Hender ut menuitems
-                resultSet = statement.executeQuery();
-                while ( resultSet.next() )
-                {
-
-                    int curMenuItemKey = resultSet.getInt( "mei_lKey" );
-
-                    Element menuItem =
-                        buildMenuItemXML( doc, element_AdminReadMenuItems, resultSet, -1, false, false, true, true, false, 1 );
-                    Element accessRights = XMLTool.createElement( doc, menuItem, "accessrights" );
-                    getSecurityHandler().appendAccessRightsOnMenuItem( user, curMenuItemKey, accessRights, true );
-
-                    XMLTool.createElement( doc, menuItem, "menuitems" );
-                    // Lagrer referansen til kategori-elementet for raskt oppslag til senere bruk
-                    hashtable_MenuItems.put( String.valueOf( curMenuItemKey ), menuItem );
-                }
-            }
-            finally
-            {
-                close( resultSet );
-                resultSet = null;
-                close( statement );
-                statement = null;
-            }
-
-            // Går igjennom menuitems og bygger opp trestrukturen
-            Element curAdminReadMenuItem = (Element) element_AdminReadMenuItems.getFirstChild();
-            while ( curAdminReadMenuItem != null )
-            {
-
-                String parentKey = curAdminReadMenuItem.getAttribute( "parent" );
-
-                Element nextElement = (Element) curAdminReadMenuItem.getNextSibling();
-
-                // Forelder node finnes ikke fra før
-                if ( "menuitem".equals( curAdminReadMenuItem.getNodeName() ) )
-                {
-                    insertParentMenuItem( user, MENU_ITEM_SELECT_BY_KEY, doc, element_AdminReadMenuItems, hashtable_menus,
-                                          hashtable_MenuItems, curAdminReadMenuItem, parentKey );
-                }
-
-                curAdminReadMenuItem = nextElement;
-            }
-
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get menuitems: %t";
-            VerticalEngineLogger.error(message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( statement );
-            close( con );
-        }
-
-        return hashtable_MenuItems;
-    }
-
-    private void insertParentMenuItem( User user, String sqlSelectByKey, Document doc, Element element_MenuItems,
-                                       Hashtable<String, Element> hash_Menus, Hashtable<String, Element> hash_MenuItems,
-                                       Element childMenuItem, String parentMenuItemKey )
-        throws SQLException
-    {
-
-        // Sjekker om vi har nådd root-nivå
-        if ( parentMenuItemKey.trim().length() == 0 )
-        {
-
-            // Vi må finne menu og legge menuitemen inn i den
-            String menuKey = childMenuItem.getAttribute( "menukey" );
-            Element element_Menu = ( hash_Menus != null ? hash_Menus.get( menuKey ) : null );
-            Element menuitems;
-            if ( element_Menu == null )
-            {
-                element_Menu = getMenuData( doc.getDocumentElement(), Integer.parseInt( menuKey ) );
-                Element accessRights = XMLTool.createElement( doc, element_Menu, "accessrights" );
-                getSecurityHandler().appendAccessRightsOnDefaultMenuItem( user, Integer.parseInt( menuKey ), accessRights, true );
-                menuitems = XMLTool.createElement( doc, element_Menu, "menuitems" );
-                menuitems.setAttribute( "istop", "yes" );
-                if ( hash_Menus != null )
-                {
-                    hash_Menus.put( menuKey, element_Menu );
-                }
-            }
-            else
-            {
-                menuitems = XMLTool.getElement( element_Menu, "menuitems" );
-            }
-
-            XMLTool.moveNode( childMenuItem, element_MenuItems, menuitems );
-
-            return;
-        }
-
-        // Henter referanse til foreldernode (blir null hvis ikke finnes)
-        Element parentMenuItem = ( hash_MenuItems != null ? hash_MenuItems.get( parentMenuItemKey ) : null );
-
-        // Vi har lastet foreldernode fra f�r, bare legge barnet under denne
-        if ( parentMenuItem != null )
-        {
-            Element menuitems = XMLTool.getElement( parentMenuItem, "menuitems" );
-            XMLTool.moveNode( childMenuItem, element_MenuItems, menuitems );
-            return;
-        }
-
-        // Vi har ikke lastet foreldrenode fra f�r, last foreldrenode fra databasen
-        parentMenuItem = buildMenuItem( user, sqlSelectByKey, Integer.parseInt( parentMenuItemKey ), element_MenuItems );
-
-        Element menuItems = XMLTool.createElement( doc, parentMenuItem, "menuitems" );
-        XMLTool.moveNode( childMenuItem, element_MenuItems, menuItems );
-        //
-        // Lagrer referansen til menuitem-elementet for raskt oppslag til senere bruk
-        if ( hash_MenuItems != null )
-        {
-            hash_MenuItems.put( parentMenuItemKey, parentMenuItem );
-        }
-
-        String parent = parentMenuItem.getAttribute( "parent" );
-        insertParentMenuItem( user, sqlSelectByKey, doc, element_MenuItems, hash_Menus, hash_MenuItems, parentMenuItem, parent );
-    }
-
-    /**
-     * Builds and appends the xml for a given menuitem into a given menuitems element.
-     *
-     * @param user           The current user
-     * @param sqlSelectByKey The sql string (that selects the one menuitem)
-     * @param menuItemKey    The key to the menuitem to build
-     * @param menuItems      The element to append the menuitem Element into
-     * @return The menuitem element
-     * @throws SQLException When the menu item cannot be found or a more serious database error happens.
-     */
-    private Element buildMenuItem( User user, String sqlSelectByKey, int menuItemKey, Element menuItems )
-        throws SQLException
-    {
-
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        Connection con = null;
-        try
-        {
-            con = getConnection();
-            statement = con.prepareStatement( sqlSelectByKey );
-            statement.setInt( 1, menuItemKey );
-            resultSet = statement.executeQuery();
-            resultSet.next();
-
-            Document document = menuItems.getOwnerDocument();
-            Element menuItem = buildMenuItemXML( document, menuItems, resultSet, -1, false, false, true, true, true, 1 );
-            Element accessRights = XMLTool.createElement( document, menuItem, "accessrights" );
-            getSecurityHandler().appendAccessRightsOnMenuItem( user, menuItemKey, accessRights, true );
-
-            return menuItem;
-        }
-        finally
-        {
-            close( resultSet );
-            close( statement );
-            close( con );
-        }
-    }
-
     public StringBuffer getPathString( int menuItemKey, boolean includeMenu, boolean includeSpace )
     {
         CommonHandler commonHandler = getCommonHandler();
@@ -4174,32 +3894,19 @@ public final class MenuHandler
         return new ResourceKey( keyStr );
     }
 
-//    public int getMenuItemLevel( int menuItemKey )
-//    {
-//        int level = 0;
-//        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lParent, false, db.tMenuItem.mei_lKey );
-//        int parentKey = getCommonHandler().getInt( sql.toString(), menuItemKey );
-//        while ( parentKey != -1 )
-//        {
-//            level++;
-//            parentKey = getCommonHandler().getInt( sql.toString(), parentKey );
-//        }
-//        return level;
-//    }
-
-    public void setMenuItemOrder( int menuItemKey, int order )
+    private void setMenuItemOrder( int menuItemKey, int order )
     {
         StringBuffer sql = XDG.generateUpdateSQL( db.tMenuItem, db.tMenuItem.mei_lOrder, db.tMenuItem.mei_lKey );
         getCommonHandler().executeSQL( sql.toString(), new int[]{order, menuItemKey} );
     }
 
-    public void setMenuItemType( int menuItemKey, int type )
+    private void setMenuItemType( int menuItemKey, int type )
     {
         StringBuffer sql = XDG.generateUpdateSQL( db.tMenuItem, db.tMenuItem.mei_mid_lkey, db.tMenuItem.mei_lKey );
         getCommonHandler().executeSQL( sql.toString(), new int[]{type, menuItemKey} );
     }
 
-    public void setMenuItemParent( int menuItemKey, int parentKey )
+    private void setMenuItemParent( int menuItemKey, int parentKey )
     {
         Integer parentKeyInt = parentKey;
         if ( parentKey == -1 )
@@ -4831,7 +4538,7 @@ public final class MenuHandler
         return rightsMap;
     }
 
-    public String getMenuItemPath( int menuItemKey )
+    private String getMenuItemPath( int menuItemKey )
     {
         final MenuItemEntity entity = menuItemDao.findByKey( menuItemKey );
         return entity != null ? entity.getPathAsString() : null;
@@ -4851,7 +4558,7 @@ public final class MenuHandler
                                            menuKey} );
     }
 
-    public boolean menuItemNameExists( SiteKey siteKey, MenuItemKey parentKey, String newNameOfMenuItem, MenuItemKey excludeKey )
+    private boolean menuItemNameExists( SiteKey siteKey, MenuItemKey parentKey, String newNameOfMenuItem, MenuItemKey excludeKey )
     {
         if ( parentKey != null )
         {

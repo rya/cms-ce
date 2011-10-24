@@ -235,16 +235,16 @@ public final class ContentHandler
             byte[] mdocBytes = XMLTool.documentToBytes( moduleDoc, "UTF-8" );
 
             preparedStmt.setInt( 1, key );
-            preparedStmt.setString( 2, name );
+            preparedStmt.setString(2, name);
             if ( description != null )
             {
-                preparedStmt.setString( 3, description );
+                preparedStmt.setString(3, description);
             }
             else
             {
                 preparedStmt.setNull( 3, Types.VARCHAR );
             }
-            preparedStmt.setBytes( 4, mdocBytes );
+            preparedStmt.setBytes(4, mdocBytes);
 
             String contentHandlerKeyString = root.getAttribute( "contenthandlerkey" );
             int contentHandlerKey = Integer.parseInt( contentHandlerKeyString );
@@ -288,13 +288,13 @@ public final class ContentHandler
     public Document getContent( User user, int contentKey, boolean publishedOnly, int parentLevel, int childrenLevel,
                                 int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics, ContentFilter contentFilter )
     {
-        return getContents( user, new int[]{contentKey}, publishedOnly, false, parentLevel, childrenLevel, parentChildrenLevel,
+        return getContents( user, new int[]{contentKey}, publishedOnly, parentLevel, childrenLevel, parentChildrenLevel,
                             relatedTitlesOnly, includeStatistics, contentFilter );
     }
 
-    private Document getContents( User user, int[] contentKeys, boolean publishedOnly, boolean titlesOnly, int parentLevel,
-                                  int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics,
-                                  ContentFilter contentFilter )
+    private Document getContents(User user, int[] contentKeys, boolean publishedOnly, int parentLevel,
+                                 int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics,
+                                 ContentFilter contentFilter)
     {
         ContentView contentView = ContentView.getInstance();
         if ( contentKeys == null || contentKeys.length == 0 )
@@ -303,11 +303,7 @@ public final class ContentHandler
         }
 
         Table contentTable;
-        if ( publishedOnly && titlesOnly )
-        {
-            contentTable = ContentPubKeysView.getInstance();
-        }
-        else if ( publishedOnly )
+        if ( publishedOnly )
         {
             contentTable = ContentPublishedView.getInstance();
         }
@@ -317,10 +313,6 @@ public final class ContentHandler
         }
 
         Column[] selectColumns = null;
-        if ( titlesOnly )
-        {
-            selectColumns = getTitlesOnlyColumns();
-        }
 
         StringBuffer sql = XDG.generateSelectSQL( contentTable, selectColumns, false, null );
         XDG.appendWhereInSQL( sql, contentView.con_lKey, contentKeys.length );
@@ -334,9 +326,9 @@ public final class ContentHandler
             sqlString = getSecurityHandler().appendContentSQL( user, categoryKeys, sqlString );
         }
 
-        return getContents( user, null, null, 0, Integer.MAX_VALUE, sqlString, paramValues, false, publishedOnly, titlesOnly, parentLevel,
-                            childrenLevel, parentChildrenLevel, relatedTitlesOnly, true, includeStatistics, true, null, false,
-                            contentFilter );
+        return getContents( user, null, null, sqlString, paramValues, publishedOnly, false, parentLevel,
+                            childrenLevel, parentChildrenLevel, relatedTitlesOnly, includeStatistics, null,
+                contentFilter );
     }
 
     public String getContentTitle( int versionKey )
@@ -466,7 +458,7 @@ public final class ContentHandler
     }
 
 
-    public void updateContentType( User user, Document doc )
+    public void updateContentType(Document doc)
         throws VerticalUpdateException
     {
 
@@ -501,16 +493,16 @@ public final class ContentHandler
             con = getConnection();
             preparedStmt = con.prepareStatement( CTY_UPDATE );
             preparedStmt.setInt( 6, key );
-            preparedStmt.setString( 1, name );
+            preparedStmt.setString(1, name);
             if ( description != null )
             {
-                preparedStmt.setString( 2, description );
+                preparedStmt.setString(2, description);
             }
             else
             {
                 preparedStmt.setNull( 2, Types.VARCHAR );
             }
-            preparedStmt.setBytes( 3, mdocBytes );
+            preparedStmt.setBytes(3, mdocBytes);
 
             String contentHandlerKeyString = root.getAttribute( "contenthandlerkey" );
             int contentHandlerKey = Integer.parseInt( contentHandlerKeyString );
@@ -549,13 +541,14 @@ public final class ContentHandler
     }
 
 
-    public Document getContents( User user, Set<Integer> referencedKeys, Element contentsElem, int fromIdx, int count, String sql,
-                                 List<Integer> paramValues, boolean useOneParamValueEachQuery, boolean publishedOnly, boolean titlesOnly,
+    private Document getContents(User user, Set<Integer> referencedKeys, Element contentsElem, String sql,
+                                 List<Integer> paramValues, boolean publishedOnly, boolean titlesOnly,
                                  int parentLevel, int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
-                                 boolean includeTotalCount, boolean includeStatistics, boolean includeSectionNames,
-                                 ElementProcessor elementProcessor, boolean allowDuplicateContents, ContentFilter contentFilter )
+                                 boolean includeStatistics,
+                                 ElementProcessor elementProcessor, ContentFilter contentFilter)
     {
-
+        final int fromIdx = 0;
+        final int count = Integer.MAX_VALUE;
         Connection con = null;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
@@ -594,23 +587,12 @@ public final class ContentHandler
             int paramIndex = -1;
             if ( paramValues != null )
             {
-                if ( useOneParamValueEachQuery )
+                int i = 1;
+                for ( Iterator<Integer> iter = paramValues.iterator(); iter.hasNext(); i++ )
                 {
-                    if ( paramValues.size() > 0 )
-                    {
-                        preparedStmt.setObject( 1, paramValues.get( 0 ) );
-                        paramIndex = 1;
-                    }
-                }
-                else
-                {
-                    int i = 1;
-                    for ( Iterator<Integer> iter = paramValues.iterator(); iter.hasNext(); i++ )
-                    {
-                        Object paramValue = iter.next();
+                    Object paramValue = iter.next();
 
-                        preparedStmt.setObject( i, paramValue );
-                    }
+                    preparedStmt.setObject( i, paramValue );
                 }
             }
             resultSet = preparedStmt.executeQuery();
@@ -619,27 +601,19 @@ public final class ContentHandler
             TIntArrayList childrenKeys = new TIntArrayList();
             boolean moreResults = resultSet.next();
 
-            int i;
-            if ( !useOneParamValueEachQuery )
+            int i = fromIdx;
+            // Skip rows:
+            try
             {
-                i = fromIdx;
-                // Skip rows:
-                try
+                if ( fromIdx > 0 )
                 {
-                    if ( fromIdx > 0 )
-                    {
-                        resultSet.relative( fromIdx );
-                    }
-                }
-                catch ( SQLException e )
-                {
-                    System.err.println( e.getErrorCode() );
-                    // ResultSet is not scrollable
-                    i = 0;
+                    resultSet.relative( fromIdx );
                 }
             }
-            else
+            catch ( SQLException e )
             {
+                System.err.println( e.getErrorCode() );
+                // ResultSet is not scrollable
                 i = 0;
             }
 
@@ -670,7 +644,7 @@ public final class ContentHandler
                     }
 
                     Integer contentKey = resultSet.getInt( "con_lKey" );
-                    if ( ( !allowDuplicateContents && contentKeys.contains( contentKey ) ) ||
+                    if ( ( contentKeys.contains( contentKey ) ) ||
                         ( contentFilter != null && !contentFilter.filter( baseEngine, resultSet ) ) )
                     {
                         moreResults = resultSet.next();
@@ -758,10 +732,7 @@ public final class ContentHandler
                         e.setAttribute( "key", resultSet.getString( "cat_lKey" ) );
                     }
 
-                    if ( includeSectionNames )
-                    {
-                        sectionHandler.appendSectionNames( contentKey, elem );
-                    }
+                    sectionHandler.appendSectionNames( contentKey, elem );
 
                     // get the content's children and parent keys according to children and parent levels
                     Element relatedcontentkeysElem = XMLTool.createElement( doc, elem, "relatedcontentkeys" );
@@ -798,36 +769,7 @@ public final class ContentHandler
                     i++;
                 }
 
-                // when we're using one param each query, do another query
-                if ( paramValues != null && useOneParamValueEachQuery && paramValues.size() > 0 )
-                {
-                    close( resultSet );
-                    resultSet = null;
-                    if ( paramIndex < paramValues.size() )
-                    {
-                        preparedStmt.setObject( 1, paramValues.get( paramIndex ) );
-                        paramIndex++;
-                        resultSet = preparedStmt.executeQuery();
-                        moreResults = resultSet.next();
-
-                        // advance to the next query/ies if this one's empty
-                        while ( !moreResults && paramIndex < paramValues.size() )
-                        {
-                            preparedStmt.setObject( 1, paramValues.get( paramIndex ) );
-                            paramIndex++;
-                            resultSet = preparedStmt.executeQuery();
-                            moreResults = resultSet.next();
-                        }
-                    }
-                    else
-                    {
-                        moreResults = false;
-                    }
-                }
-                else if ( moreResults )
-                {
-                    moreResults = resultSet.next();
-                }
+                moreResults = resultSet.next();
             }
 
             if ( resultSet != null )
@@ -892,11 +834,11 @@ public final class ContentHandler
                 tempSql = getSecurityHandler().appendContentSQL( user, categoryKeys, tempSql );
 
                 parentChildrenLevel = Math.min( parentChildrenLevel, 3 );
-                getContents( user, contentKeys, relatedcontentsElem, 0, Integer.MAX_VALUE, tempSql, null, false, publishedOnly,
-                             relatedTitlesOnly, parentLevel - 1, parentChildrenLevel, parentChildrenLevel, relatedTitlesOnly, true, false,
+                getContents( user, contentKeys, relatedcontentsElem, tempSql, null, publishedOnly,
+                             relatedTitlesOnly, parentLevel - 1, parentChildrenLevel, parentChildrenLevel, relatedTitlesOnly, false,
                              // includeStatistics
-                             true, // includeSectionNames
-                             elementProcessor, false, null );
+                        // includeSectionNames
+                             elementProcessor, null );
             }
 
             if ( childrenLevel > 0 && childrenKeys.size() > 0 )
@@ -920,13 +862,13 @@ public final class ContentHandler
                 String tempSql = sqlString.toString();
                 tempSql = getSecurityHandler().appendContentSQL( user, categoryKeys, tempSql );
 
-                getContents( user, contentKeys, relatedcontentsElem, 0, Integer.MAX_VALUE, tempSql, null, false, publishedOnly,
-                             relatedTitlesOnly, 0, childrenLevel - 1, 0, relatedTitlesOnly, true, false, // includeStatistics
-                             true, // includeSectionNames
-                             elementProcessor, false, null );
+                getContents( user, contentKeys, relatedcontentsElem, tempSql, null, publishedOnly,
+                             relatedTitlesOnly, 0, childrenLevel - 1, 0, relatedTitlesOnly, false, // includeStatistics
+                        // includeSectionNames
+                             elementProcessor, null );
             }
 
-            if ( contentsElem == null && includeTotalCount )
+            if ( contentsElem == null  )
             {
                 StringBuffer countSql = new StringBuffer( sql );
                 int orderByIndex = sql.indexOf( "ORDER BY" );
@@ -948,35 +890,17 @@ public final class ContentHandler
                     contentFilter.appendWhereClause( baseEngine, countSql );
                 }
                 preparedStmt = con.prepareStatement( countSql.toString() );
-                if ( paramValues != null && useOneParamValueEachQuery )
+                if ( paramValues != null )
                 {
-                    int totalCount = 0;
                     for ( i = 0; i < paramValues.size(); i++ )
                     {
-                        preparedStmt.setObject( 1, paramValues.get( i ) );
-                        resultSet = preparedStmt.executeQuery();
-                        if ( resultSet.next() )
-                        {
-                            totalCount += resultSet.getInt( "con_lCount" );
-                        }
-                        resultSet.close();
+                        preparedStmt.setObject( i + 1, paramValues.get( i ) );
                     }
-                    root.setAttribute( "totalcount", String.valueOf( totalCount ) );
                 }
-                else
+                resultSet = preparedStmt.executeQuery();
+                if ( resultSet.next() )
                 {
-                    if ( paramValues != null )
-                    {
-                        for ( i = 0; i < paramValues.size(); i++ )
-                        {
-                            preparedStmt.setObject( i + 1, paramValues.get( i ) );
-                        }
-                    }
-                    resultSet = preparedStmt.executeQuery();
-                    if ( resultSet.next() )
-                    {
-                        root.setAttribute( "totalcount", resultSet.getString( "con_lCount" ) );
-                    }
+                    root.setAttribute( "totalcount", resultSet.getString( "con_lCount" ) );
                 }
             }
         }
@@ -1229,7 +1153,7 @@ public final class ContentHandler
         return getContentKeysByCategory( user, categoryKey, false, false );
     }
 
-    public int[] getContentKeysByCategory( User user, CategoryKey categoryKey, boolean recursive, boolean excludeArchived )
+    private int[] getContentKeysByCategory( User user, CategoryKey categoryKey, boolean recursive, boolean excludeArchived )
     {
         ContentView contentView = ContentView.getInstance();
         StringBuffer sql = XDG.generateSelectSQL( contentView, contentView.con_lKey, false, contentView.cat_lKey );
@@ -1276,10 +1200,10 @@ public final class ContentHandler
     public Document getContentHandler( int contentHandlerKey )
     {
         String sql = HAN_SELECT_ALL + " WHERE han_lKey = " + contentHandlerKey;
-        return getContentHandlers( sql, null );
+        return getContentHandlers( sql);
     }
 
-    public int getContentHandlerKeyByHandlerClass( String handlerClass )
+    private int getContentHandlerKeyByHandlerClass( String handlerClass )
     {
         StringBuffer sql = new StringBuffer( HAN_SELECT_KEY );
         sql.append( " WHERE" );
@@ -1292,10 +1216,10 @@ public final class ContentHandler
     {
         StringBuffer sql = new StringBuffer( HAN_SELECT_ALL );
         sql.append( HAN_ORDER_BY_NAME );
-        return getContentHandlers( sql.toString(), null );
+        return getContentHandlers( sql.toString());
     }
 
-    private Document getContentHandlers( String sql, List<Integer> paramValues )
+    private Document getContentHandlers(String sql)
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -1310,16 +1234,6 @@ public final class ContentHandler
             con = getConnection();
 
             preparedStmt = con.prepareStatement( sql );
-
-            if ( paramValues != null )
-            {
-                int i = 1;
-                for ( Iterator<Integer> iter = paramValues.iterator(); iter.hasNext(); i++ )
-                {
-                    Object element = iter.next();
-                    preparedStmt.setObject( i, element );
-                }
-            }
 
             resultSet = preparedStmt.executeQuery();
 
@@ -1417,17 +1331,17 @@ public final class ContentHandler
             byte[] cdocBytes = XMLTool.documentToBytes( configDoc, "UTF-8" );
 
             preparedStmt.setInt( 1, key );
-            preparedStmt.setString( 2, name );
-            preparedStmt.setString( 3, className );
+            preparedStmt.setString(2, name);
+            preparedStmt.setString(3, className);
             if ( description != null )
             {
-                preparedStmt.setString( 4, description );
+                preparedStmt.setString(4, description);
             }
             else
             {
                 preparedStmt.setNull( 4, Types.VARCHAR );
             }
-            preparedStmt.setBytes( 5, cdocBytes );
+            preparedStmt.setBytes(5, cdocBytes);
 
             // add the content handler
             int result = preparedStmt.executeUpdate();
@@ -1451,7 +1365,7 @@ public final class ContentHandler
         return key;
     }
 
-    public void updateContentHandler( User user, Document doc )
+    public void updateContentHandler(Document doc)
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -1484,17 +1398,17 @@ public final class ContentHandler
             con = getConnection();
             preparedStmt = con.prepareStatement( HAN_UPDATE );
             preparedStmt.setInt( 5, key );
-            preparedStmt.setString( 1, name );
+            preparedStmt.setString(1, name);
             if ( description != null )
             {
-                preparedStmt.setString( 2, description );
+                preparedStmt.setString(2, description);
             }
             else
             {
                 preparedStmt.setNull( 2, Types.VARCHAR );
             }
-            preparedStmt.setString( 3, className );
-            preparedStmt.setBytes( 4, cdocBytes );
+            preparedStmt.setString(3, className);
+            preparedStmt.setBytes(4, cdocBytes);
             preparedStmt.executeUpdate();
             preparedStmt.close();
             preparedStmt = null;
@@ -1689,7 +1603,7 @@ public final class ContentHandler
         return getCommonHandler().getInt( sql.toString(), versionKey );
     }
 
-    public Document getContentVersions( int contentKey )
+    private Document getContentVersions( int contentKey )
     {
         ContentVersionView versionView = ContentVersionView.getInstance();
         StringBuffer sql = XDG.generateSelectSQL( versionView,
@@ -1725,7 +1639,7 @@ public final class ContentHandler
         return doc;
     }
 
-    public void getContentBinaries( TIntObjectHashMap versionKeyContentMap )
+    private void getContentBinaries( TIntObjectHashMap versionKeyContentMap )
     {
         if ( versionKeyContentMap.size() == 0 )
         {
@@ -1774,7 +1688,7 @@ public final class ContentHandler
 
         ElementProcessor sectionNamesProcessor = new ElementProcessor()
         {
-            private SectionHandler sectionHandler = getSectionHandler();
+            private final SectionHandler sectionHandler = getSectionHandler();
 
             public void process( Element elem )
                 throws ProcessElementException
@@ -1858,7 +1772,7 @@ public final class ContentHandler
         return getCommonHandler().getIntArray( sql.toString(), (int[]) null );
     }
 
-    public Column[] getTitlesOnlyColumns()
+    private Column[] getTitlesOnlyColumns()
     {
         ContentView contentView = ContentView.getInstance();
         return new Column[]{contentView.con_lKey, contentView.cov_lKey, contentView.cat_uni_lKey, contentView.cat_cty_lKey,
@@ -1882,9 +1796,9 @@ public final class ContentHandler
         XDG.generateWhereSQL( sql, db.tContentHome.cho_con_lKey );
         ElementProcessor pageTemplateProcessor = new ElementProcessor()
         {
-            private CommonHandler commonHandler = getCommonHandler();
+            private final CommonHandler commonHandler = getCommonHandler();
 
-            private String sql =
+            private final String sql =
                 XDG.generateSelectSQL( db.tPageTemplate, db.tPageTemplate.pat_sName, false, db.tPageTemplate.pat_lKey ).toString();
 
             public void process( Element elem )

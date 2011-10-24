@@ -6,11 +6,11 @@ package com.enonic.vertical.engine.processors;
 
 import java.util.HashMap;
 
+import com.enonic.vertical.engine.dbmodel.UserTable;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 
 public class UserElementProcessor
@@ -19,14 +19,11 @@ public class UserElementProcessor
 
     private CommonHandler commonHandler;
 
-    private VerticalDatabase db;
-
     private HashMap userMap = new HashMap();
 
-    public UserElementProcessor( CommonHandler commonHandler, VerticalDatabase db )
+    public UserElementProcessor( CommonHandler commonHandler )
     {
         this.commonHandler = commonHandler;
-        this.db = db;
     }
 
     public void process( Element elem )
@@ -39,9 +36,9 @@ public class UserElementProcessor
         }
         else
         {
-            Column[] selectColumns = new Column[]{db.tUser.usr_sUID, db.tUser.usr_sFullName};
-            Column[] whereColumns = new Column[]{db.tUser.usr_hKey};
-            StringBuffer sql = XDG.generateSelectSQL( db.tUser, selectColumns, false, whereColumns );
+            Column[] selectColumns = new Column[]{UserTable.INSTANCE.usr_sUID, UserTable.INSTANCE.usr_sFullName};
+            Column[] whereColumns = new Column[]{UserTable.INSTANCE.usr_hKey};
+            StringBuffer sql = XDG.generateSelectSQL( UserTable.INSTANCE, selectColumns, false, whereColumns );
             strings = commonHandler.getStrings( sql.toString(), new Object[]{userKey} );
             userMap.put( userKey, strings );
         }

@@ -407,7 +407,7 @@ public class SectionHandler
             SecurityHandler securityHandler = getSecurityHandler();
             if ( !includeAll )
             {
-                securityHandler.appendSectionSQL( user, sql, criteria );
+                securityHandler.appendSectionSQL( user, sql);
             }
 
             sql.append( " ORDER BY mei_sName" );

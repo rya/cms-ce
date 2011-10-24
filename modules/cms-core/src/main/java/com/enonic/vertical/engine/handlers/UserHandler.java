@@ -196,7 +196,7 @@ public final class UserHandler
         return newUID;
     }
 
-    public boolean existsUser( String uid, UserStoreKey userStoreKey )
+    private boolean existsUser( String uid, UserStoreKey userStoreKey )
     {
         UserSpecification userSpec = new UserSpecification();
         userSpec.setName( uid );

@@ -74,7 +74,7 @@ public final class ContentObjectHandler
             "cob_xmlData = ?, " + "cob_dteTimestamp = @currentTimestamp@, " + "cob_lRunAs = ? " + " WHERE cob_lKey = ?";
 
 
-    public int[] createContentObject( CopyContext copyContext, Document doc, boolean useOldKey )
+    private int[] createContentObject( CopyContext copyContext, Document doc, boolean useOldKey )
         throws VerticalCreateException
     {
 
@@ -296,33 +296,6 @@ public final class ContentObjectHandler
         }
 
         return keys[0];
-    }
-
-    public User getContentObjectRunAs( int contentObjectKey )
-    {
-        return null;
-        /*
-        PortletEntity entity = portletDao.findByKey( contentObjectKey );
-        if ( entity == null )
-        {
-            return null;
-        }
-
-        UserEntity runAsUser = entity.getRunAs();
-        if ( ( runAsUser == null ) || runAsUser.isDeleted() )
-        {
-            return null;
-        }
-
-        User user = new User();
-        user.setUserKey( runAsUser.getKey().toString() );
-        user.setUserType( runAsUser.getType() );
-        user.setUID( runAsUser.getUid() );
-        user.setFullName( runAsUser.getFullName() );
-        user.setUserStoreKey( new UserStoreKey( runAsUser.getUserStore().getKey() ) );
-        user.setGroupKey( runAsUser.getUserGroup().getKey() );
-        return user;
-        */
     }
 
     public XMLDocument getContentObject( int contentObjectKey )
@@ -552,7 +525,7 @@ public final class ContentObjectHandler
         updateContentObject( doc );
     }
 
-    public void updateContentObject( Document doc )
+    private void updateContentObject( Document doc )
         throws VerticalUpdateException
     {
         Element docElem = doc.getDocumentElement();

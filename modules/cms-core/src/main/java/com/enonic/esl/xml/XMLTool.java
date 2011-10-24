@@ -38,8 +38,6 @@ import javax.xml.xpath.XPathFactory;
 
 import com.google.common.base.Preconditions;
 import org.apache.commons.fileupload.FileItem;
-import org.jdom.JDOMException;
-import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.springframework.util.xml.DomUtils;
@@ -47,7 +45,6 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -89,12 +86,9 @@ public final class XMLTool
 
         private final boolean descending;
 
-        private final boolean intSort;
-
-        public ElementComparator( String orderByAttribute, boolean intSort, boolean descending )
+        public ElementComparator(String orderByAttribute, boolean descending)
         {
             this.orderByAttribute = orderByAttribute;
-            this.intSort = intSort;
             this.descending = descending;
         }
 
@@ -104,15 +98,7 @@ public final class XMLTool
             final String valueA = ( (Element) a ).getAttribute( orderByAttribute );
             final String valueB = ( (Element) b ).getAttribute( orderByAttribute );
 
-            int result;
-            if ( intSort )
-            {
-                result = Integer.parseInt( valueA ) - Integer.parseInt( valueB );
-            }
-            else
-            {
-                result = valueA.compareTo( valueB );
-            }
+            int result = Integer.parseInt( valueA ) - Integer.parseInt( valueB );
 
             if ( descending )
             {
@@ -239,7 +225,7 @@ public final class XMLTool
      */
     public static org.w3c.dom.Document HTMLtoXML( InputStream in, OutputStream out )
     {
-        return TIDY.parseDOM( in, out );
+        return TIDY.parseDOM(in, out);
     }
 
     /**
@@ -260,35 +246,8 @@ public final class XMLTool
      */
     public static Document createDocument( String qualifiedName )
     {
-
-        return createDocument( null, qualifiedName, null );
-    }
-
-    /**
-     * Create a new document with a top element in a specific namespace.
-     *
-     * @param namespaceURI  The namespace URI.
-     * @param qualifiedName The name of the top element.
-     * @param docType       DocumentType
-     * @return Document
-     */
-    private static Document createDocument( String namespaceURI, String qualifiedName, DocumentType docType )
-    {
         Document doc = createDocument();
-
-        if ( docType != null )
-        {
-            doc.appendChild( docType );
-        }
-        if ( namespaceURI != null )
-        {
-            doc.appendChild( doc.createElementNS( namespaceURI, qualifiedName ) );
-        }
-        else
-        {
-            doc.appendChild( doc.createElement( qualifiedName ) );
-        }
-
+        doc.appendChild(doc.createElement(qualifiedName));
         return doc;
     }
 
@@ -301,31 +260,10 @@ public final class XMLTool
      */
     public static Element createElement( Document doc, String name )
     {
-
-        return createElement( doc, name, null );
-    }
-
-    /**
-     * Create a DOM element, containing the specified text.
-     *
-     * @param doc  Document
-     * @param name The name of the element.
-     * @param text The text.
-     * @return Element
-     */
-    private static Element createElement( Document doc, String name, String text )
-    {
         Preconditions.checkNotNull(name, "Element name cannot be null" );
         Preconditions.checkArgument( name.trim().length() != 0, "Element name has to contain at least one character" );
 
-        Element elem = doc.createElement( name );
-        if ( text != null )
-        {
-            Text textNode = doc.createTextNode( text );
-            elem.appendChild( textNode );
-        }
-
-        return elem;
+        return doc.createElement(name);
     }
 
     public static Element createElement( Element root, String name )
@@ -488,19 +426,9 @@ public final class XMLTool
 
     public static byte[] documentToBytes( Document doc, String enc )
     {
-        return documentToBytes( doc, 0, enc );
-    }
-
-    private static byte[] documentToBytes( Document doc, int indent, String enc )
-    {
-        return documentToBytes( doc, indent, enc, false );
-    }
-
-    private static byte[] documentToBytes( Document doc, int indent, String enc, boolean preserveSpace )
-    {
         try
         {
-            String xml = documentToString( doc, indent, preserveSpace );
+            String xml = documentToString( doc, 0 );
             if ( xml != null )
             {
                 return xml.getBytes( enc );
@@ -531,21 +459,9 @@ public final class XMLTool
 
     static public String documentToString( Document doc, int indent )
     {
-        return documentToString( doc, indent, false );
-    }
-
-    private static String documentToString( Document doc, int indent, boolean preserveSpace )
-    {
         java.io.StringWriter swriter = new java.io.StringWriter();
         printDocument( swriter, doc, indent );
-        String str = swriter.toString();
-
-        if ( preserveSpace )
-        {
-            str = str.replaceAll( "&apos;", "'" );
-        }
-
-        return str;
+        return swriter.toString();
     }
 
     public static Document domparse( InputStream in )
@@ -737,32 +653,6 @@ public final class XMLTool
         return domparse( inputSource, null );
     }
 
-    /**
-     * Parse an xml string into a JDOM document.
-     *
-     * @param xmlData an xml string
-     * @return JDOM document
-     */
-    public static org.jdom.Document jdomparse( String xmlData )
-    {
-        org.jdom.Document doc;
-        try
-        {
-            SAXBuilder saxBuilder = new SAXBuilder();
-            doc = saxBuilder.build( new StringReader( xmlData ) );
-        }
-        catch ( IOException e )
-        {
-            throw new RuntimeException( "Failed to read xml", e );
-        }
-        catch ( JDOMException e )
-        {
-            throw new RuntimeException( "Failed to parse xml", e );
-        }
-
-        return doc;
-    }
-
     public static Document domparse( String xmlData, String rootName )
     {
         InputSource inputSource = new InputSource( new StringReader( xmlData ) );
@@ -862,7 +752,7 @@ public final class XMLTool
             if ( n.getNodeType() == Node.ELEMENT_NODE )
             {
                 Element e = (Element) n;
-                nodes.put( e.getAttribute( attribute ), e );
+                nodes.put(e.getAttribute(attribute), e);
             }
         }
 
@@ -914,7 +804,7 @@ public final class XMLTool
             return null;
         }
 
-        Node[] element = filterNodes( root.getChildNodes(), Node.ELEMENT_NODE );
+        Node[] element = filterNodes(root.getChildNodes(), Node.ELEMENT_NODE);
         for ( Node anElement : element )
         {
             String tagName = ( (Element) anElement ).getTagName();
@@ -989,20 +879,6 @@ public final class XMLTool
         for ( int i = 0; i < nodeList.getLength(); )
         {
             root.removeChild( nodeList.item( i ) );
-        }
-    }
-
-    public static String getElementText( String xml, String xpath )
-    {
-        Document doc = domparse( xml );
-
-        if ( doc == null )
-        {
-            return null;
-        }
-        else
-        {
-            return getElementText( doc, xpath );
         }
     }
 
@@ -1118,7 +994,12 @@ public final class XMLTool
 
     static public String elementToString( Element elem )
     {
-        return elementToString( elem, 0 );
+        if ( elem == null )
+        {
+            return null;
+        }
+
+        return serialize(elem, 0);
     }
 
     private static String serialize( Node node, int indent )
@@ -1137,41 +1018,30 @@ public final class XMLTool
     private static void serialize( Writer out, Node node, int indent )
     {
         final StreamResult result = new StreamResult(out);
-        serialize(result, node, indent, true);
+        serialize(result, node, indent);
     }
 
     private static void serialize( OutputStream out, Node node, int indent )
     {
         final StreamResult result = new StreamResult(out);
-        serialize(result, node, indent, true);
+        serialize(result, node, indent);
     }
 
-    private static void serialize( Result result, Node node, int indent, boolean omitDecl )
+    private static void serialize(Result result, Node node, int indent)
     {
         try {
             final Transformer transformer = TRANSFORMER_FACTORY.newTransformer();
             transformer.setOutputProperty( OutputKeys.INDENT, indent > 0 ? "yes" : "no" );
-            transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, omitDecl ? "yes" : "no" );
+            transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes" );
             transformer.transform( new DOMSource(node), result );
         } catch (Exception e) {
             throw new RuntimeException( e );
         }
     }
 
-    private static String elementToString( Element elem, int indent )
-    {
-        // check: is element present?
-        if ( elem == null )
-        {
-            return null;
-        }
-
-        return serialize(elem, indent);
-    }
-
     public static void printDocument( Writer out, Document doc )
     {
-        printDocument( out, doc, 0 );
+        printDocument(out, doc, 0);
     }
 
     public static void printDocument( Writer out, Document doc, int indent )
@@ -1189,7 +1059,7 @@ public final class XMLTool
      */
     public static Node selectNode( Node contextNode, String xpath )
     {
-        return selectSingleNode( contextNode, xpath );
+        return selectSingleNode(contextNode, xpath);
     }
 
     /**
@@ -1231,17 +1101,11 @@ public final class XMLTool
         }
     }
 
-    private static Node moveNode( Node node, Node toParent )
+    public static Node moveNode( Node node, Node toParent )
     {
         Node fromParent = node.getParentNode();
         fromParent.removeChild( node );
-        return toParent.appendChild( node );
-    }
-
-    public static Node moveNode( Node node, Node fromParent, Node toParent )
-    {
-        node.getParentNode().removeChild( node );
-        return toParent.appendChild( node );
+        return toParent.appendChild(node);
     }
 
     public static String serialize( Node n )
@@ -1418,11 +1282,6 @@ public final class XMLTool
         mergeDocuments( destDoc, srcDoc, false );
     }
 
-    public static void mergeDocuments( Document destDoc, String xmlDoc )
-    {
-        mergeDocuments( destDoc, xmlDoc, false );
-    }
-
     public static void mergeDocuments( Document destDoc, String xmlDoc, boolean copyRoot )
     {
         Document srcDoc = XMLTool.domparse( xmlDoc );
@@ -1504,7 +1363,7 @@ public final class XMLTool
             return;
         }
 
-        Arrays.sort( childElems, new ElementComparator( orderByAttribute, true, descending ) );
+        Arrays.sort( childElems, new ElementComparator( orderByAttribute, descending ) );
         for ( Element childElem : childElems )
         {
             elem.appendChild( childElem );

@@ -28,8 +28,6 @@ public class PresentationEngine
     extends BaseEngine
     implements InitializingBean
 {
-    private BinaryDataHandler binaryDataHandler;
-
     private CategoryHandler categoryHandler;
 
     private CommonHandler commonHandler;
@@ -161,16 +159,6 @@ public class PresentationEngine
         {
             return user;
         }
-    }
-
-    public int getBinaryDataKey( int contentKey, String label )
-    {
-        return binaryDataHandler.getBinaryDataKey( contentKey, label );
-    }
-
-    public void setBinaryDataHandler( BinaryDataHandler binaryDataHandler )
-    {
-        this.binaryDataHandler = binaryDataHandler;
     }
 
     public void setCategoryHandler( CategoryHandler categoryHandler )

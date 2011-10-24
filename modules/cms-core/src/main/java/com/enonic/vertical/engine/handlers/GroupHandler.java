@@ -78,18 +78,6 @@ public final class GroupHandler
 
     public Document getGroup( String groupKey )
     {
-        return getGroups( GROUP_GET_BY_KEY, new String[]{groupKey}, true );
-    }
-
-    /**
-     * Generic method for retrieving groups.
-     *
-     * @param sql            The SQL query to execute.
-     * @param paramValues    An array containing integer paramters that should be set in the PreparedStatement instance.
-     * @param includeMembers Boolean parameter specifying if the result should include a list of the group members.
-     */
-    private Document getGroups( String sql, Object[] paramValues, boolean includeMembers )
-    {
         Document doc = XMLTool.createDocument( "groups" );
 
         Connection con = null;
@@ -99,14 +87,11 @@ public final class GroupHandler
         try
         {
             con = getConnection();
-            preparedStmt = con.prepareStatement( sql );
-            for ( int i = 0; i < paramValues.length; ++i )
-            {
-                preparedStmt.setObject( i + 1, paramValues[i] );
-            }
+            preparedStmt = con.prepareStatement( GROUP_GET_BY_KEY );
+            preparedStmt.setString(1, groupKey);
             resultSet = preparedStmt.executeQuery();
 
-            groupResultSetToDom( con, doc.getDocumentElement(), resultSet, includeMembers, 0, Integer.MAX_VALUE );
+            groupResultSetToDom( con, doc.getDocumentElement(), resultSet);
         }
         catch ( SQLException e )
         {
@@ -122,10 +107,11 @@ public final class GroupHandler
         return doc;
     }
 
-    private void groupResultSetToDom( Connection con, Element rootElement, ResultSet grpResultSet, boolean includeMembers, int index,
-                                      int count )
+    private void groupResultSetToDom(Connection con, Element rootElement, ResultSet grpResultSet)
         throws SQLException
     {
+        final int index = 0;
+        final int count = Integer.MAX_VALUE;
         Document doc = rootElement.getOwnerDocument();
 
         PreparedStatement preparedStmt = con.prepareStatement( GRPGRPMEM_GET_MEMBERSHIPS );
@@ -191,11 +177,7 @@ public final class GroupHandler
 
                 // element: group description
                 XMLTool.createElement( doc, groupElement, "description", grpResultSet.getString( "grp_sDescription" ) );
-
-                if ( includeMembers )
-                {
-                    buildGroupMembersDOM( preparedStmt, groupElement, gKey );
-                }
+                buildGroupMembersDOM( preparedStmt, groupElement, gKey );
             }
 
             if ( moreResults )
@@ -420,7 +402,7 @@ public final class GroupHandler
         return entity != null ? entity.getGroupKey().toString() : null;
     }
 
-    public String getAnonymousGroupKey()
+    private String getAnonymousGroupKey()
     {
         final GroupEntity entity = this.groupDao.findBuiltInAnonymous();
         return entity != null ? entity.getGroupKey().toString() : null;

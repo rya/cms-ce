@@ -286,14 +286,6 @@ public class AdminServiceImpl
         return adminEngine.getContentObject( coc_lKey );
     }
 
-    /**
-     * Return the content object run as user.
-     */
-    public User getContentObjectRunAs( int contentObjectKey )
-    {
-        return adminEngine.getContentObjectRunAs( contentObjectKey );
-    }
-
     public XMLDocument getContentObjectsByMenu( int menuKey )
     {
         return adminEngine.getContentObjectsByMenu( menuKey );
@@ -753,7 +745,7 @@ public class AdminServiceImpl
 
     public XMLDocument getData( User user, int type, int[] keys )
     {
-        return adminEngine.getData( user, type, keys );
+        return adminEngine.getData(type, keys );
     }
 
     public ResourceKey getDefaultCSSByMenu( int menuKey )

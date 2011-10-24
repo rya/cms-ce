@@ -12,7 +12,7 @@ import com.enonic.esl.sql.model.Table;
 public final class UserTable
     extends Table
 {
-    private static final UserTable User = new UserTable( "tUser", "user", "users" );
+    public static final UserTable INSTANCE = new UserTable( "tUser", "user", "users" );
 
     public Column usr_hKey = new Column( "usr_hKey", "@key", true, true, Constants.COLUMN_CHAR, null, 40 );
 
@@ -57,10 +57,4 @@ public final class UserTable
         addColumn( usr_grp_hKey );
         addColumn( usr_photo );
     }
-
-    public static UserTable getInstance()
-    {
-        return User;
-    }
-
 }

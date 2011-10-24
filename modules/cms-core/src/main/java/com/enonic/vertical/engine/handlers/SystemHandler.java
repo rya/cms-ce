@@ -148,7 +148,7 @@ public final class SystemHandler
     /**
      * Set model version.
      */
-    public void setModelNumber( int version )
+    private void setModelNumber( int version )
             throws Exception
     {
         Connection conn = getConnection();
@@ -271,7 +271,6 @@ public final class SystemHandler
      * Return true if schema is created.
      */
     private boolean isSchemaCreated( Connection conn )
-            throws Exception
     {
         return hasTable( conn, this.db.tModelVersion.getName() ) || hasTable( conn, "tVerticalVersion" );
     }

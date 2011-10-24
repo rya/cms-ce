@@ -534,18 +534,7 @@ public final class ContentObjectHandlerServlet
         {
             if ( formItems.containsKey( "datasources" ) )
             {
-                int key = formItems.getInt( "key", -1 );
                 User user = securityService.getLoggedInAdminConsoleUser();
-                User runAsUser = null;
-                if ( key != -1 )
-                {
-                    runAsUser = admin.getContentObjectRunAs( key );
-                }
-
-                if ( runAsUser != null )
-                {
-                    user = runAsUser;
-                }
 
                 Document doc;
                 Document documentAsW3cDocument = XMLTool.createDocument( "document" );

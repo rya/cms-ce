@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,8 +26,6 @@ import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
-import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
@@ -950,7 +947,7 @@ final public class SecurityHandler
                 break;
 
             case AccessRight.CATEGORY:
-                appendAccessRightsOnCategory( user, new CategoryKey( key ), rootElement, true, includeUserright );
+                appendAccessRightsOnCategory( user, new CategoryKey( key ), rootElement, includeUserright );
                 break;
 
             case AccessRight.CONTENT:
@@ -980,7 +977,7 @@ final public class SecurityHandler
             case AccessRight.CATEGORY:
                 if ( key >= 0 )
                 {
-                    appendAccessRightsOnCategory( user, new CategoryKey( key ), accessRights, true, true );
+                    appendAccessRightsOnCategory( user, new CategoryKey( key ), accessRights, true );
                 }
                 else
                 {
@@ -1049,8 +1046,8 @@ final public class SecurityHandler
         }
     }
 
-    public void appendAccessRightsOnCategory( User user, CategoryKey categoryKey, Element accessRights, boolean includeAccessRights,
-                                              boolean includeUserRights )
+    private void appendAccessRightsOnCategory(User user, CategoryKey categoryKey, Element accessRights,
+                                              boolean includeUserRights)
     {
 
         Connection con = null;
@@ -1064,7 +1061,7 @@ final public class SecurityHandler
             sql.append( CAR_WHERE_CLAUSE_CAT );
             con = getConnection();
             preparedStmt = con.prepareStatement( sql.toString() );
-            appendCategoryAccessRight( user, accessRights, categoryKey, preparedStmt, includeAccessRights, includeUserRights );
+            appendCategoryAccessRight( user, accessRights, categoryKey, preparedStmt, true, includeUserRights );
         }
         catch ( SQLException e )
         {
@@ -1794,12 +1791,6 @@ final public class SecurityHandler
 
     public MenuItemAccessRight getMenuItemAccessRight( User user, MenuItemKey menuItemKey )
     {
-        return getMenuItemAccessRight( null, user, menuItemKey );
-    }
-
-    private MenuItemAccessRight getMenuItemAccessRight( Connection _con, User user, MenuItemKey menuItemKey )
-    {
-
         Connection con = null;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
@@ -1814,7 +1805,6 @@ final public class SecurityHandler
             menuItemAccessRight.setRead( true );
             menuItemAccessRight.setPublish( true );
             menuItemAccessRight.setAdministrate( true );
-            menuItemAccessRight.setAdd( true );
             return menuItemAccessRight;
         }
 
@@ -1824,14 +1814,7 @@ final public class SecurityHandler
 
         try
         {
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
+            con = getConnection();
 
             StringBuffer sql = new StringBuffer( MENUITEMAR_SELECT );
             sql.append( " WHERE" );
@@ -1879,7 +1862,6 @@ final public class SecurityHandler
             menuItemAccessRight.setRead( rights[READ] );
             menuItemAccessRight.setPublish( rights[PUBLISH] );
             menuItemAccessRight.setAdministrate( rights[ADMIN] );
-            menuItemAccessRight.setAdd( rights[ADD] );
         }
         catch ( SQLException sqle )
         {
@@ -1890,10 +1872,7 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            if ( _con == null )
-            {
-                close( con );
-            }
+            close( con );
         }
 
         return menuItemAccessRight;
@@ -2320,7 +2299,6 @@ final public class SecurityHandler
     }
 
     private void appendMaximumCategoryRights( Connection con, User user, Element rootElement, CategoryKey categoryKey )
-        throws SQLException
     {
 
         Document doc = rootElement.getOwnerDocument();
@@ -3399,10 +3377,71 @@ final public class SecurityHandler
         StringUtil.replaceString( newSQL, "%filterRights", sqlFilterRights.toString() );
     }
 
-    public void appendSectionSQL( User user, StringBuffer sql, SectionCriteria criteria )
+    public void appendSectionSQL(User user, StringBuffer sql)
     {
-        HashMap<String, String> accessRightsMap = new HashMap<String, String>();
-        appendAccessRightsSQL( user, Types.SECTION, sql, accessRightsMap );
+        if ( user != null && user.isEnterpriseAdmin() )
+        {
+            return;
+        }
+
+        GroupHandler groupHandler = getGroupHandler();
+        String epGroup = groupHandler.getEnterpriseAdministratorGroupKey();
+        String[] groups = groupHandler.getAllGroupMembershipsForUser( user );
+        Arrays.sort( groups );
+
+        // allow if user is a member of the enterprise admin group
+        if ( Arrays.binarySearch( groups, epGroup ) >= 0 )
+        {
+            return;
+        }
+
+        Table tabAccessRight = null;
+        Column colAccessRightGroup = null;
+        Column colAccessRightKey = null;
+        Column colLocalKey = null;
+
+        colLocalKey = SectionContentView.getInstance().mei_lKey;
+        tabAccessRight = db.tMenuItemAR;
+        colAccessRightGroup = db.tMenuItemAR.mia_grp_hKey;
+        colAccessRightKey = db.tMenuItemAR.mia_mei_lKey;
+
+        if ( sql.toString().toLowerCase().indexOf( "where" ) < 0 )
+        {
+            sql.append( " WHERE" );
+        }
+        else
+        {
+            sql.append( " AND" );
+        }
+
+        StringBuffer sqlFilterRights = new StringBuffer();
+        sql.append( " EXISTS (SELECT " );
+        sql.append( colAccessRightGroup );
+        sql.append( " FROM " );
+        sql.append( tabAccessRight );
+        sql.append( " WHERE " );
+        sql.append( colAccessRightKey );
+        sql.append( " = " );
+        sql.append( colLocalKey );
+        sql.append( " AND " );
+        sql.append( colAccessRightGroup );
+        sql.append( " IN (%groups) %filterRights" );
+
+        sql.append( ")" );
+
+        StringBuffer sb_groups = new StringBuffer( groups.length * 2 );
+        for ( int i = 0; i < groups.length; ++i )
+        {
+            if ( i > 0 )
+            {
+                sb_groups.append( "," );
+            }
+            sb_groups.append( "'" );
+            sb_groups.append( groups[i] );
+            sb_groups.append( "'" );
+        }
+        StringUtil.replaceString( sql, "%groups", sb_groups.toString() );
+        StringUtil.replaceString( sql, "%filterRights", sqlFilterRights.toString() );
     }
 
     public String appendMenuItemSQL( User user, String sql )
@@ -3499,7 +3538,7 @@ final public class SecurityHandler
         newSQL.append( ")" );
     }
 
-    public boolean isEnterpriseAdmin( User user, String[] allGroupMemberships )
+    private boolean isEnterpriseAdmin( User user, String[] allGroupMemberships )
     {
         if ( user.isEnterpriseAdmin() )
         {
@@ -3541,7 +3580,7 @@ final public class SecurityHandler
         return false;
     }
 
-    public boolean isSiteAdmin( User user, String[] groups )
+    private boolean isSiteAdmin( User user, String[] groups )
     {
         if ( user.isEnterpriseAdmin() )
         {
@@ -3577,155 +3616,5 @@ final public class SecurityHandler
         String[] groups = getCommonHandler().getStringArray( sql.toString(), categoryKey.toInt() );
         String[] members = getGroupHandler().getGroupMembers( groups, null, true );
         return getUserHandler().getUsersByGroupKeys( ArrayUtil.concat( groups, members, true ) );
-    }
-
-    public void appendAccessRightsSQL( User user, int type, StringBuffer sql, HashMap<String, String> accessRightsXPaths )
-    {
-
-        if ( user != null && user.isEnterpriseAdmin() )
-        {
-            return;
-        }
-
-        GroupHandler groupHandler = getGroupHandler();
-        String epGroup = groupHandler.getEnterpriseAdministratorGroupKey();
-        String[] groups = groupHandler.getAllGroupMembershipsForUser( user );
-        Arrays.sort( groups );
-
-        // allow if user is a member of the enterprise admin group
-        if ( Arrays.binarySearch( groups, epGroup ) >= 0 )
-        {
-            return;
-        }
-
-        Table tabAccessRight = null;
-        Column colAccessRightGroup = null;
-        Column colAccessRightKey = null;
-        Column colLocalKey = null;
-        String accessRight_prefix = null;
-
-        switch ( type )
-        {
-            case Types.SECTION:
-                colLocalKey = SectionContentView.getInstance().mei_lKey;
-                tabAccessRight = db.tMenuItemAR;
-                colAccessRightGroup = db.tMenuItemAR.mia_grp_hKey;
-                colAccessRightKey = db.tMenuItemAR.mia_mei_lKey;
-                accessRight_prefix = "mia_";
-                break;
-            case Types.SECTIONCONTENT:
-                colLocalKey = SectionContentView.getInstance().mei_lKey;
-                tabAccessRight = db.tMenuItemAR;
-                colAccessRightGroup = db.tMenuItemAR.mia_grp_hKey;
-                colAccessRightKey = db.tMenuItemAR.mia_mei_lKey;
-                accessRight_prefix = "mia_";
-                break;
-            case Types.CONTENTVIEW:
-            case Types.CONTENTVERSIONVIEW:
-                // This only checks accessright on the category
-                colLocalKey = ContentView.getInstance().cat_lKey;
-                tabAccessRight = db.tCatAccessRight;
-                colAccessRightGroup = db.tCatAccessRight.car_grp_hKey;
-                colAccessRightKey = db.tCatAccessRight.car_cat_lKey;
-                accessRight_prefix = "car_";
-                break;
-            default:
-                VerticalEngineLogger.fatalEngine("Access rights not implemented for type: " + type, null );
-                break;
-        }
-
-        if ( sql.toString().toLowerCase().indexOf( "where" ) < 0 )
-        {
-            sql.append( " WHERE" );
-        }
-        else
-        {
-            sql.append( " AND" );
-        }
-
-        StringBuffer sqlFilterRights = new StringBuffer();
-        sql.append( " EXISTS (SELECT " );
-        sql.append( colAccessRightGroup );
-        sql.append( " FROM " );
-        sql.append( tabAccessRight );
-        sql.append( " WHERE " );
-        sql.append( colAccessRightKey );
-        sql.append( " = " );
-        sql.append( colLocalKey );
-        sql.append( " AND " );
-        sql.append( colAccessRightGroup );
-        sql.append( " IN (%groups) %filterRights" );
-
-        // Check what types of accessrights to append
-        for ( String accessRight : accessRightsXPaths.keySet() )
-        {
-            sqlFilterRights.append( " AND " );
-
-            Column colAccessRight = null;
-
-            // Access rights for content only checks the category
-            if ( type == Types.CONTENTVIEW && !accessRight.startsWith( "category" ) )
-            {
-                VerticalEngineLogger.fatalEngine("Access right " + accessRight + " not supported for type: " + type,
-                                                  null );
-            }
-
-            if ( accessRight.endsWith( "administrate" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bAdministrate" );
-            }
-            else if ( accessRight.endsWith( "create" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bCreate" );
-            }
-            else if ( accessRight.endsWith( "delete" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bDelete" );
-            }
-            else if ( accessRight.endsWith( "publish" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bPublish" );
-            }
-            else if ( accessRight.endsWith( "read" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bRead" );
-            }
-            else if ( accessRight.endsWith( "update" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bUpdate" );
-            }
-            else if ( accessRight.endsWith( "adminread" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bAdminRead" );
-            }
-            else if ( accessRight.endsWith( "approve" ) )
-            {
-                colAccessRight = tabAccessRight.getColumn( accessRight_prefix + "bApprove" );
-            }
-            else
-            {
-                VerticalEngineLogger.fatalEngine("Access right " + accessRight + " not supported for type: " + type,
-                                                  null );
-            }
-            sqlFilterRights.append( colAccessRight );
-            sqlFilterRights.append( " = " );
-            sqlFilterRights.append( colAccessRight.getColumnValue( accessRightsXPaths.get( accessRight ) ) );
-        }
-
-        sql.append( ")" );
-
-        StringBuffer sb_groups = new StringBuffer( groups.length * 2 );
-        for ( int i = 0; i < groups.length; ++i )
-        {
-            if ( i > 0 )
-            {
-                sb_groups.append( "," );
-            }
-            sb_groups.append( "'" );
-            sb_groups.append( groups[i] );
-            sb_groups.append( "'" );
-        }
-        StringUtil.replaceString( sql, "%groups", sb_groups.toString() );
-        StringUtil.replaceString( sql, "%filterRights", sqlFilterRights.toString() );
     }
 }

@@ -218,8 +218,6 @@ public abstract class BaseHandler
 
     protected final void close( Connection con )
     {
-
-        baseEngine.close( con );
     }
 
     protected final Connection getConnection()

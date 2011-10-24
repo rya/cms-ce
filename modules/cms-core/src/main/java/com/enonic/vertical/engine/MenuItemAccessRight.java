@@ -11,8 +11,6 @@ public final class MenuItemAccessRight
 
     private boolean administrate = false;
 
-    private boolean add = false;
-
     public MenuItemAccessRight()
     {
     }
@@ -27,11 +25,6 @@ public final class MenuItemAccessRight
         this.administrate = administrate;
     }
 
-    public void setAdd( boolean add )
-    {
-        this.add = add;
-    }
-
     public boolean getPublish()
     {
         return publish;
@@ -40,10 +33,5 @@ public final class MenuItemAccessRight
     public boolean getAdministrate()
     {
         return administrate;
-    }
-
-    public boolean getAdd()
-    {
-        return add;
     }
 }

@@ -25,33 +25,15 @@ import com.enonic.vertical.engine.handlers.SectionHandler;
 import com.enonic.vertical.engine.handlers.SecurityHandler;
 import com.enonic.vertical.engine.handlers.UserHandler;
 
-import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.store.support.ConnectionFactory;
-
-import com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory;
 
 public abstract class BaseEngine
 {
-
     private ConnectionFactory connectionFactory;
-
-    protected DatasourceExecutorFactory datasourceExecutorFactory;
-
-    protected DataSourceService dataSourceService;
-
-    public void setDataSourceService( DataSourceService dataSourceService )
-    {
-        this.dataSourceService = dataSourceService;
-    }
 
     public void setConnectionFactory( ConnectionFactory connectionFactory )
     {
         this.connectionFactory = connectionFactory;
-    }
-
-    public void setDatasourceExecutorFactory( DatasourceExecutorFactory value )
-    {
-        this.datasourceExecutorFactory = value;
     }
 
     public CategoryHandler getCategoryHandler()
@@ -117,13 +99,6 @@ public abstract class BaseEngine
     public UserHandler getUserHandler()
     {
         throw new RuntimeException();
-    }
-
-    /**
-     * Tries to close database connection.
-     */
-    public final void close( Connection connection )
-    {
     }
 
     /**

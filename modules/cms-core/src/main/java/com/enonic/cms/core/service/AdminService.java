@@ -129,8 +129,6 @@ public interface AdminService
 
     public XMLDocument getContentObject( int coc_lKey );
 
-    public User getContentObjectRunAs( int contentObjectKey );
-
     public XMLDocument getContentObjectsByMenu( int menuKey );
 
     public String getContentTitle( int versionKey );

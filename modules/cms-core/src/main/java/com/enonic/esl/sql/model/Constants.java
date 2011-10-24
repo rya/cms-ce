@@ -47,11 +47,6 @@ public class Constants
 
     public final static DataType COLUMN_SHORTXML = ShortXMLType.getInstance();
 
-    public static final int OPERATION_INSERT = 0;
-
-    public static final int OPERATION_UPDATE = 1;
-
-    // Prevent instantiation
     private Constants()
     {
     }

@@ -150,7 +150,7 @@ public class MainMenuServlet
                     Element menuTop = XMLTool.createElement( menuElems[i], "menutop" );
                     for ( int j = 0; j < menuItemElems.length; j++ )
                     {
-                        XMLTool.moveNode( menuItemElems[j], menuElems[i], menuTop );
+                        XMLTool.moveNode( menuItemElems[j], menuTop );
                     }
 
                     MenuAccessRight menuAccessRight = admin.getMenuAccessRight( oldUser, selectedMenuKey );

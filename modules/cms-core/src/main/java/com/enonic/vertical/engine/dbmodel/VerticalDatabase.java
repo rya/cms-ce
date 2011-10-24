@@ -29,8 +29,8 @@ public final class VerticalDatabase extends Database {
 	public GrpGrpMembershipTable tGrpGrpMembership = GrpGrpMembershipTable.getInstance();
 	public KeyTable tKey = KeyTable.getInstance();
 	public LanguageTable tLanguage = LanguageTable.getInstance();
-	public LogEntryTable tLogEntry = LogEntryTable.getInstance();
-	public MenuTable tMenu = MenuTable.getInstance();
+	public LogEntryTable tLogEntry = LogEntryTable.INSTANCE;
+	public MenuTable tMenu = MenuTable.INSTANCE;
 	public MenuItemTable tMenuItem = MenuItemTable.getInstance();
 	public MenuItemARTable tMenuItemAR = MenuItemARTable.getInstance();
 	public MenuItemContentTable tMenuItemContent = MenuItemContentTable.getInstance();
@@ -45,7 +45,7 @@ public final class VerticalDatabase extends Database {
 	public SectionContent2Table tSectionContent2 = SectionContent2Table.getInstance();
 	public UnitTable tUnit = UnitTable.getInstance();
 	public UnitContentTypeTable tUnitContentType = UnitContentTypeTable.getInstance();
-	public UserTable tUser = UserTable.getInstance();
+	public UserTable tUser = UserTable.INSTANCE;
 	public UserFieldTable tUserField = UserFieldTable.getInstance();
 	public UserMenuGUIDTable tUserMenuGUID = UserMenuGUIDTable.getInstance();
 	public PreferencesTable tPreferences = PreferencesTable.getInstance();

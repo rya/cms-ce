@@ -420,13 +420,10 @@
     </bean>
 
     <bean id="abstractBaseEngine" abstract="true" class="com.enonic.vertical.engine.BaseEngine">
-        <property name="dataSourceService" ref="dataSourceService"/>
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="datasourceExecutorFactory" ref="datasourceExecutorFactory"/>
     </bean>
 
     <bean id="presentationEngine" class="com.enonic.vertical.engine.PresentationEngine" parent="abstractBaseEngine">
-        <property name="binaryDataHandler" ref="binaryDataHandler"/>
         <property name="commonHandler" ref="commonHandler"/>
         <property name="contentHandler" ref="contentHandler"/>
         <property name="categoryHandler" ref="categoryHandler"/>

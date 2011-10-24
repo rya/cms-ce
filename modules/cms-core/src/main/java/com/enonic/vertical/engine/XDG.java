@@ -8,13 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import javax.xml.transform.TransformerException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,19 +49,19 @@ public class XDG
 
     public static final String OPERATOR_RANGE = " RANGE ";
 
-    public static final String JOINTYPE_JOIN = " JOIN ";
+    private static final String JOINTYPE_JOIN = " JOIN ";
 
     private final static int IN_VALUE_TRESHOLD = 500;
 
-    public static StringBuffer appendJoinSQL( StringBuffer sql, Column column, Table foreignTable, Column foreignColumn, String joinType )
+    public static StringBuffer appendJoinSQL( StringBuffer sql, Column column, Table foreignTable, Column foreignColumn )
     {
         if ( sql == null )
         {
-            sql = new StringBuffer( joinType );
+            sql = new StringBuffer( JOINTYPE_JOIN );
         }
         else
         {
-            sql.append( joinType );
+            sql.append( JOINTYPE_JOIN );
         }
 
         appendTable( sql, foreignTable );
@@ -76,14 +73,9 @@ public class XDG
         return sql;
     }
 
-    public static StringBuffer appendJoinSQL( StringBuffer sql, Column column, Table foreignTable, Column foreignColumn )
-    {
-        return appendJoinSQL( sql, column, foreignTable, foreignColumn, JOINTYPE_JOIN );
-    }
-
     public static StringBuffer appendJoinSQL( StringBuffer sql, ForeignKeyColumn column )
     {
-        return appendJoinSQL( sql, column, column.getReferencedTable(), column.getReferencedColumn(), JOINTYPE_JOIN );
+        return appendJoinSQL( sql, column, column.getReferencedTable(), column.getReferencedColumn() );
     }
 
     public static StringBuffer generateWhereSQL( StringBuffer sql, Column[] whereColumns )
@@ -321,23 +313,10 @@ public class XDG
         }
     }
 
-    public static StringBuffer generateWhereInSQL( StringBuffer sql, String sqlStart, Column whereInColumn, int count )
+    private static void generateWhereInSQL(StringBuffer sql, Column whereInColumn, int count)
     {
-        if ( sqlStart == null )
-        {
-            sqlStart = " WHERE ";
-        }
-        if ( sql == null )
-        {
-            sql = new StringBuffer( sqlStart );
-        }
-        else
-        {
-            sql.append( sqlStart );
-        }
-
+        sql.append( " WHERE " );
         InClauseBuilder.buildAndAppendTemplateInClause( sql, whereInColumn.getName(), count );
-        return sql;
     }
 
     private static StringBuffer generateSelectSQL( Column[] selectColumns, boolean distinct )
@@ -460,7 +439,7 @@ public class XDG
     {
         // Generate SQL
         StringBuffer sql = new StringBuffer( "SELECT count(*) FROM " );
-        appendTable( sql, table );
+        appendTable(sql, table);
 
         return sql;
     }
@@ -471,7 +450,7 @@ public class XDG
         // Generate SQL
 
         StringBuffer sql = generateSelectSQL( table, selectColumns, distinct, null );
-        generateWhereInSQL( sql, null, whereInColumn, count );
+        generateWhereInSQL( sql, whereInColumn, count );
         return sql;
     }
 
@@ -583,7 +562,7 @@ public class XDG
         return doc;
     }
 
-    private static Element setXPathValue( Element parentElement, String xpath, Object value, DataType type )
+    private static void setXPathValue( Element parentElement, String xpath, Object value, DataType type )
     {
         String[] xpathSplit = StringUtil.splitString( xpath, '/' );
         Element tmpElem = parentElement;
@@ -643,7 +622,6 @@ public class XDG
                 }
             }
         }
-        return tmpElem;
     }
 
     public static StringBuffer generateRemoveSQL( Table table, Column whereColumn )
@@ -651,12 +629,12 @@ public class XDG
         return generateRemoveSQL( table, new Column[]{whereColumn} );
     }
 
-    public static StringBuffer generateRemoveSQL( Table table, Column[] whereColumns )
+    private static StringBuffer generateRemoveSQL( Table table, Column[] whereColumns )
     {
         // Generate SQL
         StringBuffer sql = new StringBuffer( "DELETE FROM " );
         sql.append( table );
-        generateWhereSQL( sql, whereColumns );
+        generateWhereSQL(sql, whereColumns);
         return sql;
     }
 
@@ -700,54 +678,7 @@ public class XDG
         }
         sql.append( ") VALUES (" );
         sql.append( params );
-        sql.append( ")" );
-
-        return sql;
-    }
-
-    public static StringBuffer generateUpdateSQL( Table table, Element elem )
-    {
-        // Generate SQL
-        StringBuffer sql = new StringBuffer( "UPDATE " );
-        sql.append( table );
-        sql.append( " SET " );
-
-        Column[] columns = table.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-
-            if ( columns[i].isPrimaryKey() || columns[i].getType() == Constants.COLUMN_CREATED_TIMESTAMP )
-            {
-                continue;
-            }
-            else if ( columns[i].getType() == Constants.COLUMN_CURRENT_TIMESTAMP )
-            {
-                sql.append( columns[i].getName() );
-                sql.append( " = " );
-                String text = XMLTool.getElementText( elem, columns[i].getXPath() );
-                if ( text == null || text.length() == 0 )
-                {
-                    sql.append( "@currentTimestamp@" );
-                }
-                else
-                {
-                    sql.append( "?" );
-                }
-            }
-            else
-            {
-                sql.append( columns[i].getName() );
-                sql.append( " = ?" );
-            }
-
-            // If there are more nodes
-            if ( i < columns.length - 1 )
-            {
-                sql.append( ", " );
-            }
-        }
-
-        generateWhereSQL( sql, table.getPrimaryKeys() );
+        sql.append(")");
 
         return sql;
     }
@@ -835,7 +766,7 @@ public class XDG
         return generateInsertSQL( table, columns );
     }
 
-    public static StringBuffer generateInsertSQL( Table table, Column[] columns )
+    private static StringBuffer generateInsertSQL( Table table, Column[] columns )
     {
         // Generate SQL
         StringBuffer sql = new StringBuffer( "INSERT INTO " );
@@ -870,45 +801,20 @@ public class XDG
         return sql;
     }
 
-    public static void setData( PreparedStatement preparedStmt, Table table, Element dataElem, int operation )
-        throws SQLException, ParseException, TransformerException
+    public static void setData(PreparedStatement preparedStmt, Table table, Element dataElem)
+        throws SQLException
     {
-        setData( preparedStmt, table, dataElem, operation, null );
-    }
-
-    public static void setData( PreparedStatement preparedStmt, Table table, Element dataElem, int operation, Set excludeColumns )
-        throws SQLException, ParseException, TransformerException
-    {
-
         Column[] columns = table.getColumns();
-        int pkPosition = columns.length;
         int dataPosition = 0;
 
         int excludedCounter = 0;
 
         for ( int i = 0; i < columns.length; i++ )
         {
-            if ( ( columns[i].isPrimaryKey() && operation == Constants.OPERATION_UPDATE ) )
-            {
-                continue;
-            }
-
-            if ( excludeColumns != null && excludeColumns.contains( columns[i] ) )
-            {
-                excludedCounter++;
-                pkPosition--;
-                continue;
-            }
-
             DataType type = columns[i].getType();
             String xpath = columns[i].getXPath();
 
             int index = table.getIndex( columns[i] ) - excludedCounter;
-
-            if ( operation == Constants.OPERATION_UPDATE )
-            {
-                index -= table.getPrimaryKeys().length;
-            }
 
             Node node = XMLTool.selectNode( dataElem, xpath );
             Object data = type.getDataFromXML( node );
@@ -924,10 +830,6 @@ public class XDG
                 if ( type == Constants.COLUMN_CURRENT_TIMESTAMP || type == Constants.COLUMN_CREATED_TIMESTAMP )
                 {
                     VerticalEngineLogger.debug("Timestamp is not set.", null );
-                    // The current timestamp is inserted directly in the query, which means that
-                    // the primary key position is one less than if we inserted the timestamp as
-                    // a regular parameter
-                    pkPosition--;
                     dataPosition++;
                 }
                 else if ( columns[i].getDefaultValue() != null )
@@ -943,31 +845,8 @@ public class XDG
             }
             else
             {
-                if ( operation == Constants.OPERATION_UPDATE && type == Constants.COLUMN_CREATED_TIMESTAMP )
-                {
-                    // Ignore created timestamp on update
-                    VerticalEngineLogger.debug("Timestamp is ignored.", null );
-                    pkPosition--;
-                    dataPosition++;
-                }
-                else
-                {
-                    int columnIndex = index - dataPosition;
-                    type.setData( preparedStmt, columnIndex, data );
-                }
-            }
-        }
-
-        // If we are doing an update operation, the primary keys are inserted last
-        if ( operation == Constants.OPERATION_UPDATE )
-        {
-            Column[] primaryKeys = table.getPrimaryKeys();
-            for ( int i = 0; i < primaryKeys.length; i++ )
-            {
-                DataType type = primaryKeys[i].getType();
-                Node node = XMLTool.selectNode( dataElem, primaryKeys[i].getXPath() );
-                Object data = type.getDataFromXML( node );
-                type.setData( preparedStmt, pkPosition - primaryKeys.length + i + 1, data );
+                int columnIndex = index - dataPosition;
+                type.setData( preparedStmt, columnIndex, data );
             }
         }
     }

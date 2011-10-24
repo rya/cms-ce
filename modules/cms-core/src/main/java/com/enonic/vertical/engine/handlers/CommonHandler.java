@@ -10,14 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.xml.transform.TransformerException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +30,11 @@ import com.enonic.esl.util.UUID;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.ProcessElementException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
-
-import com.enonic.cms.core.security.user.User;
 
 public class CommonHandler
     extends BaseHandler
@@ -474,7 +467,7 @@ public class CommonHandler
             {
                 for ( int i = 0; i < paramValues.length; i++ )
                 {
-                    preparedStmt.setInt( i + 1, paramValues[i] );
+                    preparedStmt.setInt(i + 1, paramValues[i]);
                 }
             }
             resultSet = preparedStmt.executeQuery();
@@ -507,7 +500,7 @@ public class CommonHandler
         return value;
     }
 
-    public byte[] getByteArray( String sql, Object[] paramValues )
+    private byte[] getByteArray( String sql, Object[] paramValues )
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -548,7 +541,7 @@ public class CommonHandler
 
     public int[] getIntArray( String sql, int paramValue )
     {
-        return getIntArray( sql, new int[]{paramValue} );
+        return getIntArray(sql, new int[]{paramValue});
     }
 
     public int[] getIntArray( String sql, int[] paramValues )
@@ -595,7 +588,7 @@ public class CommonHandler
 
     public int[] getIntArray( String sql )
     {
-        return getIntArray( sql, (Object[]) null );
+        return getIntArray(sql, (Object[]) null);
     }
 
     public int[] getIntArray( String sql, Object[] paramValues )
@@ -713,12 +706,12 @@ public class CommonHandler
     public Date getTimestamp( Table table, Column selectColumn, boolean distinct, Column whereColumn, int paramValue )
     {
         String sql = XDG.generateSelectSQL( table, selectColumn, distinct, whereColumn ).toString();
-        return getTimestamp( sql, paramValue );
+        return getTimestamp(sql, paramValue);
     }
 
     public String[] getStringArray( String sql, int paramValue )
     {
-        return getStringArray( sql, new int[]{paramValue} );
+        return getStringArray(sql, new int[]{paramValue});
     }
 
     public String[] getStringArray( String sql, int[] paramValues )
@@ -756,12 +749,12 @@ public class CommonHandler
             close( con );
         }
 
-        return strings.toArray( new String[strings.size()] );
+        return strings.toArray(new String[strings.size()]);
     }
 
     public String getString( String sql, int paramValue )
     {
-        return getString( sql, new Object[]{paramValue} );
+        return getString(sql, new Object[]{paramValue});
     }
 
     public Object[] getObjects( String sql, int paramValue )
@@ -769,7 +762,7 @@ public class CommonHandler
         return getObjects( sql, new Integer( paramValue ) );
     }
 
-    public Object[] getObjects( String sql, Object paramValue )
+    private Object[] getObjects( String sql, Object paramValue )
     {
         if ( paramValue == null )
         {
@@ -806,7 +799,7 @@ public class CommonHandler
                 strings = new String[columnCount];
                 for ( int i = 1; i <= columnCount; i++ )
                 {
-                    strings[i - 1] = resultSet.getString( i );
+                    strings[i - 1] = resultSet.getString(i);
                 }
             }
             else
@@ -830,7 +823,7 @@ public class CommonHandler
         return strings;
     }
 
-    public Object[] getObjects( String sql, Object[] paramValues )
+    private Object[] getObjects( String sql, Object[] paramValues )
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -1064,7 +1057,7 @@ public class CommonHandler
 
                 preparedStmt = con.prepareStatement( sql.toString() );
 
-                XDG.setData( preparedStmt, table, dataElems[i], Constants.OPERATION_INSERT );
+                XDG.setData( preparedStmt, table, dataElems[i]);
 
                 int result = preparedStmt.executeUpdate();
                 if ( result == 0 )
@@ -1076,18 +1069,6 @@ public class CommonHandler
                 preparedStmt = null;
             }
 
-        }
-        catch ( ParseException pe )
-        {
-            String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate(message, pe );
-            keys = null;
-        }
-        catch ( TransformerException te )
-        {
-            String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate(message, te );
-            keys = null;
         }
         catch ( SQLException sqle )
         {
@@ -1111,96 +1092,6 @@ public class CommonHandler
 
         return keys;
     }
-
-    public void updateEntities( Document doc, ElementProcessor[] elementProcessors )
-        throws VerticalUpdateException, ProcessElementException
-    {
-
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-
-        try
-        {
-            Element rootElem = doc.getDocumentElement();
-            Element[] dataElems;
-            if ( db.getTableByElementName( rootElem.getTagName() ) != null )
-            {
-                // If the root matches the element name of a table, we have one
-                // single entity
-                dataElems = new Element[]{rootElem};
-            }
-            else if ( db.getTableByParentName( rootElem.getTagName() ) != null )
-            {
-                // If the root matches the parent name of a table, we have one
-                // single entity, all it's
-                // children are elements
-                dataElems = XMLTool.getElements( rootElem );
-            }
-            else
-            {
-                String message = "Document root ({0}) is not <data>, and does not match any parent or element names.";
-                VerticalEngineLogger.errorUpdate(message, rootElem.getTagName(), null );
-                dataElems = null;
-            }
-
-            con = getConnection();
-            for ( Element dataElem : dataElems )
-            {
-                String keyStr = dataElem.getAttribute( "key" );
-                if ( keyStr == null || keyStr.length() == 0 )
-                {
-                    String message = "Update failed, missing key.";
-                    VerticalEngineLogger.errorUpdate(message, null );
-                }
-                else
-                {
-                    Table table = db.getTableByElementName( dataElem.getTagName() );
-                    StringBuffer sql = XDG.generateUpdateSQL( table, dataElem );
-
-                    // pre-process each element if one or more processors are present
-                    if ( elementProcessors != null && elementProcessors.length > 0 )
-                    {
-                        for ( ElementProcessor elementProcessor : elementProcessors )
-                        {
-                            elementProcessor.process( dataElem );
-                        }
-                    }
-
-                    preparedStmt = con.prepareStatement( sql.toString() );
-                    XDG.setData( preparedStmt, table, dataElem, Constants.OPERATION_UPDATE );
-
-                    int result = preparedStmt.executeUpdate();
-                    if ( result == 0 )
-                    {
-                        String message = "Failed to update entity with key: (0}";
-                        VerticalEngineLogger.errorUpdate(message, keyStr, null );
-                    }
-                    close( preparedStmt );
-                }
-            }
-        }
-        catch ( ParseException pe )
-        {
-            String message = "Failed to update: %t";
-            VerticalEngineLogger.errorUpdate(message, pe );
-        }
-        catch ( TransformerException te )
-        {
-            String message = "Failed to update: %t";
-            VerticalEngineLogger.errorUpdate(message, te );
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to update: %t";
-            VerticalEngineLogger.errorUpdate(message, sqle );
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-    }
-
 
     public Document getSingleData( int type, int key, ElementProcessor[] elementProcessors )
     {
@@ -1270,7 +1161,7 @@ public class CommonHandler
         return doc;
     }
 
-    public Document getData( User user, int type, int[] keys )
+    public Document getData( int type, int[] keys )
     {
         Table table = Types.getTable( type );
 
@@ -1289,16 +1180,12 @@ public class CommonHandler
             parameters.put( pkColumn.getXPath(), new Integer( -1 ) );
         }
 
-        return getData( user, type, null, parameters, null, null, -1, -1, null, false, false, true );
+        return getData( type, parameters);
     }
 
-    public Document getData( User user, int type, Column[] selectColumns, MultiValueMap parameters, HashMap<String, String> accessParams,
-                             ElementProcessor[] elementProcessors, int fromIndex, int count, String orderBy, boolean descending,
-                             boolean includeAccessRights, boolean includeCount )
+    private Document getData(int type, MultiValueMap parameters)
     {
-
-        return getData( user, type, selectColumns, parameters, accessParams, elementProcessors, fromIndex, count, orderBy, descending,
-                        includeAccessRights, includeCount, null );
+        return getData(type, null, parameters, null, -1, -1, null, false );
     }
 
     private ResultSet getResultSet( PreparedStatement preparedStmt, List<DataType> dataTypes, List<String> paramValues, int fromIndex )
@@ -1339,9 +1226,9 @@ public class CommonHandler
         return resultSet;
     }
 
-    private PreparedStatement getPreparedStatement( List<DataType> dataTypes, List<String> paramValues, Connection con, User user, int type,
-                                                    Column[] selectColumns, MultiValueMap parameters, HashMap<String, String> accessParams,
-                                                    String orderBy, boolean descending )
+    private PreparedStatement getPreparedStatement(List<DataType> dataTypes, List<String> paramValues, Connection con, int type,
+                                                   Column[] selectColumns, MultiValueMap parameters,
+                                                   String orderBy, boolean descending)
         throws SQLException
     {
         PreparedStatement preparedStmt;
@@ -1358,7 +1245,7 @@ public class CommonHandler
 
         if ( parameters != null && parameters.size() > 0 )
         {
-            sql.append( " WHERE " );
+            sql.append(" WHERE ");
 
             Iterator iter = parameters.keySet().iterator();
             for ( int paramCount = 0; iter.hasNext(); paramCount++ )
@@ -1437,12 +1324,6 @@ public class CommonHandler
             }
         }
 
-        // Add security stuff
-        if ( accessParams != null && accessParams.size() > 0 )
-        {
-            getSecurityHandler().appendAccessRightsSQL( user, type, sql, accessParams );
-        }
-
         if ( orderBy != null )
         {
             sql.append( " ORDER BY " ).append( table.getColumnByXPath( orderBy ) );
@@ -1458,9 +1339,8 @@ public class CommonHandler
         return preparedStmt;
     }
 
-    public Document getData( User user, int type, Column[] selectColumns, MultiValueMap parameters, HashMap<String, String> accessParams,
-                             ElementProcessor[] elementProcessors, int fromIndex, int count, String orderBy, boolean descending,
-                             boolean includeAccessRights, boolean includeCount, Element parentElem )
+    public Document getData(int type, Column[] selectColumns, MultiValueMap parameters,
+                            ElementProcessor[] elementProcessors, int fromIndex, int count, String orderBy, boolean descending)
     {
 
         Connection con = null;
@@ -1475,19 +1355,16 @@ public class CommonHandler
             con = getConnection();
             List<DataType> dataTypes = new ArrayList<DataType>();
             List<String> paramValues = new ArrayList<String>();
-            preparedStmt = getPreparedStatement( dataTypes, paramValues, con, user, type, selectColumns, parameters, accessParams, orderBy,
+            preparedStmt = getPreparedStatement( dataTypes, paramValues, con, type, selectColumns, parameters, orderBy,
                                                  descending );
 
             resultSet = getResultSet( preparedStmt, dataTypes, paramValues, fromIndex );
-            doc = XDG.resultSetToXML( table, resultSet, parentElem, elementProcessors, null, count );
+            doc = XDG.resultSetToXML( table, resultSet, null, elementProcessors, null, count );
             count = XMLTool.getElements( doc.getDocumentElement() ).length;
 
-            if ( includeCount )
-            {
-                int totalCount = getDataCount( user, type, parameters, accessParams );
-                doc.getDocumentElement().setAttribute( "totalcount", String.valueOf( totalCount ) );
-                doc.getDocumentElement().setAttribute( "count", String.valueOf( count ) );
-            }
+            int totalCount = getDataCount(type, parameters);
+            doc.getDocumentElement().setAttribute( "totalcount", String.valueOf( totalCount ) );
+            doc.getDocumentElement().setAttribute( "count", String.valueOf( count ) );
         }
         catch ( SQLException sqle )
         {
@@ -1501,16 +1378,11 @@ public class CommonHandler
             close( con );
         }
 
-        if ( includeAccessRights )
-        {
-            getSecurityHandler().appendAccessRights( user, doc, true, true );
-        }
-
         return doc;
     }
 
 
-    public int getDataCount( User user, int type, MultiValueMap parameters, HashMap<String, String> accessParams )
+    private int getDataCount(int type, MultiValueMap parameters)
     {
 
         Connection con = null;
@@ -1529,7 +1401,7 @@ public class CommonHandler
 
             if ( parameters != null && parameters.size() > 0 )
             {
-                sql.append( " WHERE " );
+                sql.append(" WHERE ");
                 int paramCount = 0;
                 for ( Object o : parameters.keySet() )
                 {
@@ -1604,12 +1476,6 @@ public class CommonHandler
                     }
                     paramCount++;
                 }
-            }
-
-            // Add security stuff
-            if ( accessParams != null && accessParams.size() > 0 )
-            {
-                getSecurityHandler().appendAccessRightsSQL( user, type, sql, accessParams );
             }
 
             preparedStmt = con.prepareStatement( sql.toString() );
@@ -1733,56 +1599,7 @@ public class CommonHandler
         return result;
     }
 
-    public int updateInt( Table table, Column setColumn, int setValue, Column whereColumn, Object paramValue )
-        throws SQLException
-    {
-
-        Connection con = null;
-        PreparedStatement prepStmt = null;
-        StringBuffer sql = XDG.generateUpdateSQL( table, setColumn, whereColumn );
-        int rowCount = 0;
-        try
-        {
-            con = getConnection();
-            prepStmt = con.prepareStatement( sql.toString() );
-            prepStmt.setInt( 1, setValue );
-            prepStmt.setObject( 2, paramValue );
-            rowCount = prepStmt.executeUpdate();
-        }
-        finally
-        {
-            close( prepStmt );
-            close( con );
-        }
-        return rowCount;
-    }
-
-    public int update( String sql, Object[] values )
-        throws SQLException
-    {
-
-        Connection con = null;
-        PreparedStatement prepStmt = null;
-        int rowCount = 0;
-        try
-        {
-            con = getConnection();
-            prepStmt = con.prepareStatement( sql );
-            for ( int i = 0; i < values.length; i++ )
-            {
-                prepStmt.setObject( i + 1, values[i] );
-            }
-            rowCount = prepStmt.executeUpdate();
-        }
-        finally
-        {
-            close( prepStmt );
-            close( con );
-        }
-        return rowCount;
-    }
-
-    public Document getDocument( StringBuffer sql, int paramValue )
+    private Document getDocument( StringBuffer sql, int paramValue )
     {
         byte[] bytes = getByteArray( sql.toString(), new Object[]{paramValue} );
         if ( bytes != null )

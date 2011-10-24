@@ -4,11 +4,11 @@
  */
 package com.enonic.vertical.engine.processors;
 
+import com.enonic.vertical.engine.dbmodel.MenuTable;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.vertical.engine.XDG;
-import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 import com.enonic.vertical.engine.handlers.CommonHandler;
 
 public class MenuElementProcessor
@@ -17,12 +17,9 @@ public class MenuElementProcessor
 
     CommonHandler commonHandler;
 
-    VerticalDatabase db;
-
-    public MenuElementProcessor( CommonHandler commonHandler, VerticalDatabase db )
+    public MenuElementProcessor( CommonHandler commonHandler )
     {
         this.commonHandler = commonHandler;
-        this.db = db;
     }
 
     public void process( Element elem )
@@ -31,9 +28,9 @@ public class MenuElementProcessor
         if ( intStr != null && intStr.length() > 0 )
         {
             int menuKey = Integer.parseInt( intStr );
-            Column[] selectColumns = new Column[]{db.tMenu.men_sName};
-            Column[] whereColumns = new Column[]{db.tMenu.men_lKey};
-            StringBuffer sql = XDG.generateSelectSQL( db.tMenu, selectColumns, false, whereColumns );
+            Column[] selectColumns = new Column[]{MenuTable.INSTANCE.men_sName};
+            Column[] whereColumns = new Column[]{MenuTable.INSTANCE.men_lKey};
+            StringBuffer sql = XDG.generateSelectSQL( MenuTable.INSTANCE, selectColumns, false, whereColumns );
             String name = commonHandler.getString( sql.toString(), new Object[]{new Integer( menuKey )} );
             elem.setAttribute( "menuname", name );
         }

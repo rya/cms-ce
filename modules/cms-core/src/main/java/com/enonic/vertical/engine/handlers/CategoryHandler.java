@@ -223,7 +223,7 @@ public class CategoryHandler
 
                 // name
                 String name = root.getAttribute( "name" );
-                preparedStmt.setString( 6, name );
+                preparedStmt.setString(6, name);
 
                 // element: description (optional)
                 Element subelem = (Element) subelems.get( "description" );
@@ -237,7 +237,7 @@ public class CategoryHandler
                     }
                     else
                     {
-                        preparedStmt.setString( 7, description );
+                        preparedStmt.setString(7, description);
                     }
                 }
                 else
@@ -372,7 +372,7 @@ public class CategoryHandler
         return commonHandler.getInt( sql.toString(), (int[]) null );
     }
 
-    public int[] getCategoryKeysBySuperCategory( Connection con, CategoryKey superCategoryKey, boolean recursive )
+    private int[] getCategoryKeysBySuperCategory(CategoryKey superCategoryKey, boolean recursive)
     {
 
         return getCategoryKeysBySuperCategories(new int[]{superCategoryKey.toInt()}, recursive );
@@ -395,7 +395,7 @@ public class CategoryHandler
         return categoryKeys.toArray();
     }
 
-    public TIntArrayList getSubCategoriesByParent( CategoryKey parentKey, boolean recursive )
+    private TIntArrayList getSubCategoriesByParent( CategoryKey parentKey, boolean recursive )
     {
         TIntArrayList categoryKeys = new TIntArrayList();
         CategoryEntity parent = categoryDao.findByKey( parentKey );
@@ -702,7 +702,7 @@ public class CategoryHandler
 
             if ( !subCategories )
             {
-                int keys[] = getCategoryKeysBySuperCategory( con, categoryKey, false );
+                int keys[] = getCategoryKeysBySuperCategory(categoryKey, false );
                 for ( int i = 0; !subCategories && i < keys.length; i++ )
                 {
                     subCategories = hasSubCategories( olduser, new CategoryKey( keys[i] ), contentTypeKeys, adminRead );
@@ -807,7 +807,7 @@ public class CategoryHandler
 
             // attribute: name
             String name = root.getAttribute( "name" );
-            preparedStmt.setString( 6, name );
+            preparedStmt.setString(6, name);
 
             // element: owner
             Element subElem = (Element) subElems.get( "owner" );
@@ -826,7 +826,7 @@ public class CategoryHandler
                 }
                 else
                 {
-                    preparedStmt.setString( 7, description );
+                    preparedStmt.setString(7, description);
                 }
             }
             else
@@ -929,7 +929,7 @@ public class CategoryHandler
                 VerticalEngineLogger.errorSecurity("User is not allowed to update the new parent category.", null );
             }
 
-            int[] children = getCategoryKeysBySuperCategory( con, catKey, true );
+            int[] children = getCategoryKeysBySuperCategory(catKey, true );
 
             // Get new unit key
             int unitKey = getUnitKey( superCatKey );

@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -341,7 +340,7 @@ public class UnitHandler
         updateUnit( doc );
     }
 
-    public void updateUnit( Document unitDoc )
+    private void updateUnit( Document unitDoc )
         throws VerticalUpdateException
     {
 
@@ -443,7 +442,7 @@ public class UnitHandler
         }
     }
 
-    public void setUnitContentTypes( int unitKey, int[] contentTypeKeys )
+    private void setUnitContentTypes( int unitKey, int[] contentTypeKeys )
         throws VerticalUpdateException
     {
         final UnitEntity entity = this.unitDao.findByKey(unitKey);

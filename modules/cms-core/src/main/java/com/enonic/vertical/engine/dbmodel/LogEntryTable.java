@@ -12,7 +12,7 @@ import com.enonic.esl.sql.model.Table;
 public final class LogEntryTable
     extends Table
 {
-    private static final LogEntryTable LogEntry = new LogEntryTable( "tLogEntry", "logentry", "logentries" );
+    public static final LogEntryTable INSTANCE = new LogEntryTable( "tLogEntry", "logentry", "logentries" );
 
     public Column len_sKey = new Column( "len_sKey", "@key", true, true, Constants.COLUMN_CHAR, null, 28 );
 
@@ -57,10 +57,4 @@ public final class LogEntryTable
         addColumn( len_xmlData );
         addColumn( len_dteTimestamp );
     }
-
-    public static LogEntryTable getInstance()
-    {
-        return LogEntry;
-    }
-
 }

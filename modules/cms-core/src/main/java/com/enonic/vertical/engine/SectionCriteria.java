@@ -50,11 +50,6 @@ public class SectionCriteria
         addAccessRights = val;
     }
 
-    public void setSiteKey( SiteKey key )
-    {
-        siteKeys = new SiteKey[]{key};
-    }
-
     public void setSiteKeys( int[] keys )
     {
         siteKeys = new SiteKey[keys.length];

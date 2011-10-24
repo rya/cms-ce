@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -216,7 +215,7 @@ public final class PageTemplateHandler
                     ptdDoc = XMLTool.createDocument( "pagetemplatedata" );
                 }
                 byte[] ptdBytes = XMLTool.documentToBytes( ptdDoc, "UTF-8" );
-                preparedStmt.setBytes( 6, ptdBytes );
+                preparedStmt.setBytes(6, ptdBytes);
 
                 // element: CSS
                 subelem = subelems.get( "css" );
@@ -528,7 +527,7 @@ public final class PageTemplateHandler
                 // element: name
                 Element subelem = subelems.get( "name" );
                 String name = XMLTool.getElementText( subelem );
-                preparedStmt.setString( 3, name );
+                preparedStmt.setString(3, name);
 
                 // element: separator
                 subelem = subelems.get( "separator" );
@@ -537,7 +536,7 @@ public final class PageTemplateHandler
                 {
                     separator = "";
                 }
-                preparedStmt.setString( 5, separator );
+                preparedStmt.setString(5, separator);
 
                 // element: timestamp (using the database timestamp at creation)
                 /* no code */
@@ -696,7 +695,7 @@ public final class PageTemplateHandler
         return doc;
     }
 
-    private int[] getPageTemplateKeysByMenu( Connection _con, int menuKey )
+    private int[] getPageTemplateKeysByMenu(int menuKey)
     {
 
         Connection con = null;
@@ -706,14 +705,7 @@ public final class PageTemplateHandler
 
         try
         {
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
+            con = getConnection();
             prepStmt = con.prepareStatement( PAT_SELECT_KEY_BY_MENU );
             prepStmt.setInt( 1, menuKey );
             resultSet = prepStmt.executeQuery();
@@ -731,10 +723,7 @@ public final class PageTemplateHandler
         {
             close( resultSet );
             close( prepStmt );
-            if ( _con == null )
-            {
-                close( con );
-            }
+            close( con );
         }
 
         return pageTemplateKeys.toArray();
@@ -789,7 +778,7 @@ public final class PageTemplateHandler
         return createPageTemplatesDocument( list );
     }
 
-    public int[] getPageTemplParamKeys( int pageTemplateKey )
+    private int[] getPageTemplParamKeys( int pageTemplateKey )
     {
 
         Connection con = null;
@@ -920,7 +909,7 @@ public final class PageTemplateHandler
     public void removePageTemplatesByMenu( int menuKey )
         throws VerticalRemoveException
     {
-        int[] pageTemplateKeys = getPageTemplateKeysByMenu( null, menuKey );
+        int[] pageTemplateKeys = getPageTemplateKeysByMenu(menuKey );
         if ( pageTemplateKeys != null && pageTemplateKeys.length > 0 )
         {
             removePageTemplates( pageTemplateKeys );
@@ -1006,7 +995,7 @@ public final class PageTemplateHandler
         }
     }
 
-    public void removePageTemplParams( int pageTemplateKey )
+    private void removePageTemplParams( int pageTemplateKey )
         throws VerticalRemoveException
     {
 
@@ -1061,7 +1050,7 @@ public final class PageTemplateHandler
         }
     }
 
-    public void setPageTemplateContentTypes( int pageTemplateKey, int[] contentTypeKeys )
+    private void setPageTemplateContentTypes( int pageTemplateKey, int[] contentTypeKeys )
     {
         // first delete the contenttypes for this page template
         StringBuffer sql = XDG.generateRemoveSQL( db.tPageTemplateCty, db.tPageTemplateCty.ptt_pat_lKey );
@@ -1086,7 +1075,7 @@ public final class PageTemplateHandler
         }
     }
 
-    public int[] getMenuItemKeysByPageTemplate( int pageTemplateKey )
+    private int[] getMenuItemKeysByPageTemplate( int pageTemplateKey )
     {
         StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lKey, false, (Column) null );
         XDG.appendJoinSQL( sql, db.tMenuItem.mei_pag_lKey );
@@ -1196,7 +1185,7 @@ public final class PageTemplateHandler
                 Document ptdDoc = XMLTool.createDocument();
                 ptdDoc.appendChild( ptdDoc.importNode( subelem, true ) );
                 byte[] ptdBytes = XMLTool.documentToBytes( ptdDoc, "UTF-8" );
-                preparedStmt.setBytes( 5, ptdBytes );
+                preparedStmt.setBytes(5, ptdBytes);
 
                 // element: CSS
                 subelem = subelems.get( "css" );
@@ -1371,7 +1360,7 @@ public final class PageTemplateHandler
         }
     }
 
-    public void updatePageTemplParam( Document ptpDoc )
+    private void updatePageTemplParam( Document ptpDoc )
         throws VerticalUpdateException
     {
 
@@ -1441,7 +1430,7 @@ public final class PageTemplateHandler
                 // element: name
                 Element subelem = subelems.get( "name" );
                 String name = XMLTool.getElementText( subelem );
-                preparedStmt.setString( 2, name );
+                preparedStmt.setString(2, name);
 
                 subelem = subelems.get( "separator" );
                 String separator = XMLTool.getElementText( subelem );
@@ -1449,7 +1438,7 @@ public final class PageTemplateHandler
                 {
                     separator = "";
                 }
-                preparedStmt.setString( 4, separator );
+                preparedStmt.setString(4, separator);
 
                 int result = preparedStmt.executeUpdate();
                 if ( result <= 0 )

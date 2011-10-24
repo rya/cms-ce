@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -582,7 +581,7 @@ public final class PageHandler
         updatePage( doc );
     }
 
-    public void updatePage( Document doc )
+    private void updatePage( Document doc )
         throws VerticalUpdateException
     {
 
