@@ -40,11 +40,11 @@ public class ContentIndexQueryTracer
             trace.setCategoryFilter( collectionToString( query.getCategoryFilter() ) );
             trace.setContentTypeFilter( collectionToString( query.getContentTypeFilter() ) );
             trace.setCategoryAccessTypeFilter( collectionToString( query.getCategoryAccessTypeFilter() ) );
-            trace.setSecurityFilter( collectionToString( query.getSectionFilter() ) );
+            trace.setSecurityFilter( securityFilterToString( query.getSecurityFilter() ) );
         }
     }
 
-    public static void traceMatchCount( int matchCount, ContentIndexQueryTrace trace )
+    public static void traceMatchCount( final int matchCount, final ContentIndexQueryTrace trace )
     {
         if ( trace != null )
         {
@@ -52,7 +52,27 @@ public class ContentIndexQueryTracer
         }
     }
 
-    private static String collectionToString( Collection collection )
+    private static String securityFilterToString( final Collection collection )
+    {
+        if ( collection == null || collection.size() == 0 )
+        {
+            return "";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for ( int i = 0; i < collection.size(); i++ )
+        {
+            sb.append( "*" );
+            if ( i < collection.size() - 1 )
+            {
+                sb.append( ", " );
+            }
+        }
+
+        return sb.toString();
+    }
+
+    private static String collectionToString( final Collection collection )
     {
         if ( collection == null || collection.size() == 0 )
         {

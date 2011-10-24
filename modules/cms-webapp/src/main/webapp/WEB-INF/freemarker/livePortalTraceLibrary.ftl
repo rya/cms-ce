@@ -419,11 +419,11 @@
             </tr>
             <tr>
                 <td>Section filter</td>
-                <td>${trace.sectionFiler!}</td>
+                <td>${trace.sectionFilter!}</td>
             </tr>
             <tr>
                 <td>Category filter</td>
-                <td>${trace.categoryFiler!}</td>
+                <td>${trace.categoryFilter!}</td>
             </tr>
             <tr>
                 <td>Content type filter</td>
