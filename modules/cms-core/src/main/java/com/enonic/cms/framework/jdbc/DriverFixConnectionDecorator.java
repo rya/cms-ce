@@ -1,80 +1,46 @@
 package com.enonic.cms.framework.jdbc;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.enonic.cms.framework.jdbc.delegate.DelegatingConnection;
 import com.enonic.cms.framework.jdbc.delegate.DelegatingPreparedStatement;
 import com.enonic.cms.framework.jdbc.delegate.DelegatingStatement;
 
+import java.sql.*;
+
 /**
- * This class implements the connection decorator.
- *
- * Ignores setQueryTimeout calls in Statement and PreparedStatement instances
- *
- * required for PostgreSQL databases to fix "not implemented" issue
- *
+ * This class fixes some annoying things in jdbc drivers. At this point, only setQueryTimeout is fixed.
+ * Reason: PostgreSQL JDBC driver versions 8.3, 8.4, 9.0 do not implement <code>setQueryTimeout(int)</code> method.
  */
-public final class QueryTimeoutConnectionDecorator
+public final class DriverFixConnectionDecorator
     implements ConnectionDecorator
 {
-    /**
-     * Decorate the connection.
-     */
     public Connection decorate( final Connection connection )
         throws SQLException
     {
         return new ConnectionImpl( connection );
     }
 
-    /**
-     * Dialect connection.
-     */
     private final class ConnectionImpl
         extends DelegatingConnection
     {
-        /**
-         * Construct the connection.
-         * @param conn Connection
-         */
         public ConnectionImpl( Connection conn )
         {
             super( conn );
         }
 
-        /**
-         * Create prepared statement.
-         */
         protected Statement createWrappedStatement( Statement stmt )
         {
             return new StatementImpl( stmt, this );
         }
 
-        /**
-         * Create prepared statement.
-         */
         protected PreparedStatement createWrappedPreparedStatement( PreparedStatement stmt, String sql )
         {
             return new PreparedStatementImpl( stmt, this );
         }
     }
 
-    /**
-     * Dialect statement.
-     */
     private final class StatementImpl
         extends DelegatingStatement
     {
-        /**
-         * Construct the statement.
-         * @param stmt Statement
-         * @param conn Connection
-         */
         public StatementImpl( Statement stmt, Connection conn )
         {
             super( stmt, conn );
@@ -82,23 +48,15 @@ public final class QueryTimeoutConnectionDecorator
 
         @Override
         public void setQueryTimeout( int seconds )
-                throws SQLException
+            throws SQLException
         {
-            // ignore
+            doSetQueryTimeout( this.stmt, seconds );
         }
     }
 
-    /**
-     * Dialect prepared statement.
-     */
     private final class PreparedStatementImpl
         extends DelegatingPreparedStatement
     {
-        /**
-         * Construct the statement.
-         * @param stmt PreparedStatement
-         * @param conn Connection
-         */
         public PreparedStatementImpl( PreparedStatement stmt, Connection conn )
         {
             super( stmt, conn );
@@ -106,9 +64,19 @@ public final class QueryTimeoutConnectionDecorator
 
         @Override
         public void setQueryTimeout( int seconds )
-                throws SQLException
+            throws SQLException
         {
-            // ignore
+            doSetQueryTimeout( this.stmt, seconds );
+        }
+    }
+
+    private void doSetQueryTimeout( final Statement stmt, final int seconds )
+        throws SQLException
+    {
+        try {
+            stmt.setQueryTimeout( seconds );
+        } catch ( final SQLFeatureNotSupportedException e ) {
+            // Ignore
         }
     }
 }

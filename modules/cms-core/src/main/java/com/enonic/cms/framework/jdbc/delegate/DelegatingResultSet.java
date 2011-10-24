@@ -30,34 +30,16 @@ import java.util.Map;
  * This class implements the delegating resultset.
  */
 public class DelegatingResultSet
-    extends DelegatingBase
     implements ResultSet
 {
-    /**
-     * Real result set.
-     */
-    private final ResultSet result;
+    protected final ResultSet result;
 
-    /**
-     * Statement.
-     */
-    private final Statement stmt;
+    protected final Statement stmt;
 
-    /**
-     * Construct the resultset.
-     */
     public DelegatingResultSet( ResultSet result, Statement stmt )
     {
         this.stmt = stmt;
         this.result = result;
-    }
-
-    /**
-     * Return the delegate.
-     */
-    public Object getDelegate()
-    {
-        return this.result;
     }
 
     public int getConcurrency()
@@ -1192,5 +1174,15 @@ public class DelegatingResultSet
         throws SQLException
     {
         this.result.updateNClob( columnLabel, reader );
+    }
+
+    public int hashCode()
+    {
+        return this.stmt.hashCode();
+    }
+
+    public String toString()
+    {
+        return this.stmt.toString();
     }
 }

@@ -33,7 +33,7 @@ public class DelegatingPreparedStatement
     extends DelegatingStatement
     implements PreparedStatement
 {
-    private final PreparedStatement stmt;
+    protected final PreparedStatement stmt;
 
     public DelegatingPreparedStatement( PreparedStatement stmt, Connection conn )
     {

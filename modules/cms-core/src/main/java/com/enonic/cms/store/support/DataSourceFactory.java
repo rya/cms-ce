@@ -5,48 +5,46 @@
 package com.enonic.cms.store.support;
 
 import javax.sql.DataSource;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
+import com.enonic.cms.framework.jdbc.DriverFixConnectionDecorator;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-
-import com.enonic.cms.framework.jdbc.QueryTimeoutConnectionDecorator;
-import com.enonic.cms.framework.jdbc.dialect.DialectResolver;
-import com.enonic.cms.framework.jdbc.dialect.PostgreSqlDialect;
+import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 
 public final class DataSourceFactory
-    implements FactoryBean, InitializingBean, BeanFactoryPostProcessor
+    implements FactoryBean<DataSource>, InitializingBean
 {
-    private final static Logger LOG = LoggerFactory.getLogger( DataSourceFactory.class );
-
     private boolean traceEnabled;
 
     private DataSource dataSource;
 
-    private DialectResolver dialectResolver;
+    private String jndiName;
 
     public void setTraceEnabled( boolean traceEnabled )
     {
         this.traceEnabled = traceEnabled;
     }
 
+    public void setJndiName( String jndiName )
+    {
+        this.jndiName = jndiName;
+    }
+
     public void afterPropertiesSet()
     {
-        if ( !this.traceEnabled )
+        final JndiDataSourceLookup lookup = new JndiDataSourceLookup();
+        final DataSource original = lookup.getDataSource(this.jndiName);
+
+        // Create decorated datasource to cope with driver defects
+        this.dataSource = new DecoratedDataSource( original, new DriverFixConnectionDecorator() );
+
+        // Create traceable datasource if trace is enabled
+        if ( this.traceEnabled )
         {
-            this.dataSource = dialectResolver.getOriginalDataSource();
-        }
-        else
-        {
-            this.dataSource = new TraceableDataSourceImpl( dialectResolver.getOriginalDataSource() );
+            this.dataSource = new TraceableDataSourceImpl( this.dataSource );
         }
     }
 
-    public Object getObject()
+    public DataSource getObject()
     {
         return this.dataSource;
     }
@@ -59,25 +57,5 @@ public final class DataSourceFactory
     public boolean isSingleton()
     {
         return true;
-    }
-
-    /**
-     * <p>Decorate datasource to return proxied Statement that will ignore setQueryTimeout calls
-     * <p/>
-     * <p>Reason: PostgreSQL JDBC driver versions 8.3, 8.4, 9.0 do not implement <code>setQueryTimeout(int)</code> method
-     */
-    public void postProcessBeanFactory( ConfigurableListableBeanFactory beanFactory )
-        throws BeansException
-    {
-        if ( dialectResolver.resolveDialect() instanceof PostgreSqlDialect )
-        {
-            LOG.info( "Decorating database connection for ignoring setQueryTimeout calls" );
-            this.dataSource = new DecoratedDataSource( this.dataSource, new QueryTimeoutConnectionDecorator() );
-        }
-    }
-
-    public void setDialectResolver( DialectResolver dialectResolver )
-    {
-        this.dialectResolver = dialectResolver;
     }
 }

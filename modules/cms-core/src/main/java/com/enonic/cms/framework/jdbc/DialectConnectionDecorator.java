@@ -30,410 +30,325 @@ import com.enonic.cms.framework.jdbc.dialect.Dialect;
 public final class DialectConnectionDecorator
     implements ConnectionDecorator
 {
-    /**
-     * Dialect to use.
-     */
     private final Dialect dialect;
 
-    /**
-     * Construct the decorator.
-     */
-    public DialectConnectionDecorator( Dialect dialect )
+    public DialectConnectionDecorator( final Dialect dialect )
     {
         this.dialect = dialect;
     }
 
-    /**
-     * Decorate the connection.
-     */
     public Connection decorate( Connection connection )
         throws SQLException
     {
         this.dialect.initConnection( connection );
-        return new ConnectionImpl( connection, this.dialect );
+        return new ConnectionImpl( connection );
     }
 
-    /**
-     * Dialect connection.
-     */
     private final class ConnectionImpl
         extends DelegatingConnection
     {
-        /**
-         * Dialect.
-         */
-        private final Dialect dialect;
-
-        /**
-         * Construct the connection.
-         */
-        public ConnectionImpl( Connection conn, Dialect dialect )
+        public ConnectionImpl( Connection conn )
         {
             super( conn );
-            this.dialect = dialect;
         }
 
-        /**
-         * Create prepared statement.
-         */
         protected Statement createWrappedStatement( Statement stmt )
         {
-            return new StatementImpl( stmt, this, this.dialect );
+            return new StatementImpl( stmt, this );
         }
 
-        /**
-         * Create prepared statement.
-         */
         protected PreparedStatement createWrappedPreparedStatement( PreparedStatement stmt, String sql )
         {
-            return new PreparedStatementImpl( stmt, this, this.dialect );
+            return new PreparedStatementImpl( stmt, this );
         }
 
         public PreparedStatement prepareStatement( String sql )
             throws SQLException
         {
-            return super.prepareStatement( this.dialect.translateStatement( sql ) );
+            return super.prepareStatement( dialect.translateStatement( sql ) );
         }
     }
 
-    /**
-     * Dialect statement.
-     */
     private final class StatementImpl
         extends DelegatingStatement
     {
-        /**
-         * Dialect.
-         */
-        private final Dialect dialect;
-
-        /**
-         * Construct the statement.
-         */
-        public StatementImpl( Statement stmt, Connection conn, Dialect dialect )
+        public StatementImpl( Statement stmt, Connection conn )
         {
             super( stmt, conn );
-            this.dialect = dialect;
         }
 
-        /**
-         * Create wrapped result set.
-         */
         protected ResultSet createWrappedResultSet( ResultSet rs )
         {
-            return new ResultSetImpl( rs, this, this.dialect );
+            return new ResultSetImpl( rs, this );
         }
 
         public int executeUpdate( String sql )
             throws SQLException
         {
-            return super.executeUpdate( this.dialect.translateStatement( sql ) );
+            return super.executeUpdate( dialect.translateStatement( sql ) );
         }
 
         public boolean execute( String sql )
             throws SQLException
         {
-            return super.execute( this.dialect.translateStatement( sql ) );
+            return super.execute( dialect.translateStatement( sql ) );
         }
 
         public ResultSet executeQuery( String sql )
             throws SQLException
         {
-            return super.executeQuery( this.dialect.translateStatement( sql ) );
+            return super.executeQuery( dialect.translateStatement( sql ) );
         }
     }
 
-    /**
-     * Dialect prepared statement.
-     */
     private final class PreparedStatementImpl
         extends DelegatingPreparedStatement
     {
-        /**
-         * Dialect.
-         */
-        private final Dialect dialect;
-
-        /**
-         * Construct the statement.
-         */
-        public PreparedStatementImpl( PreparedStatement stmt, Connection conn, Dialect dialect )
+        public PreparedStatementImpl( PreparedStatement stmt, Connection conn )
         {
             super( stmt, conn );
-            this.dialect = dialect;
         }
 
-        /**
-         * Return the real statement.
-         */
-        private PreparedStatement getRealStatement()
-        {
-            return (PreparedStatement) getDelegate();
-        }
-
-        /**
-         * Create wrapped result set.
-         */
         protected ResultSet createWrappedResultSet( ResultSet rs )
         {
-            return new ResultSetImpl( rs, this, this.dialect );
+            return new ResultSetImpl( rs, this );
         }
 
         public int executeUpdate( String sql )
             throws SQLException
         {
-            return super.executeUpdate( this.dialect.translateStatement( sql ) );
+            return super.executeUpdate( dialect.translateStatement( sql ) );
         }
 
         public boolean execute( String sql )
             throws SQLException
         {
-            return super.execute( this.dialect.translateStatement( sql ) );
+            return super.execute( dialect.translateStatement( sql ) );
         }
 
         public ResultSet executeQuery( String sql )
             throws SQLException
         {
-            return super.executeQuery( this.dialect.translateStatement( sql ) );
+            return super.executeQuery( dialect.translateStatement( sql ) );
         }
 
         public void setByte( int parameterIndex, byte x )
             throws SQLException
         {
-            this.dialect.setByte( getRealStatement(), parameterIndex, x );
+            dialect.setByte( this.stmt, parameterIndex, x );
         }
 
         public void setDouble( int parameterIndex, double x )
             throws SQLException
         {
-            this.dialect.setDouble( getRealStatement(), parameterIndex, x );
+            dialect.setDouble( this.stmt, parameterIndex, x );
         }
 
         public void setFloat( int parameterIndex, float x )
             throws SQLException
         {
-            this.dialect.setFloat( getRealStatement(), parameterIndex, x );
+            dialect.setFloat( this.stmt, parameterIndex, x );
         }
 
         public void setInt( int parameterIndex, int x )
             throws SQLException
         {
-            this.dialect.setInt( getRealStatement(), parameterIndex, x );
+            dialect.setInt( this.stmt, parameterIndex, x );
         }
 
         public void setNull( int parameterIndex, int sqlType )
             throws SQLException
         {
-            this.dialect.setObject( getRealStatement(), parameterIndex, null, sqlType );
+            dialect.setObject( this.stmt, parameterIndex, null, sqlType );
         }
 
         public void setLong( int parameterIndex, long x )
             throws SQLException
         {
-            this.dialect.setLong( getRealStatement(), parameterIndex, x );
+            dialect.setLong( this.stmt, parameterIndex, x );
         }
 
         public void setShort( int parameterIndex, short x )
             throws SQLException
         {
-            this.dialect.setShort( getRealStatement(), parameterIndex, x );
+            dialect.setShort( this.stmt, parameterIndex, x );
         }
 
         public void setBoolean( int parameterIndex, boolean x )
             throws SQLException
         {
-            this.dialect.setBoolean( getRealStatement(), parameterIndex, x );
+            dialect.setBoolean( this.stmt, parameterIndex, x );
         }
 
         public void setBytes( int parameterIndex, byte x[] )
             throws SQLException
         {
-            this.dialect.setBytes( getRealStatement(), parameterIndex, x );
+            dialect.setBytes( this.stmt, parameterIndex, x );
         }
 
         public void setBinaryStream( int parameterIndex, InputStream x, int length )
             throws SQLException
         {
-            this.dialect.setBinaryStream( getRealStatement(), parameterIndex, x, length );
+            dialect.setBinaryStream( this.stmt, parameterIndex, x, length );
         }
 
         public void setObject( int parameterIndex, Object x )
             throws SQLException
         {
-            this.dialect.setObject( getRealStatement(), parameterIndex, x );
+            dialect.setObject( this.stmt, parameterIndex, x );
         }
 
         public void setObject( int parameterIndex, Object x, int targetSqlType )
             throws SQLException
         {
-            this.dialect.setObject( getRealStatement(), parameterIndex, x, targetSqlType );
+            dialect.setObject( this.stmt, parameterIndex, x, targetSqlType );
         }
 
         public void setString( int parameterIndex, String x )
             throws SQLException
         {
-            this.dialect.setString( getRealStatement(), parameterIndex, x );
+            dialect.setString( this.stmt, parameterIndex, x );
         }
 
         public void setBigDecimal( int parameterIndex, BigDecimal x )
             throws SQLException
         {
-            this.dialect.setBigDecimal( getRealStatement(), parameterIndex, x );
+            dialect.setBigDecimal( this.stmt, parameterIndex, x );
         }
 
         public void setAsciiStream( int parameterIndex, InputStream x, int length )
             throws SQLException
         {
-            this.dialect.setAsciiStream( getRealStatement(), parameterIndex, x, length );
+            dialect.setAsciiStream( this.stmt, parameterIndex, x, length );
         }
 
         public void setCharacterStream( int parameterIndex, Reader reader, int length )
             throws SQLException
         {
-            this.dialect.setCharacterStream( getRealStatement(), parameterIndex, reader, length );
+            dialect.setCharacterStream( this.stmt, parameterIndex, reader, length );
         }
     }
 
-    /**
-     * Dialect resultset.
-     */
     private final class ResultSetImpl
         extends DelegatingResultSet
     {
-        /**
-         * Dialect.
-         */
-        private final Dialect dialect;
-
-        /**
-         * Construct the statement.
-         */
-        public ResultSetImpl( ResultSet rs, Statement stmt, Dialect dialect )
+        public ResultSetImpl( ResultSet rs, Statement stmt )
         {
             super( rs, stmt );
-            this.dialect = dialect;
-        }
-
-        /**
-         * Return the real result set.
-         */
-        private ResultSet getRealResultSet()
-        {
-            return (ResultSet) getDelegate();
         }
 
         public byte getByte( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getByte( getRealResultSet(), columnIndex );
+            return dialect.getByte( this.result, columnIndex );
         }
 
         public double getDouble( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getDouble( getRealResultSet(), columnIndex );
+            return dialect.getDouble( this.result, columnIndex );
         }
 
         public float getFloat( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getFloat( getRealResultSet(), columnIndex );
+            return dialect.getFloat( this.result, columnIndex );
         }
 
         public int getInt( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getInt( getRealResultSet(), columnIndex );
+            return dialect.getInt( this.result, columnIndex );
         }
 
         public long getLong( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getLong( getRealResultSet(), columnIndex );
+            return dialect.getLong( this.result, columnIndex );
         }
 
         public short getShort( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getShort( getRealResultSet(), columnIndex );
+            return dialect.getShort( this.result, columnIndex );
         }
 
         public boolean getBoolean( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getBoolean( getRealResultSet(), columnIndex );
+            return dialect.getBoolean( this.result, columnIndex );
         }
 
         public byte[] getBytes( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getBytes( getRealResultSet(), columnIndex );
+            return dialect.getBytes( this.result, columnIndex );
         }
 
         public InputStream getAsciiStream( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getAsciiStream( getRealResultSet(), columnIndex );
+            return dialect.getAsciiStream( this.result, columnIndex );
         }
 
         public InputStream getBinaryStream( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getBinaryStream( getRealResultSet(), columnIndex );
+            return dialect.getBinaryStream( this.result, columnIndex );
         }
 
         public Reader getCharacterStream( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getCharacterStream( getRealResultSet(), columnIndex );
+            return dialect.getCharacterStream( this.result, columnIndex );
         }
 
         public Object getObject( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getObject( getRealResultSet(), columnIndex );
+            return dialect.getObject( this.result, columnIndex );
         }
 
         public String getString( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getString( getRealResultSet(), columnIndex );
+            return dialect.getString( this.result, columnIndex );
         }
 
         public BigDecimal getBigDecimal( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getBigDecimal( getRealResultSet(), columnIndex );
+            return dialect.getBigDecimal( this.result, columnIndex );
         }
 
         public Blob getBlob( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getBlob( getRealResultSet(), columnIndex );
+            return dialect.getBlob( this.result, columnIndex );
         }
 
         public Clob getClob( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getClob( getRealResultSet(), columnIndex );
+            return dialect.getClob( this.result, columnIndex );
         }
 
         public Date getDate( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getDate( getRealResultSet(), columnIndex );
+            return dialect.getDate( this.result, columnIndex );
         }
 
         public Time getTime( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getTime( getRealResultSet(), columnIndex );
+            return dialect.getTime( this.result, columnIndex );
         }
 
         public Timestamp getTimestamp( int columnIndex )
             throws SQLException
         {
-            return this.dialect.getTimestamp( getRealResultSet(), columnIndex );
+            return dialect.getTimestamp( this.result, columnIndex );
         }
 
         public byte getByte( String columnName )

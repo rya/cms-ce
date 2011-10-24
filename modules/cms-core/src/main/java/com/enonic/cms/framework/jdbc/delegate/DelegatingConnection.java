@@ -27,36 +27,13 @@ import java.util.Properties;
  * class.
  */
 public abstract class DelegatingConnection
-    extends DelegatingBase
     implements Connection
 {
-    /**
-     * Delegated connection.
-     */
-    private final Connection conn;
+    protected final Connection conn;
 
-    /**
-     * Construct the connection.
-     */
     public DelegatingConnection( Connection conn )
     {
         this.conn = conn;
-    }
-
-    /**
-     * Return the delegate.
-     */
-    public Object getDelegate()
-    {
-        return this.conn;
-    }
-
-    /**
-     * Return the target connection.
-     */
-    public Connection getTargetConnection()
-    {
-        return this.conn;
     }
 
     public int getHoldability()
@@ -152,7 +129,7 @@ public abstract class DelegatingConnection
     public DatabaseMetaData getMetaData()
         throws SQLException
     {
-        return createWrappedDatabaseMetaData( this.conn.getMetaData() );
+        return this.conn.getMetaData();
     }
 
     public SQLWarning getWarnings()
@@ -197,13 +174,13 @@ public abstract class DelegatingConnection
         return createWrappedStatement( this.conn.createStatement( resultSetType, resultSetConcurrency, resultSetHoldability ) );
     }
 
-    public Map getTypeMap()
+    public Map<String, Class<?>> getTypeMap()
         throws SQLException
     {
         return this.conn.getTypeMap();
     }
 
-    public void setTypeMap( Map map )
+    public void setTypeMap( Map<String, Class<?>> map )
         throws SQLException
     {
         this.conn.setTypeMap( map );
@@ -275,23 +252,9 @@ public abstract class DelegatingConnection
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Create prepared statement.
-     */
     protected abstract Statement createWrappedStatement( Statement stmt );
 
-    /**
-     * Create prepared statement.
-     */
     protected abstract PreparedStatement createWrappedPreparedStatement( PreparedStatement stmt, String sql );
-
-    /**
-     * Create database meta data.
-     */
-    protected DatabaseMetaData createWrappedDatabaseMetaData( DatabaseMetaData md )
-    {
-        return md;
-    }
 
     public Clob createClob()
         throws SQLException
@@ -369,5 +332,15 @@ public abstract class DelegatingConnection
         throws SQLException
     {
         return this.conn.isWrapperFor( iface );
+    }
+
+    public int hashCode()
+    {
+        return this.conn.hashCode();
+    }
+
+    public String toString()
+    {
+        return this.conn.toString();
     }
 }

@@ -120,17 +120,6 @@ public abstract class AbstractConnectionDecoratorTest
         assertNotSame( real, decorated );
         assertTrue( "decorated Connection not DelegatingConnection at level " + numberOfLevelsToReal,
                     decorated instanceof DelegatingConnection );
-
-        DelegatingConnection connectionAsDelegatingConnection = (DelegatingConnection) decorated;
-        if ( numberOfLevelsToReal == 1 )
-        {
-            assertSame( real, connectionAsDelegatingConnection.getDelegate() );
-        }
-        else
-        {
-            assertNotSame( real, connectionAsDelegatingConnection.getDelegate() );
-            assertDecoratedConnection( real, (Connection) connectionAsDelegatingConnection.getDelegate(), numberOfLevelsToReal - 1 );
-        }
     }
 
     void assertDecoratedStatement( Statement real, Statement decorated, int numberOfLevelsToReal )
@@ -138,17 +127,6 @@ public abstract class AbstractConnectionDecoratorTest
         assertNotSame( real, decorated );
         assertTrue( "decorated Statement not DelegatingStatement at level " + numberOfLevelsToReal,
                     decorated instanceof DelegatingStatement );
-
-        DelegatingStatement statementAsDelegatingStatement = (DelegatingStatement) decorated;
-        if ( numberOfLevelsToReal == 1 )
-        {
-            assertSame( real, statementAsDelegatingStatement.getDelegate() );
-        }
-        else
-        {
-            assertNotSame( real, statementAsDelegatingStatement.getDelegate() );
-            assertDecoratedStatement( real, (Statement) statementAsDelegatingStatement.getDelegate(), numberOfLevelsToReal - 1 );
-        }
     }
 
     void assertDelegatingResultSet( ResultSet real, ResultSet decorated, int numberOfLevelsToReal )
@@ -156,16 +134,5 @@ public abstract class AbstractConnectionDecoratorTest
         assertNotSame( real, decorated );
         assertTrue( "decorated ResultSet not DelegatingResultSet at level " + numberOfLevelsToReal,
                     decorated instanceof DelegatingResultSet );
-
-        DelegatingResultSet resultSetAsDelegatingResultSet = (DelegatingResultSet) decorated;
-        if ( numberOfLevelsToReal == 1 )
-        {
-            assertSame( real, resultSetAsDelegatingResultSet.getDelegate() );
-        }
-        else
-        {
-            assertNotSame( real, resultSetAsDelegatingResultSet.getDelegate() );
-            assertDelegatingResultSet( real, (ResultSet) resultSetAsDelegatingResultSet.getDelegate(), numberOfLevelsToReal - 1 );
-        }
     }
 }

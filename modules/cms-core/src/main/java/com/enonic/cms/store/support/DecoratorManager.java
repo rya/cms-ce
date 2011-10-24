@@ -104,14 +104,6 @@ public final class DecoratorManager
     }
 
     /**
-     * Return the dialect.
-     */
-    public Dialect getDialect()
-    {
-        return this.dialect;
-    }
-
-    /**
      * Set the dialect.
      */
     public void setDialect( Dialect dialect )

@@ -2,9 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd">
-
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+   
     <context:annotation-config/>
 
     <context:component-scan base-package="com.enonic.cms.core"/>
@@ -18,24 +17,18 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="dialectResolver" class="com.enonic.cms.framework.jdbc.dialect.DialectResolver">
-        <property name="originalDataSource">
-            <jee:jndi-lookup jndi-name="java:comp/env/jdbc/cms"/>
-        </property>
+    <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
+        <property name="traceEnabled" value="#{config.jdbcConnectionTrace}"/>
+        <property name="jndiName" value="java:comp/env/jdbc/cms"/>
+    </bean>
+
+    <bean id="dialect" class="com.enonic.cms.framework.jdbc.dialect.DialectFactory">
+        <property name="dataSource" ref="dataSource"/>
         <property name="dialectName" value="#{config.jdbcDialect}"/>
     </bean>
 
-    <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
-        <property name="dialectResolver" ref="dialectResolver"/>
-        <property name="traceEnabled" value="#{config.jdbcConnectionTrace}"/>
-    </bean>
-
-    <bean id="dialectFactory" class="com.enonic.cms.framework.jdbc.dialect.DialectFactory">
-        <property name="dialectResolver" ref="dialectResolver"/>
-    </bean>
-
     <bean id="sessionFactory" class="com.enonic.cms.store.support.HibernateConfigurator">
-        <property name="dialect" ref="dialectFactory"/>
+        <property name="dialect" ref="dialect"/>
         <property name="dataSource" ref="dataSource"/>
         <property name="cacheManager" ref="cacheFacadeManager"/>
         <property name="configLocation" value="classpath:com/enonic/cms/store/hibernate.cfg.xml"/>
@@ -51,7 +44,7 @@
         <property name="logging" value="#{config.jdbcLogging}"/>
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="cacheManager" ref="cacheFacadeManager"/>
-        <property name="dialect" ref="dialectFactory"/>
+        <property name="dialect" ref="dialect"/>
     </bean>
 
     <bean id="connectionFactory" class="com.enonic.cms.store.support.ConnectionFactory">
@@ -83,7 +76,7 @@
 
     <bean id="upgradeService" class="com.enonic.cms.upgrade.service.UpgradeServiceImpl">
         <property name="connectionFactory" ref="connectionFactory"/>
-        <property name="dialect" ref="dialectFactory"/>
+        <property name="dialect" ref="dialect"/>
         <property name="transactionTemplate" ref="transactionTemplate"/>
         <property name="propertyResolver" ref="upgradePropertyResolver"/>
     </bean>

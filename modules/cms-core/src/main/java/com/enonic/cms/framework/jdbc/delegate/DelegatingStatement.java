@@ -14,34 +14,16 @@ import java.sql.Statement;
  * This class implements the delegating statement.
  */
 public class DelegatingStatement
-    extends DelegatingBase
     implements Statement
 {
-    /**
-     * Connection.
-     */
-    private final Connection conn;
+    protected final Connection conn;
 
-    /**
-     * Real statement.
-     */
-    private final Statement stmt;
+    protected final Statement stmt;
 
-    /**
-     * Construct the statement.
-     */
     public DelegatingStatement( Statement stmt, Connection conn )
     {
         this.conn = conn;
         this.stmt = stmt;
-    }
-
-    /**
-     * Return the delegate.
-     */
-    public Object getDelegate()
-    {
-        return this.stmt;
     }
 
     public int getFetchDirection()
@@ -266,9 +248,6 @@ public class DelegatingStatement
         return executeQuery( sql, true );
     }
 
-    /**
-     * Return a wrapped result set if wrapped is set.
-     */
     private ResultSet getResultSet( boolean wrapped )
         throws SQLException
     {
@@ -292,9 +271,6 @@ public class DelegatingStatement
         }
     }
 
-    /**
-     * Return a wrapped result set if wrapped is set.
-     */
     private ResultSet executeQuery( String sql, boolean wrapped )
         throws SQLException
     {
@@ -318,9 +294,6 @@ public class DelegatingStatement
         }
     }
 
-    /**
-     * Create wrapped result set.
-     */
     protected ResultSet createWrappedResultSet( ResultSet rs )
     {
         return new DelegatingResultSet( rs, this );
@@ -354,5 +327,15 @@ public class DelegatingStatement
         throws SQLException
     {
         return this.stmt.isPoolable();
+    }
+
+    public int hashCode()
+    {
+        return this.stmt.hashCode();
+    }
+
+    public String toString()
+    {
+        return this.stmt.toString();
     }
 }

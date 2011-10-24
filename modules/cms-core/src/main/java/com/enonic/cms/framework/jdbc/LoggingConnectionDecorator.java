@@ -24,49 +24,32 @@ public final class LoggingConnectionDecorator
     implements ConnectionDecorator
 {
     private static final Logger LOG = LoggerFactory.getLogger( LoggingConnectionDecorator.class.getName() );
-    /**
-     * Decorate the connection.
-     */
+
     public Connection decorate( final Connection connection )
         throws SQLException
     {
         return new ConnectionImpl( connection );
     }
 
-    /**
-     * Log the sql.
-     */
-    private void logSql( final Connection conn, final String sql )
+    private void logSql( final String sql )
         throws SQLException
     {
         LOG.info( "JdbcSql: {}", sql );
     }
 
-    /**
-     * Dialect connection.
-     */
     private final class ConnectionImpl
         extends DelegatingConnection
     {
-        /**
-         * Construct the connection.
-         */
         public ConnectionImpl( Connection conn )
         {
             super( conn );
         }
 
-        /**
-         * Create prepared statement.
-         */
         protected Statement createWrappedStatement( Statement stmt )
         {
             return new StatementImpl( stmt, this );
         }
 
-        /**
-         * Create prepared statement.
-         */
         protected PreparedStatement createWrappedPreparedStatement( PreparedStatement stmt, String sql )
         {
             return new PreparedStatementImpl( stmt, this );
@@ -75,20 +58,14 @@ public final class LoggingConnectionDecorator
         public PreparedStatement prepareStatement( String sql )
             throws SQLException
         {
-            logSql( this, sql );
+            logSql( sql );
             return super.prepareStatement( sql );
         }
     }
 
-    /**
-     * Dialect statement.
-     */
     private final class StatementImpl
         extends DelegatingStatement
     {
-        /**
-         * Construct the statement.
-         */
         public StatementImpl( Statement stmt, Connection conn )
         {
             super( stmt, conn );
@@ -97,34 +74,28 @@ public final class LoggingConnectionDecorator
         public int executeUpdate( String sql )
             throws SQLException
         {
-            logSql( getConnection(), sql );
+            logSql( sql );
             return super.executeUpdate( sql );
         }
 
         public boolean execute( String sql )
             throws SQLException
         {
-            logSql( getConnection(), sql );
+            logSql( sql );
             return super.execute( sql );
         }
 
         public ResultSet executeQuery( String sql )
             throws SQLException
         {
-            logSql( getConnection(), sql );
+            logSql( sql );
             return super.executeQuery( sql );
         }
     }
 
-    /**
-     * Dialect prepared statement.
-     */
     private final class PreparedStatementImpl
         extends DelegatingPreparedStatement
     {
-        /**
-         * Construct the statement.
-         */
         public PreparedStatementImpl( PreparedStatement stmt, Connection conn )
         {
             super( stmt, conn );
@@ -133,21 +104,21 @@ public final class LoggingConnectionDecorator
         public int executeUpdate( String sql )
             throws SQLException
         {
-            logSql( getConnection(), sql );
+            logSql(sql );
             return super.executeUpdate( sql );
         }
 
         public boolean execute( String sql )
             throws SQLException
         {
-            logSql( getConnection(), sql );
+            logSql( sql );
             return super.execute( sql );
         }
 
         public ResultSet executeQuery( String sql )
             throws SQLException
         {
-            logSql( getConnection(), sql );
+            logSql( sql );
             return super.executeQuery( sql );
         }
     }

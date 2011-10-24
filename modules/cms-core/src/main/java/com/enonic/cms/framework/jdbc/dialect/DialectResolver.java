@@ -36,18 +36,10 @@ public final class DialectResolver
         };
     }
 
-    private final static int POSTGRESQL_INDEX = 0;
-    
     private String dialectName;
 
-    /**
-     * Original datasource
-     */
-    private DataSource originalDataSource;
+    private DataSource dataSource;
 
-    /**
-     * Resolved dialect.
-     */
     private Dialect resolvedDialect;
 
 
@@ -124,7 +116,7 @@ public final class DialectResolver
         }
         else if ( dialectName.startsWith( "postgres" ) )
         {
-            this.dialectName = DIALECTS[POSTGRESQL_INDEX].getName();
+            this.dialectName = "postgresql";
         }
         else
         {
@@ -176,7 +168,7 @@ public final class DialectResolver
         {
             if ( this.dialectName == null )
             {
-                resolvedDialect = resolveVendorName( this.originalDataSource );
+                resolvedDialect = resolveVendorName( this.dataSource );
             }
             else
             {
@@ -187,13 +179,8 @@ public final class DialectResolver
         return resolvedDialect;
     }
 
-    public DataSource getOriginalDataSource()
+    public void setDataSource( DataSource dataSource )
     {
-        return originalDataSource;
-    }
-
-    public void setOriginalDataSource( DataSource originalDataSource )
-    {
-        this.originalDataSource = originalDataSource;
+        this.dataSource = dataSource;
     }
 }
