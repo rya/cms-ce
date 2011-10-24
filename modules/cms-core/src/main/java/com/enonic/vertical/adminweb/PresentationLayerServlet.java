@@ -425,7 +425,7 @@ public final class PresentationLayerServlet
 
         try
         {
-            Document doc = XMLTool.domparse( admin.getAdminMenu( user, -1 ) );
+            Document doc = admin.getAdminMenu( user, -1 ).getAsDOMDocument();
 
             Source xslSource = AdminStore.getStylesheet( session, "menus_browse.xsl" );
 

@@ -117,7 +117,7 @@ public interface AdminService
 
     public String getCategoryName( int categoryKey );
 
-    public String getCategoryNameXML( int categoryKey );
+    public XMLDocument getCategoryNameXML( int categoryKey );
 
     public CategoryAccessRight getCategoryAccessRight( User user, int categoryKey );
 
@@ -131,13 +131,13 @@ public interface AdminService
 
     public User getContentObjectRunAs( int contentObjectKey );
 
-    public String getContentObjectsByMenu( int menuKey );
+    public XMLDocument getContentObjectsByMenu( int menuKey );
 
     public String getContentTitle( int versionKey );
 
-    public String getContentType( int contentTypeKey );
+    public XMLDocument getContentType( int contentTypeKey );
 
-    public String getContentType( int contentTypeKey, boolean includeContentCount );
+    public XMLDocument getContentType( int contentTypeKey, boolean includeContentCount );
 
     public int getContentCountByContentType( int contentTypeKey );
 
@@ -165,15 +165,15 @@ public interface AdminService
 
     public String getMenuItemName( int menuItemKey );
 
-    public String getMenuItemsByContentObject( User user, int cobKey );
+    public XMLDocument getMenuItemsByContentObject( User user, int cobKey );
 
-    public String getMenuItemsByPageTemplates( User user, int[] pageTemplateKeys );
+    public XMLDocument getMenuItemsByPageTemplates( User user, int[] pageTemplateKeys );
 
     public String getPageTemplate( int pageTemplateKey );
 
-    public String getPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys );
+    public XMLDocument getPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys );
 
-    public String getPageTemplatesByContentObject( int contentObjectKey );
+    public XMLDocument getPageTemplatesByContentObject( int contentObjectKey );
 
     public String getPageTemplParams( int pageTemplateKey );
 
@@ -282,7 +282,7 @@ public interface AdminService
 
     public long getSectionContentTimestamp( MenuItemKey sectionKey );
 
-    public String getSections( User user, SectionCriteria criteria );
+    public XMLDocument getSections( User user, SectionCriteria criteria );
 
     public void removeSection( int sectionKey, boolean recursive )
         throws VerticalRemoveException, VerticalSecurityException;
@@ -301,25 +301,25 @@ public interface AdminService
 
     public XMLDocument getContentTitles( int[] contentKeys );
 
-    public String getUsersWithPublishRight( int categoryKey );
+    public XMLDocument getUsersWithPublishRight( int categoryKey );
 
-    public String getContentOwner( int contentKey );
+    public XMLDocument getContentOwner( int contentKey );
 
-    public String getLogEntries( User user, com.enonic.esl.containers.MultiValueMap adminParams, int fromIdx, int count, boolean complete );
+    public XMLDocument getLogEntries( User user, com.enonic.esl.containers.MultiValueMap adminParams, int fromIdx, int count, boolean complete );
 
-    public String getLogEntry( String key );
+    public XMLDocument getLogEntry( String key );
 
     public int getMenuKeyByMenuItem( MenuItemKey menuItemKey );
 
     public int getParentMenuItemKey( int menuItemKey );
 
-    public String getCategoryPathXML( CategoryKey categoryKey, int[] contentTypes );
+    public XMLDocument getCategoryPathXML( CategoryKey categoryKey, int[] contentTypes );
 
     public ResourceKey getContentTypeCSSKey( int contentTypeKey );
 
     public XMLDocument getContentTypes( int[] contentTypeKeys, boolean includeContentCount );
 
-    public String getData( User user, int type, int[] keys );
+    public XMLDocument getData( User user, int type, int[] keys );
 
     public ResourceKey getDefaultCSSByMenu( int menuKey );
 
@@ -329,15 +329,15 @@ public interface AdminService
 
     public int getContentKeyByVersionKey( int versionKey );
 
-    public String getContentVersion( User user, int versionKey );
+    public XMLDocument getContentVersion( User user, int versionKey );
 
-    public String getContentXMLField( User user, int versionKey );
+    public XMLDocument getContentXMLField( User user, int versionKey );
 
     public int[] getContentTypesByHandlerClass( String className );
 
     public int getBinaryDataKey( int contentKey, String label );
 
-    public String getCategoryMenu( User user, int categoryKey, int[] contentTypes, boolean includeRootCategories );
+    public XMLDocument getCategoryMenu( User user, int categoryKey, int[] contentTypes, boolean includeRootCategories );
 
     public int getContentVersionState( int versionKey );
 
@@ -350,19 +350,19 @@ public interface AdminService
 
     public boolean isContentVersionApproved( int versionKey );
 
-    public String getContentHomes( int contentKey );
+    public XMLDocument getContentHomes( int contentKey );
 
     public String getPathString( int type, int key );
 
-    public String getContentTitleXML( int versionKey );
+    public XMLDocument getContentTitleXML( int versionKey );
 
     public boolean hasContentPageTemplates( int menuKey, int contentTypeKey );
 
     public int getContentStatus( int versionKey );
 
-    public String getAdminMenu( User user, int menuKey );
+    public XMLDocument getAdminMenu( User user, int menuKey );
 
-    public String getAdminMenuIncludeReadOnlyAccessRights( User user, int menuKey );
+    public XMLDocument getAdminMenuIncludeReadOnlyAccessRights( User user, int menuKey );
 
     public void updateMenuDetails( int menuKey, int frontPageKey, int loginPageKey, int errorPageKey, int defaultPageTemplateKey )
         throws VerticalSecurityException;

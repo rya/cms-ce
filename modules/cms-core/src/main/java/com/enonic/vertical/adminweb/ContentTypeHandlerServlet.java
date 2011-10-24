@@ -182,7 +182,7 @@ public class ContentTypeHandlerServlet
         boolean usehandlerindexing = false;
         HashMap<String, String> parameters = new HashMap<String, String>();
         Element contentTypeElem = null;
-        String xmlData = null;
+        Document xmlData = null;
         Document doc = null;
         String referer = request.getHeader( "referer" );
 
@@ -237,9 +237,9 @@ public class ContentTypeHandlerServlet
         else
         {
             // Edit content type
-            xmlData = admin.getContentType( contentTypeKey, true );
+            xmlData = admin.getContentType( contentTypeKey, true ).getAsDOMDocument();
 
-            doc = XMLTool.domparse( xmlData );
+            doc = xmlData;
 
             contentTypeElem = XMLTool.getElement( doc.getDocumentElement(), "contenttype" );
             String contentHandlerString = contentTypeElem.getAttribute( "contenthandlerkey" );

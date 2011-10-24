@@ -139,7 +139,7 @@ public class MainMenuServlet
             //XMLTool.mergeDocuments(docSite, docResourceTypes, true);
 
             // Get menus for the selected site.
-            Document newMenus = XMLTool.domparse( admin.getAdminMenu( oldUser, selectedMenuKey ) );
+            Document newMenus = admin.getAdminMenu( oldUser, selectedMenuKey ).getAsDOMDocument();
             Element[] menuElems = XMLTool.getElements( newMenus.getDocumentElement() );
             for ( int i = 0; i < menuElems.length; i++ )
             {
@@ -164,7 +164,7 @@ public class MainMenuServlet
             sitesElem.appendChild( docSite.importNode( newMenus.getDocumentElement(), true ) );
 
             // get categories
-            Document categoriesDoc = XMLTool.domparse( admin.getCategoryMenu( oldUser, topCategoryKey, null, true ) );
+            Document categoriesDoc = admin.getCategoryMenu( oldUser, topCategoryKey, null, true ).getAsDOMDocument();
             XMLTool.mergeDocuments( docSite, categoriesDoc, true );
 
             if ( resourceAccessResolver.hasAccessToResourceTree( user ) )

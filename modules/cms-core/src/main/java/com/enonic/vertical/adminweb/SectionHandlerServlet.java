@@ -575,7 +575,7 @@ public class SectionHandlerServlet
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             // get content version
-            Document doc = XMLTool.domparse( admin.getContentVersion( user, versionKey ) );
+            Document doc = admin.getContentVersion( user, versionKey ).getAsDOMDocument();
             Element contentElem = XMLTool.getFirstElement( doc.getDocumentElement() );
             int originalStatus = Integer.valueOf( contentElem.getAttribute( "status" ) );
             wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
@@ -628,13 +628,13 @@ public class SectionHandlerServlet
             int status = ( statusElem == null ? originalStatus : Integer.valueOf( XMLTool.getElementText( statusElem ) ) );
             if ( ( originalStatus == 0 && status == 1 ) || "loadRecipients".equals( wizardState.getCurrentStepState().getButtonPressed() ) )
             {
-                doc = XMLTool.domparse( admin.getUsersWithPublishRight( categoryKey ) );
+                doc = admin.getUsersWithPublishRight( categoryKey ).getAsDOMDocument();
                 wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
                 parameters.put( "notify", "sendtoapproval" );
             }
             else if ( ( originalStatus == 1 && status == 0 ) || "loadOwner".equals( wizardState.getCurrentStepState().getButtonPressed() ) )
             {
-                doc = XMLTool.domparse( admin.getContentOwner( contentKey ) );
+                doc = admin.getContentOwner( contentKey ).getAsDOMDocument();
                 wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
                 parameters.put( "notify", "reject" );
             }
@@ -659,7 +659,7 @@ public class SectionHandlerServlet
                 {
                     menuKeys[i] = Integer.parseInt( menuElems[i].getAttribute( "key" ) );
 
-                    Document doc = XMLTool.domparse( admin.getPageTemplatesByMenu( menuKeys[i], EXCLUDED_TYPE_KEYS_IN_PREVIEW ) );
+                    Document doc = admin.getPageTemplatesByMenu( menuKeys[i], EXCLUDED_TYPE_KEYS_IN_PREVIEW ).getAsDOMDocument();
                     wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
                 }
 
@@ -679,15 +679,15 @@ public class SectionHandlerServlet
                 criteria.setContentTypeKeyFilter( contentTypeKey );
                 criteria.setIncludeSectionsWithoutContentTypeEvenWhenFilterIsSet( false );
                 criteria.setIncludeSectionContentTypesInfo( false );
-                Document sectionsDoc = XMLTool.domparse( admin.getSections( user, criteria ) );
+                Document sectionsDoc = admin.getSections( user, criteria ).getAsDOMDocument();
                 wizarddataElem.appendChild( wizarddataDoc.importNode( sectionsDoc.getDocumentElement(), true ) );
             }
 
             // get content version
-            Document doc = XMLTool.domparse( admin.getContentVersion( user, versionKey ) );
+            Document doc = admin.getContentVersion( user, versionKey ).getAsDOMDocument();
             wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
 
-            doc = XMLTool.domparse( admin.getContentHomes( contentKey ) );
+            doc = admin.getContentHomes( contentKey ).getAsDOMDocument();
             wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
         }
 
@@ -829,7 +829,7 @@ public class SectionHandlerServlet
                         admin.getContentTitlesBySection( sectionKey, null, 0, Integer.MAX_VALUE, false, true ).getAsDOMDocument();
 
                     // get content to add
-                    Document tempDoc = XMLTool.domparse( admin.getContentTitleXML( versionKey ) );
+                    Document tempDoc = admin.getContentTitleXML( versionKey ).getAsDOMDocument();
                     Element contenttitleElem = XMLTool.getFirstElement( tempDoc.getDocumentElement() );
 
                     // add content to section contents
@@ -856,7 +856,7 @@ public class SectionHandlerServlet
             Element wizarddataElem = wizarddataDoc.getDocumentElement();
 
             // get content version
-            Document doc = XMLTool.domparse( admin.getContentVersion( user, versionKey ) );
+            Document doc = admin.getContentVersion( user, versionKey ).getAsDOMDocument();
             wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
 
             // get step 1's menu and section keys
@@ -902,7 +902,7 @@ public class SectionHandlerServlet
                 criteria.setContentTypeKeyFilter( contentTypeKey );
                 criteria.setIncludeSectionsWithoutContentTypeEvenWhenFilterIsSet( false );
                 criteria.setIncludeSectionContentTypesInfo( false );
-                doc = XMLTool.domparse( admin.getSections( user, criteria ) );
+                doc = admin.getSections( user, criteria ).getAsDOMDocument();
                 wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
 
                 // Previous sections
@@ -913,7 +913,7 @@ public class SectionHandlerServlet
                 criteria.setMarkContentFilteredSections( true );
                 criteria.setIncludeSectionsWithoutContentTypeEvenWhenFilterIsSet( false );
                 criteria.setIncludeSectionContentTypesInfo( false );
-                doc = XMLTool.domparse( admin.getSections( user, criteria ) );
+                doc = admin.getSections( user, criteria ).getAsDOMDocument();
                 wizarddataElem.appendChild( wizarddataDoc.importNode( doc.getDocumentElement(), true ) );
 
                 // Previous menu items
@@ -2218,7 +2218,7 @@ public class SectionHandlerServlet
         section.setIncludeChildCount( true );
         section.setIncludeAll( true );
 
-        Document sectionDoc = XMLTool.domparse( admin.getSections( user, section ) );
+        Document sectionDoc = admin.getSections( user, section ).getAsDOMDocument();
         Element sectionElem = XMLTool.getElement( sectionDoc.getDocumentElement(), "section" );
         long timestamp = admin.getSectionContentTimestamp( sectionKey );
         sectionElem.setAttribute( "timestamp", Long.toString( timestamp ) );
@@ -2242,7 +2242,7 @@ public class SectionHandlerServlet
             contentTypeKeys.add( Integer.parseInt( contentTitleElem.getAttribute( "contenttypekey" ) ) );
             categoryKeys.add( Integer.parseInt( contentTitleElem.getAttribute( "categorykey" ) ) );
         }
-        Document contentTypeDoc = XMLTool.domparse( admin.getData( user, Types.CONTENTTYPE, contentTypeKeys.toArray() ) );
+        Document contentTypeDoc = admin.getData( user, Types.CONTENTTYPE, contentTypeKeys.toArray() ).getAsDOMDocument();
         XMLTool.mergeDocuments( doc, contentTypeDoc, true );
         if ( categoryKeys.size() > 0 )
         {
@@ -2283,7 +2283,7 @@ public class SectionHandlerServlet
         // First, get supersection key
         SectionCriteria section = new SectionCriteria();
         section.setSectionKey( key );
-        Document sectionDoc = XMLTool.domparse( admin.getSections( user, section ) );
+        Document sectionDoc = admin.getSections( user, section ).getAsDOMDocument();
         Element sectionElem = (Element) sectionDoc.getDocumentElement().getFirstChild();
         String superSectionKey = sectionElem.getAttribute( "supersectionkey" );
 
@@ -2315,7 +2315,7 @@ public class SectionHandlerServlet
         // First, get supersection key
         SectionCriteria section = new SectionCriteria();
         section.setSectionKey( key );
-        Document sectionDoc = XMLTool.domparse( admin.getSections( user, section ) );
+        Document sectionDoc = admin.getSections( user, section ).getAsDOMDocument();
         Element sectionElem = (Element) sectionDoc.getDocumentElement().getFirstChild();
         String superSectionKey = sectionElem.getAttribute( "supersectionkey" );
 

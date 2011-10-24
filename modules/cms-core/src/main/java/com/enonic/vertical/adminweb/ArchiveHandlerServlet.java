@@ -505,7 +505,7 @@ public class ArchiveHandlerServlet
 
         Document doc = XMLTool.createDocument( "data" );
 
-        Document categories = XMLTool.domparse( admin.getCategoryMenu( user, categoryKey, null, true ) );
+        Document categories = admin.getCategoryMenu( user, categoryKey, null, true ).getAsDOMDocument();
         //Don't seam to be in use (JAM 27.10.2008)
         //Document categoryNames = XMLTool.domparse(admin.getSuperCategoryNames(user, categoryKey, false, true));
         Document changedAccessRights = buildChangedAccessRightsXML( formItems );

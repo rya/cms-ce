@@ -333,7 +333,7 @@ public class ContentBaseXMLBuilder
 
             if ( contentTitle == null || contentTitle.length() == 0 )
             {
-                Document contentDoc = XMLTool.domparse( admin.getContentVersion( user, versionKey ) );
+                Document contentDoc = admin.getContentVersion( user, versionKey ).getAsDOMDocument();
                 Element contentElem = (Element) contentDoc.getDocumentElement().getFirstChild();
                 Element contentDataElem = XMLTool.getElement( contentElem, "contentdata" );
                 contentTitle = getContentTitle( contentDataElem, contenttypekey );
@@ -377,7 +377,7 @@ public class ContentBaseXMLBuilder
         {
             if ( usePersistedContendataXML )
             {
-                Document contentXML = XMLTool.domparse( admin.getContentXMLField( user, formItems.getInt( "versionkey" ) ) );
+                Document contentXML = admin.getContentXMLField( user, formItems.getInt( "versionkey" ) ).getAsDOMDocument();
                 XMLTool.replaceElement( contentdata, contentXML.getDocumentElement() );
             }
             else

@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.service;
 
+import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
@@ -15,11 +16,9 @@ public interface UserServicesService
     public void createLogEntries( User user, String xmlData )
         throws VerticalCreateException, VerticalSecurityException;
 
-    public String getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel );
+    public XMLDocument getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel );
 
-    public String getCategoryName( int categoryKey );
-
-    public String getContentTypeByCategory( int cKey );
+    public XMLDocument getContentTypeByCategory( int cKey );
 
     /**
      * Retrieve the contenttype XML associated with a content.
@@ -27,11 +26,11 @@ public interface UserServicesService
      * @param contentKey The content key.
      * @return The content type XML.
      */
-    public String getContentTypeByContent( int contentKey );
+    public XMLDocument getContentTypeByContent( int contentKey );
 
     public User getAnonymousUser();
 
-    public String getMenuItem( User user, int mikey );
+    public XMLDocument getMenuItem( User user, int mikey );
 
     public int getCurrentVersionKey( int contentKey );
 

@@ -828,7 +828,7 @@ public class SimpleContentXMLBuilder
 
     public String getContentTitle( Element contentDataElem, int contentTypeKey )
     {
-        Document ctDoc = XMLTool.domparse( admin.getContentType( contentTypeKey ) );
+        Document ctDoc = admin.getContentType( contentTypeKey ).getAsDOMDocument();
         Element ctElem = XMLTool.getElement( ctDoc.getDocumentElement(), "contenttype" );
         Element moduleDataElem = XMLTool.getElement( ctElem, "moduledata" );
         Element moduleElem = XMLTool.getElement( moduleDataElem, "config" );

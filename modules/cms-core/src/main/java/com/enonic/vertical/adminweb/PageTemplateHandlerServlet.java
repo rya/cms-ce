@@ -5,7 +5,6 @@
 package com.enonic.vertical.adminweb;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Document;
@@ -343,14 +341,11 @@ public class PageTemplateHandlerServlet
 
         try
         {
-            String xmlData;
             User user = securityService.getLoggedInAdminConsoleUser();
 
             int menuKey = formItems.getInt( "menukey" );
 
-            xmlData = admin.getPageTemplatesByMenu( menuKey, null );
-
-            StreamSource xmlSource = new StreamSource( new StringReader( xmlData ) );
+            Source xmlSource = admin.getPageTemplatesByMenu( menuKey, null ).getAsDOMSource();
 
             // Stylesheet
             Source xslSource = AdminStore.getStylesheet( session, "pagetemplate_browse.xsl" );
@@ -542,8 +537,7 @@ public class PageTemplateHandlerServlet
                     }
                 }
 
-                String menuItemsXML = admin.getMenuItemsByPageTemplates( user, new int[]{pageTemplateKey} );
-                Document menuItemsDoc = XMLTool.domparse( menuItemsXML );
+                Document menuItemsDoc = admin.getMenuItemsByPageTemplates( user, new int[]{pageTemplateKey} ).getAsDOMDocument();
                 XMLTool.mergeDocuments( doc, menuItemsDoc, true );
             }
 

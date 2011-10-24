@@ -1389,7 +1389,7 @@ public class MenuHandlerServlet
 
             addCommonParameters( admin, user, request, parameters, -1, menuKey );
 
-            Document menuDocTemp = XMLTool.domparse( admin.getAdminMenu( user, menuKey ) );
+            Document menuDocTemp = admin.getAdminMenu( user, menuKey ).getAsDOMDocument();
             Element menuElemTemp = XMLTool.selectElement( menuDocTemp.getDocumentElement(), "menu[@key = '" + menuKey + "']" );
             Element[] menuItemElems = XMLTool.getElements( menuElemTemp );
             Document menuDoc = XMLTool.createDocument( "menutop" );
@@ -1515,8 +1515,7 @@ public class MenuHandlerServlet
         Document modelAsDOMDocument = modelAsXMLDocument.getAsDOMDocument();
 
         int[] excludeTypeKeys = new int[]{TYPE_NEWSLETTER};
-        String patXML = adminService.getPageTemplatesByMenu( menuKey, excludeTypeKeys );
-        Document patDoc = XMLTool.domparse( patXML );
+        Document patDoc = adminService.getPageTemplatesByMenu( menuKey, excludeTypeKeys ).getAsDOMDocument();
         XMLTool.mergeDocuments( modelAsDOMDocument, patDoc, true );
 
         return modelAsDOMDocument;
@@ -1669,7 +1668,7 @@ public class MenuHandlerServlet
 
     private void addMenusXML( AdminService admin, User user, int selectedSiteParameter, Document doc )
     {
-        Document menusDoc = XMLTool.domparse( admin.getAdminMenuIncludeReadOnlyAccessRights( user, selectedSiteParameter ) );
+        Document menusDoc = admin.getAdminMenuIncludeReadOnlyAccessRights( user, selectedSiteParameter ).getAsDOMDocument();
 
         Element[] menuTops = XMLTool.selectElements( menusDoc.getDocumentElement(), "menu" );
 
@@ -1707,7 +1706,7 @@ public class MenuHandlerServlet
 
             int menuKey = formItems.getInt( "menukey" );
 
-            Document menuDoc = XMLTool.domparse( admin.getAdminMenu( user, menuKey ) );
+            Document menuDoc =  admin.getAdminMenu( user, menuKey ).getAsDOMDocument();
             int menuItemKey = formItems.getInt( "key" );
             Element menuElem = XMLTool.selectElement( menuDoc.getDocumentElement(), "menu[@key = '" + menuKey + "']" );
             String menuItemName =
@@ -2238,7 +2237,7 @@ public class MenuHandlerServlet
             Document changedAccessRights = buildChangedAccessRightsXML( formItems );
             Document currentAccessRights = XMLTool.domparse( buildAccessRightsXML( formItems ) );
 
-            Document menuItems = XMLTool.domparse( admin.getAdminMenu( user, menuKey ) );
+            Document menuItems = admin.getAdminMenu( user, menuKey ).getAsDOMDocument();
 
             XMLTool.mergeDocuments( doc, menuItems, true );
             XMLTool.mergeDocuments( doc, changedAccessRights, true );
@@ -2433,8 +2432,8 @@ public class MenuHandlerServlet
         boolean create;
 
         Document menuItemXML = null;
-        String categoryXML = null;
-        String pageTemplatesXML;
+        Document categoryXML = null;
+        Document pageTemplatesXML;
         String pageTemplateParamsXML = null;
         Document defaultAccessRightXML = null;
 
@@ -2479,7 +2478,7 @@ public class MenuHandlerServlet
             XMLTool.mergeDocuments( doc1, model.toXML().getAsDOMDocument(), false );
 
             int[] excludeTypeKeys = null; // before we excluded page-templates of type newsletter, but not anymore.
-            pageTemplatesXML = admin.getPageTemplatesByMenu( menuKey, excludeTypeKeys );
+            pageTemplatesXML = admin.getPageTemplatesByMenu( menuKey, excludeTypeKeys ).getAsDOMDocument();
 
             int pageTemplateKey = formItems.getInt( "selpagetemplatekey", -1 );
             if ( pageTemplateKey < 0 && create )
@@ -2536,9 +2535,7 @@ public class MenuHandlerServlet
                 }
             }
 
-            Document pageTemplateDoc = XMLTool.domparse( pageTemplatesXML );
-
-            XMLTool.mergeDocuments( doc1, pageTemplateDoc, true );
+            XMLTool.mergeDocuments( doc1, pageTemplatesXML, true );
 
             if ( defaultAccessRightXML != null )
             {
@@ -2640,7 +2637,7 @@ public class MenuHandlerServlet
             }
 
             String xpath = "/pagetemplates/pagetemplate[@key=" + pageTemplateKey + "]";
-            Element pagetemplateElem = (Element) XMLTool.selectNode( pageTemplateDoc, xpath );
+            Element pagetemplateElem = (Element) XMLTool.selectNode( pageTemplatesXML, xpath );
             if ( pagetemplateElem != null )
             {
                 String pageTemplateType = pagetemplateElem.getAttribute( "type" );
@@ -2654,7 +2651,7 @@ public class MenuHandlerServlet
                         if ( keyStr.length() > 0 )
                         {
                             int categoryKey = Integer.parseInt( keyStr );
-                            categoryXML = admin.getCategoryNameXML( categoryKey );
+                            categoryXML = admin.getCategoryNameXML( categoryKey ).getAsDOMDocument();
                         }
                     }
                 }
@@ -2662,7 +2659,7 @@ public class MenuHandlerServlet
 
             if ( categoryXML != null )
             {
-                Document doc5 = XMLTool.domparse( categoryXML );
+                Document doc5 = categoryXML;
                 XMLTool.mergeDocuments( doc1, doc5, true );
             }
 

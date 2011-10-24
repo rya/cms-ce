@@ -1496,9 +1496,7 @@ public abstract class AdminHandlerBaseServlet
      */
     protected void addPageTemplatesOfUserSitesToDocument( AdminService admin, UserEntity user, PageTemplateType allowedPageTemplateType, Document verticalDoc )
     {
-        final String adminMenuXML = admin.getAdminMenu( user, -1 );
-
-        Document doc = XMLTool.domparse( adminMenuXML );
+        final Document doc = admin.getAdminMenu( user, -1 ).getAsDOMDocument();
 
         Element rootSitesElement = doc.getDocumentElement();
         Element[] allSiteElements = XMLTool.getElements( rootSitesElement );

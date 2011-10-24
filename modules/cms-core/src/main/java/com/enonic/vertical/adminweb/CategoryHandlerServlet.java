@@ -421,7 +421,7 @@ final public class CategoryHandlerServlet
 
         Document doc = XMLTool.createDocument( "data" );
 
-        Document categories = XMLTool.domparse( admin.getCategoryMenu( user, categoryKey, null, false ) );
+        Document categories = admin.getCategoryMenu( user, categoryKey, null, false ).getAsDOMDocument();
         // Don't seam to be in use (JAM 27.10.2008)
         // Document categoryNames = XMLTool.domparse(admin.getSuperCategoryNames(user, categoryKey, false, true));
         Document changedAccessRights = buildChangedAccessRightsXML( formItems );
@@ -958,7 +958,7 @@ final public class CategoryHandlerServlet
             contentTypes = ArrayUtil.toIntArray( contentTypeStrings );
         }
 
-        Document doc = XMLTool.domparse( admin.getCategoryMenu( user, selectedCategoryKey, contentTypes, true ) );
+        Document doc = admin.getCategoryMenu( user, selectedCategoryKey, contentTypes, true ).getAsDOMDocument();
         Element selectedCategoryElem = XMLTool.selectElement( doc.getDocumentElement(), "//category[@key = " + selectedCategoryKey + "]" );
         if ( selectedCategoryElem == null )
         {

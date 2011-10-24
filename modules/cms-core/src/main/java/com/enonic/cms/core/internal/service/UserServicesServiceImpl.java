@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.internal.service;
 
+import com.enonic.cms.framework.xml.XMLDocument;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,23 +38,17 @@ public class UserServicesServiceImpl
     /**
      * Transaction NB: Denne metoden er hardkodet til å ikke logge, så trenger ikke write.
      */
-    public String getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel )
+    public XMLDocument getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel )
     {
-        return userServicesEngine.getContent( user, key, publishOnly, parenLevel, childrenLevel, parenChildrenLevel );
+        return userServicesEngine.getContent(user, key, publishOnly, parenLevel, childrenLevel, parenChildrenLevel);
     }
 
-
-    public String getCategoryName( int categoryKey )
-    {
-        return userServicesEngine.getCategoryName( categoryKey );
-    }
-
-    public String getContentTypeByCategory( int cKey )
+    public XMLDocument getContentTypeByCategory( int cKey )
     {
         return userServicesEngine.getContentTypeByCategory( cKey );
     }
 
-    public String getContentTypeByContent( int contentKey )
+    public XMLDocument getContentTypeByContent( int contentKey )
     {
         return userServicesEngine.getContentTypeByContent( contentKey );
     }
@@ -63,7 +58,7 @@ public class UserServicesServiceImpl
         return userServicesEngine.getAnonymousUser();
     }
 
-    public String getMenuItem( User user, int mikey )
+    public XMLDocument getMenuItem( User user, int mikey )
     {
         return userServicesEngine.getMenuItem( user, mikey );
     }

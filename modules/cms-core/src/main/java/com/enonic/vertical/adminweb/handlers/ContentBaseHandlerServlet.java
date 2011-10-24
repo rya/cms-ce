@@ -2252,7 +2252,7 @@ public class ContentBaseHandlerServlet
         // Create content element
         XMLTool.createRootElement( doc, "data" );
 
-        Document headerDoc = XMLTool.domparse( admin.getCategoryPathXML( categoryKey, contentTypes ) );
+        Document headerDoc = admin.getCategoryPathXML( categoryKey, contentTypes ).getAsDOMDocument();
         XMLTool.mergeDocuments( doc, headerDoc, true );
 
         // Get content types for this site
@@ -2347,7 +2347,7 @@ public class ContentBaseHandlerServlet
             parameters.put( "versionkey", versionKey );
         }
 
-        Document doc = XMLTool.domparse( admin.getAdminMenu( user, -1 ) );
+        Document doc = admin.getAdminMenu( user, -1 ).getAsDOMDocument();
         Element rootSitesElement = doc.getDocumentElement();
         Element[] allSiteElements = XMLTool.getElements( rootSitesElement );
         int defaultPageTemplateKey = -1;
@@ -2394,13 +2394,13 @@ public class ContentBaseHandlerServlet
 
         if ( siteKey >= 0 )
         {
-            String pageTemplateXML = admin.getPageTemplatesByMenu( siteKey, EXCLUDED_TYPE_KEYS_IN_PREVIEW );
-            Document ptDoc = XMLTool.domparse( pageTemplateXML );
+            XMLDocument pageTemplateXML = admin.getPageTemplatesByMenu( siteKey, EXCLUDED_TYPE_KEYS_IN_PREVIEW );
+            Document ptDoc = pageTemplateXML.getAsDOMDocument();
             XMLTool.mergeDocuments( doc, ptDoc, true );
 
             if ( contentKey >= 0 )
             {
-                Document chDoc = XMLTool.domparse( admin.getContentHomes( contentKey ) );
+                Document chDoc = admin.getContentHomes( contentKey ).getAsDOMDocument();
                 XMLTool.mergeDocuments( doc, chDoc, true );
             }
 
@@ -2413,7 +2413,7 @@ public class ContentBaseHandlerServlet
             {
                 if ( contentTypeKey >= 0 )
                 {
-                    org.jdom.Document pageTemplateDocument = XMLTool.jdomparse( pageTemplateXML );
+                    org.jdom.Document pageTemplateDocument = pageTemplateXML.getAsJDOMDocument();
                     org.jdom.Element root = pageTemplateDocument.getRootElement();
                     List<org.jdom.Element> pageTemplates = root.getChildren( "pagetemplate" );
                     Set<KeyValue> pageTemplateKeys = new HashSet<KeyValue>();
@@ -2897,7 +2897,7 @@ public class ContentBaseHandlerServlet
             }
         }
 
-        Document headerDoc = XMLTool.domparse( admin.getCategoryPathXML( categoryKey, contentTypes ) );
+        Document headerDoc = admin.getCategoryPathXML( categoryKey, contentTypes ).getAsDOMDocument();
         XMLTool.mergeDocuments( verticalDoc, headerDoc, true );
 
         // Default browse config
@@ -2994,7 +2994,7 @@ public class ContentBaseHandlerServlet
             if ( sentToApproval )
             {
                 int categoryKey = admin.getCategoryKey( contentKey );
-                doc = XMLTool.domparse( admin.getUsersWithPublishRight( categoryKey ) );
+                doc = admin.getUsersWithPublishRight( categoryKey ).getAsDOMDocument();
 
                 // Category header
                 headerDoc = admin.getPath( user, Types.CATEGORY, categoryKey ).getAsDOMDocument();
@@ -3002,7 +3002,7 @@ public class ContentBaseHandlerServlet
             else if ( rejected )
             {
                 int categoryKey = admin.getCategoryKey( contentKey );
-                doc = XMLTool.domparse( admin.getContentOwner( contentKey ) );
+                doc = admin.getContentOwner( contentKey ).getAsDOMDocument();
 
                 // Category header
                 headerDoc = admin.getPath( user, Types.CATEGORY, categoryKey ).getAsDOMDocument();

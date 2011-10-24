@@ -172,7 +172,7 @@ public class ContentHandlerBaseController
         }
         else
         {
-            doc = XMLTool.domparse( userServices.getContent( user, contentKey, false, 0, 0, 0 ) );
+            doc = userServices.getContent( user, contentKey, false, 0, 0, 0 ).getAsDOMDocument();
             Element rootElem = doc.getDocumentElement();
             contentElem = XMLTool.getFirstElement( rootElem );
             rootElem.removeChild( contentElem );
@@ -256,7 +256,7 @@ public class ContentHandlerBaseController
         List<BinaryDataKey> binariesToRemoveAsBinaryDataKey = null;
         List<BinaryDataAndBinary> binariesToAdd = BinaryDataAndBinary.createNewFrom( binaries );
 
-        Document ctDoc = XMLTool.domparse( userServices.getContentTypeByContent( contentKey ) );
+        Document ctDoc = userServices.getContentTypeByContent( contentKey ).getAsDOMDocument();
         String xmlData = buildContent( userServices, oldTypeUser, formItems, siteKey, ctDoc, false );
 
         boolean asNewVersion = true;
@@ -356,7 +356,7 @@ public class ContentHandlerBaseController
 
         BinaryData[] binaries = fetchUploadedFiles( formItems );
 
-        Document ctDoc = XMLTool.domparse( userServices.getContentTypeByCategory( categoryKey ) );
+        Document ctDoc = userServices.getContentTypeByCategory( categoryKey ).getAsDOMDocument();
         String xmlData = buildContent( userServices, oldUser, formItems, siteKey, ctDoc, false );
 
         storeNewContent( oldUser, binaries, xmlData );

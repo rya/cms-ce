@@ -48,13 +48,13 @@ public class FormHandlerController
     extends ContentHandlerBaseController
 {
 
-    private static int ERR_MISSING_REQ = 1;
+    private final static int ERR_MISSING_REQ = 1;
 
-    private static String ERR_MSG_MISSING_REQ = "Mandatory field is missing.";
+    private final static String ERR_MSG_MISSING_REQ = "Mandatory field is missing.";
 
-    private static int ERR_VALIDATION_FAILED = 2;
+    private final static int ERR_VALIDATION_FAILED = 2;
 
-    private static String ERR_MSG_VALIDATION_FAILED = "Validation failed.";
+    private final static String ERR_MSG_VALIDATION_FAILED = "Validation failed.";
 
     class FormException
         extends VerticalUserServicesException
@@ -71,7 +71,7 @@ public class FormHandlerController
         }
     }
 
-    private static int contentTypeKey = 50;
+    private final static int contentTypeKey = 50;
 
     @Override
     protected void buildContentTypeXML( UserServicesService userServices, Element contentdataElem, ExtendedMap formItems,
@@ -295,8 +295,7 @@ public class FormHandlerController
 
             // Get the form config XML
             int menuItemKey = formItems.getInt( "_form_id" );
-            String menuItemXML = userServices.getMenuItem( user, menuItemKey );
-            Document doc = XMLTool.domparse( menuItemXML );
+            Document doc = userServices.getMenuItem( user, menuItemKey ).getAsDOMDocument();
             Element rootElement = doc.getDocumentElement();
 
             Element formElement = (Element) XMLTool.selectNode( rootElement, "/menuitems/menuitem/data/form" );

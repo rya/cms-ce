@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AdminEngine;
 import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.ContentAccessRight;
@@ -255,7 +255,7 @@ public class AdminServiceImpl
         return adminEngine.getCategoryName( categoryKey );
     }
 
-    public String getCategoryNameXML( int categoryKey )
+    public XMLDocument getCategoryNameXML( int categoryKey )
     {
 
         return adminEngine.getCategoryNameXML( categoryKey );
@@ -294,7 +294,7 @@ public class AdminServiceImpl
         return adminEngine.getContentObjectRunAs( contentObjectKey );
     }
 
-    public String getContentObjectsByMenu( int menuKey )
+    public XMLDocument getContentObjectsByMenu( int menuKey )
     {
         return adminEngine.getContentObjectsByMenu( menuKey );
     }
@@ -304,12 +304,12 @@ public class AdminServiceImpl
         return adminEngine.getContentTitle( versionKey );
     }
 
-    public String getContentType( int contentTypeKey )
+    public XMLDocument getContentType( int contentTypeKey )
     {
         return adminEngine.getContentType( contentTypeKey );
     }
 
-    public String getContentType( int contentTypeKey, boolean includeContentCount )
+    public XMLDocument getContentType( int contentTypeKey, boolean includeContentCount )
     {
         return adminEngine.getContentType( contentTypeKey, includeContentCount );
     }
@@ -379,12 +379,12 @@ public class AdminServiceImpl
         return adminEngine.getMenuItemName( menuItemKey );
     }
 
-    public String getMenuItemsByContentObject( User user, int cobKey )
+    public XMLDocument getMenuItemsByContentObject( User user, int cobKey )
     {
         return adminEngine.getMenuItemsByContentObject( user, cobKey );
     }
 
-    public String getMenuItemsByPageTemplates( User user, int[] pageTemplateKeys )
+    public XMLDocument getMenuItemsByPageTemplates( User user, int[] pageTemplateKeys )
     {
         return adminEngine.getMenuItemsByPageTemplates( user, pageTemplateKeys );
     }
@@ -394,12 +394,12 @@ public class AdminServiceImpl
         return adminEngine.getPageTemplate( new PageTemplateKey( pageTemplateKey ) );
     }
 
-    public String getPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys )
+    public XMLDocument getPageTemplatesByMenu( int menuKey, int[] excludeTypeKeys )
     {
         return adminEngine.getPageTemplatesByMenu( menuKey, excludeTypeKeys );
     }
 
-    public String getPageTemplatesByContentObject( int contentObjectKey )
+    public XMLDocument getPageTemplatesByContentObject( int contentObjectKey )
     {
         return adminEngine.getPageTemplatesByContentObject( contentObjectKey );
     }
@@ -660,7 +660,7 @@ public class AdminServiceImpl
         return adminEngine.getSectionContentTimestamp( sectionKey );
     }
 
-    public String getSections( User user, SectionCriteria criteria )
+    public XMLDocument getSections( User user, SectionCriteria criteria )
     {
         return adminEngine.getSections( user, criteria );
     }
@@ -706,22 +706,22 @@ public class AdminServiceImpl
         return adminEngine.getContentTitles( contentKeys );
     }
 
-    public String getUsersWithPublishRight( int categoryKey )
+    public XMLDocument getUsersWithPublishRight( int categoryKey )
     {
         return adminEngine.getUsersWithPublishRight( categoryKey );
     }
 
-    public String getContentOwner( int contentKey )
+    public XMLDocument getContentOwner( int contentKey )
     {
         return adminEngine.getContentOwner( contentKey );
     }
 
-    public String getLogEntries( User user, MultiValueMap adminParams, int fromIdx, int count, boolean complete )
+    public XMLDocument getLogEntries( User user, MultiValueMap adminParams, int fromIdx, int count, boolean complete )
     {
         return adminEngine.getLogEntries( user, adminParams, fromIdx, count, complete );
     }
 
-    public String getLogEntry( String key )
+    public XMLDocument getLogEntry( String key )
     {
         return adminEngine.getLogEntry( key );
     }
@@ -736,7 +736,7 @@ public class AdminServiceImpl
         return adminEngine.getParentMenuItemKey( menuItemKey );
     }
 
-    public String getCategoryPathXML( CategoryKey categoryKey, int[] contentTypes )
+    public XMLDocument getCategoryPathXML( CategoryKey categoryKey, int[] contentTypes )
     {
         return adminEngine.getCategoryPathXML( categoryKey, contentTypes );
     }
@@ -751,7 +751,7 @@ public class AdminServiceImpl
         return adminEngine.getContentTypes( contentTypeKeys, includeContentCount );
     }
 
-    public String getData( User user, int type, int[] keys )
+    public XMLDocument getData( User user, int type, int[] keys )
     {
         return adminEngine.getData( user, type, keys );
     }
@@ -776,12 +776,12 @@ public class AdminServiceImpl
         return adminEngine.getContentKeyByVersionKey( versionKey );
     }
 
-    public String getContentVersion( User user, int versionKey )
+    public XMLDocument getContentVersion( User user, int versionKey )
     {
         return adminEngine.getContentVersion( user, versionKey );
     }
 
-    public String getContentXMLField( User user, int versionKey )
+    public XMLDocument getContentXMLField( User user, int versionKey )
     {
         return adminEngine.getContentXMLField( versionKey );
     }
@@ -796,7 +796,7 @@ public class AdminServiceImpl
         return adminEngine.getBinaryDataKey( contentKey, label );
     }
 
-    public String getCategoryMenu( User user, int categoryKey, int[] contentTypes, boolean includeRootCategories )
+    public XMLDocument getCategoryMenu( User user, int categoryKey, int[] contentTypes, boolean includeRootCategories )
     {
         return adminEngine.getCategoryMenu( user, categoryKey, contentTypes, includeRootCategories );
     }
@@ -825,7 +825,7 @@ public class AdminServiceImpl
         return adminEngine.isContentVersionApproved( versionKey );
     }
 
-    public String getContentHomes( int contentKey )
+    public XMLDocument getContentHomes( int contentKey )
     {
         return adminEngine.getContentHomes( contentKey );
     }
@@ -835,7 +835,7 @@ public class AdminServiceImpl
         return adminEngine.getPathString( type, key );
     }
 
-    public String getContentTitleXML( int versionKey )
+    public XMLDocument getContentTitleXML( int versionKey )
     {
         return adminEngine.getContentTitleXML( versionKey );
     }
@@ -853,20 +853,20 @@ public class AdminServiceImpl
     /**
      * Collect all menus and menu items for use in administration interface.
      */
-    public String getAdminMenu( User user, int menuKey )
+    public XMLDocument getAdminMenu( User user, int menuKey )
     {
         return doGetAdminMenu( user, menuKey < 0 ? new int[0] : new int[]{menuKey}, null, false );
     }
 
-    public String getAdminMenuIncludeReadOnlyAccessRights( User user, int menuKey )
+    public XMLDocument getAdminMenuIncludeReadOnlyAccessRights( User user, int menuKey )
     {
         return doGetAdminMenu( user, menuKey < 0 ? new int[0] : new int[]{menuKey}, null, true );
     }
 
-    private String doGetAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
+    private XMLDocument doGetAdminMenu( User user, int[] menuKeys, String[] menuItemTypes, boolean includeReadOnlyAccessRight )
     {
         Document doc = this.adminEngine.getAdminMenu( user, menuKeys, menuItemTypes, includeReadOnlyAccessRight );
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create(doc);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)

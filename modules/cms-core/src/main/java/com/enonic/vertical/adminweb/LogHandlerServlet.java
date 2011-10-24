@@ -5,7 +5,6 @@
 package com.enonic.vertical.adminweb;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.ParseException;
@@ -18,8 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 
+import com.enonic.cms.framework.xml.XMLDocument;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -110,8 +109,7 @@ public class LogHandlerServlet
             Source xmlSource;
             if ( formItems.containsKey( "key" ) )
             {
-                String xmlData = admin.getLogEntry( formItems.getString( "key" ) );
-                Document doc = XMLTool.domparse( xmlData );
+                Document doc = admin.getLogEntry( formItems.getString( "key" ) ).getAsDOMDocument();
                 Element logentryElem = XMLTool.getFirstElement( doc.getDocumentElement() );
                 Element dataElem = XMLTool.getElement( logentryElem, "data" );
                 if ( "true".equals( dataElem.getAttribute( "deflated" ) ) )
@@ -207,16 +205,16 @@ public class LogHandlerServlet
                         }
                         transformParams.put( "filter", formItems.getString( "filter" ) );
                     }
-                    String xmlData = admin.getLogEntries( user, adminParams, fromIdx, 20, false );
+                    XMLDocument xmlData = admin.getLogEntries( user, adminParams, fromIdx, 20, false );
                     if ( pathXML != null )
                     {
-                        Document doc = XMLTool.domparse( xmlData );
+                        Document doc = xmlData.getAsDOMDocument();
                         XMLTool.mergeDocuments( doc, pathXML, true );
                         xmlSource = new DOMSource( doc );
                     }
                     else
                     {
-                        xmlSource = new StreamSource( new StringReader( xmlData ) );
+                        xmlSource = xmlData.getAsDOMSource();
                     }
                 }
             Source xslSource = AdminStore.getStylesheet( session, "log_browse.xsl" );
@@ -272,7 +270,7 @@ public class LogHandlerServlet
         throws VerticalAdminException, VerticalEngineException
     {
 
-        Document doc = XMLTool.domparse( admin.getLogEntry( key ) );
+        Document doc = admin.getLogEntry( key ).getAsDOMDocument();
         Element logentryElem = XMLTool.getFirstElement( doc.getDocumentElement() );
 
         // Lookup host name

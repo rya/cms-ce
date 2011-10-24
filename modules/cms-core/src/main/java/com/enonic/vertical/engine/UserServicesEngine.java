@@ -4,6 +4,8 @@
  */
 package com.enonic.vertical.engine;
 
+import com.enonic.cms.framework.xml.XMLDocument;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 
@@ -98,7 +100,7 @@ public class UserServicesEngine
         return logHandler.createLogEntries( user, doc );
     }
 
-    public String getContent( User user, int key, boolean publishedOnly, int parentLevel, int childrenLevel, int parentChildrenLevel )
+    public XMLDocument getContent( User user, int key, boolean publishedOnly, int parentLevel, int childrenLevel, int parentChildrenLevel )
     {
 
         if ( user == null )
@@ -109,36 +111,29 @@ public class UserServicesEngine
         Document doc =
             contentHandler.getContent( user, key, publishedOnly, parentLevel, childrenLevel, parentChildrenLevel, false, false, null );
 
-        return XMLTool.documentToString( doc );
+        return XMLDocumentFactory.create( doc );
     }
-
-    public String getCategoryName( int key )
-    {
-        Document doc = categoryHandler.getCategoryNameDoc( CategoryKey.parse( key ) );
-        return XMLTool.documentToString( doc );
-    }
-
 
     public User getAnonymousUser()
     {
         return userHandler.getAnonymousUser();
     }
 
-    public String getContentTypeByContent( int contentKey )
+    public XMLDocument getContentTypeByContent( int contentKey )
     {
         int contentTypeKey = contentHandler.getContentTypeKey( contentKey );
-        return XMLTool.documentToString( contentHandler.getContentType( contentTypeKey, false ) );
+        return XMLDocumentFactory.create( contentHandler.getContentType( contentTypeKey, false ) );
     }
 
-    public String getContentTypeByCategory( int categoryKey )
+    public XMLDocument getContentTypeByCategory( int categoryKey )
     {
         int contentTypeKey = categoryHandler.getContentTypeKey( CategoryKey.parse( categoryKey ) );
-        return XMLTool.documentToString( contentHandler.getContentType( contentTypeKey, false ) );
+        return XMLDocumentFactory.create( contentHandler.getContentType( contentTypeKey, false ) );
     }
 
-    public String getMenuItem( User user, int mikey )
+    public XMLDocument getMenuItem( User user, int mikey )
     {
-        return XMLTool.documentToString( menuHandler.getMenuItem( user, mikey, false, true, false ) );
+        return XMLDocumentFactory.create( menuHandler.getMenuItem( user, mikey, false, true, false ) );
     }
 
     public int getCurrentVersionKey( int contentKey )

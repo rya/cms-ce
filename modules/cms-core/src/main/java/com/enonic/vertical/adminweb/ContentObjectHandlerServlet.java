@@ -461,7 +461,7 @@ public final class ContentObjectHandlerServlet
         User user = securityService.getLoggedInAdminConsoleUser();
         String subop = formItems.getString( "subop", null );
 
-        Document doc = XMLTool.domparse( admin.getContentObjectsByMenu( menuKey ) );
+        Document doc = admin.getContentObjectsByMenu( menuKey ).getAsDOMDocument();
 
         // Parameters
         ExtendedMap parameters = new ExtendedMap();
@@ -633,14 +633,11 @@ public final class ContentObjectHandlerServlet
                 int cobKey = Integer.parseInt( key );
 
                 // Add pages that uses this content object
-                String menuItemsXML;
-                menuItemsXML = admin.getMenuItemsByContentObject( user, cobKey );
-                Document menuItemsDoc = XMLTool.domparse( menuItemsXML );
+                Document menuItemsDoc = admin.getMenuItemsByContentObject( user, cobKey ).getAsDOMDocument();
                 contentobject.appendChild( coDoc.importNode( menuItemsDoc.getDocumentElement(), true ) );
 
                 // Add frameworks that uses this content object
-                String pageTemplatesXML = admin.getPageTemplatesByContentObject( cobKey );
-                Document pageTemplatesDoc = XMLTool.domparse( pageTemplatesXML );
+                Document pageTemplatesDoc = admin.getPageTemplatesByContentObject( cobKey ).getAsDOMDocument();
                 contentobject.appendChild( coDoc.importNode( pageTemplatesDoc.getDocumentElement(), true ) );
             }
 
@@ -841,14 +838,11 @@ public final class ContentObjectHandlerServlet
                 contentobject.appendChild( content );
             }
 
-            String menuItemsXML;
-            menuItemsXML = admin.getMenuItemsByContentObject( user, cobKey );
-            Document menuItemsDoc = XMLTool.domparse( menuItemsXML );
+            Document menuItemsDoc = admin.getMenuItemsByContentObject( user, cobKey ).getAsDOMDocument();
             contentobject.appendChild( doc.importNode( menuItemsDoc.getDocumentElement(), true ) );
 
             // Henter ut pagetemplates/frameworks som bruker dette contentobject
-            String pageTemplatesXML = admin.getPageTemplatesByContentObject( cobKey );
-            Document pageTemplatesDoc = XMLTool.domparse( pageTemplatesXML );
+            Document pageTemplatesDoc = admin.getPageTemplatesByContentObject( cobKey ).getAsDOMDocument();
             contentobject.appendChild( doc.importNode( pageTemplatesDoc.getDocumentElement(), true ) );
 
             Element objectstylesheetElem = XMLTool.getElement( contentobject, "objectstylesheet" );
@@ -1060,7 +1054,7 @@ public final class ContentObjectHandlerServlet
         int menuKey = formItems.getInt( "menukey" );
         User user = securityService.getLoggedInAdminConsoleUser();
 
-        Document doc = XMLTool.domparse( admin.getContentObjectsByMenu( menuKey ) );
+        Document doc = admin.getContentObjectsByMenu( menuKey ).getAsDOMDocument();
 
         // Parameters
         ExtendedMap parameters = new ExtendedMap();
