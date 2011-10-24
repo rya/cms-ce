@@ -21,7 +21,6 @@ public final class H2Dialect
     public H2Dialect()
     {
         super( "h2", VENDOR_IDS );
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "" );
         setNotNullableValue( "not null" );

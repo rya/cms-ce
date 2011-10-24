@@ -4,7 +4,6 @@
  */
 package com.enonic.esl.sql.model.datatypes;
 
-import java.io.StringReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,7 +85,7 @@ public class CharType
         throws SQLException
     {
         String value = (String) obj;
-        preparedStmt.setCharacterStream( columnIndex, new StringReader( value ), value.length() );
+        preparedStmt.setString( columnIndex, value );
     }
 
     public Class getJavaType()

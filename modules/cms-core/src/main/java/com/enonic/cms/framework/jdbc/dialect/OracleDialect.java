@@ -25,7 +25,6 @@ public final class OracleDialect
     public OracleDialect()
     {
         super( "oracle", VENDOR_IDS );
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "" );
         setNotNullableValue( "not null" );

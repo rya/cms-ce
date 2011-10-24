@@ -26,7 +26,6 @@ public final class PostgreSqlDialect
     public PostgreSqlDialect()
     {
         super( "postgresql", VENDOR_IDS );
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "null" );
         setNotNullableValue( "not null" );

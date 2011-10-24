@@ -4,7 +4,6 @@
  */
 package com.enonic.esl.sql.model.datatypes;
 
-import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -108,7 +107,7 @@ public class CDATAType
         throws SQLException
     {
         byte[] dataBytes = (byte[]) obj;
-        preparedStmt.setBinaryStream( columnIndex, new ByteArrayInputStream( dataBytes ), dataBytes.length );
+        preparedStmt.setBytes( columnIndex, dataBytes );
     }
 
     public Class getJavaType()

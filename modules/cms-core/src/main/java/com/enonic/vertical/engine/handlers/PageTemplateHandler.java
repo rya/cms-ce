@@ -5,7 +5,6 @@
 package com.enonic.vertical.engine.handlers;
 
 import java.io.ByteArrayInputStream;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -217,8 +216,7 @@ public final class PageTemplateHandler
                     ptdDoc = XMLTool.createDocument( "pagetemplatedata" );
                 }
                 byte[] ptdBytes = XMLTool.documentToBytes( ptdDoc, "UTF-8" );
-                ByteArrayInputStream byteStream = new ByteArrayInputStream( ptdBytes );
-                preparedStmt.setBinaryStream( 6, byteStream, ptdBytes.length );
+                preparedStmt.setBytes( 6, ptdBytes );
 
                 // element: CSS
                 subelem = subelems.get( "css" );
@@ -530,7 +528,7 @@ public final class PageTemplateHandler
                 // element: name
                 Element subelem = subelems.get( "name" );
                 String name = XMLTool.getElementText( subelem );
-                preparedStmt.setCharacterStream( 3, new StringReader( name ), name.length() );
+                preparedStmt.setString( 3, name );
 
                 // element: separator
                 subelem = subelems.get( "separator" );
@@ -539,7 +537,7 @@ public final class PageTemplateHandler
                 {
                     separator = "";
                 }
-                preparedStmt.setCharacterStream( 5, new StringReader( separator ), separator.length() );
+                preparedStmt.setString( 5, separator );
 
                 // element: timestamp (using the database timestamp at creation)
                 /* no code */
@@ -1198,8 +1196,7 @@ public final class PageTemplateHandler
                 Document ptdDoc = XMLTool.createDocument();
                 ptdDoc.appendChild( ptdDoc.importNode( subelem, true ) );
                 byte[] ptdBytes = XMLTool.documentToBytes( ptdDoc, "UTF-8" );
-                ByteArrayInputStream byteStream = new ByteArrayInputStream( ptdBytes );
-                preparedStmt.setBinaryStream( 5, byteStream, ptdBytes.length );
+                preparedStmt.setBytes( 5, ptdBytes );
 
                 // element: CSS
                 subelem = subelems.get( "css" );
@@ -1444,7 +1441,7 @@ public final class PageTemplateHandler
                 // element: name
                 Element subelem = subelems.get( "name" );
                 String name = XMLTool.getElementText( subelem );
-                preparedStmt.setCharacterStream( 2, new StringReader( name ), name.length() );
+                preparedStmt.setString( 2, name );
 
                 subelem = subelems.get( "separator" );
                 String separator = XMLTool.getElementText( subelem );
@@ -1452,7 +1449,7 @@ public final class PageTemplateHandler
                 {
                     separator = "";
                 }
-                preparedStmt.setCharacterStream( 4, new StringReader( separator ), separator.length() );
+                preparedStmt.setString( 4, separator );
 
                 int result = preparedStmt.executeUpdate();
                 if ( result <= 0 )

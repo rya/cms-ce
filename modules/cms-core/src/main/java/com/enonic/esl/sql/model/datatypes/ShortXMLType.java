@@ -4,7 +4,6 @@
  */
 package com.enonic.esl.sql.model.datatypes;
 
-import java.io.StringReader;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -50,7 +49,7 @@ public class ShortXMLType
         throws SQLException
     {
         String dataString = (String) obj;
-        preparedStmt.setCharacterStream( columnIndex, new StringReader( dataString ), dataString.length() );
+        preparedStmt.setString( columnIndex, dataString);
     }
 
     public Object getDataFromXML( Node node )

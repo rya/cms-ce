@@ -4,15 +4,13 @@
  */
 package com.enonic.cms.framework.jdbc.dialect;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Blob;
-import java.sql.Clob;
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,7 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.enonic.cms.framework.jdbc.lob.SimpleBlob;
-import com.enonic.cms.framework.jdbc.lob.SimpleClob;
 
 /**
  * This class defines the jdbc dialect.
@@ -94,17 +91,11 @@ public abstract class Dialect
      */
     private final Map<String, String> placeholders;
 
-    /**
-     * Use input stream for blob.
-     */
-    private boolean useInputStreamForBlob;
-
     public Dialect( String name, String[] vendorIds )
     {
         this.name = name;
         this.vendorIds = vendorIds;
         this.placeholders = new HashMap<String, String>();
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "null" );
         setNotNullableValue( "not null" );
@@ -257,16 +248,6 @@ public abstract class Dialect
         this.placeholders.put( key, value );
     }
 
-    public boolean getUseInputStreamForBlob()
-    {
-        return this.useInputStreamForBlob;
-    }
-
-    public void setUseInputStreamForBlob( boolean flag )
-    {
-        this.useInputStreamForBlob = flag;
-    }
-
     /**
      * Translate the sql statement by replacing placeholders.
      */
@@ -312,76 +293,52 @@ public abstract class Dialect
     public void setByte( PreparedStatement stmt, int parameterIndex, byte x )
         throws SQLException
     {
-        stmt.setByte( parameterIndex, x );
+        stmt.setByte(parameterIndex, x);
     }
 
     public void setDouble( PreparedStatement stmt, int parameterIndex, double x )
         throws SQLException
     {
-        stmt.setDouble( parameterIndex, x );
+        stmt.setDouble(parameterIndex, x);
     }
 
     public void setFloat( PreparedStatement stmt, int parameterIndex, float x )
         throws SQLException
     {
-        stmt.setFloat( parameterIndex, x );
+        stmt.setFloat(parameterIndex, x);
     }
 
     public void setInt( PreparedStatement stmt, int parameterIndex, int x )
         throws SQLException
     {
-        stmt.setInt( parameterIndex, x );
+        stmt.setInt(parameterIndex, x);
     }
 
     public void setNull( PreparedStatement stmt, int parameterIndex, int sqlType )
         throws SQLException
     {
-        stmt.setNull( parameterIndex, convertType( sqlType ) );
+        stmt.setNull(parameterIndex, convertType(sqlType));
     }
 
     public void setLong( PreparedStatement stmt, int parameterIndex, long x )
         throws SQLException
     {
-        stmt.setLong( parameterIndex, x );
+        stmt.setLong(parameterIndex, x);
     }
 
     public void setShort( PreparedStatement stmt, int parameterIndex, short x )
         throws SQLException
     {
-        stmt.setShort( parameterIndex, x );
+        stmt.setShort(parameterIndex, x);
     }
 
     public void setBoolean( PreparedStatement stmt, int parameterIndex, boolean x )
         throws SQLException
     {
-        stmt.setBoolean( parameterIndex, x );
+        stmt.setBoolean(parameterIndex, x);
     }
 
     public void setBytes( PreparedStatement stmt, int parameterIndex, byte[] x )
-        throws SQLException
-    {
-        setBlob( stmt, parameterIndex, new SimpleBlob( x ) );
-    }
-
-    public void setBinaryStream( PreparedStatement stmt, int parameterIndex, InputStream x, int length )
-        throws SQLException
-    {
-        setBlob( stmt, parameterIndex, new SimpleBlob( x, length ) );
-    }
-
-    public void setString( PreparedStatement stmt, int parameterIndex, String x )
-        throws SQLException
-    {
-        stmt.setString( parameterIndex, x );
-    }
-
-    public void setBigDecimal( PreparedStatement stmt, int parameterIndex, BigDecimal x )
-        throws SQLException
-    {
-        stmt.setBigDecimal( parameterIndex, x );
-    }
-
-    public void setBlob( PreparedStatement stmt, int parameterIndex, Blob x )
         throws SQLException
     {
         if ( x == null )
@@ -390,49 +347,33 @@ public abstract class Dialect
         }
         else
         {
-            boolean useStream = getUseInputStreamForBlob();
-            if ( useStream )
-            {
-                stmt.setBinaryStream( parameterIndex, x.getBinaryStream(), (int) x.length() );
-            }
-            else
-            {
-                stmt.setBlob( parameterIndex, x );
-            }
+            final ByteArrayInputStream in = new ByteArrayInputStream(x);
+            stmt.setBinaryStream( parameterIndex, in, x.length );
         }
     }
 
-    public void setClob( PreparedStatement stmt, int parameterIndex, Clob x )
+    public void setString( PreparedStatement stmt, int parameterIndex, String x )
         throws SQLException
     {
-        if ( x == null )
-        {
-            stmt.setNull( parameterIndex, Types.CLOB );
-        }
-        else
-        {
-            boolean useStream = getUseInputStreamForBlob();
-            if ( useStream )
-            {
-                stmt.setCharacterStream( parameterIndex, x.getCharacterStream(), (int) x.length() );
-            }
-            else
-            {
-                stmt.setClob( parameterIndex, x );
-            }
-        }
+        stmt.setString(parameterIndex, x);
+    }
+
+    public void setBigDecimal( PreparedStatement stmt, int parameterIndex, BigDecimal x )
+        throws SQLException
+    {
+        stmt.setBigDecimal( parameterIndex, x );
     }
 
     public void setDate( PreparedStatement stmt, int parameterIndex, Date x )
         throws SQLException
     {
-        stmt.setDate( parameterIndex, x );
+        stmt.setDate(parameterIndex, x);
     }
 
     public void setTime( PreparedStatement stmt, int parameterIndex, Time x )
         throws SQLException
     {
-        stmt.setTime( parameterIndex, x );
+        stmt.setTime(parameterIndex, x);
     }
 
     public void setTimestamp( PreparedStatement stmt, int parameterIndex, Timestamp x )
@@ -441,72 +382,60 @@ public abstract class Dialect
         stmt.setTimestamp( parameterIndex, x );
     }
 
-    public void setAsciiStream( PreparedStatement stmt, int parameterIndex, InputStream x, int length )
-        throws SQLException
-    {
-        setClob( stmt, parameterIndex, new SimpleClob( x, length ) );
-    }
-
-    public void setCharacterStream( PreparedStatement stmt, int parameterIndex, Reader reader, int length )
-        throws SQLException
-    {
-        setClob( stmt, parameterIndex, new SimpleClob( reader, length ) );
-    }
-
     public void setObject( PreparedStatement stmt, int parameterIndex, Object x )
         throws SQLException
     {
         if ( x instanceof Boolean )
         {
-            setObject( stmt, parameterIndex, x, Types.BOOLEAN );
+            setObject(stmt, parameterIndex, x, Types.BOOLEAN);
         }
         else if ( x instanceof Byte )
         {
-            setObject( stmt, parameterIndex, x, Types.TINYINT );
+            setObject(stmt, parameterIndex, x, Types.TINYINT);
         }
         else if ( x instanceof Short )
         {
-            setObject( stmt, parameterIndex, x, Types.SMALLINT );
+            setObject(stmt, parameterIndex, x, Types.SMALLINT);
         }
         else if ( x instanceof Integer )
         {
-            setObject( stmt, parameterIndex, x, Types.INTEGER );
+            setObject(stmt, parameterIndex, x, Types.INTEGER);
         }
         else if ( x instanceof Long )
         {
-            setObject( stmt, parameterIndex, x, Types.BIGINT );
+            setObject(stmt, parameterIndex, x, Types.BIGINT);
         }
         else if ( x instanceof Float )
         {
-            setObject( stmt, parameterIndex, x, Types.FLOAT );
+            setObject(stmt, parameterIndex, x, Types.FLOAT);
         }
         else if ( x instanceof Double )
         {
-            setObject( stmt, parameterIndex, x, Types.DOUBLE );
+            setObject(stmt, parameterIndex, x, Types.DOUBLE);
         }
         else if ( x instanceof String )
         {
-            setObject( stmt, parameterIndex, x, Types.VARCHAR );
+            setObject(stmt, parameterIndex, x, Types.VARCHAR);
         }
         else if ( x instanceof byte[] )
         {
-            setObject( stmt, parameterIndex, x, Types.BLOB );
+            setObject(stmt, parameterIndex, x, Types.BLOB);
         }
         else if ( x instanceof Date )
         {
-            setObject( stmt, parameterIndex, x, Types.DATE );
+            setObject(stmt, parameterIndex, x, Types.DATE);
         }
         else if ( x instanceof Time )
         {
-            setObject( stmt, parameterIndex, x, Types.TIME );
+            setObject(stmt, parameterIndex, x, Types.TIME);
         }
         else if ( x instanceof Timestamp )
         {
-            setObject( stmt, parameterIndex, x, Types.TIMESTAMP );
+            setObject(stmt, parameterIndex, x, Types.TIMESTAMP);
         }
         else if ( x == null )
         {
-            stmt.setNull( parameterIndex, Types.VARCHAR );
+            stmt.setNull(parameterIndex, Types.VARCHAR);
         }
         else
         {
@@ -565,13 +494,9 @@ public abstract class Dialect
         {
             setTimestamp( stmt, parameterIndex, (Timestamp) x );
         }
-        else if ( isBlobType( sqlType ) && ( x instanceof Blob ) )
-        {
-            setBlob( stmt, parameterIndex, (Blob) x );
-        }
         else if ( isBlobType( sqlType ) && ( x instanceof byte[] ) )
         {
-            setBytes( stmt, parameterIndex, (byte[]) x );
+            setBytes(stmt, parameterIndex, (byte[]) x);
         }
         else
         {
@@ -588,37 +513,37 @@ public abstract class Dialect
     public byte getByte( ResultSet result, int columnIndex )
         throws SQLException
     {
-        return result.getByte( columnIndex );
+        return result.getByte(columnIndex);
     }
 
     public double getDouble( ResultSet result, int columnIndex )
         throws SQLException
     {
-        return result.getDouble( columnIndex );
+        return result.getDouble(columnIndex);
     }
 
     public float getFloat( ResultSet result, int columnIndex )
         throws SQLException
     {
-        return result.getFloat( columnIndex );
+        return result.getFloat(columnIndex);
     }
 
     public int getInt( ResultSet result, int columnIndex )
         throws SQLException
     {
-        return result.getInt( columnIndex );
+        return result.getInt(columnIndex);
     }
 
     public long getLong( ResultSet result, int columnIndex )
         throws SQLException
     {
-        return result.getLong( columnIndex );
+        return result.getLong(columnIndex);
     }
 
     public short getShort( ResultSet result, int columnIndex )
         throws SQLException
     {
-        return result.getShort( columnIndex );
+        return result.getShort(columnIndex);
     }
 
     public boolean getBoolean( ResultSet result, int columnIndex )
@@ -630,21 +555,13 @@ public abstract class Dialect
     public byte[] getBytes( ResultSet result, int columnIndex )
         throws SQLException
     {
-        if ( this.useInputStreamForBlob )
-        {
-            return getBytesFromStream( result, columnIndex );
-        }
-        else
-        {
-            byte[] value = result.getBytes( columnIndex );
-            return result.wasNull() ? null : value;
-        }
+        return getBytesFromStream( result, columnIndex );
     }
 
     private byte[] getBytesFromStream( ResultSet result, int columnIndex )
         throws SQLException
     {
-        InputStream inputStream = result.getBinaryStream( columnIndex );
+        InputStream inputStream = result.getBinaryStream(columnIndex);
         if ( inputStream == null )
         {
             return null;
@@ -676,24 +593,10 @@ public abstract class Dialect
         return outputStream.toByteArray();
     }
 
-    public InputStream getAsciiStream( ResultSet result, int columnIndex )
-        throws SQLException
-    {
-        InputStream value = result.getAsciiStream( columnIndex );
-        return result.wasNull() ? null : value;
-    }
-
     public InputStream getBinaryStream( ResultSet result, int columnIndex )
         throws SQLException
     {
-        InputStream value = result.getBinaryStream( columnIndex );
-        return result.wasNull() ? null : value;
-    }
-
-    public Reader getCharacterStream( ResultSet result, int columnIndex )
-        throws SQLException
-    {
-        Reader value = result.getCharacterStream( columnIndex );
+        InputStream value = result.getBinaryStream(columnIndex);
         return result.wasNull() ? null : value;
     }
 
@@ -746,35 +649,21 @@ public abstract class Dialect
     public String getString( ResultSet result, int columnIndex )
         throws SQLException
     {
-        String value = result.getString( columnIndex );
+        String value = result.getString(columnIndex);
         return result.wasNull() ? null : value;
     }
 
     public BigDecimal getBigDecimal( ResultSet result, int columnIndex )
         throws SQLException
     {
-        BigDecimal value = result.getBigDecimal( columnIndex );
-        return result.wasNull() ? null : value;
-    }
-
-    public Blob getBlob( ResultSet result, int columnIndex )
-        throws SQLException
-    {
-        byte[] value = getBytes( result, columnIndex );
-        return value != null ? new SimpleBlob( value ) : null;
-    }
-
-    public Clob getClob( ResultSet result, int columnIndex )
-        throws SQLException
-    {
-        Clob value = result.getClob( columnIndex );
+        BigDecimal value = result.getBigDecimal(columnIndex);
         return result.wasNull() ? null : value;
     }
 
     public Date getDate( ResultSet result, int columnIndex )
         throws SQLException
     {
-        Date value = result.getDate( columnIndex );
+        Date value = result.getDate(columnIndex);
         return result.wasNull() ? null : value;
     }
 
@@ -846,7 +735,7 @@ public abstract class Dialect
     public String translateDropForeignKey( String tableName, String foreignKeyName )
     {
         StringBuffer sql = new StringBuffer();
-        sql.append( "ALTER TABLE " ).append( tableName ).append( " DROP CONSTRAINT " ).append( foreignKeyName );
+        sql.append( "ALTER TABLE " ).append( tableName ).append(" DROP CONSTRAINT ").append( foreignKeyName );
         return sql.toString();
     }
 

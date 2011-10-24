@@ -21,7 +21,6 @@ public final class MySqlDialect
     public MySqlDialect()
     {
         super( "mysql", VENDOR_IDS );
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "null" );
         setNotNullableValue( "not null" );

@@ -123,8 +123,7 @@ public class UnitHandler
                 }
                 else
                 {
-                    StringReader sr = new StringReader( description );
-                    preparedStmt.setCharacterStream( 4, sr, description.length() );
+                    preparedStmt.setString( 4, description );
                 }
             }
             else
@@ -404,8 +403,7 @@ public class UnitHandler
                 }
                 else
                 {
-                    StringReader sr = new StringReader( description );
-                    preparedStmt.setCharacterStream( 3, sr, description.length() );
+                    preparedStmt.setString( 3, description );
                 }
             }
             else

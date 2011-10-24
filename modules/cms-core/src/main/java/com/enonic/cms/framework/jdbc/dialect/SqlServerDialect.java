@@ -21,7 +21,6 @@ public final class SqlServerDialect
     public SqlServerDialect()
     {
         super( "sqlserver", VENDOR_IDS );
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "" );
         setNotNullableValue( "not null" );

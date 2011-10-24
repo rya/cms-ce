@@ -185,12 +185,6 @@ public final class DialectConnectionDecorator
             dialect.setBytes( this.stmt, parameterIndex, x );
         }
 
-        public void setBinaryStream( int parameterIndex, InputStream x, int length )
-            throws SQLException
-        {
-            dialect.setBinaryStream( this.stmt, parameterIndex, x, length );
-        }
-
         public void setObject( int parameterIndex, Object x )
             throws SQLException
         {
@@ -213,18 +207,6 @@ public final class DialectConnectionDecorator
             throws SQLException
         {
             dialect.setBigDecimal( this.stmt, parameterIndex, x );
-        }
-
-        public void setAsciiStream( int parameterIndex, InputStream x, int length )
-            throws SQLException
-        {
-            dialect.setAsciiStream( this.stmt, parameterIndex, x, length );
-        }
-
-        public void setCharacterStream( int parameterIndex, Reader reader, int length )
-            throws SQLException
-        {
-            dialect.setCharacterStream( this.stmt, parameterIndex, reader, length );
         }
 
         @Override
@@ -291,22 +273,10 @@ public final class DialectConnectionDecorator
             return dialect.getBytes( this.result, columnIndex );
         }
 
-        public InputStream getAsciiStream( int columnIndex )
-            throws SQLException
-        {
-            return dialect.getAsciiStream( this.result, columnIndex );
-        }
-
         public InputStream getBinaryStream( int columnIndex )
             throws SQLException
         {
             return dialect.getBinaryStream( this.result, columnIndex );
-        }
-
-        public Reader getCharacterStream( int columnIndex )
-            throws SQLException
-        {
-            return dialect.getCharacterStream( this.result, columnIndex );
         }
 
         public Object getObject( int columnIndex )
@@ -325,18 +295,6 @@ public final class DialectConnectionDecorator
             throws SQLException
         {
             return dialect.getBigDecimal( this.result, columnIndex );
-        }
-
-        public Blob getBlob( int columnIndex )
-            throws SQLException
-        {
-            return dialect.getBlob( this.result, columnIndex );
-        }
-
-        public Clob getClob( int columnIndex )
-            throws SQLException
-        {
-            return dialect.getClob( this.result, columnIndex );
         }
 
         public Date getDate( int columnIndex )

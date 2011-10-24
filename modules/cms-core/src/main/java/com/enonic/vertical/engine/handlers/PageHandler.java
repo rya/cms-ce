@@ -113,7 +113,7 @@ public final class PageHandler
                 Document pageDataDoc = XMLTool.createDocument();
                 pageDataDoc.appendChild( pageDataDoc.importNode( pageDataElement, true ) );
                 byte[] pageDataBytes = XMLTool.documentToBytes( pageDataDoc, "UTF-8" );
-                preparedStmt.setBinaryStream( 3, new ByteArrayInputStream( pageDataBytes ), pageDataBytes.length );
+                preparedStmt.setBytes( 3, pageDataBytes );
 
                 // get the sub-elements
                 Map<String, Element> subelems = XMLTool.filterElements( root.getChildNodes() );
@@ -619,7 +619,7 @@ public final class PageHandler
                 Document pageDataDoc = XMLTool.createDocument();
                 pageDataDoc.appendChild( pageDataDoc.importNode( pageDataElement, true ) );
                 byte[] pageDataBytes = XMLTool.documentToBytes( pageDataDoc, "UTF-8" );
-                preparedStmt.setBinaryStream( 2, new ByteArrayInputStream( pageDataBytes ), pageDataBytes.length );
+                preparedStmt.setBytes( 2, pageDataBytes );
 
                 // attribute: pagetemplatekey key
                 tmp = root.getAttribute( "pagetemplatekey" );

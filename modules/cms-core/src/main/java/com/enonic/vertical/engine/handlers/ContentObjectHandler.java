@@ -4,8 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -219,7 +217,7 @@ public final class ContentObjectHandler
                 preparedStmt.setString( 5, name );
                 if ( contentobjectdata != null )
                 {
-                    preparedStmt.setBinaryStream( 6, new ByteArrayInputStream( contentobjectdata ), contentobjectdata.length );
+                    preparedStmt.setBytes( 6, contentobjectdata );
                 }
                 else
                 {
@@ -694,10 +692,10 @@ public final class ContentObjectHandler
                 {
                     preparedStmt.setNull( 3, Types.VARCHAR );
                 }
-                preparedStmt.setCharacterStream( 4, new StringReader( name ), name.length() );
+                preparedStmt.setString( 4, name );
                 if ( contentobjectdata != null )
                 {
-                    preparedStmt.setBinaryStream( 5, new ByteArrayInputStream( contentobjectdata ), contentobjectdata.length );
+                    preparedStmt.setBytes( 5, contentobjectdata );
                 }
                 else
                 {

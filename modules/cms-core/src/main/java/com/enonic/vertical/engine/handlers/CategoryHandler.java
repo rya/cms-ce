@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -224,7 +223,7 @@ public class CategoryHandler
 
                 // name
                 String name = root.getAttribute( "name" );
-                preparedStmt.setCharacterStream( 6, new StringReader( name ), name.length() );
+                preparedStmt.setString( 6, name );
 
                 // element: description (optional)
                 Element subelem = (Element) subelems.get( "description" );
@@ -238,7 +237,7 @@ public class CategoryHandler
                     }
                     else
                     {
-                        preparedStmt.setCharacterStream( 7, new StringReader( description ), description.length() );
+                        preparedStmt.setString( 7, description );
                     }
                 }
                 else
@@ -808,7 +807,7 @@ public class CategoryHandler
 
             // attribute: name
             String name = root.getAttribute( "name" );
-            preparedStmt.setCharacterStream( 6, new StringReader( name ), name.length() );
+            preparedStmt.setString( 6, name );
 
             // element: owner
             Element subElem = (Element) subElems.get( "owner" );
@@ -827,8 +826,7 @@ public class CategoryHandler
                 }
                 else
                 {
-                    StringReader sr = new StringReader( description );
-                    preparedStmt.setCharacterStream( 7, sr, description.length() );
+                    preparedStmt.setString( 7, description );
                 }
             }
             else

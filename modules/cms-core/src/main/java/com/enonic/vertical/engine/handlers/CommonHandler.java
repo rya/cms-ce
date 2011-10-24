@@ -1784,7 +1784,6 @@ public class CommonHandler
 
     public Document getDocument( StringBuffer sql, int paramValue )
     {
-        //InputStream in = getBinaryStream(sql.toString(), paramValue);
         byte[] bytes = getByteArray( sql.toString(), new Object[]{paramValue} );
         if ( bytes != null )
         {

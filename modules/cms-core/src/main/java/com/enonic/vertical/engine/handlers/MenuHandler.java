@@ -6,7 +6,6 @@ package com.enonic.vertical.engine.handlers;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -900,7 +899,7 @@ public final class MenuHandler
             }
 
             final byte[] xmldata = siteData.getAsBytes();
-            preparedStmt.setBinaryStream( 7, new ByteArrayInputStream( xmldata ), xmldata.length );
+            preparedStmt.setBytes( 7, xmldata );
 
             // language key:
             preparedStmt.setInt( 8, Integer.parseInt( rootElement.getAttribute( "languagekey" ) ) );
@@ -1184,8 +1183,7 @@ public final class MenuHandler
             String data = XMLTool.getElementText( tmp_element );
             if ( data != null )
             {
-                StringReader reader = new StringReader( data );
-                preparedStmt.setCharacterStream( 9, reader, data.length() );
+                preparedStmt.setString( 9, data );
             }
             else
             {
@@ -1214,7 +1212,7 @@ public final class MenuHandler
                 dataDoc.appendChild( dataDoc.importNode( dataElem, true ) );
 
                 byte[] bytes = XMLTool.documentToBytes( dataDoc, "UTF-8" );
-                preparedStmt.setBinaryStream( 12, new ByteArrayInputStream( bytes ), bytes.length );
+                preparedStmt.setBytes( 12, bytes );
             }
             else
             {
@@ -1230,8 +1228,7 @@ public final class MenuHandler
             }
             else
             {
-                StringReader keywordReader = new StringReader( keywords );
-                preparedStmt.setCharacterStream( 13, keywordReader, keywords.length() );
+                preparedStmt.setString( 13, keywords );
             }
 
             // language
@@ -2508,7 +2505,7 @@ public final class MenuHandler
             }
 
             final byte[] xmldata = siteData.getAsBytes();
-            preparedStmt.setBinaryStream( 5, new ByteArrayInputStream( xmldata ), xmldata.length );
+            preparedStmt.setBytes( 5, xmldata );
 
             // language key:
             preparedStmt.setInt( 6, Integer.parseInt( root_elem.getAttribute( "languagekey" ) ) );
@@ -2729,8 +2726,7 @@ public final class MenuHandler
             }
             if ( name != null && name.length() > 0 )
             {
-                StringReader sreader = new StringReader( name );
-                preparedStmt.setCharacterStream( 1, sreader, name.length() );
+                preparedStmt.setString( 1, name );
             }
             else
             {
@@ -2818,7 +2814,7 @@ public final class MenuHandler
             }
 
             final byte[] xmldata = siteData.getAsBytes();
-            preparedStmt.setBinaryStream( 2, new ByteArrayInputStream( xmldata ), xmldata.length );
+            preparedStmt.setBytes( 2, xmldata );
 
             // Run As User:
             String runAsUserGroupKey = root_elem.getAttribute( "runas" );
@@ -3179,8 +3175,7 @@ public final class MenuHandler
 
             validateMenuItemName( name );
 
-            StringReader sreader = new StringReader( name );
-            preparedStmt.setCharacterStream( psCounter++, sreader, name.length() );
+            preparedStmt.setString( psCounter++, name );
 
             if ( parent != null )
             {
@@ -3241,8 +3236,7 @@ public final class MenuHandler
             {
                 data = "";
             }
-            StringReader reader = new StringReader( data );
-            preparedStmt.setCharacterStream( psCounter++, reader, data.length() );
+            preparedStmt.setString( psCounter++, data );
 
             // keywords
             tmp_elem = XMLTool.getElement( menuItemElem, "keywords" );
@@ -3253,8 +3247,7 @@ public final class MenuHandler
             }
             else
             {
-                StringReader keywordReader = new StringReader( keywords );
-                preparedStmt.setCharacterStream( psCounter++, keywordReader, keywords.length() );
+                preparedStmt.setString( psCounter++, keywords );
             }
 
             // language
@@ -3315,7 +3308,7 @@ public final class MenuHandler
                 dataDoc.appendChild( dataDoc.importNode( dataElem, true ) );
 
                 byte[] bytes = XMLTool.documentToBytes( dataDoc, "UTF-8" );
-                preparedStmt.setBinaryStream( psCounter++, new ByteArrayInputStream( bytes ), bytes.length );
+                preparedStmt.setBytes( psCounter++, bytes );
             }
 
             preparedStmt.setInt( psCounter, key );

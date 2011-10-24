@@ -4,9 +4,7 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -237,16 +235,16 @@ public final class ContentHandler
             byte[] mdocBytes = XMLTool.documentToBytes( moduleDoc, "UTF-8" );
 
             preparedStmt.setInt( 1, key );
-            preparedStmt.setCharacterStream( 2, new StringReader( name ), name.length() );
+            preparedStmt.setString( 2, name );
             if ( description != null )
             {
-                preparedStmt.setCharacterStream( 3, new StringReader( description ), description.length() );
+                preparedStmt.setString( 3, description );
             }
             else
             {
                 preparedStmt.setNull( 3, Types.VARCHAR );
             }
-            preparedStmt.setBinaryStream( 4, new ByteArrayInputStream( mdocBytes ), mdocBytes.length );
+            preparedStmt.setBytes( 4, mdocBytes );
 
             String contentHandlerKeyString = root.getAttribute( "contenthandlerkey" );
             int contentHandlerKey = Integer.parseInt( contentHandlerKeyString );
@@ -503,16 +501,16 @@ public final class ContentHandler
             con = getConnection();
             preparedStmt = con.prepareStatement( CTY_UPDATE );
             preparedStmt.setInt( 6, key );
-            preparedStmt.setCharacterStream( 1, new StringReader( name ), name.length() );
+            preparedStmt.setString( 1, name );
             if ( description != null )
             {
-                preparedStmt.setCharacterStream( 2, new StringReader( description ), description.length() );
+                preparedStmt.setString( 2, description );
             }
             else
             {
                 preparedStmt.setNull( 2, Types.VARCHAR );
             }
-            preparedStmt.setBinaryStream( 3, new ByteArrayInputStream( mdocBytes ), mdocBytes.length );
+            preparedStmt.setBytes( 3, mdocBytes );
 
             String contentHandlerKeyString = root.getAttribute( "contenthandlerkey" );
             int contentHandlerKey = Integer.parseInt( contentHandlerKeyString );
@@ -1419,17 +1417,17 @@ public final class ContentHandler
             byte[] cdocBytes = XMLTool.documentToBytes( configDoc, "UTF-8" );
 
             preparedStmt.setInt( 1, key );
-            preparedStmt.setCharacterStream( 2, new StringReader( name ), name.length() );
-            preparedStmt.setCharacterStream( 3, new StringReader( className ), className.length() );
+            preparedStmt.setString( 2, name );
+            preparedStmt.setString( 3, className );
             if ( description != null )
             {
-                preparedStmt.setCharacterStream( 4, new StringReader( description ), description.length() );
+                preparedStmt.setString( 4, description );
             }
             else
             {
                 preparedStmt.setNull( 4, Types.VARCHAR );
             }
-            preparedStmt.setBinaryStream( 5, new ByteArrayInputStream( cdocBytes ), cdocBytes.length );
+            preparedStmt.setBytes( 5, cdocBytes );
 
             // add the content handler
             int result = preparedStmt.executeUpdate();
@@ -1486,17 +1484,17 @@ public final class ContentHandler
             con = getConnection();
             preparedStmt = con.prepareStatement( HAN_UPDATE );
             preparedStmt.setInt( 5, key );
-            preparedStmt.setCharacterStream( 1, new StringReader( name ), name.length() );
+            preparedStmt.setString( 1, name );
             if ( description != null )
             {
-                preparedStmt.setCharacterStream( 2, new StringReader( description ), description.length() );
+                preparedStmt.setString( 2, description );
             }
             else
             {
                 preparedStmt.setNull( 2, Types.VARCHAR );
             }
-            preparedStmt.setCharacterStream( 3, new StringReader( className ), className.length() );
-            preparedStmt.setBinaryStream( 4, new ByteArrayInputStream( cdocBytes ), cdocBytes.length );
+            preparedStmt.setString( 3, className );
+            preparedStmt.setBytes( 4, cdocBytes );
             preparedStmt.executeUpdate();
             preparedStmt.close();
             preparedStmt = null;

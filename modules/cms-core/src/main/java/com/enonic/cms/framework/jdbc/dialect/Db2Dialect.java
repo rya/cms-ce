@@ -23,7 +23,6 @@ public final class Db2Dialect
     public Db2Dialect()
     {
         super( "db2", VENDOR_IDS );
-        setUseInputStreamForBlob( true );
         setSeparatorValue( ";" );
         setNullableValue( "" );
         setNotNullableValue( "not null" );
