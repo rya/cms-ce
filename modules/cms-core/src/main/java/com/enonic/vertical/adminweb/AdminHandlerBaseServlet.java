@@ -28,6 +28,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -1399,7 +1400,6 @@ public abstract class AdminHandlerBaseServlet
 
     protected boolean logUserStoreLogin( User user, AdminService admin, String remoteIP, String remoteHost, UserStoreKey userStoreKey )
     {
-
         try
         {
             Document doc = XMLTool.createDocument( "logentry" );

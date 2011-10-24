@@ -118,13 +118,21 @@ public class LogServiceImpl
         logEntry.setTimestamp( timeService.getNowAsDateTime().toDate() );
         logEntry.setInetAddress( clientInetAddress );
         logEntry.setUser( user );
-        logEntry.setTableKey( command.getTable().asInteger() );
-        logEntry.setKeyValue( command.getTableKeyValue() );
+
+        if (command.getTable() != null) {
+            logEntry.setTableKey( command.getTable().asInteger() );
+            logEntry.setKeyValue( command.getTableKeyValue() );
+        }
+
+        if (command.getSite() != null) {
+            logEntry.setSite(command.getSite());
+        }
+
         logEntry.setTitle( command.getTitle() );
 
-        // logEntry.setSite( .. );
-
-        logEntry.setPath( enshurePathWithinBoundary( command.getPath() ) );
+        if (command.getPath() != null) {
+            logEntry.setPath( enshurePathWithinBoundary( command.getPath() ) );
+        }
 
         if ( command.getXmlData() != null )
         {

@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.log.LogEntrySpecification;
+import com.enonic.cms.store.dao.LogEntryDao;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
