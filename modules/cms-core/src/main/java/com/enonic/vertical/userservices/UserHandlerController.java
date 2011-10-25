@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.log.LogEntrySpecification;
-import com.enonic.cms.store.dao.LogEntryDao;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 import org.w3c.dom.Document;
@@ -74,7 +72,7 @@ import com.enonic.cms.core.preference.PreferenceAccessException;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenException;
 import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
-import com.enonic.cms.business.login.LoginService;
+import com.enonic.cms.core.login.LoginService;
 
 import com.enonic.cms.domain.portal.PortalInstanceKey;
 import com.enonic.cms.domain.portal.PortalInstanceKeyResolver;

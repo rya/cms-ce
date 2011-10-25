@@ -175,7 +175,7 @@
         <property name="fromMail" value="#{config.adminEmail}"/>
     </bean>
 
-    <bean id="loginService" class="com.enonic.cms.business.login.LoginServiceImpl">
+    <bean id="loginService" class="com.enonic.cms.core.login.LoginServiceImpl">
         <property name="autologinTimeoutInDays" value="#{config.autoLoginTimeout}"/>
     </bean>
 
