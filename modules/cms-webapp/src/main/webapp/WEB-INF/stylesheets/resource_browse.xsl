@@ -150,7 +150,7 @@
           <body>
             <xsl:if test="string($reload) = 'true'">
               <script type="text/javascript">
-                <xsl:text>window.top.frames['leftFrame'].location = window.top.frames['leftFrame'].location;</xsl:text>
+                  <xsl:text>window.top.frames['leftFrame'].refreshMenu();</xsl:text>
               </script>
             </xsl:if>
 
