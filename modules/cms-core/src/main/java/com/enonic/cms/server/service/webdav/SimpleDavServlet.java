@@ -22,7 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
+import com.enonic.cms.upgrade.UpgradeCheckerHelper;
 
 /**
  * This class implements the webdav servlet.
