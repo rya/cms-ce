@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.upgrade;
+package com.enonic.cms.upgrade;
 
 import java.io.IOException;
 

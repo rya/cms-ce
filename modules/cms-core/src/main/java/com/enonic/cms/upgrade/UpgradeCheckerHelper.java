@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.upgrade;
+package com.enonic.cms.upgrade;
 
 import java.io.IOException;
 import java.util.Map;
@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import com.enonic.cms.upgrade.UpgradeService;
 
 /**
  * This class implements method to be used to access the upgrade checker bean from a servlet. It is looked up using the application
