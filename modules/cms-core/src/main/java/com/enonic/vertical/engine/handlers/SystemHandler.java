@@ -20,7 +20,7 @@ import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
 import com.enonic.cms.store.DatabaseAccessor;
 import com.enonic.cms.store.VacuumContentSQL;
 
-import com.enonic.cms.business.jdbc.DatabaseBaseValuesInitializer;
+import com.enonic.cms.core.jdbc.DatabaseBaseValuesInitializer;
 
 /**
  * This class implements the system handler that takes care of creating database schema and populating version numbers.
