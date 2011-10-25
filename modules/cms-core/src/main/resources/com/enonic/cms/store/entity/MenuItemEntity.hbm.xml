@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.core.structure.menuitem.MenuItemEntity" table="TMENUITEM" mutable="true">
+  <class name="com.enonic.cms.core.structure.menuitem.MenuItemEntity" table="TMENUITEM" mutable="true" batch-size="500">
     <cache usage="nonstrict-read-write"/>
     <id name="key" type="int">
       <column name="MEI_LKEY"/>
@@ -80,13 +80,13 @@
     <property name="displayName" type="string">
       <column name="MEI_SDISPLAYNAME" length="256" not-null="true"/>
     </property>
-    <map name="childrenMapByName" lazy="true" fetch="select" order-by="MEI_LORDER asc" inverse="true">
+    <map name="childrenMapByName" order-by="MEI_LORDER asc" inverse="true" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key column="MEI_LPARENT"/>
       <map-key type="com.enonic.cms.store.hibernate.type.CaseInsensitiveStringUserType" column="MEI_SNAME"/>
       <one-to-many class="com.enonic.cms.core.structure.menuitem.MenuItemEntity"/>
     </map>
-    <set name="contents" inverse="false" table="TMENUITEMCONTENT">
+    <set name="contents" inverse="false" table="TMENUITEMCONTENT" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="MIC_MEI_LKEY" not-null="true"/>
@@ -95,12 +95,12 @@
         <column name="MIC_CON_LKEY" not-null="true"/>
       </many-to-many>
     </set>
-    <set name="sectionContents" inverse="true" sort="com.enonic.cms.core.structure.menuitem.SectionContentComparatorByOrder">
+    <set name="sectionContents" inverse="true" sort="com.enonic.cms.core.structure.menuitem.SectionContentComparatorByOrder" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key column="SCO_MEI_LKEY" not-null="true"/>
       <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
     </set>
-    <set name="allowedSectionContentTypes" inverse="false" table="TSECCONTYPEFILTER2">
+    <set name="allowedSectionContentTypes" inverse="false" table="TSECCONTYPEFILTER2"  lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="SCTF_MEI_LKEY" not-null="true"/>
@@ -109,7 +109,7 @@
         <column name="SCTF_CTY_LKEY" not-null="true"/>
       </many-to-many>
     </set>
-    <map name="accesses" fetch="select" lazy="true" inverse="true">
+    <map name="accesses" lazy="true" fetch="select" batch-size="500" inverse="true">
       <cache usage="nonstrict-read-write"/>
       <key column="MIA_MEI_LKEY"/>
       <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="MIA_GRP_HKEY"/>
