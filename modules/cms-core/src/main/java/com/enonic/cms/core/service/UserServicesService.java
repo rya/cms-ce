@@ -12,10 +12,6 @@ import com.enonic.cms.core.security.user.User;
 
 public interface UserServicesService
 {
-
-    public void createLogEntries( User user, String xmlData )
-        throws VerticalCreateException, VerticalSecurityException;
-
     public XMLDocument getContent( User user, int key, boolean publishOnly, int parenLevel, int childrenLevel, int parenChildrenLevel );
 
     public XMLDocument getContentTypeByCategory( int cKey );

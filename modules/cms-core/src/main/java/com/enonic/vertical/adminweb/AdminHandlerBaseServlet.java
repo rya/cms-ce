@@ -1398,34 +1398,6 @@ public abstract class AdminHandlerBaseServlet
         return docExistingAccessRights;
     }
 
-    protected boolean logUserStoreLogin( User user, AdminService admin, String remoteIP, String remoteHost, UserStoreKey userStoreKey )
-    {
-        try
-        {
-            Document doc = XMLTool.createDocument( "logentry" );
-            Element rootElement = doc.getDocumentElement();
-            //UserStoreKey userStoreKey = user.getUserStoreKey();
-            if ( userStoreKey != null )
-            {
-                rootElement.setAttribute( "userstorekey", String.valueOf( userStoreKey ) );
-            }
-            rootElement.setAttribute( "sitekey", String.valueOf( 0 ) );
-            rootElement.setAttribute( "typekey", String.valueOf( LogType.LOGIN_USERSTORE.asInteger() ) );
-            rootElement.setAttribute( "inetaddress", remoteIP );
-            XMLTool.createElement( doc, rootElement, "data" );
-
-            admin.createLogEntries( user, XMLTool.documentToString( doc ) );
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String message = "Failed to create log entry because of security error: %t";
-            VerticalAdminLogger.error( message, vse );
-            return false;
-        }
-
-        return true;
-    }
-
     public static int[] getIntArrayFormItem( ExtendedMap formItems, String formKey )
     {
         return getIntArrayFormItems( formItems, new String[]{formKey} );

@@ -306,14 +306,6 @@ public final class AdminEngine
         languageHandler.createLanguage( languageCode, description );
     }
 
-    public String[] createLogEntries( User user, String xmlData )
-        throws VerticalSecurityException
-    {
-        String[] rootNames = {"logentry", "logentries"};
-        Document doc = XMLTool.domparse( xmlData, rootNames );
-        return logHandler.createLogEntries(user, doc);
-    }
-
     public int createMenu( User user, String xmlData )
         throws VerticalSecurityException
     {

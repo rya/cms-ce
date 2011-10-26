@@ -9,7 +9,6 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.w3c.dom.Document;
 
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.handlers.CategoryHandler;
 import com.enonic.vertical.engine.handlers.ContentHandler;
 import com.enonic.vertical.engine.handlers.LogHandler;
@@ -90,14 +89,6 @@ public class UserServicesEngine
     public UserHandler getUserHandler()
     {
         return userHandler;
-    }
-
-    public String[] createLogEntries( User user, String xmlData )
-        throws VerticalCreateException, VerticalSecurityException
-    {
-
-        Document doc = XMLTool.domparse( xmlData, new String[]{"logentry", "logentries"} );
-        return logHandler.createLogEntries( user, doc );
     }
 
     public XMLDocument getContent( User user, int key, boolean publishedOnly, int parentLevel, int childrenLevel, int parentChildrenLevel )

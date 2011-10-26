@@ -27,14 +27,6 @@ public class UserServicesServiceImpl
         this.userServicesEngine = userServicesEngine;
     }
 
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public void createLogEntries( User user, String xmlData )
-        throws VerticalCreateException, VerticalSecurityException
-    {
-        userServicesEngine.createLogEntries( user, xmlData );
-    }
-
     /**
      * Transaction NB: Denne metoden er hardkodet til å ikke logge, så trenger ikke write.
      */

@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.log.LogService;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
@@ -30,7 +30,6 @@ import com.enonic.esl.net.Mail;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
@@ -133,6 +132,8 @@ public class UserHandlerController
 
     private UserDao userDao;
 
+    private LogService logService;
+
     protected static final String JOINGROUPKEY = "joingroupkey";
 
     protected static final String ALLGROUPKEYS = "allgroupkeys";
@@ -162,6 +163,11 @@ public class UserHandlerController
     public void setPreferenceService( PreferenceService value )
     {
         this.preferenceService = value;
+    }
+
+    public void setLogService( LogService logService )
+    {
+        this.logService = logService;
     }
 
     @Override
@@ -1205,14 +1211,7 @@ public class UserHandlerController
 
             if ( siteContext.isAuthenticationLoggingEnabled() )
             {
-                // Create log entry:
-                boolean createdLogEntrySuccessfully =
-                    createLogEntry( siteContext, user, userServices, request.getRemoteAddr(), LogType.LOGIN.asInteger(), userStoreKey );
-                if ( !createdLogEntrySuccessfully )
-                {
-                    String message = "Failed to create log entry. Aborted login.";
-                    VerticalUserServicesLogger.error(message, null );
-                }
+                logLogin(siteContext,  user, request.getRemoteAddr());
             }
 
             session.setAttribute( "vertical_uid", username );
@@ -1240,7 +1239,7 @@ public class UserHandlerController
             {
                 username = formItems.getString( FORMITEM_EMAIL, null );
             }
-            reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
+            logLoginFailed(siteContext, username, request.getRemoteAddr());
             String message = "User name and/or password is wrong: %0";
             VerticalUserServicesLogger.warn(message, username, null );
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
@@ -1251,7 +1250,7 @@ public class UserHandlerController
             {
                 username = formItems.getString( FORMITEM_EMAIL, null );
             }
-            reportFailedLogin( siteContext, user, userServices, username, userStoreKey, request.getRemoteAddr() );
+            logLoginFailed(siteContext, username, request.getRemoteAddr());
             String message = "No rights to handle request: " + vse.getMessage();
             VerticalUserServicesLogger.warn(message, null );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
@@ -1371,29 +1370,41 @@ public class UserHandlerController
         CookieUtil.setCookie( response, cookieName, null, 0, deploymentPath );
     }
 
-    private boolean createLogEntry( SiteContext siteContext, User user, UserServicesService userServices, String remoteIP, int type,
-                                    UserStoreKey userStoreKey )
-        throws RemoteException
+    private void logLogin( final SiteContext site, final User user, final String remoteIp )
     {
-        try
-        {
-            Document doc = XMLTool.createDocument( "logentry" );
-            Element rootElement = doc.getDocumentElement();
-            rootElement.setAttribute( "typekey", String.valueOf( type ) );
-            rootElement.setAttribute( "inetaddress", remoteIP );
-            rootElement.setAttribute( "menukey", String.valueOf( siteContext.getSiteKey() ) );
-            XMLTool.createElement( doc, rootElement, "data" );
+        final StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
+        command.setType(LogType.LOGIN);
+        command.setInetAddress(remoteIp);
+        command.setTitle(user.getDisplayName() + " (" + user.getName() + ")");
+        command.setUser(user.getKey());
+        command.setSite(this.siteDao.findByKey(site.getSiteKey()));
 
-            userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
+        this.logService.storeNew(command);
+    }
 
-            return true;
-        }
-        catch ( Exception e )
-        {
-            String message = "Failed to create log entry: %t";
-            VerticalUserServicesLogger.error(message, e );
-            return false;
-        }
+    private void logLogout( final SiteContext site, final User user, final String remoteIp )
+    {
+        final StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
+        command.setType(LogType.LOGOUT);
+        command.setInetAddress(remoteIp);
+        command.setTitle(user.getDisplayName() + " (" + user.getName() + ")");
+        command.setUser(user.getKey());
+        command.setSite(this.siteDao.findByKey(site.getSiteKey()));
+
+        this.logService.storeNew(command);
+    }
+
+    private void logLoginFailed( final SiteContext site, final String uid, final String remoteIp )
+    {
+        final StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
+
+        command.setType(LogType.LOGIN_FAILED);
+        command.setInetAddress(remoteIp);
+        command.setTitle(uid);
+        command.setUser(this.securityService.getAnonymousUserKey());
+        command.setSite(this.siteDao.findByKey(site.getSiteKey()));
+
+        this.logService.storeNew(command);
     }
 
     private void processLogout( SiteContext siteContext, HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -1411,7 +1422,7 @@ public class UserHandlerController
             {
                 if ( siteContext.isAuthenticationLoggingEnabled() )
                 {
-                    createLogEntry( siteContext, user, userServices, request.getRemoteAddr(), LogType.LOGOUT.asInteger(), userStoreKey );
+                    logLogout(siteContext, user, request.getRemoteAddr());
                 }
             }
             else
@@ -1435,29 +1446,6 @@ public class UserHandlerController
             securityService.logoutPortalUser();
 
             redirectToPage( request, response, formItems );
-        }
-    }
-
-    private void reportFailedLogin( SiteContext siteContext, User user, UserServicesService userServices, String uid,
-                                    UserStoreKey userStoreKey, String remoteIP )
-        throws RemoteException
-    {
-        try
-        {
-            Document doc = XMLTool.createDocument( "logentry" );
-            Element rootElement = doc.getDocumentElement();
-            rootElement.setAttribute( "typekey", String.valueOf( LogType.LOGIN_FAILED.asInteger() ) );
-            rootElement.setAttribute( "inetaddress", remoteIP );
-            rootElement.setAttribute( "menukey", String.valueOf( siteContext.getSiteKey() ) );
-            XMLTool.createElement( doc, rootElement, "title", uid );
-            XMLTool.createElement( doc, rootElement, "data" );
-
-            userServices.createLogEntries( user, XMLTool.documentToString( doc ) );
-        }
-        catch ( Exception e )
-        {
-            String message = "Failed to create log entry for failed login: %t";
-            VerticalUserServicesLogger.error(message, e );
         }
     }
 
@@ -1655,6 +1643,4 @@ public class UserHandlerController
     {
         this.userDao = userDao;
     }
-
-
 }

@@ -286,6 +286,7 @@
         <property name="preferenceService" ref="preferenceService"/>
         <property name="loginService" ref="loginService"/>
         <property name="userDao" ref="userDao"/>
+        <property name="logService" ref="logService"/>
     </bean>
 
     <bean id="customContentHandlerController" class="com.enonic.vertical.userservices.CustomContentHandlerController"

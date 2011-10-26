@@ -16,16 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import org.apache.commons.lang.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.api.Version;
 import com.enonic.cms.core.log.LogType;
@@ -35,7 +32,6 @@ import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.business.DeploymentPathResolver;
@@ -45,6 +41,8 @@ import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
 import com.enonic.cms.core.security.user.UserEntity;
 
 import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
+import org.jdom.Document;
+import org.jdom.Element;
 
 /**
  * Administration login servlet.
@@ -63,8 +61,6 @@ public final class AdminLogInServlet
     //  401_user_passwd_wrong  : user id and/or password is wrong for this domain
     //                           (or enterprise administrator user id and/or password is incorrect)
     //  401_access_denied      : user doesn't have access to the administration console
-
-    private static final String EC_500_UNEXPECTED_ERROR = "500_unexpected_error";
 
     private static final String EC_401_MISSING_USER_PASSWD = "401_missing_user_passwd";
 
@@ -202,38 +198,54 @@ public final class AdminLogInServlet
         return editContent;
     }
 
-    private boolean createLogEntry( User user, AdminService admin, UserStoreKey userStoreKey, String remoteIP, int typeKey, String title )
+    private void logLoginFailed( final QualifiedUsername user, final String remoteIp )
     {
-        String key;
-        try
-        {
-            Document doc = XMLTool.createDocument( "logentry" );
-            Element rootElement = doc.getDocumentElement();
-            rootElement.setAttribute( "typekey", String.valueOf( typeKey ) );
-            rootElement.setAttribute( "inetaddress", remoteIP );
-            if ( title != null )
-            {
-                XMLTool.createElement( doc, rootElement, "title", title );
-            }
-            Element logDataElement = XMLTool.createElement( doc, rootElement, "data" );
-            if ( userStoreKey != null )
-            {
-                UserStoreEntity userStore = userStoreDao.findByKey( userStoreKey );
-                String userStoreName = userStore.getName();
-                Element elem = XMLTool.createElement( doc, logDataElement, "userstorekey", userStoreName );
-                elem.setAttribute( "key", String.valueOf( userStoreKey ) );
-            }
+        final StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
 
-            key = admin.createLogEntries( user, XMLTool.documentToString( doc ) )[0];
-        }
-        catch ( VerticalSecurityException vse )
-        {
-            String msg = "Failed to create log entry of login: %t";
-            VerticalAdminLogger.error(msg, vse );
-            key = null;
+        command.setType(LogType.LOGIN_FAILED);
+        command.setInetAddress(remoteIp);
+        command.setTitle(user.getUsername());
+        command.setXmlData(createUserStoreDataDoc(user));
+        command.setUser(this.securityService.getAnonymousUserKey());
+
+        this.logService.storeNew(command);
+    }
+
+    private void logLogin( final User user, final String remoteIp )
+    {
+        final StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
+        command.setType(LogType.LOGIN);
+        command.setInetAddress(remoteIp);
+        command.setTitle(user.getDisplayName() + " (" + user.getName() + ")");
+        command.setXmlData(createUserStoreDataDoc(user.getQualifiedName()));
+        command.setUser(user.getKey());
+
+        this.logService.storeNew(command);
+    }
+
+    private void logLogout( final User user, final String remoteIp )
+    {
+        final StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
+        command.setType(LogType.LOGOUT);
+        command.setInetAddress(remoteIp);
+        command.setTitle(user.getDisplayName() + " (" + user.getName() + ")");
+        command.setUser(user.getKey());
+
+        this.logService.storeNew(command);
+    }
+
+    private Document createUserStoreDataDoc(final QualifiedUsername user)
+    {
+        final Element rootElem = new Element("data");
+
+        if (user.getUserStoreKey() != null) {
+            final Element userStoreElem = new Element("userstorekey");
+            userStoreElem.setAttribute("key", user.getUserStoreKey().toString());
+            userStoreElem.setText(user.getUserStoreName());
+            rootElem.addContent(userStoreElem);
         }
 
-        return key != null;
+        return new Document(rootElem);
     }
 
     private void handlerLoginForm( HttpServletRequest request, HttpServletResponse response, HttpSession session,
@@ -324,8 +336,7 @@ public final class AdminLogInServlet
         String uid = formItems.getString( "username", null );
         String passwd = formItems.getString( "password", null );
         UserStoreKey userStoreKey;
-        String userStoreKeyStr = formItems.getString( "userstorekey", null );
-        AdminService admin = lookupAdminBean();
+        String userStoreKeyStr = formItems.getString("userstorekey", null);
 
         if ( userStoreKeyStr != null )
         {
@@ -357,6 +368,8 @@ public final class AdminLogInServlet
 
         User user = null;
         String errorCode = null;
+        QualifiedUsername qualifiedUsername = null;
+
         try
         {
             if ( uid == null || passwd == null )
@@ -371,7 +384,6 @@ public final class AdminLogInServlet
             else
             {
                 // authenticate user
-                QualifiedUsername qualifiedUsername;
                 if ( UserEntity.isBuiltInUser( uid ) )
                 {
                     qualifiedUsername = new QualifiedUsername( uid );
@@ -394,7 +406,7 @@ public final class AdminLogInServlet
             session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
             errorCode = EC_401_USER_PASSWD_WRONG;
             String remoteAdr = request.getRemoteAddr();
-            createLogEntry( user, admin, userStoreKey, remoteAdr, LogType.LOGIN_FAILED.asInteger(), uid );
+            logLoginFailed(qualifiedUsername, remoteAdr);
         }
         catch ( AdminConsoleAccessDeniedException e )
         {
@@ -426,22 +438,8 @@ public final class AdminLogInServlet
 
         try
         {
-            final boolean loggingSuccessful = createLogEntry( user, admin, userStoreKey, remoteAdr, LogType.LOGIN.asInteger(), null );
-            // Log login (only let the user log in if creation of log entry was successfull):
-            if ( !loggingSuccessful )
-            {
-                String message = "Failed to create log entry of user login";
-                VerticalAdminLogger.error(message, null );
-                session.setAttribute( "loginerrorcode", EC_500_UNEXPECTED_ERROR );
-                session.setAttribute( "loginerror", message );
-                session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
-                return;
-            }
 
-            if ( userStoreKey != null )
-            {
-                logUserStoreLogin( user, admin, request.getRemoteAddr(), request.getRemoteHost(), userStoreKey );
-            }
+            logLogin(user, remoteAdr);
 
             // Reset some cookie data:
             String deploymentPath = DeploymentPathResolver.getAdminDeploymentPath( request );
@@ -500,9 +498,8 @@ public final class AdminLogInServlet
 
         if ( session != null && user != null )
         {
-            AdminService admin = lookupAdminBean();
             String remoteAddr = request.getRemoteAddr();
-            createLogEntry( user, admin, user.getUserStoreKey(), remoteAddr, LogType.LOGOUT.asInteger(), null );
+            logLogout(user, remoteAddr);
 
             try
             {

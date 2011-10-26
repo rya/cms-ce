@@ -166,12 +166,6 @@ public class AdminServiceImpl
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public String[] createLogEntries( User user, String xmlData )
-    {
-        return adminEngine.createLogEntries( user, xmlData );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createMenu( User user, String xmlData )
     {
         return adminEngine.createMenu( user, xmlData );

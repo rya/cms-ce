@@ -79,9 +79,6 @@ public interface AdminService
     public void createLanguage( User user, String languageCode, String description )
         throws VerticalSecurityException;
 
-    public String[] createLogEntries( User user, String xmlData )
-        throws VerticalSecurityException;
-
     public int createMenu( User user, String xmlData )
         throws VerticalSecurityException;
 
