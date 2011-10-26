@@ -1,0 +1,52 @@
+.menuItem{
+	border-top:		0;
+	border-left:		0;
+	border-right:		0;
+	border-bottom:		0;
+	padding:		0;
+	
+}
+
+.menuItem tr{
+	height: 18px;
+	
+}
+
+.menuItem td{
+	border: 0px solid black;
+	white-space: nowrap;
+}
+
+.menuItem a, .menuItem a:active, .menuItem a:hover {
+	margin-left: 0px;
+	padding: 0px 0px 0px 0px;
+	white-space: nowrap;
+}
+
+.menuItem a {
+	color: black;
+	text-decoration: none;
+}
+
+.menuItem a:hover {
+	color: blue;
+	text-decoration: underline;
+}
+
+.menuItem a:active {
+    /* finne på noen annen slags markering kanskje??? */
+	/*background: highlight;*/
+	/*color: highlighttext;*/
+	text-decoration: none;
+}
+
+
+.menuItem img{	
+	vertical-align: text-bottom;
+	border: 0;
+}
+
+.menuItem img.shim{
+	width: 5px;
+	border: 0px;
+}

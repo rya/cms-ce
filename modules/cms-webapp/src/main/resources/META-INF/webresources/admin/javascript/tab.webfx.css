@@ -1,0 +1,109 @@
+
+
+.dynamic-tab-pane-control.tab-pane {
+	position:		relative;
+	width:			100%;
+}
+
+.dynamic-tab-pane-control .tab-row .tab {
+	font-family:	Arial, Verdana, Tahoma, sans-serif;
+	font-size:		8pt;
+	cursor:			Default;
+	display:		inline;
+	margin:			0px 1px 0px 1px;
+	float:			left;
+	padding:		1px 0px 0px 0px;
+	background:		#EEEEEE;
+	
+	border-top:		1px solid #B8B8B8;
+	border-left:	1px solid #B8B8B8;
+	border-right:	1px solid #a8a8a8;
+	border-bottom:	0;	
+	cursor:			pointer;	
+	z-index:		1;
+	position:		relative;
+	top:			0;
+}
+
+.dynamic-tab-pane-control .tab-row .tab.selected {
+	
+	border-top:		1px solid #B8B8B8;
+	border-left:	1px solid #B8B8B8;
+	border-right:	1px solid #a8a8a8;
+	border-bottom:	0;
+	z-index:		3;
+	padding:		1px 0px 3px 0px;
+	margin:			0px -3px 0px -3px;
+	top:			-2px;
+	background:		#EEEEEE;
+}
+
+.dynamic-tab-pane-control .tab-row .tab a {
+	font-family:		  Arial, Verdana, Tahoma, sans-serif;
+	font-size:			  11px;
+	color:				    black;
+	text-decoration:	none;
+	cursor:				    hand;
+	padding:			    0px 14px 0px 14px;
+	border:				    1px solid;
+	border-color: 		#FFFFFF #D1D1D1 #EEEEEE #FFFFFF;
+	border-bottom:		0;
+}
+
+.dynamic-tab-pane-control .tab-row .tab.selected a {
+	padding:		0px 18px 3px 18px;
+	border:			1px solid;
+	border-color: 	white #CCCCCC #CCCCCC white;
+	border-bottom:	0;
+}
+
+.dynamic-tab-pane-control .tab-page {
+	clear:			    both;
+	border-top:		    1px solid #B8B8B8;
+	border-left:	    1px solid #B8B8B8;
+	border-right:	    1px solid #a8a8a8;
+	border-bottom:	    1px solid #a8a8a8;
+	
+	background:		    #EEEEEE;
+	//z-index:		    2;
+	position:		    relative;
+
+    /*
+    Zoom is needed for IE to give the tab panel element layout (hasLayout).
+    Otherwise it can create bizarre quirks for any child elements with advanced css properties.
+    See: http://haslayout.net/haslayout
+
+    Other browsers will ignore this property.
+    */
+    zoom:               1;
+
+    top:			    -3px;
+	color:			    Black;
+	font-family:	    Arial, Verdana, Tahoma, sans-serif;
+	font-size:		    11px;
+	padding:		    10px;
+}
+
+.dynamic-tab-pane-control .tab-row {
+	z-index:		    1;
+	white-space:	  nowrap;
+	width:			    100%;
+	margin-left:	  3px
+}
+
+
+.tab-page-inner-border {
+	background:		    #EEEEEE;
+	padding:		    10px;
+
+	border-top:		    0px;
+	border-left:	    1px solid #FFFFFF;
+	border-right:	    1px solid #D1D1D1;
+	border-bottom:	    1px solid #D1D1D1;
+	z-index:		    2;
+	
+}
+
+.tab {
+	font-weight:	none;
+}
