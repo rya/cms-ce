@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.tools;
+package com.enonic.cms.core.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.URL;
 import com.enonic.vertical.adminweb.AdminHelper;
-
-import com.enonic.cms.business.tools.ReindexContentToolService;
 
 public class ReindexContentToolController
     extends AbstractToolController

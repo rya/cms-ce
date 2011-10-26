@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.tools;
+package com.enonic.cms.core.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-
-import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.upgrade.UpgradeService;
 import com.enonic.cms.upgrade.log.UpgradeLog;

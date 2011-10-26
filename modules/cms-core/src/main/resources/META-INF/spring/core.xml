@@ -162,7 +162,7 @@
           class="com.enonic.vertical.userservices.UserServicesRedirectUrlResolver"/>
 
     <bean id="reindexContentToolService"
-          class="com.enonic.cms.business.tools.ReindexContentToolServiceImpl"/>
+          class="com.enonic.cms.core.tools.ReindexContentToolServiceImpl"/>
 
     <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 
@@ -400,7 +400,7 @@
     <bean id="postProcessInstructionExecutor"
           class="com.enonic.cms.core.portal.instruction.PostProcessInstructionExecutorImpl"/>
 
-    <bean id="datasourceInfoResolver" class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+    <bean id="datasourceInfoResolver" class="com.enonic.cms.core.tools.DataSourceInfoResolver"/>
 
     <bean id="siteCachesService" class="com.enonic.cms.core.portal.cache.SiteCachesServiceImpl">
         <property name="pageCacheServiceFactory">

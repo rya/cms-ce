@@ -164,11 +164,11 @@
                 <entry key="/admin/servlet/com.enonic.vertical.adminweb.UserHandlerServlet"
                        value-ref="userHandlerServletWrapper"/>
                 <!-- Tools controllers  -->
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController"
+                <entry key="/admin/servlet/tools/com.enonic.cms.core.tools.PluginInfoController"
                        value-ref="pluginInfoController"/>
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController"
+                <entry key="/admin/servlet/tools/com.enonic.cms.core.tools.LivePortalTraceController"
                        value-ref="livePortalTraceController"/>
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController"
+                <entry key="/admin/servlet/tools/com.enonic.cms.core.tools.ReindexContentToolController"
                        value-ref="reindexContentToolController"/>
             </map>
         </property>
@@ -187,23 +187,23 @@
 
     <!-- Tools -->
     <bean id="abstractToolController" abstract="true"
-          class="com.enonic.cms.server.service.tools.AbstractToolController">
+          class="com.enonic.cms.core.tools.AbstractToolController">
         <property name="viewResolver" ref="adminViewResolver"/>
     </bean>
 
-    <bean id="pluginInfoController" class="com.enonic.cms.server.service.tools.PluginInfoController"
+    <bean id="pluginInfoController" class="com.enonic.cms.core.tools.PluginInfoController"
           parent="abstractToolController">
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
-    <bean id="livePortalTraceController" class="com.enonic.cms.server.service.tools.LivePortalTraceController"
+    <bean id="livePortalTraceController" class="com.enonic.cms.core.tools.LivePortalTraceController"
           parent="abstractToolController">
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="cacheManager" ref="cacheFacadeManager"/>
     </bean>
 
-    <bean id="reindexContentToolController" class="com.enonic.cms.server.service.tools.ReindexContentToolController"
+    <bean id="reindexContentToolController" class="com.enonic.cms.core.tools.ReindexContentToolController"
           parent="abstractToolController"/>
 
 
@@ -310,7 +310,7 @@
         <property name="securityService" ref="securityService"/>
     </bean>
 
-    <bean class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+    <bean class="com.enonic.cms.core.tools.DataSourceInfoResolver"/>
 
     <bean class="com.enonic.vertical.adminweb.SectionHandlerServlet$PublishWizard" scope="prototype"/>
 

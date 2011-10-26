@@ -1,4 +1,4 @@
-package com.enonic.cms.server.service.tools;
+package com.enonic.cms.core.tools;
 
 import java.util.Collection;
 import java.util.HashMap;
