@@ -38,13 +38,13 @@
         </property>
     </bean>
 
-    <bean id="welcomeController" class="com.enonic.cms.server.service.tools.WelcomeController"/>
-    <bean id="upgradeController" class="com.enonic.cms.server.service.tools.UpgradeController">
+    <bean id="welcomeController" class="com.enonic.cms.core.tools.WelcomeController"/>
+    <bean id="upgradeController" class="com.enonic.cms.core.tools.UpgradeController">
         <property name="entrerpriseAdminPassword" value="#{config.adminPassword}"/>
     </bean>
 
-    <bean id="staticFileController" class="com.enonic.cms.server.service.tools.StaticFileController"/>
+    <bean id="staticFileController" class="com.enonic.cms.core.tools.StaticFileController"/>
 
-    <bean id="binRpcController" class="com.enonic.cms.rpc.binrpc.BinRpcServiceExporter"/>
+    <bean id="binRpcController" class="com.enonic.cms.core.tools.BinRpcServiceExporter"/>
 
 </beans>

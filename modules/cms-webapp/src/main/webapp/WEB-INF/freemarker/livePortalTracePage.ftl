@@ -30,7 +30,7 @@
     var loadNewPastRequestsIntervalId = 0;
     var refreshSystemInfoIntervalId = 0;
 
-    var servletBaseUrl = "servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController?page=914&op=custom";
+    var servletBaseUrl = "servlet/tools/com.enonic.cms.core.tools.LivePortalTraceController?page=914&op=custom";
 
     var lastHistoryNumber = -1;
 

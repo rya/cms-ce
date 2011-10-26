@@ -326,13 +326,13 @@ public class AdminPage
                     servlet = "/admin/servlet/com.enonic.vertical.adminweb.ContentObjectHandlerServlet";
                     break;
                 case 910:
-                    servlet = "/admin/servlet/tools/com.enonic.cms.server.service.tools.PluginInfoController";
+                    servlet = "/admin/servlet/tools/com.enonic.cms.core.tools.PluginInfoController";
                     break;
                 case 912:
-                    servlet = "/admin/servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController";
+                    servlet = "/admin/servlet/tools/com.enonic.cms.core.tools.LivePortalTraceController";
                     break;
                   case 916:
-                    servlet = "/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController";
+                    servlet = "/admin/servlet/tools/com.enonic.cms.core.tools.ReindexContentToolController";
                     break;
                 case 950:
                     servlet = "/admin/servlet/com.enonic.vertical.adminweb.SectionHandlerServlet";

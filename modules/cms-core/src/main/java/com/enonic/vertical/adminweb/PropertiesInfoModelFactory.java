@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 
-import com.enonic.cms.server.service.tools.DataSourceInfoResolver;
+import com.enonic.cms.core.tools.DataSourceInfoResolver;
 
 public class PropertiesInfoModelFactory
 {
