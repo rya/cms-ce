@@ -20,7 +20,7 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;

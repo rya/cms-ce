@@ -25,9 +25,9 @@ import com.enonic.vertical.adminweb.AdminHelper;
 import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.CacheManager;
 
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.business.portal.livetrace.PastPortalRequestTrace;
-import com.enonic.cms.business.portal.livetrace.PortalRequestTrace;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.core.portal.livetrace.PastPortalRequestTrace;
+import com.enonic.cms.core.portal.livetrace.PortalRequestTrace;
 
 /**
  * This class implements the connection info controller.

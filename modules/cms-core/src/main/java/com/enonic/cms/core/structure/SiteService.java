@@ -11,7 +11,7 @@ import com.enonic.cms.core.security.user.User;
 
 import com.enonic.cms.business.SiteContext;
 
-import com.enonic.cms.domain.portal.SiteNotFoundException;
+import com.enonic.cms.core.portal.SiteNotFoundException;
 
 public interface SiteService
 {

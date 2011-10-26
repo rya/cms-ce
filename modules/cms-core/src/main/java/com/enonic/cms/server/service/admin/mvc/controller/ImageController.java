@@ -30,10 +30,10 @@ import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.core.image.ImageRequestParser;
 import com.enonic.cms.core.image.ImageResponse;
-import com.enonic.cms.business.portal.image.ImageProcessorException;
-import com.enonic.cms.business.portal.image.ImageRequestAccessResolver;
-import com.enonic.cms.business.portal.image.ImageService;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.portal.image.ImageProcessorException;
+import com.enonic.cms.core.portal.image.ImageRequestAccessResolver;
+import com.enonic.cms.core.portal.image.ImageService;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 
 public final class ImageController
     extends AbstractController

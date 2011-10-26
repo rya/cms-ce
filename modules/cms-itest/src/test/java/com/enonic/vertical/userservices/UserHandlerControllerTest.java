@@ -46,9 +46,9 @@ import com.enonic.cms.testtools.DomainFixture;
 import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.business.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
 
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.portal.httpservices.UserServicesException;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
 import com.enonic.cms.core.security.userstore.UserStoreKey;

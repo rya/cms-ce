@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.UrlPathHelperManager;
 
-import com.enonic.cms.domain.portal.httpservices.IllegalRedirectException;
+import com.enonic.cms.core.portal.httpservices.IllegalRedirectException;
 
 public class UserServicesRedirectUrlResolverTest
     extends TestCase

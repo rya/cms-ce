@@ -90,21 +90,21 @@ import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.datasource.processor.ContentProcessor;
-import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
-import com.enonic.cms.business.portal.datasource.processor.MenuItemProcessor;
-import com.enonic.cms.business.portal.rendering.PageRenderer;
-import com.enonic.cms.business.portal.rendering.PageRendererContext;
-import com.enonic.cms.business.portal.rendering.RegionsResolver;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.datasource.processor.ContentProcessor;
+import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
+import com.enonic.cms.core.portal.datasource.processor.MenuItemProcessor;
+import com.enonic.cms.core.portal.rendering.PageRenderer;
+import com.enonic.cms.core.portal.rendering.PageRendererContext;
+import com.enonic.cms.core.portal.rendering.RegionsResolver;
 import com.enonic.cms.business.preview.MenuItemPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesModel;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesXmlCreator;
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
+import com.enonic.cms.core.portal.PageRequestType;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.rendering.RenderedPageResult;
 
 public class MenuHandlerServlet
     extends AdminHandlerBaseServlet

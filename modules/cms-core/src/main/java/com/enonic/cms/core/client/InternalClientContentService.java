@@ -82,12 +82,12 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
 
 
 public class InternalClientContentService

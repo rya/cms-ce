@@ -4,9 +4,9 @@
  */
 package com.enonic.cms.core.xslt.lib;
 
-import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionException;
-import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsContext;
-import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsFactory;
+import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionException;
+import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsContext;
+import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsFactory;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.structure.SiteEntity;

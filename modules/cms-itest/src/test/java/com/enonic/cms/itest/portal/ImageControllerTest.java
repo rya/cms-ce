@@ -38,9 +38,9 @@ import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentStatus;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.server.service.portal.mvc.controller.ImageController;
-import com.enonic.cms.server.service.portal.mvc.controller.ImageRequestException;
-import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationContextLoader;
+import com.enonic.cms.core.portal.mvc.controller.ImageController;
+import com.enonic.cms.core.portal.mvc.controller.ImageRequestException;
+import com.enonic.cms.core.portal.mvc.controller.XmlWebApplicationContextLoader;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 

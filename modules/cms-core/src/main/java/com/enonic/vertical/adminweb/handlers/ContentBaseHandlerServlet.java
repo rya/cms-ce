@@ -148,10 +148,10 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
 
-import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
+import com.enonic.cms.core.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**

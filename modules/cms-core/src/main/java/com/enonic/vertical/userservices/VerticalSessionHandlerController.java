@@ -17,7 +17,7 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.core.service.UserServicesService;
 
 import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.domain.portal.VerticalSession;
+import com.enonic.cms.core.portal.VerticalSession;
 
 public class VerticalSessionHandlerController
     extends AbstractUserServicesHandlerController

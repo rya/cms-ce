@@ -51,7 +51,7 @@ import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.resource.ResourceKey;
 
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.User;

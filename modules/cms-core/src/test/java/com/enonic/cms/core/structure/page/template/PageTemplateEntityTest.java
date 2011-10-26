@@ -8,7 +8,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.junit.Test;
 
-import com.enonic.cms.domain.portal.datasource.Datasources;
+import com.enonic.cms.core.portal.datasource.Datasources;
 
 import static org.junit.Assert.*;
 

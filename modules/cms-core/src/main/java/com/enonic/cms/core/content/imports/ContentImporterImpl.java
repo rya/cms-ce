@@ -36,7 +36,7 @@ import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValu
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
 
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
 
 public class ContentImporterImpl
 {

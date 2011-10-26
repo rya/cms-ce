@@ -15,7 +15,7 @@ import com.enonic.cms.api.client.model.GetSubMenuParams;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.DataSourceService;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 /**
  * This class wraps the presentation service and calls with the new client api.

@@ -49,7 +49,7 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.business.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
 
 import com.enonic.cms.core.SiteKey;
 

@@ -6,8 +6,8 @@ package com.enonic.cms.core.content;
 
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 
 
 public class PageCacheInvalidatorForContent

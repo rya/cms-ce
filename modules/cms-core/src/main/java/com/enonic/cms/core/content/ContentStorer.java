@@ -60,7 +60,7 @@ import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.domain.portal.ContentNotFoundException;
+import com.enonic.cms.core.portal.ContentNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component

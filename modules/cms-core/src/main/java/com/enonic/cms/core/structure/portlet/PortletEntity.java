@@ -23,8 +23,8 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.TemplateParameter;
 import com.enonic.cms.core.structure.TemplateParameterType;
 
-import com.enonic.cms.domain.portal.datasource.Datasources;
-import com.enonic.cms.domain.portal.datasource.DatasourcesType;
+import com.enonic.cms.core.portal.datasource.Datasources;
+import com.enonic.cms.core.portal.datasource.DatasourcesType;
 
 public class PortletEntity
     implements Serializable

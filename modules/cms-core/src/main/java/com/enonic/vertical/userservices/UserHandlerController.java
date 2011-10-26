@@ -73,8 +73,8 @@ import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenExce
 import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
 import com.enonic.cms.core.login.LoginService;
 
-import com.enonic.cms.domain.portal.PortalInstanceKey;
-import com.enonic.cms.domain.portal.PortalInstanceKeyResolver;
+import com.enonic.cms.core.portal.PortalInstanceKey;
+import com.enonic.cms.core.portal.PortalInstanceKeyResolver;
 import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceScopeKey;
 

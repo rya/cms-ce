@@ -106,8 +106,8 @@ import com.enonic.cms.store.dao.MenuItemDao;
 
 import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 
 
 public class SectionHandlerServlet

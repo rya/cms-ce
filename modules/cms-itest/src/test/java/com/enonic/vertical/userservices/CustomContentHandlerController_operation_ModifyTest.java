@@ -44,7 +44,7 @@ import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.business.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
 
 import com.enonic.cms.core.content.contentdata.custom.BooleanDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;

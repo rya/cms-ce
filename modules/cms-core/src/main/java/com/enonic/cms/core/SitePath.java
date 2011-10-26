@@ -12,9 +12,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.util.Assert;
 
-import com.enonic.cms.domain.portal.ContentPath;
-import com.enonic.cms.domain.portal.ContentPathResolver;
-import com.enonic.cms.domain.portal.WindowReference;
+import com.enonic.cms.core.portal.ContentPath;
+import com.enonic.cms.core.portal.ContentPathResolver;
+import com.enonic.cms.core.portal.WindowReference;
 
 public class SitePath
 {

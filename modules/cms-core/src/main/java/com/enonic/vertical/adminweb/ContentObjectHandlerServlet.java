@@ -48,18 +48,18 @@ import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.service.DataSourceService;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.portal.InvocationCache;
-import com.enonic.cms.business.portal.datasource.DatasourceExecutor;
-import com.enonic.cms.business.portal.datasource.DatasourceExecutorContext;
-import com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory;
-import com.enonic.cms.business.portal.datasource.processor.DataSourceProcessor;
-import com.enonic.cms.business.portal.datasource.processor.NonDoingDataSourceProcessor;
+import com.enonic.cms.core.portal.InvocationCache;
+import com.enonic.cms.core.portal.datasource.DatasourceExecutor;
+import com.enonic.cms.core.portal.datasource.DatasourceExecutorContext;
+import com.enonic.cms.core.portal.datasource.DatasourceExecutorFactory;
+import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
+import com.enonic.cms.core.portal.datasource.processor.NonDoingDataSourceProcessor;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.datasource.DataSourceResult;
-import com.enonic.cms.domain.portal.datasource.Datasources;
-import com.enonic.cms.domain.portal.datasource.DatasourcesType;
+import com.enonic.cms.core.portal.PageRequestType;
+import com.enonic.cms.core.portal.datasource.DataSourceResult;
+import com.enonic.cms.core.portal.datasource.Datasources;
+import com.enonic.cms.core.portal.datasource.DatasourcesType;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.structure.SiteEntity;
 
