@@ -28,7 +28,7 @@ import static com.enonic.cms.itest.test.AssertTool.assertXPathExist;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration()
+@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class InternalClientImpl_getContentTypeXmlTest

@@ -61,7 +61,7 @@ import com.enonic.cms.core.content.ContentStatus;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = XmlWebApplicationContextLoader.class)
+@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class ImageControllerTest

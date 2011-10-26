@@ -14,6 +14,7 @@ import java.util.List;
 import org.jdom.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -39,9 +40,10 @@ import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEn
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration()
+@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
 @Transactional
 @TransactionConfiguration(defaultRollback = true)
+@DirtiesContext
 public class InternalClientImpl_ImportContentXmlTest
     extends AbstractInternalClientImpl_ImportContentTest
 {

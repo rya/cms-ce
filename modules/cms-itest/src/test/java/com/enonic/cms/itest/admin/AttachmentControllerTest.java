@@ -57,7 +57,7 @@ import com.enonic.cms.core.structure.SiteEntity;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = XmlWebApplicationContextLoader.class)
+@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class AttachmentControllerTest
