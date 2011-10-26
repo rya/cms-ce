@@ -21,7 +21,7 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.business.SitePropertiesService;
 
 import com.enonic.cms.core.structure.SiteService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 
 public class SiteListener
         implements SiteEventListener, InitializingBean

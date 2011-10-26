@@ -55,8 +55,8 @@ import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentAccessException;
 import com.enonic.cms.core.content.category.CategoryAccessException;
-import com.enonic.cms.domain.portal.VerticalSession;
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.portal.VerticalSession;
+import com.enonic.cms.core.portal.httpservices.UserServicesException;
 
 public class AbstractUserServicesHandlerController
     extends AbstractPresentationController

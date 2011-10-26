@@ -59,17 +59,17 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.portal.rendering.PageRenderer;
-import com.enonic.cms.business.portal.rendering.PageRendererContext;
-import com.enonic.cms.business.portal.rendering.RegionsResolver;
+import com.enonic.cms.core.portal.rendering.PageRenderer;
+import com.enonic.cms.core.portal.rendering.PageRendererContext;
+import com.enonic.cms.core.portal.rendering.RegionsResolver;
 import com.enonic.cms.business.preview.PreviewContext;
 
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.LanguageResolver;
 import com.enonic.cms.core.RequestParametersMerger;
 
-import com.enonic.cms.domain.portal.PageRequestType;
-import com.enonic.cms.domain.portal.rendering.RenderedPageResult;
+import com.enonic.cms.core.portal.PageRequestType;
+import com.enonic.cms.core.portal.rendering.RenderedPageResult;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.page.Regions;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;

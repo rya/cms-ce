@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.http.HTTPService;
-import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationContextLoader;
+import com.enonic.cms.core.portal.mvc.controller.XmlWebApplicationContextLoader;
 import com.enonic.cms.testtools.MockHTTPServer;
 
 import static org.junit.Assert.*;

@@ -14,7 +14,7 @@ import com.enonic.cms.core.SiteBasePath;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.core.AdminSiteDebugBasePath;
 import com.enonic.cms.core.AdminSitePreviewBasePath;

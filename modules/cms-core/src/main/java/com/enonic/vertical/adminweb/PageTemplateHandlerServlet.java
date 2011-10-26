@@ -44,7 +44,7 @@ import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.PageCacheService;
 
 public class PageTemplateHandlerServlet
     extends AdminHandlerBaseServlet

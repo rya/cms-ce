@@ -22,9 +22,9 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.business.MockSitePropertiesService;
 import com.enonic.cms.business.SitePropertyNames;
 import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsContext;
-import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsFactory;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsContext;
+import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsFactory;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.core.content.ContentVersionEntity;
 

@@ -29,8 +29,8 @@ import com.enonic.cms.business.SiteContext;
 import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 
-import com.enonic.cms.business.portal.SiteRedirectHelper;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 
 import com.enonic.cms.core.SiteKey;
 

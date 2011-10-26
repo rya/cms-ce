@@ -26,7 +26,7 @@ import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.contentdata.ContentDataParserException;
 import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataException;
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.portal.httpservices.UserServicesException;
 
 /**
  * Extension of the standard sendmail servlet. <p/> <p> In addition to sending an email (using the functionality in {@link

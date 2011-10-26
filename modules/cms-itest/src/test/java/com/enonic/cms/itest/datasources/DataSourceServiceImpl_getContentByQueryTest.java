@@ -19,7 +19,7 @@ import com.enonic.cms.core.content.contentdata.ContentData;
 
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLDocument;

@@ -51,7 +51,7 @@ import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;

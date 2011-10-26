@@ -47,7 +47,7 @@ import com.enonic.cms.core.content.command.CreateContentCommand;
 
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.business.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
 
 import com.enonic.cms.core.content.ContentHandlerName;
 

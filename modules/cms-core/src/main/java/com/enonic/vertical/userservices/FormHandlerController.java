@@ -39,8 +39,8 @@ import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
-import com.enonic.cms.domain.portal.VerticalSession;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.VerticalSession;
 
 import com.enonic.cms.core.security.user.UserEntity;
 

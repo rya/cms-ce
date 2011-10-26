@@ -47,12 +47,12 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.preview.ContentPreviewContext;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;

@@ -23,10 +23,10 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.portal.datasource.ExpressionFunctionsExecutor;
-import com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
+import com.enonic.cms.core.portal.datasource.ExpressionFunctionsExecutor;
+import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 
-import com.enonic.cms.domain.portal.datasource.expressionfunctions.ExpressionContext;
+import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionContext;
 import com.enonic.cms.core.security.user.UserEntity;
 
 import static org.junit.Assert.*;

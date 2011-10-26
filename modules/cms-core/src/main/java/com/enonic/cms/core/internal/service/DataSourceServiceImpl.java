@@ -105,11 +105,11 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewContext;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
-import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.rendering.tracing.DataTraceInfo;
 
 public final class DataSourceServiceImpl
         implements DataSourceService
