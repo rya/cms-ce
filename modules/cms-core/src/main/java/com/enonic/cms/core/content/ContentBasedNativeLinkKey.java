@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.content;
 
-import com.enonic.cms.domain.nativelink.NativeLinkKey;
+import com.enonic.cms.domain.link.NativeLinkKey;
 
 /**
  * Feb 15, 2010

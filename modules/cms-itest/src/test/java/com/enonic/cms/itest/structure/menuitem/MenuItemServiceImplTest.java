@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.structure.menuitem.*;
 import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -32,26 +33,13 @@ import com.enonic.cms.core.content.category.CategoryAccessException;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.structure.menuitem.AddContentToSectionCommand;
-import com.enonic.cms.core.structure.menuitem.ApproveContentInSectionCommand;
-import com.enonic.cms.core.structure.menuitem.ApproveContentsInSectionCommand;
-import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
-import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
-import com.enonic.cms.core.structure.menuitem.ContentTypeNotSupportedException;
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemService;
-import com.enonic.cms.core.structure.menuitem.OrderContentsInSectionCommand;
-import com.enonic.cms.core.structure.menuitem.RemoveContentsFromSectionCommand;
-import com.enonic.cms.core.structure.menuitem.SetContentHomeCommand;
-import com.enonic.cms.core.structure.menuitem.UnapproveContentsInSectionCommand;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.domain.core.structure.menuitem.MenuItemAccessException;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessException;
 
 import static org.junit.Assert.*;
 

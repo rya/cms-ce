@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.domain.core.structure.menuitem;
+package com.enonic.cms.core.structure.menuitem;
 
 import com.enonic.cms.core.security.user.QualifiedUsername;
 

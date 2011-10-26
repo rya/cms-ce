@@ -7,6 +7,7 @@ package com.enonic.cms.business.portal.instruction;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enonic.cms.domain.link.NativeLinkKey;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,6 @@ import com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionEx
 
 import com.enonic.cms.core.RequestParameters;
 
-import com.enonic.cms.domain.nativelink.NativeLinkKey;
 import com.enonic.cms.domain.portal.PathToContentResolver;
 import com.enonic.cms.domain.portal.ReservedLocalPaths;
 import com.enonic.cms.domain.portal.instruction.CreateAttachmentUrlInstruction;

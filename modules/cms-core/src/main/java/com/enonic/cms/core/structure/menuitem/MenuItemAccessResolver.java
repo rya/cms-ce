@@ -10,8 +10,6 @@ import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.domain.core.structure.menuitem.MenuItemAccessException;
-
 public class MenuItemAccessResolver
     extends AbstractAccessResolver<MenuItemEntity, MenuItemAccessType>
 {
