@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 import com.enonic.cms.core.content.ContentKey;
 
-import com.enonic.cms.domain.portal.ContentPath;
+import com.enonic.cms.core.portal.ContentPath;
 
 public class SitePathTest
     extends TestCase

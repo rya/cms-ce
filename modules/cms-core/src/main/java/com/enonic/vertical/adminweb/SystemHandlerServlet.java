@@ -31,9 +31,9 @@ import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.api.Version;
 import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.server.service.tools.DataSourceInfoResolver;
+import com.enonic.cms.core.tools.DataSourceInfoResolver;
 
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 
 import com.enonic.cms.core.security.user.User;
 

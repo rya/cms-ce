@@ -44,7 +44,7 @@ import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.content.ContentService;
 
-import com.enonic.cms.business.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;

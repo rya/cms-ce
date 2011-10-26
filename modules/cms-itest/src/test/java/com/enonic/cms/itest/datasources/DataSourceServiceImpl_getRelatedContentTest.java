@@ -44,7 +44,7 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
 import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;

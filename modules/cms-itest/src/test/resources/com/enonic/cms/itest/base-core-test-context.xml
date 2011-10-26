@@ -85,7 +85,7 @@
 
     <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
 
-    <bean id="livePortalTraceService" class="com.enonic.cms.business.portal.livetrace.LivePortalTraceServiceImpl">
+    <bean id="livePortalTraceService" class="com.enonic.cms.core.portal.livetrace.LivePortalTraceServiceImpl">
         <property name="enabled" value="false"/>
         <property name="longestSize" value="1"/>
         <property name="historySize" value="1"/>
@@ -108,19 +108,19 @@
     <bean id="internalClientRenderService"
           class="com.enonic.cms.core.client.InternalClientRenderService"/>
 
-    <bean id="portalRequestService" class="com.enonic.cms.business.portal.PortalRequestServiceImpl">
+    <bean id="portalRequestService" class="com.enonic.cms.core.portal.PortalRequestServiceImpl">
     </bean>
 
-    <bean id="pageRendererFactory" class="com.enonic.cms.business.portal.rendering.PageRendererFactory"/>
+    <bean id="pageRendererFactory" class="com.enonic.cms.core.portal.rendering.PageRendererFactory"/>
 
-    <bean id="windowRendererFactory" class="com.enonic.cms.business.portal.rendering.WindowRendererFactory"/>
+    <bean id="windowRendererFactory" class="com.enonic.cms.core.portal.rendering.WindowRendererFactory"/>
 
     <bean id="preferenceService" class="com.enonic.cms.core.preference.PreferenceServiceImpl"/>
 
     <bean id="datasourcesContextXmlCreator"
-          class="com.enonic.cms.business.portal.datasource.context.DatasourcesContextXmlCreator"/>
+          class="com.enonic.cms.core.portal.datasource.context.DatasourcesContextXmlCreator"/>
 
-    <bean id="datasourceExecutorFactory" class="com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory"/>
+    <bean id="datasourceExecutorFactory" class="com.enonic.cms.core.portal.datasource.DatasourceExecutorFactory"/>
 
     <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
 
@@ -142,7 +142,7 @@
                   value="1"/>
     </bean>
 
-    <bean id="loadedVerticalProperties" class="com.enonic.cms.server.service.boot.BootPropertiesFactoryBean"/>
+    <bean id="loadedVerticalProperties" class="com.enonic.cms.core.boot.BootPropertiesFactoryBean"/>
 
 
     <bean id="imageCache" class="com.enonic.cms.core.image.cache.ImageCacheFactory">
@@ -150,7 +150,7 @@
         <property name="cacheManager" ref="cacheFacadeManager"/>
     </bean>
 
-    <bean id="imageService" class="com.enonic.cms.business.portal.image.ImageServiceImpl">
+    <bean id="imageService" class="com.enonic.cms.core.portal.image.ImageServiceImpl">
         <property name="imageCache" ref="imageCache"/>
         <property name="blobStore" ref="blobStore"/>
     </bean>
@@ -186,10 +186,10 @@
     </bean>
 
     <bean id="pageTemplateXsltViewTransformer"
-          class="com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
+          class="com.enonic.cms.core.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
     <bean id="portletXsltViewTransformer"
-          class="com.enonic.cms.business.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
+          class="com.enonic.cms.core.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
 
     <bean id="dataSourceService" class="com.enonic.cms.core.internal.service.DataSourceServiceImpl">
         <property name="timeService" ref="timeService"/>
@@ -204,9 +204,9 @@
 
     <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
 
-    <bean id="portalAccessService" class="com.enonic.cms.business.portal.PortalAccessService"/>
+    <bean id="portalAccessService" class="com.enonic.cms.core.portal.PortalAccessService"/>
 
-    <bean id="pageRequestProcessorFactory" class="com.enonic.cms.business.portal.processor.PageRequestProcessorFactory"/>
+    <bean id="pageRequestProcessorFactory" class="com.enonic.cms.core.portal.processor.PageRequestProcessorFactory"/>
 
     <bean id="localeResolverService"
           class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
@@ -243,7 +243,7 @@
           class="com.enonic.cms.business.TightestCacheSettingsResolver"/>
 
     <bean id="postProcessInstructionExecutor"
-          class="com.enonic.cms.business.portal.instruction.PostProcessInstructionExecutorImpl"/>
+          class="com.enonic.cms.core.portal.instruction.PostProcessInstructionExecutorImpl"/>
 
     <bean id="cacheFacadeManager" class="com.enonic.cms.framework.cache.CacheManagerFactory">
         <property name="properties" ref="loadedVerticalProperties"/>
@@ -260,14 +260,14 @@
         <property name="replaceSpacesWithPlus" value="true"/>
     </bean>
 
-    <bean id="abstractSiteController" class="com.enonic.cms.server.service.portal.mvc.controller.AbstractSiteController"
+    <bean id="abstractSiteController" class="com.enonic.cms.core.portal.mvc.controller.AbstractSiteController"
           abstract="true">
         <property name="cacheSeconds" value="-1"/>
         <property name="siteDao" ref="siteDao"/>
     </bean>
 
 
-    <bean id="attachmentController" class="com.enonic.cms.server.service.portal.mvc.controller.AttachmentController"
+    <bean id="attachmentController" class="com.enonic.cms.core.portal.mvc.controller.AttachmentController"
           parent="abstractSiteController">
         <property name="sitePathResolver" ref="sitePathResolver"/>
         <property name="siteService" ref="siteService"/>
@@ -292,7 +292,7 @@
         <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
     </bean>
 
-    <bean id="imageController" class="com.enonic.cms.server.service.portal.mvc.controller.ImageController">
+    <bean id="imageController" class="com.enonic.cms.core.portal.mvc.controller.ImageController">
         <property name="autoLoginService" ref="autoLoginService"/>
         <property name="disableParamEncoding" value="true"/>
         <property name="imageService" ref="imageService"/>

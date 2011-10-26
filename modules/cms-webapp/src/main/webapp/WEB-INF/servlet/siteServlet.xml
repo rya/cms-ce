@@ -3,15 +3,9 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <!-- Default view resolver. -->
-    <bean id="defaultViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
-        <property name="order" value="1"/>
-        <property name="location" value="/WEB-INF/servlet/siteServletViews.xml"/>
-    </bean>
-
-    <!-- freemarker config -->
-    <bean id="freemarkerConfigForSite" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/WEB-INF/freemarker/"/>
+    <!-- Create the view resolver. -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
         <property name="freemarkerSettings">
             <props>
                 <prop key="number_format">0.######</prop>
@@ -20,32 +14,27 @@
         </property>
     </bean>
 
-    <!--
-      View resolvers can also be configured with ResourceBundles or XML files. If you need
-      different view resolving based on Locale, you have to use the resource bundle resolver.
-    -->
-    <bean id="viewResolverForSite" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+    <!-- Create the view resolver. -->
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="cache" value="true"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
-
-        <!-- if you want to use the Spring FreeMarker macros, set this property to true -->
         <property name="exposeSpringMacroHelpers" value="true"/>
     </bean>
 
-    <bean id="siteExceptionResolver" class="com.enonic.cms.server.service.portal.PortalExceptionResolver">
+    <bean id="siteExceptionResolver" class="com.enonic.cms.core.portal.PortalExceptionResolver">
         <property name="sitePathResolver" ref="sitePathResolver"/>
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
         <property name="siteURLResolver" ref="siteURLResolver"/>
         <property name="menuItemDao" ref="menuItemDao"/>
     </bean>
 
-    <bean id="autoLoginInterceptor" class="com.enonic.cms.server.service.portal.security.AutoLoginInterceptor">
+    <bean id="autoLoginInterceptor" class="com.enonic.cms.core.portal.security.AutoLoginInterceptor">
         <property name="pluginManager" ref="pluginManager"/>
         <property name="securityService" ref="securityService"/>
     </bean>
 
-    <bean id="basicAuthInterceptor" class="com.enonic.cms.server.service.portal.security.BasicAuthInterceptor">
+    <bean id="basicAuthInterceptor" class="com.enonic.cms.core.portal.security.BasicAuthInterceptor">
         <property name="securityService" ref="securityService"/>
     </bean>
 
@@ -143,7 +132,7 @@
     </bean>
 
 
-    <bean id="abstractSiteController" class="com.enonic.cms.server.service.portal.mvc.controller.AbstractSiteController" abstract="true">
+    <bean id="abstractSiteController" class="com.enonic.cms.core.portal.mvc.controller.AbstractSiteController" abstract="true">
         <property name="cacheSeconds" value="-1"/>
         <property name="autoLoginService" ref="autoLoginService"/>
         <property name="contentDao" ref="contentDao"/>
@@ -159,7 +148,7 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="abstractSiteCommandController" class="com.enonic.cms.server.service.portal.mvc.controller.AbstractSiteCommandController"
+    <bean id="abstractSiteCommandController" class="com.enonic.cms.core.portal.mvc.controller.AbstractSiteCommandController"
           abstract="true">
         <property name="cacheSeconds" value="-1"/>
         <property name="siteService" ref="siteService"/>
@@ -167,48 +156,48 @@
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
     </bean>
 
-    <bean id="attachmentController" class="com.enonic.cms.server.service.portal.mvc.controller.AttachmentController"
+    <bean id="attachmentController" class="com.enonic.cms.core.portal.mvc.controller.AttachmentController"
           parent="abstractSiteController">
         <property name="binaryDataDao" ref="binaryDataDao"/>
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
     </bean>
 
-    <bean id="imageController" class="com.enonic.cms.server.service.portal.mvc.controller.ImageController" parent="abstractSiteController">
+    <bean id="imageController" class="com.enonic.cms.core.portal.mvc.controller.ImageController" parent="abstractSiteController">
         <property name="imageService" ref="imageService"/>
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
     </bean>
 
-    <bean id="resourceFileController" class="com.enonic.cms.server.service.portal.mvc.controller.ResourceFileController"
+    <bean id="resourceFileController" class="com.enonic.cms.core.portal.mvc.controller.ResourceFileController"
           parent="abstractSiteController">
         <property name="resourceService" ref="resourceService"/>
     </bean>
 
-    <bean id="loginController" class="com.enonic.cms.server.service.portal.mvc.controller.LoginController"
+    <bean id="loginController" class="com.enonic.cms.core.portal.mvc.controller.LoginController"
           parent="abstractSiteCommandController">
         <property name="commandClass" value="com.enonic.cms.server.domain.command.LoginCommand"/>
         <property name="useForward" value="true"/>
         <property name="loginPagePathResolverService" ref="loginPagePathResolverService"/>
     </bean>
 
-    <bean id="logoutController" class="com.enonic.cms.server.service.portal.mvc.controller.LogoutController"
+    <bean id="logoutController" class="com.enonic.cms.core.portal.mvc.controller.LogoutController"
           parent="abstractSiteController"/>
 
-    <bean id="captchaController" class="com.enonic.cms.server.service.portal.mvc.controller.CaptchaController">
+    <bean id="captchaController" class="com.enonic.cms.core.portal.mvc.controller.CaptchaController">
         <property name="captchaRepository" ref="captchaRepository"/>
     </bean>
 
-    <bean id="pageRedirectController" class="com.enonic.cms.server.service.portal.mvc.controller.PageRedirectController"
+    <bean id="pageRedirectController" class="com.enonic.cms.core.portal.mvc.controller.PageRedirectController"
           parent="abstractSiteController">
         <property name="menuItemDao" ref="menuItemDao"/>
         <property name="portalRenderResponseServer" ref="portalRenderResultServer"/>
     </bean>
 
-    <bean id="dataSourceController" class="com.enonic.cms.server.service.portal.mvc.controller.DataSourceController"/>
+    <bean id="dataSourceController" class="com.enonic.cms.core.portal.mvc.controller.DataSourceController"/>
 
-    <bean id="userServicesController" class="com.enonic.cms.server.service.portal.mvc.controller.UserServicesController"
+    <bean id="userServicesController" class="com.enonic.cms.core.portal.mvc.controller.UserServicesController"
           parent="abstractSiteController"/>
 
-    <bean id="errorPageController" class="com.enonic.cms.server.service.portal.mvc.controller.ErrorPageController">
+    <bean id="errorPageController" class="com.enonic.cms.core.portal.mvc.controller.ErrorPageController">
         <property name="cacheSeconds" value="-1"/>
         <property name="standardModelFactory" ref="standardModelFactory"/>
     </bean>
@@ -230,7 +219,7 @@
         <property name="userServicesService" ref="userServicesService"/>
     </bean>
 
-    <bean id="renderPageController" class="com.enonic.cms.server.service.portal.mvc.controller.DefaultController">
+    <bean id="renderPageController" class="com.enonic.cms.core.portal.mvc.controller.DefaultController">
         <property name="portalRequestService" ref="portalRequestService"/>
         <property name="securityService" ref="securityService"/>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
@@ -243,7 +232,7 @@
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
     </bean>
 
-    <bean id="portalRenderResultServer" class="com.enonic.cms.server.service.portal.mvc.controller.PortalRenderResponseServer">
+    <bean id="portalRenderResultServer" class="com.enonic.cms.core.portal.mvc.controller.PortalRenderResponseServer">
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
         <property name="userDao" ref="userDao"/>

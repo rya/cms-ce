@@ -162,7 +162,7 @@
           class="com.enonic.vertical.userservices.UserServicesRedirectUrlResolver"/>
 
     <bean id="reindexContentToolService"
-          class="com.enonic.cms.business.tools.ReindexContentToolServiceImpl"/>
+          class="com.enonic.cms.core.tools.ReindexContentToolServiceImpl"/>
 
     <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
 
@@ -213,26 +213,26 @@
     </bean>
 
     <bean id="createAttachmentUrclFunction"
-          class="com.enonic.cms.business.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
+          class="com.enonic.cms.core.portal.rendering.portalfunctions.CreateAttachmentUrlFunction">
         <property name="contentDao" ref="contentDao"/>
     </bean>
 
     <bean id="isWindowEmptyFunction"
-          class="com.enonic.cms.business.portal.rendering.portalfunctions.IsWindowEmptyFunction">
+          class="com.enonic.cms.core.portal.rendering.portalfunctions.IsWindowEmptyFunction">
         <property name="windowRendererFactory" ref="windowRendererFactory"/>
     </bean>
 
-    <bean id="datasourceExecutorFactory" class="com.enonic.cms.business.portal.datasource.DatasourceExecutorFactory"/>
+    <bean id="datasourceExecutorFactory" class="com.enonic.cms.core.portal.datasource.DatasourceExecutorFactory"/>
 
     <bean id="expressionFunctionsFactory"
-          class="com.enonic.cms.business.portal.datasource.expressionfunctions.ExpressionFunctionsFactory"/>
+          class="com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionFunctionsFactory"/>
 
     <bean id="imageCache" class="com.enonic.cms.core.image.cache.ImageCacheFactory">
         <property name="cacheName" value="image"/>
         <property name="cacheManager" ref="cacheFacadeManager"/>
     </bean>
 
-    <bean id="imageService" class="com.enonic.cms.business.portal.image.ImageServiceImpl">
+    <bean id="imageService" class="com.enonic.cms.core.portal.image.ImageServiceImpl">
         <property name="imageCache" ref="imageCache"/>
     </bean>
 
@@ -256,7 +256,7 @@
     </bean>
 
     <bean id="portalFunctionsFactory"
-          class="com.enonic.cms.business.portal.rendering.portalfunctions.PortalFunctionsFactory">
+          class="com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsFactory">
         <property name="siteURLResolver" ref="siteURLResolver"/>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
     </bean>
@@ -301,7 +301,7 @@
         <property name="urlDecode" value="true"/>
     </bean>
 
-    <bean id="standardModelFactory" class="com.enonic.cms.server.service.portal.mvc.model.StandardModelFactory">
+    <bean id="standardModelFactory" class="com.enonic.cms.core.portal.mvc.model.StandardModelFactory">
         <property name="urlDecodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
     </bean>
 
@@ -333,24 +333,24 @@
         </property>
     </bean>
 
-    <bean id="cacheEntity" class="com.enonic.cms.server.service.mbean.cache.Entity"/>
-    <bean id="cachePage" class="com.enonic.cms.server.service.mbean.cache.Page"/>
-    <bean id="cacheBinary" class="com.enonic.cms.server.service.mbean.cache.Binary"/>
-    <bean id="cacheXslt" class="com.enonic.cms.server.service.mbean.cache.Xslt"/>
+    <bean id="cacheEntity" class="com.enonic.cms.core.mbean.cache.Entity"/>
+    <bean id="cachePage" class="com.enonic.cms.core.mbean.cache.Page"/>
+    <bean id="cacheBinary" class="com.enonic.cms.core.mbean.cache.Binary"/>
+    <bean id="cacheXslt" class="com.enonic.cms.core.mbean.cache.Xslt"/>
 
     <bean id="mbeanServerFactory" class="org.springframework.jmx.support.MBeanServerFactoryBean">
         <property name="locateExistingServerIfPossible" value="true"/>
     </bean>
 
-    <bean id="systemProperties" class="com.enonic.cms.server.service.mbean.configuration.System"/>
+    <bean id="systemProperties" class="com.enonic.cms.core.mbean.configuration.System"/>
 
-    <bean id="siteListener" class="com.enonic.cms.server.service.mbean.configuration.SiteListener"
+    <bean id="siteListener" class="com.enonic.cms.core.mbean.configuration.SiteListener"
           depends-on="siteService"
           destroy-method="destroy">
         <property name="objectNamePrefix" value="EnonicCMS:type=Configuration,name="/>
     </bean>
 
-    <bean id="portalRequestService" class="com.enonic.cms.business.portal.PortalRequestServiceImpl">
+    <bean id="portalRequestService" class="com.enonic.cms.core.portal.PortalRequestServiceImpl">
         <property name="pageRendererFactory" ref="pageRendererFactory"/>
         <property name="windowRendererFactory" ref="windowRendererFactory"/>
         <property name="dataSourceService" ref="dataSourceService"/>
@@ -364,47 +364,47 @@
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
     </bean>
 
-    <bean id="livePortalTraceService" class="com.enonic.cms.business.portal.livetrace.LivePortalTraceServiceImpl">
+    <bean id="livePortalTraceService" class="com.enonic.cms.core.portal.livetrace.LivePortalTraceServiceImpl">
         <property name="enabled" value="#{config.livePortalTraceEnabled}"/>
         <property name="longestSize" value="#{config.livePortalTraceLongestSize}"/>
         <property name="historySize" value="#{config.livePortalTraceHistorySize}"/>
     </bean>
 
     <bean id="pageRequestProcessorFactory"
-          class="com.enonic.cms.business.portal.processor.PageRequestProcessorFactory"/>
+          class="com.enonic.cms.core.portal.processor.PageRequestProcessorFactory"/>
 
-    <bean id="portalAccessService" class="com.enonic.cms.business.portal.PortalAccessService"/>
+    <bean id="portalAccessService" class="com.enonic.cms.core.portal.PortalAccessService"/>
 
     <bean id="portletXsltViewTransformer"
-          class="com.enonic.cms.business.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
+          class="com.enonic.cms.core.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
 
     <bean id="pageTemplateXsltViewTransformer"
-          class="com.enonic.cms.business.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
+          class="com.enonic.cms.core.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
     <bean id="loginPagePathResolverService"
-          class="com.enonic.cms.business.portal.support.LoginPagePathResolverServiceImpl">
+          class="com.enonic.cms.core.portal.support.LoginPagePathResolverServiceImpl">
     </bean>
 
-    <bean id="siteRedirectHelper" class="com.enonic.cms.business.portal.SiteRedirectHelper">
+    <bean id="siteRedirectHelper" class="com.enonic.cms.core.portal.SiteRedirectHelper">
         <property name="sitePathResolver" ref="sitePathResolver"/>
         <property name="siteURLResolver" ref="siteURLResolver"/>
     </bean>
 
-    <bean id="pageRendererFactory" class="com.enonic.cms.business.portal.rendering.PageRendererFactory"/>
+    <bean id="pageRendererFactory" class="com.enonic.cms.core.portal.rendering.PageRendererFactory"/>
 
-    <bean id="windowRendererFactory" class="com.enonic.cms.business.portal.rendering.WindowRendererFactory"/>
+    <bean id="windowRendererFactory" class="com.enonic.cms.core.portal.rendering.WindowRendererFactory"/>
 
     <bean id="datasourcesContextXmlCreator"
-          class="com.enonic.cms.business.portal.datasource.context.DatasourcesContextXmlCreator"/>
+          class="com.enonic.cms.core.portal.datasource.context.DatasourcesContextXmlCreator"/>
 
     <bean id="postProcessInstructionExecutor"
-          class="com.enonic.cms.business.portal.instruction.PostProcessInstructionExecutorImpl"/>
+          class="com.enonic.cms.core.portal.instruction.PostProcessInstructionExecutorImpl"/>
 
-    <bean id="datasourceInfoResolver" class="com.enonic.cms.server.service.tools.DataSourceInfoResolver"/>
+    <bean id="datasourceInfoResolver" class="com.enonic.cms.core.tools.DataSourceInfoResolver"/>
 
-    <bean id="siteCachesService" class="com.enonic.cms.business.portal.cache.SiteCachesServiceImpl">
+    <bean id="siteCachesService" class="com.enonic.cms.core.portal.cache.SiteCachesServiceImpl">
         <property name="pageCacheServiceFactory">
-            <bean class="com.enonic.cms.business.portal.cache.PageCacheServiceFactory">
+            <bean class="com.enonic.cms.core.portal.cache.PageCacheServiceFactory">
                 <property name="cacheManager" ref="cacheFacadeManager"/>
                 <property name="sitePropertiesService" ref="sitePropertiesService"/>
             </bean>

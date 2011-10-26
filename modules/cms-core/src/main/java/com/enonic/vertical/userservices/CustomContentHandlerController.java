@@ -44,7 +44,7 @@ import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.ContentDataParserUnsupportedTypeException;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.domain.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.portal.httpservices.UserServicesException;
 
 /**
  * Created by rmy - Date: Jun 24, 2009

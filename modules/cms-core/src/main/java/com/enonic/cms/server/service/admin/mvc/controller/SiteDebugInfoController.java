@@ -24,13 +24,13 @@ import com.enonic.cms.framework.translation.TranslationWriter;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.domain.portal.rendering.tracing.DataTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.PagePortletTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.PageTraceInfo;
-import com.enonic.cms.domain.portal.rendering.tracing.RenderTraceInfo;
+import com.enonic.cms.core.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.core.portal.rendering.tracing.PagePortletTraceInfo;
+import com.enonic.cms.core.portal.rendering.tracing.PageTraceInfo;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTraceInfo;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.structure.portlet.PortletKey;
 

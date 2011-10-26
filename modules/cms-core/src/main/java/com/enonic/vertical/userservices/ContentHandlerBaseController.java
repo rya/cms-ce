@@ -51,7 +51,7 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.PageCacheService;
 
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAndVersion;
@@ -64,7 +64,7 @@ import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.support.CustomContentDataFormParser;
 
-import com.enonic.cms.domain.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
 
 /**
  * Base class for userservices servlets related to modifying content from "public" sites.  This class will take care of custom content. All

@@ -49,7 +49,7 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.preview.PreviewService;
 
 import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;

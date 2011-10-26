@@ -155,12 +155,12 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.portal.cache.PageCacheService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
-import com.enonic.cms.business.portal.datasource.context.UserContextXmlCreator;
-import com.enonic.cms.business.portal.livetrace.ClientMethodExecutionTrace;
-import com.enonic.cms.business.portal.livetrace.ClientMethodExecutionTracer;
-import com.enonic.cms.business.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.datasource.context.UserContextXmlCreator;
+import com.enonic.cms.core.portal.livetrace.ClientMethodExecutionTrace;
+import com.enonic.cms.core.portal.livetrace.ClientMethodExecutionTracer;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 

@@ -73,8 +73,8 @@ import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.core.country.CountryService;
 import com.enonic.cms.core.locale.LocaleService;
 
-import com.enonic.cms.business.portal.cache.SiteCachesService;
-import com.enonic.cms.business.portal.rendering.PageRendererFactory;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.rendering.PageRendererFactory;
 import com.enonic.cms.business.preview.PreviewService;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;

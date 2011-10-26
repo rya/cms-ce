@@ -48,7 +48,7 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 
-import com.enonic.cms.domain.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 import static org.junit.Assert.*;
 

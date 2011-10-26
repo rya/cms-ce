@@ -19,9 +19,9 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.business.SiteContext;
 import com.enonic.cms.business.SiteContextManager;
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 
-import com.enonic.cms.domain.portal.SiteNotFoundException;
+import com.enonic.cms.core.portal.SiteNotFoundException;
 
 public class SiteServiceImpl
     implements SiteService

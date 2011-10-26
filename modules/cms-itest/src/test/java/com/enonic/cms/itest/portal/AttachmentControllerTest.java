@@ -44,9 +44,9 @@ import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.server.service.portal.mvc.controller.AttachmentController;
-import com.enonic.cms.server.service.portal.mvc.controller.AttachmentRequestException;
-import com.enonic.cms.server.service.portal.mvc.controller.XmlWebApplicationContextLoader;
+import com.enonic.cms.core.portal.mvc.controller.AttachmentController;
+import com.enonic.cms.core.portal.mvc.controller.AttachmentRequestException;
+import com.enonic.cms.core.portal.mvc.controller.XmlWebApplicationContextLoader;
 import com.enonic.cms.testtools.DomainFactory;
 import com.enonic.cms.testtools.DomainFixture;
 

@@ -26,7 +26,7 @@ import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.domain.portal.ResourceNotFoundException;
+import com.enonic.cms.core.portal.ResourceNotFoundException;
 
 public class SiteEntity
     implements Serializable

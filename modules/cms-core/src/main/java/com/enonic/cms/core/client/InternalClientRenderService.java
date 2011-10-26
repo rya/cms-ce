@@ -40,12 +40,12 @@ import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.SiteDao;
 
-import com.enonic.cms.business.portal.PortalRequestService;
+import com.enonic.cms.core.portal.PortalRequestService;
 
-import com.enonic.cms.domain.portal.PathToContentResolver;
-import com.enonic.cms.domain.portal.PortalRequest;
-import com.enonic.cms.domain.portal.PortalResponse;
-import com.enonic.cms.domain.portal.VerticalSession;
+import com.enonic.cms.core.portal.PathToContentResolver;
+import com.enonic.cms.core.portal.PortalRequest;
+import com.enonic.cms.core.portal.PortalResponse;
+import com.enonic.cms.core.portal.VerticalSession;
 import org.springframework.stereotype.Component;
 
 @Component

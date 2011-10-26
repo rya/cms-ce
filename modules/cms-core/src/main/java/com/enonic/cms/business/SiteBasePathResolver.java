@@ -14,7 +14,7 @@ import com.enonic.cms.core.Path;
 import com.enonic.cms.core.PortalSiteBasePath;
 import com.enonic.cms.core.SiteBasePath;
 
-import com.enonic.cms.business.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SiteKey;
