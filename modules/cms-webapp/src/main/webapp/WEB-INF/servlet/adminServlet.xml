@@ -8,7 +8,7 @@
 
     <!-- Create the view resolver. -->
     <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
-        <property name="templateLoaderPath" value="/WEB-INF/freemarker"/>
+        <property name="templateLoaderPath" value="classpath:/META-INF/freemarker"/>
         <property name="freemarkerSettings">
             <props>
                 <prop key="number_format">0.######</prop>
