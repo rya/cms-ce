@@ -6,6 +6,7 @@ package com.enonic.cms.core.portal.mvc.controller;
 
 import java.util.Map;
 
+import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -58,7 +59,7 @@ public class SiteRedirectAndForwardHelperTest
         SitePath sitePath = new SitePath( new SiteKey( 0 ), new Path( "/Frontpage" ) );
         ModelAndView modelAndView = siteRedirectAndForwardHelper.getForwardModelAndView( httpServletRequest, sitePath );
 
-        assertEquals( "customforward", modelAndView.getViewName() );
+        assertEquals( SiteCustomForwardView.class, modelAndView.getView().getClass() );
         Map model = modelAndView.getModel();
         assertEquals( "/0/Frontpage", model.get( "path" ) );
     }
@@ -71,7 +72,7 @@ public class SiteRedirectAndForwardHelperTest
         SitePath sitePath = new SitePath( new SiteKey( 0 ), new Path( "/Frontpage" ) );
         ModelAndView modelAndView = siteRedirectAndForwardHelper.getForwardModelAndView( httpServletRequest, sitePath );
 
-        assertEquals( "customforward", modelAndView.getViewName() );
+        assertEquals( SiteCustomForwardView.class, modelAndView.getView().getClass() );
         Map model = modelAndView.getModel();
         assertEquals( SiteURLResolver.DEFAULT_SITEPATH_PREFIX + "/0/Frontpage", model.get( "path" ) );
     }

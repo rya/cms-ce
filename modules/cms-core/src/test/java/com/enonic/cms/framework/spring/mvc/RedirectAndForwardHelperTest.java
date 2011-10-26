@@ -7,6 +7,7 @@ package com.enonic.cms.framework.spring.mvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,12 +31,11 @@ public class RedirectAndForwardHelperTest
 
     public void testGetForwardModelAndView()
     {
-
         String path = "/Frontpage/";
 
         ModelAndView modelAndView = redirectAndForwardHelper.getForwardModelAndView( request, path );
 
-        assertEquals( "customforward", modelAndView.getViewName() );
+        assertEquals( SiteCustomForwardView.class, modelAndView.getView().getClass() );
         Map model = modelAndView.getModel();
         assertEquals( "/Frontpage/", model.get( "path" ) );
     }
@@ -51,7 +51,7 @@ public class RedirectAndForwardHelperTest
         ModelAndView modelAndView = redirectAndForwardHelper.getForwardModelAndView( request, path, params );
 
         Map model = modelAndView.getModel();
-        assertEquals( "customforward", modelAndView.getViewName() );
+        assertEquals( SiteCustomForwardView.class, modelAndView.getView().getClass() );
         assertEquals( "/Frontpage/", model.get( "path" ) );
 
         Map<String, Object> requestParams = (Map<String, Object>) model.get( "requestParams" );
