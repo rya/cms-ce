@@ -18,7 +18,6 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="dataSource" class="com.enonic.cms.store.support.DataSourceFactory">
-        <property name="traceEnabled" value="#{config.jdbcConnectionTrace}"/>
         <property name="jndiName" value="java:comp/env/jdbc/cms"/>
     </bean>
 

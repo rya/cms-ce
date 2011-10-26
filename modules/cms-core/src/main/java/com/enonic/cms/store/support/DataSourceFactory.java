@@ -13,16 +13,9 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 public final class DataSourceFactory
     implements FactoryBean<DataSource>, InitializingBean
 {
-    private boolean traceEnabled;
-
     private DataSource dataSource;
 
     private String jndiName;
-
-    public void setTraceEnabled( boolean traceEnabled )
-    {
-        this.traceEnabled = traceEnabled;
-    }
 
     public void setJndiName( String jndiName )
     {
@@ -36,12 +29,6 @@ public final class DataSourceFactory
 
         // Create decorated datasource to cope with driver defects
         this.dataSource = new DecoratedDataSource( original, new DriverFixConnectionDecorator() );
-
-        // Create traceable datasource if trace is enabled
-        if ( this.traceEnabled )
-        {
-            this.dataSource = new TraceableDataSourceImpl( this.dataSource );
-        }
     }
 
     public DataSource getObject()

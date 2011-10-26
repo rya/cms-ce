@@ -181,8 +181,6 @@
                        value-ref="pluginInfoController"/>
                 <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController"
                        value-ref="livePortalTraceController"/>
-                <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ConnectionInfoController"
-                       value-ref="connectionInfoController"/>
                 <entry key="/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController"
                        value-ref="reindexContentToolController"/>
             </map>
@@ -215,10 +213,6 @@
           parent="abstractToolController">
         <property name="livePortalTraceService" ref="livePortalTraceService"/>
     </bean>
-
-    <bean id="connectionInfoController" class="com.enonic.cms.server.service.tools.ConnectionInfoController"
-          parent="abstractToolController"/>
-
 
     <bean id="reindexContentToolController" class="com.enonic.cms.server.service.tools.ReindexContentToolController"
           parent="abstractToolController"/>

@@ -331,9 +331,6 @@ public class AdminPage
                 case 912:
                     servlet = "/admin/servlet/tools/com.enonic.cms.server.service.tools.LivePortalTraceController";
                     break;
-                case 914:
-                    servlet = "/admin/servlet/tools/com.enonic.cms.server.service.tools.ConnectionInfoController";
-                    break;
                   case 916:
                     servlet = "/admin/servlet/tools/com.enonic.cms.server.service.tools.ReindexContentToolController";
                     break;
