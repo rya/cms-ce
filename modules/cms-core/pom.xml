@@ -177,20 +177,8 @@
             <artifactId>spring-osgi-io</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.osgi</groupId>
-            <artifactId>spring-osgi-core</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.framework</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.utils</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.twdata.pkgscanner</groupId>
-            <artifactId>package-scanner</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

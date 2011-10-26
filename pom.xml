@@ -313,11 +313,6 @@
                 <version>3.2.2</version>
             </dependency>
             <dependency>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>org.apache.felix.utils</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-            <dependency>
                 <groupId>org.springframework.osgi</groupId>
                 <artifactId>spring-osgi-io</artifactId>
                 <version>1.2.1</version>
@@ -327,34 +322,6 @@
                         <artifactId>org.springframework.core</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.osgi</groupId>
-                <artifactId>spring-osgi-core</artifactId>
-                <version>1.2.1</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>org.springframework.aop</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>org.springframework.beans</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>org.springframework.context</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>org.springframework.core</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.twdata.pkgscanner</groupId>
-                <artifactId>package-scanner</artifactId>
-                <version>0.9.5</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
