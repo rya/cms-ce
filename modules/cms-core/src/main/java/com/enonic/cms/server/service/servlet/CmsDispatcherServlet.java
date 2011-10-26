@@ -25,7 +25,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.server.service.upgrade.UpgradeCheckerHelper;
+import com.enonic.cms.upgrade.UpgradeCheckerHelper;
 
 /**
  * This class implements a modification of the dispatcher servlet.
@@ -98,7 +98,8 @@ public final class CmsDispatcherServlet
     private boolean upgradeIsNeeded( HttpServletResponse res )
         throws Exception
     {
-        return "true".equals( getInitParameter( UPGRADE_CHECK_PARAM ) ) && UpgradeCheckerHelper.checkUpgrade( getServletContext(), res );
+        return "true".equals( getInitParameter( UPGRADE_CHECK_PARAM ) ) && UpgradeCheckerHelper.checkUpgrade(
+                getServletContext(), res );
     }
 
     private ApplicationContext startContextIfNeeded()

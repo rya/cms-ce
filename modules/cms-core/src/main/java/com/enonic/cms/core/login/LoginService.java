@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.login;
+package com.enonic.cms.core.login;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.user.UserKey;

@@ -137,7 +137,7 @@
         <property name="loginService" ref="loginService"/>
     </bean>
 
-    <bean id="loginService" class="com.enonic.cms.business.login.LoginServiceImpl">
+    <bean id="loginService" class="com.enonic.cms.core.login.LoginServiceImpl">
         <property name="autologinTimeoutInDays"
                   value="1"/>
     </bean>

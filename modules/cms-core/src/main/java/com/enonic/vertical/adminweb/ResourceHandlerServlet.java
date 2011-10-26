@@ -5,6 +5,8 @@
 package com.enonic.vertical.adminweb;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.TransformerException;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -30,16 +33,15 @@ import com.enonic.cms.framework.util.UrlPathDecoder;
 import com.enonic.cms.framework.util.UrlPathEncoder;
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.resource.ResourceBase;
+import com.enonic.cms.core.resource.ResourceFile;
+import com.enonic.cms.core.resource.ResourceFolder;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceXmlCreator;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.DeploymentPathResolver;
-
-import com.enonic.cms.core.resource.ResourceBase;
-import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.resource.ResourceFolder;
 
 public class ResourceHandlerServlet
         extends AdminHandlerBaseServlet
@@ -245,13 +247,51 @@ public class ResourceHandlerServlet
             {
                 params.remove( "path" );
             }
-            params.put( "path", newSourceKey.toString() );
+            params.put( "path", resolvePathForNewFolder( sourceKey, newSourceKey ) );
             redirectClientToAdminPath( "adminpage", params, request, response );
         }
         else
         {
             redirectClientToReferer( request, response );
         }
+    }
+
+    /*
+     * Extract the moving folder name from source path and compute the full destination path.
+     * Example:
+     *      source:      "/libraries/resolvers"
+     *      destination: "/sites/stuff"
+     *  we move folder "resolvers"
+     *      result: "/sites/stuff/resolvers"
+     * @param sourceFolderPath source folder path (like "/libraries/resolvers")
+     * @param destinationFolderPath path to destination folder (like "/sites/stuff")
+     */
+    protected String resolvePathForNewFolder( ResourceKey sourceFolderPath, ResourceKey destinationFolderPath )
+    {
+        Pattern pattern = Pattern.compile(".*/([^/]+)$");
+        Matcher matcher = pattern.matcher( sourceFolderPath.toString() );
+
+        String currentDir = "";
+
+        // extract the moving folder name
+        if ( matcher.matches() )
+        {
+            currentDir = matcher.group(1);
+        }
+
+        if ( StringUtils.isEmpty( currentDir ) )
+        {
+            return destinationFolderPath.toString();
+        }
+
+        // moving into root folder: / + moving folder
+        if ( "/".equals( destinationFolderPath.toString() ) )
+        {
+            return "/" + currentDir;
+        }
+
+        // computing destination path: destination + / + moving folder
+        return destinationFolderPath.toString() + "/" + currentDir;
     }
 }
 

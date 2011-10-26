@@ -49,7 +49,7 @@ public class MenuItemFormModel
 
     private Element createSelectedMenuItemPathElement()
     {
-        Element selectedMenuItemPathEl = new Element( "menuitems" );
+        Element selectedMenuItemPathEl = new Element( "menuitem-parents" );
 
         if ( selectedMenuItemPath != null )
         {

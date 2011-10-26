@@ -84,8 +84,8 @@
   </xsl:variable>
 
   <xsl:variable name="menu" select="//menu[@key = $menukey]"/>
-  <xsl:variable name="menuitem" select="//menuitem[@key = $key]"/>
-  <xsl:variable name="parentmenuitem" select="//menuitem[@key = $insertbelow]"/>
+  <xsl:variable name="menuitem" select="/menus/menuitems/menuitem[@key = $key]"/>
+  <xsl:variable name="parentmenuitem" select="/menus/menuitem-parents/menuitem[@key = $insertbelow]"/>
 
   <xsl:variable name="contentobjectselector_multi_size" select="25"/>
 
@@ -2972,7 +2972,7 @@
 
     <xsl:if test="boolean($menuitem/@parent)">
       <xsl:call-template name="generateheader">
-        <xsl:with-param name="menuitem" select="//menuitem[@key = $menuitem/@parent]"/>
+        <xsl:with-param name="menuitem" select="/menus/menuitem-parents/menuitem[@key = $menuitem/@parent]"/>
       </xsl:call-template>
     </xsl:if>
 
