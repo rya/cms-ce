@@ -97,6 +97,7 @@
         <property name="internalClientContentService" ref="internalClientContentService"/>
         <property name="securityService" ref="securityService"/>
         <property name="userParser" ref="userParser"/>
+        <property name="livePortalTraceService" ref="livePortalTraceService"/>
     </bean>
 
     <bean id="internalClientContentService"
@@ -310,5 +311,7 @@
     </bean>
 
     <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
+
+    <bean id="httpService" class="com.enonic.cms.core.http.HTTPService"/>
 
 </beans>

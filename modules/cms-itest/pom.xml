@@ -15,10 +15,6 @@
     <packaging>jar</packaging>
     <name>Enonic CMS ITest</name>
 
-    <properties>
-        <skipITs>true</skipITs>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
