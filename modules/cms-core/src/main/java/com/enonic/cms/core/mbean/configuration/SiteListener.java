@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.mbean.configuration;
+package com.enonic.cms.core.mbean.configuration;
 
 import javax.management.ObjectName;
 
@@ -14,14 +14,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jmx.export.MBeanExporter;
 
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteEventListener;
+import com.enonic.cms.core.structure.SiteService;
 import com.enonic.cms.store.dao.SiteDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-
-import com.enonic.cms.core.structure.SiteService;
-import com.enonic.cms.core.portal.cache.SiteCachesService;
 
 public class SiteListener
         implements SiteEventListener, InitializingBean
