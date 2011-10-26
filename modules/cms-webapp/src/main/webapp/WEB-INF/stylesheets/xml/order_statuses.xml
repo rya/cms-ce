@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<statuses language="English (UK)">
-<status>Submitted</status>
-<status>Processing</status>
-<status>Processed</status>
-<status>Processed &amp; Payed</status>
-<status>Shipped</status>
-<status>Shipped &amp; Payed</status>
-</statuses>

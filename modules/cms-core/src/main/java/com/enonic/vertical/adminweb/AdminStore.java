@@ -31,12 +31,7 @@ public final class AdminStore
     /**
      * Stylesheet base.
      */
-    private final static String STYLESHEET_PATH =  "/WEB-INF/stylesheets";
-
-    /**
-     * Resource loader.
-     */
-    private static ServletContext SERVLET_CONTEXT;
+    private final static String STYLESHEET_PATH =  "/META-INF/stylesheets";
 
     private final static class StylesheetURIResolver
         implements URIResolver
@@ -61,14 +56,6 @@ public final class AdminStore
         }
     }
 
-    /**
-     * Initialize the store.
-     */
-    public static void initialize( ServletContext context )
-    {
-        SERVLET_CONTEXT = context;
-    }
-
     private static URL findResource( String path, boolean absolute )
         throws Exception
     {
@@ -76,7 +63,7 @@ public final class AdminStore
             return new URI(path).normalize().toURL();
         } else {
             final String normalized = new URI(STYLESHEET_PATH + "/" + path).normalize().toString();
-            return SERVLET_CONTEXT.getResource(normalized);
+            return AdminStore.class.getResource(normalized);
         }
     }
 
