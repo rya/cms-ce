@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.esl.net.URL;
@@ -62,7 +63,7 @@ public class RedirectAndForwardHelper
         Map<String, Object> model = new HashMap<String, Object>();
         model.put( "path", path );
         model.put( "requestParams", params );
-        return new ModelAndView( "customforward", model );
+        return new ModelAndView( new SiteCustomForwardView(), model );
     }
 
     private String replaceSpacesWithPlus( String path )

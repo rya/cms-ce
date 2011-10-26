@@ -4,27 +4,21 @@
  */
 package com.enonic.cms.server.service.tools;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.mvc.Controller;
 import org.w3c.dom.Document;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
-
 import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.esl.net.URL;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
-import com.enonic.vertical.adminweb.AdminHelper;
-import com.enonic.vertical.adminweb.VerticalAdminException;
-import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.service.AdminService;
 
@@ -38,7 +32,7 @@ public abstract class AbstractToolController
     extends AdminHandlerBaseServlet
     implements Controller
 {
-    private Configuration freemarkerConfiguration;
+    private ViewResolver viewResolver;
 
     public ModelAndView handleRequest( HttpServletRequest request, HttpServletResponse response )
         throws Exception
@@ -55,57 +49,26 @@ public abstract class AbstractToolController
 
     public void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                ExtendedMap formItems, String operation, ExtendedMap parameters, User user, Document verticalDoc )
-        throws VerticalAdminException, VerticalEngineException
     {
 
         doHandleRequest( request, response, formItems );
     }
 
-    protected void process( HttpServletResponse response, final HashMap<String, Object> model, final String templateName )
+    protected void process(HttpServletRequest request, HttpServletResponse response, final HashMap<String, Object> model, final String templateName)
     {
-
         try
         {
-            Template template = getTemplate( templateName );
-
-            template.process( model, response.getWriter() );
-
+            final View view = this.viewResolver.resolveViewName(templateName, Locale.getDefault());
+            view.render(model, request, response);
         }
         catch ( Exception e )
         {
-            throw new RuntimeException( "Could not find template: " + templateName );
+            throw new RuntimeException( "Could not find template: " + templateName, e );
         }
     }
 
-    private Template getTemplate( String templateName )
-        throws IOException
+    public void setViewResolver( final ViewResolver viewResolver )
     {
-        if ( !StringUtils.endsWith( templateName, ".ftl" ) )
-        {
-            templateName = templateName + ".ftl";
-        }
-
-        Template template = freemarkerConfiguration.getTemplate( templateName );
-
-        if ( template == null )
-        {
-            throw new RuntimeException( "Template not found: " + templateName );
-        }
-        return template;
-    }
-
-    public void redirectToReferer( HttpServletRequest request, HttpServletResponse response )
-        throws VerticalAdminException
-    {
-        String redirect = AdminHelper.getAdminPath( request, true ) + "/";
-
-        URL redirectURL = new URL( redirect );
-
-        redirectClientToURL( redirectURL, response );
-    }
-
-    public void setFreemarkerConfiguration( Configuration freemarkerConfiguration )
-    {
-        this.freemarkerConfiguration = freemarkerConfiguration;
+        this.viewResolver = viewResolver;
     }
 }

@@ -53,7 +53,7 @@ public class ReindexContentToolController
         model.put( "reindexLog", logEntries );
         model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
 
-        process( res, model, "reindexContentPage" );
+        process(req, res, model, "reindexContentPage" );
     }
 
     private synchronized void startReindexAllContentTypes()

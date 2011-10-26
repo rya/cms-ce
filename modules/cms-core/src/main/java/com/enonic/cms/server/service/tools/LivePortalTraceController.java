@@ -76,21 +76,21 @@ public final class LivePortalTraceController
             if ( StringUtils.isNotBlank( systemInfo ) )
             {
                 model.putAll( createSystemInfoModel() );
-                process( res, model, "livePortalTrace_system_info" );
+                process(req, res, model, "livePortalTrace_system_info" );
                 res.setHeader( "Content-Type", "application/json" );
             }
             else if ( "current".equals( window ) )
             {
                 List<PortalRequestTrace> currentPortalRequestTraces = livePortalTraceService.getCurrentPortalRequestTraces();
                 model.put( "currentTraces", currentPortalRequestTraces );
-                process( res, model, "livePortalTraceWindow_current" );
+                process(req, res, model, "livePortalTraceWindow_current" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( "longestpagerequests".equals( window ) )
             {
                 List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalPageRequestTraces();
                 model.put( "longestTraces", longestTimePortalRequestTraces );
-                process( res, model, "livePortalTraceWindow_longest" );
+                process(req, res, model, "livePortalTraceWindow_longest" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( "longestattachmentrequests".equals( window ) )
@@ -98,14 +98,14 @@ public final class LivePortalTraceController
                 List<PortalRequestTrace> longestTimePortalRequestTraces =
                     livePortalTraceService.getLongestTimePortalAttachmentRequestTraces();
                 model.put( "longestTraces", longestTimePortalRequestTraces );
-                process( res, model, "livePortalTraceWindow_longest" );
+                process(req, res, model, "livePortalTraceWindow_longest" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( "longestimagerequests".equals( window ) )
             {
                 List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalImageRequestTraces();
                 model.put( "longestTraces", longestTimePortalRequestTraces );
-                process( res, model, "livePortalTraceWindow_longest" );
+                process(req, res, model, "livePortalTraceWindow_longest" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( history != null )
@@ -124,12 +124,12 @@ public final class LivePortalTraceController
                 model.put( "lastHistoryRecordNumber", lastHistoryRecordNumber );
 
                 res.setHeader( "Content-Type", "application/json" );
-                process( res, model, "livePortalTrace_history_trace" );
+                process(req, res, model, "livePortalTrace_history_trace" );
             }
             else
             {
                 model.put( "livePortalTraceEnabled", isLivePortalTraceEnabled() ? 1 : 0 );
-                process( res, model, "livePortalTracePage" );
+                process(req, res, model, "livePortalTracePage" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
         }

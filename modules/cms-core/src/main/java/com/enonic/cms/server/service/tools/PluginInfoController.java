@@ -45,7 +45,7 @@ public final class PluginInfoController
         model.put( "textExtractorExtensions", toWrappers( extensions.getAllTextExtractorPlugins() ) );
         model.put( "pluginHandles", toPluginWrappers( this.pluginManager.getPlugins() ) );
 
-        process( res, model, "pluginInfoPage.ftl" );
+        process(req, res, model, "pluginInfoPage" );
     }
 
     private void doUpdatePlugin( final long pluginKey, final HttpServletRequest req, final HttpServletResponse res )
