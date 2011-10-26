@@ -142,7 +142,7 @@
                   value="1"/>
     </bean>
 
-    <bean id="loadedVerticalProperties" class="com.enonic.cms.server.service.boot.BootPropertiesFactoryBean"/>
+    <bean id="loadedVerticalProperties" class="com.enonic.cms.core.boot.BootPropertiesFactoryBean"/>
 
 
     <bean id="imageCache" class="com.enonic.cms.core.image.cache.ImageCacheFactory">
