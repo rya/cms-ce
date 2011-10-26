@@ -12,53 +12,44 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
+import com.enonic.cms.core.content.index.*;
 import org.joda.time.DateTime;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.AbstractTransactionalSpringContextTests;
 
 import com.enonic.cms.core.content.ContentIndexEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-import com.enonic.cms.core.content.index.AggregatedQuery;
-import com.enonic.cms.core.content.index.BigText;
-import com.enonic.cms.core.content.index.ContentDocument;
-import com.enonic.cms.core.content.index.ContentIndexFieldSet;
-import com.enonic.cms.core.content.index.ContentIndexQuery;
-import com.enonic.cms.core.content.index.ContentIndexServiceImpl;
-import com.enonic.cms.core.content.index.IndexValueQuery;
-import com.enonic.cms.core.content.index.IndexValueResultSet;
-import com.enonic.cms.core.content.index.UserDefinedField;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.store.dao.ContentIndexDao;
 
-import com.enonic.cms.core.content.index.AggregatedResult;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.Assert.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
+@Transactional
+@TransactionConfiguration(defaultRollback = true)
 public class ContentIndexServiceImplTest
-    extends AbstractTransactionalSpringContextTests
 {
     private static final Logger LOG = LoggerFactory.getLogger( ContentIndexServiceImplTest.class.getName() );
 
     private static final int NUMBER_OF_STANDARD_INDEX_FIELDS = 13;
 
-    private ContentIndexServiceImpl service;
+    @Autowired
+    private ContentIndexService service;
 
     @Autowired
     private ContentIndexDao contentIndexDao;
-
-    public String[] getConfigLocations()
-    {
-        return ( new String[]{"classpath:" + getClass().getName().replace( '.', '/' ) + ".xml"} );
-    }
-
-    public void setContentIndexService( ContentIndexServiceImpl service )
-    {
-        this.service = service;
-    }
 
     private void setUpStandardTestValues()
     {
@@ -140,6 +131,7 @@ public class ContentIndexServiceImplTest
         contentIndexDao.getHibernateTemplate().clear();
     }
 
+    @Test
     public void testIndexSameValuesTwice()
         throws Exception
     {
@@ -181,6 +173,7 @@ public class ContentIndexServiceImplTest
                                 doc1.getUserDefinedFields().size() );
     }
 
+    @Test
     public void testLargeTextFieldShortenValue()
     {
         setUpStandardTestValues();
@@ -214,6 +207,7 @@ public class ContentIndexServiceImplTest
         checkUserDefinedFields( indexes, doc1.getUserDefinedFields(), newNumberOfRowsExpected, doc1.getUserDefinedFields().size() );
     }
 
+    @Test
     public void testLargeTextFieldExtendValue()
     {
         setUpStandardTestValues();
@@ -247,6 +241,7 @@ public class ContentIndexServiceImplTest
         checkUserDefinedFields( indexes, doc1.getUserDefinedFields(), newNumberOfRowsExpected, doc1.getUserDefinedFields().size() );
     }
 
+    @Test
     public void testLargeTextFieldRemoveValue()
     {
         setUpStandardTestValues();
@@ -276,6 +271,7 @@ public class ContentIndexServiceImplTest
         assertEquals( NUMBER_OF_STANDARD_INDEX_FIELDS, indexes.size() );
     }
 
+    @Test
     public void testLargeTextFieldChangeStatus()
     {
         setUpStandardTestValues();
@@ -314,6 +310,7 @@ public class ContentIndexServiceImplTest
         verifyStandardValuesForAllIndexes( doc1, indexes );
     }
 
+    @Test
     public void testLargeBinaryExtractedTextFieldShortenValue()
     {
         setUpStandardTestValues();
@@ -371,6 +368,7 @@ public class ContentIndexServiceImplTest
         return doc1;
     }
 
+    @Test
     public void testIndexDuplicatePaths()
         throws Exception
     {
@@ -426,6 +424,7 @@ public class ContentIndexServiceImplTest
         checkUserDefinedFields( indexes, doc1.getUserDefinedFields(), doc1.getUserDefinedFields().size(), 1 );
     }
 
+    @Test
     public void testChangedValue()
         throws Exception
     {
@@ -467,6 +466,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testRemoveValue()
         throws Exception
     {
@@ -507,6 +507,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testAddNewValue()
         throws Exception
     {
@@ -549,6 +550,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testRemoveAndAdd()
         throws Exception
     {
@@ -592,6 +594,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testRemoveTwoAndAddOne()
         throws Exception
     {
@@ -795,6 +798,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testSimpleIndexing()
         throws Exception
     {
@@ -815,6 +819,7 @@ public class ContentIndexServiceImplTest
         assertFalse( this.service.isIndexed( new ContentKey( 1322 ) ) );
     }
 
+    @Test
     public void testRemoveByCategory()
         throws Exception
     {
@@ -841,6 +846,7 @@ public class ContentIndexServiceImplTest
         assertFalse( this.service.isIndexed( new ContentKey( 1327 ) ) );
     }
 
+    @Test
     public void testRemoveByContentType()
         throws Exception
     {
@@ -867,6 +873,7 @@ public class ContentIndexServiceImplTest
         assertFalse( this.service.isIndexed( new ContentKey( 1323 ) ) );
     }
 
+    @Test
     public void testSimpleQuerying()
     {
         // Setup standard values
@@ -915,6 +922,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 3, res9.getLength() );
     }
 
+    @Test
     public void testCombinedQuerying()
     {
         // Setup standard values
@@ -945,6 +953,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 2, res6.getLength() );
     }
 
+    @Test
     public void testInQueries()
     {
         setUpStandardTestValues();
@@ -966,6 +975,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 3, res4.getLength() );
     }
 
+    @Test
     public void testStringQueries()
     {
         setUpStandardTestValues();
@@ -999,6 +1009,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1, res7.getLength() );
     }
 
+    @Test
     public void testDateQueries()
     {
         setUpStandardTestValues();
@@ -1025,6 +1036,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1, res5.getLength() );
     }
 
+    @Test
     public void testQueriesWithOrderBy()
     {
         setUpStandardTestValues();
@@ -1076,6 +1088,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1322, res7.getKey( 3 ).toInt() );
     }
 
+    @Test
     public void testFulltextQueries()
     {
         setUpStandardTestValues();
@@ -1093,6 +1106,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 2, res3.getLength() );
     }
 
+    @Test
     public void testQueriesOnUserDefinedData()
     {
         setUpStandardTestValues();
@@ -1120,6 +1134,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1322, res5.getKey( 0 ).toInt() );
     }
 
+    @Test
     public void testQueriesOnUserDefinedDataWithDot()
     {
         setUpStandardTestValues();
@@ -1133,6 +1148,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 3, res2.getLength() );
     }
 
+    @Test
     public void testQueryIndexValues()
     {
         setUpStandardTestValues();
@@ -1151,6 +1167,7 @@ public class ContentIndexServiceImplTest
         assertEquals( new ContentKey( 1322 ), result.getIndexValue( 3 ).getContentKey() );
     }
 
+    @Test
     public void testQueryAggregatedIndexValues()
     {
         setUpStandardTestValues();
@@ -1159,12 +1176,13 @@ public class ContentIndexServiceImplTest
         AggregatedResult result = service.query( query );
 
         assertEquals( 4, result.getCount() );
-        assertEquals( 5.0, result.getMinValue() );
-        assertEquals( 38.0, result.getMaxValue() );
-        assertEquals( 81.0, result.getSumValue() );
-        assertEquals( 20.25, result.getAverageValue() );
+        assertEquals( 5.0, result.getMinValue(), 0 );
+        assertEquals( 38.0, result.getMaxValue(), 0 );
+        assertEquals( 81.0, result.getSumValue(), 0 );
+        assertEquals( 20.25, result.getAverageValue(), 0 );
     }
 
+    @Test
     public void testOneWordSearchOnTitleAndData()
     {
         service.index( createContentDocument( 123, "ost", "ost", null ), false );
@@ -1185,6 +1203,7 @@ public class ContentIndexServiceImplTest
                                       service.query( new ContentIndexQuery( "title CONTAINS 'fisk' OR data/* CONTAINS 'fisk'" ) ) );
     }
 
+    @Test
     public void testOneWordSearchOnTitleAndFulltext()
     {
         service.index( createContentDocument( 123, "ost", null, "ost" ), false );
@@ -1206,6 +1225,7 @@ public class ContentIndexServiceImplTest
     }
 
 
+    @Test
     public void testOneWordSearchOnTitleAndUnknown()
     {
         service.index( createContentDocument( 123, "ost", null, null ), false );
@@ -1225,6 +1245,7 @@ public class ContentIndexServiceImplTest
     }
 
 
+    @Test
     public void testOneWordSearchOnTitleAndDataAndFulltext()
     {
         service.index( createContentDocument( 121, "ost", "ost", "ost" ), false );
@@ -1261,6 +1282,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "fulltext CONTAINS 'ost' AND (title CONTAINS 'ost' OR data/* CONTAINS 'ost')" ) ) );
     }
 
+    @Test
     public void testOneWordSearchOnTitleAndDataAndUnknown()
     {
         service.index( createContentDocument( 123, "ost", "ost", null ), false );
@@ -1285,6 +1307,7 @@ public class ContentIndexServiceImplTest
     }
 
 
+    @Test
     public void testOneWordSearchOnTitleAndFulltextAndUnknown()
     {
         service.index( createContentDocument( 123, "ost", null, "ost" ), false );
@@ -1309,6 +1332,7 @@ public class ContentIndexServiceImplTest
     }
 
 
+    @Test
     public void testOneWordSearchOnTitleAndDataAndFulltextAndUnknown()
     {
         service.index( createContentDocument( 121, "ost", "ost", "ost" ), false );
@@ -1369,6 +1393,7 @@ public class ContentIndexServiceImplTest
             "(fulltext CONTAINS 'ost' AND (title CONTAINS 'ost' OR data/* CONTAINS 'ost')) AND unknown CONTAINS 'fisk'" ) ) );
     }
 
+    @Test
     public void testTwoWordSearchOnTitleAndData()
     {
         service.index( createContentDocument( 1021, "ost", "ost", null ), false );
@@ -1397,6 +1422,7 @@ public class ContentIndexServiceImplTest
             "(title CONTAINS 'ost' OR data/* CONTAINS 'ost') AND (title CONTAINS 'ost' OR data/* CONTAINS 'ost')" ) ) );
     }
 
+    @Test
     public void testTwoWordSearchOnTitleAndFulltext()
     {
         service.index( createContentDocument( 1021, "ost", null, "ost" ), false );
@@ -1421,6 +1447,7 @@ public class ContentIndexServiceImplTest
             "(title CONTAINS 'ost' OR fulltext CONTAINS 'ost') AND (title CONTAINS 'ost' OR fulltext CONTAINS 'ost')" ) ) );
     }
 
+    @Test
     public void testSearchOnTextWithSingleQuote()
     {
         service.index( createContentDocument( 1021, "ost", null, "Det var ost's store appetitt som vant.  ;)" ), false );
@@ -1431,6 +1458,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{1022}, service.query( new ContentIndexQuery( "title = \"ost's\"" ) ) );
     }
 
+    @Test
     public void testTwoWordSearchOnTitleAndDataAndFulltext()
     {
         service.index( createContentDocument( 1021, "ost", "ost", "ost" ), false );
@@ -1510,6 +1538,7 @@ public class ContentIndexServiceImplTest
                 "(title CONTAINS 'ost' OR title CONTAINS 'kake') OR ((data/* CONTAINS 'ost' OR data/* CONTAINS 'kake') OR (fulltext CONTAINS 'ost' OR fulltext CONTAINS 'kake'))" ) ) );
     }
 
+    @Test
     public void testTwoWordSearchOnTitleAndDataAndFulltextAndUnknown()
     {
         service.index( createContentDocument( 1021, "ost", "ost", "ost" ), false );
@@ -1589,6 +1618,7 @@ public class ContentIndexServiceImplTest
                 "(title CONTAINS 'ost' OR title CONTAINS 'kake') OR ((data/* CONTAINS 'ost' OR data/* CONTAINS 'kake') OR (fulltext CONTAINS 'ost' OR fulltext CONTAINS 'kake')) OR unknown CONTAINS 'fisk'" ) ) );
     }
 
+    @Test
     public void testIndexingAndSearchOnOwnerQualifiedName()
     {
         ContentDocument doc = createContentDocument( 101, "ost", null );
@@ -1599,6 +1629,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{101}, service.query( new ContentIndexQuery( "owner/qualifiedName = 'incamono\\jvs'" ) ) );
     }
 
+    @Test
     public void testQueryWithOrderByMultipleRelatedContentDoesNotCreateDuplicateContentKeys()
     {
         service.index( createContentDocument( 101, "title", new String[][]{{"data/myrelated", "3"}, {"data/myrelated", "9"}} ), false );
@@ -1606,6 +1637,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{101}, service.query( new ContentIndexQuery( "", "data/myrelated ASC" ) ) );
     }
 
+    @Test
     public void testIndexingAndSearchOnAssigneeQualifiedName()
     {
         ContentDocument assignedToJVS = new ContentDocument( new ContentKey( 1101 ) );
@@ -1645,6 +1677,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "categorykey = 9 and assignee/qualifiedName = 'incamono\\tan'" ) ) );
     }
 
+    @Test
     public void testIndexingAndSearchWithOrderyByAssigneeQualifiedName()
     {
         ContentDocument assignedToJVS = new ContentDocument( new ContentKey( 1101 ) );
@@ -1687,6 +1720,7 @@ public class ContentIndexServiceImplTest
                                       service.query( new ContentIndexQuery( "categorykey = 9", "assignee/qualifiedname asc" ) ) );
     }
 
+    @Test
     public void testIndexingAndSearchOnAssignerQualifiedName()
     {
         ContentDocument assignerIsJVS = new ContentDocument( new ContentKey( 1101 ) );
@@ -1726,6 +1760,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "categorykey = 9 and assigner/qualifiedName = 'incamono\\tan'" ) ) );
     }
 
+    @Test
     public void testIndexingAndSearchWithOrderyByAssignerQualifiedName()
     {
         ContentDocument assignerIsJVS = new ContentDocument( new ContentKey( 1101 ) );
@@ -1768,6 +1803,7 @@ public class ContentIndexServiceImplTest
                                       service.query( new ContentIndexQuery( "categorykey = 9", "assigner/qualifiedname asc" ) ) );
     }
 
+    @Test
     public void testIndexingAndSearchOnAssigmentDueDate()
     {
         ContentDocument due2010_06_01T00_00_00 = new ContentDocument( new ContentKey( 1101 ) );
@@ -1884,6 +1920,7 @@ public class ContentIndexServiceImplTest
     }
 
 
+    @Test
     public void testSplittedFulltextIndexWithAnd()
     {
         service.index( createContentDocument( 101, "title", new String[][]{{"fulltext", "fisk ost"}, {"fulltext", "torsk tine"}} ), false );
@@ -1893,6 +1930,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "fulltext CONTAINS 'fisk' AND fulltext CONTAINS 'torsk'", "" ) ) );
     }
 
+    @Test
     public void testSplittedFulltextIndexWithOr()
     {
         service.index( createContentDocument( 101, "title", new String[][]{{"fulltext", "fisk ost"}, {"fulltext", "torsk tine"}} ), false );
@@ -1903,6 +1941,7 @@ public class ContentIndexServiceImplTest
     }
 
 
+    @Test
     public void testSplittedNormalIndexWithAnd()
     {
         service.index( createContentDocument( 101, "title", new String[][]{{"data/text", "fisk ost"}, {"data/text", "torsk tine"}} ),
@@ -1913,6 +1952,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "data/text CONTAINS 'fisk' AND data/text CONTAINS 'torsk'", "" ) ) );
     }
 
+    @Test
     public void testSplittedNormalIndexWithOr()
     {
         service.index( createContentDocument( 101, "title", new String[][]{{"data/text", "fisk ost"}, {"data/text", "torsk tine"}} ),
@@ -1923,6 +1963,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "data/text CONTAINS 'fisk' OR data/text CONTAINS 'torsk'", "" ) ) );
     }
 
+    @Test
     public void testMultipleSameLikeExactWords()
     {
         service.index( createContentDocument( 101, "title", new String[][]{{"data/heading", "ENONIC"}, {"data/preface", "ENONIC"},
@@ -1932,6 +1973,7 @@ public class ContentIndexServiceImplTest
             new ContentIndexQuery( "data/heading LIKE '%ENONIC%' or data/preface LIKE '%ENONIC%' or data/text LIKE '%ENONIC%'", "" ) ) );
     }
 
+    @Test
     public void testEinarTing1()
     {
         service.index( createContentDocument( 100, "title", new String[][]{{"data/preface", "denne skal ikke gi treff"},
@@ -1945,6 +1987,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testEinarTing2()
     {
         service.index( createContentDocument( 100, "title", new String[][]{{"data/preface", "denne skal ikke gi treff"},
@@ -1958,6 +2001,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testEinarTing3()
     {
         service.index( createContentDocument( 100, "title", new String[][]{{"data/preface", "denne skal ikke gi treff"},
@@ -1971,6 +2015,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testOrderByStatus()
     {
         service.index( createContentDocument( new ContentKey( 101 ), new CategoryKey( 1 ), new ContentTypeKey( 10 ), 3, "c1",
@@ -1988,6 +2033,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testOrderByPublishfrom()
     {
         ContentDocument doc1 = createContentDocument( new ContentKey( 101 ), new CategoryKey( 1 ), new ContentTypeKey( 10 ), 0, "c1",
@@ -2011,6 +2057,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testOrderByPublishto()
     {
         ContentDocument doc1 = createContentDocument( new ContentKey( 101 ), new CategoryKey( 1 ), new ContentTypeKey( 10 ), 0, "c1",
@@ -2034,6 +2081,7 @@ public class ContentIndexServiceImplTest
 
     }
 
+    @Test
     public void testContentQueryWithCategoryFilter()
     {
 
@@ -2058,6 +2106,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{3}, service.query( query ) );
     }
 
+    @Test
     public void testContentQueryWithContentTypeFilter()
     {
 
@@ -2082,6 +2131,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{3}, service.query( query ) );
     }
 
+    @Test
     public void testContentQueryWithCategoryFilterAndComplexLogicalExpression()
     {
 
@@ -2122,6 +2172,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{1, 2}, service.query( query ) );
     }
 
+    @Test
     public void testContentQueryWithCategoryFilterAndContentTypeNameSearch()
     {
 
@@ -2149,6 +2200,7 @@ public class ContentIndexServiceImplTest
         assertContentResultSetEquals( new int[]{3}, service.query( query ) );
     }
 
+    @Test
     public void testQueryReturnsEmptyResultWhenNowIsOneMillisecondBeforePublishFrom()
     {
         ContentDocument doc1 = new ContentDocument( new ContentKey( 3001 ) );
@@ -2168,6 +2220,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 0, contentResultSet.getKeys().size() );
     }
 
+    @Test
     public void testQueryReturnsAResultWhenNowIsSameAsPublishFrom()
     {
         ContentDocument doc1 = new ContentDocument( new ContentKey( 3001 ) );
@@ -2187,6 +2240,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1, contentResultSet.getKeys().size() );
     }
 
+    @Test
     public void testQueryReturnsAResultWhenNowIsOneMillisecondAfterPublishFrom()
     {
         ContentDocument doc1 = new ContentDocument( new ContentKey( 3001 ) );
@@ -2206,6 +2260,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1, contentResultSet.getKeys().size() );
     }
 
+    @Test
     public void testQueryReturnsEmptytWhenNowIsSameAsBothPublishFromAndPublishTo()
     {
         ContentDocument doc1 = new ContentDocument( new ContentKey( 3001 ) );
@@ -2226,6 +2281,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 0, contentResultSet.getKeys().size() );
     }
 
+    @Test
     public void testQueryReturnsEmptyWhenNowIsAfterPublishFromAndSameAsPublishTo()
     {
         ContentDocument doc1 = new ContentDocument( new ContentKey( 3001 ) );
@@ -2246,6 +2302,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 0, contentResultSet.getKeys().size() );
     }
 
+    @Test
     public void testQueryReturnsAResultWhenNowIsAfterPublishFromAndWithinThePublishToMinute()
     {
         ContentDocument doc1 = new ContentDocument( new ContentKey( 3001 ) );
@@ -2266,6 +2323,7 @@ public class ContentIndexServiceImplTest
         assertEquals( 1, contentResultSet.getKeys().size() );
     }
 
+    @Test
     public void testQueryThrowsExceptionWhenQueryHasNoRestrictions()
     {
         String expectedMessageStartsWidth =

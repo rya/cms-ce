@@ -61,7 +61,7 @@ import static junit.framework.Assert.fail;
 import static org.easymock.classextension.EasyMock.createMock;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
+@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
 @TransactionConfiguration(defaultRollback = true)
 @Transactional
 public class UserHandlerControllerTest
