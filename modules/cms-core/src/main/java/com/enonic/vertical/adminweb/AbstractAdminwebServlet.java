@@ -287,9 +287,6 @@ public abstract class AbstractAdminwebServlet
         throws ServletException
     {
         super.init( servletConfig );
-
-        final ServletContext context = getServletContext();
-        AdminStore.initialize( context );
     }
 
     protected AdminService lookupAdminBean()
