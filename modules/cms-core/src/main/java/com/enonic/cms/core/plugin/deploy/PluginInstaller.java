@@ -1,10 +1,12 @@
 package com.enonic.cms.core.plugin.deploy;
 
-import com.enonic.cms.api.util.LogFacade;
+import java.io.File;
+
 import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import java.io.File;
+
+import com.enonic.cms.api.util.LogFacade;
 
 final class PluginInstaller
     extends FileAlterationListenerAdaptor

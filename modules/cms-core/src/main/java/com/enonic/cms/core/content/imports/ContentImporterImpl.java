@@ -33,10 +33,9 @@ import com.enonic.cms.core.content.contenttype.CtyImportConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportMappingConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportUpdateStrategyConfig;
 import com.enonic.cms.core.content.imports.sourcevalueholders.AbstractSourceValue;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.core.portal.PrettyPathNameCreator;
 
 public class ContentImporterImpl
 {

@@ -5,8 +5,6 @@
 package com.enonic.cms.core.service;
 
 import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.core.security.user.User;
 

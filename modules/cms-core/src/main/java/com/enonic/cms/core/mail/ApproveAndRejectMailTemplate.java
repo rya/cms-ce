@@ -9,10 +9,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.content.ContentService;
-
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.query.ContentByContentQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.security.user.UserEntity;

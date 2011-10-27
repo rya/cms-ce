@@ -15,14 +15,11 @@ import com.enonic.cms.core.resolver.CacheResolverValueService;
 import com.enonic.cms.core.resolver.ForceResolverValueService;
 import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.resolver.ResolverContext;
+import com.enonic.cms.core.resolver.ScriptResolverResult;
 import com.enonic.cms.core.resolver.ScriptResolverService;
-
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceService;
-
-import com.enonic.cms.core.resolver.ScriptResolverResult;
-
 import com.enonic.cms.core.structure.SiteEntity;
 
 /**

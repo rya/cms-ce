@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.enonic.cms.core.SiteKey;
-
 import com.enonic.cms.core.portal.PortalInstanceKey;
 
 

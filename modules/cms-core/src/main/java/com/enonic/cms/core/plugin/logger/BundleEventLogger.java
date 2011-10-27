@@ -1,11 +1,11 @@
 package com.enonic.cms.core.plugin.logger;
 
-import com.enonic.cms.core.plugin.util.OsgiHelper;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleEvent;
 import org.osgi.framework.BundleListener;
 
 import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 final class BundleEventLogger
     implements BundleListener

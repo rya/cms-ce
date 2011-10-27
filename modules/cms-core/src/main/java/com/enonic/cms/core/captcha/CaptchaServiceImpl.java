@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.esl.containers.ExtendedMap;
 
@@ -24,7 +25,6 @@ import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 
 import com.enonic.cms.business.SitePropertiesService;
-import org.springframework.stereotype.Component;
 
 @Component("captchaService")
 public class CaptchaServiceImpl

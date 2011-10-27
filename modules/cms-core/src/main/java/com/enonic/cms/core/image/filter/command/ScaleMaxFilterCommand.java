@@ -5,7 +5,6 @@
 package com.enonic.cms.core.image.filter.command;
 
 import com.enonic.cms.core.image.filter.BuilderContext;
-
 import com.enonic.cms.core.image.filter.effect.ScaleMaxFilter;
 
 public final class ScaleMaxFilterCommand

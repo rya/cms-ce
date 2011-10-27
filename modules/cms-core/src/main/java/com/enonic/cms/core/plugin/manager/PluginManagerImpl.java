@@ -3,14 +3,20 @@ package com.enonic.cms.core.plugin.manager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.enonic.cms.core.plugin.*;
-import com.enonic.cms.core.plugin.container.OsgiContributor;
-import com.enonic.cms.core.plugin.util.OsgiHelper;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.collect.Lists;
+
+import com.enonic.cms.core.plugin.ExtensionListener;
+import com.enonic.cms.core.plugin.ExtensionSet;
+import com.enonic.cms.core.plugin.PluginHandle;
+import com.enonic.cms.core.plugin.PluginManager;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 @Component("pluginManager")
 public final class PluginManagerImpl

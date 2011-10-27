@@ -11,8 +11,8 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.command.LoginCommand;
 import com.enonic.cms.core.portal.support.LoginPagePathResolverService;
-import com.enonic.cms.server.domain.command.LoginCommand;
 
 public class LoginController
     extends AbstractSiteCommandController

@@ -7,11 +7,9 @@ package com.enonic.cms.core.log;
 import org.jdom.Element;
 
 import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.store.dao.ContentDao;
-
-import com.enonic.cms.core.content.ContentXMLCreator;
-
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.store.dao.ContentDao;
 
 public class ContentLogXMLCreator
     extends LogXMLCreator

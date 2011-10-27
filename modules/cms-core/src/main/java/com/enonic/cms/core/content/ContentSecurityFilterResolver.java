@@ -10,12 +10,12 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ContentSecurityFilterResolver

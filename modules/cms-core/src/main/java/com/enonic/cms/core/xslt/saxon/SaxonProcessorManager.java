@@ -8,14 +8,20 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.URIResolver;
 
-import com.enonic.cms.core.xslt.*;
+import org.springframework.stereotype.Component;
+
 import net.sf.saxon.Configuration;
 import net.sf.saxon.TransformerFactoryImpl;
 import net.sf.saxon.functions.FunctionLibraryList;
 import net.sf.saxon.functions.JavaExtensionLibrary;
 
+import com.enonic.cms.core.xslt.XsltProcessor;
+import com.enonic.cms.core.xslt.XsltProcessorErrors;
+import com.enonic.cms.core.xslt.XsltProcessorException;
+import com.enonic.cms.core.xslt.XsltProcessorManager;
+import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
+import com.enonic.cms.core.xslt.XsltResource;
 import com.enonic.cms.core.xslt.lib.PortalFunctions;
-import org.springframework.stereotype.Component;
 
 /**
  * This class implements the standard xslt processor manager.

@@ -3,6 +3,7 @@ package com.enonic.cms.core.plugin.spring;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
+
 import org.osgi.framework.Bundle;
 
 final class BundleClassLoader

@@ -19,12 +19,11 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.content.index.LogEntryEntityFetcherImpl;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.store.dao.LogEntryDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.index.LogEntryEntityFetcherImpl;
 
 @Component("logService")
 public class LogServiceImpl

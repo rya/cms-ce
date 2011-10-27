@@ -10,12 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.enonic.esl.servlet.http.CookieUtil;
 
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.login.LoginService;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
-
-import com.enonic.cms.core.login.LoginService;
-
-import com.enonic.cms.core.SiteKey;
 
 public class AutoLoginService
 {

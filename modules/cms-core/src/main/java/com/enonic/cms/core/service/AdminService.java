@@ -7,7 +7,6 @@ package com.enonic.cms.core.service;
 import java.util.Map;
 import java.util.Set;
 
-import com.enonic.cms.core.security.user.UserEntity;
 import org.w3c.dom.Element;
 
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -29,6 +28,7 @@ import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;

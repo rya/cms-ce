@@ -6,10 +6,6 @@ package com.enonic.cms.core.preference;
 
 import java.util.List;
 
-import com.enonic.cms.core.preference.PreferenceEntity;
-import com.enonic.cms.core.preference.PreferenceKey;
-import com.enonic.cms.core.preference.PreferenceSpecification;
-
 /**
  * This service object allows manipulation of user specific values.  There are two key objects to work with: <code>PreferenceEntity</code>
  * and <code>PreferenceKey</code>.  The key is a non-mutable identifier for the entity, which contains information about which user the

@@ -24,12 +24,11 @@ import com.enonic.cms.core.content.index.translator.ContentQueryTranslator;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetLazyFetcher;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentIndexDao;
-
 import com.enonic.cms.core.portal.livetrace.ContentIndexQueryTrace;
 import com.enonic.cms.core.portal.livetrace.ContentIndexQueryTracer;
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentIndexDao;
 
 /**
  * This class implements the content index service based on hibernate.

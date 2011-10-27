@@ -4,11 +4,11 @@
  */
 package com.enonic.cms.core.country;
 
-import com.google.common.base.Preconditions;
-
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Aug 4, 2009

@@ -2,10 +2,12 @@ package com.enonic.cms.core.plugin.host;
 
 import java.util.Iterator;
 import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import com.enonic.cms.api.client.Client;
 import com.enonic.cms.api.client.LocalClient;
 import com.enonic.cms.api.plugin.PluginEnvironment;
-import com.google.common.collect.Lists;
 
 final class HostServices
     implements Iterable<HostService>

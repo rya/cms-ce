@@ -17,14 +17,13 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.CacheSettings;
+import com.enonic.cms.core.portal.datasource.Datasources;
+import com.enonic.cms.core.portal.datasource.DatasourcesType;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.structure.RunAsType;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.TemplateParameter;
 import com.enonic.cms.core.structure.TemplateParameterType;
-
-import com.enonic.cms.core.portal.datasource.Datasources;
-import com.enonic.cms.core.portal.datasource.DatasourcesType;
 
 public class PortletEntity
     implements Serializable

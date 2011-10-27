@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageProducer;
+
 import com.enonic.cms.framework.util.ImageHelper;
 
 public final class AwtImageFilter

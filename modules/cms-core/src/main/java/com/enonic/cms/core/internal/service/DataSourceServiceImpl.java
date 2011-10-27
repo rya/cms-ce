@@ -68,6 +68,9 @@ import com.enonic.cms.core.country.CountryXmlCreator;
 import com.enonic.cms.core.http.HTTPService;
 import com.enonic.cms.core.locale.LocaleService;
 import com.enonic.cms.core.locale.LocaleXmlCreator;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.rendering.tracing.DataTraceInfo;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceKey;
 import com.enonic.cms.core.preference.PreferenceScope;
@@ -105,11 +108,7 @@ import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.business.preview.PreviewContext;
-
-import com.enonic.cms.core.portal.datasource.DataSourceContext;
-import com.enonic.cms.core.portal.rendering.tracing.DataTraceInfo;
 
 public final class DataSourceServiceImpl
         implements DataSourceService

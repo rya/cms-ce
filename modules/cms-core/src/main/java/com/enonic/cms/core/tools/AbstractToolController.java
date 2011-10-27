@@ -20,9 +20,8 @@ import org.w3c.dom.Document;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
 
-import com.enonic.cms.core.service.AdminService;
-
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.service.AdminService;
 
 
 /**

@@ -10,12 +10,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import com.google.common.base.Preconditions;
 import org.jdom.Document;
 import org.jdom.Element;
-
-import com.enonic.vertical.engine.VerticalEngineLogger;
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Preconditions;
 
 @Component
 public final class CalendarService

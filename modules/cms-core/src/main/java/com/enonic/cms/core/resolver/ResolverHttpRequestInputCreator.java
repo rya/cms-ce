@@ -15,11 +15,10 @@ import com.enonic.esl.util.StringUtil;
 
 import com.enonic.cms.framework.xml.XMLBuilder;
 
+import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SitePath;
 
 import com.enonic.cms.business.SiteURLResolver;
-
-import com.enonic.cms.core.Attribute;
 
 /**
  * Created by rmy - Date: Apr 7, 2009

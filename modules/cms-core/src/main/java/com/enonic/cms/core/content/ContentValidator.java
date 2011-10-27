@@ -5,6 +5,7 @@
 package com.enonic.cms.core.content;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.InvalidContentDataException;
@@ -14,7 +15,6 @@ import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedCon
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDataEntryConfig;
 import com.enonic.cms.store.dao.ContentDao;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ContentValidator

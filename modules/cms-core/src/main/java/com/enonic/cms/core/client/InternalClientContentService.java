@@ -71,6 +71,9 @@ import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.content.image.ContentImageUtil;
 import com.enonic.cms.core.content.image.ImageUtil;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserParser;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -82,12 +85,8 @@ import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 
-import com.enonic.cms.core.portal.cache.PageCacheService;
-import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
-
-import com.enonic.cms.core.portal.PrettyPathNameCreator;
 
 
 public class InternalClientContentService

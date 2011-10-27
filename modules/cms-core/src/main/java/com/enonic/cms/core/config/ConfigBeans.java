@@ -1,10 +1,12 @@
 package com.enonic.cms.core.config;
 
-import com.enonic.cms.core.boot.BootEnvironment;
+import java.io.File;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
-import java.io.File;
+
+import com.enonic.cms.core.boot.BootEnvironment;
 
 @Configuration
 public class ConfigBeans

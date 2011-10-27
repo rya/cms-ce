@@ -4,9 +4,11 @@
  */
 package com.enonic.cms.core.internal.service;
 
-import com.enonic.vertical.engine.handlers.KeyHandler;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.vertical.engine.handlers.KeyHandler;
+
 import com.enonic.cms.core.service.KeyService;
 
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)

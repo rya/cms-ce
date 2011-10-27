@@ -4,6 +4,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 import org.osgi.framework.ServiceReference;
+
 import com.enonic.cms.api.plugin.PluginException;
 
 public final class OsgiHelper

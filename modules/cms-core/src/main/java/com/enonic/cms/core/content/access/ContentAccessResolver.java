@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.content.access;
 
+import com.enonic.cms.core.AbstractAccessResolver;
 import com.enonic.cms.core.content.ContentAccessRightsAccumulated;
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
@@ -12,8 +13,6 @@ import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.GroupDao;
-
-import com.enonic.cms.core.AbstractAccessResolver;
 
 
 public class ContentAccessResolver

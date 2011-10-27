@@ -6,9 +6,9 @@ package com.enonic.cms.core.image.filter.command;
 
 import java.awt.image.BufferedImageOp;
 
+import com.enonic.cms.core.image.filter.AwtImageFilter;
 import com.enonic.cms.core.image.filter.BuilderContext;
 import com.enonic.cms.core.image.filter.ImageFilter;
-import com.enonic.cms.core.image.filter.AwtImageFilter;
 import com.enonic.cms.core.image.filter.OperationImageFilter;
 
 public abstract class FilterCommand

@@ -7,11 +7,10 @@ package com.enonic.cms.core.structure;
 import java.util.List;
 
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.portal.SiteNotFoundException;
 import com.enonic.cms.core.security.user.User;
 
 import com.enonic.cms.business.SiteContext;
-
-import com.enonic.cms.core.portal.SiteNotFoundException;
 
 public interface SiteService
 {

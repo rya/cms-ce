@@ -12,10 +12,9 @@ import com.enonic.cms.api.client.model.GetMenuDataParams;
 import com.enonic.cms.api.client.model.GetMenuItemParams;
 import com.enonic.cms.api.client.model.GetMenuParams;
 import com.enonic.cms.api.client.model.GetSubMenuParams;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.DataSourceService;
-
-import com.enonic.cms.core.portal.datasource.DataSourceContext;
 
 /**
  * This class wraps the presentation service and calls with the new client api.

@@ -5,6 +5,7 @@
 package com.enonic.cms.core.xslt;
 
 import java.io.Writer;
+
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 

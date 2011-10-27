@@ -20,6 +20,8 @@ import org.jdom.Element;
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.portal.datasource.Datasources;
+import com.enonic.cms.core.portal.datasource.DatasourcesType;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.RunAsType;
@@ -27,9 +29,6 @@ import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.TemplateParameter;
 import com.enonic.cms.core.structure.TemplateParameterType;
 import com.enonic.cms.core.structure.page.Region;
-
-import com.enonic.cms.core.portal.datasource.Datasources;
-import com.enonic.cms.core.portal.datasource.DatasourcesType;
 
 public class PageTemplateEntity
     implements Serializable

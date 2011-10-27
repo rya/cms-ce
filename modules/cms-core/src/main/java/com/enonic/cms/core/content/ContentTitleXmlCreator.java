@@ -8,11 +8,10 @@ import java.util.Date;
 
 import org.jdom.Element;
 
+import com.enonic.cms.core.CmsDateAndTimeFormats;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-
-import com.enonic.cms.core.CmsDateAndTimeFormats;
 
 /**
  * Jun 17, 2009

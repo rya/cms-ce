@@ -11,20 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.resource.ResourceFile;
-import com.enonic.cms.core.resource.ResourceService;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.localization.LocaleParsingException;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 import com.enonic.cms.core.resolver.ForceResolverValueService;
+import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resolver.ScriptResolverResult;
 import com.enonic.cms.core.resolver.ScriptResolverService;
-
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.localization.LocaleParsingException;
-
-import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
-
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 

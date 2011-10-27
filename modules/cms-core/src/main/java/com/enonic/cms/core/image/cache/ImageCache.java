@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.core.image.cache;
 
-import com.enonic.cms.core.image.ImageResponse;
 import com.enonic.cms.core.image.ImageRequest;
+import com.enonic.cms.core.image.ImageResponse;
 
 public interface ImageCache
 {

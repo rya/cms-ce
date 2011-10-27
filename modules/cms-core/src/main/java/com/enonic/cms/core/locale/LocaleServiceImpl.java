@@ -4,10 +4,10 @@
  */
 package com.enonic.cms.core.locale;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Locale;
+
+import org.springframework.stereotype.Component;
 
 @Component("localeService")
 public class LocaleServiceImpl

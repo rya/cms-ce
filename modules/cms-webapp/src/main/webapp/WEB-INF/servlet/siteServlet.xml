@@ -174,7 +174,7 @@
 
     <bean id="loginController" class="com.enonic.cms.core.portal.mvc.controller.LoginController"
           parent="abstractSiteCommandController">
-        <property name="commandClass" value="com.enonic.cms.server.domain.command.LoginCommand"/>
+        <property name="commandClass" value="com.enonic.cms.core.command.LoginCommand"/>
         <property name="useForward" value="true"/>
         <property name="loginPagePathResolverService" ref="loginPagePathResolverService"/>
     </bean>

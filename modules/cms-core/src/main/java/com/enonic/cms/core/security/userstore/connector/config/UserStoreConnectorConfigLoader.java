@@ -12,11 +12,11 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.security.userstore.config.InvalidUserStoreConfigException;
-import org.springframework.stereotype.Component;
 
 @Component
 public class UserStoreConnectorConfigLoader

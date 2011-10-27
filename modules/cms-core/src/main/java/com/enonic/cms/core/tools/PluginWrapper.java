@@ -5,8 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.enonic.cms.core.plugin.PluginHandle;
 import org.joda.time.format.DateTimeFormatterBuilder;
+
+import com.enonic.cms.core.plugin.PluginHandle;
 
 public final class PluginWrapper
 {
