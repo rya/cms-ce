@@ -6,9 +6,6 @@ package com.enonic.cms.core.structure.menuitem;
 
 import com.enonic.cms.core.security.user.QualifiedUsername;
 
-import com.enonic.cms.core.structure.menuitem.MenuItemAccessType;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
-
 public class MenuItemAccessException
     extends RuntimeException
 {

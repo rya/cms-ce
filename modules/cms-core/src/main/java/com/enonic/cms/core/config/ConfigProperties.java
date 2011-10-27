@@ -1,10 +1,12 @@
 package com.enonic.cms.core.config;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-import org.springframework.core.convert.ConversionService;
 import java.util.Map;
 import java.util.Properties;
+
+import org.springframework.core.convert.ConversionService;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
 final class ConfigProperties
     extends Properties

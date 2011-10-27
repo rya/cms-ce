@@ -5,13 +5,13 @@
 package com.enonic.cms.core.security.group.access;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import org.springframework.stereotype.Component;
 
 @Component("groupAccessResolver")
 public class GroupAccessResolverImpl

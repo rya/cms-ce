@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.core;
 
-import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarUtil

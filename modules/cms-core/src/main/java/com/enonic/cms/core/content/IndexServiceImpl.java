@@ -10,7 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.enonic.cms.core.plugin.PluginManager;
 import org.jdom.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +33,7 @@ import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.content.index.SimpleText;
 import com.enonic.cms.core.content.index.config.IndexDefinition;
 import com.enonic.cms.core.content.index.config.IndexDefinitionBuilder;
+import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;

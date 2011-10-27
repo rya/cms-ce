@@ -1,7 +1,9 @@
 package com.enonic.cms.core.plugin.host;
 
 import java.util.Set;
+
 import org.osgi.framework.BundleContext;
+
 import com.google.common.collect.Sets;
 
 final class HostService<T>

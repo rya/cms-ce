@@ -3,6 +3,7 @@ package com.enonic.cms.core.plugin.config;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+
 import com.enonic.cms.api.plugin.PluginConfig;
 
 final class PluginConfigImpl

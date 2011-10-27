@@ -1,13 +1,15 @@
 package com.enonic.cms.core.plugin.deploy;
 
 import java.io.File;
-import com.enonic.cms.core.plugin.container.OsgiContributor;
+
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
 import org.osgi.framework.BundleContext;
-import com.enonic.cms.api.util.LogFacade;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
 
 @Component
 public final class HotDeployer

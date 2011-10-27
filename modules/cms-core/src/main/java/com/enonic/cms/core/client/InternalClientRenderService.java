@@ -15,6 +15,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.framework.client.ClientHttpServletRequest;
 
@@ -29,6 +30,11 @@ import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.portal.PathToContentResolver;
+import com.enonic.cms.core.portal.PortalRequest;
+import com.enonic.cms.core.portal.PortalRequestService;
+import com.enonic.cms.core.portal.PortalResponse;
+import com.enonic.cms.core.portal.VerticalSession;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -39,14 +45,6 @@ import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.SiteDao;
-
-import com.enonic.cms.core.portal.PortalRequestService;
-
-import com.enonic.cms.core.portal.PathToContentResolver;
-import com.enonic.cms.core.portal.PortalRequest;
-import com.enonic.cms.core.portal.PortalResponse;
-import com.enonic.cms.core.portal.VerticalSession;
-import org.springframework.stereotype.Component;
 
 @Component
 public class InternalClientRenderService

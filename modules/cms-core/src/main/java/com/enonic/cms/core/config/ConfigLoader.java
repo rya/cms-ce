@@ -1,14 +1,16 @@
 package com.enonic.cms.core.config;
 
-import com.enonic.cms.api.util.LogFacade;
-import com.enonic.cms.framework.util.PropertiesUtil;
-import org.springframework.core.env.Environment;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+
+import org.springframework.core.env.Environment;
+
+import com.enonic.cms.framework.util.PropertiesUtil;
+
+import com.enonic.cms.api.util.LogFacade;
 
 final class ConfigLoader
 {

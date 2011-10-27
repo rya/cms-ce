@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.esl.util.RegexpUtil;
 
 import com.enonic.cms.framework.xml.XMLDocument;
+
+import com.enonic.cms.core.resolver.locale.LocaleResolverException;
+import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
-
-import com.enonic.cms.core.resolver.locale.LocaleResolverException;
-import com.enonic.cms.core.resource.ResourceFile;
 
 /**
  * Created by rmy - Date: Apr 29, 2009

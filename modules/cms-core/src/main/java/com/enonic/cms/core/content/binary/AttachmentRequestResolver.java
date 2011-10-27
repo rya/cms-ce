@@ -2,25 +2,15 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.domain.content.binary;
+package com.enonic.cms.core.content.binary;
 
 import java.util.List;
 
 import com.enonic.cms.core.Path;
+import com.enonic.cms.core.PathAndParams;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
-
-import com.enonic.cms.core.PathAndParams;
-
 import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKey;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithBinaryKey;
-import com.enonic.cms.core.content.binary.AttachmentNotFoundException;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
-import com.enonic.cms.core.content.binary.InvalidBinaryPathException;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyInPathParser;
-import com.enonic.cms.core.content.binary.AttachmentNativeLinkKeyWithLabel;
-import com.enonic.cms.core.content.binary.AttachmentRequest;
 
 public abstract class AttachmentRequestResolver
 {

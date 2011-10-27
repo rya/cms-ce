@@ -4,13 +4,12 @@
  */
 package com.enonic.cms.core.internal.service;
 
-import com.enonic.cms.framework.xml.XMLDocument;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.vertical.engine.UserServicesEngine;
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalSecurityException;
+
+import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.UserServicesService;

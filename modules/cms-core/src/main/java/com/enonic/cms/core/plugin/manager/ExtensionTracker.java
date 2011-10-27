@@ -3,6 +3,7 @@ package com.enonic.cms.core.plugin.manager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
+
 import com.enonic.cms.api.plugin.ext.Extension;
 
 final class ExtensionTracker

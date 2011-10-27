@@ -1,5 +1,14 @@
 package com.enonic.cms.core.plugin.manager;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
@@ -9,8 +18,6 @@ import com.enonic.cms.api.plugin.ext.http.HttpInterceptor;
 import com.enonic.cms.api.plugin.ext.http.HttpProcessor;
 import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 import com.enonic.cms.core.plugin.ExtensionSet;
-import com.google.common.collect.Lists;
-import java.util.*;
 
 final class ExtensionSetImpl
     implements ExtensionSet

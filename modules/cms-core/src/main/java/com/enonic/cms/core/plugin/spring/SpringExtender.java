@@ -4,6 +4,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.util.tracker.BundleTracker;
+
 import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 final class SpringExtender

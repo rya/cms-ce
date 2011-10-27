@@ -1,11 +1,12 @@
 package com.enonic.cms.core.plugin.manager;
 
+import org.joda.time.DateTime;
+import org.osgi.framework.Bundle;
+
 import com.enonic.cms.api.plugin.PluginConfig;
 import com.enonic.cms.api.util.LogFacade;
 import com.enonic.cms.core.plugin.ExtensionSet;
 import com.enonic.cms.core.plugin.PluginHandle;
-import org.joda.time.DateTime;
-import org.osgi.framework.Bundle;
 import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 final class PluginHandleImpl

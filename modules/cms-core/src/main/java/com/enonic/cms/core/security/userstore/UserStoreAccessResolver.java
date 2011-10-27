@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.core.security.userstore;
 
-import com.enonic.cms.core.security.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.enonic.cms.core.security.user.UserEntity;
 
 @Component
 public class UserStoreAccessResolver

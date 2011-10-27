@@ -1,9 +1,12 @@
 package com.enonic.cms.core.boot;
 
-import com.enonic.cms.api.util.LogFacade;
-import com.google.common.base.Strings;
-import org.springframework.core.env.Environment;
 import java.io.File;
+
+import org.springframework.core.env.Environment;
+
+import com.google.common.base.Strings;
+
+import com.enonic.cms.api.util.LogFacade;
 
 final class HomeResolver
 {

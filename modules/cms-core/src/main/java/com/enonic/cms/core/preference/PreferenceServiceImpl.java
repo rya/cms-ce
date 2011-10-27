@@ -12,10 +12,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.store.dao.PreferenceDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.security.user.UserKey;
 
 @Component("preferenceService")
 public class PreferenceServiceImpl

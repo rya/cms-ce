@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
@@ -29,6 +27,7 @@ import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.framework.xml.XMLDocument;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.SiteKey;
@@ -39,6 +38,7 @@ import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.resource.ResourceXmlCreator;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;

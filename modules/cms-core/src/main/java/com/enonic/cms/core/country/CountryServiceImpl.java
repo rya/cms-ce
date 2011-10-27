@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.framework.util.JDOMUtil;
-import org.springframework.stereotype.Component;
 
 /**
  * This implements the country service. It load country codes from an xml file. It tries to find the first resource that exists and load

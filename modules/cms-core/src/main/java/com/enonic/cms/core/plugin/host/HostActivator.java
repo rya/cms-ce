@@ -1,10 +1,11 @@
 package com.enonic.cms.core.plugin.host;
 
-import com.enonic.cms.api.client.LocalClient;
-import com.enonic.cms.core.plugin.container.OsgiContributor;
 import org.osgi.framework.BundleContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.enonic.cms.api.client.LocalClient;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
 
 @Component
 public final class HostActivator

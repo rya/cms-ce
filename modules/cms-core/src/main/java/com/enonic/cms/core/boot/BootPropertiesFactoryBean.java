@@ -5,6 +5,7 @@
 package com.enonic.cms.core.boot;
 
 import java.util.Properties;
+
 import org.springframework.beans.factory.FactoryBean;
 
 public final class BootPropertiesFactoryBean

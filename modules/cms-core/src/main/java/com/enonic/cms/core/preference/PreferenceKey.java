@@ -10,9 +10,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import com.enonic.cms.core.security.user.UserKey;
-
 import com.enonic.cms.core.InvalidKeyException;
+import com.enonic.cms.core.security.user.UserKey;
 
 
 public class PreferenceKey

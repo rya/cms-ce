@@ -12,11 +12,10 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.resource.ResourceFolder;
 import com.enonic.cms.core.resource.ResourceKey;
-
-import com.enonic.cms.core.CalendarUtil;
 
 public class ContentTypeXmlCreator
 {

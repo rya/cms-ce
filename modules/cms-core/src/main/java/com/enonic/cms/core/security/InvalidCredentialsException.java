@@ -5,9 +5,8 @@
 package com.enonic.cms.core.security;
 
 import com.enonic.cms.core.BadRequestErrorType;
-import com.enonic.cms.core.security.user.QualifiedUsername;
-
 import com.enonic.cms.core.StacktraceLoggingUnrequired;
+import com.enonic.cms.core.security.user.QualifiedUsername;
 
 public class InvalidCredentialsException
     extends RuntimeException

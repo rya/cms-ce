@@ -17,11 +17,13 @@ import java.util.TreeSet;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
+import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
@@ -44,6 +46,7 @@ import com.enonic.cms.core.content.contentdata.MissingRequiredContentDataExcepti
 import com.enonic.cms.core.content.contentdata.custom.BinaryDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentDataModifier;
+import com.enonic.cms.core.portal.ContentNotFoundException;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserNotFoundException;
@@ -58,10 +61,6 @@ import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.RelatedContentDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.portal.ContentNotFoundException;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ContentStorer

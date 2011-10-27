@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
@@ -34,7 +35,6 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
-import org.springframework.stereotype.Component;
 
 @Component("securityService")
 public class SecurityServiceImpl

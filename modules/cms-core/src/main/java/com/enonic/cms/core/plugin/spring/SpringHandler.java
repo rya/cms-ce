@@ -1,10 +1,11 @@
 package com.enonic.cms.core.plugin.spring;
 
-import com.enonic.cms.api.util.LogFacade;
-import com.enonic.cms.core.plugin.util.OsgiHelper;
 import org.osgi.framework.Bundle;
+
 import com.enonic.cms.api.plugin.PluginContext;
 import com.enonic.cms.api.plugin.ext.Extension;
+import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 final class SpringHandler
 {

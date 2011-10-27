@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
@@ -32,7 +33,6 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemAccessDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
-import org.springframework.stereotype.Component;
 
 @Component
 public class UserStorageService

@@ -6,9 +6,10 @@ package com.enonic.cms.core.locale;
 
 import java.util.Locale;
 
-import com.google.common.base.Preconditions;
 import org.jdom.Document;
 import org.jdom.Element;
+
+import com.google.common.base.Preconditions;
 
 public class LocaleXmlCreator
 {

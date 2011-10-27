@@ -7,12 +7,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.core.plugin.*;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.URL;
 import com.enonic.vertical.adminweb.AdminHelper;
 
 import com.enonic.cms.api.plugin.ext.Extension;
+import com.enonic.cms.core.plugin.ExtensionSet;
+import com.enonic.cms.core.plugin.PluginHandle;
+import com.enonic.cms.core.plugin.PluginManager;
 
 public final class PluginInfoController
     extends AbstractToolController

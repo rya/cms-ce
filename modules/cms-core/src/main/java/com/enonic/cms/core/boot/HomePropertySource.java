@@ -1,9 +1,11 @@
 package com.enonic.cms.core.boot;
 
-import com.google.common.collect.Maps;
-import org.springframework.core.env.MapPropertySource;
 import java.io.File;
 import java.util.Map;
+
+import org.springframework.core.env.MapPropertySource;
+
+import com.google.common.collect.Maps;
 
 final class HomePropertySource
     extends MapPropertySource

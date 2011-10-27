@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.domain.content.binary;
+package com.enonic.cms.core.content.binary;
 
 import java.util.Date;
 
@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.enonic.cms.core.Path;
 import com.enonic.cms.core.PathAndParams;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.content.ContentEntity;
@@ -18,11 +19,7 @@ import com.enonic.cms.core.content.ContentHandlerKey;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
-
-import com.enonic.cms.core.Path;
-
 import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 

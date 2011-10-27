@@ -1,12 +1,14 @@
 package com.enonic.cms.core.plugin.config;
 
 import java.io.File;
-import com.enonic.cms.api.plugin.PluginConfig;
-import com.enonic.cms.core.plugin.container.OsgiContributor;
+
 import org.osgi.framework.BundleContext;
-import com.enonic.cms.api.util.LogFacade;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.enonic.cms.api.plugin.PluginConfig;
+import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.container.OsgiContributor;
 
 @Component
 public final class PluginConfigManager

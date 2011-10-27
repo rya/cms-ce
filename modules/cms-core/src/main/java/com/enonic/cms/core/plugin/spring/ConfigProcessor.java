@@ -2,7 +2,9 @@ package com.enonic.cms.core.plugin.spring;
 
 import java.util.Map;
 import java.util.Properties;
+
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+
 import com.enonic.cms.api.plugin.PluginContext;
 
 final class ConfigProcessor

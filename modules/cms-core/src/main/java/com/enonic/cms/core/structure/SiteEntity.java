@@ -17,16 +17,15 @@ import org.jdom.Element;
 import com.enonic.cms.framework.util.LazyInitializedJDOMDocument;
 
 import com.enonic.cms.core.CaseInsensitiveString;
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.Path;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.portal.ResourceNotFoundException;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.Path;
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.portal.ResourceNotFoundException;
 
 public class SiteEntity
     implements Serializable

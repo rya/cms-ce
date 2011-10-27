@@ -6,10 +6,12 @@ package com.enonic.cms.core.tools;
 
 import java.util.Collection;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.IndexService;
 import com.enonic.cms.core.content.RegenerateIndexBatcher;

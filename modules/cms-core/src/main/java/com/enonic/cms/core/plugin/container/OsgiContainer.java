@@ -1,18 +1,23 @@
 package com.enonic.cms.core.plugin.container;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import com.google.common.io.Files;
 import org.apache.felix.framework.Felix;
 import org.apache.felix.framework.util.FelixConstants;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.enonic.cms.api.util.LogFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.io.Files;
+
+import com.enonic.cms.api.util.LogFacade;
 
 @Component
 public final class OsgiContainer

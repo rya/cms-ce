@@ -1,7 +1,8 @@
 package com.enonic.cms.core.config;
 
 import java.io.File;
-import java.util.*;
+import java.util.Map;
+import java.util.Properties;
 
 final class GlobalConfigImpl
     implements GlobalConfig

@@ -7,12 +7,12 @@ import java.util.TimerTask;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
 import com.enonic.cms.api.util.LogFacade;
 import com.enonic.cms.core.plugin.ExtensionListener;
-import org.springframework.stereotype.Component;
 
 @Component
 public final class TaskManager

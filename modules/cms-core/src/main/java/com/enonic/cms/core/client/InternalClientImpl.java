@@ -108,6 +108,12 @@ import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.datasource.context.UserContextXmlCreator;
+import com.enonic.cms.core.portal.livetrace.ClientMethodExecutionTrace;
+import com.enonic.cms.core.portal.livetrace.ClientMethodExecutionTracer;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceKey;
 import com.enonic.cms.core.preference.PreferenceScope;
@@ -155,12 +161,6 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
 import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.core.portal.cache.PageCacheService;
-import com.enonic.cms.core.portal.cache.SiteCachesService;
-import com.enonic.cms.core.portal.datasource.context.UserContextXmlCreator;
-import com.enonic.cms.core.portal.livetrace.ClientMethodExecutionTrace;
-import com.enonic.cms.core.portal.livetrace.ClientMethodExecutionTracer;
-import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.business.preview.PreviewContext;
 import com.enonic.cms.business.preview.PreviewService;
 

@@ -1,16 +1,18 @@
 package com.enonic.cms.core.plugin.manager;
 
-import com.enonic.cms.api.plugin.ext.Extension;
-import com.enonic.cms.core.plugin.ExtensionListener;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.ServiceReference;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.ServiceReference;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
+import com.enonic.cms.api.plugin.ext.Extension;
+import com.enonic.cms.core.plugin.ExtensionListener;
 
 final class ExtensionHolder
 {

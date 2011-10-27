@@ -1,11 +1,12 @@
 package com.enonic.cms.core.plugin.spring;
 
+import java.io.IOException;
+
 import org.osgi.framework.Bundle;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.osgi.io.OsgiBundleResourcePatternResolver;
-import java.io.IOException;
 
 final class XmlAppContext
     extends ClassPathXmlApplicationContext

@@ -5,11 +5,11 @@
 package com.enonic.cms.core.resource.access;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ResourceAccessResolver

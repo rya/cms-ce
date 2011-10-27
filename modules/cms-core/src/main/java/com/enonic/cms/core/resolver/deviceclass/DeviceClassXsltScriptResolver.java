@@ -4,9 +4,10 @@
  */
 package com.enonic.cms.core.resolver.deviceclass;
 
+import org.springframework.stereotype.Component;
+
 import com.enonic.cms.core.resolver.AbstractXsltScriptResolver;
 import com.enonic.cms.core.resolver.ScriptResolverResult;
-import org.springframework.stereotype.Component;
 
 @Component
 public class DeviceClassXsltScriptResolver

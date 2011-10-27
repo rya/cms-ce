@@ -10,10 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.enonic.cms.core.AbstractResultSet;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
-
-import com.enonic.cms.core.AbstractResultSet;
 
 
 public final class ContentVersionResultSetNonLazy

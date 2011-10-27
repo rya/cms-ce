@@ -8,7 +8,6 @@ import com.enonic.cms.core.image.filter.command.FilterCommand;
 import com.enonic.cms.core.image.filter.command.FilterCommandRegistry;
 import com.enonic.cms.core.image.filter.parser.FilterExpr;
 import com.enonic.cms.core.image.filter.parser.FilterExprParser;
-
 import com.enonic.cms.core.image.filter.parser.FilterSetExpr;
 
 public final class ImageFilterBuilder

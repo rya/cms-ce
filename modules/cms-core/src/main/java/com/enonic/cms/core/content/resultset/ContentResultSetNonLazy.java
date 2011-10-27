@@ -11,10 +11,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.enonic.cms.core.AbstractResultSet;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.core.AbstractResultSet;
 
 
 public final class ContentResultSetNonLazy

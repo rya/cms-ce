@@ -7,6 +7,7 @@ package com.enonic.cms.core.content.imports;
 import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.category.CategoryAccessType;
@@ -24,7 +25,6 @@ import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ImportJobFactory

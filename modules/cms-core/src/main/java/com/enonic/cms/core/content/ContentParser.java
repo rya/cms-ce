@@ -20,6 +20,8 @@ import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentBaseXMLBuilder;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
+import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
@@ -35,9 +37,6 @@ import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.LanguageDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
 
 
 public class ContentParser
