@@ -29,7 +29,6 @@ public class CharacterEncodingFilter
         encoding = requestCharacterEncoding;
     }
 
-
     protected void doFilterInternal( HttpServletRequest request, HttpServletResponse response, FilterChain filterChain )
         throws ServletException, IOException
     {

@@ -7,8 +7,6 @@ package com.enonic.cms.server.service.servlet;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,13 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpMethod;
-import org.springframework.web.context.ConfigurableWebApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.DispatcherServlet;
-
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.upgrade.UpgradeCheckerHelper;
@@ -44,14 +37,6 @@ public final class CmsDispatcherServlet
     private final static String UPGRADE_CHECK_PARAM = "upgradeCheck";
 
     @Override
-    public void init( ServletConfig config )
-        throws ServletException
-    {
-        super.init( config );
-        startContextIfNeeded();
-    }
-
-    @Override
     protected void doOptions( HttpServletRequest request, HttpServletResponse response )
         throws ServletException, IOException
     {
@@ -71,7 +56,6 @@ public final class CmsDispatcherServlet
             return;
         }
 
-        startContextIfNeeded();
         if ( upgradeIsNeeded( res ) )
         {
             return;
@@ -101,23 +85,4 @@ public final class CmsDispatcherServlet
         return "true".equals( getInitParameter( UPGRADE_CHECK_PARAM ) ) && UpgradeCheckerHelper.checkUpgrade(
                 getServletContext(), res );
     }
-
-    private ApplicationContext startContextIfNeeded()
-    {
-        WebApplicationContext appContext = WebApplicationContextUtils.getRequiredWebApplicationContext( getServletContext() );
-        if ( appContext instanceof ConfigurableWebApplicationContext )
-        {
-            startContextIfNeeded( (ConfigurableWebApplicationContext) appContext );
-        }
-        return appContext;
-    }
-
-    private static void startContextIfNeeded( ConfigurableWebApplicationContext context )
-    {
-        if ( !context.isRunning() )
-        {
-            context.start();
-        }
-    }
-
 }

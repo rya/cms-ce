@@ -18,51 +18,13 @@
     </context-param>
 
     <filter>
-        <filter-name>characterEncodingFilter</filter-name>
-        <filter-class>com.enonic.cms.server.service.servlet.CharacterEncodingFilter</filter-class>
-    </filter>
-
-    <filter>
-        <filter-name>openSessionInView</filter-name>
-        <filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
-        <init-param>
-            <param-name>singleSession</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>
-
-    <filter>
-        <filter-name>RequestContextFilter</filter-name>
-        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
-    </filter>
-
-    <filter>
-        <filter-name>virtualHostFilter</filter-name>
-        <filter-class>com.enonic.cms.core.vhost.VirtualHostFilter</filter-class>
+        <filter-name>compositeFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
 
     <filter-mapping>
-        <filter-name>characterEncodingFilter</filter-name>
+        <filter-name>compositeFilter</filter-name>
         <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>openSessionInView</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>RequestContextFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-
-    <filter-mapping>
-        <filter-name>virtualHostFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
     <listener>

@@ -8,53 +8,29 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 public final class VirtualHostFilter
-        extends GenericFilterBean
+    extends OncePerRequestFilter
 {
-
     private final static Logger LOG = LoggerFactory.getLogger( VirtualHostFilter.class );
 
+    @Autowired
     private VirtualHostResolver virtualHostResolver;
 
-    protected void initFilterBean()
-            throws ServletException
-    {
-        initVirtualHosts();
-    }
-
-    private void initVirtualHosts()
-            throws ServletException
-    {
-        ServletContext servletContext = getServletContext();
-        WebApplicationContext appContext = WebApplicationContextUtils.getRequiredWebApplicationContext( servletContext );
-        String[] beanNames = appContext.getBeanNamesForType( VirtualHostResolver.class );
-
-        if ( ( beanNames != null ) && ( beanNames.length > 0 ) )
-        {
-            this.virtualHostResolver = (VirtualHostResolver) appContext.getBean( beanNames[0] );
-        }
-    }
-
-    public void doFilter( ServletRequest req, ServletResponse res, FilterChain chain )
+    protected void doFilterInternal( HttpServletRequest req, HttpServletResponse res, FilterChain chain )
             throws IOException, ServletException
     {
-
         try
         {
-            doFilter( (HttpServletRequest) req, (HttpServletResponse) res, chain );
+            doFilter( req, res, chain );
         }
         catch ( IOException e )
         {
@@ -96,3 +72,6 @@ public final class VirtualHostFilter
         }
     }
 }
+
+
+

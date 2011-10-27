@@ -574,5 +574,19 @@
     </bean>
 
     <bean id="httpService" class="com.enonic.cms.core.http.HTTPService"/>
+
+    <bean id="compositeFilter" class="org.springframework.web.filter.CompositeFilter">
+        <property name="filters">
+            <list>
+                <bean class="org.springframework.web.filter.RequestContextFilter"/>
+                <bean class="com.enonic.cms.server.service.servlet.CharacterEncodingFilter"/>
+                <bean class="org.springframework.orm.hibernate3.support.OpenSessionInViewFilter">
+                    <property name="singleSession" value="true"/>
+                </bean>
+                <bean class="com.enonic.cms.core.vhost.VirtualHostFilter"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
         
