@@ -13,7 +13,10 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 
+import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
 import org.apache.commons.lang.StringUtils;
+import org.directwebremoting.annotations.RemoteMethod;
+import org.directwebremoting.annotations.RemoteProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -75,8 +78,9 @@ import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.core.security.group.GroupKey;
 
+@RemoteProxy(name = "AjaxService", creator = AdminAjaxServiceCreator.class)
 public class AdminAjaxServiceImpl
-        implements AdminAjaxService, InitializingBean
+    implements AdminAjaxService, InitializingBean
 {
     private static final Logger LOG = LoggerFactory.getLogger( AdminAjaxServiceImpl.class );
 
@@ -129,6 +133,7 @@ public class AdminAjaxServiceImpl
         this.syncUserStoreExecutorManager = new SyncUserStoreExecutorManager( this.syncUserStoreJobFactory );
     }
 
+    @RemoteMethod
     public String deleteContentVersion( int versionKey )
     {
         UserEntity deleter = getLoggedInAdminConsoleUser();
@@ -145,6 +150,7 @@ public class AdminAjaxServiceImpl
         return null;
     }
 
+    @RemoteMethod
     public String getArchiveSizeByCategory( int categoryKey )
     {
         UserEntity user = getLoggedInAdminConsoleUser();
@@ -166,6 +172,7 @@ public class AdminAjaxServiceImpl
         }
     }
 
+    @RemoteMethod
     public String getArchiveSizeByUnit( int unitKey )
     {
         UserEntity user = getLoggedInAdminConsoleUser();
@@ -187,11 +194,13 @@ public class AdminAjaxServiceImpl
         }
     }
 
+    @RemoteMethod
     public boolean isContentInUse( String[] contentkeys )
     {
         return contentService.isContentInUse( ContentKey.convertToList( contentkeys ) );
     }
 
+    @RemoteMethod
     public String getUsedByAsHtml( int contentKey )
     {
         UserEntity user = getLoggedInAdminConsoleUser();
@@ -286,24 +295,39 @@ public class AdminAjaxServiceImpl
         return securityService.getLoggedInAdminConsoleUserAsEntity();
     }
 
-    public Collection<Region> getCountryRegions( final String countryCode )
+    @RemoteMethod
+    public Collection<RegionDto> getCountryRegions( final String countryCode )
     {
-        CountryCode code = new CountryCode( countryCode );
-        Country country = countryService.getCountry( code );
-        return country.getRegions();
+        final CountryCode code = new CountryCode( countryCode );
+        final Country country = countryService.getCountry( code );
+
+        final ArrayList<RegionDto> list = new ArrayList<RegionDto>();
+        for (final Region region : country.getRegions()) {
+            final RegionDto dto = new RegionDto();
+            dto.setCode(region.getCode());
+            dto.setEnglishName(region.getEnglishName());
+            dto.setLocalName(region.getLocalName());
+
+            list.add(dto);
+        }
+
+        return list;
     }
 
+    @RemoteMethod
     public boolean startSyncUserStore( String userStoreKey, boolean users, boolean groups, int batchSize )
     {
         return this.syncUserStoreExecutorManager.start( userStoreKey, users, groups, batchSize );
     }
 
+    @RemoteMethod
     public SynchronizeStatusDto getSynchUserStoreStatus( String userStoreKey )
     {
         String languageCode = (String) ServletRequestAccessor.getSession().getAttribute( "languageCode" );
         return this.syncUserStoreExecutorManager.getStatus( userStoreKey, languageCode );
     }
 
+    @RemoteMethod
     public boolean menuItemNameExistsUnderParent( String menuItemName, int existingMenuItemKey, int parentKey )
     {
         MenuItemSpecification menuItemSpec = new MenuItemSpecification();
@@ -352,6 +376,7 @@ public class AdminAjaxServiceImpl
         return false;
     }
 
+    @RemoteMethod
     public String getContentPath( int contentKey )
     {
         if ( contentKey == -1 )
@@ -370,6 +395,7 @@ public class AdminAjaxServiceImpl
 
     }
 
+    @RemoteMethod
     public String getPagePath( int menuItemKey )
     {
         if ( menuItemKey == -1 )
@@ -387,6 +413,7 @@ public class AdminAjaxServiceImpl
         return menuItem.getSite().getName() + menuItem.getPathAsString();
     }
 
+    @RemoteMethod
     public Collection<UserDto> findUsers( String name )
     {
         List<UserDto> foundUserDtos = new ArrayList<UserDto>();
@@ -407,6 +434,7 @@ public class AdminAjaxServiceImpl
         return foundUserDtos;
     }
 
+    @RemoteMethod
     public Collection<UserDto> findUsersAndAccessType( String name, int contentKey )
     {
         return doFindUsers( name, null, contentKey );
@@ -548,6 +576,7 @@ public class AdminAjaxServiceImpl
 
     }
 
+    @RemoteMethod
     public Collection<PreferenceDto> getUserPreferences( String uid )
     {
         if ( StringUtils.isBlank( uid ) )

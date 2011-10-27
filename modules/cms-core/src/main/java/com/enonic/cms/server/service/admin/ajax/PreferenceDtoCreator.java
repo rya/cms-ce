@@ -22,14 +22,6 @@ import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
 
-/**
- * Created by IntelliJ IDEA.
- * User: tan
- * Date: Oct 20, 2010
- * Time: 12:22:46 PM
- * To change this template use File | Settings | File Templates.
- */
-
 public class PreferenceDtoCreator
 {
 

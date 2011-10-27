@@ -4,8 +4,11 @@
  */
 package com.enonic.cms.server.service.admin.ajax.dto;
 
+import org.directwebremoting.annotations.DataTransferObject;
+
 import java.util.Date;
 
+@DataTransferObject
 public final class SynchronizeStatusDto
 {
     private final String userStoreKey;

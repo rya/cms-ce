@@ -4,6 +4,9 @@
  */
 package com.enonic.cms.server.service.admin.ajax.dto;
 
+import org.directwebremoting.annotations.DataTransferObject;
+
+@DataTransferObject
 public class PreferenceDto
 {
 

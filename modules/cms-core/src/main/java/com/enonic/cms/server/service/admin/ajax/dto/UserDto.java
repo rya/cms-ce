@@ -4,12 +4,9 @@
  */
 package com.enonic.cms.server.service.admin.ajax.dto;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: May 5, 2010
- * Time: 1:57:55 PM
- */
+import org.directwebremoting.annotations.DataTransferObject;
+
+@DataTransferObject
 public class UserDto
 {
 

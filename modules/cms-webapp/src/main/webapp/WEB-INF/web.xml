@@ -116,10 +116,6 @@
     <servlet>
         <servlet-name>dwr</servlet-name>
         <servlet-class>com.enonic.cms.server.service.dwr.DwrServletWrapper</servlet-class>
-        <init-param>
-            <param-name>debug</param-name>
-            <param-value>false</param-value>
-        </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
 

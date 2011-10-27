@@ -7,6 +7,7 @@ package com.enonic.cms.server.service.admin.ajax;
 import java.util.Collection;
 
 import com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto;
+import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
 import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
 import com.enonic.cms.server.service.admin.ajax.dto.UserDto;
 
@@ -24,7 +25,7 @@ public interface AdminAjaxService
 
     boolean isContentInUse( String[] contentkeys );
 
-    Collection<Region> getCountryRegions( String countryCode );
+    Collection<RegionDto> getCountryRegions( String countryCode );
 
     boolean startSyncUserStore( String userStoreKey, boolean users, boolean groups, int batchSize );
 
