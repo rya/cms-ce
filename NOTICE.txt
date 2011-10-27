@@ -21,10 +21,6 @@ Joda Time
   Apache License, Version 2.0
   http://www.apache.org/licenses/LICENSE-2.0
 
-JCaptcha
-  LGPL, Version 2.1
-  http://www.gnu.org/licenses/lgpl-2.1.html
-
 Saxon B
   MPL, Version 1.0
   http://www.mozilla.org/MPL/MPL-1.0.html
@@ -56,10 +52,6 @@ Dwr
 JTidy
   JTidy Open Source License
   http://jtidy.sourceforge.net/license.html
-
-Juel
-  Apache License, Version 2.0
-  http://www.apache.org/licenses/LICENSE-2.0
 
 Concurrent Linked HashMap
   Apache License, Version 2.0
