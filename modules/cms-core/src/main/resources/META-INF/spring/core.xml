@@ -312,7 +312,7 @@
 
     <bean id="adminAjaxService" class="com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl"/>
 
-    <bean id="davConfiguration" class="com.enonic.cms.server.service.webdav.DavConfiguration">
+    <bean id="davConfiguration" class="com.enonic.cms.core.webdav.DavConfiguration">
         <property name="fileResourceService" ref="fileResourceService"/>
         <property name="securityService" ref="securityService"/>
         <property name="resourceAccessResolver" ref="resourceAccessResolver"/>

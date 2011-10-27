@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.server.service.webdav;
+package com.enonic.cms.core.webdav;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,7 +16,6 @@ import org.apache.jackrabbit.webdav.WebdavRequest;
 
 import com.enonic.cms.core.resource.access.ResourceAccessResolver;
 import com.enonic.cms.core.security.SecurityService;
-
 import com.enonic.cms.core.security.user.QualifiedUsername;
 
 /**
