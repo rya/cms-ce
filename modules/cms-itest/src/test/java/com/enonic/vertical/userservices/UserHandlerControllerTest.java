@@ -4,69 +4,52 @@
  */
 package com.enonic.vertical.userservices;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.httpservices.UserServicesException;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.user.*;
+import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
+import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
+import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.vertical.userservices.UserHandlerController;
+import com.enonic.vertical.userservices.UserServicesRedirectUrlResolver;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.esl.containers.ExtendedMap;
-
-import com.enonic.cms.api.client.model.user.UserInfo;
-import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.user.UpdateUserCommand;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.core.security.SecurityHolder;
-
-import com.enonic.cms.core.security.userstore.UserStoreService;
-import com.enonic.cms.core.portal.SiteRedirectHelper;
-
-import com.enonic.cms.core.portal.httpservices.UserServicesException;
-import com.enonic.cms.core.security.user.StoreNewUserCommand;
-import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
-import com.enonic.cms.domain.user.field.UserFieldType;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.*;
 import static org.easymock.classextension.EasyMock.createMock;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class UserHandlerControllerTest
+    extends AbstractSpringTest
 {
-
     @Autowired
     private UserDao userDao;
 

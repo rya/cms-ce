@@ -4,38 +4,24 @@
  */
 package com.enonic.cms.itest.security.userstore;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.enonic.cms.api.client.model.user.UserInfo;
-import com.enonic.cms.core.security.user.StoreNewUserCommand;
-import com.enonic.cms.core.security.user.UpdateUserCommand;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserSpecification;
-import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.security.user.*;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
-
 import com.enonic.cms.core.security.userstore.UserStoreService;
-
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class UserStoreServiceImpl_localUserStoreTest
+    extends AbstractSpringTest
 {
     @Autowired
     private HibernateTemplate hibernateTemplate;

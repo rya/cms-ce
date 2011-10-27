@@ -4,61 +4,44 @@
  */
 package com.enonic.cms.itest.client;
 
-import java.io.IOException;
-import java.util.Date;
-
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.UpdateFileContentParams;
 import com.enonic.cms.api.client.model.content.ContentStatus;
-import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
-import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
-import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
-import com.enonic.cms.api.client.model.content.file.FileKeywordsInput;
-import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.api.client.model.content.file.*;
 import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyFileContentData;
 import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.itest.test.AssertTool;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.AssertTool;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-
-import com.enonic.cms.core.security.user.UserEntity;
+import java.io.IOException;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class InternalClientImpl_UpdateFileContentTest
+    extends AbstractSpringTest
 {
     @Autowired
     private HibernateTemplate hibernateTemplate;
@@ -158,8 +141,8 @@ public class InternalClientImpl_UpdateFileContentTest
         AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "keyworda" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "keywordb" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/filesize", contentDataXml, String.valueOf( dummyBinary2.length ) );
-        AssertTool.assertSingleXPathValueEquals( "/contentdata/binarydata/@key", contentDataXml,
-                                                 binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
+        AssertTool.assertSingleXPathValueEquals("/contentdata/binarydata/@key", contentDataXml,
+                binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString());
 
     }
 

@@ -4,14 +4,12 @@
  */
 package com.enonic.cms.itest.portal.cache;
 
-import com.enonic.cms.core.portal.cache.PageCacheService;
-
 import com.enonic.cms.core.CacheObjectSettings;
 import com.enonic.cms.core.CachedObject;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.portal.cache.PageCacheService;
 import com.enonic.cms.core.portal.rendering.PageCacheKey;
 import com.enonic.cms.core.portal.rendering.WindowCacheKey;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 /**

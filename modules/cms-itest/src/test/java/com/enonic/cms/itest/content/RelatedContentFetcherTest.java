@@ -4,69 +4,39 @@
  */
 package com.enonic.cms.itest.content;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.UpdateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.resultset.*;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import com.enonic.cms.store.dao.ContentEntityDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
 import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionKey;
-import com.enonic.cms.core.content.RelatedContentFetcher;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.UpdateContentCommand;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.content.resultset.ContentResultSet;
-import com.enonic.cms.core.content.resultset.RelatedChildContent;
-import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
-import com.enonic.cms.core.content.resultset.RelatedParentContent;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.store.dao.ContentEntityDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
-
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-
-import com.enonic.cms.core.content.ContentHandlerName;
-
-import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedContentDataEntry;
-
-import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
-
-import com.enonic.cms.core.security.user.User;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class RelatedContentFetcherTest
+    extends AbstractSpringTest
 {
     private static final Logger LOG = LoggerFactory.getLogger( RelatedContentFetcherTest.class.getName() );
 

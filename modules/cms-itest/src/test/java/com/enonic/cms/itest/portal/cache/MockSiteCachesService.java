@@ -5,7 +5,6 @@
 package com.enonic.cms.itest.portal.cache;
 
 import com.enonic.cms.core.SiteKey;
-
 import com.enonic.cms.core.portal.cache.PageCacheService;
 import com.enonic.cms.core.portal.cache.SiteCachesService;
 

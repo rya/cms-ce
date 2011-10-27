@@ -1,37 +1,24 @@
 package com.enonic.cms.itest.client;
 
-import org.jdom.Document;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
 import com.enonic.cms.core.client.InternalClientImpl;
 import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.store.dao.ContentTypeDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
-
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import com.enonic.cms.store.dao.ContentTypeDao;
+import org.jdom.Document;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathExist;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;
+import static com.enonic.cms.itest.util.AssertTool.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class InternalClientImpl_getContentTypeXmlTest
+    extends AbstractSpringTest
 {
     @Autowired
     private HibernateTemplate hibernateTemplate;

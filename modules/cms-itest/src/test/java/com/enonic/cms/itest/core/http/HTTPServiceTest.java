@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
+import com.enonic.cms.itest.util.MockHTTPServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,13 +17,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.http.HTTPService;
-import com.enonic.cms.core.portal.mvc.controller.XmlWebApplicationContextLoader;
-import com.enonic.cms.testtools.MockHTTPServer;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(loader = XmlWebApplicationContextLoader.class)
+@ContextConfiguration
 public class HTTPServiceTest
 {
     static private String SAMPLE_TEXT_RESPONSE = "sample text response";

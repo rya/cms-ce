@@ -1,25 +1,22 @@
 package com.enonic.cms.itest.admin;
 
-
 import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -40,9 +37,6 @@ import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.server.service.admin.mvc.controller.AttachmentController;
-import com.enonic.cms.core.portal.mvc.controller.XmlWebApplicationContextLoader;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
 
 import com.enonic.cms.core.security.SecurityHolder;
 
@@ -56,11 +50,8 @@ import com.enonic.cms.core.structure.SiteEntity;
 
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class AttachmentControllerTest
+    extends AbstractSpringTest
 {
     @Autowired
     protected HibernateTemplate hibernateTemplate;

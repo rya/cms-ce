@@ -4,50 +4,32 @@
  */
 package com.enonic.cms.itest.client;
 
+import com.enonic.cms.api.client.model.ImportContentsParams;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.util.AssertTool;
+import org.jdom.Document;
+import org.junit.Test;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.jdom.Document;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
-import com.enonic.cms.api.client.model.ImportContentsParams;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.HtmlAreaDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.xmlbased.XmlDataEntry;
-import com.enonic.cms.itest.test.AssertTool;
-
-import com.enonic.cms.business.SpecialCharacterTestStrings;
-import com.enonic.cms.core.security.SecurityHolder;
-
-import com.enonic.cms.core.content.ContentStatus;
-
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextAreaDataEntry;
-
-import com.enonic.cms.core.security.user.UserEntity;
-
 import static org.junit.Assert.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
-@Transactional
-@TransactionConfiguration(defaultRollback = true)
-@DirtiesContext
 public class InternalClientImpl_ImportContentCsvTest
     extends AbstractInternalClientImpl_ImportContentTest
 {
@@ -71,35 +53,35 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( "testuser", content.getMainVersion().getModifiedBy().getName() );
 
         Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/address", dataDoc, "Oslo1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/age", dataDoc, "1" );
-        AssertTool.assertSingleXPathValueEquals( "contentdata/info", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/info", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
 
         final CustomContentData contentData = (CustomContentData) content.getMainVersion().getContentData();
         assertTrue( ( (TextDataEntry) contentData.getEntry( "name" ) ).getValue().equals(
-            "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+            "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                     "src/test" +
-                SpecialCharacterTestStrings.AEC_ALL + "src/test1" ) );
+                AEC_ALL + "src/test1" ) );
         assertTrue( ( (TextDataEntry) contentData.getEntry( "address" ) ).getValue().equals( "Oslo1" ) );
         assertTrue( ( (TextDataEntry) contentData.getEntry( "age" ) ).getValue().equals( "1" ) );
         assertTrue( ( (TextAreaDataEntry) contentData.getEntry( "info" ) ).getValue().equals(
-            "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+            "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                     "src/test" +
-                SpecialCharacterTestStrings.AEC_ALL + "src/test1" ) );
+                AEC_ALL + "src/test1" ) );
 
         final Document xmlDoc = ( (XmlDataEntry) contentData.getEntry( "xmlInfo" ) ).getValue();
         final Document htmlDoc = JDOMUtil.parseDocument( ( (HtmlAreaDataEntry) contentData.getEntry( "htmlInfo" ) ).getValue() );
-        final String testAtr = "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+        final String testAtr = "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                 "src/test" +
-            SpecialCharacterTestStrings.AEC_ALL + "src/test1";
-        final String testElem = "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+            AEC_ALL + "src/test1";
+        final String testElem = "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                 "src/test" +
-            SpecialCharacterTestStrings.AEC_ALL + "src/test1";
+            AEC_ALL + "src/test1";
         AssertTool.assertSingleXPathValueEquals( "/myxml/@atr", xmlDoc, testAtr );
         AssertTool.assertSingleXPathValueEquals( "/myxml/elem", xmlDoc, testElem );
         AssertTool.assertSingleXPathValueEquals( "/myhtml/@atr", htmlDoc, testAtr );
@@ -193,14 +175,14 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( "testuser", content.getMainVersion().getModifiedBy().getName() );
 
         final Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/address", dataDoc, "Oslo1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/age", dataDoc, "1" );
-        AssertTool.assertSingleXPathValueEquals( "contentdata/info", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/info", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
     }
 
     @Test
@@ -222,35 +204,35 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( "testuser", content.getMainVersion().getModifiedBy().getName() );
 
         Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/address", dataDoc, "Oslo1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/age", dataDoc, "1" );
-        AssertTool.assertSingleXPathValueEquals( "contentdata/info", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/info", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
 
         final CustomContentData contentData = (CustomContentData) content.getMainVersion().getContentData();
         assertTrue( ( (TextDataEntry) contentData.getEntry( "name" ) ).getValue().equals(
-            "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+            "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                     "src/test" +
-                SpecialCharacterTestStrings.AEC_ALL + "src/test1" ) );
+                AEC_ALL + "src/test1" ) );
         assertTrue( ( (TextDataEntry) contentData.getEntry( "address" ) ).getValue().equals( "Oslo1" ) );
         assertTrue( ( (TextDataEntry) contentData.getEntry( "age" ) ).getValue().equals( "1" ) );
         assertTrue( ( (TextAreaDataEntry) contentData.getEntry( "info" ) ).getValue().equals(
-            "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+            "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                     "src/test" +
-                SpecialCharacterTestStrings.AEC_ALL + "src/test1" ) );
+                AEC_ALL + "src/test1" ) );
 
         final Document xmlDoc = ( (XmlDataEntry) contentData.getEntry( "xmlInfo" ) ).getValue();
         final Document htmlDoc = JDOMUtil.parseDocument( ( (HtmlAreaDataEntry) contentData.getEntry( "htmlInfo" ) ).getValue() );
-        final String testAtr = "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+        final String testAtr = "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                 "src/test" +
-            SpecialCharacterTestStrings.AEC_ALL + "src/test1";
-        final String testElem = "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+            AEC_ALL + "src/test1";
+        final String testElem = "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                 "src/test" +
-            SpecialCharacterTestStrings.AEC_ALL + "src/test1";
+            AEC_ALL + "src/test1";
         AssertTool.assertSingleXPathValueEquals( "/myxml/@atr", xmlDoc, testAtr );
         AssertTool.assertSingleXPathValueEquals( "/myxml/elem", xmlDoc, testElem );
         AssertTool.assertSingleXPathValueEquals( "/myhtml/@atr", htmlDoc, testAtr );
@@ -280,9 +262,9 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( 2, content.getMainVersion().getRelatedChildren( true ).size() );
 
         final Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/picture/@key", dataDoc, key1.toString() );
         AssertTool.assertSingleXPathValueEquals( "contentdata/attachment/file/@key", dataDoc, key1.toString() );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/@key", dataDoc, key1.toString() );
@@ -318,9 +300,9 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( 3, content.getMainVersion().getRelatedChildren( true ).size() );
 
         final Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/content[@key=\"" + key1 + "\"]/@key", dataDoc, key1.toString() );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/content[@key=\"" + key2 + "\"]/@key", dataDoc, key2.toString() );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/content[@key=\"" + key3 + "\"]/@key", dataDoc, key3.toString() );
@@ -355,9 +337,9 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( 3, content.getMainVersion().getRelatedChildren( true ).size() );
 
         final Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/content[@key=\"" + key1 + "\"]/@key", dataDoc, key1.toString() );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/content[@key=\"" + key2 + "\"]/@key", dataDoc, key2.toString() );
         AssertTool.assertSingleXPathValueEquals( "contentdata/relcon/content[@key=\"" + key3 + "\"]/@key", dataDoc, key3.toString() );
@@ -387,16 +369,16 @@ public class InternalClientImpl_ImportContentCsvTest
         assertEquals( "testuser", content.getMainVersion().getModifiedBy().getName() );
 
         final Document dataDoc = content.getMainVersion().getContentDataAsJDomDocument();
-        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + SpecialCharacterTestStrings.NORWEGIAN +
+        AssertTool.assertSingleXPathValueEquals( "contentdata/name", dataDoc, "ABC.." + NORWEGIAN +
                 "src/test" +
-            SpecialCharacterTestStrings.CHINESE + "src/test" + SpecialCharacterTestStrings.AEC_ALL + "src/test1" );
+            CHINESE + "src/test" + AEC_ALL + "src/test1" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/longHair", dataDoc, "true" );
         AssertTool.assertSingleXPathValueEquals( "contentdata/lastChecked", dataDoc, "2009-03-10" );
         AssertTool.assertSingleXPathValueEquals( "count(/contentdata/keywords/keyword)", dataDoc, "4" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[node() = \"fisk\"]", dataDoc, "fisk" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[node() = \"ost\"]", dataDoc, "ost" );
         AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[node() = \"torsk\"]", dataDoc, "torsk" );
-        AssertTool.assertSingleXPathValueEquals( "/contentdata/keywords/keyword[node() = \"hyse\"]", dataDoc, "hyse" );
+        AssertTool.assertSingleXPathValueEquals("/contentdata/keywords/keyword[node() = \"hyse\"]", dataDoc, "hyse");
     }
 
     private String getStringBasedCSVImportData( final long count, final String address )
@@ -405,18 +387,18 @@ public class InternalClientImpl_ImportContentCsvTest
         builder.append( "name;address;age\r\n" );
         for ( int i = 0; i < count; i++ )
         {
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             if ( address != null )
             {
                 builder.append( address ).append( i + 1 ).append( ";" );
             }
             builder.append( i + 1 ).append( ";" );
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             builder.append( getHTMLImportEntry( i + 1 ) ).append( ";" );
             builder.append( getXMLImportEntry( i + 1 ) ).append( ";" );
@@ -427,9 +409,9 @@ public class InternalClientImpl_ImportContentCsvTest
 
     private StringBuilder getHTMLImportEntry( final int no )
     {
-        final String testStr = "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+        final String testStr = "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                 "src/test" +
-            SpecialCharacterTestStrings.AEC_ALL + "src/test" + no;
+            AEC_ALL + "src/test" + no;
 
         StringBuilder builder = new StringBuilder();
         builder.append( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
@@ -441,9 +423,9 @@ public class InternalClientImpl_ImportContentCsvTest
 
     private StringBuilder getXMLImportEntry( final int no )
     {
-        final String testStr = "ABC.." + SpecialCharacterTestStrings.NORWEGIAN + "src/test" + SpecialCharacterTestStrings.CHINESE +
+        final String testStr = "ABC.." + NORWEGIAN + "src/test" + CHINESE +
                 "src/test" +
-            SpecialCharacterTestStrings.AEC_ALL + "src/test" + no;
+            AEC_ALL + "src/test" + no;
 
         StringBuilder builder = new StringBuilder();
         builder.append( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
@@ -460,15 +442,15 @@ public class InternalClientImpl_ImportContentCsvTest
         builder.append( "name;address;age;from;to\r\n" );
         for ( int i = 0; i < count; i++ )
         {
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             builder.append( "Oslo" ).append( i + 1 ).append( ";" );
             builder.append( i + 1 ).append( ";" );
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             builder.append( publishFrom ).append( ";" );
             builder.append( publishTo ).append( "\r\n" );
@@ -483,9 +465,9 @@ public class InternalClientImpl_ImportContentCsvTest
         builder.append( "name;picture;attachment;relCon\r\n" );
         for ( int i = 0; i < count; i++ )
         {
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             builder.append( imageContentKey ).append( ";" );
             builder.append( fileContentKey ).append( ";" );
@@ -503,9 +485,9 @@ public class InternalClientImpl_ImportContentCsvTest
         builder.append( "name;relCon\r\n" );
         for ( int i = 0; i < count; i++ )
         {
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             builder.append( filename1 ).append( "-" );
             builder.append( filename2 ).append( "-" );
@@ -522,9 +504,9 @@ public class InternalClientImpl_ImportContentCsvTest
         builder.append( "name;longHair;lastChecked;binary\r\n" );
         for ( int i = 0; i < count; i++ )
         {
-            builder.append( "ABC.." ).append( SpecialCharacterTestStrings.NORWEGIAN ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.CHINESE ).append( "src/test" );
-            builder.append( SpecialCharacterTestStrings.AEC_ALL ).append( "src/test" );
+            builder.append( "ABC.." ).append( NORWEGIAN ).append( "src/test" );
+            builder.append( CHINESE ).append( "src/test" );
+            builder.append( AEC_ALL ).append( "src/test" );
             builder.append( i + 1 ).append( ";" );
             builder.append( i % 2 == 0 ? "true" : "false" ).append( ";" );
             builder.append( "Tue Mar 10 09:04:48 CET 2009" ).append( ";" );

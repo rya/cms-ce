@@ -64,6 +64,7 @@
                 <value>classpath:/com/enonic/cms/store/entity/UserEntity.hbm.xml</value>
                 <value>classpath:/com/enonic/cms/store/entity/UserStoreEntity.hbm.xml</value>
                 <value>classpath:/com/enonic/cms/store/entity/VirtualFileEntity.hbm.xml</value>
+                <value>classpath:/com/enonic/cms/store/entity/PreferencesEntity.hbm.xml</value>
             </list>
         </property>
     </bean>

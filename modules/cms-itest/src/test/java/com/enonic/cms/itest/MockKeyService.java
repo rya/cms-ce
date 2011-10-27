@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.enonic.cms.core.service.KeyService;
 
 /**
- * Extend this mock class with functinality when needed.
+ * Extend this mock class with functionality when needed.
  */
 public class MockKeyService
     implements KeyService

@@ -4,34 +4,13 @@
  */
 package com.enonic.cms.itest.client;
 
-import org.jdom.Document;
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-
 import com.enonic.cms.api.client.model.GetContentParams;
+import com.enonic.cms.business.preview.ContentPreviewContext;
+import com.enonic.cms.business.preview.PreviewContext;
+import com.enonic.cms.business.preview.PreviewService;
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.client.InternalClientImpl;
-import com.enonic.cms.core.content.ContentAndVersion;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentStatus;
-import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.ContentData;
 import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
@@ -39,32 +18,33 @@ import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedCon
 import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased.RelatedContentsDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.framework.time.MockTimeService;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.testtools.DomainFactory;
-import com.enonic.cms.testtools.DomainFixture;
+import org.jdom.Document;
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.business.preview.ContentPreviewContext;
-import com.enonic.cms.business.preview.PreviewContext;
-import com.enonic.cms.business.preview.PreviewService;
+import static com.enonic.cms.itest.util.AssertTool.*;
+import static org.junit.Assert.assertEquals;
 
-import com.enonic.cms.core.portal.datasource.DataSourceContext;
-
-import static com.enonic.cms.itest.test.AssertTool.assertSingleXPathValueEquals;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathEquals;
-import static com.enonic.cms.itest.test.AssertTool.assertXPathNotExist;
-import static org.junit.Assert.*;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:com/enonic/cms/itest/base-core-test-context.xml")
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
 public class InternalClientImpl_getContentTest
+    extends AbstractSpringTest
 {
     private static final DateTime DATE_TIME_2010_01_01 = new DateTime( 2010, 1, 1, 0, 0, 0, 0 );
 
