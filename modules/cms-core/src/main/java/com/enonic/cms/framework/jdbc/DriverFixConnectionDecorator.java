@@ -75,7 +75,7 @@ public final class DriverFixConnectionDecorator
     {
         try {
             stmt.setQueryTimeout( seconds );
-        } catch ( final SQLFeatureNotSupportedException e ) {
+        } catch ( final SQLException e ) {
             // Ignore
         }
     }
