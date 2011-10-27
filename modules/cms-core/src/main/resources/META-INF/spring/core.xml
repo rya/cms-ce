@@ -584,6 +584,7 @@
                     <property name="singleSession" value="true"/>
                 </bean>
                 <bean class="com.enonic.cms.core.vhost.VirtualHostFilter"/>
+                <bean class="com.enonic.cms.upgrade.UpgradeCheckFilter"/>
             </list>
         </property>
     </bean>
