@@ -82,8 +82,6 @@ public class AbstractUserServicesHandlerController
 
     protected static DateFormat dateFormatFrom = new SimpleDateFormat( "dd.MM.yyyy" );
 
-    protected static DateFormat isoDateFormatNoTime = new SimpleDateFormat( "yyyy-MM-dd" );
-
     private static final FileUploadBase fileUpload;
 
     protected CaptchaService captchaService;
@@ -390,24 +388,6 @@ public class AbstractUserServicesHandlerController
                 handlerCustom( request, response, session, formItems, userServices, siteKey, operation );
             }
         }
-        catch ( VerticalUserServicesException vuse )
-        {
-            String message = "Failed to handle request: %t";
-            VerticalUserServicesLogger.error(message, vuse );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_HANDLER, null );
-        }
-        catch ( VerticalUpdateException vue )
-        {
-            String message = "Failed to handle update request: %t";
-            VerticalUserServicesLogger.warn(message, vue );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
-        }
-        catch ( VerticalRemoveException vre )
-        {
-            String message = "Failed to handle remove request: %t";
-            VerticalUserServicesLogger.warn(message, vre );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
-        }
         catch ( VerticalSecurityException vse )
         {
             String message = "No rights to handle request: %t";
@@ -425,12 +405,6 @@ public class AbstractUserServicesHandlerController
             String message = "No rights to handle request: %t";
             VerticalUserServicesLogger.warn(message, vse );
             redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
-        }
-        catch ( VerticalEngineException vee )
-        {
-            String message = "Failed to handle engine request: %t";
-            VerticalUserServicesLogger.warn(message, vee );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
         }
         catch ( UserServicesException use )
         {

@@ -10,12 +10,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.store.dao.SiteDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.api.Version;
-import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.upgrade.UpgradeService;
 
 /**
@@ -28,7 +29,7 @@ public final class WelcomeController
     private UpgradeService upgradeService;
 
     @Autowired
-    private AdminService adminService;
+    private SiteDao siteDao;
 
     @Autowired
     public void setUpgradeService( final UpgradeService upgradeService )
@@ -37,23 +38,16 @@ public final class WelcomeController
     }
 
     private Map<String, Integer> createSiteMap()
-        throws Exception
     {
-        HashMap<String, Integer> siteMap = new HashMap<String, Integer>();
-        Map menuMap = adminService.getMenuMap();
-
-        for ( Object val : menuMap.keySet() )
-        {
-            Integer siteKey = (Integer) val;
-            String siteName = (String) menuMap.get( siteKey );
-            siteMap.put( siteName, siteKey );
+        final HashMap<String, Integer> siteMap = new HashMap<String, Integer>();
+        for (final SiteEntity entity : this.siteDao.findAll()) {
+            siteMap.put(entity.getName(), entity.getKey().toInt());
         }
 
         return siteMap;
     }
 
     protected ModelAndView handleRequestInternal( HttpServletRequest req, HttpServletResponse res )
-        throws Exception
     {
         final boolean modelUpgradeNeeded = this.upgradeService.needsUpgrade();
         final boolean softwareUpgradeNeeded = this.upgradeService.needsSoftwareUpgrade();

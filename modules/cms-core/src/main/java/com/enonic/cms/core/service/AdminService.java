@@ -14,9 +14,7 @@ import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.filters.Filter;
 
@@ -38,8 +36,7 @@ public interface AdminService
 
     public XMLDocument getPageTemplates( PageTemplateType type );
 
-    public void copyMenu( User user, int menuKey, boolean includeContent )
-        throws VerticalSecurityException;
+    public void copyMenu( User user, int menuKey, boolean includeContent );
 
     public boolean contentExists( int categoryKey, String contentTitle );
 
@@ -53,13 +50,11 @@ public interface AdminService
 
     public int getCategoryKey( int superCategoryKey, String name );
 
-    public int createCategory( User user, int superCategoryKey, String name )
-        throws VerticalSecurityException;
+    public int createCategory( User user, int superCategoryKey, String name );
 
     public MenuItemKey getSectionKeyByMenuItemKey( MenuItemKey menuItemKey );
 
-    public int createCategory( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createCategory( User user, String xmlData );
 
     public XMLDocument getCategory( User user, int categoryKey );
 
@@ -67,40 +62,29 @@ public interface AdminService
 
     public XMLDocument getSuperCategoryNames( int categoryKey, boolean withContentCount, boolean includeCategory );
 
-    public void updateCategory( User user, String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updateCategory( User user, String xmlData );
 
-    public int createContentObject( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createContentObject( User user, String xmlData );
 
-    public int createContentType( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createContentType( User user, String xmlData );
 
-    public void createLanguage( User user, String languageCode, String description )
-        throws VerticalSecurityException;
+    public void createLanguage( User user, String languageCode, String description );
 
-    public int createMenu( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createMenu( User user, String xmlData );
 
-    public void updateAccessRights( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException;
+    public void updateAccessRights( User user, String xmlData );
 
-    public void updateMenuItem( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException;
+    public void updateMenuItem( User user, String xmlData );
 
-    public void removeMenuItem( User user, int mikey )
-        throws VerticalRemoveException, VerticalSecurityException;
+    public void removeMenuItem( User user, int mikey );
 
-    public int createMenuItem( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createMenuItem( User user, String xmlData );
 
-    public int createPageTemplate( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createPageTemplate( User user, String xmlData );
 
     public int copyPageTemplate( User user, int pageTemplateKey );
 
-    public int createUnit( String xmlData )
-        throws VerticalSecurityException;
+    public int createUnit( String xmlData );
 
     public String generateUID( String fName, String sName, UserStoreKey userStoreKey );
 
@@ -192,38 +176,27 @@ public interface AdminService
 
     public void regenerateIndexForContentHandler( int contentHandlerKey );
 
-    public void removeContentObject( int coc_lKey )
-        throws VerticalSecurityException, VerticalRemoveException;
+    public void removeContentObject( int coc_lKey );
 
-    public void removeContentType( User user, int contentTypeKey )
-        throws VerticalSecurityException, VerticalRemoveException;
+    public void removeContentType( User user, int contentTypeKey );
 
-    public void removeLanguage( LanguageKey languageKey )
-        throws VerticalSecurityException, VerticalRemoveException;
+    public void removeLanguage( LanguageKey languageKey );
 
-    public void removeMenu( User user, int key )
-        throws VerticalRemoveException, VerticalSecurityException;
+    public void removeMenu( User user, int key );
 
-    public void removePageTemplate( int pageTemplateKey )
-        throws VerticalSecurityException, VerticalRemoveException;
+    public void removePageTemplate( int pageTemplateKey );
 
-    public void updateContentObject( String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updateContentObject( String xmlData );
 
-    public void updateContentType( User user, String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updateContentType( User user, String xmlData );
 
-    public void updateLanguage( LanguageKey languageKey, String languageCode, String description )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updateLanguage( LanguageKey languageKey, String languageCode, String description );
 
-    public void updateMenuData( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException;
+    public void updateMenuData( User user, String xmlData );
 
-    public void updatePageTemplate( User user, String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updatePageTemplate( User user, String xmlData );
 
-    public void updateUnit( String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updateUnit( String xmlData );
 
     public XMLDocument getGroup( String gKey );
 
@@ -240,8 +213,7 @@ public interface AdminService
 
     public boolean isUserStoreAdmin( User user, UserStoreKey userStoreKey );
 
-    public void moveCategory( User user, int catKey, int superCatKey )
-        throws VerticalUpdateException, VerticalSecurityException;
+    public void moveCategory( User user, int catKey, int superCatKey );
 
     public XMLDocument getMenu( User user, CategoryCriteria criteria );
 
@@ -262,14 +234,11 @@ public interface AdminService
 
     public XMLDocument getContentHandlers();
 
-    public int createContentHandler( User user, String xmlData )
-        throws VerticalSecurityException;
+    public int createContentHandler( User user, String xmlData );
 
-    public void updateContentHandler( User user, String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException;
+    public void updateContentHandler( User user, String xmlData );
 
-    public void removeContentHandler( User user, int contentHandlerKey )
-        throws VerticalSecurityException, VerticalRemoveException;
+    public void removeContentHandler( User user, int contentHandlerKey );
 
     public XMLDocument getContentTypes( boolean includeContentCount );
 
@@ -279,11 +248,9 @@ public interface AdminService
 
     public XMLDocument getSections( User user, SectionCriteria criteria );
 
-    public void removeSection( int sectionKey, boolean recursive )
-        throws VerticalRemoveException, VerticalSecurityException;
+    public void removeSection( int sectionKey, boolean recursive );
 
-    public void copySection( int sectionKey )
-        throws VerticalSecurityException;
+    public void copySection( int sectionKey );
 
     public boolean isSectionOrdered( int sectionKey );
 
@@ -342,7 +309,6 @@ public interface AdminService
     public boolean initializeDatabaseValues()
         throws Exception;
 
-
     public boolean isContentVersionApproved( int versionKey );
 
     public XMLDocument getContentHomes( int contentKey );
@@ -359,13 +325,9 @@ public interface AdminService
 
     public XMLDocument getAdminMenuIncludeReadOnlyAccessRights( User user, int menuKey );
 
-    public void updateMenuDetails( int menuKey, int frontPageKey, int loginPageKey, int errorPageKey, int defaultPageTemplateKey )
-        throws VerticalSecurityException;
+    public void updateMenuDetails( int menuKey, int frontPageKey, int loginPageKey, int errorPageKey, int defaultPageTemplateKey );
 
     public int getContentTypeKeyByName( String name );
-
-    public Map getMenuMap()
-        throws Exception;
 
     public XMLDocument getUnits();
 

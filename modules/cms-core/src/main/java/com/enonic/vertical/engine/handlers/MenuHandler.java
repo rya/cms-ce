@@ -2080,11 +2080,6 @@ public final class MenuHandler
             String message = "SQL error: %t";
             VerticalEngineLogger.errorRemove(message, sqle );
         }
-        catch ( VerticalRemoveException vre )
-        {
-            String message = "Failed to remove menu: %t";
-            VerticalEngineLogger.errorRemove(message, vre );
-        }
         finally
         {
             close( preparedStmt );
@@ -2495,23 +2490,15 @@ public final class MenuHandler
             // get all deleted menuitems:
             String xpath = "//menuitem[@deleted = 'deleted']";
 
-            try
-            {
-                // Search for the xpath:
-                NodeList list = XMLTool.selectNodes( doc.getDocumentElement(), xpath );
+            // Search for the xpath:
+            NodeList list = XMLTool.selectNodes( doc.getDocumentElement(), xpath );
 
-                // Loop through the results.
-                for ( int i = 0; i < list.getLength(); i++ )
-                {
-                    Element n = (Element) list.item( i );
-                    tmp = n.getAttribute( "key" );
-                    removeMenuItem( user, Integer.parseInt( tmp ) );
-                }
-
-            }
-            catch ( VerticalRemoveException vre )
+            // Loop through the results.
+            for ( int i = 0; i < list.getLength(); i++ )
             {
-                VerticalEngineLogger.errorUpdate("Failed to remove menuitem: %t", vre );
+                Element n = (Element) list.item( i );
+                tmp = n.getAttribute( "key" );
+                removeMenuItem( user, Integer.parseInt( tmp ) );
             }
         }
         catch ( SQLException sqle )
@@ -2862,35 +2849,29 @@ public final class MenuHandler
                 // the type has changed. delete it and re-create it with the same key.
                 int old_type = itemTypes.get( str_typeChanged );
 
-                try
+                switch ( old_type )
                 {
-                    switch ( old_type )
-                    {
-                        case 1:
-                            // page
-                            removePageFromMenuItem( con, key.toInt() );
-                            break;
-                        case 2:
-                            // URL
-                            setURLToNull( con, key );
-                            break;
-                        case 4:
-                            // page
-                            removePageFromMenuItem( con, key.toInt() );
-                            break;
-                        case 7:
-                            // page
-                            if ( type != 7 )
-                            {
-                                removeShortcut( key.toInt() );
-                            }
-                            break;
-                    }
+                    case 1:
+                        // page
+                        removePageFromMenuItem( con, key.toInt() );
+                        break;
+                    case 2:
+                        // URL
+                        setURLToNull( con, key );
+                        break;
+                    case 4:
+                        // page
+                        removePageFromMenuItem( con, key.toInt() );
+                        break;
+                    case 7:
+                        // page
+                        if ( type != 7 )
+                        {
+                            removeShortcut( key.toInt() );
+                        }
+                        break;
                 }
-                catch ( VerticalRemoveException e )
-                {
-                    VerticalEngineLogger.errorUpdate("Error removing page: %t", e );
-                }
+
                 setMenuItemType( key.toInt(), type );
             }
 
@@ -2983,14 +2964,7 @@ public final class MenuHandler
                 MenuItemKey sectionKey = getSectionHandler().getSectionKeyByMenuItem( key );
                 if ( sectionKey != null && !hasSection )
                 {
-                    try
-                    {
-                        getSectionHandler().removeSection( sectionKey.toInt() );
-                    }
-                    catch ( VerticalRemoveException vre )
-                    {
-                        VerticalEngineLogger.errorUpdate("Failed to remove section: %t", vre );
-                    }
+                    getSectionHandler().removeSection( sectionKey.toInt() );
                 }
 
                 updateMenuItemData( user, menuitem_elem, type, parent, order );
@@ -4600,41 +4574,5 @@ public final class MenuHandler
                 }
             }
         }
-    }
-
-    /**
-     * Return a map of top level menus with name.
-     *
-     * @return A map with the keys of the top level menus as keys, and their names as the corresponding value.
-     * @throws SQLException If a database error occurs.
-     */
-    public Map<Integer, String> getMenuMap()
-        throws SQLException
-    {
-        HashMap<Integer, String> menuMap = new HashMap<Integer, String>();
-        Connection conn = null;
-        ResultSet result = null;
-        PreparedStatement stmt = null;
-        String sql = "SELECT " + this.db.tMenu.men_lKey.getName() + ", " + this.db.tMenu.men_sName + " FROM " + this.db.tMenu.getName();
-
-        try
-        {
-            conn = getConnection();
-            stmt = conn.prepareStatement( sql );
-            result = stmt.executeQuery();
-
-            while ( result.next() )
-            {
-                menuMap.put( result.getInt( 1 ), result.getString( 2 ) );
-            }
-        }
-        finally
-        {
-            close( result );
-            close( stmt );
-            close( conn );
-        }
-
-        return menuMap;
     }
 }

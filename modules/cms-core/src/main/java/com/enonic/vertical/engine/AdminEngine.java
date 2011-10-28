@@ -1241,18 +1241,6 @@ public final class AdminEngine
         return this.contentHandler.getContentTypeKeyByName( name );
     }
 
-    /**
-     * Return a map of top level menus with name.
-     *
-     * @return A map with the keys of the top level menus as keys, and their names as the corresponding value.
-     * @throws SQLException If a database error occurs.
-     */
-    public Map<Integer, String> getMenuMap()
-        throws SQLException
-    {
-        return this.menuHandler.getMenuMap();
-    }
-
     public long getArchiveSizeByCategory( int categoryKey )
     {
         return this.categoryHandler.getArchiveSizeByCategory( CategoryKey.parse( categoryKey ) );

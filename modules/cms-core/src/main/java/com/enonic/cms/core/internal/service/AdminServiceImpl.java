@@ -5,7 +5,6 @@
 package com.enonic.cms.core.internal.service;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -72,7 +71,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = 86400)
     public void copyMenu( User user, int menuKey, boolean includeContent )
-        throws VerticalSecurityException
     {
         adminEngine.copyMenu( user, menuKey, includeContent );
     }
@@ -109,7 +107,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createCategory( User user, int superCategoryKey, String name )
-        throws VerticalSecurityException
     {
         return adminEngine.createCategory( user, superCategoryKey, name );
     }
@@ -121,7 +118,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createCategory( User user, String xmlData )
-        throws VerticalSecurityException
     {
         return adminEngine.createCategory( user, xmlData );
     }
@@ -185,21 +181,18 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeMenuItem( User user, int mikey )
-        throws VerticalRemoveException, VerticalSecurityException
     {
         adminEngine.removeMenuItem( user, mikey );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createMenuItem( User user, String xmlData )
-        throws VerticalSecurityException
     {
         return adminEngine.createMenuItem( user, xmlData );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createPageTemplate( User user, String xmlData )
-        throws VerticalSecurityException
     {
         return adminEngine.createPageTemplate( xmlData );
     }
@@ -212,7 +205,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public int createUnit( String xmlData )
-        throws VerticalSecurityException
     {
         return adminEngine.createUnit( xmlData );
     }
@@ -237,7 +229,6 @@ public class AdminServiceImpl
         return adminEngine.getDefaultAccessRights( user, type, key );
     }
 
-
     public XMLDocument getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
     {
         return adminEngine.getContent( user, contentKey, parentLevel, childrenLevel, parentChildrenLevel );
@@ -245,13 +236,11 @@ public class AdminServiceImpl
 
     public String getCategoryName( int categoryKey )
     {
-
         return adminEngine.getCategoryName( categoryKey );
     }
 
     public XMLDocument getCategoryNameXML( int categoryKey )
     {
-
         return adminEngine.getCategoryNameXML( categoryKey );
     }
 
@@ -619,14 +608,12 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateContentHandler( User user, String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException
     {
         adminEngine.updateContentHandler( user, xmlData );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeContentHandler( User user, int contentHandlerKey )
-        throws VerticalSecurityException, VerticalRemoveException
     {
         adminEngine.removeContentHandler( user, contentHandlerKey );
     }
@@ -653,14 +640,12 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeSection( int sectionKey, boolean recursive )
-        throws VerticalRemoveException, VerticalSecurityException
     {
         adminEngine.removeSection( sectionKey, recursive );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void copySection( int sectionKey )
-        throws VerticalSecurityException
     {
         adminEngine.copySection( sectionKey );
     }
@@ -857,7 +842,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateMenuDetails( int menuKey, int frontPageKey, int loginPageKey, int errorPageKey, int defaultPageTemplateKey )
-        throws VerticalSecurityException
     {
         adminEngine.updateMenuDetails( menuKey, frontPageKey, loginPageKey, errorPageKey, defaultPageTemplateKey );
     }
@@ -865,15 +849,6 @@ public class AdminServiceImpl
     public int getContentTypeKeyByName( String name )
     {
         return adminEngine.getContentTypeKeyByName( name );
-    }
-
-    /**
-     * Return a map of top level menus with name.
-     */
-    public Map<Integer, String> getMenuMap()
-        throws Exception
-    {
-        return this.adminEngine.getMenuMap();
     }
 
     public XMLDocument getUnits()

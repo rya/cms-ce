@@ -46,7 +46,6 @@ import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 import com.enonic.cms.core.content.category.CategoryEntity;
 
-import com.enonic.cms.domain.stylesheet.InvalidStylesheetException;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 final public class CategoryHandlerServlet
@@ -106,7 +105,6 @@ final public class CategoryHandlerServlet
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
-        int categoryKey;
         String xmlData = buildCategoryXML( user, formItems, true );
 
         if ( formItems.containsKey( "updateaccessrights" ) )
@@ -114,11 +112,11 @@ final public class CategoryHandlerServlet
             String accessRightsXML = buildAccessRightsXML( null, formItems, AccessRight.CATEGORY );
             Document doc = XMLTool.domparse( xmlData );
             XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
-            categoryKey = admin.createCategory( user, XMLTool.documentToString( doc ) );
+            admin.createCategory( user, XMLTool.documentToString( doc ) );
         }
         else
         {
-            categoryKey = admin.createCategory( user, xmlData );
+            admin.createCategory( user, xmlData );
         }
 
         if ( formItems.containsKey( "redirecturl" ) )
@@ -819,24 +817,6 @@ final public class CategoryHandlerServlet
         return null;
     }
 
-    private StringBuffer createContentTypesString( final int[] contentTypes )
-    {
-        StringBuffer contentTypesString = new StringBuffer( "" );
-
-        if ( contentTypes != null )
-        {
-            for ( int i = 0; i < contentTypes.length; i++ )
-            {
-                contentTypesString.append( contentTypes[i] );
-                if ( i < contentTypes.length - 1 )
-                {
-                    contentTypesString.append( "," );
-                }
-            }
-        }
-        return contentTypesString;
-    }
-
     public void handlerReport( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                ExtendedMap formItems, String subOp )
         throws VerticalAdminException
@@ -886,7 +866,6 @@ final public class CategoryHandlerServlet
             {
                 String[] contentTypeStringArray = formItems.getStringArray( "contenttypestring" );
                 int[] contentTypes = resolveContentTypes( contentTypeStringArray );
-                StringBuffer contentTypesString = createContentTypesString( contentTypes );
                 reportXML =
                     new SearchUtility( userDao, groupDao, securityService, contentService ).advancedReport( user, formItems, contentTypes );
             }

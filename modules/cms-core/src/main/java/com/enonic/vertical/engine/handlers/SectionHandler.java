@@ -230,11 +230,6 @@ public class SectionHandler
             String message = "Failed to create section contenttype filter: %t";
             VerticalEngineLogger.errorCreate(message, sqle );
         }
-        catch ( VerticalRemoveException vre )
-        {
-            String message = "Failed to create section contenttype filter: %t";
-            VerticalEngineLogger.errorCreate(message, vre );
-        }
         finally
         {
             close( preparedStmt );

@@ -640,11 +640,6 @@ public final class PageHandler
                     Element contentojects = subelems.get( "contentobjects" );
                     createPageContentObjects( contentojects );
                 }
-                catch ( VerticalRemoveException vre )
-                {
-                    String message = "Could not remove content objects: %t";
-                    VerticalEngineLogger.errorUpdate(message, vre );
-                }
                 catch ( VerticalCreateException vce )
                 {
                     String message = "Could not create content objects.";

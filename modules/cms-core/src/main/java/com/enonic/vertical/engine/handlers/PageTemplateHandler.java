@@ -1309,11 +1309,6 @@ public final class PageTemplateHandler
                             paramKeys = createPageTemplParam( null, newPTPDoc );
                         }
                     }
-                    catch ( VerticalRemoveException vre )
-                    {
-                        String message = "Failed to remove old page template parameters: %t";
-                        VerticalEngineLogger.errorUpdate(message, vre );
-                    }
                     catch ( VerticalCreateException vce )
                     {
                         String message = "Failed to create new page template parameters: %t";

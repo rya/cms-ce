@@ -63,7 +63,6 @@ import com.enonic.cms.core.portal.datasource.DatasourcesType;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.structure.SiteEntity;
 
-import com.enonic.cms.domain.stylesheet.InvalidStylesheetException;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 
 /**
