@@ -37,6 +37,8 @@ import com.enonic.cms.core.portal.instruction.PostProcessInstructionProcessor;
 import com.enonic.cms.core.portal.livetrace.InstructionPostProcessingTrace;
 import com.enonic.cms.core.portal.livetrace.InstructionPostProcessingTracer;
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.core.portal.livetrace.ViewTransformationTrace;
+import com.enonic.cms.core.portal.livetrace.ViewTransformationTracer;
 import com.enonic.cms.core.portal.livetrace.WindowRenderingTrace;
 import com.enonic.cms.core.portal.livetrace.WindowRenderingTracer;
 import com.enonic.cms.core.portal.page.PageRequestFactory;
@@ -231,10 +233,9 @@ public class WindowRenderer
                     // register the rendered window in the cache
                     if ( windowResult.isErrorFree() )
                     {
-                        final CachedObject
-                                newCachedPortletHolder = pageCacheService.cachePortletWindow( cacheKey, windowResult,
+                        final CachedObject newCachedPortletHolder = pageCacheService.cachePortletWindow( cacheKey, windowResult,
                                                                                                          CacheObjectSettings.createFrom(
-                                                                                                                 portletCacheSettings ) );
+                                                                                                             portletCacheSettings ) );
                         windowResult.setExpirationTimeInCache( newCachedPortletHolder.getExpirationTime() );
                     }
                 }
@@ -316,11 +317,20 @@ public class WindowRenderer
             PageRequestFactory.getPageRequest().setCurrentPortletKey( window.getPortlet().getPortletKey() );
             DataSourceResult dataSourceResult = getDataSourceResult( window, exectuor );
 
-            ViewTransformationResult portletViewTransformation = renderWindowView( window, dataSourceResult.getData() );
-
-            if ( window.getPortlet().getBorderKey() != null )
+            ViewTransformationResult portletViewTransformation;
+            final ViewTransformationTrace trace = ViewTransformationTracer.startTracing( liveTraceService );
+            try
             {
-                portletViewTransformation = renderWindowBorderView( window, portletViewTransformation.getContent() );
+                portletViewTransformation = renderWindowView( window, dataSourceResult.getData(), trace );
+                if ( window.getPortlet().getBorderKey() != null )
+                {
+                    portletViewTransformation = renderWindowBorderView( window, portletViewTransformation.getContent() );
+                }
+            }
+            finally
+            {
+                PortalFunctionsFactory.get().removeContext();
+                ViewTransformationTracer.stopTracing( trace, liveTraceService );
             }
 
             portletResult = new RenderedWindowResult();
@@ -362,28 +372,18 @@ public class WindowRenderer
         return portletResult;
     }
 
-    private ViewTransformationResult renderWindowView( Window window, XMLDocument xml )
+    private ViewTransformationResult renderWindowView( final Window window, final XMLDocument xml, final ViewTransformationTrace trace )
     {
         if ( window.getPortlet().getXmlDataAsJDOMDocument().getRootElement().getChild( "datasources" ) == null )
         {
             throw new PortalRenderingException( "Datasources missing for portlet: " + window.getKey() );
         }
 
-        TransformationParams transformationParams = new TransformationParams();
-
-        for ( TemplateParameter templateParameter : window.getPortlet().getTemplateParameters().values() )
-        {
-            transformationParams.add(
-                new TemplateParameterTransformationParameter( templateParameter, TransformationParameterOrigin.PORTLET ) );
-        }
-
-        SiteURLResolver siteURLResolver = new SiteURLResolver();
+        final SiteURLResolver siteURLResolver = new SiteURLResolver();
         siteURLResolver.setOverridingSitePropertyCreateUrlAsPath( context.getOverridingSitePropertyCreateUrlAsPath() );
         siteURLResolver.setSitePropertiesService( sitePropertiesService );
 
-        PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey( window );
-
-        PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
+        final PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
         portalFunctionsContext.setInvocationCache( context.getInvocationCache() );
         portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );
@@ -391,26 +391,35 @@ public class WindowRenderer
         portalFunctionsContext.setMenuItem( context.getMenuItem() );
         portalFunctionsContext.setEncodeURIs( context.isEncodeURIs() );
         portalFunctionsContext.setLocale( context.getLocale() );
-        portalFunctionsContext.setPortalInstanceKey( portalInstanceKey );
+        portalFunctionsContext.setPortalInstanceKey( resolvePortalInstanceKey( window ) );
         portalFunctionsContext.setRenderedInline( context.isRenderedInline() );
         portalFunctionsContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
         portalFunctionsContext.setSiteURLResolver( siteURLResolver );
 
-        PortalFunctionsFactory.get().setContext( portalFunctionsContext );
-
-        ResourceFile viewFile = resourceService.getResourceFile( window.getPortlet().getStyleKey() );
-        if ( viewFile == null )
-        {
-            throw new StylesheetNotFoundException( window.getPortlet().getStyleKey() );
-        }
-
         try
         {
+            PortalFunctionsFactory.get().setContext( portalFunctionsContext );
+
+            final ResourceFile viewFile = resourceService.getResourceFile( window.getPortlet().getStyleKey() );
+            if ( viewFile == null )
+            {
+                throw new StylesheetNotFoundException( window.getPortlet().getStyleKey() );
+            }
+            ViewTransformationTracer.traceView( viewFile.getPath(), trace );
+
+            final TransformationParams transformationParams = new TransformationParams();
+            for ( TemplateParameter templateParameter : window.getPortlet().getTemplateParameters().values() )
+            {
+                transformationParams.add(
+                    new TemplateParameterTransformationParameter( templateParameter, TransformationParameterOrigin.PORTLET ) );
+            }
+
             return portletXsltViewTransformer.transform( viewFile, transformationParams, xml );
         }
         finally
         {
             PortalFunctionsFactory.get().removeContext();
+            ViewTransformationTracer.stopTracing( trace, liveTraceService );
         }
     }
 
@@ -653,7 +662,7 @@ public class WindowRenderer
         this.dataSourceService = dataSourceService;
     }
 
-    public void setPluginManager(PluginManager pluginManager)
+    public void setPluginManager( PluginManager pluginManager )
     {
         this.pluginManager = pluginManager;
     }

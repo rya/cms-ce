@@ -70,27 +70,27 @@ public final class LivePortalTraceController
             final String window = req.getParameter( "window" );
             final String history = req.getParameter( "history" );
 
-            HashMap<String, Object> model = new HashMap<String, Object>();
+            final HashMap<String, Object> model = new HashMap<String, Object>();
             model.put( "baseUrl", AdminHelper.getAdminPath( req, true ) );
 
             if ( StringUtils.isNotBlank( systemInfo ) )
             {
-                model.putAll( createSystemInfoModel() );
-                process(req, res, model, "livePortalTrace_system_info" );
-                res.setHeader( "Content-Type", "application/json" );
+                appendSystemInfoToModel( model );
+                process( req, res, model, "livePortalTrace_system_info" );
+                res.setHeader( "Content-Type", "application/json; charset=UTF-8" );
             }
             else if ( "current".equals( window ) )
             {
                 List<PortalRequestTrace> currentPortalRequestTraces = livePortalTraceService.getCurrentPortalRequestTraces();
                 model.put( "currentTraces", currentPortalRequestTraces );
-                process(req, res, model, "livePortalTraceWindow_current" );
+                process( req, res, model, "livePortalTraceWindow_current" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( "longestpagerequests".equals( window ) )
             {
                 List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalPageRequestTraces();
                 model.put( "longestTraces", longestTimePortalRequestTraces );
-                process(req, res, model, "livePortalTraceWindow_longest" );
+                process( req, res, model, "livePortalTraceWindow_longest" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( "longestattachmentrequests".equals( window ) )
@@ -98,14 +98,14 @@ public final class LivePortalTraceController
                 List<PortalRequestTrace> longestTimePortalRequestTraces =
                     livePortalTraceService.getLongestTimePortalAttachmentRequestTraces();
                 model.put( "longestTraces", longestTimePortalRequestTraces );
-                process(req, res, model, "livePortalTraceWindow_longest" );
+                process( req, res, model, "livePortalTraceWindow_longest" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( "longestimagerequests".equals( window ) )
             {
                 List<PortalRequestTrace> longestTimePortalRequestTraces = livePortalTraceService.getLongestTimePortalImageRequestTraces();
                 model.put( "longestTraces", longestTimePortalRequestTraces );
-                process(req, res, model, "livePortalTraceWindow_longest" );
+                process( req, res, model, "livePortalTraceWindow_longest" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
             else if ( history != null )
@@ -124,50 +124,50 @@ public final class LivePortalTraceController
                 model.put( "lastHistoryRecordNumber", lastHistoryRecordNumber );
 
                 res.setHeader( "Content-Type", "application/json" );
-                process(req, res, model, "livePortalTrace_history_trace" );
+                process( req, res, model, "livePortalTrace_history_trace" );
             }
             else
             {
                 model.put( "livePortalTraceEnabled", isLivePortalTraceEnabled() ? 1 : 0 );
-                process(req, res, model, "livePortalTracePage" );
+                process( req, res, model, "livePortalTracePage" );
                 res.setHeader( "Content-Type", "text/html; charset=UTF-8" );
             }
         }
     }
 
-    private Map<String, Object> createSystemInfoModel()
+    private Map<String, Object> appendSystemInfoToModel( final Map<String, Object> model )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-
         model.put( "portalRequestTracesInProgress", livePortalTraceService.getNumberOfPortalRequestTracesInProgress() );
         final CacheFacade entityCache = cacheManager.getCache( "entity" );
         model.put( "entityCacheCount", entityCache != null ? entityCache.getCount() : 0 );
         model.put( "entityCacheHitCount", entityCache != null ? entityCache.getHitCount() : 0 );
         model.put( "entityCacheMissCount", entityCache != null ? entityCache.getMissCount() : 0 );
+        model.put( "entityCacheCapacityCount", entityCache != null ? entityCache.getMemoryCapacity() : 0 );
 
         final CacheFacade pageCache = cacheManager.getCache( "page" );
 
         model.put( "pageCacheCount", pageCache != null ? pageCache.getCount() : 0 );
         model.put( "pageCacheHitCount", pageCache != null ? pageCache.getHitCount() : 0 );
         model.put( "pageCacheMissCount", pageCache != null ? pageCache.getMissCount() : 0 );
+        model.put( "pageCacheCapacityCount", pageCache != null ? pageCache.getMemoryCapacity() : 0 );
 
-        MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+        final MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+        final MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
         model.put( "javaHeapMemoryUsageInit", heapMemoryUsage.getInit() );
         model.put( "javaHeapMemoryUsageUsed", heapMemoryUsage.getUsed() );
         model.put( "javaHeapMemoryUsageCommitted", heapMemoryUsage.getCommitted() );
         model.put( "javaHeapMemoryUsageMax", heapMemoryUsage.getMax() );
-        MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+        final MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
         model.put( "javaNonHeapMemoryUsageInit", nonHeapMemoryUsage.getInit() );
         model.put( "javaNonHeapMemoryUsageUsed", nonHeapMemoryUsage.getUsed() );
         model.put( "javaNonHeapMemoryUsageCommitted", nonHeapMemoryUsage.getCommitted() );
         model.put( "javaNonHeapMemoryUsageMax", nonHeapMemoryUsage.getMax() );
 
-        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+        final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         model.put( "javaThreadCount", threadMXBean.getThreadCount() );
         model.put( "javaThreadPeakCount", threadMXBean.getPeakThreadCount() );
 
-        Statistics statistics = sessionFactory.getStatistics();
+        final Statistics statistics = sessionFactory.getStatistics();
         if ( statistics != null )
         {
             model.put( "hibernateConnectionCount", statistics.getConnectCount() );
@@ -177,7 +177,6 @@ public final class LivePortalTraceController
         }
         return model;
     }
-
 
     private boolean isLivePortalTraceEnabled()
     {

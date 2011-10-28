@@ -250,6 +250,34 @@ public class LivePortalTraceServiceImpl
         }
     }
 
+    public ViewTransformationTrace startViewTransformationTracing()
+    {
+        checkEnabled();
+
+        final ViewTransformationTrace trace = new ViewTransformationTrace();
+        trace.setStartTime( timeService.getNowAsDateTime() );
+
+        final WindowRenderingTrace windowRenderingTrace = WINDOW_RENDERING_TRACE_THREAD_LOCAL.get();
+        if ( windowRenderingTrace != null )
+        {
+            windowRenderingTrace.setViewTransformationTrace( trace );
+        }
+        else
+        {
+            final PageRenderingTrace pageRenderingTrace = PAGE_RENDERING_TRACE_THREAD_LOCAL.get();
+            if ( pageRenderingTrace != null )
+            {
+                pageRenderingTrace.setViewTransformationTrace( trace );
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        return trace;
+    }
+
     public InstructionPostProcessingTrace startInstructionPostProcessingTracingForWindow()
     {
         checkEnabled();
@@ -339,6 +367,14 @@ public class LivePortalTraceServiceImpl
         clientMethodExecutionTrace.setStopTime( timeService.getNowAsDateTime() );
 
         CLIENT_METHOD_EXECUTION_TRACE_THREAD_LOCAL.set( null );
+    }
+
+    public void stopTracing( ViewTransformationTrace trace )
+    {
+        checkEnabled();
+        Preconditions.checkNotNull( trace );
+
+        trace.setStopTime( timeService.getNowAsDateTime() );
     }
 
     public void stopTracing( ContentIndexQueryTrace contentIndexQueryTrace )

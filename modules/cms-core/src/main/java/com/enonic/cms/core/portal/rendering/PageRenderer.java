@@ -36,6 +36,8 @@ import com.enonic.cms.core.portal.livetrace.InstructionPostProcessingTracer;
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.core.portal.livetrace.PageRenderingTrace;
 import com.enonic.cms.core.portal.livetrace.PageRenderingTracer;
+import com.enonic.cms.core.portal.livetrace.ViewTransformationTrace;
+import com.enonic.cms.core.portal.livetrace.ViewTransformationTracer;
 import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsContext;
 import com.enonic.cms.core.portal.rendering.portalfunctions.PortalFunctionsFactory;
 import com.enonic.cms.core.portal.rendering.tracing.PageTraceInfo;
@@ -216,45 +218,7 @@ public class PageRenderer
 
     private RenderedPageResult renderPageTemplateExcludingPortlets( PageTemplateEntity pageTemplate )
     {
-        ResourceKey stylesheetKey = pageTemplate.getStyleKey();
-        ResourceFile pageTemplateStylesheet = resourceService.getResourceFile( stylesheetKey );
-        if ( pageTemplateStylesheet == null )
-        {
-            throw new StylesheetNotFoundException( stylesheetKey );
-        }
-
-        DataSourceResult dataSourceResult = executeDataSources( pageTemplate );
-
-        final TransformationParams transformationParams = new TransformationParams();
-        for ( Region region : context.getRegionsInPage().getRegions() )
-        {
-            if ( transformationParams.notContains( region.getName() ) )
-            {
-                transformationParams.add( new RegionTransformationParameter( region ) );
-            }
-        }
-
-        for ( TemplateParameter templateParam : pageTemplate.getTemplateParameters().values() )
-        {
-            if ( transformationParams.notContains( templateParam.getName() ) )
-            {
-                transformationParams.add(
-                    new TemplateParameterTransformationParameter( templateParam, TransformationParameterOrigin.PAGETEMPLATE ) );
-            }
-        }
-
-        Document model;
-        if ( dataSourceResult == null || dataSourceResult.getData() == null )
-        {
-            model = new Document( new Element( verticalProperties.getDatasourceDefaultResultRootElement() ) );
-        }
-        else
-        {
-            model = dataSourceResult.getData().getAsJDOMDocument();
-        }
-
-        PortalInstanceKey portalInstanceKey = resolvePortalInstanceKey();
-
+        final DataSourceResult dataSourceResult = executeDataSources( pageTemplate );
         PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
         portalFunctionsContext.setInvocationCache( invocationCache );
         portalFunctionsContext.setSitePath( context.getSitePath() );
@@ -263,21 +227,58 @@ public class PageRenderer
         portalFunctionsContext.setMenuItem( context.getMenuItem() );
         portalFunctionsContext.setEncodeURIs( context.isEncodeURIs() );
         portalFunctionsContext.setLocale( context.getLocale() );
-        portalFunctionsContext.setPortalInstanceKey( portalInstanceKey );
+        portalFunctionsContext.setPortalInstanceKey( resolvePortalInstanceKey() );
         portalFunctionsContext.setRenderedInline( false );
         portalFunctionsContext.setEncodeImageUrlParams( RenderTrace.isTraceOff() );
         portalFunctionsContext.setSiteURLResolver( resolveSiteURLResolver() );
         portalFunctionsContext.setPageRendererContext( context );
 
-        PortalFunctionsFactory.get().setContext( portalFunctionsContext );
-        ViewTransformationResult viewTransformationResult;
+        final ViewTransformationResult viewTransformationResult;
+        final ViewTransformationTrace trace = ViewTransformationTracer.startTracing( livePortalTraceService );
         try
         {
+            final ResourceKey stylesheetKey = pageTemplate.getStyleKey();
+            final ResourceFile pageTemplateStylesheet = resourceService.getResourceFile( stylesheetKey );
+            if ( pageTemplateStylesheet == null )
+            {
+                throw new StylesheetNotFoundException( stylesheetKey );
+            }
+            ViewTransformationTracer.traceView( pageTemplateStylesheet.getPath(), trace );
+
+            final Document model;
+            if ( dataSourceResult == null || dataSourceResult.getData() == null )
+            {
+                model = new Document( new Element( verticalProperties.getDatasourceDefaultResultRootElement() ) );
+            }
+            else
+            {
+                model = dataSourceResult.getData().getAsJDOMDocument();
+            }
+
+            final TransformationParams transformationParams = new TransformationParams();
+            for ( Region region : context.getRegionsInPage().getRegions() )
+            {
+                if ( transformationParams.notContains( region.getName() ) )
+                {
+                    transformationParams.add( new RegionTransformationParameter( region ) );
+                }
+            }
+
+            for ( TemplateParameter templateParam : pageTemplate.getTemplateParameters().values() )
+            {
+                if ( transformationParams.notContains( templateParam.getName() ) )
+                {
+                    transformationParams.add(
+                        new TemplateParameterTransformationParameter( templateParam, TransformationParameterOrigin.PAGETEMPLATE ) );
+                }
+            }
+            PortalFunctionsFactory.get().setContext( portalFunctionsContext );
             viewTransformationResult = pageTemplateXsltViewTransformer.transform( pageTemplateStylesheet, model, transformationParams );
         }
         finally
         {
             PortalFunctionsFactory.get().removeContext();
+            ViewTransformationTracer.stopTracing( trace, livePortalTraceService );
         }
 
         if ( RenderTrace.isTraceOn() )
@@ -287,7 +288,7 @@ public class PageRenderer
                                                    viewTransformationResult.getOutputMethod() ) );
         }
 
-        RenderedPageResult renderedPageResult = new RenderedPageResult();
+        final RenderedPageResult renderedPageResult = new RenderedPageResult();
         renderedPageResult.setRenderedAt( timeService.getNowAsDateTime() );
         renderedPageResult.setHttpContentType( viewTransformationResult.getHttpContentType() );
         renderedPageResult.setContent( viewTransformationResult.getContent() );
@@ -580,7 +581,7 @@ public class PageRenderer
         this.dataSourceService = dataSourceService;
     }
 
-    public void setPluginManager(PluginManager pluginManager)
+    public void setPluginManager( PluginManager pluginManager )
     {
         this.pluginManager = pluginManager;
     }

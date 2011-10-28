@@ -44,7 +44,7 @@
     <td class="startTime-column">
     ${portalRequestTrace.duration.startTimeAsDate!?datetime}
     </td>
-    <td class="duration-column">
+    <td class="duration-column" valign="top">
     ${portalRequestTrace.duration.executionTimeAsHRFormat!}
         [#if portalRequestTrace.duration.hasEnded() == false]
             ?
@@ -123,7 +123,7 @@
         <tr>
             <td colspan="2" class="noBorderBottom">
                 <table>
-                [@portalWindowRendringTraceDetails windowRenderingTrace=portalRequestTrace.windowRenderingTrace index=0/]
+                [@portalWindowRendringTraceDetails windowRenderingTrace=portalRequestTrace.windowRenderingTrace id=1/]
                 </table>
             </td>
         </tr>
@@ -134,23 +134,23 @@
 
 
 
-[#macro portalWindowRendringTraceDetails windowRenderingTrace, index]
+[#macro portalWindowRendringTraceDetails windowRenderingTrace, id]
 <tr>
     <td>
-        <a href="javascript: void(0);" onclick="toggleWindowRenderingTrace(${index});">
-            <strong>${windowRenderingTrace.portletName}</strong>
+        <a href="javascript: void(0);" onclick="toggleWindowRenderingTrace(${id});">
+            <strong>${windowRenderingTrace.portletName!?html}</strong>
         </a>
     </td>
     <td>
     [@printDuration duration=windowRenderingTrace.duration/]
     </td>
 </tr>
-<tr id="window-rendering-trace-${index}" style="display: none">
+<tr id="window-rendering-trace-${id}" style="display: none">
     <td colspan="2" class="noBorderBottom">
         <table class="tableIndent">
             <tr>
                 <td>Duration</td>
-                <td>[@printDurationWidthStartEnd duration=windowRenderingTrace.duration/]</td>
+                <td>[@printDuration duration=windowRenderingTrace.duration/]</td>
             </tr>
             <tr>
                 <td>Used cached result</td>
@@ -162,35 +162,63 @@
             </tr>
             [#if !windowRenderingTrace.usedCachedResult]
                 <tr>
-                    <th colspan="2">
+                    <td colspan="2" style="font-style: italic;">
                         Datasource executions:
                         [#if windowRenderingTrace.hasDatasourceExecutionTraces() == false]
                             none
-                            [#else]
-                            ${windowRenderingTrace.durationOfDatasourceExecutionTracesInHRFormat}
                         [/#if]
-                    </th>
+                    </td>
                 </tr>
-                [#list windowRenderingTrace.datasourceExecutionTraces as datasourceExecutionTrace]
-                    [#assign datasourceExecutionTraceId = (index*1000) + datasourceExecutionTrace_index]
-                    <tr>
-                        <td>
-                            <a href="javascript: void(0);" onclick="toggleDatasourceExecutionTrace(${datasourceExecutionTraceId});">
-                            ${datasourceExecutionTrace.methodName!}
-                            </a>
-                        </td>
-                        <td>
-                        [@printDuration duration=datasourceExecutionTrace.duration/]
-                        </td>
-                    </tr>
-                [@datasourceExecutionTraceDetails datasourceExecutionTrace=datasourceExecutionTrace id=datasourceExecutionTraceId/]
-                [/#list]
+                <tr>
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                            <tr>
+                                <td>
+                                    Duration
+                                </td>
+                                <td>
+                                ${windowRenderingTrace.durationOfDatasourceExecutionTracesInHRFormat}
+                                </td>
+                            </tr>
+                            [#list windowRenderingTrace.datasourceExecutionTraces as datasourceExecutionTrace]
+                                [#assign datasourceExecutionTraceId = (id * 100000) + datasourceExecutionTrace_index]
+                                <tr>
+                                    <td>
+                                        <a href="javascript: void(0);"
+                                           onclick="toggleDatasourceExecutionTrace(${datasourceExecutionTraceId});">
+                                        ${datasourceExecutionTrace.methodName!}
+                                        </a>
+                                    </td>
+                                    <td>
+                                    [@printDuration duration=datasourceExecutionTrace.duration/]
+                                    </td>
+                                </tr>
+                            [@datasourceExecutionTraceDetails trace=datasourceExecutionTrace id=datasourceExecutionTraceId/]
+                            [/#list]
+                        </table>
+                    </td>
+                </tr>
+            [/#if]
+            [#if windowRenderingTrace.hasViewTransformationTrace() == true]
+                <tr>
+                    <td colspan="2" style="font-style: italic;">
+                        View Transformation:
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                        [@viewTransformationTraceDetails trace=windowRenderingTrace.viewTransformationTrace/]
+                        </table>
+                    </td>
+                </tr>
             [/#if]
             [#if windowRenderingTrace.hasInstructionPostProcessingTrace() == true]
                 <tr>
-                    <th colspan="2">
+                    <td colspan="2" style="font-style: italic;">
                         Instruction post processing:
-                    </th>
+                    </td>
                 </tr>
                 <tr>
 
@@ -225,39 +253,68 @@
 </tr>
     [#if !pageRenderingTrace.usedCachedResult]
     <tr>
-        <th colspan="2">
+        <td colspan="2" style="font-style: italic;">
             Datasource executions:
-            [#if pageRenderingTrace.hasDatasourceExecutionTraces() == false]
-                none
-                [#else]
-                ${pageRenderingTrace.durationOfDatasourceExecutionTracesInHRFormat}
-            [/#if]
-        </th>
+        </td>
     </tr>
-        [#list pageRenderingTrace.datasourceExecutionTraces as datasourceExecutionTrace]
-            [#assign datasourceExecutionTraceId = (1000000) + datasourceExecutionTrace_index]
+    <tr>
+        <td colspan="2" class="noBorderBottom">
+            <table class="tableIndent">
+                <tr>
+                    <td>Duration</td>
+                    <td>${pageRenderingTrace.durationOfDatasourceExecutionTracesInHRFormat}</td>
+                </tr>
+                [#list pageRenderingTrace.datasourceExecutionTraces as datasourceExecutionTrace]
+                    [#assign datasourceExecutionTraceId = (1000) + datasourceExecutionTrace_index]
+                    <tr>
+                        <td>
+                            <a href="javascript: void(0);" onclick="toggleDatasourceExecutionTrace(${datasourceExecutionTraceId});">
+                            ${datasourceExecutionTrace.methodName!}
+                            </a>
+                        </td>
+                        <td>
+                        [@printDuration duration=datasourceExecutionTrace.duration/]
+                        </td>
+                    </tr>
+                [@datasourceExecutionTraceDetails trace=datasourceExecutionTrace id=datasourceExecutionTraceId/]
+                [/#list]
+            </table>
+        </td>
+    </tr>
+        [#if pageRenderingTrace.hasViewTransformationTrace() == true]
         <tr>
-            <td>
-                <a href="javascript: void(0);" onclick="toggleDatasourceExecutionTrace(${datasourceExecutionTraceId});">
-                ${datasourceExecutionTrace.methodName!}
-                </a>
-            </td>
-            <td>
-            [@printDuration duration=datasourceExecutionTrace.duration/]
+            <td colspan="2" style="font-style: italic;">
+                View Transformation:
             </td>
         </tr>
-        [@datasourceExecutionTraceDetails datasourceExecutionTrace=datasourceExecutionTrace id=datasourceExecutionTraceId/]
-        [/#list]
+        <tr>
+            <td colspan="2" class="noBorderBottom">
+                <table class="tableIndent">
+                [@viewTransformationTraceDetails trace=pageRenderingTrace.viewTransformationTrace/]
+                </table>
+            </td>
+        </tr>
+        [/#if]
     [/#if]
     [#if pageRenderingTrace.hasWindowRenderingTraces() == true]
     <tr>
-        <th colspan="2">
-            Window rendering traces: ${pageRenderingTrace.durationOfWindowRenderingTracesInHRFormat}
-        </th>
+        <td colspan="2" style="font-style: italic;">
+            Window rendering traces:
+        </td>
     </tr>
-        [#list pageRenderingTrace.windowRenderingTraces as windowTrace]
-        [@portalWindowRendringTraceDetails windowRenderingTrace=windowTrace index=windowTrace_index/]
-        [/#list]
+    <tr>
+        <td colspan="2" class="noBorderBottom">
+            <table class="tableIndent">
+                <tr>
+                    <td>Duration</td>
+                    <td>${pageRenderingTrace.durationOfWindowRenderingTracesInHRFormat}</td>
+                </tr>
+                [#list pageRenderingTrace.windowRenderingTraces as windowTrace]
+                [@portalWindowRendringTraceDetails windowRenderingTrace=windowTrace id=windowTrace_index/]
+                [/#list]
+            </table>
+        </td>
+    </tr>
     [/#if]
     [#if pageRenderingTrace.hasInstructionPostProcessingTrace() == true]
     <!--
@@ -278,26 +335,26 @@
 
 
 
-[#macro datasourceExecutionTraceDetails datasourceExecutionTrace id]
+[#macro datasourceExecutionTraceDetails trace id]
 <tr id="datasource-execution-trace-${id}" style="display: none;">
     <td colspan="2" class="noBorderBottom">
         <table class="tableIndent">
             <tr>
                 <td>Duration</td>
-                <td>[@printDurationWidthStartEnd duration=datasourceExecutionTrace.duration/]</td>
+                <td>[@printDuration duration=trace.duration/]</td>
             </tr>
             <tr>
                 <td>Executed</td>
-                <td>${datasourceExecutionTrace.executed?string("Yes", "No")}</td>
+                <td>${trace.executed?string("Yes", "No")}</td>
             </tr>
             <tr>
                 <td>Runnable condition</td>
-                <td>${datasourceExecutionTrace.runnableCondition!?html}</td>
+                <td>${trace.runnableCondition!?html}</td>
             </tr>
-            [#if datasourceExecutionTrace.executed == true]
+            [#if trace.executed == true]
                 <tr>
                     <td>Used cached result (request scoped)</td>
-                    <td>${datasourceExecutionTrace.cacheUsed?string("Yes", "No")}</td>
+                    <td>${trace.cacheUsed?string("Yes", "No")}</td>
                 </tr>
                 <tr>
                     <td colspan="2">Parameters:</td>
@@ -305,7 +362,7 @@
                 <tr>
                     <td colspan="2" class="noBorderBottom">
                         <table class="tableIndent">
-                            [#list datasourceExecutionTrace.datasourceMethodArguments as argument]
+                            [#list trace.datasourceMethodArguments as argument]
                                 <tr>
                                     <td>${argument.name!?html}</td>
                                     <td>${argument.value!?html}</td>
@@ -315,39 +372,65 @@
                     </td>
                 </tr>
             [/#if]
-            [#if datasourceExecutionTrace.hasClientMethodExecutionTrace() == true]
+            [#if trace.hasClientMethodExecutionTrace() == true]
                 <tr>
-                    <th colspan="2">
+                    <td colspan="2" style="font-style: italic;">
                         Client Method Execution traces:
-                    ${datasourceExecutionTrace.getDurationOfClientMethodExecutionTracesInHRFormat()}
-                    </th>
+                    </td>
                 </tr>
-                [#list datasourceExecutionTrace.clientMethodExecutionTraces as clientMethodExecutionTrace]
-                    [#assign traceId = id + "-" + clientMethodExecutionTrace_index]
-                [@clientMethodExecutionDetails trace=clientMethodExecutionTrace index=clientMethodExecutionTrace_index id=traceId/]
-                [/#list]
-            [/#if]
-            [#if datasourceExecutionTrace.hasContentIndexQueryTraces() == true]
                 <tr>
-                    <th colspan="2">
-                        Content Index Query traces:
-                    ${datasourceExecutionTrace.durationOfContentIndexQueryTracesInHRFormat}
-                    </th>
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                            <tr>
+                                <td>
+                                    Duration
+                                </td>
+                                <td>
+                                ${trace.getDurationOfClientMethodExecutionTracesInHRFormat()}
+                                </td>
+                            </tr>
+                            [#list trace.clientMethodExecutionTraces as clientMethodExecutionTrace]
+                                [#assign clientMethodExecutionTraceId = (id + 1000) + clientMethodExecutionTrace_index]
+                            [@clientMethodExecutionDetails trace=clientMethodExecutionTrace id=clientMethodExecutionTraceId/]
+                            [/#list]
+                        </table>
+                    </td>
                 </tr>
-                [#list datasourceExecutionTrace.contentIndexQueryTraces as contentIndexQueryTrace]
-                    [#assign traceId = id + "-" + contentIndexQueryTrace_index]
-                [@contentIndexQueryTraceDetails trace=contentIndexQueryTrace index=contentIndexQueryTrace_index id=traceId/]
-                [/#list]
+            [/#if]
+            [#if trace.hasContentIndexQueryTraces() == true]
+                <tr>
+                    <td colspan="2" style="font-style: italic;">
+                        Content Index Query traces:
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                            <tr>
+                                <td>
+                                    Duration
+                                </td>
+                                <td>
+                                ${trace.durationOfContentIndexQueryTracesInHRFormat}
+                                </td>
+                            </tr>
+                            [#list trace.contentIndexQueryTraces as contentIndexQueryTrace]
+                                [#assign contentIndexQueryTraceId = (id + 2000 ) + contentIndexQueryTrace_index]
+                            [@contentIndexQueryTraceDetails trace=contentIndexQueryTrace index=contentIndexQueryTrace_index id=contentIndexQueryTraceId/]
+                            [/#list]
+                        </table>
+                    </td>
+                </tr>
             [/#if]
         </table>
     </td>
 </tr>
 [/#macro]
 
-[#macro clientMethodExecutionDetails trace index id]
+[#macro clientMethodExecutionDetails trace id]
 <tr>
     <td>
-        <a href="javascript: void(0);" onclick="toggleClientMethodExecutionTrace('${id}');">
+        <a href="javascript: void(0);" onclick="toggleClientMethodExecutionTrace(${id});">
         ${trace.getMethodName()}
         </a>
     </td>
@@ -360,19 +443,32 @@
         <table class="tableIndent">
             <tr>
                 <td>Duration</td>
-                <td>[@printDurationWidthStartEnd duration=trace.duration/]</td>
+                <td>[@printDuration duration=trace.duration/]</td>
             </tr>
             [#if trace.hasContentIndexQueryTraces() == true]
                 <tr>
-                    <th colspan="2">
+                    <td colspan="2" style="font-style: italic;">
                         Content Index Query traces:
-                    ${trace.durationOfContentIndexQueryTracesInHRFormat}
-                    </th>
+                    </td>
                 </tr>
-                [#list trace.contentIndexQueryTraces as contentIndexQueryTrace]
-                    [#assign traceId = id + "-" + contentIndexQueryTrace_index]
-                [@contentIndexQueryTraceDetails trace=contentIndexQueryTrace index=contentIndexQueryTrace_index id=traceId/]
-                [/#list]
+                <tr>
+                    <td colspan="2" class="noBorderBottom">
+                        <table class="tableIndent">
+                            <tr>
+                                <td>
+                                    Duration
+                                </td>
+                                <td>
+                                ${trace.durationOfContentIndexQueryTracesInHRFormat}
+                                </td>
+                            </tr>
+                            [#list trace.contentIndexQueryTraces as contentIndexQueryTrace]
+                                [#assign contentIndexQueryTraceId = (id * (100 + contentIndexQueryTrace_index) )]
+                            [@contentIndexQueryTraceDetails trace=contentIndexQueryTrace index=contentIndexQueryTrace_index id=contentIndexQueryTraceId/]
+                            [/#list]
+                        </table>
+                    </td>
+                </tr>
             [/#if]
         </table>
     </td>
@@ -382,7 +478,7 @@
 [#macro contentIndexQueryTraceDetails trace index id]
 <tr>
     <td>
-        <a href="javascript: void(0);" onclick="toggleContentIndexQueryTrace('${id}');">
+        <a href="javascript: void(0);" onclick="toggleContentIndexQueryTrace(${id});">
             Content query #${index + 1}
         </a>
     </td>
@@ -395,7 +491,7 @@
         <table class="tableIndent">
             <tr>
                 <td>Duration</td>
-                <td>[@printDurationWidthStartEnd duration=trace.duration/]</td>
+                <td>[@printDuration duration=trace.duration/]</td>
             </tr>
             <tr>
                 <td>Index</td>
@@ -442,10 +538,21 @@
 </tr>
 [/#macro]
 
+[#macro viewTransformationTraceDetails trace]
+<tr>
+    <td>Duration</td>
+    <td>[@printDuration duration=trace.duration/]</td>
+</tr>
+<tr>
+    <td>View</td>
+    <td>${trace.view!?html}</td>
+</tr>
+[/#macro]
+
 [#macro instructionPostProcessingTraceDetails instructionPostProcessingTrace]
 <tr>
     <td>Duration</td>
-    <td>[@printDurationWidthStartEnd duration=instructionPostProcessingTrace.duration/]</td>
+    <td>[@printDuration duration=instructionPostProcessingTrace.duration/]</td>
 </tr>
 [/#macro]
 
