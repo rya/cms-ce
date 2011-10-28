@@ -69,8 +69,6 @@ import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 
@@ -695,7 +693,6 @@ public class ContentBaseHandlerServlet
         private void saveEntries( User user, AdminService admin, ExtendedMap oldFormItems, ContentBaseHandlerServlet cbhServlet,
                                   int superCategoryKey, Element[] entryElems, File parentDir, AssignmentDataParser assignmentDataParser,
                                   Set<ContentKey> assignedContent )
-            throws VerticalUpdateException, VerticalSecurityException, VerticalAdminException
         {
             oldFormItems.put( "newimage", true );
 

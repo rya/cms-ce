@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentStatus;
@@ -146,7 +145,6 @@ public class CustomContentHandlerController
     @Override
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
         User oldTypeUser = securityService.getOldUserObject();
 
@@ -227,8 +225,6 @@ public class CustomContentHandlerController
     }
 
     protected void handlerModify( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
         User oldTypeUser = securityService.getOldUserObject();
 

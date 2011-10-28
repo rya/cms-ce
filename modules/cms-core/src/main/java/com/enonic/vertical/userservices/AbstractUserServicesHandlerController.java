@@ -40,7 +40,6 @@ import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.presentation.AbstractPresentationController;
 
 import com.enonic.cms.framework.util.UrlPathDecoder;
@@ -144,7 +143,6 @@ public class AbstractUserServicesHandlerController
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
         String message = "OperationWrapper UPDATE not implemented.";
         VerticalUserServicesLogger.error(message, null );

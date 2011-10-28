@@ -4,10 +4,6 @@
  */
 package com.enonic.vertical.event;
 
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
-
 public interface MenuHandlerListener
     extends VerticalEventListener
 {
@@ -17,22 +13,19 @@ public interface MenuHandlerListener
      *
      * @param e The event object that was emitted.
      */
-    void createdMenuItem( MenuHandlerEvent e )
-        throws VerticalCreateException;
+    void createdMenuItem( MenuHandlerEvent e );
 
     /**
      * This method should be called whenever a menu is updated.
      *
      * @param e The event object that was emitted.
      */
-    void updatedMenuItem( MenuHandlerEvent e )
-        throws VerticalUpdateException;
+    void updatedMenuItem( MenuHandlerEvent e );
 
     /**
      * This method should be called whenever a menu is removed.
      *
      * @param e The event object that was emitted.
      */
-    void removedMenuItem( MenuHandlerEvent e )
-        throws VerticalRemoveException;
+    void removedMenuItem( MenuHandlerEvent e );
 }

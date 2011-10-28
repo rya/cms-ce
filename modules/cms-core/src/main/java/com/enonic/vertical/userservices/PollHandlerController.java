@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.userservices;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -19,8 +18,6 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.xml.XMLTool;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.service.UserServicesService;
 
@@ -50,7 +47,6 @@ public class PollHandlerController
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
 
         int contentKey = formItems.getInt( "key" );

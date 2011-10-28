@@ -6,11 +6,6 @@ package com.enonic.vertical.event;
 
 import java.util.LinkedHashSet;
 
-import com.enonic.vertical.engine.VerticalCreateException;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
-
-
 public class VerticalEventMulticaster
     implements MenuHandlerListener, VerticalEventListener
 {
@@ -34,7 +29,6 @@ public class VerticalEventMulticaster
 
 
     public void createdMenuItem( MenuHandlerEvent e )
-        throws VerticalCreateException
     {
         for ( VerticalEventListener l : listenerSet )
         {
@@ -43,7 +37,6 @@ public class VerticalEventMulticaster
     }
 
     public void removedMenuItem( MenuHandlerEvent e )
-        throws VerticalRemoveException
     {
         for ( VerticalEventListener l : listenerSet )
         {
@@ -52,7 +45,6 @@ public class VerticalEventMulticaster
     }
 
     public void updatedMenuItem( MenuHandlerEvent e )
-        throws VerticalUpdateException
     {
         for ( VerticalEventListener l : listenerSet )
         {

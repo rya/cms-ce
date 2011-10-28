@@ -32,7 +32,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 
 import com.enonic.cms.framework.util.TIntArrayList;
@@ -1021,7 +1020,6 @@ public final class PageTemplateHandler
     }
 
     public void updatePageTemplate( String xmlData )
-        throws VerticalUpdateException
     {
 
         Document doc = XMLTool.domparse( xmlData, "pagetemplate" );
@@ -1087,10 +1085,8 @@ public final class PageTemplateHandler
      * Update the pagetemplate in the database.
      *
      * @param doc The pagetemplate XML document.
-     * @throws VerticalUpdateException Indicates that the update was not successfull.
      */
     private void updatePageTemplate( Document doc )
-        throws VerticalUpdateException
     {
 
         Element docElem = doc.getDocumentElement();
@@ -1356,7 +1352,6 @@ public final class PageTemplateHandler
     }
 
     private void updatePageTemplParam( Document ptpDoc )
-        throws VerticalUpdateException
     {
 
         Element root = ptpDoc.getDocumentElement();
@@ -1576,58 +1571,50 @@ public final class PageTemplateHandler
         Document doc = getPageTemplatesByMenu( newMenuKey, null );
         Element[] pageTemplateElems = XMLTool.getElements( doc.getDocumentElement() );
 
-        try
+        for ( Element pageTemplateElem : pageTemplateElems )
         {
-            for ( Element pageTemplateElem : pageTemplateElems )
-            {
 
-                // datasource
-                NodeList parameterList = XMLTool.selectNodes( pageTemplateElem, "datasources/datasource/parameters/parameter" );
-                for ( int j = 0; j < parameterList.getLength(); j++ )
+            // datasource
+            NodeList parameterList = XMLTool.selectNodes( pageTemplateElem, "datasources/datasource/parameters/parameter" );
+            for ( int j = 0; j < parameterList.getLength(); j++ )
+            {
+                Element parameterElem = (Element) parameterList.item( j );
+                String name = parameterElem.getAttribute( "name" );
+                if ( "cat".equalsIgnoreCase( name ) )
                 {
-                    Element parameterElem = (Element) parameterList.item( j );
-                    String name = parameterElem.getAttribute( "name" );
-                    if ( "cat".equalsIgnoreCase( name ) )
+                    Text text = (Text) parameterElem.getFirstChild();
+                    if ( text != null )
                     {
-                        Text text = (Text) parameterElem.getFirstChild();
-                        if ( text != null )
+                        String oldCategoryKey = text.getData();
+                        if ( oldCategoryKey != null && oldCategoryKey.length() > 0 )
                         {
-                            String oldCategoryKey = text.getData();
-                            if ( oldCategoryKey != null && oldCategoryKey.length() > 0 )
+                            int newCategoryKey = copyContext.getCategoryKey( Integer.parseInt( oldCategoryKey ) );
+                            if ( newCategoryKey >= 0 )
                             {
-                                int newCategoryKey = copyContext.getCategoryKey( Integer.parseInt( oldCategoryKey ) );
-                                if ( newCategoryKey >= 0 )
-                                {
-                                    text.setData( String.valueOf( newCategoryKey ) );
-                                }
+                                text.setData( String.valueOf( newCategoryKey ) );
                             }
                         }
                     }
-                    else if ( "menu".equalsIgnoreCase( name ) )
+                }
+                else if ( "menu".equalsIgnoreCase( name ) )
+                {
+                    Text text = (Text) parameterElem.getFirstChild();
+                    if ( text != null )
                     {
-                        Text text = (Text) parameterElem.getFirstChild();
-                        if ( text != null )
+                        String oldKey = text.getData();
+                        if ( oldKey != null && oldKey.length() > 0 )
                         {
-                            String oldKey = text.getData();
-                            if ( oldKey != null && oldKey.length() > 0 )
+                            int newKey = copyContext.getMenuKey( Integer.parseInt( oldKey ) );
+                            if ( newKey >= 0 )
                             {
-                                int newKey = copyContext.getMenuKey( Integer.parseInt( oldKey ) );
-                                if ( newKey >= 0 )
-                                {
-                                    text.setData( String.valueOf( newKey ) );
-                                }
+                                text.setData( String.valueOf( newKey ) );
                             }
                         }
                     }
                 }
             }
+        }
 
-            updatePageTemplate( doc );
-        }
-        catch ( VerticalUpdateException vue )
-        {
-            String message = "Failed to copy page templates (post operation): %t";
-            VerticalEngineLogger.errorCopy(message, vue );
-        }
+        updatePageTemplate( doc );
     }
 }

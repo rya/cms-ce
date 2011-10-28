@@ -34,7 +34,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.dbmodel.CategoryTable;
@@ -310,11 +309,6 @@ public class CategoryHandler
         {
             String message = "Failed to create category: %t";
             VerticalEngineLogger.errorCreate(message, sqle );
-        }
-        catch ( VerticalUpdateException vue )
-        {
-            String message = "Failed to set default categories for top category: %t";
-            VerticalEngineLogger.errorCreate(message, vue );
         }
         finally
         {
@@ -726,7 +720,6 @@ public class CategoryHandler
     }
 
     public void updateCategory( Connection _con, User olduser, Document doc )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         Connection con = null;
@@ -909,7 +902,6 @@ public class CategoryHandler
     }
 
     public void moveCategory( User olduser, CategoryKey catKey, CategoryKey superCatKey )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         Connection con = null;

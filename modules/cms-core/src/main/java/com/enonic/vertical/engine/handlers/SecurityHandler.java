@@ -30,7 +30,6 @@ import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.CatAccessRightView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRightView;
@@ -3070,7 +3069,6 @@ final public class SecurityHandler
     }
 
     public void updateAccessRights( User user, Document doc )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         Connection con = null;

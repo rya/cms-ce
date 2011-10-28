@@ -32,7 +32,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeyView;
 import com.enonic.vertical.engine.dbmodel.ContentPubKeysView;
@@ -456,9 +455,7 @@ public final class ContentHandler
         }
     }
 
-
     public void updateContentType(Document doc)
-        throws VerticalUpdateException
     {
 
         Connection con = null;

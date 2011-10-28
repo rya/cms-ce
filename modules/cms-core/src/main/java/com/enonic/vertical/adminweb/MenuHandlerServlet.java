@@ -42,7 +42,6 @@ import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -1797,10 +1796,6 @@ public class MenuHandlerServlet
         catch ( VerticalCreateException e )
         {
             VerticalAdminLogger.errorAdmin("Error creating menuitem: %t", e );
-        }
-        catch ( VerticalUpdateException e )
-        {
-            VerticalAdminLogger.errorAdmin("Error updating menuitem: %t", e );
         }
         catch ( VerticalSecurityException e )
         {

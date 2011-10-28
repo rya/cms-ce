@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine;
 
-import java.sql.SQLException;
 import java.util.*;
 
 import org.jdom.output.Format;
@@ -246,14 +245,11 @@ public final class AdminEngine
     }
 
     public int createCategory( User user, int superCategoryKey, String name )
-        throws VerticalSecurityException
     {
         return categoryHandler.createCategory( user, CategoryKey.parse( superCategoryKey ), name );
     }
 
-
     public int createCategory( User user, String xmlData )
-        throws VerticalSecurityException
     {
 
         Document doc = XMLTool.domparse( xmlData, "category" );
@@ -273,13 +269,11 @@ public final class AdminEngine
     }
 
     public int createContentObject( String xmlData )
-        throws VerticalSecurityException
     {
         return contentObjectHandler.createContentObject(xmlData);
     }
 
     public int createContentType( User user, String xmlData )
-        throws VerticalSecurityException
     {
 
         Document doc = XMLTool.domparse( xmlData, "contenttype" );
@@ -294,7 +288,6 @@ public final class AdminEngine
     }
 
     public void createLanguage( User user, String languageCode, String description )
-        throws VerticalSecurityException
     {
 
         if ( !isEnterpriseAdmin( user ) )
@@ -307,31 +300,26 @@ public final class AdminEngine
     }
 
     public int createMenu( User user, String xmlData )
-        throws VerticalSecurityException
     {
         return menuHandler.createMenu( user, xmlData );
     }
 
     public void updateMenuItem( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         menuHandler.updateMenuItem(user, xmlData);
     }
 
     public void removeMenuItem( User user, int mikey )
-        throws VerticalRemoveException, VerticalSecurityException
     {
         menuHandler.removeMenuItem( user, mikey );
     }
 
     public int createMenuItem( User user, String xmlData )
-        throws VerticalSecurityException
     {
         return menuHandler.createMenuItem(user, xmlData);
     }
 
     public int createPageTemplate( String xmlData )
-        throws VerticalSecurityException
     {
         return pageTemplateHandler.createPageTemplate(xmlData);
     }
@@ -658,7 +646,6 @@ public final class AdminEngine
     }
 
     public void updateCategory( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         Document doc = XMLTool.domparse( xmlData, "category" );
@@ -677,13 +664,11 @@ public final class AdminEngine
     }
 
     public void updateContentObject( String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException
     {
         contentObjectHandler.updateContentObject( xmlData );
     }
 
     public void updateContentType( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         Document doc = XMLTool.domparse( xmlData, "contenttype" );
 
@@ -697,13 +682,11 @@ public final class AdminEngine
     }
 
     public void updateLanguage( LanguageKey languageKey, String languageCode, String description )
-        throws VerticalSecurityException, VerticalUpdateException
     {
         languageHandler.updateLanguage( languageKey, languageCode, description );
     }
 
     public void updateMenuData( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         Document doc = XMLTool.domparse( xmlData, "menu" );
         if ( !isAdmin( user ) )
@@ -716,13 +699,11 @@ public final class AdminEngine
     }
 
     public void updatePageTemplate( String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException
     {
         pageTemplateHandler.updatePageTemplate( xmlData );
     }
 
     public void updateUnit( String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         unitHandler.updateUnit( xmlData );
     }
@@ -759,7 +740,6 @@ public final class AdminEngine
     }
 
     public void updateAccessRights( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         Document doc = XMLTool.domparse( xmlData, "accessrights" );
         securityHandler.updateAccessRights( user, doc );
@@ -832,7 +812,6 @@ public final class AdminEngine
     }
 
     public void moveCategory( User user, int catKey, int newSuperCategoryKey )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         CategoryKey oldSuperCategoryKey = categoryHandler.getParentCategoryKey( CategoryKey.parse( catKey ) );
@@ -941,7 +920,6 @@ public final class AdminEngine
     }
 
     public int createContentHandler( User user, String xmlData )
-        throws VerticalSecurityException
     {
 
         if ( !securityHandler.isEnterpriseAdmin( user ) )
@@ -955,7 +933,6 @@ public final class AdminEngine
     }
 
     public void updateContentHandler( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         if ( !securityHandler.isEnterpriseAdmin( user ) )
@@ -969,7 +946,6 @@ public final class AdminEngine
     }
 
     public void removeContentHandler( User user, int contentHandlerKey )
-        throws VerticalSecurityException, VerticalRemoveException
     {
 
         if ( !isEnterpriseAdmin( user ) )

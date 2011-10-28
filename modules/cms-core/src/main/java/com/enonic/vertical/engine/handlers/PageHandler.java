@@ -20,7 +20,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -474,7 +473,6 @@ public final class PageHandler
     }
 
     private void removePageContentObjects( Connection _con, int[] pageKeys )
-        throws VerticalRemoveException
     {
 
         if ( pageKeys != null && pageKeys.length > 0 )
@@ -523,7 +521,6 @@ public final class PageHandler
     }
 
     public void removePages( Connection _con, int[] pageKeys )
-        throws VerticalRemoveException
     {
 
         if ( pageKeys != null && pageKeys.length > 0 )
@@ -574,7 +571,6 @@ public final class PageHandler
     }
 
     public void updatePage( String xmlData )
-        throws VerticalUpdateException
     {
 
         Document doc = XMLTool.domparse( xmlData, "page" );
@@ -582,7 +578,6 @@ public final class PageHandler
     }
 
     private void updatePage( Document doc )
-        throws VerticalUpdateException
     {
 
         Element docElem = doc.getDocumentElement();

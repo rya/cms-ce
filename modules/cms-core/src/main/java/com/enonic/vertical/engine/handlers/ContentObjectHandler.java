@@ -28,7 +28,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -36,15 +35,12 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.structure.RunAsType;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public final class ContentObjectHandler
     extends BaseHandler
 {
-
-
     /**
      * Content object select sql.
      */
@@ -519,14 +515,12 @@ public final class ContentObjectHandler
     }
 
     public void updateContentObject( String xmlData )
-        throws VerticalUpdateException
     {
         Document doc = XMLTool.domparse( xmlData, "contentobject" );
         updateContentObject( doc );
     }
 
     private void updateContentObject( Document doc )
-        throws VerticalUpdateException
     {
         Element docElem = doc.getDocumentElement();
         Element[] contentobjectElems;
@@ -782,127 +776,119 @@ public final class ContentObjectHandler
     {
         int newMenuKey = copyContext.getMenuKey( oldMenuKey );
 
-        try
+        Document doc = getContentObjectsByMenu( newMenuKey );
+        Element[] contentobjectElems = XMLTool.getElements( doc.getDocumentElement() );
+
+        for ( Element contentobjectElem : contentobjectElems )
         {
-            Document doc = getContentObjectsByMenu( newMenuKey );
-            Element[] contentobjectElems = XMLTool.getElements( doc.getDocumentElement() );
+            Element codElem = XMLTool.getElement( contentobjectElem, "contentobjectdata" );
 
-            for ( Element contentobjectElem : contentobjectElems )
+            // datasource
+            NodeList parameterList = XMLTool.selectNodes( codElem, "datasources/datasource/parameters/parameter" );
+            for ( int k = 0; k < parameterList.getLength(); k++ )
             {
-                Element codElem = XMLTool.getElement( contentobjectElem, "contentobjectdata" );
-
-                // datasource
-                NodeList parameterList = XMLTool.selectNodes( codElem, "datasources/datasource/parameters/parameter" );
-                for ( int k = 0; k < parameterList.getLength(); k++ )
+                Element parameterElem = (Element) parameterList.item( k );
+                String name = parameterElem.getAttribute( "name" );
+                if ( "cat".equalsIgnoreCase( name ) )
                 {
-                    Element parameterElem = (Element) parameterList.item( k );
-                    String name = parameterElem.getAttribute( "name" );
-                    if ( "cat".equalsIgnoreCase( name ) )
+                    Text text = (Text) parameterElem.getFirstChild();
+                    if ( text != null )
                     {
-                        Text text = (Text) parameterElem.getFirstChild();
-                        if ( text != null )
-                        {
-                            String oldCategoryKeys = text.getData();
+                        String oldCategoryKeys = text.getData();
 
-                            Matcher m = CATEGORY_KEYLIST_PATTERN.matcher( oldCategoryKeys );
-                            if ( m.matches() )
-                            {
-                                StringBuffer data = translateCategoryKeys( copyContext, oldCategoryKeys );
-                                text.setData( data.toString() );
-                            }
-                        }
-                    }
-                    else if ( "menu".equalsIgnoreCase( name ) )
-                    {
-                        Text text = (Text) parameterElem.getFirstChild();
-                        if ( text != null )
+                        Matcher m = CATEGORY_KEYLIST_PATTERN.matcher( oldCategoryKeys );
+                        if ( m.matches() )
                         {
-                            int oldKey = Integer.parseInt( text.getData() );
-                            int newKey = copyContext.getMenuKey( oldKey );
-                            if ( newKey >= 0 )
-                            {
-                                text.setData( String.valueOf( newKey ) );
-                            }
-                            else
-                            {
-                                text.setData( String.valueOf( oldKey ) );
-                            }
+                            StringBuffer data = translateCategoryKeys( copyContext, oldCategoryKeys );
+                            text.setData( data.toString() );
                         }
                     }
                 }
-
-                // stylesheet parameters
-                NodeList stylesheetparamList = XMLTool.selectNodes( codElem, "stylesheetparams/stylesheetparam" );
-                for ( int k = 0; k < stylesheetparamList.getLength(); k++ )
+                else if ( "menu".equalsIgnoreCase( name ) )
                 {
-                    Element stylesheetparamElem = (Element) stylesheetparamList.item( k );
-                    String type = stylesheetparamElem.getAttribute( "type" );
-                    if ( "page".equals( type ) )
+                    Text text = (Text) parameterElem.getFirstChild();
+                    if ( text != null )
                     {
-                        Text text = (Text) stylesheetparamElem.getFirstChild();
-                        if ( text != null )
+                        int oldKey = Integer.parseInt( text.getData() );
+                        int newKey = copyContext.getMenuKey( oldKey );
+                        if ( newKey >= 0 )
                         {
-                            String oldMenuItemKey = text.getData();
-                            if ( oldMenuItemKey != null && oldMenuItemKey.length() > 0 )
+                            text.setData( String.valueOf( newKey ) );
+                        }
+                        else
+                        {
+                            text.setData( String.valueOf( oldKey ) );
+                        }
+                    }
+                }
+            }
+
+            // stylesheet parameters
+            NodeList stylesheetparamList = XMLTool.selectNodes( codElem, "stylesheetparams/stylesheetparam" );
+            for ( int k = 0; k < stylesheetparamList.getLength(); k++ )
+            {
+                Element stylesheetparamElem = (Element) stylesheetparamList.item( k );
+                String type = stylesheetparamElem.getAttribute( "type" );
+                if ( "page".equals( type ) )
+                {
+                    Text text = (Text) stylesheetparamElem.getFirstChild();
+                    if ( text != null )
+                    {
+                        String oldMenuItemKey = text.getData();
+                        if ( oldMenuItemKey != null && oldMenuItemKey.length() > 0 )
+                        {
+                            int newMenuItemKey = copyContext.getMenuItemKey( Integer.parseInt( oldMenuItemKey ) );
+                            if ( newMenuItemKey >= 0 )
                             {
-                                int newMenuItemKey = copyContext.getMenuItemKey( Integer.parseInt( oldMenuItemKey ) );
-                                if ( newMenuItemKey >= 0 )
-                                {
-                                    text.setData( String.valueOf( newMenuItemKey ) );
-                                }
-                                else
-                                {
-                                    XMLTool.removeChildNodes( stylesheetparamElem, true );
-                                }
+                                text.setData( String.valueOf( newMenuItemKey ) );
                             }
                             else
                             {
                                 XMLTool.removeChildNodes( stylesheetparamElem, true );
                             }
                         }
+                        else
+                        {
+                            XMLTool.removeChildNodes( stylesheetparamElem, true );
+                        }
                     }
                 }
+            }
 
-                // border parameters
-                NodeList borderparamList = XMLTool.selectNodes( codElem, "borderparams/borderparam" );
-                for ( int k = 0; k < borderparamList.getLength(); k++ )
+            // border parameters
+            NodeList borderparamList = XMLTool.selectNodes( codElem, "borderparams/borderparam" );
+            for ( int k = 0; k < borderparamList.getLength(); k++ )
+            {
+                Element borderparamElem = (Element) borderparamList.item( k );
+                String type = borderparamElem.getAttribute( "type" );
+                if ( "page".equals( type ) )
                 {
-                    Element borderparamElem = (Element) borderparamList.item( k );
-                    String type = borderparamElem.getAttribute( "type" );
-                    if ( "page".equals( type ) )
+                    Text text = (Text) borderparamElem.getFirstChild();
+                    if ( text != null )
                     {
-                        Text text = (Text) borderparamElem.getFirstChild();
-                        if ( text != null )
+                        String oldMenuItemKey = text.getData();
+                        if ( oldMenuItemKey != null && oldMenuItemKey.length() > 0 )
                         {
-                            String oldMenuItemKey = text.getData();
-                            if ( oldMenuItemKey != null && oldMenuItemKey.length() > 0 )
+                            int newMenuItemKey = copyContext.getMenuItemKey( Integer.parseInt( oldMenuItemKey ) );
+                            if ( newMenuItemKey >= 0 )
                             {
-                                int newMenuItemKey = copyContext.getMenuItemKey( Integer.parseInt( oldMenuItemKey ) );
-                                if ( newMenuItemKey >= 0 )
-                                {
-                                    text.setData( String.valueOf( newMenuItemKey ) );
-                                }
-                                else
-                                {
-                                    XMLTool.removeChildNodes( borderparamElem, true );
-                                }
+                                text.setData( String.valueOf( newMenuItemKey ) );
                             }
                             else
                             {
                                 XMLTool.removeChildNodes( borderparamElem, true );
                             }
                         }
+                        else
+                        {
+                            XMLTool.removeChildNodes( borderparamElem, true );
+                        }
                     }
                 }
             }
+        }
 
-            updateContentObject( doc );
-        }
-        catch ( VerticalUpdateException vue )
-        {
-            String message = "Failed to copy content objects (post operation): %t";
-            VerticalEngineLogger.errorCopy(message, vue );
-        }
+        updateContentObject( doc );
     }
 
     private StringBuffer translateCategoryKeys( CopyContext copyContext, String oldCategoryKeys )

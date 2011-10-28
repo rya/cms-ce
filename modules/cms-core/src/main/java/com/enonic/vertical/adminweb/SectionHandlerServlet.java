@@ -46,11 +46,9 @@ import com.enonic.vertical.engine.CategoryAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
 import com.enonic.vertical.engine.Types;
-import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 
 import com.enonic.cms.framework.util.TIntArrayList;
@@ -232,7 +230,7 @@ public class SectionHandlerServlet
         }
 
         private void processWizardData0( WizardState wizardState, AdminService admin, User user, int contentKey, int versionKey )
-            throws ParseException, VerticalUpdateException
+            throws ParseException
         {
             Document stateDoc = wizardState.getFirstStepState().getStateDoc();
             Element rootElem = stateDoc.getDocumentElement();
@@ -380,7 +378,6 @@ public class SectionHandlerServlet
         }
 
         private void processWizardData1( WizardState wizardState, AdminService admin, User user )
-            throws VerticalCreateException, VerticalUpdateException, VerticalSecurityException
         {
             Document stateDoc = wizardState.getFirstStepState().getStateDoc();
             Element elem = XMLTool.getElement( stateDoc.getDocumentElement(), "content" );
@@ -1898,7 +1895,6 @@ public class SectionHandlerServlet
 
     public void approveContent( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                 ExtendedMap formItems )
-        throws VerticalAdminException, VerticalUpdateException, VerticalSecurityException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -1979,7 +1975,6 @@ public class SectionHandlerServlet
 
     public void unapproveContent( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
                                   ExtendedMap formItems )
-        throws VerticalAdminException, VerticalUpdateException, VerticalSecurityException
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
@@ -2060,7 +2055,6 @@ public class SectionHandlerServlet
     }
 
     public void saveContents( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
-        throws VerticalAdminException, VerticalUpdateException, VerticalRemoveException, VerticalSecurityException
     {
         User user = securityService.getLoggedInAdminConsoleUser();
         Document doc = XMLTool.domparse( (String) session.getAttribute( "sectionxml" ) );

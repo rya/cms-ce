@@ -13,7 +13,6 @@ import com.enonic.esl.sql.model.Column;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.MenuElementProcessor;
@@ -122,7 +121,6 @@ public final class LogHandler
     }
 
     public void updatedMenuItem( MenuHandlerEvent e )
-        throws VerticalUpdateException
     {
         StoreNewLogEntryCommand command = new StoreNewLogEntryCommand();
         command.setTableKey( Table.MENUITEM );

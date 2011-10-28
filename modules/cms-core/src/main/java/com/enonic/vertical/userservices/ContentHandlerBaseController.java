@@ -30,7 +30,6 @@ import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.SiteKey;
@@ -237,7 +236,6 @@ public class ContentHandlerBaseController
 
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
         User oldTypeUser = securityService.getOldUserObject();
 

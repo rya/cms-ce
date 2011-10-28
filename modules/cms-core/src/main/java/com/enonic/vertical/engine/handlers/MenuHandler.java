@@ -39,7 +39,6 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
@@ -965,10 +964,6 @@ public final class MenuHandler
         {
             String msg = "Failed to create menu: %t";
             VerticalEngineLogger.errorCreate(msg, sqle );
-        }
-        catch ( VerticalUpdateException e )
-        {
-            VerticalEngineLogger.errorCreate("Error creating default access rights: %t", e );
         }
         finally
         {
@@ -2297,7 +2292,6 @@ public final class MenuHandler
     }
 
     private void updateMenu( User user, CopyContext copyContext, Document doc, boolean useOldKeys )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         Element root_elem = doc.getDocumentElement();
 
@@ -2605,7 +2599,6 @@ public final class MenuHandler
     }
 
     public void updateMenuData( Document doc )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         Element root_elem = doc.getDocumentElement();
 
@@ -2752,7 +2745,6 @@ public final class MenuHandler
     }
 
     public void updateMenuItem( User user, String xmlData )
-        throws VerticalUpdateException, VerticalSecurityException
     {
 
         Document doc = XMLTool.domparse( xmlData );
@@ -2791,7 +2783,6 @@ public final class MenuHandler
     }
 
     private void updateMenuItem( User user, Element menuitem_elem, SiteKey siteKey, int order, MenuItemKey parent, boolean skipNameCheck )
-        throws VerticalUpdateException, VerticalCreateException, VerticalSecurityException
     {
 
         MenuItemKey key = new MenuItemKey( menuitem_elem.getAttribute( "key" ) );
@@ -3037,7 +3028,6 @@ public final class MenuHandler
     }
 
     private void updateMenuItemData( User user, Element menuItemElem, int type, MenuItemKey parent, int order )
-        throws VerticalUpdateException
     {
 
         String tmp;
@@ -3360,7 +3350,6 @@ public final class MenuHandler
     }
 
     private void updatePage( Connection con, Element elem, int type, MenuItemKey key )
-        throws VerticalUpdateException
     {
 
         Element pageElem = XMLTool.getElement( elem, "page" );
@@ -3373,14 +3362,7 @@ public final class MenuHandler
         if ( tmp != null && tmp.length() > 0 )
         {
             pKey = Integer.parseInt( tmp );
-            try
-            {
-                getPageHandler().updatePage( XMLTool.documentToString( pageDoc ) );
-            }
-            catch ( VerticalUpdateException vue )
-            {
-                VerticalEngineLogger.errorUpdate("A database error occurred: %t", vue );
-            }
+            getPageHandler().updatePage( XMLTool.documentToString( pageDoc ) );
         }
         else
         {
@@ -3408,7 +3390,6 @@ public final class MenuHandler
     }
 
     private void copyMenu( CopyContext copyContext, Element menuElem )
-        throws VerticalCreateException, VerticalUpdateException, VerticalSecurityException
     {
 
         if ( menuElem != null )

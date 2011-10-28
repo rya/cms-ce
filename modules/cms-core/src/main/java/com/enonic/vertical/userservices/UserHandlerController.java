@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
-import javax.naming.NameNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +33,6 @@ import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.SiteKey;
@@ -526,7 +524,6 @@ public class UserHandlerController
     }
 
     protected void handlerChangePassword( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, VerticalUpdateException, RemoteException
     {
         User loggedInUser = securityService.getOldUserObject();
 
@@ -614,20 +611,6 @@ public class UserHandlerController
             redirectToErrorPage( request, response, formItems, ERR_USER_PASSWD_WRONG, null );
             return;
         }
-        catch ( VerticalUpdateException vue )
-        {
-            if ( vue.getCause() instanceof NameNotFoundException )
-            {
-                String message = "User not found: {0}.";
-                VerticalUserServicesLogger.warn(message, uid, null );
-                redirectToErrorPage( request, response, formItems, ERR_USER_NOT_FOUND, null );
-                return;
-            }
-            else
-            {
-                throw vue;
-            }
-        }
         catch ( VerticalSecurityException vue )
         {
             String message = "User id and/or password incorrect: %t";
@@ -645,7 +628,6 @@ public class UserHandlerController
     }
 
     protected void handlerResetPassword( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, VerticalUpdateException, RemoteException
     {
         UserStoreKey userStoreKey;
         String uid;
@@ -767,7 +749,6 @@ public class UserHandlerController
 
 
     protected void handlerModify( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
         UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();
 
@@ -1098,7 +1079,6 @@ public class UserHandlerController
     @Override
     protected void handlerUpdate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
                                   UserServicesService userServices, SiteKey siteKey )
-        throws VerticalUserServicesException, VerticalUpdateException, VerticalSecurityException, RemoteException
     {
 
         UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();

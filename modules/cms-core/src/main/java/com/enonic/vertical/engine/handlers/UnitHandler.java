@@ -23,7 +23,6 @@ import org.w3c.dom.Element;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.filters.Filter;
 
 import com.enonic.cms.core.CalendarUtil;
@@ -147,11 +146,6 @@ public class UnitHandler
                 contentTypeKeys[j] = Integer.parseInt( contentTypeElems[j].getAttribute( "key" ) );
             }
             setUnitContentTypes( key, contentTypeKeys );
-        }
-        catch ( VerticalUpdateException vue )
-        {
-            String message = "Failed to create units: %t";
-            VerticalEngineLogger.errorCreate(message, vue );
         }
         catch ( SQLException sqle )
         {
@@ -333,7 +327,6 @@ public class UnitHandler
     }
 
     public void updateUnit( String xmlData )
-        throws VerticalUpdateException
     {
 
         Document doc = XMLTool.domparse( xmlData, "unit" );
@@ -341,7 +334,6 @@ public class UnitHandler
     }
 
     private void updateUnit( Document unitDoc )
-        throws VerticalUpdateException
     {
 
         // XML DOM
@@ -443,7 +435,6 @@ public class UnitHandler
     }
 
     private void setUnitContentTypes( int unitKey, int[] contentTypeKeys )
-        throws VerticalUpdateException
     {
         final UnitEntity entity = this.unitDao.findByKey(unitKey);
         if (entity == null) {

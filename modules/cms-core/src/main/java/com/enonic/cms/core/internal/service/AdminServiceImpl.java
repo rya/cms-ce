@@ -19,9 +19,6 @@ import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
-import com.enonic.vertical.engine.VerticalUpdateException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.filters.Filter;
 
@@ -438,42 +435,36 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeContentObject( int coc_lKey )
-        throws VerticalSecurityException, VerticalRemoveException
     {
         adminEngine.removeContentObject( coc_lKey );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeContentType( User user, int contentTypeKey )
-        throws VerticalSecurityException, VerticalRemoveException
     {
         adminEngine.removeContentType( user, contentTypeKey );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removeLanguage( LanguageKey languageKey )
-        throws VerticalSecurityException, VerticalRemoveException
     {
         adminEngine.removeLanguage( languageKey );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class, timeout = TIMEOUT_24HOURS)
     public void removeMenu( User user, int key )
-        throws VerticalRemoveException, VerticalSecurityException
     {
         adminEngine.removeMenu( user, key );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void removePageTemplate( int pageTemplateKey )
-        throws VerticalSecurityException, VerticalRemoveException
     {
         adminEngine.removePageTemplate( pageTemplateKey );
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateContentObject( String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException
     {
         adminEngine.updateContentObject( xmlData );
     }
@@ -504,7 +495,6 @@ public class AdminServiceImpl
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void updateUnit( String xmlData )
-        throws VerticalSecurityException, VerticalUpdateException
     {
         adminEngine.updateUnit( xmlData );
     }
@@ -547,7 +537,6 @@ public class AdminServiceImpl
     }
 
     public void moveCategory( User user, int catKey, int superCatKey )
-        throws VerticalUpdateException, VerticalSecurityException
     {
         adminEngine.moveCategory( user, catKey, superCatKey );
     }
