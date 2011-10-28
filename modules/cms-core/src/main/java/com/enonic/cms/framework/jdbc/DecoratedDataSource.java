@@ -2,16 +2,12 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.store.support;
+package com.enonic.cms.framework.jdbc;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import javax.sql.DataSource;
-
 import org.springframework.jdbc.datasource.AbstractDataSource;
-
-import com.enonic.cms.framework.jdbc.ConnectionDecorator;
 
 /**
  * This class implements the data source helper.
@@ -19,46 +15,46 @@ import com.enonic.cms.framework.jdbc.ConnectionDecorator;
 public final class DecoratedDataSource
     extends AbstractDataSource
 {
-
-    /**
-     * Data source.
-     */
     private final DataSource dataSource;
 
-    /**
-     * Decorator manager.
-     */
     private final ConnectionDecorator decorator;
 
-    /**
-     * Construc the data source.
-     */
-    public DecoratedDataSource( DataSource dataSource, ConnectionDecorator decorator )
+    public DecoratedDataSource( final DataSource dataSource, final ConnectionDecorator decorator )
     {
         this.dataSource = dataSource;
         this.decorator = decorator;
     }
 
-    public DataSource getWrappedDataSource()
+    private DataSource getInnerDataSource()
     {
-        return this.dataSource;
+        if (this.dataSource instanceof DecoratedDataSource) {
+            return ((DecoratedDataSource)this.dataSource).dataSource;
+        } else {
+            return this.dataSource;
+        }
     }
 
-    /**
-     * Return a connection from data source.
-     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T unwrap(final Class<T> type)
+        throws SQLException
+    {
+        if (type.equals(DataSource.class)) {
+            return (T)getInnerDataSource();
+        }
+
+        return super.unwrap(type);
+    }
+
     public Connection getConnection()
         throws SQLException
     {
         return this.decorator.decorate( this.dataSource.getConnection() );
     }
 
-    /**
-     * Return a connection from data source.
-     */
     public Connection getConnection( String user, String password )
         throws SQLException
     {
-        throw new SQLException( "Not implemented" );
+        return this.decorator.decorate( this.dataSource.getConnection( user, password ) );
     }
 }

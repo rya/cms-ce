@@ -5,6 +5,8 @@
 package com.enonic.cms.store.support;
 
 import javax.sql.DataSource;
+
+import com.enonic.cms.framework.jdbc.DecoratedDataSource;
 import com.enonic.cms.framework.jdbc.DriverFixConnectionDecorator;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
