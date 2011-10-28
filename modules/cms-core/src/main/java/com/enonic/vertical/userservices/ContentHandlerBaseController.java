@@ -78,7 +78,6 @@ public class ContentHandlerBaseController
 
     protected void buildContentTypeXML( UserServicesService userServices, Element contentdataElem, ExtendedMap formItems,
                                         boolean skipEmptyElements )
-        throws VerticalUserServicesException, RemoteException
     {
         Document doc = contentdataElem.getOwnerDocument();
         Element moduleElement = (Element) formItems.get( "__module_element" );
@@ -122,7 +121,6 @@ public class ContentHandlerBaseController
 
     protected String buildXML( UserServicesService userServices, User user, ExtendedMap formItems, SiteKey siteKey, int contentTypeKey,
                                String contentTitle, boolean skipEmptyElements )
-        throws VerticalUserServicesException, RemoteException
     {
 
         Document doc;
@@ -399,7 +397,6 @@ public class ContentHandlerBaseController
 
     private String buildContent( UserServicesService services, User user, ExtendedMap formItems, SiteKey siteKey, Document contentType,
                                  boolean skipEmptyElements )
-        throws VerticalUserServicesException, RemoteException
     {
 
         Element rootElement = contentType.getDocumentElement();

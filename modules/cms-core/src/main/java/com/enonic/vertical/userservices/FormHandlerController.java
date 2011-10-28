@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.userservices;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
@@ -409,10 +408,6 @@ public class FormHandlerController
             vsession.removeAttribute( "error_form_create" );
 
             redirectToPage( request, response, formItems );
-        }
-        catch ( IOException ioe )
-        {
-            VerticalUserServicesLogger.errorUserServices( "Failed to read multipart request: %t", ioe );
         }
         catch ( FormException e )
         {
