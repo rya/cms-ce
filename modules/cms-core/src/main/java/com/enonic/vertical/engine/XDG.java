@@ -28,8 +28,6 @@ import com.enonic.esl.sql.model.datatypes.XMLType;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.processors.ElementProcessor;
-import com.enonic.vertical.engine.processors.ProcessElementException;
-
 import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 
 public class XDG
@@ -541,20 +539,12 @@ public class XDG
             }
             if ( elementProcessors != null )
             {
-                try
+                for ( ElementProcessor elementProcessor : elementProcessors )
                 {
-                    for ( ElementProcessor elementProcessor : elementProcessors )
+                    if ( elementProcessor != null )
                     {
-                        if ( elementProcessor != null )
-                        {
-                            elementProcessor.process( elem );
-                        }
+                        elementProcessor.process( elem );
                     }
-                }
-                catch ( ProcessElementException pee )
-                {
-                    String message = "Failed to run element processors: %t";
-                    VerticalEngineLogger.error(message, pee );
                 }
             }
         }

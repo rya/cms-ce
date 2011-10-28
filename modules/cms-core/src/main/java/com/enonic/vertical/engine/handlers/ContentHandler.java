@@ -42,7 +42,6 @@ import com.enonic.vertical.engine.dbmodel.ContentView;
 import com.enonic.vertical.engine.filters.ContentFilter;
 import com.enonic.vertical.engine.processors.ContentTypeProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
-import com.enonic.vertical.engine.processors.ProcessElementException;
 import com.enonic.vertical.engine.processors.VersionKeyContentMapProcessor;
 
 import com.enonic.cms.framework.util.TIntArrayList;
@@ -744,22 +743,13 @@ public final class ContentHandler
                         getLogEntries( elem, contentKey );
                     }
 
-                    // Post processing
-                    try
+                    if ( elementProcessor != null )
                     {
-                        if ( elementProcessor != null )
-                        {
-                            elementProcessor.process( elem );
-                        }
+                        elementProcessor.process( elem );
+                    }
 
-                        // Always add version info
-                        versionKeyContentMapProcessor.process( elem );
-                    }
-                    catch ( ProcessElementException pee )
-                    {
-                        String message = "Failed to process element: %t";
-                        VerticalEngineLogger.warn(message, pee );
-                    }
+                    // Always add version info
+                    versionKeyContentMapProcessor.process( elem );
 
                     // increase index
                     i++;
@@ -1691,7 +1681,6 @@ public final class ContentHandler
             private final SectionHandler sectionHandler = getSectionHandler();
 
             public void process( Element elem )
-                throws ProcessElementException
             {
                 int contentKey = Integer.parseInt( elem.getAttribute( "key" ) );
                 sectionHandler.appendSectionNames( contentKey, elem );
@@ -1802,7 +1791,6 @@ public final class ContentHandler
                 XDG.generateSelectSQL( db.tPageTemplate, db.tPageTemplate.pat_sName, false, db.tPageTemplate.pat_lKey ).toString();
 
             public void process( Element elem )
-                throws ProcessElementException
             {
                 if ( elem.hasAttribute( "pagetemplatekey" ) )
                 {

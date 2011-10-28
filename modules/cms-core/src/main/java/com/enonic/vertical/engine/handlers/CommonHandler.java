@@ -32,8 +32,6 @@ import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
-import com.enonic.vertical.engine.processors.ProcessElementException;
-
 import com.enonic.cms.framework.util.TIntArrayList;
 
 public class CommonHandler
@@ -919,7 +917,6 @@ public class CommonHandler
     }
 
     public Object[] createEntities( CopyContext copyContext, Document doc, ElementProcessor[] elementProcessors )
-        throws ProcessElementException
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;

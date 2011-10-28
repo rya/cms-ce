@@ -11,11 +11,8 @@ import org.w3c.dom.Element;
 public interface ElementProcessor
     extends Serializable
 {
-
     /**
      * Method for processing an element
      */
-    public void process( Element elem )
-        throws ProcessElementException;
-
+    public void process( Element elem );
 }
