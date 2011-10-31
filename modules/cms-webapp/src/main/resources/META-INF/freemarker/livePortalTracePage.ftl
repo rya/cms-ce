@@ -30,9 +30,12 @@
     var loadNewPastRequestsIntervalId = 0;
     var refreshSystemInfoIntervalId = 0;
 
-    var servletBaseUrl = "servlet/tools/com.enonic.cms.core.tools.LivePortalTraceController?page=914&op=custom";
-
     var lastHistoryNumber = -1;
+
+    function resolveURLAndAddParams( params )
+    {
+        return "servlet/tools/com.enonic.cms.core.tools.LivePortalTraceController?page=914&op=custom&" + params;
+    }
 
     function stopAutomaticUpdate()
     {
@@ -115,58 +118,58 @@
 
     function reloadCurrentPortalRequests()
     {
-        $( "#window-current" ).load( servletBaseUrl + "&window=current" );
+        $( "#window-current" ).load( resolveURLAndAddParams( "window=current" ) );
     }
 
     function reloadLongestPortalPageRequests()
     {
-        $( "#window-longest-pagerequests" ).load( servletBaseUrl + "&window=longestpagerequests" );
+        $( "#window-longest-pagerequests" ).load( resolveURLAndAddParams( "window=longestpagerequests") );
     }
 
     function clearLongestPageRequestTraces()
     {
         jQuery.ajax( {
-                         url: servletBaseUrl + '&command=clear-longestpagerequests',
+                         url: resolveURLAndAddParams( "command=clear-longestpagerequests" ),
                          type: 'POST',
                          cache: false,
                          async: true,
                          dataType: 'html',
-                         success: reloadLongestPortalPageRequests()
+                         success: reloadLongestPortalPageRequests
                      } );
     }
 
     function reloadLongestPortalAttachmentRequests()
     {
-        $( "#window-longest-attachmentrequests" ).load( servletBaseUrl + "&window=longestattachmentrequests" );
+        $( "#window-longest-attachmentrequests" ).load( resolveURLAndAddParams( "window=longestattachmentrequests" ) );
     }
 
     function clearLongestAttachmentRequestTraces()
     {
         jQuery.ajax( {
-                         url: servletBaseUrl + '&command=clear-longestattachmentrequests',
+                         url: resolveURLAndAddParams( "command=clear-longestattachmentrequests" ),
                          type: 'POST',
                          cache: false,
                          async: true,
                          dataType: 'html',
-                         success: reloadLongestPortalAttachmentRequests()
+                         success: reloadLongestPortalAttachmentRequests
 
                      } );
     }
 
     function reloadLongestPortalImageRequests()
     {
-        $( "#window-longest-imagerequests" ).load( servletBaseUrl + "&window=longestimagerequests" );
+        $( "#window-longest-imagerequests" ).load( resolveURLAndAddParams( "window=longestimagerequests" ) );
     }
 
     function clearLongestImageRequestTraces()
     {
         jQuery.ajax( {
-                         url: servletBaseUrl + '&command=clear-longestimagerequests',
+                         url: resolveURLAndAddParams( 'command=clear-longestimagerequests') ,
                          type: 'POST',
                          cache: false,
                          async: true,
                          dataType: 'html',
-                         success: reloadLongestPortalImageRequests()
+                         success: reloadLongestPortalImageRequests
                      } );
     }
 
@@ -178,7 +181,7 @@
     function loadNewPastPortalRequestTraces()
     {
 
-        var url = servletBaseUrl + '&history=true&records-since-id=' + lastHistoryNumber;
+        var url = resolveURLAndAddParams( "history=true&records-since-id=" + lastHistoryNumber );
 
         $.getJSON( url, function( jsonObj )
         {
@@ -246,7 +249,7 @@
     function refreshSystemInfo()
     {
 
-        var url = servletBaseUrl + "&system-info=true";
+        var url = resolveURLAndAddParams( "system-info=true" );
 
         $.getJSON( url, function( jsonObj )
         {
@@ -255,10 +258,12 @@
             $( '#entity-cache-count' ).text( jsonObj.entity_cache_count );
             $( '#entity-cache-hit-count' ).text( jsonObj.entity_cache_hit_count );
             $( '#entity-cache-miss-count' ).text( jsonObj.entity_cache_miss_count );
+            $( '#entity-cache-capacity-count' ).text( jsonObj.entity_cache_capacity_count );
 
             $( '#page-cache-count' ).text( jsonObj.page_cache_count );
             $( '#page-cache-hit-count' ).text( jsonObj.page_cache_hit_count );
             $( '#page-cache-miss-count' ).text( jsonObj.page_cache_miss_count );
+            $( '#page-cache-capacity-count' ).text( jsonObj.page_cache_capacity_count );
 
             $( '#java-heap-memory-usage-init' ).text( humanReadableBytes( jsonObj.java_heap_memory_usage_init ) );
             $( '#java-heap-memory-usage-used' ).text( humanReadableBytes( jsonObj.java_heap_memory_usage_used ) );
@@ -272,6 +277,16 @@
 
             $( '#java-thread-count' ).text( jsonObj.java_thread_count );
             $( '#java-thread-peak-count' ).text( jsonObj.java_thread_peak_count );
+
+            var data_source_open_connection_count = jsonObj.data_source_open_connection_count;
+            if( data_source_open_connection_count == -1 )
+            {
+                $( '#data-source-open-connection-count' ).text( "N/A" );
+            }
+            else
+            {
+                $( '#data-source-open-connection-count' ).text( jsonObj.data_source_open_connection_count );
+            }
 
             $( '#hibernate-connection-count' ).text( jsonObj.hibernate_connection_count );
             $( '#hibernate-query-cache-hit-count' ).text( jsonObj.hibernate_query_cache_hit_count );
@@ -339,13 +354,11 @@
 
     </script>
     <style type="text/css">
-        .listBox {
-            padding: 8px;
-            margin: 10px;
-            border: 1px solid #A0A0A0;
-            border-radius: 4px;
-            background-color: #eeeeee;
-            overflow: auto;
+
+        #portalRequestTraceDetail-details a:link {
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
         }
 
         .noBorderBottom {
@@ -358,6 +371,15 @@
 
         .noWrap {
             white-space: nowrap;
+        }
+
+        .listBox {
+            padding: 8px;
+            margin: 10px;
+            border: 1px solid #A0A0A0;
+            border-radius: 4px;
+            background-color: #eeeeee;
+            overflow: auto;
         }
 
         .listBox td {
@@ -471,9 +493,7 @@
     <table style="margin-bottom: 10px">
         <tr>
             <td style="margin-right: 20px" valign="top">
-
                 <h1>Admin / <a href="${baseUrl}/adminpage?page=912&op=liveportaltrace">Live Portal Trace</a></h1>
-
                 <button class="button_text" id="stop-auto-update" onclick="stopAutomaticUpdate()">
                     Stop automatic update
                 </button>
@@ -492,8 +512,8 @@
                         <td class="system-info-value" id="entity-cache-hit-count"></td>
                         <td>miss count</td>
                         <td class="system-info-value" id="entity-cache-miss-count"></td>
-                        <td></td>
-                        <td></td>
+                        <td>capacity</td>
+                        <td class="system-info-value" id="entity-cache-capacity-count"></td>
                     </tr>
                     <tr>
                         <th class="system-info-group-name-td">Page cache</th>
@@ -503,8 +523,8 @@
                         <td class="system-info-value" id="page-cache-hit-count"></td>
                         <td>miss count</td>
                         <td class="system-info-value" id="page-cache-miss-count"></td>
-                        <td></td>
-                        <td></td>
+                        <td>capacity</td>
+                        <td class="system-info-value" id="page-cache-capacity-count"></td>
                     </tr>
                     <tr>
                         <th class="system-info-group-name-td">Hibernate stats</th>
@@ -523,8 +543,8 @@
                         <td class="system-info-value" id="java-thread-count"></td>
                         <td>Peak thread count</td>
                         <td class="system-info-value" id="java-thread-peak-count"></td>
-                        <td></td>
-                        <td></td>
+                        <td>Open JDBC conn. count</td>
+                        <td class="system-info-value" id="data-source-open-connection-count"></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -561,8 +581,7 @@
             var tabPane1 = new WebFXTabPane( document.getElementById( "tab-main" ), true );
         </script>
 
-        <!-- History -->
-
+        <!-- History of portal requests -->
         <div class="tab-page" id="tab-page-1">
             <span class="tab">Completed requests</span>
 
@@ -589,11 +608,9 @@
                     </tbody>
                 </table>
             </div>
-
         </div>
 
         <!-- Current portal requests -->
-
         <div class="tab-page" id="tab-page-2">
             <span class="tab">Current portal requests (<span id="current-requests-tab-label"></span>)</span>
 
@@ -612,7 +629,6 @@
 
 
         <!-- Longest page requests -->
-
         <div class="tab-page" id="tab-page-3">
             <span class="tab">Longest page requests</span>
 
@@ -630,7 +646,6 @@
         </div>
 
         <!-- Longest attachment requests -->
-
         <div class="tab-page" id="tab-page-4">
             <span class="tab">Longest attachment requests</span>
 
@@ -648,9 +663,7 @@
             </div>
         </div>
 
-
         <!-- Longest image requests -->
-
         <div class="tab-page" id="tab-page-5">
             <span class="tab">Longest image requests</span>
 
@@ -668,12 +681,8 @@
             </div>
         </div>
 
-
-        <script type="text/javascript" language="JavaScript">
-            setupAllTabs();
-        </script>
-
     </div>
+
 
     <div id="portalRequestTraceDetail-window">
         <div>
@@ -688,6 +697,8 @@
 
 
     <script type="text/javascript">
+
+        setupAllTabs();
 
         startAutomaticUpdateOfSystemInfo();
 

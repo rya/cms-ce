@@ -30,6 +30,8 @@ public class WindowRenderingTrace
 
     private Traces<DatasourceExecutionTrace> datasourceExecutionTraces = new Traces<DatasourceExecutionTrace>();
 
+    private ViewTransformationTrace viewTransformationTrace;
+
     private InstructionPostProcessingTrace instructionPostProcessingTrace;
 
     WindowRenderingTrace( PortalRequestTrace portalRequestTrace )
@@ -106,6 +108,21 @@ public class WindowRenderingTrace
     public List<DatasourceExecutionTrace> getDatasourceExecutionTraces()
     {
         return datasourceExecutionTraces.getList();
+    }
+
+    public boolean hasViewTransformationTrace()
+    {
+        return viewTransformationTrace != null;
+    }
+
+    public ViewTransformationTrace getViewTransformationTrace()
+    {
+        return viewTransformationTrace;
+    }
+
+    void setViewTransformationTrace( ViewTransformationTrace viewTransformationTrace )
+    {
+        this.viewTransformationTrace = viewTransformationTrace;
     }
 
     public boolean hasInstructionPostProcessingTrace()

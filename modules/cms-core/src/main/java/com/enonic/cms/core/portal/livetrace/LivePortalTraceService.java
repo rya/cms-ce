@@ -27,6 +27,8 @@ public interface LivePortalTraceService
 
     ContentIndexQueryTrace startContentIndexQueryTracing();
 
+    ViewTransformationTrace startViewTransformationTracing();
+
     InstructionPostProcessingTrace startInstructionPostProcessingTracingForWindow();
 
     InstructionPostProcessingTrace startInstructionPostProcessingTracingForPage();
@@ -50,6 +52,8 @@ public interface LivePortalTraceService
     void stopTracing( DatasourceExecutionTrace datasourceExecutionTrace );
 
     void stopTracing( ClientMethodExecutionTrace clientMethodExecutionTrace );
+
+    void stopTracing( ViewTransformationTrace trace );
 
     void stopTracing( ContentIndexQueryTrace contentIndexQueryTrace );
 
