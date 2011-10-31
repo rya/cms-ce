@@ -15,7 +15,7 @@ public final class WizardLogger
     public static void errorWizard(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new WizardException(message, throwable);
+        throw new WizardException(format(message, msgData), throwable);
     }
 
     public static void errorWizard(String message, Throwable throwable)

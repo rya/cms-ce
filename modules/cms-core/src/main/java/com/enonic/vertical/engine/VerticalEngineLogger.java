@@ -22,7 +22,7 @@ public final class VerticalEngineLogger
     public static void errorSecurity(String message, Object[] msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalSecurityException(message, throwable);
+        throw new VerticalSecurityException(format(message, msgData), throwable);
     }
 
     public static void errorCopy(String message, Throwable throwable)
@@ -34,13 +34,13 @@ public final class VerticalEngineLogger
     public static void errorCreate(String message, Object[] msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalCreateException(message, throwable);
+        throw new VerticalCreateException(format(message, msgData), throwable);
     }
 
     public static void errorCreate(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalCreateException(message, throwable);
+        throw new VerticalCreateException(format(message, msgData), throwable);
     }
 
     public static void errorCreate(String message, Throwable throwable)
@@ -52,13 +52,13 @@ public final class VerticalEngineLogger
     public static void errorRemove(String message, Object[] msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalRemoveException(message, throwable);
+        throw new VerticalRemoveException(format(message, msgData), throwable);
     }
 
     public static void errorRemove(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalRemoveException(message, throwable);
+        throw new VerticalRemoveException(format(message, msgData), throwable);
     }
 
     public static void errorRemove(String message, Throwable throwable)
@@ -70,13 +70,13 @@ public final class VerticalEngineLogger
     public static void errorUpdate(String message, Object[] msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalUpdateException(message, throwable);
+        throw new VerticalUpdateException(format(message, msgData), throwable);
     }
 
     public static void errorUpdate(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalUpdateException(message, throwable);
+        throw new VerticalUpdateException(format(message, msgData), throwable);
     }
 
     public static void errorUpdate(String message, Throwable throwable)
@@ -88,13 +88,13 @@ public final class VerticalEngineLogger
     public static void fatalEngine(String message, Object[] msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalRuntimeException(message, throwable);
+        throw new VerticalRuntimeException(format(message, msgData), throwable);
     }
 
     public static void fatalEngine(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalRuntimeException(message, throwable);
+        throw new VerticalRuntimeException(format(message, msgData), throwable);
     }
 
     public static void fatalEngine(String message, Throwable throwable)

@@ -6,6 +6,8 @@ package com.enonic.vertical;
 
 import com.enonic.cms.api.util.LogFacade;
 
+import java.text.MessageFormat;
+
 public class VerticalLogger
 {
     private final static LogFacade LOG = LogFacade.get(VerticalLogger.class);
@@ -48,5 +50,10 @@ public class VerticalLogger
     public static void error(String message, Throwable throwable)
     {
         LOG.errorCause(message, throwable);
+    }
+
+    protected static String format(String message, Object... msgData)
+    {
+        return MessageFormat.format(message, msgData);
     }
 }

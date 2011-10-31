@@ -15,13 +15,13 @@ public class VerticalAdminLogger
     public static void errorAdmin(String message, Object[] msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalAdminException(message, throwable);
+        throw new VerticalAdminException(format(message, msgData), throwable);
     }
 
     public static void errorAdmin(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
-        throw new VerticalAdminException(message, throwable);
+        throw new VerticalAdminException(format(message, msgData), throwable);
     }
 
     public static void errorAdmin(String message, Throwable throwable)
