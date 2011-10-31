@@ -264,7 +264,7 @@ public class AdminAjaxServiceImpl
             }
             String languageCode = (String) session.getAttribute( "languageCode" );
 
-            XMLDocument xslDoc = AdminStore.getStylesheetAsDocument( languageCode, xslPath, false );
+            XMLDocument xslDoc = AdminStore.getStylesheetAsDocument( languageCode, xslPath);
             URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
             XsltProcessor processor = createProcessor( xslDoc.getSystemId(), xslDoc, uriResolver );
             return processor.process( new DOMSource( doc ) );

@@ -10,7 +10,6 @@ import java.net.URI;
 import java.net.URL;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -33,6 +32,8 @@ public final class AdminStore
      */
     private final static String STYLESHEET_PATH =  "/META-INF/stylesheets";
 
+    private final static String HREF_PREFIX = "stylesheet://";
+
     private final static class StylesheetURIResolver
         implements URIResolver
     {
@@ -46,25 +47,25 @@ public final class AdminStore
         public Source resolve( String href, String baseHref )
             throws TransformerException
         {
+            String basePath = "";
 
-            if ( !href.startsWith( "/" ) )
-            {
-                href = baseHref.substring( 0, baseHref.lastIndexOf( '/' ) + 1 ) + href;
+            if (baseHref.startsWith(HREF_PREFIX)) {
+                final String tmp = baseHref.replace(HREF_PREFIX, "");
+                final int pos = tmp.lastIndexOf('/');
+                if (pos > -1) {
+                    basePath = tmp.substring(0, pos) + "/";
+                }
             }
 
-            return getStylesheet( languageCode, href, true );
+            return getStylesheet( languageCode, basePath + href);
         }
     }
 
-    private static URL findResource( String path, boolean absolute )
+    private static URL findResource( String path )
         throws Exception
     {
-        if (absolute) {
-            return new URI(path).normalize().toURL();
-        } else {
-            final String normalized = new URI(STYLESHEET_PATH + "/" + path).normalize().toString();
-            return AdminStore.class.getResource(normalized);
-        }
+        final String normalized = new URI(STYLESHEET_PATH + "/" + path).normalize().toString();
+        return AdminStore.class.getResource(normalized);
     }
 
     private static Reader openStream( URL url, String languageCode )
@@ -75,18 +76,18 @@ public final class AdminStore
         return new TranslationReader( translationMap, new InputStreamReader( url.openStream(), "UTF-8" ) );
     }
 
-    public static Source getStylesheet( String languageCode, String path, boolean absolute )
+    public static Source getStylesheet(String languageCode, String path)
     {
-        return getStylesheetAsDocument(languageCode, path, absolute).getAsSource();
+        return getStylesheetAsDocument(languageCode, path).getAsSource();
     }
 
-    public static XMLDocument getStylesheetAsDocument( String languageCode, String path, boolean absolute )
+    public static XMLDocument getStylesheetAsDocument(String languageCode, String path)
     {
         try
         {
-            URL url = findResource( path, absolute );
+            URL url = findResource( path );
             XMLDocument doc = XMLDocumentFactory.create( openStream( url, languageCode ) );
-            doc.setSystemId( url.toString() );
+            doc.setSystemId( HREF_PREFIX + path );
             return doc;
         }
         catch ( Exception e )
@@ -99,7 +100,7 @@ public final class AdminStore
     public static Source getStylesheet( HttpSession session, String path )
     {
         String languageCode = (String) session.getAttribute( "languageCode" );
-        return getStylesheet( languageCode, path, false );
+        return getStylesheet( languageCode, path);
     }
 
     public static Reader getXML( String languageCode, String name )
@@ -108,7 +109,7 @@ public final class AdminStore
 
         try
         {
-            URL url = findResource( path, false );
+            URL url = findResource( path );
             return openStream( url, languageCode );
         }
         catch ( Exception e )

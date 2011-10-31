@@ -28,7 +28,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
 
-import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -47,14 +46,12 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalException;
 import com.enonic.vertical.VerticalRuntimeException;
 import com.enonic.vertical.engine.VerticalEngineException;
-import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.core.content.UnitEntity;
 import com.enonic.cms.core.content.binary.BinaryData;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.User;
@@ -972,7 +969,7 @@ public abstract class AdminHandlerBaseServlet
             final HttpSession session = request.getSession();
             final String languageCode = (String) session.getAttribute( "languageCode" );
 
-            final Source xslDoc = AdminStore.getStylesheet( languageCode, xslPath, false );
+            final Source xslDoc = AdminStore.getStylesheet( languageCode, xslPath);
             final URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
 
             new XsltProcessorHelper().stylesheet( xslDoc, uriResolver ).input( doc ).params( parameters ).process( response );
@@ -990,7 +987,7 @@ public abstract class AdminHandlerBaseServlet
     {
         final HttpSession session = request.getSession();
         final String languageCode = (String) session.getAttribute( "languageCode" );
-        final Source xslSource = AdminStore.getStylesheet( languageCode, xslPath, false );
+        final Source xslSource = AdminStore.getStylesheet( languageCode, xslPath);
 
         transformXML( request, response, doc, xslSource, parameters );
     }
