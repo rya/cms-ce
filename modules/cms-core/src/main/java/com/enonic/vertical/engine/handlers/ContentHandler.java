@@ -11,14 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.enonic.cms.core.content.*;
+import com.enonic.cms.store.dao.ContentHandlerDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -38,7 +34,6 @@ import com.enonic.vertical.engine.dbmodel.ContentPubKeysView;
 import com.enonic.vertical.engine.dbmodel.ContentPublishedView;
 import com.enonic.vertical.engine.dbmodel.ContentVersionView;
 import com.enonic.vertical.engine.dbmodel.ContentView;
-import com.enonic.vertical.engine.filters.ContentFilter;
 import com.enonic.vertical.engine.processors.ContentTypeProcessor;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.VersionKeyContentMapProcessor;
@@ -50,9 +45,6 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.LanguageKey;
-import com.enonic.cms.core.content.ContentEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.ContentTitleXmlCreator;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.resource.ResourceKey;
@@ -87,9 +79,6 @@ public final class ContentHandler
     // tContentHandler
     private final static String HAN_INSERT = "INSERT INTO  " + HAN_TABLE + " VALUES (?,?,?,?,?,@currentTimestamp@)";
 
-    private final static String HAN_SELECT_ALL =
-        "SELECT han_lKey, han_sName, han_sDescription, han_sClass, han_xmlConfig, han_dteTimestamp" + " FROM " + HAN_TABLE;
-
     private final static String HAN_SELECT_KEY = "SELECT han_lKey FROM " + HAN_TABLE;
 
     private final static String HAN_WHERE_CLAUSE_CLASS = " han_sClass = ?";
@@ -100,10 +89,11 @@ public final class ContentHandler
 
     private final static String HAN_DELETE = "DELETE FROM " + HAN_TABLE + " WHERE han_lKey = ?";
 
-    private final static String HAN_ORDER_BY_NAME = " ORDER BY han_sName";
-
     @Autowired
     private ContentTypeDao contentTypeDao;
+
+    @Autowired
+    private ContentHandlerDao contentHandlerDao;
 
     public CategoryKey getCategoryKey( int contentKey )
     {
@@ -283,16 +273,16 @@ public final class ContentHandler
         return key;
     }
 
-    public Document getContent( User user, int contentKey, boolean publishedOnly, int parentLevel, int childrenLevel,
-                                int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics, ContentFilter contentFilter )
+    public Document getContent(User user, int contentKey, boolean publishedOnly, int parentLevel, int childrenLevel,
+                               int parentChildrenLevel)
     {
-        return getContents( user, new int[]{contentKey}, publishedOnly, parentLevel, childrenLevel, parentChildrenLevel,
-                            relatedTitlesOnly, includeStatistics, contentFilter );
+        return getContents( user, new int[]{contentKey}, publishedOnly, parentLevel, childrenLevel, parentChildrenLevel);
+
+                            // false, false, null );
     }
 
     private Document getContents(User user, int[] contentKeys, boolean publishedOnly, int parentLevel,
-                                 int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeStatistics,
-                                 ContentFilter contentFilter)
+                                 int childrenLevel, int parentChildrenLevel)
     {
         ContentView contentView = ContentView.getInstance();
         if ( contentKeys == null || contentKeys.length == 0 )
@@ -324,9 +314,9 @@ public final class ContentHandler
             sqlString = getSecurityHandler().appendContentSQL( user, categoryKeys, sqlString );
         }
 
-        return getContents( user, null, null, sqlString, paramValues, publishedOnly, false, parentLevel,
-                            childrenLevel, parentChildrenLevel, relatedTitlesOnly, includeStatistics, null,
-                contentFilter );
+        return doGetContents(user, null, null, sqlString, paramValues, publishedOnly, parentLevel,
+                childrenLevel, parentChildrenLevel
+        );
     }
 
     public String getContentTitle( int versionKey )
@@ -537,11 +527,9 @@ public final class ContentHandler
     }
 
 
-    private Document getContents(User user, Set<Integer> referencedKeys, Element contentsElem, String sql,
-                                 List<Integer> paramValues, boolean publishedOnly, boolean titlesOnly,
-                                 int parentLevel, int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
-                                 boolean includeStatistics,
-                                 ElementProcessor elementProcessor, ContentFilter contentFilter)
+    private Document doGetContents(User user, Set<Integer> referencedKeys, Element contentsElem, String sql,
+                                   List<Integer> paramValues, boolean publishedOnly,
+                                   int parentLevel, int childrenLevel, int parentChildrenLevel)
     {
         final int fromIdx = 0;
         final int count = Integer.MAX_VALUE;
@@ -629,19 +617,11 @@ public final class ContentHandler
                 {
                     // pre-fetch content data
                     Document contentdata;
-                    if ( titlesOnly )
-                    {
-                        contentdata = null;
-                    }
-                    else
-                    {
-                        InputStream contentDataIn = resultSet.getBinaryStream( "cov_xmlContentData" );
-                        contentdata = XMLTool.domparse( contentDataIn );
-                    }
+                    InputStream contentDataIn = resultSet.getBinaryStream( "cov_xmlContentData" );
+                    contentdata = XMLTool.domparse( contentDataIn );
 
                     Integer contentKey = resultSet.getInt( "con_lKey" );
-                    if ( ( contentKeys.contains( contentKey ) ) ||
-                        ( contentFilter != null && !contentFilter.filter( baseEngine, resultSet ) ) )
+                    if ( contentKeys.contains( contentKey ) )
                     {
                         moreResults = resultSet.next();
                         continue;
@@ -691,42 +671,36 @@ public final class ContentHandler
                     elem.setAttribute( "status", resultSet.getString( "cov_lStatus" ) );
                     elem.setAttribute( "state", resultSet.getString( "cov_lState" ) );
 
-                    if ( !titlesOnly )
-                    {
-                        // owner info
-                        Element ownerElem = XMLTool.createElement( doc, elem, "owner", resultSet.getString( "usr_sOwnerName" ) );
-                        ownerElem.setAttribute( "key", resultSet.getString( "usr_hOwner" ) );
-                        ownerElem.setAttribute( "uid", resultSet.getString( "usr_sOwnerUID" ) );
-                        ownerElem.setAttribute( "deleted", String.valueOf( resultSet.getBoolean( "usr_bOwnerDeleted" ) ) );
+                    // owner info
+                    Element ownerElem = XMLTool.createElement( doc, elem, "owner", resultSet.getString( "usr_sOwnerName" ) );
+                    ownerElem.setAttribute( "key", resultSet.getString( "usr_hOwner" ) );
+                    ownerElem.setAttribute( "uid", resultSet.getString( "usr_sOwnerUID" ) );
+                    ownerElem.setAttribute( "deleted", String.valueOf( resultSet.getBoolean( "usr_bOwnerDeleted" ) ) );
 
-                        // modifier info
-                        Element modifierElem = XMLTool.createElement( doc, elem, "modifier", resultSet.getString( "usr_sModifierName" ) );
-                        modifierElem.setAttribute( "key", resultSet.getString( "usr_hModifier" ) );
-                        modifierElem.setAttribute( "uid", resultSet.getString( "usr_sModifierUID" ) );
-                        modifierElem.setAttribute( "deleted", String.valueOf( resultSet.getBoolean( "usr_bModDeleted" ) ) );
-                    }
+                    // modifier info
+                    Element modifierElem = XMLTool.createElement( doc, elem, "modifier", resultSet.getString( "usr_sModifierName" ) );
+                    modifierElem.setAttribute( "key", resultSet.getString( "usr_hModifier" ) );
+                    modifierElem.setAttribute( "uid", resultSet.getString( "usr_sModifierUID" ) );
+                    modifierElem.setAttribute( "deleted", String.valueOf( resultSet.getBoolean( "usr_bModDeleted" ) ) );
 
                     XMLTool.createElement( doc, elem, "title", resultSet.getString( "cov_sTitle" ) );
 
-                    if ( !titlesOnly )
+                    // add previous pre-fetched content data
+                    Node contentDataRoot = doc.importNode( contentdata.getDocumentElement(), true );
+                    elem.appendChild( contentDataRoot );
+
+                    // is the content a child?
+                    childPreparedStmt.setInt( 1, contentKey );
+                    childResultSet = childPreparedStmt.executeQuery();
+                    if ( childResultSet.next() )
                     {
-                        // add previous pre-fetched content data
-                        Node contentDataRoot = doc.importNode( contentdata.getDocumentElement(), true );
-                        elem.appendChild( contentDataRoot );
-
-                        // is the content a child?
-                        childPreparedStmt.setInt( 1, contentKey );
-                        childResultSet = childPreparedStmt.executeQuery();
-                        if ( childResultSet.next() )
-                        {
-                            elem.setAttribute( "child", "true" );
-                        }
-                        close( childResultSet );
-                        childResultSet = null;
-
-                        Element e = XMLTool.createElement( doc, elem, "categoryname", resultSet.getString( "cat_sName" ) );
-                        e.setAttribute( "key", resultSet.getString( "cat_lKey" ) );
+                        elem.setAttribute( "child", "true" );
                     }
+                    close( childResultSet );
+                    childResultSet = null;
+
+                    Element e = XMLTool.createElement( doc, elem, "categoryname", resultSet.getString( "cat_sName" ) );
+                    e.setAttribute( "key", resultSet.getString( "cat_lKey" ) );
 
                     sectionHandler.appendSectionNames( contentKey, elem );
 
@@ -734,16 +708,6 @@ public final class ContentHandler
                     Element relatedcontentkeysElem = XMLTool.createElement( doc, elem, "relatedcontentkeys" );
                     contentKeyRCKElemMap.put( contentKey, relatedcontentkeysElem );
                     versionKeyRCKElemMap.put( versionKey, relatedcontentkeysElem );
-
-                    if ( includeStatistics )
-                    {
-                        getLogEntries( elem, contentKey );
-                    }
-
-                    if ( elementProcessor != null )
-                    {
-                        elementProcessor.process( elem );
-                    }
 
                     // Always add version info
                     versionKeyContentMapProcessor.process( elem );
@@ -791,11 +755,7 @@ public final class ContentHandler
 
             Table contentTable;
             ContentView contentView = ContentView.getInstance();
-            if ( publishedOnly && relatedTitlesOnly )
-            {
-                contentTable = ContentPubKeysView.getInstance();
-            }
-            else if ( publishedOnly )
+            if ( publishedOnly )
             {
                 contentTable = ContentPublishedView.getInstance();
             }
@@ -807,10 +767,6 @@ public final class ContentHandler
             if ( parentLevel > 0 && parentKeys.size() > 0 )
             {
                 Column[] selectColumns = null;
-                if ( relatedTitlesOnly )
-                {
-                    selectColumns = getTitlesOnlyColumns();
-                }
 
                 int[] parentContentKeys = parentKeys.toArray();
                 StringBuffer sqlString = XDG.generateSelectSQL( contentTable, selectColumns, false, null );
@@ -821,20 +777,16 @@ public final class ContentHandler
                 tempSql = getSecurityHandler().appendContentSQL( user, categoryKeys, tempSql );
 
                 parentChildrenLevel = Math.min( parentChildrenLevel, 3 );
-                getContents( user, contentKeys, relatedcontentsElem, tempSql, null, publishedOnly,
-                             relatedTitlesOnly, parentLevel - 1, parentChildrenLevel, parentChildrenLevel, relatedTitlesOnly, false,
-                             // includeStatistics
+                doGetContents(user, contentKeys, relatedcontentsElem, tempSql, null, publishedOnly,
+                        parentLevel - 1, parentChildrenLevel, parentChildrenLevel
+                        // includeStatistics
                         // includeSectionNames
-                             elementProcessor, null );
+                );
             }
 
             if ( childrenLevel > 0 && childrenKeys.size() > 0 )
             {
                 Column[] selectColumns = null;
-                if ( relatedTitlesOnly )
-                {
-                    selectColumns = getTitlesOnlyColumns();
-                }
 
                 StringBuffer sqlString = XDG.generateSelectSQL( contentTable, selectColumns, false, null );
                 sqlString.append( " WHERE con_lKey IN (" );
@@ -849,10 +801,10 @@ public final class ContentHandler
                 String tempSql = sqlString.toString();
                 tempSql = getSecurityHandler().appendContentSQL( user, categoryKeys, tempSql );
 
-                getContents( user, contentKeys, relatedcontentsElem, tempSql, null, publishedOnly,
-                             relatedTitlesOnly, 0, childrenLevel - 1, 0, relatedTitlesOnly, false, // includeStatistics
+                doGetContents(user, contentKeys, relatedcontentsElem, tempSql, null, publishedOnly,
+                        0, childrenLevel - 1, 0   // includeStatistics
                         // includeSectionNames
-                             elementProcessor, null );
+                );
             }
 
             if ( contentsElem == null  )
@@ -872,10 +824,6 @@ public final class ContentHandler
                 }
 
                 countSql.replace( "SELECT ".length(), sql.indexOf( " FROM" ), "count(distinct con_lKey) AS con_lCount" );
-                if ( contentFilter != null )
-                {
-                    contentFilter.appendWhereClause( baseEngine, countSql );
-                }
                 preparedStmt = con.prepareStatement( countSql.toString() );
                 if ( paramValues != null )
                 {
@@ -1016,7 +964,7 @@ public final class ContentHandler
 
     private Document createContentTypesDoc( List<ContentTypeEntity> list, boolean includeContentCount )
     {
-        Document doc = XMLTool.createDocument( "contenttypes" );
+        Document doc = XMLTool.createDocument("contenttypes");
         Element root = doc.getDocumentElement();
 
         if ( list == null )
@@ -1080,7 +1028,7 @@ public final class ContentHandler
         ContentView contentView = ContentView.getInstance();
         StringBuffer countSQL =
             XDG.generateSelectSQL( contentView, contentView.con_lKey.getCountColumn(), false, contentView.cat_cty_lKey );
-        return getCommonHandler().getInt( countSQL.toString(), contentTypeKey );
+        return getCommonHandler().getInt(countSQL.toString(), contentTypeKey);
     }
 
     private int[] getContentTypeKeys( String sql, int paramValue )
@@ -1117,22 +1065,6 @@ public final class ContentHandler
         }
 
         return contentTypeKeys.toArray();
-    }
-
-    private void getLogEntries( Element contentElem, int contentKey )
-    {
-
-        LogHandler logHandler = getLogHandler();
-        int readCount = logHandler.getReadCount( com.enonic.cms.core.log.Table.CONTENT.asInteger(), contentKey );
-        Element elem = XMLTool.createElement( contentElem.getOwnerDocument(), contentElem, "logentries" );
-        if ( readCount > 0 )
-        {
-            elem.setAttribute( "totalread", String.valueOf( readCount ) );
-        }
-        else
-        {
-            elem.setAttribute( "totalread", "0" );
-        }
     }
 
     public int[] getContentKeysByCategory( User user, CategoryKey categoryKey )
@@ -1184,10 +1116,16 @@ public final class ContentHandler
         return entity.getHandler().getClassName();
     }
 
-    public Document getContentHandler( int contentHandlerKey )
+    public org.jdom.Document getContentHandler( final int contentHandlerKey )
     {
-        String sql = HAN_SELECT_ALL + " WHERE han_lKey = " + contentHandlerKey;
-        return getContentHandlers( sql);
+        final ContentHandlerEntity entity = this.contentHandlerDao.findByKey(new ContentHandlerKey(contentHandlerKey));
+        List<ContentHandlerEntity> list = Collections.emptyList();
+
+        if (entity != null) {
+            list = Collections.singletonList(entity);
+        }
+
+        return toDocument(list);
     }
 
     private int getContentHandlerKeyByHandlerClass( String handlerClass )
@@ -1196,77 +1134,47 @@ public final class ContentHandler
         sql.append( " WHERE" );
         sql.append( HAN_WHERE_CLAUSE_CLASS );
 
-        return getCommonHandler().getInt( sql.toString(), new Object[]{handlerClass} );
+        return getCommonHandler().getInt(sql.toString(), new Object[]{handlerClass});
     }
 
-    public Document getContentHandlers()
+    public org.jdom.Document getContentHandlers()
     {
-        StringBuffer sql = new StringBuffer( HAN_SELECT_ALL );
-        sql.append( HAN_ORDER_BY_NAME );
-        return getContentHandlers( sql.toString());
+        final List<ContentHandlerEntity> list = this.contentHandlerDao.findAll();
+        return toDocument(list);
     }
 
-    private Document getContentHandlers(String sql)
+    private org.jdom.Document toDocument(final List<ContentHandlerEntity> list)
     {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-        Document doc = null;
+        final org.jdom.Element root = new org.jdom.Element("contenthandlers");
 
-        try
-        {
-            doc = XMLTool.createDocument( "contenthandlers" );
-            Element root = doc.getDocumentElement();
+        for (final ContentHandlerEntity entity : list) {
+            final org.jdom.Element elem = new org.jdom.Element("contenthandler");
+            root.addContent(elem);
+            
+            elem.setAttribute( "key", entity.getKey().toString() );
 
-            con = getConnection();
+            elem.addContent(new org.jdom.Element("name").setText(entity.getName()));
+            elem.addContent(new org.jdom.Element("class").setText(entity.getClassName()));
 
-            preparedStmt = con.prepareStatement( sql );
-
-            resultSet = preparedStmt.executeQuery();
-
-            while ( resultSet.next() )
-            {
-                Element elem = XMLTool.createElement( doc, root, "contenthandler" );
-                elem.setAttribute( "key", resultSet.getString( "han_lKey" ) );
-
-                // sub-elements
-                XMLTool.createElement( doc, elem, "name", resultSet.getString( "han_sName" ) );
-                XMLTool.createElement( doc, elem, "class", resultSet.getString( "han_sClass" ) );
-                String description = resultSet.getString( "han_sDescription" );
-                if ( !resultSet.wasNull() )
-                {
-                    XMLTool.createElement( doc, elem, "description", description );
-                }
-
-                InputStream is = resultSet.getBinaryStream( "han_xmlConfig" );
-                if ( !resultSet.wasNull() )
-                {
-                    Document configDoc = XMLTool.domparse( is );
-                    Element configElem = configDoc.getDocumentElement();
-                    elem.appendChild( doc.importNode( configElem, true ) );
-                }
-                else
-                {
-                    XMLTool.createElement( doc, elem, "xmlconfig" );
-                }
-
-                Timestamp timestamp = resultSet.getTimestamp( "han_dteTimestamp" );
-                XMLTool.createElement( doc, elem, "timestamp", CalendarUtil.formatTimestamp( timestamp, true ) );
+            final String description = entity.getDescription();
+            if (description != null) {
+                elem.addContent(new org.jdom.Element("description").setText(description));
             }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to get content handlers: %t";
-            VerticalEngineLogger.error(message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-            close( con );
+
+            final org.jdom.Document xmlConfig = entity.getXmlConfig();
+            if (xmlConfig != null) {
+                elem.addContent(xmlConfig.getRootElement().detach());
+            }
+            else
+            {
+                elem.addContent(new org.jdom.Element("xmlconfig"));
+            }
+
+            final String timestamp = CalendarUtil.formatTimestamp(entity.getTimestamp(), true);
+            elem.addContent(new org.jdom.Element("timestamp").setText(timestamp));
         }
 
-        return doc;
+        return new org.jdom.Document(root);
     }
 
     public int createContentHandler(Document doc)
@@ -1408,7 +1316,7 @@ public final class ContentHandler
         catch ( NumberFormatException nfe )
         {
             String message = "Failed to parse content type key: %t";
-            VerticalEngineLogger.errorUpdate(message, nfe );
+            VerticalEngineLogger.errorUpdate(message, nfe);
         }
         finally
         {
@@ -1491,7 +1399,7 @@ public final class ContentHandler
 
     public Document getContentTitleDoc( int versionKey )
     {
-        Document doc = XMLTool.createDocument( "contenttitles" );
+        Document doc = XMLTool.createDocument("contenttitles");
 
         ContentVersionView versionView = ContentVersionView.getInstance();
         StringBuffer sql = XDG.generateSelectSQL( versionView, versionView.cov_lKey );
@@ -1560,24 +1468,6 @@ public final class ContentHandler
         return doc;
     }
 
-    public StringBuffer getCategoryPathString( int contentKey )
-    {
-
-        CategoryKey categoryKey;
-
-        ContentEntity content = contentDao.findByKey( new ContentKey( contentKey ) );
-        if ( content != null )
-        {
-            categoryKey = content.getCategory().getKey();
-            return getCategoryHandler().getPathString( categoryKey );
-        }
-        else
-        {
-            return new StringBuffer();
-        }
-
-    }
-
     public int getCurrentVersionKey( int contentKey )
     {
         StringBuffer sql = XDG.generateSelectSQL( db.tContent, db.tContent.con_cov_lKey, false, db.tContent.con_lKey );
@@ -1586,7 +1476,7 @@ public final class ContentHandler
 
     public int getContentKeyByVersionKey( int versionKey )
     {
-        StringBuffer sql = XDG.generateSelectSQL( db.tContentVersion, db.tContentVersion.cov_con_lKey, false, db.tContentVersion.cov_lKey );
+        StringBuffer sql = XDG.generateSelectSQL(db.tContentVersion, db.tContentVersion.cov_con_lKey, false, db.tContentVersion.cov_lKey);
         return getCommonHandler().getInt( sql.toString(), versionKey );
     }
 
@@ -1600,7 +1490,7 @@ public final class ContentHandler
         XDG.appendOrderBySQL( sql, versionView.cov_dteCreated, true );
         Object[][] data = getCommonHandler().getObjectArray( sql.toString(), new Object[]{contentKey} );
 
-        Document doc = XMLTool.createDocument( "versions" );
+        Document doc = XMLTool.createDocument("versions");
 
         for ( int contentCounter = 0; contentCounter < data.length; contentCounter++ )
         {
@@ -1746,7 +1636,7 @@ public final class ContentHandler
 
     public Document getContentXMLField( int versionKey )
     {
-        return getCommonHandler().getDocument( db.tContentVersion, versionKey );
+        return getCommonHandler().getDocument(db.tContentVersion, versionKey);
     }
 
     public int[] getContentTypesByHandlerClass( String className )
@@ -1756,15 +1646,6 @@ public final class ContentHandler
         XDG.appendJoinSQL( sql, db.tContentType.cty_han_lKey );
         XDG.appendWhereSQL( sql, db.tContentHandler.han_sClass, XDG.OPERATOR_EQUAL, className );
         return getCommonHandler().getIntArray( sql.toString(), (int[]) null );
-    }
-
-    private Column[] getTitlesOnlyColumns()
-    {
-        ContentView contentView = ContentView.getInstance();
-        return new Column[]{contentView.con_lKey, contentView.cov_lKey, contentView.cat_uni_lKey, contentView.cat_cty_lKey,
-            contentView.con_lan_lKey, contentView.con_dteCreated, contentView.cov_lStatus, contentView.cov_lState,
-            contentView.con_dtePublishFrom, contentView.con_dtePublishTo, contentView.cov_sTitle, contentView.con_lPriority,
-            contentView.cov_dteTimestamp,};
     }
 
     public boolean isContentVersionApproved( int versionKey )

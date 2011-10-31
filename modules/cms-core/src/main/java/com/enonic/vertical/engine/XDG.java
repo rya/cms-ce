@@ -4,7 +4,6 @@
  */
 package com.enonic.vertical.engine;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -15,7 +14,6 @@ import java.util.Set;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Constants;
@@ -24,7 +22,6 @@ import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.sql.model.View;
 import com.enonic.esl.sql.model.datatypes.CDATAType;
 import com.enonic.esl.sql.model.datatypes.DataType;
-import com.enonic.esl.sql.model.datatypes.XMLType;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.processors.ElementProcessor;
@@ -628,51 +625,6 @@ public class XDG
         return sql;
     }
 
-    public static StringBuffer generateInsertSQL( Table table, Element elem )
-    {
-        // Generate SQL
-        StringBuffer sql = new StringBuffer( "INSERT INTO " );
-        sql.append( table );
-        sql.append( " (" );
-
-        StringBuffer params = new StringBuffer();
-
-        Column[] columns = table.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            sql.append( columns[i].getName() );
-
-            if ( columns[i].getType() == Constants.COLUMN_CURRENT_TIMESTAMP || columns[i].getType() == Constants.COLUMN_CREATED_TIMESTAMP )
-            {
-                String text = XMLTool.getElementText( elem, columns[i].getXPath() );
-                if ( text == null || text.length() == 0 )
-                {
-                    params.append( "@currentTimestamp@" );
-                }
-                else
-                {
-                    params.append( "?" );
-                }
-            }
-            else
-            {
-                params.append( "?" );
-            }
-
-            // If there are more nodes
-            if ( i < columns.length - 1 )
-            {
-                sql.append( ( ", " ) );
-                params.append( ", " );
-            }
-        }
-        sql.append( ") VALUES (" );
-        sql.append( params );
-        sql.append(")");
-
-        return sql;
-    }
-
     public static StringBuffer generateUpdateSQL( Table table, Column setColumn, Column whereColumn )
     {
         Column[] setColumns;
@@ -789,55 +741,5 @@ public class XDG
         sql.append( ')' );
 
         return sql;
-    }
-
-    public static void setData(PreparedStatement preparedStmt, Table table, Element dataElem)
-        throws SQLException
-    {
-        Column[] columns = table.getColumns();
-        int dataPosition = 0;
-
-        int excludedCounter = 0;
-
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            DataType type = columns[i].getType();
-            String xpath = columns[i].getXPath();
-
-            int index = table.getIndex( columns[i] ) - excludedCounter;
-
-            Node node = XMLTool.selectNode( dataElem, xpath );
-            Object data = type.getDataFromXML( node );
-            if ( data == null && ( type instanceof XMLType ) )
-            {
-                Document tmpDoc = XMLTool.createDocument();
-                data = XMLTool.documentToBytes( tmpDoc, "UTF-8" );
-            }
-
-            if ( data == null )
-            {
-
-                if ( type == Constants.COLUMN_CURRENT_TIMESTAMP || type == Constants.COLUMN_CREATED_TIMESTAMP )
-                {
-                    VerticalEngineLogger.debug("Timestamp is not set.", null );
-                    dataPosition++;
-                }
-                else if ( columns[i].getDefaultValue() != null )
-                {
-                    data = columns[i].getDefaultValue();
-                    int columnIndex = index - dataPosition;
-                    type.setData( preparedStmt, columnIndex, data );
-                }
-                else
-                {
-                    preparedStmt.setNull( index - dataPosition, type.getSQLType() );
-                }
-            }
-            else
-            {
-                int columnIndex = index - dataPosition;
-                type.setData( preparedStmt, columnIndex, data );
-            }
-        }
     }
 }

@@ -13,7 +13,6 @@ import com.enonic.esl.sql.model.Column;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.processors.ElementProcessor;
 import com.enonic.vertical.engine.processors.MenuElementProcessor;
 import com.enonic.vertical.engine.processors.UserElementProcessor;
@@ -24,13 +23,11 @@ import com.enonic.cms.core.log.LogType;
 import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 
-import com.enonic.cms.core.security.user.User;
-
 public final class LogHandler
     extends BaseHandler
     implements MenuHandlerListener
 {
-    public Document getLogEntries(User user, MultiValueMap adminParams, int fromIdx, int count, boolean complete)
+    public Document getLogEntries(MultiValueMap adminParams, int fromIdx, int count, boolean complete)
     {
 
         Column[] selectColumns;
@@ -90,9 +87,6 @@ public final class LogHandler
         return commonHandler.getSingleData( Types.LOGENTRY, key, elementProcessors );
     }
 
-    /**
-     * @see com.enonic.vertical.event.MenuHandlerListener#createdMenuItem(com.enonic.vertical.event.MenuHandlerEvent)
-     */
     public void createdMenuItem( MenuHandlerEvent e )
         throws VerticalCreateException
     {
@@ -130,23 +124,5 @@ public final class LogHandler
         command.setTitle( e.getTitle() );
 
         logService.storeNew( command );
-    }
-
-    public int getReadCount( int tableKey, int tableKeyValue )
-    {
-        Column[] whereColumns = {db.tLogEntry.len_lTableKey, db.tLogEntry.len_lKeyValue};
-        int[] paramValues = {tableKey, tableKeyValue};
-        StringBuffer sql = XDG.generateSelectSQL( db.tLogEntry, db.tLogEntry.len_lCount.getCustomColumn( "sum" ), false, whereColumns );
-        XDG.appendWhereSQL( sql, db.tLogEntry.len_lTypeKey, XDG.OPERATOR_EQUAL, LogType.ENTITY_OPENED.asInteger() );
-        CommonHandler commonHandler = getCommonHandler();
-        int readCount = commonHandler.getInt( sql.toString(), paramValues );
-        if ( readCount > 0 )
-        {
-            return readCount;
-        }
-        else
-        {
-            return 0;
-        }
     }
 }

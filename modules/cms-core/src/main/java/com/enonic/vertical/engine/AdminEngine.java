@@ -348,7 +348,7 @@ public final class AdminEngine
     public XMLDocument getContent( User user, int contentKey, int parentLevel, int childrenLevel, int parentChildrenLevel )
     {
         Document doc =
-            contentHandler.getContent( user, contentKey, false, parentLevel, childrenLevel, parentChildrenLevel, false, true, null );
+            contentHandler.getContent( user, contentKey, false, parentLevel, childrenLevel, parentChildrenLevel);
         securityHandler.appendAccessRights( user, doc, true, true );
         return XMLDocumentFactory.create(doc);
     }
@@ -1063,7 +1063,7 @@ public final class AdminEngine
 
     public XMLDocument getLogEntries( User user, MultiValueMap adminParams, int fromIdx, int count, boolean complete )
     {
-        Document doc = logHandler.getLogEntries( user, adminParams, fromIdx, count, complete);
+        Document doc = logHandler.getLogEntries(adminParams, fromIdx, count, complete);
         return XMLDocumentFactory.create(doc);
     }
 

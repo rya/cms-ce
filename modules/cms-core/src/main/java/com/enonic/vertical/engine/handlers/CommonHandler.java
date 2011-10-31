@@ -18,15 +18,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.sql.model.Column;
-import com.enonic.esl.sql.model.Constants;
 import com.enonic.esl.sql.model.ForeignKeyColumn;
 import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.sql.model.datatypes.DataType;
-import com.enonic.esl.util.UUID;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineLogger;
@@ -37,8 +34,6 @@ import com.enonic.cms.framework.util.TIntArrayList;
 public class CommonHandler
     extends BaseHandler
 {
-    private static final Logger LOG = LoggerFactory.getLogger( CommonHandler.class.getName() );
-
     private final static int FETCH_SIZE = 20;
 
     public int executeSQL( String sql, int paramValue )
@@ -914,180 +909,6 @@ public class CommonHandler
             close( con );
         }
         return hasRows;
-    }
-
-    public Object[] createEntities( CopyContext copyContext, Document doc, ElementProcessor[] elementProcessors )
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        Object[] keys;
-
-        // used by error messages:
-        String currentTable = null;
-        Element currentElement = null;
-
-        try
-        {
-            Element rootElem = doc.getDocumentElement();
-
-            Element[] dataElems;
-            if ( rootElem.getTagName().equals( "data" ) )
-            {
-                // If data is root, there may be several different element types
-                // here
-                ArrayList<Element> dataElemsList = new ArrayList<Element>();
-
-                Element[] parents = XMLTool.getElements( rootElem );
-
-                // Traverse all parents and add all childrens to the
-                // dataElemsList
-                for ( Element parent : parents )
-                {
-                    String parentName = parent.getTagName();
-                    Table table = db.getTableByParentName( parentName );
-
-                    if ( table == null )
-                    {
-                        LOG.info( "Did not find table matching parent name {}", parentName );
-                        continue;
-                    }
-
-                    String elementName = table.getElementName();
-
-                    Element[] children = XMLTool.getElements( parent );
-
-                    // Traverse all childrens
-                    for ( Element aChildren : children )
-                    {
-                        // Check that this element has the correct name
-                        if ( !aChildren.getTagName().equals( elementName ) )
-                        {
-                            LOG.info( "elementname {} did not match expected {}.", aChildren.getTagName(), elementName );
-                            continue;
-                        }
-                        dataElemsList.add( aChildren );
-                    }
-                }
-                dataElems = dataElemsList.toArray( new Element[dataElemsList.size()] );
-            }
-            else if ( db.getTableByElementName( rootElem.getTagName() ) != null )
-            {
-                // If the root matches the element name of a table, we have one
-                // single entity
-                dataElems = new Element[]{rootElem};
-            }
-            else if ( db.getTableByParentName( rootElem.getTagName() ) != null )
-            {
-                // If the root matches the parent name of a table, we have one
-                // single entity, all it's
-                // children are elements
-                dataElems = XMLTool.getElements( rootElem );
-            }
-            else
-            {
-                String message = "Document root ({0}) is not <data>, and does not match any parent or element names.";
-                VerticalEngineLogger.errorCreate(message, rootElem.getTagName(), null );
-                dataElems = null;
-            }
-
-            keys = new Object[dataElems.length];
-            con = getConnection();
-            for ( int i = 0; i < dataElems.length; i++ )
-            {
-                // primary key
-                //  - get the key from xml, otherwise generate it
-                //  - if key map is present and key exists, map old key to current key
-                //  - update xml for use in processing with current key if old key or key missing
-                Table table = db.getTableByElementName( dataElems[i].getTagName() );
-                String keyStr = dataElems[i].getAttribute( "key" );
-                if ( keyStr == null || keyStr.length() == 0 || copyContext != null )
-                {
-                    // Key must be generated
-
-                    Column primaryKeyColumn = table.getPrimaryKeys()[0];
-                    if ( primaryKeyColumn.getType() == Constants.COLUMN_INTEGER )
-                    {
-                        Integer newKey = getNextKey( table.getName() );
-                        if ( copyContext != null )
-                        {
-                            copyContext.put( dataElems[i].getTagName(), Integer.parseInt( keyStr ), newKey );
-                        }
-                        keys[i] = newKey;
-                    }
-                    else
-                    {
-                        String newKey = UUID.generateValue();
-                        if ( copyContext != null )
-                        {
-                            copyContext.put( dataElems[i].getTagName(), keyStr, newKey );
-                        }
-                        keys[i] = newKey;
-                    }
-                    dataElems[i].setAttribute( "key", String.valueOf( keys[i] ) );
-                }
-                else
-                {
-                    Column primaryKeyColumn = table.getPrimaryKeys()[0];
-                    if ( primaryKeyColumn.getType() == Constants.COLUMN_INTEGER )
-                    {
-                        keys[i] = Integer.parseInt( keyStr );
-                    }
-                    else
-                    {
-                        keys[i] = keyStr;
-                    }
-                }
-
-                // pre-process each element if one or more processors are present
-                if ( elementProcessors != null && elementProcessors.length > 0 )
-                {
-                    for ( ElementProcessor elementProcessor : elementProcessors )
-                    {
-                        elementProcessor.process( dataElems[i] );
-                    }
-                }
-
-                currentTable = table.toString();
-                currentElement = dataElems[i];
-
-                StringBuffer sql = XDG.generateInsertSQL( table, dataElems[i] );
-
-                preparedStmt = con.prepareStatement( sql.toString() );
-
-                XDG.setData( preparedStmt, table, dataElems[i]);
-
-                int result = preparedStmt.executeUpdate();
-                if ( result == 0 )
-                {
-                    String message = "Failed to create entity.";
-                    VerticalEngineLogger.errorCreate(message, null );
-                }
-                close( preparedStmt );
-                preparedStmt = null;
-            }
-
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to create: %t";
-            VerticalEngineLogger.errorCreate(message, sqle );
-            keys = null;
-            if ( currentTable != null )
-            {
-                System.err.println( "Current table: " + currentTable );
-            }
-            if ( currentElement != null )
-            {
-                System.err.println( "Current element: \n" + XMLTool.elementToString( currentElement ) );
-            }
-        }
-        finally
-        {
-            close( preparedStmt );
-            close( con );
-        }
-
-        return keys;
     }
 
     public Document getSingleData( int type, int key, ElementProcessor[] elementProcessors )

@@ -100,7 +100,7 @@ public class UserServicesEngine
         }
 
         Document doc =
-            contentHandler.getContent( user, key, publishedOnly, parentLevel, childrenLevel, parentChildrenLevel, false, false, null );
+            contentHandler.getContent( user, key, publishedOnly, parentLevel, childrenLevel, parentChildrenLevel);
 
         return XMLDocumentFactory.create( doc );
     }
