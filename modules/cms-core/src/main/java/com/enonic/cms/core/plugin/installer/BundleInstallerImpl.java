@@ -1,60 +1,37 @@
-package com.enonic.cms.core.plugin.deploy;
+package com.enonic.cms.core.plugin.installer;
 
-import java.io.File;
-
-import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
+import com.enonic.cms.api.util.LogFacade;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import com.enonic.cms.api.util.LogFacade;
-
-final class PluginInstaller
-    extends FileAlterationListenerAdaptor
+final class BundleInstallerImpl
+    implements BundleInstaller
 {
-    private final static LogFacade LOG = LogFacade.get( PluginInstaller.class );
+    private final static LogFacade LOG = LogFacade.get( BundleInstallerImpl.class );
 
     private final BundleContext context;
 
-    public PluginInstaller(final BundleContext context)
+    public BundleInstallerImpl(final BundleContext context)
     {
         this.context = context;
     }
 
-    @Override
-    public void onFileCreate(final File file)
+    public void install( final String location )
     {
-        install(file);
-    }
-
-    @Override
-    public void onFileChange(final File file)
-    {
-        install(file);
-    }
-
-    @Override
-    public void onFileDelete(final File file)
-    {
-        uninstall(file);
-    }
-
-    private void install( final File file )
-    {
-        final String location = toLocation( file );
-        Bundle bundle = findBundle( location );
+        final String url = convertLocation(location);
+        final Bundle bundle = findBundle(url);
 
         if (bundle != null) {
             doUpdate(bundle);
         } else {
-            doInstall(location);
+            doInstall(url);
         }
     }
 
-    private void uninstall( final File file )
+    public void uninstall( final String location )
     {
-        final String location = toLocation( file );
-        final Bundle bundle = findBundle( location );
-
+        final String url = convertLocation(location);
+        final Bundle bundle = findBundle( url );
         if ( bundle != null )
         {
             doUninstall( bundle );
@@ -112,15 +89,8 @@ final class PluginInstaller
         return null;
     }
 
-    private String toLocation( final File file )
+    private String convertLocation(final String location)
     {
-        try
-        {
-            return file.toURI().toURL().toExternalForm();
-        }
-        catch ( Exception e )
-        {
-            throw new AssertionError(e);
-        }
+        return TransformerStreamHandler.SCHEME + ":" + location;
     }
 }

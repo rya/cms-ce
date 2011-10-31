@@ -1,9 +1,7 @@
-package com.enonic.cms.core.plugin.logger;
+package com.enonic.cms.core.plugin.container;
 
 import org.osgi.framework.BundleContext;
 import org.springframework.stereotype.Component;
-
-import com.enonic.cms.core.plugin.container.OsgiContributor;
 
 @Component
 public final class LoggerActivator

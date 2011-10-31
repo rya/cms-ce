@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.logger;
+package com.enonic.cms.core.plugin.container;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleEvent;

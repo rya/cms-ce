@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.config;
+package com.enonic.cms.core.plugin.context;
 
 import com.enonic.cms.api.plugin.PluginConfig;
 import org.junit.Before;

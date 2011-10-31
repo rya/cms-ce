@@ -1,31 +1,35 @@
 package com.enonic.cms.core.plugin.spring;
 
+import com.enonic.cms.api.plugin.PluginContext;
+import com.enonic.cms.api.plugin.ext.Extension;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
+import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.springframework.stereotype.Component;
 
-import com.enonic.cms.core.plugin.container.OsgiContributor;
-
-@Component
 public final class SpringActivator
-    extends OsgiContributor
+    implements BundleActivator
 {
-    private SpringExtender tracker;
-
-    public SpringActivator()
-    {
-        super(5);
-    }
+    private XmlAppContext app;
 
     public void start( final BundleContext context )
         throws Exception
     {
-        this.tracker = new SpringExtender( context );
-        this.tracker.open();
-    }
+        this.app = new XmlAppContext( context.getBundle() );
 
+        final PluginContext pluginContext  = OsgiHelper.requireService(context, PluginContext.class);
+        this.app.addBeanFactoryPostProcessor(new BeansProcessor(pluginContext));
+        this.app.addBeanFactoryPostProcessor( new ConfigProcessor( pluginContext ) );
+        this.app.refresh();
+
+        for ( final Extension ext : this.app.getBeansOfType( Extension.class ).values() )
+        {
+            pluginContext.register( ext );
+        }
+    }
+    
     public void stop( final BundleContext context )
         throws Exception
     {
-        this.tracker.close();
+        this.app.close();
     }
 }

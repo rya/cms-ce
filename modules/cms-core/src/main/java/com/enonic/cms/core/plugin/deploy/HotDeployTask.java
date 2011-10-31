@@ -1,21 +1,14 @@
 package com.enonic.cms.core.plugin.deploy;
 
-import java.io.File;
-
+import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.installer.BundleInstaller;
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
-import org.osgi.framework.BundleContext;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import java.io.File;
 
-import com.enonic.cms.api.util.LogFacade;
-import com.enonic.cms.core.plugin.container.OsgiContributor;
-
-@Component
-public final class HotDeployer
-    extends OsgiContributor
+final class HotDeployTask
 {
-    private final static LogFacade LOG = LogFacade.get( HotDeployer.class );
+    private final static LogFacade LOG = LogFacade.get( HotDeployTask.class );
 
     private File deployDir;
 
@@ -23,41 +16,39 @@ public final class HotDeployer
 
     private FileAlterationMonitor monitor;
 
-    public HotDeployer()
-    {
-        super(10);
-    }
+    private HotDeployListener listener;
 
-    @Value("#{config.pluginDeployDir}")
     public void setDeployDir( final File deployDir )
     {
         this.deployDir = deployDir;
     }
 
-    @Value("#{config.pluginScanPeriod}")
     public void setScanPeriod( final long scanPeriod )
     {
         this.scanPeriod = scanPeriod;
     }
 
-    public void start( final BundleContext context )
+    public void setInstaller( final BundleInstaller installer )
+    {
+        this.listener = new HotDeployListener(installer);
+    }
+
+    public void start()
         throws Exception
     {
         final JarFileFilter filter = new JarFileFilter();
-        final PluginInstaller installer = new PluginInstaller( context );
 
         final FileAlterationObserver observer = new FileAlterationObserver(this.deployDir, filter);
-        observer.addListener(installer);
+        observer.addListener(this.listener);
         observer.checkAndNotify();
 
         this.monitor = new FileAlterationMonitor(this.scanPeriod, observer);
         this.monitor.start();
 
         LOG.info("Hot deploying plugins from [{0}]. Scanning every [{1}] ms.", this.deployDir.getAbsolutePath(), this.scanPeriod);
-
     }
 
-    public void stop( final BundleContext context )
+    public void stop()
         throws Exception
     {
         this.monitor.stop();

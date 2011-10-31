@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.config;
+package com.enonic.cms.core.plugin.context;
 
 import java.io.File;
 import java.io.FileInputStream;

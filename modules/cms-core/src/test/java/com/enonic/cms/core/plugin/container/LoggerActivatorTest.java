@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.logger;
+package com.enonic.cms.core.plugin.container;
 
 import org.junit.Test;
 import org.mockito.Mockito;

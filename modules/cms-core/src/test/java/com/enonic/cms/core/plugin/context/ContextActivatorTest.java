@@ -1,4 +1,4 @@
-package com.enonic.cms.core.plugin.config;
+package com.enonic.cms.core.plugin.context;
 
 import com.enonic.cms.api.plugin.PluginConfig;
 import org.junit.Rule;
@@ -8,7 +8,7 @@ import org.mockito.Mockito;
 import org.osgi.framework.BundleContext;
 import java.util.Dictionary;
 
-public class PluginConfigManagerTest
+public class ContextActivatorTest
 {
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -19,10 +19,15 @@ public class PluginConfigManagerTest
     {
         final BundleContext context = Mockito.mock(BundleContext.class);
 
-        final PluginConfigManager manager = new PluginConfigManager();
+        final ContextActivator manager = new ContextActivator();
         manager.setConfigDir(this.folder.newFolder("config"));
 
         manager.start(context);
+
+        Mockito.verify(context, Mockito.times(1)).registerService(
+                Mockito.eq(PluginConfig.class.getName()),
+                Mockito.any(PluginConfigFactory.class), Mockito.any(Dictionary.class));
+
         Mockito.verify(context, Mockito.times(1)).registerService(
                 Mockito.eq(PluginConfig.class.getName()),
                 Mockito.any(PluginConfigFactory.class), Mockito.any(Dictionary.class));
