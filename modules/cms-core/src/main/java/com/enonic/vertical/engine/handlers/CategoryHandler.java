@@ -29,7 +29,6 @@ import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.RelationAggregator;
 import com.enonic.esl.util.RelationNode;
 import com.enonic.esl.util.RelationTree;
-import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.VerticalEngineLogger;
@@ -46,6 +45,7 @@ import com.enonic.cms.framework.util.TIntArrayList;
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.CalendarUtil;
+import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
@@ -470,89 +470,27 @@ public class CategoryHandler
         }
 
         Connection con = null;
-        PreparedStatement preparedStmt1 = null, preparedStmt2 = null;
-        ResultSet resultSet1 = null, resultSet2 = null;
         int contentCount = 0;
 
-        try
+        for ( int i = 0; i < categoryKeys.length; i++ )
         {
-            StringBuffer sql = new StringBuffer( CAT_SELECT_CON_COUNT );
-            StringBuffer tempSql = new StringBuffer();
-            for ( int i = 0; i < categoryKeys.length; i++ )
+            CategoryEntity category = categoryDao.findByKey( new CategoryKey( categoryKeys[i] ) );
+            List<ContentKey> contents = contentDao.findContentKeysByCategory( category );
+            contentCount += contents.size();
+
+            if ( recursive )
             {
-                if ( i > 0 )
-                {
-                    tempSql.append( ',' );
+                List<CategoryKey> childrenKeys = category.getChildrenKeys();
+                int[] catKeys = new int[childrenKeys.size()];
+                for ( int j = 0; j < childrenKeys.size(); j++ ) {
+                    catKeys[j] = childrenKeys.get( j ).toInt();
                 }
-                tempSql.append( Integer.toString( categoryKeys[i] ) );
-            }
-            sql.append( " WHERE" );
-            sql.append( CAT_WHERE_CLAUSE_CAT_NOT_DELETED );
-            sql.append( " AND" );
-            sql.append( CAT_WHERE_CLAUSE_CON_NOT_DELETED_OR_NULL );
-            sql.append( " AND" );
-            sql.append( StringUtil.expandString( CAT_WHERE_CLAUSE_MANY, tempSql ) );
-            sql.append( CAT_GROUP_BY_CAT );
-
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
-            preparedStmt1 = con.prepareStatement( sql.toString() );
-            resultSet1 = preparedStmt1.executeQuery();
-
-            while ( resultSet1.next() )
-            {
-                contentCount += resultSet1.getInt( "cat_con_lCount" );
-                int catKey = resultSet1.getInt( "cat_lKey" );
-
-                if ( recursive )
+                if ( childrenKeys.size() > 0 )
                 {
-                    sql.setLength( 0 );
-                    sql.append( CAT_SELECT_KEY );
-                    sql.append( " WHERE" );
-                    sql.append( CAT_WHERE_CLAUSE_SCA_ONE );
-                    preparedStmt2 = con.prepareStatement( sql.toString() );
-                    preparedStmt2.setInt( 1, catKey );
-                    resultSet2 = preparedStmt2.executeQuery();
-
-                    TIntArrayList catKeys = new TIntArrayList();
-                    while ( resultSet2.next() )
-                    {
-                        catKeys.add( resultSet2.getInt( "cat_lKey" ) );
-                    }
-
-                    resultSet2.close();
-                    resultSet2 = null;
-                    preparedStmt2.close();
-                    preparedStmt2 = null;
-
-                    if ( catKeys.size() > 0 )
-                    {
-                        contentCount += getContentCount( con, catKeys.toArray(), recursive );
-                    }
+                    contentCount += getContentCount( con, catKeys, recursive );
                 }
             }
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "Failed to calculate categories' content counts: %t";
-            VerticalEngineLogger.error(message, sqle );
-        }
-        finally
-        {
-            close( resultSet1 );
-            close( resultSet2 );
-            close( preparedStmt1 );
-            close( preparedStmt2 );
-            if ( _con == null )
-            {
-                close( con );
-            }
+
         }
 
         return contentCount;
