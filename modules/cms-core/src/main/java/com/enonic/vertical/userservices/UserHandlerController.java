@@ -27,7 +27,6 @@ import com.enonic.esl.util.ArrayUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
-import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.Mail;
@@ -852,12 +851,6 @@ public class UserHandlerController
         {
             VerticalUserServicesLogger.warn(e.getMessage(), null );
             redirectToErrorPage( request, response, formItems, ERR_NOT_ALLOWED, null );
-        }
-        else if ( e instanceof ESLException )
-        {
-            String message = "Not able to send mail: %t";
-            VerticalUserServicesLogger.error(message, e );
-            redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
         }
         else if ( e instanceof UnsupportedEncodingException )
         {

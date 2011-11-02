@@ -32,7 +32,6 @@ import org.joda.time.DateTime;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
@@ -295,7 +294,7 @@ public class ContentNewsletterHandlerServlet
                     parameterElem.setAttribute( "name", paramName );
                 }
             }
-            catch ( ESLException esle )
+            catch ( Exception esle )
             {
                 String msg = "Failed to send email: {0}";
                 VerticalAdminLogger.warn(msg, esle.getMessage(), null );

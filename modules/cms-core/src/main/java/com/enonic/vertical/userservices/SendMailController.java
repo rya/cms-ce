@@ -15,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
-import com.enonic.esl.ESLException;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.vertical.engine.VerticalEngineException;
@@ -189,7 +188,7 @@ public class SendMailController
 
                 redirectToPage( request, response, formItems );
             }
-            catch ( ESLException esle )
+            catch ( Exception esle )
             {
                 String message = "Failed to send email: %t";
                 VerticalUserServicesLogger.error(message, esle );
