@@ -2,12 +2,11 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.preview;
+package com.enonic.cms.core.preview;
 
 import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.content.ContentVersionEntity;
-
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.security.user.UserEntity;
 

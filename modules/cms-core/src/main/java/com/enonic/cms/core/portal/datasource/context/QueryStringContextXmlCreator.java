@@ -10,8 +10,7 @@ import org.jdom.Element;
 
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.SitePath;
-
-import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.core.SiteURLResolver;
 
 /**
  * Apr 21, 2009

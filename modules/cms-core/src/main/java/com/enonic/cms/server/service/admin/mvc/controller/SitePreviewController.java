@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.SitePathResolver;
 import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
@@ -24,7 +25,6 @@ import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.security.SecurityService;
 
-import com.enonic.cms.business.SitePathResolver;
 import com.enonic.cms.core.security.SecurityHolder;
 
 import com.enonic.cms.core.security.user.User;

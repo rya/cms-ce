@@ -5,7 +5,7 @@
 package com.enonic.cms.itest.client;
 
 import com.enonic.cms.api.client.model.GetRelatedContentsParams;
-import com.enonic.cms.business.preview.PreviewService;
+import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.client.InternalClientImpl;
 import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.command.CreateContentCommand;

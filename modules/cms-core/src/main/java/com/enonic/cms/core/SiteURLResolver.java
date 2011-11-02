@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,17 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.enonic.cms.framework.util.UrlPathEncoder;
 
-import com.enonic.cms.core.Path;
-import com.enonic.cms.core.PathAndParams;
-import com.enonic.cms.core.PathAndParamsToStringBuilder;
-import com.enonic.cms.core.SiteBasePath;
-import com.enonic.cms.core.SiteBasePathAndSitePath;
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
-
-import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.SiteBasePathAndSitePathToStringBuilder;
 
 public class SiteURLResolver
 {

@@ -1,12 +1,14 @@
 package com.enonic.cms.core.plugin.deploy;
 
 import java.io.File;
-import com.enonic.cms.core.plugin.installer.BundleInstaller;
-import com.enonic.cms.core.plugin.util.OsgiHelper;
+
 import org.osgi.framework.BundleContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import com.enonic.cms.core.plugin.container.OsgiContributor;
+import com.enonic.cms.core.plugin.installer.BundleInstaller;
+import com.enonic.cms.core.plugin.util.OsgiHelper;
 
 @Component
 public final class DeployActivator

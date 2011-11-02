@@ -6,6 +6,8 @@ package com.enonic.cms.core.portal.mvc.controller;
 
 import java.util.Map;
 
+import com.enonic.cms.core.MockSitePropertiesService;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +18,8 @@ import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.SiteRedirectAndForwardHelper;
-import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteRedirectAndForwardHelper;
 
 public class SiteRedirectAndForwardHelperTest
     extends TestCase

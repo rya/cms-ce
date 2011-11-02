@@ -2,14 +2,16 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
-import javax.servlet.http.HttpServletRequest;
-import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
-import org.springframework.web.servlet.ModelAndView;
-import com.enonic.cms.core.SitePath;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.servlet.ModelAndView;
+
+import com.enonic.cms.core.portal.mvc.view.SiteCustomForwardView;
 
 public class SiteRedirectAndForwardHelper
 {

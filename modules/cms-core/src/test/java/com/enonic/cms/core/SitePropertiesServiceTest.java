@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
 import java.util.Properties;
 
@@ -14,8 +14,8 @@ import org.junit.rules.TemporaryFolder;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.cms.core.SiteKey;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -99,7 +99,7 @@ public class SitePropertiesServiceTest
     private Resource getLocalTestSitePropertyResouce()
     {
         ResourceLoader testResourceLoader = new FileSystemResourceLoader();
-        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/business/test.site.properties" );
+        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/core/test.site.properties" );
 
         if ( !testResource.exists() )
         {
@@ -111,7 +111,7 @@ public class SitePropertiesServiceTest
     private Resource getLocalTestDefaultPropertyResouce()
     {
         ResourceLoader testResourceLoader = new FileSystemResourceLoader();
-        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/business/test.default.site.properties" );
+        Resource testResource = testResourceLoader.getResource( "classpath:com/enonic/cms/core/test.default.site.properties" );
 
         if ( !testResource.exists() )
         {

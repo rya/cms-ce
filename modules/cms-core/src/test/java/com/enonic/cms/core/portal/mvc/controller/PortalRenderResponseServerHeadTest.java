@@ -13,6 +13,7 @@ import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.SitePropertyNames;
 import com.enonic.cms.core.plugin.ExtensionSet;
 import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.portal.PortalRequest;
@@ -24,8 +25,7 @@ import com.enonic.cms.server.DeploymentAndRequestSetup;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
+import com.enonic.cms.core.MockSitePropertiesService;
 
 import static org.junit.Assert.*;
 

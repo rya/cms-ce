@@ -21,6 +21,9 @@ import com.enonic.cms.framework.util.UrlPathEncoder;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.captcha.CaptchaService;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
@@ -57,10 +60,6 @@ import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.PortletDao;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.SiteURLResolver;
 
 public class PortalFunctions
 {

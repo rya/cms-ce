@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.AdminConsoleTranslationService;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import org.apache.commons.lang.StringUtils;
 
@@ -33,8 +34,7 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
 

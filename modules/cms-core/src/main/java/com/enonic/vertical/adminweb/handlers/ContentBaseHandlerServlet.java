@@ -74,6 +74,7 @@ import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.AssignContentResult;
 import com.enonic.cms.core.content.AssignmentAction;
@@ -144,9 +145,8 @@ import com.enonic.cms.core.xslt.XsltResource;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.core.portal.cache.SiteCachesService;
-import com.enonic.cms.business.preview.NoLazyInitializationEnforcerForPreview;
+import com.enonic.cms.core.preview.NoLazyInitializationEnforcerForPreview;
 
 import com.enonic.cms.core.portal.rendering.RenderedPageResult;
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;

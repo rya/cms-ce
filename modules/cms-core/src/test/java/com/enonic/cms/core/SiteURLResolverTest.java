@@ -2,15 +2,12 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.core.Path;
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 public class SiteURLResolverTest

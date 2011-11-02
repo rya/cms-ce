@@ -4,8 +4,8 @@
  */
 package com.enonic.cms.itest.datasources;
 
-import com.enonic.cms.business.preview.ContentPreviewContext;
-import com.enonic.cms.business.preview.PreviewContext;
+import com.enonic.cms.core.preview.ContentPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.content.*;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.ContentData;

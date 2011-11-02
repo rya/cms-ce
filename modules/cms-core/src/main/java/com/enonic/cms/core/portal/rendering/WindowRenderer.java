@@ -19,6 +19,8 @@ import com.enonic.cms.core.CacheObjectSettings;
 import com.enonic.cms.core.CacheSettings;
 import com.enonic.cms.core.CachedObject;
 import com.enonic.cms.core.RequestParameters;
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.portal.PortalRenderingException;
@@ -63,9 +65,6 @@ import com.enonic.cms.core.structure.TemplateParameterType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Window;
 import com.enonic.cms.core.structure.page.WindowKey;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SiteURLResolver;
 
 import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
 

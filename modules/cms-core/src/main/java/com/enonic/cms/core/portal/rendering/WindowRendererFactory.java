@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.portal.cache.PageCacheService;
 import com.enonic.cms.core.portal.cache.SiteCachesService;
@@ -18,9 +20,6 @@ import com.enonic.cms.core.portal.rendering.viewtransformer.PortletXsltViewTrans
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.service.DataSourceService;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SiteURLResolver;
 
 /**
  * Apr 20, 2009

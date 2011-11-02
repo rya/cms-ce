@@ -6,9 +6,10 @@ package com.enonic.cms.core.portal.mvc.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.enonic.cms.core.Attribute;
+
 import org.springframework.web.servlet.ModelAndView;
 
+import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.portal.support.LoginPagePathResolverService;
 

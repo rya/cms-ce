@@ -32,7 +32,7 @@ import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 import com.enonic.cms.core.resource.ResourceFolder;
 

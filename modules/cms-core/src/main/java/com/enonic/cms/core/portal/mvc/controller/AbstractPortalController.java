@@ -12,9 +12,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.SitePathResolver;
 import com.enonic.cms.core.structure.SiteService;
-
-import com.enonic.cms.business.SitePathResolver;
 
 /**
  * Apr 17, 2009

@@ -2,22 +2,14 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.PortalSiteBasePath;
-import com.enonic.cms.core.SiteBasePath;
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
 import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
-
-import com.enonic.cms.core.AdminSiteDebugBasePath;
-import com.enonic.cms.core.AdminSitePreviewBasePath;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 import static org.junit.Assert.*;
 

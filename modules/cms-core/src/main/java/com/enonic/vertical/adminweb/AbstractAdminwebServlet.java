@@ -34,6 +34,7 @@ import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
 import com.enonic.cms.framework.time.TimeService;
 
+import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.mail.SendMailService;
 import com.enonic.cms.core.resource.access.ResourceAccessResolver;
@@ -58,7 +59,6 @@ import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 import com.enonic.cms.upgrade.UpgradeService;
 
-import com.enonic.cms.business.SitePropertiesService;
 import com.enonic.cms.core.content.ContentParserService;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.category.CategoryService;
@@ -75,7 +75,7 @@ import com.enonic.cms.core.locale.LocaleService;
 
 import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.core.portal.rendering.PageRendererFactory;
-import com.enonic.cms.business.preview.PreviewService;
+import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
 import com.enonic.cms.core.timezone.TimeZoneService;

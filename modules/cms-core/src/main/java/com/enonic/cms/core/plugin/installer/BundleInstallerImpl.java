@@ -1,8 +1,9 @@
 package com.enonic.cms.core.plugin.installer;
 
-import com.enonic.cms.api.util.LogFacade;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+
+import com.enonic.cms.api.util.LogFacade;
 
 final class BundleInstallerImpl
     implements BundleInstaller

@@ -58,11 +58,11 @@ import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
-import com.enonic.cms.business.SitePropertyNames;
+import com.enonic.cms.core.SitePropertyNames;
 import com.enonic.cms.core.portal.rendering.PageRenderer;
 import com.enonic.cms.core.portal.rendering.PageRendererContext;
 import com.enonic.cms.core.portal.rendering.RegionsResolver;
-import com.enonic.cms.business.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.LanguageResolver;

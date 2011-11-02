@@ -48,8 +48,8 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 
 import com.enonic.cms.core.portal.image.ImageService;
-import com.enonic.cms.business.preview.PreviewContext;
-import com.enonic.cms.business.preview.PreviewService;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewService;
 
 import com.enonic.cms.core.content.ContentStatus;
 

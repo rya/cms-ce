@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.business.SiteContext;
-import com.enonic.cms.business.SitePathResolver;
+import com.enonic.cms.core.SiteContext;
+import com.enonic.cms.core.SitePathResolver;
 import com.enonic.cms.core.content.ContentParserService;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.mail.SendMailService;

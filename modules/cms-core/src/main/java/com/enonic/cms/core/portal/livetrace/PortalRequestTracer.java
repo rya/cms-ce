@@ -11,10 +11,9 @@ import com.enonic.cms.framework.util.UrlPathDecoder;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.portal.PortalResponse;
 import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
+import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
-
-import com.enonic.cms.business.preview.PreviewService;
 
 /**
  * Nov 25, 2010

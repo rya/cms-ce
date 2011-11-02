@@ -16,11 +16,10 @@ import org.slf4j.LoggerFactory;
 
 import com.enonic.vertical.adminweb.AdminHelper;
 
+import com.enonic.cms.core.AdminConsoleTranslationService;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.business.AdminConsoleTranslationService;
 
 /**
  * Created by IntelliJ IDEA.

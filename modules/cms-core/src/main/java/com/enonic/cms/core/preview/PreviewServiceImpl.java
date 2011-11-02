@@ -2,17 +2,17 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business.preview;
+package com.enonic.cms.core.preview;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Component;
+
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
 import com.enonic.cms.core.Attribute;
-import org.springframework.stereotype.Component;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 @Component("previewService")
 class PreviewServiceImpl

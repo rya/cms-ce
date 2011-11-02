@@ -16,12 +16,11 @@ import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.portal.PageRequestType;
 import com.enonic.cms.core.portal.VerticalSession;
 import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Regions;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 /**
  * Apr 22, 2009

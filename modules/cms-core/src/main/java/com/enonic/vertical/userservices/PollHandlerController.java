@@ -21,7 +21,7 @@ import com.enonic.esl.xml.XMLTool;
 
 import com.enonic.cms.core.service.UserServicesService;
 
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.user.User;

@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.DeploymentPathResolver;
+import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.esl.util.ArrayUtil;
@@ -65,8 +67,6 @@ import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.SiteContext;
 import com.enonic.cms.core.preference.PreferenceAccessException;
 
 import com.enonic.cms.core.security.SecurityHolder;

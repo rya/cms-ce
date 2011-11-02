@@ -12,11 +12,10 @@ import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.portal.ContentPath;
 import com.enonic.cms.core.portal.PageRequestType;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 /**
  * Sep 28, 2009

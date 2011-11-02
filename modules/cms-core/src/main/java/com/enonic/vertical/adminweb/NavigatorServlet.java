@@ -19,11 +19,11 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.xml.XMLTool;
 
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.AdminConsoleTranslationService;
 
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.userstore.UserStoreKey;

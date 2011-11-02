@@ -24,10 +24,9 @@ import com.enonic.cms.core.portal.PageRequestType;
 import com.enonic.cms.core.portal.PageTemplateNotFoundException;
 import com.enonic.cms.core.portal.PathToContentResolver;
 import com.enonic.cms.core.portal.rendering.PageTemplateResolver;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 /**
  * Sep 28, 2009

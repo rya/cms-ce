@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
+import com.enonic.cms.core.AdminConsoleTranslationService;
 
 public class ResourceTranslationController
     extends ResourceController

@@ -41,7 +41,7 @@ import com.enonic.cms.core.resource.ResourceXmlCreator;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 public class ResourceHandlerServlet
         extends AdminHandlerBaseServlet
