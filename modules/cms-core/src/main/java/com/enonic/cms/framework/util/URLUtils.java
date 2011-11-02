@@ -7,12 +7,6 @@ package com.enonic.cms.framework.util;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Sep 29, 2010
- * Time: 9:54:53 AM
- */
 public class URLUtils
 {
 
@@ -20,7 +14,7 @@ public class URLUtils
     {
         try
         {
-            URL url = new URL( urlAsString );
+            new URL( urlAsString );
         }
         catch ( MalformedURLException e )
         {

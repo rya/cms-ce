@@ -24,6 +24,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMSource;
 
+import com.google.common.collect.Sets;
+import com.google.common.primitives.Ints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,7 +54,6 @@ import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 
 import com.enonic.cms.framework.util.TIntArrayList;
-import com.enonic.cms.framework.util.TIntHashSet;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -2230,14 +2231,15 @@ public class SectionHandlerServlet
 
         // Get contenttypes and categories
         Element[] contentTitleElems = XMLTool.getElements( doc.getDocumentElement() );
-        TIntHashSet contentTypeKeys = new TIntHashSet();
+        final Set<Integer> contentTypeKeys = Sets.newHashSet();
+
         List<Integer> categoryKeys = new ArrayList<Integer>();
         for ( Element contentTitleElem : contentTitleElems )
         {
             contentTypeKeys.add( Integer.parseInt( contentTitleElem.getAttribute( "contenttypekey" ) ) );
             categoryKeys.add( Integer.parseInt( contentTitleElem.getAttribute( "categorykey" ) ) );
         }
-        Document contentTypeDoc = admin.getData( user, Types.CONTENTTYPE, contentTypeKeys.toArray() ).getAsDOMDocument();
+        Document contentTypeDoc = admin.getData( user, Types.CONTENTTYPE, Ints.toArray(contentTypeKeys)).getAsDOMDocument();
         XMLTool.mergeDocuments( doc, contentTypeDoc, true );
         if ( categoryKeys.size() > 0 )
         {

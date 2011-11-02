@@ -4,8 +4,10 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import com.enonic.cms.framework.util.TIntIntHashMap;
 import com.enonic.cms.core.security.user.User;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 public class CopyContext
 {
@@ -13,19 +15,19 @@ public class CopyContext
 
     private boolean includeContents;
 
-    private final TIntIntHashMap menuKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> menuKeyMap = Maps.newHashMap();
 
-    private final TIntIntHashMap menuItemKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> menuItemKeyMap = Maps.newHashMap();
 
-    private final TIntIntHashMap pageTemplateKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> pageTemplateKeyMap = Maps.newHashMap();
 
-    private final TIntIntHashMap pageTemplateParameterKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> pageTemplateParameterKeyMap = Maps.newHashMap();
 
-    private final TIntIntHashMap contentObjectKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> contentObjectKeyMap = Maps.newHashMap();
 
-    private final TIntIntHashMap sectionKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> sectionKeyMap = Maps.newHashMap();
 
-    private final TIntIntHashMap categoryKeyMap = new TIntIntHashMap();
+    private final Map<Integer, Integer> categoryKeyMap = Maps.newHashMap();
 
     public boolean isIncludeContents()
     {
