@@ -101,7 +101,7 @@ public class MyPageServlet
         }
 
         // Default browse config
-        Document defaultBrowseConfig = XMLTool.domparse( AdminStore.getXML( session, "defaultbrowseconfig.xml" ) );
+        Document defaultBrowseConfig = AdminStore.getXml( session, "defaultbrowseconfig.xml" ).getAsDOMDocument();
         XMLTool.mergeDocuments( verticalDoc, defaultBrowseConfig, true );
 
         Document contentTypeKeyHandlerMappingDoc = createContentTypeKeyHandlerMappingXml( contentTypeKeyHandlerMapping );

@@ -53,7 +53,7 @@ public class ResourceController
         throws Exception
     {
         String path = urlPathHelper.getPathWithinApplication( request );
-        Resource resource = this.resourceLoader.getResource( "classpath:/META-INF/webresources" + path );
+        Resource resource = this.resourceLoader.getResource( path );
 
         if ( resource.exists() )
         {

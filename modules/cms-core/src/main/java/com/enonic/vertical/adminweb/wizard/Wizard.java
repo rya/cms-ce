@@ -563,7 +563,7 @@ public abstract class Wizard
                                         String wizardConfigFilename )
         throws WizardException
     {
-        Document wizardconfigDoc = XMLTool.domparse( AdminStore.getXML( session, wizardConfigFilename ) );
+        Document wizardconfigDoc = AdminStore.getXml( session, wizardConfigFilename ).getAsDOMDocument();
         Element rootElem = wizardconfigDoc.getDocumentElement();
         String className = rootElem.getAttribute( "class" );
 

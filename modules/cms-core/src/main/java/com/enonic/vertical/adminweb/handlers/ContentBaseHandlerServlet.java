@@ -1410,7 +1410,7 @@ public class ContentBaseHandlerServlet
 
         for ( String extraFormXMLFile : extraFormXMLFiles )
         {
-            Document tmpDoc = XMLTool.domparse( AdminStore.getXML( session, extraFormXMLFile ) );
+            Document tmpDoc = AdminStore.getXml( session, extraFormXMLFile ).getAsDOMDocument();
             XMLTool.mergeDocuments( doc, tmpDoc, true );
         }
 
@@ -2887,7 +2887,7 @@ public class ContentBaseHandlerServlet
         XMLTool.mergeDocuments( verticalDoc, headerDoc, true );
 
         // Default browse config
-        Document defaultBrowseConfig = XMLTool.domparse( AdminStore.getXML( session, "defaultbrowseconfig.xml" ) );
+        Document defaultBrowseConfig = AdminStore.getXml( session, "defaultbrowseconfig.xml" ).getAsDOMDocument();
         XMLTool.mergeDocuments( verticalDoc, defaultBrowseConfig, true );
 
         // Feedback
