@@ -2,16 +2,16 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.vertical.utilities;
+package com.enonic.vertical.adminweb;
 
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 
+import com.enonic.esl.util.VectorWriter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.io.VectorWriter;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalException;
 import com.enonic.vertical.VerticalRuntimeException;
@@ -57,7 +57,7 @@ public final class ThrowableUtil
                 if ( t instanceof VerticalException )
                 {
                     VerticalException ve = (VerticalException) t;
-                    Element message = XMLTool.createElement( doc, throwable, "message", ve.getMessage() );
+                    XMLTool.createElement( doc, throwable, "message", ve.getMessage() );
                     StackTraceElement[] stackTrace = ve.getStackTrace();
                     Element stacktraceElem = XMLTool.createElement( doc, throwable, "stacktrace" );
                     for ( int i = 0; i < stackTrace.length; i++ )
@@ -70,7 +70,7 @@ public final class ThrowableUtil
                 else if ( t instanceof VerticalRuntimeException )
                 {
                     VerticalRuntimeException vre = (VerticalRuntimeException) t;
-                    Element message = XMLTool.createElement( doc, throwable, "message", vre.getMessage() );
+                    XMLTool.createElement( doc, throwable, "message", vre.getMessage() );
                     StackTraceElement[] stackTrace = vre.getStackTrace();
                     Element stacktraceElem = XMLTool.createElement( doc, throwable, "stacktrace" );
                     for ( int i = 0; i < stackTrace.length; i++ )

@@ -20,7 +20,6 @@ import org.w3c.dom.Element;
 
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalProperties;
-import com.enonic.vertical.utilities.ThrowableUtil;
 
 import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
