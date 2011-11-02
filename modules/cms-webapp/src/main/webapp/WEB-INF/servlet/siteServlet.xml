@@ -195,23 +195,6 @@
         <property name="standardModelFactory" ref="standardModelFactory"/>
     </bean>
 
-    <bean id="presentationController" class="com.enonic.vertical.presentation.AbstractPresentationController" abstract="true">
-        <property name="siteService" ref="siteService"/>
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="verticalProperties" ref="verticalProperties"/>
-        <property name="siteRedirectHelper" ref="siteRedirectHelper"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="categoryDao" ref="categoryDao"/>
-        <property name="siteDao" ref="siteDao"/>
-        <property name="contentParserService" ref="contentParserService"/>
-        <property name="contentService" ref="contentService"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="siteCachesService" ref="siteCachesService"/>
-        <property name="userStoreService" ref="userStoreService"/>
-        <property name="sendMailService" ref="sendMailService"/>
-        <property name="userServicesService" ref="userServicesService"/>
-    </bean>
-
     <bean id="renderPageController" class="com.enonic.cms.core.portal.mvc.controller.DefaultController">
         <property name="portalRequestService" ref="portalRequestService"/>
         <property name="securityService" ref="securityService"/>
@@ -233,18 +216,31 @@
         <property name="pluginManager" ref="pluginManager"/>
     </bean>
 
-
     <bean id="userServicesAccessManager" class="com.enonic.vertical.userservices.UserServicesAccessManagerImpl">
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="siteService" ref="siteService"/>
     </bean>
 
     <bean id="abstractUserServicesHandlerController" class="com.enonic.vertical.userservices.AbstractUserServicesHandlerController"
-          parent="presentationController">
+          abstract="true">
         <property name="captchaService" ref="captchaService"/>
         <property name="userServicesRedirectHelper" ref="userServicesRedirectHelper"/>
         <property name="userStoreParser" ref="userStoreParser"/>
         <property name="userServicesAccessManager" ref="userServicesAccessManager"/>
+        <property name="siteService" ref="siteService"/>
+        <property name="sitePathResolver" ref="sitePathResolver"/>
+        <property name="verticalProperties" ref="verticalProperties"/>
+        <property name="siteRedirectHelper" ref="siteRedirectHelper"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="categoryDao" ref="categoryDao"/>
+        <property name="siteDao" ref="siteDao"/>
+        <property name="contentParserService" ref="contentParserService"/>
+        <property name="contentService" ref="contentService"/>
+        <property name="contentDao" ref="contentDao"/>
+        <property name="siteCachesService" ref="siteCachesService"/>
+        <property name="userStoreService" ref="userStoreService"/>
+        <property name="sendMailService" ref="sendMailService"/>
+        <property name="userServicesService" ref="userServicesService"/>
     </bean>
 
     <!-- UserServices servlets -->
