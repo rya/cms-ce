@@ -315,7 +315,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return newKeys.toArray();
@@ -446,7 +445,6 @@ public final class PageTemplateHandler
         {
             close( createStmt );
             close( updateStmt );
-            close( con );
         }
 
     }
@@ -559,7 +557,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return key;
@@ -722,7 +719,6 @@ public final class PageTemplateHandler
         {
             close( resultSet );
             close( prepStmt );
-            close( con );
         }
 
         return pageTemplateKeys.toArray();
@@ -827,7 +823,6 @@ public final class PageTemplateHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return pageTemplParamKey;
@@ -891,7 +886,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -953,7 +947,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -990,7 +983,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1015,7 +1007,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1347,7 +1338,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1451,7 +1441,6 @@ public final class PageTemplateHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
     }

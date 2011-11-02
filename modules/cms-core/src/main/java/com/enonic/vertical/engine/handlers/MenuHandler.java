@@ -327,7 +327,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return true;
@@ -382,7 +381,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return false;
@@ -968,7 +966,6 @@ public final class MenuHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return siteKey;
@@ -1330,7 +1327,6 @@ public final class MenuHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return menuItemKey.toInt();
@@ -1504,7 +1500,6 @@ public final class MenuHandler
         }
         finally
         {
-            close( con );
             close( preparedStmt );
         }
     }
@@ -1533,7 +1528,6 @@ public final class MenuHandler
         }
         finally
         {
-            close( con );
             close( prepStmt );
         }
     }
@@ -1614,7 +1608,6 @@ public final class MenuHandler
         {
             close( result );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -1660,7 +1653,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return name;
@@ -1780,7 +1772,6 @@ public final class MenuHandler
         {
             close( result );
             close( preparedStmt );
-            close( con );
         }
 
         return menuElement;
@@ -1817,7 +1808,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( prepStmt );
-            close( con );
         }
 
         return menuKey;
@@ -1893,7 +1883,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -1933,7 +1922,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -1978,7 +1966,6 @@ public final class MenuHandler
         {
             close( result );
             close( preparedStmt );
-            close( con );
         }
 
         return keys;
@@ -2078,7 +2065,6 @@ public final class MenuHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -2196,7 +2182,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -2502,7 +2487,6 @@ public final class MenuHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -2740,7 +2724,6 @@ public final class MenuHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -3002,7 +2985,6 @@ public final class MenuHandler
         }
         finally
         {
-            close( con );
         }
     }
 
@@ -3211,7 +3193,6 @@ public final class MenuHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -3646,7 +3627,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -3702,7 +3682,6 @@ public final class MenuHandler
             {
                 close( resultSet );
                 close( preparedStmt );
-                close( con );
             }
         }
 
@@ -3800,7 +3779,6 @@ public final class MenuHandler
         {
             close( resultSet );
             close( statement );
-            close( con );
         }
 
         return doc;
@@ -3913,7 +3891,6 @@ public final class MenuHandler
         }
         finally
         {
-            close( conn );
         }
 
         return doc;

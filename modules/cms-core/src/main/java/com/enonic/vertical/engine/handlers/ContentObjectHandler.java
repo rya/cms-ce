@@ -271,7 +271,6 @@ public final class ContentObjectHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return newKeys.toArray();
@@ -429,7 +428,6 @@ public final class ContentObjectHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -474,7 +472,6 @@ public final class ContentObjectHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -509,7 +506,6 @@ public final class ContentObjectHandler
             close( preparedStmt );
             if ( _con == null )
             {
-                close( con );
             }
         }
     }
@@ -720,7 +716,6 @@ public final class ContentObjectHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 

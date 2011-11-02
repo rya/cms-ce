@@ -4,7 +4,10 @@
  */
 package com.enonic.esl.util;
 
-import java.util.ArrayList;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import java.util.*;
 
 public final class ArrayUtil
 {
@@ -209,16 +212,11 @@ public final class ArrayUtil
             return sourceValues;
         }
 
-        TStringArrayList filtered = new TStringArrayList();
+        final Set<String> set = Sets.newHashSet();
+        set.addAll(ImmutableList.copyOf(sourceValues));
+        set.removeAll(ImmutableList.copyOf(excludeValues));
 
-        for ( int i = 0; i < sourceValues.length; i++ )
-        {
-            if ( !contains( excludeValues, sourceValues[i] ) )
-            {
-                filtered.add( sourceValues[i] );
-            }
-        }
-        return filtered.toNativeArray();
+        return set.toArray(new String[set.size()]);
     }
 
 
@@ -234,24 +232,19 @@ public final class ArrayUtil
 
     public static String[] concat( String[] values1, String[] values2, boolean removeDuplicates )
     {
-        TStringArrayList result = new TStringArrayList();
-        result.add( values1 );
+        final List<String> list1 = ImmutableList.copyOf(values1);
+        final List<String> list2 = ImmutableList.copyOf(values2);
+        final Collection<String> result;
 
-        if ( removeDuplicates )
-        {
-            for ( int i = 0; i < values2.length; i++ )
-            {
-                if ( !result.contains( values2[i] ) )
-                {
-                    result.add( values2[i] );
-                }
-            }
-        }
-        else
-        {
-            result.add( values2 );
+        if (removeDuplicates) {
+            result = Sets.newHashSet();
+        } else {
+            result = Lists.newArrayList();
         }
 
-        return result.toNativeArray();
+        result.addAll(list1);
+        result.addAll(list2);
+
+        return result.toArray(new String[result.size()]);
     }
 }

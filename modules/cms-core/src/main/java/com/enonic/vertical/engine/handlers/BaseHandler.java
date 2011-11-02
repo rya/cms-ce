@@ -216,10 +216,6 @@ public abstract class BaseHandler
         baseEngine.close( stmt );
     }
 
-    protected final void close( Connection con )
-    {
-    }
-
     protected final Connection getConnection()
         throws SQLException
     {

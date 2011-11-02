@@ -161,7 +161,6 @@ public class UnitHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return key;
@@ -250,7 +249,6 @@ public class UnitHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -314,7 +312,6 @@ public class UnitHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -430,7 +427,6 @@ public class UnitHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 

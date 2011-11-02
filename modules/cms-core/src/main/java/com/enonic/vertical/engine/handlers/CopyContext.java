@@ -4,10 +4,7 @@
  */
 package com.enonic.vertical.engine.handlers;
 
-import com.enonic.vertical.engine.VerticalEngineLogger;
-
 import com.enonic.cms.framework.util.TIntIntHashMap;
-
 import com.enonic.cms.core.security.user.User;
 
 public class CopyContext
@@ -16,23 +13,19 @@ public class CopyContext
 
     private boolean includeContents;
 
-    private TIntIntHashMap menuKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap menuKeyMap = new TIntIntHashMap();
 
-    private TIntIntHashMap menuItemKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap menuItemKeyMap = new TIntIntHashMap();
 
-    private TIntIntHashMap pageTemplateKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap pageTemplateKeyMap = new TIntIntHashMap();
 
-    private TIntIntHashMap pageTemplateParameterKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap pageTemplateParameterKeyMap = new TIntIntHashMap();
 
-    private TIntIntHashMap contentObjectKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap contentObjectKeyMap = new TIntIntHashMap();
 
-    private TIntIntHashMap sectionKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap sectionKeyMap = new TIntIntHashMap();
 
-    private TIntIntHashMap unitKeyMap = new TIntIntHashMap();
-
-    private TIntIntHashMap contentTypeKeyMap = new TIntIntHashMap();
-
-    private TIntIntHashMap categoryKeyMap = new TIntIntHashMap();
+    private final TIntIntHashMap categoryKeyMap = new TIntIntHashMap();
 
     public boolean isIncludeContents()
     {
@@ -53,60 +46,6 @@ public class CopyContext
     {
         this.user = user;
     }
-
-    public void put( String elementName, int oldKey, int newKey )
-    {
-        if ( elementName.equals( "menu" ) )
-        {
-            menuKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "menuitem" ) )
-        {
-            menuItemKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "pagetemplate" ) )
-        {
-            pageTemplateKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "pagetemplateparameter" ) )
-        {
-            pageTemplateParameterKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "contentobject" ) )
-        {
-            contentObjectKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "section" ) )
-        {
-            sectionKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "unit" ) )
-        {
-            unitKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "contenttype" ) )
-        {
-            contentTypeKeyMap.put( oldKey, newKey );
-        }
-        else if ( elementName.equals( "category" ) )
-        {
-            categoryKeyMap.put( oldKey, newKey );
-        }
-        else
-        {
-            String msg = "Element not defined for copy context: {0}";
-            VerticalEngineLogger.fatalEngine(msg, elementName, null );
-        }
-    }
-
-    public void put( String elementName, String oldKey, String newKey )
-    {
-        // NOTE! At the moment, none of the tables using a string key is supported by the copy context
-
-        String msg = "Element not defined for copy context: {0}";
-        VerticalEngineLogger.fatalEngine(msg, elementName, null );
-    }
-
 
     public void putMenuKey( int oldMenuKey, int newMenuKey )
     {

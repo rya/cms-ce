@@ -8,8 +8,6 @@ import javax.xml.transform.URIResolver;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.esl.util.RegexpUtil;
-
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.resolver.locale.LocaleResolverException;
@@ -26,8 +24,6 @@ import com.enonic.cms.core.xslt.XsltResource;
 public abstract class AbstractXsltScriptResolver
     implements ScriptResolverService
 {
-    protected final static String ROOT_ELEMENT_NAME = "context";
-
     protected final static String RESOLVING_EXCEPTION_MSG = "Failed to resolve value";
 
     private static final String XSLT_RESOLVER_PROCESSOR_NAME = "xsltResolverProcessor";
@@ -65,9 +61,9 @@ public abstract class AbstractXsltScriptResolver
 
     protected String cleanWhitespaces( String value )
     {
-        value = RegexpUtil.substituteAll( "(\\n)", "", value );
-        value = RegexpUtil.substituteAll( "(\\t)", "", value );
-        value = RegexpUtil.substituteAll( "(\\s)", "", value );
+        value = value.replaceAll("(\\n)", "");
+        value = value.replaceAll("(\\t)", "");
+        value = value.replaceAll("(\\s)", "");
         return value;
     }
 

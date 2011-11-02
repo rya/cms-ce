@@ -151,7 +151,6 @@ public final class PageHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return newKeys.toArray();
@@ -227,7 +226,6 @@ public final class PageHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
     }
@@ -339,7 +337,6 @@ public final class PageHandler
             close( prepStmt );
             if ( _con == null )
             {
-                close( con );
             }
         }
 
@@ -377,7 +374,6 @@ public final class PageHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return pageKeys.toArray();
@@ -418,7 +414,6 @@ public final class PageHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return contentObjectKeys.toArray();
@@ -468,7 +463,6 @@ public final class PageHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -514,7 +508,6 @@ public final class PageHandler
                 close( preparedStmt );
                 if ( _con == null )
                 {
-                    close( con );
                 }
             }
         }
@@ -564,7 +557,6 @@ public final class PageHandler
                 close( preparedStmt );
                 if ( _con == null )
                 {
-                    close( con );
                 }
             }
         }
@@ -655,7 +647,6 @@ public final class PageHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 }

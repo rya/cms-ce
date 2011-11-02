@@ -101,7 +101,6 @@ public final class GroupHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -294,7 +293,6 @@ public final class GroupHandler
         }
         finally
         {
-            close( con );
         }
 
         return groups;
@@ -389,7 +387,6 @@ public final class GroupHandler
             close( preparedStmt );
             if ( _con == null )
             {
-                close( con );
             }
         }
 

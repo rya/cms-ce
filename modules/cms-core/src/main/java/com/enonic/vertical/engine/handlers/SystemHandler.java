@@ -162,7 +162,6 @@ public final class SystemHandler
         }
         finally
         {
-            close( conn );
         }
     }
 
@@ -223,7 +222,6 @@ public final class SystemHandler
         }
         finally
         {
-            close( conn );
         }
     }
 
@@ -242,7 +240,6 @@ public final class SystemHandler
         }
         finally
         {
-            close( conn );
         }
     }
 
@@ -371,7 +368,6 @@ public final class SystemHandler
             }
             finally
             {
-                close( conn );
             }
         }
         catch ( Exception e )
@@ -398,7 +394,6 @@ public final class SystemHandler
             }
             finally
             {
-                close( conn );
             }
         }
         catch ( Exception e )

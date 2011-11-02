@@ -7,11 +7,12 @@ package com.enonic.cms.core.portal.datasource.methodcall;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.util.TStringArrayList;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
@@ -243,18 +244,7 @@ public class MethodCallFactory
                 return null;
             }
 
-            TStringArrayList arrayList = new TStringArrayList();
-            String[] stringArray = StringUtil.splitString( value, ',' );
-            for ( String strValue : stringArray )
-            {
-                strValue = strValue.trim();
-                if ( !StringUtils.isEmpty( strValue ) )
-                {
-                    arrayList.add( strValue );
-                }
-            }
-
-            return arrayList.toNativeArray();
+            return Iterables.toArray(Splitter.on(',').trimResults().omitEmptyStrings().split(value), String.class);
         }
         else if ( type == int[].class )
         {

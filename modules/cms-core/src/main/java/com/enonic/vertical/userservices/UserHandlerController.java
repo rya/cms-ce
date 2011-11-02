@@ -31,7 +31,6 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.servlet.http.CookieUtil;
-import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.VerticalCreateException;
@@ -733,7 +732,7 @@ public class UserHandlerController
 
     private String fixLinebreaks( String mailBody )
     {
-        mailBody = RegexpUtil.substituteAll( "\\\\n", "\n", mailBody );
+        mailBody = mailBody.replaceAll("\\\\n", "\n");
         return mailBody;
     }
 
@@ -867,7 +866,7 @@ public class UserHandlerController
         else if ( e instanceof UserStoreNotFoundException )
         {
             String message = "Userstore not found";
-            VerticalUserServicesLogger.warn(message, e );
+            VerticalUserServicesLogger.warn(message, e);
             redirectToErrorPage( request, response, formItems, ERR_USERSTORE_NOT_FOUND, null );
         }
         else if ( e instanceof UserStoreConnectorPolicyBrokenException )
@@ -1638,7 +1637,7 @@ public class UserHandlerController
             {
 
                 String regexp = "%" + key + "%";
-                outText = RegexpUtil.substituteAll( regexp, formItems.getString( key, "" ), outText );
+                outText = outText.replaceAll(regexp, formItems.getString(key, ""));
             }
         }
 

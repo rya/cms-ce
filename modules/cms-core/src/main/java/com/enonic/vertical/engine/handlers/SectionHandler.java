@@ -233,7 +233,6 @@ public class SectionHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -260,7 +259,6 @@ public class SectionHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -540,7 +538,6 @@ public class SectionHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return doc;
     }
@@ -665,7 +662,6 @@ public class SectionHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -702,7 +698,6 @@ public class SectionHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return timestamp;
@@ -826,7 +821,6 @@ public class SectionHandler
         {
             close( resultSet );
             close( prepStmt );
-            close( con );
         }
 
         if ( contentKeys.size() == 0 )
@@ -897,7 +891,6 @@ public class SectionHandler
         {
             close( result );
             close( stmt );
-            close( conn );
         }
     }
 
@@ -1000,7 +993,6 @@ public class SectionHandler
             close( result );
             close( stmt2 );
             close( stmt1 );
-            close( con );
         }
     }
 
@@ -1040,7 +1032,6 @@ public class SectionHandler
             close( result );
             close( stmt2 );
             close( stmt1 );
-            close( con );
         }
     }
 

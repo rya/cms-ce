@@ -12,7 +12,6 @@ import java.util.Set;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.xml.XMLTool;
 
 final public class VerticalSession
@@ -41,7 +40,7 @@ final public class VerticalSession
     public void setAttribute( String attributeName, String value )
     {
         // remove those nasty \r
-        value = RegexpUtil.substituteAll( "\\r", "", value );
+        value = value.replaceAll("\\r", "");
         attributes.put( attributeName, value );
     }
 

@@ -10,7 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,7 +21,6 @@ import com.enonic.esl.sql.model.Column;
 import com.enonic.esl.sql.model.Table;
 import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.util.TStringArrayList;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.AccessRight;
 import com.enonic.vertical.engine.CategoryAccessRight;
@@ -29,7 +30,6 @@ import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
-import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.CatAccessRightView;
 import com.enonic.vertical.engine.dbmodel.ConAccessRightView;
@@ -271,7 +271,6 @@ final public class SecurityHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -341,7 +340,6 @@ final public class SecurityHandler
 
             if ( _con == null )
             {
-                close( con );
             }
         }
     }
@@ -399,7 +397,6 @@ final public class SecurityHandler
             if ( _preparedStmt == null )
             {
                 close( preparedStmt );
-                close( con );
             }
         }
     }
@@ -450,7 +447,6 @@ final public class SecurityHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -880,7 +876,6 @@ final public class SecurityHandler
             close( preparedStmt );
             if ( _con == null )
             {
-                close( con );
             }
         }
     }
@@ -1016,7 +1011,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1041,7 +1035,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1070,7 +1063,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1098,7 +1090,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1129,7 +1120,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1352,7 +1342,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return "Error: unknown userstore";
     }
@@ -1691,7 +1680,6 @@ final public class SecurityHandler
             close( preparedStmt );
             if ( _con == null )
             {
-                close( con );
             }
         }
 
@@ -1782,7 +1770,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return menuAccessRight;
@@ -1871,7 +1858,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return menuItemAccessRight;
@@ -1960,7 +1946,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return contentAccessRight;
@@ -2470,7 +2455,7 @@ final public class SecurityHandler
             return true;
         }
 
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        Set<String> autoAllowGroups = Sets.newHashSet();
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
 
         autoAllowGroups.add( groupHandler.getAdminGroupKey() );
@@ -2538,7 +2523,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -2609,7 +2593,6 @@ final public class SecurityHandler
             {
                 close( resultSet );
                 close( preparedStmt );
-                close( con );
             }
 
             return result;
@@ -2683,7 +2666,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -2752,7 +2734,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -2768,7 +2749,7 @@ final public class SecurityHandler
             return true;
         }
 
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        Set<String> autoAllowGroups = Sets.newHashSet();
 
         autoAllowGroups.add( groupHandler.getAdminGroupKey() );
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
@@ -2819,7 +2800,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -2835,7 +2815,7 @@ final public class SecurityHandler
             return true;
         }
 
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        Set<String> autoAllowGroups = Sets.newHashSet();
 
         autoAllowGroups.add( groupHandler.getAdminGroupKey() );
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
@@ -2886,7 +2866,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -3003,7 +2982,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -3064,7 +3042,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -3128,7 +3105,6 @@ final public class SecurityHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -3144,7 +3120,7 @@ final public class SecurityHandler
 
         // array containing groups that should always
         // pass security check:
-        TStringArrayList autoAllowGroups = new TStringArrayList();
+        Set<String> autoAllowGroups = Sets.newHashSet();
         autoAllowGroups.add( groupHandler.getEnterpriseAdministratorGroupKey() );
 
         String[] groups = getGroupHandler().getAllGroupMembershipsForUser( user );
@@ -3305,7 +3281,6 @@ final public class SecurityHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;

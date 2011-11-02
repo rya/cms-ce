@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import com.enonic.esl.activation.ByteArrayDataSource;
 import com.enonic.esl.activation.FileItemDataSource;
-import com.enonic.esl.util.RegexpUtil;
 
 public class Mail
 {
@@ -186,7 +185,7 @@ public class Mail
 
             if ( message != null )
             {
-                message = RegexpUtil.substituteAll( "\\\\n", "\n", message );
+                message = message.replaceAll("\\\\n", "\n");
             }
 
             // if there are any attachments, treat this as a multipart message.

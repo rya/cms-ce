@@ -39,7 +39,6 @@ import com.enonic.esl.net.Mail;
 import com.enonic.esl.servlet.http.CookieUtil;
 import com.enonic.esl.util.DateUtil;
 import com.enonic.esl.util.StringUtil;
-import com.enonic.esl.util.TStringArrayList;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.VerticalException;
 import com.enonic.vertical.adminweb.handlers.ListCountResolver;
@@ -999,7 +998,6 @@ public class UserHandlerServlet
         }
 
         // Update user with group memberships
-        TStringArrayList groupMemberships = new TStringArrayList();
         if ( formItems.containsKey( "member" ) )
         {
             String[] groupArray;
@@ -1016,7 +1014,6 @@ public class UserHandlerServlet
             {
                 if ( isEnterpriseAdmin )
                 {
-                    groupMemberships.add( aGroupArray );
                     command.addMembership( new GroupKey( aGroupArray ) );
                 }
                 else if ( !isEnterpriseAdmin && isUserstoreAdmin && enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
@@ -1025,7 +1022,6 @@ public class UserHandlerServlet
                 }
                 else if ( !isEnterpriseAdmin && isUserstoreAdmin && !enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                 {
-                    groupMemberships.add( aGroupArray );
                     command.addMembership( new GroupKey( aGroupArray ) );
                 }
             }
@@ -1040,7 +1036,6 @@ public class UserHandlerServlet
                     if ( isEnterpriseAdmin )
                     {
                         // access to all groups/users
-                        groupMemberships.add( aGroupArray );
                         command.addMembership( new GroupKey( aGroupArray ) );
                     }
                     else if ( !isEnterpriseAdmin && isUserstoreAdmin && enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
@@ -1050,7 +1045,6 @@ public class UserHandlerServlet
                     else if ( !isEnterpriseAdmin && isUserstoreAdmin &&
                         !enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                     {
-                        groupMemberships.add( aGroupArray );
                         command.addMembership( new GroupKey( aGroupArray ) );
                     }
                 }
@@ -1577,7 +1571,6 @@ public class UserHandlerServlet
         command.setSyncMemberships( syncMembershipsOnlyIfAllowed );
         command.setRemovePhoto( formItems.getBoolean( "remove_photo", false ) );
 
-        TStringArrayList groupMemberships = new TStringArrayList();
         if ( formItems.containsKey( "member" ) )
         {
             String[] groupArray;
@@ -1607,17 +1600,14 @@ public class UserHandlerServlet
                 if ( isEnterpriseAdmin )
                 {
                     // access to all groups/users
-                    groupMemberships.add( aGroupArray );
                     command.addMembership( new GroupKey( aGroupArray ) );
                 }
                 else if ( !isEnterpriseAdmin && isUserstoreAdmin && enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                 {
                     throw new SecurityException( "No access to enterprise administrators group" );
                 }
-//                else if ( !isEnterpriseAdmin && isUserstoreAdmin && !enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                 else if ( !isEnterpriseAdmin && !enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                 {
-                    groupMemberships.add( aGroupArray );
                     command.addMembership( new GroupKey( aGroupArray ) );
                 }
             }

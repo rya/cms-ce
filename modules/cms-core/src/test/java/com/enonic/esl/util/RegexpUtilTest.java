@@ -15,7 +15,7 @@ public class RegexpUtilTest
     {
 
         String message = "passordet er %passord% ikke sant";
-        String result = RegexpUtil.substituteAll( "\\%passord\\%", "balle", message );
+        String result = message.replaceAll("\\%passord\\%", "balle");
         assertEquals( "passordet er balle ikke sant", result );
 
     }
@@ -24,7 +24,7 @@ public class RegexpUtilTest
     {
 
         String message = "Balle Klorin\\n er en luring";
-        String result = RegexpUtil.substituteAll( "\\\\n", "\n", message );
+        String result = message.replaceAll("\\\\n", "\n");
 
         assertEquals( "Balle Klorin\n er en luring", result );
     }
@@ -33,7 +33,7 @@ public class RegexpUtilTest
     {
 
         String message = "Balle Klorin\\r er en luring";
-        String result = RegexpUtil.substituteAll( "\\\\r", "", message );
+        String result = message.replaceAll("\\\\r", "");
 
         assertEquals( "Balle Klorin er en luring", result );
     }
@@ -42,7 +42,7 @@ public class RegexpUtilTest
     {
 
         String message = "Balle Klorin er en %key1%luring";
-        String result = RegexpUtil.substituteAll( "%.+%", "", message );
+        String result = message.replaceAll("%.+%", "");
 
         assertEquals( "Balle Klorin er en luring", result );
     }

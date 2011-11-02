@@ -313,7 +313,6 @@ public class CategoryHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
 
         return newKeys.toArray();
@@ -651,7 +650,6 @@ public class CategoryHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return subCategories;
@@ -807,7 +805,6 @@ public class CategoryHandler
             close( preparedStmt );
             if ( _con == null )
             {
-                close( con );
             }
         }
     }
@@ -892,7 +889,6 @@ public class CategoryHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -970,7 +966,6 @@ public class CategoryHandler
             close( statement );
             if ( _con == null )
             {
-                close( con );
             }
         }
 
@@ -1235,7 +1230,6 @@ public class CategoryHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -1542,7 +1536,6 @@ public class CategoryHandler
         {
             close( result );
             close( stmt );
-            close( conn );
         }
 
         return map;
@@ -1571,7 +1564,6 @@ public class CategoryHandler
         }
         finally
         {
-            close( conn );
         }
     }
 
@@ -1644,7 +1636,6 @@ public class CategoryHandler
         {
             close( result );
             close( stmt );
-            close( con );
         }
 
         return node;
@@ -1918,7 +1909,6 @@ public class CategoryHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return categoryStatistics;
     }
@@ -1976,7 +1966,6 @@ public class CategoryHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 
@@ -2035,7 +2024,6 @@ public class CategoryHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
     }
 

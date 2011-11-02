@@ -36,7 +36,6 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 import com.enonic.esl.util.DateUtil;
-import com.enonic.esl.util.RegexpUtil;
 import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminStore;
 import com.enonic.vertical.adminweb.VerticalAdminException;
@@ -77,6 +76,8 @@ import com.enonic.cms.core.structure.page.template.PageTemplateType;
 public class ContentNewsletterHandlerServlet
     extends ContentBaseHandlerServlet
 {
+    private final static String REG_EXP_VALID_EMAIL =
+        "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
     protected String SEND_XSL = null;
 
@@ -268,7 +269,7 @@ public class ContentNewsletterHandlerServlet
                 for ( String paramName : paramMap.keySet() )
                 {
                     String paramValue = paramMap.get( paramName );
-                    mailBody = RegexpUtil.substituteAll( "\\%" + paramName + "\\%", paramValue, mailBody );
+                    mailBody = mailBody.replaceAll("\\%" + paramName + "\\%", paramValue);
                 }
                 String name = paramMap.get( "recipientName" );
                 mail.clearRecipients();
@@ -396,7 +397,7 @@ public class ContentNewsletterHandlerServlet
         {
             String otherRecipients = formItems.getString( FORM_ITEM_KEY_OTHER_RECIPIENTS );
 
-            Pattern p = Pattern.compile( RegexpUtil.REG_EXP_VALID_EMAIL, Pattern.CASE_INSENSITIVE );
+            Pattern p = Pattern.compile( REG_EXP_VALID_EMAIL, Pattern.CASE_INSENSITIVE );
 
             Matcher m = p.matcher( otherRecipients );
 

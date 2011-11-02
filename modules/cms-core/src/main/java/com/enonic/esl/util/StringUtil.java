@@ -477,38 +477,16 @@ public final class StringUtil
         replaceString( text, what, with, startPos );
     }
 
-    public static void replaceString( StringBuffer text, String what, String with, int startPos )
+    private static void replaceString( StringBuffer text, String what, String with, int startPos )
     {
 
         text.replace( startPos, ( startPos + what.length() ), with );
     }
 
-    public static String upperCaseWord( String string, String word, boolean firstAlso )
-    {
-        int pos = -1;
-
-        if ( firstAlso )
-        {
-            pos = string.indexOf( word );
-        }
-        else
-        {
-            pos = string.indexOf( word, 1 );
-        }
-
-        while ( pos > -1 )
-        {
-            string =
-                string.substring( 0, pos ).concat( string.substring( pos, pos + 1 ).toUpperCase() ).concat( string.substring( pos + 1 ) );
-            pos = string.indexOf( word, pos );
-        }
-        return string;
-    }
-
     /**
      * Return value as hex.
      */
-    public static String toHex( byte[] value )
+    private static String toHex( byte[] value )
     {
         char[] chars = new char[value.length * 2];
 

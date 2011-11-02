@@ -15,8 +15,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 
 import com.enonic.esl.containers.MultiValueMap;
@@ -78,7 +76,6 @@ public class CommonHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
         return result;
     }
@@ -113,7 +110,6 @@ public class CommonHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
         return result;
     }
@@ -153,7 +149,6 @@ public class CommonHandler
         finally
         {
             close( preparedStmt );
-            close( con );
         }
         return result;
     }
@@ -198,7 +193,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return timestamp;
     }
@@ -272,7 +266,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return values;
     }
@@ -334,7 +327,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return values;
     }
@@ -392,7 +384,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return value;
     }
@@ -440,7 +431,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return value;
     }
@@ -488,7 +478,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return value;
     }
@@ -527,7 +516,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return byteArray;
     }
@@ -574,7 +562,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return keys.toArray();
     }
@@ -628,7 +615,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return keys.toArray();
     }
@@ -690,7 +676,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return string;
@@ -739,7 +724,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return strings.toArray(new String[strings.size()]);
@@ -810,7 +794,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return strings;
@@ -859,7 +842,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return objects;
@@ -906,7 +888,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return hasRows;
     }
@@ -939,7 +920,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -973,7 +953,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -1193,7 +1172,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return doc;
@@ -1327,7 +1305,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -1411,7 +1388,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
 
         return result;
@@ -1472,7 +1448,6 @@ public class CommonHandler
         {
             close( resultSet );
             close( preparedStmt );
-            close( con );
         }
         return doc;
     }

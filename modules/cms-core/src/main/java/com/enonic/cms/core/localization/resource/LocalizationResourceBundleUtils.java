@@ -7,9 +7,6 @@ package com.enonic.cms.core.localization.resource;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.enonic.esl.util.RegexpUtil;
-
 import com.enonic.cms.core.localization.LocaleParsingException;
 
 /**
@@ -21,11 +18,22 @@ public abstract class LocalizationResourceBundleUtils
     // Pattern to parse locale string on format Languagcode[-country][anything]
     private static final String LOCALE_PATTERN = "^(\\w{2})(_(\\w{2}))?(_(\\w{2}))?$";
 
+    private static Matcher match( String inputString, String regexp, int patternOptions )
+    {
+        Pattern pattern = Pattern.compile( regexp, patternOptions );
+        if ( inputString == null )
+        {
+            inputString = "";
+        }
+
+        return pattern.matcher( inputString );
+    }
+
     public static Locale parseLocaleString( String localeAsString )
     {
         localeAsString = localeAsString.replace( '-', '_' );
 
-        Matcher matcher = RegexpUtil.match( localeAsString, LOCALE_PATTERN, Pattern.CASE_INSENSITIVE );
+        Matcher matcher = match( localeAsString, LOCALE_PATTERN, Pattern.CASE_INSENSITIVE );
 
         String language = "";
         String country = "";

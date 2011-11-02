@@ -9,10 +9,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import org.apache.commons.fileupload.FileItem;
-import com.enonic.esl.util.RegexpUtil;
 
 public class FileUtil
 {
@@ -27,7 +27,7 @@ public class FileUtil
         ZipEntry zipEntry = zipIn.getNextEntry();
         while ( zipEntry != null )
         {
-            if ( !RegexpUtil.match( zipEntry.getName(), filterRegExp ).matches() )
+            if ( !filterRegExp.matches(zipEntry.getName()) )
             {
                 inflateFile( dir, zipIn, zipEntry );
             }
