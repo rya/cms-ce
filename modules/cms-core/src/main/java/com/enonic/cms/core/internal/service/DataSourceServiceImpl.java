@@ -113,8 +113,6 @@ import com.enonic.cms.business.preview.PreviewContext;
 public final class DataSourceServiceImpl
         implements DataSourceService
 {
-    private final static int DEFAULT_CONNECTION_TIMEOUT = 2000;
-
     private static final Logger LOG = LoggerFactory.getLogger( DataSourceServiceImpl.class );
 
     private static String URL_NO_RESULT = "<noresult/>";
@@ -759,25 +757,6 @@ public final class DataSourceServiceImpl
      */
     public XMLDocument getURLAsText( DataSourceContext context, String url, String encoding )
     {
-        if ( LOG.isDebugEnabled() )
-        {
-            final StringBuilder msg = new StringBuilder();
-            msg.append( "Executing datasource method: getURLAsText\n" );
-            HttpServletRequest request = ServletRequestAccessor.getRequest();
-            if ( request != null )
-            {
-                msg.append( " requested by: " ).append( request.getRemoteAddr() ).append( "\n" );
-                msg.append( " orignalUrl: " ).append( request.getAttribute( Attribute.ORIGINAL_URL ) ).append( "\n" );
-            }
-            msg.append( " executed at: " ).append( timeService.getNowAsDateTime() ).append( "\n" );
-            msg.append( " siteKey: " ).append( context.getSiteKey() ).append( "\n" );
-            msg.append( " qualifiedName: " ).append( context.getUser().getQualifiedName() ).append( "\n" );
-            msg.append( " Method arguments: " ).append( "\n" );
-            msg.append( "  - url: " ).append( url ).append( "\n" );
-            msg.append( "  - encoding: " ).append( encoding ).append( "\n" );
-            LOG.debug( msg.toString() );
-        }
-
         return getURLAsText( context, url, encoding, -1 );
     }
 
@@ -786,25 +765,6 @@ public final class DataSourceServiceImpl
      */
     public XMLDocument getURLAsText( DataSourceContext context, String url, String encoding, int timeout )
     {
-        if ( LOG.isDebugEnabled() )
-        {
-            final StringBuilder msg = new StringBuilder();
-            msg.append( "Executing datasource method: getURLAsText\n" );
-            HttpServletRequest request = ServletRequestAccessor.getRequest();
-            if ( request != null )
-            {
-                msg.append( " requested by: " ).append( request.getRemoteAddr() ).append( "\n" );
-                msg.append( " orignalUrl: " ).append( request.getAttribute( Attribute.ORIGINAL_URL ) ).append( "\n" );
-            }
-            msg.append( " executed at: " ).append( timeService.getNowAsDateTime() ).append( "\n" );
-            msg.append( " siteKey: " ).append( context.getSiteKey() ).append( "\n" );
-            msg.append( " qualifiedName: " ).append( context.getUser().getQualifiedName() ).append( "\n" );
-            msg.append( " Method arguments: " ).append( "\n" );
-            msg.append( "  - url: " ).append( url ).append( "\n" );
-            msg.append( "  - encoding: " ).append( encoding ).append( "\n" );
-            msg.append( "  - timeout: " ).append( timeout ).append( "\n" );
-            LOG.debug( msg.toString() );
-        }
         StringBuffer xmlString = new StringBuffer();
         String urlResult = httpService.getURL( url, encoding, timeout );
         if ( urlResult == null )
@@ -825,24 +785,6 @@ public final class DataSourceServiceImpl
      */
     public XMLDocument getURLAsXML( DataSourceContext context, String url )
     {
-        if ( LOG.isDebugEnabled() )
-        {
-            final StringBuilder msg = new StringBuilder();
-            msg.append( "Executing datasource method: getURLAsXML\n" );
-            HttpServletRequest request = ServletRequestAccessor.getRequest();
-            if ( request != null )
-            {
-                msg.append( " requested by: " ).append( request.getRemoteAddr() ).append( "\n" );
-                msg.append( " orignalUrl: " ).append( request.getAttribute( Attribute.ORIGINAL_URL ) ).append( "\n" );
-            }
-            msg.append( " executed at: " ).append( timeService.getNowAsDateTime() ).append( "\n" );
-            msg.append( " siteKey: " ).append( context.getSiteKey() ).append( "\n" );
-            msg.append( " qualifiedName: " ).append( context.getUser().getQualifiedName() ).append( "\n" );
-            msg.append( " Method arguments: " ).append( "\n" );
-            msg.append( "  - url: " ).append( url ).append( "\n" );
-            LOG.debug( msg.toString() );
-        }
-
         return getURLAsXML( context, url, -1 );
     }
 
@@ -851,24 +793,6 @@ public final class DataSourceServiceImpl
      */
     public XMLDocument getURLAsXML( DataSourceContext context, String url, int timeout )
     {
-        if ( LOG.isDebugEnabled() )
-        {
-            StringBuffer msg = new StringBuffer();
-            msg.append( "Executing datasource method: getURLAsXML\n" );
-            HttpServletRequest request = ServletRequestAccessor.getRequest();
-            if ( request != null )
-            {
-                msg.append( " requested by: " ).append( request.getRemoteAddr() ).append( "\n" );
-                msg.append( " orignalUrl: " ).append( request.getAttribute( Attribute.ORIGINAL_URL ) ).append( "\n" );
-            }
-            msg.append( " executed at: " ).append( timeService.getNowAsDateTime() ).append( "\n" );
-            msg.append( " siteKey: " ).append( context.getSiteKey() ).append( "\n" );
-            msg.append( " qualifiedName: " ).append( context.getUser().getQualifiedName() ).append( "\n" );
-            msg.append( " Method arguments: " ).append( "\n" );
-            msg.append( "  - url: " ).append( url ).append( "\n" );
-            msg.append( "  - timeout: " ).append( timeout ).append( "\n" );
-            LOG.debug( msg.toString() );
-        }
         String urlResult = httpService.getURL( url, null, timeout );
         return XMLDocumentFactory.create( urlResult == null ? URL_NO_RESULT : urlResult );
     }
@@ -2027,15 +1951,12 @@ public final class DataSourceServiceImpl
             if ( relatedContentsNode != null )
             {
                 List<Element> relatedContentNodes = relatedContentsNode.getChildren( "content" );
-                if ( relatedContentsNode != null )
+                for ( Element e : relatedContentNodes )
                 {
-                    for ( Element e : relatedContentNodes )
-                    {
-                        Integer key = Integer.parseInt( e.getAttributeValue( "key" ) );
-                        Element firstChild = (Element) e.getChildren( "title" ).get( 0 );
-                        String title = firstChild.getText();
-                        traceInfo.addRelatedContentInfo( key, title );
-                    }
+                    Integer key = Integer.parseInt( e.getAttributeValue( "key" ) );
+                    Element firstChild = (Element) e.getChildren( "title" ).get( 0 );
+                    String title = firstChild.getText();
+                    traceInfo.addRelatedContentInfo( key, title );
                 }
             }
         }

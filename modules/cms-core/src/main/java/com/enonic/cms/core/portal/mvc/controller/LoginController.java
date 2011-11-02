@@ -6,57 +6,41 @@ package com.enonic.cms.core.portal.mvc.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.validation.BindException;
+import com.enonic.cms.core.Attribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.command.LoginCommand;
 import com.enonic.cms.core.portal.support.LoginPagePathResolverService;
 
 public class LoginController
-    extends AbstractSiteCommandController
+    extends AbstractSiteController
 {
-
-    private boolean useForward;
-
     private LoginPagePathResolverService loginPagePathResolverService;
-
 
     public void setLoginPagePathResolverService( LoginPagePathResolverService value )
     {
         this.loginPagePathResolverService = value;
     }
 
-    public void setUseForward( boolean useForward )
-    {
-        this.useForward = useForward;
-    }
-
-    /**
-     * Handles login and login page requests.
-     *
-     * @param errors any errors, these are ignored
-     */
-    protected ModelAndView handle( HttpServletRequest request, HttpServletResponse response, Object command, BindException errors,
-                                   SitePath sitePath )
+    @Override
+    protected ModelAndView handleRequestInternal(final HttpServletRequest request, final HttpServletResponse response,
+                                                 final SitePath sitePath)
         throws Exception
     {
-        LoginCommand loginCommand = (LoginCommand) command;
-
-        SitePath sitePathAndParams;
-
-        if ( loginCommand.hasLogin() )
+        // Get check and eventually set original sitePath
+        SitePath originalSitePath = (SitePath) request.getAttribute( Attribute.ORIGINAL_SITEPATH );
+        if ( originalSitePath == null )
         {
-            sitePathAndParams = loginPagePathResolverService.resolvePathToUserServicesLoginPage( sitePath );
-
-            return redirectAndForwardHelper.getModelAndView( request, sitePathAndParams, useForward );
+            originalSitePath = sitePathResolver.resolveSitePath( request );
+            siteService.checkSiteExist( originalSitePath.getSiteKey() );
+            request.setAttribute( Attribute.ORIGINAL_SITEPATH, originalSitePath );
         }
-        else
-        {
-            sitePathAndParams = loginPagePathResolverService.resolvePathToDefaultPageInMenu( sitePath );
 
-            return redirectAndForwardHelper.getForwardModelAndView( request, sitePathAndParams );
-        }
+        // Get and set the current sitePath
+        final SitePath currentSitePath = sitePathResolver.resolveSitePath( request );
+        request.setAttribute( Attribute.CURRENT_SITEPATH, currentSitePath );
+
+        final SitePath sitePathAndParams = loginPagePathResolverService.resolvePathToDefaultPageInMenu( currentSitePath );
+        return siteRedirectAndForwardHelper.getForwardModelAndView( request, sitePathAndParams );
     }
 }

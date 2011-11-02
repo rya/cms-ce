@@ -151,14 +151,6 @@
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="abstractSiteCommandController" class="com.enonic.cms.core.portal.mvc.controller.AbstractSiteCommandController"
-          abstract="true">
-        <property name="cacheSeconds" value="-1"/>
-        <property name="siteService" ref="siteService"/>
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="siteRedirectAndForwardHelper" ref="siteRedirectAndForwardHelper"/>
-    </bean>
-
     <bean id="attachmentController" class="com.enonic.cms.core.portal.mvc.controller.AttachmentController"
           parent="abstractSiteController">
         <property name="binaryDataDao" ref="binaryDataDao"/>
@@ -176,9 +168,7 @@
     </bean>
 
     <bean id="loginController" class="com.enonic.cms.core.portal.mvc.controller.LoginController"
-          parent="abstractSiteCommandController">
-        <property name="commandClass" value="com.enonic.cms.core.command.LoginCommand"/>
-        <property name="useForward" value="true"/>
+          parent="abstractSiteController">
         <property name="loginPagePathResolverService" ref="loginPagePathResolverService"/>
     </bean>
 
