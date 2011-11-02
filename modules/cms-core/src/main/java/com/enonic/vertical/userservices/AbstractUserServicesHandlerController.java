@@ -15,14 +15,25 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.business.SiteContext;
+import com.enonic.cms.business.SitePathResolver;
+import com.enonic.cms.core.content.ContentParserService;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.portal.SiteRedirectHelper;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
+import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.structure.SiteService;
+import com.enonic.cms.store.dao.CategoryDao;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.SiteDao;
+import com.enonic.vertical.VerticalProperties;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -33,8 +44,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
-import com.enonic.esl.util.ArrayUtil;
-import com.enonic.esl.util.RegexpUtil;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalEngineException;
@@ -55,11 +64,11 @@ import com.enonic.cms.core.content.ContentAccessException;
 import com.enonic.cms.core.content.category.CategoryAccessException;
 import com.enonic.cms.core.portal.VerticalSession;
 import com.enonic.cms.core.portal.httpservices.UserServicesException;
+import org.springframework.web.servlet.mvc.Controller;
 
-public class AbstractUserServicesHandlerController
-    extends AbstractPresentationController
+public abstract class AbstractUserServicesHandlerController
+    implements Controller
 {
-
     // fatal errors
 
     public final static int ERR_OPERATION_BACKEND = 504;
@@ -80,7 +89,7 @@ public class AbstractUserServicesHandlerController
 
     protected static DateFormat dateFormatFrom = new SimpleDateFormat( "dd.MM.yyyy" );
 
-    private static final FileUploadBase fileUpload;
+    private final FileUploadBase fileUpload;
 
     protected CaptchaService captchaService;
 
@@ -88,13 +97,41 @@ public class AbstractUserServicesHandlerController
 
     private UserServicesAccessManager userServicesAccessManager;
 
-    static
+    private SiteService siteService;
+
+    private SitePathResolver sitePathResolver;
+
+    protected VerticalProperties verticalProperties;
+
+    private SiteRedirectHelper siteRedirectHelper;
+
+    protected SiteDao siteDao;
+
+    protected CategoryDao categoryDao;
+
+    protected ContentDao contentDao;
+
+    protected SecurityService securityService;
+
+    protected UserStoreService userStoreService;
+
+    protected SendMailService sendMailService;
+
+    protected ContentParserService contentParserService;
+
+    protected ContentService contentService;
+
+    protected SiteCachesService siteCachesService;
+
+    private UserServicesService userServicesService;
+
+    protected UserStoreParser userStoreParser;
+
+    public AbstractUserServicesHandlerController()
     {
         fileUpload = new DiskFileUpload();
         fileUpload.setHeaderEncoding( "UTF-8" );
     }
-
-    protected UserStoreParser userStoreParser;
 
     public void setUserStoreParser( UserStoreParser userStoreParser )
     {
@@ -109,6 +146,76 @@ public class AbstractUserServicesHandlerController
     public void setCaptchaService( CaptchaService service )
     {
         captchaService = service;
+    }
+
+    public void setUserServicesService( UserServicesService userServicesService )
+    {
+        this.userServicesService = userServicesService;
+    }
+
+    public void setSiteCachesService( SiteCachesService value )
+    {
+        this.siteCachesService = value;
+    }
+
+    public void setContentDao( ContentDao contentDao )
+    {
+        this.contentDao = contentDao;
+    }
+
+    public void setContentParserService( ContentParserService contentParserService )
+    {
+        this.contentParserService = contentParserService;
+    }
+
+    public void setContentService( ContentService contentService )
+    {
+        this.contentService = contentService;
+    }
+
+    public void setSiteDao( SiteDao siteDao )
+    {
+        this.siteDao = siteDao;
+    }
+
+    public void setSiteRedirectHelper( SiteRedirectHelper value )
+    {
+        this.siteRedirectHelper = value;
+    }
+
+    public void setVerticalProperties( VerticalProperties value )
+    {
+        this.verticalProperties = value;
+    }
+
+    public void setSiteService( SiteService value )
+    {
+        this.siteService = value;
+    }
+
+    public void setSitePathResolver( SitePathResolver value )
+    {
+        this.sitePathResolver = value;
+    }
+
+    public void setCategoryDao( CategoryDao categoryDao )
+    {
+        this.categoryDao = categoryDao;
+    }
+
+    public void setSecurityService( SecurityService value )
+    {
+        this.securityService = value;
+    }
+
+    public void setUserStoreService( UserStoreService userStoreService )
+    {
+        this.userStoreService = userStoreService;
+    }
+
+    public void setSendMailService( SendMailService sendMailService )
+    {
+        this.sendMailService = sendMailService;
     }
 
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -147,7 +254,7 @@ public class AbstractUserServicesHandlerController
         VerticalUserServicesLogger.error(message, null );
     }
 
-    protected UserServicesService lookupUserServices()
+    private UserServicesService lookupUserServices()
     {
         return userServicesService;
     }
@@ -309,7 +416,7 @@ public class AbstractUserServicesHandlerController
         return formItems;
     }
 
-    protected ExtendedMap parseForm( HttpServletRequest request )
+    private ExtendedMap parseForm( HttpServletRequest request )
     {
         if ( FileUpload.isMultipartContent( request ) )
         {
@@ -324,8 +431,8 @@ public class AbstractUserServicesHandlerController
     /**
      * Process incoming HTTP requests.
      */
-    public ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
-        throws ServletException, IOException
+    private ModelAndView handleRequestInternal( HttpServletRequest request, HttpServletResponse response, SitePath sitePath )
+        throws IOException
     {
 
         HttpSession session = request.getSession( true );
@@ -447,14 +554,14 @@ public class AbstractUserServicesHandlerController
     protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int code,
                                         MultiValueMap queryParams )
     {
-        redirectToErrorPage( request, response, formItems, new int[]{code}, queryParams );
+        redirectToErrorPage(request, response, formItems, new int[]{code}, queryParams);
     }
 
     protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int[] codes,
                                         MultiValueMap queryParams )
     {
         String url = userServicesRedirectUrlResolver.resolveRedirectUrlToErrorPage( request, formItems, codes, queryParams );
-        siteRedirectHelper.sendRedirect( request, response, url );
+        siteRedirectHelper.sendRedirect(request, response, url);
     }
 
     protected static String createMissingParametersMessage( String operation, List<String> missingParameters )
@@ -507,38 +614,37 @@ public class AbstractUserServicesHandlerController
         this.userServicesAccessManager = userServicesAccessManager;
     }
 
-    protected static class Util
+    public ModelAndView handleRequest( HttpServletRequest request, HttpServletResponse response )
+        throws Exception
     {
 
-        protected static String replaceKeys( ExtendedMap formItems, String inText, String[] excludeKeys )
+        // Get check and eventually set original sitePath
+        SitePath originalSitePath = (SitePath) request.getAttribute( Attribute.ORIGINAL_SITEPATH );
+        if ( originalSitePath == null )
         {
-
-            String outText = inText;
-
-            for ( Object o : formItems.keySet() )
-            {
-                String key = (String) o;
-
-                Pattern p = Pattern.compile( ".*%" + key + "%.*", Pattern.DOTALL );
-                Matcher m = p.matcher( outText );
-
-                if ( ( excludeKeys == null || !ArrayUtil.arrayContains( key, excludeKeys ) ) && m.matches() &&
-                    formItems.containsKey( key ) )
-                {
-
-                    String regexp = "%" + key + "%";
-                    outText = RegexpUtil.substituteAll( regexp, formItems.getString( key, "" ), outText );
-                }
-            }
-
-            return outText;
+            originalSitePath = sitePathResolver.resolveSitePath( request );
+            request.setAttribute( Attribute.ORIGINAL_SITEPATH, originalSitePath );
         }
 
-        protected static String removeTokens( String inText )
-        {
-            return inText.replaceAll( "%[^%]+%", "" );
-        }
+        // Get and set the current sitePath
+        SitePath currentSitePath = sitePathResolver.resolveSitePath( request );
+        request.setAttribute( Attribute.CURRENT_SITEPATH, currentSitePath );
 
+        return handleRequestInternal( request, response, currentSitePath );
     }
 
+    protected SiteContext getSiteContext( SiteKey siteKey )
+    {
+        return siteService.getSiteContext( siteKey );
+    }
+
+    protected SitePath getSitePath( HttpServletRequest request )
+    {
+        SitePath sitePath = (SitePath) request.getAttribute( Attribute.ORIGINAL_SITEPATH );
+        if ( sitePath == null )
+        {
+            sitePath = sitePathResolver.resolveSitePath( request );
+        }
+        return sitePath;
+    }
 }

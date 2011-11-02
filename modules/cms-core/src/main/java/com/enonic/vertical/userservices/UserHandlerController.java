@@ -10,6 +10,8 @@ import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.esl.util.ArrayUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
@@ -989,14 +992,14 @@ public class UserHandlerController
             adminMail.setFrom( formItems.getString( "from_name", "" ), formItems.getString( "from_email", "" ) );
 
             String mailSubject = formItems.getString( "admin_mail_subject", "" );
-            mailSubject = Util.replaceKeys( formItems, mailSubject, new String[]{FORMITEM_PASSWORD} );
-            mailSubject = Util.removeTokens( mailSubject );
+            mailSubject = replaceKeys(formItems, mailSubject, new String[]{FORMITEM_PASSWORD});
+            mailSubject = removeTokens(mailSubject);
 
             adminMail.setSubject( mailSubject );
 
             String mailBody = formItems.getString( "admin_mail_body" );
-            mailBody = Util.replaceKeys( formItems, mailBody, new String[]{FORMITEM_PASSWORD} );
-            mailBody = Util.removeTokens( mailBody );
+            mailBody = replaceKeys(formItems, mailBody, new String[]{FORMITEM_PASSWORD});
+            mailBody = removeTokens(mailBody);
             adminMail.setMessage( mailBody );
 
             adminMail.send();
@@ -1022,14 +1025,14 @@ public class UserHandlerController
             userMail.setFrom( formItems.getString( "from_name", "" ), formItems.getString( "from_email" ) );
 
             String mailSubject = formItems.getString( "user_mail_subject", "" );
-            mailSubject = Util.replaceKeys( formItems, mailSubject, new String[]{FORMITEM_PASSWORD} );
-            mailSubject = Util.removeTokens( mailSubject );
+            mailSubject = replaceKeys(formItems, mailSubject, new String[]{FORMITEM_PASSWORD});
+            mailSubject = removeTokens(mailSubject);
             userMail.setSubject( mailSubject );
 
             String mailBody = formItems.getString( "user_mail_body" );
 
-            mailBody = Util.replaceKeys( formItems, mailBody, null );
-            mailBody = Util.removeTokens( mailBody );
+            mailBody = replaceKeys(formItems, mailBody, null);
+            mailBody = removeTokens(mailBody);
             userMail.setMessage( mailBody );
 
             userMail.send();
@@ -1622,5 +1625,35 @@ public class UserHandlerController
     public void setUserDao( final UserDao userDao )
     {
         this.userDao = userDao;
+    }
+
+
+    private static String replaceKeys( ExtendedMap formItems, String inText, String[] excludeKeys )
+    {
+
+        String outText = inText;
+
+        for ( Object o : formItems.keySet() )
+        {
+            String key = (String) o;
+
+            Pattern p = Pattern.compile( ".*%" + key + "%.*", Pattern.DOTALL );
+            Matcher m = p.matcher( outText );
+
+            if ( ( excludeKeys == null || !ArrayUtil.arrayContains(key, excludeKeys) ) && m.matches() &&
+                formItems.containsKey( key ) )
+            {
+
+                String regexp = "%" + key + "%";
+                outText = RegexpUtil.substituteAll( regexp, formItems.getString( key, "" ), outText );
+            }
+        }
+
+        return outText;
+    }
+
+    private static String removeTokens( String inText )
+    {
+        return inText.replaceAll( "%[^%]+%", "" );
     }
 }
