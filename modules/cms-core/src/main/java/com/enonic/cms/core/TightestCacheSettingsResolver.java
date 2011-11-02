@@ -2,20 +2,17 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.CacheSettings;
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.core.structure.portlet.PortletEntity;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Regions;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.portlet.PortletEntity;
 
 public class TightestCacheSettingsResolver
 {

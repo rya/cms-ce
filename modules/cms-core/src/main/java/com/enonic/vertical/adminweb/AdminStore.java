@@ -20,7 +20,7 @@ import com.enonic.esl.io.TranslationReader;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
+import com.enonic.cms.core.AdminConsoleTranslationService;
 
 /**
  * Utility class for admin-console resources.

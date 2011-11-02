@@ -35,7 +35,7 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
 
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 public class ArchiveHandlerServlet
     extends AdminHandlerBaseServlet

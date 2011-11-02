@@ -2,22 +2,13 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.business;
+package com.enonic.cms.core;
 
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.core.AdminSiteDebugBasePath;
-import com.enonic.cms.core.AdminSitePreviewBasePath;
-import com.enonic.cms.core.Path;
-import com.enonic.cms.core.PortalSiteBasePath;
-import com.enonic.cms.core.SiteBasePath;
-
 import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
-
-import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.SiteKey;
 
 /**
  * Sep 3, 2010

@@ -10,13 +10,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.store.dao.SiteDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import com.enonic.cms.api.Version;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.upgrade.UpgradeService;
 
 /**

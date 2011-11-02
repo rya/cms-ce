@@ -15,9 +15,8 @@ import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.CacheManager;
 
 import com.enonic.cms.core.SiteKey;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
 
 public class SiteCachesServiceImpl
         implements SiteCachesService

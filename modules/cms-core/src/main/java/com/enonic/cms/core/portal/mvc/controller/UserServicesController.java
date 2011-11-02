@@ -13,12 +13,11 @@ import com.enonic.vertical.userservices.UserServicesParameterResolver;
 
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.SitePropertyNames;
 import com.enonic.cms.core.portal.InvalidParameterValueException;
 import com.enonic.cms.core.portal.InvalidTicketException;
 import com.enonic.cms.core.portal.ParameterMissingException;
 import com.enonic.cms.core.portal.ticket.TicketValidator;
-
-import com.enonic.cms.business.SitePropertyNames;
 
 public class UserServicesController
     extends AbstractSiteController

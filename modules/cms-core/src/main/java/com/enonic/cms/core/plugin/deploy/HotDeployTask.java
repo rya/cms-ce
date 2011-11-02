@@ -1,10 +1,12 @@
 package com.enonic.cms.core.plugin.deploy;
 
-import com.enonic.cms.api.util.LogFacade;
-import com.enonic.cms.core.plugin.installer.BundleInstaller;
+import java.io.File;
+
 import org.apache.commons.io.monitor.FileAlterationMonitor;
 import org.apache.commons.io.monitor.FileAlterationObserver;
-import java.io.File;
+
+import com.enonic.cms.api.util.LogFacade;
+import com.enonic.cms.core.plugin.installer.BundleInstaller;
 
 final class HotDeployTask
 {

@@ -11,8 +11,11 @@ import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.MockSitePropertiesService;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -45,10 +48,6 @@ import com.enonic.cms.store.dao.ContentBinaryDataDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.PortletDao;
-
-import com.enonic.cms.business.MockSitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.SiteURLResolver;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;

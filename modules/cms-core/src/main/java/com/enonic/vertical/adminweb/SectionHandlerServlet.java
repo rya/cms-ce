@@ -58,6 +58,7 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.CmsDateAndTimeFormats;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -102,8 +103,7 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 
-import com.enonic.cms.business.DeploymentPathResolver;
-import com.enonic.cms.business.SitePropertiesService;
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.portal.cache.PageCacheService;
 import com.enonic.cms.core.portal.cache.SiteCachesService;
 

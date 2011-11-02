@@ -1,13 +1,15 @@
 package com.enonic.cms.core.plugin.context;
 
+import java.io.File;
+
+import org.osgi.framework.BundleContext;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.enonic.cms.api.plugin.PluginConfig;
 import com.enonic.cms.api.plugin.PluginContext;
 import com.enonic.cms.api.util.LogFacade;
 import com.enonic.cms.core.plugin.container.OsgiContributor;
-import org.osgi.framework.BundleContext;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import java.io.File;
 
 @Component
 public final class ContextActivator

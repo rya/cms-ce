@@ -13,8 +13,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
@@ -33,9 +31,9 @@ import com.enonic.cms.framework.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.InvalidKeyException;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.calendar.CalendarService;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -79,6 +77,7 @@ import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.core.preference.PreferenceUniqueMatchResolver;
 import com.enonic.cms.core.preference.PreferenceXmlCreator;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.security.user.QualifiedUsername;
@@ -90,7 +89,6 @@ import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 import com.enonic.cms.core.service.DataSourceService;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.SiteXmlCreator;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessResolver;
@@ -106,9 +104,6 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.preview.PreviewContext;
 
 public final class DataSourceServiceImpl
         implements DataSourceService

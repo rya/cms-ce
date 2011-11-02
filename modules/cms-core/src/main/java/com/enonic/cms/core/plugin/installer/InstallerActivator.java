@@ -1,11 +1,13 @@
 package com.enonic.cms.core.plugin.installer;
 
-import com.enonic.cms.core.plugin.container.OsgiContributor;
+import java.util.Hashtable;
+
 import org.osgi.framework.BundleContext;
 import org.osgi.service.url.URLConstants;
 import org.osgi.service.url.URLStreamHandlerService;
 import org.springframework.stereotype.Component;
-import java.util.Hashtable;
+
+import com.enonic.cms.core.plugin.container.OsgiContributor;
 
 @Component
 public final class InstallerActivator

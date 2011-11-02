@@ -7,7 +7,6 @@ package com.enonic.cms.core.portal.datasource.methodcall;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import com.enonic.cms.core.portal.datasource.*;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
@@ -19,6 +18,11 @@ import com.enonic.cms.framework.util.JDOMUtil;
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.plugin.ExtensionSet;
+import com.enonic.cms.core.portal.datasource.DataSourceContext;
+import com.enonic.cms.core.portal.datasource.DataSourceException;
+import com.enonic.cms.core.portal.datasource.Datasource;
+import com.enonic.cms.core.portal.datasource.DatasourceExecutorContext;
+import com.enonic.cms.core.portal.datasource.ExpressionFunctionsExecutor;
 import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionContext;
 
 /**

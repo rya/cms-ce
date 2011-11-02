@@ -48,6 +48,7 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.Attribute;
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.LanguageKey;
 import com.enonic.cms.core.LanguageResolver;
@@ -88,7 +89,6 @@ import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
 
-import com.enonic.cms.business.DeploymentPathResolver;
 import com.enonic.cms.core.portal.cache.PageCacheService;
 import com.enonic.cms.core.portal.datasource.processor.ContentProcessor;
 import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
@@ -96,8 +96,8 @@ import com.enonic.cms.core.portal.datasource.processor.MenuItemProcessor;
 import com.enonic.cms.core.portal.rendering.PageRenderer;
 import com.enonic.cms.core.portal.rendering.PageRendererContext;
 import com.enonic.cms.core.portal.rendering.RegionsResolver;
-import com.enonic.cms.business.preview.MenuItemPreviewContext;
-import com.enonic.cms.business.preview.PreviewContext;
+import com.enonic.cms.core.preview.MenuItemPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesModel;
 import com.enonic.cms.domain.admin.MenuItemsAcrossSitesXmlCreator;

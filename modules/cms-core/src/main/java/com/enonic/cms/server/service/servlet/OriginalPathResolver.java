@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.util.UrlPathHelper;
 
-import com.enonic.cms.business.SiteURLResolver;
+import com.enonic.cms.core.SiteURLResolver;
 
 public class OriginalPathResolver
 {

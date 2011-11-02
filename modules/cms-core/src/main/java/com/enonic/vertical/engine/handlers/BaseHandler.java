@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.enonic.cms.core.AdminConsoleTranslationService;
 import com.enonic.cms.store.dao.*;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.userstore.MemberOfResolver;
 import com.enonic.cms.core.service.KeyService;
 
-import com.enonic.cms.business.AdminConsoleTranslationService;
 import com.enonic.cms.core.content.ContentService;
 
 public abstract class BaseHandler

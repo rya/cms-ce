@@ -83,7 +83,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="previewService" class="com.enonic.cms.business.preview.PreviewServiceImpl"/>
+    <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
     <bean id="livePortalTraceService" class="com.enonic.cms.core.portal.livetrace.LivePortalTraceServiceImpl">
         <property name="enabled" value="false"/>
@@ -156,16 +156,16 @@
         <property name="blobStore" ref="blobStore"/>
     </bean>
 
-    <bean id="sitePathResolver" class="com.enonic.cms.business.SitePathResolver">
+    <bean id="sitePathResolver" class="com.enonic.cms.core.SitePathResolver">
         <property name="sitePathPrefix" value="/site"/>
         <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
     </bean>
 
-    <bean id="urlPathHelperManager" class="com.enonic.cms.business.UrlPathHelperManager">
+    <bean id="urlPathHelperManager" class="com.enonic.cms.core.UrlPathHelperManager">
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
     </bean>
 
-    <bean id="sitePropertiesService" class="com.enonic.cms.business.MockSitePropertiesService">
+    <bean id="sitePropertiesService" class="com.enonic.cms.core.MockSitePropertiesService">
     </bean>
 
     <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
@@ -174,14 +174,14 @@
     <bean id="siteService" class="com.enonic.cms.core.structure.SiteServiceImpl">
         <property name="siteCachesService" ref="siteCachesService"/>
         <property name="siteContextManager">
-            <bean class="com.enonic.cms.business.SiteContextManager"/>
+            <bean class="com.enonic.cms.core.SiteContextManager"/>
         </property>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
         <property name="siteDao" ref="siteDao"/>
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="siteURLResolver" class="com.enonic.cms.business.SiteURLResolver">
+    <bean id="siteURLResolver" class="com.enonic.cms.core.SiteURLResolver">
         <property name="sitePathPrefix" value="/site"/>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
     </bean>
@@ -241,7 +241,7 @@
           class="com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
 
     <bean id="tightestCacheSettingsResolver"
-          class="com.enonic.cms.business.TightestCacheSettingsResolver"/>
+          class="com.enonic.cms.core.TightestCacheSettingsResolver"/>
 
     <bean id="postProcessInstructionExecutor"
           class="com.enonic.cms.core.portal.instruction.PostProcessInstructionExecutorImpl"/>
@@ -257,7 +257,7 @@
     <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
 
     <bean id="siteRedirectAndForwardHelper"
-          class="com.enonic.cms.business.SiteRedirectAndForwardHelper">
+          class="com.enonic.cms.core.SiteRedirectAndForwardHelper">
         <property name="replaceSpacesWithPlus" value="true"/>
     </bean>
 

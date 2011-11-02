@@ -1,9 +1,10 @@
 package com.enonic.cms.core.plugin.installer;
 
-import org.osgi.service.url.AbstractURLStreamHandlerService;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+
+import org.osgi.service.url.AbstractURLStreamHandlerService;
 
 final class TransformerStreamHandler
     extends AbstractURLStreamHandlerService

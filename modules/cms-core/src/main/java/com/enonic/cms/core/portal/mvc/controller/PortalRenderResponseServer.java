@@ -30,8 +30,12 @@ import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SiteBasePath;
 import com.enonic.cms.core.SiteBasePathAndSitePath;
 import com.enonic.cms.core.SiteBasePathAndSitePathToStringBuilder;
+import com.enonic.cms.core.SiteBasePathResolver;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.SitePropertiesService;
+import com.enonic.cms.core.SitePropertyNames;
+import com.enonic.cms.core.SiteRedirectAndForwardHelper;
 import com.enonic.cms.core.plugin.PluginManager;
 import com.enonic.cms.core.portal.PortalRenderingException;
 import com.enonic.cms.core.portal.PortalRequest;
@@ -43,11 +47,6 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.business.SiteBasePathResolver;
-import com.enonic.cms.business.SitePropertiesService;
-import com.enonic.cms.business.SitePropertyNames;
-import com.enonic.cms.business.SiteRedirectAndForwardHelper;
 
 /**
  * May 26, 2009

@@ -1,10 +1,11 @@
 package com.enonic.cms.core.plugin.spring;
 
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
 import com.enonic.cms.api.plugin.PluginContext;
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.core.plugin.util.OsgiHelper;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
 
 public final class SpringActivator
     implements BundleActivator

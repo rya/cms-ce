@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.URL;
 
-import com.enonic.cms.business.DeploymentPathResolver;
+import com.enonic.cms.core.DeploymentPathResolver;
 
 import com.enonic.cms.core.SiteKey;
 

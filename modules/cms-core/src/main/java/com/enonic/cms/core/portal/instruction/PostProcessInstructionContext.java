@@ -6,11 +6,10 @@ package com.enonic.cms.core.portal.instruction;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.enonic.cms.core.SiteURLResolver;
 import com.enonic.cms.core.portal.rendering.WindowRendererContext;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.structure.SiteEntity;
-
-import com.enonic.cms.business.SiteURLResolver;
-import com.enonic.cms.business.preview.PreviewContext;
 
 /**
  * Created by IntelliJ IDEA.

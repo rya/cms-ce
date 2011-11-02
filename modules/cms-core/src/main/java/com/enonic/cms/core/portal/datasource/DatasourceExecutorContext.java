@@ -20,6 +20,7 @@ import com.enonic.cms.core.portal.PageRequestType;
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.portal.VerticalSession;
 import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.DataSourceService;
@@ -29,8 +30,6 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Regions;
 import com.enonic.cms.core.structure.page.Window;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-
-import com.enonic.cms.business.preview.PreviewContext;
 
 /**
  * Apr 21, 2009

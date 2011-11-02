@@ -1,11 +1,13 @@
 package com.enonic.cms.core.plugin.installer;
 
-import com.enonic.cms.core.plugin.spring.SpringActivator;
-import com.google.common.base.Strings;
 import java.io.IOException;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
+
+import com.google.common.base.Strings;
+
+import com.enonic.cms.core.plugin.spring.SpringActivator;
 
 final class ManifestTransformerImpl
     implements ManifestTransformer

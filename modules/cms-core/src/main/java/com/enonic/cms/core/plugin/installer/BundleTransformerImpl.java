@@ -1,13 +1,18 @@
 package com.enonic.cms.core.plugin.installer;
 
-import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Set;
-import java.util.jar.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
+import java.util.jar.JarInputStream;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
+
+import com.google.common.collect.Sets;
+import com.google.common.io.ByteStreams;
 
 final class BundleTransformerImpl
     implements BundleTransformer

@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.core.service;
 
-import java.util.Map;
 import java.util.Set;
 
 import org.w3c.dom.Element;
@@ -14,7 +13,6 @@ import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.MenuAccessRight;
 import com.enonic.vertical.engine.MenuItemAccessRight;
 import com.enonic.vertical.engine.SectionCriteria;
-import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
 import com.enonic.vertical.engine.filters.Filter;
 

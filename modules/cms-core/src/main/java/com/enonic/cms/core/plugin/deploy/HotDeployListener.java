@@ -1,8 +1,10 @@
 package com.enonic.cms.core.plugin.deploy;
 
-import com.enonic.cms.core.plugin.installer.BundleInstaller;
-import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
 import java.io.File;
+
+import org.apache.commons.io.monitor.FileAlterationListenerAdaptor;
+
+import com.enonic.cms.core.plugin.installer.BundleInstaller;
 
 final class HotDeployListener
     extends FileAlterationListenerAdaptor
