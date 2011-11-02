@@ -145,11 +145,6 @@ public class TimestampType
         }
     }
 
-    public Class getJavaType()
-    {
-        return Date.class;
-    }
-
     public String getTypeString()
     {
         return "TIMESTAMP";

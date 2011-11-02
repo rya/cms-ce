@@ -13,9 +13,9 @@ public final class ModelVersionTable
 {
     private static final ModelVersionTable ModelVersion = new ModelVersionTable( "tModelVersion", "null", "null" );
 
-    public Column mve_sKey = new Column( "mve_sKey", "null", true, true, Constants.COLUMN_VARCHAR, null, 32 );
+    public Column mve_sKey = new Column( "mve_sKey", "null", true, true, Constants.COLUMN_VARCHAR, 32 );
 
-    public Column mve_lVersion = new Column( "mve_lVersion", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column mve_lVersion = new Column( "mve_lVersion", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
     private ModelVersionTable( String tableName, String elementName, String parentName )
     {

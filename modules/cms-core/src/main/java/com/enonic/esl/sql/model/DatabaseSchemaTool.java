@@ -17,7 +17,7 @@ public final class DatabaseSchemaTool
     /**
      * Generate create foreign keys.
      */
-    public static List<String> generateCreateForeignKeys( Database db )
+    private static List<String> generateCreateForeignKeys( Database db )
     {
         ArrayList<String> list = new ArrayList<String>();
         Table[] tables = db.getTables();
@@ -80,7 +80,7 @@ public final class DatabaseSchemaTool
     /**
      * Generate create indexes.
      */
-    public static List<String> generateCreateIndexes( Database db )
+    private static List<String> generateCreateIndexes( Database db )
     {
         ArrayList<String> list = new ArrayList<String>();
         Table[] tables = db.getTables();
@@ -193,7 +193,7 @@ public final class DatabaseSchemaTool
     /**
      * Generate create tables.
      */
-    public static List<String> generateCreateTables( Database db )
+    private static List<String> generateCreateTables( Database db )
     {
         ArrayList<String> list = new ArrayList<String>();
         Table[] tables = db.getTables();

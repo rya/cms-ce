@@ -14,23 +14,23 @@ public final class UnitTable
 {
     private static final UnitTable Unit = new UnitTable( "tUnit", "unit", "units" );
 
-    public Column uni_lKey = new Column( "uni_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column uni_lKey = new Column( "uni_lKey", "@key", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn uni_lan_lKey =
         new ForeignKeyColumn( "uni_lan_lKey", "@languagekey", false, false, Constants.COLUMN_INTEGER, null, "tLanguage", "lan_lKey", false,
                               -1 );
 
-    public Column uni_sName = new Column( "uni_sName", "name", true, false, Constants.COLUMN_VARCHAR, null, 32 );
+    public Column uni_sName = new Column( "uni_sName", "name", true, false, Constants.COLUMN_VARCHAR, 32 );
 
-    public Column uni_sDescription = new Column( "uni_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column uni_sDescription = new Column( "uni_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, 256 );
 
     public ForeignKeyColumn uni_lSuperKey =
         new ForeignKeyColumn( "uni_lSuperKey", "@superkey", false, false, Constants.COLUMN_INTEGER, null, "tUnit", "uni_lKey", false, -1 );
 
-    public Column uni_bDeleted = new Column( "uni_bDeleted", "@deleted", true, false, Constants.COLUMN_BOOLEAN, Boolean.FALSE, -1 );
+    public Column uni_bDeleted = new Column( "uni_bDeleted", "@deleted", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
     public Column uni_dteTimestamp =
-        new Column( "uni_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "uni_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private UnitTable( String tableName, String elementName, String parentName )
     {

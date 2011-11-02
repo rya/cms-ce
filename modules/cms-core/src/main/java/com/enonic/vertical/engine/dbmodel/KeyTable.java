@@ -13,9 +13,9 @@ public final class KeyTable
 {
     private static final KeyTable Key = new KeyTable( "tKey", "null", "null" );
 
-    public Column key_sTableName = new Column( "key_sTableName", "null", true, true, Constants.COLUMN_VARCHAR, null, 18 );
+    public Column key_sTableName = new Column( "key_sTableName", "null", true, true, Constants.COLUMN_VARCHAR, 18 );
 
-    public Column key_lLastKey = new Column( "key_lLastKey", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column key_lLastKey = new Column( "key_lLastKey", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
     private KeyTable( String tableName, String elementName, String parentName )
     {

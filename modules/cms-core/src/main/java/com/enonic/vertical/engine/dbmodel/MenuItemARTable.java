@@ -20,19 +20,19 @@ public final class MenuItemARTable
     public ForeignKeyColumn mia_grp_hKey =
         new ForeignKeyColumn( "mia_grp_hKey", "null", true, true, Constants.COLUMN_CHAR, null, "tGroup", "grp_hKey", false, -1 );
 
-    public Column mia_bRead = new Column( "mia_bRead", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bRead = new Column( "mia_bRead", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mia_bCreate = new Column( "mia_bCreate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bCreate = new Column( "mia_bCreate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mia_bPublish = new Column( "mia_bPublish", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bPublish = new Column( "mia_bPublish", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mia_bAdministrate = new Column( "mia_bAdministrate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bAdministrate = new Column( "mia_bAdministrate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mia_bUpdate = new Column( "mia_bUpdate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bUpdate = new Column( "mia_bUpdate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mia_bDelete = new Column( "mia_bDelete", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bDelete = new Column( "mia_bDelete", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mia_bAdd = new Column( "mia_bAdd", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mia_bAdd = new Column( "mia_bAdd", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
     private MenuItemARTable( String tableName, String elementName, String parentName )
     {

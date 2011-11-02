@@ -14,7 +14,7 @@ public final class ContentBinaryDataTable
 {
     private static final ContentBinaryDataTable ContentBinaryData = new ContentBinaryDataTable( "tContentBinaryData", "null", "null" );
 
-    public Column cbd_lKey = new Column( "cbd_lKey", "null", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cbd_lKey = new Column( "cbd_lKey", "null", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn cbd_cov_lKey =
         new ForeignKeyColumn( "cbd_cov_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tContentVersion", "cov_lKey", false,
@@ -23,7 +23,7 @@ public final class ContentBinaryDataTable
     public ForeignKeyColumn cbd_bda_lKey =
         new ForeignKeyColumn( "cbd_bda_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tBinaryData", "bda_lKey", true, -1 );
 
-    public Column cbd_sLabel = new Column( "cbd_sLabel", "null", false, false, Constants.COLUMN_VARCHAR, null, 32 );
+    public Column cbd_sLabel = new Column( "cbd_sLabel", "null", false, false, Constants.COLUMN_VARCHAR, 32 );
 
     private ContentBinaryDataTable( String tableName, String elementName, String parentName )
     {

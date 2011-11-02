@@ -14,32 +14,32 @@ public final class UserTable
 {
     public static final UserTable INSTANCE = new UserTable( "tUser", "user", "users" );
 
-    public Column usr_hKey = new Column( "usr_hKey", "@key", true, true, Constants.COLUMN_CHAR, null, 40 );
+    public Column usr_hKey = new Column( "usr_hKey", "@key", true, true, Constants.COLUMN_CHAR, 40 );
 
-    public Column usr_sUID = new Column( "usr_sUID", "@uid", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column usr_sUID = new Column( "usr_sUID", "@uid", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column usr_sFullName = new Column( "usr_sFullName", "@fullname", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column usr_sFullName = new Column( "usr_sFullName", "@fullname", true, false, Constants.COLUMN_VARCHAR, 256 );
 
     public Column usr_dteTimestamp =
-        new Column( "usr_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "usr_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
-    public Column usr_bIsDeleted = new Column( "usr_bIsDeleted", "@deleted", true, false, Constants.COLUMN_BOOLEAN, Boolean.FALSE, -1 );
+    public Column usr_bIsDeleted = new Column( "usr_bIsDeleted", "@deleted", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column usr_ut_lKey = new Column( "usr_ut_lKey", "@usertype", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column usr_ut_lKey = new Column( "usr_ut_lKey", "@usertype", true, false, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn usr_dom_lKey =
         new ForeignKeyColumn( "usr_dom_lKey", "@domainkey", false, false, Constants.COLUMN_INTEGER, null, "tDomain", "dom_lKey", false,
                               -1 );
 
-    public Column usr_sSyncValue = new Column( "usr_sSyncValue", "@syncvalue", true, false, Constants.COLUMN_VARCHAR, null, 2048 );
+    public Column usr_sSyncValue = new Column( "usr_sSyncValue", "@syncvalue", true, false, Constants.COLUMN_VARCHAR, 2048 );
 
-    public Column usr_sEmail = new Column( "usr_sEmail", "null", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column usr_sEmail = new Column( "usr_sEmail", "null", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column usr_sPassword = new Column( "usr_sPassword", "null", false, false, Constants.COLUMN_VARCHAR, null, 64 );
+    public Column usr_sPassword = new Column( "usr_sPassword", "null", false, false, Constants.COLUMN_VARCHAR, 64 );
 
-    public Column usr_grp_hKey = new Column( "usr_grp_hKey", "null", false, false, Constants.COLUMN_CHAR, null, 40 );
+    public Column usr_grp_hKey = new Column( "usr_grp_hKey", "null", false, false, Constants.COLUMN_CHAR, 40 );
 
-    public Column usr_photo = new Column( "usr_photo", "null", false, false, Constants.COLUMN_BINARY, null, 1 );
+    public Column usr_photo = new Column( "usr_photo", "null", false, false, Constants.COLUMN_BINARY, 1 );
 
     private UserTable( String tableName, String elementName, String parentName )
     {

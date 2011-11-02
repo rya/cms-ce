@@ -101,12 +101,7 @@ public class FloatType
         {
             value = (Float) obj;
         }
-        preparedStmt.setFloat( columnIndex, value.floatValue() );
-    }
-
-    public Class getJavaType()
-    {
-        return Float.class;
+        preparedStmt.setFloat( columnIndex, (Float)value.floatValue() );
     }
 
     public String getTypeString()

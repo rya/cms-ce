@@ -14,7 +14,7 @@ public final class SecConTypeFilter2Table
 {
     private static final SecConTypeFilter2Table SecConTypeFilter2 = new SecConTypeFilter2Table( "tSecConTypeFilter2", "null", "null" );
 
-    public Column sctf_lkey = new Column( "sctf_lkey", "null", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column sctf_lkey = new Column( "sctf_lkey", "null", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn sctf_cty_lKey =
         new ForeignKeyColumn( "sctf_cty_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tContentType", "cty_lKey", true, -1 );

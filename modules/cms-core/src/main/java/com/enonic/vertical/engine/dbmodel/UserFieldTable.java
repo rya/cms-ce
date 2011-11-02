@@ -13,11 +13,11 @@ public final class UserFieldTable
 {
     private static final UserFieldTable UserField = new UserFieldTable( "tUserField", "null", "null" );
 
-    public Column usf_usr_hKey = new Column( "usf_usr_hKey", "null", true, true, Constants.COLUMN_CHAR, null, 40 );
+    public Column usf_usr_hKey = new Column( "usf_usr_hKey", "null", true, true, Constants.COLUMN_CHAR, 40 );
 
-    public Column usf_name = new Column( "usf_name", "null", true, true, Constants.COLUMN_VARCHAR, null, 100 );
+    public Column usf_name = new Column( "usf_name", "null", true, true, Constants.COLUMN_VARCHAR, 100 );
 
-    public Column usf_value = new Column( "usf_value", "null", false, false, Constants.COLUMN_VARCHAR, null, 512 );
+    public Column usf_value = new Column( "usf_value", "null", false, false, Constants.COLUMN_VARCHAR, 512 );
 
     private UserFieldTable( String tableName, String elementName, String parentName )
     {

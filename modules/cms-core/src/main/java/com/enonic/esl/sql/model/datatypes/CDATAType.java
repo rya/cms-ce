@@ -110,19 +110,9 @@ public class CDATAType
         preparedStmt.setBytes( columnIndex, dataBytes );
     }
 
-    public Class getJavaType()
-    {
-        return String.class;
-    }
-
     public String getTypeString()
     {
         return "CDATA";
-    }
-
-    public boolean isBlobType()
-    {
-        return true;
     }
 
     public static DataType getInstance()

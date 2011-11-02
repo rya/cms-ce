@@ -14,9 +14,9 @@ public final class LogEntryTable
 {
     public static final LogEntryTable INSTANCE = new LogEntryTable( "tLogEntry", "logentry", "logentries" );
 
-    public Column len_sKey = new Column( "len_sKey", "@key", true, true, Constants.COLUMN_CHAR, null, 28 );
+    public Column len_sKey = new Column( "len_sKey", "@key", true, true, Constants.COLUMN_CHAR, 28 );
 
-    public Column len_lTypeKey = new Column( "len_lTypeKey", "@typekey", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column len_lTypeKey = new Column( "len_lTypeKey", "@typekey", true, false, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn len_usr_hKey =
         new ForeignKeyColumn( "len_usr_hKey", "@userkey", true, false, Constants.COLUMN_CHAR, null, "tUser", "usr_hKey", false, -1 );
@@ -24,22 +24,22 @@ public final class LogEntryTable
     public ForeignKeyColumn len_men_lKey =
         new ForeignKeyColumn( "len_men_lKey", "@menukey", false, false, Constants.COLUMN_INTEGER, null, "tMenu", "men_lKey", true, -1 );
 
-    public Column len_lTableKey = new Column( "len_lTableKey", "@tablekey", false, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column len_lTableKey = new Column( "len_lTableKey", "@tablekey", false, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column len_lKeyValue = new Column( "len_lKeyValue", "@tablekeyvalue", false, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column len_lKeyValue = new Column( "len_lKeyValue", "@tablekeyvalue", false, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column len_lCount = new Column( "len_lCount", "@count", false, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column len_lCount = new Column( "len_lCount", "@count", false, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column len_sInetAddress = new Column( "len_sInetAddress", "@inetaddress", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column len_sInetAddress = new Column( "len_sInetAddress", "@inetaddress", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column len_sPath = new Column( "len_sPath", "@path", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column len_sPath = new Column( "len_sPath", "@path", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column len_sTitle = new Column( "len_sTitle", "title", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column len_sTitle = new Column( "len_sTitle", "title", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column len_xmlData = new Column( "len_xmlData", "data", true, false, Constants.COLUMN_XML, null, 1 );
+    public Column len_xmlData = new Column( "len_xmlData", "data", true, false, Constants.COLUMN_XML, 1 );
 
     public Column len_dteTimestamp =
-        new Column( "len_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "len_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private LogEntryTable( String tableName, String elementName, String parentName )
     {

@@ -104,11 +104,6 @@ public class IntegerType
         preparedStmt.setInt( columnIndex, value.intValue() );
     }
 
-    public Class getJavaType()
-    {
-        return Integer.class;
-    }
-
     public String getTypeString()
     {
         return "INTEGER";

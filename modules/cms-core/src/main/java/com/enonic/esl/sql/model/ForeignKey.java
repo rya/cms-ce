@@ -12,7 +12,7 @@ public class ForeignKey
 
     private Table remoteTable;
 
-    private ArrayList references = new ArrayList();
+    private ArrayList<Reference> references = new ArrayList<Reference>();
 
     public class Reference
     {
@@ -49,14 +49,6 @@ public class ForeignKey
 
     public ForeignKey.Reference[] getReferences()
     {
-        ForeignKey.Reference[] referenceArray = new ForeignKey.Reference[references.size()];
-
-        for ( int i = 0; i < referenceArray.length; i++ )
-        {
-            referenceArray[i] = (ForeignKey.Reference) references.get( i );
-        }
-        return referenceArray;
-
+        return this.references.toArray(new ForeignKey.Reference[this.references.size()]);
     }
-
 }

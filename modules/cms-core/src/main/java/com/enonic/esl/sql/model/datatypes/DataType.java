@@ -16,13 +16,6 @@ public abstract class DataType
 {
     public abstract int getSQLType();
 
-    public abstract Class getJavaType();
-
-    public String getJavaTypeString()
-    {
-        return getJavaType().getName();
-    }
-
     public abstract String getTypeString();
 
     public abstract Object getData( ResultSet resultSet, int columnIndex )
@@ -51,11 +44,6 @@ public abstract class DataType
     public String getSQLValue( Object xpathValue )
     {
         return xpathValue.toString();
-    }
-
-    public boolean isBlobType()
-    {
-        return false;
     }
 
     public String toString()

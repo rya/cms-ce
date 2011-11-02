@@ -20,13 +20,13 @@ public final class PageConObjTable
     public ForeignKeyColumn pco_cob_lKey =
         new ForeignKeyColumn( "pco_cob_lKey", "null", true, true, Constants.COLUMN_INTEGER, null, "tContentObject", "cob_lKey", false, -1 );
 
-    public Column pco_lOrder = new Column( "pco_lOrder", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column pco_lOrder = new Column( "pco_lOrder", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn pco_ptp_lKey =
         new ForeignKeyColumn( "pco_ptp_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tPageTemplParam", "ptp_lKey", false,
                               -1 );
 
-    public Column pco_dteTimestamp = new Column( "pco_dteTimestamp", "null", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+    public Column pco_dteTimestamp = new Column( "pco_dteTimestamp", "null", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private PageConObjTable( String tableName, String elementName, String parentName )
     {

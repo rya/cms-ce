@@ -13,27 +13,27 @@ public final class ContentIndexTable
 {
     private static final ContentIndexTable ContentIndex = new ContentIndexTable( "tContentIndex", "null", "null" );
 
-    public Column cix_sKey = new Column( "cix_sKey", "null", true, true, Constants.COLUMN_VARCHAR, null, 36 );
+    public Column cix_sKey = new Column( "cix_sKey", "null", true, true, Constants.COLUMN_VARCHAR, 36 );
 
-    public Column cix_lContentKey = new Column( "cix_lContentKey", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cix_lContentKey = new Column( "cix_lContentKey", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column cix_lContentStatus = new Column( "cix_lContentStatus", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cix_lContentStatus = new Column( "cix_lContentStatus", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column cix_dtePublishFrom = new Column( "cix_dtePublishFrom", "null", false, false, Constants.COLUMN_TIMESTAMP, null, -1 );
+    public Column cix_dtePublishFrom = new Column( "cix_dtePublishFrom", "null", false, false, Constants.COLUMN_TIMESTAMP, -1 );
 
-    public Column cix_dtePublishTo = new Column( "cix_dtePublishTo", "null", false, false, Constants.COLUMN_TIMESTAMP, null, -1 );
+    public Column cix_dtePublishTo = new Column( "cix_dtePublishTo", "null", false, false, Constants.COLUMN_TIMESTAMP, -1 );
 
-    public Column cix_lContentTypeKey = new Column( "cix_lContentTypeKey", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cix_lContentTypeKey = new Column( "cix_lContentTypeKey", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column cix_lCategoryKey = new Column( "cix_lCategoryKey", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cix_lCategoryKey = new Column( "cix_lCategoryKey", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column cix_sPath = new Column( "cix_sPath", "null", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column cix_sPath = new Column( "cix_sPath", "null", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column cix_sValue = new Column( "cix_sValue", "null", true, false, Constants.COLUMN_VARCHAR, null, 2048 );
+    public Column cix_sValue = new Column( "cix_sValue", "null", true, false, Constants.COLUMN_VARCHAR, 2048 );
 
-    public Column cix_sOrderValue = new Column( "cix_sOrderValue", "null", true, false, Constants.COLUMN_VARCHAR, null, 64 );
+    public Column cix_sOrderValue = new Column( "cix_sOrderValue", "null", true, false, Constants.COLUMN_VARCHAR, 64 );
 
-    public Column cix_fNumValue = new Column( "cix_fNumValue", "null", false, false, Constants.COLUMN_FLOAT, null, -1 );
+    public Column cix_fNumValue = new Column( "cix_fNumValue", "null", false, false, Constants.COLUMN_FLOAT, -1 );
 
     private ContentIndexTable( String tableName, String elementName, String parentName )
     {

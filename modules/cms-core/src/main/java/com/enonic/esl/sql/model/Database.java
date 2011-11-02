@@ -107,34 +107,6 @@ public class Database
         }
     }
 
-    public Table getTableByParentName( String parentName )
-    {
-        Table table = null;
-        for ( int i = 0; i < tables.size(); i++ )
-        {
-            if ( parentName.equalsIgnoreCase( tables.get( i ).getParentName() ) )
-            {
-                table = tables.get( i );
-            }
-        }
-
-        return table;
-    }
-
-    public Table getTableByElementName( String elementName )
-    {
-        Table table = null;
-        for ( int i = 0; i < tables.size(); i++ )
-        {
-            if ( elementName.equalsIgnoreCase( tables.get( i ).getElementName() ) )
-            {
-                table = tables.get( i );
-            }
-        }
-
-        return table;
-    }
-
     public Table getTable( String tableName )
     {
         Table table = null;
@@ -205,22 +177,6 @@ public class Database
         }
 
         return viewArray;
-    }
-
-    public Table[] getTablesAndViews()
-    {
-        Table[] tableArray = new Table[tables.size() + views.size()];
-        for ( int i = 0; i < tables.size(); i++ )
-        {
-            tableArray[i] = tables.get( i );
-        }
-
-        for ( int i = 0; i < views.size(); i++ )
-        {
-            tableArray[i + tables.size()] = views.get( i );
-        }
-
-        return tableArray;
     }
 
     /**

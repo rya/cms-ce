@@ -13,17 +13,17 @@ public final class VirtualFileTable
 {
     private static final VirtualFileTable VirtualFile = new VirtualFileTable( "tVirtualFile", "null", "null" );
 
-    public Column vf_sKey = new Column( "vf_sKey", "null", true, true, Constants.COLUMN_VARCHAR, null, 40 );
+    public Column vf_sKey = new Column( "vf_sKey", "null", true, true, Constants.COLUMN_VARCHAR, 40 );
 
-    public Column vf_sParentKey = new Column( "vf_sParentKey", "null", false, false, Constants.COLUMN_VARCHAR, null, 40 );
+    public Column vf_sParentKey = new Column( "vf_sParentKey", "null", false, false, Constants.COLUMN_VARCHAR, 40 );
 
-    public Column vf_sName = new Column( "vf_sName", "null", true, false, Constants.COLUMN_VARCHAR, null, 255 );
+    public Column vf_sName = new Column( "vf_sName", "null", true, false, Constants.COLUMN_VARCHAR, 255 );
 
-    public Column vf_lLastModified = new Column( "vf_lLastModified", "null", true, false, Constants.COLUMN_BIGINT, null, -1 );
+    public Column vf_lLastModified = new Column( "vf_lLastModified", "null", true, false, Constants.COLUMN_BIGINT, -1 );
 
-    public Column vf_lLength = new Column( "vf_lLength", "null", true, false, Constants.COLUMN_BIGINT, null, -1 );
+    public Column vf_lLength = new Column( "vf_lLength", "null", true, false, Constants.COLUMN_BIGINT, -1 );
 
-    public Column vf_sBlobKey = new Column( "vf_sBlobKey", "null", false, false, Constants.COLUMN_VARCHAR, null, 40 );
+    public Column vf_sBlobKey = new Column( "vf_sBlobKey", "null", false, false, Constants.COLUMN_VARCHAR, 40 );
 
     private VirtualFileTable( String tableName, String elementName, String parentName )
     {

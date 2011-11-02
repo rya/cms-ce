@@ -88,11 +88,6 @@ public class VarcharType
         preparedStmt.setString( columnIndex, value );
     }
 
-    public Class getJavaType()
-    {
-        return String.class;
-    }
-
     public String getTypeString()
     {
         return "VARCHAR";

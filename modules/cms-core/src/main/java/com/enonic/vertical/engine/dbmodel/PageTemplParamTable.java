@@ -14,18 +14,18 @@ public final class PageTemplParamTable
 {
     private static final PageTemplParamTable PageTemplParam = new PageTemplParamTable( "tPageTemplParam", "null", "null" );
 
-    public Column ptp_lKey = new Column( "ptp_lKey", "null", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column ptp_lKey = new Column( "ptp_lKey", "null", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn ptp_pat_lKey =
         new ForeignKeyColumn( "ptp_pat_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tPageTemplate", "pat_lKey", false, -1 );
 
-    public Column ptp_sParamName = new Column( "ptp_sParamName", "null", true, false, Constants.COLUMN_VARCHAR, null, 64 );
+    public Column ptp_sParamName = new Column( "ptp_sParamName", "null", true, false, Constants.COLUMN_VARCHAR, 64 );
 
-    public Column ptp_bMultiple = new Column( "ptp_bMultiple", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column ptp_bMultiple = new Column( "ptp_bMultiple", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column ptp_sSeparator = new Column( "ptp_sSeparator", "null", false, false, Constants.COLUMN_VARCHAR, null, 1024 );
+    public Column ptp_sSeparator = new Column( "ptp_sSeparator", "null", false, false, Constants.COLUMN_VARCHAR, 1024 );
 
-    public Column ptp_bOverride = new Column( "ptp_bOverride", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column ptp_bOverride = new Column( "ptp_bOverride", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
     private PageTemplParamTable( String tableName, String elementName, String parentName )
     {

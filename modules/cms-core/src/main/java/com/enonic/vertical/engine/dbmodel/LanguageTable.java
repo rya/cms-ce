@@ -13,14 +13,14 @@ public final class LanguageTable
 {
     private static final LanguageTable Language = new LanguageTable( "tLanguage", "language", "languages" );
 
-    public Column lan_lKey = new Column( "lan_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column lan_lKey = new Column( "lan_lKey", "@key", true, true, Constants.COLUMN_INTEGER, -1 );
 
-    public Column lan_sCode = new Column( "lan_sCode", "@languagecode", true, false, Constants.COLUMN_VARCHAR, null, 32 );
+    public Column lan_sCode = new Column( "lan_sCode", "@languagecode", true, false, Constants.COLUMN_VARCHAR, 32 );
 
-    public Column lan_sDescription = new Column( "lan_sDescription", ".", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column lan_sDescription = new Column( "lan_sDescription", ".", false, false, Constants.COLUMN_VARCHAR, 256 );
 
     public Column lan_dteTimestamp =
-        new Column( "lan_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "lan_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private LanguageTable( String tableName, String elementName, String parentName )
     {

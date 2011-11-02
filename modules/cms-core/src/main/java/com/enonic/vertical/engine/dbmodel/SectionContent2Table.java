@@ -14,7 +14,7 @@ public final class SectionContent2Table
 {
     private static final SectionContent2Table SectionContent2 = new SectionContent2Table( "tSectionContent2", "null", "null" );
 
-    public Column sco_lkey = new Column( "sco_lkey", "null", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column sco_lkey = new Column( "sco_lkey", "null", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn sco_con_lKey =
         new ForeignKeyColumn( "sco_con_lKey", "@contentkey", true, false, Constants.COLUMN_INTEGER, null, "tContent", "con_lKey", true,
@@ -24,12 +24,12 @@ public final class SectionContent2Table
         new ForeignKeyColumn( "sco_mei_lKey", "@sectionkey", true, false, Constants.COLUMN_INTEGER, null, "tMenuItem", "mei_lKey", true,
                               -1 );
 
-    public Column sco_lOrder = new Column( "sco_lOrder", "@order", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column sco_lOrder = new Column( "sco_lOrder", "@order", true, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column sco_bApproved = new Column( "sco_bApproved", "@approved", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column sco_bApproved = new Column( "sco_bApproved", "@approved", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
     public Column sco_dteTimestamp =
-        new Column( "sco_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "sco_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private SectionContent2Table( String tableName, String elementName, String parentName )
     {

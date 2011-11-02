@@ -104,11 +104,6 @@ public class BigIntType
         preparedStmt.setLong( columnIndex, value.longValue() );
     }
 
-    public Class getJavaType()
-    {
-        return Long.class;
-    }
-
     public String getTypeString()
     {
         return "BIGINT";

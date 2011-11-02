@@ -31,8 +31,6 @@ public class Table
 
     private ArrayList<ForeignKeyColumn> referencedKeys = new ArrayList<ForeignKeyColumn>();
 
-    private Column titleColumn = null;
-
     private ArrayList<ForeignKey> realForeignKeys = new ArrayList<ForeignKey>();
 
     private ArrayList<Index> indexes = new ArrayList<Index>();
@@ -65,17 +63,6 @@ public class Table
     public String getName()
     {
         return tableName;
-    }
-
-    public ForeignKeyColumn[] getForeignKeys()
-    {
-        ForeignKeyColumn[] foreignKeysArray = new ForeignKeyColumn[foreignKeys.size()];
-        for ( int i = 0; i < foreignKeys.size(); i++ )
-        {
-            foreignKeysArray[i] = (ForeignKeyColumn) foreignKeys.get( i );
-        }
-
-        return foreignKeysArray;
     }
 
     public ForeignKeyColumn[] getReferencedKeys( boolean deleteOnly )
@@ -211,65 +198,6 @@ public class Table
             hashCode ^= thisColumns[i].hashCode();
         }
         return hashCode;
-    }
-
-    public Column getBlobColumn()
-    {
-        Column[] columns = this.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            if ( columns[i].getType().isBlobType() )
-            {
-                return columns[i];
-            }
-        }
-        return null;
-    }
-    /*
-     public Column getNameColumn() {
-         Column[] columns = this.getColumns();
-         for (int i=0; i<columns.length; i++) {
-             if (columns[i].getName().endsWith("Name"))
-                 return columns[i];
-         }
-         return null;
-     }
-     */
-
-    public Column getParentColumn()
-    {
-        Column[] columns = this.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            if ( columns[i].getName().endsWith( "Parent" ) || columns[i].getName().endsWith( "Super" ) )
-            {
-                return columns[i];
-            }
-        }
-        return null;
-    }
-
-    public Column getDeletedColumn()
-    {
-        Column[] columns = this.getColumns();
-        for ( int i = 0; i < columns.length; i++ )
-        {
-            if ( columns[i].getName().endsWith( "bDeleted" ) || columns[i].getName().endsWith( "IsDeleted" ) )
-            {
-                return columns[i];
-            }
-        }
-        return null;
-    }
-
-    public void setTitleColumn( Column column )
-    {
-        titleColumn = column;
-    }
-
-    public Column getTitleColumn()
-    {
-        return titleColumn;
     }
 
     public Column getXMLColumn()

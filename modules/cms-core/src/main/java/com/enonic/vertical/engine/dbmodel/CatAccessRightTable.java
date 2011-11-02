@@ -20,15 +20,15 @@ public final class CatAccessRightTable
     public ForeignKeyColumn car_grp_hKey =
         new ForeignKeyColumn( "car_grp_hKey", "null", true, true, Constants.COLUMN_CHAR, null, "tGroup", "grp_hKey", false, -1 );
 
-    public Column car_bRead = new Column( "car_bRead", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column car_bRead = new Column( "car_bRead", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column car_bCreate = new Column( "car_bCreate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column car_bCreate = new Column( "car_bCreate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column car_bPublish = new Column( "car_bPublish", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column car_bPublish = new Column( "car_bPublish", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column car_bAdministrate = new Column( "car_bAdministrate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column car_bAdministrate = new Column( "car_bAdministrate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column car_bAdminRead = new Column( "car_bAdminRead", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column car_bAdminRead = new Column( "car_bAdminRead", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
     private CatAccessRightTable( String tableName, String elementName, String parentName )
     {

@@ -14,18 +14,18 @@ public final class ContentVersionTable
 {
     private static final ContentVersionTable ContentVersion = new ContentVersionTable( "tContentVersion", "content", "contents" );
 
-    public Column cov_lKey = new Column( "cov_lKey", "@versionkey", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cov_lKey = new Column( "cov_lKey", "@versionkey", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn cov_con_lKey =
         new ForeignKeyColumn( "cov_con_lKey", "@key", true, false, Constants.COLUMN_INTEGER, null, "tContent", "con_lKey", false, -1 );
 
-    public Column cov_lStatus = new Column( "cov_lStatus", "@status", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cov_lStatus = new Column( "cov_lStatus", "@status", true, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column cov_sTitle = new Column( "cov_sTitle", "title", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column cov_sTitle = new Column( "cov_sTitle", "title", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column cov_sDescription = new Column( "cov_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, null, 1024 );
+    public Column cov_sDescription = new Column( "cov_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, 1024 );
 
-    public Column cov_xmlContentData = new Column( "cov_xmlContentData", "contentdata", true, false, Constants.COLUMN_XML, null, 10 );
+    public Column cov_xmlContentData = new Column( "cov_xmlContentData", "contentdata", true, false, Constants.COLUMN_XML, 10 );
 
     public ForeignKeyColumn cov_usr_hModifier =
         new ForeignKeyColumn( "cov_usr_hModifier", "modifier/@key", true, false, Constants.COLUMN_CHAR, null, "tUser", "usr_hKey", false,
@@ -36,10 +36,10 @@ public final class ContentVersionTable
                               "cov_lKey", false, -1 );
 
     public Column cov_dteCreated =
-        new Column( "cov_dteCreated", "@versioncreated", true, false, Constants.COLUMN_CREATED_TIMESTAMP, null, -1 );
+        new Column( "cov_dteCreated", "@versioncreated", true, false, Constants.COLUMN_CREATED_TIMESTAMP, -1 );
 
     public Column cov_dteTimestamp =
-        new Column( "cov_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "cov_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private ContentVersionTable( String tableName, String elementName, String parentName )
     {

@@ -13,9 +13,9 @@ public final class PreferencesTable
 {
     private static final PreferencesTable Preferences = new PreferencesTable( "tPreferences", "null", "null" );
 
-    public Column prf_sKey = new Column( "prf_sKey", "null", true, true, Constants.COLUMN_VARCHAR, null, 255 );
+    public Column prf_sKey = new Column( "prf_sKey", "null", true, true, Constants.COLUMN_VARCHAR, 255 );
 
-    public Column prf_sValue = new Column( "prf_sValue", "null", true, false, Constants.COLUMN_VARCHAR, null, 1024 );
+    public Column prf_sValue = new Column( "prf_sValue", "null", true, false, Constants.COLUMN_VARCHAR, 1024 );
 
     private PreferencesTable( String tableName, String elementName, String parentName )
     {

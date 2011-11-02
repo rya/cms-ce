@@ -13,16 +13,16 @@ public final class BinaryDataTable
 {
     private static final BinaryDataTable BinaryData = new BinaryDataTable( "tBinaryData", "binarydata", "binarydatas" );
 
-    public Column bda_lKey = new Column( "bda_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column bda_lKey = new Column( "bda_lKey", "@key", true, true, Constants.COLUMN_INTEGER, -1 );
 
-    public Column bda_sFileName = new Column( "bda_sFileName", "@filename", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column bda_sFileName = new Column( "bda_sFileName", "@filename", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column bda_lFileSize = new Column( "bda_lFileSize", "@filesize", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column bda_lFileSize = new Column( "bda_lFileSize", "@filesize", true, false, Constants.COLUMN_INTEGER, -1 );
 
     public Column bda_dteTimestamp =
-        new Column( "bda_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "bda_dteTimestamp", "@timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
-    public Column bda_sBlobKey = new Column( "bda_sBlobKey", "null", false, false, Constants.COLUMN_VARCHAR, null, 40 );
+    public Column bda_sBlobKey = new Column( "bda_sBlobKey", "null", false, false, Constants.COLUMN_VARCHAR, 40 );
 
     private BinaryDataTable( String tableName, String elementName, String parentName )
     {

@@ -35,19 +35,11 @@ public final class DatabaseXMLFactory
             if ( childElement.getName().equals( "column" ) )
             {
                 Column column = generateColumn( childElement );
-                if ( "true".equals( childElement.getAttributeValue( "title" ) ) )
-                {
-                    table.setTitleColumn( column );
-                }
                 table.addColumn( column );
             }
             else if ( childElement.getName().equals( "foreign-key" ) )
             {
                 ForeignKeyColumn fkColumn = generateForeignKeyColumn( childElement );
-                if ( "true".equals( childElement.getAttributeValue( "title" ) ) )
-                {
-                    table.setTitleColumn( fkColumn );
-                }
                 table.addColumn( fkColumn );
             }
         }
@@ -67,8 +59,7 @@ public final class DatabaseXMLFactory
         DataType type = Constants.getType( typeStr );
         int size = Integer.parseInt( current.getAttributeValue( "size", "-1" ) );
         String columnName = current.getAttributeValue( "name" );
-        String defaultValue = current.getAttributeValue( "defaultValue" );
-        return new Column( columnName, xpath, required, primaryKey, type, defaultValue, size );
+        return new Column( columnName, xpath, required, primaryKey, type, size );
     }
 
     /**
@@ -155,11 +146,6 @@ public final class DatabaseXMLFactory
         {
             Element childElement = (Element) child;
             Column column = generateColumn( childElement );
-            if ( "true".equals( childElement.getAttributeValue( "title" ) ) )
-            {
-                view.setTitleColumn( column );
-            }
-
             view.addColumn( column );
         }
 
@@ -169,7 +155,7 @@ public final class DatabaseXMLFactory
     /**
      * Generate database.
      */
-    public static Database generateDatabase( Document doc )
+    private static Database generateDatabase( Document doc )
     {
         Element docElem = doc.getRootElement();
         String name = docElem.getAttributeValue( "name" );

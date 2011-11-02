@@ -25,7 +25,7 @@ public class ForeignKeyColumn
     public ForeignKeyColumn( String name, String xpath, boolean required, boolean primaryKey, DataType type, Object defaultValue,
                              String referencedTableName, String referencedColumnName, boolean isDelete, int size )
     {
-        super( name, xpath, required, primaryKey, type, defaultValue, size );
+        super( name, xpath, required, primaryKey, type, size );
 
         this.referencedTableName = referencedTableName;
         this.referencedColumnName = referencedColumnName;

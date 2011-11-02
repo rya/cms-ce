@@ -13,17 +13,17 @@ public final class DomainTable
 {
     private static final DomainTable Domain = new DomainTable( "tDomain", "domain", "domains" );
 
-    public Column dom_lKey = new Column( "dom_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column dom_lKey = new Column( "dom_lKey", "@key", true, true, Constants.COLUMN_INTEGER, -1 );
 
-    public Column dom_sName = new Column( "dom_sName", "name", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column dom_sName = new Column( "dom_sName", "name", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column dom_bIsDeleted = new Column( "dom_bIsDeleted", "@deleted", true, false, Constants.COLUMN_BOOLEAN, Boolean.FALSE, -1 );
+    public Column dom_bIsDeleted = new Column( "dom_bIsDeleted", "@deleted", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dom_bDefaultStore = new Column( "dom_bDefaultStore", "@defaultstore", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dom_bDefaultStore = new Column( "dom_bDefaultStore", "@defaultstore", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dom_sConfigName = new Column( "dom_sConfigName", "config", false, false, Constants.COLUMN_VARCHAR, null, 64 );
+    public Column dom_sConfigName = new Column( "dom_sConfigName", "config", false, false, Constants.COLUMN_VARCHAR, 64 );
 
-    public Column dom_xmlData = new Column( "dom_xmlData", "null", false, false, Constants.COLUMN_XML, null, 1 );
+    public Column dom_xmlData = new Column( "dom_xmlData", "null", false, false, Constants.COLUMN_XML, 1 );
 
     private DomainTable( String tableName, String elementName, String parentName )
     {

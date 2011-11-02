@@ -20,9 +20,9 @@ public final class UserMenuGUIDTable
     public ForeignKeyColumn umg_men_lKey =
         new ForeignKeyColumn( "umg_men_lKey", "null", true, true, Constants.COLUMN_INTEGER, null, "tMenu", "men_lKey", true, -1 );
 
-    public Column umg_sGUID = new Column( "umg_sGUID", "null", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column umg_sGUID = new Column( "umg_sGUID", "null", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column umg_dteCreated = new Column( "umg_dteCreated", "timestamp", true, false, Constants.COLUMN_CREATED_TIMESTAMP, null, -1 );
+    public Column umg_dteCreated = new Column( "umg_dteCreated", "timestamp", true, false, Constants.COLUMN_CREATED_TIMESTAMP, -1 );
 
     private UserMenuGUIDTable( String tableName, String elementName, String parentName )
     {

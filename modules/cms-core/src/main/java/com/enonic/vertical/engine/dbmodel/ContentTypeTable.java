@@ -14,24 +14,24 @@ public final class ContentTypeTable
 {
     private static final ContentTypeTable ContentType = new ContentTypeTable( "tContentType", "contenttype", "contenttypes" );
 
-    public Column cty_lKey = new Column( "cty_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column cty_lKey = new Column( "cty_lKey", "@key", true, true, Constants.COLUMN_INTEGER, -1 );
 
-    public Column cty_sName = new Column( "cty_sName", "name", true, false, Constants.COLUMN_VARCHAR, null, 32 );
+    public Column cty_sName = new Column( "cty_sName", "name", true, false, Constants.COLUMN_VARCHAR, 32 );
 
-    public Column cty_sDescription = new Column( "cty_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column cty_sDescription = new Column( "cty_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column cty_mbData = new Column( "cty_mbData", "moduledata", true, false, Constants.COLUMN_XML, null, 1 );
+    public Column cty_mbData = new Column( "cty_mbData", "moduledata", true, false, Constants.COLUMN_XML, 1 );
 
     public Column cty_dteTimestamp =
-        new Column( "cty_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "cty_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     public ForeignKeyColumn cty_han_lKey =
         new ForeignKeyColumn( "cty_han_lKey", "@contenthandlerkey", true, false, Constants.COLUMN_INTEGER, null, "tContentHandler",
                               "han_lKey", false, -1 );
 
-    public Column cty_bLocal = new Column( "cty_bLocal", "@local", true, false, Constants.COLUMN_BOOLEAN, Boolean.FALSE, -1 );
+    public Column cty_bLocal = new Column( "cty_bLocal", "@local", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column cty_sCSS = new Column( "cty_sCSS", "@csskey", false, false, Constants.COLUMN_VARCHAR, null, 1024 );
+    public Column cty_sCSS = new Column( "cty_sCSS", "@csskey", false, false, Constants.COLUMN_VARCHAR, 1024 );
 
     private ContentTypeTable( String tableName, String elementName, String parentName )
     {

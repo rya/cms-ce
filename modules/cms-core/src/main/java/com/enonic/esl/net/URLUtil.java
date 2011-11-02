@@ -4,14 +4,10 @@
  */
 package com.enonic.esl.net;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.URLConnection;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,28 +50,6 @@ public class URLUtil
      */
     private URLUtil()
     {
-    }
-
-    public static String getURL( String urlString )
-        throws IOException
-    {
-        java.net.URL url = new java.net.URL( urlString );
-
-        URLConnection urlConn = url.openConnection();
-        InputStream in = urlConn.getInputStream();
-
-        BufferedReader rd = new BufferedReader( new InputStreamReader( in ) );
-
-        String s;
-        StringBuffer resultBuffer = new StringBuffer();
-        while ( ( s = rd.readLine() ) != null )
-        {
-            resultBuffer.append( s );
-        }
-
-        rd.close();
-
-        return resultBuffer.toString();
     }
 
     public static String encode( String s )

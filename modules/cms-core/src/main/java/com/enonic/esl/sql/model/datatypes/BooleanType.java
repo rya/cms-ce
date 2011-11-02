@@ -155,11 +155,6 @@ public class BooleanType
         }
     }
 
-    public Class getJavaType()
-    {
-        return Boolean.class;
-    }
-
     public String getTypeString()
     {
         return "BOOLEAN";

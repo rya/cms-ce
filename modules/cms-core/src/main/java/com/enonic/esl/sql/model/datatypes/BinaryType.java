@@ -54,24 +54,9 @@ public class BinaryType
         // This should never be called
     }
 
-    public Class getJavaType()
-    {
-        return byte[].class;
-    }
-
-    public String getJavaTypeString()
-    {
-        return "byte[]";
-    }
-
     public String getTypeString()
     {
         return "BINARY";
-    }
-
-    public boolean isBlobType()
-    {
-        return true;
     }
 
     public static DataType getInstance()

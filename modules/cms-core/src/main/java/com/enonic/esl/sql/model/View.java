@@ -14,7 +14,7 @@ public class View
     /**
      * Select sql.
      */
-    private String selectSql;
+    private final String selectSql;
 
     private final int viewNum;
 
@@ -52,10 +52,5 @@ public class View
     public boolean hasReplacementSql()
     {
         return this.selectSql != null;
-    }
-
-    public void setSelectSql( String selectSql )
-    {
-        this.selectSql = selectSql;
     }
 }

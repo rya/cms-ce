@@ -14,12 +14,12 @@ public final class PageTable
 {
     private static final PageTable Page = new PageTable( "tPage", "null", "null" );
 
-    public Column pag_lKey = new Column( "pag_lKey", "null", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column pag_lKey = new Column( "pag_lKey", "null", true, true, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn pag_pat_lKey =
         new ForeignKeyColumn( "pag_pat_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tPageTemplate", "pat_lKey", false, -1 );
 
-    public Column pag_sXML = new Column( "pag_sXML", "null", false, false, Constants.COLUMN_XML, null, 1 );
+    public Column pag_sXML = new Column( "pag_sXML", "null", false, false, Constants.COLUMN_XML, 1 );
 
     private PageTable( String tableName, String elementName, String parentName )
     {

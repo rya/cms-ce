@@ -108,45 +108,13 @@ public class XMLType
         preparedStmt.setBytes( columnIndex, dataBytes );
     }
 
-    public Class getJavaType()
-    {
-        return String.class;
-    }
-
     public String getTypeString()
     {
         return "XML";
-    }
-
-    public boolean isBlobType()
-    {
-        return true;
     }
 
     public static DataType getInstance()
     {
         return type;
     }
-
-    public String getSQLValue( String xpathValue )
-    {
-        return null;
-    }
-    /*public Object getDataForXML( ResultSet resultSet, int columnIndex ) throws SQLException
-    {
-		String data = null;
-		try {
-			InputSource source = new InputSource(new StringReader((String)obj));
-		    InputStream bytes = resultSet.getBinaryStream(columnIndex);
-		    if (resultSet.wasNull())
-		        data = null;
-		    else
-		        data = new String(bytes, "UTF-8");
-		}
-		catch (UnsupportedEncodingException uee) {
-			uee.printStackTrace();
-		}
-
-		return data;
-    }*/
 }

@@ -20,19 +20,19 @@ public final class DefaultMenuARTable
     public ForeignKeyColumn dma_grp_hKey =
         new ForeignKeyColumn( "dma_grp_hKey", "null", true, true, Constants.COLUMN_CHAR, null, "tGroup", "grp_hKey", false, -1 );
 
-    public Column dma_bRead = new Column( "dma_bRead", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bRead = new Column( "dma_bRead", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dma_bCreate = new Column( "dma_bCreate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bCreate = new Column( "dma_bCreate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dma_bDelete = new Column( "dma_bDelete", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bDelete = new Column( "dma_bDelete", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dma_bPublish = new Column( "dma_bPublish", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bPublish = new Column( "dma_bPublish", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dma_bAdministrate = new Column( "dma_bAdministrate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bAdministrate = new Column( "dma_bAdministrate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dma_bUpdate = new Column( "dma_bUpdate", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bUpdate = new Column( "dma_bUpdate", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column dma_bAdd = new Column( "dma_bAdd", "null", true, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column dma_bAdd = new Column( "dma_bAdd", "null", true, false, Constants.COLUMN_BOOLEAN, -1 );
 
     private DefaultMenuARTable( String tableName, String elementName, String parentName )
     {

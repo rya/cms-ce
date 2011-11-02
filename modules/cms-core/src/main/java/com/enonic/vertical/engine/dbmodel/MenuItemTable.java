@@ -14,32 +14,32 @@ public final class MenuItemTable
 {
     private static final MenuItemTable MenuItem = new MenuItemTable( "tMenuItem", "null", "null" );
 
-    public Column mei_lKey = new Column( "mei_lKey", "null", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column mei_lKey = new Column( "mei_lKey", "null", true, true, Constants.COLUMN_INTEGER, -1 );
 
-    public Column mei_sName = new Column( "mei_sName", "null", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column mei_sName = new Column( "mei_sName", "null", true, false, Constants.COLUMN_VARCHAR, 256 );
 
     public ForeignKeyColumn mei_men_lKey =
         new ForeignKeyColumn( "mei_men_lKey", "null", true, false, Constants.COLUMN_INTEGER, null, "tMenu", "men_lKey", false, -1 );
 
-    public Column mei_mid_lkey = new Column( "mei_mid_lkey", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column mei_mid_lkey = new Column( "mei_mid_lkey", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn mei_lParent =
         new ForeignKeyColumn( "mei_lParent", "null", false, false, Constants.COLUMN_INTEGER, null, "tMenuItem", "mei_lKey", false, -1 );
 
-    public Column mei_lOrder = new Column( "mei_lOrder", "null", true, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column mei_lOrder = new Column( "mei_lOrder", "null", true, false, Constants.COLUMN_INTEGER, -1 );
 
     public ForeignKeyColumn mei_pag_lKey =
         new ForeignKeyColumn( "mei_pag_lKey", "null", false, false, Constants.COLUMN_INTEGER, null, "tPage", "pag_lKey", false, -1 );
 
-    public Column mei_dteTimestamp = new Column( "mei_dteTimestamp", "null", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+    public Column mei_dteTimestamp = new Column( "mei_dteTimestamp", "null", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
-    public Column mei_sSubTitle = new Column( "mei_sSubTitle", "null", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column mei_sSubTitle = new Column( "mei_sSubTitle", "null", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column mei_bHidden = new Column( "mei_bHidden", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mei_bHidden = new Column( "mei_bHidden", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mei_sDescription = new Column( "mei_sDescription", "null", false, false, Constants.COLUMN_VARCHAR, null, 1024 );
+    public Column mei_sDescription = new Column( "mei_sDescription", "null", false, false, Constants.COLUMN_VARCHAR, 1024 );
 
-    public Column mei_bNoAuth = new Column( "mei_bNoAuth", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mei_bNoAuth = new Column( "mei_bNoAuth", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
     public ForeignKeyColumn mei_usr_hOwner =
         new ForeignKeyColumn( "mei_usr_hOwner", "null", false, false, Constants.COLUMN_CHAR, null, "tUser", "usr_hKey", false, -1 );
@@ -47,30 +47,30 @@ public final class MenuItemTable
     public ForeignKeyColumn mei_usr_hModifier =
         new ForeignKeyColumn( "mei_usr_hModifier", "null", false, false, Constants.COLUMN_CHAR, null, "tUser", "usr_hKey", false, -1 );
 
-    public Column mei_xmlData = new Column( "mei_xmlData", "null", false, false, Constants.COLUMN_XML, null, 1 );
+    public Column mei_xmlData = new Column( "mei_xmlData", "null", false, false, Constants.COLUMN_XML, 1 );
 
-    public Column mei_sKeywords = new Column( "mei_sKeywords", "null", false, false, Constants.COLUMN_VARCHAR, null, 1024 );
+    public Column mei_sKeywords = new Column( "mei_sKeywords", "null", false, false, Constants.COLUMN_VARCHAR, 1024 );
 
     public ForeignKeyColumn mei_lan_lKey =
         new ForeignKeyColumn( "mei_lan_lKey", "null", false, false, Constants.COLUMN_INTEGER, null, "tLanguage", "lan_lKey", false, -1 );
 
-    public Column mei_sURL = new Column( "mei_sURL", "null", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column mei_sURL = new Column( "mei_sURL", "null", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column mei_bURLOpenNewWin = new Column( "mei_bURLOpenNewWin", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mei_bURLOpenNewWin = new Column( "mei_bURLOpenNewWin", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
     public ForeignKeyColumn mei_mei_lShortcut =
         new ForeignKeyColumn( "mei_mei_lShortcut", "null", false, false, Constants.COLUMN_INTEGER, null, "tMenuItem", "mei_lKey", true,
                               -1 );
 
-    public Column mei_bShortcutForward = new Column( "mei_bShortcutForward", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mei_bShortcutForward = new Column( "mei_bShortcutForward", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mei_bSection = new Column( "mei_bSection", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mei_bSection = new Column( "mei_bSection", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mei_bOrderedSection = new Column( "mei_bOrderedSection", "null", false, false, Constants.COLUMN_BOOLEAN, null, -1 );
+    public Column mei_bOrderedSection = new Column( "mei_bOrderedSection", "null", false, false, Constants.COLUMN_BOOLEAN, -1 );
 
-    public Column mei_lRunAs = new Column( "mei_lRunAs", "null", false, false, Constants.COLUMN_INTEGER, null, -1 );
+    public Column mei_lRunAs = new Column( "mei_lRunAs", "null", false, false, Constants.COLUMN_INTEGER, -1 );
 
-    public Column mei_sDisplayName = new Column( "mei_sDisplayName", "null", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column mei_sDisplayName = new Column( "mei_sDisplayName", "null", false, false, Constants.COLUMN_VARCHAR, 256 );
 
     private MenuItemTable( String tableName, String elementName, String parentName )
     {

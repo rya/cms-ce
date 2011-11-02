@@ -14,18 +14,18 @@ public final class ContentHandlerTable
     private static final ContentHandlerTable ContentHandler =
         new ContentHandlerTable( "tContentHandler", "contenthandler", "contenthandlers" );
 
-    public Column han_lKey = new Column( "han_lKey", "@key", true, true, Constants.COLUMN_INTEGER, null, -1 );
+    public Column han_lKey = new Column( "han_lKey", "@key", true, true, Constants.COLUMN_INTEGER, -1 );
 
-    public Column han_sName = new Column( "han_sName", "name", true, false, Constants.COLUMN_VARCHAR, null, 32 );
+    public Column han_sName = new Column( "han_sName", "name", true, false, Constants.COLUMN_VARCHAR, 32 );
 
-    public Column han_sClass = new Column( "han_sClass", "class", true, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column han_sClass = new Column( "han_sClass", "class", true, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column han_sDescription = new Column( "han_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, null, 256 );
+    public Column han_sDescription = new Column( "han_sDescription", "description", false, false, Constants.COLUMN_VARCHAR, 256 );
 
-    public Column han_XMLConfig = new Column( "han_XMLConfig", "xmlconfig", false, false, Constants.COLUMN_XML, null, 1 );
+    public Column han_XMLConfig = new Column( "han_XMLConfig", "xmlconfig", false, false, Constants.COLUMN_XML, 1 );
 
     public Column han_dteTimestamp =
-        new Column( "han_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, null, -1 );
+        new Column( "han_dteTimestamp", "timestamp", true, false, Constants.COLUMN_CURRENT_TIMESTAMP, -1 );
 
     private ContentHandlerTable( String tableName, String elementName, String parentName )
     {
