@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.framework.translation;
+package com.enonic.cms.server.service.admin.mvc.controller;
 
 import java.io.PrintWriter;
 import java.io.Writer;

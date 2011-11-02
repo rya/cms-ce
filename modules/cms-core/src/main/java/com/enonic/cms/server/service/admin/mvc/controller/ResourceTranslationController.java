@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.core.io.Resource;
 
-import com.enonic.cms.framework.translation.TranslationWriter;
 import com.enonic.cms.framework.util.HttpServletUtil;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;

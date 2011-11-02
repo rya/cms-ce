@@ -19,8 +19,6 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.framework.translation.TranslationWriter;
-
 import com.enonic.cms.core.service.AdminService;
 
 import com.enonic.cms.business.AdminConsoleTranslationService;
