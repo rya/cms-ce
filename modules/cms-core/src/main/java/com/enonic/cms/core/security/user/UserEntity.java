@@ -15,11 +15,7 @@ import java.util.Set;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
-import org.springframework.core.style.ToStringCreator;
-
 import com.google.common.collect.Maps;
-
-import com.enonic.cms.framework.CmsToStringStyler;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -491,14 +487,6 @@ public class UserEntity
         final UserInfo newInfo = doGetUserInfo();
 
         return !oldInfo.equals( newInfo );
-    }
-
-    @Override
-    public String toString()
-    {
-        ToStringCreator toString = new ToStringCreator( this, CmsToStringStyler.DEFAULT );
-        toString.append( "qualifiedName", getQualifiedName() );
-        return toString.toString();
     }
 
     public byte[] getPhoto()
