@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.enonic.cms.framework.io.EncryptedParameterSerializer;
-import com.enonic.cms.framework.io.ParameterSerializer;
+import com.enonic.cms.core.image.param.EncryptedParameterSerializer;
+import com.enonic.cms.core.image.param.ParameterSerializer;
 
 public final class ImageRequestParams
 {
