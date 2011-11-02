@@ -4262,8 +4262,6 @@ public final class MenuHandler
                 }
                 appendMenuAccessRights( elem, accessRights.get( itemKey ) );
 
-                elem.setAttribute( "path", getMenuItemPath( itemKey ) );
-
                 String type = null;
 
                 if ( pageTemplateType != null )
@@ -4491,12 +4489,6 @@ public final class MenuHandler
         }
 
         return rightsMap;
-    }
-
-    private String getMenuItemPath( int menuItemKey )
-    {
-        final MenuItemEntity entity = menuItemDao.findByKey( menuItemKey );
-        return entity != null ? entity.getPathAsString() : null;
     }
 
     public void updateMenuDetails( int menuKey, int frontPageKey, int loginPageKey, int errorPageKey, int defaultPageTemplateKey )
