@@ -7,8 +7,6 @@ package com.enonic.cms.core.portal.datasource;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
-
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -115,7 +113,7 @@ public class DatasourceExecutor
         }
         catch ( Exception e )
         {
-            throw new VerticalRenderException( "Failed to evaluate expression", e );
+            throw new DataSourceException( "Failed to evaluate expression", e );
         }
 
     }

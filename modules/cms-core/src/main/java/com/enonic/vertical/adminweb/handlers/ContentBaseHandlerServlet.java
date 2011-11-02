@@ -70,7 +70,6 @@ import com.enonic.vertical.engine.ContentAccessRight;
 import com.enonic.vertical.engine.Types;
 import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.criteria.CategoryCriteria;
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -2607,11 +2606,6 @@ public class ContentBaseHandlerServlet
 
             PrintWriter writer = response.getWriter();
             writer.write( result.getContent() );
-        }
-        catch ( VerticalRenderException vre )
-        {
-            String message = "Failed to render page: %t";
-            VerticalAdminLogger.errorAdmin( message, vre );
         }
         catch ( IOException ioe )
         {

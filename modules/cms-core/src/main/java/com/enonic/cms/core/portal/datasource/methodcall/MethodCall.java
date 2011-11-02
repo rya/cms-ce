@@ -7,10 +7,9 @@ package com.enonic.cms.core.portal.datasource.methodcall;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import com.enonic.cms.core.portal.datasource.DataSourceException;
 import org.jdom.Document;
 import org.jdom.Element;
-
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -56,7 +55,7 @@ public final class MethodCall
             {
                 numParams--;
             }
-            throw new VerticalRenderException( "Failed to execute method [" + method.getName() + "] with " + numParams + " parameters",
+            throw new DataSourceException( "Failed to execute method [" + method.getName() + "] with " + numParams + " parameters",
                                                iae );
         }
         finally

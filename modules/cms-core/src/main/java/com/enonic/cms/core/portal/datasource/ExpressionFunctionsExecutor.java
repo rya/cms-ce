@@ -90,10 +90,6 @@ public final class ExpressionFunctionsExecutor
         {
             evaluatedString = exp.getValue( context ).toString();
         }
-        catch ( Exception e )
-        {
-            LOG.error( "EL evaluation fails !", e );
-        }
         finally
         {
             ExpressionFunctionsFactory.get().removeContext();

@@ -7,22 +7,18 @@ package com.enonic.cms.core.portal.datasource.methodcall;
 import java.lang.reflect.Method;
 import java.util.List;
 
+import com.enonic.cms.core.portal.datasource.*;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Element;
 
 import com.enonic.esl.util.StringUtil;
 import com.enonic.esl.util.TStringArrayList;
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.plugin.ExtensionSet;
-import com.enonic.cms.core.portal.datasource.DataSourceContext;
-import com.enonic.cms.core.portal.datasource.Datasource;
-import com.enonic.cms.core.portal.datasource.DatasourceExecutorContext;
-import com.enonic.cms.core.portal.datasource.ExpressionFunctionsExecutor;
 import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionContext;
 
 /**
@@ -191,7 +187,7 @@ public class MethodCallFactory
         FunctionLibrary object = extensions.findFunctionLibrary(pluginName);
         if ( object == null )
         {
-            throw new VerticalRenderException( "Plugin [" + pluginName + "] is not registered" );
+            throw new DataSourceException( "Plugin [" + pluginName + "] is not registered" );
         }
         else
         {
@@ -210,7 +206,7 @@ public class MethodCallFactory
                 return method;
             }
         }
-        throw new VerticalRenderException(
+        throw new DataSourceException(
             "Method [" + localMethodName + "] with [" + ( useContext ? numParams - 1 : numParams ) + "] parameters does not exist" );
     }
 
@@ -303,7 +299,7 @@ public class MethodCallFactory
         }
         catch ( Exception e )
         {
-            throw new VerticalRenderException( "Failed to evaluate expression", e );
+            throw new DataSourceException( "Failed to evaluate expression", e );
         }
     }
 }

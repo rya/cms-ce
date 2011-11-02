@@ -8,10 +8,6 @@ import org.jdom.Element;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.annotation.ExpectedException;
-
-import com.enonic.vertical.presentation.renderer.VerticalRenderException;
-
 import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.SiteKey;
@@ -31,8 +27,6 @@ public class DatasourceExecutorTest
 
     private DatasourceExecutorContext context;
 
-    private UserEntity userEntity;
-
     @Before
     public void setup()
     {
@@ -51,7 +45,7 @@ public class DatasourceExecutorTest
         // looks strange, but is needed
         new ExpressionFunctionsFactory();
 
-        userEntity = new UserEntity();
+        UserEntity userEntity = new UserEntity();
         userEntity.setName( "elvis" );
         userEntity.setKey( new UserKey( "userkey" ) );
         userEntity.setDisplayName( "Elvis Presley" );
@@ -89,19 +83,6 @@ public class DatasourceExecutorTest
         Datasource ds = new Datasource( datasourceEl );
 
         assertTrue( executor.isRunnableByCondition( ds ) );
-    }
-
-    @Test
-    @ExpectedException(VerticalRenderException.class)
-    public void testIncorrectElCondition()
-    {
-        DatasourceExecutor executor = new DatasourceExecutor( context );
-
-        Element datasourceEl = new Element( "datasource" );
-        datasourceEl.setAttribute( "condition", "1=1" );
-        Datasource ds = new Datasource( datasourceEl );
-
-        executor.isRunnableByCondition( ds );
     }
 
     @Test
