@@ -1851,7 +1851,16 @@ public final class DataSourceServiceImpl
 
     private XMLDocument doGetMenu( UserEntity user, int siteKey, int menuItemKey, int levels )
     {
+        if (siteKey < 0)
+        {
+            return SiteXmlCreator.createEmptyMenus();
+        }
         SiteEntity site = siteDao.findByKey( new SiteKey( siteKey ) );
+
+        if (site == null)
+        {
+            return SiteXmlCreator.createEmptyMenus();
+        }
 
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( new MenuItemAccessResolver( groupDao ) );
         siteXmlCreator.setUserXmlAsAdminConsoleStyle( false );
@@ -1864,7 +1873,17 @@ public final class DataSourceServiceImpl
 
     private XMLDocument doGetMenuData( int siteKey )
     {
+        if (siteKey < 0)
+        {
+            return SiteXmlCreator.createEmptyMenus();
+        }
         SiteEntity site = siteDao.findByKey( siteKey );
+
+        if (site == null)
+        {
+            return SiteXmlCreator.createEmptyMenus();
+        }
+
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( new MenuItemAccessResolver( groupDao ) );
         siteXmlCreator.setUserXmlAsAdminConsoleStyle( false );
         siteXmlCreator.setIncludeDeviceClassResolverInfo( true );
@@ -1879,19 +1898,23 @@ public final class DataSourceServiceImpl
             return SiteXmlCreator.createEmptyMenuBranch();
         }
 
-        int siteKey = getSiteKeyByMenuItemKey( menuItemKey );
-        SiteEntity site = siteDao.findByKey( siteKey );
+        MenuItemEntity menuItem = menuItemDao.findByKey( menuItemKey );
+        if (menuItem == null)
+        {
+            return SiteXmlCreator.createEmptyMenuBranch();
+        }
+
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( new MenuItemAccessResolver( groupDao ) );
         siteXmlCreator.setUserXmlAsAdminConsoleStyle( false );
 
-        siteXmlCreator.setMenuItemInBranch( menuItemDao.findByKey( menuItemKey ) );
-        siteXmlCreator.setActiveMenuItem( menuItemDao.findByKey( menuItemKey ) );
+        siteXmlCreator.setMenuItemInBranch( menuItem );
+        siteXmlCreator.setActiveMenuItem( menuItem );
         siteXmlCreator.setMenuItemLevels( levels );
         siteXmlCreator.setBranchStartLevel( startLevel );
         siteXmlCreator.setIncludeTopLevel( topLevel );
         siteXmlCreator.setUser( user );
 
-        return siteXmlCreator.createLegacyGetMenuBranch( site );
+        return siteXmlCreator.createLegacyGetMenuBranch( menuItem.getSite() );
     }
 
     private XMLDocument doGetMenuItem( UserEntity user, int menuItemKey, boolean includeParents )
@@ -1908,22 +1931,26 @@ public final class DataSourceServiceImpl
     {
         if ( menuItemKey < 0 )
         {
-            return SiteXmlCreator.createEmptyMenuBranch();
+            return SiteXmlCreator.createEmptyMenuItems();
         }
 
-        int siteKey = getSiteKeyByMenuItemKey( menuItemKey );
-        SiteEntity site = siteDao.findByKey( siteKey );
+        MenuItemEntity menuItem = menuItemDao.findByKey( menuItemKey );
+        if (menuItem == null)
+        {
+            return SiteXmlCreator.createEmptyMenuItems();
+        }
+
         SiteXmlCreator siteXmlCreator = new SiteXmlCreator( new MenuItemAccessResolver( groupDao ) );
         siteXmlCreator.setUserXmlAsAdminConsoleStyle( false );
         siteXmlCreator.setUser( user );
-        siteXmlCreator.setMenuItemInBranch( menuItemDao.findByKey( menuItemKey ) );
+        siteXmlCreator.setMenuItemInBranch( menuItem );
         siteXmlCreator.setMenuItemLevels( levels );
         if ( activeMenuItemKey > -1 )
         {
             siteXmlCreator.setActiveMenuItem( menuItemDao.findByKey( activeMenuItemKey ) );
         }
 
-        return siteXmlCreator.createLegacyGetSubMenu( site );
+        return siteXmlCreator.createLegacyGetSubMenu( menuItem.getSite() );
     }
 
     /**

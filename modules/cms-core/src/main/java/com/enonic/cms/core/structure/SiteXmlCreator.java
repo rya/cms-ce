@@ -131,12 +131,17 @@ public class SiteXmlCreator
 
     public static XMLDocument createEmptyMenuBranch()
     {
-        return XMLDocumentFactory.create( new Document( new Element( "menuitems" ) ) );
+        return XMLDocumentFactory.create( new Document( new Element( "menu" ) ) );
     }
 
     public static XMLDocument createEmptyMenus()
     {
         return XMLDocumentFactory.create( new Document( new Element( "menus" ) ) );
+    }
+
+    public static XMLDocument createEmptyMenuItems()
+    {
+        return XMLDocumentFactory.create( new Document( new Element( "menuitems" ) ) );
     }
 
     public XMLDocument createLegacyGetMenuBranch( SiteEntity siteEntity )
