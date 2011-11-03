@@ -6,7 +6,7 @@ package com.enonic.cms.core.portal.datasource.expressionfunctions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.structure.menuitem.MenuItemService;

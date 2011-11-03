@@ -15,7 +15,7 @@ import org.joda.time.DateTime;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.LanguageEntity;

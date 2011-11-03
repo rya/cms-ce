@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.Path;

@@ -8,8 +8,8 @@ import org.joda.time.DateTime;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.MockTimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;

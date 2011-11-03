@@ -32,7 +32,7 @@ import com.enonic.esl.net.URL;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.log.LogService;
