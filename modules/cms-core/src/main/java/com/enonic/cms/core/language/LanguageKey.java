@@ -2,11 +2,14 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core;
+package com.enonic.cms.core.language;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import com.enonic.cms.core.AbstractIntegerBasedKey;
+import com.enonic.cms.core.IntBasedKey;
 
 /**
  * Created by rmy - Date: Oct 5, 2009

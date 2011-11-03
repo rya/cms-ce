@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.RequestParametersMerger;
 import com.enonic.cms.core.SitePath;

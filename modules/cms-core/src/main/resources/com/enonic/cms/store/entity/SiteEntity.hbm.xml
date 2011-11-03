@@ -23,7 +23,7 @@
     <many-to-one name="frontPage" class="com.enonic.cms.core.structure.menuitem.MenuItemEntity" fetch="select">
       <column name="MEN_MEI_FIRSTPAGE"/>
     </many-to-one>
-    <many-to-one name="language" class="com.enonic.cms.core.LanguageEntity" fetch="select">
+    <many-to-one name="language" class="com.enonic.cms.core.language.LanguageEntity" fetch="select">
       <column name="MEN_LAN_LKEY" not-null="true"/>
     </many-to-one>
     <property name="statisticsUrl" type="string">

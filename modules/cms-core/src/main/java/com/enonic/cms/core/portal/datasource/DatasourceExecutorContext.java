@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.jdom.Document;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;

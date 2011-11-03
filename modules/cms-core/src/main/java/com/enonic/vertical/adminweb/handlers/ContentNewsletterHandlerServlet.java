@@ -48,6 +48,7 @@ import com.enonic.cms.framework.util.URLUtils;
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -62,8 +63,7 @@ import com.enonic.cms.core.portal.rendering.PageRendererContext;
 import com.enonic.cms.core.portal.rendering.RegionsResolver;
 import com.enonic.cms.core.preview.PreviewContext;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageResolver;
+import com.enonic.cms.core.language.LanguageResolver;
 import com.enonic.cms.core.RequestParametersMerger;
 
 import com.enonic.cms.core.portal.PageRequestType;

@@ -20,7 +20,7 @@
     <property name="timestamp" type="timestamp">
       <column name="UNI_DTETIMESTAMP"/>
     </property>
-    <many-to-one name="language" class="com.enonic.cms.core.LanguageEntity" fetch="select">
+    <many-to-one name="language" class="com.enonic.cms.core.language.LanguageEntity" fetch="select">
       <column name="UNI_LAN_LKEY"/>
     </many-to-one>
     <many-to-one name="parent" class="com.enonic.cms.core.content.UnitEntity" fetch="select">

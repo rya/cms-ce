@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.joda.time.DateTime;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.portal.ContentPath;
 import com.enonic.cms.core.portal.PageRequestType;

@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.resolver.BaseResolverTest;
 import com.enonic.cms.core.resolver.ForceResolverValueService;
 import com.enonic.cms.core.resolver.ForceResolverValueServiceImpl;
@@ -17,9 +18,6 @@ import com.enonic.cms.core.resolver.ForcedResolverValueLifetimeSettings;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.structure.SiteEntity;
-
-import com.enonic.cms.core.LanguageEntity;
-
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 
 import static org.junit.Assert.*;

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.store.dao.LanguageDao;
 import org.apache.commons.lang.StringUtils;
 import org.jdom.Document;
@@ -16,9 +17,9 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.CalendarUtil;
-import com.enonic.cms.core.LanguageKey;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 public final class LanguageHandler

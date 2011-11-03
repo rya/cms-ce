@@ -14,8 +14,8 @@ import java.util.TreeMap;
 import org.joda.time.DateTime;
 import org.springframework.util.Assert;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;

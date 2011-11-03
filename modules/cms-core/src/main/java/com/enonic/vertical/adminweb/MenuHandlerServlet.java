@@ -49,9 +49,9 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.DeploymentPathResolver;
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
-import com.enonic.cms.core.LanguageResolver;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
+import com.enonic.cms.core.language.LanguageResolver;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
