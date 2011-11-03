@@ -164,7 +164,7 @@
     <bean id="reindexContentToolService"
           class="com.enonic.cms.core.tools.ReindexContentToolServiceImpl"/>
 
-    <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
+    <bean id="timeService" class="com.enonic.cms.core.time.SystemTimeService"/>
 
     <bean class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="#{config.mainSmtpHost}"/>

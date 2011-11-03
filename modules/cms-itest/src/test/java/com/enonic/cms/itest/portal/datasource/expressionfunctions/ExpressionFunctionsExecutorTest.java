@@ -4,16 +4,6 @@
  */
 package com.enonic.cms.itest.portal.datasource.expressionfunctions;
 
-import com.enonic.cms.core.RequestParameters;
-import com.enonic.cms.core.portal.datasource.ExpressionFunctionsExecutor;
-import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionContext;
-import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import static org.junit.Assert.assertEquals;
+import com.enonic.cms.core.RequestParameters;
+import com.enonic.cms.core.portal.datasource.ExpressionFunctionsExecutor;
+import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionContext;
+import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.time.MockTimeService;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+
+import static org.junit.Assert.*;
 
 public class ExpressionFunctionsExecutorTest
     extends AbstractSpringTest

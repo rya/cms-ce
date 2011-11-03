@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 
 import com.enonic.vertical.VerticalProperties;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.framework.util.GenericConcurrencyLock;
 
 import com.enonic.cms.core.CacheObjectSettings;

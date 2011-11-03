@@ -1,32 +1,10 @@
 package com.enonic.cms.itest.portal;
 
-import com.enonic.cms.api.client.model.CreateImageContentParams;
-import com.enonic.cms.api.client.model.content.image.ImageBinaryInput;
-import com.enonic.cms.api.client.model.content.image.ImageContentDataInput;
-import com.enonic.cms.api.client.model.content.image.ImageNameInput;
-import com.enonic.cms.core.preview.ContentPreviewContext;
-import com.enonic.cms.core.preview.PreviewContext;
-import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.client.InternalClientContentService;
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.binary.BinaryDataEntity;
-import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
-import com.enonic.cms.core.content.contentdata.ContentData;
-import com.enonic.cms.core.portal.mvc.controller.ImageController;
-import com.enonic.cms.core.portal.mvc.controller.ImageRequestException;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.core.structure.SiteEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.framework.time.MockTimeService;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
-import com.google.common.collect.Sets;
-import com.google.common.io.ByteStreams;
+import java.io.IOException;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,9 +15,39 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Date;
+import com.google.common.collect.Sets;
+import com.google.common.io.ByteStreams;
+
+import com.enonic.cms.api.client.model.CreateImageContentParams;
+import com.enonic.cms.api.client.model.content.image.ImageBinaryInput;
+import com.enonic.cms.api.client.model.content.image.ImageContentDataInput;
+import com.enonic.cms.api.client.model.content.image.ImageNameInput;
+import com.enonic.cms.core.client.InternalClientContentService;
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.binary.BinaryDataEntity;
+import com.enonic.cms.core.content.binary.ContentBinaryDataEntity;
+import com.enonic.cms.core.content.contentdata.ContentData;
+import com.enonic.cms.core.portal.mvc.controller.ImageController;
+import com.enonic.cms.core.portal.mvc.controller.ImageRequestException;
+import com.enonic.cms.core.preview.ContentPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
+import com.enonic.cms.core.preview.PreviewService;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.structure.SiteEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.time.MockTimeService;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
 
 import static org.junit.Assert.*;
 

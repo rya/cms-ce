@@ -17,7 +17,7 @@ import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.portal.page.PageRequestFactory;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.GroupEntity;

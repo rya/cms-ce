@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.content.index.LogEntryEntityFetcherImpl;
 import com.enonic.cms.core.security.user.UserEntity;

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.security.RememberedLoginEntity;

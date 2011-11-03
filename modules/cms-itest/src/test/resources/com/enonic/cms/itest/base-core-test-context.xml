@@ -72,7 +72,7 @@
 
     <bean id="userStoreConnectorManager" class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl"/>
 
-    <bean id="timeService" class="com.enonic.cms.framework.time.SystemTimeService"/>
+    <bean id="timeService" class="com.enonic.cms.core.time.SystemTimeService"/>
 
     <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 

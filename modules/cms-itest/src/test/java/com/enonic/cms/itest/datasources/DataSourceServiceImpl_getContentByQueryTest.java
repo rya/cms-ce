@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.framework.time.MockTimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -30,6 +29,7 @@ import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.DataSourceServiceImpl;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.core.time.MockTimeService;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.AssertTool;
 import com.enonic.cms.itest.util.DomainFactory;

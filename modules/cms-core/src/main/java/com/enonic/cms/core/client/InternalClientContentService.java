@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.esl.util.Base64Util;
 
 import com.enonic.cms.framework.blob.BlobRecord;
-import com.enonic.cms.framework.time.TimeService;
+import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.api.client.ClientException;
 import com.enonic.cms.api.client.model.AssignContentParams;
