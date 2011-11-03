@@ -6,7 +6,6 @@ package com.enonic.cms.core.structure;
 
 import java.util.List;
 
-import com.enonic.cms.core.SiteContext;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.portal.SiteNotFoundException;
 import com.enonic.cms.core.security.user.User;
