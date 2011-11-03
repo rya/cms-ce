@@ -12,7 +12,7 @@ import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.connector.EmailAlreadyExistsException;
 import com.enonic.cms.core.security.userstore.connector.NameAlreadyExistsException;
 
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 public class UserSynchronizer
     extends AbstractBaseUserSynchronizer

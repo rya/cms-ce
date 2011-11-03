@@ -34,7 +34,7 @@ import com.enonic.cms.store.dao.GroupQuery;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
-import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
+import com.enonic.cms.core.admin.AdminConsoleAccessDeniedException;
 
 @Component("securityService")
 public class SecurityServiceImpl

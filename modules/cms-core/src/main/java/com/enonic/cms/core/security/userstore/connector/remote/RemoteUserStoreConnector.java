@@ -47,13 +47,13 @@ import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnecto
 import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStorePlugin;
 import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 
-import com.enonic.cms.domain.user.field.UserField;
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserFieldType;
-import com.enonic.cms.domain.user.field.UserInfoTransformer;
-import com.enonic.cms.domain.user.remote.RemoteGroup;
-import com.enonic.cms.domain.user.remote.RemotePrincipal;
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.field.UserField;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserInfoTransformer;
+import com.enonic.cms.core.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemotePrincipal;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 public class RemoteUserStoreConnector
     extends AbstractBaseUserStoreConnector

@@ -21,14 +21,13 @@ import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserFieldType;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.esl.containers.ExtendedMap;
-import com.enonic.vertical.userservices.UserHandlerController;
-import com.enonic.vertical.userservices.UserServicesRedirectUrlResolver;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

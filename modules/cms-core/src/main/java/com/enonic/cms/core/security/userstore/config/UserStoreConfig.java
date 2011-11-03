@@ -13,9 +13,9 @@ import org.apache.commons.lang.StringUtils;
 import com.enonic.cms.core.security.user.MissingRequiredUserFieldException;
 import com.enonic.cms.core.security.user.ReadOnlyUserFieldPolicyException;
 
-import com.enonic.cms.domain.user.field.UserField;
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserField;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserFieldType;
 
 public class UserStoreConfig
 {

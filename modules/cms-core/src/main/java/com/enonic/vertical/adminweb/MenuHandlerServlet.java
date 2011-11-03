@@ -99,8 +99,8 @@ import com.enonic.cms.core.portal.rendering.RegionsResolver;
 import com.enonic.cms.core.preview.MenuItemPreviewContext;
 import com.enonic.cms.core.preview.PreviewContext;
 
-import com.enonic.cms.domain.admin.MenuItemsAcrossSitesModel;
-import com.enonic.cms.domain.admin.MenuItemsAcrossSitesXmlCreator;
+import com.enonic.cms.core.admin.MenuItemsAcrossSitesModel;
+import com.enonic.cms.core.admin.MenuItemsAcrossSitesXmlCreator;
 import com.enonic.cms.core.portal.PageRequestType;
 import com.enonic.cms.core.portal.PrettyPathNameCreator;
 import com.enonic.cms.core.portal.rendering.RenderedPageResult;

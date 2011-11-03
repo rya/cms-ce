@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
-import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserFieldType;
 
 import static org.junit.Assert.*;
 

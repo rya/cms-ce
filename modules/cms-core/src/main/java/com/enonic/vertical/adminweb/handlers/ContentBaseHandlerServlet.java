@@ -149,7 +149,7 @@ import com.enonic.cms.core.portal.cache.SiteCachesService;
 import com.enonic.cms.core.preview.NoLazyInitializationEnforcerForPreview;
 
 import com.enonic.cms.core.portal.rendering.RenderedPageResult;
-import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
+import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 
 /**
  * Base servlet for servlets handling content. Provides common methods.

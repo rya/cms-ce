@@ -7,7 +7,7 @@ package com.enonic.cms.core.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.enonic.cms.domain.link.NativeLinkListener;
+import com.enonic.cms.core.link.NativeLinkListener;
 
 public class ContentNativeLinkCollector
     extends NativeLinkListener

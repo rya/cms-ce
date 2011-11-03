@@ -23,9 +23,9 @@ import com.enonic.cms.core.security.userstore.connector.synchronize.status.Synch
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.user.remote.RemoteGroup;
-import com.enonic.cms.domain.user.remote.RemotePrincipal;
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemotePrincipal;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 /**
  * Jun 30, 2009

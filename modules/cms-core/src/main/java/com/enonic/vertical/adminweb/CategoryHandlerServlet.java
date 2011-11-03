@@ -46,7 +46,7 @@ import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 import com.enonic.cms.core.content.category.CategoryEntity;
 
-import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
+import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 
 final public class CategoryHandlerServlet
     extends AdminHandlerBaseServlet
