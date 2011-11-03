@@ -20,11 +20,9 @@ import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.BadRequestErrorType;
-import com.enonic.cms.core.ForbiddenErrorType;
 import com.enonic.cms.core.InvalidKeyException;
 import com.enonic.cms.core.NotFoundErrorType;
 import com.enonic.cms.core.Path;
-import com.enonic.cms.core.SiteErrorDetails;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.SitePathResolver;

@@ -4,7 +4,6 @@
  */
 package com.enonic.cms.core.portal;
 
-import com.enonic.cms.core.ForbiddenErrorType;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 
 public class PortalAccessDeniedException

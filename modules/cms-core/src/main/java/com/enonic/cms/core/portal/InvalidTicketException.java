@@ -4,8 +4,6 @@
  */
 package com.enonic.cms.core.portal;
 
-import com.enonic.cms.core.ForbiddenErrorType;
-
 public class InvalidTicketException
     extends RuntimeException
     implements ForbiddenErrorType
