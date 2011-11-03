@@ -5,7 +5,6 @@
 package com.enonic.cms.core.portal;
 
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.UnauthorizedErrorType;
 
 public class PathRequiresAuthenticationException
     extends RuntimeException

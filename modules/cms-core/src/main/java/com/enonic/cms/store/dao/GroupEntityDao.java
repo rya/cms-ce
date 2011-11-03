@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.core.EntityPageList;
+import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;

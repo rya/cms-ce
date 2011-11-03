@@ -9,7 +9,7 @@ import java.util.List;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.resource.ResourceKey;
 
-import com.enonic.cms.core.EntityPageList;
+import com.enonic.cms.store.support.EntityPageList;
 
 public interface ContentTypeDao
     extends EntityDao<ContentTypeEntity>

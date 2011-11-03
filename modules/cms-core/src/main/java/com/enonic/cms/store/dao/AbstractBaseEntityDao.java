@@ -8,14 +8,13 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.enonic.cms.store.support.EntityPageList;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
-
-import com.enonic.cms.core.EntityPageList;
 
 
 public abstract class AbstractBaseEntityDao<T>

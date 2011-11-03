@@ -13,7 +13,7 @@ import org.hibernate.Query;
 import com.enonic.cms.framework.hibernate.support.InClauseBuilder;
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.core.EntityPageList;
+import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentSpecification;

@@ -2,16 +2,11 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core;
+package com.enonic.cms.core.portal;
 
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.portal.ClientError;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: 1/20/11
- * Time: 10:51 AM
- */
 public class ContentNameMismatchClientError
     extends ClientError
 {

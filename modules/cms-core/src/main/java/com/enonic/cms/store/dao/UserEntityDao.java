@@ -7,6 +7,7 @@ package com.enonic.cms.store.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.enonic.cms.store.support.EntityPageList;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -26,8 +27,6 @@ import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
-
-import com.enonic.cms.core.EntityPageList;
 
 @Repository("userDao")
 public final class UserEntityDao

@@ -6,7 +6,7 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
-import com.enonic.cms.core.EntityPageList;
+import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.core.content.UnitEntity;
 import org.springframework.stereotype.Repository;
 

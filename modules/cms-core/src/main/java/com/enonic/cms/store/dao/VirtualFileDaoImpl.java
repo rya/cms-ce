@@ -6,9 +6,9 @@ package com.enonic.cms.store.dao;
 
 import java.util.List;
 
+import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.store.vfs.db.VirtualFileEntity;
 
-import com.enonic.cms.core.EntityPageList;
 import org.springframework.stereotype.Repository;
 
 @Repository("virtualFileDao")

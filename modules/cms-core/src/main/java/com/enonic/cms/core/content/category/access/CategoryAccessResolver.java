@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.content.category.access;
 
-import com.enonic.cms.core.AbstractAccessResolver;
+import com.enonic.cms.core.security.AbstractAccessResolver;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;

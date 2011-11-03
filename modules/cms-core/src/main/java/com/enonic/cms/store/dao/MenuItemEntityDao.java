@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.core.EntityPageList;
+import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;

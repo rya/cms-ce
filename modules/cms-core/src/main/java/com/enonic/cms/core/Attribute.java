@@ -16,11 +16,7 @@ public class Attribute
 
     public static final String CURRENT_SITEPATH = "com.enonic.render.sitePath.current";
 
-    public static final String ENCODE_URIS = "com.enonic.render.encodeURIs";
-
     public static final String BASEPATH_OVERRIDE_ATTRIBUTE_NAME = "com.enonic.render.basePathOverride";
 
     public static final String PREVIEW_ENABLED = "com.enonic.render.previewEnabled";
-
-    public static final String LOCALIZATION_RESOLVED_LOCALE = "com.enonic.render.locale";
 }

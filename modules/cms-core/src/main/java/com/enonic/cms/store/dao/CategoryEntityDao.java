@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.enonic.cms.core.EntityPageList;
+import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.security.group.GroupKey;

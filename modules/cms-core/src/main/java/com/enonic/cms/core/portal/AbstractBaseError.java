@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core;
+package com.enonic.cms.core.portal;
 
 public abstract class AbstractBaseError
     extends RuntimeException
@@ -14,13 +14,6 @@ public abstract class AbstractBaseError
         super( message, cause );
         this.statusCode = new Integer( statusCode );
     }
-
-    protected AbstractBaseError( int statusCode, String message )
-    {
-        super( message );
-        this.statusCode = new Integer( statusCode );
-    }
-
 
     public Integer getStatusCode()
     {

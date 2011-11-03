@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.structure.menuitem;
 
-import com.enonic.cms.core.AbstractAccessResolver;
+import com.enonic.cms.core.security.AbstractAccessResolver;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupMembershipSearcher;
 import com.enonic.cms.core.security.user.UserEntity;
