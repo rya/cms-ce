@@ -36,7 +36,7 @@ import com.enonic.cms.core.security.userstore.UserStoreKey;
 
 import com.enonic.cms.core.DeploymentPathResolver;
 
-import com.enonic.cms.domain.admin.AdminConsoleAccessDeniedException;
+import com.enonic.cms.core.admin.AdminConsoleAccessDeniedException;
 
 import com.enonic.cms.core.security.user.UserEntity;
 

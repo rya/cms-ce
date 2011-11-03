@@ -9,7 +9,7 @@ import java.util.Collection;
 import org.jdom.Document;
 import org.jdom.Element;
 
-import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserFieldType;
 
 public class UserStoreConfigXmlCreator
 {

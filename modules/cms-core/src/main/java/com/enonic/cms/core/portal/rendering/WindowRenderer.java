@@ -66,7 +66,7 @@ import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Window;
 import com.enonic.cms.core.structure.page.WindowKey;
 
-import com.enonic.cms.domain.stylesheet.StylesheetNotFoundException;
+import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 
 /**
  * Apr 17, 2009

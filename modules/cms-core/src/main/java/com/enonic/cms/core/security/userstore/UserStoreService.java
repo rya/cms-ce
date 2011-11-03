@@ -33,8 +33,8 @@ import com.enonic.cms.core.security.userstore.connector.synchronize.status.Synch
 import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
 import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
 
-import com.enonic.cms.domain.user.remote.RemoteGroup;
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 public interface UserStoreService
 {

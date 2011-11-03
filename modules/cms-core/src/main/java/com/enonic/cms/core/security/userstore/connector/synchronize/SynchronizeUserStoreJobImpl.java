@@ -27,8 +27,8 @@ import com.enonic.cms.core.security.userstore.connector.remote.MemberCache;
 import com.enonic.cms.core.security.userstore.connector.remote.RemoteUserStoreConnector;
 import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 
-import com.enonic.cms.domain.user.remote.RemoteGroup;
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 public class SynchronizeUserStoreJobImpl
     implements SynchronizeUserStoreJob

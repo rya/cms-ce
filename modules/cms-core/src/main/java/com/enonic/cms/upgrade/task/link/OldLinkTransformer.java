@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 
-import com.enonic.cms.domain.link.ContentKeyResolver;
-import com.enonic.cms.domain.link.LinkTransformer;
+import com.enonic.cms.core.link.ContentKeyResolver;
+import com.enonic.cms.core.link.LinkTransformer;
 
 public final class OldLinkTransformer
     extends LinkTransformer

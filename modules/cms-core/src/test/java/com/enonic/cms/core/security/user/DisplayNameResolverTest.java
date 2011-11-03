@@ -14,7 +14,7 @@ import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.security.userstore.config.UserStoreUserFieldConfig;
 
-import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserFieldType;
 
 public class DisplayNameResolverTest
 {

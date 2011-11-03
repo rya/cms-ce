@@ -45,7 +45,7 @@ import com.enonic.cms.store.dao.MenuItemDao;
 import com.enonic.cms.store.dao.SectionContentDao;
 import com.enonic.cms.store.resource.FileResourceService;
 
-import com.enonic.cms.domain.link.NativeLinkKey;
+import com.enonic.cms.core.link.NativeLinkKey;
 
 public class PostProcessInstructionExecutorImpl
     implements PostProcessInstructionExecutor

@@ -67,11 +67,11 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
 
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserFieldType;
-import com.enonic.cms.domain.user.field.UserInfoTransformer;
-import com.enonic.cms.domain.user.remote.RemoteGroup;
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserInfoTransformer;
+import com.enonic.cms.core.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 @Component("userStoreService")
 public class UserStoreServiceImpl

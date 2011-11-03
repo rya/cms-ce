@@ -14,11 +14,11 @@ import com.enonic.cms.api.client.model.user.Address;
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.user.User;
 
-import com.enonic.cms.domain.user.field.UserField;
-import com.enonic.cms.domain.user.field.UserFieldHelper;
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserFieldType;
-import com.enonic.cms.domain.user.field.UserInfoTransformer;
+import com.enonic.cms.core.user.field.UserField;
+import com.enonic.cms.core.user.field.UserFieldHelper;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserInfoTransformer;
 
 public final class UserInfoXmlCreator
 {

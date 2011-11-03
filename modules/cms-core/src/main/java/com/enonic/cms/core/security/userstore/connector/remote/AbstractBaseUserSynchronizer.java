@@ -31,10 +31,10 @@ import com.enonic.cms.core.security.userstore.connector.synchronize.status.Synch
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserInfoTransformer;
-import com.enonic.cms.domain.user.remote.RemoteGroup;
-import com.enonic.cms.domain.user.remote.RemoteUser;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserInfoTransformer;
+import com.enonic.cms.core.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemoteUser;
 
 public abstract class AbstractBaseUserSynchronizer
 {

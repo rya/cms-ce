@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.security.userstore.config;
 
-import com.enonic.cms.domain.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserFieldType;
 
 public final class UserStoreUserFieldConfig
     implements Comparable<UserStoreUserFieldConfig>

@@ -87,9 +87,9 @@ import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
 
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
-import com.enonic.cms.domain.user.field.UserFieldMap;
-import com.enonic.cms.domain.user.field.UserFieldTransformer;
-import com.enonic.cms.domain.user.field.UserInfoTransformer;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserFieldTransformer;
+import com.enonic.cms.core.user.field.UserInfoTransformer;
 
 public class UserHandlerController
     extends AbstractUserServicesHandlerController

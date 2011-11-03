@@ -11,7 +11,7 @@ import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 
-import com.enonic.cms.domain.user.remote.RemoteGroup;
+import com.enonic.cms.core.user.remote.RemoteGroup;
 
 public class GroupsSynchronizer
     extends AbstractBaseGroupSynchronizer
