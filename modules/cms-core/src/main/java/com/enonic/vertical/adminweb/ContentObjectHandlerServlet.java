@@ -41,7 +41,7 @@ import com.enonic.cms.framework.xml.XMLException;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
-import com.enonic.cms.core.internal.service.DataSourceFailedXmlCreator;
+import com.enonic.cms.core.service.DataSourceFailedXmlCreator;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.UserEntity;

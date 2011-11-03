@@ -2,7 +2,7 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core.internal.service;
+package com.enonic.cms.core.service;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,6 @@ import com.enonic.vertical.engine.UserServicesEngine;
 import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.service.UserServicesService;
 
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 public class UserServicesServiceImpl

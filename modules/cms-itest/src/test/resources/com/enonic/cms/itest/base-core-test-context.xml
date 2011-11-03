@@ -192,7 +192,7 @@
     <bean id="portletXsltViewTransformer"
           class="com.enonic.cms.core.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
 
-    <bean id="dataSourceService" class="com.enonic.cms.core.internal.service.DataSourceServiceImpl">
+    <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
         <property name="timeService" ref="timeService"/>
         <property name="sitePropertiesService" ref="sitePropertiesService"/>
     </bean>
