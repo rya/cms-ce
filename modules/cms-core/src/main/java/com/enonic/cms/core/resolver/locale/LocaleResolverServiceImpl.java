@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.localization.LocaleParsingException;
 import com.enonic.cms.core.localization.resource.LocalizationResourceBundleUtils;
 import com.enonic.cms.core.resolver.ForceResolverValueService;

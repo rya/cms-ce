@@ -21,7 +21,7 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.vertical.engine.VerticalEngineException;
 
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.service.AdminService;
 

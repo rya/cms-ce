@@ -38,7 +38,7 @@
     <property name="menuItemType" type="com.enonic.cms.store.hibernate.type.MenuItemTypeUserType">
       <column name="MEI_MID_LKEY" not-null="true"/>
     </property>
-    <many-to-one name="language" class="com.enonic.cms.core.LanguageEntity" fetch="select">
+    <many-to-one name="language" class="com.enonic.cms.core.language.LanguageEntity" fetch="select">
       <column name="MEI_LAN_LKEY"/>
     </many-to-one>
     <many-to-one name="modifier" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">

@@ -9,8 +9,8 @@ import java.util.Date;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;

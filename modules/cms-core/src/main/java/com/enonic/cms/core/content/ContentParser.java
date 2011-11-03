@@ -20,8 +20,8 @@ import com.enonic.vertical.adminweb.handlers.xmlbuilders.ContentBaseXMLBuilder;
 
 import com.enonic.cms.framework.util.JDOMUtil;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;

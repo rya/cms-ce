@@ -8,9 +8,10 @@ import org.jdom.Element;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
-import com.enonic.cms.core.LanguageEntity;
+
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.portal.datasource.expressionfunctions.ExpressionFunctionsFactory;
 import com.enonic.cms.core.security.user.User;

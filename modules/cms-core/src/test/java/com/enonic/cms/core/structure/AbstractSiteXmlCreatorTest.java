@@ -12,8 +12,8 @@ import org.mockito.Mockito;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemAccessResolver;

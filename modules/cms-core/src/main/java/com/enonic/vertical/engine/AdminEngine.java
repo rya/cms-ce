@@ -37,7 +37,7 @@ import com.enonic.vertical.engine.handlers.UserHandler;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentService;
 import com.enonic.cms.core.content.ContentXMLCreator;

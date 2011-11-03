@@ -4,7 +4,7 @@
  */
 package com.enonic.cms.core.preview;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.category.CategoryEntity;

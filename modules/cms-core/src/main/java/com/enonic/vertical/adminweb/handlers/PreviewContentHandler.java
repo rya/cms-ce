@@ -15,10 +15,11 @@ import org.joda.time.DateTime;
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.servlet.http.HttpServletRequestWrapper;
 
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageResolver;
 import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.LanguageEntity;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentAndVersion;
@@ -45,8 +46,6 @@ import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverService;
 import com.enonic.cms.core.resolver.locale.LocaleResolverService;
-
-import com.enonic.cms.core.LanguageResolver;
 
 import com.enonic.cms.core.content.ContentVersionEntity;
 

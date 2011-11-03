@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.UnitEntity;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;

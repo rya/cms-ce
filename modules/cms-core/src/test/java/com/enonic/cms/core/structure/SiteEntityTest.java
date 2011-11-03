@@ -11,9 +11,8 @@ import junit.framework.TestCase;
 
 import com.enonic.cms.core.CaseInsensitiveString;
 import com.enonic.cms.core.Path;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-
-import com.enonic.cms.core.LanguageEntity;
 
 public class SiteEntityTest
     extends TestCase

@@ -11,8 +11,8 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.core.LanguageEntity;
-import com.enonic.cms.core.LanguageKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.UserEntity;

@@ -23,7 +23,7 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.cms.framework.blob.BlobRecord;
 
-import com.enonic.cms.core.LanguageEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
