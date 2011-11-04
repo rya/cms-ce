@@ -10,8 +10,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.cms.core.SiteContext;
-import com.enonic.cms.core.SiteContextManager;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePropertiesService;
 import com.enonic.cms.core.portal.SiteNotFoundException;

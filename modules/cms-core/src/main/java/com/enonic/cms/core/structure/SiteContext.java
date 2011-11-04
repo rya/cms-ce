@@ -2,10 +2,11 @@
  * Copyright 2000-2011 Enonic AS
  * http://www.enonic.com/license
  */
-package com.enonic.cms.core;
+package com.enonic.cms.core.structure;
 
 import org.springframework.core.style.ToStringCreator;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.portal.cache.PageCacheService;
 
 public class SiteContext

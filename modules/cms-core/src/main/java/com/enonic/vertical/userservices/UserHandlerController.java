@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.enonic.cms.core.DeploymentPathResolver;
-import com.enonic.cms.core.SiteContext;
+import com.enonic.cms.core.structure.SiteContext;
 import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.log.StoreNewLogEntryCommand;
 import com.enonic.esl.util.ArrayUtil;

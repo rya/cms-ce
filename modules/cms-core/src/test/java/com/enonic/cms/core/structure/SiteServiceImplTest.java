@@ -9,14 +9,10 @@ import org.mockito.Mockito;
 import junit.framework.TestCase;
 
 import com.enonic.cms.core.MockSitePropertiesService;
-import com.enonic.cms.core.SiteContext;
-import com.enonic.cms.core.SiteContextManager;
 import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.store.dao.SiteDao;
-
-import com.enonic.cms.core.portal.cache.SiteCachesService;
-
 import com.enonic.cms.core.portal.SiteNotFoundException;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
+import com.enonic.cms.store.dao.SiteDao;
 
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.replay;
