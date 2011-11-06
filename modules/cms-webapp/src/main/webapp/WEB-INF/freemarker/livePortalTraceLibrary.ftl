@@ -38,10 +38,10 @@
     <td class="type-column">
     ${portalRequestTrace.type}
     </td>
-    <td>
+    <td class="url-column" title="${portalRequestTrace.siteName!} : ${portalRequestTrace.siteLocalUrl!?html}">
     ${portalRequestTrace.siteName!} : ${portalRequestTrace.siteLocalUrl!?html}
     </td>
-    <td class="startTime-column">
+    <td class="startTime-column" title="${portalRequestTrace.duration.startTimeAsDate!?datetime}">
     ${portalRequestTrace.duration.startTimeAsDate!?datetime}
     </td>
     <td class="duration-column" valign="top">

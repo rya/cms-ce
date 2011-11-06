@@ -4,9 +4,8 @@
  */
 package com.enonic.cms.core.portal.livetrace;
 
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.common.collect.ImmutableList;
 
@@ -15,20 +14,16 @@ import com.google.common.collect.ImmutableList;
  */
 public class CurrentPortalRequests
 {
-    private LinkedHashSet<PortalRequestTrace> currentPortalRequestTraces = new LinkedHashSet<PortalRequestTrace>();
-
-    private AtomicInteger size = new AtomicInteger( 0 );
+    private LinkedList<PortalRequestTrace> currentPortalRequestTraces = new LinkedList<PortalRequestTrace>();
 
     public synchronized void add( PortalRequestTrace trace )
     {
-        currentPortalRequestTraces.add( trace );
-        size.incrementAndGet();
+        currentPortalRequestTraces.addLast( trace );
     }
 
     public synchronized void remove( PortalRequestTrace trace )
     {
         currentPortalRequestTraces.remove( trace );
-        size.decrementAndGet();
     }
 
     public synchronized List<PortalRequestTrace> getList()
@@ -38,6 +33,6 @@ public class CurrentPortalRequests
 
     public int getSize()
     {
-        return size.get();
+        return currentPortalRequestTraces.size();
     }
 }
