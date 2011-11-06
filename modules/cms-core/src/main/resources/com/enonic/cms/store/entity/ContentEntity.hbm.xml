@@ -74,7 +74,7 @@
     </bag>
     <set name="sectionContents" inverse="false" cascade="all-delete-orphan" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
-      <key column="SCO_CON_LKEY" not-null="true"/>
+      <key column="SCO_CON_LKEY"/>
       <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
     </set>
     <set name="directMenuItemPlacements" inverse="true" table="TMENUITEMCONTENT"
