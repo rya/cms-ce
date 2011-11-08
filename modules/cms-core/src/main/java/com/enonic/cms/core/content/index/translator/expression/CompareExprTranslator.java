@@ -258,6 +258,8 @@ public class CompareExprTranslator
                 return true;
             case CompareExpr.NOT_LIKE:
                 return false;
+            case CompareExpr.FULLTEXT:
+                return false;
             default:
                 throw new ContentQueryTranslatorException( "Unsupported operation: " + op );
         }

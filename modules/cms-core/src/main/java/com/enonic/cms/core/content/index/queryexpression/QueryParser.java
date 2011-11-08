@@ -21,7 +21,7 @@ public final class QueryParser
     private final static String[] OPERATORS = {"=", "!=", ">", ">=", "<", "<=", "(", ")", ","};
 
     private final static String[] KEYWORDS =
-        {"LIKE", "NOT", "IN", "CONTAINS", "STARTS", "ENDS", "WITH", "OR", "AND", "ORDER", "BY", "ASC", "DESC"};
+        {"LIKE", "NOT", "IN", "CONTAINS", "STARTS", "ENDS", "WITH", "OR", "AND", "ORDER", "BY", "ASC", "DESC", "FULLTEXT"};
 
     private final Terminals terms;
 
@@ -176,6 +176,12 @@ public final class QueryParser
         return compareLikePrefixSuffixExpr( term( "ENDS" ).followedBy( term( "WITH" ).optional() ), "%", null );
     }
 
+    private Parser<CompareExpr> compareFulltextExpr()
+    {
+        final Parser<Integer> op = term( "FULLTEXT" ).retn( CompareExpr.FULLTEXT );
+        return Parsers.sequence( fieldExpr(), op, stringExpr(), QueryMapper.compareExprMapper() );
+    }
+
     private Parser<CompareExpr> relationalExpr()
     {
         return Parsers.or( relationalEqExpr(), relationalNeqExpr(), relationalLtExpr(), relationalLteExpr(), relationalGtExpr(),
@@ -184,7 +190,8 @@ public final class QueryParser
 
     private Parser<CompareExpr> matchExpr()
     {
-        return Parsers.or( compareLikeExpr(), compareInExpr(), compareContainsExpr(), compareStartsWithExpr(), compareEndsWithExpr() );
+        return Parsers.or( compareLikeExpr(), compareFulltextExpr(), compareInExpr(), compareContainsExpr(), compareStartsWithExpr(),
+                           compareEndsWithExpr() );
     }
 
     private Parser<CompareExpr> compareExpr()

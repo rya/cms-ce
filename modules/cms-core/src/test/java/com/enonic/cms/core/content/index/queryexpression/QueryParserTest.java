@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.content.index.queryexpression;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import com.enonic.cms.core.content.index.optimizer.LogicalOrOptimizer;
@@ -70,6 +71,20 @@ public class QueryParserTest
 
         assertEquals( "(a = 1.0 AND or[b = 2.0, c = 3.0])", optExpr.toString() );
 
+    }
+
+    @Test
+    public void testLikeOperator()
+    {
+        QueryExpr test = parseQuery( "a like 'abc'" );
+        assertTrue( StringUtils.containsIgnoreCase( test.getExpr().toString(), "like" ) );
+    }
+
+    @Test
+    public void testFulltextOperator()
+    {
+        QueryExpr test = parseQuery( "a fulltext 'abc'" );
+        assertTrue( StringUtils.containsIgnoreCase( test.getExpr().toString(), "fulltext" ) );
     }
 
     @Test
