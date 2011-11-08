@@ -33,7 +33,7 @@ public final class CompareExpr
 
     public final static int NOT_IN = 9;
 
-    public final static int FULLTEXT = 10;
+    public final static int FT = 10;
 
 
     /**
@@ -101,8 +101,8 @@ public final class CompareExpr
                 return "NOT LIKE";
             case NOT_IN:
                 return "NOT IN";
-            case FULLTEXT:
-                return "FULLTEXT";
+            case FT:
+                return "FT";
             default:
                 return null;
         }

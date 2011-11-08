@@ -83,8 +83,8 @@ public class QueryParserTest
     @Test
     public void testFulltextOperator()
     {
-        QueryExpr test = parseQuery( "a fulltext 'abc'" );
-        assertTrue( StringUtils.containsIgnoreCase( test.getExpr().toString(), "fulltext" ) );
+        QueryExpr test = parseQuery( "a FT 'abc'" );
+        assertTrue( StringUtils.containsIgnoreCase( test.getExpr().toString(), "FT" ) );
     }
 
     @Test

@@ -21,7 +21,7 @@ public final class QueryParser
     private final static String[] OPERATORS = {"=", "!=", ">", ">=", "<", "<=", "(", ")", ","};
 
     private final static String[] KEYWORDS =
-        {"LIKE", "NOT", "IN", "CONTAINS", "STARTS", "ENDS", "WITH", "OR", "AND", "ORDER", "BY", "ASC", "DESC", "FULLTEXT"};
+        {"LIKE", "NOT", "IN", "CONTAINS", "STARTS", "ENDS", "WITH", "OR", "AND", "ORDER", "BY", "ASC", "DESC", "FT"};
 
     private final Terminals terms;
 
@@ -178,7 +178,7 @@ public final class QueryParser
 
     private Parser<CompareExpr> compareFulltextExpr()
     {
-        final Parser<Integer> op = term( "FULLTEXT" ).retn( CompareExpr.FULLTEXT );
+        final Parser<Integer> op = term( "FT" ).retn( CompareExpr.FT );
         return Parsers.sequence( fieldExpr(), op, stringExpr(), QueryMapper.compareExprMapper() );
     }
 
