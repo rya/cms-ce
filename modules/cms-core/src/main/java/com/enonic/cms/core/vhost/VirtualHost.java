@@ -153,7 +153,7 @@ public final class VirtualHost
     private boolean matchesServerName( HttpServletRequest req )
     {
         String serverName = req.getServerName();
-        return ( serverName != null ) && this.serverName.equals( serverName );
+        return ( serverName != null ) && this.serverName.equalsIgnoreCase( serverName );
     }
 
     /**

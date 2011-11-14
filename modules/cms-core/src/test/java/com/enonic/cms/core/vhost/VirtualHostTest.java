@@ -59,4 +59,12 @@ public class VirtualHostTest
         vh = new VirtualHost( "www.enonic.com.", "/site/0" );
         assertTrue( vh.matches( request ) );
     }
+
+    public void testMatchesServerNameWithCase()
+    {
+        request.setServerName( "www.EnOnic.com" );
+
+        VirtualHost vh = new VirtualHost( "www.enonic.com", "/site/0" );
+        assertTrue( vh.matches( request ) );
+    }
 }
