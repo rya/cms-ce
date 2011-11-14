@@ -30,7 +30,6 @@
                 t._cleanPreTag( ed );
             });
 
-
             /*
                 Add HTML source button and Fullscreen button to the status bar
             */
@@ -74,7 +73,7 @@
                 If the caret is inside a PRE element IE inserts a new PRE element each time the user hits enter.
                 This will make the behaviour more Gecko like where a BR element is created.
             */
-            if (tinymce.isIE)
+            if (tinymce.isIE || tinymce.isWebKit)
             {
                 ed.onKeyDown.add(function(ed, e)
                 {
@@ -193,18 +192,25 @@
 
         _cleanPreTag : function( ed )
         {
-            if ( tinymce.isIE )
-            {
-                var preElements = ed.getDoc().getElementsByTagName( 'pre' );
-                var preElementsLn = preElements.length;
-                for ( var x = 0; x < preElementsLn; x++ )
-                {
-                    var preElement = preElements[x];
-                    var temp = preElement.innerHTML.split( '&nbsp;' );
-                    preElement.innerHTML = temp.join( '' );
-                }
-            }
+            var pre = ed.dom.select('pre');
 
+            // Replace &nbsp; entities with spaces in each PRE element
+            tinymce.each(pre, function(el) {
+                var cn = el.childNodes, n;
+                // Find each node in the PRE element and do the necessary replacement.
+                // We could use PRE.innerHTML and replace the value, but IE will not insert a space then.
+                // Instead we loop through each node in the PRE element and do the replace.
+                for ( var i = 0; i < cn.length; i++)
+                {
+                    n = cn[i];
+                    if (n.nodeValue)
+                    {
+                        n.nodeValue = n.nodeValue.replace(/\xA0/gm, ' ');
+                    }
+                }
+            });
+
+            // Replace <br> elements with new lines
             var br = ed.dom.select( 'pre br' );
             for ( var i = 0; i < br.length; i++ )
             {
