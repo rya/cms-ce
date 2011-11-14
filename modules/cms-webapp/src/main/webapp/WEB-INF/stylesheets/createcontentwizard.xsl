@@ -4,6 +4,7 @@
 
   <xsl:include href="tree/displaytree.xsl"/>
   <xsl:include href="common/button.xsl"/>
+  <xsl:include href="handlerconfigs/default.xsl"/>
 
   <xsl:param name="step"/>
   <xsl:param name="contenttypekey"/>
