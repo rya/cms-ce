@@ -64,14 +64,14 @@ var CMSLinkDialog = {
         var relVal = dom.getAttrib( selectedNode, 'rel' );
         var linkType = getLinkType( hrefVal );
         var linkTypeUrlField = 'input-' + linkType;
-        var targetVal = dom.getAttrib( selectedNode, 'target' );
+        var targetValue = dom.getAttrib( selectedNode, 'target' );
 
         this.onChangeLinkType( linkType );
 
-        if ( hrefVal.indexOf('download=true') > -1 )
-            targetVal = 'download';
+        if ( hrefVal.indexOf('_download=true') > -1 )
+            targetValue = 'download';
 
-        setFormElemValue( 'targetlist', targetVal );
+        setFormElemValue( 'targetlist', targetValue );
         setFormElemValue( 'title', titleVal );
         setFormElemValue( 'rel', relVal );
 
@@ -259,11 +259,11 @@ function setAllAttribs( elm ) {
     {
         target = '';
         var hrefValueHasParameters = href.indexOf('?') > -1 || href.indexOf('&') > -1;
-        href = hrefValueHasParameters ? ( href + '&download=true' ) : ( href + '?download=true' )
+        href = hrefValueHasParameters ? ( href + '&_download=true' ) : ( href + '?_download=true' )
     }
     else
     {
-       href = href.replace(/(\?|&)download=true/gim, '');
+       href = href.replace(/(\?|&)_download=true/gim, '');
     }
 
 	setAttrib(elm, 'href', href);
