@@ -4,10 +4,8 @@
  */
 package com.enonic.cms.framework.util;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -26,7 +24,6 @@ import org.jdom.output.DOMOutputter;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 import org.jdom.transform.JDOMSource;
-import org.xml.sax.InputSource;
 
 import com.google.common.base.Strings;
 
@@ -104,7 +101,7 @@ public final class JDOMUtil
     private static Document toDocument( org.w3c.dom.Element element )
     {
         DOMBuilder builder = new DOMBuilder();
-        return new Document( (Element)builder.build( element ).detach() );
+        return new Document( (Element) builder.build( element ).detach() );
     }
 
     /**
@@ -273,20 +270,23 @@ public final class JDOMUtil
 
     private static String serialize( Document doc, int indent, boolean omitDecl, boolean includeSelf )
     {
-        final Format format = Format.getPrettyFormat()
-                .setIndent( Strings.repeat( " ", indent ) )
-                .setOmitDeclaration( omitDecl );
+        final Format format =
+            Format.getPrettyFormat().setIndent( Strings.repeat( " ", indent ) ).setOmitDeclaration( omitDecl ).setTextMode(
+                Format.TextMode.PRESERVE );
         return doSerialize( doc, format, includeSelf );
     }
 
 
     private static String doSerialize( Document doc, Format format, boolean includeSelf )
     {
-        final XMLOutputter out = new XMLOutputter(format);
+        final XMLOutputter out = new XMLOutputter( format );
 
-        if (includeSelf) {
+        if ( includeSelf )
+        {
             return out.outputString( doc );
-        } else {
+        }
+        else
+        {
             return out.outputString( doc.getRootElement().getChildren() );
         }
     }
