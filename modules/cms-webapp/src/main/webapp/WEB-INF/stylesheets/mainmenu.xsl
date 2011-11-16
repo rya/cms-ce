@@ -286,7 +286,7 @@
               <td>
                 <a href="adminpage?page=910&amp;op=pluginInfo" target="mainFrame">
                   <img src="images/icon_plugins.png" border="0"/>
-                  <img src="im  ages/shim.gif" width="3" height="1" class="shim" border="0"/>
+                  <img src="images/shim.gif" width="3" height="1" class="shim" border="0"/>
                   <xsl:text>%mnuPluginInfo%</xsl:text>
                 </a>
               </td>
