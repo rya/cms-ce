@@ -23,6 +23,7 @@ import org.directwebremoting.servlet.DwrServlet;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
 import com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl;
+import com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto;
 import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
 import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
 import com.enonic.cms.server.service.admin.ajax.dto.UserDto;
@@ -49,6 +50,7 @@ public final class DwrServletWrapper
         addClass( SynchronizeStatusDto.class );
         addClass( RegionDto.class );
         addClass( UserDto.class );
+        addClass( PreferenceDto.class );
     }
 
     private void addClass( final Class type )
