@@ -40,6 +40,7 @@ import com.enonic.vertical.engine.VerticalEngineLogger;
 import com.enonic.vertical.engine.VerticalRemoveException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 import com.enonic.vertical.engine.XDG;
+import com.enonic.vertical.engine.handlers.model.MenuItemModel;
 import com.enonic.vertical.event.MenuHandlerEvent;
 import com.enonic.vertical.event.MenuHandlerListener;
 import com.enonic.vertical.event.VerticalEventMulticaster;
@@ -48,9 +49,8 @@ import com.enonic.cms.framework.util.TIntArrayList;
 
 import com.enonic.cms.core.CalendarUtil;
 import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.resource.ResourceKey;
-
 import com.enonic.cms.core.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.User;
@@ -58,17 +58,16 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.structure.RunAsType;
-
 import com.enonic.cms.core.structure.SiteData;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
 import com.enonic.cms.core.structure.menuitem.MenuItemType;
-import com.enonic.cms.core.structure.page.template.PageTemplateKey;
-import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.structure.page.PageEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateKey;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
 
 public final class MenuHandler
     extends BaseHandler
@@ -205,9 +204,7 @@ public final class MenuHandler
     final static private String MENU_ITEM_URL_UPDATE =
         "UPDATE " + MENU_ITEM_TABLE + " SET mei_sURL = ?, mei_burlopennewwin = ? WHERE mei_lKey = ?";
 
-    final static private String MENU_ITEM_SHORTCUT_UPDATE =
-        "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = ( SELECT mei_lKey FROM " + MENU_ITEM_TABLE +
-            " WHERE mei_men_lKey = ? AND mei_sName = ? ), mei_bShortcutForward = ? WHERE mei_lKey = ?";
+    final static private String MENU_ITEM_SHORTCUT_UPDATE = "UPDATE " + MENU_ITEM_TABLE + " SET mei_mei_lShortcut = ? WHERE mei_lKey = ?";
 
     final static private String MENU_ITEMS_BY_CONTENTOBJECT = "SELECT mei_lKey, mei_pag_lKey FROM tMenuItem WHERE mei_pag_lKey in " +
         "(SELECT pco_pag_lKey FROM tPageConObj WHERE pco_cob_lKey = ?)";
@@ -954,7 +951,7 @@ public final class MenuHandler
 
                 for ( int i = 0; i < itemElems.length; i++ )
                 {
-                    createMenuItem( user, copyContext, itemElems[i], siteKey, i, null, useOldKey );
+                    createMenuItem( user, copyContext, itemElems[i], siteKey, i, null, useOldKey, new HashMap<Integer, MenuItemModel>() );
                 }
             }
         }
@@ -1005,7 +1002,7 @@ public final class MenuHandler
             order = getNextOrder( siteKey == null ? -1 : siteKey.toInt(), parentKey == null ? -1 : parentKey.toInt() );
         }
 
-        return createMenuItem( user, null, menuItemElement, siteKey, order, parentKey, false );
+        return createMenuItem( user, null, menuItemElement, siteKey, order, parentKey, false, new HashMap<Integer, MenuItemModel>() );
     }
 
     private int getNextOrder( int menuKey, int parentKey )
@@ -1035,7 +1032,7 @@ public final class MenuHandler
     }
 
     private int createMenuItem( User user, CopyContext copyContext, Element menuItemElement, SiteKey siteKey, int order,
-                                MenuItemKey parentKey, boolean useOldKey )
+                                MenuItemKey parentKey, boolean useOldKey, Map<Integer, MenuItemModel> menuItems )
         throws VerticalCreateException, VerticalSecurityException
     {
 
@@ -1236,6 +1233,12 @@ public final class MenuHandler
             // execute statement:
             preparedStmt.executeUpdate();
 
+            boolean menuItemAlreadyExists = StringUtils.isNotEmpty( keyStr );
+            if ( menuItemAlreadyExists )
+            {
+                menuItems.put( Integer.valueOf( keyStr ),  new MenuItemModel( menuItemKey.toInt(), type, getShortcutKey( menuItemElement )) );
+            }
+
             // Create type specific data.
             switch ( type )
             {
@@ -1274,7 +1277,7 @@ public final class MenuHandler
 
                 case 7:
                     // shortcut
-                    createOrOverrideShortcut( menuItemElement, menuItemKey, siteKey );
+                    createOrOverrideShortcut( menuItemElement, menuItemKey );
                     break;
 
                 default:
@@ -1316,7 +1319,7 @@ public final class MenuHandler
                 Element[] elems = XMLTool.getElements( menuItemsElement );
                 for ( int i = 0; i < elems.length; i++ )
                 {
-                    createMenuItem( user, copyContext, elems[i], siteKey, i, menuItemKey, useOldKey );
+                    createMenuItem( user, copyContext, elems[i], siteKey, i, menuItemKey, useOldKey, menuItems );
                 }
             }
         }
@@ -1473,30 +1476,82 @@ public final class MenuHandler
         getSectionHandler().createSection( menuItemKey.toInt(), ordered, contentTypes );
     }
 
-    private void createOrOverrideShortcut( Element shortcutDestinationMenuItem, MenuItemKey shortcutMenuItem, SiteKey menuKey )
-        throws VerticalCreateException
+    private Integer getShortcutKey( Element menuItemElement )
+    {
+        Element shortcutElem = XMLTool.getElement( menuItemElement, "shortcut" );
+
+        return shortcutElem != null
+                ? Integer.valueOf( shortcutElem.getAttribute( "key" ) )
+                : null;
+    }
+
+    private void createOrOverrideShortcut( Element shortcutDestinationMenuItem, MenuItemKey shortcutMenuItem )
+            throws VerticalCreateException
     {
         Element shortcutElem = XMLTool.getElement( shortcutDestinationMenuItem, "shortcut" );
-        String name = shortcutElem.getAttribute( "name" );
+        int shortcut = Integer.parseInt( shortcutElem.getAttribute( "key" ) );
         boolean forward = Boolean.valueOf( shortcutElem.getAttribute( "forward" ) );
+        StringBuffer sql = XDG.generateUpdateSQL( db.tMenuItem, new Column[]{db.tMenuItem.mei_mei_lShortcut,
+                db.tMenuItem.mei_bShortcutForward}, new Column[]{db.tMenuItem.mei_lKey}, null );
 
         Connection con = null;
-        PreparedStatement preparedStmt = null;
+        PreparedStatement prepStmt = null;
+
         try
+
         {
             con = getConnection();
+            prepStmt = con.prepareStatement( sql.toString() );
 
-            preparedStmt = con.prepareStatement( MENU_ITEM_SHORTCUT_UPDATE );
-            preparedStmt.setInt( 1, menuKey.toInt() );
-            preparedStmt.setString( 2, name );
-            preparedStmt.setBoolean( 3, forward );
-            preparedStmt.setInt( 4, shortcutMenuItem.toInt() );
-            preparedStmt.executeUpdate();
+            prepStmt.setInt( 1, shortcut );
+            prepStmt.setBoolean( 2, forward );
+            prepStmt.setInt( 3, shortcutMenuItem.toInt() );
+            prepStmt.executeUpdate();
         }
         catch ( SQLException sqle )
         {
             String message = "Failed to create menu item shortcut: %t";
-            VerticalEngineLogger.errorCreate(message, sqle );
+            VerticalEngineLogger.errorCreate( message, sqle );
+        }
+        finally
+        {
+            close( prepStmt );
+        }
+    }
+
+    private void resolveShortcutNewDestination( Map<Integer, MenuItemModel> menuItems )
+    {
+        for ( MenuItemModel menuItemModel : menuItems.values() )
+        {
+            if ( menuItemModel.isShortcut() )
+            {
+                Integer oldShortcutKey = menuItemModel.getShortcutKey();
+                MenuItemModel shortcut = menuItems.get( oldShortcutKey );
+
+                Integer actualKey = shortcut.getPrimaryKey();
+                updateShortcutDestinationInDB( menuItemModel.getPrimaryKey(), actualKey );
+            }
+        }
+    }
+
+    private void updateShortcutDestinationInDB( Integer menuItemKey, Integer shortcutKey )
+    {
+        Connection con = null;
+        PreparedStatement preparedStmt = null;
+
+        try        {
+            con = getConnection();
+
+            preparedStmt = con.prepareStatement( MENU_ITEM_SHORTCUT_UPDATE );
+            preparedStmt.setInt( 1, shortcutKey );
+            preparedStmt.setInt( 2, menuItemKey );
+
+            preparedStmt.executeUpdate();
+        }
+        catch ( SQLException sqle )
+        {
+            String message = "Failed to update menu item shortcut: %t";
+            VerticalEngineLogger.errorCreate( message, sqle );
         }
         finally
         {
@@ -2443,6 +2498,8 @@ public final class MenuHandler
             // Update the individual menuitems (recursivly):
             try
             {
+                Map<Integer, MenuItemModel> menuItems = new HashMap<Integer, MenuItemModel>();
+
                 Element[] elems = XMLTool.getElements( XMLTool.getElement( root_elem, "menuitems" ) );
                 for ( int i = 0; i < elems.length; i++ )
                 {
@@ -2452,7 +2509,7 @@ public final class MenuHandler
                         String curKey = elems[i].getAttribute( "key" );
                         if ( curKey == null || curKey.length() == 0 || !useOldKeys )
                         {
-                            createMenuItem( user, copyContext, elems[i], menuKey, i, null, useOldKeys );
+                            createMenuItem( user, copyContext, elems[i], menuKey, i, null, useOldKeys, menuItems );
                         }
                         else
                         {
@@ -2460,6 +2517,8 @@ public final class MenuHandler
                         }
                     }
                 }
+
+                resolveShortcutNewDestination( menuItems );
             }
             catch ( VerticalCreateException vce )
             {
@@ -2925,7 +2984,7 @@ public final class MenuHandler
                             break;
 
                         case 7: // Shortcut:
-                            createOrOverrideShortcut( menuitem_elem, key, siteKey );
+                            createOrOverrideShortcut( menuitem_elem, key );
                             break;
                     }
                 }
@@ -2969,7 +3028,7 @@ public final class MenuHandler
                         String curKey = curElement.getAttribute( "key" );
                         if ( curKey == null || curKey.length() == 0 )
                         {
-                            createMenuItem( user, null, curElement, siteKey, i, key, false );
+                            createMenuItem( user, null, curElement, siteKey, i, key, false, new HashMap<Integer, MenuItemModel>() );
                         }
                         else
                         {

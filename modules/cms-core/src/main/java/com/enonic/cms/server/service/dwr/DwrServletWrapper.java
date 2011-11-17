@@ -5,7 +5,10 @@
 package com.enonic.cms.server.service.dwr;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -14,15 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-import com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl;
-import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
-import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
-import com.enonic.cms.server.service.admin.ajax.dto.UserDto;
-import com.enonic.cms.store.dao.PreferenceDao;
+import org.apache.commons.lang.StringUtils;
 import org.directwebremoting.servlet.DwrServlet;
 
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.vhost.VirtualHostHelper;
+import com.enonic.cms.server.service.admin.ajax.AdminAjaxServiceImpl;
+import com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto;
+import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
+import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
+import com.enonic.cms.server.service.admin.ajax.dto.UserDto;
+import com.enonic.cms.store.dao.PreferenceDao;
 
 /**
  * This class implements a servlet that wraps around dwr. It fixes a path problem that is seen when certain virtual hosts are used.
@@ -30,6 +35,7 @@ import com.enonic.cms.core.vhost.VirtualHostHelper;
 public final class DwrServletWrapper
     extends DwrServlet
 {
+
     private final StringBuilder classes;
 
     /**
@@ -39,20 +45,22 @@ public final class DwrServletWrapper
     {
         this.classes = new StringBuilder();
 
-        addClass(AdminAjaxServiceImpl.class);
-        addClass(PreferenceDao.class);
-        addClass(SynchronizeStatusDto.class);
-        addClass(RegionDto.class);
-        addClass(UserDto.class);
+        addClass( AdminAjaxServiceImpl.class );
+        addClass( PreferenceDao.class );
+        addClass( SynchronizeStatusDto.class );
+        addClass( RegionDto.class );
+        addClass( UserDto.class );
+        addClass( PreferenceDto.class );
     }
 
-    private void addClass(final Class type)
+    private void addClass( final Class type )
     {
-        if (this.classes.length() > 0) {
-            this.classes.append(",");
+        if ( this.classes.length() > 0 )
+        {
+            this.classes.append( "," );
         }
-        
-        this.classes.append(type.getName());
+
+        this.classes.append( type.getName() );
     }
 
     @Override
@@ -72,13 +80,29 @@ public final class DwrServletWrapper
                 }
             };
 
-            ServletRequestAccessor.setRequest( newReq );
-            super.service(newReq, res);
+            doService( res, newReq );
         }
         else
         {
-            ServletRequestAccessor.setRequest( req );
-            super.service(req, res);
+            doService( res, req );
+        }
+    }
+
+    private void doService( HttpServletResponse res, HttpServletRequest req )
+        throws ServletException, IOException
+    {
+        ServletRequestAccessor.setRequest( req );
+        super.service( req, res );
+        setContentType( req, res );
+    }
+
+    private void setContentType( HttpServletRequest req, HttpServletResponse res )
+    {
+        String url = req.getRequestURL().toString();
+
+        if ( StringUtils.endsWith( url, ".js" ) )
+        {
+            res.setContentType( "text/javascript" );
         }
     }
 
@@ -87,8 +111,8 @@ public final class DwrServletWrapper
         throws ServletException
     {
         final Map<String, String> params = new HashMap<String, String>();
-        params.put("debug", "false");
-        params.put("classes", this.classes.toString());
+        params.put( "debug", "false" );
+        params.put( "classes", this.classes.toString() );
 
         final ServletConfig wrapper = new ServletConfig()
         {
@@ -102,17 +126,17 @@ public final class DwrServletWrapper
                 return config.getServletContext();
             }
 
-            public String getInitParameter(final String name)
+            public String getInitParameter( final String name )
             {
-                return params.get(name);
+                return params.get( name );
             }
 
             public Enumeration getInitParameterNames()
             {
-                return Collections.enumeration(params.keySet());
+                return Collections.enumeration( params.keySet() );
             }
         };
 
-        super.init(wrapper);
+        super.init( wrapper );
     }
 }
