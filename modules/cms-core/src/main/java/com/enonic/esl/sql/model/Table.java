@@ -11,29 +11,29 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.enonic.esl.containers.StringMap;
+import com.google.common.collect.Maps;
 
 public class Table
 {
     private static final Logger LOG = LoggerFactory.getLogger( Table.class.getName() );
 
-    private String tableName, elementName, parentName;
+    private final String tableName, elementName, parentName;
 
-    private ArrayList<Column> columnList = new ArrayList<Column>();
+    private final ArrayList<Column> columnList = new ArrayList<Column>();
 
-    private Map<String, Column> columnNameMap = new StringMap( false );
+    private final Map<String, Column> columnNameMap = Maps.newHashMap();
 
-    private Map<String, Column> columnXPathMap = new StringMap( false );
+    private final Map<String, Column> columnXPathMap = Maps.newHashMap();
 
-    private ArrayList<Column> foreignKeys = new ArrayList<Column>();
+    private final ArrayList<Column> foreignKeys = new ArrayList<Column>();
 
-    private ArrayList<Column> primaryKeys = new ArrayList<Column>();
+    private final ArrayList<Column> primaryKeys = new ArrayList<Column>();
 
-    private ArrayList<ForeignKeyColumn> referencedKeys = new ArrayList<ForeignKeyColumn>();
+    private final ArrayList<ForeignKeyColumn> referencedKeys = new ArrayList<ForeignKeyColumn>();
 
-    private ArrayList<ForeignKey> realForeignKeys = new ArrayList<ForeignKey>();
+    private final ArrayList<ForeignKey> realForeignKeys = new ArrayList<ForeignKey>();
 
-    private ArrayList<Index> indexes = new ArrayList<Index>();
+    private final ArrayList<Index> indexes = new ArrayList<Index>();
 
     public Table( String tableName, String elementName, String parentName )
     {
@@ -54,8 +54,8 @@ public class Table
         }
         columnList.add( column );
 
-        columnNameMap.put( column.getName(), column );
-        columnXPathMap.put( column.getXPath(), column );
+        columnNameMap.put( column.getName().toLowerCase(), column );
+        columnXPathMap.put( column.getXPath().toLowerCase(), column );
 
         column.setTable( this );
     }
@@ -115,18 +115,17 @@ public class Table
     {
         if ( columnName.startsWith( "count(" ) )
         {
-            LOG.info( "COUNT: {}", columnName );
             return new Column( columnName, null );
         }
         else
         {
-            return columnNameMap.get( columnName );
+            return columnNameMap.get( columnName.toLowerCase() );
         }
     }
 
     public Column getColumnByXPath( String xpath )
     {
-        return columnXPathMap.get( xpath );
+        return columnXPathMap.get( xpath.toLowerCase() );
     }
 
     public String toString()
