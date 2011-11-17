@@ -2,7 +2,6 @@ package com.enonic.cms.core.structure;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +12,6 @@ import org.jdom.Element;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
-import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentLocation;
 import com.enonic.cms.core.content.ContentLocationSpecification;
@@ -23,7 +21,6 @@ import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.store.dao.SiteDao;
 
 public class SectionXmlCreator
@@ -123,115 +120,6 @@ public class SectionXmlCreator
 
         Collections.sort( sectionNameList, new CaseInsensitiveSectionComparator() );
         return sectionNameList;
-    }
-
-}
-
-class CaseInsensitiveSectionComparator
-    implements Comparator<Section>
-{
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see java.util.Comparator#compare(Object, Object)
-     */
-    public int compare( Section s1, Section s2 )
-    {
-        return s1.compareTo( s2 );
-    }
-
-}
-
-class Section
-    implements Comparable<com.enonic.cms.core.structure.Section>
-{
-
-    private SiteKey siteKey;
-
-    private MenuItemKey menuItemKey;
-
-    private String menuItemName;
-
-    private String menuItemPath;
-
-    private String siteName;
-
-    public Section( SiteKey siteKey, MenuItemKey menuItemKey, String menuItemName, String menuItemPathAsString, String siteName )
-    {
-        this.menuItemKey = menuItemKey;
-        this.siteKey = siteKey;
-        this.menuItemName = menuItemName;
-        this.menuItemPath = menuItemPathAsString;
-        this.siteName = siteName;
-    }
-
-    public int compareTo( com.enonic.cms.core.structure.Section o )
-    {
-
-        // return menuItemName.compareToIgnoreCase( o.getMenuItemName() );
-
-        String s1path = this.siteName + this.menuItemPath;
-        String s2path = o.getSiteName() + o.getMenuItemPath();
-
-        return s1path.compareToIgnoreCase( s2path );
-
-    }
-
-    public SiteKey getSiteKey()
-    {
-        return siteKey;
-    }
-
-    public MenuItemKey getMenuItemKey()
-    {
-        return menuItemKey;
-    }
-
-    public String getMenuItemName()
-    {
-        return menuItemName;
-    }
-
-    public String getMenuItemPath()
-    {
-        return menuItemPath;
-    }
-
-    @Override
-    public boolean equals( Object o )
-    {
-        if ( this == o )
-        {
-            return true;
-        }
-        if ( o == null || getClass() != o.getClass() )
-        {
-            return false;
-        }
-
-        com.enonic.cms.core.structure.Section s = (com.enonic.cms.core.structure.Section) o;
-
-        if ( this.siteKey.equals( s.getSiteKey() ) && this.menuItemPath.equalsIgnoreCase( s.getMenuItemPath() ) )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return menuItemName.hashCode() + siteKey.hashCode();
-    }
-
-    public String getSiteName()
-    {
-        return siteName;
     }
 
 }
