@@ -41,6 +41,8 @@ public class CtyImportConfig
 
     private CtyImportUpdateStrategyConfig updateStrategy = CtyImportUpdateStrategyConfig.UPDATE_CONTENT_KEEP_STATUS;
 
+    private boolean updateContentName = false;
+
     public CtyImportConfig( final CtyFormConfig form, final String name, final String sync, final NamespaceResolver namespaceResolver )
     {
         this.form = form;
@@ -243,5 +245,15 @@ public class CtyImportConfig
         {
             ctyImportMappingConfig.validate( contentTypeConfig );
         }
+    }
+
+    public boolean getUpdateContentName()
+    {
+        return updateContentName;
+    }
+
+    public void setUpdateContentName( boolean value )
+    {
+        updateContentName = value;
     }
 }

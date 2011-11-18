@@ -125,6 +125,8 @@ public class ContentTypeImportConfigParser
             importConfig.setUpdateStrategy( CtyImportUpdateStrategyConfig.parse( importName, updateStrategyAttribute.getValue() ) );
         }
 
+        parseUpdateContentNameSetting( importConfig, importEl );
+
         parseImportMappings( importConfig, importEl, importEl );
         parseImportMappingBlocks( importConfig, importEl );
 
@@ -239,6 +241,30 @@ public class ContentTypeImportConfigParser
             throw new InvalidImportConfigException( importName, "Invalid mode setting: " + mode );
         }
         importConfig.setMode( impurtModeConfig );
+    }
+
+    private void parseUpdateContentNameSetting( CtyImportConfig importConfig, Element importEl )
+    {
+        final String settingAsString = importEl.getAttributeValue( "update-content-name", (String) null );
+        if ( StringUtils.isEmpty( settingAsString ) )
+        {
+            return;
+        }
+
+        if ( "true".equals( settingAsString ) )
+        {
+            importConfig.setUpdateContentName( true );
+        }
+        else if ( "false".equals( settingAsString ) )
+        {
+            importConfig.setUpdateContentName( false );
+        }
+        else
+        {
+            throw new InvalidImportConfigException( importName,
+                                                    "Setting 'update-content-name' must either be true or false or be removed: " +
+                                                        settingAsString );
+        }
     }
 
     private NamespaceResolver getNamespaceResolver( final Element importEl )

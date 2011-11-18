@@ -209,6 +209,10 @@ public class ContentImporterImpl
 
         // Command
         final UpdateContentCommand command = createUpdateContentCommand( existingContent, versionToBaseNewVersionOn );
+        if ( importConfig.getUpdateContentName() )
+        {
+            command.setContentName( PrettyPathNameCreator.generatePrettyPathName( newContentData.getTitle() ) );
+        }
         command.setModifier( importer );
         command.setContentKey( existingContent.getKey() );
         command.setAvailableFrom( existingContent.getAvailableFrom() );

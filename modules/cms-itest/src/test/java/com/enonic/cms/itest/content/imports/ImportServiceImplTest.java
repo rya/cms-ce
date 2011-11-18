@@ -1,6 +1,35 @@
 package com.enonic.cms.itest.content.imports;
 
-import com.enonic.cms.core.content.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+
+import org.apache.commons.io.IOUtils;
+import org.jdom.Document;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.ImportContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
@@ -23,32 +52,10 @@ import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.AssertTool;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
-import org.apache.commons.io.IOUtils;
-import org.jdom.Document;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -1233,7 +1240,7 @@ public class ImportServiceImplTest
             (CustomContentData) fixture.findFirstContentVersionByTitle( "Jørund Vier Skriubakken" ).getContentData();
         HtmlAreaDataEntry htmlAreaDataEntry = (HtmlAreaDataEntry) contentDataJrund.getEntry( "htmlarea" );
         Document htmlAreaAsDoc = XMLDocumentFactory.create( htmlAreaDataEntry.getValue() ).getAsJDOMDocument();
-        AssertTool.assertXPathExist("/div", htmlAreaAsDoc);
+        AssertTool.assertXPathExist( "/div", htmlAreaAsDoc );
     }
 
     @Test
@@ -2027,6 +2034,82 @@ public class ImportServiceImplTest
         assertEquals( 2, fixture.countContentVersionsByContent( contentKey_archived ) );
         assertEquals( ContentStatus.ARCHIVED, fixture.findContentVersionByContent( 0, contentKey_archived ).getStatus() );
         assertEquals( ContentStatus.ARCHIVED, fixture.findContentVersionByContent( 1, contentKey_archived ).getStatus() );
+    }
+
+    @Test
+    public void import_causing_update_when_update_content_name_setting_is_true_updates_content_name()
+        throws UnsupportedEncodingException
+    {
+        // setup content type with needed import configuration
+        String importsConfig = "";
+        importsConfig += "<imports>";
+        importsConfig +=
+            "<import base='/persons/person' mode='xml' name='xml-import-as-draft-with-sync' status='0' sync='person-no' update-content-name='true'>";
+        importsConfig += "  <mapping src='@id' dest='person-no'/>";
+        importsConfig += "  <mapping src='name' dest='name'/>";
+        importsConfig += "</import>";
+        importsConfig += "</imports>";
+
+        String changedContentTypeXml = personContentTypeXml.replace( "<imports/>", importsConfig );
+        updateContentType( "PersonCty", changedContentTypeXml );
+
+        String firstImportSource = "";
+        firstImportSource += "<persons>";
+        firstImportSource += "  <person id='1001'>";
+        firstImportSource += "     <name>Jorund</name>";
+        firstImportSource += "  </person>";
+        firstImportSource += "</persons>";
+
+        // setup
+        ImportContentCommand command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "xml-import-as-draft-with-sync";
+        command.inputStream = new ByteArrayInputStream( firstImportSource.getBytes( "UTF-8" ) );
+        ImportJob job = importJobFactory.createImportJob( command );
+        ImportResult result = job.start();
+
+        fixture.flushAndClearHibernateSesssion();
+
+        // verify setup
+        assertEquals( 1, result.getInserted().size() );
+        assertEquals( 1, fixture.countAllContent() );
+
+        // verify setup: that content name is as expected
+        assertEquals( "jorund", fixture.findAllContent().get( 0 ).getName() );
+
+        // exercise
+
+        String secondImportSource = "";
+        secondImportSource += "<persons>";
+        secondImportSource += "  <person id='1001'>";
+        secondImportSource += "     <name>Vier</name>";
+        secondImportSource += "  </person>";
+        secondImportSource += "</persons>";
+
+        command = new ImportContentCommand();
+        command.executeInOneTransaction = true;
+        command.importer = fixture.findUserByName( "testuser" );
+        command.categoryToImportTo = fixture.findCategoryByName( "Persons" );
+        command.importName = "xml-import-as-draft-with-sync";
+        command.inputStream = new ByteArrayInputStream( secondImportSource.getBytes( "UTF-8" ) );
+        job = importJobFactory.createImportJob( command );
+        result = job.start();
+
+        fixture.flushAndClearHibernateSesssion();
+
+        // verify
+        assertEquals( 0, result.getSkipped().size() );
+        assertEquals( 1, result.getUpdated().size() );
+        assertEquals( 0, result.getInserted().size() );
+        assertEquals( 1, fixture.countAllContent() );
+        assertEquals( 0, fixture.countContentVersionsByTitle( "Jorund" ) );
+        assertEquals( 1, fixture.countContentVersionsByTitle( "Vier" ) );
+
+        // verify: that content name have changed
+        assertEquals( "vier", fixture.findAllContent().get( 0 ).getName() );
+
     }
 
     @Test
