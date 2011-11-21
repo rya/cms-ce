@@ -55,8 +55,11 @@ public class Table
         columnList.add( column );
 
         columnNameMap.put( column.getName().toLowerCase(), column );
-        columnXPathMap.put( column.getXPath().toLowerCase(), column );
 
+        if ( column.getXPath() != null )
+        {
+            columnXPathMap.put( column.getXPath().toLowerCase(), column );
+        }
         column.setTable( this );
     }
 
