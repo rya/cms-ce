@@ -13,9 +13,12 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.enonic.esl.sql.model.DatabaseSchemaTool;
 import com.enonic.vertical.engine.dbmodel.VerticalDatabase;
+
+import com.enonic.cms.framework.blob.gc.GarbageCollector;
 
 import com.enonic.cms.store.DatabaseAccessor;
 import com.enonic.cms.store.VacuumContentSQL;
@@ -38,6 +41,8 @@ public final class SystemHandler
      */
     private final static String VACUUM_READ_LOGS_SQL = "DELETE FROM tLogEntry WHERE len_lTypeKey = 7";
 
+    @Autowired
+    private GarbageCollector garbageCollector;
 
     /**
      * Return true if it has the table.
@@ -391,6 +396,7 @@ public final class SystemHandler
                 vacuumContents( conn );
                 vacuumCategories( conn );
                 vacuumArchives( conn );
+                vacuumBlobStore();
             }
             finally
             {
@@ -476,5 +482,10 @@ public final class SystemHandler
         {
             close( stmt );
         }
+    }
+
+    private void vacuumBlobStore()
+    {
+        this.garbageCollector.process();
     }
 }
