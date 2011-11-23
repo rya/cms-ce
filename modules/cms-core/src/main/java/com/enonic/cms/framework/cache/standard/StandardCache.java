@@ -18,25 +18,16 @@ import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap.Builder;
 /**
  * Our standard cache that uses the LRU eviction method.
  */
-public final class StandardCache
+final class StandardCache
 {
 
-    private int maxEntries;
+    private final int maxEntries;
 
-    private ConcurrentLinkedHashMap<String, SoftReference<CacheEntry>> map;
+    private final ConcurrentLinkedHashMap<String, SoftReference<CacheEntry>> map;
 
-    private StandardCache()
-    {
-        // prevention
-    }
-
-    /**
-     * Construct the cache.
-     */
     public StandardCache( final int maxEntries )
     {
-//        map = ConcurrentLinkedHashMap.create( EvictionPolicy.LRU, maxEntries );
-        map = new Builder<String, SoftReference<CacheEntry>>().maximumWeightedCapacity( maxEntries ).build();
+        this.map = new Builder<String, SoftReference<CacheEntry>>().maximumWeightedCapacity( maxEntries ).build();
         this.maxEntries = maxEntries;
     }
 

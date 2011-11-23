@@ -15,19 +15,11 @@ public interface CacheFacade
      * Name of cache.
      */
     public String getName();
-
-    /**
-     * Return true if disk overflow.
-     */
-    public boolean getDiskOverflow();
-
+    
     /**
      * Return the memory capacity.
      */
     public int getMemoryCapacity();
-
-
-    public int getDiskCapacity();
 
     /**
      * Return the time to live in seconds. 0 if eternal cache.

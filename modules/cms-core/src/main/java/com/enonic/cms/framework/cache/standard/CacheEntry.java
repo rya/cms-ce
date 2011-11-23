@@ -7,7 +7,7 @@ package com.enonic.cms.framework.cache.standard;
 /**
  * This class implements the cache entry.
  */
-public final class CacheEntry
+final class CacheEntry
 {
     /**
      * Cache key.
@@ -32,7 +32,7 @@ public final class CacheEntry
     /**
      * Construct the entry.
      */
-    public CacheEntry( String key, Object value, long timeToLive )
+    public CacheEntry( final String key, final Object value, final long timeToLive )
     {
         this.key = key;
         this.timeToLive = timeToLive;

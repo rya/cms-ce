@@ -5,13 +5,13 @@
 package com.enonic.cms.core.portal.cache;
 
 import java.util.Locale;
+import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.enonic.cms.framework.cache.config.CacheConfig;
-import com.enonic.cms.framework.cache.standard.StandardCache;
-import com.enonic.cms.framework.cache.standard.StandardCacheFacade;
+import com.enonic.cms.framework.cache.CacheFacade;
+import com.enonic.cms.framework.cache.standard.StandardCacheManager;
 
 import com.enonic.cms.core.CacheObjectSettings;
 import com.enonic.cms.core.SiteKey;
@@ -34,7 +34,7 @@ public class PageCacheServiceImplTest
 
     private PageCacheServiceImpl pageCacheService_site_2;
 
-    private StandardCacheFacade cacheFacade;
+    private CacheFacade cacheFacade;
 
     private CacheObjectSettings settings;
 
@@ -44,10 +44,14 @@ public class PageCacheServiceImplTest
         int maxEntries = 100;
         int timeToLiveSeconds = 1000;
 
-        StandardCache standardCache = new StandardCache( maxEntries );
-        CacheConfig cacheConfig = new CacheConfig( maxEntries, 0, timeToLiveSeconds );
+        final Properties props = new Properties();
+        props.setProperty( "cms.cache.page.memoryCapacity", String.valueOf( maxEntries ) );
+        props.setProperty( "cms.cache.page.timeToLive", String.valueOf( timeToLiveSeconds ) );
 
-        cacheFacade = new StandardCacheFacade( "page", standardCache, cacheConfig );
+        final StandardCacheManager cacheManager = new StandardCacheManager();
+        cacheManager.setProperties( props );
+        
+        cacheFacade = cacheManager.getOrCreateCache( "page" );
 
         pageCacheService_site_1 = new PageCacheServiceImpl( siteKey_1 );
         pageCacheService_site_1.setEnabled( true );
