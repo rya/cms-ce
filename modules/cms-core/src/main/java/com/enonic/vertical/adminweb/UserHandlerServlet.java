@@ -53,11 +53,15 @@ import com.enonic.cms.core.AbstractPagedXmlCreator;
 import com.enonic.cms.core.AdminConsoleTranslationService;
 import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.country.Country;
+import com.enonic.cms.core.country.CountryXmlCreator;
 import com.enonic.cms.core.locale.LocaleXmlCreator;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.ObjectClassesXmlCreator;
+import com.enonic.cms.core.security.PasswordGenerator;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
+import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.group.GroupXmlCreator;
 import com.enonic.cms.core.security.user.DeleteUserCommand;
@@ -67,39 +71,29 @@ import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.user.field.UserInfoXmlCreator;
+import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
+import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
 import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
+import com.enonic.cms.core.user.field.UserFieldMap;
+import com.enonic.cms.core.user.field.UserFieldTransformer;
+import com.enonic.cms.core.user.field.UserFieldType;
+import com.enonic.cms.core.user.field.UserInfoTransformer;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
 import com.enonic.cms.store.dao.GroupQuery;
-
-import com.enonic.cms.core.security.PasswordGenerator;
-
-import com.enonic.cms.core.country.CountryXmlCreator;
-
-import com.enonic.cms.core.security.ObjectClassesXmlCreator;
-
-import com.enonic.cms.core.security.group.GroupSpecification;
-
-import com.enonic.cms.core.security.user.UserKey;
-import com.enonic.cms.core.security.user.UserType;
-
-import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
-import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
-import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
-import com.enonic.cms.core.user.field.UserFieldMap;
-import com.enonic.cms.core.user.field.UserFieldTransformer;
-import com.enonic.cms.core.user.field.UserFieldType;
-import com.enonic.cms.core.user.field.UserInfoTransformer;
 
 
 public class UserHandlerServlet
@@ -609,7 +603,7 @@ public class UserHandlerServlet
                             }
                             catch ( VerticalException ve )
                             {
-                                VerticalEngineLogger.warn("Unable to generate password.", null );
+                                VerticalEngineLogger.warn( "Unable to generate password.", null );
                             }
                         }
                     }
@@ -815,11 +809,11 @@ public class UserHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
         }
     }
 
@@ -856,7 +850,7 @@ public class UserHandlerServlet
         }
         catch ( Exception e )
         {
-            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
         }
 
         return result;
@@ -1080,7 +1074,7 @@ public class UserHandlerServlet
         {
             if ( "true".equals( formItems.getString( "notification", "" ) ) )
             {
-                handlerNotification( request, response, session, admin, formItems, "sendnotification" );
+                handlerNotification( request, response, session, formItems, "sendnotification" );
             }
             else
             {
@@ -1207,11 +1201,11 @@ public class UserHandlerServlet
         }
         else if ( "changepassword".equals( operation ) )
         {
-            changePassword( request, response, session, admin, formItems );
+            changePassword( request, response, session, formItems );
         }
         else if ( "notification".equals( operation ) || "sendnotification".equals( operation ) )
         {
-            handlerNotification( request, response, session, admin, formItems, operation );
+            handlerNotification( request, response, session, formItems, operation );
         }
         else
         {
@@ -1271,7 +1265,7 @@ public class UserHandlerServlet
                         GroupEntity groupEntity = groupDao.findSingleBySpecification( groupSpecification );
 
                         // Show global groups and groups in current user store
-                        if (groupEntity.getUserStore() == null || groupEntity.getUserStore().getKey().equals( userStoreKey ))
+                        if ( groupEntity.getUserStore() == null || groupEntity.getUserStore().getKey().equals( userStoreKey ) )
                         {
                             Set<GroupEntity> userGroups;
                             if ( recursive )
@@ -1293,12 +1287,10 @@ public class UserHandlerServlet
 
                         }
                     }
-
                     org.jdom.Document usersDoc = userXmlCreator.createUsersDocument( new ArrayList<UserEntity>( users ), false, false );
                     reportDoc = XMLDocumentFactory.create( usersDoc ).getAsDOMDocument();
-
-//                    reportDoc = XMLTool.domparse(admin.getGroupUserMembers(groups.toNativeArray(), recursive, true));
                 }
+
                 Element usersElem = reportDoc.getDocumentElement();
                 String datasourcesDefaultResultElementName = verticalProperties.getDatasourceDefaultResultRootElement();
                 Element verticaldataElem = XMLTool.createElement( reportDoc, datasourcesDefaultResultElementName );
@@ -1331,20 +1323,20 @@ public class UserHandlerServlet
         catch ( XsltProcessorException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin(message, e );
+            VerticalAdminLogger.errorAdmin( message, e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
         }
     }
 
-    private void handlerNotification( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
-                                      ExtendedMap formItems, String operation )
+    private void handlerNotification( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
+                                      String operation )
         throws VerticalAdminException, VerticalEngineException
     {
 
@@ -1394,11 +1386,11 @@ public class UserHandlerServlet
             }
             catch ( TransformerException e )
             {
-                VerticalAdminLogger.errorAdmin("XSLT error.", e );
+                VerticalAdminLogger.errorAdmin( "XSLT error.", e );
             }
             catch ( IOException e )
             {
-                VerticalAdminLogger.errorAdmin("I/O error.", e );
+                VerticalAdminLogger.errorAdmin( "I/O error.", e );
             }
         }
         else if ( "sendnotification".equals( operation ) )
@@ -1447,8 +1439,7 @@ public class UserHandlerServlet
         }
     }
 
-    private void changePassword( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
-                                 ExtendedMap formItems )
+    private void changePassword( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems )
         throws VerticalAdminException, VerticalEngineException
     {
 
@@ -1500,11 +1491,11 @@ public class UserHandlerServlet
             }
             catch ( TransformerException e )
             {
-                VerticalAdminLogger.errorAdmin("XSLT error.", e );
+                VerticalAdminLogger.errorAdmin( "XSLT error.", e );
             }
             catch ( IOException e )
             {
-                VerticalAdminLogger.errorAdmin("I/O error.", e );
+                VerticalAdminLogger.errorAdmin( "I/O error.", e );
             }
         }
         else
@@ -1516,7 +1507,7 @@ public class UserHandlerServlet
 
             if ( !newPassword1.equals( newPassword2 ) )
             {
-                VerticalAdminLogger.errorAdmin("Passwords do not match!", null );
+                VerticalAdminLogger.errorAdmin( "Passwords do not match!", null );
             }
 
             final String uid = formItems.getString( "uid" );
