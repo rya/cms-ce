@@ -1847,7 +1847,8 @@
                                 </xsl:apply-templates>
                               </xsl:otherwise>
                             </xsl:choose>
-                            <br/>
+
+                            <xsl:comment><!-- Make sure the table cell is not empty (for browser html rendering engines) --></xsl:comment>
                           </td>
 
                         </xsl:for-each>
