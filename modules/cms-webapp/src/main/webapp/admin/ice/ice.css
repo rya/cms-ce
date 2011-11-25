@@ -139,6 +139,7 @@
 	background-position: 6px 4px;
 	background-repeat: no-repeat;
     text-decoration: none;
+    clear: both;
 }
 
 #ice-context-menu a:hover,
