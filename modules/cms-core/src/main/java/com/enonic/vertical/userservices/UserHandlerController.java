@@ -349,7 +349,7 @@ public class UserHandlerController
             addMembershipCommand.setRespondWithException( true );
             for ( GroupKey groupKeyToAdd : groupKeysToAdd )
             {
-                addMembershipCommand.addGroupsToAddTo( groupKeyToAdd );
+                addMembershipCommand.addGroupToAddTo( groupKeyToAdd );
             }
 
             try

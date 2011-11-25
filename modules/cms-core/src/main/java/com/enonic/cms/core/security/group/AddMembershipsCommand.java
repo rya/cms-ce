@@ -5,6 +5,7 @@
 package com.enonic.cms.core.security.group;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.enonic.cms.core.security.user.UserKey;
@@ -27,9 +28,14 @@ public class AddMembershipsCommand
         setExecutor( executor );
     }
 
-    public void addGroupsToAddTo( GroupKey groupKey )
+    public void addGroupToAddTo( GroupKey groupKey )
     {
         groupsToAddTo.add( groupKey );
+    }
+
+    public void addGroupsToAddTo( Collection<GroupKey> groupKeys )
+    {
+        groupsToAddTo.addAll( groupKeys );
     }
 
     public GroupSpecification getGroupToAdd()
@@ -75,5 +81,10 @@ public class AddMembershipsCommand
     public void setUpdateOpenGroupsOnly( boolean value )
     {
         this.updateOpenGroupsOnly = value;
+    }
+
+    public boolean hasNewMemberships()
+    {
+        return this.groupsToAddTo.size() > 0;
     }
 }

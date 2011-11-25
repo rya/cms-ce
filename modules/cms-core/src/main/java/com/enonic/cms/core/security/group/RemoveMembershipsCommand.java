@@ -5,6 +5,7 @@
 package com.enonic.cms.core.security.group;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import com.enonic.cms.core.security.user.UserKey;
@@ -47,6 +48,11 @@ public class RemoveMembershipsCommand
         groupsToRemoveFrom.add( groupKey );
     }
 
+    public void addGroupsToRemoveFrom( Collection<GroupKey> groupKeys )
+    {
+        groupsToRemoveFrom.addAll( groupKeys );
+    }
+
     public UserKey getExecutor()
     {
         return executor;
@@ -75,5 +81,10 @@ public class RemoveMembershipsCommand
     public void setUpdateOpenGroupsOnly( boolean value )
     {
         this.updateOpenGroupsOnly = value;
+    }
+
+    public boolean hasMembershipsToRemove()
+    {
+        return this.groupsToRemoveFrom.size() > 0;
     }
 }
