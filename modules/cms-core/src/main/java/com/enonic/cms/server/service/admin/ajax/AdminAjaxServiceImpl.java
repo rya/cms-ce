@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 
-import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
 import org.apache.commons.lang.StringUtils;
 import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
@@ -30,17 +29,29 @@ import com.enonic.cms.framework.xml.XMLDocument;
 
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.query.ContentByContentQuery;
 import com.enonic.cms.core.content.query.RelatedContentQuery;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.country.Country;
 import com.enonic.cms.core.country.CountryCode;
+import com.enonic.cms.core.country.CountryService;
 import com.enonic.cms.core.country.Region;
 import com.enonic.cms.core.preference.PreferenceEntity;
+import com.enonic.cms.core.preference.PreferenceSpecification;
 import com.enonic.cms.core.security.SecurityService;
+import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.userstore.MemberOfResolver;
+import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
+import com.enonic.cms.core.service.AdminService;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemSpecification;
@@ -49,10 +60,8 @@ import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
-
-import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.server.service.admin.ajax.dto.PreferenceDto;
+import com.enonic.cms.server.service.admin.ajax.dto.RegionDto;
 import com.enonic.cms.server.service.admin.ajax.dto.SynchronizeStatusDto;
 import com.enonic.cms.server.service.admin.ajax.dto.UserDto;
 import com.enonic.cms.store.dao.ContentDao;
@@ -62,21 +71,6 @@ import com.enonic.cms.store.dao.PortletDao;
 import com.enonic.cms.store.dao.PreferenceDao;
 import com.enonic.cms.store.dao.SiteDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.content.ContentService;
-import com.enonic.cms.core.content.ContentXMLCreator;
-import com.enonic.cms.core.content.access.ContentAccessResolver;
-
-import com.enonic.cms.core.security.userstore.MemberOfResolver;
-import com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory;
-import com.enonic.cms.core.country.CountryService;
-
-import com.enonic.cms.core.content.ContentVersionEntity;
-
-import com.enonic.cms.core.content.resultset.ContentResultSet;
-
-import com.enonic.cms.core.preference.PreferenceSpecification;
-import com.enonic.cms.core.security.group.GroupKey;
 
 @RemoteProxy(name = "AjaxService", creator = AdminAjaxServiceCreator.class)
 public class AdminAjaxServiceImpl
@@ -128,7 +122,7 @@ public class AdminAjaxServiceImpl
     private SyncUserStoreExecutorManager syncUserStoreExecutorManager;
 
     public void afterPropertiesSet()
-            throws Exception
+        throws Exception
     {
         this.syncUserStoreExecutorManager = new SyncUserStoreExecutorManager( this.syncUserStoreJobFactory );
     }
@@ -258,13 +252,13 @@ public class AdminAjaxServiceImpl
             HttpSession session = ServletRequestAccessor.getSession();
             if ( session == null )
             {
-                VerticalAdminLogger.errorAdmin("Http session is null", null );
+                VerticalAdminLogger.errorAdmin( "Http session is null", null );
 
                 return "ERROR: Http session is null";
             }
             String languageCode = (String) session.getAttribute( "languageCode" );
 
-            XMLDocument xslDoc = AdminStore.getStylesheetAsDocument( languageCode, xslPath);
+            XMLDocument xslDoc = AdminStore.getStylesheetAsDocument( languageCode, xslPath );
             URIResolver uriResolver = AdminStore.getURIResolver( languageCode );
             XsltProcessor processor = createProcessor( xslDoc.getSystemId(), xslDoc, uriResolver );
             return processor.process( new DOMSource( doc ) );
@@ -273,7 +267,7 @@ public class AdminAjaxServiceImpl
         catch ( XsltProcessorException xpe )
         {
             String msg = "Failed to transform xml: %t";
-            VerticalAdminLogger.errorAdmin(msg, xpe );
+            VerticalAdminLogger.errorAdmin( msg, xpe );
 
             return msg;
         }
@@ -281,7 +275,7 @@ public class AdminAjaxServiceImpl
     }
 
     private XsltProcessor createProcessor( String name, XMLDocument xslt, URIResolver uriResolver )
-            throws XsltProcessorException
+        throws XsltProcessorException
     {
         XsltResource resource = new XsltResource( name, xslt.getAsString() );
         XsltProcessorManager manager = XsltProcessorManagerAccessor.getProcessorManager();
@@ -302,13 +296,14 @@ public class AdminAjaxServiceImpl
         final Country country = countryService.getCountry( code );
 
         final ArrayList<RegionDto> list = new ArrayList<RegionDto>();
-        for (final Region region : country.getRegions()) {
+        for ( final Region region : country.getRegions() )
+        {
             final RegionDto dto = new RegionDto();
-            dto.setCode(region.getCode());
-            dto.setEnglishName(region.getEnglishName());
-            dto.setLocalName(region.getLocalName());
+            dto.setCode( region.getCode() );
+            dto.setEnglishName( region.getEnglishName() );
+            dto.setLocalName( region.getLocalName() );
 
-            list.add(dto);
+            list.add( dto );
         }
 
         return list;
@@ -328,9 +323,12 @@ public class AdminAjaxServiceImpl
     }
 
     @RemoteMethod
-    public boolean menuItemNameExistsUnderParent( String menuItemName, int existingMenuItemKey, int parentKey )
+    public boolean menuItemNameExistsUnderParent( String menuItemName, int existingMenuItemKeyInt, int parentKey )
     {
-        MenuItemSpecification menuItemSpec = new MenuItemSpecification();
+        final MenuItemKey existingMenuItemKey = new MenuItemKey( existingMenuItemKeyInt );
+        final MenuItemEntity existingMenuItem = menuItemDao.findByKey( existingMenuItemKey );
+        final MenuItemSpecification menuItemSpec = new MenuItemSpecification();
+        menuItemSpec.setSiteKey( existingMenuItem.getSite().getKey() );
         menuItemSpec.setMenuItemName( menuItemName );
 
         if ( parentKey >= 0 )
@@ -342,7 +340,7 @@ public class AdminAjaxServiceImpl
             menuItemSpec.setRootLevelOnly( true );
         }
 
-        List<MenuItemEntity> foundMenuItems = menuItemDao.findBySpecification( menuItemSpec );
+        final List<MenuItemEntity> foundMenuItems = menuItemDao.findBySpecification( menuItemSpec );
 
         if ( foundMenuItems.size() > 1 )
         {
@@ -365,10 +363,9 @@ public class AdminAjaxServiceImpl
         return false;
     }
 
-    private boolean menuItemNameExistsButItsMeSoItsOk( int existingMenuItemKey, List<MenuItemEntity> foundMenuItems )
+    private boolean menuItemNameExistsButItsMeSoItsOk( MenuItemKey existingMenuItemKey, List<MenuItemEntity> foundMenuItems )
     {
-        if ( foundMenuItems.get( 0 ) != null &&
-                foundMenuItems.get( 0 ).getMenuItemKey().equals( new MenuItemKey( existingMenuItemKey ) ) )
+        if ( foundMenuItems.get( 0 ) != null && foundMenuItems.get( 0 ).getMenuItemKey().equals( existingMenuItemKey ) )
         {
             return true;
         }
@@ -465,8 +462,7 @@ public class AdminAjaxServiceImpl
         for ( UserEntity user : foundUsers )
         {
 
-            AccessRightsResolver accessRightsResolver =
-                    new AccessRightsResolver( user, content, contentAccessResolver );
+            AccessRightsResolver accessRightsResolver = new AccessRightsResolver( user, content, contentAccessResolver );
 
             if ( doCheckAccessRights && !accessRightsResolver.hasAccess( accessType ) )
             {
@@ -598,8 +594,7 @@ public class AdminAjaxServiceImpl
 
         List<PreferenceEntity> preferences = preferenceDao.findBy( preferenceSpec );
 
-        PreferenceDtoCreator preferenceDtoCreator =
-                new PreferenceDtoCreator( portletDao, preferenceDao, siteDao, menuItemDao );
+        PreferenceDtoCreator preferenceDtoCreator = new PreferenceDtoCreator( portletDao, preferenceDao, siteDao, menuItemDao );
 
         for ( PreferenceEntity preference : preferences )
         {
