@@ -480,7 +480,7 @@ public final class InternalClientImpl
             AddMembershipsCommand command = new AddMembershipsCommand( groupSpec, executor.getKey() );
             for ( GroupEntity groupToJoin : groupsToJoin )
             {
-                command.addGroupsToAddTo( groupToJoin.getGroupKey() );
+                command.addGroupToAddTo( groupToJoin.getGroupKey() );
             }
 
             List<GroupEntity> joinedGroups = userStoreService.addMembershipsToGroup( command );

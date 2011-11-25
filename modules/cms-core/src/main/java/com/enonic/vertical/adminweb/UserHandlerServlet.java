@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -59,11 +60,13 @@ import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.ObjectClassesXmlCreator;
 import com.enonic.cms.core.security.PasswordGenerator;
+import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.group.GroupXmlCreator;
+import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
 import com.enonic.cms.core.security.user.DeleteUserCommand;
 import com.enonic.cms.core.security.user.DisplayNameResolver;
 import com.enonic.cms.core.security.user.QualifiedUsername;
@@ -77,10 +80,12 @@ import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.user.field.UserInfoXmlCreator;
+import com.enonic.cms.core.security.userstore.GroupMembershipDiffResolver;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 import com.enonic.cms.core.security.userstore.connector.config.InvalidUserStoreConnectorConfigException;
+import com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfig;
 import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 import com.enonic.cms.core.timezone.TimeZoneXmlCreator;
@@ -786,6 +791,7 @@ public class UserHandlerServlet
             try
             {
                 xslParams.put( "canUpdateUser", String.valueOf( userStoreService.canUpdateUser( userStoreKey ) ) );
+                xslParams.put( "canUpdateGroup", String.valueOf( userStoreService.canUpdateGroup( userStoreKey ) ) );
             }
             catch ( final InvalidUserStoreConnectorConfigException e )
             {
@@ -1534,34 +1540,16 @@ public class UserHandlerServlet
         UserStoreKey userStoreKey = new UserStoreKey( formItems.getInt( "userstorekey" ) );
         UserStoreEntity userStore = userStoreDao.findByKey( userStoreKey );
 
-        User oldUser = securityService.getLoggedInAdminConsoleUser();
-        UserEntity user = securityService.getUser( oldUser );
+        UserEntity user = securityService.getLoggedInAdminConsoleUserAsEntity();
 
         GroupKey enterpriseAdminGroupKey = securityService.getEnterpriseAdministratorGroup();
 
-        String uid = formItems.getString( "uid_dummy" );
-
         UserSpecification userSpecification = new UserSpecification();
-        userSpecification.setName( uid );
+        userSpecification.setName( formItems.getString( "uid_dummy" ) );
         userSpecification.setUserStoreKey( userStoreKey );
         userSpecification.setDeletedStateNotDeleted();
 
-        UpdateUserCommand command = new UpdateUserCommand( user.getKey(), userSpecification );
-        command.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_NEW );
-        command.setAllowUpdateSelf( true );
-        command.setDisplayName( formItems.getString( "display_name", "" ) );
-        command.setEmail( formItems.getString( "email", "" ) );
-
-        boolean syncMembershipsOnlyIfAllowed = false;
-        if ( memberOfResolver.hasEnterpriseAdminPowers( user.getKey() ) ||
-            memberOfResolver.hasUserStoreAdministratorPowers( user.getKey(), userStoreKey ) )
-        {
-            syncMembershipsOnlyIfAllowed = true;
-        }
-
-        command.setSyncMemberships( syncMembershipsOnlyIfAllowed );
-        command.setRemovePhoto( formItems.getBoolean( "remove_photo", false ) );
-
+        Set<GroupKey> requestedGroupMemberships = new HashSet<GroupKey>();
         if ( formItems.containsKey( "member" ) )
         {
             String[] groupArray;
@@ -1574,40 +1562,82 @@ public class UserHandlerServlet
                 groupArray = new String[]{formItems.getString( "member" )};
             }
 
-            boolean isEnterpriseAdmin = false;
-            if ( user.isEnterpriseAdmin() )
-            {
-                isEnterpriseAdmin = true;
-            }
-
-            boolean isUserstoreAdmin = false;
-            if ( user.isUserstoreAdmin( userStore ) )
-            {
-                isUserstoreAdmin = true;
-            }
-
             for ( String aGroupArray : groupArray )
             {
-                if ( isEnterpriseAdmin )
+                if ( user.isEnterpriseAdmin() )
                 {
-                    // access to all groups/users
-                    command.addMembership( new GroupKey( aGroupArray ) );
+                    requestedGroupMemberships.add( new GroupKey( aGroupArray ) );
                 }
-                else if ( !isEnterpriseAdmin && isUserstoreAdmin && enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
+                else if ( user.isUserstoreAdmin( userStore ) && enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                 {
                     throw new SecurityException( "No access to enterprise administrators group" );
                 }
-                else if ( !isEnterpriseAdmin && !enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
+                else if ( !enterpriseAdminGroupKey.toString().equalsIgnoreCase( aGroupArray ) )
                 {
-                    command.addMembership( new GroupKey( aGroupArray ) );
+                    requestedGroupMemberships.add( new GroupKey( aGroupArray ) );
                 }
             }
         }
 
-        final UserInfo userInfo = parseCustomUserFieldValues( userStoreKey, formItems, true );
-        command.setUserInfo( userInfo );
+        UserEntity userToUpdate = userDao.findSingleBySpecification( userSpecification );
+        UserStoreEntity us = userToUpdate.getUserStore();
 
-        userStoreService.updateUser( command );
+        // Removed when migrated to 4.6, because the following code only applies to remote user stores.
+        Boolean isUpdatableUser;
+        if ( us.isLocal() )
+        {
+            isUpdatableUser = true;
+        }
+        else  // Remote user store
+        {
+            UserStoreConnectorConfig policy = userStoreService.getUserStoreConnectorConfigs().get( us.getConnectorName() );
+            isUpdatableUser = policy.canUpdateUser();
+        }
+
+        if ( isUpdatableUser )
+        {
+            UpdateUserCommand command = new UpdateUserCommand( user.getKey(), userSpecification );
+            command.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_NEW );
+            command.setAllowUpdateSelf( true );
+            command.setDisplayName( formItems.getString( "display_name", "" ) );
+            command.setEmail( formItems.getString( "email", "" ) );
+            command.setRemovePhoto( formItems.getBoolean( "remove_photo", false ) );
+
+            final UserInfo userInfo = parseCustomUserFieldValues( userStoreKey, formItems, true );
+            command.setUserInfo( userInfo );
+
+            userStoreService.updateUser( command );
+        }
+
+        // Synch memberships is necessary rights:
+        if ( memberOfResolver.hasEnterpriseAdminPowers( user.getKey() ) ||
+            memberOfResolver.hasUserStoreAdministratorPowers( user.getKey(), userStoreKey ) )
+        {
+            final GroupEntity userGroupToUpdate = groupDao.findByKey( userToUpdate.getUserGroup().getGroupKey() );
+            GroupMembershipDiffResolver diffResolver = new GroupMembershipDiffResolver( userGroupToUpdate );
+            Set<GroupKey> groupsToJoin = diffResolver.findGroupsToJoin( requestedGroupMemberships );
+            Set<GroupKey> groupsToLeave = diffResolver.findGroupsToLeave( requestedGroupMemberships );
+
+            GroupSpecification userGroupToUpdateSpec = new GroupSpecification();
+            userGroupToUpdateSpec.setDeletedState( GroupSpecification.DeletedState.NOT_DELETED );
+            userGroupToUpdateSpec.setKey( userGroupToUpdate.getGroupKey() );
+
+            AddMembershipsCommand addMembershipsCommand = new AddMembershipsCommand( userGroupToUpdateSpec, user.getKey() );
+            addMembershipsCommand.addGroupsToAddTo( groupsToJoin );
+
+            RemoveMembershipsCommand removeMembershipsCommand = new RemoveMembershipsCommand( userGroupToUpdateSpec, user.getKey() );
+            removeMembershipsCommand.addGroupsToRemoveFrom( groupsToLeave );
+
+            if ( addMembershipsCommand.hasNewMemberships() )
+            {
+                userStoreService.addMembershipsToGroup( addMembershipsCommand );
+            }
+
+            if ( removeMembershipsCommand.hasMembershipsToRemove() )
+            {
+                userStoreService.removeMembershipsFromGroup( removeMembershipsCommand );
+            }
+        }
 
         MultiValueMap queryParams = new MultiValueMap();
 
@@ -1634,7 +1664,8 @@ public class UserHandlerServlet
             queryParams.put( "excludekey", formItems.getString( "excludekey" ) );
         }
 
-        if ( admin.isUserStoreAdmin( oldUser, userStoreKey ) )
+        if ( memberOfResolver.hasEnterpriseAdminPowers( user.getKey() ) ||
+            memberOfResolver.hasUserStoreAdministratorPowers( user.getKey(), userStoreKey ) )
         {
 
             queryParams.put( "page", formItems.get( "page" ) );
@@ -1643,14 +1674,14 @@ public class UserHandlerServlet
             if ( "true".equals( formItems.getString( "notification", "" ) ) )
             {
                 queryParams.put( "op", "notification" );
-                queryParams.put( "uid", uid );
+                queryParams.put( "uid", formItems.getString( "uid_dummy" ) );
             }
             else
             {
                 queryParams.put( "op", "browse" );
             }
         }
-        else
+        else  // Normal user, editing own profile.
         {
             queryParams.put( "page", "960" );
             queryParams.put( "op", "page" );

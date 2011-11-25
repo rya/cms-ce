@@ -7,9 +7,6 @@ package com.enonic.cms.core.security.user;
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
 
-/**
- * Jun 18, 2009
- */
 public class UpdateUserCommand
     extends AbstractMembershipsCommand
 {

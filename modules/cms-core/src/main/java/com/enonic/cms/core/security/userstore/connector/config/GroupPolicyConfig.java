@@ -73,6 +73,12 @@ public final class GroupPolicyConfig
                 "' cannot be combined with other policies" );
         }
 
+        if ( policyList.contains( POLICY_LOCAL ) && policyList.size() != 1 )
+        {
+            throw new InvalidUserStoreConnectorConfigException( configName, "Group policy '" + POLICY_LOCAL +
+                "' cannot be combined with other policies" );
+        }
+
         if ( policyList.contains( POLICY_LOCAL ) )
         {
             if ( policyList.size() != 1 )
