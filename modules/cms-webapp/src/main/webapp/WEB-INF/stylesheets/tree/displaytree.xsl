@@ -22,6 +22,7 @@
         <xsl:param name="hassiblingoverride" select="false()"/>
         <xsl:param name="sourceKey"/>
         <xsl:param name="target"/>
+        <xsl:param name="selectedmenukey"/>
 
         <xsl:variable name="hide">
             <xsl:apply-templates select="." mode="hide"/>
@@ -90,6 +91,7 @@
                                         </xsl:attribute>
                                         <xsl:variable name="imagestring">
                                             <xsl:choose>
+                                                <xsl:when test="($expanded = 'true' and $hassibling = 'true') and $selectedmenukey = $key">Tplus</xsl:when>
                                                 <xsl:when test="($expanded = 'true' and $hassibling = 'true')">Tminus</xsl:when>
                                                 <xsl:when test="($expanded = 'false' and $hassibling = 'true')">Tplus</xsl:when>
                                                 <xsl:when test="($expanded = 'true' and $hassibling = 'false')">Lminus</xsl:when>
@@ -269,7 +271,9 @@
                 </tr>
                 <xsl:if test="*">
                     <tr>
-                        <xsl:if test="not($expanded = 'true')">
+                        <!-- Make sure that selected menu is collapsed. It will be opened by menu.js -->
+                        <xsl:variable name="collapseSelectedMenu" select="($expanded = 'true' and $selectedmenukey = $key)"/>
+                        <xsl:if test="$collapseSelectedMenu or not($expanded = 'true')">
                             <xsl:attribute name="style">display: none</xsl:attribute>
                         </xsl:if>
                         <xsl:attribute name="id">
@@ -307,6 +311,7 @@
                                         <xsl:with-param name="linkshaded" select="$linkshaded"/>
                                         <xsl:with-param name="target" select="$target"/>
                                         <xsl:with-param name="sourceKey" select="$sourceKey"/>
+                                        <xsl:with-param name="selectedmenukey" select="$selectedmenukey"/>
                                     </xsl:apply-templates>
                                 </xsl:when>
                                 <xsl:otherwise>
@@ -319,6 +324,7 @@
                                         <xsl:with-param name="linkshaded" select="$linkshaded"/>
                                         <xsl:with-param name="target" select="$target"/>
                                         <xsl:with-param name="sourceKey" select="$sourceKey"/>
+                                        <xsl:with-param name="selectedmenukey" select="$selectedmenukey"/>
                                     </xsl:apply-templates>
                                 </xsl:otherwise>
                             </xsl:choose>

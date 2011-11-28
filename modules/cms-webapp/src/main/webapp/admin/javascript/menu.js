@@ -1,8 +1,10 @@
+
 var useCookies = true;
 var useCookieExpireDate = false;
 
 function openTree() {
-    for( key in branchOpen ) {
+    for( var key in branchOpen ) {
+
         if ( branchOpen[key] ){
             openBranch(key);
         }
@@ -15,9 +17,7 @@ function closeTree() {
 }
 
 function isBranchClosed(key) {
-  if (document.getElementById('id'+key)) {
-    return document.getElementById('id'+key).style.display == 'none';
-  }
+    return document.getElementById('id'+key) && document.getElementById('id'+key).style.display == 'none';
 }
 
 function decodeUtf8( str )
@@ -52,6 +52,7 @@ function openBranch(key) {
                 document.getElementById('img'+_key).src = 'javascript/images/Lminus.png';
             }
 
+            // TODO: Is this IF test needed? There is no key that begins with -site
             if (_key.search(/\-site/) == -1) {
                 branchOpen[_key] = true;
             }
@@ -66,6 +67,7 @@ function openBranch(key) {
                 document.getElementById('img'+_key).src = 'javascript/images/Lplus.png';
             }
 
+            // TODO: Is this IF test needed? There is no key that begins with -site
             if (_key.search(/\-site/) == -1) {
                 branchOpen[_key] = false;
             }
@@ -115,15 +117,33 @@ function loadMenu(menuKey, domainKey) {
     document.splash.submit();
 }
 
+function _removeCurrentMenuElementFromBranchOpen()
+{
+    for ( var key in branchOpen )
+    {
+        if ( /-menu\d/.test(key) )
+        {
+            delete branchOpen[key];
+        }
+    }
+}
+
 function loadBranch(type, key) {
+    var url;
     if (type == 'category') {
-    	var url = document.splash['redirect'].value;
+    	url = document.splash['redirect'].value;
     	url = setParameter(url, "selectedunitkey", key);
     	document.splash['redirect'].value = url;
     }
     else if (type == 'menu') {
-    	var url = document.splash['redirect'].value;
+    	url = document.splash['redirect'].value;
     	url = setParameter(url, "selectedmenukey", key);
+        if (useCookies) {
+            _removeCurrentMenuElementFromBranchOpen();
+            branchOpen['-menu' + key] = true;
+            setCookie();
+        }
+
     	document.splash['redirect'].value = url;
     }
     document.splash.submit();
