@@ -2,7 +2,7 @@ var useCookies = true;
 var useCookieExpireDate = false;
 
 function openTree() {
-    for( key in branchOpen ) {
+    for( var key in branchOpen ) {
         if ( branchOpen[key] ){
             openBranch(key);
         }

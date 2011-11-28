@@ -51,7 +51,7 @@
             if (end == -1)
               end = allcookies.length;
             var values = allcookies.substring(start, end).split(',');
-            for ( i in values )
+            for ( var i in values )
             {
               branchOpen[values[i]] = true;
             }
