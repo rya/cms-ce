@@ -20,6 +20,7 @@ import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
+import com.enonic.cms.api.client.model.DeleteUserParams;
 import com.enonic.cms.api.client.model.GetBinaryParams;
 import com.enonic.cms.api.client.model.GetCategoriesParams;
 import com.enonic.cms.api.client.model.GetContentBinaryParams;
@@ -213,15 +214,21 @@ public abstract class ClientWrapper
         return this.delegate.createContent( params );
     }
 
+    public String createUser( CreateUserParams params )
+        throws ClientException
+    {
+        return delegate.createUser( params );
+    }
+
+    public void deleteUser( DeleteUserParams params )
+        throws ClientException
+    {
+        delegate.deleteUser( params );
+    }
+
     public int createCategory( CreateCategoryParams params )
     {
         return delegate.createCategory( params );
-    }
-
-    public String createUser( CreateUserParams params )
-            throws ClientException
-    {
-        return delegate.createUser( params );
     }
 
     public int updateContent( UpdateContentParams params )
@@ -491,7 +498,7 @@ public abstract class ClientWrapper
     }
 
     public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
-            throws ClientException
+        throws ClientException
     {
         return this.delegate.getContentTypeConfigXML( params );
     }

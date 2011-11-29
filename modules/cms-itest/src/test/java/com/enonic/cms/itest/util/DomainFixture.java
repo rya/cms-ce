@@ -5,10 +5,12 @@
 package com.enonic.cms.itest.util;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.vertical.VerticalProperties;
+
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerKey;
@@ -22,6 +24,7 @@ import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.language.LanguageEntity;
 import com.enonic.cms.core.security.SecurityHolder;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
@@ -57,6 +60,10 @@ public class DomainFixture
 
     public void initSystemData()
     {
+        Properties properties = new Properties();
+        properties.setProperty( "cms.admin.password", "password" );
+        VerticalProperties.getVerticalProperties().setProperties( properties );
+
         hibernateTemplate.clear();
 
         save( factory.createLanguage( "en" ) );

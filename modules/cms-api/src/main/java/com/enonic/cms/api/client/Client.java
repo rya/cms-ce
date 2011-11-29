@@ -20,6 +20,7 @@ import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
+import com.enonic.cms.api.client.model.DeleteUserParams;
 import com.enonic.cms.api.client.model.GetBinaryParams;
 import com.enonic.cms.api.client.model.GetCategoriesParams;
 import com.enonic.cms.api.client.model.GetContentBinaryParams;
@@ -174,10 +175,13 @@ public interface Client
     public void deleteGroup( DeleteGroupParams params )
         throws ClientException;
 
-    public int createCategory( CreateCategoryParams params )
+    public String createUser( CreateUserParams params )
         throws ClientException;
 
-    public String createUser( CreateUserParams params )
+    public void deleteUser( DeleteUserParams params )
+        throws ClientException;
+
+    public int createCategory( CreateCategoryParams params )
         throws ClientException;
 
     public int createContent( CreateContentParams params )
@@ -320,5 +324,6 @@ public interface Client
     public void clearPageCacheForContent( Integer[] contentKeys )
         throws ClientException;
 
-    public Document getContentTypeConfigXML(GetContentTypeConfigXMLParams params) throws ClientException;
+    public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
+        throws ClientException;
 }

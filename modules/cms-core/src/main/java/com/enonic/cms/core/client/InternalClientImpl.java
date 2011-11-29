@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLException;
 
@@ -40,6 +39,7 @@ import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
+import com.enonic.cms.api.client.model.DeleteUserParams;
 import com.enonic.cms.api.client.model.GetBinaryParams;
 import com.enonic.cms.api.client.model.GetCategoriesParams;
 import com.enonic.cms.api.client.model.GetContentBinaryParams;
@@ -143,10 +143,12 @@ import com.enonic.cms.core.security.group.GroupXmlCreator;
 import com.enonic.cms.core.security.group.QualifiedGroupname;
 import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
 import com.enonic.cms.core.security.group.StoreNewGroupCommand;
+import com.enonic.cms.core.security.user.DeleteUserCommand;
 import com.enonic.cms.core.security.user.DisplayNameResolver;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.StoreNewUserCommand;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.user.UserXmlCreator;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
@@ -154,6 +156,7 @@ import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.service.DataSourceService;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
+import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
@@ -840,9 +843,28 @@ public final class InternalClientImpl
 
             return userStoreService.storeNewUser( storeNewUserCommand ).toString();
         }
-        catch ( ClientException e )
+        catch ( Exception e )
         {
-            throw e;
+            throw handleException( e );
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public void deleteUser( DeleteUserParams params )
+    {
+        try
+        {
+            if ( StringUtils.isBlank( params.user ) )
+            {
+                throw new IllegalArgumentException( "user cannot be blank" );
+            }
+
+            final UserEntity deleter = securityService.getRunAsUser();
+            final UserEntity user = userParser.parseUser( params.user );
+
+            final DeleteUserCommand deleteUserCommand =
+                new DeleteUserCommand( deleter.getKey(), UserSpecification.usingKey( user.getKey() ) );
+            userStoreService.deleteUser( deleteUserCommand );
         }
         catch ( Exception e )
         {

@@ -85,7 +85,7 @@ public class UserParser
             // User not in db, try trigging a synchronize against user storeage...
             UserStoreKey userStoreKey = qualifiedUsername.getUserStoreKey();
             String uid = qualifiedUsername.getUsername();
-            UserKey userKey = userStoreService.synchronizeUser( userStoreKey, uid );
+            UserKey userKey = userStoreService.synchronizeUser( userStoreKey, user.getSync() );
 
             if ( userKey == null )
             {

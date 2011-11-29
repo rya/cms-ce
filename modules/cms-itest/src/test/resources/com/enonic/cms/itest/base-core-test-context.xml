@@ -9,300 +9,301 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <import resource="classpath:/com/enonic/cms/itest/base-persist-test-context.xml"/>
+  <import resource="classpath:/com/enonic/cms/itest/base-persist-test-context.xml"/>
 
-    <bean id="config" class="com.enonic.cms.itest.config.MockGlobalConfig"/>
+  <bean id="config" class="com.enonic.cms.itest.config.MockGlobalConfig"/>
 
-    <bean id="pluginManager" class="com.enonic.cms.itest.plugin.MockPluginManager"/>
-    
-    <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
+  <bean id="pluginManager" class="com.enonic.cms.itest.plugin.MockPluginManager"/>
 
-    <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
-        <property name="timeService" ref="timeService"/>
-        <property name="keyService" ref="keyService"/>
-    </bean>
+  <bean id="indexService" class="com.enonic.cms.core.content.IndexServiceImpl"/>
 
-    <bean id="contentStorer" class="com.enonic.cms.core.content.ContentStorer"/>
+  <bean id="categoryService" class="com.enonic.cms.core.content.category.CategoryServiceImpl">
+    <property name="timeService" ref="timeService"/>
+    <property name="keyService" ref="keyService"/>
+  </bean>
 
-    <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
-        <property name="contentStorer" ref="contentStorer"/>
-    </bean>
+  <bean id="contentStorer" class="com.enonic.cms.core.content.ContentStorer"/>
 
-    <bean id="importService" class="com.enonic.cms.core.content.imports.ImportServiceImpl"/>
+  <bean id="contentService" class="com.enonic.cms.core.content.ContentServiceImpl">
+    <property name="contentStorer" ref="contentStorer"/>
+  </bean>
 
-    <bean id="importJobFactory" class="com.enonic.cms.core.content.imports.ImportJobFactory"/>
+  <bean id="importService" class="com.enonic.cms.core.content.imports.ImportServiceImpl"/>
 
-    <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
+  <bean id="importJobFactory" class="com.enonic.cms.core.content.imports.ImportJobFactory"/>
 
-    <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
+  <bean id="contentIndexService" class="com.enonic.cms.core.content.index.ContentIndexServiceImpl"/>
 
-    <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
+  <bean id="securityService" class="com.enonic.cms.core.security.SecurityServiceImpl"/>
 
-    <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
+  <bean id="contentSecurityFilterResolver" class="com.enonic.cms.core.content.ContentSecurityFilterResolver"/>
 
-    <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
+  <bean id="contentValidator" class="com.enonic.cms.core.content.ContentValidator"/>
 
-    <bean id="synchronizeUserStoreJobFactory"
-          class="com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
+  <bean id="verticalProperties" class="com.enonic.vertical.VerticalProperties"/>
 
-    <bean id="userStoreService" class="com.enonic.cms.core.security.userstore.UserStoreServiceImpl"/>
+  <bean id="synchronizeUserStoreJobFactory"
+        class="com.enonic.cms.core.security.userstore.connector.synchronize.SynchronizeUserStoreJobFactory"/>
 
-    <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
+  <bean id="userStoreService" class="com.enonic.cms.core.security.userstore.UserStoreServiceImpl"/>
 
-    <bean id="memberOfResolver" class="com.enonic.cms.core.security.userstore.MemberOfResolver"/>
+  <bean id="groupAccessResolver" class="com.enonic.cms.core.security.group.access.GroupAccessResolverImpl"/>
 
-    <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver">
-        <property name="memberOfResolver" ref="memberOfResolver"/>
-    </bean>
+  <bean id="memberOfResolver" class="com.enonic.cms.core.security.userstore.MemberOfResolver"/>
 
-    <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
+  <bean id="userStoreAccessResolver" class="com.enonic.cms.core.security.userstore.UserStoreAccessResolver">
+    <property name="memberOfResolver" ref="memberOfResolver"/>
+  </bean>
 
-    <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
+  <bean id="groupStorageService" class="com.enonic.cms.core.security.group.GroupStorageService"/>
 
-    <bean id="userStoreConnectorConfigLoader"
-          class="com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
+  <bean id="userStorageService" class="com.enonic.cms.core.security.userstore.UserStorageService"/>
 
-    <bean id="remoteUserStoreFactory"
-          class="com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
+  <bean id="userStoreConnectorConfigLoader"
+        class="com.enonic.cms.core.security.userstore.connector.config.UserStoreConnectorConfigLoader"/>
 
-    <bean id="userStoreConnectorManager" class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl"/>
+  <bean id="remoteUserStoreFactory"
+        class="com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUserStoreFactory"/>
 
-    <bean id="timeService" class="com.enonic.cms.core.time.SystemTimeService"/>
+  <bean id="userStoreConnectorManager" class="com.enonic.cms.core.security.userstore.UserStoreConnectorManagerImpl"/>
 
-    <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
+  <bean id="timeService" class="com.enonic.cms.core.time.SystemTimeService"/>
 
-    <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
+  <bean id="logService" class="com.enonic.cms.core.log.LogServiceImpl"/>
 
-    <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
-        <property name="blobStore" ref="blobStore"/>
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+  <bean id="blobStore" class="com.enonic.cms.framework.blob.memory.MemoryBlobStore"/>
 
-    <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
+  <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
+    <property name="blobStore" ref="blobStore"/>
+    <property name="sessionFactory" ref="sessionFactory"/>
+  </bean>
 
-    <bean id="livePortalTraceService" class="com.enonic.cms.core.portal.livetrace.LivePortalTraceServiceImpl">
-        <property name="enabled" value="false"/>
-        <property name="longestSize" value="1"/>
-        <property name="historySize" value="1"/>
-    </bean>
+  <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
 
-    <bean id="siteCachesService" class="com.enonic.cms.itest.portal.cache.MockSiteCachesService"/>
+  <bean id="livePortalTraceService" class="com.enonic.cms.core.portal.livetrace.LivePortalTraceServiceImpl">
+    <property name="enabled" value="false"/>
+    <property name="longestSize" value="1"/>
+    <property name="historySize" value="1"/>
+  </bean>
 
-    <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
-        <property name="internalClientContentService" ref="internalClientContentService"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="userParser" ref="userParser"/>
-        <property name="livePortalTraceService" ref="livePortalTraceService"/>
-    </bean>
+  <bean id="siteCachesService" class="com.enonic.cms.itest.portal.cache.MockSiteCachesService"/>
 
-    <bean id="internalClientContentService"
-          class="com.enonic.cms.core.client.InternalClientContentService">
-        <property name="siteCachesService" ref="siteCachesService"/>
-        <property name="userParser" ref="userParser"/>
-    </bean>
+  <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
+    <property name="internalClientContentService" ref="internalClientContentService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="userParser" ref="userParser"/>
+    <property name="userStoreParser" ref="userStoreParser"/>
+    <property name="livePortalTraceService" ref="livePortalTraceService"/>
+  </bean>
 
-    <bean id="internalClientRenderService"
-          class="com.enonic.cms.core.client.InternalClientRenderService"/>
+  <bean id="internalClientContentService"
+        class="com.enonic.cms.core.client.InternalClientContentService">
+    <property name="siteCachesService" ref="siteCachesService"/>
+    <property name="userParser" ref="userParser"/>
+  </bean>
 
-    <bean id="portalRequestService" class="com.enonic.cms.core.portal.PortalRequestServiceImpl">
-    </bean>
+  <bean id="internalClientRenderService"
+        class="com.enonic.cms.core.client.InternalClientRenderService"/>
 
-    <bean id="pageRendererFactory" class="com.enonic.cms.core.portal.rendering.PageRendererFactory"/>
+  <bean id="portalRequestService" class="com.enonic.cms.core.portal.PortalRequestServiceImpl">
+  </bean>
 
-    <bean id="windowRendererFactory" class="com.enonic.cms.core.portal.rendering.WindowRendererFactory"/>
+  <bean id="pageRendererFactory" class="com.enonic.cms.core.portal.rendering.PageRendererFactory"/>
 
-    <bean id="preferenceService" class="com.enonic.cms.core.preference.PreferenceServiceImpl"/>
+  <bean id="windowRendererFactory" class="com.enonic.cms.core.portal.rendering.WindowRendererFactory"/>
 
-    <bean id="datasourcesContextXmlCreator"
-          class="com.enonic.cms.core.portal.datasource.context.DatasourcesContextXmlCreator"/>
+  <bean id="preferenceService" class="com.enonic.cms.core.preference.PreferenceServiceImpl"/>
 
-    <bean id="datasourceExecutorFactory" class="com.enonic.cms.core.portal.datasource.DatasourceExecutorFactory"/>
+  <bean id="datasourcesContextXmlCreator"
+        class="com.enonic.cms.core.portal.datasource.context.DatasourcesContextXmlCreator"/>
 
-    <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
+  <bean id="datasourceExecutorFactory" class="com.enonic.cms.core.portal.datasource.DatasourceExecutorFactory"/>
 
-    <bean class="com.enonic.cms.core.client.LocalClientSetter">
-        <property name="localClient" ref="localClient"/>
-    </bean>
+  <bean id="resourceService" class="com.enonic.cms.core.resource.ResourceServiceImpl"/>
 
-    <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
+  <bean class="com.enonic.cms.core.client.LocalClientSetter">
+    <property name="localClient" ref="localClient"/>
+  </bean>
 
-    <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
+  <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
 
-    <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
-        <property name="securityService" ref="securityService"/>
-        <property name="loginService" ref="loginService"/>
-    </bean>
+  <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
 
-    <bean id="loginService" class="com.enonic.cms.core.login.LoginServiceImpl">
-        <property name="autologinTimeoutInDays"
-                  value="1"/>
-    </bean>
+  <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
+    <property name="securityService" ref="securityService"/>
+    <property name="loginService" ref="loginService"/>
+  </bean>
 
-    <bean id="imageCache" class="com.enonic.cms.core.image.cache.ImageCacheFactory">
-        <property name="cacheName" value="image"/>
-        <property name="cacheManager" ref="cacheFacadeManager"/>
-    </bean>
+  <bean id="loginService" class="com.enonic.cms.core.login.LoginServiceImpl">
+    <property name="autologinTimeoutInDays"
+              value="1"/>
+  </bean>
 
-    <bean id="imageService" class="com.enonic.cms.core.portal.image.ImageServiceImpl">
-        <property name="imageCache" ref="imageCache"/>
-        <property name="blobStore" ref="blobStore"/>
-    </bean>
+  <bean id="imageCache" class="com.enonic.cms.core.image.cache.ImageCacheFactory">
+    <property name="cacheName" value="image"/>
+    <property name="cacheManager" ref="cacheFacadeManager"/>
+  </bean>
 
-    <bean id="sitePathResolver" class="com.enonic.cms.core.SitePathResolver">
-        <property name="sitePathPrefix" value="/site"/>
-        <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
-    </bean>
+  <bean id="imageService" class="com.enonic.cms.core.portal.image.ImageServiceImpl">
+    <property name="imageCache" ref="imageCache"/>
+    <property name="blobStore" ref="blobStore"/>
+  </bean>
 
-    <bean id="urlPathHelperManager" class="com.enonic.cms.core.UrlPathHelperManager">
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
+  <bean id="sitePathResolver" class="com.enonic.cms.core.SitePathResolver">
+    <property name="sitePathPrefix" value="/site"/>
+    <property name="urlPathHelperManager" ref="urlPathHelperManager"/>
+  </bean>
 
-    <bean id="sitePropertiesService" class="com.enonic.cms.core.MockSitePropertiesService">
-    </bean>
+  <bean id="urlPathHelperManager" class="com.enonic.cms.core.UrlPathHelperManager">
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+  </bean>
 
-    <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
-    </bean>
+  <bean id="sitePropertiesService" class="com.enonic.cms.core.MockSitePropertiesService">
+  </bean>
 
-    <bean id="siteService" class="com.enonic.cms.core.structure.SiteServiceImpl">
-        <property name="siteCachesService" ref="siteCachesService"/>
-        <property name="siteContextManager">
-            <bean class="com.enonic.cms.core.structure.SiteContextManager"/>
-        </property>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="siteDao" ref="siteDao"/>
-        <property name="userDao" ref="userDao"/>
-    </bean>
+  <bean id="keyService" class="com.enonic.cms.itest.MockKeyService">
+  </bean>
 
-    <bean id="siteURLResolver" class="com.enonic.cms.core.SiteURLResolver">
-        <property name="sitePathPrefix" value="/site"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
+  <bean id="siteService" class="com.enonic.cms.core.structure.SiteServiceImpl">
+    <property name="siteCachesService" ref="siteCachesService"/>
+    <property name="siteContextManager">
+      <bean class="com.enonic.cms.core.structure.SiteContextManager"/>
+    </property>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="siteDao" ref="siteDao"/>
+    <property name="userDao" ref="userDao"/>
+  </bean>
 
-    <bean id="pageTemplateXsltViewTransformer"
-          class="com.enonic.cms.core.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
+  <bean id="siteURLResolver" class="com.enonic.cms.core.SiteURLResolver">
+    <property name="sitePathPrefix" value="/site"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+  </bean>
 
-    <bean id="portletXsltViewTransformer"
-          class="com.enonic.cms.core.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
+  <bean id="pageTemplateXsltViewTransformer"
+        class="com.enonic.cms.core.portal.rendering.viewtransformer.PageTemplateXsltViewTransformer"/>
 
-    <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
-        <property name="timeService" ref="timeService"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-    </bean>
+  <bean id="portletXsltViewTransformer"
+        class="com.enonic.cms.core.portal.rendering.viewtransformer.PortletXsltViewTransformer"/>
 
-    <bean id="calendarService" class="com.enonic.cms.core.calendar.CalendarService"/>
+  <bean id="dataSourceService" class="com.enonic.cms.core.service.DataSourceServiceImpl">
+    <property name="timeService" ref="timeService"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+  </bean>
 
-    <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl"/>
+  <bean id="calendarService" class="com.enonic.cms.core.calendar.CalendarService"/>
 
-    <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
-
-    <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
-
-    <bean id="portalAccessService" class="com.enonic.cms.core.portal.PortalAccessService"/>
-
-    <bean id="pageRequestProcessorFactory" class="com.enonic.cms.core.portal.processor.PageRequestProcessorFactory"/>
-
-    <bean id="localeResolverService"
-          class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
-        <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
-    </bean>
-
-    <bean id="localeXsltScriptResolver"
-          class="com.enonic.cms.core.resolver.locale.LocaleXsltScriptResolver"/>
-
-    <bean id="cookieOrSessionForcedResolverValueService"
-          class="com.enonic.cms.core.resolver.ForceResolverValueServiceImpl"/>
-
-    <bean id="sessionCachedResolverValueService"
-          class="com.enonic.cms.core.resolver.CacheResolverValueServiceImpl"/>
-
-    <bean id="resolverInputXMLCreator"
-          class="com.enonic.cms.core.resolver.ResolverInputXMLCreator"/>
-
-    <bean id="resolverXMLCreator"
-          class="com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator"/>
-
-    <bean id="resolverInputCreator"
-          class="com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator"/>
-
-    <bean id="deviceClassificationService"
-          class="com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl">
-        <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
-    </bean>
-
-    <bean id="deviceClassXsltScriptResolver"
-          class="com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
-
-    <bean id="tightestCacheSettingsResolver"
-          class="com.enonic.cms.core.TightestCacheSettingsResolver"/>
-
-    <bean id="postProcessInstructionExecutor"
-          class="com.enonic.cms.core.portal.instruction.PostProcessInstructionExecutorImpl"/>
-
-    <bean id="cacheFacadeManager" class="com.enonic.cms.framework.cache.CacheManagerFactory">
-    </bean>
-
-    <bean id="urlDecodingUrlPathHelper" class="org.springframework.web.util.UrlPathHelper">
-        <property name="urlDecode" value="true"/>
-    </bean>
-
-    <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
-
-    <bean id="siteRedirectAndForwardHelper"
-          class="com.enonic.cms.core.SiteRedirectAndForwardHelper">
-        <property name="replaceSpacesWithPlus" value="true"/>
-    </bean>
-
-    <bean id="abstractSiteController" class="com.enonic.cms.core.portal.mvc.controller.AbstractSiteController"
-          abstract="true">
-        <property name="cacheSeconds" value="-1"/>
-        <property name="siteDao" ref="siteDao"/>
-    </bean>
-
-
-    <bean id="attachmentController" class="com.enonic.cms.core.portal.mvc.controller.AttachmentController"
-          parent="abstractSiteController">
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="siteService" ref="siteService"/>
-        <property name="autoLoginService" ref="autoLoginService"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="livePortalTraceService" ref="livePortalTraceService"/>
-        <property name="previewService" ref="previewService"/>
-        <property name="timeService" ref="timeService"/>
-        <property name="binaryDataDao" ref="binaryDataDao"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="siteDao" ref="siteDao"/>
-        <property name="userDao" ref="userDao"/>
-        <property name="groupDao" ref="groupDao"/>
-    </bean>
-
-    <bean id="attachmentControllerForAdmin" class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
-        <property name="securityService" ref="securityService"/>
-        <property name="binaryDataDao" ref="binaryDataDao"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="groupDao" ref="groupDao"/>
-        <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
-    </bean>
-
-    <bean id="imageController" class="com.enonic.cms.core.portal.mvc.controller.ImageController">
-        <property name="autoLoginService" ref="autoLoginService"/>
-        <property name="disableParamEncoding" value="true"/>
-        <property name="imageService" ref="imageService"/>
-        <property name="livePortalTraceService" ref="livePortalTraceService"/>
-        <property name="previewService" ref="previewService"/>
-        <property name="securityService" ref="securityService"/>
-        <property name="sitePathResolver" ref="sitePathResolver"/>
-        <property name="siteService" ref="siteService"/>
-        <property name="sitePropertiesService" ref="sitePropertiesService"/>
-        <property name="timeService" ref="timeService"/>
-        <property name="siteDao" ref="siteDao"/>
-        <property name="contentDao" ref="contentDao"/>
-        <property name="groupDao" ref="groupDao"/>
-        <property name="userDao" ref="userDao"/>
-    </bean>
-
-    <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
-
-    <bean id="httpService" class="com.enonic.cms.core.http.HTTPService"/>
+  <bean id="countryService" class="com.enonic.cms.core.country.CountryServiceImpl"/>
+
+  <bean id="localeService" class="com.enonic.cms.core.locale.LocaleServiceImpl"/>
+
+  <bean id="timeZoneService" class="com.enonic.cms.core.timezone.TimeZoneServiceImpl"/>
+
+  <bean id="portalAccessService" class="com.enonic.cms.core.portal.PortalAccessService"/>
+
+  <bean id="pageRequestProcessorFactory" class="com.enonic.cms.core.portal.processor.PageRequestProcessorFactory"/>
+
+  <bean id="localeResolverService"
+        class="com.enonic.cms.core.resolver.locale.LocaleResolverServiceImpl">
+    <property name="localeScriptResolver" ref="localeXsltScriptResolver"/>
+  </bean>
+
+  <bean id="localeXsltScriptResolver"
+        class="com.enonic.cms.core.resolver.locale.LocaleXsltScriptResolver"/>
+
+  <bean id="cookieOrSessionForcedResolverValueService"
+        class="com.enonic.cms.core.resolver.ForceResolverValueServiceImpl"/>
+
+  <bean id="sessionCachedResolverValueService"
+        class="com.enonic.cms.core.resolver.CacheResolverValueServiceImpl"/>
+
+  <bean id="resolverInputXMLCreator"
+        class="com.enonic.cms.core.resolver.ResolverInputXMLCreator"/>
+
+  <bean id="resolverXMLCreator"
+        class="com.enonic.cms.core.resolver.ResolverHttpRequestInputXMLCreator"/>
+
+  <bean id="resolverInputCreator"
+        class="com.enonic.cms.core.resolver.ResolverHttpRequestInputCreator"/>
+
+  <bean id="deviceClassificationService"
+        class="com.enonic.cms.core.resolver.deviceclass.DeviceClassResolverServiceImpl">
+    <property name="deviceClassScriptResolver" ref="deviceClassXsltScriptResolver"/>
+  </bean>
+
+  <bean id="deviceClassXsltScriptResolver"
+        class="com.enonic.cms.core.resolver.deviceclass.DeviceClassXsltScriptResolver"/>
+
+  <bean id="tightestCacheSettingsResolver"
+        class="com.enonic.cms.core.TightestCacheSettingsResolver"/>
+
+  <bean id="postProcessInstructionExecutor"
+        class="com.enonic.cms.core.portal.instruction.PostProcessInstructionExecutorImpl"/>
+
+  <bean id="cacheFacadeManager" class="com.enonic.cms.framework.cache.CacheManagerFactory">
+  </bean>
+
+  <bean id="urlDecodingUrlPathHelper" class="org.springframework.web.util.UrlPathHelper">
+    <property name="urlDecode" value="true"/>
+  </bean>
+
+  <bean id="menuItemService" class="com.enonic.cms.core.structure.menuitem.MenuItemServiceImpl"/>
+
+  <bean id="siteRedirectAndForwardHelper"
+        class="com.enonic.cms.core.SiteRedirectAndForwardHelper">
+    <property name="replaceSpacesWithPlus" value="true"/>
+  </bean>
+
+  <bean id="abstractSiteController" class="com.enonic.cms.core.portal.mvc.controller.AbstractSiteController"
+        abstract="true">
+    <property name="cacheSeconds" value="-1"/>
+    <property name="siteDao" ref="siteDao"/>
+  </bean>
+
+
+  <bean id="attachmentController" class="com.enonic.cms.core.portal.mvc.controller.AttachmentController"
+        parent="abstractSiteController">
+    <property name="sitePathResolver" ref="sitePathResolver"/>
+    <property name="siteService" ref="siteService"/>
+    <property name="autoLoginService" ref="autoLoginService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="livePortalTraceService" ref="livePortalTraceService"/>
+    <property name="previewService" ref="previewService"/>
+    <property name="timeService" ref="timeService"/>
+    <property name="binaryDataDao" ref="binaryDataDao"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="siteDao" ref="siteDao"/>
+    <property name="userDao" ref="userDao"/>
+    <property name="groupDao" ref="groupDao"/>
+  </bean>
+
+  <bean id="attachmentControllerForAdmin" class="com.enonic.cms.server.service.admin.mvc.controller.AttachmentController">
+    <property name="securityService" ref="securityService"/>
+    <property name="binaryDataDao" ref="binaryDataDao"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="groupDao" ref="groupDao"/>
+    <property name="urlEncodingUrlPathHelper" ref="urlDecodingUrlPathHelper"/>
+  </bean>
+
+  <bean id="imageController" class="com.enonic.cms.core.portal.mvc.controller.ImageController">
+    <property name="autoLoginService" ref="autoLoginService"/>
+    <property name="disableParamEncoding" value="true"/>
+    <property name="imageService" ref="imageService"/>
+    <property name="livePortalTraceService" ref="livePortalTraceService"/>
+    <property name="previewService" ref="previewService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="sitePathResolver" ref="sitePathResolver"/>
+    <property name="siteService" ref="siteService"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="timeService" ref="timeService"/>
+    <property name="siteDao" ref="siteDao"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="groupDao" ref="groupDao"/>
+    <property name="userDao" ref="userDao"/>
+  </bean>
+
+  <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
+
+  <bean id="httpService" class="com.enonic.cms.core.http.HTTPService"/>
 
 </beans>

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Random;
 
-import com.enonic.cms.itest.util.MockHTTPServer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.enonic.vertical.VerticalProperties;
 
 import com.enonic.cms.core.http.HTTPService;
+import com.enonic.cms.itest.util.MockHTTPServer;
 
 import static org.junit.Assert.*;
 
@@ -37,20 +37,15 @@ public class HTTPServiceTest
 
     @Before
     public void before()
+        throws IOException
     {
-        try
-        {
-            serverPort = random( 8090, 9090 );
-            httpServer = new MockHTTPServer( serverPort );
-            Properties props = new Properties();
-            props.setProperty( "cms.enonic.vertical.presentation.dataSource.getUrl.userAgent",
-                               "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)" );
-            VerticalProperties.getVerticalProperties().setProperties( props );
-        }
-        catch ( IOException e )
-        {
-            e.printStackTrace();
-        }
+        serverPort = random( 8090, 9090 );
+        httpServer = new MockHTTPServer( serverPort );
+        Properties props = new Properties();
+        props.setProperty( "cms.enonic.vertical.presentation.dataSource.getUrl.userAgent",
+                           "Mozilla/4.0 (compatible; MSIE 7.0b; Windows NT 6.0)" );
+        VerticalProperties.getVerticalProperties().setProperties( props );
+
     }
 
     @After

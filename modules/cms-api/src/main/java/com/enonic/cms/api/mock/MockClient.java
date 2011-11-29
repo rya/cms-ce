@@ -22,6 +22,7 @@ import com.enonic.cms.api.client.model.DeleteCategoryParams;
 import com.enonic.cms.api.client.model.DeleteContentParams;
 import com.enonic.cms.api.client.model.DeleteGroupParams;
 import com.enonic.cms.api.client.model.DeletePreferenceParams;
+import com.enonic.cms.api.client.model.DeleteUserParams;
 import com.enonic.cms.api.client.model.GetBinaryParams;
 import com.enonic.cms.api.client.model.GetCategoriesParams;
 import com.enonic.cms.api.client.model.GetContentBinaryParams;
@@ -179,6 +180,12 @@ public class MockClient
     public String createUser( CreateUserParams params )
     {
         return null;
+    }
+
+    public void deleteUser( DeleteUserParams params )
+        throws ClientException
+    {
+
     }
 
     public int createCategory( CreateCategoryParams params )
@@ -388,7 +395,7 @@ public class MockClient
     }
 
     public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
-            throws ClientException
+        throws ClientException
     {
         return null;
     }

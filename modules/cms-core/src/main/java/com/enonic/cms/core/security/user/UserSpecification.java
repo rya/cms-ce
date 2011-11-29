@@ -14,6 +14,13 @@ import com.enonic.cms.core.security.userstore.UserStoreKey;
  */
 public class UserSpecification
 {
+    public static UserSpecification usingKey( UserKey key )
+    {
+        UserSpecification spec = new UserSpecification();
+        spec.setKey( key );
+        return spec;
+    }
+
     public enum DeletedState
     {
         NOT_DELETED,
