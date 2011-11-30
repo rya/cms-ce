@@ -20,16 +20,14 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-import com.google.common.collect.Lists;
-
 import com.enonic.cms.framework.hibernate.support.SelectBuilder;
 
-import com.enonic.cms.store.support.EntityPageList;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
+import com.enonic.cms.store.support.EntityPageList;
 
 @Repository("groupDao")
 public final class GroupEntityDao
@@ -217,11 +215,6 @@ public final class GroupEntityDao
 
     public List<GroupEntity> findBySpecification( GroupSpecification spec )
     {
-        if ( spec.getKey() != null )
-        {
-            return Lists.newArrayList( findByKey( spec.getKey() ) );
-        }
-
         String hqlQuery = createHqlQuery( spec );
 
         Query compiled = getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery( hqlQuery );
