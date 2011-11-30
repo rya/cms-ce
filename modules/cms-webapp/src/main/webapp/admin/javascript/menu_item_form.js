@@ -126,9 +126,9 @@ function menuitem_name_lockClickCallback( defaultPlaceHolderText )
 }
 // -----------------------------------------------------------------------------------------------------------------------------------------
 
-function menuitem_checkIfMenuItemNameExistsAndSubmit( nameElem, existingMenuItemKey, parentKey, tabPane )
+function menuitem_checkIfMenuItemNameExistsAndSubmit( siteKey, nameElem, existingMenuItemKey, parentKey, tabPane )
 {
-    AjaxService.menuItemNameExistsUnderParent( nameElem.value, existingMenuItemKey, parentKey, {
+    AjaxService.menuItemNameExistsUnderParent( siteKey, nameElem.value, existingMenuItemKey, parentKey, {
         callback : function(exists) {
             if ( exists )
             {
@@ -137,7 +137,6 @@ function menuitem_checkIfMenuItemNameExistsAndSubmit( nameElem, existingMenuItem
             }
             else
             {
-                var form = document.forms['formAdmin'];
                 var buttons = new Array("save", "cancel", "preview");
                 var cancelButtonAnchorElemWrapper = document.getElementById("cancel2");
 
@@ -148,8 +147,7 @@ function menuitem_checkIfMenuItemNameExistsAndSubmit( nameElem, existingMenuItem
                 {
                     cancelButtonAnchorElemWrapper.href = '#';
                 }
-
-                form.submit();
+                document.forms['formAdmin'].submit();
             }
         }
     });

@@ -37,6 +37,7 @@
     <xsl:include href="formbuilder/formbuilder_js.xsl"/>
 
     <xsl:param name="key" select="'none'"/>
+    <xsl:param name="parent-menu-item-key" select="-1"/>
     <xsl:param name="type" select="'none'"/>
     <xsl:param name="insertbelow" select="'undefined'"/>
     <xsl:param name="contenttypekey" select="'none'"/>
@@ -85,20 +86,9 @@
 
   <xsl:variable name="menu" select="//menu[@key = $menukey]"/>
   <xsl:variable name="menuitem" select="/menus/menuitems/menuitem[@key = $key]"/>
-  <xsl:variable name="parentmenuitem" select="/menus/menuitem-parents/menuitem[@key = $insertbelow]"/>
+  <xsl:variable name="parentmenuitem" select="/menus/menuitem-parents/menuitem[@key = $parent-menu-item-key]"/>
 
   <xsl:variable name="contentobjectselector_multi_size" select="25"/>
-
-  <xsl:variable name="parent-menu-item-key">
-    <xsl:choose>
-      <xsl:when test="$parentmenuitem/@key != ''">
-        <xsl:value-of select="$parentmenuitem/@key"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:text>-1</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
 
   <xsl:variable name="menu-item-key">
     <xsl:choose>
@@ -696,7 +686,14 @@
               </xsl:choose>
               <xsl:text>;</xsl:text>
 
-              menuitem_checkIfMenuItemNameExistsAndSubmit(document.getElementById('name'), <xsl:value-of select="$menu-item-key"/>, <xsl:value-of select="$parent-menu-item-key"/>, tabPane);
+              if( document.getElementById('name').value === '<xsl:value-of select="$text-auto-generated"/>' )
+              {
+                document.forms['formAdmin'].submit();
+              }
+              else
+              {
+                menuitem_checkIfMenuItemNameExistsAndSubmit(<xsl:value-of select="$menukey"/>, document.getElementById('name'), <xsl:value-of select="$menu-item-key"/>, <xsl:value-of select="$parent-menu-item-key"/>, tabPane);
+              }
             }
 
             function validateMenuItemName( nameElement )

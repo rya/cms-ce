@@ -82,9 +82,10 @@ public class MenuBrowseModelFactory
         return model;
     }
 
-    public MenuItemFormModel createMenuItemFormModel( UserEntity user, SiteKey siteKey, MenuItemKey selectedMenuItemKey )
+    public MenuItemFormModel createMenuItemFormModel( UserEntity user, SiteKey siteKey, MenuItemKey selectedMenuItemKey,
+                                                      MenuItemKey parentMenuItemKey )
     {
-        MenuItemFormModel model = new MenuItemFormModel();
+        MenuItemFormModel model = new MenuItemFormModel( selectedMenuItemKey );
 
         SiteEntity site = siteDao.findByKey( siteKey );
         model.setSite( site );
@@ -98,6 +99,11 @@ public class MenuBrowseModelFactory
         {
             MenuItemEntity selectedMenuItem = menuItemDao.findByKey( selectedMenuItemKey.toInt() );
             model.setSelectedMenuItemPath( selectedMenuItem.getMenuItemPath() );
+        }
+        else if ( parentMenuItemKey != null )
+        {
+            MenuItemEntity parentMenuItem = menuItemDao.findByKey( parentMenuItemKey.toInt() );
+            model.setSelectedMenuItemPath( parentMenuItem.getMenuItemPath() );
         }
 
         return model;

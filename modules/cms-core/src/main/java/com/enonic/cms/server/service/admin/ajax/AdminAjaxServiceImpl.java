@@ -27,6 +27,7 @@ import com.enonic.vertical.adminweb.VerticalAdminLogger;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 
+import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -323,12 +324,11 @@ public class AdminAjaxServiceImpl
     }
 
     @RemoteMethod
-    public boolean menuItemNameExistsUnderParent( String menuItemName, int existingMenuItemKeyInt, int parentKey )
+    public boolean menuItemNameExistsUnderParent( int siteKeyInt, String menuItemName, int existingMenuItemKeyInt, int parentKey )
     {
-        final MenuItemKey existingMenuItemKey = new MenuItemKey( existingMenuItemKeyInt );
-        final MenuItemEntity existingMenuItem = menuItemDao.findByKey( existingMenuItemKey );
+        final SiteKey siteKey = new SiteKey( siteKeyInt );
         final MenuItemSpecification menuItemSpec = new MenuItemSpecification();
-        menuItemSpec.setSiteKey( existingMenuItem.getSite().getKey() );
+        menuItemSpec.setSiteKey( siteKey );
         menuItemSpec.setMenuItemName( menuItemName );
 
         if ( parentKey >= 0 )
@@ -350,6 +350,7 @@ public class AdminAjaxServiceImpl
         if ( foundMenuItems.size() == 1 )
         {
 
+            final MenuItemKey existingMenuItemKey = new MenuItemKey( existingMenuItemKeyInt );
             if ( menuItemNameExistsButItsMeSoItsOk( existingMenuItemKey, foundMenuItems ) )
             {
                 return false;
