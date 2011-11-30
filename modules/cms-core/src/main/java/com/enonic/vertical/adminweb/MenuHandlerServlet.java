@@ -49,14 +49,28 @@ import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.DeploymentPathResolver;
-import com.enonic.cms.core.language.LanguageEntity;
-import com.enonic.cms.core.language.LanguageKey;
-import com.enonic.cms.core.language.LanguageResolver;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.admin.MenuItemsAcrossSitesModel;
+import com.enonic.cms.core.admin.MenuItemsAcrossSitesXmlCreator;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentXMLCreator;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
+import com.enonic.cms.core.language.LanguageResolver;
+import com.enonic.cms.core.portal.PageRequestType;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.cache.PageCacheService;
+import com.enonic.cms.core.portal.datasource.processor.ContentProcessor;
+import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
+import com.enonic.cms.core.portal.datasource.processor.MenuItemProcessor;
+import com.enonic.cms.core.portal.rendering.PageRenderer;
+import com.enonic.cms.core.portal.rendering.PageRendererContext;
+import com.enonic.cms.core.portal.rendering.RegionsResolver;
+import com.enonic.cms.core.portal.rendering.RenderedPageResult;
+import com.enonic.cms.core.preview.MenuItemPreviewContext;
+import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.resolver.ResolverContext;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -88,22 +102,6 @@ import com.enonic.cms.core.structure.page.template.PageTemplateRegionEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateSpecification;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
 import com.enonic.cms.core.structure.portlet.PortletEntity;
-
-import com.enonic.cms.core.portal.cache.PageCacheService;
-import com.enonic.cms.core.portal.datasource.processor.ContentProcessor;
-import com.enonic.cms.core.portal.datasource.processor.DataSourceProcessor;
-import com.enonic.cms.core.portal.datasource.processor.MenuItemProcessor;
-import com.enonic.cms.core.portal.rendering.PageRenderer;
-import com.enonic.cms.core.portal.rendering.PageRendererContext;
-import com.enonic.cms.core.portal.rendering.RegionsResolver;
-import com.enonic.cms.core.preview.MenuItemPreviewContext;
-import com.enonic.cms.core.preview.PreviewContext;
-
-import com.enonic.cms.core.admin.MenuItemsAcrossSitesModel;
-import com.enonic.cms.core.admin.MenuItemsAcrossSitesXmlCreator;
-import com.enonic.cms.core.portal.PageRequestType;
-import com.enonic.cms.core.portal.PrettyPathNameCreator;
-import com.enonic.cms.core.portal.rendering.RenderedPageResult;
 
 public class MenuHandlerServlet
     extends AdminHandlerBaseServlet
@@ -1188,7 +1186,7 @@ public class MenuHandlerServlet
         else
         {
             String message = "Unknown operation: %0";
-            VerticalAdminLogger.errorAdmin(message, null );
+            VerticalAdminLogger.errorAdmin( message, null );
         }
     }
 
@@ -1339,12 +1337,12 @@ public class MenuHandlerServlet
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.error(message, ioe );
+            VerticalAdminLogger.error( message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "XSL transformer error: %t";
-            VerticalAdminLogger.error(message, te );
+            VerticalAdminLogger.error( message, te );
         }
     }
 
@@ -1406,12 +1404,12 @@ public class MenuHandlerServlet
         catch ( IOException ioe )
         {
             String message = "I/O error: %t";
-            VerticalAdminLogger.error(message, ioe );
+            VerticalAdminLogger.error( message, ioe );
         }
         catch ( TransformerException te )
         {
             String message = "XSL transformer error: %t";
-            VerticalAdminLogger.error(message, te );
+            VerticalAdminLogger.error( message, te );
         }
 
         return true;
@@ -1462,12 +1460,12 @@ public class MenuHandlerServlet
             catch ( TransformerException te )
             {
                 String message = "Transformer error while transforming XSL: %t";
-                VerticalAdminLogger.errorAdmin(message, te );
+                VerticalAdminLogger.errorAdmin( message, te );
             }
             catch ( IOException ioe )
             {
                 String message = "I/O error: %t";
-                VerticalAdminLogger.errorAdmin(message, ioe );
+                VerticalAdminLogger.errorAdmin( message, ioe );
             }
         }
     }
@@ -1657,11 +1655,11 @@ public class MenuHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
         }
     }
 
@@ -1705,7 +1703,7 @@ public class MenuHandlerServlet
 
             int menuKey = formItems.getInt( "menukey" );
 
-            Document menuDoc =  admin.getAdminMenu( user, menuKey ).getAsDOMDocument();
+            Document menuDoc = admin.getAdminMenu( user, menuKey ).getAsDOMDocument();
             int menuItemKey = formItems.getInt( "key" );
             Element menuElem = XMLTool.selectElement( menuDoc.getDocumentElement(), "menu[@key = '" + menuKey + "']" );
             String menuItemName =
@@ -1729,11 +1727,11 @@ public class MenuHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+            VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
         }
         catch ( TransformerException e )
         {
-            VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+            VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
         }
     }
 
@@ -1795,11 +1793,11 @@ public class MenuHandlerServlet
         }
         catch ( VerticalCreateException e )
         {
-            VerticalAdminLogger.errorAdmin("Error creating menuitem: %t", e );
+            VerticalAdminLogger.errorAdmin( "Error creating menuitem: %t", e );
         }
         catch ( VerticalSecurityException e )
         {
-            VerticalAdminLogger.errorAdmin("Access denied: %t", e );
+            VerticalAdminLogger.errorAdmin( "Access denied: %t", e );
         }
     }
 
@@ -1990,11 +1988,11 @@ public class MenuHandlerServlet
         }
         catch ( IOException e )
         {
-            VerticalAdminLogger.errorAdmin("Failed to get response writer: %t", e );
+            VerticalAdminLogger.errorAdmin( "Failed to get response writer: %t", e );
         }
         catch ( JDOMException e )
         {
-            VerticalAdminLogger.errorAdmin("Failed to convert jdom to w3c document: %t", e );
+            VerticalAdminLogger.errorAdmin( "Failed to convert jdom to w3c document: %t", e );
         }
     }
 
@@ -2255,12 +2253,12 @@ public class MenuHandlerServlet
         catch ( TransformerException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin(message, e );
+            VerticalAdminLogger.errorAdmin( message, e );
         }
         catch ( IOException e )
         {
             String message = "Failed to transmform XML document: %t";
-            VerticalAdminLogger.errorAdmin(message, e );
+            VerticalAdminLogger.errorAdmin( message, e );
         }
     }
 
@@ -2421,7 +2419,6 @@ public class MenuHandlerServlet
         User user = securityService.getLoggedInAdminConsoleUser();
 
         Document doc1 = XMLTool.createDocument( "menus" );
-        MenuItemKey menuItemParent = null;
 
         boolean forwardData = formItems.getBoolean( "forward_data", false );
         boolean create;
@@ -2434,6 +2431,9 @@ public class MenuHandlerServlet
 
         // menuitem key:
         String key = formItems.getString( "key", null );
+        MenuItemKey selectedMenuItemKey = null;
+
+        MenuItemKey parentMenuItemKey = null;
 
         try
         {
@@ -2442,7 +2442,12 @@ public class MenuHandlerServlet
                 create = false;
                 menuItemXML = admin.getMenuItem( user, Integer.parseInt( key ), false, true ).getAsDOMDocument();
 
-                menuItemParent = new MenuItemKey( Integer.parseInt( key ) );
+                selectedMenuItemKey = new MenuItemKey( Integer.parseInt( key ) );
+                MenuItemEntity selectedMenuItem = menuItemDao.findByKey( selectedMenuItemKey );
+                if ( selectedMenuItem.getParent() != null )
+                {
+                    parentMenuItemKey = selectedMenuItem.getParent().getMenuItemKey();
+                }
 
                 XMLTool.mergeDocuments( doc1, menuItemXML, true );
             }
@@ -2452,11 +2457,13 @@ public class MenuHandlerServlet
                 String insertBelow = formItems.getString( "insertbelow", null );
                 if ( insertBelow != null && !"-1".equals( insertBelow ) )
                 {
-                    defaultAccessRightXML = admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true ).getAsDOMDocument();
+                    defaultAccessRightXML =
+                        admin.getAccessRights( user, AccessRight.MENUITEM, Integer.parseInt( insertBelow ), true ).getAsDOMDocument();
 
-                    menuItemParent = new MenuItemKey( Integer.parseInt( insertBelow ) );
+                    parentMenuItemKey = new MenuItemKey( Integer.parseInt( insertBelow ) );
 
-                    Document insertBelowMenuXML = admin.getMenuItem( user, Integer.parseInt( insertBelow ), false, true ).getAsDOMDocument();
+                    Document insertBelowMenuXML =
+                        admin.getMenuItem( user, Integer.parseInt( insertBelow ), false, true ).getAsDOMDocument();
                     XMLTool.mergeDocuments( doc1, insertBelowMenuXML, true );
                 }
                 else
@@ -2469,7 +2476,8 @@ public class MenuHandlerServlet
                 new MenuBrowseModelFactory( securityService, siteDao, menuItemDao, sitePropertiesService );
             SiteKey siteKey = new SiteKey( menuKey );
             UserEntity userEntity = securityService.getUser( user );
-            MenuItemFormModel model = menuBrowseModelFactory.createMenuItemFormModel( userEntity, siteKey, menuItemParent );
+            MenuItemFormModel model =
+                menuBrowseModelFactory.createMenuItemFormModel( userEntity, siteKey, selectedMenuItemKey, parentMenuItemKey );
             XMLTool.mergeDocuments( doc1, model.toXML().getAsDOMDocument(), false );
 
             int[] excludeTypeKeys = null; // before we excluded page-templates of type newsletter, but not anymore.
@@ -2610,7 +2618,6 @@ public class MenuHandlerServlet
                     }
                 }
                 parameters.put( "referer", formItems.getString( "referer" ) );
-
             }
 
             if ( pageTemplateParamsXML == null )
@@ -2681,6 +2688,8 @@ public class MenuHandlerServlet
             {
                 parameters.put( "key", key );
             }
+
+            parameters.put( "parent-menu-item-key", parentMenuItemKey != null ? parentMenuItemKey.toInt() : -1 );
 
             String type = formItems.getString( "type", null );
             if ( ( type == null || "page".equals( type ) ) && pageTemplateKey >= 0 )
@@ -2790,12 +2799,12 @@ public class MenuHandlerServlet
         catch ( IOException ioe )
         {
             String msg = "I/O error: %t";
-            VerticalAdminLogger.errorAdmin(msg, ioe );
+            VerticalAdminLogger.errorAdmin( msg, ioe );
         }
         catch ( TransformerException te )
         {
             String msg = "XSL transformer error: %t";
-            VerticalAdminLogger.errorAdmin(msg, te );
+            VerticalAdminLogger.errorAdmin( msg, te );
         }
     }
 
@@ -2926,11 +2935,11 @@ public class MenuHandlerServlet
             }
             catch ( IOException e )
             {
-                VerticalAdminLogger.errorAdmin("I/O error: %t", e );
+                VerticalAdminLogger.errorAdmin( "I/O error: %t", e );
             }
             catch ( TransformerException e )
             {
-                VerticalAdminLogger.errorAdmin("XSLT error: %t", e );
+                VerticalAdminLogger.errorAdmin( "XSLT error: %t", e );
             }
         }
     }
