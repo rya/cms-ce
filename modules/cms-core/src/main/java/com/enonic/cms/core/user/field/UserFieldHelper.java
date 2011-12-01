@@ -12,7 +12,6 @@ import java.util.TimeZone;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.api.client.model.user.Gender;
-
 import com.enonic.cms.core.resolver.locale.LocaleParser;
 
 public final class UserFieldHelper
@@ -61,7 +60,7 @@ public final class UserFieldHelper
 
         if ( value instanceof Date )
         {
-            return formatDate( (Date) value );
+            return value == null ? null : this.dateFormat.format( value );
         }
 
         if ( value instanceof Boolean )

@@ -59,9 +59,11 @@ public class UserInfoXmlCreatorTest
         final Element returnedRootEl = creator.createUserInfoElement( userWithBasicFieldValue );
 
         assertEquals( "block", returnedRootEl.getName() );
-        assertEquals( 1, returnedRootEl.getChildren().size() );
-        assertEquals( "prefix", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getName() );
-        assertEquals( "user_prefix_value", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getValue() );
+        assertEquals( 2, returnedRootEl.getChildren().size() );
+        assertEquals( "birthday", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getName() );
+        assertEquals( "prefix", ( (Element) returnedRootEl.getChildren().get( 1 ) ).getName() );
+        assertEquals( "", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getValue() );
+        assertEquals( "user_prefix_value", ( (Element) returnedRootEl.getChildren().get( 1 ) ).getValue() );
     }
 
     @Test
@@ -75,7 +77,7 @@ public class UserInfoXmlCreatorTest
         final Element returnedRootEl = creator.addUserInfoToElement( givenRootEl, userWithBasicFieldValue.getUserInfo(), false );
 
         assertEquals( "given_root", returnedRootEl.getName() );
-        assertEquals( 1, returnedRootEl.getChildren().size() );
+        assertEquals( 2, returnedRootEl.getChildren().size() );
         assertEquals( "prefix", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getName() );
         assertEquals( "existing_prefix_value", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getValue() );
     }
@@ -91,9 +93,11 @@ public class UserInfoXmlCreatorTest
         final Element returnedRootEl = creator.addUserInfoToElement( givenRootEl, userWithBasicFieldValue.getUserInfo(), true );
 
         assertEquals( "given_root", returnedRootEl.getName() );
-        assertEquals( 1, returnedRootEl.getChildren().size() );
-        assertEquals( "prefix", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getName() );
-        assertEquals( "user_prefix_value", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getValue() );
+        assertEquals( 2, returnedRootEl.getChildren().size() );
+        assertEquals( "birthday", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getName() );
+        assertEquals( "prefix", ( (Element) returnedRootEl.getChildren().get( 1 ) ).getName() );
+        assertEquals( "", ( (Element) returnedRootEl.getChildren().get( 0 ) ).getValue() );
+        assertEquals( "user_prefix_value", ( (Element) returnedRootEl.getChildren().get( 1 ) ).getValue() );
     }
 
     @Test

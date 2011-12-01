@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,11 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.DeploymentPathResolver;
-import com.enonic.cms.core.structure.SiteContext;
-import com.enonic.cms.core.log.LogService;
-import com.enonic.cms.core.log.StoreNewLogEntryCommand;
-import com.enonic.esl.util.ArrayUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
@@ -31,6 +27,7 @@ import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.esl.containers.MultiValueMap;
 import com.enonic.esl.net.Mail;
 import com.enonic.esl.servlet.http.CookieUtil;
+import com.enonic.esl.util.ArrayUtil;
 import com.enonic.esl.util.StringUtil;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.engine.VerticalCreateException;
@@ -38,58 +35,57 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
 import com.enonic.cms.api.client.model.user.UserInfo;
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.log.LogService;
 import com.enonic.cms.core.log.LogType;
+import com.enonic.cms.core.log.StoreNewLogEntryCommand;
+import com.enonic.cms.core.login.LoginService;
 import com.enonic.cms.core.mail.MessageSettings;
+import com.enonic.cms.core.portal.PortalInstanceKey;
+import com.enonic.cms.core.portal.PortalInstanceKeyResolver;
+import com.enonic.cms.core.preference.PreferenceAccessException;
+import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceKey;
+import com.enonic.cms.core.preference.PreferenceScopeKey;
 import com.enonic.cms.core.preference.PreferenceScopeKeyResolver;
 import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.security.InvalidCredentialsException;
 import com.enonic.cms.core.security.PasswordGenerator;
+import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
+import com.enonic.cms.core.security.group.GroupEntity;
+import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.RemoveMembershipsCommand;
 import com.enonic.cms.core.security.user.MissingRequiredUserFieldException;
+import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.ReadOnlyUserFieldPolicyException;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserNotFoundException;
 import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
 import com.enonic.cms.core.security.user.UserStorageInvalidArgumentException;
 import com.enonic.cms.core.security.userstore.UserStoreAccessException;
+import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenException;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
-import com.enonic.cms.core.service.UserServicesService;
-import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.preference.PreferenceAccessException;
-
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.userstore.UserStoreConnectorPolicyBrokenException;
-import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
-import com.enonic.cms.core.login.LoginService;
-
-import com.enonic.cms.core.portal.PortalInstanceKey;
-import com.enonic.cms.core.portal.PortalInstanceKeyResolver;
-import com.enonic.cms.core.preference.PreferenceEntity;
-import com.enonic.cms.core.preference.PreferenceScopeKey;
-
-import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
-import com.enonic.cms.core.security.group.GroupEntity;
-import com.enonic.cms.core.security.group.GroupKey;
-
-import com.enonic.cms.core.security.user.QualifiedUsername;
-import com.enonic.cms.core.security.user.StoreNewUserCommand;
-import com.enonic.cms.core.security.user.UpdateUserCommand;
-import com.enonic.cms.core.security.user.UserStorageExistingEmailException;
-
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
+import com.enonic.cms.core.security.userstore.connector.UserAlreadyExistsException;
+import com.enonic.cms.core.service.UserServicesService;
+import com.enonic.cms.core.structure.SiteContext;
 import com.enonic.cms.core.user.field.UserFieldMap;
 import com.enonic.cms.core.user.field.UserFieldTransformer;
+import com.enonic.cms.core.user.field.UserFieldType;
 import com.enonic.cms.core.user.field.UserInfoTransformer;
+import com.enonic.cms.store.dao.UserDao;
 
 public class UserHandlerController
     extends AbstractUserServicesHandlerController
@@ -148,6 +144,8 @@ public class UserHandlerController
     private static final String FORMITEM_DISPLAYNAME = "display_name";
 
     private static final String FORMITEM_EMAIL = "email";
+
+    private static final String FORMITEM_BIRTHDAY = UserFieldType.BIRTHDAY.getName();
 
     public UserHandlerController()
     {
@@ -789,9 +787,11 @@ public class UserHandlerController
             updateUserCommand.setAllowUpdateSelf( true );
             updateUserCommand.setUpdateOpenGroupsOnly( true );
 
-            updateUserCommand.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_NEW );
+            updateUserCommand.installModifyStrategy();
 
             updateGroupsInUpdateCommand( formItems, loggedInUser, updateUserCommand );
+
+            updateBirthdateInUpdateCommand( formItems, updateUserCommand );
 
             userStoreService.updateUser( updateUserCommand );
             redirectToPage( request, response, formItems );
@@ -893,6 +893,17 @@ public class UserHandlerController
         }
     }
 
+
+    private void updateBirthdateInUpdateCommand( ExtendedMap formItems, UpdateUserCommand updateUserCommand )
+    {
+        if ( updateUserCommand.isModify() && !formItems.containsKey( FORMITEM_BIRTHDAY ) )
+        {
+            UserEntity userEntity = userDao.findByKey( updateUserCommand.getSpecification().getKey() );
+            final Date birthday = userEntity.getUserInfo().getBirthday();
+
+            updateUserCommand.getUserInfo().setBirthday( birthday );
+        }
+    }
 
     @Override
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,

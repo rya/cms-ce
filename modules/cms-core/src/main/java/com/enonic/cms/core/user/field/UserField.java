@@ -42,6 +42,21 @@ public final class UserField
         this.value = value;
     }
 
+    public boolean isBirthday()
+    {
+        return isOfType( UserFieldType.BIRTHDAY );
+    }
+
+    public boolean isAddress()
+    {
+        return isOfType( UserFieldType.ADDRESS );
+    }
+
+    public boolean isPhoto()
+    {
+        return isOfType( UserFieldType.PHOTO );
+    }
+
     private void checkType( Object value )
     {
         if ( value == null )
@@ -52,7 +67,7 @@ public final class UserField
         Class<?> clz = value.getClass();
         if ( !this.type.isOfType( clz ) )
         {
-            throw new IllegalArgumentException( "Value must be of type [" + clz.getName() + "]" );
+            throw new IllegalArgumentException( "Value must be of type [" + this.type.getTypeClass() + "]" );
         }
     }
 }

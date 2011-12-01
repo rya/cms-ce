@@ -63,15 +63,14 @@ import com.enonic.cms.core.security.userstore.connector.remote.plugin.RemoteUser
 import com.enonic.cms.core.security.userstore.connector.synchronize.status.SynchronizeStatus;
 import com.enonic.cms.core.security.userstore.status.LocalGroupsStatus;
 import com.enonic.cms.core.security.userstore.status.LocalUsersStatus;
-import com.enonic.cms.store.dao.GroupDao;
-import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.store.dao.UserStoreDao;
-
 import com.enonic.cms.core.user.field.UserFieldMap;
 import com.enonic.cms.core.user.field.UserFieldType;
 import com.enonic.cms.core.user.field.UserInfoTransformer;
 import com.enonic.cms.core.user.remote.RemoteGroup;
 import com.enonic.cms.core.user.remote.RemoteUser;
+import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
 
 @Component("userStoreService")
 public class UserStoreServiceImpl
@@ -227,7 +226,7 @@ public class UserStoreServiceImpl
         verifyUniqueEmailForUpdate( command );
 
         final UserFieldMap commandUserFields = new UserInfoTransformer().toUserFields( command.getUserInfo() );
-        if ( command.getUpdateStrategy() == UpdateUserCommand.UpdateStrategy.REPLACE_ALL )
+        if ( command.isUpdate() )
         {
             // user-update operation
             userStore.getConfig().validateAllRequiredFieldsArePresent( commandUserFields );
@@ -373,7 +372,7 @@ public class UserStoreServiceImpl
 
     private void verifyMandatoryFieldsForUpdate( final UpdateUserCommand command )
     {
-        boolean allowNullsForMandatoryValues = command.getUpdateStrategy() == UpdateUserCommand.UpdateStrategy.REPLACE_NEW;
+        boolean allowNullsForMandatoryValues = command.isModify();
 
         String email = command.getEmail();
 
