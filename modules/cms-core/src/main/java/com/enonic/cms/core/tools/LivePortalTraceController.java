@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.SessionFactory;
-import org.hibernate.stat.Statistics;
 
 import com.enonic.esl.containers.ExtendedMap;
 import com.enonic.vertical.adminweb.AdminHelper;
@@ -26,7 +25,6 @@ import com.enonic.cms.framework.cache.CacheFacade;
 import com.enonic.cms.framework.cache.CacheManager;
 
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.core.portal.livetrace.PastPortalRequestTrace;
 import com.enonic.cms.core.portal.livetrace.PortalRequestTrace;
 
 /**
@@ -110,20 +108,20 @@ public final class LivePortalTraceController
             }
             else if ( history != null )
             {
-                String recordsSinceIdStr = req.getParameter( "records-since-id" );
-                Long recordsSinceId = Long.valueOf( recordsSinceIdStr );
+                String completedSinceNumberStr = req.getParameter( "completed-since-number" );
+                Long completedSinceNumber = Long.valueOf( completedSinceNumberStr );
 
-                List<PastPortalRequestTrace> pastPortalRequestTraces = livePortalTraceService.getHistorySince( recordsSinceId );
-                model.put( "pastPortalRequestTraces", pastPortalRequestTraces );
+                List<PortalRequestTrace> portalRequestTraces = livePortalTraceService.getHistorySince( completedSinceNumber );
+                model.put( "completedPortalRequestTraces", portalRequestTraces );
 
-                Long lastHistoryRecordNumber = recordsSinceId;
-                if ( pastPortalRequestTraces.size() > 0 )
+                Long lastCompletedNumber = completedSinceNumber;
+                if ( portalRequestTraces.size() > 0 )
                 {
-                    lastHistoryRecordNumber = pastPortalRequestTraces.get( 0 ).getHistoryRecordNumber();
+                    lastCompletedNumber = portalRequestTraces.get( 0 ).getCompletedNumber();
                 }
-                model.put( "lastHistoryRecordNumber", lastHistoryRecordNumber );
+                model.put( "lastCompletedNumber", lastCompletedNumber );
 
-                res.setHeader( "Content-Type", "application/json" );
+                res.setHeader( "Content-Type", "application/json; charset=UTF-8" );
                 process( req, res, model, "livePortalTrace_history_trace" );
             }
             else
@@ -167,14 +165,6 @@ public final class LivePortalTraceController
         model.put( "javaThreadCount", threadMXBean.getThreadCount() );
         model.put( "javaThreadPeakCount", threadMXBean.getPeakThreadCount() );
 
-        final Statistics statistics = sessionFactory.getStatistics();
-        if ( statistics != null )
-        {
-            model.put( "hibernateConnectionCount", statistics.getConnectCount() );
-            model.put( "hibernateQueryCacheHitCount", statistics.getQueryCacheHitCount() );
-            model.put( "hibernateCollectionFetchCount", statistics.getCollectionFetchCount() );
-            model.put( "hibernateCollectionLoadCount", statistics.getCollectionLoadCount() );
-        }
         return model;
     }
 

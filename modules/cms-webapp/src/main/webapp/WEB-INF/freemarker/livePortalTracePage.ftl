@@ -27,7 +27,7 @@
 
     <table style="margin-bottom: 10px">
         <tr>
-            <td style="margin-right: 20px" valign="top">
+            <td style="margin-right: 10px">
                 <h1>Admin / <a href="${baseUrl}/adminpage?page=912&op=liveportaltrace">Live Portal Trace</a></h1>
                 <button class="button_text" id="stop-auto-update" onclick="stopAutomaticUpdate()">
                     Stop automatic update
@@ -37,7 +37,7 @@
                     Start automatic update
                 </button>
             </td>
-            <td style="padding-left: 40px">
+            <td style="padding-left: 10px">
                 <table id="system-info-table">
                     <tr style="border-bottom: 1px solid #DDDDDD">
                         <th class="system-info-group-name-td">
@@ -77,28 +77,16 @@
                         <td class="system-info-label">capacity:</td>
                         <td class="system-info-value" id="page-cache-capacity-count"></td>
                     </tr>
-                    <!--tr>
-                        <th class="system-info-group-name-td">Hibernate stats</th>
-                        <td></td>
-                        <td># conn.</td>
-                        <td class="system-info-value" id="hibernate-connection-count"></td>
-                        <td># query cache hit</td>
-                        <td class="system-info-value" id="hibernate-query-cache-hit-count"></td>
-                        <td># collection fetch</td>
-                        <td class="system-info-value" id="hibernate-collection-fetch-count"></td>
-                        <td># collection load</td>
-                        <td class="system-info-value" id="hibernate-collection-load-count"></td>
-                    </tr-->
                     <tr style="border-bottom: 1px solid #DDDDDD">
                         <th class="system-info-group-name-td">
                             <a onclick="$('.java-memory-details-rows').toggle();" href="javascript: void(0);">
-                                Java Heap Mem
+                                Java Memory
                             </a>
                         </th>
                         <td colspan="8">usage: <span id="graph-memory"></span></td>
                     </tr>
                     <tr class="java-memory-details-rows" style="display: none; background-color: #EEEEEE; border-bottom: 1px solid #DDDDDD">
-                        <th class="system-info-group-name-td"></th>
+                        <th class="system-info-group-name-td">Heap</th>
                         <td class="system-info-label">used:</td>
                         <td class="system-info-value" id="java-heap-memory-usage-used"></td>
                         <td class="system-info-label">commited:</td>
@@ -110,7 +98,8 @@
                     </tr>
                     <tr class="java-memory-details-rows" style="display: none; background-color: #EEEEEE; border-bottom: 1px solid #DDDDDD">
                         <th class="system-info-group-name-td">
-                            Java Non Heap Mem</th>
+                            Non Heap
+                        </th>
                         <td class="system-info-label">used:</td>
                         <td class="system-info-value" id="java-non-heap-memory-usage-used"></td>
                         <td class="system-info-label">commited:</td>
@@ -145,24 +134,27 @@
         <!-- History of portal requests -->
         <div class="tab-page" id="tab-page-1">
             <span class="tab">Completed requests</span>
-
             <script type="text/javascript" language="JavaScript">
                 tabPane1.addTabPage( document.getElementById( "tab-page-1" ) );
             </script>
-
             <button class="button_text" id="fetch-recent-history" onclick="javascript: loadNewPastPortalRequestTraces()" disabled="true">
                 Fetch recent
             </button>
-
+            <div>
+                <span id="graph-completed-requests-pr-second"></span>
+                last: <span id="last-number-of-completed-request-pr-second">0</span>,
+                peak: <span id="peak-number-of-completed-request-pr-second">0</span>
+            </div>
             <div class="listBox" style="height: 500px">
-                <table id="newPastPortalRequestTraces-table" style="table-layout: fixed; width: 100%;">
+                <table id="newPastPortalRequestTraces-table" class="trace-table" cellspacing="0">
                     <thead>
                     <tr>
                         <th style="width: 5%; text-align: center">#</th>
                         <th style="width: 5%; text-align: center">Type</th>
-                        <th style="width: 55%">URL</th>
+                        <th style="width: 45%">URL</th>
                         <th style="width: 20%; padding-left: 10px">Started</th>
-                        <th style="width: 15%; text-align: right">Duration</th>
+                        <th style="width: 10%; text-align: right">Duration</th>
+                        <th style="width: 15%; text-align: left; padding-left: 10px">Cache usage</th>
                     </tr>
                     </thead>
                     <tbody id="newPastPortalRequestTraces-table-body">
@@ -178,30 +170,25 @@
             <script type="text/javascript" language="JavaScript">
                 tabPane1.addTabPage( document.getElementById( "tab-page-2" ) );
             </script>
-
             <button class="button_text" id="reloadCurrentPortalRequests" onclick="javascript: reloadCurrentPortalRequests()">Refresh
             </button>
-
-            <div class="listBox" style="height: 200px" id="window-current">
+            <div class="listBox" style="height: 500px" id="window-current">
                 Please wait...
             </div>
-
         </div>
 
 
         <!-- Longest portal page requests -->
         <div class="tab-page" id="tab-page-3">
             <span class="tab">Longest page requests</span>
-
             <script type="text/javascript" language="JavaScript">
                 tabPane1.addTabPage( document.getElementById( "tab-page-3" ) );
             </script>
-
             <button class="button_text" id="reloadLongestPortalPageRequests" onclick="javascript: reloadLongestPortalPageRequests()">Refresh
             </button>
             <button id="clearLongestPageRequestTraces" onclick="javascript: clearLongestPageRequestTraces()">Clear</button>
 
-            <div class="listBox" style="height: 200px" id="window-longest-pagerequests">
+            <div class="listBox" style="height: 500px" id="window-longest-pagerequests">
                 Please wait...
             </div>
         </div>
@@ -209,7 +196,6 @@
         <!-- Longest portal attachment requests -->
         <div class="tab-page" id="tab-page-4">
             <span class="tab">Longest attachment requests</span>
-
             <script type="text/javascript" language="JavaScript">
                 tabPane1.addTabPage( document.getElementById( "tab-page-4" ) );
             </script>
@@ -219,7 +205,7 @@
             </button>
             <button id="clearLongestAttachmentRequestTraces" onclick="javascript: clearLongestAttachmentRequestTraces()">Clear</button>
 
-            <div class="listBox" style="height: 200px" id="window-longest-attachmentrequests">
+            <div class="listBox" style="height: 500px" id="window-longest-attachmentrequests">
                 Please wait...
             </div>
         </div>
@@ -227,17 +213,15 @@
         <!-- Longest portal image requests -->
         <div class="tab-page" id="tab-page-5">
             <span class="tab">Longest image requests</span>
-
             <script type="text/javascript" language="JavaScript">
                 tabPane1.addTabPage( document.getElementById( "tab-page-5" ) );
             </script>
-
             <button class="button_text" id="reloadLongestPortalImageRequests" onclick="javascript: reloadLongestPortalImageRequests()">
                 Refresh
             </button>
             <button id="clearLongestImageRequestTraces" onclick="javascript: clearLongestImageRequestTraces()">Clear</button>
 
-            <div class="listBox" style="height: 200px" id="window-longest-imagerequests">
+            <div class="listBox" style="height: 500px" id="window-longest-imagerequests">
                 Please wait...
             </div>
         </div>
@@ -256,6 +240,12 @@
         </div>
     </div>
 
+    <p>
+    <blockquote style="font-style: italic;">
+        Legend: <span class="cache-color-not-cacheable">O</span> not cacheable, <span class="cache-color-cache-hit">&radic;</span>
+        cache hit, <span class="cache-color-cache-miss">X</span> cache miss, <span class="cache-color-cache-hit-blocked">&radic;</span> cache hit with concurrency block
+    </blockquote>
+    </p>
 
     <script type="text/javascript">
 

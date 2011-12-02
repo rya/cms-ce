@@ -9,14 +9,28 @@
     [#local detailHtml]
     [@printPortalRequestTraceDetailRows portalRequestTrace/]
     [/#local]
+    [#local summarizedCacheUsage]
+        [#compress]
+            [#if portalRequestTrace.hasPageRenderingTrace() == true]
+            [@printSummarizedCacheUsageForPage pageRenderingTrace=portalRequestTrace.pageRenderingTrace/]
+                [#elseif portalRequestTrace.hasWindowRenderingTrace() == true]
+                [@printCacheUsageForWindow windowTrace=portalRequestTrace.windowRenderingTrace/]
+                [#elseif portalRequestTrace.hasImageRequestTrace() == true]
+                [@printCacheUsageForImageRequest imageRequestTrace=portalRequestTrace.imageRequestTrace/]
+            [/#if]
+        [/#compress]
+    [/#local]
 
 {
 "requestNumber": "${portalRequestTrace.requestNumber}",
+"completedNumber": "${portalRequestTrace.completedNumber}",
 "type": "${portalRequestTrace.type!}",
 "siteName": "${base64Encode(portalRequestTrace.siteName!)}",
 "siteLocalUrl": "${base64Encode(portalRequestTrace.siteLocalUrl!)}",
 "startTime": "${portalRequestTrace.duration.startTimeAsDate!?datetime}",
-"executionTime": "${portalRequestTrace.duration.executionTimeAsHRFormat!}",
+"endTime": "${portalRequestTrace.duration.stopTimeAsDate!?datetime}",
+"executionTime": "${portalRequestTrace.duration.asHRFormat!}",
+"cacheUsage": "${base64Encode(summarizedCacheUsage!)}",
 "detailHtml": "${base64Encode(detailHtml!)}"
 }
 [/#macro]
@@ -27,13 +41,13 @@
     [@printPortalRequestTraceDetailRows portalRequestTrace/]
     [/#assign]
 
-<tr id="portalRequestTrace-${portalRequestTrace.id}" onclick="showPortalRequestTraceDetail( this.mydata )">
+<tr id="portalRequestTrace-${portalRequestTrace.completedNumber}" onclick="showPortalRequestTraceDetail( this.mydata )">
     <script type="text/javascript">
-        var tr = document.getElementById( "portalRequestTrace-${portalRequestTrace.id}" );
+        var tr = document.getElementById( "portalRequestTrace-${portalRequestTrace.completedNumber}" );
         tr.mydata = "${detailHtml?replace("\n", "")?replace("\"","'")}";
     </script>
-    <td valign="top">
-    ${portalRequestTrace.requestNumber}
+    <td valign="top" class="id-column">
+    ${portalRequestTrace.completedNumber}
     </td>
     <td class="type-column">
     ${portalRequestTrace.type}
@@ -45,9 +59,18 @@
     ${portalRequestTrace.duration.startTimeAsDate!?datetime}
     </td>
     <td class="duration-column" valign="top">
-    ${portalRequestTrace.duration.executionTimeAsHRFormat!}
+    ${portalRequestTrace.duration.asHRFormat!}
         [#if portalRequestTrace.duration.hasEnded() == false]
             ?
+        [/#if]
+    </td>
+    <td class="cacheUsage-column">
+        [#if portalRequestTrace.hasPageRenderingTrace() == true]
+        [@printSummarizedCacheUsageForPage pageRenderingTrace=portalRequestTrace.pageRenderingTrace/]
+        [#elseif portalRequestTrace.hasWindowRenderingTrace() == true]
+        [@printCacheUsageForWindow windowTrace=portalRequestTrace.windowRenderingTrace/]
+            [#elseif portalRequestTrace.hasImageRequestTrace() == true]
+            [@printCacheUsageForImageRequest imageRequestTrace=portalRequestTrace.imageRequestTrace/]
         [/#if]
     </td>
 </tr>
@@ -61,8 +84,8 @@
         <th colspan="2">Portal request trace:</th>
     </tr>
     <tr>
-        <td>Request number</td>
-        <td>${portalRequestTrace.requestNumber!}</td>
+        <td style="white-space: nowrap;">Completed #</td>
+        <td>${portalRequestTrace.completedNumber!} (request #: ${portalRequestTrace.requestNumber!})</td>
     </tr>
     <tr>
         <td>Duration</td>
@@ -77,7 +100,7 @@
         <td>${portalRequestTrace.siteName!}</td>
     </tr>
     <tr>
-        <td>Site local URL</td>
+        <td style="white-space: nowrap;">Site local URL</td>
         <td>${portalRequestTrace.siteLocalUrl!?html}</td>
     </tr>
     <tr>
@@ -93,21 +116,35 @@
         <td>${portalRequestTrace.mode}</td>
     </tr>
     <tr>
-        <td>Http Request Remote Address</td>
-        <td>${portalRequestTrace.httpRequestRemoteAddress!}</td>
+        <td colspan="2">
+            <a href="javascript: void(0);" onclick="$( '#http-details' ).toggle();">
+                HTTP request details:
+            </a>
+        </td>
     </tr>
-    <tr>
-        <td>Http Request User Agent</td>
-        <td>${portalRequestTrace.httpRequestUserAgent!}</td>
+    <tr id="http-details" style="display: none">
+        <td colspan="2" class="noBorderBottom">
+            <table>
+                <tr>
+                    <td>Remote Address</td>
+                    <td>${portalRequestTrace.httpRequestRemoteAddress!}</td>
+                </tr>
+                <tr>
+                    <td>User Agent</td>
+                    <td>${portalRequestTrace.httpRequestUserAgent!}</td>
+                </tr>
+                <tr>
+                    <td>Character Encoding</td>
+                    <td>${portalRequestTrace.httpRequestCharacterEncoding!}</td>
+                </tr>
+                <tr>
+                    <td>Content Type</td>
+                    <td>${portalRequestTrace.httpRequestContentType!}</td>
+                </tr>
+            </table>
+        </td>
     </tr>
-    <tr>
-        <td>Http Request Character Encoding</td>
-        <td>${portalRequestTrace.httpRequestCharacterEncoding!}</td>
-    </tr>
-    <tr>
-        <td>Http Request Content Type</td>
-        <td>${portalRequestTrace.httpRequestContentType!}</td>
-    </tr>
+
 
         [#if portalRequestTrace.hasAttachmentRequsetTrace() == true]
         [@printAttachentRequestTraceDetailRows attachmentRequestTrace=portalRequestTrace.attachmentRequestTrace/]
@@ -142,7 +179,10 @@
         </a>
     </td>
     <td>
-    [@printDuration duration=windowRenderingTrace.duration/]
+    [@printCacheUsageForWindow windowTrace=windowRenderingTrace/]&nbsp;[@printDuration duration=windowRenderingTrace.duration/]
+        [#if windowRenderingTrace.concurrencyBlocked == true]
+            (blocked for ${windowRenderingTrace.concurrencyBlockingTime} ms)
+        [/#if]
     </td>
 </tr>
 <tr id="window-rendering-trace-${id}" style="display: none">
@@ -153,8 +193,10 @@
                 <td>[@printDuration duration=windowRenderingTrace.duration/]</td>
             </tr>
             <tr>
-                <td>Used cached result</td>
-                <td>${windowRenderingTrace.usedCachedResult?string}</td>
+                <td>Cache usage</td>
+                <td>
+                [@printCacheUsageForWindow windowTrace=windowRenderingTrace verbose=true/]
+                </td>
             </tr>
             <tr>
                 <td>Renderer</td>
@@ -244,12 +286,13 @@
     <td>[@printDuration duration=pageRenderingTrace.duration/]</td>
 </tr>
 <tr>
-    <td>Used cached result:</td>
-    <td>${pageRenderingTrace.usedCachedResult?string}</td>
+    <td>Cache usage:</td>
+    <td>
+    [@printCacheUsageForPage pageTrace=pageRenderingTrace verbose=true/]
+    </td>
 </tr>
-<tr>
-    <td>Renderer:</td>
-    <td>${pageRenderingTrace.renderer!}</td>
+<td>Renderer:</td>
+<td>${pageRenderingTrace.renderer!}</td>
 </tr>
     [#if !pageRenderingTrace.usedCachedResult]
     <tr>
@@ -317,11 +360,10 @@
     </tr>
     [/#if]
     [#if pageRenderingTrace.hasInstructionPostProcessingTrace() == true]
-    <!--
     <tr>
-        <th colspan="2">
+        <td colspan="2" style="font-style: italic;">
             Instruction post processing:
-        </th>
+        </td>
     </tr>
     <tr>
         <td colspan="2" class="noBorderBottom">
@@ -329,7 +371,7 @@
             [@instructionPostProcessingTraceDetails instructionPostProcessingTrace=pageRenderingTrace.instructionPostProcessingTrace/]
             </table>
         </td>
-    </tr>-->
+    </tr>
     [/#if]
 [/#macro]
 
@@ -552,7 +594,7 @@
 [#macro instructionPostProcessingTraceDetails instructionPostProcessingTrace]
 <tr>
     <td>Duration</td>
-    <td>[@printDuration duration=instructionPostProcessingTrace.duration/]</td>
+    <td>[@printSimpleDuration duration=instructionPostProcessingTrace.duration/]</td>
 </tr>
 [/#macro]
 
@@ -620,14 +662,12 @@
 </tr>
 [/#macro]
 
-[#macro printDuration duration]
-    [#if duration.hasStarted() == false]
+[#macro printSimpleDuration duration]
+${duration.asHRFormat!}
+[/#macro]
 
-        [#elseif duration.hasEnded() == true]
-        ${duration.executionTimeAsHRFormat!}
-        [#else]
-        ${duration.executionTimeAsHRFormat!}
-    [/#if]
+[#macro printDuration duration]
+${duration.asHRFormat!}
 [/#macro]
 
 [#macro printDurationWidthStartEnd duration]
@@ -636,9 +676,82 @@
     [#if duration.hasStarted() == false]
 
         [#elseif duration.hasEnded() == true]
-        ${duration.executionTimeAsHRFormat!} ( ${duration.startTimeAsDate?datetime} -> ${duration.stopTimeAsDate?datetime} )
+        ${duration.asHRFormat!} ( ${duration.startTimeAsDate?datetime} -> ${duration.stopTimeAsDate?datetime} )
         [#else]
-        ${duration.executionTimeAsHRFormat!} ( ${duration.startTimeAsDate?datetime} -> ? )
+        ${duration.asHRFormat!} ( ${duration.startTimeAsDate?datetime} -> ? )
     [/#if]
 </span>
+[/#macro]
+
+[#macro printSummarizedCacheUsageForPage pageRenderingTrace includePageCacheUsage=true]
+    [#compress]
+        [#if includePageCacheUsage]
+            [#compress]
+            [@printCacheUsageForPage pageTrace=pageRenderingTrace/]
+                [#if pageRenderingTrace.hasWindowRenderingTraces() ]
+                    [#compress]
+                    &rarr;
+                    [/#compress]
+                [/#if]
+            [/#compress]
+        [/#if]
+        [#list pageRenderingTrace.windowRenderingTraces as windowTrace]
+        [@printCacheUsageForWindow windowTrace=windowTrace/]
+        [/#list]
+    [/#compress]
+[/#macro]
+
+[#macro printCacheUsageForPage pageTrace verbose=false]
+    [#compress]
+        [#if pageTrace.concurrencyBlocked == true]
+            [#compress]
+            [@printCacheUsageWithConcurrencyBlock usedCachedResult=pageTrace.usedCachedResult cacheable=pageTrace.cacheable /]
+            [/#compress]
+            [#else]
+                [#compress]
+                [@printCacheUsageWithoutConcurrencyBlock usedCachedResult=pageTrace.usedCachedResult cacheable=pageTrace.cacheable /]
+                [/#compress]
+        [/#if]
+        [#if verbose == true ]
+        &nbsp;([@printCacheUsageVerbosely usedCachedResult=pageTrace.usedCachedResult cacheable=pageTrace.cacheable blocked=pageTrace.concurrencyBlocked blockTime=pageTrace.concurrencyBlockingTime /])
+        [/#if]
+    [/#compress]
+[/#macro]
+
+[#macro printCacheUsageForWindow windowTrace verbose=false]
+    [#compress]
+        [#if windowTrace.concurrencyBlocked == true]
+            [#compress]
+            [@printCacheUsageWithConcurrencyBlock usedCachedResult=windowTrace.usedCachedResult cacheable=windowTrace.cacheable /]
+            [/#compress]
+            [#else]
+                [#compress]
+                [@printCacheUsageWithoutConcurrencyBlock usedCachedResult=windowTrace.usedCachedResult cacheable=windowTrace.cacheable /]
+                [/#compress]
+        [/#if]
+        [#if verbose == true ]
+        &nbsp;([@printCacheUsageVerbosely usedCachedResult=windowTrace.usedCachedResult cacheable=windowTrace.cacheable blocked=windowTrace.concurrencyBlocked blockTime=windowTrace.concurrencyBlockingTime /])
+        [/#if]
+    [/#compress]
+[/#macro]
+
+[#macro printCacheUsageForImageRequest imageRequestTrace]
+    [#compress]
+    [@printCacheUsageWithoutConcurrencyBlock usedCachedResult=imageRequestTrace.usedCachedResult /]
+    [/#compress]
+[/#macro]
+
+[#macro printCacheUsageWithConcurrencyBlock usedCachedResult cacheable=true]
+    [#compress][#if cacheable == false ]<span class="cache-color-not-cacheable">O</span>[#elseif usedCachedResult == true]<span
+            class="cache-color-cache-hit-blocked">&radic;</span>[#else]<span
+            class="cache-color-cache-miss-blocked">X</span>[/#if][/#compress]
+[/#macro]
+
+[#macro printCacheUsageWithoutConcurrencyBlock usedCachedResult cacheable=true]
+    [#compress][#if cacheable == false ]<span class="cache-color-not-cacheable">O</span>[#elseif usedCachedResult == true]<span
+            class="cache-color-cache-hit">&radic;</span>[#else]<span class="cache-color-cache-miss">X</span>[/#if][/#compress]
+[/#macro]
+
+[#macro printCacheUsageVerbosely usedCachedResult blocked blockTime cacheable=true]
+    [#compress][#if cacheable == false ]not cacheable[#elseif usedCachedResult == true]cache hit[#else]cache miss[/#if][#if blocked == true] - blocked for ${blockTime} ms[/#if][/#compress]
 [/#macro]

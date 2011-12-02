@@ -1,13 +1,12 @@
-[#ftl]
+[#ftl strip_whitespace=true]
 [#import "livePortalTraceLibrary.ftl" as lib/]
 {
-"lastHistoryRecordNumber": "${lastHistoryRecordNumber}",
-"pastPortalRequestTraces": [
-[#list pastPortalRequestTraces as pastTrace]
+"lastCompletedNumber": "${lastCompletedNumber}",
+"completedPortalRequestTraces": [
+[#list completedPortalRequestTraces as trace]
 {
-"historyRecordNumber": "${pastTrace.historyRecordNumber}",
-"portalRequestTrace": [@lib.portalRequestTraceJSON portalRequestTrace=pastTrace.portalRequestTrace/]
-}[#if pastTrace_has_next],[/#if]
+"portalRequestTrace": [@lib.portalRequestTraceJSON portalRequestTrace=trace/]
+}[#if trace_has_next],[/#if]
 [/#list]
 ]
 }

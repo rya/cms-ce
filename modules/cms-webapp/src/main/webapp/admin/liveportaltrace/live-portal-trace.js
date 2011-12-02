@@ -1,4 +1,4 @@
-var historySize = 250;
+var historySize = 300;
 
 var reloadCurrentRequestsIntervalId = 0;
 var reloadLongestPageRequestsIntervalId = 0;
@@ -7,7 +7,12 @@ var reloadLongestImageRequestsIntervalId = 0;
 var loadNewPastRequestsIntervalId = 0;
 var refreshSystemInfoIntervalId = 0;
 
-var lastHistoryNumber = -1;
+var lastCompletedNumber = -1;
+
+var memoryGraphValues = new Array( 170 );
+var entityCacheCapacityGraphValues = new Array( 170 );
+var pageCacheCapacityGraphValues = new Array( 170 );
+var completedRequestsGraphValues = new Array( 270 );
 
 function resolveURLAndAddParams( params )
 {
@@ -45,10 +50,10 @@ function startAutomaticUpdateOfCurrent()
     (function loop()
     {
         reloadCurrentRequestsIntervalId = setTimeout( function()
-                                                    {
-                                                        reloadCurrentPortalRequests();
-                                                        loop();
-                                                    }, 2000 );
+                                                      {
+                                                          reloadCurrentPortalRequests();
+                                                          loop();
+                                                      }, 2000 );
     })();
 
 }
@@ -58,10 +63,10 @@ function startAutomaticUpdateOfLongestPageRequests()
     (function loop()
     {
         reloadLongestPageRequestsIntervalId = setTimeout( function()
-                                                    {
-                                                        reloadLongestPortalPageRequests();
-                                                        loop();
-                                                    }, 10000 );
+                                                          {
+                                                              reloadLongestPortalPageRequests();
+                                                              loop();
+                                                          }, 10000 );
     })();
 }
 
@@ -70,10 +75,10 @@ function startAutomaticUpdateOfLongestAttachmentRequests()
     (function loop()
     {
         reloadLongestAttachmentRequestsIntervalId = setTimeout( function()
-                                                    {
-                                                        reloadLongestPortalAttachmentRequests();
-                                                        loop();
-                                                    }, 10000 );
+                                                                {
+                                                                    reloadLongestPortalAttachmentRequests();
+                                                                    loop();
+                                                                }, 10000 );
     })();
 }
 
@@ -97,7 +102,7 @@ function startAutomaticUpdateOfHistory()
                                                     {
                                                         loadNewPastPortalRequestTraces();
                                                         loop();
-                                                    }, 2000 );
+                                                    }, 1000 );
     })();
 }
 
@@ -106,11 +111,48 @@ function startAutomaticUpdateOfSystemInfo()
     (function loop()
     {
         refreshSystemInfoIntervalId = setTimeout( function()
-                                                    {
-                                                        refreshSystemInfo();
-                                                        loop();
-                                                    }, 500 );
+                                                  {
+                                                      refreshSystemInfo();
+                                                      loop();
+                                                  }, 1000 );
     })();
+}
+
+function closePortalRequestTraceDetailWindow()
+{
+    $( "#portalRequestTraceDetail-window" ).hide();
+}
+
+function openPortalRequestTraceDetailWindow()
+{
+    $( "#portalRequestTraceDetail-window" ).show();
+}
+
+function showPortalRequestTraceDetail( html )
+{
+    $( "#portalRequestTraceDetail-details" ).html( html );
+
+    openPortalRequestTraceDetailWindow();
+}
+
+function toggleWindowRenderingTrace( id )
+{
+    $( "#window-rendering-trace-" + id ).toggle();
+}
+
+function toggleDatasourceExecutionTrace( id )
+{
+    $( "#datasource-execution-trace-" + id ).toggle();
+}
+
+function toggleClientMethodExecutionTrace( id )
+{
+    $( "#client-method-execution-trace-" + id ).toggle();
+}
+
+function toggleContentIndexQueryTrace( id )
+{
+    $( "#content-index-query-trace-" + id ).toggle();
 }
 
 function reloadCurrentPortalRequests()
@@ -170,22 +212,22 @@ function clearLongestImageRequestTraces()
                  } );
 }
 
-function setLastHistoryNumber( number )
+function setLastCompletedNumber( number )
 {
-    lastHistoryNumber = number;
+    lastCompletedNumber = number;
 }
 
 function loadNewPastPortalRequestTraces()
 {
 
-    var url = resolveURLAndAddParams( "history=true&records-since-id=" + lastHistoryNumber );
+    var url = resolveURLAndAddParams( "history=true&completed-since-number=" + lastCompletedNumber );
 
     $.getJSON( url, function( jsonObj )
     {
-        var lastHistoryRecordNumber = jsonObj.lastHistoryRecordNumber;
-        setLastHistoryNumber( lastHistoryRecordNumber );
+        var lastCompletedNumber = jsonObj.lastCompletedNumber;
+        setLastCompletedNumber( lastCompletedNumber );
 
-        var pastPortalRequestTraces = jsonObj.pastPortalRequestTraces;
+        var completedPortalRequestTraces = jsonObj.completedPortalRequestTraces;
 
         var numberOfRows = $( "#newPastPortalRequestTraces-table-body tr" ).length;
         var initialLoad = numberOfRows == 0;
@@ -196,9 +238,9 @@ function loadNewPastPortalRequestTraces()
         if ( initialLoad )
         {
             var insertCount = 0;
-            for ( var key1 in pastPortalRequestTraces )
+            for ( var key1 in completedPortalRequestTraces )
             {
-                var tr = createPortalRequestTraceTR( pastPortalRequestTraces[key1].portalRequestTrace );
+                var tr = createPortalRequestTraceTR( completedPortalRequestTraces[key1] );
                 tableBody.appendChild( tr );
 
                 insertCount++;
@@ -207,12 +249,15 @@ function loadNewPastPortalRequestTraces()
                     break;
                 }
             }
+
+            completedPortalRequestTraces.reverse();
+            graphCompletedRequests( completedPortalRequestTraces );
         }
         else
         {
             var count = 0;
-            pastPortalRequestTraces.reverse();
-            for ( var key2 in pastPortalRequestTraces )
+            completedPortalRequestTraces.reverse();
+            for ( var key2 in completedPortalRequestTraces )
             {
                 count++;
                 if ( numberOfRows + count > historySize )
@@ -221,16 +266,18 @@ function loadNewPastPortalRequestTraces()
                 }
 
                 var firstTr = tableBody.getElementsByTagName( "tr" )[0];
-                var trace = pastPortalRequestTraces[key2].portalRequestTrace;
-                tableBody.insertBefore( createPortalRequestTraceTR( trace ), firstTr );
+                var completedPortalRequestTrace = completedPortalRequestTraces[key2];
+                tableBody.insertBefore( createPortalRequestTraceTR( completedPortalRequestTrace ), firstTr );
             }
+            graphCompletedRequests( completedPortalRequestTraces );
         }
-
     } );
 }
 
-function createPortalRequestTraceTR( portalRequestTrace )
+function createPortalRequestTraceTR( completedPortalRequestTrace )
 {
+    var portalRequestTrace = completedPortalRequestTrace.portalRequestTrace;
+
     var tr = document.createElement( "tr" );
     tr.mydata = $.base64.decode( portalRequestTrace.detailHtml );
     tr.onclick = function()
@@ -239,7 +286,8 @@ function createPortalRequestTraceTR( portalRequestTrace )
     };
 
     var td1 = document.createElement( "td" );
-    td1.innerHTML = portalRequestTrace.requestNumber;
+    td1.innerHTML = portalRequestTrace.completedNumber;
+    td1.className = "id-column";
     tr.appendChild( td1 );
 
     var td2 = document.createElement( "td" );
@@ -267,7 +315,95 @@ function createPortalRequestTraceTR( portalRequestTrace )
     td5.title = portalRequestTrace.executionTime;
     tr.appendChild( td5 );
 
+    var td6 = document.createElement( "td" );
+    var cacheUsageDecoded = $.base64.decode( portalRequestTrace.cacheUsage );
+    td6.innerHTML = cacheUsageDecoded;
+    td6.className = "cacheUsage-column";
+    tr.appendChild( td6 );
+
     return tr;
+}
+
+var endTimeOfLastRecordedCompletedRequest = null;
+var peakCompletedRequestsPrSecond = 0;
+var lastSecondCounter = 0;
+
+function graphCompletedRequests( portalRequestTraces )
+{
+    if ( !isInitialized( completedRequestsGraphValues ) )
+    {
+        initializeArray( completedRequestsGraphValues, 0 );
+    }
+
+    if ( portalRequestTraces.length === 0 )
+    {
+        shiftAndAdd( completedRequestsGraphValues, lastSecondCounter );
+        lastSecondCounter = 0;
+    }
+    else
+    {
+        for ( var key in portalRequestTraces )
+        {
+            var pastPortalRequestTrace = portalRequestTraces[key];
+            var trace = pastPortalRequestTrace.portalRequestTrace;
+
+            var currTime = new Date( trace.endTime );
+
+            if ( endTimeOfLastRecordedCompletedRequest == null )
+            {
+                // first recording
+                shiftAndAdd( completedRequestsGraphValues, lastSecondCounter );
+                lastSecondCounter = 0;
+            }
+            else if ( isWithinSameSecond( currTime, endTimeOfLastRecordedCompletedRequest ) )
+            {
+                // within same second, increment last with one
+                lastSecondCounter++;
+            }
+            else
+            {
+                // new second, record possible peak
+                if ( lastSecondCounter > peakCompletedRequestsPrSecond )
+                {
+                    peakCompletedRequestsPrSecond = lastSecondCounter;
+                    $("#peak-number-of-completed-request-pr-second").html( peakCompletedRequestsPrSecond );
+                }
+                shiftAndAdd( completedRequestsGraphValues, lastSecondCounter );
+                lastSecondCounter = 1;
+            }
+            endTimeOfLastRecordedCompletedRequest = currTime;
+        }
+    }
+
+    $("#last-number-of-completed-request-pr-second").html( completedRequestsGraphValues[completedRequestsGraphValues.length - 1]);
+
+    $( '#graph-completed-requests-pr-second' ).sparkline( completedRequestsGraphValues,
+                                                          {chartRangeMin: 0, chartRangeMax: 100, type: 'line', lineColor: '#939F74', fillColor: '#ECFFBB', height: '2em'} );
+}
+
+function isWithinSameSecond( date1, date2 )
+{
+    if ( date1.getFullYear() !== date2.getFullYear() )
+    {
+        return false;
+    } else if ( date1.getMonth() !== date2.getMonth() )
+    {
+        return false;
+    } else if ( date1.getDate() !== date2.getDate() )
+    {
+        return false;
+    } else if ( date1.getHours() !== date2.getHours() )
+    {
+        return false;
+    } else if ( date1.getMinutes() !== date2.getMinutes() )
+    {
+        return false;
+    } else if ( date1.getSeconds() !== date2.getSeconds() )
+    {
+        return false;
+    }
+
+    return true;
 }
 
 function refreshSystemInfo()
@@ -320,49 +456,7 @@ function refreshSystemInfo()
             $( '#data-source-open-connection-count' ).text( jsonObj.data_source_open_connection_count );
         }
 
-        $( '#hibernate-connection-count' ).text( jsonObj.hibernate_connection_count );
-        $( '#hibernate-query-cache-hit-count' ).text( jsonObj.hibernate_query_cache_hit_count );
-        $( '#hibernate-collection-fetch-count' ).text( jsonObj.hibernate_collection_fetch_count );
-        $( '#hibernate-collection-load-count' ).text( jsonObj.hibernate_collection_load_count );
-
     } );
-}
-
-var memoryGraphValues = new Array( 170 );
-
-var entityCacheCapacityGraphValues = new Array( 170 );
-
-var pageCacheCapacityGraphValues = new Array( 170 );
-
-function isInitialized( array )
-{
-    if ( array.length == 0 )
-    {
-        return false;
-    }
-
-    return array[ 0 ] != undefined;
-}
-
-function initializeArray( array, value )
-{
-    for ( var i = 0; i < array.length; i++ )
-    {
-        if ( array[i] == undefined )
-        {
-            array[i] = value;
-        }
-    }
-}
-
-function shiftAndAdd( array, value )
-{
-    for ( var i = 1; i < array.length; i++ )
-    {
-        array[ i - 1 ] = array[ i ];
-    }
-
-    array[ array.length - 1 ] = value;
 }
 
 function graphMemory( used, max )
@@ -430,39 +524,33 @@ function humanReadableBytes( size )
     return Math.round( size * 10 ) / 10 + " " + suffix[tier];
 }
 
-function closePortalRequestTraceDetailWindow()
+function isInitialized( array )
 {
-    $( "#portalRequestTraceDetail-window" ).hide();
+    if ( array.length == 0 )
+    {
+        return false;
+    }
+
+    return array[ 0 ] != undefined;
 }
 
-function openPortalRequestTraceDetailWindow()
+function initializeArray( array, value )
 {
-    $( "#portalRequestTraceDetail-window" ).show();
+    for ( var i = 0; i < array.length; i++ )
+    {
+        if ( array[i] == undefined )
+        {
+            array[i] = value;
+        }
+    }
 }
 
-function showPortalRequestTraceDetail( html )
+function shiftAndAdd( array, value )
 {
-    $( "#portalRequestTraceDetail-details" ).html( html );
+    for ( var i = 1; i < array.length; i++ )
+    {
+        array[ i - 1 ] = array[ i ];
+    }
 
-    openPortalRequestTraceDetailWindow();
-}
-
-function toggleWindowRenderingTrace( id )
-{
-    $( "#window-rendering-trace-" + id ).toggle();
-}
-
-function toggleDatasourceExecutionTrace( id )
-{
-    $( "#datasource-execution-trace-" + id ).toggle();
-}
-
-function toggleClientMethodExecutionTrace( id )
-{
-    $( "#client-method-execution-trace-" + id ).toggle();
-}
-
-function toggleContentIndexQueryTrace( id )
-{
-    $( "#content-index-query-trace-" + id ).toggle();
+    array[ array.length - 1 ] = value;
 }

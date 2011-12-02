@@ -20,35 +20,33 @@ public class PortalRequestTrace
 {
     private long requestNumber;
 
+    private long completedNumber;
+
     private RequestMode mode;
 
-    private String id;
-
-    private String url;
+    private MaxLengthedString url;
 
     private Duration duration = new Duration();
 
-    private String httpRequestRemoteAddress;
+    private MaxLengthedString httpRequestRemoteAddress;
 
-    private String httpRequestCharacterEncoding;
+    private MaxLengthedString httpRequestCharacterEncoding;
 
-    private String httpRequestContentType;
+    private MaxLengthedString httpRequestContentType;
 
-    private String httpRequestUserAgent;
+    private MaxLengthedString httpRequestUserAgent;
 
-    private QualifiedUsername requester;
+    private MaxLengthedString requester;
 
     private SiteKey siteKey;
 
     private String siteName;
 
-    private SitePath sitePath;
+    private MaxLengthedString siteLocalPathAndParams;
 
-    private String siteLocalPathAndParams;
+    private MaxLengthedString responseRedirect;
 
-    private String responseRedirect;
-
-    private String responseForward;
+    private MaxLengthedString responseForward;
 
     private PageRenderingTrace pageRenderingTrace;
 
@@ -61,13 +59,7 @@ public class PortalRequestTrace
     PortalRequestTrace( long requestNumber, String url )
     {
         this.requestNumber = requestNumber;
-        this.url = url;
-        this.id = String.valueOf( hashCode() );
-    }
-
-    public String getId()
-    {
-        return id;
+        this.url = new MaxLengthedString( url );
     }
 
     public long getRequestNumber()
@@ -75,9 +67,19 @@ public class PortalRequestTrace
         return requestNumber;
     }
 
+    public long getCompletedNumber()
+    {
+        return completedNumber;
+    }
+
+    void setCompletedNumber( long completedNumber )
+    {
+        this.completedNumber = completedNumber;
+    }
+
     public String getUrl()
     {
-        return url;
+        return url != null ? url.toString() : null;
     }
 
     public RequestMode getMode()
@@ -85,7 +87,7 @@ public class PortalRequestTrace
         return mode;
     }
 
-    public void setMode( RequestMode mode )
+    void setMode( RequestMode mode )
     {
         this.mode = mode;
     }
@@ -155,42 +157,42 @@ public class PortalRequestTrace
 
     public String getHttpRequestRemoteAddress()
     {
-        return httpRequestRemoteAddress;
+        return httpRequestRemoteAddress != null ? httpRequestRemoteAddress.toString() : null;
     }
 
-    public void setHttpRequestRemoteAddress( String httpRequestRemoteAddress )
+    void setHttpRequestRemoteAddress( String httpRequestRemoteAddress )
     {
-        this.httpRequestRemoteAddress = httpRequestRemoteAddress;
+        this.httpRequestRemoteAddress = new MaxLengthedString( httpRequestRemoteAddress );
     }
 
     public String getHttpRequestCharacterEncoding()
     {
-        return httpRequestCharacterEncoding;
+        return httpRequestCharacterEncoding != null ? httpRequestCharacterEncoding.toString() : null;
     }
 
-    public void setHttpRequestCharacterEncoding( String httpRequestCharacterEncoding )
+    void setHttpRequestCharacterEncoding( String httpRequestCharacterEncoding )
     {
-        this.httpRequestCharacterEncoding = httpRequestCharacterEncoding;
+        this.httpRequestCharacterEncoding = new MaxLengthedString( httpRequestCharacterEncoding );
     }
 
     public String getHttpRequestContentType()
     {
-        return httpRequestContentType;
+        return httpRequestContentType != null ? httpRequestContentType.toString() : null;
     }
 
-    public void setHttpRequestContentType( String httpRequestContentType )
+    void setHttpRequestContentType( String httpRequestContentType )
     {
-        this.httpRequestContentType = httpRequestContentType;
+        this.httpRequestContentType = new MaxLengthedString( httpRequestContentType );
     }
 
     public String getHttpRequestUserAgent()
     {
-        return httpRequestUserAgent;
+        return httpRequestUserAgent != null ? httpRequestUserAgent.toString() : null;
     }
 
-    public void setHttpRequestUserAgent( String httpRequestUserAgent )
+    void setHttpRequestUserAgent( String httpRequestUserAgent )
     {
-        this.httpRequestUserAgent = httpRequestUserAgent;
+        this.httpRequestUserAgent = new MaxLengthedString( httpRequestUserAgent );
     }
 
     public SiteKey getSiteKey()
@@ -203,56 +205,51 @@ public class PortalRequestTrace
         return siteName;
     }
 
-    public void setSite( SiteEntity site )
+    void setSite( SiteEntity site )
     {
         this.siteKey = site.getKey();
         this.siteName = site.getName();
     }
 
-    public void setSitePath( SitePath sitePath )
+    void setSitePath( SitePath sitePath )
     {
-        this.sitePath = sitePath;
+        PathAndParamsToStringBuilder stringBuilder = new PathAndParamsToStringBuilder();
+        this.siteLocalPathAndParams = new MaxLengthedString( stringBuilder.toString( sitePath.getPathAndParams() ) );
     }
 
     public String getSiteLocalUrl()
     {
-        if ( siteLocalPathAndParams == null && sitePath != null )
-        {
-            PathAndParamsToStringBuilder stringBuilder = new PathAndParamsToStringBuilder();
-            this.siteLocalPathAndParams = stringBuilder.toString( sitePath.getPathAndParams() );
-        }
-
-        return siteLocalPathAndParams;
+        return siteLocalPathAndParams != null ? siteLocalPathAndParams.toString() : null;
     }
 
-    public QualifiedUsername getRequester()
+    public String getRequester()
     {
-        return requester;
+        return requester != null ? requester.toString() : null;
     }
 
-    public void setRequester( QualifiedUsername requester )
+    void setRequester( QualifiedUsername requester )
     {
-        this.requester = requester;
+        this.requester = new MaxLengthedString( requester.toString() );
     }
 
     public String getResponseRedirect()
     {
-        return responseRedirect;
+        return responseRedirect != null ? responseRedirect.toString() : null;
     }
 
-    public void setResponseRedirect( String responseRedirect )
+    void setResponseRedirect( String responseRedirect )
     {
-        this.responseRedirect = responseRedirect;
+        this.responseRedirect = new MaxLengthedString( responseRedirect );
     }
 
     public String getResponseForward()
     {
-        return responseForward;
+        return responseForward != null ? responseForward.toString() : null;
     }
 
-    public void setResponseForward( String responseForward )
+    void setResponseForward( String responseForward )
     {
-        this.responseForward = responseForward;
+        this.responseForward = new MaxLengthedString( responseForward );
     }
 
     public boolean hasPageRenderingTrace()
@@ -270,7 +267,7 @@ public class PortalRequestTrace
         this.pageRenderingTrace = pageRenderingTrace;
     }
 
-    public void setWindowRenderingTrace( WindowRenderingTrace windowRenderingTrace )
+    void setWindowRenderingTrace( WindowRenderingTrace windowRenderingTrace )
     {
         this.windowRenderingTrace = windowRenderingTrace;
     }
@@ -313,6 +310,34 @@ public class PortalRequestTrace
     void setImageRequestTrace( ImageRequestTrace imageRequestTrace )
     {
         this.imageRequestTrace = imageRequestTrace;
+    }
+
+    @Override
+    public boolean equals( Object o )
+    {
+        if ( this == o )
+        {
+            return true;
+        }
+        if ( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
+
+        PortalRequestTrace that = (PortalRequestTrace) o;
+
+        if ( requestNumber != that.requestNumber )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return (int) ( requestNumber ^ ( requestNumber >>> 32 ) );
     }
 
     @Override

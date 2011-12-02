@@ -6,19 +6,26 @@ import org.joda.time.DateTime;
 public class InstructionPostProcessingTrace
     implements Trace
 {
-    private Duration duration = new Duration();
+    private SimpleDuration duration = new SimpleDuration();
+
+    private DateTime startTime = null;
 
     void setStartTime( DateTime startTime )
     {
-        duration.setStartTime( startTime );
+        this.startTime = startTime;
     }
 
-    void setStopTime( DateTime stopTime )
+    DateTime getStartTime()
     {
-        duration.setStopTime( stopTime );
+        return startTime;
     }
 
-    public Duration getDuration()
+    void setDurationInMilliseconds( long milliseconds )
+    {
+        duration.setDurationInMilliseconds( milliseconds );
+    }
+
+    public SimpleDuration getDuration()
     {
         return duration;
     }

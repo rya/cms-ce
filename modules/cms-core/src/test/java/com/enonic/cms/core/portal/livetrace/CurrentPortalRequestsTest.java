@@ -1,9 +1,9 @@
 package com.enonic.cms.core.portal.livetrace;
 
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 public class CurrentPortalRequestsTest
 {
-    private static Random randomWheel = new Random( new Date().getTime() );
+    private final static Random RANDOM_WHEEL = new SecureRandom();
 
     private AtomicLong atomicRequestNumber = new AtomicLong( 0 );
 
@@ -44,23 +44,25 @@ public class CurrentPortalRequestsTest
     }
 
     @Test
-    public void getList_returns_order()
+    public void getList_returns_items_in_order_as_they_where_inserted()
     {
         CurrentPortalRequests currentPortalRequests = new CurrentPortalRequests();
 
-        PortalRequestTrace trace = new PortalRequestTrace( 1, "http://locahost:8080/site/0/home" );
-        currentPortalRequests.add( trace );
+        PortalRequestTrace trace1 = new PortalRequestTrace( 1, "http://locahost:8080/site/0/home" );
+        currentPortalRequests.add( trace1 );
+
+        PortalRequestTrace trace2 = new PortalRequestTrace( 1, "http://locahost:8080/site/0/home" );
+        currentPortalRequests.add( trace2 );
 
         List<PortalRequestTrace> actualList = currentPortalRequests.getList();
-        assertSame( 1, actualList.size() );
-        assertSame( trace, actualList.get( 0 ) );
+        assertSame( 2, actualList.size() );
+        assertSame( trace1, actualList.get( 0 ) );
+        assertSame( trace2, actualList.get( 1 ) );
     }
 
     @Test
     public void concurrent_100_threads_adding_random_requests()
     {
-        long startTime = System.currentTimeMillis();
-
         final int numberOfThreadsToStart = 100;
 
         final CurrentPortalRequests currentPortalRequests = new CurrentPortalRequests();
@@ -74,8 +76,6 @@ public class CurrentPortalRequestsTest
         List<Thread> threads = createThreadsForRequestSimulators( requestSimulators );
         startThreads( threads );
         waitForThreadsToFinish( threads );
-
-        System.out.println( "concurrent_100_threads_adding_100_requests, time: " + ( System.currentTimeMillis() - startTime ) );
 
         assertNoExceptionsThrownForRequestSimulators( requestSimulators );
         assertEquals( countTotalNumberOfExecutions( requestSimulators ), currentPortalRequests.getSize() );
@@ -158,8 +158,6 @@ public class CurrentPortalRequestsTest
         startThreads( threads );
         waitForThreadsToFinish( threads );
 
-        System.out.println( "Time: " + ( System.currentTimeMillis() - startTime ) );
-
         assertNoExceptionsThrownForRequestSimulators( requestSimulators );
         assertNoExceptionsThrownForTraceInfoReaderSimulators( traceInfoReaderSimulators );
         assertEquals( 0, currentPortalRequests.getSize() );
@@ -201,7 +199,7 @@ public class CurrentPortalRequestsTest
 
     private static int random( int low, int high )
     {
-        return randomWheel.nextInt( high - low + 1 ) + low;
+        return RANDOM_WHEEL.nextInt( high - low + 1 ) + low;
     }
 
     private List<Thread> createThreadsForRequestSimulators( List<RequestSimulator> simulators )
@@ -342,6 +340,7 @@ public class CurrentPortalRequestsTest
                 {
 
                     currentPortalRequests.getSize();
+                    //noinspection UnusedDeclaration
                     for ( PortalRequestTrace trace : currentPortalRequests.getList() )
                     {
                         // just simulating iteration

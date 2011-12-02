@@ -11,7 +11,7 @@ public class DatasourceExecutionTrace
 {
     private String methodName;
 
-    private String runnableCondition;
+    private MaxLengthedString runnableCondition;
 
     private boolean isExecuted;
 
@@ -62,12 +62,12 @@ public class DatasourceExecutionTrace
 
     public String getRunnableCondition()
     {
-        return runnableCondition;
+        return runnableCondition != null ? runnableCondition.toString() : null;
     }
 
     void setRunnableCondition( String runnableCondition )
     {
-        this.runnableCondition = runnableCondition;
+        this.runnableCondition = new MaxLengthedString( runnableCondition );
     }
 
     public boolean isCacheUsed()

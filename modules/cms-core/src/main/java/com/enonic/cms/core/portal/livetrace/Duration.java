@@ -8,8 +8,6 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
 
 import com.google.common.base.Preconditions;
 
@@ -17,21 +15,11 @@ import com.google.common.base.Preconditions;
  * Oct 11, 2010
  */
 public class Duration
+    extends SimpleDuration
 {
     private DateTime startTime;
 
     private DateTime stopTime;
-
-    private long executionTimeInMilliseconds;
-
-    private Period dateTimeDuration;
-
-    private String executionTimeAsHRFormat;
-
-    private static final PeriodFormatter hoursMinutesMillis =
-        new PeriodFormatterBuilder().appendHours().appendSuffix( " h ", " h " ).appendMinutes().appendSuffix( " m ",
-                                                                                                              " m " ).appendSeconds().appendSuffix(
-            " s ", " s " ).appendMillis().appendSuffix( " ms", " ms" ).toFormatter();
 
     public boolean hasStarted()
     {
@@ -78,18 +66,18 @@ public class Duration
 
     void setStopTime( DateTime stopTime )
     {
+        Preconditions.checkNotNull( startTime );
         Preconditions.checkNotNull( stopTime );
         this.stopTime = stopTime;
-        this.executionTimeInMilliseconds = stopTime.getMillis() - startTime.getMillis();
-        this.dateTimeDuration = new Period( startTime, stopTime );
-        this.executionTimeAsHRFormat = hoursMinutesMillis.print( dateTimeDuration );
+        this.setDurationInMilliseconds( stopTime.getMillis() - startTime.getMillis() );
     }
 
-    public long getExecutionTimeInMilliseconds()
+    @Override
+    public long getAsMilliseconds()
     {
         if ( hasEnded() )
         {
-            return executionTimeInMilliseconds;
+            return super.getAsMilliseconds();
         }
         else if ( startTime != null )
         {
@@ -101,15 +89,16 @@ public class Duration
         }
     }
 
-    public String getExecutionTimeAsHRFormat()
+    @Override
+    public String getAsHRFormat()
     {
         if ( hasEnded() )
         {
-            return executionTimeAsHRFormat;
+            return super.getAsHRFormat();
         }
         else if ( startTime != null )
         {
-            return hoursMinutesMillis.print( new Period( startTime, new DateTime() ) );
+            return HOURS_MINUTES_MILLIS.print( new Period( startTime, new DateTime() ) );
         }
         else
         {
@@ -123,7 +112,7 @@ public class Duration
         StringBuffer s = new StringBuffer();
         s.append( "startTime: " ).append( startTime ).append( "\n" );
         s.append( "stopTime: " ).append( stopTime ).append( "\n" );
-        s.append( "executionTimeInMilliseconds: " ).append( executionTimeInMilliseconds ).append( "\n" );
+        s.append( "executionTimeInMilliseconds: " ).append( getAsMilliseconds() ).append( "\n" );
         return s.toString();
     }
 }

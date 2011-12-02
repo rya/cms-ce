@@ -55,11 +55,28 @@ public class WindowRenderingTracer
         }
     }
 
-    public static void traceUsedCachedResult( final WindowRenderingTrace trace, boolean value )
+    public static void traceUsedCachedResult( final WindowRenderingTrace trace, boolean cacheable, boolean usedCachedResult )
     {
         if ( trace != null )
         {
-            trace.setUsedCachedResult( value );
+            trace.setCacheable( cacheable );
+            trace.setUsedCachedResult( usedCachedResult );
+        }
+    }
+
+    public static void startConcurrencyBlockTimer( WindowRenderingTrace trace )
+    {
+        if ( trace != null )
+        {
+            trace.startConcurrencyBlockTimer();
+        }
+    }
+
+    public static void stopConcurrencyBlockTimer( WindowRenderingTrace trace )
+    {
+        if ( trace != null )
+        {
+            trace.stopConcurrencyBlockTimer();
         }
     }
 }

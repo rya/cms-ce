@@ -24,15 +24,21 @@ public class LongestPortalRequests
         list = new TreeSet<PortalRequestTrace>( new PortalRequestTraceComparatorByLongestTime() );
     }
 
-    public synchronized void add( PortalRequestTrace item )
+    public void add( PortalRequestTrace item )
     {
-        list.add( item );
-        doRetainSize();
+        synchronized ( list )
+        {
+            list.add( item );
+            doRetainSize();
+        }
     }
 
-    public synchronized List<PortalRequestTrace> getList()
+    public List<PortalRequestTrace> getList()
     {
-        return ImmutableList.copyOf( list );
+        synchronized ( list )
+        {
+            return ImmutableList.copyOf( list );
+        }
     }
 
     private void doRetainSize()
@@ -43,8 +49,11 @@ public class LongestPortalRequests
         }
     }
 
-    public synchronized void clear()
+    public void clear()
     {
-        list.clear();
+        synchronized ( list )
+        {
+            list.clear();
+        }
     }
 }

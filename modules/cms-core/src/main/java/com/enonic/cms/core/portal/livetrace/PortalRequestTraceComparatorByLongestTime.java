@@ -14,17 +14,24 @@ public class PortalRequestTraceComparatorByLongestTime
 {
     public int compare( PortalRequestTrace a, PortalRequestTrace b )
     {
-        if ( a.getDuration().getExecutionTimeInMilliseconds() > b.getDuration().getExecutionTimeInMilliseconds() )
+        if ( a.getDuration().getAsMilliseconds() > b.getDuration().getAsMilliseconds() )
         {
             return -1;
         }
-        else if ( a.getDuration().getExecutionTimeInMilliseconds() < b.getDuration().getExecutionTimeInMilliseconds() )
+        else if ( a.getDuration().getAsMilliseconds() < b.getDuration().getAsMilliseconds() )
         {
             return 1;
         }
         else
         {
-            return 0;
+            if ( a.getRequestNumber() == b.getRequestNumber() )
+            {
+                return 0;
+            }
+            else
+            {
+                return a.getRequestNumber() < b.getRequestNumber() ? -1 : 1;
+            }
         }
     }
 }
