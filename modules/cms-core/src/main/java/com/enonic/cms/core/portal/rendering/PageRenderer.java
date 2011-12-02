@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 
 import com.enonic.vertical.VerticalProperties;
 
-import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.framework.util.GenericConcurrencyLock;
 
 import com.enonic.cms.core.CacheObjectSettings;
@@ -61,8 +60,8 @@ import com.enonic.cms.core.structure.TemplateParameter;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Region;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-
 import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
+import com.enonic.cms.core.time.TimeService;
 
 
 /**
@@ -176,7 +175,7 @@ public class PageRenderer
             // render request is not cacheable
             final RenderedPageResult renderedPageResult = renderPageTemplateExcludingPortlets( pageTemplate );
             renderedPageResult.setRetrievedFromCache( false );
-            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false );
+            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false, false );
             return renderedPageResult;
         }
 
@@ -185,14 +184,16 @@ public class PageRenderer
         final Lock locker = concurrencyLock.getLock( pageCacheKey );
         try
         {
+            PageRenderingTracer.startConcurrencyBlockTimer( pageRenderingTrace );
             locker.lock();
+            PageRenderingTracer.stopConcurrencyBlockTimer( pageRenderingTrace );
 
             CachedObject cachedPageHolder = pageCacheService.getCachedPage( pageCacheKey );
             if ( cachedPageHolder != null )
             {
                 // Found the page in cache, return the clone to prevent further rendering of the cached object
                 RenderedPageResult cachedPageResult = (RenderedPageResult) cachedPageHolder.getObject();
-                PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true );
+                PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true, true );
                 return (RenderedPageResult) cachedPageResult.clone();
             }
 
@@ -206,7 +207,7 @@ public class PageRenderer
             // Have to return another instance since we did not retrieve this result from cache
             RenderedPageResult renderedPageResultToReturn = (RenderedPageResult) renderedPageResultToCache.clone();
             renderedPageResultToReturn.setRetrievedFromCache( false );
-            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, false );
+            PageRenderingTracer.traceUsedCachedResult( pageRenderingTrace, true, false );
             return renderedPageResultToReturn;
         }
         finally
@@ -215,10 +216,10 @@ public class PageRenderer
         }
     }
 
-    private RenderedPageResult renderPageTemplateExcludingPortlets( PageTemplateEntity pageTemplate )
+    private RenderedPageResult renderPageTemplateExcludingPortlets( final PageTemplateEntity pageTemplate )
     {
         final DataSourceResult dataSourceResult = executeDataSources( pageTemplate );
-        PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
+        final PortalFunctionsContext portalFunctionsContext = new PortalFunctionsContext();
         portalFunctionsContext.setInvocationCache( invocationCache );
         portalFunctionsContext.setSitePath( context.getSitePath() );
         portalFunctionsContext.setOriginalSitePath( context.getOriginalSitePath() );

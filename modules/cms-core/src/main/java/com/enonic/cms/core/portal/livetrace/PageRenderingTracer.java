@@ -41,11 +41,28 @@ public class PageRenderingTracer
         }
     }
 
-    public static void traceUsedCachedResult( final PageRenderingTrace trace, boolean value )
+    public static void traceUsedCachedResult( final PageRenderingTrace trace, boolean cacheable, boolean usedCachedResult )
     {
         if ( trace != null )
         {
-            trace.setUsedCachedResult( value );
+            trace.setCacheable( cacheable );
+            trace.setUsedCachedResult( usedCachedResult );
+        }
+    }
+
+    public static void startConcurrencyBlockTimer( PageRenderingTrace trace )
+    {
+        if ( trace != null )
+        {
+            trace.startConcurrencyBlockTimer();
+        }
+    }
+
+    public static void stopConcurrencyBlockTimer( PageRenderingTrace trace )
+    {
+        if ( trace != null )
+        {
+            trace.stopConcurrencyBlockTimer();
         }
     }
 }

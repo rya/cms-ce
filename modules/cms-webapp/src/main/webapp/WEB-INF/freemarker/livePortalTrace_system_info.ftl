@@ -20,9 +20,5 @@
 "java_non_heap_memory_usage_max": ${javaNonHeapMemoryUsageMax},
 "java_thread_count": ${javaThreadCount},
 "java_thread_peak_count": ${javaThreadPeakCount},
-"data_source_open_connection_count": ${dataSourceOpenConnectionCount!'-1'},
-"hibernate_connection_count": ${hibernateConnectionCount},
-"hibernate_query_cache_hit_count": ${hibernateQueryCacheHitCount},
-"hibernate_collection_fetch_count": ${hibernateCollectionFetchCount},
-"hibernate_collection_load_count": ${hibernateCollectionLoadCount}
+"data_source_open_connection_count": ${dataSourceOpenConnectionCount!'-1'}
 }

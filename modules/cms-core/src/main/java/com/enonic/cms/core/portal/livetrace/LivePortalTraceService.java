@@ -67,7 +67,7 @@ public interface LivePortalTraceService
 
     List<PortalRequestTrace> getCurrentPortalRequestTraces();
 
-    List<PastPortalRequestTrace> getHistorySince( long historyNumber );
+    List<PortalRequestTrace> getHistorySince( long historyNumber );
 
     List<PortalRequestTrace> getLongestTimePortalPageRequestTraces();
 

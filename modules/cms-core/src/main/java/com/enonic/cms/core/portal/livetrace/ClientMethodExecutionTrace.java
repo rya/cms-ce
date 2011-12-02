@@ -38,7 +38,6 @@ public class ClientMethodExecutionTrace
         return duration;
     }
 
-    @Override
     public void addContentIndexQueryTrace( ContentIndexQueryTrace trace )
     {
         contentIndexQueryTraces.add( trace );

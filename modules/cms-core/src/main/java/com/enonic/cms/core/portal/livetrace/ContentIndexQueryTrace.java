@@ -13,7 +13,7 @@ public class ContentIndexQueryTrace
 
     private int matchCount;
 
-    private String query;
+    private MaxLengthedString query;
 
     private String contentFilter;
 
@@ -68,12 +68,12 @@ public class ContentIndexQueryTrace
 
     public String getQuery()
     {
-        return query;
+        return query != null ? query.toString() : null;
     }
 
     void setQuery( String query )
     {
-        this.query = query;
+        this.query = new MaxLengthedString( query, 6000 );
     }
 
     public String getContentFilter()

@@ -67,4 +67,20 @@ public class ImageRequestTracer
             //trace.setImageName( imageResponse.getName() );
         }
     }
+
+    public static void startConcurrencyBlockTimer( ImageRequestTrace trace )
+    {
+        if ( trace != null )
+        {
+            trace.startConcurrencyBlockTimer();
+        }
+    }
+
+    public static void stopConcurrencyBlockTimer( ImageRequestTrace trace )
+    {
+        if ( trace != null )
+        {
+            trace.stopConcurrencyBlockTimer();
+        }
+    }
 }

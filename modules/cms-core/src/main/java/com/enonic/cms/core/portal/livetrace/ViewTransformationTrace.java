@@ -1,6 +1,5 @@
 package com.enonic.cms.core.portal.livetrace;
 
-
 import org.joda.time.DateTime;
 
 public class ViewTransformationTrace

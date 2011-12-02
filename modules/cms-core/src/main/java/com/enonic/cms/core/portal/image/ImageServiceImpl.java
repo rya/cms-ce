@@ -15,7 +15,6 @@ import com.google.common.base.Preconditions;
 import com.enonic.cms.framework.blob.BlobKey;
 import com.enonic.cms.framework.blob.BlobRecord;
 import com.enonic.cms.framework.blob.BlobStore;
-import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.framework.util.GenericConcurrencyLock;
 import com.enonic.cms.framework.util.ImageHelper;
 
@@ -30,6 +29,7 @@ import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
@@ -89,10 +89,11 @@ public final class ImageServiceImpl
         imageRequest.setBlobKey( blobKey );
 
         final Lock locker = concurrencyLock.getLock( imageRequest.getCacheKey() );
-
         try
         {
+            ImageRequestTracer.startConcurrencyBlockTimer( imageRequestTrace );
             locker.lock();
+            ImageRequestTracer.stopConcurrencyBlockTimer( imageRequestTrace );
 
             ImageResponse res = imageCache.get( imageRequest );
             if ( res != null )

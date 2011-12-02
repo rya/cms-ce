@@ -65,7 +65,6 @@ import com.enonic.cms.core.structure.TemplateParameterType;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.Window;
 import com.enonic.cms.core.structure.page.WindowKey;
-
 import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 
 /**
@@ -204,7 +203,7 @@ public class WindowRenderer
             if ( !useCache )
             {
                 final RenderedWindowResult windowResult = doExecuteDatasourcesAndTransformView( window, executor );
-                WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, false );
+                WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, false, false );
                 return cloneAndExecutePostProcessInstructions( windowResult );
             }
 
@@ -214,20 +213,22 @@ public class WindowRenderer
             final Lock locker = concurrencyLock.getLock( cacheKey );
             try
             {
+                WindowRenderingTracer.startConcurrencyBlockTimer( windowRenderingTrace );
                 locker.lock();
+                WindowRenderingTracer.stopConcurrencyBlockTimer( windowRenderingTrace );
 
                 // see if window result is in cache
                 final CachedObject cachedPortletHolder = pageCacheService.getCachedPortletWindow( cacheKey );
                 if ( cachedPortletHolder != null )
                 {
                     windowResult = (RenderedWindowResult) cachedPortletHolder.getObject();
-                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, true );
+                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, true, true );
                 }
                 else
                 {
                     // window not in cache, need to render...
                     windowResult = doExecuteDatasourcesAndTransformView( window, executor );
-                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, false );
+                    WindowRenderingTracer.traceUsedCachedResult( windowRenderingTrace, true, false );
 
                     // register the rendered window in the cache
                     if ( windowResult.isErrorFree() )

@@ -1,7 +1,7 @@
 package com.enonic.cms.itest.core.http;
 
 import java.io.IOException;
-import java.util.Date;
+import java.security.SecureRandom;
 import java.util.Properties;
 import java.util.Random;
 
@@ -24,9 +24,11 @@ import static org.junit.Assert.*;
 @ContextConfiguration
 public class HTTPServiceTest
 {
-    static private String SAMPLE_TEXT_RESPONSE = "sample text response";
+    private static Random RANDOM_WHEEL = new SecureRandom();
 
-    static private String SAMPLE_XML_RESPONSE = "<parent><child>response</child></parent>";
+    private static String SAMPLE_TEXT_RESPONSE = "sample text response";
+
+    private static String SAMPLE_XML_RESPONSE = "<parent><child>response</child></parent>";
 
     @Autowired
     private HTTPService httpService;
@@ -98,7 +100,6 @@ public class HTTPServiceTest
 
     private static int random( int low, int high )
     {
-        Random randomWheel = new Random( new Date().getTime() );
-        return randomWheel.nextInt( high - low + 1 ) + low;
+        return RANDOM_WHEEL.nextInt( high - low + 1 ) + low;
     }
 }

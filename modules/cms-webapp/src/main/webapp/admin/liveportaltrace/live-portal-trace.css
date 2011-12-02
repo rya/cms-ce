@@ -4,6 +4,16 @@
     color: black;
 }
 
+.trace-table {
+   table-layout: fixed;
+   width: 100%;
+}
+
+.trace-table tr:nth-child(2n) {
+    background-color: #dddddd;
+}
+
+
 .noBorderBottom {
     border-bottom: none !important;
 }
@@ -12,13 +22,9 @@
     margin-left: 20px;
 }
 
-.noWrap {
-    white-space: nowrap;
-}
-
 .listBox {
     padding: 8px;
-    margin: 10px;
+    margin-top: 10px;
     border: 1px solid #A0A0A0;
     border-radius: 4px;
     background-color: #eeeeee;
@@ -77,6 +83,7 @@
 
 .system-info-group-name-td {
     padding-right: 10px;
+    white-space: nowrap;
 }
 
 .system-info-label {
@@ -94,6 +101,12 @@ pre {
     padding: 10px;
 }
 
+.id-column {
+    text-align: right !important;
+    white-space: nowrap !important;
+    padding-right: 10px;
+}
+
 .type-column {
     text-align: center !important;
     white-space: nowrap !important;
@@ -101,10 +114,25 @@ pre {
     padding-left: 10px;
 }
 
+.url-column {
+    text-align: left !important;
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .duration-column {
     text-align: right !important;
     white-space: nowrap !important;
     padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cacheUsage-column {
+    text-align: left !important;
+    padding-left: 10px;
+    white-space: nowrap !important;
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -146,4 +174,26 @@ pre {
 
 #portalRequestTraceDetail-table th {
     text-align: left;
+}
+
+.cache-color-not-cacheable {
+    color: #000000;
+}
+
+.cache-color-cache-hit {
+    color: #007315;
+}
+
+.cache-color-cache-miss {
+    color: #A30000;
+}
+
+.cache-color-cache-hit-blocked {
+    color: #8B7B00;
+    text-decoration: underline;
+}
+
+.cache-color-cache-miss-blocked {
+    color: #A30000;
+    text-decoration: underline;
 }

@@ -390,7 +390,22 @@ public class LivePortalTraceServiceImpl
         checkEnabled();
         Preconditions.checkNotNull( instructionPostProcessingTrace );
 
-        instructionPostProcessingTrace.setStopTime( timeService.getNowAsDateTime() );
+        if ( WINDOW_RENDERING_TRACE_THREAD_LOCAL.get() == null && PAGE_RENDERING_TRACE_THREAD_LOCAL != null )
+        {
+            int windowsTotalPeriod =
+                PAGE_RENDERING_TRACE_THREAD_LOCAL.get().getWindowRenderingTracesAsTraces().getTotalPeriodInMilliseconds();
+            final long now = timeService.getNowAsDateTime().getMillis();
+            final long startTime = instructionPostProcessingTrace.getStartTime().getMillis();
+            final long duration = ( now - startTime ) - windowsTotalPeriod;
+            instructionPostProcessingTrace.setDurationInMilliseconds( duration );
+        }
+        else if ( WINDOW_RENDERING_TRACE_THREAD_LOCAL.get() != null )
+        {
+            final long now = timeService.getNowAsDateTime().getMillis();
+            final long startTime = instructionPostProcessingTrace.getStartTime().getMillis();
+            final long duration = now - startTime;
+            instructionPostProcessingTrace.setDurationInMilliseconds( duration );
+        }
     }
 
     public void stopTracing( ImageRequestTrace imageRequestTrace )
@@ -435,7 +450,7 @@ public class LivePortalTraceServiceImpl
         return longestPortalImageRequests.getList();
     }
 
-    public List<PastPortalRequestTrace> getHistorySince( long historyRecordNumber )
+    public List<PortalRequestTrace> getHistorySince( long historyRecordNumber )
     {
         checkEnabled();
 

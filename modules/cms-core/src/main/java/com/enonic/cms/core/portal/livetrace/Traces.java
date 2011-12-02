@@ -20,9 +20,8 @@ public class Traces<T extends Trace>
 
     private List<T> list = new ArrayList<T>();
 
-    private int totalExecutionTimeInMilliseconds = 0;
+    private int totalPeriodTimeInMilliseconds = 0;
 
-    @Override
     public Iterator<T> iterator()
     {
         return list.iterator();
@@ -30,8 +29,11 @@ public class Traces<T extends Trace>
 
     public void add( T trace )
     {
-        list.add( trace );
-        computeTotalPeriod();
+        synchronized ( list )
+        {
+            list.add( trace );
+            computeTotalPeriod();
+        }
     }
 
     public boolean hasTraces()
@@ -44,21 +46,32 @@ public class Traces<T extends Trace>
         return list;
     }
 
-    public String getTotalPeriodInHRFormat()
+    public int getTotalPeriodInMilliseconds()
     {
-        return computeTotalPeriod();
+        synchronized ( list )
+        {
+            computeTotalPeriod();
+            return totalPeriodTimeInMilliseconds;
+        }
     }
 
-    private String computeTotalPeriod()
+    public String getTotalPeriodInHRFormat()
     {
-        totalExecutionTimeInMilliseconds = 0;
+        synchronized ( list )
+        {
+            computeTotalPeriod();
+            Period period = new Period( totalPeriodTimeInMilliseconds );
+            return hoursMinutesMillis.print( period );
+        }
+    }
+
+    private void computeTotalPeriod()
+    {
+        totalPeriodTimeInMilliseconds = 0;
 
         for ( Trace trace : list )
         {
-            totalExecutionTimeInMilliseconds += trace.getDuration().getExecutionTimeInMilliseconds();
+            totalPeriodTimeInMilliseconds += trace.getDuration().getAsMilliseconds();
         }
-
-        Period period = new Period( totalExecutionTimeInMilliseconds );
-        return hoursMinutesMillis.print( period );
     }
 }

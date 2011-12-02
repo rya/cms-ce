@@ -6,7 +6,6 @@ package com.enonic.cms.core.portal.livetrace;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.google.common.collect.ImmutableList;
 
@@ -15,11 +14,11 @@ import com.google.common.collect.ImmutableList;
  */
 public class HistoryOfPortalRequests
 {
-    private static AtomicLong histoyCounter = new AtomicLong();
+    private static long historyCounter = 0;
 
     private int maxSize;
 
-    private LinkedList<PastPortalRequestTrace> list = new LinkedList<PastPortalRequestTrace>();
+    private LinkedList<PortalRequestTrace> list = new LinkedList<PortalRequestTrace>();
 
     public HistoryOfPortalRequests( int maxSize )
     {
@@ -28,18 +27,15 @@ public class HistoryOfPortalRequests
 
     public void add( PortalRequestTrace portalRequestTrace )
     {
-        final long historyCount = histoyCounter.incrementAndGet();
-
-        PastPortalRequestTrace pastPortalRequestTrace = new PastPortalRequestTrace( historyCount, portalRequestTrace );
-
         synchronized ( list )
         {
-            list.addFirst( pastPortalRequestTrace );
+            portalRequestTrace.setCompletedNumber( ++historyCounter );
+            list.addFirst( portalRequestTrace );
             doRetainSize();
         }
     }
 
-    public List<PastPortalRequestTrace> getList()
+    public List<PortalRequestTrace> getList()
     {
         synchronized ( list )
         {
@@ -47,12 +43,12 @@ public class HistoryOfPortalRequests
         }
     }
 
-    public List<PastPortalRequestTrace> getListSince( long historyRecordNumber )
+    public List<PortalRequestTrace> getListSince( long historyRecordNumber )
     {
-        LinkedList<PastPortalRequestTrace> sinceList = new LinkedList<PastPortalRequestTrace>();
-        for ( PastPortalRequestTrace trace : getList() )
+        LinkedList<PortalRequestTrace> sinceList = new LinkedList<PortalRequestTrace>();
+        for ( PortalRequestTrace trace : getList() )
         {
-            if ( trace.getHistoryRecordNumber() > historyRecordNumber )
+            if ( trace.getCompletedNumber() > historyRecordNumber )
             {
                 sinceList.addLast( trace );
             }
@@ -66,5 +62,10 @@ public class HistoryOfPortalRequests
         {
             list.removeLast();
         }
+    }
+
+    public int getSize()
+    {
+        return list.size();
     }
 }

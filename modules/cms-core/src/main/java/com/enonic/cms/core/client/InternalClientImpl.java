@@ -2419,6 +2419,8 @@ public final class InternalClientImpl
     public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
         throws ClientException
     {
+        final ClientMethodExecutionTrace trace =
+            ClientMethodExecutionTracer.startTracing( "getContentTypeConfigXML", livePortalTraceService );
         try
         {
             if ( params.key == null && params.name == null )
@@ -2452,6 +2454,10 @@ public final class InternalClientImpl
         catch ( Exception e )
         {
             throw handleException( e );
+        }
+        finally
+        {
+            ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
     }
 }

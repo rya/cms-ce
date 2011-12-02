@@ -1,29 +1,28 @@
 package com.enonic.cms.core.portal.livetrace;
 
-
 public class DatasourceMethodArgument
 {
-    private String name;
+    private MaxLengthedString name;
 
-    private String value;
+    private MaxLengthedString value;
 
     private String override;
 
     public DatasourceMethodArgument( String name, String value, String override )
     {
-        this.name = name;
-        this.value = value;
+        this.name = new MaxLengthedString( name );
+        this.value = new MaxLengthedString( value );
         this.override = override;
     }
 
     public String getName()
     {
-        return name;
+        return name != null ? name.toString() : null;
     }
 
     public String getValue()
     {
-        return value;
+        return value != null ? value.toString() : null;
     }
 
     public String getOverride()
