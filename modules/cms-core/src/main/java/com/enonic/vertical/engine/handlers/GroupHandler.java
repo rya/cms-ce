@@ -291,15 +291,12 @@ public final class GroupHandler
         {
             VerticalEngineLogger.error("A database error occurred: %t", e );
         }
-        finally
-        {
-        }
 
         return groups;
     }
 
 
-    public String[] getGroupMembers( String[] groups, String[] excludeGroups, boolean recursive )
+    public String[] getGroupMembers( String[] groups, String[] excludeGroups )
     {
         if ( groups == null || groups.length == 0 )
         {
@@ -317,15 +314,8 @@ public final class GroupHandler
             excludeGroups = new String[0];
         }
 
-        if ( !recursive )
-        {
-            return filteredGroups;
-        }
-        else
-        {
-            String[] recursiveGroups = getGroupMembers( filteredGroups, ArrayUtil.concat( filteredGroups, excludeGroups, false ), true );
-            return ArrayUtil.concat( filteredGroups, recursiveGroups, false );
-        }
+        String[] recursiveGroups = getGroupMembers( filteredGroups, ArrayUtil.concat( filteredGroups, excludeGroups, false ) );
+        return ArrayUtil.concat( filteredGroups, recursiveGroups, false );
     }
 
     private String[] getGroupMemberships( Connection _con, String[] groups, Set<String> excludeGroups )

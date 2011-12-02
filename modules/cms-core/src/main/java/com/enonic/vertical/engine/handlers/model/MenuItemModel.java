@@ -4,9 +4,9 @@ import com.enonic.cms.core.structure.menuitem.MenuItemType;
 
 public class MenuItemModel
 {
-    private int primaryKey; // new (in new created site) menu item primary key
-    private Integer type; // menu item type ( page/ URL / label / section / shortcut )
-    private Integer shortcutKey; // old shortcut key (linked to) in case SHORTCUT type, null otherwise
+    private final int primaryKey; // new (in new created site) menu item primary key
+    private final Integer type; // menu item type ( page/ URL / label / section / shortcut )
+    private final Integer shortcutKey; // old shortcut key (linked to) in case SHORTCUT type, null otherwise
 
     public MenuItemModel( int primaryKey, Integer type, Integer shortcutKey )
     {

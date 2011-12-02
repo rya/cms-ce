@@ -227,7 +227,7 @@ public class UserStoreHandlerServlet
             else
             {
                 String message = "Unknown step: {0}";
-                WizardLogger.errorWizard(message, currentStep, null );
+                WizardLogger.errorWizard(message, currentStep );
             }
         }
 
@@ -346,7 +346,7 @@ public class UserStoreHandlerServlet
             return user;
         }
 
-        VerticalAdminLogger.errorAdmin("Not authorized.", null );
+        VerticalAdminLogger.errorAdmin("Not authorized." );
         return null;
     }
 

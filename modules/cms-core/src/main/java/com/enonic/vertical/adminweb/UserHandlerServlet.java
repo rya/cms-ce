@@ -609,7 +609,7 @@ public class UserHandlerServlet
                             }
                             catch ( VerticalException ve )
                             {
-                                VerticalEngineLogger.warn( "Unable to generate password.", null );
+                                VerticalEngineLogger.warn( "Unable to generate password." );
                             }
                         }
                     }
@@ -1514,7 +1514,7 @@ public class UserHandlerServlet
 
             if ( !newPassword1.equals( newPassword2 ) )
             {
-                VerticalAdminLogger.errorAdmin( "Passwords do not match!", null );
+                VerticalAdminLogger.errorAdmin( "Passwords do not match!" );
             }
 
             final String uid = formItems.getString( "uid" );

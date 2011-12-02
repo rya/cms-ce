@@ -82,8 +82,7 @@ public class CommonHandler
 
     public int executeSQL( String sql, int[] paramValues )
     {
-
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         int result = 0;
 
@@ -116,7 +115,7 @@ public class CommonHandler
 
     public int executeSQL( String sql, Integer[] paramValues )
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         int result = 0;
 
@@ -167,7 +166,7 @@ public class CommonHandler
 
     private Date getTimestamp( String sql, int paramValue )
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         Date timestamp = null;
@@ -435,7 +434,7 @@ public class CommonHandler
         return value;
     }
 
-    public boolean getBoolean( String sql, int[] paramValues )
+    public boolean getBoolean( String sql )
     {
         Connection con = null;
         PreparedStatement preparedStmt = null;
@@ -446,13 +445,6 @@ public class CommonHandler
         {
             con = getConnection();
             preparedStmt = con.prepareStatement( sql );
-            if ( paramValues != null )
-            {
-                for ( int i = 0; i < paramValues.length; i++ )
-                {
-                    preparedStmt.setInt(i + 1, paramValues[i]);
-                }
-            }
             resultSet = preparedStmt.executeQuery();
 
             if ( resultSet.next() )
@@ -681,9 +673,9 @@ public class CommonHandler
         return string;
     }
 
-    public Date getTimestamp( Table table, Column selectColumn, boolean distinct, Column whereColumn, int paramValue )
+    public Date getTimestamp( Table table, Column selectColumn, Column whereColumn, int paramValue )
     {
-        String sql = XDG.generateSelectSQL( table, selectColumn, distinct, whereColumn ).toString();
+        String sql = XDG.generateSelectSQL( table, selectColumn, false, whereColumn ).toString();
         return getTimestamp(sql, paramValue);
     }
 
@@ -753,7 +745,7 @@ public class CommonHandler
 
     public String[] getStrings( String sql, Object[] paramValues )
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         String[] strings;
@@ -801,7 +793,7 @@ public class CommonHandler
 
     private Object[] getObjects( String sql, Object[] paramValues )
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         Object[] objects;
@@ -854,7 +846,7 @@ public class CommonHandler
 
     public boolean hasRows( String sql, int[] paramValues )
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         boolean hasRows = false;
@@ -892,9 +884,9 @@ public class CommonHandler
         return hasRows;
     }
 
-    public Document getSingleData( int type, int key, ElementProcessor[] elementProcessors )
+    public Document getSingleData( int type, int key )
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         Document doc = null;
@@ -909,40 +901,7 @@ public class CommonHandler
             preparedStmt.setInt( 1, key );
             resultSet = preparedStmt.executeQuery();
 
-            doc = XDG.resultSetToXML( table, resultSet, null, elementProcessors, null, -1 );
-        }
-        catch ( SQLException sqle )
-        {
-            String message = "SQL error: %t";
-            VerticalEngineLogger.error(message, sqle );
-        }
-        finally
-        {
-            close( resultSet );
-            close( preparedStmt );
-        }
-
-        return doc;
-    }
-
-    public Document getSingleData( int type, String key, ElementProcessor[] elementProcessors )
-    {
-        Connection con = null;
-        PreparedStatement preparedStmt = null;
-        ResultSet resultSet = null;
-        Document doc = null;
-        Table table = Types.getTable( type );
-
-        try
-        {
-            con = getConnection();
-
-            StringBuffer sql = XDG.generateSelectWherePrimaryKeySQL( table );
-            preparedStmt = con.prepareStatement( sql.toString() );
-            preparedStmt.setString( 1, key );
-            resultSet = preparedStmt.executeQuery();
-
-            doc = XDG.resultSetToXML( table, resultSet, null, elementProcessors, null, -1 );
+            doc = XDG.resultSetToXML( table, resultSet, null, null, null, -1 );
         }
         catch ( SQLException sqle )
         {
@@ -1140,7 +1099,7 @@ public class CommonHandler
                             ElementProcessor[] elementProcessors, int fromIndex, int count, String orderBy, boolean descending)
     {
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         Document doc = null;
@@ -1181,7 +1140,7 @@ public class CommonHandler
     private int getDataCount(int type, MultiValueMap parameters)
     {
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         Table table = Types.getTable( type );
@@ -1291,7 +1250,7 @@ public class CommonHandler
             else
             {
                 String message = "Failed to count data.";
-                VerticalEngineLogger.error(message, null );
+                VerticalEngineLogger.error(message );
                 result = 0;
             }
         }
@@ -1310,8 +1269,7 @@ public class CommonHandler
         return result;
     }
 
-    public StringBuffer getPathString( Table table, Column keyColumn, Column parentKeyColumn, Column nameColumn, int key,
-                                       String customRootName, boolean includeSpace )
+    public StringBuffer getPathString( Table table, Column keyColumn, Column parentKeyColumn, Column nameColumn, int key, boolean includeSpace )
     {
 
         Column[] selectColumns = new Column[]{parentKeyColumn, nameColumn};
@@ -1339,14 +1297,7 @@ public class CommonHandler
                     if ( resultSet.wasNull() )
                     {
                         key = -1;
-                        if ( customRootName == null )
-                        {
-                            name = resultSet.getString( 2 );
-                        }
-                        else
-                        {
-                            name = customRootName;
-                        }
+                        name = resultSet.getString( 2 );
                     }
                     else
                     {

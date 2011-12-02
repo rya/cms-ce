@@ -48,11 +48,11 @@ public class SectionHandler
         extends AttributeElementProcessor
     {
 
-        private int[] sectionKeys;
+        private final int[] sectionKeys;
 
-        private FilteredAttributeElementProcessor( String attributeName, String attributeValue, int[] sectionKeys )
+        private FilteredAttributeElementProcessor( int[] sectionKeys )
         {
-            super( attributeName, attributeValue );
+            super( "filtered", "true" );
             this.sectionKeys = sectionKeys;
             Arrays.sort( this.sectionKeys );
         }
@@ -85,7 +85,7 @@ public class SectionHandler
         }
     }
 
-    public Document getContentTypesDocumentForSection( int menuItemSectionKey )
+    private Document getContentTypesDocumentForSection( int menuItemSectionKey )
     {
         int[] contentTypeKeys = getContentTypesForSection( menuItemSectionKey );
         return getContentHandler().getContentTypesDocument( contentTypeKeys );
@@ -95,16 +95,16 @@ public class SectionHandler
         implements ElementProcessor
     {
 
-        private Map<String, Element> elemMap;
+        private final Map<String, Element> elemMap;
 
         private List<Element> elemList;
 
         private Element lastElem;
 
-        public CollectionProcessor( Map<String, Element> elemMap, List<Element> elemList )
+        public CollectionProcessor( Map<String, Element> elemMap )
         {
             this.elemMap = elemMap;
-            this.elemList = elemList;
+            this.elemList = null;
         }
 
         public void process( Element elem )
@@ -152,7 +152,7 @@ public class SectionHandler
         throws VerticalCreateException
     {
         StringBuffer sql = XDG.generateUpdateSQL( db.tMenuItem, new Column[]{db.tMenuItem.mei_bSection, db.tMenuItem.mei_bOrderedSection},
-                                                  new Column[]{db.tMenuItem.mei_lKey}, null );
+                                                  new Column[]{db.tMenuItem.mei_lKey} );
         getCommonHandler().executeSQL( sql.toString(), new int[]{1, ordered ? 1 : 0, menuItemKey} );
         setContentTypesForSection( menuItemKey, contentTypes );
     }
@@ -181,7 +181,7 @@ public class SectionHandler
         throws VerticalRemoveException, VerticalSecurityException
     {
         boolean success = true;
-        int[] keys = getSectionKeysBySuperSection( sectionKey, false );
+        int[] keys = getSectionKeysBySuperSection( sectionKey );
         for ( int key : keys )
         {
             success = success && removeSectionRecursive( key );
@@ -264,22 +264,19 @@ public class SectionHandler
 
     public int getMenuKeyBySection( int sectionKey )
     {
-        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_men_lKey, false,
-                                                  new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} );
+        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_men_lKey, new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} );
         return getCommonHandler().getInt( sql.toString(), new Object[]{sectionKey, 1} );
     }
 
     public MenuItemKey getMenuItemKeyBySection( int sectionKey )
     {
-        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lKey, false,
-                                                  new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} );
+        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lKey, new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} );
         return new MenuItemKey( getCommonHandler().getInt( sql.toString(), new Object[]{sectionKey, 1} ) );
     }
 
     public MenuItemKey getSectionKeyByMenuItem( MenuItemKey menuItemKey )
     {
-        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lKey, false,
-                                                  new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} );
+        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_lKey, new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} );
         if ( getCommonHandler().hasRows( sql.toString(), new int[]{menuItemKey.toInt(), 1} ) )
         {
             return menuItemKey;
@@ -450,7 +447,7 @@ public class SectionHandler
             }
 
             Map<String, Element> elemMap = new HashMap<String, Element>();
-            CollectionProcessor collectionProcessor = new CollectionProcessor( elemMap, null );
+            CollectionProcessor collectionProcessor = new CollectionProcessor( elemMap );
             ElementProcessor[] processors;
             ElementProcessor aep = null;
             if ( contentKeyExcludeFilter >= 0 )
@@ -458,13 +455,13 @@ public class SectionHandler
                 if ( markContentFilteredSections )
                 {
                     int[] keys = getSectionKeysByContent( contentKeyExcludeFilter, -1 );
-                    aep = new FilteredAttributeElementProcessor( "filtered", "true", keys );
+                    aep = new FilteredAttributeElementProcessor( keys );
                 }
             }
             if ( contentKey >= 0 && markContentFilteredSections )
             {
                 int[] keys = getSectionKeysByContent( contentKey, -1 );
-                aep = new FilteredAttributeElementProcessor( "filtered", "true", keys );
+                aep = new FilteredAttributeElementProcessor( keys );
             }
 
             SectionProcessor sectionProcessorThatIncludesContentTypes = null;
@@ -525,7 +522,7 @@ public class SectionHandler
 
             if ( criteria.appendAccessRights() )
             {
-                securityHandler.appendAccessRights( user, doc, true, true );
+                securityHandler.appendAccessRights( user, doc );
             }
         }
         catch ( SQLException sqle )
@@ -542,7 +539,7 @@ public class SectionHandler
         return doc;
     }
 
-    public int[] getSectionKeysByContent( int contentKey, int menuKey )
+    private int[] getSectionKeysByContent( int contentKey, int menuKey )
     {
         StringBuffer sql = XDG.generateSelectSQL( db.tSectionContent2, db.tSectionContent2.sco_mei_lKey, false, (Column) null );
 
@@ -557,17 +554,17 @@ public class SectionHandler
         return getCommonHandler().getIntArray( sql.toString() );
     }
 
-    private int[] getSectionKeysBySuperSection( int superSectionKey, boolean recursive )
+    private int[] getSectionKeysBySuperSection( int superSectionKey )
     {
 
-        return getSectionKeysBySuperSections( new int[]{superSectionKey}, recursive );
+        return getSectionKeysBySuperSections( new int[]{superSectionKey}, false );
     }
 
     private int[] getSectionKeysBySuperSections( int[] superSectionKeys, boolean recursive )
     {
         SectionView sectionView = SectionView.getInstance();
         int[] sectionKeys;
-        StringBuffer sql = XDG.generateSelectSQL( sectionView, sectionView.mei_lKey, false, (Column[]) null );
+        StringBuffer sql = XDG.generateSelectSQL( sectionView, sectionView.mei_lKey, (Column[]) null );
         sql.append( " WHERE mei_lParent IN (" );
         for ( int i = 0; i < superSectionKeys.length; i++ )
         {
@@ -605,7 +602,7 @@ public class SectionHandler
             " = " ).append( db.tMenuItem.mei_men_lKey );
         sql.append( " LEFT JOIN " ).append( db.tMenuItem ).append( " secparent" ).append( " ON " ).append( "secparent." ).append(
             db.tMenuItem.mei_lKey ).append( " = sec." ).append( db.tMenuItem.mei_lParent );
-        XDG.appendWhereSQL( sql, db.tSectionContent2.sco_con_lKey, XDG.OPERATOR_EQUAL );
+        XDG.appendWhereSQL( sql, db.tSectionContent2.sco_con_lKey );
         sql.append( "?" );
 
         Connection con = null;
@@ -849,10 +846,10 @@ public class SectionHandler
     public void copySection( int sectionKey )
         throws VerticalSecurityException
     {
-        copySections( null, new int[]{sectionKey} );
+        copySections( new int[]{sectionKey} );
     }
 
-    private void copySections( CopyContext copyContext, int[] sectionKeys )
+    private void copySections( int[] sectionKeys )
         throws VerticalSecurityException
     {
         SectionView sectionView = SectionView.getInstance();
@@ -879,7 +876,7 @@ public class SectionHandler
                     {
                         superKey = null;
                     }
-                    copySectionAtSameLevel( copyContext, sectionKey, superKey );
+                    copySectionAtSameLevel( sectionKey, superKey );
                 }
             }
         }
@@ -899,17 +896,17 @@ public class SectionHandler
         SectionView view = SectionView.getInstance();
         Column selectColumn = view.mei_lKey;
         Column[] whereColumns = {view.mei_men_lKey, view.mei_lParent.getNullColumn()};
-        StringBuffer sql = XDG.generateSelectSQL( view, selectColumn, false, whereColumns );
+        StringBuffer sql = XDG.generateSelectSQL( view, selectColumn, whereColumns );
         CommonHandler commonHandler = getCommonHandler();
         return commonHandler.getIntArray( sql.toString(), menuKey );
     }
 
-    private void copySectionAtSameLevel( CopyContext copyContext, int sectionKey, MenuItemKey superKey )
+    private void copySectionAtSameLevel( int sectionKey, MenuItemKey superKey )
         throws VerticalSecurityException
     {
         try
         {
-            copySection( copyContext, sectionKey, superKey );
+            copySection( null, sectionKey, superKey );
         }
         catch ( SQLException e )
         {
@@ -931,7 +928,7 @@ public class SectionHandler
         copySecConTypeFilter( sourceKey, superKey );
 
         // Copy children
-        int[] subKeys = getSectionKeysBySuperSection( sourceKey, false );
+        int[] subKeys = getSectionKeysBySuperSection( sourceKey );
         for ( int subKey : subKeys )
         {
             copySection( copyContext, subKey, superKey );
@@ -939,17 +936,15 @@ public class SectionHandler
     }
 
     private void copySectionData( int sourceKey, MenuItemKey superKey )
-        throws SQLException
     {
-        String sql1 = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_bOrderedSection, false,
-                                             new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} ).toString();
+        String sql1 = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_bOrderedSection, new Column[]{db.tMenuItem.mei_lKey, db.tMenuItem.mei_bSection} ).toString();
         int ordered = getCommonHandler().getInt( sql1, new int[]{sourceKey, 1} );
         if ( ordered < 0 )
         {
             ordered = 0;
         }
         String sql2 = XDG.generateUpdateSQL( db.tMenuItem, new Column[]{db.tMenuItem.mei_bSection, db.tMenuItem.mei_bOrderedSection},
-                                             new Column[]{db.tMenuItem.mei_lKey}, null ).toString();
+                                             new Column[]{db.tMenuItem.mei_lKey} ).toString();
         getCommonHandler().executeSQL( sql2, new int[]{1, ordered, superKey.toInt()} );
 
     }

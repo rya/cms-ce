@@ -1192,7 +1192,7 @@ public class ContentBaseHandlerServlet
             else
             {
                 String message = "Unknown sub-operation for operation report: %t";
-                VerticalAdminLogger.errorAdmin( message, null );
+                VerticalAdminLogger.errorAdmin( message );
             }
         }
         catch ( XsltProcessorException e )
@@ -1315,7 +1315,7 @@ public class ContentBaseHandlerServlet
 
         if ( ( !createContent && versionKey == -1 ) || ( createContent && versionKey != -1 ) )
         {
-            VerticalAdminLogger.error( "Parameter error!", null );
+            VerticalAdminLogger.error( "Parameter error!" );
         }
 
         handlerForm( request, response, session, admin, formItems, user, createContent, unitKey, categoryKey, contentTypeKey, contentKey,
@@ -1362,7 +1362,7 @@ public class ContentBaseHandlerServlet
         if ( !root.hasChildNodes() )
         {
             String message = "Access denied.";
-            VerticalAdminLogger.errorAdmin( message, null );
+            VerticalAdminLogger.errorAdmin( message );
         }
 
         if ( !createContent )

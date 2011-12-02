@@ -38,7 +38,7 @@ public class PagelinkHandlerServlet
                                ExtendedMap formItems, User user )
         throws VerticalAdminException, VerticalEngineException
     {
-        VerticalAdminLogger.errorAdmin("OperationWrapper CREATE not implemented", null );
+        VerticalAdminLogger.errorAdmin("OperationWrapper CREATE not implemented" );
     }
 
     public boolean handlerSelect( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,

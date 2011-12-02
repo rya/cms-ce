@@ -183,7 +183,7 @@ public class SectionHandlerServlet
             else
             {
                 String message = "Unknown test condition: {0}";
-                WizardLogger.errorWizard( message, testCondition, null );
+                WizardLogger.errorWizard( message, testCondition );
                 result = false;
             }
 
@@ -1057,7 +1057,7 @@ public class SectionHandlerServlet
                 {
                     if ( originalStatus != 2 )
                     {
-                        WizardLogger.errorWizard( "Unknown status: {0}", String.valueOf( status ), null );
+                        WizardLogger.errorWizard( "Unknown status: {0}", String.valueOf( status ) );
                     }
                     break;
                 }

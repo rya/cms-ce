@@ -477,7 +477,7 @@ public final class PageTemplateHandler
             if ( node == null || node.length == 0 )
             {
                 String message = "No page template parameters to create";
-                VerticalEngineLogger.warn(message, null );
+                VerticalEngineLogger.warn(message );
             }
         }
         else

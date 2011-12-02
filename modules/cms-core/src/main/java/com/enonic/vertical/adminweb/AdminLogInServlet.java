@@ -80,7 +80,7 @@ public final class AdminLogInServlet
         try
         {
             HashMap<String, Object> parameters = new HashMap<String, Object>();
-            ExtendedMap formItems = parseForm( request, false );
+            ExtendedMap formItems = parseForm( request );
             response.setContentType( "text/html;charset=UTF-8" );
 
             // Make IE 9 behave like IE 8
@@ -143,7 +143,7 @@ public final class AdminLogInServlet
 
         try
         {
-            ExtendedMap formItems = parseForm( request, false );
+            ExtendedMap formItems = parseForm( request );
             //ren: VS-1970
             int editContent = resolveEditContentParam( request.getHeader( "Referer" ) );
             if ( editContent > -1 )
@@ -373,7 +373,7 @@ public final class AdminLogInServlet
             if ( uid == null || passwd == null )
             {
                 String message = "User and/or password not set.";
-                VerticalAdminLogger.error( message, null );
+                VerticalAdminLogger.error( message );
                 session.setAttribute( "loginerrorcode", EC_401_MISSING_USER_PASSWD );
                 session.setAttribute( "loginerror", message );
                 session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
@@ -397,7 +397,7 @@ public final class AdminLogInServlet
         {
             String message = "Failed to authenticate user (domain key: {0}): {1}";
             Object[] msgData = {userStoreKey, uid};
-            VerticalAdminLogger.warn( message, msgData, null );
+            VerticalAdminLogger.warn( message, msgData );
             message = StringUtil.expandString( message, msgData, vse );
             session.setAttribute( "loginerrorcode", EC_401_USER_PASSWD_WRONG );
             session.setAttribute( "loginerror", message );
@@ -409,7 +409,7 @@ public final class AdminLogInServlet
         catch ( AdminConsoleAccessDeniedException e )
         {
             String message = "User is not authorized to use administration console.";
-            VerticalAdminLogger.error( message, null );
+            VerticalAdminLogger.error( message );
             session.setAttribute( "loginerrorcode", EC_401_ACCESS_DENIED );
             session.setAttribute( "loginerror", message );
             session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );

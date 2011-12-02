@@ -190,7 +190,7 @@ public final class UserHandler
 
         if ( newUID == null )
         {
-            VerticalEngineLogger.warn("Unable to generate UID for user ({0}, {1}).", new Object[]{fName, sName}, null );
+            VerticalEngineLogger.warn("Unable to generate UID for user ({0}, {1}).", new Object[]{fName, sName} );
         }
 
         return newUID;

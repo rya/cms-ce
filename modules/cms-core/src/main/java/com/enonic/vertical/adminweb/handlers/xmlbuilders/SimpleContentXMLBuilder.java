@@ -138,7 +138,7 @@ public class SimpleContentXMLBuilder
 
                 if ( tmpElem == null )
                 {
-                    VerticalAdminLogger.errorAdmin("Incorrect xpath specification : " + xpath, null );
+                    VerticalAdminLogger.errorAdmin("Incorrect xpath specification : " + xpath );
                 }
 
                 // Then store the data.

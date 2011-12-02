@@ -45,7 +45,7 @@ public class ErrorPageServlet
         public Document toDoc()
         {
             Document doc = XMLTool.createDocument( "error" );
-            return ThrowableUtil.throwableToDoc( doc.getDocumentElement(), t, false );
+            return ThrowableUtil.throwableToDoc( doc.getDocumentElement(), t );
         }
     }
 

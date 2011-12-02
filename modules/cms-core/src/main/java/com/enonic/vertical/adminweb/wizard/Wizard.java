@@ -29,7 +29,6 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminHandlerBaseServlet;
 import com.enonic.vertical.adminweb.AdminStore;
 import com.enonic.vertical.adminweb.VerticalAdminException;
-import com.enonic.vertical.adminweb.VerticalAdminLogger;
 import com.enonic.vertical.engine.VerticalEngineException;
 
 import com.enonic.cms.core.security.user.User;
@@ -94,7 +93,7 @@ public abstract class Wizard
                 else
                 {
                     String message = "Unknown step name in next step condition: {0}";
-                    WizardLogger.errorWizard(message, stepName, null );
+                    WizardLogger.errorWizard(message, stepName );
                 }
             }
 
@@ -111,7 +110,7 @@ public abstract class Wizard
                 else
                 {
                     String message = "Unknown step name in default next step condition: {0}";
-                    WizardLogger.errorWizard(message, stepName, null );
+                    WizardLogger.errorWizard(message, stepName );
                 }
             }
             else
@@ -195,7 +194,7 @@ public abstract class Wizard
             if ( dataconfigElem == null )
             {
                 String message = "Step \"{0}\" does not have a data configuration.";
-                WizardLogger.errorWizard(message, name, null );
+                WizardLogger.errorWizard(message, name );
             }
             this.dataconfigDoc = XMLTool.createDocument();
             this.dataconfigDoc.appendChild( this.dataconfigDoc.importNode( dataconfigElem, true ) );
@@ -219,7 +218,7 @@ public abstract class Wizard
                 if ( this.styleSheetSrc == null )
                 {
                     String message = "Missing XSL source definition for stylesheet in finish step \"{0}\".";
-                    WizardLogger.errorWizard(message, name, null );
+                    WizardLogger.errorWizard(message, name );
                 }
             }
         }
@@ -667,7 +666,7 @@ public abstract class Wizard
             else
             {
                 String message = "Unknown step type: {0}";
-                WizardLogger.errorWizard(message, type, null );
+                WizardLogger.errorWizard(message, type );
             }
 
             // save step for later
@@ -851,7 +850,7 @@ public abstract class Wizard
             else
             {
                 String message = "Unknown next button pressed: {0}";
-                WizardLogger.errorWizard(message, nextButtonName, null );
+                WizardLogger.errorWizard(message, nextButtonName );
             }
         }
         else

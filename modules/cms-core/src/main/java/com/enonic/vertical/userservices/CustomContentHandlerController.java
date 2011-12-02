@@ -75,8 +75,8 @@ public class CustomContentHandlerController
         if ( categoryKey == -1 )
         {
             String message = "Category key not specified.";
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY );
             return;
         }
 
@@ -89,8 +89,8 @@ public class CustomContentHandlerController
         catch ( ContentDataParserInvalidDataException e )
         {
             String message = e.getMessage();
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID );
             return;
         }
         catch ( ContentDataParserException e )
@@ -121,15 +121,15 @@ public class CustomContentHandlerController
             if ( cause instanceof MissingRequiredContentDataException )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn(message, null );
-                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
+                VerticalUserServicesLogger.warn(message );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING );
                 return;
             }
             else if ( cause instanceof InvalidContentDataException )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn(message, null );
-                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+                VerticalUserServicesLogger.warn(message );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID );
                 return;
             }
             else
@@ -153,8 +153,8 @@ public class CustomContentHandlerController
         if ( contentKey == -1 )
         {
             String message = "Content key not specified.";
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY );
             return;
         }
 
@@ -174,8 +174,8 @@ public class CustomContentHandlerController
         catch ( ContentDataParserInvalidDataException e )
         {
             String message = e.getMessage();
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID );
             return;
         }
         catch ( ContentDataParserUnsupportedTypeException e )
@@ -199,15 +199,15 @@ public class CustomContentHandlerController
             if ( cause instanceof MissingRequiredContentDataException )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn(message, null );
-                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
+                VerticalUserServicesLogger.warn(message );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING );
                 return;
             }
             else if ( cause instanceof InvalidContentDataException )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn(message, null );
-                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+                VerticalUserServicesLogger.warn(message );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID );
                 return;
             }
             else
@@ -233,8 +233,8 @@ public class CustomContentHandlerController
         if ( contentKey == -1 )
         {
             String message = "Content key not specified.";
-            VerticalUserServicesLogger.error(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
+            VerticalUserServicesLogger.error(message );
+            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY );
             return;
         }
 
@@ -249,8 +249,8 @@ public class CustomContentHandlerController
         catch ( ContentDataParserInvalidDataException e )
         {
             String message = e.getMessage();
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID );
             return;
         }
         catch ( ContentDataParserException e )
@@ -279,15 +279,15 @@ public class CustomContentHandlerController
             if ( cause instanceof MissingRequiredContentDataException )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn(message, null );
-                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING, null );
+                VerticalUserServicesLogger.warn(message );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_MISSING );
                 return;
             }
             else if ( cause instanceof InvalidContentDataException )
             {
                 String message = e.getMessage();
-                VerticalUserServicesLogger.warn(message, null );
-                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID, null );
+                VerticalUserServicesLogger.warn(message );
+                redirectToErrorPage( request, response, formItems, ERR_PARAMETERS_INVALID );
                 return;
             }
             else
@@ -323,7 +323,7 @@ public class CustomContentHandlerController
         if ( persistedContent == null || persistedContent.isDeleted() )
         {
             String message = "Content with key " + contentKey + " not found";
-            VerticalUserServicesLogger.warn(message, null );
+            VerticalUserServicesLogger.warn(message );
             throw new UserServicesException( ERR_OPERATION_HANDLER );
         }
 

@@ -242,8 +242,8 @@ public class ContentHandlerBaseController
         if ( contentKey == -1 )
         {
             String message = "Content key not specified.";
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY );
             return;
         }
 
@@ -253,7 +253,7 @@ public class ContentHandlerBaseController
         List<BinaryDataAndBinary> binariesToAdd = BinaryDataAndBinary.createNewFrom( binaries );
 
         Document ctDoc = userServices.getContentTypeByContent( contentKey ).getAsDOMDocument();
-        String xmlData = buildContent( userServices, oldTypeUser, formItems, siteKey, ctDoc, false );
+        String xmlData = buildContent( userServices, oldTypeUser, formItems, siteKey, ctDoc );
 
         boolean asNewVersion = true;
         updateContent( oldTypeUser, xmlData, binariesToRemoveAsBinaryDataKey, binariesToAdd, asNewVersion );
@@ -345,15 +345,15 @@ public class ContentHandlerBaseController
         if ( categoryKey == -1 )
         {
             String message = "Category key not specified.";
-            VerticalUserServicesLogger.warn(message, null );
-            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY, null );
+            VerticalUserServicesLogger.warn(message );
+            redirectToErrorPage( request, response, formItems, ERR_MISSING_CATEGORY_KEY );
             return;
         }
 
         BinaryData[] binaries = fetchUploadedFiles( formItems );
 
         Document ctDoc = userServices.getContentTypeByCategory( categoryKey ).getAsDOMDocument();
-        String xmlData = buildContent( userServices, oldUser, formItems, siteKey, ctDoc, false );
+        String xmlData = buildContent( userServices, oldUser, formItems, siteKey, ctDoc );
 
         storeNewContent( oldUser, binaries, xmlData );
 
@@ -395,8 +395,7 @@ public class ContentHandlerBaseController
         return newContentKey;
     }
 
-    private String buildContent( UserServicesService services, User user, ExtendedMap formItems, SiteKey siteKey, Document contentType,
-                                 boolean skipEmptyElements )
+    private String buildContent( UserServicesService services, User user, ExtendedMap formItems, SiteKey siteKey, Document contentType )
     {
 
         Element rootElement = contentType.getDocumentElement();
@@ -411,7 +410,7 @@ public class ContentHandlerBaseController
 
         int contentTypeKey = Integer.parseInt( contentTypeElement.getAttribute( "key" ) );
         String contentTitle = formItems.getString( titleName );
-        return buildXML( services, user, formItems, siteKey, contentTypeKey, contentTitle, skipEmptyElements );
+        return buildXML( services, user, formItems, siteKey, contentTypeKey, contentTitle, false );
     }
 
     private BinaryData createBinaryData( String fileName, InputStream inputStream )

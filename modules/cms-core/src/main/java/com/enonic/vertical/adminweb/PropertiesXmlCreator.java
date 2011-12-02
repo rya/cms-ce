@@ -1,17 +1,10 @@
 package com.enonic.vertical.adminweb;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.jdom.Element;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: 8/17/11
- * Time: 8:58 AM
- */
 public class PropertiesXmlCreator
 {
 
@@ -38,20 +31,6 @@ public class PropertiesXmlCreator
         }
 
         return el;
-    }
-
-    public Element createNonValueElement( String elementName, String childName, List<String> properties )
-    {
-        final Element configFileEl = new Element( elementName );
-
-        for ( String configFileName : properties )
-        {
-            final Element fileElement = new Element( childName );
-            fileElement.setAttribute( "name", configFileName );
-            configFileEl.addContent( fileElement );
-        }
-
-        return configFileEl;
     }
 
     private Element createElement( String name, String key, String value )

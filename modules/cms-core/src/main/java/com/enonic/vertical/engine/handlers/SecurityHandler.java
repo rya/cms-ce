@@ -172,8 +172,6 @@ final public class SecurityHandler
 
     private final static String CAR_WHERE_CLAUSE_ADMINREAD = " car_bAdminRead = 1";
 
-    private final static String CAR_WHERE_CLAUSE_PUBLISH = " car_bPublish = 1";
-
     private final static String CAR_WHERE_CLAUSE_SECURITY_FILTER =
         " EXISTS (SELECT car_grp_hKey FROM " + CAR_TABLE + " WHERE car_cat_lKey = cat_lKey" + " AND car_grp_hKey IN (%groups))";
 
@@ -206,7 +204,7 @@ final public class SecurityHandler
     // methods --------------------------------------------------------------------------------------
 
 
-    public void appendAccessRights( User user, Document doc, boolean includeAccessRights, boolean includeUserRights )
+    public void appendAccessRights( User user, Document doc )
     {
         Element rootElement = doc.getDocumentElement();
 
@@ -217,28 +215,28 @@ final public class SecurityHandler
             for ( Node menu : menus )
             {
                 Element menuElement = (Element) menu;
-                appendDefaultMenuItemAccessRights( user, doc, menuElement, includeAccessRights, includeUserRights );
+                appendDefaultMenuItemAccessRights( user, doc, menuElement, true, true );
             }
         }
         else if ( rootElement.getTagName().equals( "menuitems" ) )
         {
             appendMenuItemAccessRights( user, doc, XMLTool.filterNodes( rootElement.getChildNodes(), Node.ELEMENT_NODE ), null, null,
-                                        includeAccessRights, includeUserRights );
+                                        true, true );
         }
         else if ( rootElement.getTagName().equals( "categories" ) )
         {
             Element[] categoryElems = XMLTool.getElements( rootElement );
-            appendCategoryAccessRights( user, categoryElems, null, includeAccessRights, includeUserRights );
+            appendCategoryAccessRights( user, categoryElems, null, true, true );
         }
         else if ( rootElement.getTagName().equals( "contents" ) )
         {
-            appendContentAccessRights( user, rootElement, includeAccessRights, includeUserRights );
+            appendContentAccessRights( user, rootElement, true, true );
         }
         else if ( rootElement.getTagName().equals( "sections" ) )
         //appendSectionAccessRights(user, null, rootElement, includeAccessRights, includeUserRights);
         {
             appendMenuItemAccessRights( user, doc, XMLTool.filterNodes( rootElement.getChildNodes(), Node.ELEMENT_NODE ), null, null,
-                                        includeAccessRights, includeUserRights );
+                                        true, true );
         }
     }
 
@@ -450,7 +448,7 @@ final public class SecurityHandler
         }
     }
 
-    public void appendContentSQL( User user, StringBuffer sql, boolean adminReadOnly )
+    public void appendContentSQL( User user, StringBuffer sql )
     {
 
         String[] groups = getGroupHandler().getAllGroupMembershipsForUser( user );
@@ -465,7 +463,7 @@ final public class SecurityHandler
         // Allow if publish on category (NB! Assuming that administrate also has publish set)
         StringBuffer categoryPublishSQL =
             XDG.generateSelectSQL( db.tCatAccessRight, db.tCatAccessRight.car_grp_hKey, false, (Column) null );
-        XDG.appendWhereSQL( categoryPublishSQL, db.tCatAccessRight.car_cat_lKey, XDG.OPERATOR_EQUAL, contentView.cat_lKey );
+        XDG.appendWhereSQL( categoryPublishSQL, db.tCatAccessRight.car_cat_lKey, contentView.cat_lKey );
         XDG.appendWhereSQL( categoryPublishSQL, db.tCatAccessRight.car_bPublish, XDG.OPERATOR_EQUAL, 1 );
         XDG.appendWhereInSQL( categoryPublishSQL, db.tCatAccessRight.car_grp_hKey, groups );
 
@@ -475,26 +473,13 @@ final public class SecurityHandler
 
         // ..or read on content
         StringBuffer contentReadSQL = XDG.generateSelectSQL( db.tConAccessRight2, db.tConAccessRight2.coa_grp_hKey, false, (Column) null );
-        XDG.appendWhereSQL( contentReadSQL, db.tConAccessRight2.coa_con_lKey, XDG.OPERATOR_EQUAL, contentView.con_lKey );
+        XDG.appendWhereSQL( contentReadSQL, db.tConAccessRight2.coa_con_lKey, contentView.con_lKey );
         XDG.appendWhereInSQL( contentReadSQL, db.tConAccessRight2.coa_grp_hKey, groups );
 
         sql.append( " OR (EXISTS (" );
         sql.append( contentReadSQL );
         sql.append( ")" );
 
-        if ( adminReadOnly )
-        {
-            // Check tCatAccessRights
-            StringBuffer categoryAdminReadSQL =
-                XDG.generateSelectSQL( db.tCatAccessRight, db.tCatAccessRight.car_grp_hKey, false, (Column) null );
-            XDG.appendWhereSQL( categoryAdminReadSQL, db.tCatAccessRight.car_cat_lKey, XDG.OPERATOR_EQUAL, contentView.cat_lKey );
-            XDG.appendWhereSQL( categoryAdminReadSQL, db.tCatAccessRight.car_bAdminRead, XDG.OPERATOR_EQUAL, 1 );
-            XDG.appendWhereInSQL( categoryAdminReadSQL, db.tCatAccessRight.car_grp_hKey, groups );
-
-            sql.append( " AND EXISTS (" );
-            sql.append( categoryAdminReadSQL );
-            sql.append( ")" );
-        }
         sql.append( "))" );
     }
 
@@ -880,34 +865,14 @@ final public class SecurityHandler
         }
     }
 
-    public void removeAccessRights( Connection con, int key, int type )
+    public void removeMenuItemAccessRights( Connection con, int key )
         throws VerticalRemoveException
     {
 
         PreparedStatement preparedStmt = null;
         try
         {
-            String sql = null;
-            switch ( type )
-            {
-                case AccessRight.MENUITEM:
-                    sql = MENUITEMAR_REMOVE_ALL;
-                    break;
-
-                case AccessRight.CATEGORY:
-                    sql = CAR_DELETE_ALL;
-                    break;
-
-                case AccessRight.CONTENT:
-                    sql = COA_DELETE_ALL;
-                    break;
-
-                default:
-                    String message = "Accessright type not supported: {0}";
-                    VerticalEngineLogger.errorRemove(message, type, null );
-            }
-
-            preparedStmt = con.prepareStatement( sql );
+            preparedStmt = con.prepareStatement( MENUITEMAR_REMOVE_ALL );
             preparedStmt.setInt( 1, key );
             preparedStmt.executeUpdate();
 
@@ -949,7 +914,7 @@ final public class SecurityHandler
                 break;
 
             default:
-                VerticalEngineLogger.error("Accessright type not supported: {0}", new Object[]{type}, null );
+                VerticalEngineLogger.error("Accessright type not supported: {0}", new Object[]{type} );
         }
 
         return doc;
@@ -984,7 +949,7 @@ final public class SecurityHandler
                 break;
 
             default:
-                VerticalEngineLogger.error("Accessright type not supported: {0}", new Object[]{type}, null );
+                VerticalEngineLogger.error("Accessright type not supported: {0}", new Object[]{type} );
         }
 
         return doc;
@@ -1014,7 +979,7 @@ final public class SecurityHandler
         }
     }
 
-    public void appendAccessRightsOnMenuItem( User user, int key, Element accessRights, boolean includeUserRights )
+    private void appendAccessRightsOnMenuItem( User user, int key, Element accessRights, boolean includeUserRights )
     {
 
         Connection con = null;
@@ -3286,17 +3251,17 @@ final public class SecurityHandler
         return result;
     }
 
-    public String appendCategorySQL( User user, String sql, boolean adminread, boolean publish )
+    public String appendCategorySQL( User user, String sql )
     {
 
         StringBuffer buf = new StringBuffer( sql );
 
-        appendCategorySQL( user, buf, adminread, publish );
+        appendCategorySQL( user, buf, true );
 
         return buf.toString();
     }
 
-    public void appendCategorySQL( User user, StringBuffer sql, boolean adminread, boolean publish )
+    public void appendCategorySQL( User user, StringBuffer sql, boolean adminread )
     {
 
         if ( user != null && user.isEnterpriseAdmin() )
@@ -3316,18 +3281,13 @@ final public class SecurityHandler
         StringBuffer newSQL = sql;
         newSQL.append( " AND" );
         StringBuffer sqlFilterRights = new StringBuffer( "" );
-        if ( adminread || publish )
+        if ( adminread )
         {
             newSQL.append( CAR_WHERE_CLAUSE_SECURITY_FILTER_RIGHTS );
             if ( adminread )
             {
                 sqlFilterRights.append( " AND" );
                 sqlFilterRights.append( CAR_WHERE_CLAUSE_ADMINREAD );
-            }
-            if ( publish )
-            {
-                sqlFilterRights.append( " AND" );
-                sqlFilterRights.append( CAR_WHERE_CLAUSE_PUBLISH );
             }
         }
         else
@@ -3424,7 +3384,7 @@ final public class SecurityHandler
         return bufferSQL.toString();
     }
 
-    public void appendMenuItemSQL( User user, StringBuffer sql )
+    private void appendMenuItemSQL( User user, StringBuffer sql )
     {
 
         if ( user != null && user.isEnterpriseAdmin() )
@@ -3587,7 +3547,7 @@ final public class SecurityHandler
             XDG.generateSelectSQL( db.tCatAccessRight, db.tCatAccessRight.car_grp_hKey, true, db.tCatAccessRight.car_cat_lKey );
         XDG.appendWhereSQL( sql, db.tCatAccessRight.car_bPublish, XDG.OPERATOR_EQUAL, 1 );
         String[] groups = getCommonHandler().getStringArray( sql.toString(), categoryKey.toInt() );
-        String[] members = getGroupHandler().getGroupMembers( groups, null, true );
+        String[] members = getGroupHandler().getGroupMembers( groups, null );
         return getUserHandler().getUsersByGroupKeys( ArrayUtil.concat( groups, members, true ) );
     }
 }
