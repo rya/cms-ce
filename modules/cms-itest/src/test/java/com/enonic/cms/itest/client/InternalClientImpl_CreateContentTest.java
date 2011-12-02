@@ -4,8 +4,26 @@
  */
 package com.enonic.cms.itest.client;
 
+import java.io.IOException;
+import java.util.Date;
+import java.util.Set;
+
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
 import com.enonic.cms.api.client.model.CreateContentParams;
-import com.enonic.cms.api.client.model.content.*;
+import com.enonic.cms.api.client.model.content.BinaryInput;
+import com.enonic.cms.api.client.model.content.ContentDataInput;
+import com.enonic.cms.api.client.model.content.ContentStatus;
+import com.enonic.cms.api.client.model.content.GroupInput;
+import com.enonic.cms.api.client.model.content.TextInput;
 import com.enonic.cms.core.client.InternalClient;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
@@ -18,28 +36,15 @@ import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
 import com.enonic.cms.core.content.contentdata.custom.GroupDataEntry;
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
-import org.jdom.Document;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class InternalClientImpl_CreateContentTest
     extends AbstractSpringTest
@@ -108,7 +113,7 @@ public class InternalClientImpl_CreateContentTest
         fixture.flushAndClearHibernateSesssion();
 
         UserEntity runningUser = fixture.findUserByName( "testuser" );
-        SecurityHolder.setRunAsUser( runningUser.getKey() );
+        PortalSecurityHolder.setImpersonatedUser( runningUser.getKey() );
 
         ContentDataInput contentData = new ContentDataInput( "MyContentType" );
         contentData.add( new TextInput( "myTitle", "testtitle" ) );
@@ -171,7 +176,7 @@ public class InternalClientImpl_CreateContentTest
         fixture.save( factory.createCategoryAccessForUser( "Skole", "testuser", "read,create,approve" ) );
 
         UserEntity runningUser = fixture.findUserByName( "testuser" );
-        SecurityHolder.setRunAsUser( runningUser.getKey() );
+        PortalSecurityHolder.setImpersonatedUser( runningUser.getKey() );
 
         CreateContentParams content = new CreateContentParams();
         content.categoryKey = fixture.findCategoryByName( "Skole" ).getKey().toInt();

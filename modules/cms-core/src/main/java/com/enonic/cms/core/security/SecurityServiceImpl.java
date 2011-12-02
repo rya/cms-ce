@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
+import com.enonic.cms.core.admin.AdminConsoleAccessDeniedException;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
 import com.enonic.cms.core.security.group.GroupType;
@@ -33,8 +34,6 @@ import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.GroupQuery;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
-
-import com.enonic.cms.core.admin.AdminConsoleAccessDeniedException;
 
 @Component("securityService")
 public class SecurityServiceImpl
@@ -61,9 +60,9 @@ public class SecurityServiceImpl
 
     private void initializeSecurityHolder()
     {
-        if ( SecurityHolder.getAnonUser() == null )
+        if ( PortalSecurityHolder.getAnonUser() == null )
         {
-            SecurityHolder.setAnonUser( userDao.findBuiltInAnonymousUser().getKey() );
+            PortalSecurityHolder.setAnonUser( userDao.findBuiltInAnonymousUser().getKey() );
         }
     }
 
@@ -275,9 +274,9 @@ public class SecurityServiceImpl
         }
     }
 
-    public User loginAdminUser( final QualifiedUsername qualifiedUsername, final String password )
+    public User loginAdminUser( LoginAdminUserCommand command )
     {
-        return doLoginAdminUser( qualifiedUsername, password, true );
+        return doLoginAdminUser( command.getQualifiedUsername(), command.getPassword(), command.isVerifyPassword() );
     }
 
     public boolean autoLoginAdminUser( final QualifiedUsername qualifiedUsername )
@@ -347,7 +346,7 @@ public class SecurityServiceImpl
             throw new AdminConsoleAccessDeniedException( qualifiedUsername );
         }
 
-        SecurityHolderAdmin.setUser( user.getKey() );
+        AdminSecurityHolder.setUser( user.getKey() );
 
         return userStoreService.getUserByKey( user.getKey() );
     }
@@ -374,7 +373,7 @@ public class SecurityServiceImpl
         if ( UserEntity.isBuiltInUser( uid ) )
         {
             UserKey userKey = authenticateBuiltInUser( uid, password, verifyPassword );
-            SecurityHolder.setUser( userKey );
+            PortalSecurityHolder.setUser( userKey );
         }
         else
         {
@@ -406,7 +405,7 @@ public class SecurityServiceImpl
             userSpec.setUserStoreKey( userStore.getKey() );
             userSpec.setName( uid );
             UserEntity user = userDao.findSingleBySpecification( userSpec );
-            SecurityHolder.setUser( user.getKey() );
+            PortalSecurityHolder.setUser( user.getKey() );
         }
     }
 
@@ -446,7 +445,7 @@ public class SecurityServiceImpl
         }
         else
         {
-            SecurityHolder.setRunAsUser( user.getKey() );
+            PortalSecurityHolder.setImpersonatedUser( user.getKey() );
         }
         return user;
     }
@@ -481,10 +480,10 @@ public class SecurityServiceImpl
 
     private void doLogoutAdminUser()
     {
-        SecurityHolderAdmin.setUser( null );
+        AdminSecurityHolder.setUser( null );
 
         // Only invalidate session if logged out of both "portal" and "admin". Check portal user!
-        if ( SecurityHolder.getUser() == null )
+        if ( PortalSecurityHolder.getUser() == null )
         {
             invalidateSession();
         }
@@ -492,12 +491,11 @@ public class SecurityServiceImpl
 
     private void doLogoutPortalUser( boolean invalidateSession )
     {
-        SecurityHolder.setUser( null );
-        SecurityHolder.setRunAsUser( null );
-        SecurityHolder.setSubject( null );
+        PortalSecurityHolder.setUser( null );
+        PortalSecurityHolder.setImpersonatedUser( null );
 
         // Only invalidate session if logged out of both "portal" and "admin". Check admin user!
-        if ( SecurityHolderAdmin.getUser() == null )
+        if ( AdminSecurityHolder.getUser() == null )
         {
             if ( invalidateSession )
             {
@@ -575,18 +573,18 @@ public class SecurityServiceImpl
     private UserKey doGetUserKeyForLoggedInPortalUser()
     {
         initializeSecurityHolder();
-        return SecurityHolder.getUser();
+        return PortalSecurityHolder.getUser();
     }
 
     private UserKey doGetUserKeyForPortalExecutor()
     {
         initializeSecurityHolder();
-        return SecurityHolder.getRunAsUser();
+        return PortalSecurityHolder.getImpersonatedUser();
     }
 
     private UserKey doGetUserKeyForLoggedInAdminConsoleUser()
     {
-        return SecurityHolderAdmin.getUser();
+        return AdminSecurityHolder.getUser();
     }
 
 

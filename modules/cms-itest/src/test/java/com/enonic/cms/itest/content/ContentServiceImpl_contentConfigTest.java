@@ -4,23 +4,9 @@
  */
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.content.contenttype.InvalidContentTypeConfigException;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.User;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -28,8 +14,30 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.CreateContentException;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.DateDataEntry;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.SelectorDataEntry;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.content.contenttype.InvalidContentTypeConfigException;
+import com.enonic.cms.core.security.PortalSecurityHolder;
+import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.junit.Assert.*;
 
@@ -70,7 +78,7 @@ public class ContentServiceImpl_contentConfigTest
         // setup needed common data for each test
         fixture.initSystemData();
 
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
+        PortalSecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
         fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
@@ -231,8 +239,7 @@ public class ContentServiceImpl_contentConfigTest
         }
         catch ( Exception e )
         {
-            assertTrue( "Expected CreateContentException, was: " + e.getClass().getName(),
-                        e instanceof CreateContentException );
+            assertTrue( "Expected CreateContentException, was: " + e.getClass().getName(), e instanceof CreateContentException );
             assertEquals( "Failed to created content: Missing data for required title input (missing value in data entry): birth",
                           e.getMessage() );
         }

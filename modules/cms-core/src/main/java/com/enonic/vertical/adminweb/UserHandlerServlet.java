@@ -58,6 +58,7 @@ import com.enonic.cms.core.country.CountryXmlCreator;
 import com.enonic.cms.core.locale.LocaleXmlCreator;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.security.LoginAdminUserCommand;
 import com.enonic.cms.core.security.ObjectClassesXmlCreator;
 import com.enonic.cms.core.security.PasswordGenerator;
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
@@ -1523,7 +1524,7 @@ public class UserHandlerServlet
             if ( user.getName().equals( uid ) )
             {
                 final String oldPassword = formItems.getString( "oldpassword", "" );
-                securityService.loginAdminUser( qualifiedUsername, oldPassword );
+                securityService.loginAdminUser( new LoginAdminUserCommand( qualifiedUsername, oldPassword ) );
             }
 
             securityService.changePassword( qualifiedUsername, newPassword1 );

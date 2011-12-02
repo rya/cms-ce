@@ -4,39 +4,52 @@
  */
 package com.enonic.cms.core.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.enonic.cms.core.security.user.QualifiedUsername;
-import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserNotFoundException;
-import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
-import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.store.dao.UserDao;
 
-@Component
 public class UserParser
 {
-
-    @Autowired
     private SecurityService securityService;
 
-    @Autowired
     private UserStoreService userStoreService;
 
-    @Autowired
-    private UserStoreParser userStoreParser;
-
-    @Autowired
     private UserDao userDao;
 
-    public UserEntity parseUser( String userString )
-    {
+    private UserStoreParser userStoreParser;
 
+    private boolean synchronizeUser = true;
+
+    public UserParser( SecurityService securityService, UserStoreService userStoreService, UserDao userDao,
+                       UserStoreParser userStoreParser )
+    {
+        this.securityService = securityService;
+        this.userStoreService = userStoreService;
+        this.userDao = userDao;
+        this.userStoreParser = userStoreParser;
+    }
+
+    /**
+     * Wether the user parser should synchronize the or not.
+     *
+     * @param synchronizeUser
+     */
+    public UserParser synchronizeUser( boolean synchronizeUser )
+    {
+        this.synchronizeUser = synchronizeUser;
+        return this;
+    }
+
+    /**
+     * @throws UserNotFoundException thrown when user is not found
+     */
+    public UserEntity parseUser( String userString )
+        throws UserNotFoundException
+    {
         UserEntity user;
 
         if ( userString == null )
@@ -47,9 +60,13 @@ public class UserParser
         {
             user = parseUserByQualifiedUsername( parseQualifiedUsername( userString ) );
         }
+        else if ( userString.startsWith( "#" ) )
+        {
+            user = parseUserByKey( userString );
+        }
         else
         {
-            user = parseUserByKey( new UserKey( userString.substring( 1 ) ) );
+            user = parseBuiltInUser( userString );
         }
 
         return user;
@@ -57,53 +74,35 @@ public class UserParser
 
     private UserEntity parseUserByLoggedInPresentationUser()
     {
-        User loggedInUser;
-        try
-        {
-            loggedInUser = securityService.getLoggedInPortalUser();
-        }
-        catch ( Exception e )
-        {
-            throw new RuntimeException( "Failed to get logged in user", e );
-        }
-
-        final UserKey userKey = loggedInUser.getKey();
-        final UserEntity user = securityService.getUser( userKey );
-        if ( user == null )
-        {
-            throw new UserNotFoundException( userKey );
-        }
-        return user;
+        return securityService.getLoggedInPortalUserAsEntity();
     }
 
-    private UserEntity parseUserByQualifiedUsername( QualifiedUsername qualifiedUsername )
+    private UserEntity parseUserByQualifiedUsername( final UserStoreAndQualifiedUsername userStoreAndQualifiedUsername )
     {
-        UserEntity user = securityService.getUser( qualifiedUsername );
+        final QualifiedUsername qualifiedUsername = userStoreAndQualifiedUsername.qualifiedUsername;
+        UserEntity user = userDao.findByQualifiedUsername( qualifiedUsername );
+        final String uid = qualifiedUsername.getUsername();
 
         if ( user == null )
         {
-            // User not in db, try trigging a synchronize against user storeage...
-            UserStoreKey userStoreKey = qualifiedUsername.getUserStoreKey();
-            String uid = qualifiedUsername.getUsername();
-            UserKey userKey = userStoreService.synchronizeUser( userStoreKey, user.getSync() );
+            // User not in db, try triggering a synchronize against user storage...
+            UserKey userKey = synchronizeIfRemoteUserStore( userStoreAndQualifiedUsername.userStore, uid );
 
             if ( userKey == null )
             {
                 throw new UserNotFoundException( qualifiedUsername );
             }
 
-            user = securityService.getUser( userKey );
+            user = userDao.findByKey( userKey );
         }
         else
         {
-            UserSpecification userSpec = new UserSpecification();
-            userSpec.setKey( user.getKey() );
             // Do a synchronize to check that user also resides in userstore
-            userStoreService.synchronizeUser( userSpec );
-            user = securityService.getUser( user.getKey() );
+            synchronizeIfRemoteUserStore( userStoreAndQualifiedUsername.userStore, uid );
+            user = userDao.findByKey( user.getKey() );
         }
 
-        if ( user == null )
+        if ( user == null || user.isDeleted() )
         {
             throw new UserNotFoundException( qualifiedUsername );
         }
@@ -111,25 +110,21 @@ public class UserParser
         return user;
     }
 
-
-    private UserEntity parseUserByKey( UserKey userKey )
+    private UserEntity parseUserByKey( String userString )
     {
-        UserSpecification userSpecification = new UserSpecification();
-        userSpecification.setKey( userKey );
-        userSpecification.setDeletedState( UserSpecification.DeletedState.ANY );
-        UserEntity user = userDao.findSingleBySpecification( userSpecification );
-
+        UserKey userKey = new UserKey( userString.substring( 1 ) );
+        UserEntity user = userDao.findByKey( userKey );
         if ( user == null )
         {
             throw new UserNotFoundException( userKey );
         }
 
         // Do a synchronize, in case user is deleted remotely
-        if ( !( user.isRoot() || user.isAnonymous() ) )
+        if ( !user.isBuiltIn() )
         {
-            userStoreService.synchronizeUser( userSpecification );
-
-            if ( securityService.getUser( userKey ) == null )
+            synchronizeIfRemoteUserStore( user.getUserStore(), user.getName() );
+            user = userDao.findByKey( userKey );
+            if ( user.isDeleted() )
             {
                 throw new UserNotFoundException( userKey );
             }
@@ -137,20 +132,43 @@ public class UserParser
         return user;
     }
 
-
-    private QualifiedUsername parseQualifiedUsername( String string )
+    private UserEntity parseBuiltInUser( String userString )
     {
-
-        if ( string == null )
+        UserEntity user;
+        user = userDao.findBuiltInGlobalByName( userString );
+        if ( user == null )
         {
-            return null;
+            throw new UserNotFoundException( new QualifiedUsername( userString ) );
         }
+        return user;
+    }
 
+    private UserKey synchronizeIfRemoteUserStore( UserStoreEntity userStore, String uid )
+    {
+        if ( synchronizeUser && userStore.isRemote() )
+        {
+            return userStoreService.synchronizeUser( userStore.getKey(), uid );
+        }
+        return null;
+    }
+
+    private UserStoreAndQualifiedUsername parseQualifiedUsername( String string )
+    {
         final int colonIndex = string.indexOf( ":" );
-        String userStore = string.substring( 0, colonIndex );
-        String username = string.substring( colonIndex + 1 );
+        final String userStoreStr = string.substring( 0, colonIndex );
+        final String username = string.substring( colonIndex + 1 );
 
-        UserStoreEntity userStoreEntity = userStoreParser.parseUserStore( userStore );
-        return new QualifiedUsername( userStoreEntity.getKey(), username );
+        final UserStoreEntity userStore = userStoreParser.parseUserStore( userStoreStr );
+        final UserStoreAndQualifiedUsername userStoreAndQualifiedUsername = new UserStoreAndQualifiedUsername();
+        userStoreAndQualifiedUsername.userStore = userStore;
+        userStoreAndQualifiedUsername.qualifiedUsername = new QualifiedUsername( userStore.getKey(), username );
+        return userStoreAndQualifiedUsername;
+    }
+
+    private class UserStoreAndQualifiedUsername
+    {
+        private UserStoreEntity userStore;
+
+        private QualifiedUsername qualifiedUsername;
     }
 }

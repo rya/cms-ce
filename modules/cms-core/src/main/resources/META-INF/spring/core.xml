@@ -93,7 +93,6 @@
     <property name="localeService" ref="localeService"/>
     <property name="timeZoneService" ref="timeZoneService"/>
     <property name="timeService" ref="timeService"/>
-    <property name="userStoreParser" ref="userStoreParser"/>
     <property name="userStoreService" ref="userStoreService"/>
     <property name="sitePropertiesService" ref="sitePropertiesService"/>
   </bean>
@@ -184,8 +183,6 @@
     <property name="internalClientRenderService" ref="internalClientRenderService"/>
     <property name="internalClientContentService" ref="internalClientContentService"/>
     <property name="userDao" ref="userDao"/>
-    <property name="userParser" ref="userParser"/>
-    <property name="userStoreParser" ref="userStoreParser"/>
     <property name="resourceService" ref="resourceService"/>
     <property name="preferenceService" ref="preferenceService"/>
     <property name="cmsProperties" value="#{config.properties}"/>
@@ -201,7 +198,6 @@
   <bean id="internalClientContentService"
         class="com.enonic.cms.core.client.InternalClientContentService">
     <property name="siteCachesService" ref="siteCachesService"/>
-    <property name="userParser" ref="userParser"/>
   </bean>
 
   <bean class="com.enonic.cms.core.client.LocalClientSetter">

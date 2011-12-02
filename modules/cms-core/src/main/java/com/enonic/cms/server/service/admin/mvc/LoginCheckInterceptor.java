@@ -12,9 +12,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.enonic.vertical.adminweb.AdminHelper;
 
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
-import com.enonic.cms.core.security.SecurityHolder;
-
 import com.enonic.cms.core.security.user.User;
 
 public final class LoginCheckInterceptor
@@ -53,7 +52,7 @@ public final class LoginCheckInterceptor
             User adminUser = securityService.getLoggedInAdminConsoleUser();
             if ( adminUser != null )
             {
-                SecurityHolder.setUser( adminUser.getKey() );
+                PortalSecurityHolder.setUser( adminUser.getKey() );
             }
         }
     }

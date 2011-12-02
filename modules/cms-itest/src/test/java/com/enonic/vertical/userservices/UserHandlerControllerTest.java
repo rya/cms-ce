@@ -4,17 +4,38 @@
  */
 package com.enonic.vertical.userservices;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import com.enonic.esl.containers.ExtendedMap;
+
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.Attribute;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.portal.SiteRedirectHelper;
 import com.enonic.cms.core.portal.httpservices.UserServicesException;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupKey;
-import com.enonic.cms.core.security.user.*;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.StoreNewUserStoreCommand;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreService;
@@ -26,24 +47,11 @@ import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.UserDao;
-import com.enonic.esl.containers.ExtendedMap;
+import com.enonic.cms.store.dao.UserStoreDao;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockHttpSession;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 import static org.easymock.classextension.EasyMock.createMock;
 
 public class UserHandlerControllerTest
@@ -51,6 +59,9 @@ public class UserHandlerControllerTest
 {
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserStoreDao userStoreDao;
 
     @Autowired
     private SecurityService securityService;
@@ -84,6 +95,7 @@ public class UserHandlerControllerTest
 
         userHandlerController = new UserHandlerController();
         userHandlerController.setUserDao( userDao );
+        userHandlerController.setUserStoreDao( userStoreDao );
         userHandlerController.setSecurityService( securityService );
         userHandlerController.setUserStoreService( userStoreService );
         userHandlerController.setUserServicesRedirectHelper( new UserServicesRedirectUrlResolver() );
@@ -94,7 +106,7 @@ public class UserHandlerControllerTest
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        SecurityHolder.setAnonUser( fixture.findUserByName( "anonymous" ).getKey() );
+        PortalSecurityHolder.setAnonUser( fixture.findUserByName( "anonymous" ).getKey() );
 
     }
 
@@ -502,8 +514,8 @@ public class UserHandlerControllerTest
 
     private void loginPortalUser( String userName )
     {
-        SecurityHolder.setRunAsUser( fixture.findUserByName( userName ).getKey() );
-        SecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
+        PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( userName ).getKey() );
+        PortalSecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
     }
 
     private UserStoreKey createLocalUserStore( String name, boolean defaultStore, UserStoreConfig config )

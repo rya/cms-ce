@@ -37,7 +37,7 @@ import com.enonic.cms.core.portal.mvc.controller.ImageRequestException;
 import com.enonic.cms.core.preview.ContentPreviewContext;
 import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
 import com.enonic.cms.core.security.user.UserType;
@@ -515,8 +515,8 @@ public class ImageControllerTest
 
     private void loginUserInPortal( UserKey userKey )
     {
-        SecurityHolder.setRunAsUser( userKey );
-        SecurityHolder.setUser( userKey );
+        PortalSecurityHolder.setImpersonatedUser( userKey );
+        PortalSecurityHolder.setUser( userKey );
     }
 
     private void setPathInfoAndRequestURI( MockHttpServletRequest httpServletRequest, String imageRequestPath )

@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.enonic.esl.util.Base64Util;
 
 import com.enonic.cms.framework.blob.BlobRecord;
-import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.api.client.ClientException;
 import com.enonic.cms.api.client.model.AssignContentParams;
@@ -78,7 +77,10 @@ import com.enonic.cms.core.preview.PreviewContext;
 import com.enonic.cms.core.preview.PreviewService;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserParser;
+import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.userstore.UserStoreService;
+import com.enonic.cms.core.time.TimeService;
 import com.enonic.cms.store.dao.BinaryDataDao;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentBinaryDataDao;
@@ -86,12 +88,17 @@ import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentTypeDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
 import com.enonic.cms.store.dao.GroupDao;
+import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
 
 
 public class InternalClientContentService
 {
     @Autowired
     private SecurityService securityService;
+
+    @Autowired
+    private UserStoreService userStoreService;
 
     @Autowired
     private ContentService contentService;
@@ -118,6 +125,12 @@ public class InternalClientContentService
     private GroupDao groupDao;
 
     @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private UserStoreDao userStoreDao;
+
+    @Autowired
     private PreviewService previewService;
 
     @Autowired
@@ -131,8 +144,6 @@ public class InternalClientContentService
 
     @Autowired
     private CategoryService categoryService;
-
-    private UserParser userParser;
 
     public int createCategory( CreateCategoryParams params )
     {
@@ -238,8 +249,7 @@ public class InternalClientContentService
         command.setContentData( contentdata );
         command.setContentName( PrettyPathNameCreator.generatePrettyPathName( contentdata.getTitle() ) );
 
-        final List<BinaryDataAndBinary> binaryDatas = BinaryDataAndBinary.convertFromBinaryInputs(
-                params.contentData.getBinaryInputs() );
+        final List<BinaryDataAndBinary> binaryDatas = BinaryDataAndBinary.convertFromBinaryInputs( params.contentData.getBinaryInputs() );
 
         command.setBinaryDatas( binaryDatas );
         command.setUseCommandsBinaryDataToAdd( true );
@@ -405,6 +415,7 @@ public class InternalClientContentService
     public void assignContent( AssignContentParams params )
     {
         final UserEntity assigner = securityService.getRunAsUser();
+        final UserParser userParser = new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) );
         final UserEntity assignee = userParser.parseUser( params.assignee );
         final ContentKey contentToAssignOn = new ContentKey( params.contentKey );
 
@@ -878,11 +889,4 @@ public class InternalClientContentService
     {
         this.siteCachesService = value;
     }
-
-    public void setUserParser( UserParser userParser )
-    {
-        this.userParser = userParser;
-    }
-
-
 }

@@ -26,8 +26,8 @@ public final class ImportContentsParams
     public Date publishTo = null;
 
     /**
-     * Specify assignee eiter by qualified user name ([userStoreKey:]&lt;group name&gt;) or key.
-     * If userStoreKey is omitted the internal user store is used. When specifying a key, prefix with a hash (user = #xxx).
+     * Specify assignee either by qualified user name ([userStoreKey:]&lt;group name&gt;) or key.
+     * When specifying a key, prefix with a hash (user = #xxx).
      */
     public String assignee;
 

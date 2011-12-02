@@ -12,8 +12,8 @@ public class GetUserParams
     private static final long serialVersionUID = 2525364117810761893L;
 
     /**
-     * Specify user eiter by qualified user name ([userStoreKey:]&lt;group name&gt;) or key. If null the logged in user is used. If
-     * userStoreKey is omitted the internal user store is used. When specifying a key, prefix with a hash (user = #xxx).
+     * Specify user either by qualified name ([userStoreKey:]&lt;user name&gt;) or key. If null the logged in user is used.
+     * When specifying a key, prefix with a hash (user = "#xxx").
      */
     public String user;
 

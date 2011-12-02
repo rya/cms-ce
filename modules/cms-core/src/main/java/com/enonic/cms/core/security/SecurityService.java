@@ -74,7 +74,7 @@ public interface SecurityService
 
     List<UserStoreEntity> getUserStores();
 
-    User loginAdminUser( final QualifiedUsername qualifiedUsername, final String password );
+    User loginAdminUser( LoginAdminUserCommand command );
 
     void loginPortalUser( final QualifiedUsername qualifiedUsername, final String password );
 

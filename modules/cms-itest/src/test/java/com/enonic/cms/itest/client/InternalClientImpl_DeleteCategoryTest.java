@@ -1,23 +1,7 @@
 package com.enonic.cms.itest.client;
 
-import com.enonic.cms.api.client.ClientException;
-import com.enonic.cms.api.client.model.CreateCategoryParams;
-import com.enonic.cms.api.client.model.CreateFileContentParams;
-import com.enonic.cms.api.client.model.DeleteCategoryParams;
-import com.enonic.cms.api.client.model.content.ContentStatus;
-import com.enonic.cms.api.client.model.content.file.*;
-import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.UnitEntity;
-import com.enonic.cms.core.content.category.CategoryEntity;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
+import java.io.IOException;
+
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.junit.Before;
@@ -26,7 +10,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.io.IOException;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.api.client.ClientException;
+import com.enonic.cms.api.client.model.CreateCategoryParams;
+import com.enonic.cms.api.client.model.CreateFileContentParams;
+import com.enonic.cms.api.client.model.DeleteCategoryParams;
+import com.enonic.cms.api.client.model.content.ContentStatus;
+import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
+import com.enonic.cms.api.client.model.content.file.FileContentDataInput;
+import com.enonic.cms.api.client.model.content.file.FileDescriptionInput;
+import com.enonic.cms.api.client.model.content.file.FileKeywordsInput;
+import com.enonic.cms.api.client.model.content.file.FileNameInput;
+import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.UnitEntity;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.security.PortalSecurityHolder;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
 
 import static org.junit.Assert.*;
 
@@ -589,7 +595,7 @@ public class InternalClientImpl_DeleteCategoryTest
 
     private void loginPortalUser( String userName )
     {
-        SecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
-        SecurityHolder.setRunAsUser( fixture.findUserByName( userName ).getKey() );
+        PortalSecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
+        PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( userName ).getKey() );
     }
 }

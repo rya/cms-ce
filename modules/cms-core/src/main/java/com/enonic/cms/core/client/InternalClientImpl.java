@@ -202,10 +202,6 @@ public final class InternalClientImpl
 
     private PreferenceService preferenceService;
 
-    private UserParser userParser;
-
-    private UserStoreParser userStoreParser;
-
     private UserDao userDao;
 
     @Autowired
@@ -304,7 +300,8 @@ public final class InternalClientImpl
         final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getUser", livePortalTraceService );
         try
         {
-            final UserEntity user = userParser.parseUser( params.user );
+            final UserEntity user =
+                new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser( params.user );
             final UserXmlCreator xmlCreator = new UserXmlCreator();
             xmlCreator.setIncludeUserFields( params.includeCustomUserFields );
             xmlCreator.wrappUserFieldsInBlockElement( false );
@@ -368,7 +365,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "Given count must be 1 or above" );
             }
 
-            UserStoreEntity userStore = userStoreParser.parseUserStore( params.userStore );
+            UserStoreEntity userStore = new UserStoreParser( userStoreDao ).parseUserStore( params.userStore );
             List<UserEntity> users =
                 this.securityService.getUsers( userStore.getKey(), params.index, params.count, params.includeDeletedUsers );
             UserXmlCreator xmlCreator = new UserXmlCreator();
@@ -416,7 +413,7 @@ public final class InternalClientImpl
             }
             else
             {
-                UserStoreEntity userStore = userStoreParser.parseUserStore( params.userStore );
+                UserStoreEntity userStore = new UserStoreParser( userStoreDao ).parseUserStore( params.userStore );
                 GroupQuery spec = new GroupQuery();
                 spec.setUserStoreKey( userStore.getKey() );
                 spec.setGroupTypes( groupTypes );
@@ -471,7 +468,9 @@ public final class InternalClientImpl
             }
             else
             {
-                UserEntity user = userParser.parseUser( params.user );
+                UserEntity user =
+                    new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser(
+                        params.user );
                 groupToUse = user.getUserGroup();
             }
 
@@ -525,7 +524,9 @@ public final class InternalClientImpl
             }
             else
             {
-                UserEntity user = userParser.parseUser( params.user );
+                UserEntity user =
+                    new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser(
+                        params.user );
                 groupToRemoveMembershipsFor = user.getUserGroup();
             }
 
@@ -566,7 +567,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "UserStore must be specified" );
             }
 
-            final UserStoreEntity userStore = userStoreParser.parseUserStore( params.userStore );
+            final UserStoreEntity userStore = new UserStoreParser( userStoreDao ).parseUserStore( params.userStore );
 
             UserEntity runningUser = securityService.getRunAsUser();
 
@@ -820,7 +821,7 @@ public final class InternalClientImpl
             }
 
             UserEntity storer = securityService.getRunAsUser();
-            UserStoreEntity userStore = userStoreParser.parseUserStore( params.userstore );
+            UserStoreEntity userStore = new UserStoreParser( userStoreDao ).parseUserStore( params.userstore );
 
             StoreNewUserCommand storeNewUserCommand = new StoreNewUserCommand();
             storeNewUserCommand.setUsername( params.username );
@@ -860,7 +861,8 @@ public final class InternalClientImpl
             }
 
             final UserEntity deleter = securityService.getRunAsUser();
-            final UserEntity user = userParser.parseUser( params.user );
+            final UserEntity user =
+                new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser( params.user );
 
             final DeleteUserCommand deleteUserCommand =
                 new DeleteUserCommand( deleter.getKey(), UserSpecification.usingKey( user.getKey() ) );
@@ -1926,12 +1928,9 @@ public final class InternalClientImpl
 
             if ( StringUtils.isNotBlank( assigneeParamKey ) )
             {
-                final UserEntity assignee = userParser.parseUser( params.assignee );
-
-                if ( assignee == null )
-                {
-                    throw new IllegalArgumentException( "Not able to find assignee with key: " + assigneeParamKey );
-                }
+                final UserEntity assignee =
+                    new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser(
+                        params.assignee );
 
                 command.assigneeKey = assignee.getKey();
                 command.assignmentDescription = params.assignmentDescription;
@@ -2339,11 +2338,6 @@ public final class InternalClientImpl
         this.internalClientRenderService = value;
     }
 
-    public void setUserParser( UserParser userParser )
-    {
-        this.userParser = userParser;
-    }
-
     public void setSecurityService( SecurityService value )
     {
         this.securityService = value;
@@ -2352,11 +2346,6 @@ public final class InternalClientImpl
     public void setContentService( ContentService contentService )
     {
         this.contentService = contentService;
-    }
-
-    public void setUserStoreParser( UserStoreParser value )
-    {
-        this.userStoreParser = value;
     }
 
     public void setInternalClientContentService( InternalClientContentService internalClientContentService )

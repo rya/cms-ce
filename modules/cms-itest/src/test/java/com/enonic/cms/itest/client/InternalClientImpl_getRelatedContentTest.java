@@ -36,7 +36,7 @@ import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.content.contenttype.dataentryconfig.DataEntryConfig;
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.core.preview.PreviewService;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -151,8 +151,8 @@ public class InternalClientImpl_getRelatedContentTest
 
         fixture.flushAndClearHibernateSesssion();
 
-        SecurityHolder.setUser( fixture.findUserByName( "content-querier" ).getKey() );
-        SecurityHolder.setRunAsUser( fixture.findUserByName( "content-querier" ).getKey() );
+        PortalSecurityHolder.setUser( fixture.findUserByName( "content-querier" ).getKey() );
+        PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "content-querier" ).getKey() );
 
         internalClient = new InternalClientImpl();
         internalClient.setSecurityService( securityService );
