@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.enonic.cms.framework.jdbc.lob.SimpleBlob;
-
 /**
  * This class defines the jdbc dialect.
  */
