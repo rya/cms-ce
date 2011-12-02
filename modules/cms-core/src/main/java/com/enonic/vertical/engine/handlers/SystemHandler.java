@@ -158,15 +158,9 @@ public final class SystemHandler
     {
         Connection conn = getConnection();
 
-        try
+        if ( !updateModelNumber( conn, version ) )
         {
-            if ( !updateModelNumber( conn, version ) )
-            {
-                insertModelNumber( conn, version );
-            }
-        }
-        finally
-        {
+            insertModelNumber( conn, version );
         }
     }
 
@@ -220,14 +214,8 @@ public final class SystemHandler
     {
         Connection conn = null;
 
-        try
-        {
-            conn = getConnection();
-            return initializeDatabaseSchema( conn );
-        }
-        finally
-        {
-        }
+        conn = getConnection();
+        return initializeDatabaseSchema( conn );
     }
 
     /**
@@ -238,14 +226,8 @@ public final class SystemHandler
     {
         Connection conn = null;
 
-        try
-        {
-            conn = getConnection();
-            return initializeDatabaseValues( conn );
-        }
-        finally
-        {
-        }
+        conn = getConnection();
+        return initializeDatabaseValues( conn );
     }
 
     /**
@@ -367,13 +349,7 @@ public final class SystemHandler
         {
             Connection conn = getConnection();
 
-            try
-            {
-                vacuumReadLogs( conn );
-            }
-            finally
-            {
-            }
+            vacuumReadLogs( conn );
         }
         catch ( Exception e )
         {
@@ -390,17 +366,11 @@ public final class SystemHandler
         {
             Connection conn = getConnection();
 
-            try
-            {
-                vacuumBinaries( conn );
-                vacuumContents( conn );
-                vacuumCategories( conn );
-                vacuumArchives( conn );
-                vacuumBlobStore();
-            }
-            finally
-            {
-            }
+            vacuumBinaries( conn );
+            vacuumContents( conn );
+            vacuumCategories( conn );
+            vacuumArchives( conn );
+            vacuumBlobStore();
         }
         catch ( Exception e )
         {

@@ -101,7 +101,7 @@ public class AdminPage
                             user = remoteUser;
                             AdminSecurityHolder.setUser( user.getKey() );
                             String message = "Logged in remote user {0} automatically";
-                            VerticalAdminLogger.info( message, remoteUserUID, null );
+                            VerticalAdminLogger.info( message, remoteUserUID );
                         }
                         else
                         {
@@ -376,7 +376,7 @@ public class AdminPage
                     if ( handlerName == null )
                     {
                         String message = "No handler set for content type.";
-                        VerticalAdminLogger.errorAdmin( message, null );
+                        VerticalAdminLogger.errorAdmin( message );
                     }
                     servlet = "/admin/servlet/" + handlerClass;
                 }

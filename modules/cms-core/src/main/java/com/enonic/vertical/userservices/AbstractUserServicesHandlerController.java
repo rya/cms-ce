@@ -213,7 +213,7 @@ public abstract class AbstractUserServicesHandlerController
         throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
     {
         String message = "OperationWrapper CREATE not implemented.";
-        VerticalUserServicesLogger.error( message, null );
+        VerticalUserServicesLogger.error( message );
     }
 
     protected void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -221,7 +221,7 @@ public abstract class AbstractUserServicesHandlerController
         throws VerticalUserServicesException, VerticalRemoveException, VerticalSecurityException, RemoteException
     {
         String message = "OperationWrapper REMOVE not implemented.";
-        VerticalUserServicesLogger.error( message, null );
+        VerticalUserServicesLogger.error( message );
     }
 
     protected void handlerCustom( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -241,7 +241,7 @@ public abstract class AbstractUserServicesHandlerController
                                   UserServicesService userServices, SiteKey siteKey )
     {
         String message = "OperationWrapper UPDATE not implemented.";
-        VerticalUserServicesLogger.error( message, null );
+        VerticalUserServicesLogger.error( message );
     }
 
     private UserServicesService lookupUserServices()
@@ -438,7 +438,7 @@ public abstract class AbstractUserServicesHandlerController
         {
             String message = "Access to http service '" + handler + "." + operation + "' on site " + siteKey +
                 " is not allowed by configuration. Check the settings in site-" + siteKey + ".properties";
-            VerticalUserServicesLogger.warn( message, null );
+            VerticalUserServicesLogger.warn( message );
             String httpErrorMsg = "Access denied to http service '" + handler + "." + operation + "' on site " + siteKey;
             response.sendError( HttpServletResponse.SC_FORBIDDEN, httpErrorMsg );
             return null;
@@ -460,7 +460,7 @@ public abstract class AbstractUserServicesHandlerController
                     }
                     vsession.setAttribute( "error_" + handler + "_" + operation,
                                            captchaService.buildErrorXMLForSessionContext( formItems ).getAsDOMDocument() );
-                    redirectToErrorPage( request, response, formItems, ERR_INVALID_CAPTCHA, null );
+                    redirectToErrorPage( request, response, formItems, ERR_INVALID_CAPTCHA );
                     return null;
                 }
             }
@@ -486,19 +486,19 @@ public abstract class AbstractUserServicesHandlerController
         {
             String message = "No rights to handle request: %t";
             VerticalUserServicesLogger.warn( message, vse );
-            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
+            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION );
         }
         catch ( ContentAccessException vse )
         {
             String message = "No rights to handle request: %t";
             VerticalUserServicesLogger.warn( message, vse );
-            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
+            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION );
         }
         catch ( CategoryAccessException vse )
         {
             String message = "No rights to handle request: %t";
             VerticalUserServicesLogger.warn( message, vse );
-            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION, null );
+            redirectToErrorPage( request, response, formItems, ERR_SECURITY_EXCEPTION );
         }
         catch ( UserServicesException use )
         {
@@ -508,7 +508,7 @@ public abstract class AbstractUserServicesHandlerController
         {
             String message = "Failed to handle request: %t";
             VerticalUserServicesLogger.error( message, e );
-            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND, null );
+            redirectToErrorPage( request, response, formItems, ERR_OPERATION_BACKEND );
         }
         return null;
     }
@@ -541,10 +541,9 @@ public abstract class AbstractUserServicesHandlerController
         return url.matches( "^[a-z]{3,6}://.+" );
     }
 
-    protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int code,
-                                        MultiValueMap queryParams )
+    protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int code )
     {
-        redirectToErrorPage( request, response, formItems, new int[]{code}, queryParams );
+        redirectToErrorPage( request, response, formItems, new int[]{code}, null );
     }
 
     protected void redirectToErrorPage( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, int[] codes,

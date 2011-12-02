@@ -46,17 +46,17 @@ public final class BinaryDataHandler
             return null;
         }
 
-        return getBinaryData( entity, false, -1 );
+        return getBinaryData( entity, -1 );
     }
 
-    private BinaryData getBinaryData( ContentBinaryDataEntity contentBinaryData, boolean anonAccess, long timestamp )
+    private BinaryData getBinaryData( ContentBinaryDataEntity contentBinaryData, long timestamp )
     {
         BinaryData binaryData = new BinaryData();
         binaryData.key = contentBinaryData.getBinaryData().getKey();
         binaryData.contentKey = contentBinaryData.getContentVersion().getContent().getKey().toInt();
         binaryData.setSafeFileName( contentBinaryData.getBinaryData().getName() );
         binaryData.timestamp = contentBinaryData.getBinaryData().getCreatedAt();
-        binaryData.anonymousAccess = anonAccess;
+        binaryData.anonymousAccess = false;
 
         if ( binaryData.timestamp.getTime() > timestamp )
         {

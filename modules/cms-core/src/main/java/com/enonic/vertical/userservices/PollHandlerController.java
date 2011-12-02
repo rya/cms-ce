@@ -76,7 +76,7 @@ public class PollHandlerController
         if ( !multipleChoice )
         {
             String selected = formItems.getString( "choice" );
-            VerticalUserServicesLogger.info("the selection was: {0}", selected, null );
+            VerticalUserServicesLogger.info("the selection was: {0}", selected );
 
             Map alternativesMap = XMLTool.filterElementsWithAttributeAsKey( alternativesElement.getChildNodes(), "id" );
             Element alternativeElem = (Element) alternativesMap.get( selected );
@@ -95,7 +95,7 @@ public class PollHandlerController
             }
             else
             {
-                redirectToErrorPage( request, response, formItems, ERR_UNKNOWN_POLL_SELECTION, null );
+                redirectToErrorPage( request, response, formItems, ERR_UNKNOWN_POLL_SELECTION );
                 return;
             }
         }

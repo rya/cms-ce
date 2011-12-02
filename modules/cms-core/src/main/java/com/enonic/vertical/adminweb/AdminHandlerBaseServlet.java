@@ -291,7 +291,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "OperationWrapper COPY is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.getString( "page" ), key};
-        VerticalAdminLogger.errorAdmin( message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData );
     }
 
     public void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -337,7 +337,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "Custom operation is not implemented (page={0}): {1}";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), operation};
-        VerticalAdminLogger.errorAdmin( message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData );
     }
 
     public void handlerForm( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -397,7 +397,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "OperationWrapper REMOVE is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), key};
-        VerticalAdminLogger.errorAdmin( message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData );
     }
 
     public void handlerRemove( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -408,7 +408,7 @@ public abstract class AdminHandlerBaseServlet
         String message = "OperationWrapper REMOVE is not implemented (page={0},key={1})";
 
         Object[] msgData = new Object[]{formItems.get( "page" ), key};
-        VerticalAdminLogger.errorAdmin( message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData );
     }
 
     public void handlerSearch( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -443,7 +443,7 @@ public abstract class AdminHandlerBaseServlet
     {
         String message = "OperationWrapper WIZARD is not implemented (page={0},wizardName={1})";
         Object[] msgData = {formItems.get( "page" ), wizardName};
-        VerticalAdminLogger.errorAdmin( message, msgData, null );
+        VerticalAdminLogger.errorAdmin( message, msgData );
     }
 
     public void handlerNotify( HttpServletRequest request, HttpServletResponse response, HttpSession session, AdminService admin,
@@ -568,7 +568,7 @@ public abstract class AdminHandlerBaseServlet
         return formItems;
     }
 
-    protected ExtendedMap parseForm( HttpServletRequest request, boolean keepEmpty )
+    protected ExtendedMap parseForm( HttpServletRequest request )
         throws FileUploadException, IOException
     {
         if ( FileUpload.isMultipartContent( request ) )
@@ -577,7 +577,7 @@ public abstract class AdminHandlerBaseServlet
         }
         else
         {
-            return parseSimpleRequest( request, keepEmpty );
+            return parseSimpleRequest( request, false );
         }
     }
 
@@ -700,7 +700,7 @@ public abstract class AdminHandlerBaseServlet
 
         if ( session == null )
         {
-            VerticalAdminLogger.debug( "Session is null. Redirecting to login.", null );
+            VerticalAdminLogger.debug( "Session is null. Redirecting to login." );
 
             // failed to get session, redirect to login page
             try
@@ -722,7 +722,7 @@ public abstract class AdminHandlerBaseServlet
             {
                 // no logged in user, invalidate session and redirect to login page
                 String message = "No user logged in. Redirecting to login.";
-                VerticalAdminLogger.debug( message, null );
+                VerticalAdminLogger.debug( message );
                 try
                 {
                     redirectClientToAdminPath( "login", (MultiValueMap) null, request, response );
@@ -738,7 +738,7 @@ public abstract class AdminHandlerBaseServlet
                 response.setContentType( "text/html; charset=UTF-8" );
                 try
                 {
-                    ExtendedMap formItems = parseForm( request, false );
+                    ExtendedMap formItems = parseForm( request );
 
                     String operation;
                     if ( formItems.containsKey( "op" ) )

@@ -32,7 +32,6 @@ public class ResourceDataServlet
         {
             ResourceKey key = new ResourceKey( keyStr );
 
-            AdminService admin = lookupAdminBean();
             ResourceFile res = resourceService.getResourceFile( key );
 
             if ( res != null )
@@ -49,7 +48,7 @@ public class ResourceDataServlet
         else
         {
             String message = "Resource key not specified.";
-            VerticalAdminLogger.warn(message, null );
+            VerticalAdminLogger.warn(message );
             response.sendError( HttpServletResponse.SC_NOT_FOUND, message );
         }
     }

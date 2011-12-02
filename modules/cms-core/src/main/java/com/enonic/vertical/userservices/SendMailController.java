@@ -57,8 +57,8 @@ public class SendMailController
                 if ( StringUtils.isEmpty( fromName ) && StringUtils.isEmpty( fromEmail ) )
                 {
                     String message = "No \"from\" fields given. " + "At least one of \"from_name\" and \"from_email\" is required.";
-                    VerticalUserServicesLogger.warn(message, null );
-                    redirectToErrorPage( request, response, formItems, ERR_MISSING_FROM_FIELDS, null );
+                    VerticalUserServicesLogger.warn(message );
+                    redirectToErrorPage( request, response, formItems, ERR_MISSING_FROM_FIELDS );
                     return;
                 }
                 mail.setFrom( fromName, fromEmail );
@@ -68,8 +68,8 @@ public class SendMailController
                 if ( recipients.length == 0 )
                 {
                     String message = "No \"to\" fields given. At least one is required.";
-                    VerticalUserServicesLogger.warn(message, null );
-                    redirectToErrorPage( request, response, formItems, ERR_MISSING_TO_FIELD, null );
+                    VerticalUserServicesLogger.warn(message );
+                    redirectToErrorPage( request, response, formItems, ERR_MISSING_TO_FIELD );
                     return;
                 }
                 else
@@ -77,7 +77,7 @@ public class SendMailController
                     int error = addRecipients( mail, recipients, Mail.TO_RECIPIENT );
                     if ( error >= 0 )
                     {
-                        redirectToErrorPage( request, response, formItems, error, null );
+                        redirectToErrorPage( request, response, formItems, error );
                         return;
                     }
                 }
@@ -89,7 +89,7 @@ public class SendMailController
                     int error = addRecipients( mail, recipients, Mail.BCC_RECIPIENT );
                     if ( error >= 0 )
                     {
-                        redirectToErrorPage( request, response, formItems, error, null );
+                        redirectToErrorPage( request, response, formItems, error );
                         return;
                     }
                 }
@@ -101,7 +101,7 @@ public class SendMailController
                     int error = addRecipients( mail, recipients, Mail.CC_RECIPIENT );
                     if ( error >= 0 )
                     {
-                        redirectToErrorPage( request, response, formItems, error, null );
+                        redirectToErrorPage( request, response, formItems, error );
                         return;
                     }
                 }
@@ -111,8 +111,8 @@ public class SendMailController
                 if ( subject == null || subject.length() == 0 )
                 {
                     String message = "No \"subject\" field given. A subject field is required.";
-                    VerticalUserServicesLogger.warn(message, null );
-                    redirectToErrorPage( request, response, formItems, ERR_MISSING_SUBJECT_FIELD, null );
+                    VerticalUserServicesLogger.warn(message );
+                    redirectToErrorPage( request, response, formItems, ERR_MISSING_SUBJECT_FIELD );
                     return;
                 }
                 else
@@ -192,7 +192,7 @@ public class SendMailController
             {
                 String message = "Failed to send email: %t";
                 VerticalUserServicesLogger.error(message, esle );
-                redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED, null );
+                redirectToErrorPage( request, response, formItems, ERR_EMAIL_SEND_FAILED );
             }
         }
         else
@@ -268,7 +268,7 @@ public class SendMailController
                             ojbs[0] = "Cc";
                             break;
                     }
-                    VerticalUserServicesLogger.warn(message, ojbs, null );
+                    VerticalUserServicesLogger.warn(message, ojbs );
                     return ERR_RECIPIENT_HAS_WRONG_ADDRESS_NO_ALPHA;
                 }
                 else if ( email.indexOf( '.', idx ) < 0 )
@@ -287,7 +287,7 @@ public class SendMailController
                             ojbs[0] = "Cc";
                             break;
                     }
-                    VerticalUserServicesLogger.warn(message, ojbs, null );
+                    VerticalUserServicesLogger.warn(message, ojbs );
                     return ERR_RECIPIENT_HAS_WRONG_ADDRESS_MISSING_DOT;
                 }
 

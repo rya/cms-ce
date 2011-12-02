@@ -12,19 +12,19 @@ public class VerticalLogger
 {
     private final static LogFacade LOG = LogFacade.get(VerticalLogger.class);
 
-    public static void debug(String message, Throwable throwable)
+    public static void debug( String message )
     {
-        LOG.debugCause(message, throwable);
+        LOG.debug( message );
     }
 
-    public static void info(String message, Object msgData, Throwable throwable)
+    public static void info( String message, Object msgData )
     {
-        LOG.infoCause(message, throwable, msgData);
+        LOG.info( message, msgData );
     }
 
-    public static void warn(String message, Object[] msgData, Throwable throwable)
+    public static void warn( String message, Object[] msgData )
     {
-        LOG.warningCause(message, throwable, msgData);
+        LOG.warning( message, msgData );
     }
 
     public static void warn(String message, Object msgData, Throwable throwable)
@@ -37,14 +37,24 @@ public class VerticalLogger
         LOG.warningCause(message, throwable);
     }
 
-    public static void error(String message, Object[] msgData, Throwable throwable)
+    public static void error( String message, Object[] msgData )
     {
-        LOG.errorCause(message, throwable, msgData);
+        LOG.error(message, msgData);
     }
 
     public static void error(String message, Object msgData, Throwable throwable)
     {
         LOG.errorCause(message, throwable, msgData);
+    }
+
+    public static void warn(String message)
+    {
+        LOG.warning(message);
+    }
+
+    public static void error(String message)
+    {
+        LOG.error(message);
     }
 
     public static void error(String message, Throwable throwable)

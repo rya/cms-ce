@@ -1087,9 +1087,9 @@
 %fldPublished%|Publisert|Published|Udgivet|Publicerat
 %titleChooseDestination%|Velg målkategori|Choose destination category|Vælg målkategori|Välj målkategori
 %msgNoRelatedContent%|Ingen innhold relaterer seg til dette innholdet.|No content relates to this content.|Intet indhold er relateret til dette indhold.|Inget innehåll är relaterat till detta innehåll
-%msgNoMenuItemsIsUsingThisPortlet%|Ingen menypunkter bruker denne portletten.|No menu items is using this portlet.|Ingen menupunkter bruger denne portlet.|Ingen menypunkt använder denna portlet
-%msgNoPageTemplatesIsUsingThisPortlet%|Ingen sidemaler bruker dette portletten.|No page templates is using this portlet.|Ingen skabeloner bruger denne portlet.|Ingen sidmall använder denna portlet
-%msgNoMenuItemsIsUsingThisPageTemplate%|Ingen menypunkter bruker denne sidemalen.|No menu items is using this page template.|Ingen menupunkter bruger denne skabelon.|Ingen menypunkt använder denna sidmall
+%msgNoMenuItemsIsUsingThisPortlet%|Ingen menypunkter bruker denne portletten.|No menu items are using this portlet.|Ingen menupunkter bruger denne portlet.|Ingen menypunkt använder denna portlet
+%msgNoPageTemplatesIsUsingThisPortlet%|Ingen sidemaler bruker dette portletten.|No page templates are using this portlet.|Ingen skabeloner bruger denne portlet.|Ingen sidmall använder denna portlet
+%msgNoMenuItemsIsUsingThisPageTemplate%|Ingen menypunkter bruker denne sidemalen.|No menu items are using this page template.|Ingen menupunkter bruger denne skabelon.|Ingen menypunkt använder denna sidmall
 %blockShortcut%|Snarvei|Shortcut|Genvej|Genväg
 %fldShortcut%|Målside|Destination page|Målside|Målsida
 %optPageTypeShortcut%|Snarvei|Shortcut|Genvej|Genväg
@@ -1147,7 +1147,7 @@
 %lblRemoteUserStoreConnector%|Kobling|Connector|Forbindelse|Anslutning
 %optLocalUserStore%|Internt brukerlager|Local userstore|Lokale brugerlager|Lokal användarbas
 %optRemoteUserStore%|Eksternt brukerlager|Remote userstore|Ekstern brugerbase|Externt användarlager
-%txtLocal%|Internt|Local|Lokale brugerlager|Lokal användarbas
+%txtLocal%|Internt|Local|Lokale|Lokal
 %txtRemote%|Ekstern|Remote|Ekstern|Externt
 %alertChangeDefaultUserStore%|Er du sikker på at du vil endre standard brukerlager?|Are you sure you want to change the default userstore?|Er du sikker på, at du ønsker at ændre standardbrugerlageret?|Är du säker på att du vill ändra förinställd användarbas?
 %txtEditorPreInit%|Initialiserer|Initializing|Initialiserer|Initialiserar

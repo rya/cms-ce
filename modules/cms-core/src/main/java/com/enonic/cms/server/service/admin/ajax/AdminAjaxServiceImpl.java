@@ -253,7 +253,7 @@ public class AdminAjaxServiceImpl
             HttpSession session = ServletRequestAccessor.getSession();
             if ( session == null )
             {
-                VerticalAdminLogger.errorAdmin( "Http session is null", null );
+                VerticalAdminLogger.errorAdmin( "Http session is null" );
 
                 return "ERROR: Http session is null";
             }

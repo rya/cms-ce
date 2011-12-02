@@ -240,7 +240,7 @@ public final class MenuHandler
                     String menuKey = menuitemElem.getAttribute( "menukey" );
                     VerticalAdminLogger.error(
                             "Received invalid XML from database, menukey=" + menuKey + ", menuitem key=" + menuItemKey +
-                                                   ", name=" + menuItemName + ". Running Tidy..", null );
+                                                   ", name=" + menuItemName + ". Running Tidy.." );
                 }
                 documentElem.setAttribute( "mode", "xhtml" );
             }
@@ -257,7 +257,7 @@ public final class MenuHandler
                     Document doc = menuitemElem.getOwnerDocument();
                     String docString = XMLTool.serialize( documentElem );
                     XMLTool.createCDATASection( doc, documentElem, docString );
-                    VerticalEngineLogger.debug("Expected CDATA, found XML. Serialized it.", null );
+                    VerticalEngineLogger.debug("Expected CDATA, found XML. Serialized it." );
                 }
             }
         }
@@ -1456,7 +1456,7 @@ public final class MenuHandler
         catch ( VerticalCreateException vce )
         {
             String message = "Failed to create section contenttype filter: %t";
-            VerticalEngineLogger.error(message, null );
+            VerticalEngineLogger.error(message, vce );
         }
     }
 
@@ -1492,7 +1492,7 @@ public final class MenuHandler
         int shortcut = Integer.parseInt( shortcutElem.getAttribute( "key" ) );
         boolean forward = Boolean.valueOf( shortcutElem.getAttribute( "forward" ) );
         StringBuffer sql = XDG.generateUpdateSQL( db.tMenuItem, new Column[]{db.tMenuItem.mei_mei_lShortcut,
-                db.tMenuItem.mei_bShortcutForward}, new Column[]{db.tMenuItem.mei_lKey}, null );
+                db.tMenuItem.mei_bShortcutForward}, new Column[]{db.tMenuItem.mei_lKey} );
 
         Connection con = null;
         PreparedStatement prepStmt = null;
@@ -1564,7 +1564,7 @@ public final class MenuHandler
     {
         StringBuffer sql =
             XDG.generateUpdateSQL( db.tMenuItem, new Column[]{db.tMenuItem.mei_mei_lShortcut, db.tMenuItem.mei_bShortcutForward},
-                                   new Column[]{db.tMenuItem.mei_lKey}, null );
+                                   new Column[]{db.tMenuItem.mei_lKey} );
         Connection con = null;
         PreparedStatement prepStmt = null;
         try
@@ -1668,9 +1668,9 @@ public final class MenuHandler
         return doc;
     }
 
-    public Document getMenu( User user, int menuKey, boolean complete, boolean includePageConfig )
+    public Document getMenu( User user, int menuKey, boolean complete )
     {
-        return getMenu( user, menuKey, -1, -1, complete, includePageConfig);
+        return getMenu( user, menuKey, -1, -1, complete, true);
     }
 
     private String getMenuName( int menuKey )
@@ -2125,7 +2125,7 @@ public final class MenuHandler
 
     private MenuItemType getMenuItemType( int menuItemKey )
     {
-        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_mid_lkey, false, (Column[]) null );
+        StringBuffer sql = XDG.generateSelectSQL( db.tMenuItem, db.tMenuItem.mei_mid_lkey, (Column[]) null );
         XDG.appendWhereSQL( sql, db.tMenuItem.mei_lKey, XDG.OPERATOR_EQUAL, menuItemKey );
         int menuItemTypeKey = getCommonHandler().getInt( sql.toString(), (Object[]) null );
         return MenuItemType.get( menuItemTypeKey );
@@ -2201,7 +2201,7 @@ public final class MenuHandler
                 removeMenuItem( user, childKey );
             }
 
-            securityHandler.removeAccessRights( con, menuItemKey, AccessRight.MENUITEM );
+            securityHandler.removeMenuItemAccessRights( con, menuItemKey );
             if ( type == MenuItemType.PAGE )
             {
                 removePageFromMenuItem( con, menuItemKey );
@@ -3042,9 +3042,6 @@ public final class MenuHandler
         {
             VerticalEngineLogger.errorUpdate("A database error occurred: %t", e );
         }
-        finally
-        {
-        }
     }
 
     private void setMenuItemContentKey( MenuItemKey menuItemKey, int contentKey )
@@ -3479,7 +3476,7 @@ public final class MenuHandler
             PageTemplateHandler pageTemplateHandler = getPageTemplateHandler();
             pageTemplateHandler.copyPageTemplates( oldMenuKey, copyContext );
 
-            Document doc = getMenu( user, menuKey.toInt(), true, true );
+            Document doc = getMenu( user, menuKey.toInt(), true );
             Element docElem = doc.getDocumentElement();
             newMenuElem = (Element) docElem.getFirstChild();
             doc.replaceChild( newMenuElem, docElem );
@@ -3547,7 +3544,7 @@ public final class MenuHandler
 
         try
         {
-            Document doc = getMenu( user, menuKey, true, true );
+            Document doc = getMenu( user, menuKey, true );
             Element menuElem = XMLTool.getFirstElement( doc.getDocumentElement() );
             if ( menuElem != null )
             {
@@ -3843,24 +3840,14 @@ public final class MenuHandler
         return doc;
     }
 
-    public StringBuffer getPathString( int menuItemKey, boolean includeMenu, boolean includeSpace )
+    public StringBuffer getPathString( int menuItemKey )
     {
         CommonHandler commonHandler = getCommonHandler();
         StringBuffer path =
             commonHandler.getPathString( db.tMenuItem, db.tMenuItem.mei_lKey, db.tMenuItem.mei_lParent, db.tMenuItem.mei_sName, menuItemKey,
-                                         null, includeSpace );
-        if ( includeMenu )
-        {
-            if ( includeSpace )
-            {
-                path.insert( 0, " / " );
-            }
-            else
-            {
-                path.insert( 0, "/" );
-            }
-            path.insert( 0, getMenuName( getMenuKeyByMenuItem( menuItemKey ) ) );
-        }
+                                         true );
+        path.insert( 0, " / " );
+        path.insert( 0, getMenuName( getMenuKeyByMenuItem( menuItemKey ) ) );
         return path;
     }
 
@@ -3947,9 +3934,6 @@ public final class MenuHandler
         catch ( SQLException e )
         {
             VerticalEngineLogger.error("Failed to get admin menu", e );
-        }
-        finally
-        {
         }
 
         return doc;
@@ -4535,7 +4519,7 @@ public final class MenuHandler
         Integer defaultPageTemplateKeyInt = defaultPageTemplateKey != -1 ? defaultPageTemplateKey : null;
 
         StringBuffer sql = XDG.generateUpdateSQL( db.tMenu, new Column[]{db.tMenu.men_mei_firstPage, db.tMenu.men_mei_loginPage,
-            db.tMenu.men_mei_errorPage, db.tMenu.men_pat_lKey}, new Column[]{db.tMenu.men_lKey}, null );
+            db.tMenu.men_mei_errorPage, db.tMenu.men_pat_lKey}, new Column[]{db.tMenu.men_lKey} );
         getCommonHandler().executeSQL( sql.toString(),
                                        new Integer[]{frontPageKeyInt, loginPageKeyInt, errorPageKeyInt, defaultPageTemplateKeyInt,
                                            menuKey} );

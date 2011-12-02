@@ -25,9 +25,7 @@ public final class ThrowableUtil
     {
     }
 
-    /**
-     */
-    public static Document throwableToDoc( Element parentElem, Throwable t, boolean rootThrowableFirst )
+    public static Document throwableToDoc( Element parentElem, Throwable t )
     {
 
         Document doc;
@@ -121,15 +119,7 @@ public final class ThrowableUtil
                     }
                 }
 
-                if ( rootThrowableFirst && prevThrowable != null )
-                {
-                    root.insertBefore( throwable, prevThrowable );
-                }
-                else
-                {
-                    root.appendChild( throwable );
-                }
-
+                root.appendChild( throwable );
                 prevThrowable = throwable;
             }
             while ( t != null );

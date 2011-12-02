@@ -4,6 +4,13 @@
  */
 package com.enonic.vertical.engine.handlers;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.enonic.vertical.engine.VerticalEngineLogger;
+import com.enonic.vertical.engine.XDG;
 import com.enonic.vertical.engine.dbmodel.LogEntryTable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -83,8 +90,38 @@ public final class LogHandler
         ElementProcessor[] elementProcessors = new ElementProcessor[2];
         elementProcessors[0] = new UserElementProcessor( baseEngine.getCommonHandler() );
         elementProcessors[1] = new MenuElementProcessor( baseEngine.getCommonHandler() );
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getSingleData( Types.LOGENTRY, key, elementProcessors );
+        return getSingleData( key, elementProcessors );
+    }
+
+    private Document getSingleData( String key, ElementProcessor[] elementProcessors )
+    {
+        PreparedStatement preparedStmt = null;
+        ResultSet resultSet = null;
+        Document doc = null;
+
+        try
+        {
+            Connection con = getConnection();
+
+            StringBuffer sql = XDG.generateSelectWherePrimaryKeySQL( LogEntryTable.INSTANCE );
+            preparedStmt = con.prepareStatement( sql.toString() );
+            preparedStmt.setString( 1, key );
+            resultSet = preparedStmt.executeQuery();
+
+            doc = XDG.resultSetToXML( LogEntryTable.INSTANCE, resultSet, null, elementProcessors, null, -1 );
+        }
+        catch ( SQLException sqle )
+        {
+            String message = "SQL error: %t";
+            VerticalEngineLogger.error( message, sqle );
+        }
+        finally
+        {
+            close( resultSet );
+            close( preparedStmt );
+        }
+
+        return doc;
     }
 
     public void createdMenuItem( MenuHandlerEvent e )

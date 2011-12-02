@@ -12,10 +12,10 @@ public final class WizardLogger
 {
     private final static LogFacade LOG = LogFacade.get(WizardLogger.class);
 
-    public static void errorWizard(String message, Object msgData, Throwable throwable)
+    public static void errorWizard( String message, Object msgData )
     {
-        LOG.errorCause(message, throwable, msgData);
-        throw new WizardException(format(message, msgData), throwable);
+        LOG.error(message, msgData);
+        throw new WizardException(format(message, msgData), null);
     }
 
     public static void errorWizard(String message, Throwable throwable)

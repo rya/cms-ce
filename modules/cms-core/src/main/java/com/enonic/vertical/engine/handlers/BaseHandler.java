@@ -169,11 +169,6 @@ public abstract class BaseHandler
         return baseEngine.getLanguageHandler();
     }
 
-    protected final LogHandler getLogHandler()
-    {
-        return baseEngine.getLogHandler();
-    }
-
     protected final MenuHandler getMenuHandler()
     {
         return baseEngine.getMenuHandler();

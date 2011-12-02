@@ -349,7 +349,7 @@ public final class AdminEngine
     {
         Document doc =
             contentHandler.getContent( user, contentKey, false, parentLevel, childrenLevel, parentChildrenLevel);
-        securityHandler.appendAccessRights( user, doc, true, true );
+        securityHandler.appendAccessRights( user, doc );
         return XMLDocumentFactory.create(doc);
     }
 
@@ -374,7 +374,7 @@ public final class AdminEngine
         {
             categoryElem.setAttribute( "subcategories", String.valueOf( hasSubs ) );
         }
-        securityHandler.appendAccessRights( user, doc, true, true );
+        securityHandler.appendAccessRights( user, doc );
 
         return XMLDocumentFactory.create(doc);
     }
@@ -402,14 +402,14 @@ public final class AdminEngine
     public XMLDocument getMenuItem( User user, int key, boolean withParents )
     {
         Document doc = menuHandler.getMenuItem( user, key, withParents );
-        securityHandler.appendAccessRights( user, doc, true, true );
+        securityHandler.appendAccessRights( user, doc );
         return XMLDocumentFactory.create( doc );
     }
 
     public XMLDocument getMenuItem( User user, int key, boolean withParents, boolean complete )
     {
         Document doc = menuHandler.getMenuItem(user, key, withParents, complete, true);
-        securityHandler.appendAccessRights( user, doc, true, true );
+        securityHandler.appendAccessRights( user, doc );
         return XMLDocumentFactory.create(doc);
     }
 
@@ -442,7 +442,7 @@ public final class AdminEngine
     public int getContentCount( int categoryKey, boolean recursive )
     {
 
-        return categoryHandler.getContentCount(null, CategoryKey.parse(categoryKey), recursive);
+        return categoryHandler.getContentCount( CategoryKey.parse(categoryKey), recursive);
     }
 
     public XMLDocument getContentObject( int contentObjectKey )
@@ -509,8 +509,8 @@ public final class AdminEngine
 
     public XMLDocument getMenu( User user, int menuKey, boolean complete )
     {
-        Document doc = menuHandler.getMenu( user, menuKey, complete, true );
-        securityHandler.appendAccessRights( user, doc, true, true );
+        Document doc = menuHandler.getMenu( user, menuKey, complete );
+        securityHandler.appendAccessRights( user, doc );
         return XMLDocumentFactory.create(doc);
     }
 
@@ -578,7 +578,7 @@ public final class AdminEngine
 
     public boolean hasContent( int categoryKey )
     {
-        return categoryHandler.hasContent( null, CategoryKey.parse( categoryKey ) );
+        return categoryHandler.hasContent( CategoryKey.parse( categoryKey ) );
     }
 
     public boolean hasSubCategories( int categoryKey )
@@ -660,7 +660,7 @@ public final class AdminEngine
                 VerticalEngineLogger.errorSecurity(message, null );
             }
         }
-        categoryHandler.updateCategory( null, user, doc );
+        categoryHandler.updateCategory( user, doc );
     }
 
     public void updateContentObject( String xmlData )
@@ -852,7 +852,7 @@ public final class AdminEngine
         {
             // Get unit
             int unitKey = categoryHandler.getUnitKey( CategoryKey.parse( key ) );
-            Document unitDoc = commonHandler.getSingleData( Types.UNIT, unitKey, null );
+            Document unitDoc = commonHandler.getSingleData( Types.UNIT, unitKey );
             Element unitElem = (Element) unitDoc.getDocumentElement().getFirstChild();
 
             // Get categories
@@ -871,7 +871,7 @@ public final class AdminEngine
     {
         if ( type == Types.MENUITEM )
         {
-            return menuHandler.getPathString( key, true, true ).toString();
+            return menuHandler.getPathString( key ).toString();
         }
         return null;
     }

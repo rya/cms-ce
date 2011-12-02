@@ -108,7 +108,7 @@ public class PortalHandlerController
     {
 
         ForcedResolverValueLifetimeSettings forcedDeviceClassSetting =
-            getForcedDeviceClassSetting( formItems, ForcedResolverValueLifetimeSettings.permanent );
+            getForcedDeviceClassSetting( formItems );
 
         String deviceClass = formItems.getString( FORM_ITEM_DEVICE_CLASS );
 
@@ -124,7 +124,7 @@ public class PortalHandlerController
     {
 
         ForcedResolverValueLifetimeSettings forceLocaleLifeTimeSetting =
-            getForcedDeviceClassSetting( formItems, ForcedResolverValueLifetimeSettings.permanent );
+            getForcedDeviceClassSetting( formItems );
 
         String localeString = formItems.getString( FORM_ITEM_LOCALE );
 
@@ -136,10 +136,10 @@ public class PortalHandlerController
         localeResolverService.resetLocale( context, response );
     }
 
-    private ForcedResolverValueLifetimeSettings getForcedDeviceClassSetting( ExtendedMap formItems,
-                                                                             ForcedResolverValueLifetimeSettings defaultSetting )
+    private ForcedResolverValueLifetimeSettings getForcedDeviceClassSetting( ExtendedMap formItems )
     {
 
+        ForcedResolverValueLifetimeSettings defaultSetting = ForcedResolverValueLifetimeSettings.permanent;
         String forcedDeviceClassParameter = formItems.getString( FORCE_VALUE_SETTING_KEY, defaultSetting.name() );
 
         ForcedResolverValueLifetimeSettings forcedDeviceClassSetting;

@@ -408,7 +408,7 @@ public final class PageHandler
         catch ( SQLException se )
         {
             String message = "Failed to get page keys by page template key: %t";
-            VerticalEngineLogger.error(message, null );
+            VerticalEngineLogger.error(message );
         }
         finally
         {

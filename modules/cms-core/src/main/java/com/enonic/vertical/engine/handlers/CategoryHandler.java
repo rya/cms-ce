@@ -61,9 +61,6 @@ import com.enonic.cms.core.security.user.UserEntity;
 public class CategoryHandler
     extends BaseHandler
 {
-
-    private final static String CON_TABLE = "tContent";
-
     private final static String CAT_TABLE = "tCategory";
 
     private final static String CAT_INSERT =
@@ -78,25 +75,13 @@ public class CategoryHandler
 
     private final static String CAT_SELECT_COUNT = "SELECT count(cat_lKey) FROM " + CAT_TABLE;
 
-    private final static String CAT_SELECT_CON_COUNT =
-        "SELECT cat_lKey," + " count(con_lKey) AS cat_con_lCount" + " FROM " + CAT_TABLE + " LEFT JOIN " + CON_TABLE +
-            " ON con_lKey IS NULL OR con_cat_lKey = cat_lKey";
-
-    private final static String CAT_SELECT_KEY = "SELECT cat_lKey FROM " + CAT_TABLE;
-
     private final static String CAT_WHERE_CLAUSE_CAT_NOT_DELETED = " cat_bDeleted = 0";
-
-    private final static String CAT_WHERE_CLAUSE_CON_NOT_DELETED_OR_NULL = " (con_bDeleted IS NULL OR con_bDeleted = 0)";
-
-    private final static String CAT_WHERE_CLAUSE_MANY = " cat_lKey IN (%0)";
 
     private final static String CAT_WHERE_CLAUSE_SCA_ONE = " cat_cat_lSuper = ?";
 
     private final static String CAT_WHERE_CLAUSE_CTY = " cat_cty_lKey = ?";
 
     private final static String CAT_WHERE_CLAUSE_UNI = " cat_uni_lKey = ?";
-
-    private final static String CAT_GROUP_BY_CAT = " GROUP BY cat_lKey";
 
     private final static String CAT_SET_UNITKEY = "UPDATE tCategory SET cat_uni_lKey = ? WHERE cat_lKey = ?";
 
@@ -120,8 +105,7 @@ public class CategoryHandler
     private int[] createCategory( User olduser, CopyContext copyContext, Document categoryDoc, boolean useOldKey )
         throws VerticalSecurityException
     {
-
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         TIntArrayList newKeys = null;
 
@@ -358,9 +342,9 @@ public class CategoryHandler
     public int getCategoryKey( int superCategoryKey, String name )
     {
         CategoryView view = CategoryView.getInstance();
-        StringBuffer sql = XDG.generateSelectSQL( view, view.cat_lKey, false, (Column[]) null );
+        StringBuffer sql = XDG.generateSelectSQL( view, view.cat_lKey, (Column[]) null );
         XDG.appendWhereSQL( sql, view.cat_cat_lSuper, XDG.OPERATOR_EQUAL, superCategoryKey );
-        XDG.appendWhereSQL( sql, view.cat_sName, XDG.OPERATOR_EQUAL, name );
+        XDG.appendWhereSQL( sql, view.cat_sName, name );
         CommonHandler commonHandler = getCommonHandler();
         return commonHandler.getInt( sql.toString(), (int[]) null );
     }
@@ -368,7 +352,7 @@ public class CategoryHandler
     private int[] getCategoryKeysBySuperCategory(CategoryKey superCategoryKey, boolean recursive)
     {
 
-        return getCategoryKeysBySuperCategories(new int[]{superCategoryKey.toInt()}, recursive );
+        return getCategoryKeysBySuperCategories( new int[]{superCategoryKey.toInt()}, recursive );
     }
 
     public int[] getCategoryKeysBySuperCategories(int[] superCategoryKeys, boolean recursive)
@@ -447,20 +431,17 @@ public class CategoryHandler
         return name;
     }
 
-    /**
-     * @see CategoryHandler#getContentCount(Connection, CategoryKey, boolean)
-     */
-    public int getContentCount( Connection con, CategoryKey categoryKey, boolean recursive )
+    public int getContentCount( CategoryKey categoryKey, boolean recursive )
     {
 
         if ( categoryKey == null )
         {
             return 0;
         }
-        return getContentCount( con, new int[]{categoryKey.toInt()}, recursive );
+        return getContentCount( new int[]{categoryKey.toInt()}, recursive );
     }
 
-    private int getContentCount( Connection _con, int[] categoryKeys, boolean recursive )
+    private int getContentCount( int[] categoryKeys, boolean recursive )
     {
 
         if ( categoryKeys == null || categoryKeys.length == 0 )
@@ -468,7 +449,6 @@ public class CategoryHandler
             return 0;
         }
 
-        Connection con = null;
         int contentCount = 0;
 
         for ( int i = 0; i < categoryKeys.length; i++ )
@@ -486,7 +466,7 @@ public class CategoryHandler
                 }
                 if ( childrenKeys.size() > 0 )
                 {
-                    contentCount += getContentCount( con, catKeys, recursive );
+                    contentCount += getContentCount( catKeys, recursive );
                 }
             }
 
@@ -542,7 +522,7 @@ public class CategoryHandler
 
             if ( withContentCount )
             {
-                contentCountMap.put( category, getContentCount( null, category.getKey(), true ) );
+                contentCountMap.put( category, getContentCount( category.getKey(), true ) );
             }
 
             currCategory = currCategory.getParent();
@@ -573,9 +553,6 @@ public class CategoryHandler
         return category.getUnitExcludeDeleted().getKey();
     }
 
-    /**
-     * @see CategoryHandler#hasSubCategories(CategoryKey)
-     */
     public boolean hasSubCategories( CategoryKey categoryKey )
     {
         return hasSubCategories( null, categoryKey, null, false );
@@ -583,8 +560,7 @@ public class CategoryHandler
 
     private boolean hasSubCategories( User olduser, CategoryKey categoryKey, int[] contentTypeKeys, boolean adminRead )
     {
-
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         boolean subCategories;
@@ -611,7 +587,7 @@ public class CategoryHandler
             }
             if ( adminRead )
             {
-                getSecurityHandler().appendCategorySQL(olduser, sql, true, false);
+                getSecurityHandler().appendCategorySQL(olduser, sql, true );
             }
 
             con = getConnection();
@@ -628,7 +604,7 @@ public class CategoryHandler
             {
                 subCategories = false;
                 String message = "Failed to count sub-categories. No result given";
-                VerticalEngineLogger.error(message, null );
+                VerticalEngineLogger.error(message );
             }
 
             if ( !subCategories )
@@ -655,15 +631,15 @@ public class CategoryHandler
         return subCategories;
     }
 
-    public void updateCategory( Connection _con, User olduser, Document doc )
+    public void updateCategory( User olduser, Document doc )
     {
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         Element root = doc.getDocumentElement();
         Map subElems = XMLTool.filterElements( root.getChildNodes() );
 
-        int categoryKey = -1;
+        int categoryKey;
         try
         {
             // get the keys
@@ -687,14 +663,7 @@ public class CategoryHandler
                 superCategorykey = Integer.parseInt( key );
             }
 
-            if ( _con == null )
-            {
-                con = getConnection();
-            }
-            else
-            {
-                con = _con;
-            }
+            con = getConnection();
             preparedStmt = con.prepareStatement( CAT_UPDATE );
 
             // attribute: key
@@ -803,9 +772,6 @@ public class CategoryHandler
         finally
         {
             close( preparedStmt );
-            if ( _con == null )
-            {
-            }
         }
     }
 
@@ -824,10 +790,10 @@ public class CategoryHandler
         return null;
     }
 
-    public boolean hasContent( Connection con, CategoryKey categoryKey )
+    public boolean hasContent( CategoryKey categoryKey )
     {
 
-        return getContentCount( con, categoryKey, true ) > 0;
+        return getContentCount( categoryKey, true ) > 0;
     }
 
     public boolean isSubCategory( CategoryKey categoryKey, CategoryKey subCategoryKey )
@@ -900,13 +866,13 @@ public class CategoryHandler
     public boolean hasCategoriesWithRights( Connection _con, User olduser, int unitKey, int contentTypeKey )
     {
 
-        Connection con = null;
+        Connection con;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         int count = 0;
 
         List<Integer> paramValues = new ArrayList<Integer>( 2 );
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "SELECT COUNT(*) FROM " );
         sql.append( CAT_TABLE );
         sql.append( " WHERE" );
@@ -915,19 +881,19 @@ public class CategoryHandler
         {
             sql.append( " AND" );
             sql.append( CAT_WHERE_CLAUSE_UNI );
-            paramValues.add( new Integer( unitKey ) );
+            paramValues.add( unitKey );
         }
         if ( contentTypeKey >= 0 )
         {
             sql.append( " AND" );
             sql.append( CAT_WHERE_CLAUSE_CTY );
-            paramValues.add( new Integer( contentTypeKey ) );
+            paramValues.add( contentTypeKey );
         }
         String sqlString = sql.toString();
         if ( olduser != null )
         {
 
-            sqlString = getSecurityHandler().appendCategorySQL( olduser, sqlString, true, false );
+            sqlString = getSecurityHandler().appendCategorySQL( olduser, sqlString );
         }
 
         try
@@ -964,9 +930,6 @@ public class CategoryHandler
         {
             close( resultSet );
             close( statement );
-            if ( _con == null )
-            {
-            }
         }
 
         return ( count > 0 );
@@ -977,7 +940,7 @@ public class CategoryHandler
         UserHandler userHandler = getUserHandler();
 
         List<Integer> paramValues = new ArrayList<Integer>();
-        StringBuffer sqlCategories = new StringBuffer( "SELECT cat_lKey, cat_uni_lKey, cat_cat_lSuper, cat_sName, cat_cty_lKey FROM " );
+        StringBuilder sqlCategories = new StringBuilder( "SELECT cat_lKey, cat_uni_lKey, cat_cat_lSuper, cat_sName, cat_cty_lKey FROM " );
         sqlCategories.append( CategoryView.getInstance().getReplacementSql() );
         StringBuffer sqlCategoriesWHERE = new StringBuffer( " WHERE " );
 
@@ -1017,10 +980,10 @@ public class CategoryHandler
 
         if ( olduser != null )
         {
-            getSecurityHandler().appendCategorySQL( olduser, sqlCategoriesWHERE, true, false );
+            getSecurityHandler().appendCategorySQL( olduser, sqlCategoriesWHERE, true );
         }
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
 
@@ -1036,8 +999,6 @@ public class CategoryHandler
         {
             con = getConnection();
 
-            /*if ((categoryCriteria.getCategoryKey() != -1)
-                   || (categoryCriteria.getCategoryKeys() != null)) {*/
             String sql = sqlCategories.toString() + sqlCategoriesWHERE.toString();
             preparedStmt = con.prepareStatement( sql );
 
@@ -1120,7 +1081,7 @@ public class CategoryHandler
             // Find all missing parent categories
             while ( missingKeys.size() > 0 )
             {
-                StringBuffer sqlCategoriesWHEREPK = new StringBuffer( " WHERE cat_lKey IN (" );
+                StringBuilder sqlCategoriesWHEREPK = new StringBuilder( " WHERE cat_lKey IN (" );
 
                 Iterator<Integer> iter = missingKeys.values().iterator();
                 while ( iter.hasNext() )
@@ -1233,13 +1194,6 @@ public class CategoryHandler
         }
     }
 
-    public StringBuffer getPathString( CategoryKey categoryKey )
-    {
-        CommonHandler commonHandler = getCommonHandler();
-        return commonHandler.getPathString( db.tCategory, db.tCategory.cat_lKey, db.tCategory.cat_cat_lSuper, db.tCategory.cat_sName,
-                                            categoryKey.toInt(), null, true );
-    }
-
     public void getPathXML( Document doc, Element child, CategoryKey categoryKey, int[] contentTypes )
     {
         CategoryKey superCategoryKey = null;
@@ -1291,15 +1245,9 @@ public class CategoryHandler
             {
                 topCat.appendChild( elem );
             }
-
-            // Get path xml for the site
-            //getSiteHandler().getPathXML(doc, topCat, siteKey);
         }
     }
 
-    /**
-     * Return the categories. - from DataSourceServiceImpl (through PresentationEngine)
-     */
     public Document getCategories( User olduser, CategoryKey categoryKey, int levels, boolean topLevel, boolean details, boolean catCount,
                                    boolean contentCount )
     {
@@ -1329,9 +1277,6 @@ public class CategoryHandler
         return doc;
     }
 
-    /**
-     * Return the categories.
-     */
     private void fetchCategories( Document doc, RelationNode node, int levels, boolean topLevel, boolean details, boolean catCount,
                                   boolean contentCount )
         throws SQLException
@@ -1342,9 +1287,6 @@ public class CategoryHandler
         doc.appendChild( root );
     }
 
-    /**
-     * Bild the categories.
-     */
     private Element buildCategoriesElement( Document doc, Map<Number, Element> entryMap, RelationNode node, boolean topLevel,
                                             boolean catCount, boolean contentCount )
     {
@@ -1387,17 +1329,10 @@ public class CategoryHandler
             }
         }
 
-//	    if ((node != null) && !node.hasChildren() && !topLevel) {
-//	        return null;
-//	    }
-//	    else {
         return elem;
-//	    }
     }
 
-    /**
-     * Bild the categories.
-     */
+
     private Element buildCategoryElement( Document doc, Map<Number, Element> entryMap, RelationNode node, boolean catCount,
                                           boolean contentCount )
     {
@@ -1433,9 +1368,6 @@ public class CategoryHandler
         return elem;
     }
 
-    /**
-     * Return the content count of node.
-     */
     private int[] findContentCount( RelationNode node )
     {
         int count = 0;
@@ -1456,13 +1388,10 @@ public class CategoryHandler
         return new int[]{count, totalCount};
     }
 
-    /**
-     * Fetch the categories. This will return a map of id to element.
-     */
     private Map<Number, Element> fetchCategoryElements( Document doc, Set keys, boolean details )
         throws SQLException
     {
-        Connection conn = null;
+        Connection conn;
         PreparedStatement stmt = null;
         ResultSet result = null;
         Map<Number, Element> map = new HashMap<Number, Element>();
@@ -1541,9 +1470,6 @@ public class CategoryHandler
         return map;
     }
 
-    /**
-     * Return the category tree.
-     */
     private RelationNode getCategoryTree( User olduser, CategoryKey categoryKey, boolean contentCount )
         throws SQLException
     {
@@ -1556,24 +1482,13 @@ public class CategoryHandler
             groups = handler.getAllGroupMembershipsForUser( olduser );
         }
 
-        Connection conn = getConnection();
-
-        try
-        {
-            return getCategoryTree( olduser, categoryKey, groups, contentCount );
-        }
-        finally
-        {
-        }
+        return getCategoryTree( olduser, categoryKey, groups, contentCount );
     }
 
-    /**
-     * Return the category tree.
-     */
     private RelationNode getCategoryTree( User olduser, CategoryKey categoryKey, String[] groups, boolean contentCount )
         throws SQLException
     {
-        Connection con = null;
+        Connection con;
         PreparedStatement stmt = null;
         ResultSet result = null;
         RelationTree tree = new RelationTree();
@@ -1621,8 +1536,8 @@ public class CategoryHandler
 
                 while ( result.next() )
                 {
-                    Integer entry = new Integer( result.getInt( 1 ) );
-                    Integer count = new Integer( result.getInt( 2 ) );
+                    Integer entry = result.getInt( 1 );
+                    Integer count = result.getInt( 2 );
 
                     RelationNode current = node.getNode( entry );
                     if ( current != null )
@@ -1641,9 +1556,6 @@ public class CategoryHandler
         return node;
     }
 
-    /**
-     * Return the select unit keys by category sql.
-     */
     private String getSelectCategoriesSQL( User olduser )
     {
         SecurityHandler securityHandler = getSecurityHandler();
@@ -1652,18 +1564,15 @@ public class CategoryHandler
         Column[] whereColumns = {view.cat_uni_lKey};
         StringBuffer sql = XDG.generateSelectSQL( view, selectColumns, false, whereColumns );
 
-        securityHandler.appendCategorySQL( olduser, sql, false, false );
+        securityHandler.appendCategorySQL( olduser, sql, false );
         return sql.toString();
     }
 
-    /**
-     * Return the groups sql.
-     */
     private String getKeySetSQL( String[] keys )
     {
         if ( keys != null )
         {
-            StringBuffer sql = new StringBuffer();
+            StringBuilder sql = new StringBuilder();
 
             if ( keys.length == 0 )
             {
@@ -1697,15 +1606,12 @@ public class CategoryHandler
         }
     }
 
-    /**
-     * Return the content count sql.
-     */
     private String getSelectContentCountSQL( CategoryKey key, String[] groups )
     {
         ContentPublishedView view = ContentPublishedView.getInstance();
         ConAccessRight2Table accessTable = this.db.tConAccessRight2;
 
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "SELECT " ).append( view.cat_lKey.getName() );
         sql.append( ", COUNT(" ).append( view.con_lKey.getName() ).append( ")" );
         sql.append( " FROM " ).append( view.getReplacementSql() );
@@ -1732,13 +1638,10 @@ public class CategoryHandler
         return sql.toString();
     }
 
-    /**
-     * Return the select unit keys by category sql.
-     */
     private String getSelectUnitByCategorySQL( CategoryKey key )
     {
         CategoryTable table = this.db.tCategory;
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "SELECT " ).append( table.cat_uni_lKey.getName() );
         sql.append( " FROM " ).append( table.getName() );
         sql.append( " WHERE " ).append( table.cat_lKey.getName() );
@@ -1746,14 +1649,11 @@ public class CategoryHandler
         return sql.toString();
     }
 
-    /**
-     * Return the select category by keys sql.
-     */
     private String getSelectCategoryByKeysSQL( Set keys )
     {
         CategoryView table = CategoryView.getInstance();
 
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "SELECT " ).append( table.cat_lKey.getName() );
         sql.append( ", " ).append( table.cat_cty_lKey.getName() );
         sql.append( ", " ).append( table.cat_cat_lSuper.getName() );
@@ -1782,9 +1682,6 @@ public class CategoryHandler
         return sql.toString();
     }
 
-    /**
-     * Returns the cagtegories for the administration interface.
-     */
     public Document getCategoryMenu( User olduser, CategoryKey categoryKey, int[] contentTypes, boolean includeRootCategories )
     {
         final CategoryXmlCreator xmlCreator = new CategoryXmlCreator();
@@ -1873,7 +1770,7 @@ public class CategoryHandler
     public Map<Integer, CategoryStatistics> getCategoryStatistics( int unitKey )
     {
 
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "select" );
         sql.append( " cat_lkey," );
         sql.append( " cat_cat_lsuper" );
@@ -1881,7 +1778,7 @@ public class CategoryHandler
         sql.append( " where cat_uni_lkey = ?" );
         sql.append( " order by cat_cat_lsuper asc, cat_lkey asc" );
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
         Map<Integer, CategoryStatistics> categoryStatistics = new HashMap<Integer, CategoryStatistics>();
@@ -1916,7 +1813,7 @@ public class CategoryHandler
     public void collectStatisticsFromContent( int unitKey, Map<Integer, CategoryStatistics> catStats )
     {
 
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "select" );
         sql.append( " cat_lkey," );
         sql.append( " cat_cat_lsuper," );
@@ -1930,7 +1827,7 @@ public class CategoryHandler
         sql.append( " group by cat_lkey, cat_cat_lsuper" );
         sql.append( " order by cat_cat_lsuper asc, cat_lkey asc" );
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
 
@@ -1972,7 +1869,7 @@ public class CategoryHandler
     public void collectStatisticsFromBinaryData( int unitKey, Map<Integer, CategoryStatistics> catStats )
     {
 
-        StringBuffer sql = new StringBuffer();
+        StringBuilder sql = new StringBuilder();
         sql.append( "select" );
         sql.append( " cat_lkey," );
         sql.append( " cat_cat_lsuper," );
@@ -1987,7 +1884,7 @@ public class CategoryHandler
         sql.append( " group by cat_lkey, cat_cat_lsuper" );
         sql.append( " order by cat_cat_lsuper asc, cat_lkey asc" );
 
-        Connection con = null;
+        Connection con;
         PreparedStatement preparedStmt = null;
         ResultSet resultSet = null;
 
@@ -2006,7 +1903,7 @@ public class CategoryHandler
             while ( resultSet.next() )
             {
 
-                Integer categoryKey = new Integer( resultSet.getInt( 1 ) );
+                Integer categoryKey = resultSet.getInt( 1 );
                 CategoryStatistics cs = catStats.get( categoryKey );
                 if ( cs != null )
                 {

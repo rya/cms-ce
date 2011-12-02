@@ -1186,7 +1186,7 @@ public class MenuHandlerServlet
         else
         {
             String message = "Unknown operation: %0";
-            VerticalAdminLogger.errorAdmin( message, null );
+            VerticalAdminLogger.errorAdmin( message );
         }
     }
 

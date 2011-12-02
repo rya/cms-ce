@@ -12,10 +12,16 @@ public class VerticalAdminLogger
 {
     private final static LogFacade LOG = LogFacade.get(VerticalAdminLogger.class);
 
-    public static void errorAdmin(String message, Object[] msgData, Throwable throwable)
+    public static void errorAdmin( String message )
     {
-        LOG.errorCause(message, throwable, msgData);
-        throw new VerticalAdminException(format(message, msgData), throwable);
+        LOG.error(message);
+        throw new VerticalAdminException(message);
+    }
+
+    public static void errorAdmin( String message, Object[] msgData )
+    {
+        LOG.error(message, msgData);
+        throw new VerticalAdminException(format(message, msgData));
     }
 
     public static void errorAdmin(String message, Object msgData, Throwable throwable)
