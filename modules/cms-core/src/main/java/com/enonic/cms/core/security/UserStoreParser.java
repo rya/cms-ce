@@ -4,20 +4,20 @@
  */
 package com.enonic.cms.core.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreNotFoundException;
 import com.enonic.cms.store.dao.UserStoreDao;
 
-@Component
 public class UserStoreParser
 {
-
-    @Autowired
     private UserStoreDao userStoreDao;
+
+    public UserStoreParser( UserStoreDao userStoreDao )
+    {
+        this.userStoreDao = userStoreDao;
+    }
 
     public UserStoreEntity parseUserStore( String string )
         throws UserStoreNotFoundException

@@ -25,7 +25,7 @@ import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.language.LanguageEntity;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupType;
 import com.enonic.cms.core.security.user.User;
@@ -86,8 +86,8 @@ public class DomainFixture
 
         flushAndClearHibernateSesssion();
 
-        SecurityHolder.setAnonUser( findUserByName( "anonymous" ).getKey() );
-        SecurityHolder.setUser( findUserByName( "anonymous" ).getKey() );
+        PortalSecurityHolder.setAnonUser( findUserByName( "anonymous" ).getKey() );
+        PortalSecurityHolder.setUser( findUserByName( "anonymous" ).getKey() );
     }
 
     public UserEntity createAndStoreNormalUserWithUserGroup( String uid, String displayName, String userStoreName )

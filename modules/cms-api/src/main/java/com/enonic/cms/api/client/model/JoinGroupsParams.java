@@ -12,8 +12,8 @@ public class JoinGroupsParams
     private static final long serialVersionUID = 6041090124686662459L;
 
     /**
-     * Specify user either by qualified name ([userStoreKey:]&lt;user name&gt;) or key. If null the logged in user is used. If userStoreKey
-     * is omitted the internal user store is used. When specifying a key, prefix with a hash (user = #xxx).
+     * Specify user either by qualified name ([userStoreKey:]&lt;user name&gt;) or key. If null the logged in user is used.
+     * When specifying a key, prefix with a hash (user = "#xxx").
      */
     public String user = null;
 

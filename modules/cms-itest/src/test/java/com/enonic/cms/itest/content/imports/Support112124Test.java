@@ -1,5 +1,22 @@
 package com.enonic.cms.itest.content.imports;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Collection;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import junit.framework.Assert;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
@@ -10,27 +27,13 @@ import com.enonic.cms.core.content.contentdata.custom.relationdataentrylistbased
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
-import junit.framework.Assert;
-import org.apache.commons.io.IOUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Collection;
-
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class Support112124Test
     extends AbstractSpringTest
@@ -45,12 +48,12 @@ public class Support112124Test
 
     @Before
     public void setUp()
-            throws IOException
+        throws IOException
     {
-        String kontaktContentTypeXml = resourceToString( new ClassPathResource(
-                Support112124Test.class.getName().replace( ".", "/" ) + "-innholdstype-kontakt.xml" ) );
-        String statistikkContentTypeXml = resourceToString( new ClassPathResource(
-                Support112124Test.class.getName().replace( ".", "/" ) + "-innholdstype-statistikk.xml" ) );
+        String kontaktContentTypeXml = resourceToString(
+            new ClassPathResource( Support112124Test.class.getName().replace( ".", "/" ) + "-innholdstype-kontakt.xml" ) );
+        String statistikkContentTypeXml = resourceToString(
+            new ClassPathResource( Support112124Test.class.getName().replace( ".", "/" ) + "-innholdstype-statistikk.xml" ) );
 
         fixture = new DomainFixture( hibernateTemplate );
         DomainFactory factory = new DomainFactory( fixture );
@@ -59,8 +62,7 @@ public class Support112124Test
 
         fixture.createAndStoreNormalUserWithUserGroup( "testuser", "Test user", "testuserstore" );
 
-        fixture.save(
-                factory.createContentHandler( "MyHandler", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
+        fixture.save( factory.createContentHandler( "MyHandler", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         fixture.save( factory.createContentType( "kontaktCty", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
                                                  XMLDocumentFactory.create( kontaktContentTypeXml ).getAsJDOMDocument() ) );
@@ -78,13 +80,13 @@ public class Support112124Test
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        SecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
-        SecurityHolder.setRunAsUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "testuser" ).getKey() );
     }
 
     @Test
     public void importing_related_content()
-            throws IOException
+        throws IOException
     {
         ImportResult result = doImport( "Kontakt", "SRKontaktListeImport", "kontakter.xml" );
 
@@ -129,10 +131,10 @@ public class Support112124Test
     }
 
     private ImportResult doImport( String categoryName, String importName, String fileName )
-            throws IOException
+        throws IOException
     {
-        String importData = resourceToString(
-                new ClassPathResource( Support112124Test.class.getName().replace( ".", "/" ) + "-" + fileName ) );
+        String importData =
+            resourceToString( new ClassPathResource( Support112124Test.class.getName().replace( ".", "/" ) + "-" + fileName ) );
 
         ImportContentCommand command = new ImportContentCommand();
         command.executeInOneTransaction = true;
@@ -156,7 +158,7 @@ public class Support112124Test
     }
 
     private String resourceToString( Resource resource )
-            throws IOException
+        throws IOException
     {
         return IOUtils.toString( resource.getInputStream() );
     }

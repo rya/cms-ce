@@ -91,15 +91,13 @@
   <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
     <property name="internalClientContentService" ref="internalClientContentService"/>
     <property name="securityService" ref="securityService"/>
-    <property name="userParser" ref="userParser"/>
-    <property name="userStoreParser" ref="userStoreParser"/>
+    <property name="userDao" ref="userDao"/>
     <property name="livePortalTraceService" ref="livePortalTraceService"/>
   </bean>
 
   <bean id="internalClientContentService"
         class="com.enonic.cms.core.client.InternalClientContentService">
     <property name="siteCachesService" ref="siteCachesService"/>
-    <property name="userParser" ref="userParser"/>
   </bean>
 
   <bean id="internalClientRenderService"
@@ -124,10 +122,6 @@
   <bean class="com.enonic.cms.core.client.LocalClientSetter">
     <property name="localClient" ref="localClient"/>
   </bean>
-
-  <bean id="userParser" class="com.enonic.cms.core.security.UserParser"/>
-
-  <bean id="userStoreParser" class="com.enonic.cms.core.security.UserStoreParser"/>
 
   <bean id="autoLoginService" class="com.enonic.cms.core.security.AutoLoginService">
     <property name="securityService" ref="securityService"/>

@@ -12,7 +12,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.api.client.model.CreateUserParams;
 import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.security.SecurityHolder;
+import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
@@ -50,9 +50,9 @@ public class InternalClientImpl_CreateUserTest
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        SecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
-        SecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
-        SecurityHolder.setRunAsUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
+        PortalSecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "testuser" ).getKey() );
     }
 
     @Test
@@ -83,8 +83,8 @@ public class InternalClientImpl_CreateUserTest
     private void clientLogin( String username, String password )
     {
         UserEntity user = fixture.findUserByName( username );
-        SecurityHolder.setUser( user.getKey() );
-        SecurityHolder.setRunAsUser( user.getKey() );
+        PortalSecurityHolder.setUser( user.getKey() );
+        PortalSecurityHolder.setImpersonatedUser( user.getKey() );
 
         //internalClient.login( username, password );
     }

@@ -4,25 +4,8 @@
  */
 package com.enonic.cms.itest.client;
 
-import com.enonic.cms.api.client.ClientException;
-import com.enonic.cms.api.client.model.SnapshotContentParams;
-import com.enonic.cms.core.client.InternalClient;
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.command.CreateContentCommand;
-import com.enonic.cms.core.content.command.CreateContentCommand.AccessRightsStrategy;
-import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
-import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
-import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
-import com.enonic.cms.core.security.SecurityHolder;
-import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.core.security.user.UserType;
-import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
-import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
+import java.io.IOException;
+
 import org.jdom.Document;
 import org.jdom.JDOMException;
 import org.joda.time.DateTime;
@@ -32,7 +15,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.io.IOException;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.api.client.ClientException;
+import com.enonic.cms.api.client.model.SnapshotContentParams;
+import com.enonic.cms.core.client.InternalClient;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.content.command.CreateContentCommand.AccessRightsStrategy;
+import com.enonic.cms.core.content.contentdata.custom.CustomContentData;
+import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
+import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
+import com.enonic.cms.core.security.PortalSecurityHolder;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserType;
+import com.enonic.cms.core.servlet.ServletRequestAccessor;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.ContentVersionDao;
 
 import static org.junit.Assert.*;
 
@@ -79,7 +86,7 @@ public class InternalClientImpl_SnapshotContentTest
         saveNeededEntities();
 
         UserEntity runningUser = fixture.findUserByName( "testuser" );
-        SecurityHolder.setRunAsUser( runningUser.getKey() );
+        PortalSecurityHolder.setImpersonatedUser( runningUser.getKey() );
 
     }
 

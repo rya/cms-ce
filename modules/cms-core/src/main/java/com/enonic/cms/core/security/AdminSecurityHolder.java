@@ -9,7 +9,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.enonic.cms.core.security.user.UserKey;
 
-public final class SecurityHolderAdmin
+public final class AdminSecurityHolder
 {
     private static final String USER_KEY = "user";
 
