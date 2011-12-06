@@ -1,10 +1,10 @@
 /**
  * ContextMenu
  */
-cms.ice.ContextMenu = function() 
+cms.ice.ContextMenu = function()
 {
 	return {
-		
+
 		currentTarget : null,
 		// ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ cms.ice.ContextMenu = function()
                 if ( !utils.isElementOutsideOfViewport(event, this) )
                 {
                     cms.ice.Setup.isDragging = true;
-                    
+
                     if (!document.all )
                     {
                         cms.ice.PortletOverlay.drawLine( $ice('#' + portletOverlay.activePortletKey)[0] );
@@ -40,7 +40,7 @@ cms.ice.ContextMenu = function()
                         top: event.offsetY,
                         left: event.offsetX
                      });
-                }                
+                }
 
 			}).bind('dragend',function( event )
             {
@@ -71,13 +71,13 @@ cms.ice.ContextMenu = function()
 			}
 
 			var windowWidth = $ice(window).width(), windowHeight = $ice(window).height();
-			var scrollTop = $ice(document).scrollTop();	
-				
+			var scrollTop = $ice(document).scrollTop();
+
 			var contextMenuWidth = $ice('#ice-context-menu').width(), contextMenuHeight = $ice('#ice-context-menu').height();
 
 			var x = event.pageX + contextMenuWidth < windowWidth ? event.pageX : event.pageX - contextMenuWidth;
 			var y = event.pageY + contextMenuHeight - scrollTop < windowHeight ? event.pageY  : event.pageY - contextMenuHeight;
-			
+
 			$ice('#ice-context-menu').css({ 'top': y + 'px', 'left': x + 'px' });
 
             this.postRender();
@@ -99,28 +99,28 @@ cms.ice.ContextMenu = function()
 
         windowResize : function()
         {
-            var contextMenuElem = $ice('#ice-context-menu'); 
-            var position = contextMenuElem.offset();
-            var contextMenuXPos = position.left;
-            var contextMenuYPos = position.top;
-            var contextMenuWidth = contextMenuElem.width();
-            var contextMenuHeight = contextMenuElem.height();
+            var contextMenu = $ice('#ice-context-menu');
+            var position = contextMenu.offset();
+            var leftPosition = position.left;
+            var topPosition = position.top;
+            var width = contextMenu.width();
+            var height = contextMenu.height();
             var windowWidth = $ice(window).width(), windowHeight = $ice(window).height();
 
-            if ( contextMenuXPos > windowWidth )
+            if ( leftPosition > windowWidth )
             {
-                var newXPosition = windowWidth - contextMenuWidth;
-                contextMenuElem.css('left', newXPosition + 'px');
+                var newLeftPosition = windowWidth - width;
+                contextMenu.css('left', newLeftPosition + 'px');
             }
 
-            if ( contextMenuYPos > windowHeight )
+            if ( topPosition > windowHeight )
             {
-                var newYPosition = windowHeight - contextMenuHeight;
-                contextMenuElem.css('top', newYPosition + 'px');
+                var newTopPosition = windowHeight - height;
+                contextMenu.css('top', newTopPosition + 'px');
             }
         },
         // ---------------------------------------------------------------------------------------------------------------------------------------------
-        
+
         postRender : function()
         {
             var utils = cms.ice.Utils;
@@ -164,9 +164,8 @@ cms.ice.ContextMenu = function()
             });
 
             // Set explicit width to avoid collapsing of the context menu when dragging it
-            // to one of the sides of the document. 
+            // to one of the sides of the document.
             contextMenuElement.css('width', contextMenuElement.width() + 'px');
         }
 	};
 }();
-

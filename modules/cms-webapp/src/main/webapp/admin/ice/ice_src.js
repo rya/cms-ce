@@ -795,10 +795,10 @@ cms.ice.Tooltip = function()
 /**
  * ContextMenu
  */
-cms.ice.ContextMenu = function() 
+cms.ice.ContextMenu = function()
 {
 	return {
-		
+
 		currentTarget : null,
 		// ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -824,7 +824,7 @@ cms.ice.ContextMenu = function()
                 if ( !utils.isElementOutsideOfViewport(event, this) )
                 {
                     cms.ice.Setup.isDragging = true;
-                    
+
                     if (!document.all )
                     {
                         cms.ice.PortletOverlay.drawLine( $ice('#' + portletOverlay.activePortletKey)[0] );
@@ -834,7 +834,7 @@ cms.ice.ContextMenu = function()
                         top: event.offsetY,
                         left: event.offsetX
                      });
-                }                
+                }
 
 			}).bind('dragend',function( event )
             {
@@ -865,13 +865,13 @@ cms.ice.ContextMenu = function()
 			}
 
 			var windowWidth = $ice(window).width(), windowHeight = $ice(window).height();
-			var scrollTop = $ice(document).scrollTop();	
-				
+			var scrollTop = $ice(document).scrollTop();
+
 			var contextMenuWidth = $ice('#ice-context-menu').width(), contextMenuHeight = $ice('#ice-context-menu').height();
 
 			var x = event.pageX + contextMenuWidth < windowWidth ? event.pageX : event.pageX - contextMenuWidth;
 			var y = event.pageY + contextMenuHeight - scrollTop < windowHeight ? event.pageY  : event.pageY - contextMenuHeight;
-			
+
 			$ice('#ice-context-menu').css({ 'top': y + 'px', 'left': x + 'px' });
 
             this.postRender();
@@ -893,28 +893,28 @@ cms.ice.ContextMenu = function()
 
         windowResize : function()
         {
-            var contextMenuElem = $ice('#ice-context-menu'); 
-            var position = contextMenuElem.offset();
-            var contextMenuXPos = position.left;
-            var contextMenuYPos = position.top;
-            var contextMenuWidth = contextMenuElem.width();
-            var contextMenuHeight = contextMenuElem.height();
+            var contextMenu = $ice('#ice-context-menu');
+            var position = contextMenu.offset();
+            var leftPosition = position.left;
+            var topPosition = position.top;
+            var width = contextMenu.width();
+            var height = contextMenu.height();
             var windowWidth = $ice(window).width(), windowHeight = $ice(window).height();
 
-            if ( contextMenuXPos > windowWidth )
+            if ( leftPosition > windowWidth )
             {
-                var newXPosition = windowWidth - contextMenuWidth;
-                contextMenuElem.css('left', newXPosition + 'px');
+                var newLeftPosition = windowWidth - width;
+                contextMenu.css('left', newLeftPosition + 'px');
             }
 
-            if ( contextMenuYPos > windowHeight )
+            if ( topPosition > windowHeight )
             {
-                var newYPosition = windowHeight - contextMenuHeight;
-                contextMenuElem.css('top', newYPosition + 'px');
+                var newTopPosition = windowHeight - height;
+                contextMenu.css('top', newTopPosition + 'px');
             }
         },
         // ---------------------------------------------------------------------------------------------------------------------------------------------
-        
+
         postRender : function()
         {
             var utils = cms.ice.Utils;
@@ -958,16 +958,14 @@ cms.ice.ContextMenu = function()
             });
 
             // Set explicit width to avoid collapsing of the context menu when dragging it
-            // to one of the sides of the document. 
+            // to one of the sides of the document.
             contextMenuElement.css('width', contextMenuElement.width() + 'px');
         }
 	};
-}();
-
-/**
+}();/**
  * Panel
  */
-cms.ice.Panel = function() 
+cms.ice.Panel = function()
 {
 	return {
 
@@ -986,7 +984,7 @@ cms.ice.Panel = function()
             this.postRender();
 		},
 		// ---------------------------------------------------------------------------------------------------------------------------------------------
-		
+
 		showIce: function( show )
 		{
             var ice = cms.ice;
@@ -1013,7 +1011,7 @@ cms.ice.Panel = function()
 				ice.ContextMenu.remove();
 				ice.Tooltip.remove();
 			}
-            
+
             this.isIceOn = show;
 
             ice.Utils.createICEInfoCookie();
@@ -1029,46 +1027,38 @@ cms.ice.Panel = function()
         windowResize : function()
         {
             var utils = cms.ice.Utils;
-
-            var panelElem = $ice('#ice-panel');
-            var panelDefaultLeftPos = 5;
-            var panelDefaultTopPos = 5;
-            var documentScrollTop = $ice(document).scrollTop();
-
-            var panelWidth = panelElem.width();
-            var panelHeight = panelElem.height();
-
-            var panelLeftPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelX')) || panelDefaultLeftPos;
-            var panelTopPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelY')) || panelDefaultTopPos;
-
-            var panelRight = panelLeftPosition + panelWidth;
-            var panelBottom = panelTopPosition + panelHeight; 
+            var panel = $ice('#ice-panel');
+            var defaultLeftPositionForPanel = 5;
+            var defaultTopPositionForPanel = 5;
 
             var windowHeight = $ice(window).height();
             var windowWidth = $ice(window).width();
 
-            if ( panelRight > windowWidth )
+            var panelWidth = panel.width();
+            var panelHeight = panel.height();
+
+            var leftPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelX')) || defaultLeftPositionForPanel;
+            var topPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelY')) || defaultTopPositionForPanel;
+            var rightPosition = leftPosition + panelWidth;
+            var bottomPosition = topPosition + panelHeight;
+
+            if ( rightPosition > windowWidth )
             {
-                panelLeftPosition = windowWidth - panelWidth - panelDefaultLeftPos;
-                panelElem.css('left', panelLeftPosition + 'px');
+                leftPosition = windowWidth - panelWidth - defaultLeftPositionForPanel;
+                panel.css('left', leftPosition + 'px');
             }
             else
             {
                 var position = utils.getICEInfoCookieByName('icePagePanelX') ? 'left' : 'right';
-                panelElem.css(position, panelLeftPosition + 'px');
+                panel.css(position, leftPosition + 'px');
             }
 
-            if ( panelBottom - documentScrollTop > windowHeight )
+            if ( bottomPosition  > windowHeight )
             {
-                panelTopPosition = panelTopPosition - (panelBottom - windowHeight);
+                topPosition = topPosition - (bottomPosition - windowHeight);
             }
 
-            if ( documentScrollTop > 0 )
-            {
-                panelTopPosition = panelTopPosition - documentScrollTop;
-            }
-
-            panelElem.css('top', panelTopPosition + 'px');
+            panel.css('top', topPosition + 'px');
         },
         // ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1143,14 +1133,14 @@ cms.ice.Panel = function()
 			});
 
             panelElement.bind('mouseover', function(e)
-            {                                                                                         
+            {
                 var isMenuItemWithContent = e.target.parentNode && e.target.parentNode.className === 'ice-menu-item-content-container';
 
                 if ( !isMenuItemWithContent )
                 {
                     tooltip.hide();
                 }
-                
+
                 if ( portletOverlay.previousMousedHoverOverlay )
                 {
                     if ( $ice(portletOverlay.previousMousedHoverOverlay).attr('ice-overlay-is-active') !== 'true' )
@@ -1169,15 +1159,9 @@ cms.ice.Panel = function()
             {
                 tooltip.move(e);
             });
-
-
-
-
         }
 	};
-}();
-
-/**
+}();/**
  * Utils
  */
 cms.ice.Utils = function() 

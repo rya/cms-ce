@@ -1,7 +1,7 @@
 /**
  * Panel
  */
-cms.ice.Panel = function() 
+cms.ice.Panel = function()
 {
 	return {
 
@@ -20,7 +20,7 @@ cms.ice.Panel = function()
             this.postRender();
 		},
 		// ---------------------------------------------------------------------------------------------------------------------------------------------
-		
+
 		showIce: function( show )
 		{
             var ice = cms.ice;
@@ -47,7 +47,7 @@ cms.ice.Panel = function()
 				ice.ContextMenu.remove();
 				ice.Tooltip.remove();
 			}
-            
+
             this.isIceOn = show;
 
             ice.Utils.createICEInfoCookie();
@@ -63,46 +63,38 @@ cms.ice.Panel = function()
         windowResize : function()
         {
             var utils = cms.ice.Utils;
-
-            var panelElem = $ice('#ice-panel');
-            var panelDefaultLeftPos = 5;
-            var panelDefaultTopPos = 5;
-            var documentScrollTop = $ice(document).scrollTop();
-
-            var panelWidth = panelElem.width();
-            var panelHeight = panelElem.height();
-
-            var panelLeftPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelX')) || panelDefaultLeftPos;
-            var panelTopPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelY')) || panelDefaultTopPos;
-
-            var panelRight = panelLeftPosition + panelWidth;
-            var panelBottom = panelTopPosition + panelHeight; 
+            var panel = $ice('#ice-panel');
+            var defaultLeftPositionForPanel = 5;
+            var defaultTopPositionForPanel = 5;
 
             var windowHeight = $ice(window).height();
             var windowWidth = $ice(window).width();
 
-            if ( panelRight > windowWidth )
+            var panelWidth = panel.width();
+            var panelHeight = panel.height();
+
+            var leftPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelX')) || defaultLeftPositionForPanel;
+            var topPosition = parseInt(utils.getICEInfoCookieByName('icePagePanelY')) || defaultTopPositionForPanel;
+            var rightPosition = leftPosition + panelWidth;
+            var bottomPosition = topPosition + panelHeight;
+
+            if ( rightPosition > windowWidth )
             {
-                panelLeftPosition = windowWidth - panelWidth - panelDefaultLeftPos;
-                panelElem.css('left', panelLeftPosition + 'px');
+                leftPosition = windowWidth - panelWidth - defaultLeftPositionForPanel;
+                panel.css('left', leftPosition + 'px');
             }
             else
             {
                 var position = utils.getICEInfoCookieByName('icePagePanelX') ? 'left' : 'right';
-                panelElem.css(position, panelLeftPosition + 'px');
+                panel.css(position, leftPosition + 'px');
             }
 
-            if ( panelBottom - documentScrollTop > windowHeight )
+            if ( bottomPosition  > windowHeight )
             {
-                panelTopPosition = panelTopPosition - (panelBottom - windowHeight);
+                topPosition = topPosition - (bottomPosition - windowHeight);
             }
 
-            if ( documentScrollTop > 0 )
-            {
-                panelTopPosition = panelTopPosition - documentScrollTop;
-            }
-
-            panelElem.css('top', panelTopPosition + 'px');
+            panel.css('top', topPosition + 'px');
         },
         // ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -177,14 +169,14 @@ cms.ice.Panel = function()
 			});
 
             panelElement.bind('mouseover', function(e)
-            {                                                                                         
+            {
                 var isMenuItemWithContent = e.target.parentNode && e.target.parentNode.className === 'ice-menu-item-content-container';
 
                 if ( !isMenuItemWithContent )
                 {
                     tooltip.hide();
                 }
-                
+
                 if ( portletOverlay.previousMousedHoverOverlay )
                 {
                     if ( $ice(portletOverlay.previousMousedHoverOverlay).attr('ice-overlay-is-active') !== 'true' )
@@ -206,4 +198,3 @@ cms.ice.Panel = function()
         }
 	};
 }();
-
