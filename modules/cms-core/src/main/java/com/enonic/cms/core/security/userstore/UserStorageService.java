@@ -197,7 +197,7 @@ public class UserStorageService
 
     private boolean updateUserModifyableValues( UpdateUserCommand command, UserEntity userToUpdate )
     {
-        boolean replaceAll = command.getUpdateStrategy().equals( UpdateUserCommand.UpdateStrategy.REPLACE_ALL );
+        boolean replaceAll = command.isUpdateOperation();
         boolean modified = false;
 
         final String displayName = command.getDisplayName();

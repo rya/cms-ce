@@ -787,11 +787,10 @@ public class UserHandlerController
             updateUserCommand.setAllowUpdateSelf( true );
             updateUserCommand.setUpdateOpenGroupsOnly( true );
 
-            updateUserCommand.installModifyStrategy();
+            updateUserCommand.setIsModifyOperation();
+            preservePossiblyMissingBirthdateForModify( formItems, updateUserCommand );
 
             updateGroupsInUpdateCommand( formItems, loggedInUser, updateUserCommand );
-
-            updateBirthdateInUpdateCommand( formItems, updateUserCommand );
 
             userStoreService.updateUser( updateUserCommand );
             redirectToPage( request, response, formItems );
@@ -893,10 +892,9 @@ public class UserHandlerController
         }
     }
 
-
-    private void updateBirthdateInUpdateCommand( ExtendedMap formItems, UpdateUserCommand updateUserCommand )
+    private void preservePossiblyMissingBirthdateForModify( ExtendedMap formItems, UpdateUserCommand updateUserCommand )
     {
-        if ( updateUserCommand.isModify() && !formItems.containsKey( FORMITEM_BIRTHDAY ) )
+        if ( !formItems.containsKey( FORMITEM_BIRTHDAY ) )
         {
             UserEntity userEntity = userDao.findByKey( updateUserCommand.getSpecification().getKey() );
             final Date birthday = userEntity.getUserInfo().getBirthday();

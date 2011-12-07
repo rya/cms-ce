@@ -1597,7 +1597,7 @@ public class UserHandlerServlet
         if ( isUpdatableUser )
         {
             UpdateUserCommand command = new UpdateUserCommand( user.getKey(), userSpecification );
-            command.installUpdateStrategy();
+            command.setIsUpdateOperation();
             command.setAllowUpdateSelf( true );
             command.setDisplayName( formItems.getString( "display_name", "" ) );
             command.setEmail( formItems.getString( "email", "" ) );

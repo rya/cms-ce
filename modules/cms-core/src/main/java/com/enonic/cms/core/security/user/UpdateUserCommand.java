@@ -137,6 +137,16 @@ public class UpdateUserCommand
         this.syncValue = syncValue;
     }
 
+    public boolean isModifyOperation()
+    {
+        return updateStrategy.isModify();
+    }
+
+    public boolean isUpdateOperation()
+    {
+        return !updateStrategy.isModify();
+    }
+
     public UpdateStrategy getUpdateStrategy()
     {
         return updateStrategy;
@@ -147,6 +157,16 @@ public class UpdateUserCommand
         this.updateStrategy = updateStrategy;
     }
 
+    public void setIsUpdateOperation()
+    {
+        this.updateStrategy = UpdateStrategy.REPLACE_ALL;
+    }
+
+    public void setIsModifyOperation()
+    {
+        this.updateStrategy = UpdateStrategy.REPLACE_NEW;
+    }
+
     public boolean isUpdateOpenGroupsOnly()
     {
         return updateOpenGroupsOnly;
@@ -155,26 +175,6 @@ public class UpdateUserCommand
     public void setUpdateOpenGroupsOnly( boolean updateOpenGroupsOnly )
     {
         this.updateOpenGroupsOnly = updateOpenGroupsOnly;
-    }
-
-    public boolean isModify()
-    {
-        return updateStrategy.isModify();
-    }
-
-    public boolean isUpdate()
-    {
-        return !isModify();
-    }
-
-    public void installUpdateStrategy()
-    {
-        this.updateStrategy = UpdateStrategy.REPLACE_ALL;
-    }
-
-    public void installModifyStrategy()
-    {
-        this.updateStrategy = UpdateStrategy.REPLACE_NEW;
     }
 
     public UserInfo getUserInfo()
