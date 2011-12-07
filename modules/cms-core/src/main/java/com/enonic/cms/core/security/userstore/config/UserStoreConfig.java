@@ -12,7 +12,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.security.user.MissingRequiredUserFieldException;
 import com.enonic.cms.core.security.user.ReadOnlyUserFieldPolicyException;
-
 import com.enonic.cms.core.user.field.UserField;
 import com.enonic.cms.core.user.field.UserFieldMap;
 import com.enonic.cms.core.user.field.UserFieldType;
@@ -109,7 +108,7 @@ public class UserStoreConfig
             return ( (byte[]) value ).length == 0;
         }
 
-        return false;
+        return value == null;
     }
 
     public void validateAllRequiredFieldsArePresent( final UserFieldMap userFieldMap )
@@ -141,7 +140,7 @@ public class UserStoreConfig
             return ( (byte[]) value ).length == 0;
         }
 
-        return false;
+        return value == null;
     }
 
     public void validateReadOnlyFieldsNotExists( final UserFieldMap userFieldMap )

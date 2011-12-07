@@ -38,8 +38,22 @@ public class UpdateUserCommand
 
     public enum UpdateStrategy
     {
-        REPLACE_ALL,
+        REPLACE_ALL
+                {
+                    boolean isModify()
+                    {
+                        return false;
+                    }
+                },
         REPLACE_NEW
+                {
+                    boolean isModify()
+                    {
+                        return true;
+                    }
+                };
+
+        abstract boolean isModify();
     }
 
     public UpdateUserCommand( UserKey updater, UserSpecification specification )
@@ -123,6 +137,16 @@ public class UpdateUserCommand
         this.syncValue = syncValue;
     }
 
+    public boolean isModifyOperation()
+    {
+        return updateStrategy.isModify();
+    }
+
+    public boolean isUpdateOperation()
+    {
+        return !updateStrategy.isModify();
+    }
+
     public UpdateStrategy getUpdateStrategy()
     {
         return updateStrategy;
@@ -131,6 +155,16 @@ public class UpdateUserCommand
     public void setUpdateStrategy( UpdateStrategy updateStrategy )
     {
         this.updateStrategy = updateStrategy;
+    }
+
+    public void setIsUpdateOperation()
+    {
+        this.updateStrategy = UpdateStrategy.REPLACE_ALL;
+    }
+
+    public void setIsModifyOperation()
+    {
+        this.updateStrategy = UpdateStrategy.REPLACE_NEW;
     }
 
     public boolean isUpdateOpenGroupsOnly()

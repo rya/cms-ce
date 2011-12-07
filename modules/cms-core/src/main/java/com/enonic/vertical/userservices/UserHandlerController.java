@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.rmi.RemoteException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.enonic.cms.core.security.PortalSecurityHolder;
+import com.enonic.cms.core.security.UserStoreParser;
+import com.enonic.cms.store.dao.UserStoreDao;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
@@ -53,8 +57,6 @@ import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.security.InvalidCredentialsException;
 import com.enonic.cms.core.security.PasswordGenerator;
-import com.enonic.cms.core.security.PortalSecurityHolder;
-import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -83,9 +85,9 @@ import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.structure.SiteContext;
 import com.enonic.cms.core.user.field.UserFieldMap;
 import com.enonic.cms.core.user.field.UserFieldTransformer;
+import com.enonic.cms.core.user.field.UserFieldType;
 import com.enonic.cms.core.user.field.UserInfoTransformer;
 import com.enonic.cms.store.dao.UserDao;
-import com.enonic.cms.store.dao.UserStoreDao;
 
 public class UserHandlerController
     extends AbstractUserServicesHandlerController
@@ -146,6 +148,8 @@ public class UserHandlerController
     private static final String FORMITEM_DISPLAYNAME = "display_name";
 
     private static final String FORMITEM_EMAIL = "email";
+
+    private static final String FORMITEM_BIRTHDAY = UserFieldType.BIRTHDAY.getName();
 
     public UserHandlerController()
     {
@@ -333,7 +337,7 @@ public class UserHandlerController
             return;
         }
 
-        List<GroupKey> groupKeysToAdd = getSubmittedGroupKeys( formItems, "key" );
+        List<GroupKey> groupKeysToAdd = getSubmittedGroupKeys(formItems, "key");
         List<GroupKey> existingKeysForUser = getExistingDirectMembershipsForUser( user );
         groupKeysToAdd.removeAll( existingKeysForUser );
         if ( groupKeysToAdd.size() >= 1 )
@@ -384,7 +388,7 @@ public class UserHandlerController
         UpdateUserCommand updateUserCommand = new UpdateUserCommand( user.getKey(), spec );
         updateUserCommand.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_NEW );
         updateUserCommand.setSyncMemberships( true );
-        updateUserCommand.setUpdateOpenGroupsOnly( true );
+        updateUserCommand.setUpdateOpenGroupsOnly(true);
         updateUserCommand.setAllowUpdateSelf( true );
         return updateUserCommand;
     }
@@ -787,7 +791,8 @@ public class UserHandlerController
             updateUserCommand.setAllowUpdateSelf( true );
             updateUserCommand.setUpdateOpenGroupsOnly( true );
 
-            updateUserCommand.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_NEW );
+            updateUserCommand.setIsModifyOperation();
+            preservePossiblyMissingBirthdateForModify(formItems, updateUserCommand);
 
             updateGroupsInUpdateCommand( formItems, loggedInUser, updateUserCommand );
 
@@ -891,6 +896,16 @@ public class UserHandlerController
         }
     }
 
+    private void preservePossiblyMissingBirthdateForModify( ExtendedMap formItems, UpdateUserCommand updateUserCommand )
+    {
+        if ( !formItems.containsKey( FORMITEM_BIRTHDAY ) )
+        {
+            UserEntity userEntity = userDao.findByKey( updateUserCommand.getSpecification().getKey() );
+            final Date birthday = userEntity.getUserInfo().getBirthday();
+
+            updateUserCommand.getUserInfo().setBirthday( birthday );
+        }
+    }
 
     @Override
     protected void handlerCreate( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -1188,7 +1203,7 @@ public class UserHandlerController
             }
 
             session.setAttribute( "vertical_uid", username );
-            PortalSecurityHolder.setUser( user.getKey() );
+            PortalSecurityHolder.setUser(user.getKey());
 
             boolean rememberUser = parseRememberUser( formItems );
 
@@ -1238,7 +1253,7 @@ public class UserHandlerController
                                     String deploymentPath, String cookieName )
     {
         boolean resetGuid = false;
-        if ( formItems.getString( "resetguid", "false" ).equals( "true" ) || formItems.getString( "resetguid", "off" ).equals( "on" ) )
+        if ( formItems.getString( "resetguid", "false" ).equals( "true" ) || formItems.getString( "resetguid", "off" ).equals("on") )
         {
             resetGuid = true;
         }
@@ -1287,7 +1302,7 @@ public class UserHandlerController
     {
         String submittedUid = formItems.getString( FORMITEM_UID, null );
 
-        if ( StringUtils.isNotBlank( submittedUid ) )
+        if ( StringUtils.isNotBlank(submittedUid) )
         {
             QualifiedUsername qualifiedUserName = QualifiedUsername.parse( submittedUid );
 
@@ -1354,7 +1369,7 @@ public class UserHandlerController
         command.setUser( user.getKey() );
         command.setSite( this.siteDao.findByKey( site.getSiteKey() ) );
 
-        this.logService.storeNew( command );
+        this.logService.storeNew(command);
     }
 
     private void logLogout( final SiteContext site, final User user, final String remoteIp )
@@ -1592,13 +1607,13 @@ public class UserHandlerController
             scopeName = defaultScope;
         }
 
-        PreferenceScopeType scopeType = PreferenceScopeType.parse( scopeName );
+        PreferenceScopeType scopeType = PreferenceScopeType.parse(scopeName);
         if ( scopeType == null )
         {
             throw new IllegalArgumentException( "Scope " + scopeName + " is not valid" );
         }
 
-        PreferenceScopeKey scopeKey = resolveScopeKey( instanceKey, scopeType );
+        PreferenceScopeKey scopeKey = resolveScopeKey(instanceKey, scopeType);
 
         return new PreferenceKey( userKey, scopeType, scopeKey, preferenceKeyStr );
     }

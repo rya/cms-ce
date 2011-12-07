@@ -157,7 +157,7 @@ public final class UserInfoTransformer
             addIfNotNull( fields, UserFieldType.ADDRESS, address );
         }
 
-        addIfNotNull( fields, UserFieldType.BIRTHDAY, info.getBirthday() );
+        addNullable( fields, UserFieldType.BIRTHDAY, info.getBirthday() );
         addIfNotNull( fields, UserFieldType.COUNTRY, info.getCountry() );
         addIfNotNull( fields, UserFieldType.DESCRIPTION, info.getDescription() );
         addIfNotNull( fields, UserFieldType.FAX, info.getFax() );
@@ -192,4 +192,10 @@ public final class UserInfoTransformer
             fields.add( new UserField( type, value ) );
         }
     }
+
+    private void addNullable( UserFieldMap fields, UserFieldType type, Object value )
+    {
+        fields.add( new UserField( type, value ) );
+    }
+
 }
