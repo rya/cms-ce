@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import java.util.logging.Logger;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.enonic.vertical.VerticalProperties;
@@ -40,7 +41,38 @@ public class HTTPService
             return sb.toString();
 
         }
-        catch ( Exception e )
+        catch ( IOException e )
+        {
+            String message = "Failed to get URL: \"" + address + "\": " + e.getMessage();
+            LOG.warning( message );
+        }
+        finally
+        {
+            try
+            {
+                closeReader( reader );
+            }
+            catch ( IOException ioe )
+            {
+                String message = "Failed to close reader stream: \"" + address + "\": " + ioe.getMessage();
+                LOG.warning( message );
+            }
+        }
+
+        return null;
+    }
+
+    public byte[] getURLAsBytes( String address, int timeoutMs )
+    {
+        BufferedReader reader = null;
+        try
+        {
+            URLConnection urlConn = setUpConnection( address, timeoutMs );
+
+            InputStream responseStream = urlConn.getInputStream();
+            return IOUtils.toByteArray( responseStream );
+        }
+        catch ( IOException e )
         {
             String message = "Failed to get URL: \"" + address + "\": " + e.getMessage();
             LOG.warning( message );

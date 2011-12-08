@@ -4,6 +4,7 @@
  */
 package com.enonic.cms.core.service;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.PresentationEngine;
 
 import com.enonic.cms.framework.xml.XMLDocument;
@@ -767,8 +769,11 @@ public final class DataSourceServiceImpl
      */
     public XMLDocument getURLAsXML( DataSourceContext context, String url, int timeout )
     {
-        String urlResult = httpService.getURL( url, null, timeout );
-        return XMLDocumentFactory.create( urlResult == null ? URL_NO_RESULT : urlResult );
+        byte[] xmlBytes = httpService.getURLAsBytes( url, timeout );
+        ByteArrayInputStream byteStream = new ByteArrayInputStream( xmlBytes );
+        org.w3c.dom.Document resultDoc = XMLTool.domparse( byteStream );
+
+        return XMLDocumentFactory.create( resultDoc );
     }
 
     /**
@@ -1923,11 +1928,6 @@ public final class DataSourceServiceImpl
         return userDao.findByKey( user.getKey() );
     }
 
-    public void setContentService( ContentService service )
-    {
-        this.contentService = service;
-    }
-
     public void setContentDao( ContentDao contentDao )
     {
         this.contentDao = contentDao;
@@ -1943,19 +1943,14 @@ public final class DataSourceServiceImpl
         this.presentationEngine = presentationEngine;
     }
 
-    public void setSecurityService( SecurityService securityService )
-    {
-        this.securityService = securityService;
-    }
-
-    public void setPreferenceService( PreferenceService preferenceService )
-    {
-        this.preferenceService = preferenceService;
-    }
-
     public void setCalendarService( CalendarService service )
     {
         calendarService = service;
+    }
+
+    public void setContentService( ContentService service )
+    {
+        this.contentService = service;
     }
 
     public void setCountryService( CountryService countryService )
@@ -1963,14 +1958,29 @@ public final class DataSourceServiceImpl
         this.countryService = countryService;
     }
 
+    public void setHTTPService( HTTPService service )
+    {
+        httpService = service;
+    }
+
     public void setLocaleService( LocaleService localeService )
     {
         this.localeService = localeService;
     }
 
-    public void setTimeZoneService( TimeZoneService timeZoneService )
+    public void setPreferenceService( PreferenceService preferenceService )
     {
-        this.timeZoneService = timeZoneService;
+        this.preferenceService = preferenceService;
+    }
+
+    public void setSecurityService( SecurityService securityService )
+    {
+        this.securityService = securityService;
+    }
+
+    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
+    {
+        this.sitePropertiesService = sitePropertiesService;
     }
 
     public void setTimeService( TimeService timeService )
@@ -1978,13 +1988,13 @@ public final class DataSourceServiceImpl
         this.timeService = timeService;
     }
 
+    public void setTimeZoneService( TimeZoneService timeZoneService )
+    {
+        this.timeZoneService = timeZoneService;
+    }
+
     public void setUserStoreService( UserStoreService userStoreService )
     {
         this.userStoreService = userStoreService;
-    }
-
-    public void setSitePropertiesService( SitePropertiesService sitePropertiesService )
-    {
-        this.sitePropertiesService = sitePropertiesService;
     }
 }
