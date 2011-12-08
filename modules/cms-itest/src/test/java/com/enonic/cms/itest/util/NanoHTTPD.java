@@ -186,16 +186,16 @@ public class NanoHTTPD
     /**
      * Some HTTP response status codes
      */
-    public static final String HTTP_OK = "200 OK", HTTP_PARTIALCONTENT = "206 Partial Content",
-            HTTP_RANGE_NOT_SATISFIABLE = "416 Requested Range Not Satisfiable", HTTP_REDIRECT = "301 Moved Permanently",
-            HTTP_FORBIDDEN = "403 Forbidden", HTTP_NOTFOUND = "404 Not Found", HTTP_BADREQUEST = "400 Bad Request",
-            HTTP_INTERNALERROR = "500 Internal Server Error", HTTP_NOTIMPLEMENTED = "501 Not Implemented";
+    public static final String HTTP_OK = "200 OK", HTTP_PARTIALCONTENT = "206 Partial Content", HTTP_RANGE_NOT_SATISFIABLE =
+        "416 Requested Range Not Satisfiable", HTTP_REDIRECT = "301 Moved Permanently", HTTP_FORBIDDEN = "403 Forbidden", HTTP_NOTFOUND =
+        "404 Not Found", HTTP_BADREQUEST = "400 Bad Request", HTTP_INTERNALERROR = "500 Internal Server Error", HTTP_NOTIMPLEMENTED =
+        "501 Not Implemented";
 
     /**
      * Common mime types for dynamic content
      */
-    public static final String MIME_PLAINTEXT = "text/plain", MIME_HTML = "text/html", MIME_DEFAULT_BINARY =
-            "application/octet-stream", MIME_XML = "text/xml";
+    public static final String MIME_PLAINTEXT = "text/plain", MIME_HTML = "text/html", MIME_DEFAULT_BINARY = "application/octet-stream",
+        MIME_XML = "text/xml";
 
     // ==================================================
     // Socket & server code
@@ -206,7 +206,7 @@ public class NanoHTTPD
      * Throws an IOException if the socket is already in use
      */
     public NanoHTTPD( int port, File wwwroot )
-            throws IOException
+        throws IOException
     {
         myTcpPort = port;
         this.myRootDir = wwwroot;
@@ -237,7 +237,7 @@ public class NanoHTTPD
      * Starts serving files from current directory.
      */
     public NanoHTTPD( int port )
-            throws IOException
+        throws IOException
     {
         this( port, new File( "." ).getAbsoluteFile() );
     }
@@ -267,7 +267,7 @@ public class NanoHTTPD
     public static void main( String[] args )
     {
         System.out.println( "NanoHTTPD 1.24 (C) 2001,2005-2011 Jarno Elonen and (C) 2010 Konstantinos Togias\n" +
-                                    "(Command line options: [-p port] [-d root-dir] [--licence])\n" );
+                                "(Command line options: [-p port] [-d root-dir] [--licence])\n" );
 
         // Defaults
         int port = 80;
@@ -318,7 +318,7 @@ public class NanoHTTPD
      * and returns the response.
      */
     private class HTTPSession
-            implements Runnable
+        implements Runnable
     {
         public HTTPSession( Socket s )
         {
@@ -381,8 +381,7 @@ public class NanoHTTPD
                 boolean sbfound = false;
                 while ( splitbyte < rlen )
                 {
-                    if ( buf[splitbyte] == '\r' && buf[++splitbyte] == '\n' && buf[++splitbyte] == '\r' &&
-                            buf[++splitbyte] == '\n' )
+                    if ( buf[splitbyte] == '\r' && buf[++splitbyte] == '\n' && buf[++splitbyte] == '\r' && buf[++splitbyte] == '\n' )
                     {
                         sbfound = true;
                         break;
@@ -515,7 +514,7 @@ public class NanoHTTPD
          * java Properties' key - value pairs
          */
         private void decodeHeader( BufferedReader in, Properties pre, Properties parms, Properties header )
-                throws InterruptedException
+            throws InterruptedException
         {
             try
             {
@@ -583,9 +582,8 @@ public class NanoHTTPD
          * Decodes the Multipart Body data and put it
          * into java Properties' key - value pairs.
          */
-        private void decodeMultipartData( String boundary, byte[] fbuf, BufferedReader in, Properties parms,
-                                          Properties files )
-                throws InterruptedException
+        private void decodeMultipartData( String boundary, byte[] fbuf, BufferedReader in, Properties parms, Properties files )
+            throws InterruptedException
         {
             try
             {
@@ -627,8 +625,7 @@ public class NanoHTTPD
                             int p = token.indexOf( '=' );
                             if ( p != -1 )
                             {
-                                disposition.put( token.substring( 0, p ).trim().toLowerCase(),
-                                                 token.substring( p + 1 ).trim() );
+                                disposition.put( token.substring( 0, p ).trim().toLowerCase(), token.substring( p + 1 ).trim() );
                             }
                         }
                         String pname = disposition.getProperty( "name" );
@@ -770,7 +767,7 @@ public class NanoHTTPD
          * For example: "an+example%20string" -> "an example string"
          */
         private String decodePercent( String str )
-                throws InterruptedException
+            throws InterruptedException
         {
             try
             {
@@ -809,7 +806,7 @@ public class NanoHTTPD
          * you might want to replace the Properties with a Hashtable of Vectors or such.
          */
         private void decodeParms( String parms, Properties p )
-                throws InterruptedException
+            throws InterruptedException
         {
             if ( parms == null )
             {
@@ -833,7 +830,7 @@ public class NanoHTTPD
          * throws InterruptedException to stop further request processing.
          */
         private void sendError( String status, String msg )
-                throws InterruptedException
+            throws InterruptedException
         {
             sendResponse( status, MIME_PLAINTEXT, null, new ByteArrayInputStream( msg.getBytes() ) );
             throw new InterruptedException();
@@ -969,8 +966,7 @@ public class NanoHTTPD
         // Make sure we won't die of an exception later
         if ( !homeDir.isDirectory() )
         {
-            res = new Response( HTTP_INTERNALERROR, MIME_PLAINTEXT,
-                                "INTERNAL ERRROR: serveFile(): given homeDir is not a directory." );
+            res = new Response( HTTP_INTERNALERROR, MIME_PLAINTEXT, "INTERNAL ERRROR: serveFile(): given homeDir is not a directory." );
         }
 
         if ( res == null )
@@ -985,8 +981,7 @@ public class NanoHTTPD
             // Prohibit getting out of current directory
             if ( uri.startsWith( ".." ) || uri.endsWith( ".." ) || uri.indexOf( "../" ) >= 0 )
             {
-                res = new Response( HTTP_FORBIDDEN, MIME_PLAINTEXT,
-                                    "FORBIDDEN: Won't serve ../ for security reasons." );
+                res = new Response( HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Won't serve ../ for security reasons." );
             }
         }
 
@@ -1104,8 +1099,7 @@ public class NanoHTTPD
                 }
 
                 // Calculate etag
-                String etag =
-                        Integer.toHexString( ( f.getAbsolutePath() + f.lastModified() + "" + f.length() ).hashCode() );
+                String etag = Integer.toHexString( ( f.getAbsolutePath() + f.lastModified() + "" + f.length() ).hashCode() );
 
                 // Support (simple) skipping:
                 long startFrom = 0;
@@ -1157,7 +1151,7 @@ public class NanoHTTPD
                         FileInputStream fis = new FileInputStream( f )
                         {
                             public int available()
-                                    throws IOException
+                                throws IOException
                             {
                                 return (int) dataLen;
                             }
@@ -1195,15 +1189,13 @@ public class NanoHTTPD
     static
     {
         StringTokenizer st = new StringTokenizer(
-                "css		text/css " + "htm		text/html " + "html		text/html " + "xml		text/xml " +
-                        "txt		text/plain " + "asc		text/plain " + "gif		image/gif " +
-                        "jpg		image/jpeg " + "jpeg		image/jpeg " + "png		image/png " +
-                        "mp3		audio/mpeg " + "m3u		audio/mpeg-url " + "mp4		video/mp4 " +
-                        "ogv		video/ogg " + "flv		video/x-flv " + "mov		video/quicktime " +
-                        "swf		application/x-shockwave-flash " + "js			application/javascript " +
-                        "pdf		application/pdf " + "doc		application/msword " +
-                        "ogg		application/x-ogg " + "zip		application/octet-stream " +
-                        "exe		application/octet-stream " + "class		application/octet-stream " );
+            "css		text/css " + "htm		text/html " + "html		text/html " + "xml		text/xml " +
+                "txt		text/plain " + "asc		text/plain " + "gif		image/gif " + "jpg		image/jpeg " +
+                "jpeg		image/jpeg " + "png		image/png " + "mp3		audio/mpeg " + "m3u		audio/mpeg-url " +
+                "mp4		video/mp4 " + "ogv		video/ogg " + "flv		video/x-flv " + "mov		video/quicktime " +
+                "swf		application/x-shockwave-flash " + "js			application/javascript " + "pdf		application/pdf " +
+                "doc		application/msword " + "ogg		application/x-ogg " + "zip		application/octet-stream " +
+                "exe		application/octet-stream " + "class		application/octet-stream " );
         while ( st.hasMoreTokens() )
         {
             theMimeTypes.put( st.nextToken(), st.nextToken() );
@@ -1225,25 +1217,24 @@ public class NanoHTTPD
      * The distribution licence
      */
     private static final String LICENCE = "Copyright (C) 2001,2005-2011 by Jarno Elonen <elonen@iki.fi>\n" +
-            "and Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n" + "\n" +
-            "Redistribution and use in source and binary forms, with or without\n" +
-            "modification, are permitted provided that the following conditions\n" + "are met:\n" + "\n" +
-            "Redistributions of source code must retain the above copyright notice,\n" +
-            "this list of conditions and the following disclaimer. Redistributions in\n" +
-            "binary form must reproduce the above copyright notice, this list of\n" +
-            "conditions and the following disclaimer in the documentation and/or other\n" +
-            "materials provided with the distribution. The name of the author may not\n" +
-            "be used to endorse or promote products derived from this software without\n" +
-            "specific prior written permission. \n" + " \n" +
-            "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n" +
-            "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n" +
-            "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n" +
-            "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n" +
-            "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n" +
-            "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n" +
-            "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n" +
-            "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n" +
-            "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" +
-            "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
+        "and Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n" + "\n" +
+        "Redistribution and use in source and binary forms, with or without\n" +
+        "modification, are permitted provided that the following conditions\n" + "are met:\n" + "\n" +
+        "Redistributions of source code must retain the above copyright notice,\n" +
+        "this list of conditions and the following disclaimer. Redistributions in\n" +
+        "binary form must reproduce the above copyright notice, this list of\n" +
+        "conditions and the following disclaimer in the documentation and/or other\n" +
+        "materials provided with the distribution. The name of the author may not\n" +
+        "be used to endorse or promote products derived from this software without\n" + "specific prior written permission. \n" + " \n" +
+        "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n" +
+        "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n" +
+        "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n" +
+        "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n" +
+        "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n" +
+        "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n" +
+        "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n" +
+        "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n" +
+        "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n" +
+        "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";
 }
 

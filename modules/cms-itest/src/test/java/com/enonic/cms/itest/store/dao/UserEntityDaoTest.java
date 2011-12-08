@@ -4,6 +4,16 @@
  */
 package com.enonic.cms.itest.store.dao;
 
+import java.util.Date;
+
+import org.joda.time.DateTime;
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.enonic.cms.framework.xml.XMLDocument;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
 import com.enonic.cms.api.client.model.user.Address;
 import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -16,21 +26,12 @@ import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfigParser;
-import com.enonic.cms.framework.xml.XMLDocument;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
 import com.enonic.cms.store.dao.UserStoreDao;
-import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class UserEntityDaoTest
     extends AbstractSpringTest

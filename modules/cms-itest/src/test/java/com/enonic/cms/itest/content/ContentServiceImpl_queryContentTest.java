@@ -4,6 +4,14 @@
  */
 package com.enonic.cms.itest.content;
 
+import org.jdom.Document;
+import org.joda.time.DateTime;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
 import com.enonic.cms.core.content.ContentHandlerName;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.content.ContentService;
@@ -19,27 +27,19 @@ import com.enonic.cms.core.content.query.ContentByCategoryQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
-import org.jdom.Document;
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class ContentServiceImpl_queryContentTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -49,8 +49,7 @@ public class ContentServiceImpl_queryContentTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();

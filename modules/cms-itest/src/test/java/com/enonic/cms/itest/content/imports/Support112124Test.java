@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import junit.framework.Assert;
 
@@ -39,8 +38,6 @@ public class Support112124Test
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFixture fixture;
 
     @Autowired
@@ -55,8 +52,7 @@ public class Support112124Test
         String statistikkContentTypeXml = resourceToString(
             new ClassPathResource( Support112124Test.class.getName().replace( ".", "/" ) + "-innholdstype-statistikk.xml" ) );
 
-        fixture = new DomainFixture( hibernateTemplate );
-        DomainFactory factory = new DomainFactory( fixture );
+        DomainFactory factory = fixture.getFactory();
 
         fixture.initSystemData();
 

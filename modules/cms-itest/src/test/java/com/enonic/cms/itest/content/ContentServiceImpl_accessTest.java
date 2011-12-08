@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.vertical.userservices.CustomContentHandlerController;
 import com.enonic.vertical.userservices.UserServicesRedirectUrlResolver;
@@ -53,9 +52,6 @@ public class ContentServiceImpl_accessTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Autowired
     private GroupEntityDao groupEntityDao;
 
     @Autowired
@@ -78,16 +74,14 @@ public class ContentServiceImpl_accessTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
 
     @Before
     public void setUp()
     {
-        groupEntityDao.invalidateCachedKeys();
-
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         customContentHandlerController = new CustomContentHandlerController();
         customContentHandlerController.setContentService( contentService );

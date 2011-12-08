@@ -51,6 +51,7 @@ public class InternalClientImpl_CreateImageContentTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -66,8 +67,8 @@ public class InternalClientImpl_CreateImageContentTest
     public void before()
         throws IOException, JDOMException
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
         fixture.initSystemData();
 
         StringBuffer contentTypeConfigXml = new StringBuffer();

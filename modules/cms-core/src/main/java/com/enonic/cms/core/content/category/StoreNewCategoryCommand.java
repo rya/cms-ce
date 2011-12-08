@@ -4,6 +4,10 @@
  */
 package com.enonic.cms.core.content.category;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.enonic.cms.core.content.category.access.CategoryAccessRights;
 import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.security.user.UserKey;
 
@@ -16,11 +20,15 @@ public class StoreNewCategoryCommand
 
     private ContentTypeKey contentType;
 
+    private UnitKey unitKey;
+
     private CategoryKey parentCategory;
 
     private String name;
 
     private boolean autoApprove = false;
+
+    private List<CategoryAccessRights> accessRights = null;
 
     public void setCreator( UserKey creator )
     {
@@ -40,6 +48,16 @@ public class StoreNewCategoryCommand
     public ContentTypeKey getContentType()
     {
         return contentType;
+    }
+
+    public UnitKey getUnitKey()
+    {
+        return unitKey;
+    }
+
+    public void setUnitKey( UnitKey unitKey )
+    {
+        this.unitKey = unitKey;
     }
 
     public void setParentCategory( CategoryKey parentCategory )
@@ -70,5 +88,19 @@ public class StoreNewCategoryCommand
     public boolean getAutoApprove()
     {
         return autoApprove;
+    }
+
+    public void addAccessRight( CategoryAccessRights accessRight )
+    {
+        if ( accessRights == null )
+        {
+            accessRights = new ArrayList<CategoryAccessRights>();
+        }
+        accessRights.add( accessRight );
+    }
+
+    public List<CategoryAccessRights> getAccessRights()
+    {
+        return accessRights;
     }
 }

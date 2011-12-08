@@ -1,5 +1,11 @@
 package com.enonic.cms.itest.plugin;
 
+import java.util.Iterator;
+import java.util.List;
+
+import com.google.common.collect.Iterators;
+import com.google.common.collect.Lists;
+
 import com.enonic.cms.api.plugin.ext.Extension;
 import com.enonic.cms.api.plugin.ext.FunctionLibrary;
 import com.enonic.cms.api.plugin.ext.TaskHandler;
@@ -10,10 +16,6 @@ import com.enonic.cms.api.plugin.ext.http.HttpResponseFilter;
 import com.enonic.cms.core.plugin.ExtensionSet;
 import com.enonic.cms.core.plugin.PluginHandle;
 import com.enonic.cms.core.plugin.PluginManager;
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
-import java.util.Iterator;
-import java.util.List;
 
 public class MockPluginManager
     implements PluginManager
@@ -32,51 +34,63 @@ public class MockPluginManager
                 return Lists.newArrayList();
             }
 
-            public List<FunctionLibrary> getAllFunctionLibraries() {
+            public List<FunctionLibrary> getAllFunctionLibraries()
+            {
                 return Lists.newArrayList();
             }
 
-            public List<HttpInterceptor> getAllHttpInterceptors() {
+            public List<HttpInterceptor> getAllHttpInterceptors()
+            {
                 return Lists.newArrayList();
             }
 
-            public List<HttpResponseFilter> getAllHttpResponseFilters() {
+            public List<HttpResponseFilter> getAllHttpResponseFilters()
+            {
                 return Lists.newArrayList();
             }
 
-            public List<HttpAutoLogin> getAllHttpAutoLoginPlugins() {
+            public List<HttpAutoLogin> getAllHttpAutoLoginPlugins()
+            {
                 return Lists.newArrayList();
             }
 
-            public List<TaskHandler> getAllTaskPlugins() {
+            public List<TaskHandler> getAllTaskPlugins()
+            {
                 return Lists.newArrayList();
             }
 
-            public TaskHandler findTaskPlugin(String className) {
+            public TaskHandler findTaskPlugin( String className )
+            {
                 return null;
             }
 
-            public FunctionLibrary findFunctionLibrary(String namespace) {
+            public FunctionLibrary findFunctionLibrary( String namespace )
+            {
                 return null;
             }
 
-            public List<HttpInterceptor> findMatchingHttpInterceptors(String path) {
+            public List<HttpInterceptor> findMatchingHttpInterceptors( String path )
+            {
                 return Lists.newArrayList();
             }
 
-            public List<HttpResponseFilter> findMatchingHttpResponseFilters(String path) {
+            public List<HttpResponseFilter> findMatchingHttpResponseFilters( String path )
+            {
                 return Lists.newArrayList();
             }
 
-            public HttpAutoLogin findMatchingHttpAutoLoginPlugin(String path) {
+            public HttpAutoLogin findMatchingHttpAutoLoginPlugin( String path )
+            {
                 return null;
             }
 
-            public TextExtractor findTextExtractorPluginByMimeType(String mimeType) {
+            public TextExtractor findTextExtractorPluginByMimeType( String mimeType )
+            {
                 return null;
             }
 
-            public List<TextExtractor> getAllTextExtractorPlugins() {
+            public List<TextExtractor> getAllTextExtractorPlugins()
+            {
                 return Lists.newArrayList();
             }
 
@@ -87,7 +101,7 @@ public class MockPluginManager
         };
     }
 
-    public PluginHandle findPluginByKey(long key)
+    public PluginHandle findPluginByKey( long key )
     {
         return null;
     }

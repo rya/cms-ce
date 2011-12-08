@@ -4,13 +4,14 @@
  */
 package com.enonic.cms.itest.store.dao;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.enonic.cms.core.preference.PreferenceEntity;
 import com.enonic.cms.core.preference.PreferenceKey;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.store.dao.PreferenceDao;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.*;
 

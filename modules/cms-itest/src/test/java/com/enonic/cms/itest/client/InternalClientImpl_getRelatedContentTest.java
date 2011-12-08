@@ -15,7 +15,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -59,8 +58,6 @@ public class InternalClientImpl_getRelatedContentTest
     private static final DateTime DATE_TIME_2010_07_01_12_00_00_0 = new DateTime( 2010, 7, 1, 12, 0, 0, 0 );
 
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFixture fixture;
 
     @Autowired
@@ -89,8 +86,8 @@ public class InternalClientImpl_getRelatedContentTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        DomainFactory factory = new DomainFactory( fixture );
+
+        DomainFactory factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();

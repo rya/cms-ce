@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.esl.containers.ExtendedMap;
 
@@ -70,11 +69,9 @@ public class UserHandlerControllerTest
     private UserStoreService userStoreService;
 
 
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private MockHttpServletRequest request = new MockHttpServletRequest();
@@ -88,8 +85,6 @@ public class UserHandlerControllerTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
 
         fixture.initSystemData();
 

@@ -88,16 +88,15 @@ public class CustomContentHandlerController_operation_CreateTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
 
     @Before
     public void setUp()
     {
-        groupEntityDao.invalidateCachedKeys();
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         customContentHandlerController = new CustomContentHandlerController();
         customContentHandlerController.setContentService( contentService );

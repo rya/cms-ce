@@ -71,6 +71,7 @@ public class ImportServiceImplTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -88,8 +89,7 @@ public class ImportServiceImplTest
     {
         personContentTypeXml = resourceToString( new ClassPathResource( "com/enonic/cms/itest/content/imports/personContentType.xml" ) );
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 

@@ -1,12 +1,13 @@
 package com.enonic.cms.itest.config;
 
-import com.enonic.cms.core.config.GlobalConfig;
-import com.google.common.collect.Maps;
-import com.google.common.io.Files;
-
 import java.io.File;
 import java.util.Map;
 import java.util.Properties;
+
+import com.google.common.collect.Maps;
+import com.google.common.io.Files;
+
+import com.enonic.cms.core.config.GlobalConfig;
 
 public class MockGlobalConfig
     implements GlobalConfig
@@ -20,7 +21,7 @@ public class MockGlobalConfig
 
     public File getConfigDir()
     {
-        return new File(getHomeDir(), "config");
+        return new File( getHomeDir(), "config" );
     }
 
     public String getJdbcDialect()
@@ -30,12 +31,12 @@ public class MockGlobalConfig
 
     public File getPluginConfigDir()
     {
-        return new File(getHomeDir(), "plugins");
+        return new File( getHomeDir(), "plugins" );
     }
 
     public File getPluginDeployDir()
     {
-        return new File(getHomeDir(), "plugins");
+        return new File( getHomeDir(), "plugins" );
     }
 
     public long getPluginScanPeriod()
@@ -45,12 +46,12 @@ public class MockGlobalConfig
 
     public File getCountriesFile()
     {
-        return new File(getHomeDir(), "config/countries.xml");
+        return new File( getHomeDir(), "config/countries.xml" );
     }
 
     public File getVirtualHostConfigFile()
     {
-        return new File(getHomeDir(), "config/vhost.properties");
+        return new File( getHomeDir(), "config/vhost.properties" );
     }
 
     public boolean getJdbcLogging()
@@ -70,7 +71,7 @@ public class MockGlobalConfig
 
     public File getBlobStoreDir()
     {
-        return new File(getHomeDir(), "data/blobs");
+        return new File( getHomeDir(), "data/blobs" );
     }
 
     public int getAutoLoginTimeout()

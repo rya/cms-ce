@@ -59,6 +59,7 @@ public class ImageControllerTest
 
     protected DomainFactory factory;
 
+    @Autowired
     protected DomainFixture fixture;
 
     @Autowired
@@ -79,8 +80,7 @@ public class ImageControllerTest
     @Before
     public void before()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );

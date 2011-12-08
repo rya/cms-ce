@@ -4,7 +4,21 @@
  */
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.contentdata.legacy.LegacyImageContentData;
@@ -16,27 +30,16 @@ import com.enonic.cms.itest.util.AssertTool;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ContentServiceImpl_withImageHandlerTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -48,8 +51,8 @@ public class ContentServiceImpl_withImageHandlerTest
     @Test
     public void testCreateContent()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 
@@ -111,7 +114,7 @@ public class ContentServiceImpl_withImageHandlerTest
         Document actualContentDataXml = actualVersion.getContentDataAsJDomDocument();
 
         AssertTool.assertSingleXPathValueEquals( "count(/contentdata/images/image/binarydata/@key)", actualContentDataXml, "2" );
-        AssertTool.assertSingleXPathValueEquals("count(/contentdata/sourceimage/binarydata/@key)", actualContentDataXml, "1");
+        AssertTool.assertSingleXPathValueEquals( "count(/contentdata/sourceimage/binarydata/@key)", actualContentDataXml, "1" );
 
     }
 

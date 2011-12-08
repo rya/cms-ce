@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.esl.containers.ExtendedMap;
 
@@ -41,7 +40,6 @@ import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static junitx.framework.Assert.assertFalse;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -50,9 +48,6 @@ import static org.junit.Assert.*;
 public class CustomContentHandlerController_operation_ModifyTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private GroupEntityDao groupEntityDao;
-
     @Autowired
     private ContentService contenService;
 
@@ -64,9 +59,6 @@ public class CustomContentHandlerController_operation_ModifyTest
 
     @Autowired
     private ContentDao contentDao;
-
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
 
     private SiteRedirectHelper siteRedirectHelper;
 
@@ -82,15 +74,14 @@ public class CustomContentHandlerController_operation_ModifyTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Before
     public void before()
     {
-        groupEntityDao.invalidateCachedKeys();
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         customContentHandlerController = new CustomContentHandlerController();
         customContentHandlerController.setContentService( contenService );

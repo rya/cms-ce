@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.portal.datasource.ExpressionFunctionsExecutor;
@@ -19,7 +18,6 @@ import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.structure.SiteEntity;
 import com.enonic.cms.core.time.MockTimeService;
 import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 
 import static org.junit.Assert.*;
@@ -28,10 +26,6 @@ public class ExpressionFunctionsExecutorTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    private DomainFactory factory;
-
     private DomainFixture fixture;
 
     private MockTimeService timeService;
@@ -48,9 +42,6 @@ public class ExpressionFunctionsExecutorTest
     @Before
     public void before()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
-
         fixture.initSystemData();
 
         defaultUser = fixture.createAndStoreNormalUserWithUserGroup( "testuser", "testuser", "testuserstore" );
@@ -73,19 +64,19 @@ public class ExpressionFunctionsExecutorTest
 
     @Test
     public void testParametersEvaulation()
-            throws Exception
+        throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
-        request.addParameter("subCat", "18");
-        request.addParameter("sub-cat", "27");
-        efExecutor.setHttpRequest(request);
-        efExecutor.setRequestParameters(new RequestParameters(request.getParameterMap()));
+        request.addParameter( "subCat", "18" );
+        request.addParameter( "sub-cat", "27" );
+        efExecutor.setHttpRequest( request );
+        efExecutor.setRequestParameters( new RequestParameters( request.getParameterMap() ) );
 
-        String evaluated18 = efExecutor.evaluate("${param.subCat}");
-        assertEquals("18", evaluated18);
+        String evaluated18 = efExecutor.evaluate( "${param.subCat}" );
+        assertEquals( "18", evaluated18 );
 
-        String evaluated27 = efExecutor.evaluate("${param['sub-cat']}");
-        assertEquals("27", evaluated27);
+        String evaluated27 = efExecutor.evaluate( "${param['sub-cat']}" );
+        assertEquals( "27", evaluated27 );
     }
 
     @Test
@@ -174,8 +165,9 @@ public class ExpressionFunctionsExecutorTest
 
     @Test
     public void testPortalSiteKey()
-            throws Exception {
-        String evaluted = efExecutor.evaluate("${portal.siteKey}");
-        assertEquals("0", evaluted);
+        throws Exception
+    {
+        String evaluted = efExecutor.evaluate( "${portal.siteKey}" );
+        assertEquals( "0", evaluted );
     }
 }

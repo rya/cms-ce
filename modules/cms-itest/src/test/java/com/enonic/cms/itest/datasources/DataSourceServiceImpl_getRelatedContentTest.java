@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -44,11 +43,9 @@ import static org.junit.Assert.*;
 public class DataSourceServiceImpl_getRelatedContentTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -68,8 +65,8 @@ public class DataSourceServiceImpl_getRelatedContentTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();

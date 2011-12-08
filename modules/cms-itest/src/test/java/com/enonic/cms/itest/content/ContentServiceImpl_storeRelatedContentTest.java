@@ -12,7 +12,6 @@ import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -30,33 +29,18 @@ import com.enonic.cms.core.content.contentdata.custom.contentkeybased.RelatedCon
 import com.enonic.cms.core.content.contentdata.custom.stringbased.TextDataEntry;
 import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
 import com.enonic.cms.core.security.PortalSecurityHolder;
-import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
-import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.junit.Assert.*;
 
 public class ContentServiceImpl_storeRelatedContentTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Autowired
-    private GroupEntityDao groupEntityDao;
-
-    @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private CategoryDao categoryDao;
-
     @Autowired
     protected ContentDao contentDao;
 
@@ -66,6 +50,7 @@ public class ContentServiceImpl_storeRelatedContentTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private ContentKey related1;
@@ -78,10 +63,8 @@ public class ContentServiceImpl_storeRelatedContentTest
     @Before
     public void setUp()
     {
-        groupEntityDao.invalidateCachedKeys();
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();

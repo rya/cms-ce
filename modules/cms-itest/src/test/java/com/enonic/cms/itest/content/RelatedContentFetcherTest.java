@@ -71,6 +71,7 @@ public class RelatedContentFetcherTest
 
     private ContentAccessResolver contentAccessResolver;
 
+    @Autowired
     private DomainFixture fixture;
 
     public RelatedContentFetcherTest()
@@ -83,8 +84,7 @@ public class RelatedContentFetcherTest
     {
         contentAccessResolver = new ContentAccessResolver( groupEntityDao );
 
-        fixture = new DomainFixture( hibernateTemplate );
-        DomainFactory factory = new DomainFactory( fixture );
+        DomainFactory factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();

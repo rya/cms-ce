@@ -4,9 +4,14 @@
  */
 package com.enonic.vertical.userservices;
 
-import org.apache.commons.fileupload.FileItem;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
-import java.io.*;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * Created by IntelliJ IDEA.

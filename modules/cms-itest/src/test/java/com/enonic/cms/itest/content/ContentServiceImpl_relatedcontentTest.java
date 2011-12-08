@@ -4,7 +4,27 @@
  */
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
+import com.enonic.cms.framework.util.JDOMUtil;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UpdateContentCommand;
@@ -18,29 +38,14 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.RelatedContentDat
 import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConfig;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.AssertTool;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ContentServiceImpl_relatedcontentTest
     extends AbstractSpringTest
@@ -63,6 +68,7 @@ public class ContentServiceImpl_relatedcontentTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Before
@@ -70,8 +76,7 @@ public class ContentServiceImpl_relatedcontentTest
         throws IOException, JDOMException
     {
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 
@@ -281,8 +286,8 @@ public class ContentServiceImpl_relatedcontentTest
         AssertTool.assertXPathEquals( "/contentdata/mysolerelatedcontent/@key", contentDataXmlAfterUpdate, relatedContentKey4.toString() );
         AssertTool.assertXPathEquals( "/contentdata/myrelatedcontents/content[1]/@key", contentDataXmlAfterUpdate,
                                       relatedContentKey3.toString() );
-        AssertTool.assertXPathEquals("/contentdata/myrelatedcontents/content[2]/@key", contentDataXmlAfterUpdate,
-                relatedContentKey5.toString());
+        AssertTool.assertXPathEquals( "/contentdata/myrelatedcontents/content[2]/@key", contentDataXmlAfterUpdate,
+                                      relatedContentKey5.toString() );
 
         assertEquals( 3, versionAfterUpdate.getRelatedChildren( true ).size() );
     }
@@ -331,8 +336,7 @@ public class ContentServiceImpl_relatedcontentTest
         ContentEntity content = factory.createContent( "MyCategory", "en", "testuser", "0", new Date() );
         ContentVersionEntity version = factory.createContentVersion( "0", "testuser" );
 
-        ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM,
-                                                                             createSimpleContentTypeConfig() );
+        ContentTypeConfig contentTypeConfig = ContentTypeConfigParser.parse( ContentHandlerName.CUSTOM, createSimpleContentTypeConfig() );
 
         CustomContentData contentData = new CustomContentData( contentTypeConfig );
 

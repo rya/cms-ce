@@ -4,6 +4,10 @@
  */
 package com.enonic.cms.itest.store.dao;
 
+import org.joda.time.DateTime;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.enonic.cms.core.security.group.GroupEntity;
 import com.enonic.cms.core.security.group.GroupSpecification;
 import com.enonic.cms.core.security.group.GroupType;
@@ -13,11 +17,8 @@ import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.store.dao.GroupDao;
 import com.enonic.cms.store.dao.UserDao;
-import org.joda.time.DateTime;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class GroupEntityDaoTest
     extends AbstractSpringTest

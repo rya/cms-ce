@@ -4,22 +4,38 @@
  */
 package com.enonic.cms.itest.content.index;
 
-import com.enonic.cms.core.content.ContentIndexEntity;
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.category.CategoryKey;
-import com.enonic.cms.core.content.contenttype.ContentTypeKey;
-import com.enonic.cms.core.content.index.*;
-import com.enonic.cms.core.content.resultset.ContentResultSet;
-import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.store.dao.ContentIndexDao;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import com.enonic.cms.core.content.ContentIndexEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
+import com.enonic.cms.core.content.index.AggregatedQuery;
+import com.enonic.cms.core.content.index.AggregatedResult;
+import com.enonic.cms.core.content.index.BigText;
+import com.enonic.cms.core.content.index.ContentDocument;
+import com.enonic.cms.core.content.index.ContentIndexFieldSet;
+import com.enonic.cms.core.content.index.ContentIndexQuery;
+import com.enonic.cms.core.content.index.ContentIndexService;
+import com.enonic.cms.core.content.index.IndexValueQuery;
+import com.enonic.cms.core.content.index.IndexValueResultSet;
+import com.enonic.cms.core.content.index.UserDefinedField;
+import com.enonic.cms.core.content.resultset.ContentResultSet;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.store.dao.ContentIndexDao;
 
 import static org.junit.Assert.*;
 

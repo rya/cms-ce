@@ -1,26 +1,49 @@
 package com.enonic.cms.itest.structure.menuitem;
 
-import com.enonic.cms.core.content.*;
-import com.enonic.cms.core.content.category.CategoryAccessException;
-import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
-import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
-import com.enonic.cms.core.resource.ResourceKey;
-import com.enonic.cms.core.structure.menuitem.*;
-import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
-import com.enonic.cms.core.structure.page.template.PageTemplateType;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
-import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.util.*;
+import com.google.common.collect.Lists;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentLocation;
+import com.enonic.cms.core.content.ContentLocationSpecification;
+import com.enonic.cms.core.content.ContentLocations;
+import com.enonic.cms.core.content.category.CategoryAccessException;
+import com.enonic.cms.core.content.contenttype.ContentTypeConfigBuilder;
+import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
+import com.enonic.cms.core.resource.ResourceKey;
+import com.enonic.cms.core.structure.menuitem.AddContentToSectionCommand;
+import com.enonic.cms.core.structure.menuitem.ApproveContentInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.ApproveContentsInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
+import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemAccessException;
+import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
+import com.enonic.cms.core.structure.menuitem.MenuItemService;
+import com.enonic.cms.core.structure.menuitem.OrderContentsInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.RemoveContentsFromSectionCommand;
+import com.enonic.cms.core.structure.menuitem.SetContentHomeCommand;
+import com.enonic.cms.core.structure.menuitem.UnapproveContentsInSectionCommand;
+import com.enonic.cms.core.structure.menuitem.section.SectionContentEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.core.structure.page.template.PageTemplateType;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
 
 import static org.junit.Assert.*;
 
@@ -28,13 +51,11 @@ public class MenuItemServiceImplTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Autowired
     private MenuItemService menuItemService;
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private int menuItemOrderCount = 0;
@@ -42,8 +63,8 @@ public class MenuItemServiceImplTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();

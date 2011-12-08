@@ -1,6 +1,25 @@
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.enonic.cms.core.content.ContentAndVersion;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentVersionEntity;
+import com.enonic.cms.core.content.ContentVersionKey;
+import com.enonic.cms.core.content.UpdateContentResult;
 import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
 import com.enonic.cms.core.content.binary.BinaryDataEntity;
 import com.enonic.cms.core.content.binary.BinaryDataKey;
@@ -17,28 +36,12 @@ import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ContentServiceImpl_withFileHandlerTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     @Autowired
     private ContentService contentService;
 
@@ -50,6 +53,7 @@ public class ContentServiceImpl_withFileHandlerTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
@@ -57,19 +61,18 @@ public class ContentServiceImpl_withFileHandlerTest
     @Before
     public void before()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
-        hibernateTemplate.save( factory.createContentHandler( "File content", ContentHandlerName.FILE.getHandlerClassShortName() ) );
-        hibernateTemplate.save( factory.createContentType( "MyContentType", ContentHandlerName.FILE.getHandlerClassShortName() ) );
-        hibernateTemplate.save( factory.createUnit( "MyUnit" ) );
-        hibernateTemplate.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
-        hibernateTemplate.save( factory.createCategoryAccess( "MyCategory", fixture.findUserByName( "testuser" ), "read, create" ) );
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.save( factory.createContentHandler( "File content", ContentHandlerName.FILE.getHandlerClassShortName() ) );
+        fixture.save( factory.createContentType( "MyContentType", ContentHandlerName.FILE.getHandlerClassShortName() ) );
+        fixture.save( factory.createUnit( "MyUnit" ) );
+        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", "testuser", "testuser" ) );
+        fixture.save( factory.createCategoryAccess( "MyCategory", fixture.findUserByName( "testuser" ), "read, create" ) );
+        fixture.flushAndClearHibernateSesssion();
 
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setRemoteAddr( "127.0.0.1" );
@@ -85,8 +88,7 @@ public class ContentServiceImpl_withFileHandlerTest
                                                                             new String[]{"keyword1", "keyword2"} );
         ContentKey contenKey = contentService.createContent( createCommand );
 
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         ContentEntity actualContent = contentDao.findByKey( contenKey );
         assertNotNull( actualContent );
@@ -122,8 +124,7 @@ public class ContentServiceImpl_withFileHandlerTest
                                                                             new String[]{"keyword1", "keyword2"} );
         ContentKey contentKey = contentService.createContent( createCommand );
 
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         ContentEntity persistedContent = contentDao.findByKey( contentKey );
         byte[] changedDummyBytes = new byte[]{1, 2, 3, 4, 5, 6};
@@ -147,8 +148,7 @@ public class ContentServiceImpl_withFileHandlerTest
 
         UpdateContentResult updateContentResult = contentService.updateContent( updateCommand );
         ContentVersionKey versionKey = updateContentResult.getTargetedVersionKey();
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         // assertNull( "expected previous binary to not exist any more", binaryDao.findByKey( persistedFileBinaryDataKey ) );
 
@@ -188,8 +188,7 @@ public class ContentServiceImpl_withFileHandlerTest
                                                                             new String[]{"keyword1", "keyword2"} );
         ContentKey contentKey = contentService.createContent( createCommand );
 
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         ContentEntity persistedContent = contentDao.findByKey( contentKey );
         byte[] changedDummyBytes = new byte[]{1, 2, 3, 4, 5, 6};
@@ -213,8 +212,7 @@ public class ContentServiceImpl_withFileHandlerTest
 
         UpdateContentResult updateContentResult = contentService.updateContent( updateCommand );
         ContentVersionKey versionKey = updateContentResult.getTargetedVersionKey();
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         ContentEntity actualContent = contentDao.findByKey( contentKey );
         assertNotNull( actualContent );
@@ -241,8 +239,8 @@ public class ContentServiceImpl_withFileHandlerTest
         AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[1]", contentDataXml, "changed1" );
         AssertTool.assertXPathEquals( "/contentdata/keywords/keyword[2]", contentDataXml, "changed2" );
         AssertTool.assertXPathEquals( "/contentdata/filesize", contentDataXml, String.valueOf( changedDummyBytes.length ) );
-        AssertTool.assertXPathEquals("/contentdata/binarydata/@key", contentDataXml,
-                binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString());
+        AssertTool.assertXPathEquals( "/contentdata/binarydata/@key", contentDataXml,
+                                      binaryDataResolvedFromContentBinaryData.getBinaryDataKey().toString() );
     }
 
     private void doCreate_UpdateContentCommand( UpdateContentCommand command, ContentKey contentKey, String name, String description,

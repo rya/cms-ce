@@ -38,6 +38,11 @@ public class CategoryAccessEntity
         return group;
     }
 
+    public void setGroup( GroupEntity group )
+    {
+        this.group = group;
+    }
+
     public boolean isReadAccess()
     {
         return readAccess != 0;

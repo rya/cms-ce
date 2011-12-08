@@ -14,7 +14,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -46,6 +45,7 @@ import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.ContentVersionDao;
+import com.enonic.cms.store.dao.GroupDao;
 
 import static org.junit.Assert.*;
 
@@ -53,10 +53,11 @@ public class InternalClientImpl_AssignContentTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
+    private GroupDao groupDao;
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -77,8 +78,7 @@ public class InternalClientImpl_AssignContentTest
     public void before()
         throws IOException, JDOMException
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 
@@ -244,8 +244,7 @@ public class InternalClientImpl_AssignContentTest
 
         ContentKey contentKey = contentService.createContent( createContentCommand );
 
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         return contentKey;
     }

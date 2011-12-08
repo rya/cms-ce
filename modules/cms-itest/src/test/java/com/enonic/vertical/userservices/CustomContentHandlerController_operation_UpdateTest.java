@@ -41,7 +41,6 @@ import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.junit.Assert.*;
@@ -49,9 +48,6 @@ import static org.junit.Assert.*;
 public class CustomContentHandlerController_operation_UpdateTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private GroupEntityDao groupEntityDao;
-
     @Autowired
     private ContentService contenService;
 
@@ -81,15 +77,14 @@ public class CustomContentHandlerController_operation_UpdateTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Before
     public void setUp()
     {
-        groupEntityDao.invalidateCachedKeys();
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         customContentHandlerController = new CustomContentHandlerController();
         customContentHandlerController.setContentService( contenService );

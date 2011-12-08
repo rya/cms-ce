@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -45,11 +44,9 @@ import static org.junit.Assert.*;
 public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -69,8 +66,8 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();
@@ -93,8 +90,7 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
         ContentTypeConfigBuilder ctyconf = new ContentTypeConfigBuilder( "MyContent", "title" );
         ctyconf.startBlock( "MyContent" );
         ctyconf.addInput( "title", "text", "contentdata/title", "Title", true );
-        ctyconf.addRelatedContentInput( "myRelatedContent", "contentdata/myRelatedContent", "My related content", false,
-                                        true );
+        ctyconf.addRelatedContentInput( "myRelatedContent", "contentdata/myRelatedContent", "My related content", false, true );
         ctyconf.endBlock();
         Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
 
@@ -318,8 +314,8 @@ public class DataSourceServiceImpl_getContentByQuery_relatedContentTest
         AssertTool.assertXPathEquals( "/contents/content[title = 'Grand child']/relatedcontentkeys/relatedcontentkey[@level = -1]/@key",
                                       jdomDocResult, sonContentKey.toString() );
         AssertTool.assertSingleXPathValueEquals( "/contents/relatedcontents/@count", jdomDocResult, "4" );
-        AssertTool.assertXPathEquals("/contents/relatedcontents/content/@key", jdomDocResult, grandChildContentKey.toString(),
-                sonContentKey.toString(), daughterContentKey.toString(), fatherContentKey.toString());
+        AssertTool.assertXPathEquals( "/contents/relatedcontents/content/@key", jdomDocResult, grandChildContentKey.toString(),
+                                      sonContentKey.toString(), daughterContentKey.toString(), fatherContentKey.toString() );
     }
 
 

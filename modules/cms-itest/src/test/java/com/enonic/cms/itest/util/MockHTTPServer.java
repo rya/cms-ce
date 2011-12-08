@@ -6,7 +6,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 public class MockHTTPServer
-        extends NanoHTTPD
+    extends NanoHTTPD
 {
 
     private static final Logger LOG = Logger.getLogger( "ENONIC." + MockHTTPServer.class.getName() );
@@ -35,7 +35,7 @@ public class MockHTTPServer
         {
             return new Response( HTTP_OK, MIME_PLAINTEXT, responseText );
         }
-        else if ( BYTE_TYPE.equals( type ))
+        else if ( BYTE_TYPE.equals( type ) )
         {
             return new Response( HTTP_OK, MIME_XML, new ByteArrayInputStream( responseBytes ) );
         }

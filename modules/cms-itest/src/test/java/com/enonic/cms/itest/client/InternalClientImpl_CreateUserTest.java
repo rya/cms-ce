@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.api.client.model.CreateUserParams;
 import com.enonic.cms.core.client.InternalClient;
@@ -17,7 +16,6 @@ import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 
 import static org.junit.Assert.*;
@@ -26,22 +24,15 @@ public class InternalClientImpl_CreateUserTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Autowired
     private InternalClient internalClient;
 
-    private DomainFactory factory;
-
+    @Autowired
     private DomainFixture fixture;
 
     @Before
     public void before()
         throws IOException, JDOMException
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
-
         fixture.initSystemData();
 
         fixture.createAndStoreNormalUserWithUserGroup( "testuser", "Test user", "testuserstore" );

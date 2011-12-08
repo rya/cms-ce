@@ -37,6 +37,7 @@ import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
+import com.enonic.cms.store.dao.GroupDao;
 
 public abstract class AbstractInternalClientImpl_ImportContentTest
     extends AbstractSpringTest
@@ -53,6 +54,7 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
 
     protected DomainFactory factory;
 
+    @Autowired
     protected DomainFixture fixture;
 
     @Autowired
@@ -65,12 +67,14 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
     @Autowired
     protected ContentDao contentDao;
 
+    @Autowired
+    private GroupDao groupDao;
+
     @Before
     public void before()
         throws IOException, JDOMException
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
         fixture.flushAndClearHibernateSesssion();
@@ -102,7 +106,6 @@ public abstract class AbstractInternalClientImpl_ImportContentTest
 
     protected void setupRelatedContentCategory()
     {
-        fixture.save( factory.createContentHandler( "RelatedContent", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
         fixture.save( factory.createContentType( "MyRelatedContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
                                                  getConfigRelatedContent() ) );
         fixture.save( factory.createUnit( "MyRelatedContentUnit", "en" ) );

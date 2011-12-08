@@ -4,7 +4,27 @@
  */
 package com.enonic.cms.itest.content;
 
-import com.enonic.cms.core.content.*;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.core.content.AssignContentException;
+import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentService;
+import com.enonic.cms.core.content.ContentStatus;
+import com.enonic.cms.core.content.ContentVersionKey;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
 import com.enonic.cms.core.content.command.UnassignContentCommand;
@@ -16,27 +36,10 @@ import com.enonic.cms.core.content.contenttype.dataentryconfig.TextDataEntryConf
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-import com.enonic.cms.framework.util.JDOMUtil;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.ContentVersionDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
-
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -44,25 +47,16 @@ public class ContentServiceImpl_assignContentTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Autowired
-    private GroupEntityDao groupEntityDao;
-
-    @Autowired
     private ContentDao contentDao;
 
     @Autowired
     private ContentService contentService;
 
-    @Autowired
-    private ContentVersionDao contentVersionDao;
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
-
-    private Element standardConfigEl;
 
     private Document standardConfig;
 
@@ -70,10 +64,8 @@ public class ContentServiceImpl_assignContentTest
     public void setUp()
         throws IOException, JDOMException
     {
-        groupEntityDao.invalidateCachedKeys();
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 
@@ -100,7 +92,6 @@ public class ContentServiceImpl_assignContentTest
         standardConfigXml.append( "         </block>" );
         standardConfigXml.append( "     </form>" );
         standardConfigXml.append( "</config>" );
-        standardConfigEl = JDOMUtil.parseDocument( standardConfigXml.toString() ).getRootElement();
         standardConfig = XMLDocumentFactory.create( standardConfigXml.toString() ).getAsJDOMDocument();
 
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -192,7 +183,7 @@ public class ContentServiceImpl_assignContentTest
 
         contentService.assignContent( assignCommand );
 
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         persistedContent = contentDao.findByKey( contentKey );
 
@@ -245,7 +236,7 @@ public class ContentServiceImpl_assignContentTest
         ContentVersionKey versionKey = persistedContent.getMainVersion().getKey();
 
         // excersise
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         persistedContent = contentDao.findByKey( contentKey );
 
@@ -265,7 +256,7 @@ public class ContentServiceImpl_assignContentTest
 
         contentService.assignContent( assignCommand );
 
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         persistedContent = contentDao.findByKey( contentKey );
 
@@ -304,7 +295,7 @@ public class ContentServiceImpl_assignContentTest
         assertNotNull( "DueDate should be set", persistedContent.getAssignmentDueDate() );
         assertEquals( testUser, persistedContent.getAssigner() );
 
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         persistedContent = contentDao.findByKey( contentKey );
 
@@ -352,7 +343,7 @@ public class ContentServiceImpl_assignContentTest
         assertNotNull( "DueDate should be set", persistedContent.getAssignmentDueDate() );
         assertEquals( testUser, persistedContent.getAssigner() );
 
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         persistedContent = contentDao.findByKey( contentKey );
 
@@ -407,7 +398,7 @@ public class ContentServiceImpl_assignContentTest
         assertNotNull( "DueDate should be set", persistedContent.getAssignmentDueDate() );
         assertEquals( testUser, persistedContent.getAssigner() );
 
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
         persistedContent = contentDao.findByKey( contentKey );
 
@@ -439,7 +430,7 @@ public class ContentServiceImpl_assignContentTest
         ContentKey contentKey = contentService.createContent( createCommand );
 
         ContentEntity persistedContent = contentDao.findByKey( contentKey );
-        ContentVersionKey versionKey = persistedContent.getMainVersion().getKey();
+        persistedContent.getMainVersion().getKey();
 
         persistedContent = contentDao.findByKey( contentKey );
 

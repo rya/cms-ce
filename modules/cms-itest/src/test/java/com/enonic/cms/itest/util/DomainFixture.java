@@ -7,7 +7,12 @@ package com.enonic.cms.itest.util;
 import java.util.List;
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Component;
+
+import com.google.common.base.Preconditions;
 
 import com.enonic.vertical.VerticalProperties;
 
@@ -38,23 +43,52 @@ import com.enonic.cms.core.structure.menuitem.ContentHomeEntity;
 import com.enonic.cms.core.structure.menuitem.ContentHomeKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
+import com.enonic.cms.store.dao.GroupDao;
 
 /**
  * Nov 26, 2009
  */
+@Component
+@Scope("prototype")
 public class DomainFixture
 {
+    @Autowired
     private HibernateTemplate hibernateTemplate;
 
     private DomainFactory factory;
 
+    @Autowired
+    private GroupDao groupDao;
+
+    public DomainFixture()
+    {
+        factory = new DomainFactory( this );
+    }
+
+    public DomainFactory getFactory()
+    {
+        return factory;
+    }
+
+    public DomainFixture( HibernateTemplate hibernateTemplate, GroupDao groupDao )
+    {
+        Preconditions.checkNotNull( hibernateTemplate );
+        Preconditions.checkNotNull( groupDao );
+
+        this.hibernateTemplate = hibernateTemplate;
+        this.groupDao = groupDao;
+    }
+
     public DomainFixture( HibernateTemplate hibernateTemplate )
     {
+        Preconditions.checkNotNull( hibernateTemplate );
+
         this.hibernateTemplate = hibernateTemplate;
     }
 
     void setFactory( DomainFactory factory )
     {
+        Preconditions.checkNotNull( factory );
         this.factory = factory;
     }
 
@@ -68,6 +102,10 @@ public class DomainFixture
 
         save( factory.createLanguage( "en" ) );
 
+        if ( groupDao != null )
+        {
+            groupDao.invalidateCachedKeys();
+        }
         save( factory.createGroup( GroupType.ENTERPRISE_ADMINS.getName(), GroupType.ENTERPRISE_ADMINS ) );
         save( factory.createGroup( GroupType.ADMINS.getName(), GroupType.ADMINS ) );
         save( factory.createGroup( GroupType.DEVELOPERS.getName(), GroupType.DEVELOPERS ) );
@@ -288,12 +326,9 @@ public class DomainFixture
 
     public ContentEntity findContentByName( String name )
     {
-        List<ContentEntity> list = typecastList( ContentEntity.class, hibernateTemplate.find( "from ContentEntity where name = ?", name ) );
-        if ( list.isEmpty() )
-        {
-            return null;
-        }
-        return list.get( 0 );
+        ContentEntity example = new ContentEntity();
+        example.setName( name );
+        return (ContentEntity) findFirstByExample( example );
     }
 
     public List<ContentVersionEntity> findContentVersionsByContent( ContentKey key )
@@ -463,7 +498,10 @@ public class DomainFixture
         {
             return null;
         }
-
+        if ( list.size() > 1 )
+        {
+            throw new IllegalStateException( "Expected only one result, was: " + list.size() );
+        }
         return list.get( 0 );
     }
 

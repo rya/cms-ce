@@ -1,30 +1,32 @@
 package com.enonic.cms.itest.client;
 
-import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
-import com.enonic.cms.core.client.InternalClientImpl;
-import com.enonic.cms.core.content.ContentHandlerName;
-import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
-import com.enonic.cms.framework.xml.XMLDocumentFactory;
-import com.enonic.cms.itest.AbstractSpringTest;
-import com.enonic.cms.itest.util.DomainFactory;
-import com.enonic.cms.itest.util.DomainFixture;
-import com.enonic.cms.store.dao.ContentTypeDao;
 import org.jdom.Document;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import static com.enonic.cms.itest.util.AssertTool.*;
+import com.enonic.cms.framework.xml.XMLDocumentFactory;
+
+import com.enonic.cms.api.client.model.GetContentTypeConfigXMLParams;
+import com.enonic.cms.core.client.InternalClientImpl;
+import com.enonic.cms.core.content.ContentHandlerName;
+import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
+import com.enonic.cms.itest.AbstractSpringTest;
+import com.enonic.cms.itest.util.DomainFactory;
+import com.enonic.cms.itest.util.DomainFixture;
+import com.enonic.cms.store.dao.ContentTypeDao;
+
+import static com.enonic.cms.itest.util.AssertTool.assertSingleXPathValueEquals;
+import static com.enonic.cms.itest.util.AssertTool.assertXPathEquals;
+import static com.enonic.cms.itest.util.AssertTool.assertXPathExist;
+import static com.enonic.cms.itest.util.AssertTool.assertXPathNotExist;
 
 public class InternalClientImpl_getContentTypeXmlTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private InternalClientImpl internalClient;
@@ -38,8 +40,8 @@ public class InternalClientImpl_getContentTypeXmlTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         // setup
         fixture.initSystemData();

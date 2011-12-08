@@ -4,8 +4,16 @@
  */
 package com.enonic.cms.itest.security.userstore;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.enonic.cms.api.client.model.user.UserInfo;
-import com.enonic.cms.core.security.user.*;
+import com.enonic.cms.core.security.user.StoreNewUserCommand;
+import com.enonic.cms.core.security.user.UpdateUserCommand;
+import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
+import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreService;
 import com.enonic.cms.core.security.userstore.config.UserStoreConfig;
@@ -13,21 +21,15 @@ import com.enonic.cms.core.user.field.UserFieldType;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class UserStoreServiceImpl_localUserStoreTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -37,8 +39,8 @@ public class UserStoreServiceImpl_localUserStoreTest
     public void setUp()
         throws Exception
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 

@@ -49,6 +49,7 @@ public class InternalClientImpl_DeleteCategoryTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private byte[] dummyBinary = new byte[]{1, 2, 3};
@@ -57,8 +58,8 @@ public class InternalClientImpl_DeleteCategoryTest
     public void before()
         throws IOException, JDOMException
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 

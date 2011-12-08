@@ -11,20 +11,16 @@ import java.util.List;
 
 import org.jdom.Document;
 import org.jdom.JDOMException;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.api.client.model.ContentDataInputUpdateStrategy;
 import com.enonic.cms.api.client.model.CreateContentParams;
-import com.enonic.cms.api.client.model.GetContentParams;
 import com.enonic.cms.api.client.model.UpdateContentParams;
 import com.enonic.cms.api.client.model.content.BinaryInput;
 import com.enonic.cms.api.client.model.content.ContentDataInput;
@@ -65,11 +61,9 @@ import static org.junit.Assert.*;
 public class InternalClientImpl_UpdateContentTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -96,9 +90,7 @@ public class InternalClientImpl_UpdateContentTest
     public void before()
         throws IOException, JDOMException
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
-
+        factory = fixture.getFactory();
         fixture.initSystemData();
 
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -208,8 +200,7 @@ public class InternalClientImpl_UpdateContentTest
 
         contentWithBinaryKey = contentService.createContent( createContentCommand );
 
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
     }
 
     @Test
@@ -425,10 +416,6 @@ public class InternalClientImpl_UpdateContentTest
     @Test
     public void testUpdateContentWithBlockGroup()
     {
-        fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );
-
-        fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
-
         // setup content type
         ContentTypeConfigBuilder ctyconf = new ContentTypeConfigBuilder( "Skole", "tittel" );
         ctyconf.startBlock( "Skole" );
@@ -445,7 +432,6 @@ public class InternalClientImpl_UpdateContentTest
         Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
         fixture.save( factory.createContentType( "Skole", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
 
-        fixture.save( factory.createUnit( "MyUnit", "en" ) );
         fixture.save( factory.createCategory( "Skole", "Skole", "MyUnit", "testuser", "testuser" ) );
         fixture.save( factory.createCategoryAccessForUser( "Skole", "testuser", "read,create,approve" ) );
 
@@ -638,24 +624,8 @@ public class InternalClientImpl_UpdateContentTest
 
         updateContentKey = contentService.createContent( createContentCommand );
 
-        hibernateTemplate.flush();
-        hibernateTemplate.clear();
+        fixture.flushAndClearHibernateSesssion();
 
-    }
-
-    private String getUpdatedContentXML()
-    {
-
-        int keys[] = new int[1];
-        keys[0] = updateContentKey.toInt();
-        GetContentParams gcp = new GetContentParams();
-        gcp.contentKeys = keys;
-        gcp.includeData = true;
-        Document content = internalClient.getContent( gcp );
-
-        XMLOutputter outputter = new XMLOutputter( Format.getPrettyFormat() );
-        String xml = outputter.outputString( content );
-        return xml;
     }
 
     private String getUpdatedContentXMLWithDao()

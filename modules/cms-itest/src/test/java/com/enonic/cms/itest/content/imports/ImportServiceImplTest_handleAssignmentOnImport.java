@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -35,7 +34,6 @@ import com.enonic.cms.core.content.contenttype.ContentTypeEntity;
 import com.enonic.cms.core.content.imports.ImportJob;
 import com.enonic.cms.core.content.imports.ImportJobFactory;
 import com.enonic.cms.core.content.imports.ImportResult;
-import com.enonic.cms.core.content.imports.ImportService;
 import com.enonic.cms.core.security.PortalSecurityHolder;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
@@ -52,18 +50,13 @@ public class ImportServiceImplTest_handleAssignmentOnImport
     extends AbstractSpringTest
 {
 
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
-
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
     private ImportJobFactory importJobFactory;
-
-    @Autowired
-    private ImportService importService;
 
     @Autowired
     private ContentService contentService;
@@ -80,8 +73,7 @@ public class ImportServiceImplTest_handleAssignmentOnImport
     {
         personContentTypeXml = resourceToString( new ClassPathResource( "com/enonic/cms/itest/content/imports/personContentType.xml" ) );
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
 

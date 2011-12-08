@@ -4,16 +4,17 @@
  */
 package com.enonic.cms.itest.store.resource;
 
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.enonic.cms.core.resource.FileResource;
 import com.enonic.cms.core.resource.FileResourceData;
 import com.enonic.cms.core.resource.FileResourceName;
 import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.store.resource.FileResourceService;
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
 
 public class FileResourceServiceImplTest
     extends AbstractSpringTest

@@ -59,6 +59,7 @@ public class AttachmentControllerTest
 
     protected DomainFactory factory;
 
+    @Autowired
     protected DomainFixture fixture;
 
     @Autowired
@@ -82,8 +83,7 @@ public class AttachmentControllerTest
     public void before()
         throws Exception
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );

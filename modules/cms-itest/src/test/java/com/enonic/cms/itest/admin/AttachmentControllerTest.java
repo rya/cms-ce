@@ -42,6 +42,7 @@ import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.server.service.admin.mvc.controller.AttachmentController;
+import com.enonic.cms.store.dao.GroupDao;
 
 import static org.junit.Assert.*;
 
@@ -51,8 +52,12 @@ public class AttachmentControllerTest
     @Autowired
     protected HibernateTemplate hibernateTemplate;
 
+    @Autowired
+    private GroupDao groupDao;
+
     protected DomainFactory factory;
 
+    @Autowired
     protected DomainFixture fixture;
 
     @Autowired
@@ -74,8 +79,7 @@ public class AttachmentControllerTest
     public void before()
         throws Exception
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         fixture.initSystemData();
         fixture.createAndStoreUserAndUserGroup( "testuser", "testuser fullname", UserType.NORMAL, "testuserstore" );

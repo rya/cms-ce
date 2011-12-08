@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
@@ -41,9 +40,8 @@ import static org.junit.Assert.*;
 public class DataSourceServiceImpl_getContentByQueryTest
     extends AbstractSpringTest
 {
-    @Autowired
-    private HibernateTemplate hibernateTemplate;
 
+    @Autowired
     private DomainFixture fixture;
 
     @Autowired
@@ -63,14 +61,13 @@ public class DataSourceServiceImpl_getContentByQueryTest
     @Before
     public void setUp()
     {
-        fixture = new DomainFixture( hibernateTemplate );
-        DomainFactory factory = new DomainFactory( fixture );
+
+        DomainFactory factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();
 
-        fixture.save( factory.createContentHandler( "Custom content",
-                                                    ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
+        fixture.save( factory.createContentHandler( "Custom content", ContentHandlerName.CUSTOM.getHandlerClassShortName() ) );
 
         MockHttpServletRequest httpRequest = new MockHttpServletRequest( "GET", "/" );
         ServletRequestAccessor.setRequest( httpRequest );
@@ -92,20 +89,15 @@ public class DataSourceServiceImpl_getContentByQueryTest
         Document configAsXmlBytes = XMLDocumentFactory.create( ctyconf.toString() ).getAsJDOMDocument();
 
         fixture.save(
-            factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(),
-                                       configAsXmlBytes ) );
+            factory.createContentType( "MyContentType", ContentHandlerName.CUSTOM.getHandlerClassShortName(), configAsXmlBytes ) );
         fixture.save( factory.createUnit( "MyUnit", "en" ) );
-        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID,
-                                              User.ANONYMOUS_UID, false ) );
+        fixture.save( factory.createCategory( "MyCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID, User.ANONYMOUS_UID, false ) );
         fixture.save(
-            factory.createCategory( "MyOtherCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID,
-                                    User.ANONYMOUS_UID, false ) );
+            factory.createCategory( "MyOtherCategory", "MyContentType", "MyUnit", User.ANONYMOUS_UID, User.ANONYMOUS_UID, false ) );
 
-        fixture.save( factory.createCategoryAccessForUser( "MyCategory", "content-creator",
-                                                           "read, create, approve, admin_browse" ) );
+        fixture.save( factory.createCategoryAccessForUser( "MyCategory", "content-creator", "read, create, approve, admin_browse" ) );
         fixture.save( factory.createCategoryAccessForUser( "MyCategory", "content-querier", "read, admin_browse" ) );
-        fixture.save( factory.createCategoryAccessForUser( "MyOtherCategory", "content-creator",
-                                                           "read, create, approve, admin_browse" ) );
+        fixture.save( factory.createCategoryAccessForUser( "MyOtherCategory", "content-creator", "read, create, approve, admin_browse" ) );
         fixture.save( factory.createCategoryAccessForUser( "MyOtherCategory", "content-querier", "read, admin_browse" ) );
 
         fixture.flushAndClearHibernateSesssion();
@@ -143,7 +135,7 @@ public class DataSourceServiceImpl_getContentByQueryTest
         // verify
         Document jdomDocResult = xmlDocResult.getAsJDOMDocument();
         AssertTool.assertSingleXPathValueEquals( "/contents/@totalcount", jdomDocResult, "2" );
-        AssertTool.assertXPathEquals("/contents/content/@key", jdomDocResult, content_1, content_2);
+        AssertTool.assertXPathEquals( "/contents/content/@key", jdomDocResult, content_1, content_2 );
     }
 
     private CreateContentCommand createCreateContentCommand( String categoryName, ContentData contentData, String creatorUid )

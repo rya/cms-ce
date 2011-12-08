@@ -12,7 +12,6 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
@@ -37,7 +36,6 @@ import com.enonic.cms.itest.AbstractSpringTest;
 import com.enonic.cms.itest.util.DomainFactory;
 import com.enonic.cms.itest.util.DomainFixture;
 import com.enonic.cms.store.dao.ContentDao;
-import com.enonic.cms.store.dao.GroupEntityDao;
 
 import static org.junit.Assert.*;
 
@@ -49,12 +47,6 @@ public class ContentServiceImpl_contentConfigTest
     extends AbstractSpringTest
 {
     @Autowired
-    private HibernateTemplate hibernateTemplate;
-
-    @Autowired
-    private GroupEntityDao groupEntityDao;
-
-    @Autowired
     protected ContentDao contentDao;
 
     @Autowired
@@ -62,6 +54,7 @@ public class ContentServiceImpl_contentConfigTest
 
     private DomainFactory factory;
 
+    @Autowired
     private DomainFixture fixture;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat( "dd.MM.yyyy" );
@@ -70,10 +63,8 @@ public class ContentServiceImpl_contentConfigTest
     @Before
     public void setUp()
     {
-        groupEntityDao.invalidateCachedKeys();
 
-        fixture = new DomainFixture( hibernateTemplate );
-        factory = new DomainFactory( fixture );
+        factory = fixture.getFactory();
 
         // setup needed common data for each test
         fixture.initSystemData();
