@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.core.content.ContentVersionEntity" table="TCONTENTVERSION" mutable="true">
+  <class name="com.enonic.cms.core.content.ContentVersionEntity" table="TCONTENTVERSION" mutable="true" batch-size="500">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="COV_LKEY" type="com.enonic.cms.store.hibernate.type.ContentVersionKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
@@ -42,7 +42,7 @@
     <many-to-one name="modifiedBy" class="com.enonic.cms.core.security.user.UserEntity" fetch="select">
       <column name="COV_USR_HMODIFIER" length="40" not-null="true"/>
     </many-to-one>
-    <set name="contentBinaryData" inverse="true" cascade="all-delete-orphan" order-by="CBD_LKEY">
+    <set name="contentBinaryData" inverse="true" cascade="all-delete-orphan" order-by="CBD_LKEY" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key column="CBD_COV_LKEY"/>
       <one-to-many class="com.enonic.cms.core.content.binary.ContentBinaryDataEntity"/>
