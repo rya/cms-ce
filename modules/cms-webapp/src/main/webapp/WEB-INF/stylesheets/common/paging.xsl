@@ -55,56 +55,6 @@
       <table border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td class="paging">
-
-            <!--span class="count">
-              <xsl:attribute name="style">
-                <xsl:text>float:left;</xsl:text>
-                <xsl:if test="$totalcount = 0">
-                  <xsl:text>color:#a8a8a8</xsl:text>
-                </xsl:if>
-              </xsl:attribute>
-              <xsl:value-of select="$first"/>
-              <xsl:text>-</xsl:text>
-              <xsl:value-of select="$last"/>
-              <xsl:text> %of% </xsl:text>
-              <xsl:value-of select="$totalcount"/>
-              <xsl:text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</xsl:text>
-            </span-->
-
-            <!--span class="per-page" style="float:right">
-              <xsl:call-template name="createPerPage">
-                <xsl:with-param name="n" select="20"/>
-                <xsl:with-param name="url" select="$url"/>
-                <xsl:with-param name="index" select="$index"/>
-                <xsl:with-param name="count" select="$count"/>
-                <xsl:with-param name="totalcount" select="$totalcount"/>
-              </xsl:call-template>
-              <xsl:text>&nbsp;&nbsp;</xsl:text>
-              <xsl:call-template name="createPerPage">
-                <xsl:with-param name="n" select="50"/>
-                <xsl:with-param name="url" select="$url"/>
-                <xsl:with-param name="index" select="$index"/>
-                <xsl:with-param name="count" select="$count"/>
-                <xsl:with-param name="totalcount" select="$totalcount"/>
-              </xsl:call-template>
-              <xsl:text>&nbsp;&nbsp;</xsl:text>
-              <xsl:call-template name="createPerPage">
-                <xsl:with-param name="n" select="100"/>
-                <xsl:with-param name="url" select="$url"/>
-                <xsl:with-param name="index" select="$index"/>
-                <xsl:with-param name="count" select="$count"/>
-                <xsl:with-param name="totalcount" select="$totalcount"/>
-              </xsl:call-template>
-              <span>
-                <xsl:attribute name="style">
-                  <xsl:if test="$totalcount &lt;= 20">
-                    <xsl:text>color:#a8a8a8;</xsl:text>
-                  </xsl:if>
-                </xsl:attribute>
-                <xsl:text> %txtPrPage%</xsl:text>
-              </span>
-            </span-->
-
             <div>
               <xsl:choose>
                 <xsl:when test="$index &gt; 0">
@@ -229,7 +179,7 @@
                     <xsl:attribute name="href">
                       <xsl:value-of select="$url"/>
                       <xsl:text>&amp;index=</xsl:text>
-                      <xsl:value-of select="floor($totalcount div $count) * $count"/>
+                      <xsl:value-of select="($numPages * $count) - $count"/>
                       <xsl:text>&amp;count=</xsl:text>
                       <xsl:value-of select="$count"/>
                     </xsl:attribute>
