@@ -66,28 +66,24 @@ public class HTTPServiceTest
     @Test
     public void get_url_as_text_test()
     {
-        httpServer.setResponseText( SAMPLE_TEXT_RESPONSE );
+        String testText="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        httpServer.setResponseText( testText );
         String result = httpService.getURL( buildServerUrl( MockHTTPServer.TEXT_TYPE ), "utf8", 5000 );
-        assertEquals( SAMPLE_TEXT_RESPONSE, result );
+        System.out.println( "Original: " + testText );
+        System.out.println( "Result:   " + result );
+        assertEquals( testText, result );
     }
 
     @Test
-    public void get_url_as_XML_test()
-    {
-        httpServer.setResponseText( SAMPLE_XML_RESPONSE );
-        String result = httpService.getURL( buildServerUrl( MockHTTPServer.XML_TYPE ), null, 5000 );
-        assertEquals( SAMPLE_XML_RESPONSE, result );
-    }
-
-    @Test
-    public void get_utf8_response_test()
+    public void get_url_as_bytes_test()
         throws UnsupportedEncodingException
     {
-        byte[] utf8 = SAMPLE_TEXT_RESPONSE.getBytes( "utf8" );
+        String testText="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        byte[] utf8 = testText.getBytes( "utf8" );
 
         httpServer.setResponseBytes( utf8 );
         String result = httpService.getURL( buildServerUrl( MockHTTPServer.BYTE_TYPE ), "utf8", 5000 );
-        assertEquals( SAMPLE_TEXT_RESPONSE, result );
+        assertEquals( testText, result );
     }
 
     @Test

@@ -91,7 +91,7 @@ public class DataSourceServiceImpl_getUrlAsTextTest
         httpServer.setResponseText( SAMPLE_TEXT_RESPONSE );
 
         DataSourceContext context = new DataSourceContext();
-        XMLDocument result = dataSourceService.getURLAsText( context, buildServerUrl( MockHTTPServer.XML_TYPE ), "UTF-8" );
+        XMLDocument result = dataSourceService.getURLAsText( context, buildServerUrl( MockHTTPServer.TEXT_TYPE ), "UTF-8" );
 
         Document resultDoc = result.getAsJDOMDocument();
         String resultText = resultDoc.getRootElement().getText();

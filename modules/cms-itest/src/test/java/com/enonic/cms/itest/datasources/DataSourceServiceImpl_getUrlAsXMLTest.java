@@ -91,7 +91,7 @@ public class DataSourceServiceImpl_getUrlAsXMLTest
         httpServer.setResponseText( header + SAMPLE_XML_RESPONSE );
 
         DataSourceContext context = new DataSourceContext();
-        XMLDocument result = dataSourceService.getURLAsXML( context, buildServerUrl( MockHTTPServer.XML_TYPE ) );
+        XMLDocument result = dataSourceService.getURLAsXML( context, buildServerUrl( MockHTTPServer.TEXT_TYPE ) );
 
         Document resultDoc = result.getAsJDOMDocument();
         String node1 = resultDoc.getRootElement().getChild( "node1" ).getText();

@@ -17,8 +17,6 @@ public class MockHTTPServer
 
     static public String BYTE_TYPE = "byte";
 
-    static public String XML_TYPE = "xml";
-
     private String responseText = "";
 
     private byte[] responseBytes = null;
@@ -36,10 +34,6 @@ public class MockHTTPServer
         if ( TEXT_TYPE.equals( type ) )
         {
             return new Response( HTTP_OK, MIME_PLAINTEXT, responseText );
-        }
-        else if ( XML_TYPE.equals( type ) )
-        {
-            return new Response( HTTP_OK, MIME_XML, responseText );
         }
         else if ( BYTE_TYPE.equals( type ))
         {
