@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="com.enonic.cms.domain" default-access="field">
-  <class name="com.enonic.cms.core.content.ContentEntity" table="TCONTENT" mutable="true">
+  <class name="com.enonic.cms.core.content.ContentEntity" table="TCONTENT" mutable="true" batch-size="500">
     <cache usage="nonstrict-read-write"/>
     <id name="key" column="CON_LKEY" type="com.enonic.cms.store.hibernate.type.ContentKeyUserType">
       <generator class="com.enonic.cms.store.hibernate.id.IntegerBasedCustomIdentifierGenerator">
@@ -61,24 +61,24 @@
     <many-to-one name="draftVersion" class="com.enonic.cms.core.content.ContentVersionEntity" fetch="select" cascade="all">
       <column name="CON_COV_LDRAFT"/>
     </many-to-one>
-    <map name="contentHomes" inverse="true" sort="natural">
+    <map name="contentHomes" inverse="true" sort="natural" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key column="CHO_CON_LKEY" not-null="true"/>
       <map-key type="integer" column="CHO_MEN_LKEY"/>
       <one-to-many class="com.enonic.cms.core.structure.menuitem.ContentHomeEntity"/>
     </map>
-    <bag name="versions" inverse="true" order-by="COV_DTECREATED">
+    <bag name="versions" inverse="true" order-by="COV_DTECREATED" lazy="true" fetch="select">
       <cache usage="nonstrict-read-write"/>
       <key column="COV_CON_LKEY" not-null="true"/>
       <one-to-many class="com.enonic.cms.core.content.ContentVersionEntity"/>
     </bag>
-    <set name="sectionContents" inverse="false" cascade="all-delete-orphan">
+    <set name="sectionContents" inverse="false" cascade="all-delete-orphan" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key column="SCO_CON_LKEY"/>
       <one-to-many class="com.enonic.cms.core.structure.menuitem.section.SectionContentEntity"/>
     </set>
     <set name="directMenuItemPlacements" inverse="true" table="TMENUITEMCONTENT"
-         sort="com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy">
+         sort="com.enonic.cms.core.structure.menuitem.MenuItemComparatorByHierarchy" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key>
         <column name="MIC_CON_LKEY" not-null="true"/>
@@ -88,7 +88,7 @@
       </many-to-many>
     </set>
     <map name="contentAccessRights" inverse="true" sort="com.enonic.cms.core.security.group.GroupKeyComparator" mutable="true"
-         cascade="all-delete-orphan">
+         cascade="all-delete-orphan" lazy="true" fetch="select" batch-size="500">
       <cache usage="nonstrict-read-write"/>
       <key column="COA_CON_LKEY"/>
       <map-key type="com.enonic.cms.store.hibernate.type.GroupKeyUserType" column="COA_GRP_HKEY"/>
