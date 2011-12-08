@@ -91,7 +91,7 @@
                                         </xsl:attribute>
                                         <xsl:variable name="imagestring">
                                             <xsl:choose>
-                                                <xsl:when test="($expanded = 'true' and $hassibling = 'true') and $selectedmenukey = $key">Tplus</xsl:when>
+                                                <xsl:when test="($expanded = 'true' and $hassibling = 'true') and ($selectedmenukey and $selectedmenukey = $key)">Tplus</xsl:when>
                                                 <xsl:when test="($expanded = 'true' and $hassibling = 'true')">Tminus</xsl:when>
                                                 <xsl:when test="($expanded = 'false' and $hassibling = 'true')">Tplus</xsl:when>
                                                 <xsl:when test="($expanded = 'true' and $hassibling = 'false')">Lminus</xsl:when>
@@ -272,7 +272,7 @@
                 <xsl:if test="*">
                     <tr>
                         <!-- Make sure that selected menu is collapsed. It will be opened by menu.js -->
-                        <xsl:variable name="collapseSelectedMenu" select="($expanded = 'true' and $selectedmenukey = $key)"/>
+                        <xsl:variable name="collapseSelectedMenu" select="($expanded = 'true' and ($selectedmenukey and $selectedmenukey = $key))"/>
                         <xsl:if test="$collapseSelectedMenu or not($expanded = 'true')">
                             <xsl:attribute name="style">display: none</xsl:attribute>
                         </xsl:if>
