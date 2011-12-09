@@ -57,12 +57,9 @@
             sites : '%headMenus%'
           }
 
-          // Needed for the tree menu which is displayed in portal context(page templates, portlets and menu items).
-          var branchOpen = new Array();
         </script>
         <link href="css/menu.css" rel="stylesheet" type="text/stylesheet"/>
         <link href="tinymce/jscripts/tiny_mce/plugins/cmslink/css/cms_link_dialog.css" rel="stylesheet" type="text/stylesheet"/>
-        <link href="css/admin.css" rel="stylesheet" type="text/stylesheet"/>
       </head>
       <body>
         <form name="formAdmin" onsubmit="CMSLinkDialog.insertLinkAction();return false;" action="#">
