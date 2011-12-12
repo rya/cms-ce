@@ -1,7 +1,3 @@
-/*
-    Method and functions for the insert image dialog.
-*/
-
 var CMSImage = {
 
     /*
@@ -9,69 +5,69 @@ var CMSImage = {
     */
     init: function()
     {
-        var oSelectedNode = ed.selection.getNode();
-        var oDOM = ed.dom;
+        var selectedNode = ed.selection.getNode();
+        var dom = ed.dom;
 
         createCustomWidthSlider();
 
-        if ( oSelectedNode.nodeName.toLowerCase() !== 'img')
+        if ( selectedNode.nodeName.toLowerCase() !== 'img')
         {
             return;
         }
 
-        var oForm = document.forms['formAdmin'];
+        var form = document.forms['formAdmin'];
 
-        var sSrc = oDOM.getAttrib(oSelectedNode, 'src');
-        var sId = oDOM.getAttrib(oSelectedNode, 'id');
-        var sName = oDOM.getAttrib(oSelectedNode, 'name');
-        var sAlt = oDOM.getAttrib(oSelectedNode, 'alt');
-        var sTitle = oDOM.getAttrib(oSelectedNode, 'title');
-        var sLongdesc = oDOM.getAttrib(oSelectedNode, 'longdesc');
-        var sUsemap = oDOM.getAttrib(oSelectedNode, 'usemap');
-        var sIsmap = oDOM.getAttrib(oSelectedNode, 'ismap');
-        var sAlign = oDOM.getAttrib(oSelectedNode, 'align');
-        var sStyleFloat = oDOM.getStyle(oSelectedNode, 'float');
+        // Get attributes from the selected image.
+        var src = dom.getAttrib(selectedNode, 'src');
+        var id = dom.getAttrib(selectedNode, 'id');
+        var name = dom.getAttrib(selectedNode, 'name');
+        var alt = dom.getAttrib(selectedNode, 'alt');
+        var title = dom.getAttrib(selectedNode, 'title');
+        var longDesc = dom.getAttrib(selectedNode, 'longdesc');
+        var useMap = dom.getAttrib(selectedNode, 'usemap');
+        var ismap = dom.getAttrib(selectedNode, 'ismap');
+        var align = dom.getAttrib(selectedNode, 'align');
+        var styleFloat = dom.getStyle(selectedNode, 'float');
 
-        var sHspace = oDOM.getAttrib(oSelectedNode, 'hspace');
-        var sVspace = oDOM.getAttrib(oSelectedNode, 'vspace');
-        var sBorder = oDOM.getAttrib(oSelectedNode, 'border');
-        var sClass = oDOM.getAttrib(oSelectedNode, 'class');
+        var hSpace = dom.getAttrib(selectedNode, 'hspace');
+        var vSpace = dom.getAttrib(selectedNode, 'vspace');
+        var border = dom.getAttrib(selectedNode, 'border');
+        var cssClass = dom.getAttrib(selectedNode, 'class');
 
-        // Load the values to the form elements.
+        // Load the values to the form.
+        CMSImage.updateCustomWidthValue(src);
+        CMSImage.updateSizeValue(src);
 
-        CMSImage.updateCustomWidthValue(sSrc);
-        CMSImage.updateSizeValue(sSrc);
+        var copyAltValueToTitleValueCheckBox = document.getElementById('checkbox1');
+        var altTextInput = document.getElementsByName('alt')[0];
+        var titleTextInput = document.getElementsByName('title')[0];
 
-        var oCheckBox = document.getElementById('checkbox1');
-        var oAltTextElement = document.getElementsByName('alt')[0];
-        var oTitleTextElement = document.getElementsByName('title')[0];
+        altTextInput.value = alt;
+        titleTextInput.value = title;
 
-        oAltTextElement.value = sAlt;
-        oTitleTextElement.value = sTitle;
-
-        if ( sAlt === sTitle )
+        if ( alt === title )
         {
-            oCheckBox.checked = true;
-            CMSImage.copyAltValueToTitleValue(oCheckBox, oAltTextElement, oTitleTextElement );
+            copyAltValueToTitleValueCheckBox.checked = true;
+            CMSImage.copyAltValueToTitleValue(copyAltValueToTitleValueCheckBox, altTextInput, titleTextInput );
         }
 
-        if ( sBorder )
-            oForm.border.value = parseInt(sBorder);
+        if ( border )
+            form.border.value = parseInt(border);
 
-        if ( sAlign )
-            oForm.align.value = sAlign;
+        if ( align )
+            form.align.value = align;
 
-        if ( sStyleFloat )
-            oForm.stylefloat.value = sStyleFloat;
+        if ( styleFloat )
+            form.stylefloat.value = styleFloat;
 
-        if ( sClass )
-            oForm.cssclass.value = sClass;
+        if ( cssClass )
+            form.cssclass.value = cssClass;
 
-        oForm.id.value = sId;
-        oForm.name.value = sName;
-        oForm.longdesc.value = sLongdesc;
-        oForm.usemap.value = sUsemap;
-        oForm.ismap.value = sIsmap;
+        form.id.value = id;
+        form.name.value = name;
+        form.longdesc.value = longDesc;
+        form.usemap.value = useMap;
+        form.ismap.value = ismap;
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -82,132 +78,123 @@ var CMSImage = {
     {
         tinyMCEPopup.restoreSelection();
 
-        var oSelectedNode = ed.selection.getNode();
-        var oDOM = ed.dom;
+        var isIE = window.parent.opener.tinymce.isIE;
+        var isGecko = window.parent.opener.tinymce.isGecko;
+        var selectedNode = ed.selection.getNode();
+        var dom = ed.dom;
+        var form = document.forms['formAdmin'];
 
-        var oForm = document.forms['formAdmin'];
+        var src = this.getImageSrcString();
+        var id = form.id.value;
+        var name = form.name.value;
+        var altText = form.alt.value;
+        var titleText = form.title.value;
+        var longDesc = form.longdesc.value;
+        var useMap = form.usemap.value;
+        var ismap = form.ismap.value;
+        var sizeInput = document.getElementsByName('size')[0];
+        var size = sizeInput.options[sizeInput.selectedIndex].value;
 
-        var sSrc = this.getImageSrcString();
-        var sId = oForm.id.value;
-        var sName = oForm.name.value;
-        var sAltText = oForm.alt.value;
-        var sTitleText = oForm.title.value;
-        var sLongdesc = oForm.longdesc.value;
-        var sUsemap = oForm.usemap.value;
-        var sIsmap = oForm.ismap.value;
-
-        var oSizeField = document.getElementsByName('size')[0];
-        var sSize = oSizeField.options[oSizeField.selectedIndex].value;
-
-        // var sBorder = oForm.border.value;
-
-        if ( sAltText === '' )
+        if ( altText === '' )
         {
             alert(cmslang.sysMsgRequiredFields);
-            oForm.alt.focus();
+            form.alt.focus();
             return;
         }
 
-        if ( sSize === '' )
+        if ( size === '' )
         {
             alert(cmslang.sysMsgRequiredFields);
-            oSizeField.focus();
+            sizeInput.focus();
             return;
         }
 
-        var sHTML = '';
+        var html = '';
 
-        var bIsSelectedNodeEmpty = oSelectedNode.innerHTML.test(/^(\s|<br\s*\/?>|&nbsp;)*$/);
+        var selectedNodeIsEmpty = selectedNode.innerHTML.test(/^(\s|<br\s*\/?>|&nbsp;)*$/);
+        var wrapImageInPElement = selectedNode && !selectedNodeIsEmpty || ed.getContent() === '';
 
-        var bWrapInsertedImageWithPElement = oSelectedNode && !bIsSelectedNodeEmpty || ed.getContent() === '';
+        if ( wrapImageInPElement )
+            html += '<p id="__cms" class="editor-p-block">';
 
-        if ( bWrapInsertedImageWithPElement )
-            sHTML += '<p id="__cms" class="editor-p-block">';
+        html += '<img src="' + src + '"';
+        if ( altText != '' )
+            html += ' alt="' + altText + '"';
 
-        sHTML += '<img src="' + sSrc + '"';
-        if ( sAltText != '' )
-            sHTML += ' alt="' + sAltText + '"';
-
-        if ( sTitleText != '' )
-            sHTML += ' title="' + sTitleText + '"';
+        if ( titleText != '' )
+            html += ' title="' + titleText + '"';
 
         // Needed for Gecko. Is cleaned up later by TinyMCE.
-        sHTML += ' _moz_dirty=""';
+        html += ' _moz_dirty=""';
 
         // Not supported by the EVS GUI, but is added in case they exist.
-        if ( sId != '' )
-            sHTML += ' id="' + sId + '"';
-        if ( sName != '' )
-            sHTML += ' name="' + sName + '"';
-        if ( sLongdesc != '' )
-            sHTML += ' longdesc="' + sLongdesc + '"';
-        if ( sUsemap != '' )
-            sHTML += ' usemap="' + sUsemap + '"';
-        if ( sIsmap != '' )
-            sHTML += ' usemap="' + sIsmap + '"';
+        if ( id != '' )
+            html += ' id="' + id + '"';
+        if ( name != '' )
+            html += ' name="' + name + '"';
+        if ( longDesc != '' )
+            html += ' longdesc="' + longDesc + '"';
+        if ( useMap != '' )
+            html += ' usemap="' + useMap + '"';
+        if ( ismap != '' )
+            html += ' usemap="' + ismap + '"';
 
-        sHTML += '/>';
+        html += '/>';
 
-        var bIsEditorEmpty = ed.getContent() === '';
+        var isEditorEmpty = ed.getContent() === '';
 
-        if ( bWrapInsertedImageWithPElement )
+        if ( wrapImageInPElement )
         {
-            sHTML += '</p>';
-            if ( bIsEditorEmpty )
-                sHTML += '<p>&nbsp;</p>';
+            html += '</p>';
+            if ( isEditorEmpty )
+                html += '<p>&nbsp;</p>';
         }
 
-        var bIsSelectedNodeAnEmptyPElement = oSelectedNode && oSelectedNode.nodeName === 'P' && oSelectedNode.innerHTML.test(/^(\s|<br\s*\/?>|&nbsp;)*$/);
-
-        if ( bIsSelectedNodeAnEmptyPElement )
+        var addCmsCssClassToPElement = selectedNode && selectedNode.nodeName === 'P' && selectedNode.innerHTML.test(/^(\s|<br\s*\/?>|&nbsp;)*$/);
+        if ( addCmsCssClassToPElement )
         {
-            oDOM.addClass(oSelectedNode, 'editor-p-block');
+            dom.addClass(selectedNode, 'editor-p-block');
         }
 
-        tinyMCEPopup.execCommand("mceInsertContent", false, sHTML);
+        // Seems like IE's caret position get's lost using mceInsertRawHTML when the image has a link.
+        if ( isIE && selectedNode.parentNode.nodeName.toLowerCase() === 'a' )
+        {
+            ed.selection.select(selectedNode.parentNode);
+        }
+
+        tinyMCEPopup.execCommand('mceInsertRawHTML',false, html);
         tinyMCEPopup.execCommand("mceCleanup");
 
-        var oPElemWrapper = oDOM.get('__cms');
-        
-        oDOM.setAttrib(oPElemWrapper, 'id', null);
-
-        var isGecko = window.parent.opener.tinymce.isGecko;
+        var pElemWrapper = dom.get('__cms');
+        dom.setAttrib(pElemWrapper, 'id', null);
 
         if ( isGecko )
         {
-            if ( oPElemWrapper )
+            if ( pElemWrapper )
             {
-                var oPreviousElementToPWrapper = ed.plugins.cmsimage.getPrevSiblingElement(oPElemWrapper);
-                var oNextElementToPWrapper = ed.plugins.cmsimage.getNextSiblingElement(oPElemWrapper);
-                var oNextNextElementToPWrapper = ed.plugins.cmsimage.getNextSiblingElement(oNextElementToPWrapper);
+                var previousElementToPWrapper = ed.plugins.cmsimage.getPrevSiblingElement(pElemWrapper);
+                var nextElementToPWrapper = ed.plugins.cmsimage.getNextSiblingElement(pElemWrapper);
+                var nextNextElementToPWrapper = ed.plugins.cmsimage.getNextSiblingElement(nextElementToPWrapper);
 
-                if ( oPreviousElementToPWrapper && oPreviousElementToPWrapper.nodeName === 'P' && oPreviousElementToPWrapper.innerHTML == '<br>' )
+                if ( previousElementToPWrapper && previousElementToPWrapper.nodeName === 'P' && previousElementToPWrapper.innerHTML == '<br>' )
                 {
-                    oDOM.remove(oPreviousElementToPWrapper);
+                    dom.remove(previousElementToPWrapper);
                 }
 
-                if ( oNextElementToPWrapper && oNextElementToPWrapper.nodeName === 'P' && oNextElementToPWrapper.innerHTML == '<br>' )
+                if ( nextElementToPWrapper && nextElementToPWrapper.nodeName === 'P' && nextElementToPWrapper.innerHTML == '<br>' )
                 {
-                    oDOM.remove(oNextElementToPWrapper);
+                    dom.remove(nextElementToPWrapper);
                 }
 
-                if ( oNextNextElementToPWrapper && oNextNextElementToPWrapper.nodeName === 'P' && oNextNextElementToPWrapper.innerHTML == '<br>' )
+                if ( nextNextElementToPWrapper && nextNextElementToPWrapper.nodeName === 'P' && nextNextElementToPWrapper.innerHTML == '<br>' )
                 {
-                    oDOM.remove(oNextNextElementToPWrapper);
+                    dom.remove(nextNextElementToPWrapper);
                 }
             }
         }
 
 
         tinyMCEPopup.close();
-
-        /*
-        if ( bIsEditorEmpty )
-        {
-            tinyMCE.activeEditor.selection.select(oDOM.select('p[id=_selectme]'));
-            tinyMCE.activeEditor.selection.collapse();
-        }
-        */
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
@@ -237,9 +224,6 @@ var CMSImage = {
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Method: updateCustomWidthValue
-    */
     updateCustomWidthValue: function( sImageSrc )
     {
         var sSizeParam = getParameterInUrl('_size', sImageSrc);
@@ -254,9 +238,6 @@ var CMSImage = {
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Method: updatePreviewImage
-    */
     uWait : 0,
 
     updatePreviewImage: function()
@@ -286,15 +267,10 @@ var CMSImage = {
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Method: changeSizeAction
-    */
     changeSizeAction: function( sLabel )
     {
         var oCustomWidthWrapperElem = document.getElementById('custom-width-properties-container');
         var oCustomWidthElem = document.getElementById('customwidth');
-
-        this.updateTextWrapValue( sLabel );
 
         if ( sLabel === 'custom' )
         {
@@ -308,30 +284,6 @@ var CMSImage = {
     },
     // --------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Function: updateTextWrapValue
-    */
-    updateTextWrapValue: function( sLabel )
-    {
-        /*
-        var oTextWrapElement = document.getElementById('text-wrap');
-
-        if ( sLabel == 'full' || sLabel == 'wide' )
-        {
-            oTextWrapElement.disabled = true;
-        }
-        else
-        {
-            oTextWrapElement.disabled = false;
-        }
-
-        oTextWrapElement.selectedIndex = 1;
-        */
-    },
-
-    /*
-        Function: getImageSrcString
-    */
     getImageSrcString: function()
     {
         var sImgSrc = '';
@@ -362,18 +314,12 @@ var CMSImage = {
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Function: getEditorBodyRectangle
-    */
     getEditorBodyRectangle: function()
     {
         return ed.dom.getRect(ed.getBody());
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Function: getEditorBodyStylePadding
-    */
     getEditorBodyStylePadding: function()
     {
         var t, r, b ,l;
@@ -387,9 +333,6 @@ var CMSImage = {
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Method: copyAltValueToTitleValue
-    */
     copyAltValueToTitleValue: function( oCheckBox, oAltTextElem, oTitleTextElem )
     {
         if ( oCheckBox.checked )
@@ -402,9 +345,6 @@ var CMSImage = {
     },
     // -------------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-        Method: cancel
-    */
     cancel: function()
     {
         history.back();
