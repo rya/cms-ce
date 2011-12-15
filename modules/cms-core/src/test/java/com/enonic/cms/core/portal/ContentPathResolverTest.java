@@ -10,12 +10,6 @@ import junit.framework.TestCase;
 
 import com.enonic.cms.core.Path;
 
-/**
- * Created by IntelliJ IDEA.
- * User: rmh
- * Date: Apr 8, 2010
- * Time: 12:12:32 PM
- */
 public class ContentPathResolverTest
     extends TestCase
 {
@@ -31,12 +25,27 @@ public class ContentPathResolverTest
 
         resolvedPath = resolvePath( "/This/is/a/test/without/content-key/content-name/content-title-1234" );
         assertNull( resolvedPath );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234anything" );
+        assertNull( resolvedPath );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/anything" );
+        assertNull( resolvedPath );
     }
 
     @Test
     public void testPathsWithContentKey()
     {
-        ContentPath resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234" );
+        ContentPath resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content--1234name--1234" );
+        verifyContentPath( resolvedPath, "1234", "content--1234name" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234" );
+        verifyContentPath( resolvedPath, "1234", "content-name" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window" );
+        verifyContentPath( resolvedPath, "1234", "content-name" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window/mywindow" );
         verifyContentPath( resolvedPath, "1234", "content-name" );
 
         resolvedPath = resolvePath( "This/is/a/test/with/content-key/content-name--1234" );

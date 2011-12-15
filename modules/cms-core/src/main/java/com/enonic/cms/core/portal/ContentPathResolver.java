@@ -1,7 +1,3 @@
-/*
- * Copyright 2000-2011 Enonic AS
- * http://www.enonic.com/license
- */
 package com.enonic.cms.core.portal;
 
 import java.util.regex.Matcher;
@@ -12,13 +8,10 @@ import org.apache.commons.lang.StringUtils;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.content.ContentKey;
 
-/**
- * Jul 24, 2009
- */
 public class ContentPathResolver
 {
 
-    public static Pattern CONTENT_PATH_PATTERN = Pattern.compile( "^(.*/+)?(.*)--(\\d+)$" );
+    public static Pattern CONTENT_PATH_PATTERN = Pattern.compile( "^(.*/+)?(.*)--(\\d+)(/_window.*)?" );
 
     private final static Pattern OLD_STYLE_CONTENT_PATH_PATTERN = Pattern.compile( "[0-9]+\\.cms$" );
 
@@ -78,7 +71,8 @@ public class ContentPathResolver
             return Path.ROOT;
         }
 
-        return new Path( "/" + localPath.subPath( 0, numberOfPathElements - 1 ) );
+        int index = localPath.getPathAsString().contains( "/" + WindowReference.WINDOW_PATH_PREFIX + "/" ) ? 3 : 1;
+        return new Path( "/" + localPath.subPath( 0, numberOfPathElements - index ) );
     }
 
 
