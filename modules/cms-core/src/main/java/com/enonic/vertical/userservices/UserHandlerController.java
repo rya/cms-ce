@@ -20,9 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.enonic.cms.core.security.PortalSecurityHolder;
-import com.enonic.cms.core.security.UserStoreParser;
-import com.enonic.cms.store.dao.UserStoreDao;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
@@ -57,6 +54,8 @@ import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.security.InvalidCredentialsException;
 import com.enonic.cms.core.security.PasswordGenerator;
+import com.enonic.cms.core.security.PortalSecurityHolder;
+import com.enonic.cms.core.security.UserStoreParser;
 import com.enonic.cms.core.security.group.AbstractMembershipsCommand;
 import com.enonic.cms.core.security.group.AddMembershipsCommand;
 import com.enonic.cms.core.security.group.GroupEntity;
@@ -88,6 +87,7 @@ import com.enonic.cms.core.user.field.UserFieldTransformer;
 import com.enonic.cms.core.user.field.UserFieldType;
 import com.enonic.cms.core.user.field.UserInfoTransformer;
 import com.enonic.cms.store.dao.UserDao;
+import com.enonic.cms.store.dao.UserStoreDao;
 
 public class UserHandlerController
     extends AbstractUserServicesHandlerController
@@ -337,7 +337,7 @@ public class UserHandlerController
             return;
         }
 
-        List<GroupKey> groupKeysToAdd = getSubmittedGroupKeys(formItems, "key");
+        List<GroupKey> groupKeysToAdd = getSubmittedGroupKeys( formItems, "key" );
         List<GroupKey> existingKeysForUser = getExistingDirectMembershipsForUser( user );
         groupKeysToAdd.removeAll( existingKeysForUser );
         if ( groupKeysToAdd.size() >= 1 )
@@ -388,7 +388,7 @@ public class UserHandlerController
         UpdateUserCommand updateUserCommand = new UpdateUserCommand( user.getKey(), spec );
         updateUserCommand.setUpdateStrategy( UpdateUserCommand.UpdateStrategy.REPLACE_NEW );
         updateUserCommand.setSyncMemberships( true );
-        updateUserCommand.setUpdateOpenGroupsOnly(true);
+        updateUserCommand.setUpdateOpenGroupsOnly( true );
         updateUserCommand.setAllowUpdateSelf( true );
         return updateUserCommand;
     }
@@ -792,7 +792,7 @@ public class UserHandlerController
             updateUserCommand.setUpdateOpenGroupsOnly( true );
 
             updateUserCommand.setIsModifyOperation();
-            preservePossiblyMissingBirthdateForModify(formItems, updateUserCommand);
+            preservePossiblyMissingBirthdateForModify( formItems, updateUserCommand );
 
             updateGroupsInUpdateCommand( formItems, loggedInUser, updateUserCommand );
 
@@ -1203,7 +1203,7 @@ public class UserHandlerController
             }
 
             session.setAttribute( "vertical_uid", username );
-            PortalSecurityHolder.setUser(user.getKey());
+            PortalSecurityHolder.setLoggedInUser( user.getKey() );
 
             boolean rememberUser = parseRememberUser( formItems );
 
@@ -1253,7 +1253,7 @@ public class UserHandlerController
                                     String deploymentPath, String cookieName )
     {
         boolean resetGuid = false;
-        if ( formItems.getString( "resetguid", "false" ).equals( "true" ) || formItems.getString( "resetguid", "off" ).equals("on") )
+        if ( formItems.getString( "resetguid", "false" ).equals( "true" ) || formItems.getString( "resetguid", "off" ).equals( "on" ) )
         {
             resetGuid = true;
         }
@@ -1302,7 +1302,7 @@ public class UserHandlerController
     {
         String submittedUid = formItems.getString( FORMITEM_UID, null );
 
-        if ( StringUtils.isNotBlank(submittedUid) )
+        if ( StringUtils.isNotBlank( submittedUid ) )
         {
             QualifiedUsername qualifiedUserName = QualifiedUsername.parse( submittedUid );
 
@@ -1369,7 +1369,7 @@ public class UserHandlerController
         command.setUser( user.getKey() );
         command.setSite( this.siteDao.findByKey( site.getSiteKey() ) );
 
-        this.logService.storeNew(command);
+        this.logService.storeNew( command );
     }
 
     private void logLogout( final SiteContext site, final User user, final String remoteIp )
@@ -1607,13 +1607,13 @@ public class UserHandlerController
             scopeName = defaultScope;
         }
 
-        PreferenceScopeType scopeType = PreferenceScopeType.parse(scopeName);
+        PreferenceScopeType scopeType = PreferenceScopeType.parse( scopeName );
         if ( scopeType == null )
         {
             throw new IllegalArgumentException( "Scope " + scopeName + " is not valid" );
         }
 
-        PreferenceScopeKey scopeKey = resolveScopeKey(instanceKey, scopeType);
+        PreferenceScopeKey scopeKey = resolveScopeKey( instanceKey, scopeType );
 
         return new PreferenceKey( userKey, scopeType, scopeKey, preferenceKeyStr );
     }

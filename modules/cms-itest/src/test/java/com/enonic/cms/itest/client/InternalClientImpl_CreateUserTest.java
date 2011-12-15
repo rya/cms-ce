@@ -42,7 +42,7 @@ public class InternalClientImpl_CreateUserTest
         ServletRequestAccessor.setRequest( request );
 
         PortalSecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
-        PortalSecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( "testuser" ).getKey() );
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "testuser" ).getKey() );
     }
 
@@ -74,7 +74,7 @@ public class InternalClientImpl_CreateUserTest
     private void clientLogin( String username, String password )
     {
         UserEntity user = fixture.findUserByName( username );
-        PortalSecurityHolder.setUser( user.getKey() );
+        PortalSecurityHolder.setLoggedInUser( user.getKey() );
         PortalSecurityHolder.setImpersonatedUser( user.getKey() );
 
         //internalClient.login( username, password );

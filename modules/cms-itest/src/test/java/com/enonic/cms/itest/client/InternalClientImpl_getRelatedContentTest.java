@@ -148,7 +148,7 @@ public class InternalClientImpl_getRelatedContentTest
 
         fixture.flushAndClearHibernateSesssion();
 
-        PortalSecurityHolder.setUser( fixture.findUserByName( "content-querier" ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( "content-querier" ).getKey() );
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "content-querier" ).getKey() );
 
         internalClient = new InternalClientImpl();

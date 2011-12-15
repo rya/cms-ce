@@ -343,7 +343,7 @@ public class AttachmentControllerTest
     private void loginUserInPortal( UserKey userKey )
     {
         PortalSecurityHolder.setImpersonatedUser( userKey );
-        PortalSecurityHolder.setUser( userKey );
+        PortalSecurityHolder.setLoggedInUser( userKey );
     }
 
     private void loginUserInAdmin( UserKey userKey )

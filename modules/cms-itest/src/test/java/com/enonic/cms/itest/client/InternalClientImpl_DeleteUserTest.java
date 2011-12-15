@@ -100,7 +100,7 @@ public class InternalClientImpl_DeleteUserTest
     private void clientLogin( String username, String password )
     {
         UserEntity user = fixture.findUserByName( username );
-        PortalSecurityHolder.setUser( user.getKey() );
+        PortalSecurityHolder.setLoggedInUser( user.getKey() );
         PortalSecurityHolder.setImpersonatedUser( user.getKey() );
     }
 }

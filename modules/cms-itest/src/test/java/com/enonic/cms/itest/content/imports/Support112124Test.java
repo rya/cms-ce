@@ -76,7 +76,7 @@ public class Support112124Test
         request.setRemoteAddr( "127.0.0.1" );
         ServletRequestAccessor.setRequest( request );
 
-        PortalSecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( "testuser" ).getKey() );
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "testuser" ).getKey() );
     }
 

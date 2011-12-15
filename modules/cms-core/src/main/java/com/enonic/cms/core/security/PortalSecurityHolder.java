@@ -30,7 +30,7 @@ public final class PortalSecurityHolder
 
     private static UserKey ANON_USER;
 
-    public static UserKey getUser()
+    public static UserKey getLoggedInUser()
     {
         UserKey user = doGetUser( false );
         return user != null ? user : ANON_USER;
@@ -39,7 +39,7 @@ public final class PortalSecurityHolder
     public static UserKey getImpersonatedUser()
     {
         UserKey impersonatedUser = doGetUser( true );
-        return impersonatedUser != null ? impersonatedUser : getUser();
+        return impersonatedUser != null ? impersonatedUser : getLoggedInUser();
     }
 
     public static UserKey getAnonUser()
@@ -47,7 +47,7 @@ public final class PortalSecurityHolder
         return ANON_USER;
     }
 
-    public static void setUser( UserKey user )
+    public static void setLoggedInUser( UserKey user )
     {
         doSetUser( user, false );
     }

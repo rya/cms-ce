@@ -52,7 +52,7 @@ public final class LoginCheckInterceptor
             User adminUser = securityService.getLoggedInAdminConsoleUser();
             if ( adminUser != null )
             {
-                PortalSecurityHolder.setUser( adminUser.getKey() );
+                PortalSecurityHolder.setLoggedInUser( adminUser.getKey() );
             }
         }
     }

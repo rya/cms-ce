@@ -373,7 +373,7 @@ public class SecurityServiceImpl
         if ( UserEntity.isBuiltInUser( uid ) )
         {
             UserKey userKey = authenticateBuiltInUser( uid, password, verifyPassword );
-            PortalSecurityHolder.setUser( userKey );
+            PortalSecurityHolder.setLoggedInUser( userKey );
         }
         else
         {
@@ -405,7 +405,7 @@ public class SecurityServiceImpl
             userSpec.setUserStoreKey( userStore.getKey() );
             userSpec.setName( uid );
             UserEntity user = userDao.findSingleBySpecification( userSpec );
-            PortalSecurityHolder.setUser( user.getKey() );
+            PortalSecurityHolder.setLoggedInUser( user.getKey() );
         }
     }
 
@@ -483,7 +483,7 @@ public class SecurityServiceImpl
         AdminSecurityHolder.setUser( null );
 
         // Only invalidate session if logged out of both "portal" and "admin". Check portal user!
-        if ( PortalSecurityHolder.getUser() == null )
+        if ( PortalSecurityHolder.getLoggedInUser() == null )
         {
             invalidateSession();
         }
@@ -491,7 +491,7 @@ public class SecurityServiceImpl
 
     private void doLogoutPortalUser( boolean invalidateSession )
     {
-        PortalSecurityHolder.setUser( null );
+        PortalSecurityHolder.setLoggedInUser( null );
         PortalSecurityHolder.setImpersonatedUser( null );
 
         // Only invalidate session if logged out of both "portal" and "admin". Check admin user!
@@ -573,7 +573,7 @@ public class SecurityServiceImpl
     private UserKey doGetUserKeyForLoggedInPortalUser()
     {
         initializeSecurityHolder();
-        return PortalSecurityHolder.getUser();
+        return PortalSecurityHolder.getLoggedInUser();
     }
 
     private UserKey doGetUserKeyForPortalExecutor()

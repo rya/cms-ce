@@ -91,7 +91,7 @@ public class ImportServiceImplTest_handleAssignmentOnImport
         ServletRequestAccessor.setRequest( request );
 
         PortalSecurityHolder.setAnonUser( fixture.findUserByName( User.ANONYMOUS_UID ).getKey() );
-        PortalSecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( "testuser" ).getKey() );
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "testuser" ).getKey() );
     }
 

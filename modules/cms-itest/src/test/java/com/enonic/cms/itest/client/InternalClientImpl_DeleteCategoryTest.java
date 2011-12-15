@@ -596,7 +596,7 @@ public class InternalClientImpl_DeleteCategoryTest
 
     private void loginPortalUser( String userName )
     {
-        PortalSecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( userName ).getKey() );
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( userName ).getKey() );
     }
 }

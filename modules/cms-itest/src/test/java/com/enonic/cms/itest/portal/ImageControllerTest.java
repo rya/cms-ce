@@ -516,7 +516,7 @@ public class ImageControllerTest
     private void loginUserInPortal( UserKey userKey )
     {
         PortalSecurityHolder.setImpersonatedUser( userKey );
-        PortalSecurityHolder.setUser( userKey );
+        PortalSecurityHolder.setLoggedInUser( userKey );
     }
 
     private void setPathInfoAndRequestURI( MockHttpServletRequest httpServletRequest, String imageRequestPath )

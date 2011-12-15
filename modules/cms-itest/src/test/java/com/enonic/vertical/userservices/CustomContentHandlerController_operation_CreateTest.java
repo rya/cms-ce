@@ -117,7 +117,7 @@ public class CustomContentHandlerController_operation_CreateTest
         fixture.createAndStoreNormalUserWithUserGroup( "testuser", "Test user", "testuserstore" );
         PortalSecurityHolder.setAnonUser( fixture.findUserByName( "anonymous" ).getKey() );
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( "testuser" ).getKey() );
-        PortalSecurityHolder.setUser( fixture.findUserByName( "testuser" ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( "testuser" ).getKey() );
 
         fixture.flushAndClearHibernateSesssion();
     }

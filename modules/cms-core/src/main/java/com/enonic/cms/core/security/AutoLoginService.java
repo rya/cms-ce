@@ -30,7 +30,7 @@ public class AutoLoginService
         }
         if ( !user.isAnonymous() )
         {
-            PortalSecurityHolder.setUser( user.getKey() );
+            PortalSecurityHolder.setLoggedInUser( user.getKey() );
         }
         return user;
     }
@@ -53,7 +53,7 @@ public class AutoLoginService
         }
         if ( !user.isAnonymous() )
         {
-            PortalSecurityHolder.setUser( user.getKey() );
+            PortalSecurityHolder.setLoggedInUser( user.getKey() );
             return user;
         }
         return user;

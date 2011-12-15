@@ -125,7 +125,7 @@ public class DomainFixture
         flushAndClearHibernateSesssion();
 
         PortalSecurityHolder.setAnonUser( findUserByName( "anonymous" ).getKey() );
-        PortalSecurityHolder.setUser( findUserByName( "anonymous" ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( findUserByName( "anonymous" ).getKey() );
     }
 
     public UserEntity createAndStoreNormalUserWithUserGroup( String uid, String displayName, String userStoreName )

@@ -197,7 +197,7 @@ public class UserHandlerControllerTest_operation_UpdateTest
     private void loginPortalUser( String userName )
     {
         PortalSecurityHolder.setImpersonatedUser( fixture.findUserByName( userName ).getKey() );
-        PortalSecurityHolder.setUser( fixture.findUserByName( userName ).getKey() );
+        PortalSecurityHolder.setLoggedInUser( fixture.findUserByName( userName ).getKey() );
     }
 
     private UserStoreKey createLocalUserStore( String name, boolean defaultStore, UserStoreConfig config )
