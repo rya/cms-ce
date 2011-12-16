@@ -333,14 +333,14 @@ cms.ui.CodeArea = function( options )
 
         if ( hasStatusBar )
         {
-            /* admin.js */ addEvent(codemirror.win, 'click', inst.caretChange, false);
-            /* admin.js */ addEvent(codemirror.win, 'keyup', inst.caretChange, false);
+            /* admin.js */ addEvent(codemirror.win.document, 'click', inst.caretChange, false);
+            /* admin.js */ addEvent(codemirror.win.document, 'keyup', inst.caretChange, false);
         }
 
-        /* admin.js */ addEvent(codemirror.win, 'click', inst.focusDocument, false);
-        /* admin.js */ addEvent(codemirror.win, 'focus', inst.focusDocument, false);
-        /* admin.js */ addEvent(codemirror.win, 'blur', inst.blurDocument, false);
-        /* admin.js */ addEvent(codemirror.win, 'keydown', function(event)
+        /* admin.js */ addEvent(codemirror.win.document, 'click', inst.focusDocument, false);
+        /* admin.js */ addEvent(codemirror.win.document, 'focus', inst.focusDocument, false);
+        /* admin.js */ addEvent(codemirror.win.document, 'blur', inst.blurDocument, false);
+        /* admin.js */ addEvent(codemirror.win.document, 'keydown', function(event)
                         {
                             var command_f_pressed = event.metaKey && event.keyCode === 70;
                             var command_r_pressed = event.metaKey && event.keyCode === 82;
