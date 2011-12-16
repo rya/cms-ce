@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE xsl:stylesheet [
-	<!ENTITY nbsp "&#160;">
-]>
+    <!ENTITY nbsp "&#160;">
+    ]>
 <xsl:stylesheet version="1.0" exclude-result-prefixes="#all"
                 xmlns:x="mailto:vro@enonic.com?subject=foobar"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -15,653 +15,653 @@
 
   <xsl:template match="/">
 
-  <x:stylesheet version="1.0" exclude-result-prefixes="#all"
-          xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-          xmlns:exslt-common="http://exslt.org/common"
-          xmlns:saxon="http://saxon.sf.net/"
-          xmlns:admin="java:com.enonic.cms.core.xslt.lib.AdminFunctions">
+    <x:stylesheet version="1.0" exclude-result-prefixes="#all"
+                  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                  xmlns:exslt-common="http://exslt.org/common"
+                  xmlns:saxon="http://saxon.sf.net/"
+                  xmlns:admin="java:com.enonic.cms.core.xslt.lib.AdminFunctions">
 
-  <x:output method="html"/>
+      <x:output method="html"/>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'common/standard_form_templates.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/standard_form_templates.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'common/textfield.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/textfield.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'common/textarea.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/textarea.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'common/textfielddate.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/textfielddate.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'editor/xhtmleditor.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'editor/xhtmleditor.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-  <xsl:attribute name="href">
-  <xsl:value-of select="concat($xsl_prefix, 'common/tablecolumnheader.xsl')"/>
-  </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/tablecolumnheader.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'common/labelcolumn.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/labelcolumn.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:include>
-    <xsl:attribute name="href">
-      <xsl:value-of select="concat($xsl_prefix, 'common/displayhelp.xsl')"/>
-    </xsl:attribute>
-  </x:include>
+      <x:include>
+        <xsl:attribute name="href">
+          <xsl:value-of select="concat($xsl_prefix, 'common/displayhelp.xsl')"/>
+        </xsl:attribute>
+      </x:include>
 
-  <x:param name="create"/>
-  <x:param name="contenttypekey"/>
-  <x:param name="reload"/>
-  <x:param name="csskey"/>
-  <x:param name="expertcontributor"/>
-  <x:param name="developer"/>
-  <x:param name="accessToHtmlSource">
-    <x:choose>
-      <x:when test="$expertcontributor = 'true' or $developer = 'true'">
-        <x:value-of select="true()"/>
-      </x:when>
-      <x:otherwise>
-        <x:value-of select="false()"/>
-      </x:otherwise>
-    </x:choose>
-  </x:param>
+      <x:param name="create"/>
+      <x:param name="contenttypekey"/>
+      <x:param name="reload"/>
+      <x:param name="csskey"/>
+      <x:param name="expertcontributor"/>
+      <x:param name="developer"/>
+      <x:param name="accessToHtmlSource">
+        <x:choose>
+          <x:when test="$expertcontributor = 'true' or $developer = 'true'">
+            <x:value-of select="true()"/>
+          </x:when>
+          <x:otherwise>
+            <x:value-of select="false()"/>
+          </x:otherwise>
+        </x:choose>
+      </x:param>
 
-  <x:template match="/">
+      <x:template match="/">
 
-    <html>
-      <head>
-        <title>%headVerticalSite% - %txtContentRepository%</title>
-        <script type="text/javascript" src="javascript/admin.js">//</script>
-        <script type="text/javascript" src="javascript/content_form.js">//</script>
-        <script type="text/javascript" src="javascript/relatedcontent.js">//</script>
-        <script type="text/javascript" src="javascript/accessrights.js">//</script>
-        <script type="text/javascript" src="javascript/validate.js">//</script>
-        <script type="text/javascript" src="javascript/tabpane.js">//</script>
+        <html>
+          <head>
+            <title>%headVerticalSite% - %txtContentRepository%</title>
+            <script type="text/javascript" src="javascript/admin.js">//</script>
+            <script type="text/javascript" src="javascript/content_form.js">//</script>
+            <script type="text/javascript" src="javascript/relatedcontent.js">//</script>
+            <script type="text/javascript" src="javascript/accessrights.js">//</script>
+            <script type="text/javascript" src="javascript/validate.js">//</script>
+            <script type="text/javascript" src="javascript/tabpane.js">//</script>
 
-        <script type="text/javascript" src="javascript/cms/core.js">//</script>
-        <script type="text/javascript" src="javascript/cms/utils/Event.js">//</script>
-        <script type="text/javascript" src="javascript/cms/utils/Cookie.js">//</script>
-        <script type="text/javascript" src="javascript/cms/element/Css.js">//</script>
-        <script type="text/javascript" src="javascript/cms/element/Dimensions.js">//</script>
-        <script type="text/javascript" src="javascript/cms/ui/SplitButton.js">//</script>
+            <script type="text/javascript" src="javascript/cms/core.js">//</script>
+            <script type="text/javascript" src="javascript/cms/utils/Event.js">//</script>
+            <script type="text/javascript" src="javascript/cms/utils/Cookie.js">//</script>
+            <script type="text/javascript" src="javascript/cms/element/Css.js">//</script>
+            <script type="text/javascript" src="javascript/cms/element/Dimensions.js">//</script>
+            <script type="text/javascript" src="javascript/cms/ui/SplitButton.js">//</script>
 
-        <script type="text/javascript" src="javascript/calendar_picker.js">//</script>
-        <script type="text/javascript" src="javascript/menu.js">//</script>
-        <script type="text/javascript" src="javascript/properties.js">//</script>
+            <script type="text/javascript" src="javascript/calendar_picker.js">//</script>
+            <script type="text/javascript" src="javascript/menu.js">//</script>
+            <script type="text/javascript" src="javascript/properties.js">//</script>
 
-        <script type="text/javascript" src="tinymce/jscripts/cms/Util.js">//</script>
-        <script type="text/javascript" src="tinymce/jscripts/cms/Editor.js">//</script>
-        <script type="text/javascript" src="tinymce/jscripts/tiny_mce/tiny_mce.js">//</script>
+            <script type="text/javascript" src="tinymce/jscripts/cms/Util.js">//</script>
+            <script type="text/javascript" src="tinymce/jscripts/cms/Editor.js">//</script>
+            <script type="text/javascript" src="tinymce/jscripts/tiny_mce/tiny_mce.js">//</script>
 
-        <x:if test="$subop != ''">
-          <script type="text/javascript" src="javascript/window.js"/>
-          <script type="text/javascript">
-            cms.window.attatchKeyEvent('close');
-          </script>
-        </x:if>
-        <link rel="stylesheet" type="text/css" href="javascript/tab.webfx.css"/>
-        <link rel="stylesheet" type="text/css" href="css/admin.css"/>
-
-        <x:comment>[if IE]&gt;&lt;link href="css/admin_ie.css" rel="stylesheet" type="text/css"/&gt;&lt;![endif]</x:comment>
-
-        <link rel="stylesheet" type="text/css" href="css/assignment.css"/>
-        <link rel="stylesheet" type="text/css" href="javascript/cms/ui/style.css"/>
-        <link rel="stylesheet" type="text/css" href="css/menu.css"/>
-        <link rel="stylesheet" type="text/css" href="css/calendar_picker.css"/>
-
-        <x:call-template name="waitsplash"/>
-
-        <script type="text/javascript" language="JavaScript">
-          var branchOpen = new Array();
-          var cookiename = "contentform";
-          var idx = 0;
-          var validatedFields = new Array();
-
-          <xsl:if test="//input[@name = /config/form/title/@name and not (@readonly = 'true')]">
-              validatedFields[idx] = new Array("<xsl:value-of select="//input[@name = /config/form/title/@name]/display"/>", "<xsl:value-of select="/config/form/title/@name"/>", validateMaxLength);
-              ++idx;
-          </xsl:if>
-
-          <xsl:for-each select="//input[@required = 'true' and not(@type = 'dropdown') and not(@type = 'date') and not(@type = 'radiobutton') and not(@type = 'checkbox') and not(@type = 'relatedcontent')]">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:if test="@type = 'uploadfile'">
-              <xsl:text>filename_</xsl:text>
-            </xsl:if>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", validateRequired</xsl:text>
-            <xsl:if test="@type = 'images'">, true</xsl:if>
-            <xsl:text>);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-
-          <xsl:for-each select="//input[@type = 'date']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "date</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", validateDate);</xsl:text>
-            ++idx;
-            <xsl:if test="@required = 'true'">
-              <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-              <xsl:value-of select="display"/>
-              <xsl:text>", "date</xsl:text>
-              <xsl:value-of select="@name"/>
-              <xsl:text>", validateRequired);</xsl:text>
-              ++idx;
-            </xsl:if>
-          </xsl:for-each>
-          <xsl:for-each select="//input[@type = 'url']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", validateURL);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-
-          <xsl:for-each select="//input[@required = 'true' and @type = 'relatedcontent']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", </xsl:text>
-            <xsl:choose>
-              <xsl:when test="@multiple = 'false'">validateRequired</xsl:when>
-              <xsl:otherwise>validateRelatedContent</xsl:otherwise>
-            </xsl:choose>
-            <xsl:text>);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-
-          <xsl:for-each select="//input[@required = 'true' and @type = 'dropdown']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", validateDropdown);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-          <xsl:for-each select="//input[@required = 'true' and @type = 'multiplechoice']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>_checkbox</xsl:text>
-            <xsl:text>", validateAtLeastOne);</xsl:text>
-            ++idx;
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="displayalternatives"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>_alternative</xsl:text>
-            <xsl:text>", validateAllRequired);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-          <xsl:for-each select="//input[@validate = 'integer']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", validateInt);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-          <xsl:for-each select="//input[@type = 'xml']">
-            <xsl:text>validatedFields[idx] = new Array("</xsl:text>
-            <xsl:value-of select="display"/>
-            <xsl:text>", "</xsl:text>
-            <xsl:value-of select="@name"/>
-            <xsl:text>", validateXML);</xsl:text>
-            ++idx;
-          </xsl:for-each>
-
-          var customValidatedFields = new Array();
-
-          /*
-            Method: addCustomValidation
-          */
-          function addCustomValidation(fieldName, fieldDescription, regExp) {
-            customValidatedFields[customValidatedFields.length] = new Array(fieldDescription, fieldName, validateCustom, regExp);
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-
-          /*
-            Method: displayPublishTab
-          */
-          function displayPublishTab()
-          {
-            if ( document.getElementById('tab-page-publishing') )
-              tabPane1.setSelectedPage('tab-page-publishing');
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-
-          /*
-            Method: validateAll
-          */
-          function validateAll(formName) {
-            var f = document.forms[formName];
-
-            // Copy the content from all editor instances to their textareas.
-            tinyMCE.triggerSave();
-
-            <x:if test="not(/contents/userright) or /contents/userright/@publish = 'true'">
-              if ( !checkAll(formName, extraValidatedFields, tabPane1 ) )
-                return;
+            <x:if test="$subop != ''">
+              <script type="text/javascript" src="javascript/window.js"/>
+              <script type="text/javascript">
+                cms.window.attatchKeyEvent('close');
+              </script>
             </x:if>
+            <link rel="stylesheet" type="text/css" href="javascript/tab.webfx.css"/>
+            <link rel="stylesheet" type="text/css" href="css/admin.css"/>
 
-            if ( !checkAll(formName, validatedFields, tabPane1) )
+            <x:comment>[if IE]&gt;&lt;link href="css/admin_ie.css" rel="stylesheet" type="text/css"/&gt;&lt;![endif]</x:comment>
+
+            <link rel="stylesheet" type="text/css" href="css/assignment.css"/>
+            <link rel="stylesheet" type="text/css" href="javascript/cms/ui/style.css"/>
+            <link rel="stylesheet" type="text/css" href="css/menu.css"/>
+            <link rel="stylesheet" type="text/css" href="css/calendar_picker.css"/>
+
+            <x:call-template name="waitsplash"/>
+
+            <script type="text/javascript" language="JavaScript">
+              var branchOpen = new Array();
+              var cookiename = "contentform";
+              var idx = 0;
+              var validatedFields = new Array();
+
+              <xsl:if test="//input[@name = /config/form/title/@name and not (@readonly = 'true')]">
+                validatedFields[idx] = new Array("<xsl:value-of select="//input[@name = /config/form/title/@name]/display"/>", "<xsl:value-of select="/config/form/title/@name"/>", validateMaxLength);
+                ++idx;
+              </xsl:if>
+
+              <xsl:for-each select="//input[@required = 'true' and not(@type = 'dropdown') and not(@type = 'date') and not(@type = 'radiobutton') and not(@type = 'checkbox') and not(@type = 'relatedcontent')]">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:if test="@type = 'uploadfile'">
+                  <xsl:text>filename_</xsl:text>
+                </xsl:if>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", validateRequired</xsl:text>
+                <xsl:if test="@type = 'images'">, true</xsl:if>
+                <xsl:text>);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+
+              <xsl:for-each select="//input[@type = 'date']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "date</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", validateDate);</xsl:text>
+                ++idx;
+                <xsl:if test="@required = 'true'">
+                  <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                  <xsl:value-of select="display"/>
+                  <xsl:text>", "date</xsl:text>
+                  <xsl:value-of select="@name"/>
+                  <xsl:text>", validateRequired);</xsl:text>
+                  ++idx;
+                </xsl:if>
+              </xsl:for-each>
+              <xsl:for-each select="//input[@type = 'url']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", validateURL);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+
+              <xsl:for-each select="//input[@required = 'true' and @type = 'relatedcontent']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", </xsl:text>
+                <xsl:choose>
+                  <xsl:when test="@multiple = 'false'">validateRequired</xsl:when>
+                  <xsl:otherwise>validateRelatedContent</xsl:otherwise>
+                </xsl:choose>
+                <xsl:text>);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+
+              <xsl:for-each select="//input[@required = 'true' and @type = 'dropdown']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", validateDropdown);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+              <xsl:for-each select="//input[@required = 'true' and @type = 'multiplechoice']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>_checkbox</xsl:text>
+                <xsl:text>", validateAtLeastOne);</xsl:text>
+                ++idx;
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="displayalternatives"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>_alternative</xsl:text>
+                <xsl:text>", validateAllRequired);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+              <xsl:for-each select="//input[@validate = 'integer']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", validateInt);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+              <xsl:for-each select="//input[@type = 'xml']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>", validateXML);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+
+              var customValidatedFields = new Array();
+
+              /*
+              Method: addCustomValidation
+              */
+              function addCustomValidation(fieldName, fieldDescription, regExp) {
+              customValidatedFields[customValidatedFields.length] = new Array(fieldDescription, fieldName, validateCustom, regExp);
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+
+              /*
+              Method: displayPublishTab
+              */
+              function displayPublishTab()
+              {
+              if ( document.getElementById('tab-page-publishing') )
+              tabPane1.setSelectedPage('tab-page-publishing');
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+
+              /*
+              Method: validateAll
+              */
+              function validateAll(formName) {
+              var f = document.forms[formName];
+
+              // Copy the content from all editor instances to their textareas.
+              tinyMCE.triggerSave();
+
+              <x:if test="not(/contents/userright) or /contents/userright/@publish = 'true'">
+                if ( !checkAll(formName, extraValidatedFields, tabPane1 ) )
+                return;
+              </x:if>
+
+              if ( !checkAll(formName, validatedFields, tabPane1) )
               return;
 
-            if ( !checkAll(formName, customValidatedFields) )
+              if ( !checkAll(formName, customValidatedFields) )
               return;
 
-            if ( f['date_pubdata_publishfrom'].value == '' &amp;&amp; f['time_pubdata_publishfrom'].value != '' )
-            {
+              if ( f['date_pubdata_publishfrom'].value == '' &amp;&amp; f['time_pubdata_publishfrom'].value != '' )
+              {
               alert('%msgTimeCanNotBeSetWithoutDate%');
 
               displayPublishTab();
               f['date_pubdata_publishfrom'].focus();
               return;
-            }
+              }
 
-            if ( f['date_pubdata_publishto'].value == '' &amp;&amp; f['time_pubdata_publishto'].value != '' )
-            {
+              if ( f['date_pubdata_publishto'].value == '' &amp;&amp; f['time_pubdata_publishto'].value != '' )
+              {
               alert('%msgTimeCanNotBeSetWithoutDate%');
 
               displayPublishTab();
               f['date_pubdata_publishto'].focus();
               return;
-            }
+              }
 
-            // dateTimeRangeValidator is instantiated in publishing.xsl
-            if ( dateTimeRangeValidator.isStartDateTimeLaterThanOrSameAsEndDateTime() )
-            {
+              // dateTimeRangeValidator is instantiated in publishing.xsl
+              if ( dateTimeRangeValidator.isStartDateTimeLaterThanOrSameAsEndDateTime() )
+              {
               displayPublishTab();
               alert('%errOnlineFromIsLaterThanOnlineTo%');
               return;
-            }
+              }
 
-            checkRadioButtonGroupsForAnyChecked();
-            addIndexFieldForEachRadioButtonGroup();
+              checkRadioButtonGroupsForAnyChecked();
+              addIndexFieldForEachRadioButtonGroup();
 
-            disableFormButtons();
-            f.submit();
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
+              disableFormButtons();
+              f.submit();
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Method: destroyEditors
-          */
-          function destroyEditors(parent) {
-            try {
+              /*
+              Method: destroyEditors
+              */
+              function destroyEditors(parent) {
+              try {
               var textarea = parent.getElementsByTagName('textarea');
               var textareaLn = textarea.length;
               for (var i = 0; i &lt; textareaLn; i++) {
-                if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
-                  tinyMCE.execCommand('mceRemoveControl', true, textarea[i].id);
-                }
+              if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
+              tinyMCE.execCommand('mceRemoveControl', true, textarea[i].id);
               }
-            } catch(err) {}
+              }
+              } catch(err) {}
 
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Method: rebuildEditor
-          */
-          function rebuildEditors(parent) {
-            try {
+              /*
+              Method: rebuildEditor
+              */
+              function rebuildEditors(parent) {
+              try {
               var textarea = parent.getElementsByTagName('textarea');
               var textareaLn = textarea.length;
               for (var i = 0; i &lt; textareaLn; i++) {
-                if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
-                  var s = textarea[i].className.split(' ');
-                  var settings = eval(s[1]);
-                  var ed = new tinymce.Editor(textarea[i].id, settings);
-                  ed.render();
-                }
+              if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
+              var s = textarea[i].className.split(' ');
+              var settings = eval(s[1]);
+              var ed = new tinymce.Editor(textarea[i].id, settings);
+              ed.render();
               }
-            } catch(err) { /**/ }
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
+              }
+              } catch(err) { /**/ }
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Function: itemcount
-          */
-          function itemcount(elName) {
-            var lItems;
+              /*
+              Function: itemcount
+              */
+              function itemcount(elName) {
+              var lItems;
 
-            if (elName.length!=null) {
+              if (elName.length!=null) {
               lItems = elName.length;
-            }
-            else {
-              lItems = 1;
-            }
-
-            return lItems;
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-
-          /*
-            Function: GetCurrentObjectIndex
-          */
-          function GetCurrentObjectIndex(objThis) {
-            var lNumRows = itemcount(document.formAdmin[objThis.name])
-            if( lNumRows > 1 ) {
-              for( var i=0; i &lt; lNumRows; i++ ) {
-                if( document.formAdmin[objThis.name][i] == objThis ) {
-                  return i;
-                }
               }
-            } else {
+              else {
+              lItems = 1;
+              }
+
+              return lItems;
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+
+              /*
+              Function: GetCurrentObjectIndex
+              */
+              function GetCurrentObjectIndex(objThis) {
+              var lNumRows = itemcount(document.formAdmin[objThis.name])
+              if( lNumRows > 1 ) {
+              for( var i=0; i &lt; lNumRows; i++ ) {
+              if( document.formAdmin[objThis.name][i] == objThis ) {
+              return i;
+              }
+              }
+              } else {
               return 0;
-            }
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-          /*
-            Function: __removeFile
-          */
-          function __removeFile( tableName, object, viewname, keyname )
-          {
+              }
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+              /*
+              Function: __removeFile
+              */
+              function __removeFile( tableName, object, viewname, keyname )
+              {
               var index = getObjectIndex(object);
               document.getElementsByName( viewname )[ index ].value = "";
               document.getElementsByName( keyname )[ index ].value = "";
 
               return;
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-          /*
-            Function: __removeRow
-          */
-          function __removeRow( tableName, object, viewname, keyname ) {
-	          count = itemcount(document.formAdmin[object.name]);
-            var index;
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+              /*
+              Function: __removeRow
+              */
+              function __removeRow( tableName, object, viewname, keyname ) {
+              count = itemcount(document.formAdmin[object.name]);
+              var index;
 
-            if ( count == 1 )
-            {
+              if ( count == 1 )
+              {
               document.formAdmin[keyname].value = "";
               document.formAdmin[viewname].value = "";
 
               return;
-            }
-          
-            index = GetCurrentObjectIndex(object)
-            document.getElementById(tableName).deleteRow(index);
-          }
+              }
 
-          // -------------------------------------------------------------------------------------------------------------------------------
+              index = GetCurrentObjectIndex(object)
+              document.getElementById(tableName).deleteRow(index);
+              }
 
-          /*
-            Function: addRelatedFiles
-          */
-          function addRelatedFiles(fieldName, fieldRow, content_key, content_title ) {
-            var keyField;
-            var nameField;
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-            if (fieldRow == 'none') {
+              /*
+              Function: addRelatedFiles
+              */
+              function addRelatedFiles(fieldName, fieldRow, content_key, content_title ) {
+              var keyField;
+              var nameField;
+
+              if (fieldRow == 'none') {
               keyField = document.getElementById(fieldName);
               nameField = document.getElementById('filename'+fieldName);
-            } else {
+              } else {
               keyField = document.getElementsByName(fieldName)[fieldRow];
               nameField = document.getElementsByName('filename'+fieldName)[fieldRow];
-            }
-            keyField.value = content_key;
-						nameField.value = content_title;
-          }
-        // ---------------------------------------------------------------------------------------------------------------------------------
+              }
+              keyField.value = content_key;
+              nameField.value = content_title;
+              }
+              // ---------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Function: GetCurrentObjectIndex
-          */
-          function insert_file_onclick(view, key, object, subop) {
-            var row = getObjectIndex(object);
-            OpenContentPopupByHandler(-1, -1, subop, key, row, "com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet");
-          }
+              /*
+              Function: GetCurrentObjectIndex
+              */
+              function insert_file_onclick(view, key, object, subop) {
+              var row = getObjectIndex(object);
+              OpenContentPopupByHandler(-1, -1, subop, key, row, "com.enonic.vertical.adminweb.handlers.ContentFileHandlerServlet");
+              }
 
-          /*
-            Function: getGroupIndex
+              /*
+              Function: getGroupIndex
 
               This function takes an object as parameter, and returns its array
               index brackets (like "[1]") if there is more than one object with
               the same name. Otherwise it returns an empty string.
-          */
-          function getGroupIndex(object) {
-            var lNumRows = itemcount(document.getElementsByName(object.name));
-						if (lNumRows != 1) {
+              */
+              function getGroupIndex(object) {
+              var lNumRows = itemcount(document.getElementsByName(object.name));
+              if (lNumRows != 1) {
               for( var i=0; i &lt; lNumRows; i++ ) {
-                if( document.getElementsByName(object.name)[i] == object ) {
-                  return "["+i+"]";
-                }
+              if( document.getElementsByName(object.name)[i] == object ) {
+              return "["+i+"]";
               }
-            } else {
+              }
+              } else {
               return "";
-            }
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
+              }
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Function: toggleCheckbox
-          */
-          function toggleCheckbox(obj, name) {
-            var container;
-            if (document.getElementsByName(name).length &gt; 1) {
+              /*
+              Function: toggleCheckbox
+              */
+              function toggleCheckbox(obj, name) {
+              var container;
+              if (document.getElementsByName(name).length &gt; 1) {
               container = document.getElementsByName(name)[GetCurrentObjectIndex(obj)];
-            } else {
+              } else {
               container = document.getElementsByName(name)[0];
-            }
-            if (container.value == 'true') {
+              }
+              if (container.value == 'true') {
               container.value = 'false';
-            } else {
+              } else {
               container.value = 'true';
-            }
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
+              }
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Function: GetCurrentIFrameIndex
-          */
-          function GetCurrentIFrameIndex(objThis) {
-            var lNumRows = itemcount(document.getElementsByName(objThis.name))
-            var iframes = document.getElementsByName(objThis.name);
-            if( lNumRows > 1 ) {
+              /*
+              Function: GetCurrentIFrameIndex
+              */
+              function GetCurrentIFrameIndex(objThis) {
+              var lNumRows = itemcount(document.getElementsByName(objThis.name))
+              var iframes = document.getElementsByName(objThis.name);
+              if( lNumRows > 1 ) {
               for( var i=0; i &lt; lNumRows; i++ ) {
-                if( iframes[i] == objThis ) {
-                  return i;
-                }
+              if( iframes[i] == objThis ) {
+              return i;
               }
-            } else {
+              }
+              } else {
               return 0;
-            }
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-
-          /*
-            Function: moveBlockUp
-          */
-          function moveBlockUp(name, fieldRow) {
-            var parent = document.getElementById(name + '_table');
-
-            var tb = document.getElementsByTagName('tbody');
-            var blocks = new Array();
-            for (var i = 0; i &lt; tb.length; i++) {
-              if (tb[i].className == name + '_tbody') {
-                blocks.push(tb[i]);
               }
-            }
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-            var thisBlock = blocks[fieldRow];
-            var numBlocks = blocks.length;
-            if (fieldRow == 0) {
+              /*
+              Function: moveBlockUp
+              */
+              function moveBlockUp(name, fieldRow) {
+              var parent = document.getElementById(name + '_table');
+
+              var tb = document.getElementsByTagName('tbody');
+              var blocks = new Array();
+              for (var i = 0; i &lt; tb.length; i++) {
+              if (tb[i].className == name + '_tbody') {
+              blocks.push(tb[i]);
+              }
+              }
+
+              var thisBlock = blocks[fieldRow];
+              var numBlocks = blocks.length;
+              if (fieldRow == 0) {
               return;
-            }
+              }
 
-            var insertBeforeBlock = blocks[fieldRow - 1];
+              var insertBeforeBlock = blocks[fieldRow - 1];
 
-            // *****************************************************************************************************************************
-            // *** WYSIWYG Editor
-            // *****************************************************************************************************************************
-            // Since moving iframes/editors around in the DOM does not work very in all browseres well we
-            // need to remove them and then rebuild them.
+              // *****************************************************************************************************************************
+              // *** WYSIWYG Editor
+              // *****************************************************************************************************************************
+              // Since moving iframes/editors around in the DOM does not work very in all browseres well we
+              // need to remove them and then rebuild them.
 
-            if (!document.all) {
+              if (!document.all) {
               // Destroy editors in the current block. Only needed for Fx.
               destroyEditors(thisBlock);
 
               // Destroy editors before block.
               destroyEditors(insertBeforeBlock);
-            }
+              }
 
-            // *********************************************************************************************************
-            // *** Radiobuttons note!
-            // *********************************************************************************************************
-            // IE has a serious bug regarding checked state when moving radiobuttons.
-            // Each time a radiobutton group is moved in the DOM, IE resets the checked state.
-            markRadioButtonAsChecked(thisBlock);
-            markRadioButtonAsChecked(insertBeforeBlock);
+              // *********************************************************************************************************
+              // *** Radiobuttons note!
+              // *********************************************************************************************************
+              // IE has a serious bug regarding checked state when moving radiobuttons.
+              // Each time a radiobutton group is moved in the DOM, IE resets the checked state.
+              markRadioButtonAsChecked(thisBlock);
+              markRadioButtonAsChecked(insertBeforeBlock);
 
-            // Swap the block position.
-            parent.insertBefore(thisBlock, insertBeforeBlock);
+              // Swap the block position.
+              parent.insertBefore(thisBlock, insertBeforeBlock);
 
-            if (!document.all) {
+              if (!document.all) {
               // Rebuild editors the current editor.
               rebuildEditors(thisBlock);
 
               // Rebuild editors in the sibling editor.
               rebuildEditors(insertBeforeBlock);
-            }
-
-            // *****************************************************************************************************************************
-            // END: WYSIWYG Editor
-            // *****************************************************************************************************************************
-
-            // *********************************************************************************************************
-            // *** Radiobuttons note!
-            // *********************************************************************************************************
-            // IE has a serious bug regarding checked state when moving radiobuttons.
-            // Each time a radiobutton group is moved in the DOM, IE resets the checked state.
-            // This restores the checked state back to what it was before the block was moved.
-            restoreRadioButtonCheckState(thisBlock);
-            restoreRadioButtonCheckState(insertBeforeBlock);
-
-            // Enable and disable move buttons.
-            setGroupButtonsDisabled(name);
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-
-          /*
-            Method: moveBlockDown
-          */
-          function moveBlockDown(name, fieldRow) {
-            var parent = document.getElementById(name + '_table');
-
-            var tb = document.getElementsByTagName('tbody');
-            var blocks = new Array();
-            for (var i = 0; i &lt; tb.length; i++) {
-              if (tb[i].className == name + '_tbody') {
-                blocks.push(tb[i]);
               }
-            }
 
-            var thisBlock = blocks[fieldRow];
-            var numBlocks = blocks.length;
+              // *****************************************************************************************************************************
+              // END: WYSIWYG Editor
+              // *****************************************************************************************************************************
 
-            if (fieldRow &gt;= (numBlocks - 1)) {
+              // *********************************************************************************************************
+              // *** Radiobuttons note!
+              // *********************************************************************************************************
+              // IE has a serious bug regarding checked state when moving radiobuttons.
+              // Each time a radiobutton group is moved in the DOM, IE resets the checked state.
+              // This restores the checked state back to what it was before the block was moved.
+              restoreRadioButtonCheckState(thisBlock);
+              restoreRadioButtonCheckState(insertBeforeBlock);
+
+              // Enable and disable move buttons.
+              setGroupButtonsDisabled(name);
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+
+              /*
+              Method: moveBlockDown
+              */
+              function moveBlockDown(name, fieldRow) {
+              var parent = document.getElementById(name + '_table');
+
+              var tb = document.getElementsByTagName('tbody');
+              var blocks = new Array();
+              for (var i = 0; i &lt; tb.length; i++) {
+              if (tb[i].className == name + '_tbody') {
+              blocks.push(tb[i]);
+              }
+              }
+
+              var thisBlock = blocks[fieldRow];
+              var numBlocks = blocks.length;
+
+              if (fieldRow &gt;= (numBlocks - 1)) {
               return
-            }
+              }
 
-            var insertAfterBlock = blocks[fieldRow + 1];
+              var insertAfterBlock = blocks[fieldRow + 1];
 
-            // *****************************************************************************************************************************
-            // *** WYSIWYG Editor
-            // *****************************************************************************************************************************
-            // Since moving iframes/editors around in the DOM does not work very in all browseres well we
-            // need to remove them and then rebuild them.
+              // *****************************************************************************************************************************
+              // *** WYSIWYG Editor
+              // *****************************************************************************************************************************
+              // Since moving iframes/editors around in the DOM does not work very in all browseres well we
+              // need to remove them and then rebuild them.
 
-            if (!document.all) {
+              if (!document.all) {
               // Destroy editors in the current block.
               destroyEditors(thisBlock);
 
               // Destroy editors in the before block.
               destroyEditors(insertAfterBlock);
-            }
+              }
 
-            markRadioButtonAsChecked(thisBlock);
-            markRadioButtonAsChecked(insertAfterBlock);
+              markRadioButtonAsChecked(thisBlock);
+              markRadioButtonAsChecked(insertAfterBlock);
 
-            // Swap block positions.
-            parent.insertBefore(insertAfterBlock, thisBlock);
+              // Swap block positions.
+              parent.insertBefore(insertAfterBlock, thisBlock);
 
-            if (!document.all) {
+              if (!document.all) {
               // Rebuild editors the current editor.
               rebuildEditors(thisBlock);
 
               // Rebuild editors in the before block.
               rebuildEditors(insertAfterBlock);
-            }
-
-            // *****************************************************************************************************************************
-            // END: WYSIWYG Editor
-            // *****************************************************************************************************************************
-
-            // *********************************************************************************************************
-            // *** Radiobuttons note!
-            // *********************************************************************************************************
-            // IE has a serious bug regarding checked state when moving radiobuttons.
-            // Each time a radiobutton group is moved in the DOM, IE resets the checked state.
-            // This restores the checked state back to what it was before the block was moved.
-            restoreRadioButtonCheckState(thisBlock);
-            restoreRadioButtonCheckState(insertAfterBlock);
-
-            // Enable and disable move buttons.
-            setGroupButtonsDisabled(name);
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
-
-          /*
-            Method: setGroupButtonsDisabled
-          */
-          function setGroupButtonsDisabled(name) {
-
-            var tb = document.getElementsByTagName('tbody');
-            var blocks = new Array();
-            for (var i = 0; i &lt; tb.length; i++) {
-              if (tb[i].className == name + '_tbody') {
-                blocks.push(tb[i]);
               }
-            }
 
-            var numBlocks = blocks.length;
+              // *****************************************************************************************************************************
+              // END: WYSIWYG Editor
+              // *****************************************************************************************************************************
 
-            var addButtons = document.getElementsByName(name+"_addblockbutton");
-            var removeButtons = document.getElementsByName(name+"_removeblockbutton");
-            var moveUpButtons = document.getElementsByName(name+"_moveblockupbutton");
-            var moveDownButtons = document.getElementsByName(name+"_moveblockdownbutton");
+              // *********************************************************************************************************
+              // *** Radiobuttons note!
+              // *********************************************************************************************************
+              // IE has a serious bug regarding checked state when moving radiobuttons.
+              // Each time a radiobutton group is moved in the DOM, IE resets the checked state.
+              // This restores the checked state back to what it was before the block was moved.
+              restoreRadioButtonCheckState(thisBlock);
+              restoreRadioButtonCheckState(insertAfterBlock);
 
-            // rows in between
-            for (var i=0; i &lt; numBlocks; i++) {
+              // Enable and disable move buttons.
+              setGroupButtonsDisabled(name);
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
+
+              /*
+              Method: setGroupButtonsDisabled
+              */
+              function setGroupButtonsDisabled(name) {
+
+              var tb = document.getElementsByTagName('tbody');
+              var blocks = new Array();
+              for (var i = 0; i &lt; tb.length; i++) {
+              if (tb[i].className == name + '_tbody') {
+              blocks.push(tb[i]);
+              }
+              }
+
+              var numBlocks = blocks.length;
+
+              var addButtons = document.getElementsByName(name+"_addblockbutton");
+              var removeButtons = document.getElementsByName(name+"_removeblockbutton");
+              var moveUpButtons = document.getElementsByName(name+"_moveblockupbutton");
+              var moveDownButtons = document.getElementsByName(name+"_moveblockdownbutton");
+
+              // rows in between
+              for (var i=0; i &lt; numBlocks; i++) {
               setImageButtonEnabled(removeButtons[i], (numBlocks &gt; 1));
               setImageButtonEnabled(moveUpButtons[i], (i &gt; 0));
               setImageButtonEnabled(moveDownButtons[i], (i &lt; numBlocks - 1));
@@ -669,562 +669,562 @@
               removeButtons[i].blur();
               moveUpButtons[i].blur();
               moveDownButtons[i].blur();
-            }
-          }
-          // -------------------------------------------------------------------------------------------------------------------------------
+              }
+              }
+              // -------------------------------------------------------------------------------------------------------------------------------
 
-          /*
-            Method: addBlockGroup
+              /*
+              Method: addBlockGroup
 
-            Parameters:
+              Parameters:
 
               name - String, group name.
               fieldRow - Integer, row index of the block to insert after.
-          */
-          function addBlockGroup(name, fieldRow) {
-            var tb = document.getElementsByTagName('tbody');
-            var groupName = name;
+              */
+              function addBlockGroup(name, fieldRow) {
+              var tb = document.getElementsByTagName('tbody');
+              var groupName = name;
 
-            var tBody = new Array();
-            for (var i = 0; i &lt; tb.length; i++) {
+              var tBody = new Array();
+              for (var i = 0; i &lt; tb.length; i++) {
               if (tb[i].className == name + '_tbody') {
-                tBody.push(tb[i]);
+              tBody.push(tb[i]);
               }
-            }
+              }
 
-            var selected;
-            if (tBody.length &amp;&amp; tBody.length &gt; 0) {
+              var selected;
+              if (tBody.length &amp;&amp; tBody.length &gt; 0) {
               selected = tBody[fieldRow];
-            } else {
+              } else {
               selected = tBody[0];
-            }
+              }
 
-            var parent = document.getElementById(name + '_table');
-            var insertAfterObj = selected;
+              var parent = document.getElementById(name + '_table');
+              var insertAfterObj = selected;
 
-            // *****************************************************************************************************************************
-            // WYSIWYG Editor
-            // *****************************************************************************************************************************
-            // Since some browsers does not handle cloned WYSIWYG editors(iframes) very well we have to remove the
-            // editor and build it up again.
+              // *****************************************************************************************************************************
+              // WYSIWYG Editor
+              // *****************************************************************************************************************************
+              // Since some browsers does not handle cloned WYSIWYG editors(iframes) very well we have to remove the
+              // editor and build it up again.
 
-            var textarea, textareaLn;
+              var textarea, textareaLn;
 
-            // Remove all instances of the editor.
-            try {
+              // Remove all instances of the editor.
+              try {
               textarea = selected.getElementsByTagName('textarea');
               textareaLn = textarea.length;
               for (var i = 0; i &lt; textareaLn; i++) {
-                if (textarea[i].className.indexOf('editor-textarea') &gt; -1)
-                  tinyMCE.execCommand('mceRemoveControl', false, textarea[i].id);
+              if (textarea[i].className.indexOf('editor-textarea') &gt; -1)
+              tinyMCE.execCommand('mceRemoveControl', false, textarea[i].id);
               }
-            } catch(err) { /**/ }
+              } catch(err) { /**/ }
 
-            // Clone the block.
-            var newTBody = selected.cloneNode(true);
+              // Clone the block.
+              var newTBody = selected.cloneNode(true);
 
-            // Radio buttons needs a new name to separate the rb groups from the original block.
-            renameRadioButtonsInNewBlock(newTBody);
-            removeRadioButtonGroupCounterFromBlock(newTBody);
+              // Radio buttons needs a new name to separate the rb groups from the original block.
+              renameRadioButtonsInNewBlock(newTBody);
+              removeRadioButtonGroupCounterFromBlock(newTBody);
 
-            // Rebuild the editors in the original.
-            try {
+              // Rebuild the editors in the original.
+              try {
               textarea = selected.getElementsByTagName('textarea');
               textareaLn = textarea.length;
               for (var i = 0; i &lt; textareaLn; i++) {
-                if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
-                  var s = textarea[i].className.split(' ');
-                  var settings = eval(s[1]);
-                  var ed = new tinymce.Editor(textarea[i].id, settings);
-                  ed.render();
-                }
+              if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
+              var s = textarea[i].className.split(' ');
+              var settings = eval(s[1]);
+              var ed = new tinymce.Editor(textarea[i].id, settings);
+              ed.render();
               }
-            } catch(err) { /**/ }
+              }
+              } catch(err) { /**/ }
 
-            // Insert the clone.
-            parent.insertBefore(newTBody,insertAfterObj.nextSibling);
+              // Insert the clone.
+              parent.insertBefore(newTBody,insertAfterObj.nextSibling);
 
-            // Build the editors in the new block.
-            //try {
+              // Build the editors in the new block.
+              //try {
               textarea = newTBody.getElementsByTagName('textarea');
               textareaLn = textarea.length;
 
               for (var i = 0; i &lt; textareaLn; i++) {
-                if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
-                  textarea[i].value = '';
-                  var s = textarea[i].className.split(' ');
-                  var settings = eval(s[1]);
+              if (textarea[i].className.indexOf('editor-textarea') &gt; -1) {
+              textarea[i].value = '';
+              var s = textarea[i].className.split(' ');
+              var settings = eval(s[1]);
 
-                  // Give it a new ID straight away.
-                  var ran = Math.random();
-                  var id = ran.toString().split('.');
-                  var edKey = 'id_' + id[1];
+              // Give it a new ID straight away.
+              var ran = Math.random();
+              var id = ran.toString().split('.');
+              var edKey = 'id_' + id[1];
 
-                  var editorInitMsg, editorContainer  = null;
-                  var cmsDiv = newTBody.getElementsByTagName('div');
-                  for (var d = 0; d &lt; cmsDiv.length; d++) {
-                    if (cmsDiv[d].id == 'editor_cms_init_msg_' + textarea[i].id) {
-                      editorInitMsg = cmsDiv[d];
-                    }
-                    if (cmsDiv[d].id == 'editor_cms_container_' + textarea[i].id) {
-                      editorContainer = cmsDiv[d];
-                    }
-                  }
-
-                  editorInitMsg.id = 'editor_cms_init_msg_' + edKey;
-                  editorContainer.id = 'editor_cms_container_' + edKey;
-
-                  textarea[i].id = edKey;
-                  var ed = new tinymce.Editor(edKey, settings);
-                  ed.render();
-                }
+              var editorInitMsg, editorContainer  = null;
+              var cmsDiv = newTBody.getElementsByTagName('div');
+              for (var d = 0; d &lt; cmsDiv.length; d++) {
+              if (cmsDiv[d].id == 'editor_cms_init_msg_' + textarea[i].id) {
+              editorInitMsg = cmsDiv[d];
               }
-            //} catch(err) { /**/ }
-            // *****************************************************************************************************************************
-            // END: WYSIWYG Editor
-            // *****************************************************************************************************************************
+              if (cmsDiv[d].id == 'editor_cms_container_' + textarea[i].id) {
+              editorContainer = cmsDiv[d];
+              }
+              }
 
-            var idx = document.getElementsByName(name).length;
+              editorInitMsg.id = 'editor_cms_init_msg_' + edKey;
+              editorContainer.id = 'editor_cms_container_' + edKey;
 
-            // related content.
-            var tableRows = newTBody.getElementsByTagName('tr');
-            if (tableRows != null) {
+              textarea[i].id = edKey;
+              var ed = new tinymce.Editor(edKey, settings);
+              ed.render();
+              }
+              }
+              //} catch(err) { /**/ }
+              // *****************************************************************************************************************************
+              // END: WYSIWYG Editor
+              // *****************************************************************************************************************************
+
+              var idx = document.getElementsByName(name).length;
+
+              // related content.
+              var tableRows = newTBody.getElementsByTagName('tr');
+              if (tableRows != null) {
               for(var i = 0; i &lt; tableRows.length; i++) {
-                if (tableRows[i].id != null &amp;&amp; "relatedcontent" == tableRows[i].id.substring(0,14)) {
-                  tableRows[i].parentNode.removeChild(tableRows[i]);
-                  i = i - 1;
-                }
+              if (tableRows[i].id != null &amp;&amp; "relatedcontent" == tableRows[i].id.substring(0,14)) {
+              tableRows[i].parentNode.removeChild(tableRows[i]);
+              i = i - 1;
               }
-            }
+              }
+              }
 
-            var inputs = newTBody.getElementsByTagName('input');
+              var inputs = newTBody.getElementsByTagName('input');
 
-            for(var i = 0; i &lt; inputs.length; ++i) {
+              for(var i = 0; i &lt; inputs.length; ++i) {
 
               if (inputs[i].getAttribute('type') == 'hidden' ) {
 
-                // relatedcontent hack.. needs {name}_counter=0 variable
-                if ( inputs[i].name.indexOf('_counter') &gt; -1 )
-                {
-                  inputs[i].value = 0;
-                }
+              // relatedcontent hack.. needs {name}_counter=0 variable
+              if ( inputs[i].name.indexOf('_counter') &gt; -1 )
+              {
+              inputs[i].value = 0;
+              }
 
-                if ( inputs[i].name.indexOf('_counter') == -1 )
-                {
-                  inputs[i].value = '';
-                }
+              if ( inputs[i].name.indexOf('_counter') == -1 )
+              {
+              inputs[i].value = '';
+              }
 
               } else if (inputs[i].getAttribute('type') != 'button') {
-                if (inputs[i].getAttribute('type') == 'text') {
+              if (inputs[i].getAttribute('type') == 'text') {
 
-                // Get the default value described in the content type (not the initial input element value)
+              // Get the default value described in the content type (not the initial input element value)
 
-                if (document.getElementsByName('default_value_' + inputs[i].name)[fieldRow] &amp;&amp; document.getElementsByName('default_value_' + inputs[i].name)[fieldRow].value != '') {
-                  var defaultVal = document.getElementsByName('default_value_' + inputs[i].name)[fieldRow].value;
-                } else {
-                  var defaultVal = '';
-                }
-                inputs[i].value = defaultVal;
+              if (document.getElementsByName('default_value_' + inputs[i].name)[fieldRow] &amp;&amp; document.getElementsByName('default_value_' + inputs[i].name)[fieldRow].value != '') {
+              var defaultVal = document.getElementsByName('default_value_' + inputs[i].name)[fieldRow].value;
+              } else {
+              var defaultVal = '';
+              }
+              inputs[i].value = defaultVal;
               }
 
               // Reset checkboxes
 
               if (inputs[i].getAttribute('type') == 'checkbox') {
-                inputs[i].checked = false;
+              inputs[i].checked = false;
               }
-            }
+              }
 
-            if (inputs[i].getAttribute('type') == 'radio') {
+              if (inputs[i].getAttribute('type') == 'radio') {
               // inputs[i].name = inputs[i].name + idx;
-            }
-          }
+              }
+              }
 
-          var hrefs = newTBody.getElementsByTagName('a');
+              var hrefs = newTBody.getElementsByTagName('a');
 
-          for (var i = 0; i &lt; hrefs.length; ++i) {
-            if (hrefs[i].name.indexOf('_link') != -1)
-                hrefs[i].parentNode.removeChild(hrefs[i]);
-          }
+              for (var i = 0; i &lt; hrefs.length; ++i) {
+              if (hrefs[i].name.indexOf('_link') != -1)
+              hrefs[i].parentNode.removeChild(hrefs[i]);
+              }
 
-          var divs = newTBody.getElementsByTagName('img');
+              var divs = newTBody.getElementsByTagName('img');
 
-          for (var i = 0; i &lt; divs.length; ++i) {
-            if (divs[i].name == 'imagepreview')
+              for (var i = 0; i &lt; divs.length; ++i) {
+              if (divs[i].name == 'imagepreview')
               divs[i].parentNode.removeChild(divs[i]);
-          }
+              }
 
-          var inputs = newTBody.getElementsByTagName('textarea');
-          for(var i = 0; i &lt; inputs.length; ++i) {
+              var inputs = newTBody.getElementsByTagName('textarea');
+              for(var i = 0; i &lt; inputs.length; ++i) {
 
-            // Check if default value is decleared in the content type.
-            // Since HTML Textarea does not have a default value attribute we store this in a hidden input field.
-            var defaultTextAreaValue = document.getElementsByName('default_value_' + inputs[i].name)[fieldRow];
+              // Check if default value is decleared in the content type.
+              // Since HTML Textarea does not have a default value attribute we store this in a hidden input field.
+              var defaultTextAreaValue = document.getElementsByName('default_value_' + inputs[i].name)[fieldRow];
 
-            var textAreaValue;
+              var textAreaValue;
 
-            if (defaultTextAreaValue &amp;&amp; defaultTextAreaValue.value != '') {
+              if (defaultTextAreaValue &amp;&amp; defaultTextAreaValue.value != '') {
               textAreaValue = defaultTextAreaValue.value;
-            } else {
-              textAreaValue = '';
-            }
-
-            inputs[i].value = textAreaValue;
-          }
-
-          var div = newTBody.getElementsByTagName('div');
-          var divLn = div.length;
-          for (var i = 0; i &lt; divLn; i++) {
-            if (div[i].id.substring(0,3) == 'div') {
-              div[i].innerHTML = '';
-            }
-          }
-
-          setGroupButtonsDisabled(groupName);
-        }
-        // ---------------------------------------------------------------------------------------------------------------------------------
-
-        /*
-          Method: removeBlockGroup
-        */
-        function removeBlockGroup(name, fieldRow) {
-          var tb = document.getElementsByTagName('tbody');
-          var blocks = new Array();
-          for (var i = 0; i &lt; tb.length; i++) {
-            if (tb[i].className == name + '_tbody') {
-              blocks.push(tb[i]);
-            }
-          }
-
-          var thisBlock = blocks[fieldRow];
-          var numBlocks = blocks.length;
-
-          // *******************************************************************************************************************************
-          // *** WYSIWYG Editor
-          // *******************************************************************************************************************************
-          // Remove editor instances.
-          destroyEditors(thisBlock);
-          // *******************************************************************************************************************************
-          // // WYSIWYG Editor
-          // *******************************************************************************************************************************
-
-          if (numBlocks &gt; 1) {
-            thisBlock.parentNode.removeChild(thisBlock);
-          } else {
-            // Remove multiple related contents (removes all rows that starts with relatedcontent_)
-            var tableRows = thisBlock.getElementsByTagName('tr');
-            for(var i = 0; i &lt; tableRows.length; i++) {
-              if (tableRows[i].id != null &amp;&amp; "relatedcontent" == tableRows[i].id.substring(0,14)) {
-                tableRows[i].parentNode.removeChild(tableRows[i]);
-                i = i - 1;
-              }
-            }
-
-						// Reset dropdowns
-						var selects = thisBlock.getElementsByTagName('select');
-            for(var i = 0; i &lt; selects.length; i++) {
-						  selects[i].selectedIndex = 0;
-            }
-
-            var hrefs = thisBlock.getElementsByTagName('a');
-						for (var i = 0; i &lt; hrefs.length; ++i) {
-						  if (hrefs[i].name.indexOf('_link') != -1)
-                hrefs[i].parentNode.removeChild(hrefs[i]);
-            }
-
-            var inputs = thisBlock.getElementsByTagName('input');
-            for(var i = 0; i &lt; inputs.length; ++i) {
-						  // relatedcontent hack.. needs {name}_counter=0 variable
-              if (inputs[i].getAttribute('type') == 'hidden' &amp;&amp; inputs[i].name.indexOf('_counter') &gt; -1) {
-		            inputs[i].value = 0;
               } else {
-							  inputs[i].value = '';
+              textAreaValue = '';
               }
-            }
 
-            var inputs = thisBlock.getElementsByTagName('textarea');
-            for(var i = 0; i &lt; inputs.length; ++i) {
+              inputs[i].value = textAreaValue;
+              }
+
+              var div = newTBody.getElementsByTagName('div');
+              var divLn = div.length;
+              for (var i = 0; i &lt; divLn; i++) {
+              if (div[i].id.substring(0,3) == 'div') {
+              div[i].innerHTML = '';
+              }
+              }
+
+              setGroupButtonsDisabled(groupName);
+              }
+              // ---------------------------------------------------------------------------------------------------------------------------------
+
+              /*
+              Method: removeBlockGroup
+              */
+              function removeBlockGroup(name, fieldRow) {
+              var tb = document.getElementsByTagName('tbody');
+              var blocks = new Array();
+              for (var i = 0; i &lt; tb.length; i++) {
+              if (tb[i].className == name + '_tbody') {
+              blocks.push(tb[i]);
+              }
+              }
+
+              var thisBlock = blocks[fieldRow];
+              var numBlocks = blocks.length;
+
+              // *******************************************************************************************************************************
+              // *** WYSIWYG Editor
+              // *******************************************************************************************************************************
+              // Remove editor instances.
+              destroyEditors(thisBlock);
+              // *******************************************************************************************************************************
+              // // WYSIWYG Editor
+              // *******************************************************************************************************************************
+
+              if (numBlocks &gt; 1) {
+              thisBlock.parentNode.removeChild(thisBlock);
+              } else {
+              // Remove multiple related contents (removes all rows that starts with relatedcontent_)
+              var tableRows = thisBlock.getElementsByTagName('tr');
+              for(var i = 0; i &lt; tableRows.length; i++) {
+              if (tableRows[i].id != null &amp;&amp; "relatedcontent" == tableRows[i].id.substring(0,14)) {
+              tableRows[i].parentNode.removeChild(tableRows[i]);
+              i = i - 1;
+              }
+              }
+
+              // Reset dropdowns
+              var selects = thisBlock.getElementsByTagName('select');
+              for(var i = 0; i &lt; selects.length; i++) {
+              selects[i].selectedIndex = 0;
+              }
+
+              var hrefs = thisBlock.getElementsByTagName('a');
+              for (var i = 0; i &lt; hrefs.length; ++i) {
+              if (hrefs[i].name.indexOf('_link') != -1)
+              hrefs[i].parentNode.removeChild(hrefs[i]);
+              }
+
+              var inputs = thisBlock.getElementsByTagName('input');
+              for(var i = 0; i &lt; inputs.length; ++i) {
+              // relatedcontent hack.. needs {name}_counter=0 variable
+              if (inputs[i].getAttribute('type') == 'hidden' &amp;&amp; inputs[i].name.indexOf('_counter') &gt; -1) {
+              inputs[i].value = 0;
+              } else {
               inputs[i].value = '';
-            }
-          }
-          setGroupButtonsDisabled(name);
-        }
-        // ---------------------------------------------------------------------------------------------------------------------------------
+              }
+              }
 
-        /*
-          Method: moveTableRowUpFS
+              var inputs = thisBlock.getElementsByTagName('textarea');
+              for(var i = 0; i &lt; inputs.length; ++i) {
+              inputs[i].value = '';
+              }
+              }
+              setGroupButtonsDisabled(name);
+              }
+              // ---------------------------------------------------------------------------------------------------------------------------------
 
-            Moves a related file row up.
-        */
-        function moveTableRowUpFS(tbName, object) {
-          var index = getObjectIndex(object);
-          var tBody = document.getElementById(tbName);
-          if (!tBody)
-            return;
+              /*
+              Method: moveTableRowUpFS
 
-          var tr = tBody.getElementsByTagName('tr');
+              Moves a related file row up.
+              */
+              function moveTableRowUpFS(tbName, object) {
+              var index = getObjectIndex(object);
+              var tBody = document.getElementById(tbName);
+              if (!tBody)
+              return;
 
-          var row1, row2;
-          if (index == 0) {
-            row1 = tr[index];
-            row2 = tr[tr.length];
-          } else {
-            row1 = tr[index];
-            row2 = tr[(index-1)];
-          }
-          tBody.insertBefore(row1, row2);
+              var tr = tBody.getElementsByTagName('tr');
 
-        }
-        // ---------------------------------------------------------------------------------------------------------------------------------
+              var row1, row2;
+              if (index == 0) {
+              row1 = tr[index];
+              row2 = tr[tr.length];
+              } else {
+              row1 = tr[index];
+              row2 = tr[(index-1)];
+              }
+              tBody.insertBefore(row1, row2);
 
-        /*
-          Method: moveTableRowDownFS
+              }
+              // ---------------------------------------------------------------------------------------------------------------------------------
 
-            Moves a related file row down.
-        */
-        function moveTableRowDownFS(tbName, object) {
-          var index = getObjectIndex(object);
-          var tBody = document.getElementById(tbName);
-          if (!tBody)
-            return;
+              /*
+              Method: moveTableRowDownFS
 
-          var tr = tBody.getElementsByTagName('tr');
+              Moves a related file row down.
+              */
+              function moveTableRowDownFS(tbName, object) {
+              var index = getObjectIndex(object);
+              var tBody = document.getElementById(tbName);
+              if (!tBody)
+              return;
 
-          if ((index+1) == tr.length) {
-            row1 = tr[index];
-            row2 = tr[0];
-          } else {
-            var row1 = tr[(index+1)];
-            var row2 = tr[index];
-          }
-          tBody.insertBefore(row1, row2);
-        }
-        // ---------------------------------------------------------------------------------------------------------------------------------
+              var tr = tBody.getElementsByTagName('tr');
 
-        </script>
-      </head>
+              if ((index+1) == tr.length) {
+              row1 = tr[index];
+              row2 = tr[0];
+              } else {
+              var row1 = tr[(index+1)];
+              var row2 = tr[index];
+              }
+              tBody.insertBefore(row1, row2);
+              }
+              // ---------------------------------------------------------------------------------------------------------------------------------
 
-      <body>
+            </script>
+          </head>
 
-      <x:variable name="readonly" select="not($enableform)"/>
+          <body>
 
-      <x:if test="not($readonly)">
-        <script type="text/javascript">waitsplash();</script>
-      </x:if>
+            <x:variable name="readonly" select="not($enableform)"/>
 
-      <x:call-template name="version-form">
-        <x:with-param name="contentxpath" select="/contents/content"/>
-        <x:with-param name="referer" select="$referer"/>
-      </x:call-template>
-
-      <form name="formAdmin" method="post" target="_blank" enctype="multipart/form-data">
-        <x:attribute name="action">
-          <x:if test="$create=1">
-            <x:text>adminpage?page=</x:text>
-            <x:value-of select="$page"/>
-            <x:text>&amp;op=create</x:text>
-            <x:text>&amp;cat=</x:text>
-            <x:value-of select="$cat"/>
-          </x:if>
-          <x:if test="$create=0">
-            <x:text>adminpage?page=</x:text>
-            <x:value-of select="$page"/>
-            <x:text>&amp;op=update</x:text>
-            <x:text>&amp;cat=</x:text>
-            <x:value-of select="$cat"/>
-          </x:if>
-        </x:attribute>
-
-        <input type="hidden" name="titleformkey" value="{/config/form/title/@name}"/>
-
-        <x:call-template name="generalhiddenfields"/>
-
-        <x:call-template name="contentheader">
-          <x:with-param name="links" select="not($subop = 'popup')"/>
-          <x:with-param name="subop" select="$subop"/>
-          <x:with-param name="fieldrow" select="$fieldrow"/>
-          <x:with-param name="fieldname" select="$fieldname"/>
-          <x:with-param name="minoccurrence" select="$minoccurrence"/>
-          <x:with-param name="maxoccurrence" select="$maxoccurrence"/>
-        </x:call-template>
-
-        <x:call-template name="displayfeedback">
-          <x:with-param name="addbr" select="true()"/>
-        </x:call-template>
-
-        <x:call-template name="contentformbuttons">
-          <x:with-param name="enablepreview" select="true()"/>
-          <x:with-param name="topbuttons" select="true()"/>
-        </x:call-template>
-
-        <x:call-template name="assignee-status">
-          <x:with-param name="content" select="/contents/content"/>
-          <x:with-param name="selected-version-is-unsaved-draft" select="not(/contents/content/@state) or ( $editlockedversionmode and not(/contents/content/@has-draft = 'true') )"/>
-          <x:with-param name="editlockedversionmode" select="$editlockedversionmode"/>
-        </x:call-template>
-
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td class="form_title_form_seperator">
-              <img src="images/1x1.gif"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="tab-pane" id="tab-container">
-                <script type="text/javascript" language="JavaScript">
-                  <xsl:text>var tabPane1 = new WebFXTabPane( document.getElementById( "tab-container" ), true);</xsl:text>
-                </script>
-                <div class="tab-page" id="tab-page-1">
-                  <span class="tab">%blockContent%</span>
-                  <script type="text/javascript" language="JavaScript">
-                    <xsl:text>tabPane1.addTabPage( document.getElementById( "tab-page-1" ));</xsl:text>
-                  </script>
-                  <x:call-template name="statusAndVersionstuff"/>
-                  <xsl:call-template name="generateform"/>
-                </div>
-                <!--x:if test="/contents/content/@status != 1"-->
-                  <x:call-template name="properties"/>
-                  <x:call-template name="publishing"/>
-                  <x:call-template name="content_accessrights"/>
-                  <x:call-template name="content_usedby">
-                    <x:with-param name="contentKey" select="/contents/content/@key"/>
-                  </x:call-template>
-                <!--/x:if-->
-                <x:call-template name="content_source"/>
-              </div>
-              <script type="text/javascript">
-                setupAllTabs();
-              </script>
-            </td>
-          </tr>
-          <tr>
-            <td class="form_form_buttonrow_seperator"><img src="images/1x1.gif"/></td>
-          </tr>
-        </table>
-        <x:call-template name="contentformbuttons">
-          <x:with-param name="enablepreview" select="true()"/>
-        </x:call-template>
-      </form>
-
-        <x:if test="not($readonly)">
-          <!-- er block påkrevd i cty-en? -->
-          <xsl:if test="count(/config/form/block/input[@type = 'htmlarea']) = 0">
-            <script type="text/javascript">removeWaitsplash();</script>
-          </xsl:if>
-        </x:if>
-
-        <x:variable name="contenttype-title-default-value">
-          <xsl:value-of select="/config/form/descendant::input[@name = /config/form/title/@name]/default"/>
-        </x:variable>
-
-      </body>
-    </html>
-  </x:template>
-
-  <x:template name="multiplechoice_alternative">
-    <x:param name="name"/>
-    <x:param name="input"/>
-    <x:param name="size" select="30"/>
-    <x:param name="alternatives"/>
-    <x:param name="iteration" select="1"/>
-    <x:param name="readonly"/>
-    <x:if test="$iteration &lt;= $alternatives">
-      <tr>
-        <td style="text-align:center">
-          <input type="checkbox" onclick="storeCheckboxStates()">
-            <x:attribute name="name">
-              <x:value-of select="$name"/>
-              <x:text>_checkbox</x:text>
-            </x:attribute>
-            <x:if test="not($input = '') and $input[$iteration]/@correct = 'true'">
-              <x:attribute name="checked">checked</x:attribute>
+            <x:if test="not($readonly)">
+              <script type="text/javascript">waitsplash();</script>
             </x:if>
-            <x:if test="$readonly">
-              <x:attribute name="disabled">disabled</x:attribute>
-            </x:if>
-          </input>
-          <input type="hidden">
-            <x:attribute name="name">
-              <x:value-of select="$name"/>
-              <x:text>_checkbox_values</x:text>
-            </x:attribute>
-            <x:if test="not($input = '') and $input[$iteration]/@correct = 'true'">
-              <x:attribute name="value">true</x:attribute>
-            </x:if>
-          </input>
-        </td>
-        <td>
-          <input type="text">
-            <x:attribute name="size">
-              <x:value-of select="$size"/>
-            </x:attribute>
-            <x:attribute name="name">
-              <x:value-of select="$name"/>
-              <x:text>_alternative</x:text>
-            </x:attribute>
-            <x:if test="not($input = '') and $input[$iteration]">
-              <x:attribute name="value">
-                <x:value-of select="$input[$iteration]"/>
+
+            <x:call-template name="version-form">
+              <x:with-param name="contentxpath" select="/contents/content"/>
+              <x:with-param name="referer" select="$referer"/>
+            </x:call-template>
+
+            <form name="formAdmin" method="post" target="_blank" enctype="multipart/form-data">
+              <x:attribute name="action">
+                <x:if test="$create=1">
+                  <x:text>adminpage?page=</x:text>
+                  <x:value-of select="$page"/>
+                  <x:text>&amp;op=create</x:text>
+                  <x:text>&amp;cat=</x:text>
+                  <x:value-of select="$cat"/>
+                </x:if>
+                <x:if test="$create=0">
+                  <x:text>adminpage?page=</x:text>
+                  <x:value-of select="$page"/>
+                  <x:text>&amp;op=update</x:text>
+                  <x:text>&amp;cat=</x:text>
+                  <x:value-of select="$cat"/>
+                </x:if>
               </x:attribute>
-            </x:if>
-            <x:if test="$readonly">
-              <x:attribute name="disabled">disabled</x:attribute>
-            </x:if>
-          </input>
-        </td>
-        <td>
-          <x:call-template name="button">
-            <x:with-param name="name" select="concat('moverdowner_', $name)"/>
-            <x:with-param name="image" select="'images/icon_move_down.gif'"/>
-            <x:with-param name="type" select="'button'"/>
-            <x:with-param name="disabled" select="$readonly"/>
-            <x:with-param name="onclick">
-              <x:text>javascript:moveTableRowDown('</x:text>
-              <x:value-of select="$name"/>
-              <x:text>_table', getObjectIndex(this) + 1);setDisabledEnabledButtons('</x:text>
-              <x:value-of select="$name"/>
-              <x:text>');updateCheckboxStates();</x:text>
-            </x:with-param>
-          </x:call-template>
-          <x:call-template name="button">
-            <x:with-param name="name" select="concat('moverupper_', $name)"/>
-            <x:with-param name="image" select="'images/icon_move_up.gif'"/>
-            <x:with-param name="type" select="'button'"/>
-            <x:with-param name="disabled" select="$readonly"/>
-            <x:with-param name="onclick">
-              <x:text>javascript:moveTableRowUp('</x:text>
-              <x:value-of select="$name"/>
-              <x:text>_table', getObjectIndex(this) + 1);setDisabledEnabledButtons('</x:text>
-              <x:value-of select="$name"/>
-              <x:text>');updateCheckboxStates();</x:text>
-            </x:with-param>
-          </x:call-template>
-          <x:call-template name="button">
-            <x:with-param name="name" select="'removeButton'"/>
-            <x:with-param name="image" select="'images/icon_remove.gif'"/>
-            <x:with-param name="type" select="'button'"/>
-            <x:with-param name="disabled" select="$readonly"/>
-            <x:with-param name="onclick">
-              <x:text>javascript:clearOrRemove(this);setDisabledEnabledButtons('</x:text>
-              <x:value-of select="$name"/>
-              <x:text>');updateCheckboxStates();</x:text>
-            </x:with-param>
-          </x:call-template>
-        </td>
-      </tr>
-      <x:call-template name="multiplechoice_alternative">
-        <x:with-param name="name" select="$name"/>
-        <x:with-param name="size" select="$size"/>
-        <x:with-param name="input" select="$input"/>
-        <x:with-param name="alternatives" select="$alternatives"/>
-        <x:with-param name="iteration" select="$iteration + 1"/>
-        <x:with-param name="readonly" select="$readonly"/>
-      </x:call-template>
-    </x:if>
-  </x:template>
 
-  <x:template name="contenttypeform"/>
-  </x:stylesheet>
+              <input type="hidden" name="titleformkey" value="{/config/form/title/@name}"/>
+
+              <x:call-template name="generalhiddenfields"/>
+
+              <x:call-template name="contentheader">
+                <x:with-param name="links" select="not($subop = 'popup')"/>
+                <x:with-param name="subop" select="$subop"/>
+                <x:with-param name="fieldrow" select="$fieldrow"/>
+                <x:with-param name="fieldname" select="$fieldname"/>
+                <x:with-param name="minoccurrence" select="$minoccurrence"/>
+                <x:with-param name="maxoccurrence" select="$maxoccurrence"/>
+              </x:call-template>
+
+              <x:call-template name="displayfeedback">
+                <x:with-param name="addbr" select="true()"/>
+              </x:call-template>
+
+              <x:call-template name="contentformbuttons">
+                <x:with-param name="enablepreview" select="true()"/>
+                <x:with-param name="topbuttons" select="true()"/>
+              </x:call-template>
+
+              <x:call-template name="assignee-status">
+                <x:with-param name="content" select="/contents/content"/>
+                <x:with-param name="selected-version-is-unsaved-draft" select="not(/contents/content/@state) or ( $editlockedversionmode and not(/contents/content/@has-draft = 'true') )"/>
+                <x:with-param name="editlockedversionmode" select="$editlockedversionmode"/>
+              </x:call-template>
+
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td class="form_title_form_seperator">
+                    <img src="images/1x1.gif"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="tab-pane" id="tab-container">
+                      <script type="text/javascript" language="JavaScript">
+                        <xsl:text>var tabPane1 = new WebFXTabPane( document.getElementById( "tab-container" ), true);</xsl:text>
+                      </script>
+                      <div class="tab-page" id="tab-page-1">
+                        <span class="tab">%blockContent%</span>
+                        <script type="text/javascript" language="JavaScript">
+                          <xsl:text>tabPane1.addTabPage( document.getElementById( "tab-page-1" ));</xsl:text>
+                        </script>
+                        <x:call-template name="statusAndVersionstuff"/>
+                        <xsl:call-template name="generateform"/>
+                      </div>
+                      <!--x:if test="/contents/content/@status != 1"-->
+                      <x:call-template name="properties"/>
+                      <x:call-template name="publishing"/>
+                      <x:call-template name="content_accessrights"/>
+                      <x:call-template name="content_usedby">
+                        <x:with-param name="contentKey" select="/contents/content/@key"/>
+                      </x:call-template>
+                      <!--/x:if-->
+                      <x:call-template name="content_source"/>
+                    </div>
+                    <script type="text/javascript">
+                      setupAllTabs();
+                    </script>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="form_form_buttonrow_seperator"><img src="images/1x1.gif"/></td>
+                </tr>
+              </table>
+              <x:call-template name="contentformbuttons">
+                <x:with-param name="enablepreview" select="true()"/>
+              </x:call-template>
+            </form>
+
+            <x:if test="not($readonly)">
+              <!-- er block påkrevd i cty-en? -->
+              <xsl:if test="count(/config/form/block/input[@type = 'htmlarea']) = 0">
+                <script type="text/javascript">removeWaitsplash();</script>
+              </xsl:if>
+            </x:if>
+
+            <x:variable name="contenttype-title-default-value">
+              <xsl:value-of select="/config/form/descendant::input[@name = /config/form/title/@name]/default"/>
+            </x:variable>
+
+          </body>
+        </html>
+      </x:template>
+
+      <x:template name="multiplechoice_alternative">
+        <x:param name="name"/>
+        <x:param name="input"/>
+        <x:param name="size" select="30"/>
+        <x:param name="alternatives"/>
+        <x:param name="iteration" select="1"/>
+        <x:param name="readonly"/>
+        <x:if test="$iteration &lt;= $alternatives">
+          <tr>
+            <td style="text-align:center">
+              <input type="checkbox" onclick="storeCheckboxStates()">
+                <x:attribute name="name">
+                  <x:value-of select="$name"/>
+                  <x:text>_checkbox</x:text>
+                </x:attribute>
+                <x:if test="not($input = '') and $input[$iteration]/@correct = 'true'">
+                  <x:attribute name="checked">checked</x:attribute>
+                </x:if>
+                <x:if test="$readonly">
+                  <x:attribute name="disabled">disabled</x:attribute>
+                </x:if>
+              </input>
+              <input type="hidden">
+                <x:attribute name="name">
+                  <x:value-of select="$name"/>
+                  <x:text>_checkbox_values</x:text>
+                </x:attribute>
+                <x:if test="not($input = '') and $input[$iteration]/@correct = 'true'">
+                  <x:attribute name="value">true</x:attribute>
+                </x:if>
+              </input>
+            </td>
+            <td>
+              <input type="text">
+                <x:attribute name="size">
+                  <x:value-of select="$size"/>
+                </x:attribute>
+                <x:attribute name="name">
+                  <x:value-of select="$name"/>
+                  <x:text>_alternative</x:text>
+                </x:attribute>
+                <x:if test="not($input = '') and $input[$iteration]">
+                  <x:attribute name="value">
+                    <x:value-of select="$input[$iteration]"/>
+                  </x:attribute>
+                </x:if>
+                <x:if test="$readonly">
+                  <x:attribute name="disabled">disabled</x:attribute>
+                </x:if>
+              </input>
+            </td>
+            <td>
+              <x:call-template name="button">
+                <x:with-param name="name" select="concat('moverdowner_', $name)"/>
+                <x:with-param name="image" select="'images/icon_move_down.gif'"/>
+                <x:with-param name="type" select="'button'"/>
+                <x:with-param name="disabled" select="$readonly"/>
+                <x:with-param name="onclick">
+                  <x:text>javascript:moveTableRowDown('</x:text>
+                  <x:value-of select="$name"/>
+                  <x:text>_table', getObjectIndex(this) + 1);setDisabledEnabledButtons('</x:text>
+                  <x:value-of select="$name"/>
+                  <x:text>');updateCheckboxStates();</x:text>
+                </x:with-param>
+              </x:call-template>
+              <x:call-template name="button">
+                <x:with-param name="name" select="concat('moverupper_', $name)"/>
+                <x:with-param name="image" select="'images/icon_move_up.gif'"/>
+                <x:with-param name="type" select="'button'"/>
+                <x:with-param name="disabled" select="$readonly"/>
+                <x:with-param name="onclick">
+                  <x:text>javascript:moveTableRowUp('</x:text>
+                  <x:value-of select="$name"/>
+                  <x:text>_table', getObjectIndex(this) + 1);setDisabledEnabledButtons('</x:text>
+                  <x:value-of select="$name"/>
+                  <x:text>');updateCheckboxStates();</x:text>
+                </x:with-param>
+              </x:call-template>
+              <x:call-template name="button">
+                <x:with-param name="name" select="'removeButton'"/>
+                <x:with-param name="image" select="'images/icon_remove.gif'"/>
+                <x:with-param name="type" select="'button'"/>
+                <x:with-param name="disabled" select="$readonly"/>
+                <x:with-param name="onclick">
+                  <x:text>javascript:clearOrRemove(this);setDisabledEnabledButtons('</x:text>
+                  <x:value-of select="$name"/>
+                  <x:text>');updateCheckboxStates();</x:text>
+                </x:with-param>
+              </x:call-template>
+            </td>
+          </tr>
+          <x:call-template name="multiplechoice_alternative">
+            <x:with-param name="name" select="$name"/>
+            <x:with-param name="size" select="$size"/>
+            <x:with-param name="input" select="$input"/>
+            <x:with-param name="alternatives" select="$alternatives"/>
+            <x:with-param name="iteration" select="$iteration + 1"/>
+            <x:with-param name="readonly" select="$readonly"/>
+          </x:call-template>
+        </x:if>
+      </x:template>
+
+      <x:template name="contenttypeform"/>
+    </x:stylesheet>
   </xsl:template>
 
   <xsl:template name="generateform">
@@ -1255,11 +1255,11 @@
 
           <xsl:if test="$grouphelpelem">
             <a title="Click to view"
-                 style="margin: 0 2px; vertical-align: bottom"
-                 onclick="showHideHelp(this, '{$groupname}')"
-                 class="hand"
-                 name="{$groupname}_helplink"
-                 id="{$groupname}_helplink">
+               style="margin: 0 2px; vertical-align: bottom"
+               onclick="showHideHelp(this, '{$groupname}')"
+               class="hand"
+               name="{$groupname}_helplink"
+               id="{$groupname}_helplink">
               <img id="{$groupname}_helpicon" style="vertical-align: bottom;" src="images/icon_help_compact.gif"/>
             </a>
           </xsl:if>
@@ -1629,13 +1629,13 @@
           <xsl:text>:</xsl:text>
         </x:with-param>
         <x:with-param name="fieldname">
-            <xsl:value-of select="$input/@name"/>
+          <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
       </x:call-template>
       <td valign="baseline">
         <xsl:if test="$input/help">
@@ -1697,11 +1697,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
         <x:with-param name="valign" select="'middle'"/>
       </x:call-template>
       <td valign="baseline">
@@ -1823,11 +1823,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
 
@@ -1950,7 +1950,7 @@
     <x:variable name="input-readonly">
       <xsl:choose>
         <xsl:when test="$input/@readonly = 'true'">
-      <xsl:value-of select="$input/@readonly"/>
+          <xsl:value-of select="$input/@readonly"/>
         </xsl:when>
         <xsl:otherwise>
           <x:value-of select="$readonly"/>
@@ -2005,11 +2005,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
 
@@ -2180,11 +2180,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
       <td>
@@ -2506,11 +2506,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
         <x:with-param name="valign" select="'middle'"/>
       </x:call-template>
@@ -2804,11 +2804,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
 
@@ -2825,53 +2825,53 @@
         </xsl:if>
 
         <x:variable name="random">
-            <xsl:value-of select="admin:random()"/>
+          <xsl:value-of select="admin:random()"/>
         </x:variable>
 
         <div class="radiobutton-group">
 
           <xsl:variable name="isRequiredAndHasNoneChecked" select="$input/@required = 'true' and count($input/options/option[@checked = 'true']) = 0"/>
 
-            <xsl:for-each select="$input/options/option">
-                <input type="radio" value="{@value}">
-                  <x:attribute name="name">
-                    <x:text>rb:</x:text>
-                    <x:value-of select="substring-after($random, '.')"/>
-                    <x:text>:</x:text>
-                    <xsl:value-of select="$inputname"/>
-                  </x:attribute>
-                <x:if test="$readonly">
-                  <x:attribute name="disabled">true</x:attribute>
-                </x:if>
+          <xsl:for-each select="$input/options/option">
+            <input type="radio" value="{@value}">
+              <x:attribute name="name">
+                <x:text>rb:</x:text>
+                <x:value-of select="substring-after($random, '.')"/>
+                <x:text>:</x:text>
+                <xsl:value-of select="$inputname"/>
+              </x:attribute>
+              <x:if test="$readonly">
+                <x:attribute name="disabled">true</x:attribute>
+              </x:if>
 
-                  <xsl:if test="$isRequiredAndHasNoneChecked and position() = 1">
+              <xsl:if test="$isRequiredAndHasNoneChecked and position() = 1">
+                <x:attribute name="checked">checked</x:attribute>
+              </xsl:if>
+
+              <x:choose>
+                <x:when>
+                  <xsl:attribute name="test">
+                    <xsl:text>$create = '1'</xsl:text>
+                  </xsl:attribute>
+                  <xsl:if test="@checked = 'true'">
                     <x:attribute name="checked">checked</x:attribute>
                   </xsl:if>
-
-                <x:choose>
-                  <x:when>
+                </x:when>
+                <x:otherwise>
+                  <x:if>
                     <xsl:attribute name="test">
-                      <xsl:text>$create = '1'</xsl:text>
+                      <xsl:value-of select="$xpath"/>
+                      = '<xsl:value-of select="@value"/>'
                     </xsl:attribute>
-                    <xsl:if test="@checked = 'true'">
-                      <x:attribute name="checked">checked</x:attribute>
-                    </xsl:if>
-                  </x:when>
-                  <x:otherwise>
-                    <x:if>
-                      <xsl:attribute name="test">
-                        <xsl:value-of select="$xpath"/>
-                        = '<xsl:value-of select="@value"/>'
-                      </xsl:attribute>
-                      <x:attribute name="checked">checked</x:attribute>
-                    </x:if>
-                  </x:otherwise>
-                </x:choose>
-              </input>
-              &nbsp;
-              <xsl:value-of select="."/>
-              <br/>
-            </xsl:for-each>
+                    <x:attribute name="checked">checked</x:attribute>
+                  </x:if>
+                </x:otherwise>
+              </x:choose>
+            </input>
+            &nbsp;
+            <xsl:value-of select="."/>
+            <br/>
+          </xsl:for-each>
         </div>
 
       </td>
@@ -2882,7 +2882,7 @@
     <xsl:param name="input"/>
 
     <xsl:variable name="xpath">
-        <xsl:value-of select="$input/xpath"/>
+      <xsl:value-of select="$input/xpath"/>
     </xsl:variable>
 
     <xsl:variable name="inputname" select="$input/@name"/>
@@ -2904,83 +2904,83 @@
 
     <script type="text/javascript" language="JavaScript">
       /*
-        Method: storeCheckboxStates
+      Method: storeCheckboxStates
 
-          Store states of the checkboxes in a hidden input field.
+      Store states of the checkboxes in a hidden input field.
       */
       function storeCheckboxStates() {
-        var checkboxes = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox');
-        var checkbox_values = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox_values');
-        for (var i = 0; i &lt; checkboxes.length; i++) {
-          checkbox_values[i].value = checkboxes[i].checked;
-        }
+      var checkboxes = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox');
+      var checkbox_values = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox_values');
+      for (var i = 0; i &lt; checkboxes.length; i++) {
+      checkbox_values[i].value = checkboxes[i].checked;
+      }
       }
       // ---------------------------------------------------------------------------------------------------------------
 
       /*
-        Method: updateCheckboxStates
+      Method: updateCheckboxStates
 
-          Update the checkboxes with data from a hidden input field.
+      Update the checkboxes with data from a hidden input field.
       */
       function updateCheckboxStates() {
-        var checkboxes = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox');
-        var checkbox_values = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox_values');
-        for (var i = 0; i &lt; checkboxes.length; i++) {
-          if (checkbox_values[i].value == 'true')
-            checkboxes[i].checked=checkbox_values[i].value;
-        }
+      var checkboxes = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox');
+      var checkbox_values = document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox_values');
+      for (var i = 0; i &lt; checkboxes.length; i++) {
+      if (checkbox_values[i].value == 'true')
+      checkboxes[i].checked=checkbox_values[i].value;
+      }
       }
       // ---------------------------------------------------------------------------------------------------------------
 
       /*
-        Method: storeCheckboxStates
+      Method: storeCheckboxStates
 
-          set correct disabled and disabled buttons.
+      set correct disabled and disabled buttons.
       */
       function setDisabledEnabledButtons( inputName )
       {
-        var buttons = document.getElementsByName('moverupper_' + inputName);
-        buttons[0].setAttribute("disabled", "disabled");
-        buttons[0].childNodes[0].src = 'images/icon_move_up-disabled.gif';
+      var buttons = document.getElementsByName('moverupper_' + inputName);
+      buttons[0].setAttribute("disabled", "disabled");
+      buttons[0].childNodes[0].src = 'images/icon_move_up-disabled.gif';
 
-        for ( var i = 1; i &lt; buttons.length; ++i )
-        {
-          if (buttons[i].disabled) {
-            <x:if test="not($readonly)">
-            buttons[i].removeAttribute("disabled");
-            </x:if>
-            buttons[i].childNodes[0].src = 'images/icon_move_up.gif';
-          }
-        }
+      for ( var i = 1; i &lt; buttons.length; ++i )
+      {
+      if (buttons[i].disabled) {
+      <x:if test="not($readonly)">
+        buttons[i].removeAttribute("disabled");
+      </x:if>
+      buttons[i].childNodes[0].src = 'images/icon_move_up.gif';
+      }
+      }
 
-        buttons = document.getElementsByName('moverdowner_' + inputName);
-        buttons[buttons.length-1].setAttribute("disabled", "disabled");
-        buttons[buttons.length-1].childNodes[0].src = 'images/icon_move_down-disabled.gif';
-        for (var i = 0; i &lt; buttons.length - 1; ++i) {
-          if (buttons[i].disabled) {
-            <x:if test="not($readonly)">
-            buttons[i].removeAttribute("disabled");
-            </x:if>
-            buttons[i].childNodes[0].src = 'images/icon_move_down.gif';
-          }
-        }
+      buttons = document.getElementsByName('moverdowner_' + inputName);
+      buttons[buttons.length-1].setAttribute("disabled", "disabled");
+      buttons[buttons.length-1].childNodes[0].src = 'images/icon_move_down-disabled.gif';
+      for (var i = 0; i &lt; buttons.length - 1; ++i) {
+      if (buttons[i].disabled) {
+      <x:if test="not($readonly)">
+        buttons[i].removeAttribute("disabled");
+      </x:if>
+      buttons[i].childNodes[0].src = 'images/icon_move_down.gif';
+      }
+      }
       }
       // ---------------------------------------------------------------------------------------------------------------
 
       /*
-        Method: clearOrRemove
+      Method: clearOrRemove
 
-          Clear or remove a row in the optionstable.
+      Clear or remove a row in the optionstable.
       */
       function clearOrRemove(obj) {
-        if (itemcount(document.getElementsByName(obj.name)) &lt;= <xsl:value-of select="$minimumalternatives"/>) {
-          var idx = getObjectIndex(obj);
-          document.getElementsByName('<xsl:value-of select="$inputname"/>_alternative')[idx].value = '';
-          document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox')[idx].checked = false;
-          document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox_values')[idx].value = '';
-        } else {
-          removeTableRow(obj, '<xsl:value-of select="$inputname"/>_table', null, 1);
-        }
+      if (itemcount(document.getElementsByName(obj.name)) &lt;= <xsl:value-of select="$minimumalternatives"/>) {
+      var idx = getObjectIndex(obj);
+      document.getElementsByName('<xsl:value-of select="$inputname"/>_alternative')[idx].value = '';
+      document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox')[idx].checked = false;
+      document.getElementsByName('<xsl:value-of select="$inputname"/>_checkbox_values')[idx].value = '';
+      } else {
+      removeTableRow(obj, '<xsl:value-of select="$inputname"/>_table', null, 1);
+      }
       }
     </script>
     <tr>
@@ -2995,11 +2995,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
 
@@ -3205,14 +3205,14 @@
                 <xsl:text>'</xsl:text>
               </xsl:when>
               <xsl:otherwise>
-                  <xsl:choose>
-                      <xsl:when test="/config/form/title/@name = $input/@name">
-                          <xsl:text>'256'</xsl:text>
-                      </xsl:when>
-                      <xsl:otherwise>
-                          <xsl:text>''</xsl:text>
-                      </xsl:otherwise>
-                  </xsl:choose>
+                <xsl:choose>
+                  <xsl:when test="/config/form/title/@name = $input/@name">
+                    <xsl:text>'256'</xsl:text>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:text>''</xsl:text>
+                  </xsl:otherwise>
+                </xsl:choose>
               </xsl:otherwise>
             </xsl:choose>
           </xsl:attribute>
@@ -3228,12 +3228,6 @@
   <xsl:template name="displaytextarea">
     <xsl:param name="input"/>
     <xsl:param name="xml" select="'false'"/>
-
-    <x:variable name="_textarea_value">
-        <xsl:attribute name="select">
-            <xsl:value-of select="$input/xpath"/>
-        </xsl:attribute>
-    </x:variable>
 
     <tr>
       <x:call-template name="textarea">
@@ -3259,7 +3253,11 @@
           </xsl:attribute>
         </x:with-param>
 
-        <x:with-param name="selectnode" select="translate($_textarea_value, '&#xD;','')"/>
+        <x:with-param name="selectnode">
+          <xsl:attribute name="select">
+            <xsl:value-of select="$input/xpath"/>
+          </xsl:attribute>
+        </x:with-param>
 
         <x:with-param name="default">
           <xsl:value-of select="$input/default"/>
@@ -3403,19 +3401,19 @@
           <xsl:text>:</xsl:text>
         </x:with-param>
         <x:with-param name="required">
-              <xsl:value-of select="($input/@required = 'true')"/>
-            </x:with-param>
+          <xsl:value-of select="($input/@required = 'true')"/>
+        </x:with-param>
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
-      
+
       <td colspan="3">
         <xsl:if test="$input/help">
           <x:call-template name="displayhelp">
@@ -3616,11 +3614,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
         <x:with-param name="valign">
           <xsl:text>top</xsl:text>
         </x:with-param>
@@ -3741,11 +3739,11 @@
         <x:with-param name="fieldname">
           <xsl:value-of select="$input/@name"/>
         </x:with-param>
-          <xsl:if test="$input/help">
-              <x:with-param name="helpelement">
-                  <xsl:copy-of select="$input/help"/>
-              </x:with-param>
-          </xsl:if>
+        <xsl:if test="$input/help">
+          <x:with-param name="helpelement">
+            <xsl:copy-of select="$input/help"/>
+          </x:with-param>
+        </xsl:if>
 
       </x:call-template>
 
@@ -3776,42 +3774,42 @@
 
         <script language="javascript">
           /*
-           Method: getFilename
+          Method: getFilename
           */
           function getFilename(iname, obj, fname) {
-            var idx = getObjectIndex(obj);
-            var newName = fname.match(/[^\/\\]+$/);
-            document.getElementsByName('filename_'+iname)[idx].value = newName;
+          var idx = getObjectIndex(obj);
+          var newName = fname.match(/[^\/\\]+$/);
+          document.getElementsByName('filename_'+iname)[idx].value = newName;
           }
           // -----------------------------------------------------------------------------------------------------------
 
           /*
-           Method: removeFile
+          Method: removeFile
           */
           function removeFile(iname, obj) {
-            var idx = getObjectIndex(obj);
-            var el = document.getElementsByName('filename_'+iname)[idx];
-            var parent = el.parentNode;
+          var idx = getObjectIndex(obj);
+          var el = document.getElementsByName('filename_'+iname)[idx];
+          var parent = el.parentNode;
 
-            if (!parent)
-              return;
+          if (!parent)
+          return;
 
-            document.getElementsByName('filename_'+iname)[idx].value = "";
+          document.getElementsByName('filename_'+iname)[idx].value = "";
 
-            document.getElementsByName(iname)[idx].value = "";
-            var link = document.getElementsByName(iname+'_link')[idx];
-            var br = parent.getElementsByTagName('br')[0];
-            if (link) {
-              parent.removeChild(link);
-              if (br)
-                parent.removeChild(br);
-            }
+          document.getElementsByName(iname)[idx].value = "";
+          var link = document.getElementsByName(iname+'_link')[idx];
+          var br = parent.getElementsByTagName('br')[0];
+          if (link) {
+          parent.removeChild(link);
+          if (br)
+          parent.removeChild(br);
+          }
 
-            //Because of security implications it is not posible to set the value of an input element with type=file
-            //Posible solution: Remove the element and build it again.
-            var tempHTML = parent.innerHTML;
-            parent.innerHTML = '';
-            parent.innerHTML = tempHTML;
+          //Because of security implications it is not posible to set the value of an input element with type=file
+          //Posible solution: Remove the element and build it again.
+          var tempHTML = parent.innerHTML;
+          parent.innerHTML = '';
+          parent.innerHTML = tempHTML;
           }
         </script>
 
