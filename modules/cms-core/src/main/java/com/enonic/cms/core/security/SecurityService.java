@@ -110,8 +110,6 @@ public interface SecurityService
 
     UserEntity getLoggedInClientApiUserAsEntity();
 
-    User getOldUserObject();
-
     /**
      * @return the user name of the current logged in user.
      */
@@ -122,8 +120,6 @@ public interface SecurityService
      *         some other user.
      */
     UserEntity getRunAsUser();
-
-    User getRunAsOldUser();
 
     void logoutAdminUser();
 

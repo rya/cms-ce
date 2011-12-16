@@ -24,24 +24,21 @@ import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.engine.VerticalCreateException;
 import com.enonic.vertical.engine.VerticalSecurityException;
 
+import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.content.ContentAndVersion;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.ContentVersionEntity;
 import com.enonic.cms.core.content.binary.BinaryData;
+import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
+import com.enonic.cms.core.content.command.CreateContentCommand;
+import com.enonic.cms.core.portal.PrettyPathNameCreator;
+import com.enonic.cms.core.portal.VerticalSession;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserType;
 import com.enonic.cms.core.service.UserServicesService;
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
-
-import com.enonic.cms.core.content.command.CreateContentCommand;
-
-import com.enonic.cms.core.SiteKey;
-import com.enonic.cms.core.content.ContentAndVersion;
-import com.enonic.cms.core.content.ContentVersionEntity;
-import com.enonic.cms.core.content.binary.BinaryDataAndBinary;
-import com.enonic.cms.core.portal.PrettyPathNameCreator;
-import com.enonic.cms.core.portal.VerticalSession;
-
-import com.enonic.cms.core.security.user.UserEntity;
 
 public class FormHandlerController
     extends ContentHandlerBaseController
@@ -262,7 +259,6 @@ public class FormHandlerController
             errorCodes.add( ERR_INVALID_CAPTCHA );
         }
 
-
         // If one or more errors occurred, an exception is thrown, containing the errorcodes
         // and the resulting document (that now should include error XML):
         if ( errorCodes.size() > 0 )
@@ -276,7 +272,7 @@ public class FormHandlerController
         throws VerticalUserServicesException, VerticalCreateException, VerticalSecurityException, RemoteException
     {
 
-        User user = securityService.getOldUserObject();
+        User user = securityService.getLoggedInPortalUser();
         VerticalSession vsession = (VerticalSession) session.getAttribute( VerticalSession.VERTICAL_SESSION_OBJECT );
         if ( vsession == null )
         {

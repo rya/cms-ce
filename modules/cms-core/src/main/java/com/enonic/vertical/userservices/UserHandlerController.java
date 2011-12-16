@@ -528,7 +528,7 @@ public class UserHandlerController
 
     protected void handlerChangePassword( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
     {
-        User loggedInUser = securityService.getOldUserObject();
+        User loggedInUser = securityService.getLoggedInPortalUser();
 
         String uid = parseUsername( formItems );
 
@@ -573,7 +573,7 @@ public class UserHandlerController
                     return;
                 }
                 securityService.loginPortalUser( new QualifiedUsername( userStoreKey, uid ), password );
-                loggedInUser = securityService.getOldUserObject();
+                loggedInUser = securityService.getLoggedInPortalUser();
             }
 
             String newPassword1 = formItems.getString( "newpassword1", "" );
@@ -1190,7 +1190,7 @@ public class UserHandlerController
             }
 
             securityService.loginPortalUser( new QualifiedUsername( userStoreKey, username ), password );
-            user = securityService.getOldUserObject();
+            user = securityService.getLoggedInPortalUser();
 
             if ( user == null )
             {
@@ -1407,7 +1407,7 @@ public class UserHandlerController
         if ( session != null )
         {
             // Create log entry:
-            User user = securityService.getOldUserObject();
+            User user = securityService.getLoggedInPortalUser();
             if ( user != null && !user.isAnonymous() )
             {
                 if ( siteContext.isAuthenticationLoggingEnabled() )
@@ -1458,7 +1458,7 @@ public class UserHandlerController
     private void handlerSetPreferences( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems, SiteKey siteKey )
     {
 
-        User olduser = securityService.getOldUserObject();
+        User olduser = securityService.getLoggedInPortalUser();
         if ( olduser == null )
         {
             String message = "User is not logged in.";
@@ -1537,7 +1537,7 @@ public class UserHandlerController
                                            SiteKey siteKey )
     {
 
-        User olduser = securityService.getOldUserObject();
+        User olduser = securityService.getLoggedInPortalUser();
         if ( olduser == null )
         {
             String message = "User is not logged in.";

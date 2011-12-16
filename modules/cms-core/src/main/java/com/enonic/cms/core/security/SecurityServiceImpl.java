@@ -237,11 +237,6 @@ public class SecurityServiceImpl
         return userDao.findByKey( doGetUserKeyForLoggedInPortalUser() );
     }
 
-    public User getOldUserObject()
-    {
-        return doGetOldUserObject( doGetUserKeyForLoggedInPortalUser() );
-    }
-
     public String getUserName()
     {
         return getLoggedInPortalUser().getName();
@@ -254,11 +249,6 @@ public class SecurityServiceImpl
         userSpecification.setDeletedStateNotDeleted();
 
         return userDao.findSingleBySpecification( userSpecification );
-    }
-
-    public User getRunAsOldUser()
-    {
-        return doGetOldUserObject( doGetUserKeyForPortalExecutor() );
     }
 
     public boolean autoLoginPortalUser( QualifiedUsername qualifiedUsername )

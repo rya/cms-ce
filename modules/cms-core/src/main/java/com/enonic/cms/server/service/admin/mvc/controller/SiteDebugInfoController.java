@@ -19,17 +19,15 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.enonic.cms.core.service.AdminService;
-
 import com.enonic.cms.core.AdminConsoleTranslationService;
-import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
-
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.portal.rendering.tracing.DataTraceInfo;
 import com.enonic.cms.core.portal.rendering.tracing.PagePortletTraceInfo;
 import com.enonic.cms.core.portal.rendering.tracing.PageTraceInfo;
+import com.enonic.cms.core.portal.rendering.tracing.RenderTrace;
 import com.enonic.cms.core.portal.rendering.tracing.RenderTraceInfo;
 import com.enonic.cms.core.security.user.User;
+import com.enonic.cms.core.service.AdminService;
 import com.enonic.cms.core.structure.portlet.PortletKey;
 
 /**
@@ -136,7 +134,7 @@ public final class SiteDebugInfoController
      */
     private String createDataInfoMenu( String key, DataTraceInfo info, HttpServletRequest request, boolean isPage )
     {
-        User user = securityService.getOldUserObject();
+        User user = securityService.getLoggedInPortalUser();
         SiteKey siteKey = info.getSiteKey();
         boolean hasAdmin = adminService.isSiteAdmin( user, siteKey );
         boolean hasDev = adminService.isDeveloper( user );
