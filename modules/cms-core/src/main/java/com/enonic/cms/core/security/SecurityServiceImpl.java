@@ -127,13 +127,6 @@ public class SecurityServiceImpl
         return userDao.findSingleBySpecification( userSpecification );
     }
 
-
-    private User doGetOldUserObject( UserKey userKey )
-    {
-        return userStoreService.getUserByKey( userKey );
-    }
-
-
     public UserEntity getUser( User oldUserObject )
     {
         return userDao.findByKey( oldUserObject.getKey() );
