@@ -314,7 +314,7 @@ public class UserHandlerController
     {
 
         UserEntity user = securityService.getLoggedInPortalUserAsEntity();
-        UserEntity executor = securityService.getRunAsUser();
+        UserEntity executor = securityService.getImpersonatedPortalUser();
 
         if ( user == null )
         {
@@ -463,7 +463,7 @@ public class UserHandlerController
         throws VerticalUserServicesException, RemoteException
     {
         UserEntity user = securityService.getLoggedInPortalUserAsEntity();
-        UserEntity executor = securityService.getRunAsUser();
+        UserEntity executor = securityService.getImpersonatedPortalUser();
         if ( user == null )
         {
             String message = "User must be logged in.";

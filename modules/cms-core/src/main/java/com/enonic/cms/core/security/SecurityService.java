@@ -111,15 +111,10 @@ public interface SecurityService
     UserEntity getLoggedInClientApiUserAsEntity();
 
     /**
-     * @return the user name of the current logged in user.
-     */
-    String getUserName();
-
-    /**
      * @return The user you are currently running as. The run-as user will only be different from logged in user if you have impersonated
      *         some other user.
      */
-    UserEntity getRunAsUser();
+    UserEntity getImpersonatedPortalUser();
 
     void logoutAdminUser();
 

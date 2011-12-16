@@ -162,7 +162,7 @@ public class InternalClientContentService
             throw new ClientException( "The parent category does not exist" );
         }
 
-        UserEntity runningUser = securityService.getRunAsUser();
+        UserEntity runningUser = securityService.getImpersonatedPortalUser();
 
         CategoryAccessResolver categoryAccessResolver = new CategoryAccessResolver( groupDao );
         if ( !categoryAccessResolver.hasAccess( runningUser, parentCategory, CategoryAccessType.ADMINISTRATE ) )
@@ -198,7 +198,7 @@ public class InternalClientContentService
 
     public void deleteContent( DeleteContentParams params )
     {
-        UserEntity runningUser = securityService.getRunAsUser();
+        UserEntity runningUser = securityService.getImpersonatedPortalUser();
 
         ContentEntity content = contentDao.findByKey( new ContentKey( params.contentKey ) );
 
@@ -255,7 +255,7 @@ public class InternalClientContentService
         command.setUseCommandsBinaryDataToAdd( true );
 
         command.setAccessRightsStrategy( CreateContentCommand.AccessRightsStrategy.INHERIT_FROM_CATEGORY );
-        command.setCreator( securityService.getRunAsUser() );
+        command.setCreator( securityService.getImpersonatedPortalUser() );
 
         return contentService.createContent( command ).toInt();
     }
@@ -267,7 +267,7 @@ public class InternalClientContentService
 
         CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
 
-        UserEntity runningUser = securityService.getRunAsUser();
+        UserEntity runningUser = securityService.getImpersonatedPortalUser();
 
         LegacyImageContentData contentdata = (LegacyImageContentData) imageContentResolver.resolveContentdata( params.contentData );
 
@@ -297,7 +297,7 @@ public class InternalClientContentService
     {
         assertMinValue( "binaryKey", params.binaryKey, 0 );
 
-        final UserEntity runAsUser = securityService.getRunAsUser();
+        final UserEntity runAsUser = securityService.getImpersonatedPortalUser();
 
         final BinaryDataKey binaryDataKey = new BinaryDataKey( params.binaryKey );
         final BinaryDataEntity binaryData = binaryDataDao.findByKey( binaryDataKey );
@@ -332,7 +332,7 @@ public class InternalClientContentService
     {
         assertMinValue( "contentKey", params.contentKey, 0 );
 
-        final UserEntity runAsUser = securityService.getRunAsUser();
+        final UserEntity runAsUser = securityService.getImpersonatedPortalUser();
 
         final ContentKey contentKey = new ContentKey( params.contentKey );
         final ContentEntity content = contentDao.findByKey( contentKey );
@@ -414,7 +414,7 @@ public class InternalClientContentService
 
     public void assignContent( AssignContentParams params )
     {
-        final UserEntity assigner = securityService.getRunAsUser();
+        final UserEntity assigner = securityService.getImpersonatedPortalUser();
         final UserParser userParser = new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) );
         final UserEntity assignee = userParser.parseUser( params.assignee );
         final ContentKey contentToAssignOn = new ContentKey( params.contentKey );
@@ -430,7 +430,7 @@ public class InternalClientContentService
 
     public void unassignContent( UnassignContentParams params )
     {
-        final UserEntity unassigner = securityService.getRunAsUser();
+        final UserEntity unassigner = securityService.getImpersonatedPortalUser();
 
         UnassignContentCommand command = new UnassignContentCommand();
         command.setContentKey( new ContentKey( params.contentKey ) );
@@ -441,7 +441,7 @@ public class InternalClientContentService
 
     public void snapshotContent( SnapshotContentParams params )
     {
-        final UserEntity modifier = securityService.getRunAsUser();
+        final UserEntity modifier = securityService.getImpersonatedPortalUser();
 
         SnapshotContentCommand snapshotCommand = new SnapshotContentCommand();
         snapshotCommand.setSnapshotComment( params.snapshotComment );
@@ -471,7 +471,7 @@ public class InternalClientContentService
 
         command.setSyncRelatedContent( true );
         command.setSyncAccessRights( false );
-        command.setModifier( securityService.getRunAsUser() );
+        command.setModifier( securityService.getImpersonatedPortalUser() );
         command.setUpdateAsMainVersion( params.setAsCurrentVersion );
         command.setContentKey( new ContentKey( params.contentKey ) );
         command.setAvailableFrom( params.publishFrom );
@@ -528,7 +528,7 @@ public class InternalClientContentService
 
         CategoryEntity category = categoryDao.findByKey( new CategoryKey( params.categoryKey ) );
 
-        UserEntity runningUser = securityService.getRunAsUser();
+        UserEntity runningUser = securityService.getImpersonatedPortalUser();
 
         LegacyFileContentData contentdata = (LegacyFileContentData) fileContentResolver.resolveContentdata( params.fileContentData );
         List<BinaryDataAndBinary> binaryDataEntries = new ArrayList<BinaryDataAndBinary>();
@@ -572,7 +572,7 @@ public class InternalClientContentService
         command.setContentKey( new ContentKey( params.contentKey ) );
         command.setSyncRelatedContent( false );
         command.setSyncAccessRights( false );
-        command.setModifier( securityService.getRunAsUser() );
+        command.setModifier( securityService.getImpersonatedPortalUser() );
         command.setAvailableFrom( params.publishFrom );
         command.setAvailableTo( params.publishTo );
         command.setStatus( ContentStatus.get( params.status ) );

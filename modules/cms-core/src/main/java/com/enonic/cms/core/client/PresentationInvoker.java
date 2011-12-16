@@ -35,7 +35,7 @@ public final class PresentationInvoker
     private DataSourceContext createDataSourceContext()
     {
         DataSourceContext dataSourceContext = new DataSourceContext();
-        dataSourceContext.setUser( securityService.getRunAsUser() );
+        dataSourceContext.setUser( securityService.getImpersonatedPortalUser() );
         return dataSourceContext;
     }
 

@@ -475,7 +475,7 @@ public final class InternalClientImpl
             }
 
             List<GroupEntity> groupsToJoin = parseGroups( params.groupsToJoin, true );
-            UserEntity executor = securityService.getRunAsUser();
+            UserEntity executor = securityService.getImpersonatedPortalUser();
             GroupSpecification groupSpec = new GroupSpecification();
             groupSpec.setKey( groupToUse.getGroupKey() );
 
@@ -531,7 +531,7 @@ public final class InternalClientImpl
             }
 
             Collection<GroupEntity> groupsToLeave = parseGroups( params.groupsToLeave, true );
-            UserEntity executor = securityService.getRunAsUser();
+            UserEntity executor = securityService.getImpersonatedPortalUser();
             GroupSpecification groupToRemoveSpec = new GroupSpecification();
             groupToRemoveSpec.setKey( groupToRemoveMembershipsFor.getGroupKey() );
 
@@ -569,7 +569,7 @@ public final class InternalClientImpl
 
             final UserStoreEntity userStore = new UserStoreParser( userStoreDao ).parseUserStore( params.userStore );
 
-            UserEntity runningUser = securityService.getRunAsUser();
+            UserEntity runningUser = securityService.getImpersonatedPortalUser();
 
             StoreNewGroupCommand storeNewGroupCommand = new StoreNewGroupCommand();
             storeNewGroupCommand.setName( params.name );
@@ -613,7 +613,7 @@ public final class InternalClientImpl
 
             GroupEntity group = parseGroup( params.group );
 
-            UserEntity runningUser = securityService.getRunAsUser();
+            UserEntity runningUser = securityService.getImpersonatedPortalUser();
 
             GroupSpecification groupSpec = new GroupSpecification();
             groupSpec.setKey( group.getGroupKey() );
@@ -655,7 +655,7 @@ public final class InternalClientImpl
     {
         try
         {
-            UserEntity runAsUser = this.securityService.getRunAsUser();
+            UserEntity runAsUser = this.securityService.getImpersonatedPortalUser();
 
             Assert.isTrue( runAsUser != null );
 
@@ -695,7 +695,7 @@ public final class InternalClientImpl
     {
         try
         {
-            final UserEntity userEntity = securityService.getRunAsUser();
+            final UserEntity userEntity = securityService.getImpersonatedPortalUser();
             UserContextXmlCreator userContextXmlCreator = new UserContextXmlCreator( groupDao );
             return userContextXmlCreator.createUserDocument( userEntity );
         }
@@ -715,7 +715,7 @@ public final class InternalClientImpl
         try
         {
             this.securityService.loginClientApiUser( QualifiedUsername.parse( user ), password );
-            return this.securityService.getUserName();
+            return this.securityService.getLoggedInClientApiUserAsEntity().getName();
         }
         catch ( Exception e )
         {
@@ -761,7 +761,7 @@ public final class InternalClientImpl
     {
         try
         {
-            String userName = this.securityService.getUserName();
+            String userName = this.securityService.getLoggedInClientApiUserAsEntity().getName();
             this.securityService.logoutClientApiUser( invalidateSession );
             return userName;
         }
@@ -820,7 +820,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "userInfo cannot be null" );
             }
 
-            UserEntity storer = securityService.getRunAsUser();
+            UserEntity storer = securityService.getImpersonatedPortalUser();
             UserStoreEntity userStore = new UserStoreParser( userStoreDao ).parseUserStore( params.userstore );
 
             StoreNewUserCommand storeNewUserCommand = new StoreNewUserCommand();
@@ -860,7 +860,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "user cannot be blank" );
             }
 
-            final UserEntity deleter = securityService.getRunAsUser();
+            final UserEntity deleter = securityService.getImpersonatedPortalUser();
             final UserEntity user =
                 new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser( params.user );
 
@@ -1073,7 +1073,7 @@ public final class InternalClientImpl
         final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContent", livePortalTraceService );
         try
         {
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
 
             GetContentExecutor executor = new GetContentExecutor( contentService, contentDao, userDao, timeService.getNowAsDateTime(),
                                                                   previewService.getPreviewContext() );
@@ -1129,7 +1129,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "Missing one or more versionkeys" );
             }
             final Date now = new Date();
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
 
             List<ContentVersionEntity> versions = new ArrayList<ContentVersionEntity>( params.contentVersionKeys.length );
             ContentAccessResolver contentAccessResolver = new ContentAccessResolver( groupDao );
@@ -1195,7 +1195,7 @@ public final class InternalClientImpl
             PreviewContext previewContext = previewService.getPreviewContext();
 
             final Date now = new Date();
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
             ContentXMLCreator xmlCreator = new ContentXMLCreator();
             ContentByQueryQuery spec = new ContentByQueryQuery();
             RelatedContentQuery relatedContentQuery = new RelatedContentQuery( now );
@@ -1269,7 +1269,7 @@ public final class InternalClientImpl
             PreviewContext previewContext = previewService.getPreviewContext();
 
             final Date now = new Date();
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
             ContentXMLCreator xmlCreator = new ContentXMLCreator();
             ContentByCategoryQuery contentByCategoryQuery = new ContentByCategoryQuery();
             RelatedContentQuery relatedContentQuery = new RelatedContentQuery( now );
@@ -1343,7 +1343,7 @@ public final class InternalClientImpl
         {
             PreviewContext previewContext = previewService.getPreviewContext();
 
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
             ContentXMLCreator xmlCreator = new ContentXMLCreator();
             final Date now = new Date();
             ContentByCategoryQuery contentByCategoryQuery = new ContentByCategoryQuery();
@@ -1425,7 +1425,7 @@ public final class InternalClientImpl
         {
             PreviewContext previewContext = previewService.getPreviewContext();
 
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
             final Date now = new Date();
             ContentXMLCreator xmlCreator = new ContentXMLCreator();
             ContentBySectionQuery spec = new ContentBySectionQuery();
@@ -1502,7 +1502,7 @@ public final class InternalClientImpl
         {
             PreviewContext previewContext = previewService.getPreviewContext();
 
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
             final Date now = new Date();
             ContentXMLCreator xmlCreator = new ContentXMLCreator();
             ContentBySectionQuery spec = new ContentBySectionQuery();
@@ -1674,7 +1674,7 @@ public final class InternalClientImpl
             PreviewContext previewContext = previewService.getPreviewContext();
 
             final Date now = new Date();
-            UserEntity user = securityService.getRunAsUser();
+            UserEntity user = securityService.getImpersonatedPortalUser();
 
             // Get given content
             final ContentByContentQuery baseContentQuery = new ContentByContentQuery();
@@ -1917,7 +1917,7 @@ public final class InternalClientImpl
             }
 
             final ImportContentCommand command = new ImportContentCommand();
-            command.importer = this.securityService.getRunAsUser();
+            command.importer = this.securityService.getImpersonatedPortalUser();
             command.categoryToImportTo = categoryToImportTo;
             command.importName = params.importName;
             command.publishFrom = params.publishFrom == null ? null : new DateTime( params.publishFrom );
@@ -1960,9 +1960,11 @@ public final class InternalClientImpl
         final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getPreference", livePortalTraceService );
         try
         {
-            PreferenceKey preferenceKey =
-                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
-                                   params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
+            PreferenceKey preferenceKey = new PreferenceKey( securityService.getImpersonatedPortalUser().getKey(),
+                                                             PreferenceScopeType.parse( params.scope.getType().toString() ),
+                                                             params.scope.getKey() != null
+                                                                 ? new PreferenceScopeKey( params.scope.getKey() )
+                                                                 : null, params.key );
 
             PreferenceEntity preferenceEntity = preferenceService.getPreference( preferenceKey );
 
@@ -1988,7 +1990,7 @@ public final class InternalClientImpl
         final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getPreferences", livePortalTraceService );
         try
         {
-            PreferenceSpecification spec = new PreferenceSpecification( this.securityService.getRunAsUser() );
+            PreferenceSpecification spec = new PreferenceSpecification( this.securityService.getImpersonatedPortalUser() );
             List<PreferenceEntity> preferenceList = preferenceService.getPreferences( spec );
             List<Preference> preferences = new ArrayList<Preference>();
             for ( PreferenceEntity preference : preferenceList )
@@ -2026,9 +2028,11 @@ public final class InternalClientImpl
 
         try
         {
-            PreferenceKey preferenceKey =
-                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
-                                   params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
+            PreferenceKey preferenceKey = new PreferenceKey( securityService.getImpersonatedPortalUser().getKey(),
+                                                             PreferenceScopeType.parse( params.scope.getType().toString() ),
+                                                             params.scope.getKey() != null
+                                                                 ? new PreferenceScopeKey( params.scope.getKey() )
+                                                                 : null, params.key );
 
             PreferenceEntity preference = new PreferenceEntity();
             preference.setKey( preferenceKey );
@@ -2051,9 +2055,11 @@ public final class InternalClientImpl
     {
         try
         {
-            PreferenceKey preferenceKey =
-                new PreferenceKey( securityService.getRunAsUser().getKey(), PreferenceScopeType.parse( params.scope.getType().toString() ),
-                                   params.scope.getKey() != null ? new PreferenceScopeKey( params.scope.getKey() ) : null, params.key );
+            PreferenceKey preferenceKey = new PreferenceKey( securityService.getImpersonatedPortalUser().getKey(),
+                                                             PreferenceScopeType.parse( params.scope.getType().toString() ),
+                                                             params.scope.getKey() != null
+                                                                 ? new PreferenceScopeKey( params.scope.getKey() )
+                                                                 : null, params.key );
 
             PreferenceEntity preference = new PreferenceEntity();
             preference.setKey( preferenceKey );
@@ -2070,7 +2076,7 @@ public final class InternalClientImpl
     {
         try
         {
-            UserEntity runningUser = securityService.getRunAsUser();
+            UserEntity runningUser = securityService.getImpersonatedPortalUser();
             if ( !( runningUser.isEnterpriseAdmin() || runningUser.isAdministrator() ) )
             {
                 throw new IllegalAccessException( "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
@@ -2103,7 +2109,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "menuItemKeys cannot be null" );
             }
 
-            UserEntity runningUser = securityService.getRunAsUser();
+            UserEntity runningUser = securityService.getImpersonatedPortalUser();
             if ( !( runningUser.isEnterpriseAdmin() || runningUser.isAdministrator() ) )
             {
                 throw new IllegalAccessException( "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
@@ -2131,7 +2137,7 @@ public final class InternalClientImpl
     {
         try
         {
-            UserEntity runningUser = securityService.getRunAsUser();
+            UserEntity runningUser = securityService.getImpersonatedPortalUser();
             if ( !( runningUser.isEnterpriseAdmin() || runningUser.isAdministrator() ) )
             {
                 throw new IllegalAccessException( "User " + runningUser.getQualifiedName() + " do not have access to this operation" );
@@ -2163,7 +2169,7 @@ public final class InternalClientImpl
                 throw new IllegalArgumentException( "key must be specified" );
             }
 
-            UserEntity deleter = securityService.getRunAsUser();
+            UserEntity deleter = securityService.getImpersonatedPortalUser();
 
             DeleteCategoryCommand command = new DeleteCategoryCommand();
             command.setDeleter( deleter.getKey() );

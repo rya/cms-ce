@@ -237,15 +237,10 @@ public class SecurityServiceImpl
         return userDao.findByKey( doGetUserKeyForLoggedInPortalUser() );
     }
 
-    public String getUserName()
-    {
-        return getLoggedInPortalUser().getName();
-    }
-
-    public UserEntity getRunAsUser()
+    public UserEntity getImpersonatedPortalUser()
     {
         UserSpecification userSpecification = new UserSpecification();
-        userSpecification.setKey( doGetUserKeyForPortalExecutor() );
+        userSpecification.setKey( doGetUserKeyForImpersonatedPortalUser() );
         userSpecification.setDeletedStateNotDeleted();
 
         return userDao.findSingleBySpecification( userSpecification );
@@ -566,7 +561,7 @@ public class SecurityServiceImpl
         return PortalSecurityHolder.getLoggedInUser();
     }
 
-    private UserKey doGetUserKeyForPortalExecutor()
+    private UserKey doGetUserKeyForImpersonatedPortalUser()
     {
         initializeSecurityHolder();
         return PortalSecurityHolder.getImpersonatedUser();
