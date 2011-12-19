@@ -73,6 +73,12 @@ public class DatasourcesContextXmlCreator
         // Language context
         contextElem.setAttribute( "languagecode", language.getCode() );
 
+        // Querystring context
+        Element queryStringElem =
+            queryStringContextXmlCreator.createQueryStringElement( context.getHttpRequest(), context.getOriginalSitePath(),
+                                                                   context.getRequestParameters() );
+        contextElem.addContent( queryStringElem );
+
         // Device context
         if ( context.getDeviceClass() != null )
         {
@@ -141,12 +147,6 @@ public class DatasourcesContextXmlCreator
         {
             addElement( "profile", context.getProfile(), contextElem );
         }
-
-        // Querystring context
-        Element queryStringElem =
-            queryStringContextXmlCreator.createQueryStringElement( context.getHttpRequest(), context.getOriginalSitePath(),
-                                                                   context.getRequestParameters() );
-        contextElem.addContent( queryStringElem );
 
         // Http context
         if ( datasources.hasHttpContext() )
