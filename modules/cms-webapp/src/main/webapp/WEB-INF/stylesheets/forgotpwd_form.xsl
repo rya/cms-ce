@@ -25,16 +25,44 @@
         <xsl:comment><![CDATA[[if IE 7]>
           <link type="text/css" rel="stylesheet" media="screen" href="css/login_ie7.css" />
         <![endif]]]></xsl:comment>
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-      </head>
-      <body>
-        <xsl:attribute name="onload">
-          <xsl:text>if (self != top) top.location = self.document.location;
-            document.getElementsByName('uid')[0].focus();
-          </xsl:text>
-        </xsl:attribute>
 
-        <table id="wrapper" border="0" cellspacing="0" cellpadding="0">
+        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+
+          <script type="text/javascript">
+            function bodyOnLoad() {
+              if (self != top)
+              {
+                  top.location = self.document.location;
+              }
+              document.getElementsByName('uid')[0].focus();
+
+              var userstore = document.getElementById('userstore');
+              validateUserStore(userstore);
+            }
+
+              var g_userStoreCanUpdatePassword = [];
+
+              <xsl:for-each select="/data/userstores/userstore">
+                g_userStoreCanUpdatePassword[<xsl:value-of select="@key"/>] = "<xsl:value-of select="connector/config/user-policy/@can-update-password"/>";
+              </xsl:for-each>
+
+              function validateUserStore( selectElem )
+              {
+                  var sendPasswordDisplay = g_userStoreCanUpdatePassword[selectElem.value] == "false" ? 'none' : '';
+                  var sendPwdWarningDisplay = sendPasswordDisplay == 'none' ? '' : 'none';
+
+                  var sendPasswordLink = document.getElementById('send-pass-link');
+                  var emailEditField = document.getElementById('emailer');
+                  var sendPasswordWarningBox = document.getElementById('send-passw-warning');
+
+                  sendPasswordLink.style.display = sendPasswordDisplay;
+                  emailEditField.style.display = sendPasswordDisplay;
+                  sendPasswordWarningBox.style.display = sendPwdWarningDisplay;
+              }
+          </script>
+      </head>
+      <body onload="bodyOnLoad();">
+          <table id="wrapper" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td>
               <xsl:choose>
@@ -59,7 +87,10 @@
                   <p class="cms-error">&nbsp;</p>
                 </xsl:otherwise>
               </xsl:choose>
-              <div id="inner">
+
+                <p class="cms-error" id="send-passw-warning">%msgUserstoreDoesNotSupportUpdatingPasswords%</p>
+
+                <div id="inner">
                 <xsl:call-template name="mailform"/>
               </div>
               <p class="version">
@@ -100,7 +131,7 @@
                   </select>
                 </xsl:when>
                 <xsl:otherwise>
-                  <select id="userstore" name="userstorekey">
+                  <select id="userstore" name="userstorekey" onchange="validateUserStore(this)">
                     <option value="">%sysDropDownChoose%</option>
                     <xsl:for-each select="/data/userstores/userstore">
                       <option value="{@key}">
@@ -120,7 +151,7 @@
               </xsl:choose>
             </td>
           </tr>
-          <tr>
+          <tr id="emailer">
             <td class="label-container">
               <label for="uname">%fldUIDorEmail%</label>
             </td>
@@ -128,7 +159,7 @@
               <input type="text" size="20" maxlength="40" id="uname" name="uid"/>
             </td>
           </tr>
-          <tr>
+          <tr id="send-pass-link">
             <td class="label-container">
               <br/>
             </td>

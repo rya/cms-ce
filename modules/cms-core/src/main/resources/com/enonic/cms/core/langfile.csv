@@ -635,6 +635,7 @@
 %errCouldNotSendEmail%|En feil oppsto ved sending av epost|An error occured when sending email|Der opstod en fejl ved afsendelse af e-mail|Ett fel uppstod vid sändning av e-post
 %errLDAPUpdateNotAllowed%|Har ikke tilgang til å endre passord|Access to update password was denied|Har ikke adgang til at ændre adgangskode|Du har inte rättigheter att ändra lösenord
 %errUnknownError%|En ukjent feil oppsto|An unknown error occured|Der opstod en ukendt fejl|Ett okänt fel har uppstått
+%msgUserstoreDoesNotSupportUpdatingPasswords%|Dette brukerlageret støtter ikke oppdatering av passord. Kontakt din systemadministrator for å få et nytt passord.|This userstore does not support updating passwords. Please contact your system administrator to get a new password.|Dette brugerlageret støtter ikke oppdatering av kodeord. Kontakt din systemadministrator for å få en ny kodeord.|Denna användarbas stöd inte uppdatering av lösenord. Kontakta din systemadministratör förr att få ett nytt lösenord.
 %fldNewsletterPage%|Nyhetsbrevside|Newsletter page|Nyhedsbrevside|Nyhetsbrevsid
 %fldGeneratedNewsletter%|Generert nyhetsbrev. Klikk på 'Generer'-knappen|Generated newsletter. Please use 'Generate' button|Klik på 'Generer'-knappen|Genererad nyhetsbrev. Klicka på 'Generera'-knappen
 %headSend%|Send|Send|Send|Skicka

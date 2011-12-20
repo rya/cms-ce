@@ -61,6 +61,7 @@ public class UserStoreConnectorConfigXmlCreator
         userPolicyEl.setAttribute( "can-create", String.valueOf( config.canCreateUser() ) );
         userPolicyEl.setAttribute( "can-update", String.valueOf( config.canUpdateUser() ) );
         userPolicyEl.setAttribute( "can-delete", String.valueOf( config.canDeleteUser() ) );
+        userPolicyEl.setAttribute( "can-update-password", String.valueOf( config.canUpdateUserPassword() ) );
         return userPolicyEl;
     }
 
