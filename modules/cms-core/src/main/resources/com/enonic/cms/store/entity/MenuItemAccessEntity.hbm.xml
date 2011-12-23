@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="com.enonic.cms.domain" default-access="field">
+<hibernate-mapping default-access="field">
   <class name="com.enonic.cms.core.structure.menuitem.MenuItemAccessEntity" table="TMENUITEMAR" mutable="true">
     <cache usage="nonstrict-read-write"/>
     <composite-id name="key" class="com.enonic.cms.core.structure.menuitem.MenuItemAccessKey">
@@ -34,13 +34,7 @@
       <column name="MIA_BUPDATE" not-null="true"/>
     </property>
   </class>
-  <query name="MenuItemAccessEntity.findAll" cacheable="true">
-    from MenuItemAccessEntity
-  </query>
   <query name="MenuItemAccessEntity.deleteByGroupKey" cacheable="false">
     delete from MenuItemAccessEntity where key.groupKey = :groupKey
-  </query>
-  <query name="MenuItemAccessEntity.findByMenuItemKey" cacheable="false">
-    from MenuItemAccessEntity where key.menuItemKey = :menuItemKey
   </query>
 </hibernate-mapping>

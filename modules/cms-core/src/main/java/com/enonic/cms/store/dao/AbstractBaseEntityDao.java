@@ -69,19 +69,6 @@ public abstract class AbstractBaseEntityDao<T>
         return list.isEmpty() ? null : list.get( 0 );
     }
 
-    protected final <T> T findFirstByNamedQuery( Class<T> clazz, String queryName, String[] nameList, Object[] valueList )
-    {
-        List<T> list = findByNamedQuery( clazz, queryName, nameList, valueList );
-        return list.isEmpty() ? null : list.get( 0 );
-    }
-
-    protected final Integer selectSingleIntegerByNamedQuery( String queryName, String[] nameList, Object[] valueList )
-    {
-        final List list = getHibernateTemplate().findByNamedQueryAndNamedParam( queryName, nameList, valueList );
-        checkSingleResult( list, queryName );
-        return (Integer) ( list.isEmpty() ? null : list.get( 0 ) );
-    }
-
     protected final <T> T executeSingleResult( Class<T> clazz, HibernateCallback callback )
     {
         return typecast( clazz, getHibernateTemplate().execute( callback ) );
@@ -178,11 +165,6 @@ public abstract class AbstractBaseEntityDao<T>
         getHibernateTemplate().delete( entity );
     }
 
-    public final void deleteAll( List<?> entities )
-    {
-        getHibernateTemplate().deleteAll( entities );
-    }
-
     public final void flush()
     {
         getHibernateTemplate().flush();
@@ -199,17 +181,6 @@ public abstract class AbstractBaseEntityDao<T>
     }
 
     public int deleteByNamedQuery( final String queryName, String paramName, Object paramValue )
-    {
-        return executeByNamedQuery( queryName, paramName != null ? new String[]{paramName} : null,
-                                    paramValue != null ? new Object[]{paramValue} : null );
-    }
-
-    public int deleteByNamedQuery( final String queryName, String[] paramName, Object[] paramValue )
-    {
-        return executeByNamedQuery( queryName, paramName, paramValue );
-    }
-
-    public int updateByNamedQuery( final String queryName, String paramName, Object paramValue )
     {
         return executeByNamedQuery( queryName, paramName != null ? new String[]{paramName} : null,
                                     paramValue != null ? new Object[]{paramValue} : null );
@@ -287,9 +258,9 @@ public abstract class AbstractBaseEntityDao<T>
 
     private Query createQuery( final String query )
     {
-        return (Query) this.hibernateTemplate.execute( new HibernateCallback()
+        return this.hibernateTemplate.execute( new HibernateCallback<Query>()
         {
-            public Object doInHibernate( Session session )
+            public Query doInHibernate( Session session )
                 throws HibernateException, SQLException
             {
                 return session.createQuery( query );
