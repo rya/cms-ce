@@ -487,7 +487,7 @@ public class FormHandlerController
         throws VerticalUserServicesException
     {
 
-        String toEmail;
+        String toEmail = null;
         Element toEmailElem = XMLTool.selectElement( formElement, "item[@fromemail = 'true']" );
         if ( toEmailElem != null )
         {
@@ -495,7 +495,18 @@ public class FormHandlerController
             String formName = menuItemKey + "_form_" + itemIndex;
             toEmail = formItems.getString( formName, null );
         }
-        else
+
+        if ( toEmail == null || toEmail.trim().equals( "" ) )
+        {
+            // If there are no e-mail recipient specified, check if there is a logged in user who can recieve a reciept
+            UserEntity loggedInUser = securityService.getLoggedInPortalUserAsEntity();
+            if ( loggedInUser != null )
+            {
+                toEmail = loggedInUser.getEmail();
+            }
+        }
+
+        if ( toEmail == null || toEmail.trim().equals( "" ) )
         {
             // don't waste time here if there are no recipients
             return;
