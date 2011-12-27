@@ -54,9 +54,8 @@
     <xsl:variable name="css" select="concat('css?id=', $customcss)"/>
 
     <!-- Create uniqe id -->
-    <xsl:variable name="javaRandom" select="admin:random()"/>
-    <xsl:variable name="javaRandomInt" select="substring-after($javaRandom,'.')"/>
-    <xsl:variable name="edKey" select="concat('id_', $javaRandomInt)"/>
+    <xsl:variable name="javaUniqueId" select="admin:uniqueId()"/>
+    <xsl:variable name="edKey" select="concat('id_', $javaUniqueId)"/>
 
     <xsl:variable name="block-format-elements-normalized" select="normalize-space($block-format-elements)"/>
 

@@ -755,10 +755,7 @@
               var s = textarea[i].className.split(' ');
               var settings = eval(s[1]);
 
-              // Give it a new ID straight away.
-              var ran = Math.random();
-              var id = ran.toString().split('.');
-              var edKey = 'id_' + id[1];
+              var edKey = 'id_' +  ContentFormUtil.getUniqueId();
 
               var editorInitMsg, editorContainer  = null;
               var cmsDiv = newTBody.getElementsByTagName('div');
@@ -2824,8 +2821,8 @@
           </x:call-template>
         </xsl:if>
 
-        <x:variable name="random">
-          <xsl:value-of select="admin:random()"/>
+        <x:variable name="uniqueId">
+          <xsl:value-of select="admin:uniqueId()"/>
         </x:variable>
 
         <div class="radiobutton-group">
@@ -2836,7 +2833,7 @@
             <input type="radio" value="{@value}">
               <x:attribute name="name">
                 <x:text>rb:</x:text>
-                <x:value-of select="substring-after($random, '.')"/>
+                <x:value-of select="$uniqueId"/>
                 <x:text>:</x:text>
                 <xsl:value-of select="$inputname"/>
               </x:attribute>

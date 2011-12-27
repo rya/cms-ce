@@ -26,9 +26,13 @@ var ContentFormUtil = {
         return classElements;
     },
 
-    getRandom: function()
+    getUniqueId: function()
     {
-        return Math.random().toString().split('.')[1];
+        var S4 = function() {
+            return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+        };
+
+        return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4()).replace(/-/g, '');
     }
 };
 
@@ -50,7 +54,7 @@ function renameRadioButtonsInNewBlock( oNewBlockRootElement )
         {
             var sOriginalRadioButtonName = oRadioButtons[0].name.split(':')[2];
 
-            var sNewRadioButtonName = 'rb:' + ContentFormUtil.getRandom() + ':' + sOriginalRadioButtonName;
+            var sNewRadioButtonName = 'rb:' + ContentFormUtil.getUniqueId() + ':' + sOriginalRadioButtonName;
 
             for ( var j = 0; j < iRadioButtonLn; j ++ )
             {
