@@ -1,21 +1,21 @@
 /*
-    Requires:
+ Requires:
 
-        XSL:
+ XSL:
 
-        <xsl:include href="common/codearea.xsl"/>
+ <xsl:include href="common/codearea.xsl"/>
 
-        CSS:
+ CSS:
 
-        <link rel="stylesheet" type="text/css" href="css/admin.css"/>
-        <link rel="stylesheet" type="text/css" href="css/codearea.css"/>
+ <link rel="stylesheet" type="text/css" href="css/admin.css"/>
+ <link rel="stylesheet" type="text/css" href="css/codearea.css"/>
 
-        JS:
-        
-        <script type="text/javascript" src="codemirror/js/codemirror.js">//</script>
-        <script type="text/javascript" src="javascript/codearea.js">//</script>
-        <script type="text/javascript" src="javascript/admin.js">//</script>
-*/
+ JS:
+
+ <script type="text/javascript" src="codemirror/js/codemirror.js">//</script>
+ <script type="text/javascript" src="javascript/codearea.js">//</script>
+ <script type="text/javascript" src="javascript/admin.js">//</script>
+ */
 
 if ( !cms ) var cms = {};
 if ( !cms.ui ) cms.ui = {};
@@ -96,21 +96,9 @@ cms.ui.CodeArea = function( options )
         return str.replace( /^\s+|\s+$/g, '' );
     }
 
-    function createReadOnlyShim()
-    {
-        var shimElem = document.createElement( 'div' );
-
-        shimElem.className = 'code-area-readonly-shim';
-        shimElem.style.width = width;
-        shimElem.style.height = height;
-
-        documentContainer.insertBefore( shimElem, documentContainer.firstChild );
-    }
-
-
     //////////////////////////////// Public ////////////////////////////////
 
-    
+
     this.editorOn = true;
 
     this.renderButtons = function()
@@ -137,10 +125,10 @@ cms.ui.CodeArea = function( options )
                 buttonElem.title = tooltip;
                 /* admin.js */ addEvent( buttonElem, 'click', command, false );
                 /* admin.js */ addEvent( buttonElem, 'click', function( event )
-                {
-                    var target = event.target ? event.target : event.srcElement; 
-                    // event.target.blur()
-                }, false );
+            {
+                var target = event.target ? event.target : event.srcElement;
+                // event.target.blur()
+            }, false );
 
                 buttonsContainer.appendChild( buttonElem );
 
@@ -255,7 +243,7 @@ cms.ui.CodeArea = function( options )
         }
 
         var cursor = codemirror.getSearchCursor( from, false );
-        
+
         while ( cursor.findNext() )
         {
             cursor.replace( to );
@@ -278,7 +266,7 @@ cms.ui.CodeArea = function( options )
 
 
     this.toggleEditor = function()
-    {                                            
+    {
         var toggleBtn = document.getElementById(buttonsContainer.id + '_toggleeditor');
 
         if ( this.editorOn )
@@ -309,11 +297,6 @@ cms.ui.CodeArea = function( options )
             this.renderButtons();
         }
 
-        if ( readOnly )
-        {
-            createReadOnlyShim();
-        }
-
         codemirror = CodeMirror.fromTextArea( textareaId, {
             lineNumbers: useLineNumbers,
             textWrapping: true,
@@ -341,34 +324,34 @@ cms.ui.CodeArea = function( options )
         /* admin.js */ addEvent(codemirror.win.document, 'focus', inst.focusDocument, false);
         /* admin.js */ addEvent(codemirror.win.document, 'blur', inst.blurDocument, false);
         /* admin.js */ addEvent(codemirror.win.document, 'keydown', function(event)
-                        {
-                            var command_f_pressed = event.metaKey && event.keyCode === 70;
-                            var command_r_pressed = event.metaKey && event.keyCode === 82;
-                            var command_g_pressed = event.metaKey && event.keyCode === 71;
+    {
+        var command_f_pressed = event.metaKey && event.keyCode === 70;
+        var command_r_pressed = event.metaKey && event.keyCode === 82;
+        var command_g_pressed = event.metaKey && event.keyCode === 71;
 
-                            if ( command_f_pressed || command_r_pressed || command_g_pressed )
-                            {
-                                if ( command_f_pressed && 'find' in configuredButtons )
-                                {
-                                    inst.find();
-                                }
-                                else if ( command_r_pressed && 'replace' in configuredButtons )
-                                {
-                                    inst.replace();
-                                }
-                                else if ( command_g_pressed && 'gotoline' in configuredButtons )
-                                {
-                                    inst.gotoLine();
-                                }
-                                else
-                                {
-                                    /**/
-                                }
+        if ( command_f_pressed || command_r_pressed || command_g_pressed )
+        {
+            if ( command_f_pressed && 'find' in configuredButtons )
+            {
+                inst.find();
+            }
+            else if ( command_r_pressed && 'replace' in configuredButtons )
+            {
+                inst.replace();
+            }
+            else if ( command_g_pressed && 'gotoline' in configuredButtons )
+            {
+                inst.gotoLine();
+            }
+            else
+            {
+                /**/
+            }
 
-                                if ( isIE ) event.returnValue = false;
-                                else event.preventDefault();
-                            }
+            if ( isIE ) event.returnValue = false;
+            else event.preventDefault();
+        }
 
-                        }, false);
+    }, false);
     };
 };
