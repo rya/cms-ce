@@ -7,6 +7,7 @@ package com.enonic.cms.core.xslt.lib;
 
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 
 import org.jdom.Namespace;
 import org.w3c.dom.Node;
@@ -52,8 +53,8 @@ public final class AdminFunctions
         }
     }
 
-    public static String random()
+    public static String uniqueId()
     {
-        return Double.toString( Math.random() );
+        return UUID.randomUUID().toString().replaceAll( "-", "" );
     }
 }
