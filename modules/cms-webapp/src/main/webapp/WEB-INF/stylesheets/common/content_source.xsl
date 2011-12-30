@@ -33,7 +33,7 @@
           <table border="0" cellspacing="2" cellpadding="2" width="100%">
             <tr>
               <xsl:call-template name="codearea">
-                <xsl:with-param name="name" select="'datasources'"/>
+                <xsl:with-param name="name" select="'_source_xml_data'"/>
                 <xsl:with-param name="width" select="'100%'"/>
                 <xsl:with-param name="height" select="'240px'"/>
                 <xsl:with-param name="line-numbers" select="true()"/>
