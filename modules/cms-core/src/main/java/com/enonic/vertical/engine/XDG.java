@@ -159,8 +159,8 @@ public class XDG
     public static void appendWhereSQL( StringBuffer sql, Column whereColumn )
     {
         appendAndSQL( sql );
-        sql.append( OPERATOR_EQUAL );
         sql.append( whereColumn );
+        sql.append( OPERATOR_EQUAL );
     }
 
     /**
