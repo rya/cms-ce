@@ -35,11 +35,10 @@
               <xsl:call-template name="codearea">
                 <xsl:with-param name="name" select="'_source_xml_data'"/>
                 <xsl:with-param name="width" select="'100%'"/>
-                <xsl:with-param name="height" select="'240px'"/>
+                <xsl:with-param name="height" select="'300px'"/>
                 <xsl:with-param name="line-numbers" select="true()"/>
                 <xsl:with-param name="read-only" select="true()"/>
                 <xsl:with-param name="selectnode" select="$source/data"/>
-
                 <xsl:with-param name="buttons" select="''"/>
                 <xsl:with-param name="status-bar" select="false()"/>
               </xsl:call-template>
