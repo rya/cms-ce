@@ -987,6 +987,26 @@ function validateRelatedContent(e, fieldname, tabPane) {
 	return true;
 }
 
+function validateRelatedContentCount(e, fieldname, tabPane) {
+    if (e == undefined ) {
+        error(e, errorRequired + fieldname, tabPane);
+        return false;
+    } else if ( isArray( e ) ) {
+        for ( var i = 0; i < e.length; i++ ) {
+            if (e[i].value === undefined || e[i].value === '0') {
+                error(e[i], errorRequired + fieldname, tabPane);
+                return false;
+            }
+        }
+    } else {
+        if (e.value === undefined || e.value === '0') {
+            error(e, errorRequired + fieldname, tabPane);
+            return false;
+        }
+    }
+    return true;
+}
+
 function validateRequired(e, fieldname, tabPane, ignoreFirstPos) {
   var i;
 

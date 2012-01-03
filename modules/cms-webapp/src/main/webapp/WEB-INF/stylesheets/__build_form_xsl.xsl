@@ -197,6 +197,15 @@
                 ++idx;
               </xsl:for-each>
 
+              <xsl:for-each select="//input[@required = 'true' and @type = 'relatedcontent' and @multiple = 'true']">
+                <xsl:text>validatedFields[idx] = new Array("</xsl:text>
+                <xsl:value-of select="display"/>
+                <xsl:text>", "</xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>_counter", validateRelatedContentCount);</xsl:text>
+                ++idx;
+              </xsl:for-each>
+
               <xsl:for-each select="//input[@required = 'true' and @type = 'dropdown']">
                 <xsl:text>validatedFields[idx] = new Array("</xsl:text>
                 <xsl:value-of select="display"/>
