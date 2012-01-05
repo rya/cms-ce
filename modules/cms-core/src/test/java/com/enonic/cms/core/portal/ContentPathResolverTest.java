@@ -36,42 +36,45 @@ public class ContentPathResolverTest
     @Test
     public void testPathsWithContentKey()
     {
-        ContentPath resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content--1234name--1234" );
-        verifyContentPath( resolvedPath, "1234", "content--1234name" );
-
-        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
-
-        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
-
-        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window/mywindow" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
-
-        resolvedPath = resolvePath( "This/is/a/test/with/content-key/content-name--1234" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
-
-        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234#withfragment" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
-
-        resolvedPath = resolvePath( "/content-name--1234" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
+        ContentPath resolvedPath = resolvePath( "/content-name--1234" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/" );
 
         resolvedPath = resolvePath( "content-name--1234" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content--1234name--1234" );
+        verifyContentPath( resolvedPath, "1234", "content--1234name", "/This/is/a/test/with/content-key" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
+
+        resolvedPath = resolvePath( "This/is/a/test/with/content-key/content-name--1234" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234#withfragment" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window/mywindow" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window/mywindow?param=value" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window/mywindow?param=value#fragment" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
     }
 
     @Test
     public void testOldTypeContentPath()
     {
         ContentPath resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name.1234.cms" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/This/is/a/test/with/content-key" );
 
         resolvedPath = resolvePath( "/content-name.1234.cms" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/" );
 
         resolvedPath = resolvePath( "content-name.1234.cms" );
-        verifyContentPath( resolvedPath, "1234", "content-name" );
+        verifyContentPath( resolvedPath, "1234", "content-name", "/" );
     }
 
     @Test
@@ -92,11 +95,12 @@ public class ContentPathResolverTest
         return ContentPathResolver.resolveContentPath( new Path( pathAsString ) );
     }
 
-    private void verifyContentPath( ContentPath resolvedPath, String contentKey, String contentName )
+    private void verifyContentPath( ContentPath resolvedPath, String contentKey, String contentName, String pathToMenuItem )
     {
         assertNotNull( resolvedPath );
         assertEquals( contentKey, resolvedPath.getContentKey().toString() );
         assertEquals( contentName, resolvedPath.getContentName() );
+        assertEquals( pathToMenuItem, resolvedPath.getPathToMenuItem().toString() );
     }
 
 
