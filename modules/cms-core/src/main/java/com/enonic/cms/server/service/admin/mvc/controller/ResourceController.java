@@ -21,6 +21,7 @@ import org.springframework.web.util.UrlPathHelper;
 
 import com.enonic.cms.framework.util.HttpCacheControlSettings;
 import com.enonic.cms.framework.util.HttpServletUtil;
+import com.enonic.cms.framework.util.MimeTypeResolver;
 
 /**
  * This class implements a file controller that returns the actual referenced file in
@@ -82,7 +83,7 @@ public class ResourceController
     {
         BufferedInputStream in = new BufferedInputStream( resource.getInputStream() );
         BufferedOutputStream out = new BufferedOutputStream( response.getOutputStream() );
-        response.setContentType( getServletContext().getMimeType( resource.getFilename() ) );
+        response.setContentType( MimeTypeResolver.getInstance().getMimeType( resource.getFilename() ) );
         HttpServletUtil.copyNoCloseOut( in, out );
     }
 }

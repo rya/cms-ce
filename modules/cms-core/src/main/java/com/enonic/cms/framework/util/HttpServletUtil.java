@@ -93,7 +93,7 @@ public class HttpServletUtil
 
     public static String resolveMimeType( ServletContext servletContext, String filename )
     {
-        String mimeType = servletContext.getMimeType( filename.toLowerCase() );
+        String mimeType = MimeTypeResolver.getInstance().getMimeType( filename.toLowerCase() );
         if ( mimeType == null )
         {
             mimeType = "www/unknown";

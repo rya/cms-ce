@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.core.io.Resource;
 
 import com.enonic.cms.framework.util.HttpServletUtil;
+import com.enonic.cms.framework.util.MimeTypeResolver;
 
 import com.enonic.cms.core.AdminConsoleTranslationService;
 
@@ -28,7 +29,7 @@ public class ResourceTranslationController
     {
 
         StringBuffer contentType = new StringBuffer();
-        contentType.append( getServletContext().getMimeType( resource.getFilename() ) );
+        contentType.append( MimeTypeResolver.getInstance().getMimeType( resource.getFilename() ) );
         contentType.append( "; charset=UTF-8" );
         response.setContentType( contentType.toString() );
 
