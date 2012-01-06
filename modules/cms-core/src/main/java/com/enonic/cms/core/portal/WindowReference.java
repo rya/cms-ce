@@ -31,13 +31,17 @@ public class WindowReference
             return null;
         }
         String portletName = localPath.getPathElement( index + 1 );
+
+        // extension is used for outputFormat . see reference in method's javadoc
+        final String portletNameWithoutExtension = portletName.replaceAll( "\\.[^\\.]*?$", "" );
+
         String pathWithoutWindowReference = localPath.subPath( 0, index );
         if ( localPath.hasFragment() )
         {
             pathWithoutWindowReference = pathWithoutWindowReference + "#" + localPath.getFragment();
         }
         Path pathToMenuItem = new Path( pathWithoutWindowReference, true );
-        return new WindowReference( portletName, pathToMenuItem );
+        return new WindowReference( portletNameWithoutExtension, pathToMenuItem );
     }
 
     public WindowReference( String portletName, Path pathToMenuItem )
