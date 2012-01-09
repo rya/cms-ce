@@ -348,7 +348,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getUsers( GetUsersParams params )
         throws ClientException
     {
@@ -386,7 +386,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getGroups( GetGroupsParams params )
         throws ClientException
     {
@@ -1055,7 +1055,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getCategories( GetCategoriesParams params )
         throws ClientException
     {
@@ -1077,7 +1077,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContent( GetContentParams params )
         throws ClientException
     {
@@ -1129,7 +1129,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContentVersions( GetContentVersionsParams params )
     {
         final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getContentVersions", livePortalTraceService );
@@ -1196,7 +1196,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContentByQuery( GetContentByQueryParams params )
         throws ClientException
     {
@@ -1270,7 +1270,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContentByCategory( GetContentByCategoryParams params )
         throws ClientException
     {
@@ -1344,7 +1344,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getRandomContentByCategory( GetRandomContentByCategoryParams params )
         throws ClientException
     {
@@ -1427,7 +1427,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContentBySection( GetContentBySectionParams params )
         throws ClientException
     {
@@ -1503,7 +1503,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getRandomContentBySection( GetRandomContentBySectionParams params )
         throws ClientException
     {
@@ -1577,7 +1577,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getMenu( GetMenuParams params )
         throws ClientException
     {
@@ -1596,7 +1596,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getMenuBranch( GetMenuBranchParams params )
         throws ClientException
     {
@@ -1615,7 +1615,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getMenuData( GetMenuDataParams params )
         throws ClientException
     {
@@ -1634,7 +1634,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getMenuItem( GetMenuItemParams params )
         throws ClientException
     {
@@ -1653,7 +1653,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getSubMenu( GetSubMenuParams params )
         throws ClientException
     {
@@ -1675,7 +1675,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getRelatedContent( final GetRelatedContentsParams params )
         throws ClientException
     {
@@ -1845,7 +1845,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getBinary( GetBinaryParams params )
         throws ClientException
     {
@@ -1864,7 +1864,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContentBinary( GetContentBinaryParams params )
         throws ClientException
     {
@@ -1883,7 +1883,7 @@ public final class InternalClientImpl
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getResource( GetResourceParams params )
         throws ClientException
     {
@@ -1964,7 +1964,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Preference getPreference( GetPreferenceParams params )
         throws ClientException
     {
@@ -1994,7 +1994,7 @@ public final class InternalClientImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public List<Preference> getPreferences()
         throws ClientException
     {
@@ -2432,7 +2432,7 @@ public final class InternalClientImpl
         return map;
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
         throws ClientException
     {

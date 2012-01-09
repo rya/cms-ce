@@ -158,6 +158,7 @@ public final class DataSourceServiceImpl
 
     private UserStoreService userStoreService;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentByQuery( DataSourceContext context, String query, String orderBy, int index, int count,
                                           boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -216,6 +217,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
                                    boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -228,6 +230,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentVersion( DataSourceContext context, int[] versionKeys, int childrenLevel )
     {
         return doGetContentVersion( context, versionKeys, childrenLevel );
@@ -236,6 +239,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRelatedContent( DataSourceContext context, int[] contentKeys, int relation, String query, String orderBy,
                                           int index, int count, boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -251,6 +255,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query, String orderBy,
                                             int index, int count, boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -264,6 +269,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRandomContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String query, int count,
                                                   boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -277,6 +283,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query, String orderBy,
                                              int index, int count, boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -291,6 +298,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRandomContentByCategory( DataSourceContext context, int[] categoryKeys, int levels, String query, int count,
                                                    boolean includeData, int childrenLevel, int parentLevel )
     {
@@ -354,6 +362,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getCalendar( DataSourceContext context, boolean relative, int year, int month, int count, boolean includeWeeks,
                                     boolean includeDays, String language, String country )
     {
@@ -361,6 +370,7 @@ public final class DataSourceServiceImpl
             calendarService.getCalendar( relative, year, month, count, includeWeeks, includeDays, language, country ) );
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getCountries( DataSourceContext context, String[] countryCodes, boolean includeRegions )
     {
 
@@ -387,6 +397,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
                                    int parentChildrenLevel, boolean updateStatistics )
     {
@@ -405,6 +416,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
                                    int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
     {
@@ -422,6 +434,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
                                    int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights, int[] filterByCategories,
                                    boolean categoryRecursive, int[] filterByContentTypes )
@@ -436,6 +449,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContent( DataSourceContext context, int[] contentKeys, int parentLevel, int childrenLevel,
                                    int parentChildrenLevel, boolean updateStatistics, boolean relatedTitlesOnly, boolean includeUserRights,
                                    int[] filterByCategories, boolean categoryRecursive, int[] filterByContentTypes )
@@ -450,6 +464,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentBySection( DataSourceContext context, int[] menuItemKeys, int levels, String orderBy, int fromIndex,
                                             int count, boolean titlesOnly, int parentLevel, int childrenLevel, int parentChildrenLevel,
                                             boolean relatedTitlesOnly, boolean includeTotalCount, boolean includeUserRights,
@@ -464,6 +479,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentBySection( DataSourceContext context, String query, int[] menuItemKeys, int levels, String orderBy,
                                             int fromIndex, int count, boolean titlesOnly, int parentLevel, int childrenLevel,
                                             int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
@@ -478,6 +494,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getFormattedDate( DataSourceContext context, int offset, String dateformat, String language, String country )
     {
         return XMLDocumentFactory.create( calendarService.getFormattedDate( offset, dateformat, language, country ) );
@@ -486,7 +503,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenu( DataSourceContext context, int menuKey, int tagItem, int levels )
     {
         return doGetMenu( getUserEntity( context.getUser() ), menuKey, tagItem, levels );
@@ -495,7 +512,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenu( DataSourceContext context, int menuKey, int tagItem, int levels, boolean details )
     {
         // param "details" not in use
@@ -505,7 +522,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenu( DataSourceContext context, int menuItemKey, int levels )
     {
         if ( menuItemKey < 0 )
@@ -523,7 +540,7 @@ public final class DataSourceServiceImpl
      * @param menuId  a menu key
      * @return menu data xml
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuData( DataSourceContext context, int menuId )
     {
         return doGetMenuData( menuId );
@@ -535,7 +552,7 @@ public final class DataSourceServiceImpl
      * @param context the Vertical Site context
      * @return menu data xml
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuData( DataSourceContext context )
     {
         return doGetMenuData( context.getSiteKey().toInt() );
@@ -550,14 +567,14 @@ public final class DataSourceServiceImpl
      * @param topLevel if true, all menu items at the top level are returned
      * @return menu tree xml
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel )
     {
         return doGetMenuBranch( getUserEntity( context.getUser() ), menuItem, topLevel, 0, 0 );
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel, int startLevel, int levels )
     {
         return doGetMenuBranch( getUserEntity( context.getUser() ), menuItem, topLevel, startLevel, levels );
@@ -566,7 +583,7 @@ public final class DataSourceServiceImpl
     /**
      * Return the menu branch.
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuBranch( DataSourceContext context, int menuItem, boolean topLevel, boolean details )
     {
         // param "details" not in use
@@ -576,7 +593,7 @@ public final class DataSourceServiceImpl
     /**
      * Not in use.
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuItem( DataSourceContext context, int key, boolean withParents )
     {
         return doGetMenuItem( getUserEntity( context.getUser() ), key, withParents );
@@ -591,7 +608,7 @@ public final class DataSourceServiceImpl
      * @param complete    include the full menu item
      * @return menu item xml
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMenuItem( DataSourceContext context, int key, boolean withParents, boolean complete )
     {
         // param "complete" not in use
@@ -601,6 +618,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRandomContentByParent( DataSourceContext context, int count, int contentKey, boolean includeUserRights )
     {
         PreviewContext previewContext = context.getPreviewContext();
@@ -658,6 +676,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRandomContentBySections( DataSourceContext context, String query, int[] menuItemKeys, int levels, int count,
                                                    boolean titlesOnly, int parentLevel, int childrenLevel, int parentChildrenLevel,
                                                    boolean relatedTitlesOnly, boolean includeUserRights )
@@ -673,7 +692,7 @@ public final class DataSourceServiceImpl
      * @param key     Root menu item key
      * @param tagItem Menu item key to tag
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem )
     {
         return doGetSubMenu( getUserEntity( context.getUser() ), key, tagItem, 0 );
@@ -688,7 +707,7 @@ public final class DataSourceServiceImpl
      * @param tagItem Menu item key to tag
      * @param levels  Number of levels to fetch
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem, int levels )
     {
         return doGetSubMenu( getUserEntity( context.getUser() ), key, tagItem, levels );
@@ -704,7 +723,7 @@ public final class DataSourceServiceImpl
      * @param levels  Number of levels to fetch
      * @param details Fetch details if true
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getSubMenu( DataSourceContext context, int key, int tagItem, int levels, boolean details )
     {
         // param "details" not in use
@@ -721,7 +740,7 @@ public final class DataSourceServiceImpl
      * @param includeCategory  if true, include the root category
      * @return category xml
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getSuperCategoryNames( DataSourceContext context, int categoryKey, boolean withContentCount,
                                               boolean includeCategory )
     {
@@ -731,6 +750,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getURLAsText( DataSourceContext context, String url, String encoding )
     {
         return getURLAsText( context, url, encoding, -1 );
@@ -739,6 +759,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getURLAsText( DataSourceContext context, String url, String encoding, int timeout )
     {
         StringBuffer xmlString = new StringBuffer();
@@ -759,6 +780,7 @@ public final class DataSourceServiceImpl
     /**
      * Makes a connection to a url that has an xml as result.
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getURLAsXML( DataSourceContext context, String url )
     {
         return getURLAsXML( context, url, -1 );
@@ -767,6 +789,7 @@ public final class DataSourceServiceImpl
     /**
      * Makes a connection to a url that has an xml as result.
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getURLAsXML( DataSourceContext context, String url, int timeout )
     {
         byte[] xmlBytes = httpService.getURLAsBytes( url, timeout );
@@ -779,7 +802,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getIndexValues( DataSourceContext context, String path, int[] categories, boolean includeSubCategories,
                                        int[] contentTypes, int index, int count, boolean distinct, String order )
     {
@@ -794,7 +817,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getAggregatedIndexValues( DataSourceContext context, String path, int[] categories, boolean includeSubCategories,
                                                  int[] contentTypes )
     {
@@ -809,6 +832,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getContentByCategory( DataSourceContext context, String query, int[] categories, boolean includeSubCategories,
                                              String orderBy, int index, int count, boolean titlesOnly, int childrenLevel, int parentLevel,
                                              int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
@@ -823,6 +847,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getMyContentByCategory( DataSourceContext context, String query, int[] categories, boolean includeSubCategories,
                                                String orderBy, int index, int count, boolean titlesOnly, int childrenLevel, int parentLevel,
                                                int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
@@ -925,7 +950,7 @@ public final class DataSourceServiceImpl
      * @param contentTypes         filter by zero or more content types
      * @return contents xml
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument findContentByCategory( DataSourceContext context, String search, String operator, int[] categories,
                                               boolean includeSubCategories, String orderBy, int index, int count, boolean titlesOnly,
                                               int childrenLevel, int parentLevel, int parentChildrenLevel, boolean relatedTitlesOnly,
@@ -1025,7 +1050,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getCategories( DataSourceContext context, int superCategoryKey, int level, boolean withContentCount,
                                       boolean includeCategory )
     {
@@ -1039,7 +1064,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getCategories( DataSourceContext context, int key, int levels, boolean topLevel, boolean details, boolean catCount,
                                       boolean contentCount )
     {
@@ -1048,6 +1073,7 @@ public final class DataSourceServiceImpl
     }
 
     @SuppressWarnings({"UnusedDeclaration"})
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getUserstore( final DataSourceContext context, final String userstore )
     {
         final UserStoreXmlCreator userStoreXmlCreator = new UserStoreXmlCreator( userStoreService.getUserStoreConnectorConfigs() );
@@ -1083,7 +1109,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getUser( DataSourceContext context, String qualifiedUsername, boolean includeMemberships, boolean normalizeGroups,
                                 boolean includeCustomUserFields )
     {
@@ -1119,7 +1145,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getPreferences( DataSourceContext context, String scope, String wildCardKey, boolean uniqueMatch )
     {
         return doGetPreferences( context, scope, wildCardKey, uniqueMatch );
@@ -1128,7 +1154,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getPreferences( DataSourceContext context, String scope, String wildCardKey )
     {
 
@@ -1138,7 +1164,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getPreferences( DataSourceContext context, String scope )
     {
 
@@ -1148,7 +1174,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getPreferences( DataSourceContext context )
     {
 
@@ -1217,7 +1243,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
                                        int parentChildrenLevel, boolean updateStatistics, boolean includeUserRights )
     {
@@ -1227,7 +1253,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getPageContent( DataSourceContext context, int menuItemId, int parentLevel, int childrenLevel,
                                        int parentChildrenLevel, boolean updateStatistics )
     {
@@ -1282,6 +1308,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String orderBy, boolean requireAll,
                                            int fromIndex, int count, int parentLevel, int childrenLevel, int parentChildrenLevel,
                                            boolean includeTotalCount, int[] filterByCategories, boolean categoryRecursive,
@@ -1295,6 +1322,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String orderBy, boolean requireAll,
                                            int fromIndex, int count, boolean titlesOnly, int parentLevel, int childrenLevel,
                                            int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
@@ -1308,6 +1336,7 @@ public final class DataSourceServiceImpl
     /**
      * @inheritDoc
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getRelatedContents( DataSourceContext context, int relation, int[] contentKeys, String query, String orderBy,
                                            boolean requireAll, int fromIndex, int count, boolean titlesOnly, int parentLevel,
                                            int childrenLevel, int parentChildrenLevel, boolean relatedTitlesOnly, boolean includeTotalCount,
@@ -1319,6 +1348,7 @@ public final class DataSourceServiceImpl
     }
 
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getLocales( DataSourceContext context )
     {
         Locale[] locales = localeService.getLocales();
@@ -1326,6 +1356,7 @@ public final class DataSourceServiceImpl
         return XMLDocumentFactory.create( localeXmlCreator.createLocalesDocument( locales ) );
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public XMLDocument getTimeZones( DataSourceContext context )
     {
         Collection<DateTimeZone> timeZones = timeZoneService.getTimeZones();
