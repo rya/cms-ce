@@ -129,6 +129,7 @@ import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.resource.ResourceService;
 import com.enonic.cms.core.resource.ResourceXmlCreator;
+import com.enonic.cms.core.security.ImpersonateCommand;
 import com.enonic.cms.core.security.SecurityService;
 import com.enonic.cms.core.security.UserParser;
 import com.enonic.cms.core.security.UserStoreParser;
@@ -221,10 +222,12 @@ public final class InternalClientImpl
     @Autowired
     private ContentTypeDao contentTypeDao;
 
+    private LivePortalTraceService livePortalTraceService;
+
+    private boolean clientForRemoteInvocations;
+
     @Autowired(required = false)
     private SiteCachesService siteCachesService;
-
-    private LivePortalTraceService livePortalTraceService;
 
     /**
      * Vertical properties.
@@ -263,7 +266,7 @@ public final class InternalClientImpl
     {
         try
         {
-            return securityService.getLoggedInPortalUser().getName();
+            return securityService.getLoggedInPortalUserAsEntity().getName();
         }
         catch ( Exception e )
         {
@@ -282,7 +285,7 @@ public final class InternalClientImpl
 
         try
         {
-            return securityService.getLoggedInPortalUser().getName();
+            return securityService.getLoggedInPortalUserAsEntity().getName();
         }
         catch ( Exception e )
         {
@@ -732,16 +735,24 @@ public final class InternalClientImpl
     {
         try
         {
-            UserEntity impersonated = this.securityService.impersonate( QualifiedUsername.parse( user ) );
-
-            Assert.isTrue( impersonated != null );
-
+            UserEntity userToImpersonate =
+                new UserParser( securityService, userStoreService, userDao, new UserStoreParser( userStoreDao ) ).parseUser( user );
+            final UserEntity impersonated =
+                securityService.impersonatePortalUser( new ImpersonateCommand( clientForRemoteInvocations, userToImpersonate.getKey() ) );
             return impersonated.getName();
         }
         catch ( Exception e )
         {
             throw handleException( e );
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public void removeImpersonation()
+    {
+        securityService.removePortalImpersonation();
     }
 
     /**
@@ -2465,5 +2476,10 @@ public final class InternalClientImpl
         {
             ClientMethodExecutionTracer.stopTracing( trace, livePortalTraceService );
         }
+    }
+
+    public void setClientForRemoteInvocations( boolean value )
+    {
+        this.clientForRemoteInvocations = value;
     }
 }

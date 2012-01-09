@@ -57,6 +57,11 @@ public final class PortalSecurityHolder
         doSetUser( user, true );
     }
 
+    public static void removeImpersonatedUser()
+    {
+        doSetUser( null, true );
+    }
+
     public static void setAnonUser( UserKey user )
     {
         ANON_USER = user;

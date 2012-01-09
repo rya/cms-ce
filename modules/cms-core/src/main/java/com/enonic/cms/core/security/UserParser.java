@@ -14,6 +14,10 @@ import com.enonic.cms.store.dao.UserDao;
 
 public class UserParser
 {
+    private static final String COLON_SEPARATOR = ":";
+
+    private static final String BACKSLASH_SEPARATOR = "\\";
+
     private SecurityService securityService;
 
     private UserStoreService userStoreService;
@@ -56,7 +60,7 @@ public class UserParser
         {
             user = parseUserByLoggedInPresentationUser();
         }
-        else if ( userString.indexOf( ":" ) > 0 )
+        else if ( userString.indexOf( COLON_SEPARATOR ) > 0 || userString.indexOf( BACKSLASH_SEPARATOR ) > 0 )
         {
             user = parseUserByQualifiedUsername( parseQualifiedUsername( userString ) );
         }
@@ -154,9 +158,10 @@ public class UserParser
 
     private UserStoreAndQualifiedUsername parseQualifiedUsername( String string )
     {
-        final int colonIndex = string.indexOf( ":" );
-        final String userStoreStr = string.substring( 0, colonIndex );
-        final String username = string.substring( colonIndex + 1 );
+        final int separatorIndex =
+            string.contains( COLON_SEPARATOR ) ? string.indexOf( COLON_SEPARATOR ) : string.indexOf( BACKSLASH_SEPARATOR );
+        final String userStoreStr = string.substring( 0, separatorIndex );
+        final String username = string.substring( separatorIndex + 1 );
 
         final UserStoreEntity userStore = userStoreParser.parseUserStore( userStoreStr );
         final UserStoreAndQualifiedUsername userStoreAndQualifiedUsername = new UserStoreAndQualifiedUsername();

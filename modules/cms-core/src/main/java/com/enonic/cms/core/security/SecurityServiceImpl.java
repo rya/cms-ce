@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Preconditions;
+
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
@@ -24,6 +26,7 @@ import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.user.UserKey;
+import com.enonic.cms.core.security.user.UserNotFoundException;
 import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
@@ -252,7 +255,7 @@ public class SecurityServiceImpl
         }
     }
 
-    public User loginAdminUser( LoginAdminUserCommand command )
+    public User loginAdminUser( final LoginAdminUserCommand command )
     {
         return doLoginAdminUser( command.getQualifiedUsername(), command.getPassword(), command.isVerifyPassword() );
     }
@@ -387,47 +390,42 @@ public class SecurityServiceImpl
         }
     }
 
-    public UserEntity impersonate( QualifiedUsername qualifiedUsername )
+    public UserEntity impersonatePortalUser( final ImpersonateCommand command )
     {
-        UserStoreEntity userStoreEntity = doResolveUserStore( qualifiedUsername );
-        if ( userStoreEntity == null )
-        {
-            throw new IllegalArgumentException( "Userstore does not exist: " + qualifiedUsername );
-        }
-        UserStoreKey userStoreKey = userStoreEntity.getKey();
-        return doImpersonate( qualifiedUsername.getUsername(), userStoreKey );
-    }
+        Preconditions.checkNotNull( command.getUser() );
 
-    public UserEntity impersonate( String uid, UserStoreKey userStoreKey )
-    {
-        return doImpersonate( uid, userStoreKey );
-    }
-
-    private UserEntity doImpersonate( String uid, UserStoreKey userStoreKey )
-    {
-        User current = getLoggedInPortalUser();
-        if ( !current.isEnterpriseAdmin() )
+        if ( command.isRequireAccessCheck() )
         {
-            throw new IllegalArgumentException( "Impersonate not allowed" );
+            final User current = getLoggedInPortalUser();
+            if ( !current.isEnterpriseAdmin() )
+            {
+                throw new IllegalArgumentException( "Impersonate not allowed" );
+            }
         }
 
-        UserSpecification userSpec = new UserSpecification();
-        userSpec.setUserStoreKey( userStoreKey );
-        userSpec.setName( uid );
-        userSpec.setDeletedStateNotDeleted();
-        UserEntity user = userDao.findSingleBySpecification( userSpec );
-
+        final UserEntity user = userDao.findByKey( command.getUser() );
         if ( user == null )
         {
-            throw new IllegalStateException( "User to impersonate not found." );
+            throw new UserNotFoundException( command.getUser() );
         }
-        else
+        else if ( user.isAnonymous() )
         {
-            PortalSecurityHolder.setImpersonatedUser( user.getKey() );
+            throw new IllegalArgumentException( "Not allowed to impersonate anonymous user, use method removePortalImpersonation instead" );
         }
+        else if ( user.isRoot() )
+        {
+            throw new IllegalArgumentException( "Not allowed to impersonate the admin user" );
+        }
+
+        PortalSecurityHolder.setImpersonatedUser( user.getKey() );
         return user;
     }
 
+    @Override
+    public void removePortalImpersonation()
+    {
+        PortalSecurityHolder.removeImpersonatedUser();
+    }
 
     public void logoutAdminUser()
     {
@@ -494,7 +492,6 @@ public class SecurityServiceImpl
 
     private UserStoreEntity doGetDefaultUserStore()
     {
-
         UserStoreEntity defaultUserStore = userStoreDao.findDefaultUserStore();
         if ( defaultUserStore == null )
         {
@@ -505,7 +502,6 @@ public class SecurityServiceImpl
 
     private UserStoreEntity doResolveUserStore( final QualifiedUsername qualifiedUsername )
     {
-
         UserStoreKey userStoreKey = qualifiedUsername.getUserStoreKey();
         if ( userStoreKey != null )
         {

@@ -663,7 +663,7 @@ public class PortalFunctions
     {
         ImageRequestParser parser = new ImageRequestParser();
         ImageRequest request = parser.parse( "_image/" + key, null, false );
-        request.setRequester( securityService.getImpersonatedPortalUser() );
+        request.setRequester( securityService.getLoggedInPortalUserAsEntity() );
         request.setRequestDateTime( new DateTime() );
         return imageService.accessibleInPortal( request );
     }

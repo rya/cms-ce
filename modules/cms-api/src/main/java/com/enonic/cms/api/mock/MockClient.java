@@ -113,6 +113,12 @@ public class MockClient
         return null;
     }
 
+    public void removeImpersonation()
+        throws ClientException
+    {
+
+    }
+
     public String logout()
         throws ClientException
     {

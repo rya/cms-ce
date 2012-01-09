@@ -63,93 +63,109 @@ public interface Client
 {
 
     /**
-     * Login a user.
+     * Logs in specified user if successfully authorized. If user origins from a remote userstore the user will be synchronized.
      *
-     * @param username the username of the user
+     * @param user     Specify either by qualified name ([userStoreKey:]&lt;user name&gt;) or key. When specifying a key, prefix with a hash.
      * @param password the password
-     * @return the username
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
+     * @return The name of the currently logged in user after the operation
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
-    public String login( String username, String password )
+    public String login( String user, String password )
         throws ClientException;
 
     /**
-     * Impersonate a user. This means that the run-as is different than the logged in user.
+     * Impersonate an user. All calls to Client methods after this will be done as the impersonated user instead of the currently logged in
+     * user. To remove the current impersonation use the method removeImpersonation().
      *
-     * @param username the username of the user
-     * @return The name of the currently running user.
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
+     * @param user Specify either by qualified name ([userStoreKey:]&lt;user name&gt;) or key. When specifying a key, prefix with a hash.
+     * @return The name of the currently impersonated user after the operation
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
-    public String impersonate( String username )
+    public String impersonate( String user )
         throws ClientException;
 
+    /**
+     * Removes the currently active impersonation. All calls to Client methods after this will be done as the currently logged in user.
+     */
+    public void removeImpersonation()
+        throws ClientException;
+
+    /**
+     * Logs out currently logged in user (including any active impersonation) and invalidates current session.
+     */
     public String logout()
         throws ClientException;
 
+    /**
+     * Logs out currently logged in user (including any active impersonation) and invalidates current session only if told so.
+     */
     public String logout( boolean invalidateSession )
         throws ClientException;
 
     /**
-     * Returns the user name of the logged in user.
-     *
-     * @return The login name of the currently logged in user.
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
      * @deprecated Use getUserName() instead
      */
-
     @Deprecated
     public String getUser()
         throws ClientException;
 
     /**
-     * Return the currently logged in user who is running the current thread.
+     * Returns the name of the currently logged in user.
      *
      * @return The login name of the currently logged in user.
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
     public String getUserName()
         throws ClientException;
 
     /**
-     * Return the currently logged in user who is running the current thread.
-     *
-     * @return The login name of the currently logged in user.
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
      * @deprecated Use getRunAsUserName() instead
      */
     @Deprecated
     public String getRunAsUser()
         throws ClientException;
 
+    /**
+     * Returns the name of the currently impersonated user. If no impersonation is active, the name of the currently logged in user is
+     * returned instead.
+     *
+     * @return The name of the currently impersonated user or logged in user.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
+     */
     public String getRunAsUserName()
         throws ClientException;
 
+    /**
+     * Returns info on the currently logged in user.
+     *
+     * @return An XML Document with info about the logged in user.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
+     */
     public Document getUserContext()
         throws ClientException;
 
     /**
-     * Returns info on the user currently regarded as the caller of the methods.  This is normally the logged in user, but if a call
-     * has been made to <code>impersonate(...)</code>, the impersonating user will be the run as user.
+     * Returns info on the currently impersonated user or logged in user if no impersonation is active.
      *
-     * @return An XML Document with all known info about the run as user.
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
+     * @return An XML Document with info about the impersonated user.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
     public Document getRunAsUserContext()
         throws ClientException;
 
     /**
-     * Returns the specified user. If user is not specified, the current logged in user will be returned.
+     * Returns a XML document with detailed information about the specified user. If user is not specified, the current logged in user will be returned.
      *
      * @param params The specification of which user to get.
      * @return An XML document with all data for the requested user.
-     * @throws ClientException Whenever a problem occurs finding the user.  Be careful to check the wrapped exception for the underlying
-     *                         technical reason.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
     public Document getUser( GetUserParams params )
         throws ClientException;
@@ -219,8 +235,8 @@ public interface Client
      *
      * @param params This object specifies what to search for.  The <code>contentKeys</code> array is mandatory.
      * @return An XML describing the content that has been found.  The root element of the XML document will be &lt;contents&gt;
-     * @throws ClientException If an error occurs looking for the content.  Check the cause carefully to find out what the problem really
-     *                         is.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
     public Document getContent( GetContentParams params )
         throws ClientException;
@@ -257,8 +273,8 @@ public interface Client
      *
      * @param params Specification of what to search for.  At least one content key must be included.
      * @return An XML describing the content that has been found.
-     * @throws ClientException If an error occurs looking for the content.  Check the cause carefully to find out what the problem really
-     *                         is.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
     public Document getRelatedContent( GetRelatedContentsParams params )
         throws ClientException;
@@ -318,12 +334,16 @@ public interface Client
      *
      * @param siteKey      identifying which page cache to clear page entries in.
      * @param menuItemKeys menu item keys identifying which pages to clear entries for.
+     * @throws ClientException Whenever any internal exception occurs, only a ClientException is thrown to the user of Client, containing
+     *                         the message from the internal exception. Check server log for actual exception and stack trace.
      */
-    public void clearPageCacheForPage( Integer siteKey, Integer[] menuItemKeys );
+    public void clearPageCacheForPage( Integer siteKey, Integer[] menuItemKeys )
+        throws ClientException;
 
     public void clearPageCacheForContent( Integer[] contentKeys )
         throws ClientException;
 
     public Document getContentTypeConfigXML( GetContentTypeConfigXMLParams params )
         throws ClientException;
+
 }

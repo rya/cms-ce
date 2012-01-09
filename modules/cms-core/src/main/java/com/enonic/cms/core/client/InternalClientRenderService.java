@@ -23,13 +23,13 @@ import com.enonic.cms.api.client.model.RenderContentParams;
 import com.enonic.cms.api.client.model.RenderPageParams;
 import com.enonic.cms.api.client.model.RenderParams;
 import com.enonic.cms.core.Attribute;
-import com.enonic.cms.core.language.LanguageEntity;
-import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
 import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.portal.PathToContentResolver;
 import com.enonic.cms.core.portal.PortalRequest;
 import com.enonic.cms.core.portal.PortalRequestService;
@@ -197,7 +197,7 @@ public class InternalClientRenderService
     {
 
         HttpServletRequest httpRequest = ServletRequestAccessor.getRequest();
-        final User loggedInPortalUser = securityService.getLoggedInPortalUser();
+        final User loggedInPortalUser = securityService.getImpersonatedPortalUser();
 
         // setupPortalRequest
         PortalRequest portalRequest = new PortalRequest();

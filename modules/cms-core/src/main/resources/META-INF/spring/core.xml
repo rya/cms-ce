@@ -179,6 +179,25 @@
   </bean>
 
   <bean id="localClient" class="com.enonic.cms.core.client.InternalClientImpl">
+    <property name="clientForRemoteInvocations" value="false"/>
+    <property name="dataSourceService" ref="dataSourceService"/>
+    <property name="internalClientRenderService" ref="internalClientRenderService"/>
+    <property name="internalClientContentService" ref="internalClientContentService"/>
+    <property name="userDao" ref="userDao"/>
+    <property name="resourceService" ref="resourceService"/>
+    <property name="preferenceService" ref="preferenceService"/>
+    <property name="cmsProperties" value="#{config.properties}"/>
+    <property name="sitePropertiesService" ref="sitePropertiesService"/>
+    <property name="securityService" ref="securityService"/>
+    <property name="contentService" ref="contentService"/>
+    <property name="contentDao" ref="contentDao"/>
+    <property name="previewService" ref="previewService"/>
+    <property name="timeService" ref="timeService"/>
+    <property name="livePortalTraceService" ref="livePortalTraceService"/>
+  </bean>
+
+  <bean id="remoteClient" class="com.enonic.cms.core.client.InternalClientImpl">
+    <property name="clientForRemoteInvocations" value="true"/>
     <property name="dataSourceService" ref="dataSourceService"/>
     <property name="internalClientRenderService" ref="internalClientRenderService"/>
     <property name="internalClientContentService" ref="internalClientContentService"/>

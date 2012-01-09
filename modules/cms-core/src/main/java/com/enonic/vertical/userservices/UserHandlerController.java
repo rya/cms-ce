@@ -314,7 +314,6 @@ public class UserHandlerController
     {
 
         UserEntity user = securityService.getLoggedInPortalUserAsEntity();
-        UserEntity executor = securityService.getImpersonatedPortalUser();
 
         if ( user == null )
         {
@@ -346,7 +345,7 @@ public class UserHandlerController
             GroupSpecification userGroupForLoggedInUser = new GroupSpecification();
             userGroupForLoggedInUser.setKey( user.getUserGroupKey() );
 
-            AddMembershipsCommand addMembershipCommand = new AddMembershipsCommand( userGroupForLoggedInUser, executor.getKey() );
+            AddMembershipsCommand addMembershipCommand = new AddMembershipsCommand( userGroupForLoggedInUser, user.getKey() );
             addMembershipCommand.setUpdateOpenGroupsOnly( true );
             addMembershipCommand.setRespondWithException( true );
             for ( GroupKey groupKeyToAdd : groupKeysToAdd )
@@ -463,7 +462,6 @@ public class UserHandlerController
         throws VerticalUserServicesException, RemoteException
     {
         UserEntity user = securityService.getLoggedInPortalUserAsEntity();
-        UserEntity executor = securityService.getImpersonatedPortalUser();
         if ( user == null )
         {
             String message = "User must be logged in.";
@@ -495,7 +493,7 @@ public class UserHandlerController
             GroupSpecification userGroupForLoggedInUser = new GroupSpecification();
             userGroupForLoggedInUser.setKey( user.getUserGroupKey() );
 
-            RemoveMembershipsCommand removeMembershipsCommand = new RemoveMembershipsCommand( userGroupForLoggedInUser, executor.getKey() );
+            RemoveMembershipsCommand removeMembershipsCommand = new RemoveMembershipsCommand( userGroupForLoggedInUser, user.getKey() );
             removeMembershipsCommand.setUpdateOpenGroupsOnly( true );
             removeMembershipsCommand.setRespondWithException( true );
             for ( GroupKey groupKeyToRemove : submittedGroupKeysToRemove )
