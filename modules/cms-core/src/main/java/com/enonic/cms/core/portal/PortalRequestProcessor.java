@@ -129,7 +129,9 @@ public class PortalRequestProcessor
             }
             else
             {
-                throw new IllegalArgumentException( "Menuitem request type not supported: " + type );
+                throw new IllegalArgumentException(
+                    "Menuitem request type not supported: " + type + ".  The menuItem causing this problem is: " + menuItem.getKey() +
+                        " - " + menuItem.getPathAsString() );
             }
         }
         finally
@@ -280,7 +282,9 @@ public class PortalRequestProcessor
         }
         else
         {
-            throw new PortalRenderingException( "Unexpected directive request processor result: nothing set" );
+            throw new PortalRenderingException(
+                "Unexpected directive request processor result: nothing set for menuItem: " + menuItem.getKey() + " - " +
+                    menuItem.getPathAsString() );
         }
     }
 
@@ -325,11 +329,22 @@ public class PortalRequestProcessor
                 return MenuItemRequestType.PAGE;
             }
 
-            throw new PortalConfigurationException( "Menuitem of type label does not support requests" );
+            throw new PortalConfigurationException( "Menuitem (" + menuItem.getKey() + " - " + menuItem.getPathAsString() +
+                                                        ") of type label does not support requests. SitePath = " +
+                                                        pageRequestContext.getSitePath().asString() );
         }
         else
         {
-            throw new IllegalArgumentException( "Unhandled menuitem type for request: " + menuItemType );
+            StringBuffer message = new StringBuffer( "The request for menuItem (" );
+            message.append( menuItem.getKey() );
+            message.append( " - " );
+            message.append( menuItem.getPathAsString() );
+            message.append( ") could not be completed for path : " );
+            message.append( pageRequestContext.getSitePath() == null ? "unknown" : pageRequestContext.getSitePath().asString() );
+            message.append( "  - Unhandled menuitem type for request:" );
+            message.append( menuItemType );
+
+            throw new IllegalArgumentException( message.toString() );
         }
     }
 
