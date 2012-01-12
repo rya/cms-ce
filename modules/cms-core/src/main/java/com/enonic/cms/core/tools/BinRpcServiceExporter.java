@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.util.NestedServletException;
 
-import com.enonic.cms.api.client.RemoteClient;
+import com.enonic.cms.api.client.LocalClient;
 import com.enonic.cms.api.client.binrpc.BinRpcInvocation;
 import com.enonic.cms.api.client.binrpc.BinRpcInvocationResult;
 
@@ -34,11 +34,11 @@ public final class BinRpcServiceExporter
 {
     private final static String CONTENT_TYPE_SERIALIZED_OBJECT = "application/x-java-serialized-object";
 
-    private RemoteClient client;
+    private LocalClient client;
 
     @Autowired
     @Qualifier("remoteClient")
-    public void setRemoteClient( RemoteClient client )
+    public void setLocalClient( LocalClient client )
     {
         this.client = client;
     }

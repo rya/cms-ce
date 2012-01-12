@@ -31,8 +31,8 @@ public final class HostActivator
     }
 
     @Autowired
-    @Qualifier("localClient")
-    public void setClient( final LocalClient client )
+    @Qualifier("remoteClient")
+    public void setClient(final LocalClient client)
     {
         this.services.register( client );
     }
