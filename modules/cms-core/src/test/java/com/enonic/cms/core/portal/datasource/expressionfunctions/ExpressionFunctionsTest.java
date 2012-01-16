@@ -8,20 +8,19 @@ import org.joda.time.DateTime;
 
 import junit.framework.TestCase;
 
-import com.enonic.cms.core.time.MockTimeService;
-import com.enonic.cms.core.time.TimeService;
-
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.structure.menuitem.MenuItemEntity;
 import com.enonic.cms.core.structure.menuitem.MenuItemKey;
 import com.enonic.cms.core.structure.portlet.PortletKey;
+import com.enonic.cms.core.time.MockTimeService;
+import com.enonic.cms.core.time.TimeService;
 
 public class ExpressionFunctionsTest
     extends TestCase
 {
     private ExpressionFunctions expressionFunctions = new ExpressionFunctions();
 
-    public void testSelect()
+    public void test_select()
         throws Exception
     {
         String result1 = expressionFunctions.select( "abc", null );
@@ -44,7 +43,7 @@ public class ExpressionFunctionsTest
         assertEquals( "abc", result9 );
     }
 
-    public void testReplace()
+    public void test_replace()
         throws Exception
     {
         String testString = "Dette �r 1   tilfeldig  �vre tekststring med rare tegn � tall som 1.234e12!";
@@ -64,7 +63,7 @@ public class ExpressionFunctionsTest
         assertEquals( -1, index );
     }
 
-    public void testBuildFreetextQuery()
+    public void test_build_freetext_query()
         throws Exception
     {
         String result0a = expressionFunctions.buildFreetextQuery( "freetext", "", "AND" );
@@ -104,7 +103,7 @@ public class ExpressionFunctionsTest
         assertEquals( "data/* CONTAINS \"(a+2)=b\" AND data/* CONTAINS \"||\" AND data/* CONTAINS \"^(&ptr<1.2e2)\"", result9 );
     }
 
-    public void testBuildFreetextQueryWithQuotes()
+    public void test_build_freetext_query_with_quotes()
         throws Exception
     {
         String result1 = expressionFunctions.buildFreetextQuery( "freetext", "Enonic's", "and" );
@@ -120,7 +119,7 @@ public class ExpressionFunctionsTest
         assertEquals( "data/* CONTAINS \"Hei du\" AND data/* CONTAINS \"Hadde bra!\"", result4 );
     }
 
-    public void testBuildFreetextQueryErrorHandling()
+    public void test_build_freetext_query_error_handling()
         throws Exception
     {
         try
@@ -166,7 +165,7 @@ public class ExpressionFunctionsTest
         }
     }
 
-    public void testGetPageKey()
+    public void test_get_page_key()
     {
         ExpressionFunctions eFuncs = new ExpressionFunctions();
         ExpressionContext context = new ExpressionContext();
@@ -178,7 +177,7 @@ public class ExpressionFunctionsTest
         assertEquals( "123", eFuncs.getPageKey() );
     }
 
-    public void testGetPortletWindowKey()
+    public void test_get_portlet_window_key()
     {
         ExpressionFunctions eFuncs = new ExpressionFunctions();
         ExpressionContext context = new ExpressionContext();
@@ -190,7 +189,7 @@ public class ExpressionFunctionsTest
         assertEquals( "123:246", eFuncs.getWindowKey() );
     }
 
-    public void testCurrentDate()
+    public void test_current_date()
     {
         TimeService timeService = new MockTimeService( new DateTime( 2010, 5, 28, 12, 30, 5, 4 ) );
 
@@ -200,7 +199,7 @@ public class ExpressionFunctionsTest
         assertEquals( "28.05.2010 12:30", expressionFunctions.currentDate( "dd.MM.yyyy HH:mm" ) );
     }
 
-    public void testPeriodHoursMinutes()
+    public void test_period_hours_minutes()
     {
         TimeService timeService = new MockTimeService( new DateTime( 2010, 5, 28, 12, 30, 5, 4 ) );
 
@@ -214,7 +213,7 @@ public class ExpressionFunctionsTest
         assertEquals( "PT2H61M", expressionFunctions.periodHoursMinutes( 2, 61 ) );
     }
 
-    public void testCurrentDatePlusOffset()
+    public void test_current_date_plus_offset()
     {
         TimeService timeService = new MockTimeService( new DateTime( 2010, 5, 28, 12, 30, 0, 4 ) );
 
@@ -228,7 +227,7 @@ public class ExpressionFunctionsTest
         assertEquals( "28.05.2010 10:25", ef.currentDatePlusOffset( "dd.MM.yyyy HH:mm", ef.periodHoursMinutes( -2, -5 ) ) );
     }
 
-    public void testCurrentDateMinusOffset()
+    public void test_current_date_minus_offset()
     {
         TimeService timeService = new MockTimeService( new DateTime( 2010, 5, 28, 12, 30, 0, 4 ) );
 
@@ -242,7 +241,7 @@ public class ExpressionFunctionsTest
         assertEquals( "28.05.2010 14:35", ef.currentDateMinusOffset( "dd.MM.yyyy HH:mm", ef.periodHoursMinutes( -2, -5 ) ) );
     }
 
-    public void testIsblank()
+    public void test_is_blank()
     {
         ExpressionFunctions ef = new ExpressionFunctions();
         assertEquals( true, ef.isblank( null ) );
@@ -253,7 +252,7 @@ public class ExpressionFunctionsTest
         assertEquals( false, ef.isblank( " s " ) );
     }
 
-    public void testIsnotblank()
+    public void test_is_not_blank()
     {
         ExpressionFunctions ef = new ExpressionFunctions();
         assertEquals( false, ef.isnotblank( null ) );
@@ -264,7 +263,7 @@ public class ExpressionFunctionsTest
         assertEquals( true, ef.isnotblank( " s " ) );
     }
 
-    public void testIsempty()
+    public void test_is_empty()
     {
         ExpressionFunctions ef = new ExpressionFunctions();
         assertEquals( true, ef.isempty( null ) );
@@ -275,7 +274,7 @@ public class ExpressionFunctionsTest
         assertEquals( false, ef.isempty( " s " ) );
     }
 
-    public void testIsnotempty()
+    public void test_is_not_empty()
     {
         ExpressionFunctions ef = new ExpressionFunctions();
         assertEquals( false, ef.isnotempty( null ) );
@@ -284,5 +283,95 @@ public class ExpressionFunctionsTest
         assertEquals( true, ef.isnotempty( "    " ) );
         assertEquals( true, ef.isnotempty( "s" ) );
         assertEquals( true, ef.isnotempty( " s " ) );
+    }
+
+    public void test_get_escaped_URL_empty()
+    {
+        String url = "";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "", result );
+    }
+
+    public void test_get_escaped_URL_without_parameters()
+    {
+        String url = "http://localhost:8080";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080", result );
+    }
+
+    public void test_get_escaped_URL_with_trash1()
+    {
+        String url = "http://localhost:8080?";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080", result );
+    }
+
+    public void test_get_escaped_URL_with_trash2()
+    {
+        String url = "http://localhost:8080?&";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080", result );
+    }
+
+    public void test_get_escaped_URL_with_label()
+    {
+        String url = "http://localhost:8080#";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080#", result );
+    }
+
+    public void test_get_escaped_URL_with_unfinished_query()
+    {
+        String url = "http://localhost:8080?query=";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080?query=", result );
+    }
+
+    public void test_get_escaped_URL_simple_query()
+    {
+        String url = "http://localhost:8080?query=xxx";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080?query=xxx", result );
+    }
+
+    public void test_get_escaped_URL_with_query()
+    {
+        String url = "http://localhost:8080?query=Denver Broncos&param=H\u00e6\u00e6\u00e6 ?!?!";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080?param=H%C3%A6%C3%A6%C3%A6+%3F%21%3F%21&query=Denver+Broncos", result );
+    }
+
+    public void test_get_escaped_URL_multiple_parameters()
+    {
+        String url = "http://localhost:8080?query=Denver+Broncos&query=Denver Broncos";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "http%3A/localhost%3A8080?query=Denver%2BBroncos&query=Denver+Broncos", result );
+    }
+
+    public void test_get_escaped_query_string()
+    {
+        String url = "query=Denver+Broncos&query=Denver Broncos";
+
+        ExpressionFunctions ef = new ExpressionFunctions();
+        String result = ef.urlEncode( url );
+        assertEquals( "query=Denver%2BBroncos&query=Denver+Broncos", result );
     }
 }
