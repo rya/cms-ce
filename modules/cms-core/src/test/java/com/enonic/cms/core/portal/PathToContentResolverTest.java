@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentKey;
 import com.enonic.cms.core.structure.SiteEntity;
@@ -129,6 +130,37 @@ public class PathToContentResolverTest
         assertEquals( "/test/contentName--123", resolvedContentPath.getPathAsString() );
     }
 
+
+    @Test
+    public void testResolvePathToContent_permalink()
+    {
+        ContentEntity content = new ContentEntity();
+        content.setName( "contentName" );
+        content.setKey( new ContentKey( "123" ) );
+
+        SiteKey siteKey = new SiteKey( 1 );
+        SitePath sitePath = new SitePath( siteKey, "234/blabla" );
+
+        Path resolvedContentPath = pathToContentResolver.resolveContentUrlLocalPathForPermalink( content, sitePath );
+
+        assertEquals( "123/contentName", resolvedContentPath.getPathAsString() );
+    }
+
+    @Test
+    public void testResolvePathToContent_permalink_with_windowurl()
+    {
+        ContentEntity content = new ContentEntity();
+        content.setName( "contentName" );
+        content.setKey( new ContentKey( "123" ) );
+
+        SiteKey siteKey = new SiteKey( 1 );
+        SitePath sitePath = new SitePath( siteKey, "234/blabla/_window/features%3A+xslt+functions%3A+createwindowurl+-+content+page" );
+
+        Path resolvedContentPath = pathToContentResolver.resolveContentUrlLocalPathForPermalink( content, sitePath );
+
+        assertEquals( "123/contentName/_window/features%3A+xslt+functions%3A+createwindowurl+-+content+page",
+                      resolvedContentPath.getPathAsString() );
+    }
 
     private ContentEntity createContentWithContentHomeAndInSection()
     {

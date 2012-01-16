@@ -139,7 +139,7 @@ public class ContentRequestProcessor
     {
         PathToContentResolver pathToContentResolver = new PathToContentResolver( sectionContentDao );
 
-        final Path newStyleContentLocalPath = pathToContentResolver.resolveContentUrlLocalPath( contentFromRequest, sitePath.getSiteKey() );
+        Path newStyleContentLocalPath = pathToContentResolver.resolveContentUrlLocalPathForPermalink( contentFromRequest, sitePath );
 
         final boolean noRedirectToBeDone =
             redirectPathIsEqualToRequestedPath( newStyleContentLocalPath.getPathAsString(), sitePath.getLocalPath().getPathAsString() );

@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.enonic.cms.core.Path;
 import com.enonic.cms.core.SiteKey;
+import com.enonic.cms.core.SitePath;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentLocation;
 import com.enonic.cms.core.content.ContentLocationSpecification;
@@ -31,6 +32,11 @@ public class PathToContentResolver
 
     public Path resolveContentUrlLocalPath( ContentEntity content, SiteKey siteKey )
     {
+        return doResolveContentUrlLocalPath( content, siteKey );
+    }
+
+    private Path doResolveContentUrlLocalPath( ContentEntity content, SiteKey siteKey )
+    {
         ContentLocation resolvedHomeLocation = getContentLocation( content, siteKey );
 
         if ( resolvedHomeLocation == null )
@@ -49,6 +55,25 @@ public class PathToContentResolver
         }
 
         throw new IllegalArgumentException( "ContentLocationType not supported: " + resolvedHomeLocation.getType() );
+    }
+
+    public Path resolveContentUrlLocalPathForPermalink( final ContentEntity content, final SitePath sitePath )
+    {
+        Path contentUrlLocalPath = doResolveContentUrlLocalPath( content, sitePath.getSiteKey() );
+
+        if ( sitePath.hasReferenceToWindow() )
+        {
+            contentUrlLocalPath = getPathWithWindowReference( sitePath, contentUrlLocalPath );
+        }
+
+        return contentUrlLocalPath;
+    }
+
+    private Path getPathWithWindowReference( final SitePath sitePath, final Path contentUrlLocalPath )
+    {
+        final WindowReference windowReference = sitePath.getPortletReference();
+        return contentUrlLocalPath.appendPathElement( WindowReference.WINDOW_PATH_PREFIX )
+            .appendPathElement( windowReference.getPortletName() );
     }
 
     public Path resolveContentPermalink( ContentEntity content )
