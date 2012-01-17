@@ -61,6 +61,10 @@ import com.enonic.cms.core.log.ContentLogEntrySpecification;
 public class MyPageServlet
     extends AdminHandlerBaseServlet
 {
+    public static final CategoryAccessType[] CREATE_BROWSE = new CategoryAccessType[] {
+        CategoryAccessType.ADMIN_BROWSE, CategoryAccessType.CREATE
+    };
+
     private static final int ASSIGNED_TO_COUNT = 6;
 
     public void handlerPage( HttpServletRequest request, HttpServletResponse response, HttpSession session, ExtendedMap formItems,
@@ -318,7 +322,7 @@ public class MyPageServlet
 
         for ( ContentTypeEntity contentType : contentTypeDao.getAll() )
         {
-            if ( userHasCreateAccessOnCategoriesOfContentType( runningUser, contentType ) )
+            if ( userHasAccessOnCategoriesOfContentType( runningUser, contentType, CREATE_BROWSE ) )
             {
                 filteredContentTypes.add( contentType );
             }
@@ -335,16 +339,31 @@ public class MyPageServlet
         transformXML( request, response, doc.getAsJDOMDocument(), "createcontentwizard.xsl", parameters );
     }
 
-    private boolean userHasCreateAccessOnCategoriesOfContentType( UserEntity runningUser, ContentTypeEntity contentType )
+    protected boolean userHasAccessOnCategoriesOfContentType( final UserEntity runningUser, final ContentTypeEntity contentType,
+                                                            final CategoryAccessType... categoryAccessTypes )
     {
-        CategoryAccessResolver categoryAccessResolver = new CategoryAccessResolver( groupDao );
-        for ( CategoryEntity category : contentType.getCategories( false ) )
+        final CategoryAccessResolver categoryAccessResolver = new CategoryAccessResolver( groupDao );
+
+        for ( final CategoryEntity category : contentType.getCategories( false ) )
         {
-            if ( categoryAccessResolver.hasAccess( runningUser, category, CategoryAccessType.CREATE ) )
+            boolean hasAccess = false;
+
+            for ( final CategoryAccessType accessType : categoryAccessTypes )
+            {
+                hasAccess = categoryAccessResolver.hasAccess( runningUser, category, accessType );
+
+                if ( !hasAccess )
+                {
+                    break;
+                }
+            }
+
+            if ( hasAccess )
             {
                 return true;
             }
         }
+
         return false;
     }
 
