@@ -71,9 +71,9 @@ public class PathToContentResolver
 
     private Path getPathWithWindowReference( final SitePath sitePath, final Path contentUrlLocalPath )
     {
-        final WindowReference windowReference = sitePath.getPortletReference();
-        return contentUrlLocalPath.appendPathElement( WindowReference.WINDOW_PATH_PREFIX )
-            .appendPathElement( windowReference.getPortletName() );
+        final WindowReference windowReference = sitePath.getWindowReference();
+        return contentUrlLocalPath.appendPathElement( WindowReference.WINDOW_PATH_PREFIX ).appendPathElement(
+            windowReference.getPortletName() );
     }
 
     public Path resolveContentPermalink( ContentEntity content )

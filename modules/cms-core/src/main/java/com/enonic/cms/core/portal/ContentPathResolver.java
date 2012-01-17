@@ -10,10 +10,9 @@ import com.enonic.cms.core.content.ContentKey;
 
 public class ContentPathResolver
 {
+    private final static Pattern CONTENT_PATH_PATTERN = Pattern.compile( "^(.*/+)?(.*)--(\\d+)(/_window/.*)?$" );
 
-    public static Pattern CONTENT_PATH_PATTERN = Pattern.compile( "^(.*/+)?(.*)--(\\d+)(/_window.*)?" );
-
-    private final static Pattern OLD_STYLE_CONTENT_PATH_PATTERN = Pattern.compile( "[0-9]+\\.cms$" );
+    private final static Pattern OLD_STYLE_CONTENT_PATH_PATTERN = Pattern.compile( "[0-9]+\\.cms(/_window/.*)?$" );
 
     public static ContentPath resolveContentPath( final Path localPath )
     {

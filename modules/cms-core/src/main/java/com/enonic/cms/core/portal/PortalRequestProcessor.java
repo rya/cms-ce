@@ -8,11 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Preconditions;
 
-import com.enonic.cms.core.language.LanguageEntity;
-import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.RequestParameters;
 import com.enonic.cms.core.RequestParametersMerger;
 import com.enonic.cms.core.SitePath;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.portal.livetrace.LivePortalTraceService;
 import com.enonic.cms.core.portal.livetrace.PortalRequestTrace;
 import com.enonic.cms.core.portal.livetrace.PortalRequestTracer;
@@ -172,7 +172,7 @@ public class PortalRequestProcessor
 
         if ( sitePath.hasReferenceToWindow() )
         {
-            final WindowReference windowReference = sitePath.getPortletReference();
+            final WindowReference windowReference = sitePath.getWindowReference();
             final PortletEntity requestedPortlet =
                 portletDao.findBySiteKeyAndNameIgnoreCase( site.getKey(), windowReference.getPortletName() );
 

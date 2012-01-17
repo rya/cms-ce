@@ -31,6 +31,12 @@ public class ContentPathResolverTest
 
         resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/anything" );
         assertNull( resolvedPath );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_windows/mywindow" );
+        assertNull( resolvedPath );
+
+        resolvedPath = resolvePath( "/This/is/a/test/with/content-key/content-name--1234/_window" );
+        assertNull( resolvedPath );
     }
 
     @Test

@@ -12,8 +12,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import com.enonic.cms.core.content.ContentKey;
-
 import com.enonic.cms.core.portal.ContentPath;
+import com.enonic.cms.core.portal.WindowReference;
 
 public class SitePathTest
     extends TestCase
@@ -199,6 +199,10 @@ public class SitePathTest
         // with window reference
         assertEquals( "/0/mypage", new SitePath( siteKey_0, "/mypage/_window/myportlet" ).removeWindowReference().asString() );
 
+        // content path with window reference
+        assertEquals( "/0/mypage/mycontent--123",
+                      new SitePath( siteKey_0, "/mypage/mycontent--123/_window/myportlet" ).removeWindowReference().asString() );
+
         // with window reference and params
         assertEquals( "/0/mypage?myparam=myvalue", new SitePath( siteKey_0, "/mypage/_window/myportlet" ).addParam( "myparam",
                                                                                                                     "myvalue" ).removeWindowReference().asString() );
@@ -214,6 +218,40 @@ public class SitePathTest
         SitePath path =
             new SitePath( siteKey_0, "/mypage/_window/myportlet#myfragment" ).addParam( "myparam", "myvalue" ).removeWindowReference();
         assertEquals( "/0/mypage?myparam=myvalue#myfragment", path.asString() );
+    }
+
+    public void testSitePath_with_content_path_and_window_reference()
+    {
+        SitePath sitePath = new SitePath( siteKey_0, "/en/sample packages/articles/content-name--278501/_window/Show Article" );
+
+        ContentPath contentPath = sitePath.getContentPath();
+        assertNotNull( contentPath );
+        assertEquals( "278501", contentPath.getContentKey().toString() );
+        assertEquals( "content-name", contentPath.getContentName() );
+        assertEquals( "/en/sample packages/articles", contentPath.getPathToMenuItem().toString() );
+
+        WindowReference windowReference = sitePath.getWindowReference();
+        assertNotNull( windowReference );
+        assertEquals( "Show Article", windowReference.getPortletName() );
+        assertEquals( "/en/sample packages/articles", sitePath.resolvePathToMenuItem().toString() );
+    }
+
+    public void testResolvePathToWindow_when_path_has_window_reference()
+    {
+        SitePath sitePath = new SitePath( siteKey_0, "/my path/_window/my portlet" );
+        assertEquals( "my path", sitePath.resolvePathToMenuItem().toString() );
+    }
+
+    public void testResolvePathToWindow_when_path_has_content_reference()
+    {
+        SitePath sitePath = new SitePath( siteKey_0, "/my path/my content--123" );
+        assertEquals( "/my path", sitePath.resolvePathToMenuItem().toString() );
+    }
+
+    public void testResolvePathToWindow_when_path_has_window_reference_and_content_reference()
+    {
+        SitePath sitePath = new SitePath( siteKey_0, "/my path/my content--123/_window/my portlet" );
+        assertEquals( "/my path", sitePath.resolvePathToMenuItem().toString() );
     }
 
 }

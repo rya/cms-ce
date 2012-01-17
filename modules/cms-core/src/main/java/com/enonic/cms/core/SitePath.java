@@ -127,7 +127,7 @@ public class SitePath
         return windowReference != null;
     }
 
-    public WindowReference getPortletReference()
+    public WindowReference getWindowReference()
     {
         return windowReference;
     }
@@ -139,16 +139,18 @@ public class SitePath
 
     public Path resolvePathToMenuItem()
     {
-        if ( hasReferenceToWindow() )
-        {
-            return getPortletReference().getPathToMenuItem();
-        }
-        else if ( hasPathToContent() )
+        if ( hasPathToContent() )
         {
             return getContentPath().getPathToMenuItem();
         }
-
-        return getLocalPath();
+        else if ( hasReferenceToWindow() )
+        {
+            return getWindowReference().getPathToMenuItem();
+        }
+        else
+        {
+            return getLocalPath();
+        }
     }
 
     public List<String> getLocalPathElements()
@@ -287,7 +289,7 @@ public class SitePath
     {
         if ( hasReferenceToWindow() )
         {
-            Path pathWithout = getPortletReference().getPathToMenuItem();
+            Path pathWithout = getWindowReference().getPathToMenuItem();
             SitePath sitePathWithout = new SitePath( getSiteKey(), pathWithout, getParams() );
             return sitePathWithout;
         }
