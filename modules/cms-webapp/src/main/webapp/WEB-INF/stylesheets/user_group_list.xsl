@@ -354,7 +354,7 @@
                 <xsl:with-param name="caption" select="''" />
                 <xsl:with-param name="sortable" select="'false'" />
                 <xsl:with-param name="checkboxname" select="'batch_add_checkbox'"/>
-                <xsl:with-param name="checkBoxOnClickFallback" select="'cms.util.BatchAdd.enableDisableAddButton()'"/>
+                <xsl:with-param name="checkBoxOnClickFallback" select="'cms.util.BatchAdd.enableDisableAddButton'"/>
               </xsl:call-template>
             </xsl:if>
 
