@@ -84,6 +84,11 @@ public class UrlPathEncoder
         return encodedPath.toString();
     }
 
+    public static String encodeUrlPathNoParameters( final String localPath )
+    {
+        return encodeUrlPathNoParameters( localPath, "UTF-8" );
+    }
+
     public static String encodeUrlPathNoParameters( final String localPath, final String encoding )
     {
         if ( localPath.equals( "/" ) )

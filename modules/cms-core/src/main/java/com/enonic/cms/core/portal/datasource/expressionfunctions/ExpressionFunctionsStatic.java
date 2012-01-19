@@ -136,4 +136,9 @@ public class ExpressionFunctionsStatic
     {
         return ExpressionFunctionsFactory.get().createExpressionFunctions().pageKey(path);
     }
+
+    public static String urlEncode(String source)
+    {
+        return ExpressionFunctionsFactory.get().createExpressionFunctions().urlEncode( source );
+    }
 }

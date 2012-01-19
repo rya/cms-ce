@@ -8,8 +8,12 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -17,7 +21,9 @@ import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 import org.joda.time.format.PeriodFormatter;
 
-import com.enonic.cms.core.time.TimeService;
+import com.enonic.esl.containers.MultiValueMap;
+
+import com.enonic.cms.framework.util.UrlPathEncoder;
 
 import com.enonic.cms.core.portal.PortalInstanceKey;
 import com.enonic.cms.core.portal.page.PageRequestFactory;
@@ -31,6 +37,7 @@ import com.enonic.cms.core.preference.PreferenceScopeType;
 import com.enonic.cms.core.preference.PreferenceService;
 import com.enonic.cms.core.structure.menuitem.MenuItemService;
 import com.enonic.cms.core.structure.portlet.PortletKey;
+import com.enonic.cms.core.time.TimeService;
 
 /**
  *
@@ -239,7 +246,7 @@ public class ExpressionFunctions
         }
 
         boolean first = true;
-        StringBuffer queryTokens = new StringBuffer();
+        StringBuilder queryTokens = new StringBuilder();
         Reader searchStringReader = new StringReader( searchString );
         StreamTokenizer searchStringTokens = new StreamTokenizer( searchStringReader );
         searchStringTokens.slashSlashComments( false );
@@ -281,7 +288,7 @@ public class ExpressionFunctions
         return context.getPortalInstanceKey().getWindowKey().asString();
     }
 
-    private void addQueryPart( StringBuffer query, boolean first, String fieldName, String token, String op )
+    private void addQueryPart( StringBuilder query, boolean first, String fieldName, String token, String op )
     {
         if ( !first )
         {
@@ -320,4 +327,147 @@ public class ExpressionFunctions
         this.menuItemService = menuItemService;
     }
 
+    public String urlEncode( String source )
+    {
+        if ( StringUtils.isBlank( source ) )
+        {
+            return "";
+        }
+
+        if( hasBasePath( source ) )
+        {
+            return doEncodeURL( source );
+        }
+        return doEncodeQueryString( source );
+    }
+
+    private boolean hasBasePath( String source )
+    {
+        try
+        {
+            URL url = new URL( source );
+            return StringUtils.isNotBlank( url.getHost() ) && StringUtils.isNotBlank( url.getProtocol() );
+        }
+        catch ( MalformedURLException ex )
+        {
+            return false;
+        }
+    }
+
+    private String doEncodeURL( String url )
+    {
+        MultiValueMap queryParams = new MultiValueMap();
+        String label = null;
+
+        final String urlString;
+        int labelIndex = url.indexOf( '#' );
+        if ( labelIndex >= 0 )
+        {
+            label = url.substring( labelIndex + 1 );
+            urlString = url.substring( 0, labelIndex );
+        }
+        else
+        {
+            urlString = url;
+        }
+
+        StringTokenizer tokenizer = new StringTokenizer( urlString, "?" );
+        String baseURL = UrlPathEncoder.encodeUrlPathNoParameters( tokenizer.nextToken() );
+
+        if ( tokenizer.hasMoreTokens() )
+        {
+            String queryString = tokenizer.nextToken( "" ).substring( 1 );
+            queryParams = parseQueryString( queryString );
+        }
+
+        return doComposeURL( baseURL, queryParams, label );
+    }
+
+    private MultiValueMap parseQueryString( String queryString )
+    {
+        MultiValueMap queryParams = new MultiValueMap();
+        StringTokenizer tokenizer = new StringTokenizer( queryString, "&" );
+
+        while ( tokenizer.hasMoreTokens() )
+        {
+            String token = tokenizer.nextToken();
+            String name;
+            String value = null;
+            int equalIdx = token.indexOf( '=' );
+            if ( equalIdx == -1 )
+            {
+                name = token;
+            }
+            else
+            {
+                name = token.substring( 0, equalIdx );
+                value = token.substring( equalIdx + 1 );
+            }
+            if ( value != null )
+            {
+                String escapedValue = UrlPathEncoder.encode( value );
+                queryParams.put( name, escapedValue );
+            }
+        }
+
+        return queryParams;
+    }
+
+    private String doEncodeQueryString( String queryString )
+    {
+        MultiValueMap queryParams = parseQueryString( queryString );
+        return doComposeURL( queryParams );
+    }
+
+    private String doComposeURL( MultiValueMap queryParams )
+    {
+        return doComposeURL( "", queryParams, null );
+    }
+
+    private String doComposeURL( String baseURL, MultiValueMap queryParams, String label )
+    {
+        StringBuilder url = new StringBuilder( baseURL );
+        Iterator keyIterator = queryParams.keySet().iterator();
+        boolean firstParam = true;
+        while ( keyIterator.hasNext() )
+        {
+            String key = (String) keyIterator.next();
+            for ( Object value : queryParams.getValueList( key ) )
+            {
+                if ( firstParam )
+                {
+                    if ( StringUtils.isNotBlank( baseURL ) )
+                    {
+                        url.append( '?' );
+                    }
+                    firstParam = false;
+                }
+                else
+                {
+                    url.append( '&' );
+                }
+                url.append( key );
+                url.append( '=' );
+                url.append( value );
+            }
+        }
+        if ( label != null )
+        {
+            if ( firstParam )
+            {
+                // First param has still not been added, so there are no parameters and the & is not needed.
+                url.append( "#" );
+            }
+            else
+            {
+                // HACK: adds an extra '&' to the URL to bypass the bug concerning
+                // request.sendRedirect()
+                // and Internet Explorer
+                url.append( "&#" );
+            }
+            url.append( label );
+        }
+
+        return url.toString();
+    }
 }
