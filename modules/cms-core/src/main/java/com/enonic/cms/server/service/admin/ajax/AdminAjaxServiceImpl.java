@@ -148,16 +148,10 @@ public class AdminAjaxServiceImpl
     @RemoteMethod
     public String getArchiveSizeByCategory( int categoryKey )
     {
-        UserEntity user = getLoggedInAdminConsoleUser();
+        ensureAdminIsLoggedIn();
 
         try
         {
-            boolean access = memberOfResolver.hasEnterpriseAdminPowers( user );
-            if ( !access )
-            {
-                return "No access";
-            }
-
             return String.valueOf( adminService.getArchiveSizeByCategory( categoryKey ) );
         }
         catch ( Exception e )
@@ -170,16 +164,10 @@ public class AdminAjaxServiceImpl
     @RemoteMethod
     public String getArchiveSizeByUnit( int unitKey )
     {
-        UserEntity user = getLoggedInAdminConsoleUser();
+        ensureAdminIsLoggedIn();
 
         try
         {
-            boolean access = memberOfResolver.hasEnterpriseAdminPowers( user );
-            if ( !access )
-            {
-                return "No access";
-            }
-
             return String.valueOf( adminService.getArchiveSizeByUnit( unitKey ) );
         }
         catch ( Exception e )
@@ -288,6 +276,19 @@ public class AdminAjaxServiceImpl
     private UserEntity getLoggedInAdminConsoleUser()
     {
         return securityService.getLoggedInAdminConsoleUserAsEntity();
+    }
+
+    private void ensureAdminIsLoggedIn()
+    {
+        UserEntity user = getLoggedInAdminConsoleUser();
+        if ( user == null )
+        {
+            throw new IllegalStateException( "User is not logged in admin console" );
+        }
+        if ( user != null && !memberOfResolver.hasEnterpriseAdminPowers( user ) )
+        {
+            throw new IllegalStateException( "Logged user does not have administrate powers" );
+        }
     }
 
     @RemoteMethod
@@ -414,6 +415,8 @@ public class AdminAjaxServiceImpl
     @RemoteMethod
     public Collection<UserDto> findUsers( String name )
     {
+        ensureAdminIsLoggedIn();
+
         List<UserDto> foundUserDtos = new ArrayList<UserDto>();
 
         List<UserEntity> foundUsers = userDao.findByQuery( null, name, null, true );
