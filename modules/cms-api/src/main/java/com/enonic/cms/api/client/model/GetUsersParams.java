@@ -41,4 +41,9 @@ public class GetUsersParams
      */
     public int count = 100;
 
+    /**
+     * If set to true, additional attributes for the user will be included.
+     */
+    public boolean includeCustomUserFields = false;
+
 }
