@@ -10,6 +10,7 @@ import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.content.ContentAccessEntity;
 import com.enonic.cms.core.content.ContentAccessType;
 import com.enonic.cms.core.content.ContentEntity;
@@ -103,6 +104,26 @@ public class DomainFactory
     public UserEntity createUser( String uid, String displayName, UserType type, String userStoreName )
     {
         return createUser( uid, displayName, type, userStoreName, null );
+    }
+
+    public UserEntity createUserWithAllValues( String uid, String displayName, UserType type, String userStoreName, UserInfo userInfo )
+    {
+        UserEntity user = new UserEntity();
+        user.setName( uid );
+        user.setDisplayName( displayName );
+        user.setSyncValue( uid );
+        user.setTimestamp( new DateTime() );
+        user.setType( type );
+        user.setDeleted( 0 );
+        if ( userStoreName != null )
+        {
+            user.setUserStore( fixture.findUserStoreByName( userStoreName ) );
+        }
+        user.setUserGroup( null );
+
+        user.updateUserInfo( userInfo );
+
+        return user;
     }
 
     public UserEntity createNormalUserInUserstore( String uid, String displayName, String userstoreName )

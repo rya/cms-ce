@@ -372,6 +372,8 @@ public final class InternalClientImpl
             List<UserEntity> users =
                 this.securityService.getUsers( userStore.getKey(), params.index, params.count, params.includeDeletedUsers );
             UserXmlCreator xmlCreator = new UserXmlCreator();
+            xmlCreator.setIncludeUserFields( params.includeCustomUserFields );
+            xmlCreator.wrappUserFieldsInBlockElement( false );
             xmlCreator.setAdminConsoleStyle( false );
             return xmlCreator.createUsersDocument( users, params.includeMemberships, params.normalizeGroups );
 

@@ -16,6 +16,7 @@ import com.google.common.base.Preconditions;
 
 import com.enonic.vertical.VerticalProperties;
 
+import com.enonic.cms.api.client.model.user.UserInfo;
 import com.enonic.cms.core.content.ContentEntity;
 import com.enonic.cms.core.content.ContentHandlerEntity;
 import com.enonic.cms.core.content.ContentHandlerKey;
@@ -131,6 +132,28 @@ public class DomainFixture
     public UserEntity createAndStoreNormalUserWithUserGroup( String uid, String displayName, String userStoreName )
     {
         return createAndStoreUserAndUserGroup( uid, displayName, UserType.NORMAL, userStoreName );
+    }
+
+    public UserEntity createAndStoreNormalUserWithAllValuesAndWithUserGroup( String uid, String displayName, String userStoreName,
+                                                                             UserInfo userInfo )
+    {
+        GroupEntity userGroup = new GroupEntity();
+        userGroup.setName( uid );
+        userGroup.setSyncValue( uid );
+        userGroup.setDeleted( 0 );
+        userGroup.setType( GroupType.resolveAssociate( UserType.NORMAL ) );
+        userGroup.setRestricted( 1 );
+        hibernateTemplate.save( userGroup );
+
+        UserEntity user = factory.createUserWithAllValues( uid, displayName, UserType.NORMAL, userStoreName, userInfo );
+        user.encodePassword( null );
+
+        user.setUserGroup( userGroup );
+
+        hibernateTemplate.save( user );
+        hibernateTemplate.flush();
+
+        return user;
     }
 
     public UserEntity createAndStoreUserAndUserGroup( String uid, String displayName, UserType type, String userStoreName )
