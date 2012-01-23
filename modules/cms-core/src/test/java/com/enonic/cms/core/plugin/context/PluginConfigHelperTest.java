@@ -28,13 +28,14 @@ public class PluginConfigHelperTest
         props.put("key2", "value2");
 
         this.propFile = File.createTempFile("sample", "properties");
+        this.propFile.deleteOnExit();
         props.store(new FileWriter(this.propFile), "sample properties");
    }
 
     @After
     public void tearDown()
     {
-        assertTrue(this.propFile.delete());
+        this.propFile.delete();
     }
 
     @Test
