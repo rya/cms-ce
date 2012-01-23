@@ -95,22 +95,26 @@ public final class DavResourceImpl
 
     private LockManager lockManager;
 
+    private MimeTypeResolver mimeTypeResolver;
+
     /**
      * Construct the resource.
      */
-    public DavResourceImpl( DavResourceLocator locator, DavResourceFactoryImpl factory, DavSession session, boolean isCollection )
-            throws DavException
+    public DavResourceImpl( MimeTypeResolver mimeTypeResolver, DavResourceLocator locator, DavResourceFactoryImpl factory, DavSession session, boolean isCollection )
+        throws DavException
     {
-        this( locator, factory, session, null );
+        this( mimeTypeResolver, locator, factory, session, null );
         this.isCollection = isCollection;
     }
 
     /**
      * Construct the resource.
      */
-    public DavResourceImpl( DavResourceLocator locator, DavResourceFactoryImpl factory, DavSession session, FileResource file )
+    public DavResourceImpl( MimeTypeResolver mimeTypeResolver, DavResourceLocator locator, DavResourceFactoryImpl factory, DavSession session, FileResource file )
             throws DavException
     {
+        this.mimeTypeResolver = mimeTypeResolver;
+
         this.session = session;
         this.factory = factory;
         this.locator = locator;
@@ -298,7 +302,7 @@ public final class DavResourceImpl
 
         context.setContentLength( length );
         context.setModificationTime( modTime );
-        context.setContentType( MimeTypeResolver.getInstance().getMimeType( this.file.getName().getName() ) );
+        context.setContentType( mimeTypeResolver.getMimeType( this.file.getName().getName() ) );
         context.setETag( "\"" + length + "-" + modTime + "\"" );
 
         final FileResourceData data = this.factory.getFileResourceService().getResourceData( this.file.getName() );
@@ -775,7 +779,7 @@ public final class DavResourceImpl
             properties.add( new DefaultDavProperty( DavPropertyName.ISCOLLECTION, "0" ) );
         }
 
-        String contentType = MimeTypeResolver.getInstance().getMimeType( getResourcePath() );
+        String contentType = mimeTypeResolver.getMimeType( getResourcePath() );
         properties.add( new DefaultDavProperty( DavPropertyName.GETCONTENTTYPE, contentType ) );
 
         long modifiedTime = getLastModifiedTime();

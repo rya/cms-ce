@@ -31,6 +31,7 @@ public class ResourceController
     extends AbstractController
     implements InitializingBean
 {
+    protected MimeTypeResolver mimeTypeResolver;
 
     private UrlPathHelper urlPathHelper;
 
@@ -83,7 +84,12 @@ public class ResourceController
     {
         BufferedInputStream in = new BufferedInputStream( resource.getInputStream() );
         BufferedOutputStream out = new BufferedOutputStream( response.getOutputStream() );
-        response.setContentType( MimeTypeResolver.getInstance().getMimeType( resource.getFilename() ) );
+        response.setContentType( mimeTypeResolver.getMimeType( resource.getFilename() ) );
         HttpServletUtil.copyNoCloseOut( in, out );
+    }
+
+    public void setMimeTypeResolver( MimeTypeResolver mimeTypeResolver )
+    {
+        this.mimeTypeResolver = mimeTypeResolver;
     }
 }

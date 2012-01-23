@@ -57,6 +57,9 @@ public final class IndexServiceImpl
     @Autowired
     private BinaryDataDao binaryDataDao;
 
+    @Autowired
+    private MimeTypeResolver mimeTypeResolver;
+
     private final IndexDefinitionBuilder indexDefBuilder = new IndexDefinitionBuilder();
 
     public void removeContent( ContentEntity content )
@@ -155,10 +158,10 @@ public final class IndexServiceImpl
     private BigText extractText( BinaryDataEntity binaryData )
         throws IOException
     {
-        String mimeType = MimeTypeResolver.getInstance().getMimeType( binaryData.getName() );
-        TextExtractor textExtractor = pluginManager.getExtensions().findTextExtractorPluginByMimeType( mimeType );
+        final String mimeType = mimeTypeResolver.getMimeType( binaryData.getName() );
+        final TextExtractor textExtractor = pluginManager.getExtensions().findTextExtractorPluginByMimeType( mimeType );
 
-        String fullTextString;
+        final String fullTextString;
         if ( textExtractor == null )
         {
             return null;

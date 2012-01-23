@@ -21,6 +21,8 @@ import org.apache.jackrabbit.webdav.server.AbstractWebdavServlet;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.enonic.cms.framework.util.MimeTypeResolver;
+
 import com.enonic.cms.core.servlet.ServletRequestAccessor;
 
 /**
@@ -55,10 +57,24 @@ public final class SimpleDavServlet
     public void init( ServletConfig config )
         throws ServletException
     {
-        DavConfiguration davConfig = getDavConfiguration( config.getServletContext() );
+        final ServletContext servletContext = config.getServletContext();
+        final WebApplicationContext appContext = WebApplicationContextUtils.getRequiredWebApplicationContext( servletContext );
+
+        final String[] beanNames = appContext.getBeanNamesForType( DavConfiguration.class );
+        final boolean beansFound = beanNames != null && beanNames.length > 0;
+        final DavConfiguration davConfig = beansFound ? (DavConfiguration) appContext.getBean( beanNames[0] ) : null;
+
+        if (davConfig == null)
+        {
+            throw new ServletException( "No dav configuration set" );
+        }
+
         setLocatorFactory( new DavLocatorFactoryImpl() );
         setDavSessionProvider( new DavSessionProviderImpl( davConfig.getSecurityService(), davConfig.getResourceAccessResolver() ) );
-        setResourceFactory( new DavResourceFactoryImpl( davConfig.getFileResourceService() ) );
+
+        final MimeTypeResolver mimeTypeResolver = (MimeTypeResolver) appContext.getBean( "mimeTypeResolver" );
+        setResourceFactory( new DavResourceFactoryImpl( mimeTypeResolver, davConfig.getFileResourceService() ) );
+
         super.init( config );
     }
 

@@ -211,6 +211,7 @@
 
     <!-- Construct the resource controller. -->
     <bean id="resourceController" class="com.enonic.cms.server.service.admin.mvc.controller.ResourceController">
+      <property name="mimeTypeResolver" ref="mimeTypeResolver"/>
     </bean>
 
     <!-- Debug controller that renders the debug view. -->
@@ -235,6 +236,7 @@
     <!-- Construct the resource translator. -->
     <bean id="resourceTranslationController"
           class="com.enonic.cms.server.service.admin.mvc.controller.ResourceTranslationController">
+      <property name="mimeTypeResolver" ref="mimeTypeResolver"/>
     </bean>
 
     <!--

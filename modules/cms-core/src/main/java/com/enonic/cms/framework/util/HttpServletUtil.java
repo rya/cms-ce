@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public class HttpServletUtil
 {
@@ -93,13 +95,13 @@ public class HttpServletUtil
 
     public static String resolveMimeType( ServletContext servletContext, String filename )
     {
-        String mimeType = MimeTypeResolver.getInstance().getMimeType( filename.toLowerCase() );
-        if ( mimeType == null )
-        {
-            mimeType = "www/unknown";
-        }
-        return mimeType;
-    }
+        final WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext( servletContext );
+
+        final MimeTypeResolver mimeTypeResolver = (MimeTypeResolver) wac.getBean("mimeTypeResolver");
+
+        final String mimeType = mimeTypeResolver.getMimeType( filename );
+
+        return mimeType;    }
 
     /**
      * Copy the contents of the given InputStream to the given OutputStream.

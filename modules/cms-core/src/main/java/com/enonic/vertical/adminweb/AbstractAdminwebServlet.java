@@ -32,6 +32,8 @@ import com.enonic.esl.net.URL;
 import com.enonic.vertical.VerticalProperties;
 import com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver;
 
+import com.enonic.cms.framework.util.MimeTypeResolver;
+
 import com.enonic.cms.core.time.TimeService;
 
 import com.enonic.cms.core.SitePropertiesService;
@@ -226,6 +228,10 @@ public abstract class AbstractAdminwebServlet
 
     @Autowired
     protected ResourceAccessResolver resourceAccessResolver;
+
+    @Autowired
+    protected MimeTypeResolver mimeTypeResolver;
+
 
     private ServletContext servletContext;
 
