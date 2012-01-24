@@ -44,6 +44,9 @@ import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.GetContentExecutor;
 import com.enonic.cms.core.content.GetContentResult;
 import com.enonic.cms.core.content.GetContentXmlCreator;
+import com.enonic.cms.core.content.GetRelatedContentExecutor;
+import com.enonic.cms.core.content.GetRelatedContentResult;
+import com.enonic.cms.core.content.GetRelatedContentXmlCreator;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
@@ -202,7 +205,7 @@ public final class DataSourceServiceImpl
             xmlCreator.setIncludeCategoryData( true );
             xmlCreator.setIncludeRelatedContentData( includeData );
             xmlCreator.setIncludeUserRightsInfo( false, new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
-            xmlCreator.setIncludeVersionsInfoForSites( false );
+            xmlCreator.setIncludeVersionsInfoForPortal( false );
             xmlCreator.setIncludeAssignment( true );
             XMLDocument xml = xmlCreator.createContentsDocument( user, contents, relatedContents );
             addDataTraceInfo( xml.getAsJDOMDocument() );
@@ -350,7 +353,7 @@ public final class DataSourceServiceImpl
         xmlCreator.setResultIndexing( 0, count );
         xmlCreator.setIncludeContentData( includeData );
         xmlCreator.setIncludeRelatedContentData( includeData );
-        xmlCreator.setIncludeVersionsInfoForSites( false );
+        xmlCreator.setIncludeVersionsInfoForPortal( false );
         xmlCreator.setIncludeAssignment( true );
 
         XMLDocument doc = xmlCreator.createContentsDocument( user, randomContents, relatedContent );
@@ -665,7 +668,7 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                              new ContentAccessResolver( groupDao ) );
         xmlCreator.setResultIndexing( 0, count );
-        xmlCreator.setIncludeVersionsInfoForSites( false );
+        xmlCreator.setIncludeVersionsInfoForPortal( false );
         xmlCreator.setIncludeAssignment( true );
         XMLDocument doc = xmlCreator.createContentsDocument( user, randomizedContents, new RelatedContentResultSetImpl() );
 
@@ -921,7 +924,7 @@ public final class DataSourceServiceImpl
             xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                                  new ContentAccessResolver( groupDao ) );
             xmlCreator.setResultIndexing( index, count );
-            xmlCreator.setIncludeVersionsInfoForSites( false );
+            xmlCreator.setIncludeVersionsInfoForPortal( false );
             xmlCreator.setIncludeAssignment( true );
             doc = xmlCreator.createContentsDocument( user, contents, relatedContents );
         }
@@ -1008,7 +1011,7 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeRelatedContentData( !relatedTitlesOnly );
         xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                              new ContentAccessResolver( groupDao ) );
-        xmlCreator.setIncludeVersionsInfoForSites( false );
+        xmlCreator.setIncludeVersionsInfoForPortal( false );
         xmlCreator.setIncludeAssignment( true );
         return xmlCreator.createContentsDocument( user, contents, relatedContents );
     }
@@ -1296,7 +1299,7 @@ public final class DataSourceServiceImpl
         xmlCreator.setResultIndexing( 0, content.getLength() );
         xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                              new ContentAccessResolver( groupDao ) );
-        xmlCreator.setIncludeVersionsInfoForSites( false );
+        xmlCreator.setIncludeVersionsInfoForPortal( false );
         xmlCreator.setIncludeAssignment( true );
 
         XMLDocument xml = xmlCreator.createContentsDocument( user, content, relatedContent );
@@ -1371,134 +1374,64 @@ public final class DataSourceServiceImpl
                                              boolean includeCategoryData, boolean includeRelatedContentData, int[] filterByCategories,
                                              boolean categoryRecursive, int[] filterByContentTypes )
     {
-        PreviewContext previewContext = context.getPreviewContext();
-
-        final Date now = new Date();
-        UserEntity user = getUserEntity( context.getUser() );
-
-        // Get given content to get top related content for
-        final ContentByContentQuery baseContentQuery = new ContentByContentQuery();
-        baseContentQuery.setFilterContentOnlineAt( now );
-        baseContentQuery.setUser( user );
+        XMLDocument xmlDocument = null;
         try
         {
-            baseContentQuery.setContentKeyFilter( ContentKey.convertToList( contentKeys ) );
+            final UserEntity user = getUserEntity( context.getUser() );
+            final List<CategoryKey> categoryFilter = CategoryKey.convertToList( filterByCategories );
+            final List<ContentKey> contentFilter = ContentKey.convertToList( contentKeys );
+            final List<ContentTypeKey> contentTypeFilter = ContentTypeKey.convertToList( filterByContentTypes );
+
+            final GetRelatedContentExecutor getRelatedContentExecutor =
+                new GetRelatedContentExecutor( contentService, timeService.getNowAsDateTime().toDate(), context.getPreviewContext() );
+            getRelatedContentExecutor.user( user );
+            getRelatedContentExecutor.requireAll( requireAll );
+            getRelatedContentExecutor.relation( relation );
+            getRelatedContentExecutor.query( query );
+            getRelatedContentExecutor.orderBy( orderBy );
+            getRelatedContentExecutor.index( index );
+            getRelatedContentExecutor.count( count );
+            getRelatedContentExecutor.childrenLevel( childrenLevel );
+            getRelatedContentExecutor.parentLevel( parentLevel );
+            getRelatedContentExecutor.parentChildrenLevel( parentChildrenLevel );
+            if ( contentFilter != null )
+            {
+                getRelatedContentExecutor.contentFilter( contentFilter );
+            }
+            if ( categoryFilter != null )
+            {
+                getRelatedContentExecutor.categoryFilter( categoryFilter, categoryRecursive );
+            }
+            if ( contentTypeFilter != null )
+            {
+                getRelatedContentExecutor.contentTypeFilter( contentTypeFilter );
+            }
+            final GetRelatedContentResult result = getRelatedContentExecutor.execute();
+
+            final GetRelatedContentXmlCreator getRelatedContentXmlCreator =
+                new GetRelatedContentXmlCreator( new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
+
+            getRelatedContentXmlCreator.user( user );
+            getRelatedContentXmlCreator.startingIndex( index );
+            getRelatedContentXmlCreator.resultLength( count );
+            getRelatedContentXmlCreator.includeContentsContentData( includeContentData );
+            getRelatedContentXmlCreator.includeRelatedContentsContentData( includeRelatedContentData );
+            getRelatedContentXmlCreator.includeOwnerAndModifierData( includeOwnerAndModifierData );
+            getRelatedContentXmlCreator.includeCategoryData( includeCategoryData );
+            xmlDocument = getRelatedContentXmlCreator.create( result );
         }
         catch ( InvalidKeyException e )
         {
-            return new ContentXMLCreator().createEmptyDocument( "Invalid key: " + e.getMessage() );
+            xmlDocument = new ContentXMLCreator().createEmptyDocument( "Invalid key: " + e.getMessage() );
         }
-        ContentResultSet baseContent = contentService.queryContent( baseContentQuery );
-
-        if ( previewContext.isPreviewingContent() )
+        finally
         {
-            baseContent = previewContext.getContentPreviewContext().applyPreviewedContentOnContentResultSet( baseContent, contentKeys );
-        }
-
-        // Get the main content (related content to base content)
-        final RelatedContentResultSet relatedContentToBaseContent;
-        if ( requireAll && baseContent.getLength() > 1 )
-        {
-            relatedContentToBaseContent = contentService.getRelatedContentRequiresAll( user, relation, baseContent );
-        }
-        else
-        {
-            RelatedContentQuery relatedContentToBaseContentSpec = new RelatedContentQuery( now );
-            relatedContentToBaseContentSpec.setUser( user );
-            relatedContentToBaseContentSpec.setContentResultSet( baseContent );
-            relatedContentToBaseContentSpec.setParentLevel( relation < 0 ? 1 : 0 );
-            relatedContentToBaseContentSpec.setChildrenLevel( relation > 0 ? 1 : 0 );
-            relatedContentToBaseContentSpec.setParentChildrenLevel( 0 );
-            relatedContentToBaseContentSpec.setIncludeOnlyMainVersions( true );
-
-            relatedContentToBaseContent = contentService.queryRelatedContent( relatedContentToBaseContentSpec );
-
-            final boolean previewedContentIsAmongBaseContent = previewContext.isPreviewingContent() &&
-                baseContent.containsContent( previewContext.getContentPreviewContext().getContentPreviewed().getKey() );
-            if ( previewedContentIsAmongBaseContent )
+            if ( xmlDocument != null )
             {
-                // ensuring offline related content to the previewed content to be included when previewing
-                RelatedContentQuery relatedSpecForPreviewedContent = new RelatedContentQuery( relatedContentToBaseContentSpec );
-                relatedSpecForPreviewedContent.setFilterIncludeOfflineContent();
-                relatedSpecForPreviewedContent.setContentResultSet(
-                    new ContentResultSetNonLazy( previewContext.getContentPreviewContext().getContentAndVersionPreviewed().getContent() ) );
-
-                RelatedContentResultSet relatedContentsForPreviewedContent =
-                    contentService.queryRelatedContent( relatedSpecForPreviewedContent );
-
-                relatedContentToBaseContent.overwrite( relatedContentsForPreviewedContent );
-                previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( relatedContentToBaseContent );
+                addDataTraceInfo( xmlDocument.getAsJDOMDocument() );
             }
         }
-
-        // Get the main result content
-        final ContentByContentQuery mainResultContentQuery = new ContentByContentQuery();
-        mainResultContentQuery.setUser( user );
-        if ( previewContext.isPreviewingContent() )
-        {
-            // ensuring offline related content to be included when previewing
-            mainResultContentQuery.setFilterIncludeOfflineContent();
-        }
-        else
-        {
-            mainResultContentQuery.setFilterContentOnlineAt( now );
-        }
-        mainResultContentQuery.setQuery( query );
-        mainResultContentQuery.setOrderBy( orderBy );
-        mainResultContentQuery.setIndex( index );
-        mainResultContentQuery.setCount( count );
-        try
-        {
-            mainResultContentQuery.setContentKeyFilter( relatedContentToBaseContent.getContentKeys() );
-            mainResultContentQuery.setCategoryKeyFilter( CategoryKey.convertToList( filterByCategories ),
-                                                         categoryRecursive ? Integer.MAX_VALUE : 1 );
-            mainResultContentQuery.setContentTypeFilter( ContentTypeKey.convertToList( filterByContentTypes ) );
-        }
-        catch ( InvalidKeyException e )
-        {
-            return new ContentXMLCreator().createEmptyDocument( "Invalid key: " + e.getMessage() );
-        }
-        ContentResultSet mainResultContent = contentService.queryContent( mainResultContentQuery );
-        if ( previewContext.isPreviewingContent() )
-        {
-            mainResultContent = previewContext.getContentPreviewContext().overrideContentResultSet( mainResultContent );
-            previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( mainResultContent );
-        }
-
-        // Get the related content to the main result
-        final RelatedContentQuery relatedContentSpec = new RelatedContentQuery( now );
-        if ( previewContext.isPreviewingContent() )
-        {
-            // ensuring related offline content to be included when previewing
-            relatedContentSpec.setFilterIncludeOfflineContent();
-        }
-        relatedContentSpec.setUser( user );
-        relatedContentSpec.setContentResultSet( mainResultContent );
-        relatedContentSpec.setParentLevel( parentLevel );
-        relatedContentSpec.setChildrenLevel( childrenLevel );
-        relatedContentSpec.setParentChildrenLevel( parentChildrenLevel );
-        relatedContentSpec.setIncludeOnlyMainVersions( true );
-        RelatedContentResultSet relatedContent = contentService.queryRelatedContent( relatedContentSpec );
-
-        if ( previewContext.isPreviewingContent() )
-        {
-            relatedContent = previewContext.getContentPreviewContext().overrideRelatedContentResultSet( relatedContent );
-            previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( relatedContent );
-        }
-
-        // Create the content xml
-        final ContentXMLCreator xmlCreator = new ContentXMLCreator();
-        xmlCreator.setResultIndexing( index, count );
-        xmlCreator.setIncludeOwnerAndModifierData( includeOwnerAndModifierData );
-        xmlCreator.setIncludeContentData( includeContentData );
-        xmlCreator.setIncludeCategoryData( includeCategoryData );
-        xmlCreator.setIncludeRelatedContentData( includeRelatedContentData );
-        xmlCreator.setIncludeVersionsInfoForSites( false );
-        xmlCreator.setIncludeAssignment( true );
-        XMLDocument doc = xmlCreator.createContentsDocument( user, mainResultContent, relatedContent );
-
-        addDataTraceInfo( doc.getAsJDOMDocument() );
-        return doc;
+        return xmlDocument;
     }
 
     private XMLDocument doGetContent( DataSourceContext context, int[] contentKeys, String query, String orderBy, int index, int count,
@@ -1586,7 +1519,7 @@ public final class DataSourceServiceImpl
 
             RelatedContentResultSet relatedContent = contentService.queryRelatedContent( spec );
 
-            xmlCreator.setIncludeVersionsInfoForSites( true );
+            xmlCreator.setIncludeVersionsInfoForPortal( true );
             xmlCreator.setIncludeAccessRightsInfo( true );
             xmlCreator.setIncludeUserRightsInfo( true, new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
             xmlCreator.setIncludeOwnerAndModifierData( true );
@@ -1654,7 +1587,7 @@ public final class DataSourceServiceImpl
             xmlCreator.setIncludeRelatedContentData( includeRelatedContentData );
             xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                                  new ContentAccessResolver( groupDao ) );
-            xmlCreator.setIncludeVersionsInfoForSites( false );
+            xmlCreator.setIncludeVersionsInfoForPortal( false );
             xmlCreator.setIncludeAssignment( true );
 
             XMLDocument doc = xmlCreator.createContentsDocument( user, contents, relatedContent );
@@ -1702,7 +1635,7 @@ public final class DataSourceServiceImpl
             xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                                  new ContentAccessResolver( groupDao ) );
             xmlCreator.setResultIndexing( fromIndex, count );
-            xmlCreator.setIncludeVersionsInfoForSites( false );
+            xmlCreator.setIncludeVersionsInfoForPortal( false );
             xmlCreator.setIncludeAssignment( true );
 
             ContentResultSet contents = contentService.queryContent( spec );
@@ -1797,7 +1730,7 @@ public final class DataSourceServiceImpl
         xmlCreator.setIncludeUserRightsInfo( includeUserRights, new CategoryAccessResolver( groupDao ),
                                              new ContentAccessResolver( groupDao ) );
         xmlCreator.setResultIndexing( 0, count );
-        xmlCreator.setIncludeVersionsInfoForSites( false );
+        xmlCreator.setIncludeVersionsInfoForPortal( false );
         xmlCreator.setIncludeAssignment( true );
 
         XMLDocument doc = xmlCreator.createContentsDocument( user, randomContent, relatedContent );

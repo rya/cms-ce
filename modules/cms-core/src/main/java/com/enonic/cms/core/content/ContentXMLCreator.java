@@ -21,8 +21,6 @@ import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLDocumentFactory;
 
 import com.enonic.cms.core.CmsDateAndTimeFormats;
-import com.enonic.cms.core.language.LanguageEntity;
-import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.binary.BinaryDataXmlCreator;
 import com.enonic.cms.core.content.category.CategoryAccessRightsAccumulated;
@@ -33,6 +31,8 @@ import com.enonic.cms.core.content.resultset.ContentResultSet;
 import com.enonic.cms.core.content.resultset.ContentVersionResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContent;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
+import com.enonic.cms.core.language.LanguageEntity;
+import com.enonic.cms.core.language.LanguageKey;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.structure.menuitem.section.SectionContentXmlCreator;
@@ -121,7 +121,7 @@ public class ContentXMLCreator
      * This value can not be true at the same time as <code>includeVersionsInfoForAdmin</code> or <code>includeVersionsInfoForClient</code>
      * is true.
      */
-    private boolean includeVersionsInfoForSites = false;
+    private boolean includeVersionsInfoForPortal = false;
 
     /**
      * Whether or not to include a list of versions for the content, in a format that is suitable for template developers using the data
@@ -490,7 +490,7 @@ public class ContentXMLCreator
             contentEl.setAttribute( "draft-key", content.hasDraft() ? content.getDraftVersion().getKey().toString() : "" );
         }
 
-        if ( includeVersionsInfoForAdmin || includeVersionsInfoForClient || includeVersionsInfoForSites )
+        if ( includeVersionsInfoForAdmin || includeVersionsInfoForClient || includeVersionsInfoForPortal )
         {
             contentEl.setAttribute( "versionkey", String.valueOf( contentVersion.getKey() ) );
             contentEl.setAttribute( "current", Boolean.toString( contentVersion.isMainVersion() ) );
@@ -571,7 +571,7 @@ public class ContentXMLCreator
             contentEl.addContent( versionsEl );
         }
 
-        if ( ( includeVersionsInfoForSites || includeVersionsInfoForClient ) && !isRelatedContent )
+        if ( ( includeVersionsInfoForPortal || includeVersionsInfoForClient ) && !isRelatedContent )
         {
             final Element versionsEl = doCreateVersionsElementForSite( content );
             contentEl.addContent( versionsEl );
@@ -936,15 +936,15 @@ public class ContentXMLCreator
         includeVersionsInfoForAdmin = value;
         if ( includeVersionsInfoForAdmin )
         {
-            includeVersionsInfoForSites = false;
+            includeVersionsInfoForPortal = false;
             includeVersionsInfoForClient = false;
         }
     }
 
-    public void setIncludeVersionsInfoForSites( boolean value )
+    public void setIncludeVersionsInfoForPortal( boolean value )
     {
-        includeVersionsInfoForSites = value;
-        if ( includeVersionsInfoForSites )
+        includeVersionsInfoForPortal = value;
+        if ( includeVersionsInfoForPortal )
         {
             includeVersionsInfoForAdmin = false;
             includeVersionsInfoForClient = false;
@@ -957,7 +957,7 @@ public class ContentXMLCreator
         if ( includeVersionsInfoForClient )
         {
             includeVersionsInfoForAdmin = false;
-            includeVersionsInfoForSites = false;
+            includeVersionsInfoForPortal = false;
         }
     }
 

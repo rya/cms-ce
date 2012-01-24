@@ -106,7 +106,7 @@ public class GetContentXmlCreator
         }
         else if ( versionInfoStyle == VersionInfoStyle.PORTAL )
         {
-            xmlCreator.setIncludeVersionsInfoForSites( true );
+            xmlCreator.setIncludeVersionsInfoForPortal( true );
         }
         else if ( versionInfoStyle == VersionInfoStyle.ADMIN )
         {

@@ -85,6 +85,9 @@ import com.enonic.cms.core.content.ContentXMLCreator;
 import com.enonic.cms.core.content.GetContentExecutor;
 import com.enonic.cms.core.content.GetContentResult;
 import com.enonic.cms.core.content.GetContentXmlCreator;
+import com.enonic.cms.core.content.GetRelatedContentExecutor;
+import com.enonic.cms.core.content.GetRelatedContentResult;
+import com.enonic.cms.core.content.GetRelatedContentXmlCreator;
 import com.enonic.cms.core.content.PageCacheInvalidatorForContent;
 import com.enonic.cms.core.content.access.ContentAccessResolver;
 import com.enonic.cms.core.content.category.CategoryEntity;
@@ -100,13 +103,11 @@ import com.enonic.cms.core.content.imports.ImportResult;
 import com.enonic.cms.core.content.imports.ImportResultXmlCreator;
 import com.enonic.cms.core.content.index.ContentIndexQuery.SectionFilterStatus;
 import com.enonic.cms.core.content.query.ContentByCategoryQuery;
-import com.enonic.cms.core.content.query.ContentByContentQuery;
 import com.enonic.cms.core.content.query.ContentByQueryQuery;
 import com.enonic.cms.core.content.query.ContentBySectionQuery;
 import com.enonic.cms.core.content.query.RelatedChildrenContentQuery;
 import com.enonic.cms.core.content.query.RelatedContentQuery;
 import com.enonic.cms.core.content.resultset.ContentResultSet;
-import com.enonic.cms.core.content.resultset.ContentResultSetNonLazy;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSet;
 import com.enonic.cms.core.content.resultset.RelatedContentResultSetImpl;
 import com.enonic.cms.core.portal.cache.PageCacheService;
@@ -1684,130 +1685,41 @@ public final class InternalClientImpl
         final ClientMethodExecutionTrace trace = ClientMethodExecutionTracer.startTracing( "getRelatedContent", livePortalTraceService );
         try
         {
-            PreviewContext previewContext = previewService.getPreviewContext();
+            final UserEntity impersonatedPortalUser = securityService.getImpersonatedPortalUser();
+            final List<ContentKey> contentFilter = ContentKey.convertToList( params.contentKeys );
 
-            final Date now = new Date();
-            UserEntity user = securityService.getImpersonatedPortalUser();
-
-            // Get given content
-            final ContentByContentQuery baseContentQuery = new ContentByContentQuery();
-            baseContentQuery.setContentKeyFilter( ContentKey.convertToList( params.contentKeys ) );
-            baseContentQuery.setUser( user );
-            if ( params.includeOfflineContent )
+            final GetRelatedContentExecutor getRelatedContentExecutor =
+                new GetRelatedContentExecutor( contentService, timeService.getNowAsDateTime().toDate(),
+                                               previewService.getPreviewContext() );
+            getRelatedContentExecutor.user( impersonatedPortalUser );
+            getRelatedContentExecutor.includeOfflineContent( params.includeOfflineContent );
+            getRelatedContentExecutor.requireAll( params.requireAll );
+            getRelatedContentExecutor.relation( params.relation );
+            getRelatedContentExecutor.query( params.query );
+            getRelatedContentExecutor.orderBy( params.orderBy );
+            getRelatedContentExecutor.index( params.index );
+            getRelatedContentExecutor.count( params.count );
+            getRelatedContentExecutor.childrenLevel( params.childrenLevel );
+            getRelatedContentExecutor.parentLevel( params.parentLevel );
+            getRelatedContentExecutor.parentChildrenLevel( 0 );
+            if ( contentFilter != null )
             {
-                baseContentQuery.setFilterIncludeOfflineContent();
-            }
-            else
-            {
-                baseContentQuery.setFilterContentOnlineAt( now );
-            }
-            ContentResultSet baseContent = contentService.queryContent( baseContentQuery );
-            if ( previewContext.isPreviewingContent() )
-            {
-                baseContent =
-                    previewContext.getContentPreviewContext().applyPreviewedContentOnContentResultSet( baseContent, params.contentKeys );
+                getRelatedContentExecutor.contentFilter( contentFilter );
             }
 
-            // Get the main content (related content to base content)
-            final RelatedContentResultSet relatedContentToBaseContent;
-            if ( params.requireAll && baseContent.getLength() > 1 )
-            {
-                relatedContentToBaseContent = contentService.getRelatedContentRequiresAll( user, params.relation, baseContent );
-            }
-            else
-            {
-                final RelatedContentQuery relatedContentToBaseContentSpec = new RelatedContentQuery( now );
-                relatedContentToBaseContentSpec.setUser( user );
-                relatedContentToBaseContentSpec.setContentResultSet( baseContent );
-                relatedContentToBaseContentSpec.setParentLevel( params.relation < 0 ? 1 : 0 );
-                relatedContentToBaseContentSpec.setChildrenLevel( params.relation > 0 ? 1 : 0 );
-                relatedContentToBaseContentSpec.setParentChildrenLevel( 0 );
-                relatedContentToBaseContentSpec.setIncludeOnlyMainVersions( true );
-                if ( params.includeOfflineContent )
-                {
-                    relatedContentToBaseContentSpec.setFilterIncludeOfflineContent();
-                }
-                else
-                {
-                    relatedContentToBaseContentSpec.setFilterContentOnlineAt( now );
-                }
-                relatedContentToBaseContent = contentService.queryRelatedContent( relatedContentToBaseContentSpec );
+            final GetRelatedContentResult result = getRelatedContentExecutor.execute();
 
-                final boolean previewedContentIsAmongBaseContent = previewContext.isPreviewingContent() &&
-                    baseContent.containsContent( previewContext.getContentPreviewContext().getContentPreviewed().getKey() );
-                if ( previewedContentIsAmongBaseContent )
-                {
-                    // ensuring offline related content to the previewed content to be included when previewing
-                    RelatedContentQuery relatedSpecForPreviewedContent = new RelatedContentQuery( relatedContentToBaseContentSpec );
-                    relatedSpecForPreviewedContent.setFilterIncludeOfflineContent();
-                    relatedSpecForPreviewedContent.setContentResultSet( new ContentResultSetNonLazy(
-                        previewContext.getContentPreviewContext().getContentAndVersionPreviewed().getContent() ) );
+            final GetRelatedContentXmlCreator getRelatedContentXmlCreator =
+                new GetRelatedContentXmlCreator( new CategoryAccessResolver( groupDao ), new ContentAccessResolver( groupDao ) );
+            getRelatedContentXmlCreator.user( impersonatedPortalUser );
+            getRelatedContentXmlCreator.versionInfoStyle( GetRelatedContentXmlCreator.VersionInfoStyle.CLIENT );
+            getRelatedContentXmlCreator.includeContentsContentData( params.includeData );
+            getRelatedContentXmlCreator.includeRelatedContentsContentData( params.includeData );
+            getRelatedContentXmlCreator.startingIndex( params.index );
+            getRelatedContentXmlCreator.resultLength( params.count );
+            getRelatedContentXmlCreator.includeUserRights( params.includeUserRights );
 
-                    RelatedContentResultSet relatedContentsForPreviewedContent =
-                        contentService.queryRelatedContent( relatedSpecForPreviewedContent );
-
-                    relatedContentToBaseContent.overwrite( relatedContentsForPreviewedContent );
-                    previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( relatedContentToBaseContent );
-                }
-            }
-
-            // Get the main result content
-            final ContentByContentQuery mainResultContentQuery = new ContentByContentQuery();
-            mainResultContentQuery.setUser( user );
-            mainResultContentQuery.setQuery( params.query );
-            mainResultContentQuery.setOrderBy( params.orderBy );
-            mainResultContentQuery.setIndex( params.index );
-            mainResultContentQuery.setCount( params.count );
-            mainResultContentQuery.setContentKeyFilter( relatedContentToBaseContent.getContentKeys() );
-            if ( params.includeOfflineContent || previewContext.isPreviewingContent() )
-            {
-                mainResultContentQuery.setFilterIncludeOfflineContent();
-            }
-            else
-            {
-                mainResultContentQuery.setFilterContentOnlineAt( now );
-            }
-            ContentResultSet mainResultContent = contentService.queryContent( mainResultContentQuery );
-            if ( previewContext.isPreviewingContent() )
-            {
-                mainResultContent = previewContext.getContentPreviewContext().overrideContentResultSet( mainResultContent );
-                previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( mainResultContent );
-            }
-
-            // Get the related content of the top level content
-            final RelatedContentQuery relatedContentSpec = new RelatedContentQuery( now );
-            relatedContentSpec.setUser( user );
-            relatedContentSpec.setContentResultSet( mainResultContent );
-            relatedContentSpec.setParentLevel( params.parentLevel );
-            relatedContentSpec.setChildrenLevel( params.childrenLevel );
-            relatedContentSpec.setParentChildrenLevel( 0 );
-            relatedContentSpec.setIncludeOnlyMainVersions( true );
-            if ( params.includeOfflineContent || previewContext.isPreviewingContent() )
-            {
-                relatedContentSpec.setFilterIncludeOfflineContent();
-            }
-            else
-            {
-                relatedContentSpec.setFilterContentOnlineAt( now );
-            }
-            RelatedContentResultSet relatedContent = contentService.queryRelatedContent( relatedContentSpec );
-            if ( previewContext.isPreviewingContent() )
-            {
-                relatedContent = previewContext.getContentPreviewContext().overrideRelatedContentResultSet( relatedContent );
-                previewContext.getContentPreviewContext().registerContentToBeAvailableOnline( relatedContent );
-            }
-
-            // Create the content xml
-            final ContentXMLCreator xmlCreator = new ContentXMLCreator();
-            xmlCreator.setResultIndexing( params.index, params.count );
-            xmlCreator.setIncludeContentData( params.includeData );
-            xmlCreator.setIncludeRelatedContentData( params.includeData );
-            xmlCreator.setIncludeUserRightsInfo( params.includeUserRights, new CategoryAccessResolver( groupDao ),
-                                                 new ContentAccessResolver( groupDao ) );
-            xmlCreator.setIncludeVersionsInfoForClient( true );
-            xmlCreator.setIncludeAssignment( true );
-
-            return xmlCreator.createContentsDocument( user, mainResultContent, relatedContent ).getAsJDOMDocument();
+            return getRelatedContentXmlCreator.create( result ).getAsJDOMDocument();
         }
         catch ( Exception e )
         {
