@@ -217,6 +217,31 @@
                       }
                   }
                 </script>
+
+                <xsl:if test="$create = 0">
+                    <script type="text/javascript" language="JavaScript" src="dwr/interface/AjaxService.js"/>
+                    <script type="text/javascript" language="JavaScript" src="dwr/engine.js"/>
+                    <script type="text/javascript" language="JavaScript">
+                      function handle_tabpane_onclick( pageIndex, page )
+                      {
+                        if (page &amp;&amp; page.id == "tab-page-usedby")
+                            getPortletUsedByAsHtml(<xsl:value-of select="/contentobjects/contentobject/@key"/>);
+                      }
+
+                      function getPortletUsedByAsHtml( contentKey )
+                      {
+                        document.getElementById('usedBy').innerHTML = "%headPleaseWait%";
+                        AjaxService.getPortletUsedByAsHtml(contentKey, {callback:handleResponse_getPortletUsedByAsHtml});
+                      }
+
+                      function handleResponse_getPortletUsedByAsHtml( content )
+                      {
+                        document.getElementById('usedBy').innerHTML = content;
+                      }
+
+                    </script>
+                </xsl:if>
+
             </head>
 
             <body onload="setFocus()">
@@ -616,29 +641,14 @@
                 </fieldset>
             </div>
 
-            <div class="tab-page" id="tab-page-6">
+            <xsl:if test="$create = 0">
+              <div class="tab-page" id="tab-page-usedby">
                 <span class="tab">%blockUsedBy%</span>
-
-                <script type="text/javascript" language="JavaScript">
-                    tabPane1.addTabPage( document.getElementById( "tab-page-6" ) );
-                </script>
-
                 <fieldset>
-                    <legend>&nbsp;%blockPages%&nbsp;</legend>
-
-                    <xsl:choose>
-                      <xsl:when test="count(//menuitems/menuitem) != 0">
-                        <table border="0" cellspacing="2" cellpadding="2">
-                            <xsl:for-each select="//menuitems/menuitem">
-                                <tr><td>&nbsp;&nbsp;<xsl:value-of select="name"/></td></tr>
-                            </xsl:for-each>
-                        </table>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:text>%msgNoMenuItemsIsUsingThisPortlet%</xsl:text>
-                      </xsl:otherwise>
-                    </xsl:choose>
-
+                  <legend>&nbsp;%blockPages%&nbsp;</legend>
+                  <span id="usedBy">
+                    &nbsp;
+                  </span>
                 </fieldset>
                 <fieldset>
                     <legend>&nbsp;%blockFrameworks%&nbsp;</legend>
@@ -655,7 +665,13 @@
                       </xsl:otherwise>
                     </xsl:choose>
                 </fieldset>
-            </div>
+              </div>
+
+              <script type="text/javascript" language="JavaScript">
+                  tabPane1.addTabPage( document.getElementById( "tab-page-usedby" ) );
+                  tabPane1.enablePageClickEvent();
+              </script>
+            </xsl:if>
 
             <script type="text/javascript" language="JavaScript">
                 setupAllTabs();

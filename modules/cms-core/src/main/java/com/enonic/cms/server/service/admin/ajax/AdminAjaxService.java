@@ -19,7 +19,9 @@ public interface AdminAjaxService
 
     String getArchiveSizeByUnit( int unitKey );
 
-    String getUsedByAsHtml( int contentKey );
+    String getPortletUsedByAsHtml( int portletKey );
+
+    String getContentUsedByAsHtml( int contentKey );
 
     boolean isContentInUse( String[] contentkeys );
 

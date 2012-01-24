@@ -826,9 +826,6 @@ public final class ContentObjectHandlerServlet
                 contentobject.appendChild( content );
             }
 
-            Document menuItemsDoc = admin.getMenuItemsByContentObject( user, cobKey ).getAsDOMDocument();
-            contentobject.appendChild( doc.importNode( menuItemsDoc.getDocumentElement(), true ) );
-
             // Henter ut pagetemplates/frameworks som bruker dette contentobject
             Document pageTemplatesDoc = admin.getPageTemplatesByContentObject( cobKey ).getAsDOMDocument();
             contentobject.appendChild( doc.importNode( pageTemplatesDoc.getDocumentElement(), true ) );

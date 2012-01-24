@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.transform.URIResolver;
@@ -21,7 +22,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
+import com.enonic.esl.xml.XMLTool;
 import com.enonic.vertical.adminweb.AdminStore;
 import com.enonic.vertical.adminweb.VerticalAdminLogger;
 
@@ -184,7 +187,7 @@ public class AdminAjaxServiceImpl
     }
 
     @RemoteMethod
-    public String getUsedByAsHtml( int contentKey )
+    public String getContentUsedByAsHtml( int contentKey )
     {
         UserEntity user = getLoggedInAdminConsoleUser();
 
@@ -219,7 +222,7 @@ public class AdminAjaxServiceImpl
                 ContentVersionEntity versionEntity = contentResultSet.getContent( 0 ).getMainVersion();
                 XMLDocument xmlDoc = contentXMLCreator.createContentsDocument( user, versionEntity, relatedContents );
 
-                return transformXML( xmlDoc.getAsDOMDocument(), "ajax_get_used_by.xsl" );
+                return transformXML( xmlDoc.getAsDOMDocument(), "ajax_get_used_by_for_content.xsl" );
             }
 
             //return something if content is not found?
@@ -232,6 +235,38 @@ public class AdminAjaxServiceImpl
             return "ERROR: " + e.getMessage();
         }
     }
+
+    @RemoteMethod
+    public String getPortletUsedByAsHtml( int portletKey )
+    {
+        UserEntity user = getLoggedInAdminConsoleUser();
+
+        try
+        {
+            final XMLDocument menuItemsByContentObject = adminService.getMenuItemsByContentObject( user, portletKey );
+            final Document menuItemsDoc = menuItemsByContentObject.getAsDOMDocument();
+
+            final Element[] menuitems = XMLTool.getElements( menuItemsDoc, "menuitem" );
+
+            for (Element menuitem : menuitems)
+            {
+                final String key = menuitem.getAttribute( "key" );
+                MenuItemEntity selectedMenuItem = menuItemDao.findByKey( Integer.parseInt( key ) );
+                menuitem.setAttribute( "path-to-menu", selectedMenuItem.getPathAsString() );
+            }
+
+            return transformXML( menuItemsDoc, "ajax_get_used_by_for_portlet.xsl" );
+
+        }
+        catch ( Exception e )
+        {
+            LOG.error( "ERROR: " + e.getMessage(), e );
+
+            return "ERROR: " + e.getMessage();
+        }
+    }
+
+
 
     private String transformXML( Document doc, String xslPath )
     {
