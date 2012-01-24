@@ -43,9 +43,15 @@ public final class DavLocatorFactoryImpl
             }
         }
 
+        final String basePath = getBasePath();
+
         if ( href.startsWith( PREFIX ) )
         {
             href = href.substring( PREFIX.length() );
+        }
+        else if ( href.startsWith( basePath ) )
+        {   // dav prefix may be not rewritten ! ( example:  Destination: parameter in headers )
+            href = href.substring( basePath.length() );
         }
 
         if ( "".equals( href ) )
@@ -53,7 +59,8 @@ public final class DavLocatorFactoryImpl
             href = "/";
         }
 
-        buff.append( getBasePath() );
+        buff.append( basePath );
+
         return new DavResourceLocatorImpl( buff.toString(), Text.unescape( href ), this );
     }
 
