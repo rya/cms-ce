@@ -237,6 +237,35 @@ public class AdminAjaxServiceImpl
     }
 
     @RemoteMethod
+    public String getPageTemplateUsedByAsHtml( int pageTemplateKey )
+    {
+        UserEntity user = getLoggedInAdminConsoleUser();
+
+        try
+        {
+            final XMLDocument menuItemsByPageTemplates = adminService.getMenuItemsByPageTemplates( user, new int[]{pageTemplateKey} );
+            final Document menuItemsDoc = menuItemsByPageTemplates.getAsDOMDocument();
+
+            final Element[] menuitems = XMLTool.getElements( menuItemsDoc, "menuitem" );
+
+            for (Element menuitem : menuitems)
+            {
+                final String key = menuitem.getAttribute( "key" );
+                MenuItemEntity selectedMenuItem = menuItemDao.findByKey( Integer.parseInt( key ) );
+                menuitem.setAttribute( "path-to-menu", selectedMenuItem.getPathAsString() );
+            }
+
+            return transformXML( menuItemsDoc, "ajax_get_used_by_for_pagetemplate.xsl" );
+
+        }
+        catch ( Exception e )
+        {
+            LOG.error( "ERROR: " + e.getMessage(), e );
+            return "ERROR: " + e.getMessage();
+        }
+    }
+
+    @RemoteMethod
     public String getPortletUsedByAsHtml( int portletKey )
     {
         UserEntity user = getLoggedInAdminConsoleUser();

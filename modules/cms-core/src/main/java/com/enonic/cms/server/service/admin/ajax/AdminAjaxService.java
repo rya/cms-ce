@@ -23,6 +23,8 @@ public interface AdminAjaxService
 
     String getContentUsedByAsHtml( int contentKey );
 
+    String getPageTemplateUsedByAsHtml( int pageTemplateKey );
+
     boolean isContentInUse( String[] contentkeys );
 
     Collection<RegionDto> getCountryRegions( String countryCode );
