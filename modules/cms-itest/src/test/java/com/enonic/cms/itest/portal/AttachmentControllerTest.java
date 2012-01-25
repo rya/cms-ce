@@ -15,9 +15,12 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.web.context.WebApplicationContext;
 
 import com.google.common.collect.Sets;
 import com.google.common.io.ByteStreams;
+
+import com.enonic.cms.framework.util.MimeTypeResolver;
 
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
@@ -70,6 +73,9 @@ public class AttachmentControllerTest
     @Autowired
     private AttachmentController attachmentController;
 
+    @Autowired
+    private MimeTypeResolver mimeTypeResolver;
+
     private MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
 
     private MockHttpServletResponse httpServletResponse = new MockHttpServletResponse();
@@ -116,6 +122,10 @@ public class AttachmentControllerTest
         fixture.save( factory.createUnit( "FileUnit" ) );
         fixture.save( factory.createCategory( "AttachmentCategory", "FileContentType", "FileUnit", "testuser", "testuser" ) );
         fixture.save( factory.createCategoryAccessForUser( "AttachmentCategory", "testuser", "read, create, approve" ) );
+
+        WebApplicationContext wac = Mockito.mock( WebApplicationContext.class );
+        Mockito.when( wac.getBean("mimeTypeResolver") ).thenReturn( mimeTypeResolver );
+        servletContext.setAttribute( WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, wac );
 
         fixture.flushAndClearHibernateSesssion();
     }

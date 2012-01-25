@@ -35,6 +35,8 @@ public final class FileResourceServiceImpl
 
     private SessionFactory sessionFactory;
 
+    private MimeTypeResolver mimeTypeResolver;
+
     private final ArrayList<FileResourceListener> listeners;
 
     public FileResourceServiceImpl()
@@ -53,6 +55,11 @@ public final class FileResourceServiceImpl
         this.sessionFactory = sessionFactory;
     }
 
+    public void setMimeTypeResolver( final MimeTypeResolver mimeTypeResolver )
+    {
+        this.mimeTypeResolver = mimeTypeResolver;
+    }
+
     private Session openSession()
     {
         return this.sessionFactory.getCurrentSession();
@@ -64,7 +71,7 @@ public final class FileResourceServiceImpl
         res.setFolder( entity.isFolder() );
         res.setSize( entity.getLength() );
         res.setBlobKey( entity.getBlobKey() );
-        res.setMimeType( MimeTypeResolver.getInstance().getMimeType( name.getName() ) );
+        res.setMimeType( mimeTypeResolver.getMimeType( name.getName() ) );
         res.setLastModified( new DateTime( entity.getLastModified() ) );
         return res;
     }

@@ -15,6 +15,8 @@ import org.apache.jackrabbit.webdav.DavSession;
 import org.apache.jackrabbit.webdav.lock.LockManager;
 import org.apache.jackrabbit.webdav.lock.SimpleLockManager;
 
+import com.enonic.cms.framework.util.MimeTypeResolver;
+
 import com.enonic.cms.core.resource.FileResource;
 import com.enonic.cms.core.resource.FileResourceName;
 import com.enonic.cms.store.resource.FileResourceService;
@@ -29,12 +31,15 @@ public final class DavResourceFactoryImpl
 
     private final LockManager lockManager;
 
+    private MimeTypeResolver mimeTypeResolver;
+
 
     /**
      * Construct the factory.
      */
-    public DavResourceFactoryImpl( FileResourceService resourceService )
+    public DavResourceFactoryImpl( MimeTypeResolver mimeTypeResolver, FileResourceService resourceService )
     {
+        this.mimeTypeResolver = mimeTypeResolver;
         this.resourceService = resourceService;
         this.lockManager = new SimpleLockManager();
     }
@@ -51,7 +56,7 @@ public final class DavResourceFactoryImpl
         throws DavException
     {
         FileResource fileObject = getFileObject( locator );
-        DavResourceImpl resource = new DavResourceImpl( locator, this, session, fileObject );
+        DavResourceImpl resource = new DavResourceImpl( mimeTypeResolver, locator, this, session, fileObject );
         return setup( resource );
     }
 
@@ -67,11 +72,11 @@ public final class DavResourceFactoryImpl
         if ( fileObject == null )
         {
             boolean isCollection = DavMethods.isCreateCollectionRequest( request );
-            resource = new DavResourceImpl( locator, this, request.getDavSession(), isCollection );
+            resource = new DavResourceImpl( mimeTypeResolver, locator, this, request.getDavSession(), isCollection );
         }
         else
         {
-            resource = new DavResourceImpl( locator, this, request.getDavSession(), fileObject );
+            resource = new DavResourceImpl( mimeTypeResolver, locator, this, request.getDavSession(), fileObject );
         }
 
         return setup( resource );

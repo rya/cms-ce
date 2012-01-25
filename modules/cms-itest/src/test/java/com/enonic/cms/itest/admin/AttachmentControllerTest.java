@@ -8,16 +8,20 @@ import javax.servlet.http.HttpServletResponse;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletContext;
 import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.common.io.ByteStreams;
+
+import com.enonic.cms.framework.util.MimeTypeResolver;
 
 import com.enonic.cms.api.client.model.CreateFileContentParams;
 import com.enonic.cms.api.client.model.content.file.FileBinaryInput;
@@ -52,9 +56,6 @@ public class AttachmentControllerTest
     @Autowired
     protected HibernateTemplate hibernateTemplate;
 
-    @Autowired
-    private GroupDao groupDao;
-
     protected DomainFactory factory;
 
     @Autowired
@@ -65,6 +66,9 @@ public class AttachmentControllerTest
 
     @Autowired
     private AttachmentController attachmentController;
+
+    @Autowired
+    private MimeTypeResolver mimeTypeResolver;
 
     private MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
 
@@ -108,6 +112,10 @@ public class AttachmentControllerTest
         fixture.save( factory.createUnit( "FileUnit" ) );
         fixture.save( factory.createCategory( "AttachmentCategory", "FileContentType", "FileUnit", "testuser", "testuser" ) );
         fixture.save( factory.createCategoryAccessForUser( "AttachmentCategory", "testuser", "read, create, approve" ) );
+
+        WebApplicationContext wac = Mockito.mock( WebApplicationContext.class );
+        Mockito.when( wac.getBean("mimeTypeResolver") ).thenReturn( mimeTypeResolver );
+        servletContext.setAttribute( WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, wac );
 
         fixture.flushAndClearHibernateSesssion();
     }

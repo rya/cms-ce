@@ -78,6 +78,7 @@
   <bean id="fileResourceService" class="com.enonic.cms.store.resource.FileResourceServiceImpl">
     <property name="blobStore" ref="blobStore"/>
     <property name="sessionFactory" ref="sessionFactory"/>
+    <property name="mimeTypeResolver" ref="mimeTypeResolver"/>
   </bean>
 
   <bean id="previewService" class="com.enonic.cms.core.preview.PreviewServiceImpl"/>
@@ -301,5 +302,9 @@
   <bean id="adminConsoleLoginAccessResolver" class="com.enonic.vertical.adminweb.access.AdminConsoleLoginAccessResolver"/>
 
   <bean id="httpService" class="com.enonic.cms.core.http.HTTPService"/>
+
+  <bean id="mimeTypeResolver" class="com.enonic.cms.framework.util.MimeTypeResolverImpl">
+    <property name="mimetypesLocation" value="#{config.homeDir}/config/mimetypes.properties"/>
+  </bean>
 
 </beans>

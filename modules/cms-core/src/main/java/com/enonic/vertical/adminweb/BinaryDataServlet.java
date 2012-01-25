@@ -97,12 +97,7 @@ public class BinaryDataServlet
 
                 if ( binaryData != null )
                 {
-                    String mimeType = MimeTypeResolver.getInstance().getMimeType( binaryData.fileName.toLowerCase() );
-                    if ( mimeType == null )
-                    {
-                        mimeType = "www/unknown";
-                    }
-
+                    String mimeType = mimeTypeResolver.getMimeType( binaryData.fileName.toLowerCase() );
                     response.setContentType( mimeType );
                     HttpServletUtil.setContentDisposition( response, false, binaryData.fileName );
                     response.setContentLength( binaryData.data.length );
