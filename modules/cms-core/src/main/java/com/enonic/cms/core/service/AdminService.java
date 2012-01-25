@@ -48,11 +48,7 @@ public interface AdminService
 
     public int getCategoryKey( int superCategoryKey, String name );
 
-    public int createCategory( User user, int superCategoryKey, String name );
-
     public MenuItemKey getSectionKeyByMenuItemKey( MenuItemKey menuItemKey );
-
-    public int createCategory( User user, String xmlData );
 
     public XMLDocument getCategory( User user, int categoryKey );
 

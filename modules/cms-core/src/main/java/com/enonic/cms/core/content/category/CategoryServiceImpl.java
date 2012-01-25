@@ -105,6 +105,7 @@ public class CategoryServiceImpl
         category.setName( command.getName() );
         category.setOwner( creator );
         category.setAutoMakeAvailable( command.getAutoApprove() );
+        category.setDescription( command.getDescription() );
 
         if ( parentCategory != null )
         {

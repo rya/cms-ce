@@ -30,6 +30,8 @@ public class StoreNewCategoryCommand
 
     private List<CategoryAccessRights> accessRights = null;
 
+    private String description;
+
     public void setCreator( UserKey creator )
     {
         this.creator = creator;
@@ -102,5 +104,15 @@ public class StoreNewCategoryCommand
     public List<CategoryAccessRights> getAccessRights()
     {
         return accessRights;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription( final String description )
+    {
+        this.description = description;
     }
 }

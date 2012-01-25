@@ -105,6 +105,8 @@ import com.enonic.cms.core.content.binary.BinaryDataKey;
 import com.enonic.cms.core.content.category.CategoryAccessType;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.CategoryService;
+import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.core.content.category.access.CategoryAccessResolver;
 import com.enonic.cms.core.content.command.AssignContentCommand;
 import com.enonic.cms.core.content.command.CreateContentCommand;
@@ -123,6 +125,9 @@ import com.enonic.cms.core.log.Table;
 import com.enonic.cms.core.mail.ApproveAndRejectMailTemplate;
 import com.enonic.cms.core.mail.MailRecipient;
 import com.enonic.cms.core.mail.SendMailService;
+import com.enonic.cms.core.portal.cache.SiteCachesService;
+import com.enonic.cms.core.portal.rendering.RenderedPageResult;
+import com.enonic.cms.core.preview.NoLazyInitializationEnforcerForPreview;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.SecurityService;
@@ -137,19 +142,15 @@ import com.enonic.cms.core.structure.menuitem.MenuItemAccessRightAccumulator;
 import com.enonic.cms.core.structure.page.template.PageTemplateEntity;
 import com.enonic.cms.core.structure.page.template.PageTemplateKey;
 import com.enonic.cms.core.structure.page.template.PageTemplateType;
+import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 import com.enonic.cms.core.xslt.XsltProcessor;
 import com.enonic.cms.core.xslt.XsltProcessorException;
 import com.enonic.cms.core.xslt.XsltProcessorManager;
 import com.enonic.cms.core.xslt.XsltProcessorManagerAccessor;
 import com.enonic.cms.core.xslt.XsltResource;
+import com.enonic.cms.store.dao.CategoryDao;
 import com.enonic.cms.store.dao.ContentDao;
 import com.enonic.cms.store.dao.UserDao;
-
-import com.enonic.cms.core.portal.cache.SiteCachesService;
-import com.enonic.cms.core.preview.NoLazyInitializationEnforcerForPreview;
-
-import com.enonic.cms.core.portal.rendering.RenderedPageResult;
-import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
 
 /**
  * Base servlet for servlets handling content. Provides common methods.
@@ -261,6 +262,9 @@ public class ContentBaseHandlerServlet
         private UserDao userDao;
 
         @Autowired
+        private CategoryDao categoryDao;
+
+        @Autowired
         private SendMailService sendMailService;
 
         @Autowired
@@ -274,6 +278,9 @@ public class ContentBaseHandlerServlet
 
         @Autowired
         private SiteCachesService siteCachesService;
+
+        @Autowired
+        private CategoryService categoryService;
 
         private int[] imageContentTypes;
 
@@ -671,6 +678,25 @@ public class ContentBaseHandlerServlet
             cleanup( wizardState );
         }
 
+        private StoreNewCategoryCommand createStoreNewCategoryCommand( User user, int superCategoryKey, String fileName )
+        {
+            CategoryEntity parentCategory = categoryDao.findByKey( new CategoryKey( superCategoryKey ) );
+
+            StoreNewCategoryCommand command = new StoreNewCategoryCommand();
+            command.setUnitKey( parentCategory.getUnit().getUnitKey() );
+            command.setCreator( user.getKey() );
+            command.setParentCategory( parentCategory.getKey() );
+            command.setName( fileName );
+            command.setDescription( null );
+            command.setAutoApprove( parentCategory.getAutoMakeAvailableAsBoolean() );
+            ContentTypeEntity contentType = parentCategory.getContentType();
+            if ( contentType != null )
+            {
+                command.setContentType( contentType.getContentTypeKey() );
+            }
+            return command;
+        }
+
         private void sendImportedContentAssignedMail( User user, Set<ContentKey> assignedContent, AssignmentDataParser assignmentDataParser,
                                                       String assigneeKey )
         {
@@ -718,7 +744,8 @@ public class ContentBaseHandlerServlet
                     }
                     else
                     {
-                        categoryKey = admin.createCategory( user, superCategoryKey, fileName );
+                        StoreNewCategoryCommand command = createStoreNewCategoryCommand( user, superCategoryKey, fileName );
+                        categoryKey = categoryService.storeNewCategory( command ).toInt();
                     }
                     saveEntries( user, admin, formItems, cbhServlet, categoryKey, XMLTool.getElements( entryElem ), dir,
                                  assignmentDataParser, assignedContent );

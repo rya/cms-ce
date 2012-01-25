@@ -28,14 +28,14 @@ import com.enonic.vertical.engine.filters.UnitFilter;
 
 import com.enonic.cms.framework.util.TIntArrayList;
 
+import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
-
-import com.enonic.cms.core.DeploymentPathResolver;
 
 public class ArchiveHandlerServlet
     extends AdminHandlerBaseServlet
@@ -234,11 +234,8 @@ public class ArchiveHandlerServlet
         int unitKey = admin.createUnit( unitXML );
         formItems.put( "selectedunitkey", String.valueOf( unitKey ) );
 
-        String categoryXML = buildCategoryXML( user, formItems, true );
-        String accessRightsXML = buildAccessRightsXML( null, formItems, AccessRight.CATEGORY );
-        Document doc = XMLTool.domparse( categoryXML );
-        XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
-        admin.createCategory( user, XMLTool.documentToString( doc ) );
+        StoreNewCategoryCommand command = createStoreNewCategoryCommand( user, formItems );
+        categoryService.storeNewCategory( command );
 
         MultiValueMap queryParams = new MultiValueMap();
         queryParams.put( "page", formItems.get( "page" ) );
