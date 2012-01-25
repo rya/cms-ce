@@ -57,7 +57,7 @@ public class XsltProcessorExceptionTest
         assertEquals(
                 "Errors occurred during transformation:\n" +
                 "1) Transformer error #2\n" +
-                "2) Transformer fatal error #1\n", message);
+                "2) Transformer fatal error #1\n", message.replace( "\r", "" ));
 
     }
 }
