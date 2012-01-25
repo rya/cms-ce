@@ -246,6 +246,7 @@ public class PortalRenderResponseServer
         siteBasePathAndSitePathToStringBuilder.setUrlEncodePath( true );
         String redirectUrl = siteBasePathAndSitePathToStringBuilder.toString( siteBasePathAndSitePath );
 
+        // It is this method that adds the jsessionid on the URL when accessing a shortcut after re-starting browser
         String encodedRedirectUrl = httpResponse.encodeRedirectURL( redirectUrl );
 
         if ( redirectStatus == HttpServletResponse.SC_MOVED_PERMANENTLY )
