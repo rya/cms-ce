@@ -35,18 +35,17 @@ import com.enonic.vertical.engine.VerticalEngineException;
 import com.enonic.cms.framework.xml.XMLDocument;
 import com.enonic.cms.framework.xml.XMLException;
 
+import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
+import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
 import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
 import com.enonic.cms.core.resource.ResourceFile;
 import com.enonic.cms.core.resource.ResourceKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
-import com.enonic.cms.core.xslt.XsltProcessorHelper;
-
-import com.enonic.cms.core.content.category.CategoryEntity;
-
 import com.enonic.cms.core.stylesheet.StylesheetNotFoundException;
+import com.enonic.cms.core.xslt.XsltProcessorHelper;
 
 final public class CategoryHandlerServlet
     extends AdminHandlerBaseServlet
@@ -105,18 +104,16 @@ final public class CategoryHandlerServlet
     {
 
         User user = securityService.getLoggedInAdminConsoleUser();
-        String xmlData = buildCategoryXML( user, formItems, true );
 
         if ( formItems.containsKey( "updateaccessrights" ) )
         {
-            String accessRightsXML = buildAccessRightsXML( null, formItems, AccessRight.CATEGORY );
-            Document doc = XMLTool.domparse( xmlData );
-            XMLTool.mergeDocuments( doc, XMLTool.domparse( accessRightsXML ), true );
-            admin.createCategory( user, XMLTool.documentToString( doc ) );
+            StoreNewCategoryCommand command = createStoreNewCategoryCommand( user, formItems );
+            categoryService.storeNewCategory( command );
         }
         else
         {
-            admin.createCategory( user, xmlData );
+            StoreNewCategoryCommand command = createStoreNewCategoryCommand( user, formItems );
+            categoryService.storeNewCategory( command );
         }
 
         if ( formItems.containsKey( "redirecturl" ) )
@@ -883,7 +880,7 @@ final public class CategoryHandlerServlet
         else
         {
             String message = "Unknown sub-operation for operation report: {0}";
-            VerticalAdminLogger.errorAdmin(message, subOp, null );
+            VerticalAdminLogger.errorAdmin( message, subOp, null );
         }
     }
 
