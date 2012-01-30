@@ -101,21 +101,9 @@ public class AdminServiceImpl
         return adminEngine.getCategoryKey( superCategoryKey, name );
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public int createCategory( User user, int superCategoryKey, String name )
-    {
-        return adminEngine.createCategory( user, superCategoryKey, name );
-    }
-
     public MenuItemKey getSectionKeyByMenuItemKey( MenuItemKey menuItemKey )
     {
         return adminEngine.getSectionKeyByMenuItemKey( menuItemKey );
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public int createCategory( User user, String xmlData )
-    {
-        return adminEngine.createCategory( user, xmlData );
     }
 
     public XMLDocument getCategory( User user, int categoryKey )

@@ -244,30 +244,6 @@ public final class AdminEngine
         return categoryHandler.getCategoryKey( superCategoryKey, name );
     }
 
-    public int createCategory( User user, int superCategoryKey, String name )
-    {
-        return categoryHandler.createCategory( user, CategoryKey.parse( superCategoryKey ), name );
-    }
-
-    public int createCategory( User user, String xmlData )
-    {
-
-        Document doc = XMLTool.domparse( xmlData, "category" );
-        Element categoryElem = doc.getDocumentElement();
-        if ( !isEnterpriseAdmin( user ) )
-        {
-            CategoryKey superCategoryKey = CategoryKey.parse( categoryElem.getAttribute( "supercategorykey" ) );
-
-            if ( !securityHandler.validateCategoryCreate( user, superCategoryKey ) )
-            {
-                String message = "User does not have access rights to create a new category";
-                VerticalEngineLogger.errorSecurity(message, null );
-            }
-        }
-
-        return categoryHandler.createCategory(user, doc);
-    }
-
     public int createContentObject( String xmlData )
     {
         return contentObjectHandler.createContentObject(xmlData);
@@ -863,7 +839,7 @@ public final class AdminEngine
 
             doc.getDocumentElement().appendChild( doc.importNode( unitElem, true ) );
         }
-        
+
         return XMLDocumentFactory.create( doc );
     }
 
