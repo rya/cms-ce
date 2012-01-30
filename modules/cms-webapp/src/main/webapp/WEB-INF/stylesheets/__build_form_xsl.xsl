@@ -1905,7 +1905,7 @@
                       </xsl:attribute>
                     </x:value-of>
                   </x:attribute>
-                  <x:if test="$input-readonly">
+                  <x:if test="$input-readonly = 'true'">
                     <x:attribute name="disabled">disabled</x:attribute>
                   </x:if>
                 </input>
@@ -1914,7 +1914,7 @@
                   <x:with-param name="type" select="'button'"/>
                   <x:with-param name="name" select="'relatedcontent_{$input/@name}'"/>
                   <x:with-param name="image" select="'images/icon_browse.gif'"/>
-                  <x:with-param name="disabled" select="$input-readonly"/>
+                  <x:with-param name="disabled" select="$input-readonly = 'true'"/>
                   <x:with-param name="tooltip" select="'%cmdSelectContent%'"/>
                   <x:with-param name="onclick">
                     <x:value-of select="$select-content-button-onclick"/>
@@ -1928,7 +1928,7 @@
                   </x:with-param>
                   <x:with-param name="image" select="'images/icon_remove.gif'"/>
                   <x:with-param name="type" select="'button'"/>
-                  <x:with-param name="disabled" select="$input-readonly"/>
+                  <x:with-param name="disabled" select="$input-readonly = 'true'"/>
                   <x:with-param name="tooltip" select="'%btnRemoveContent%'"/>
 
                   <x:with-param name="onclick">
@@ -2074,7 +2074,7 @@
                     </x:variable>
 
                     <span>
-                      <x:if test="$input-readonly">
+                      <x:if test="$input-readonly = 'true'">
                         <x:attribute name="class">
                           <x:text>disabled-element</x:text>
                         </x:attribute>
@@ -2096,7 +2096,7 @@
                       </x:with-param>
                       <x:with-param name="image" select="'images/icon_move_up.gif'"/>
                       <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="disabled" select="$input-readonly"/>
+                      <x:with-param name="disabled" select="$input-readonly = 'true'"/>
                       <x:with-param name="tooltip" select="'%altContentMoveUp%'"/>
                       <x:with-param name="onclick">
                         <xsl:text>javaScript:moveRelatedContentUp( this, '</xsl:text>
@@ -2111,7 +2111,7 @@
                       </x:with-param>
                       <x:with-param name="image" select="'images/icon_move_down.gif'"/>
                       <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="disabled" select="$input-readonly"/>
+                      <x:with-param name="disabled" select="$input-readonly = 'true'"/>
                       <x:with-param name="tooltip" select="'%altContentMoveDown%'"/>
                       <x:with-param name="onclick">
                         <xsl:text>javaScript:moveRelatedContentDown( this, '</xsl:text>
@@ -2127,7 +2127,7 @@
                       </x:with-param>
                       <x:with-param name="image" select="'images/icon_remove.gif'"/>
                       <x:with-param name="type" select="'button'"/>
-                      <x:with-param name="disabled" select="$input-readonly"/>
+                      <x:with-param name="disabled" select="$input-readonly = 'true'"/>
                       <x:with-param name="tooltip" select="'%btnRemoveContent%'"/>
 
                       <x:with-param name="onclick">

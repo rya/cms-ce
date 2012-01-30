@@ -9,7 +9,7 @@
 ul.cms-split-button,
 ul.cms-menu-button
 {
-    display: none 
+    display: none
 }
 
 /*******************************************************************************************************************************************
@@ -17,12 +17,12 @@ ul.cms-menu-button
 *******************************************************************************************************************************************/
 .cms-menu-button
 {
-	background-color: #ebebeb;
-	cursor: pointer;
-	border-top: 2px solid #eee;
-	border-right: 2px solid #b1b1b1;
-	border-bottom: 2px solid #b1b1b1;
-	border-left: 2px solid #eee;
+    background-color: #ebebeb;
+    cursor: pointer;
+    border-top: 2px solid #f7f7f7;
+    border-right: 2px solid #b1b1b1;
+    border-bottom: 2px solid #b1b1b1;
+    border-left: 2px solid #f7f7f7;
     background-image: url(arrow_down.gif);
     *padding-top: 1px; /* IE */
 
@@ -34,16 +34,16 @@ ul.cms-menu-button
     color: #7f7f88;
     cursor: default;
     border: 2px solid;
-    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    border-color: #f7f7f7 #b1b1b1 #b1b1b1 #f7f7f7;
     background-image: url(arrow_down_shaded.gif);
 }
 
 .cms-menu-button-pressed
 {
-	background-color: #ebebeb;
-	cursor: pointer;
+    background-color: #ebebeb;
+    cursor: pointer;
     border: 2px solid;
-    border-color: #b1b1b1 #eee #eee #b1b1b1;
+    border-color: #b1b1b1 #f7f7f7 #f7f7f7 #b1b1b1;
     background-image: url(arrow_down.gif);
     background-position: 85% 8px;
 }
@@ -64,10 +64,10 @@ ul.cms-menu-button
 *******************************************************************************************************************************************/
 .cms-split-button-left
 {
-	background-color: #ebebeb;
-	cursor: pointer;
+    background-color: #ebebeb;
+    cursor: pointer;
     border: 2px solid;
-    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    border-color: #f7f7f7 #b1b1b1 #b1b1b1 #f7f7f7;
 }
 
 .cms-split-button-left-disabled
@@ -76,16 +76,16 @@ ul.cms-menu-button
     color: #7f7f88;
     cursor: default;
     border: 2px solid;
-    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    border-color: #f7f7f7 #b1b1b1 #b1b1b1 #f7f7f7;
 }
 
 
 .cms-split-button-left-pressed
 {
-	background-color: #ebebeb;
-	cursor: pointer;
+    background-color: #ebebeb;
+    cursor: pointer;
     border: 2px solid;
-    border-color: #b1b1b1 #eee #eee #b1b1b1;
+    border-color: #b1b1b1 #f7f7f7 #f7f7f7 #b1b1b1;
 }
 
 .cms-split-button-right,
@@ -101,29 +101,29 @@ ul.cms-menu-button
 
 .cms-split-button-right
 {
-	background-color: #ebebeb;
-	cursor: pointer;
+    background-color: #ebebeb;
+    cursor: pointer;
     border: 2px solid;
     border-color: #eee #b1b1b1 #b1b1b1 #eee;
-	background-image: url(arrow_down.gif);
+    background-image: url(arrow_down.gif);
 }
 
 .cms-split-button-right-disabled
 {
-	background-color: #ebebeb;
+    background-color: #ebebeb;
     color: #7f7f88;
-	cursor: default;
+    cursor: default;
     border: 2px solid;
-    border-color: #eee #b1b1b1 #b1b1b1 #eee;
-	background-image: url(arrow_down_shaded.gif);
+    border-color: #f7f7f7 #b1b1b1 #b1b1b1 #f7f7f7;
+    background-image: url(arrow_down_shaded.gif);
 }
 
 .cms-split-button-right-pressed
 {
-	cursor: pointer;
+    cursor: pointer;
     border: 2px solid;
-    border-color: #b1b1b1 #eee #eee #b1b1b1;
-	background-image:url(arrow_down.gif);
+    border-color: #b1b1b1 #f7f7f7 #f7f7f7 #b1b1b1;
+    background-image:url(arrow_down.gif);
     background-position: 6px 7px;
 }
 
@@ -132,7 +132,7 @@ ul.cms-menu-button
     background-color: #fafafa;
     cursor: pointer;
     border: 2px solid;
-    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    border-color: #f7f7f7 #b1b1b1 #b1b1b1 #f7f7f7;
     background-image: url(arrow_down.gif);
 }
 
@@ -141,24 +141,24 @@ ul.cms-menu-button
 *******************************************************************************************************************************************/
 .cms-menu
 {
-	position: absolute;
-	z-index: 100000000;
-	background-color: #ebebeb;
+    position: absolute;
+    z-index: 100000000;
+    background-color: #ebebeb;
     border: 2px solid;
-    border-color: #eee #b1b1b1 #b1b1b1 #eee;
+    border-color: #f7f7f7 #b1b1b1 #b1b1b1 #f7f7f7;
     font-family: Arial, Verdana, Tahoma, sans-serif;
-	font-size: 11px;
+    font-size: 11px;
     white-space: nowrap;
 }
 
 /* Menu item */
 .cms-menu a
 {
-	display: block;
-	padding: 4px 15px 4px 30px;
-	color: #000;
-	text-decoration: none;
-	background-position: 7px 3px;
+    display: block;
+    padding: 4px 15px 4px 30px;
+    color: #000;
+    text-decoration: none;
+    background-position: 7px 3px;
     text-decoration: none;
 }
 
@@ -172,7 +172,7 @@ a.cms-sp-mi-disabled
 
 .cms-menu a:hover
 {
-	background-color: #fff;
+    background-color: #fff;
     text-decoration:none;
 }
 
