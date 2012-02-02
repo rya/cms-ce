@@ -444,6 +444,28 @@
 	                   }
             </script>
 
+            <script type="text/javascript" language="JavaScript" src="dwr/interface/AjaxService.js"/>
+            <script type="text/javascript" language="JavaScript" src="dwr/engine.js"/>
+            <script type="text/javascript" language="JavaScript">
+              function handle_tabpane_onclick( pageIndex, page )
+              {
+                if (page &amp;&amp; page.id == "tab-page-5")
+                    getPageTemplateUsedByAsHtml(<xsl:value-of select="/pagetemplates/pagetemplate/@key"/>);
+              }
+
+              function getPageTemplateUsedByAsHtml( contentKey )
+              {
+                document.getElementById('usedBy').innerHTML = "%headPleaseWait%";
+                AjaxService.getPageTemplateUsedByAsHtml(contentKey, {callback:handleResponse_getPageTemplateUsedByAsHtml});
+              }
+
+              function handleResponse_getPageTemplateUsedByAsHtml( content )
+              {
+                document.getElementById('usedBy').innerHTML = content;
+              }
+
+            </script>
+
             <link type="text/css" rel="StyleSheet" href="javascript/tab.webfx.css"/>
             <link rel="stylesheet" type="text/css" href="css/codearea.css"/>
             <link rel="stylesheet" type="text/css" href="css/admin.css"/>
@@ -1158,24 +1180,18 @@
                     <fieldset>
                         <legend>&nbsp;%blockFrameworkUsedByPage%&nbsp;</legend>
 
-                        <xsl:choose>
-                          <xsl:when test="count(/pagetemplates/menuitems/menuitem) != 0">
-                            <table border="0" cellspacing="2" cellpadding="2">
-                                <xsl:for-each select="/pagetemplates/menuitems/menuitem">
-                                    <tr><td>&nbsp;&nbsp;<xsl:value-of select="name"/></td></tr>
-                                </xsl:for-each>
-                            </table>
-                          </xsl:when>
-                          <xsl:otherwise>
-                            <xsl:text>%msgNoMenuItemsIsUsingThisPageTemplate%</xsl:text>
-                          </xsl:otherwise>
-                        </xsl:choose>
-                    </fieldset>
+                        <span id="usedBy">
+                          &nbsp;
+                        </span>
+
+                     </fieldset>
                 </div>
 
             </div>
 
             <script type="text/javascript" language="JavaScript">
+                tabPane1.enablePageClickEvent();
+
                 <xsl:choose>
                     <xsl:when test="$selectedtabpageid != 'none'">
                         setupAllTabs();

@@ -25,7 +25,7 @@
           function handle_tabpane_onclick( pageIndex, page )
           {
             if (page &amp;&amp; page.id == "tab-page-usedby")
-                getUsedByAsHtml(<xsl:value-of select="$contentKey"/>);
+                getContentUsedByAsHtml(<xsl:value-of select="$contentKey"/>);
           }
 
           function getUsedBy( contentKey )
@@ -41,13 +41,13 @@
             }
           }
 
-          function getUsedByAsHtml( contentKey )
+          function getContentUsedByAsHtml( contentKey )
           {
             document.getElementById('usedBy').innerHTML = "%headPleaseWait%";
-            AjaxService.getUsedByAsHtml(contentKey, {callback:handleResponse_getUsedByAsHtml});
+            AjaxService.getContentUsedByAsHtml(contentKey, {callback:handleResponse_getContentUsedByAsHtml});
           }
 
-          function handleResponse_getUsedByAsHtml( content )
+          function handleResponse_getContentUsedByAsHtml( content )
           {
             document.getElementById('usedBy').innerHTML = content;
           }

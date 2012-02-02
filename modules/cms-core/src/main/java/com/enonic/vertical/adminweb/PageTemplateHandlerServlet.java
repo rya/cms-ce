@@ -530,9 +530,6 @@ public class PageTemplateHandlerServlet
                         }
                     }
                 }
-
-                Document menuItemsDoc = admin.getMenuItemsByPageTemplates( user, new int[]{pageTemplateKey} ).getAsDOMDocument();
-                XMLTool.mergeDocuments( doc, menuItemsDoc, true );
             }
 
             if ( stylesheetKey != null && ( ( createPageTemplate && cssKey == null ) || updateStyleSheet ) )
