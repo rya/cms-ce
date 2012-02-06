@@ -96,7 +96,7 @@
             <ul id="cmdNewMenuButton" title="%cmdNew%" class="cms-menu-button">
               <!-- New button if user has create right -->
               <xsl:if test="$newContentMenuItem = 'true' and $user-has-categorycreate">
-                <li style="background-image:url(images/icon_state_unsaved_draft.gif)">
+                <li class="cms-menu-item-icon-create-content">
                   <a href="{$newContentUrl}">
                     <xsl:value-of select="concat($contenttypeelem/name, ' (%lblContent%)')"/>
                   </a>
@@ -105,7 +105,7 @@
 
               <!-- New category button if user has administrate on category -->
               <xsl:if test="$user-has-categoryadministrate">
-                <li style="background-image:url(images/icon_folder.gif)">
+                <li class="cms-menu-item-icon-folder">
                   <a href="{$newCategoryUrl}">%cmdNewCategory%</a>
                 </li>
               </xsl:if>

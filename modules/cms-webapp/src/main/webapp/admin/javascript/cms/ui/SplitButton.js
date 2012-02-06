@@ -127,7 +127,7 @@ cms.ui.SplitButton = function( dataSoruceElementId )
         menu.className = 'cms-menu';
 
         // Create the menu items based on the li elements.
-        var currentLi, position, href, text, title, target, onclick, backgroundImage, disabled;
+        var currentLi, position, href, text, title, target, onclick, className, disabled;
         for ( var i = 0; i < data.length; i++ )
         {
             currentLi = data[i];
@@ -137,7 +137,7 @@ cms.ui.SplitButton = function( dataSoruceElementId )
             title = currentLi.getElementsByTagName('a')[0].title;
             target = currentLi.getElementsByTagName('a')[0].target;
             onclick = currentLi.getElementsByTagName('a')[0].onclick;
-            backgroundImage = currentLi.style.backgroundImage;
+            className = currentLi.className.replace(/cms-sp-mi-disabled/gi, '');
             disabled = currentLi.className.indexOf('cms-sp-mi-disabled') > -1;
 
             t.addMenuItem({
@@ -147,7 +147,7 @@ cms.ui.SplitButton = function( dataSoruceElementId )
                 tooltip : title,
                 target : target,
                 onclick : onclick,
-                backgroundImage : backgroundImage,
+                className : className,
                 disabled : disabled
             });
         }
@@ -297,10 +297,9 @@ cms.ui.SplitButton = function( dataSoruceElementId )
         if ( config.target ) menuItem.target = config.target;
         if ( config.onclick ) menuItem.onclick = config.onclick;
 
-        if ( config.backgroundImage )
+        if ( config.className )
         {
-            menuItem.style.backgroundImage = config.backgroundImage;
-            menuItem.style.backgroundRepeat = 'no-repeat';
+            menuItem.className = config.className;
         }
 
         if ( !css.hasClass(dataSource, 'no-default-action') && config.position == 0 )

@@ -122,12 +122,12 @@
                 </li>
               </xsl:if>
               <xsl:if test="$synchronizeUsers = 'true'">
-                <li style="background-image:url(images/icon_users.gif)">
+                <li class="cms-menu-item-icon-users">
                   <a href="javascript: synchronize('{$userstorekey}', 'users');">%cmdSynchronizeUsers%</a>
                 </li>
               </xsl:if>
               <xsl:if test="$synchronizeGroups = 'true'">
-                <li style="background-image:url(images/icon_groups.gif)">
+                <li class="cms-menu-item-icon-groups">
                   <a href="javascript: synchronize('{$userstorekey}', 'groups');">%cmdSynchronizeGroups%</a>
                 </li>
               </xsl:if>

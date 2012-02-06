@@ -13,6 +13,52 @@ ul.cms-menu-button
 }
 
 /*******************************************************************************************************************************************
+*** Icons
+*******************************************************************************************************************************************/
+
+/*Category form*/
+.cms-menu-item-icon-create-content {
+    background: Transparent url(../../../images/icon_state_unsaved_draft.gif) no-repeat;
+}
+.cms-menu-item-icon-folder {
+    background: Transparent url(../../../images/icon_folder.gif) no-repeat;
+}
+
+/*User store page*/
+.cms-menu-item-icon-users {
+    background: Transparent url(../../../images/icon_users.gif) no-repeat;
+}
+.cms-menu-item-icon-groups {
+    background: Transparent url(../../../images/icon_groups.gif) no-repeat;
+}
+
+/*Content form*/
+.cms-menu-item-icon-state-published {
+    background: Transparent url(../../../images/icon_state_published.gif) no-repeat;
+}
+.cms-menu-item-icon-state-content-published {
+    background: Transparent url(../../../images/icon_content_publish.gif) no-repeat;
+}
+.cms-menu-item-icon-assign-to {
+    background: Transparent url(../../../images/icon_assign_to.gif) no-repeat;
+}
+.cms-menu-item-icon-assign-to {
+    background: Transparent url(../../../images/icon_assign_to.gif) no-repeat;
+}
+.cms-menu-item-icon-state-archived {
+    background: Transparent url(../../../images/icon_state_archived.gif) no-repeat;
+}
+
+/*Site - cache*/
+.cms-menu-item-icon-clear-pages-only {
+    background: Transparent url(../../../images/icon_menuitem_standard_show.gif) no-repeat;
+}
+
+.cms-menu-item-icon-clear-portlets-only {
+    background: Transparent url(../../../images/icon_objects.gif) no-repeat;
+}
+
+/*******************************************************************************************************************************************
 *** Menu Button
 *******************************************************************************************************************************************/
 .cms-menu-button

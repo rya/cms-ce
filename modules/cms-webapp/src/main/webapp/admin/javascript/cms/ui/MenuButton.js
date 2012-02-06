@@ -85,7 +85,7 @@ cms.ui.MenuButton = function( dataSoruceElementId )
         menu.className = 'cms-menu';
 
         // Create the menu items based on the li elements.
-        var currentLi, position, href, text, title, target, onclick, backgroundImage, disabled;
+        var currentLi, position, href, text, title, target, onclick, className, disabled;
         for ( var i = 0; i < data.length; i++ )
         {
             currentLi = data[i];
@@ -95,7 +95,7 @@ cms.ui.MenuButton = function( dataSoruceElementId )
             title = currentLi.getElementsByTagName('a')[0].title;
             target = currentLi.getElementsByTagName('a')[0].target;
             onclick = currentLi.getElementsByTagName('a')[0].onclick;
-            backgroundImage = currentLi.style.backgroundImage;
+            className = currentLi.className.replace(/cms-sp-mi-disabled/gi, '');
             disabled = currentLi.className.indexOf('cms-sp-mi-disabled') > -1;
 
             t.addMenuItem({
@@ -105,14 +105,14 @@ cms.ui.MenuButton = function( dataSoruceElementId )
                 tooltip : title,
                 target : target,
                 onclick : onclick,
-                backgroundImage : backgroundImage,
+                className : className,
                 disabled : disabled
             });
         }
 
         dataSource.parentNode.insertBefore(menu, dataSource);
     }
-    ;
+
     // -------------------------------------------------------------------------------------------------------------------------------------
 
     // _hideSelectElements
@@ -252,10 +252,9 @@ cms.ui.MenuButton = function( dataSoruceElementId )
         if ( attributes.target ) menuItem.target = attributes.target;
         if ( attributes.onclick ) menuItem.onclick = attributes.onclick;
 
-        if ( attributes.backgroundImage )
+        if ( attributes.className )
         {
-            menuItem.style.backgroundImage = attributes.backgroundImage;
-            menuItem.style.backgroundRepeat = 'no-repeat';
+            menuItem.className = attributes.className;
         }
 
         /*

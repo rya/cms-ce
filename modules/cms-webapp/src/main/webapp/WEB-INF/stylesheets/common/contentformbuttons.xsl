@@ -361,13 +361,13 @@
                 </li>
 
                 <xsl:if test="$includeapprove">
-                  <li style="background-image:url(images/icon_state_published.gif)">
+                  <li class="cms-menu-item-icon-state-published">
                     <a href="javascript:submitForm('approve');">%txtAndApprove%</a>
                   </li>
                 </xsl:if>
 
                 <xsl:if test="$includepublish">
-                  <li style="background-image:url(images/icon_content_publish.gif)">
+                  <li class="cms-menu-item-icon-state-content-published">
                     <a href="javascript:submitForm('publish');">
                       <xsl:choose>
                         <xsl:when test="$selected-version-is-approved">%txtAndPublish%</xsl:when>
@@ -378,7 +378,7 @@
                 </xsl:if>
 
                 <xsl:if test="$includeassignto">
-                  <li style="background-image:url(images/icon_assign_to.gif)">
+                  <li class="cms-menu-item-icon-assign-to">
                     <a href="javascript:submitForm('assignto');">
                       <xsl:choose>
                         <xsl:when test="$reassign">
@@ -393,7 +393,7 @@
                 </xsl:if>
 
                 <xsl:if test="$includearchive">
-                  <li style="background-image:url(images/icon_state_archived.gif)">
+                  <li class="cms-menu-item-icon-state-archived">
                     <a href="javascript:submitForm('archive');">%txtAndArchive%</a>
                   </li>
                 </xsl:if>

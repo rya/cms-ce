@@ -154,10 +154,10 @@
                 </xsl:variable>
 
                 <ul id="clearPageCacheEntriesBySite" title="%cmdClearPageCacheBySite%" class="cms-split-button no-default-action">
-                  <li style="background-image: url(images/icon_menuitem_standard_show.gif)">
+                  <li class="cms-menu-item-icon-clear-pages-only">
                     <a href="{concat($commandUrlPrefix, '&amp;op=clearcachedpages')}">%cmdClearPagesOnly%</a>
                   </li>
-                  <li style="background-image: url(images/icon_objects.gif)">
+                  <li class="cms-menu-item-icon-clear-portlets-only">
                     <a href="{concat($commandUrlPrefix, '&amp;op=clearcachedobjects')}">%cmdClearPortletsOnly%</a>
                   </li>
                   <li>
