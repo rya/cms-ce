@@ -5,6 +5,8 @@
 package com.enonic.vertical.adminweb;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import com.enonic.cms.core.SiteKey;
 
 public class AdminHelper
 {
+    private static final Logger LOG = Logger.getLogger( AdminHelper.class.getName() );
 
     public static String getDebugPath( HttpServletRequest request, SiteKey siteKey )
     {
@@ -92,6 +95,7 @@ public class AdminHelper
         }
         catch ( IOException ioe )
         {
+            LOG.log( Level.SEVERE, "Failed to redirect client", ioe );
             throw new RuntimeException( "Failed to redirect client", ioe );
         }
     }

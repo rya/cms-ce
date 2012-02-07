@@ -7,6 +7,8 @@ package com.enonic.vertical.adminweb;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +39,7 @@ import com.enonic.cms.core.security.PasswordGenerator;
 import com.enonic.cms.core.security.user.QualifiedUsername;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.core.security.user.UserSpecification;
 import com.enonic.cms.core.security.userstore.UserStoreEntity;
 import com.enonic.cms.core.security.userstore.UserStoreKey;
 import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
@@ -47,6 +50,7 @@ import com.enonic.cms.core.security.userstore.UserStoreXmlCreator;
 public final class AdminLogInServlet
     extends AdminHandlerBaseServlet
 {
+    private static final Logger LOG = Logger.getLogger( AdminLogInServlet.class.getName() );
 
     private static final int COOKIE_TIMEOUT = 60 * 60 * 24 * 365 * 50;   // 50 years
 
@@ -61,11 +65,17 @@ public final class AdminLogInServlet
 
     private static final String EC_401_MISSING_USER_PASSWD = "401_missing_user_passwd";
 
+    private static final String EC_500_FAILED_SEND_MAIL = "500_failed_send_mail";
+
     private static final String EC_401_USER_PASSWD_WRONG = "401_user_passwd_wrong";
 
     private static final String EC_401_ACCESS_DENIED = "401_access_denied";
 
+    private static final String EC_400_USER_NOT_FOUND = "400_user_not_found";
+
     private static final String EC_400_MISSING_UID = "400_missing_uid";
+
+    public static final String SMTP_SERVER_IS_NOT_AVAILABLE = "SMTP server is not available (%s). Check your host configuration.";
 
     private static final Pattern PATTERN = Pattern.compile( "^.*editContent=([\\d]+).*$" );
 
@@ -566,9 +576,9 @@ public final class AdminLogInServlet
     private void handlerForgotPassword( HttpServletRequest request, HttpServletResponse response, ExtendedMap formItems )
         throws VerticalAdminException
     {
-        final String uid = formItems.getString( "uid", null );
+        final HttpSession session = request.getSession( true );
 
-        HttpSession session = request.getSession( true );
+        final String uid = formItems.getString( "uid", null );
 
         if ( uid == null || uid.length() == 0 )
         {
@@ -579,30 +589,86 @@ public final class AdminLogInServlet
             return;
         }
 
-        UserStoreKey userStoreKey = null;
         final String userStoreKeyStr = formItems.getString( "userstorekey", null );
-        if ( userStoreKeyStr != null )
+        final UserStoreKey userStoreKey = userStoreKeyStr != null ? new UserStoreKey( userStoreKeyStr ) : null;
+
+        final QualifiedUsername qualifiedUsername;
+
+        if ( uid.contains( "@" ) )
         {
-            userStoreKey = new UserStoreKey( userStoreKeyStr );
+            UserSpecification userSpecification = new UserSpecification();
+            userSpecification.setUserStoreKey( userStoreKey );
+            userSpecification.setEmail( uid );
+            userSpecification.setDeletedStateNotDeleted();
+
+            final UserEntity userEntity = userDao.findSingleBySpecification( userSpecification );
+
+            if ( userEntity == null )
+            {
+                String message = "Failed to authenticate user by email " + uid;
+                session.setAttribute( "passworderrorcode", EC_400_USER_NOT_FOUND );
+                session.setAttribute( "passworderror", message );
+                session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
+                redirectClientToAdminPath( "forgotpassword", request, response );
+                return;
+            }
+
+            qualifiedUsername = new QualifiedUsername( userStoreKey, userEntity.getName() );
+        }
+        else
+        {
+            qualifiedUsername = new QualifiedUsername( userStoreKey, uid );
         }
 
-        final QualifiedUsername qualifiedUsername = new QualifiedUsername( userStoreKey, uid );
         final String password = PasswordGenerator.generateNewPassword();
 
         try
         {
             securityService.changePassword( qualifiedUsername, password );
         }
+        catch (InvalidCredentialsException ex)
+        {
+            session.setAttribute( "passworderrorcode", EC_400_USER_NOT_FOUND );
+            session.setAttribute( "passworderror", "Failed to authenticate user " + uid );
+            session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
+
+            redirectClientToAdminPath( "forgotpassword", request, response );
+
+            return;
+        }
         catch ( Exception ex )
         {
+            LOG.log( Level.SEVERE, "cannot change password for " + uid, ex );
+
             session.setAttribute( "passworderrorcode", EC_401_ACCESS_DENIED );
             session.setAttribute( "passworderror", ex.getMessage() );
             session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
+
             redirectClientToAdminPath( "forgotpassword", request, response );
+
+            return;
         }
 
-        sendMailService.sendChangePasswordMail( qualifiedUsername, password );
+        try
+        {
+            sendMailService.sendChangePasswordMail( qualifiedUsername, password );
 
-        redirectClientToAdminPath( "login", request, response );
+            LOG.info( "Sent mail with new password to " +  qualifiedUsername);
+
+            // AS DESIGNED: message "email was sent, check your INBOX" is not displayed.
+            redirectClientToAdminPath( "login", request, response );
+        }
+        catch (Exception e)
+        {
+            final String message = String.format(SMTP_SERVER_IS_NOT_AVAILABLE, e.getCause().getMessage() );
+
+            session.setAttribute( "passworderrorcode", EC_500_FAILED_SEND_MAIL );
+            session.setAttribute( "passworderror", message );
+            session.setMaxInactiveInterval( SESSION_TIMEOUT_ERROR );
+
+            LOG.log( Level.SEVERE, message );
+
+            redirectClientToAdminPath( "forgotpassword", request, response );
+        }
     }
 }
