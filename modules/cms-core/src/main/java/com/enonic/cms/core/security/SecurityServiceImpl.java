@@ -448,7 +448,7 @@ public class SecurityServiceImpl
         final UserEntity user = userDao.findByQualifiedUsername( qualifiedUsername );
         if ( user == null )
         {
-            throw new IllegalArgumentException( "Could not find user: " + qualifiedUsername );
+            throw new InvalidCredentialsException( "Could not find user: " + qualifiedUsername );
         }
         final UserStoreKey userStoreKey = user.getUserStore() == null ? null : user.getUserStore().getKey();
         userStoreService.changePassword( userStoreKey, uid, newPassword );

@@ -118,7 +118,7 @@ public abstract class AbstractSendMailService
         }
         catch ( Exception e )
         {
-            this.log.error( "Failed to send mail", e );
+            throw new RuntimeException( "Failed to send mail", e );
         }
     }
 
