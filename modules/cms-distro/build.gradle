@@ -6,11 +6,6 @@ dependsOn ':cms-webapp'
 
 task zipDistro(type: Zip) {
 	into("${project.name}-$version") {
-		from(rootDir) {
-			include 'LICENSE.txt'
-			include 'NOTICE.txt'
-		}
-	
 		from('src/resources') {
 		}
 	
