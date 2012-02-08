@@ -1,0 +1,12 @@
+
+/**
+* Generate gradlew and gradlew.bat scripts and associated files. These
+* convenience scripts allow users to operate the build without being forced to
+* download and install gradle.
+*/
+task wrapper(type: Wrapper) {
+	group = 'Buildmaster'
+	description = "Generates gradlew bootstrap scripts"
+	gradleVersion = '1.0-milestone-7'
+	jarFile = 'gradle/wrapper/gradle-wrapper.jar'
+}

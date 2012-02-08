@@ -1,0 +1,39 @@
+
+apply plugin: 'maven'
+
+configurations {
+	publish.extendsFrom(archives)
+}
+
+baseNexusRepoUrl = "http://repo.enonic.com/nexus/content/repositories/${publishRepo}"
+
+uploadArchives {
+	configuration = configurations.publish
+
+ 	repositories.mavenDeployer { deployer ->
+    	repository(url: "${baseNexusRepoUrl}-release") {
+			authentication(userName: nexusUser, password: nexusPassword)
+		}
+    	snapshotRepository(url: "${baseNexusRepoUrl}-snapshot") {
+			authentication(userName: nexusUser, password: nexusPassword)
+		}
+		
+		customizePom(deployer.pom)
+ 	}
+}
+
+def customizePom(def pom) {
+	pom.whenConfigured { generatedPom ->
+		
+		// Set project information
+		generatedPom.project {
+    		organization {
+       			name = 'Enonic AS'
+        		url = 'http://www.enonic.com'
+     		}
+ 		}	
+
+		// Remove all test dependencies (no need to have them)
+		generatedPom.dependencies.removeAll { it.scope == 'test' }		
+	}
+}

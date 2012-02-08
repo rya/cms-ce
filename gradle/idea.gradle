@@ -1,0 +1,36 @@
+apply plugin: 'idea'
+
+idea {
+	module {
+		downloadJavadoc = false
+		downloadSources = true
+
+		iml {
+			beforeMerged { module ->
+				module.dependencies.clear()
+			}
+
+			withXml { provider ->
+				provider.node.depthFirst().root.each {
+					it.@url = it.@url.replace(gradle.gradleUserHomeDir.toString(), '$GRADLE_USER_HOME$')
+				}
+			}
+		}		
+	}
+
+	if (rootProject == project) {
+    	project {
+        	javaVersion = '1.6'
+
+			ipr {
+				beforeMerged { project ->
+					project.modulePaths.clear()
+				}
+
+				withXml { provider ->
+					provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
+				}
+			}
+		}
+	}
+}

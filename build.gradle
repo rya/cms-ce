@@ -1,0 +1,27 @@
+
+versions = [
+	servlet: '2.5',
+	junit: '4.8.2',
+	spring: '3.1.0.RELEASE',
+	spring_osgi: '1.2.1',
+	hibernate: '3.5.6-Final',
+	slf4j: '1.6.1',
+	saxon: '9.1.0.8',
+	jackrabbit: '2.3.0',
+	mockito: '1.8.5'
+]
+
+allprojects {
+	group = 'com.enonic.cms'
+        
+	scriptDir = "$rootDir/gradle"
+	buildNumber = new Date().format("yyyyMMdd.HHmmss")
+
+	repositories {
+    	mavenCentral()
+		mavenRepo url: 'http://repo.enonic.com/maven'
+	}
+}
+
+apply from: "$scriptDir/wrapper.gradle"
+apply from: "$scriptDir/idea.gradle"

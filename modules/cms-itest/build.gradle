@@ -1,0 +1,21 @@
+
+apply from: "$scriptDir/java.gradle"
+apply from: "$scriptDir/idea.gradle"
+
+configurations {
+	all*.exclude group: 'xml-apis'
+	all*.exclude group: 'commons-logging'
+	all*.exclude group: 'xerces'
+}
+
+dependencies {
+	compile project(':cms-core')
+    testCompile "junit:junit:${versions.junit}"
+    testCompile 'junit-addons:junit-addons:1.4'
+    testCompile "org.springframework:spring-test:${versions.spring}"
+    testCompile 'org.easymock:easymock:2.2'
+    testCompile 'org.easymock:easymockclassextension:2.2.1'
+    testCompile "org.mockito:mockito-all:${versions.mockito}"
+    testCompile 'xmlunit:xmlunit:1.2'
+	testRuntime 'com.h2database:h2:1.3.151'
+}

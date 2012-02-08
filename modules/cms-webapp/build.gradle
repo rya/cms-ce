@@ -1,0 +1,11 @@
+
+apply from: "$scriptDir/java.gradle"
+apply from: "$scriptDir/idea.gradle"
+apply from: "$scriptDir/publish.gradle"
+apply plugin: 'war'
+
+dependencies {
+	compile project(':cms-core')
+	providedCompile "javax.servlet:servlet-api:${versions.servlet}"
+}
+

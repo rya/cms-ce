@@ -1,0 +1,39 @@
+
+apply from: "$scriptDir/java.gradle"
+apply from: "$scriptDir/idea.gradle"
+apply from: "$scriptDir/publish.gradle"
+
+dependencies {
+	compile 'org.jdom:jdom:1.1.1'
+	compile "javax.servlet:servlet-api:${versions.servlet}"
+	runtime('jaxen:jaxen:1.1.1') {
+		transitive = false
+		mavenOptional = true
+	}
+	testCompile "junit:junit:${versions.junit}"
+}
+
+jar {
+	manifest {
+		attributes('Main-Class' : 'com.enonic.cms.api.Version')
+	}
+}
+
+processResources {
+	expand "project": project, "buildTimestamp" : buildNumber
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	from javadoc.destinationDir
+	classifier = 'javadoc'
+}
+
+task sourcesJar(type: Jar, dependsOn: compileJava) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+artifacts {
+	archives javadocJar
+	archives sourcesJar
+}
