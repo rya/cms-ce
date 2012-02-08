@@ -1126,6 +1126,10 @@ public abstract class AdminHandlerBaseServlet
         command.setName( formItems.getString( "name" ) );
         command.setAutoApprove( formItems.getBoolean( "autoApprove" ) );
 
+        if ( formItems.containsKey( "selectedunitkey" ) )
+        {
+            command.setUnitKey( new UnitKey( formItems.getString( "selectedunitkey" ) ) );
+        }
         if ( formItems.containsKey( "contenttypekey" ) )
         {
             command.setContentType( new ContentTypeKey( formItems.getString( "contenttypekey" ) ) );
@@ -1133,10 +1137,6 @@ public abstract class AdminHandlerBaseServlet
         if ( formItems.containsKey( "supercategorykey" ) )
         {
             command.setParentCategory( new CategoryKey( formItems.getString( "supercategorykey" ) ) );
-        }
-        if ( formItems.containsKey( "selectedunitkey" ) )
-        {
-            command.setUnitKey( new UnitKey( formItems.getString( "selectedunitkey" ) ) );
         }
         if ( formItems.containsKey( "description" ) )
         {
@@ -1147,7 +1147,7 @@ public abstract class AdminHandlerBaseServlet
         return command;
     }
 
-    private void fillAccessRights( StoreNewCategoryCommand command, ExtendedMap formItems )
+    protected void fillAccessRights( StoreNewCategoryCommand command, ExtendedMap formItems )
     {
         for ( Object parameterKey : formItems.keySet() )
         {

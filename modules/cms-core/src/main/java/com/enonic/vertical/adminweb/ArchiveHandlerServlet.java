@@ -32,7 +32,9 @@ import com.enonic.cms.core.DeploymentPathResolver;
 import com.enonic.cms.core.content.category.CategoryEntity;
 import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.category.StoreNewCategoryCommand;
+import com.enonic.cms.core.content.category.UnitKey;
 import com.enonic.cms.core.content.category.command.DeleteCategoryCommand;
+import com.enonic.cms.core.content.contenttype.ContentTypeKey;
 import com.enonic.cms.core.security.user.User;
 import com.enonic.cms.core.security.user.UserEntity;
 import com.enonic.cms.core.service.AdminService;
@@ -72,6 +74,34 @@ public class ArchiveHandlerServlet
         }
 
         return XMLTool.documentToString( doc );
+    }
+
+    protected StoreNewCategoryCommand createStoreNewCategoryCommand( User user, ExtendedMap formItems )
+    {
+        StoreNewCategoryCommand command = new StoreNewCategoryCommand();
+        command.setCreator( user.getKey() );
+        command.setName( formItems.getString( "name" ) );
+        command.setAutoApprove( formItems.getBoolean( "autoApprove" ) );
+
+        if ( formItems.containsKey( "selectedunitkey" ) )
+        {
+            command.setUnitKey( new UnitKey( formItems.getString( "selectedunitkey" ) ) );
+        }
+        if ( formItems.containsKey( "categorycontenttypekey" ) )
+        {
+            command.setContentType( new ContentTypeKey( formItems.getString( "categorycontenttypekey" ) ) );
+        }
+        if ( formItems.containsKey( "supercategorykey" ) )
+        {
+            command.setParentCategory( new CategoryKey( formItems.getString( "supercategorykey" ) ) );
+        }
+        if ( formItems.containsKey( "description" ) )
+        {
+            command.setDescription( formItems.getString( "description" ) );
+        }
+
+        fillAccessRights( command, formItems );
+        return command;
     }
 
     private String buildCategoryXML( User user, ExtendedMap formItems, boolean createCategory )
