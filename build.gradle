@@ -25,3 +25,4 @@ allprojects {
 
 apply from: "$scriptDir/wrapper.gradle"
 apply from: "$scriptDir/idea.gradle"
+
