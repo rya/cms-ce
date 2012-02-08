@@ -1,6 +1,5 @@
 package com.enonic.cms.core.plugin.container;
 
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.mockito.Mockito;
@@ -16,10 +15,10 @@ public class BundleEventLoggerTest
 {
     private LogRecord logRecord;
 
-    @Before
-    public void setUp()
+    private void setupLogger()
     {
         final Logger logger = Logger.getLogger(BundleEventLogger.class.getName());
+        logger.setUseParentHandlers( false );
         logger.setFilter(new Filter()
         {
             public boolean isLoggable(LogRecord record)
@@ -75,6 +74,8 @@ public class BundleEventLoggerTest
         Mockito.when(event.getType()).thenReturn(eventType);
 
         final BundleEventLogger logger = new BundleEventLogger();
+        setupLogger();
+
         logger.bundleChanged(event);
     }
 }
