@@ -14,7 +14,7 @@
       // ***********************************************************************************************************************************
       // *** Variables
       // ***********************************************************************************************************************************
-      var waitSplashImg, html, body, table, tBody, tr, td;
+      var html, body, table, tBody, tr, td;
 
       body = document.getElementsByTagName('html')[0];
       html = document.getElementsByTagName('body')[0];
@@ -22,9 +22,6 @@
       // html and body element height needs to be ~100%
       body.style.height = '100%';
       html.style.height = '100%';
-
-      waitSplashImg = new Image();
-      waitSplashImg.src = 'images/waitsplash.gif';
 
       body = document.getElementsByTagName( 'body' )[0];
 
@@ -48,7 +45,7 @@
       td.align = 'center';
       td.height = '100%';
       td.style.backgroundColor = '#ffffff';
-      td.innerHTML = '&lt;div style="margin: 5px 0pt; width: 64px; height: 64px; background-image: url(images/waitsplash.gif);"&gt;&lt;/div&gt;';
+      td.innerHTML = '&lt;div class="waitsplash-image"&gt;&lt;/div&gt;';
       td.innerHTML += '%sysPleaseWait%';
       
       table.appendChild( tBody );

@@ -44,6 +44,13 @@ body#popup {
     padding: 5px 10px 5px 10px
 }
 
+.waitsplash-image {
+    margin: 5px 0;
+    width: 64px;
+    height: 64px;
+    background-image: url(../images/waitsplash.gif);
+}
+
 .cal_body {
     padding-left: 0;
 }
