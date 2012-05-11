@@ -7,22 +7,25 @@ package com.enonic.cms.core.content.imports;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
 
-import com.enonic.cms.core.content.ContentKey;
-import com.enonic.cms.core.content.category.CategoryEntity;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.enonic.esl.util.GenericConcurrencyLock;
+
 import com.enonic.cms.framework.util.BatchedList;
 
-import com.enonic.cms.core.content.index.ContentIndexService;
-import com.enonic.cms.store.dao.ContentDao;
-
 import com.enonic.cms.core.content.ContentEntity;
+import com.enonic.cms.core.content.ContentKey;
+import com.enonic.cms.core.content.category.CategoryEntity;
+import com.enonic.cms.core.content.category.CategoryKey;
 import com.enonic.cms.core.content.contenttype.CtyImportConfig;
 import com.enonic.cms.core.content.contenttype.CtyImportPurgeConfig;
+import com.enonic.cms.core.content.index.ContentIndexService;
 import com.enonic.cms.core.security.user.UserEntity;
+import com.enonic.cms.store.dao.ContentDao;
 
 
 public class ImportJobImpl
@@ -61,63 +64,75 @@ public class ImportJobImpl
     private Date assignmentDueDate;
 
     private String assignmentDescription;
+    private static GenericConcurrencyLock<CategoryKey> concurrencyLock = GenericConcurrencyLock.create();
 
     public ImportResult start()
     {
-        LOG.info( "Starting content import job #" + this.getImportJobNumber() );
-        LOG.info( "Import job #" + this.getImportJobNumber() + ": importing to category: key = " + categoryToImportTo.getKey() + ", path = " +
-                          categoryToImportTo.getPathAsString() );
+        final Lock locker = concurrencyLock.getLock( categoryToImportTo.getKey() );
 
-        if ( importConfig.isSyncEnabled() )
+        try
         {
-            initSyncMode();
-        }
+            locker.lock();
 
-        importResult = new ImportResult();
-        importResult.startTimer();
+            LOG.info( "Starting content import job #" + this.getImportJobNumber() );
+            LOG.info( "Import job #" + this.getImportJobNumber() + ": importing to category: key = " + categoryToImportTo.getKey() + ", path = " +
+                              categoryToImportTo.getPathAsString() );
 
-        final long batchSize = 20L;
-        final BatchedImportDataReader batchedDataReader = new BatchedImportDataReader( importDataReader, batchSize );
-
-        LOG.info( "Import job #" + this.getImportJobNumber() + ": Importing content in transactional batches of " +
-                          batchSize + " content per transaction." );
-
-        int batchCount = 0;
-        long lastBatchStartTime;
-        while ( batchedDataReader.hasMoreEntries() )
-        {
-            batchCount++;
-            LOG.info( "Import job #" + this.getImportJobNumber() + ": batch #" + batchCount + " starting..." );
-            lastBatchStartTime = System.currentTimeMillis();
-
-            while ( batchedDataReader.hasMoreEntries() )
+            if ( importConfig.isSyncEnabled() )
             {
-                if ( executeInOneTransaction )
-                {
-                    importService.importDataWithoutRequiresNewPropagation( batchedDataReader, this );
-                }
-                else
-                {
-                    importService.importData( batchedDataReader, this );
-                }
+                initSyncMode();
             }
 
-            LOG.info( "Import job #" + this.getImportJobNumber() + ": batch #" + batchCount + " finished in " + ( System.currentTimeMillis() - lastBatchStartTime ) + " milliseconds." );
+            importResult = new ImportResult();
+            importResult.startTimer();
 
-            batchedDataReader.startNewBatch();
+            final long batchSize = 20L;
+            final BatchedImportDataReader batchedDataReader = new BatchedImportDataReader( importDataReader, batchSize );
+
+            LOG.info( "Import job #" + this.getImportJobNumber() + ": Importing content in transactional batches of " +
+                              batchSize + " content per transaction." );
+
+            int batchCount = 0;
+            long lastBatchStartTime;
+            while ( batchedDataReader.hasMoreEntries() )
+            {
+                batchCount++;
+                LOG.info( "Import job #" + this.getImportJobNumber() + ": batch #" + batchCount + " starting..." );
+                lastBatchStartTime = System.currentTimeMillis();
+
+                while ( batchedDataReader.hasMoreEntries() )
+                {
+                    if ( executeInOneTransaction )
+                    {
+                        importService.importDataWithoutRequiresNewPropagation( batchedDataReader, this );
+                    }
+                    else
+                    {
+                        importService.importData( batchedDataReader, this );
+                    }
+                }
+
+                LOG.info( "Import job #" + this.getImportJobNumber() + ": batch #" + batchCount + " finished in " + ( System.currentTimeMillis() - lastBatchStartTime ) + " milliseconds." );
+
+                batchedDataReader.startNewBatch();
+            }
+
+            if ( importConfig.isSyncEnabled() )
+            {
+                // Import content is done... now what to do with the unaffected content in the category we imported to?
+                handleUnaffectedContentInCategory();
+            }
+
+            importResult.stopTimer();
+
+            LOG.info( "Finished content import job #" + this.getImportJobNumber() );
+
+            return importResult;
         }
-
-        if ( importConfig.isSyncEnabled() )
+        finally
         {
-            // Import content is done... now what to do with the unaffected content in the category we imported to?
-            handleUnaffectedContentInCategory();
+            locker.unlock();
         }
-
-        importResult.stopTimer();
-
-        LOG.info( "Finished content import job #" + this.getImportJobNumber() );
-
-        return importResult;
     }
 
     private int getImportJobNumber()
